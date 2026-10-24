@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What does `const g = numbers(); [...g]; [...g];` produce when `numbers` is a generator function yielding 1 and 2?",
+    "options": ["[1, 2] twice", "[1, 2] then []", "An error on the second spread", "[1, 2] then [1, 2, 1, 2]"],
+    "answer": 1,
+    "explanation": "A generator object is a one-shot iterator. Once exhausted, it keeps returning `done: true`."
+  },
+  {
+    "question": "In `Generator<string, number, boolean>`, what is `boolean`?",
+    "options": [
+      "The yielded value type",
+      "The return value type",
+      "The type passed to next(), i.e. the value of a yield expression",
+      "The type of the done flag"
+    ],
+    "answer": 2,
+    "explanation": "The parameters are `T` (yielded), `TReturn` (returned) and `TNext` (sent in through `next(value)`)."
+  },
+  {
+    "question": "Which call stays lazy and terminates on an infinite generator `naturals()`?",
+    "options": [
+      "Array.from(naturals()).slice(0, 3)",
+      "[...naturals()].filter(isEven)",
+      "naturals().filter(isEven).take(3).toArray()",
+      "naturals().toArray().slice(0, 3)"
+    ],
+    "answer": 2,
+    "explanation": "ES2025 iterator helpers pull values one at a time, so `take(3)` stops after three matches. The other options materialize the infinite sequence first."
+  }
+]

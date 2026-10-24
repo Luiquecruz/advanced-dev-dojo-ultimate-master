@@ -1,0 +1,5 @@
+[
+  { "question": "What does `<Comp v-model:title=\"t\" />` expand to?", "options": ["`:title=\"t\" @input=\"...\"`", "`:title=\"t\" @update:title=\"v => t = v\"`", "`:modelValue=\"t\" @update:modelValue=\"...\"`", "`v-bind.sync=\"t\"`"], "answer": 1, "explanation": "Named models use the prop name and an `update:<name>` event." },
+  { "question": "Which Vue 2 feature does `v-model:prop` replace?", "options": ["Filters", "The `.sync` modifier", "Mixins", "`$listeners`"], "answer": 1, "explanation": "Vue 3 removed `.sync`; `v-model:title` covers the same use case and a component can have several of them." },
+  { "question": "Why avoid `model.value.title = 'x'` when the model is an object?", "options": ["It throws", "It mutates the parent's object without emitting an update", "It creates a memory leak", "Objects cannot be models"], "answer": 1, "explanation": "Only assigning `model.value` emits. Deep mutation silently changes parent state, breaking one-way data flow." }
+]

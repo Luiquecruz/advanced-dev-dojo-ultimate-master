@@ -1,0 +1,6 @@
+[
+  { "term": ":class object syntax", "description": "`{ className: condition }` applies each class whose value is truthy. Merges with the static `class` attribute." },
+  { "term": ":class array syntax", "description": "`[a, b, { c: cond }]` applies every truthy entry; objects inside arrays work as in the object syntax." },
+  { "term": ":style", "description": "Object of CSS properties (camelCase or quoted kebab-case) or an array of such objects. Vue adds vendor prefixes when needed." },
+  { "term": "CSS custom properties", "description": "`:style=\"{ '--accent': color }\"` sets a CSS variable that stylesheet rules can read." }
+]

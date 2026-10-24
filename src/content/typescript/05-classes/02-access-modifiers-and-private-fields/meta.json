@@ -1,0 +1,6 @@
+{
+  "title": "Access modifiers and #private fields",
+  "summary": "`public`, `protected`, `private` and `readonly` are compile-time checks; `#fields` are real runtime privacy.",
+  "level": "intermediate",
+  "tags": ["core", "modern"]
+}

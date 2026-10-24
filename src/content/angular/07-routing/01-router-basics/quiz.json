@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Why must `{ path: '**' }` be the last route?",
+    "options": ["Angular throws an error otherwise", "The router uses the first matching route, so routes after the wildcard would never match", "Wildcards are evaluated last automatically, the order is only a convention", "It needs to be last to be lazy loaded"],
+    "answer": 1,
+    "explanation": "Matching is first-match-wins in array order. A wildcard placed earlier swallows every URL below it."
+  },
+  {
+    "question": "What happens when you use `<a href=\"/about\">` instead of `routerLink` in an Angular app?",
+    "options": ["Nothing different", "The browser performs a full page reload, restarting the whole application", "The link is ignored", "Angular converts it to routerLink at compile time"],
+    "answer": 1,
+    "explanation": "`href` triggers a real document navigation. `routerLink` intercepts the click and lets the router swap components in place."
+  },
+  {
+    "question": "Why does `{ path: '', redirectTo: 'home' }` need `pathMatch: 'full'`?",
+    "options": ["Because empty paths are invalid without it", "Because the default `prefix` matching makes the empty path a prefix of every URL", "Because redirects only work with full matching", "It doesn't, the option is ignored for redirects"],
+    "answer": 1,
+    "explanation": "With `prefix` matching the empty string matches the start of every URL, so the redirect would fire everywhere."
+  }
+]

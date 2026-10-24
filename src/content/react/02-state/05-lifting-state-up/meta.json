@@ -1,0 +1,7 @@
+{
+  "title": "Lifting State Up",
+  "summary": "Share and coordinate state between siblings by moving it to their closest common parent.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "react.dev: Sharing State Between Components", "url": "https://react.dev/learn/sharing-state-between-components" }]
+}

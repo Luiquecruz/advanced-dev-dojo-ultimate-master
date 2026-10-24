@@ -1,0 +1,12 @@
+{
+  "title": "HttpClient",
+  "summary": "Provide HttpClient, write a typed data service with GET, POST and PATCH, consume it from a component and test it with HttpTestingController.",
+  "level": "beginner",
+  "tags": ["core", "testing"],
+  "entry": "app.ts",
+  "preview": true,
+  "resources": [
+    { "label": "angular.dev: HTTP client", "url": "https://angular.dev/guide/http" },
+    { "label": "angular.dev: Testing HTTP requests", "url": "https://angular.dev/guide/http/testing" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "Server state", "description": "Data owned by a backend and cached on the client. Needs refetching, deduplication and invalidation. Best handled by query libraries." },
+  { "term": "Client state", "description": "State that only exists in the browser: UI flags, theme, cart, session details." },
+  { "term": "Derived state", "description": "A value computed from other state or props. Compute it during render instead of storing it." },
+  { "term": "Lifting state up", "description": "Moving state to the closest common parent so siblings can share it through props." },
+  { "term": "Prop drilling", "description": "Passing props through components that do not use them. Often solved with composition before context." },
+  { "term": "External store", "description": "State living outside React (Zustand, Redux, Jotai) that components subscribe to with selectors via `useSyncExternalStore`." }
+]

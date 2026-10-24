@@ -1,0 +1,6 @@
+{
+  "title": "unknown instead of any",
+  "summary": "Replace any with unknown and narrow values safely before using them.",
+  "level": "beginner",
+  "tags": []
+}

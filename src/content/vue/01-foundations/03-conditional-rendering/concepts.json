@@ -1,0 +1,7 @@
+[
+  { "term": "v-if", "description": "Renders the element only when the expression is truthy. Content is destroyed and recreated on every toggle." },
+  { "term": "v-else-if / v-else", "description": "Extra branches of a `v-if` chain. They must directly follow a `v-if` or `v-else-if` sibling." },
+  { "term": "v-show", "description": "Always renders the element and toggles `display: none`. Cheap to toggle, no `v-else`, not usable on `<template>`." },
+  { "term": "<template> wrapper", "description": "An invisible wrapper that lets one `v-if` control several elements without adding a DOM node." },
+  { "term": "v-if vs v-for priority", "description": "In Vue 3 `v-if` is evaluated before `v-for` on the same element (the reverse of Vue 2). Never combine them on one element." }
+]

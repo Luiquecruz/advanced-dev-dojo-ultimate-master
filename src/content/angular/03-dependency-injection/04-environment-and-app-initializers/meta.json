@@ -1,0 +1,11 @@
+{
+  "title": "Environment Injectors and App Initializers",
+  "summary": "Write your own provideX() function with makeEnvironmentProviders and load data before bootstrap with provideAppInitializer.",
+  "level": "advanced",
+  "tags": ["core", "modern", "legacy"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "angular.dev: DI in action", "url": "https://angular.dev/guide/di/di-in-action" },
+    { "label": "angular.dev: provideAppInitializer", "url": "https://angular.dev/api/core/provideAppInitializer" }
+  ]
+}

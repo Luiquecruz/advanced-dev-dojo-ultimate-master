@@ -1,0 +1,26 @@
+[
+  {
+    "question": "What is the default trigger of `@defer` with no parameters?",
+    "options": ["`on immediate`", "`on idle`", "`on viewport`", "`on interaction`"],
+    "answer": 1,
+    "explanation": "Without a trigger, the block loads when the browser becomes idle."
+  },
+  {
+    "question": "A component used inside `@defer` is also queried with `viewChild(Chart)` in the same component. What happens?",
+    "options": ["It is still lazy loaded", "It is loaded eagerly because it is referenced outside the block", "Compilation fails", "The query always returns undefined"],
+    "answer": 1,
+    "explanation": "Dependencies are deferred only when nothing else in the file references them."
+  },
+  {
+    "question": "Which TestBed setting lets you step through placeholder, loading, complete and error states?",
+    "options": ["`DeferBlockBehavior.Playthrough`", "`DeferBlockBehavior.Manual` with `fixture.getDeferBlocks()`", "`fixture.detectChanges(true)`", "`provideZoneChangeDetection()`"],
+    "answer": 1,
+    "explanation": "Manual mode disables real triggers; each `DeferBlockFixture.render(state)` renders the requested state."
+  },
+  {
+    "question": "What does `@loading (after 100ms; minimum 500ms)` do?",
+    "options": ["Waits 100ms before starting the download", "Shows the loading block only if loading takes more than 100ms, and then keeps it at least 500ms", "Times out after 500ms", "Retries every 100ms"],
+    "answer": 1,
+    "explanation": "`after` avoids flicker on fast loads; `minimum` avoids a loading state that flashes briefly."
+  }
+]

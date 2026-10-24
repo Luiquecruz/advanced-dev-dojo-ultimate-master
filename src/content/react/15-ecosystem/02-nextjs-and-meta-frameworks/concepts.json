@@ -1,0 +1,8 @@
+[
+  { "term": "Meta-framework", "description": "A framework built on React that adds routing, data loading, SSR/SSG, bundling and deployment conventions." },
+  { "term": "App Router", "description": "Next.js routing in `app/`: Server Components by default, nested layouts, `loading.tsx` and `error.tsx`." },
+  { "term": "'use cache'", "description": "Next.js 16 directive (with `cacheComponents`) that opts a page, component or function into caching." },
+  { "term": "proxy.ts", "description": "Next.js 16 request interception file that replaces `middleware.ts`." },
+  { "term": "Framework mode", "description": "React Router with its Vite plugin: route modules with `loader`/`action`, type safety, SSR, SPA or prerendering. The successor of Remix." },
+  { "term": "Islands architecture", "description": "Static HTML pages with isolated interactive components hydrated independently (Astro)." }
+]

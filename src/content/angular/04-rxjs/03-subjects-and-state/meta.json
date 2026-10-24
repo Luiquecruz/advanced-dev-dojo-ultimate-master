@@ -1,0 +1,10 @@
+{
+  "title": "Subjects and Observable State",
+  "summary": "Use Subject, BehaviorSubject and ReplaySubject, build a classic observable store and compare it with signal-based state.",
+  "level": "intermediate",
+  "tags": ["core", "legacy"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "RxJS: Subject", "url": "https://rxjs.dev/guide/subject" }
+  ]
+}

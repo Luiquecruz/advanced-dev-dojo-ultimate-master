@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Users occasionally see a toggled checkbox flip back for a moment right after clicking, then flip again. The mutation writes optimistically in `onMutate`. What is missing?",
+    "options": [
+      "`retry: 3`",
+      "`await queryClient.cancelQueries({ queryKey })` before the optimistic write",
+      "`gcTime: 0`",
+      "Using `mutateAsync` instead of `mutate`"
+    ],
+    "answer": 1,
+    "explanation": "A background refetch already in flight can resolve after the optimistic write and overwrite it with old data. Cancelling it first removes the race."
+  },
+  {
+    "question": "Which action should NOT be optimistic?",
+    "options": [
+      "Starring a repository",
+      "Reordering items in a personal list",
+      "Booking the last seat on a flight",
+      "Renaming a document"
+    ],
+    "answer": 2,
+    "explanation": "Booking depends on server-side availability, fails often under contention and is costly to roll back in the user's mind. Show a pending state and confirm from the server."
+  },
+  {
+    "question": "A 'Comments' list should show a new comment as greyed out while it is being posted. Only that list shows comments. What is the simplest correct approach?",
+    "options": [
+      "A full `onMutate` snapshot and rollback",
+      "Render `mutation.variables` with reduced opacity while `mutation.isPending`, and invalidate on settle",
+      "Store pending comments in Redux",
+      "Disable optimistic UI entirely"
+    ],
+    "answer": 1,
+    "explanation": "When only one place shows the pending item, the UI-variables approach needs no rollback: if the mutation fails, the pending row simply disappears."
+  },
+  {
+    "question": "A user toggles three todos within a second. After the first mutation settles, the list briefly shows the other two as unchanged. How do you prevent it?",
+    "options": [
+      "Debounce clicks for two seconds",
+      "Invalidate in `onSettled` only when `queryClient.isMutating({ mutationKey })` is 1 (the last related mutation)",
+      "Remove `onSettled`",
+      "Use `staleTime: Infinity`"
+    ],
+    "answer": 1,
+    "explanation": "Each early invalidation refetches server data that does not include the still-pending writes. Re-sync once, when the last related mutation settles."
+  },
+  {
+    "question": "How does React 19's `useOptimistic` differ from a TanStack Query `onMutate` update?",
+    "options": [
+      "They are identical",
+      "`useOptimistic` is a temporary value scoped to a component during a pending Action and reverts automatically; `onMutate` writes to a shared cache seen by every subscriber and needs manual rollback",
+      "`useOptimistic` only works on the server",
+      "`onMutate` reverts automatically while `useOptimistic` needs manual rollback"
+    ],
+    "answer": 1,
+    "explanation": "`useOptimistic` overlays a value while an Action runs. The cache approach changes shared state across the app, which is why it needs a snapshot and an explicit rollback."
+  }
+]

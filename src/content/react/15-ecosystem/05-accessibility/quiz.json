@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What is the first rule of ARIA?",
+    "options": [
+      "Add `role` to every element",
+      "Do not use ARIA when a native HTML element already provides the semantics and behavior",
+      "Always use `aria-label` instead of visible text",
+      "ARIA attributes must be camelCase in JSX"
+    ],
+    "answer": 1,
+    "explanation": "ARIA only changes what is announced. A native `<button>` gives role, focus and keyboard support that `role=\"button\"` alone does not."
+  },
+  {
+    "question": "After a client-side route change, what should an accessible SPA do?",
+    "options": [
+      "Nothing, the browser handles it",
+      "Move focus to the new page's main heading (or announce the new title)",
+      "Reload the page",
+      "Disable the Tab key"
+    ],
+    "answer": 1,
+    "explanation": "Without a full page load, screen reader users get no signal that the content changed. Move focus or announce it."
+  },
+  {
+    "question": "Which tool catches missing `alt` text and click handlers on divs at lint time?",
+    "options": ["eslint-plugin-jsx-a11y", "Prettier", "TypeScript", "Vite"],
+    "answer": 0,
+    "explanation": "The jsx-a11y plugin flags common accessibility mistakes in JSX. Automated checks still need manual keyboard and screen reader testing."
+  }
+]

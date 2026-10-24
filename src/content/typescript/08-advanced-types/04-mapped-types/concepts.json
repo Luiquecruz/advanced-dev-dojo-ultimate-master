@@ -1,0 +1,6 @@
+[
+  { "term": "Mapped type", "description": "`{ [K in Keys]: Value }` creates one property per member of the key union." },
+  { "term": "Homomorphic mapped type", "description": "A mapped type over `keyof T`. It keeps `readonly` and `?` modifiers, maps arrays and tuples to arrays and tuples, and passes primitives through." },
+  { "term": "Modifier operators", "description": "`+readonly`/`-readonly` and `+?`/`-?` add or remove modifiers. `+` is the default." },
+  { "term": "Indexed access `T[K]`", "description": "Reads the type of property `K` of `T`; inside a mapped type it refers to the current property." }
+]

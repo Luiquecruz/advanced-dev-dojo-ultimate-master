@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What is the type of `error` in `catch (error) {}` under `strict`?",
+    "options": ["any", "Error", "unknown", "never"],
+    "answer": 2,
+    "explanation": "`useUnknownInCatchVariables`, enabled by `strict`, types catch variables as `unknown` because any value can be thrown."
+  },
+  {
+    "question": "Why is `catch (error: any) { log(error.message) }` risky?",
+    "options": [
+      "It does not compile under strict",
+      "It logs `undefined` when a string or another non-Error value is thrown",
+      "It changes the runtime value of error",
+      "It disables the finally block"
+    ],
+    "answer": 1,
+    "explanation": "`any` removes the check but not the possibility. Thrown strings have no `message`, so the log silently shows `undefined`."
+  },
+  {
+    "question": "How do you keep the original error when rethrowing a domain error?",
+    "options": [
+      "new AppError('msg', { cause: error })",
+      "new AppError('msg', error.stack)",
+      "Object.assign(new AppError('msg'), error)",
+      "throw [new AppError('msg'), error]"
+    ],
+    "answer": 0,
+    "explanation": "ES2022 `ErrorOptions` lets you pass `{ cause }`, which is stored on the new error and shown by modern runtimes."
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "title": "Typing Props and Children",
+  "summary": "Describe component props with types and interfaces, optional props, literal unions, callbacks and ReactNode children.",
+  "level": "intermediate",
+  "tags": ["typescript"],
+  "resources": [
+    { "label": "react.dev: Using TypeScript", "url": "https://react.dev/learn/typescript" },
+    { "label": "React TypeScript Cheatsheet: Typing component props", "url": "https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/basic_type_example" }
+  ]
+}

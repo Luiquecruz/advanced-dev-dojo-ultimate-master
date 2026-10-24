@@ -1,0 +1,10 @@
+{
+  "title": "useTransition",
+  "summary": "Mark updates as non-urgent so the UI stays responsive and visible content is not replaced by Suspense fallbacks.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "react.dev: useTransition", "url": "https://react.dev/reference/react/useTransition" },
+    { "label": "react.dev: startTransition", "url": "https://react.dev/reference/react/startTransition" }
+  ]
+}

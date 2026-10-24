@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Which binding is correct for `checked = model(false)` and `dark = signal(false)` in the parent?",
+    "options": ["`[(checked)]=\"dark()\"`", "`[(checked)]=\"dark\"`", "`[checked]=\"dark\"`", "`(checked)=\"dark\"`"],
+    "answer": 1,
+    "explanation": "Two-way binding needs something writable: pass the signal itself, not its value."
+  },
+  {
+    "question": "When does `checkedChange` fire?",
+    "options": ["Whenever the parent changes the bound value", "Only when the child writes to the model with `set`/`update`", "On every change detection run", "Never, it must be emitted manually"],
+    "answer": 1,
+    "explanation": "The output reflects changes made by the child. Values coming from the parent don't emit."
+  },
+  {
+    "question": "A child needs an editable local copy of an input that resets whenever the parent passes a new value, without informing the parent. What fits best?",
+    "options": ["`model()`", "`input()` + `linkedSignal()`", "`@Output()`", "`effect()` writing to the input"],
+    "answer": 1,
+    "explanation": "`linkedSignal(() => this.value())` is writable locally and resets when the source input changes. `model()` would propagate changes to the parent."
+  }
+]

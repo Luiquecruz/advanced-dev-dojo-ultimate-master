@@ -1,0 +1,6 @@
+[
+  { "term": "Record<K, V>", "description": "Object type with keys `K` and values `V`. With a literal union for `K`, every key is required." },
+  { "term": "Exhaustive lookup table", "description": "A `Record<Union, V>` that becomes a compile error as soon as the union gains a member without an entry." },
+  { "term": "Record<string, V>", "description": "Equivalent to an index signature. Reads are typed `V` even for missing keys unless `noUncheckedIndexedAccess` is on." },
+  { "term": "Partial<Record<K, V>>", "description": "A record where every key of the union is optional, e.g. group-by results." }
+]

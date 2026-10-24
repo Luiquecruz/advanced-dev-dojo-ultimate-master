@@ -1,0 +1,9 @@
+{
+  "title": "useLayoutEffect",
+  "summary": "Measure the DOM and adjust it before the browser paints to avoid visual flicker.",
+  "level": "advanced",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: useLayoutEffect", "url": "https://react.dev/reference/react/useLayoutEffect" }
+  ]
+}

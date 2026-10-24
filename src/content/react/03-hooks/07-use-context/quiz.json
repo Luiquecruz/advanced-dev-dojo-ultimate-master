@@ -1,0 +1,19 @@
+[
+  {
+    "question": "A component calls `useContext(ThemeContext)` but no provider is rendered above it. What does it get?",
+    "options": ["`undefined`", "The default passed to `createContext`", "An error is thrown", "The value of the last provider rendered anywhere"],
+    "answer": 1,
+    "explanation": "Without a provider above, React returns the default value from `createContext(defaultValue)`."
+  },
+  {
+    "question": "Why can `<UserContext value={{ user, logout }}>` cause performance problems?",
+    "options": [
+      "Objects are not allowed as context values",
+      "A new object each render makes every consumer re-render",
+      "Context values are deep-compared, which is slow",
+      "It disables the default value"
+    ],
+    "answer": 1,
+    "explanation": "Context compares values with `Object.is`. A fresh object literal is always different, so every consumer re-renders. Memoize it or split the context."
+  }
+]

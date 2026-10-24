@@ -1,0 +1,18 @@
+[
+  {
+    "term": "Type inference",
+    "description": "The compiler derives a type from an initializer, a return statement or a default value, so no annotation is needed."
+  },
+  {
+    "term": "Contextual typing",
+    "description": "A function expression gets its parameter types from where it is used, e.g. the callback passed to `map` or `reduce`."
+  },
+  {
+    "term": "Best common type",
+    "description": "For array literals the compiler unions the element types: `[1, 'a']` becomes `(string | number)[]`."
+  },
+  {
+    "term": "Evolving array",
+    "description": "`const list = []` starts as `any[]` and changes type with every `push`. Annotate empty arrays to lock the element type."
+  }
+]

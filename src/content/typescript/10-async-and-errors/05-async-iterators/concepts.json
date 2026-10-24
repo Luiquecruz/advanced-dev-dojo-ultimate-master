@@ -1,0 +1,7 @@
+[
+  { "term": "AsyncIterable<T>", "description": "An object with `[Symbol.asyncIterator]()` whose `next()` returns a promise of an iterator result." },
+  { "term": "for await...of", "description": "Loops over async iterables (and sync iterables of promises), awaiting each value." },
+  { "term": "AsyncGenerator<T, TReturn, TNext>", "description": "The object returned by an `async function*`. Can both `await` and `yield`." },
+  { "term": "Pull-based stream", "description": "The consumer requests each value, so producers never run ahead of what is needed." },
+  { "term": "Array.fromAsync", "description": "Collects an async iterable into an array. Never use it on infinite sources." }
+]

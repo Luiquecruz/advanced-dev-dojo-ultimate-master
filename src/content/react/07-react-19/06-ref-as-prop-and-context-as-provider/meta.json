@@ -1,0 +1,10 @@
+{
+  "title": "ref as a Prop & Context as Provider",
+  "summary": "Drop forwardRef and Context.Provider, and clean up ref callbacks the React 19 way.",
+  "level": "intermediate",
+  "tags": ["modern", "new"],
+  "resources": [
+    { "label": "react.dev: React 19 - ref as a prop", "url": "https://react.dev/blog/2024/12/05/react-19#ref-as-a-prop" },
+    { "label": "react.dev: React 19 - <Context> as a provider", "url": "https://react.dev/blog/2024/12/05/react-19#context-as-a-provider" }
+  ]
+}

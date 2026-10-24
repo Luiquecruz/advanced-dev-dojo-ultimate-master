@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Given `enum Color { Red = 'red' }` and `function paint(color: Color)`, what happens with `paint('red')`?",
+    "options": ["It compiles", "Type error: string enums are nominal", "Runtime error", "It compiles only with `as const`"],
+    "answer": 1,
+    "explanation": "String enum types only accept their own members. A matching string literal is still rejected."
+  },
+  {
+    "question": "Why does `erasableSyntaxOnly` reject enums?",
+    "options": ["Enums are deprecated", "Enums generate runtime code, so they cannot be removed by type stripping", "Enums are slower than objects", "Enums do not support string values"],
+    "answer": 1,
+    "explanation": "Type stripping deletes type syntax and runs what remains. An enum declaration must be compiled into an object, which stripping cannot do."
+  },
+  {
+    "question": "Which declaration produces no JavaScript output at all?",
+    "options": ["`enum A { X }`", "`const A = { X: 'x' } as const`", "`type A = 'x' | 'y'`", "`namespace A { export const X = 1 }`"],
+    "answer": 2,
+    "explanation": "Type aliases are erased completely. The `as const` object is regular JavaScript, and enums and value namespaces generate code."
+  }
+]

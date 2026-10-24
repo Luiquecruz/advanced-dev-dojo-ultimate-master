@@ -1,0 +1,10 @@
+{
+  "title": "Fetching Data",
+  "summary": "Fetch from an API with loading, error and empty states, and cancel stale requests with AbortController and onWatcherCleanup.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "vuejs.org: Watchers (side effect cleanup)", "url": "https://vuejs.org/guide/essentials/watchers.html#side-effect-cleanup" },
+    { "label": "MDN: AbortController", "url": "https://developer.mozilla.org/docs/Web/API/AbortController" }
+  ]
+}

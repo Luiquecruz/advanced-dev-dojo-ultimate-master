@@ -1,0 +1,25 @@
+[
+  {
+    "question": "Why is `renderToString` considered legacy for new servers?",
+    "options": [
+      "It does not escape HTML",
+      "It is synchronous and cannot stream or wait for Suspense data; it sends fallbacks instead",
+      "It only works in the browser",
+      "It was removed in React 19"
+    ],
+    "answer": 1,
+    "explanation": "Streaming APIs (`renderToPipeableStream`, `renderToReadableStream`) send HTML progressively as Suspense boundaries resolve."
+  },
+  {
+    "question": "Which value is safe to render during hydration?",
+    "options": ["Math.random()", "new Date().toLocaleTimeString()", "useId()", "window.innerWidth"],
+    "answer": 2,
+    "explanation": "`useId` is derived from the tree position, so server and client agree. The others differ between environments."
+  },
+  {
+    "question": "A blog with posts that change once a week. Which strategy fits best?",
+    "options": ["Client-side rendering", "SSR on every request", "Static generation (optionally with ISR)", "Rendering in a Web Worker"],
+    "answer": 2,
+    "explanation": "Prebuilt HTML served from a CDN is the fastest and cheapest option for content that rarely changes."
+  }
+]

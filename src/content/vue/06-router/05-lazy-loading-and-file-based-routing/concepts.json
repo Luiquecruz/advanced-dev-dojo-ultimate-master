@@ -1,0 +1,8 @@
+[
+  { "term": "Lazy route", "description": "`component: () => import('./View.vue')`: the bundler emits a separate chunk loaded on first navigation." },
+  { "term": "vue-router/vite", "description": "Vite plugin that scans `src/pages` and generates routes and route types. Must be registered before `@vitejs/plugin-vue`." },
+  { "term": "vue-router/auto-routes", "description": "Virtual module exporting the generated `routes` array and `handleHotUpdate`." },
+  { "term": "definePage", "description": "Compiler macro in a page's `<script setup>` to set its name, meta, alias or params options." },
+  { "term": "Route group", "description": "A `(folder)` in `src/pages` that organizes files without adding a URL segment." },
+  { "term": "Data loader", "description": "Experimental API (`vue-router/experimental`) that fetches page data during navigation." }
+]

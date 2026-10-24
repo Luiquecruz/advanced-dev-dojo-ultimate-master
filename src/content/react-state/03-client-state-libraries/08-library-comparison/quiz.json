@@ -1,0 +1,58 @@
+[
+  {
+    "question": "A 40-developer fintech team needs every state change to be auditable, wants time-travel debugging, and already fetches data through a library from the same ecosystem. Which client state tool fits best?",
+    "options": ["Valtio", "Redux Toolkit", "Jotai", "React Context"],
+    "answer": 1,
+    "explanation": "Redux Toolkit makes every change a serializable action, has the strongest devtools (log, diff, time travel), strict conventions for big teams, and RTK Query in the same store."
+  },
+  {
+    "question": "A startup needs a sidebar toggle, the current workspace id and a command palette state shared across the app. Nothing else. What is the pragmatic choice?",
+    "options": [
+      "Redux Toolkit with slices, thunks and entity adapters",
+      "XState with a parallel machine",
+      "Zustand (or Context for rarely changing values)",
+      "MobX classes"
+    ],
+    "answer": 2,
+    "explanation": "A few global values need the least ceremony: a small Zustand store with selectors, or Context for values that rarely change. Heavier tools add cost without benefit here."
+  },
+  {
+    "question": "A diagram editor has hundreds of nodes; dragging one must not re-render the others, and many values derive from each other (selection bounds, snapping guides). Which models fit best?",
+    "options": [
+      "A single Context holding the whole diagram",
+      "Fine-grained models: Jotai atoms (e.g. `splitAtom`) or MobX/Valtio tracked reads",
+      "URL search params",
+      "TanStack Query"
+    ],
+    "answer": 1,
+    "explanation": "High-frequency updates over a graph of derived values call for per-atom or per-property subscriptions. A single Context would re-render every node on every drag frame."
+  },
+  {
+    "question": "In a Next.js app, a teammate defines `export const useUserStore = create(...)` at module level and fills it with the logged-in user during server rendering. What is the risk?",
+    "options": [
+      "None; Zustand stores are request scoped",
+      "Module singletons are shared across requests on the server, so one user's data can leak into another user's render",
+      "Zustand cannot run on the server at all",
+      "It only breaks in development"
+    ],
+    "answer": 1,
+    "explanation": "Server modules live as long as the process. Create the store per request (`createStore` in a provider) and pass it through context, the pattern RTK, Zustand and Jotai all document."
+  },
+  {
+    "question": "Which statement about re-render granularity is correct?",
+    "options": [
+      "Context only re-renders components that read the changed field",
+      "Zustand and Redux re-render per selector result; Jotai per atom; MobX and Valtio per accessed property",
+      "All libraries re-render the whole tree on every change",
+      "XState never re-renders components"
+    ],
+    "answer": 1,
+    "explanation": "Context consumers re-render whenever the value changes. Selector stores compare the selected slice, atoms subscribe per atom and proxy libraries track the exact properties read."
+  },
+  {
+    "question": "A checkout flow has steps (shipping, payment, review), conditional branches, retries and timeouts, and product wants a diagram to review it. Which tool's strengths match?",
+    "options": ["Valtio", "XState", "Jotai", "React Context"],
+    "answer": 1,
+    "explanation": "XState models ordered flows with guards, invoked async work and delays, and its statecharts can be visualized and reviewed by non-developers."
+  }
+]

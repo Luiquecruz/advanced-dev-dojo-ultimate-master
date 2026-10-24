@@ -1,0 +1,1 @@
+{ "title": "State Management with Pinia", "description": "Option and setup stores, storeToRefs, store composition, plugins, testing stores, and the Vuex legacy." }

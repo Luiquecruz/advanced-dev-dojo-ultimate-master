@@ -1,0 +1,8 @@
+[
+  { "term": "QueryClient", "description": "Holds the query cache and defaults. Installed once with `app.use(VueQueryPlugin, { queryClient })`." },
+  { "term": "queryKey", "description": "Array identifying cached data. May contain refs or getters; changes trigger a new fetch." },
+  { "term": "staleTime / gcTime", "description": "How long data is fresh (no refetch) and how long unused cache entries survive." },
+  { "term": "useMutation", "description": "Runs writes with `mutate()` and exposes `isPending`, `isError`, `data` and lifecycle callbacks." },
+  { "term": "invalidateQueries", "description": "Marks matching queries stale and refetches active ones, typically after a mutation." },
+  { "term": "isPending vs isFetching", "description": "`isPending`: no data yet. `isFetching`: a request is running, including background refetches." }
+]

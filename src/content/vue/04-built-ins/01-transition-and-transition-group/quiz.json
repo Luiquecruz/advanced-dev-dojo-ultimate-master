@@ -1,0 +1,5 @@
+[
+  { "question": "Which class holds the CSS `transition` property for the whole enter phase?", "options": ["`fade-enter-from`", "`fade-enter-active`", "`fade-enter-to`", "`fade-enter`"], "answer": 1, "explanation": "`*-enter-active` stays on the element for the whole phase, so it defines duration and easing." },
+  { "question": "What does Vue 2's `.fade-enter` class correspond to in Vue 3?", "options": ["`.fade-enter-active`", "`.fade-enter-from`", "`.fade-enter-to`", "It was removed"], "answer": 1, "explanation": "Vue 3 renamed `v-enter`/`v-leave` to `v-enter-from`/`v-leave-from` for symmetry with `*-to`." },
+  { "question": "What is required on every child of `<TransitionGroup>`?", "options": ["A `ref`", "A unique `key`", "`v-show`", "A `name` attribute"], "answer": 1, "explanation": "Keys let Vue track which items enter, leave or move." }
+]

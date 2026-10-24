@@ -1,0 +1,9 @@
+[
+  { "term": "QueryClient", "description": "Holds the query cache and default options. Create it once and provide it with `QueryClientProvider`." },
+  { "term": "queryKey", "description": "Array identifying cached data. Include every variable the query function uses, like `['posts', userId]`." },
+  { "term": "queryFn", "description": "Function returning a promise with the data. Must throw (reject) on errors." },
+  { "term": "staleTime", "description": "How long data is fresh. Fresh data is not refetched; stale data is shown and refetched in the background. Default `0`." },
+  { "term": "gcTime", "description": "How long unused cache entries are kept before garbage collection. Default 5 minutes. Called `cacheTime` before v5." },
+  { "term": "isPending vs isFetching", "description": "`isPending`: no data yet. `isFetching`: any request in flight, including background refetches." },
+  { "term": "queryOptions", "description": "Helper that bundles `queryKey`, `queryFn` and options for reuse in `useQuery`, `prefetchQuery` and `invalidateQueries`." }
+]

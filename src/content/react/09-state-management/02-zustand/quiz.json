@@ -1,0 +1,25 @@
+[
+  {
+    "question": "The store holds `{ count: 1, name: 'Ada' }`. What is the state after `set({ count: 2 })`?",
+    "options": ["`{ count: 2 }`", "`{ count: 2, name: 'Ada' }`", "It throws because `name` is missing", "`{ count: 1, name: 'Ada' }`"],
+    "answer": 1,
+    "explanation": "`set` shallow-merges the partial object into the current state. Pass `true` as the second argument to replace the state instead."
+  },
+  {
+    "question": "Why does `useStore((s) => ({ a: s.a, b: s.b }))` cause problems in Zustand 5?",
+    "options": [
+      "Selectors cannot read two keys",
+      "The selector returns a new object every time, so the result never compares equal and React loops",
+      "Objects cannot be stored in Zustand",
+      "Selectors must be declared outside components"
+    ],
+    "answer": 1,
+    "explanation": "A new object fails the `Object.is` check on every store read. Select values separately or wrap the selector in `useShallow`."
+  },
+  {
+    "question": "How do you call an action from a WebSocket handler outside any component?",
+    "options": ["`useStore().action()`", "`useStore.getState().action()`", "Wrap the handler in a provider", "It is not possible"],
+    "answer": 1,
+    "explanation": "The hook returned by `create` also exposes the vanilla store API: `getState`, `setState`, `subscribe` and `getInitialState`."
+  }
+]

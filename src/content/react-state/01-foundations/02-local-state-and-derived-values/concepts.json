@@ -1,0 +1,7 @@
+[
+  { "term": "Minimal state", "description": "The smallest set of independent facts a component must remember. Everything else is derived during render." },
+  { "term": "Derived value", "description": "Computed from props or state on every render, e.g. `const unread = items.filter((item) => !item.read).length`." },
+  { "term": "Selection by id", "description": "Store `selectedId` and look the object up, instead of storing a copy that goes stale." },
+  { "term": "Lazy initializer", "description": "`useState(() => compute())` runs `compute` only on the first render." },
+  { "term": "initialX prop", "description": "Naming convention for props that only seed local state; later changes are ignored by design. Pair with a `key` to reset." }
+]

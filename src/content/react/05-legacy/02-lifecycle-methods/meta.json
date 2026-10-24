@@ -1,0 +1,10 @@
+{
+  "title": "Lifecycle Methods",
+  "summary": "Mounting, updating and unmounting with componentDidMount, componentDidUpdate and componentWillUnmount, and how they map to useEffect.",
+  "level": "intermediate",
+  "tags": ["legacy"],
+  "resources": [
+    { "label": "react.dev: Component lifecycle methods", "url": "https://react.dev/reference/react/Component#componentdidmount" },
+    { "label": "react.dev: Lifecycle of Reactive Effects", "url": "https://react.dev/learn/lifecycle-of-reactive-effects" }
+  ]
+}

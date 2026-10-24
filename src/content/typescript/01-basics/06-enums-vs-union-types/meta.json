@@ -1,0 +1,6 @@
+{
+  "title": "Enums vs union types",
+  "summary": "Understand numeric, string and const enums, why `erasableSyntaxOnly` rejects them, and how `as const` objects with unions replace them.",
+  "level": "beginner",
+  "tags": ["core", "legacy", "modern"]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "Route record", "description": "An entry in the `routes` array mapping a `path` (and optional `name`) to a `component`." },
+  { "term": "RouterView", "description": "Placeholder component that renders whatever the current route matched." },
+  { "term": "RouterLink", "description": "Renders an `<a>` that navigates client-side and adds `router-link-active` / `router-link-exact-active` classes." },
+  { "term": "History mode", "description": "`createWebHistory` (clean URLs), `createWebHashHistory` (`#/` URLs) or `createMemoryHistory` (SSR and tests)." },
+  { "term": "useRoute / useRouter", "description": "`useRoute()` returns the reactive current location; `useRouter()` returns the router instance for `push`, `replace` and `back`." },
+  { "term": "Catch-all route", "description": "`/:pathMatch(.*)*` matches any path no other record matched, typically for a 404 view." }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "withComputed()", "description": "Adds derived signals to the store. Read state signals and return `computed()` values." },
+  { "term": "withEntities()", "description": "Adds a normalized collection: `ids` and `entityMap` state plus the `entities` computed array." },
+  { "term": "Entity updaters", "description": "`addEntity`, `setAllEntities`, `updateEntity`, `removeEntity`... functions passed to `patchState` that update `ids`/`entityMap` immutably." },
+  { "term": "withHooks()", "description": "Runs `onInit` when the store is created and `onDestroy` when it is destroyed, both in an injection context." },
+  { "term": "Injection context in withMethods", "description": "The methods factory may call `inject()`, e.g. `withMethods((store, http = inject(HttpClient)) => ...)`." }
+]

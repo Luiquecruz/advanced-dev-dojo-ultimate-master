@@ -1,0 +1,12 @@
+{
+  "title": "State Machines with XState",
+  "summary": "Model flows with explicit states, guards and invoked actors using XState v5 setup(), useMachine and machine.provide().",
+  "level": "advanced",
+  "tags": ["ecosystem", "testing", "new"],
+  "resources": [
+    { "label": "XState: Setup", "url": "https://stately.ai/docs/setup" },
+    { "label": "XState: Invoke", "url": "https://stately.ai/docs/invoke" },
+    { "label": "XState: @xstate/react", "url": "https://stately.ai/docs/xstate-react" },
+    { "label": "XState: Migrating from v4 to v5", "url": "https://stately.ai/docs/migration" }
+  ]
+}

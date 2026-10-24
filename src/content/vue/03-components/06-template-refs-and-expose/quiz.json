@@ -1,0 +1,4 @@
+[
+  { "question": "What is the value of a template ref during `setup()`?", "options": ["The DOM element", "`null`, the element is not mounted yet", "A virtual node", "`undefined` forever"], "answer": 1, "explanation": "Template refs are filled after mount. Use them in `onMounted`, handlers or watchers." },
+  { "question": "A parent calls `childRef.value.reset()` on a `<script setup>` child, but `reset` is undefined. Why?", "options": ["Template refs only work on DOM elements", "The child did not expose it with `defineExpose`", "Methods must be async", "The parent must use the Options API"], "answer": 1, "explanation": "`<script setup>` components are closed by default; `defineExpose({ reset })` makes it public." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "provideHttpClient()", "description": "Registers `HttpClient`. Features: `withInterceptors()`, `withFetch()` (default backend in recent versions), `withXsrfConfiguration()`, `withJsonpSupport()`." },
+  { "term": "HttpClient", "description": "Service returning cold Observables for `get`, `post`, `put`, `patch`, `delete` and `request`. JSON is parsed and serialized automatically." },
+  { "term": "Cold observable", "description": "No request is sent until subscription; each subscription sends a **new** request." },
+  { "term": "HttpParams / HttpHeaders", "description": "Immutable helpers, usually passed as plain objects: `{ params: { q: 'ada' }, headers: { Accept: 'application/json' } }`." },
+  { "term": "HttpTestingController", "description": "With `provideHttpClientTesting()`, intercepts requests in tests: `expectOne(url)`, `flush(body)`, `verify()`." },
+  { "term": "httpResource()", "description": "Signal-based alternative for reads: `httpResource<Todo[]>(() => '/api/todos')` exposes `value()`, `isLoading()`, `error()`." }
+]

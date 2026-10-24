@@ -1,0 +1,10 @@
+{
+  "title": "Signal Forms: Validation & Submit",
+  "summary": "Declare schema rules, write cross-field validate() rules, display errors and submit with server-side error mapping.",
+  "level": "advanced",
+  "tags": ["core", "modern", "new"],
+  "resources": [
+    { "label": "angular.dev: Signal Forms validation", "url": "https://angular.dev/guide/forms/signals/validation" },
+    { "label": "angular.dev: Form submission", "url": "https://angular.dev/guide/forms/signals/form-submission" }
+  ]
+}

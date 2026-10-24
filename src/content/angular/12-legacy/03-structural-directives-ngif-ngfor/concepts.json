@@ -1,0 +1,8 @@
+[
+  { "term": "Structural directive", "description": "A directive that adds or removes DOM by stamping an `ng-template`. The `*` prefix is syntactic sugar for `<ng-template>`." },
+  { "term": "*ngIf ... else", "description": "Renders the host when truthy, otherwise the referenced `<ng-template #name>`. Supports `as` to alias the value." },
+  { "term": "*ngFor", "description": "Repeats a template per item with locals `index`, `first`, `last`, `even`, `odd`, `count`." },
+  { "term": "trackBy", "description": "Function `(index, item) => id` that lets NgFor reuse DOM nodes for items with the same identity." },
+  { "term": "ng-container", "description": "A grouping element that renders no DOM, used to apply a second structural directive." },
+  { "term": "@angular/core:control-flow", "description": "Migration that rewrites `*ngIf`, `*ngFor` and `*ngSwitch` into `@if`, `@for` and `@switch`." }
+]

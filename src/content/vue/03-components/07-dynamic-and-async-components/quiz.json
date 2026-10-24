@@ -1,0 +1,4 @@
+[
+  { "question": "Why use `shallowRef` (or a plain map) instead of `ref` to store a component definition?", "options": ["`ref` cannot hold objects", "`ref` would make the component object deeply reactive, which is wasteful and triggers a warning", "`shallowRef` loads it lazily", "It is required by `<component>`"], "answer": 1, "explanation": "Component definitions never need reactivity; only the selection should be reactive." },
+  { "question": "In Vue 3, how do you declare an async component outside of the router?", "options": ["`() => import('./A.vue')` directly", "`defineAsyncComponent(() => import('./A.vue'))`", "`Vue.component('A', import('./A.vue'))`", "`lazy(() => import('./A.vue'))`"], "answer": 1, "explanation": "Plain functions are functional components in Vue 3, so async loaders must be wrapped with `defineAsyncComponent`." }
+]

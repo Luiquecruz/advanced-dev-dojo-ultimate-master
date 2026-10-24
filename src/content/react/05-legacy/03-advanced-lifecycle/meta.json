@@ -1,0 +1,11 @@
+{
+  "title": "Advanced Lifecycle",
+  "summary": "shouldComponentUpdate, PureComponent, getDerivedStateFromProps, getSnapshotBeforeUpdate and the UNSAFE_ methods they replaced.",
+  "level": "advanced",
+  "tags": ["legacy", "performance"],
+  "resources": [
+    { "label": "react.dev: Component (shouldComponentUpdate)", "url": "https://react.dev/reference/react/Component#shouldcomponentupdate" },
+    { "label": "react.dev: PureComponent", "url": "https://react.dev/reference/react/PureComponent" },
+    { "label": "react.dev: static getDerivedStateFromProps", "url": "https://react.dev/reference/react/Component#static-getderivedstatefromprops" }
+  ]
+}

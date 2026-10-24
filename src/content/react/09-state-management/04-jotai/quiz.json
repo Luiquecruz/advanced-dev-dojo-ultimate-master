@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What happens if you write `const countAtom = atom(0)` inside a component body?",
+    "options": [
+      "Nothing special, it works like useState",
+      "A new atom is created on every render, so the state appears to reset",
+      "Jotai throws an error at import time",
+      "The atom becomes global automatically"
+    ],
+    "answer": 1,
+    "explanation": "Atoms are identified by object reference. Creating one per render means each render reads a brand new atom. Define atoms at module level or memoize them."
+  },
+  {
+    "question": "A button only triggers an action atom. Which hook avoids re-rendering it when the state changes?",
+    "options": ["`useAtom`", "`useAtomValue`", "`useSetAtom`", "`useStore`"],
+    "answer": 2,
+    "explanation": "`useSetAtom` returns the setter without subscribing to the atom's value, so the component is not re-rendered when the value changes."
+  },
+  {
+    "question": "What is a key difference between Jotai and Recoil?",
+    "options": [
+      "Jotai atoms require unique string keys",
+      "Jotai has no string keys; atoms are identified by reference",
+      "Recoil does not support derived state",
+      "Jotai only works with class components"
+    ],
+    "answer": 1,
+    "explanation": "Recoil required `key` strings for every atom and selector. Jotai uses the atom object itself as the identity, removing key collisions and boilerplate."
+  }
+]

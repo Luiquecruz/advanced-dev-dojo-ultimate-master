@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A product page keeps `items`, `query` and `filteredItems` in state, and an Effect updates `filteredItems` when the other two change. What does removing the Effect and computing `filteredItems` during render change?",
+    "options": [
+      "Nothing, it is only a style preference",
+      "Each change renders once instead of twice, and `filteredItems` can never be out of sync",
+      "The list stops updating when `items` changes",
+      "It forces you to wrap the computation in `useMemo`"
+    ],
+    "answer": 1,
+    "explanation": "With the Effect, React renders with the stale filtered list, commits, runs the Effect and renders again. Deriving the value removes the extra pass and the possibility of forgetting to synchronize. `useMemo` is only needed if the computation is measurably expensive."
+  },
+  {
+    "question": "An orders table stores `selectedOrder` (the full object) when a row is clicked. Later the order status changes in the list. What does the details panel show, and how do you fix it?",
+    "options": [
+      "The new status, because objects are references",
+      "The old status: the state holds a snapshot. Store `selectedOrderId` and find the order during render",
+      "An error, because state objects are frozen",
+      "The new status after calling `forceUpdate`"
+    ],
+    "answer": 1,
+    "explanation": "Immutable updates create a **new** order object in the list, while state still points to the old one. Storing the id keeps one source of truth, and a removed order naturally becomes `null`."
+  },
+  {
+    "question": "`<QuantityPicker quantity={item.quantity} />` uses `useState(props.quantity)` and lets the user change it before saving. Which naming and API best communicate the behavior?",
+    "options": [
+      "Keep `quantity` and add an Effect that copies the prop into state",
+      "Rename the prop to `initialQuantity` and reset the picker with `key={item.id}` when the item changes",
+      "Store the quantity in context",
+      "Use `useRef(props.quantity)`"
+    ],
+    "answer": 1,
+    "explanation": "When a prop only seeds local state, the `initial` prefix makes it explicit that later changes are ignored. A `key` resets the component for a different entity without any synchronization Effect."
+  },
+  {
+    "question": "Which state variable should be a `useRef` instead of `useState`?",
+    "options": [
+      "The id of the currently expanded row",
+      "The last time an analytics event was sent, never displayed",
+      "The text of a search box",
+      "Whether a dropdown is open"
+    ],
+    "answer": 1,
+    "explanation": "If the screen does not depend on a value, storing it in state causes useless renders. Refs keep values across renders without rendering."
+  }
+]

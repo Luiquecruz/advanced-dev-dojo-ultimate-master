@@ -1,0 +1,6 @@
+[
+  { "term": "map rendering", "description": "`items.map((item) => <li key={item.id}>...</li>)` turns data into an array of elements." },
+  { "term": "key", "description": "A sibling-unique, stable identifier that lets React match list items between renders, preserving the right DOM and state." },
+  { "term": "Index as key", "description": "Acceptable only for static lists. Reordering, inserting or filtering makes state stick to the wrong item." },
+  { "term": "Derived list", "description": "Filtered or sorted arrays computed during render from source data instead of being stored separately." }
+]

@@ -1,0 +1,6 @@
+[
+  { "term": "Discriminated union", "description": "A union of object types that share a literal-typed property used to tell members apart." },
+  { "term": "Discriminant", "description": "The shared property (`kind`, `type`, `status`) whose literal value identifies the member." },
+  { "term": "Impossible state", "description": "A combination of fields that should never occur. Discriminated unions make them unrepresentable." },
+  { "term": "Extract<Union, Shape>", "description": "Utility type that picks the union members assignable to `Shape`, e.g. one state of a request." }
+]

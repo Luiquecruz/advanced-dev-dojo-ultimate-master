@@ -1,0 +1,7 @@
+[
+  { "term": "Element injector", "description": "Created for a component or directive that declares `providers`/`viewProviders`. Its instances live and die with that element." },
+  { "term": "Environment injector", "description": "Injector for application-level services: root, route providers, `createEnvironmentInjector()`." },
+  { "term": "Resolution", "description": "`inject()` searches element injectors up the component tree first, then the environment injectors, until it finds a provider." },
+  { "term": "`viewProviders`", "description": "Providers visible to the component's own template but hidden from projected content." },
+  { "term": "Resolution modifiers", "description": "`optional`, `self`, `skipSelf`, `host` options of `inject()` (legacy: `@Optional()`, `@Self()`, `@SkipSelf()`, `@Host()`)." }
+]

@@ -1,0 +1,6 @@
+[
+  { "term": "<KeepAlive>", "description": "Built-in that caches component instances when they are switched out instead of unmounting them." },
+  { "term": "onActivated / onDeactivated", "description": "Hooks called when a cached component is shown again or hidden." },
+  { "term": "include / exclude", "description": "Filter which components are cached, matched by component name." },
+  { "term": "max", "description": "Upper bound of cached instances; the least recently used one is evicted first." }
+]

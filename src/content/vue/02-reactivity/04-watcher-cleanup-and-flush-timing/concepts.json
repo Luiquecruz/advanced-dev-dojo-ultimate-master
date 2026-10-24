@@ -1,0 +1,7 @@
+[
+  { "term": "onWatcherCleanup()", "description": "Vue 3.5+ API to register a cleanup that runs before the watcher re-runs and when it stops. Call it before the first `await`." },
+  { "term": "onCleanup argument", "description": "Third argument of the `watch` callback (first of `watchEffect`). Older API, bound to its watcher so it also works after `await`." },
+  { "term": "flush: 'pre' | 'post' | 'sync'", "description": "When a watcher runs: before the re-render (default), after it (sees the updated DOM), or synchronously on every change." },
+  { "term": "watchPostEffect / watchSyncEffect", "description": "Aliases for `watchEffect` with `flush: 'post'` and `flush: 'sync'`." },
+  { "term": "AbortController", "description": "Web API that cancels a `fetch`: pass `controller.signal` to the request and call `controller.abort()`." }
+]

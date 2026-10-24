@@ -1,0 +1,6 @@
+[
+  { "term": "Component", "description": "A function that returns JSX. Used as a tag: `<Profile />`." },
+  { "term": "Capitalized names", "description": "JSX treats `<lowercase>` as an HTML tag and `<Capitalized>` as a component reference." },
+  { "term": "Top-level definition", "description": "Components must be declared at module level. A component declared inside another is recreated on each render and loses its state." },
+  { "term": "Default vs named export", "description": "`export default function A()` is imported as `import A from`; `export function B()` is imported as `import { B } from`." }
+]

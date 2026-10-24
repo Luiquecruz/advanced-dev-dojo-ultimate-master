@@ -1,0 +1,6 @@
+[
+  { "term": "useMemo", "description": "`useMemo(calculate, deps)` caches the **result** of a calculation between renders and recomputes only when a dependency changes." },
+  { "term": "Dependency array", "description": "Every reactive value (props, state, values derived from them) read inside the calculation. Compared with `Object.is`." },
+  { "term": "Referential stability", "description": "A memoized object or array keeps the same reference, which lets `memo` children and effect dependencies see it as unchanged." },
+  { "term": "Performance hint", "description": "React may discard cached values (e.g. during development edits or for offscreen content). Code must stay correct without the cache." }
+]

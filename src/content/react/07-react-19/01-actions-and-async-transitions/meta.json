@@ -1,0 +1,10 @@
+{
+  "title": "Actions & Async Transitions",
+  "summary": "Run async work inside startTransition and let React track pending state, ordering and errors for you.",
+  "level": "intermediate",
+  "tags": ["modern", "new", "core"],
+  "resources": [
+    { "label": "react.dev: React 19 - Actions", "url": "https://react.dev/blog/2024/12/05/react-19#actions" },
+    { "label": "react.dev: useTransition", "url": "https://react.dev/reference/react/useTransition" }
+  ]
+}

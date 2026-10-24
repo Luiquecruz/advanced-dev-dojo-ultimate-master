@@ -1,0 +1,5 @@
+[
+  { "term": "Overload signature", "description": "A bodiless function declaration describing one way to call the function. Callers only see these." },
+  { "term": "Implementation signature", "description": "The signature with the body. Must be compatible with every overload and is hidden from callers." },
+  { "term": "Overload resolution", "description": "The compiler tries overloads top to bottom and picks the first that matches; a union argument may match none." }
+]

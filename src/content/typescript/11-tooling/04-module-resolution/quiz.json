@@ -1,0 +1,47 @@
+[
+  {
+    "question": "Which `moduleResolution` fits a React app built with Vite?",
+    "options": ["node10", "classic", "bundler", "node16"],
+    "answer": 2,
+    "explanation": "`bundler` mirrors how Vite, webpack and esbuild resolve modules: extensionless imports plus `exports` support."
+  },
+  {
+    "question": "Under `nodenext`, a file in a package with `\"type\": \"module\"` writes `import { a } from './a'`. What happens?",
+    "options": [
+      "It resolves to a.ts",
+      "Error: relative imports in ES modules need an explicit file extension",
+      "It resolves to a/index.ts",
+      "It is treated as a package import"
+    ],
+    "answer": 1,
+    "explanation": "Node's ESM loader does not guess extensions, so TypeScript requires `./a.js` (or `./a.ts` with `rewriteRelativeImportExtensions`)."
+  },
+  {
+    "question": "Why is `moduleResolution: node10` deprecated?",
+    "options": [
+      "It is too slow",
+      "It ignores package.json exports and models the old require algorithm, which no longer matches modern runtimes",
+      "It cannot resolve relative paths",
+      "It only works with AMD"
+    ],
+    "answer": 1,
+    "explanation": "node10 predates `exports`, so it accepts imports that modern Node and bundlers reject (and vice versa)."
+  },
+  {
+    "question": "You add `\"paths\": { \"@/*\": [\"./src/*\"] }` and run the compiled output with Node. What happens to `import x from '@/x.js'`?",
+    "options": [
+      "tsc rewrites it to a relative path",
+      "Node fails with Cannot find module unless a runtime alias exists",
+      "Node reads tsconfig paths automatically",
+      "It becomes a dynamic import"
+    ],
+    "answer": 1,
+    "explanation": "`paths` only affects type checking. Use `package.json` `imports` (`#/*`) or a bundler alias for the runtime."
+  },
+  {
+    "question": "Which flag shows step by step how TypeScript resolved each import?",
+    "options": ["--listFiles", "--traceResolution", "--showConfig", "--diagnostics"],
+    "answer": 1,
+    "explanation": "`--traceResolution` logs every lookup, including which `package.json` conditions matched."
+  }
+]

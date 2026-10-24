@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A pure custom pipe formats `items()`. The code calls `this.items().push(newItem)`. What happens to the output?",
+    "options": ["It updates immediately", "It stays stale: the array reference did not change", "Angular throws an error", "The pipe becomes impure automatically"],
+    "answer": 1,
+    "explanation": "Pure pipes only re-run when the input reference changes. Use immutable updates like `items.update(list => [...list, newItem])`."
+  },
+  {
+    "question": "What does a standalone component need to use `{{ price | currency }}`?",
+    "options": ["Nothing, pipes are global", "`CurrencyPipe` (or `CommonModule`) in its `imports`", "A provider for `CurrencyPipe`", "`standalone: false`"],
+    "answer": 1,
+    "explanation": "Standalone components declare their template dependencies in `imports`; otherwise Angular reports NG0302."
+  },
+  {
+    "question": "How is `{{ isVip ? 'gold' : 'basic' | uppercase }}` evaluated?",
+    "options": ["`isVip ? 'gold' : ('basic' | uppercase)`", "`(isVip ? 'gold' : 'basic') | uppercase`", "It doesn't compile", "Only `'gold'` is uppercased"],
+    "answer": 1,
+    "explanation": "The pipe operator has lower precedence than the ternary, so it applies to the whole conditional expression."
+  }
+]

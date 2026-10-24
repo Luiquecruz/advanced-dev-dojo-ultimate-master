@@ -1,0 +1,12 @@
+{
+  "title": "TestBed and Vitest",
+  "summary": "Write a component spec with TestBed, fixtures and whenStable, and prove it catches bugs by running it against mutants.",
+  "level": "intermediate",
+  "tags": ["testing", "new"],
+  "entry": "counter.spec.ts",
+  "preview": false,
+  "resources": [
+    { "label": "angular.dev: Testing", "url": "https://angular.dev/guide/testing" },
+    { "label": "angular.dev: Migrating from Karma to Vitest", "url": "https://angular.dev/guide/testing/migrating-to-vitest" }
+  ]
+}

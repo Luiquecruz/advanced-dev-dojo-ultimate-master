@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Why can't an interface be used as a DI token?",
+    "options": ["Interfaces are too slow", "Interfaces are erased at compile time, so nothing exists at runtime to use as a key", "Angular forbids interfaces in services", "Interfaces cannot be generic"],
+    "answer": 1,
+    "explanation": "TypeScript interfaces vanish after compilation. Use an `InjectionToken<T>` or an abstract class instead."
+  },
+  {
+    "question": "`{ provide: OldLogger, useExisting: Logger }` means...",
+    "options": ["A new Logger instance is created for OldLogger", "Injecting OldLogger returns the same instance as injecting Logger", "OldLogger is removed", "Logger now resolves to OldLogger"],
+    "answer": 1,
+    "explanation": "`useExisting` is an alias. `useClass: Logger` would create a separate instance."
+  },
+  {
+    "question": "Three providers register the same token with `multi: true`. What does `inject(TOKEN)` return?",
+    "options": ["The last value", "The first value", "An array with all three values", "An error"],
+    "answer": 2,
+    "explanation": "Multi providers accumulate. This is how interceptors, validators and initializers are collected."
+  }
+]

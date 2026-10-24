@@ -1,0 +1,8 @@
+[
+  { "term": "Constructor injection", "description": "Dependencies declared as constructor parameters; Angular resolves them from the parameter types." },
+  { "term": "Parameter property", "description": "`constructor(private readonly s: Service)` declares and assigns a class field in one step." },
+  { "term": "emitDecoratorMetadata", "description": "TypeScript option that stores constructor parameter types (`design:paramtypes`) at runtime, used by JIT-compiled Angular." },
+  { "term": "@Input()", "description": "Decorator that makes a class field bindable from a parent template. Supports `required`, `alias` and `transform`." },
+  { "term": "@Output() + EventEmitter", "description": "Declares a custom event; the child calls `emit(value)` and the parent listens with `(event)=\"...\"`." },
+  { "term": "ngOnChanges", "description": "Lifecycle hook receiving `SimpleChanges` (previous/current values) whenever decorator inputs change." }
+]

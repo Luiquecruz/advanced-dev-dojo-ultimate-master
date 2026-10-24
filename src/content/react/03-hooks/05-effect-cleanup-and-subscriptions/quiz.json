@@ -1,0 +1,24 @@
+[
+  {
+    "question": "`roomId` changes from `a` to `b`. In what order does React call things?",
+    "options": [
+      "setup(b), then cleanup(a)",
+      "cleanup(a), then setup(b)",
+      "cleanup(b), then setup(b)",
+      "Only setup(b); cleanups run on unmount"
+    ],
+    "answer": 1,
+    "explanation": "React first cleans up the previous run (which captured `a`) and then runs the setup with the new value."
+  },
+  {
+    "question": "In development, your Effect connects twice on mount. What is the right fix?",
+    "options": [
+      "Remove `<StrictMode>`",
+      "Use a ref to skip the second setup",
+      "Return a cleanup that disconnects, so setup → cleanup → setup leaves one connection",
+      "Move the connection into the render body"
+    ],
+    "answer": 2,
+    "explanation": "The double call is StrictMode revealing a missing cleanup. With a symmetric cleanup the user-visible result is identical to a single setup."
+  }
+]

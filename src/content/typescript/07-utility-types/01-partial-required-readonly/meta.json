@@ -1,0 +1,6 @@
+{
+  "title": "Partial, Required and Readonly",
+  "summary": "Derive optional, complete and read-only variants of a type instead of copying it.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

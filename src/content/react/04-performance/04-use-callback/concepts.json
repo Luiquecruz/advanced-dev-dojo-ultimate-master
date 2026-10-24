@@ -1,0 +1,6 @@
+[
+  { "term": "useCallback", "description": "`useCallback(fn, deps)` caches a **function definition** between renders. Equivalent to `useMemo(() => fn, deps)`." },
+  { "term": "Functional update", "description": "`setState((previous) => next)` reads the latest state at update time, so callbacks do not need state in their dependencies." },
+  { "term": "Stable setter", "description": "Functions returned by `useState` and `useReducer` (`setX`, `dispatch`) never change identity and can be omitted from dependencies." },
+  { "term": "Stale closure", "description": "A cached function that captured old values because a dependency was missing. Leads to updates based on outdated state." }
+]

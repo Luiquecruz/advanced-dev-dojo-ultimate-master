@@ -1,0 +1,6 @@
+[
+  { "term": "memo", "description": "`memo(Component, arePropsEqual?)` returns a component that skips re-rendering when its props are shallowly equal to the previous render." },
+  { "term": "Shallow comparison", "description": "Each prop is compared with `Object.is`. Primitives compare by value, objects, arrays and functions by **reference**." },
+  { "term": "Referential stability", "description": "Passing the same object/function reference across renders. Inline `{}`, `[]` and `() => {}` in JSX are new references every render." },
+  { "term": "arePropsEqual", "description": "Optional second argument of `memo`: `(prevProps, nextProps) => boolean`. Return `true` to skip the render. Rarely needed and easy to get wrong." }
+]

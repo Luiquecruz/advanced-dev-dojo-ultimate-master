@@ -1,0 +1,7 @@
+[
+  { "term": "Prop", "description": "Read-only input passed from a parent component to a child." },
+  { "term": "defineProps", "description": "Compiler macro of `<script setup>` that declares props, either with a runtime object or a TypeScript type." },
+  { "term": "Reactive props destructure", "description": "Vue 3.5 feature: `const { a = 1 } = defineProps()` keeps reactivity because the compiler rewrites `a` to `props.a`." },
+  { "term": "Boolean casting", "description": "A `boolean` prop written without a value (`<Comp online />`) is `true`; when absent it is `false`." },
+  { "term": "One-way data flow", "description": "Data flows from parent to child through props; children request changes with events." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "CanActivateFn", "description": "`(route, state) => MaybeAsync<GuardResult>`. Decides whether a route may be entered. `state.url` is the URL being navigated to." },
+  { "term": "CanDeactivateFn<T>", "description": "`(component, currentRoute, currentState, nextState) => ...`. Decides whether the user may leave the component of type `T`." },
+  { "term": "CanMatchFn", "description": "Decides whether a route config may even be **matched**. If it returns `false`, the router tries the next route; lazy code is not downloaded." },
+  { "term": "UrlTree / RedirectCommand", "description": "Returning a `UrlTree` (or `new RedirectCommand(tree, options)`) from a guard cancels the navigation and redirects." },
+  { "term": "GuardResult", "description": "`boolean | UrlTree | RedirectCommand`, optionally wrapped in a `Promise` or `Observable` (`MaybeAsync`)." },
+  { "term": "Class guards (legacy)", "description": "Injectable classes implementing `CanActivate`. Deprecated since v15.2; wrap old ones with `mapToCanActivate([OldGuard])` while migrating." }
+]

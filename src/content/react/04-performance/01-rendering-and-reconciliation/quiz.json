@@ -1,0 +1,63 @@
+[
+  {
+    "question": "A parent component's state changes. By default, what happens to its children?",
+    "options": [
+      "Only children whose props changed re-render",
+      "All children re-render, then React commits only the DOM differences",
+      "Nothing: children render only once on mount",
+      "The DOM of every child is recreated"
+    ],
+    "answer": 1,
+    "explanation": "Rendering is recursive: React calls every child component again. Reconciliation then makes sure only real differences reach the DOM. `memo` (or React Compiler) lets you skip children whose props are unchanged."
+  },
+  {
+    "question": "Which statement about the render and commit phases is correct?",
+    "options": [
+      "Both phases can be interrupted by higher priority updates",
+      "The render phase mutates the DOM and the commit phase calls components",
+      "The render phase can be paused or discarded; the commit phase is synchronous",
+      "useEffect callbacks run during the render phase"
+    ],
+    "answer": 2,
+    "explanation": "Fiber makes rendering interruptible so concurrent features can pause or throw away work. Commit always runs to completion so the user never sees a half-applied update. Effects run after commit."
+  },
+  {
+    "question": "`{isAdmin ? <Panel key=\"admin\" /> : <Panel key=\"guest\" />}` — what happens to Panel's state when `isAdmin` flips?",
+    "options": [
+      "It is preserved because the type is the same",
+      "It is reset because the key changed, so React mounts a new instance",
+      "React throws a duplicate key warning",
+      "It is merged between both instances"
+    ],
+    "answer": 1,
+    "explanation": "React matches elements by type **and** key. A different key means a different identity, so the old Panel unmounts and a fresh one mounts with initial state."
+  },
+  {
+    "question": "Why is declaring `function Row() {}` inside another component's body a bug?",
+    "options": [
+      "Hooks cannot be used in nested functions",
+      "It creates a new component type every render, so Row remounts and loses its state",
+      "It leaks memory because closures are never collected",
+      "JSX cannot reference functions declared after the return statement"
+    ],
+    "answer": 1,
+    "explanation": "Reconciliation compares types by reference. A function recreated every render is a different type each time, so React tears down and remounts the whole subtree."
+  },
+  {
+    "question": "Inside one click handler you call `setA(1)`, `setB(2)` and `setC(3)`. How many renders does React 19 perform?",
+    "options": ["Three", "Two", "One", "Zero until the next event"],
+    "answer": 2,
+    "explanation": "Automatic batching groups all updates from the same event (and since React 18, also timeouts and promises) into a single render and commit."
+  },
+  {
+    "question": "Why must the render body be pure (no mutations of outside variables, no requests)?",
+    "options": [
+      "Because JSX cannot contain statements",
+      "Because React may call it more than once or discard the result (Strict Mode, interrupted transitions)",
+      "Because pure functions run faster in V8",
+      "Because effects are not allowed in function components"
+    ],
+    "answer": 1,
+    "explanation": "Concurrent rendering may start, pause and restart a render, and Strict Mode intentionally double-invokes components in development. Side effects belong in event handlers or effects."
+  }
+]

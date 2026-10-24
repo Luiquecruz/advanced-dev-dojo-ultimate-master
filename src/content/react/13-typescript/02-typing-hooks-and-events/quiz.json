@@ -1,0 +1,25 @@
+[
+  {
+    "question": "What type does TypeScript infer for `const [items, setItems] = useState([])`?",
+    "options": ["`any[]`", "`unknown[]`", "`never[]`", "`object[]`"],
+    "answer": 2,
+    "explanation": "An empty array literal gives `never[]`, so nothing can be added. Use `useState<Item[]>([])`."
+  },
+  {
+    "question": "Which declaration correctly types a ref for an `<input>` in React 19 types?",
+    "options": ["`useRef<HTMLInputElement>()`", "`useRef<HTMLInputElement>(null)`", "`useRef<InputEvent>(null)`", "`createRef<input>()`"],
+    "answer": 1,
+    "explanation": "DOM refs start as `null`. React 19 types require an initial argument for `useRef`."
+  },
+  {
+    "question": "In `case 'toggled':` of a reducer over `Action`, why can you read `action.id`?",
+    "options": [
+      "Because every action has an id",
+      "Because TypeScript narrows the discriminated union to the `'toggled'` member",
+      "Because of `any`",
+      "Because reducers are untyped"
+    ],
+    "answer": 1,
+    "explanation": "The literal `type` field discriminates the union. Inside the case, only `{ type: 'toggled'; id: number }` is possible."
+  }
+]

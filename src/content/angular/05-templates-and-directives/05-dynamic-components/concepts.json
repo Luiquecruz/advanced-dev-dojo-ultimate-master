@@ -1,0 +1,7 @@
+[
+  { "term": "`NgComponentOutlet`", "description": "Directive that renders a component class chosen at runtime, with `inputs`, `injector` and `content` options." },
+  { "term": "`ViewContainerRef.createComponent()`", "description": "Creates a component inside a container and returns its `ComponentRef`." },
+  { "term": "`ComponentRef`", "description": "Handle to a created component: `instance`, `setInput()`, `destroy()`, `hostView`, `location`." },
+  { "term": "`inputBinding` / `outputBinding` / `twoWayBinding`", "description": "Angular 20+ binding helpers passed in `createComponent`'s `bindings` option." },
+  { "term": "`ComponentFactoryResolver`", "description": "Legacy (View Engine) API to obtain a factory before creating a component. Not needed with Ivy." }
+]

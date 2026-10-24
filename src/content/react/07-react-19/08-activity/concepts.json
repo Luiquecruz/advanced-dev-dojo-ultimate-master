@@ -1,0 +1,6 @@
+[
+  { "term": "<Activity>", "description": "React 19.2 component with `mode=\"visible\" | \"hidden\"` that hides a subtree while preserving its state." },
+  { "term": "mode=\"hidden\"", "description": "Applies `display: none`, runs effect cleanups and renders updates at the lowest priority." },
+  { "term": "Pre-rendering", "description": "A hidden Activity still renders, so content can be prepared before the user shows it." },
+  { "term": "Effect unmount", "description": "Hidden Activities clean up their effects; visible ones re-create them." }
+]

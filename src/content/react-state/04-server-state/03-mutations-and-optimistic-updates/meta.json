@@ -1,0 +1,11 @@
+{
+  "title": "Mutations and Optimistic Updates",
+  "summary": "Implement optimistic writes with cancelQueries, snapshots, rollback and re-sync, and decide when optimism is the wrong call.",
+  "level": "advanced",
+  "tags": ["ecosystem", "performance"],
+  "resources": [
+    { "label": "TanStack Query: Optimistic Updates", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates" },
+    { "label": "TkDodo: Concurrent Optimistic Updates", "url": "https://tkdodo.eu/blog/concurrent-optimistic-updates-in-react-query" },
+    { "label": "react.dev: useOptimistic", "url": "https://react.dev/reference/react/useOptimistic" }
+  ]
+}

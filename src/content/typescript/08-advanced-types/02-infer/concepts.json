@@ -1,0 +1,6 @@
+[
+  { "term": "infer", "description": "Declares a type variable inside the `extends` clause of a conditional type. The compiler fills it by matching the checked type against the pattern." },
+  { "term": "Pattern matching on types", "description": "The `extends` clause acts as a pattern with holes; the true branch can use every inferred hole." },
+  { "term": "`infer X extends C`", "description": "TypeScript 4.7+: the inferred type must satisfy `C`. In template literals it also parses strings into number, bigint or boolean literals." },
+  { "term": "Labeled tuple", "description": "Inferring a parameter list yields a tuple like `[id: number, label?: string]` that keeps names, optional and rest elements." }
+]

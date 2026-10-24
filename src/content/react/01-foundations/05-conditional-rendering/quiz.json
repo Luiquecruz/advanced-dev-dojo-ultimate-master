@@ -1,0 +1,25 @@
+[
+  {
+    "question": "What does `{items.length && <List items={items} />}` render when `items` is empty?",
+    "options": ["Nothing", "The text `0`", "An empty `<List />`", "`false`"],
+    "answer": 1,
+    "explanation": "`0 && x` evaluates to `0`, and React renders numbers as text. Use `items.length > 0 && ...`."
+  },
+  {
+    "question": "What does a component render when it returns `null`?",
+    "options": ["The text `null`", "An empty `<div>`", "Nothing", "It throws an error"],
+    "answer": 2,
+    "explanation": "`null` is a valid return value that produces no output. The component is still mounted in the tree."
+  },
+  {
+    "question": "A form inside `{isOpen && <Form />}` loses what the user typed when `isOpen` toggles. Why?",
+    "options": [
+      "Forms always reset on re-render",
+      "When the condition is false the component is unmounted, so its state is destroyed",
+      "`&&` clones the component",
+      "Because of StrictMode"
+    ],
+    "answer": 1,
+    "explanation": "Removing an element from the tree unmounts it. To keep state while hidden, hide it with CSS or use `<Activity mode=\"hidden\">`."
+  }
+]

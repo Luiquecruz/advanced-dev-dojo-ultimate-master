@@ -1,0 +1,38 @@
+[
+  {
+    "question": "What is the main difference between hydration and the old destructive approach?",
+    "options": ["Hydration renders twice on the server", "Hydration reuses the server-rendered DOM instead of discarding and re-rendering it", "Hydration removes JavaScript from the page", "Hydration only works with NgModules"],
+    "answer": 1,
+    "explanation": "Non-destructive hydration attaches Angular to the existing nodes, avoiding flicker and wasted work."
+  },
+  {
+    "question": "A user clicks a button before the page has hydrated. What makes that click still work?",
+    "options": ["zone.js", "Event replay", "The HTTP transfer cache", "`ngSkipHydration`"],
+    "answer": 1,
+    "explanation": "Event replay records early events and dispatches them after hydration."
+  },
+  {
+    "question": "Which template keeps a comments section as static server HTML until it scrolls into view?",
+    "options": ["`@defer (on viewport) { <app-comments /> }`", "`@defer (hydrate on viewport) { <app-comments /> }`", "`<app-comments ngSkipHydration />`", "`@if (isBrowser) { <app-comments /> }`"],
+    "answer": 1,
+    "explanation": "Hydrate triggers control when a server-rendered `@defer` block is hydrated. Plain `on viewport` controls client-side loading."
+  },
+  {
+    "question": "Which route config generates HTML at build time for every blog post id?",
+    "options": ["`RenderMode.Client`", "`RenderMode.Server`", "`RenderMode.Prerender` with `getPrerenderParams()`", "`provideClientHydration(withEventReplay())`"],
+    "answer": 2,
+    "explanation": "Prerendering produces static HTML at build time; `getPrerenderParams` lists the parameter values to render."
+  },
+  {
+    "question": "Where should code that reads `window.innerWidth` go in an SSR app?",
+    "options": ["In the constructor", "Inside `afterNextRender(() => ...)`", "In a `computed()`", "In `app.routes.server.ts`"],
+    "answer": 1,
+    "explanation": "`afterNextRender` only runs in the browser, so the server never touches missing browser globals."
+  },
+  {
+    "question": "Which template is likely to cause a hydration mismatch?",
+    "options": ["`<table><tbody><tr><td>1</td></tr></tbody></table>`", "`<p><div>Text</div></p>`", "`<ul><li>One</li></ul>`", "`<section><h2>Title</h2></section>`"],
+    "answer": 1,
+    "explanation": "Browsers auto-correct invalid nesting like `<div>` inside `<p>`, so the client DOM no longer matches the server HTML."
+  }
+]

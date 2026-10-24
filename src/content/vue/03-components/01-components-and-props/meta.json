@@ -1,0 +1,8 @@
+{
+  "title": "Components & Props",
+  "summary": "Split UI into components and pass data down with defineProps, defaults and reactive props destructure.",
+  "level": "beginner",
+  "tags": ["core", "typescript"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: Props", "url": "https://vuejs.org/guide/components/props.html" }]
+}

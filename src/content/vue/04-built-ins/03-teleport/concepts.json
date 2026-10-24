@@ -1,0 +1,6 @@
+[
+  { "term": "<Teleport>", "description": "Renders its content into another DOM node (`to`) while staying in the component tree." },
+  { "term": "to", "description": "CSS selector or element receiving the teleported DOM; it must exist when the Teleport mounts (unless `defer`)." },
+  { "term": "disabled", "description": "Renders the content in place instead of teleporting it." },
+  { "term": "@click.self", "description": "Event modifier that only triggers when the event target is the element itself, handy for backdrops." }
+]

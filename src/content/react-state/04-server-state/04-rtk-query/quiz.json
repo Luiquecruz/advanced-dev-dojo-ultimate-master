@@ -1,0 +1,52 @@
+[
+  {
+    "question": "A Redux Toolkit app keeps users in a hand-written `usersSlice` filled by `createAsyncThunk`, with manual `isLoading` flags and refetch calls after every edit. What is the most idiomatic improvement?",
+    "options": [
+      "Add TanStack Query next to the slice and keep both",
+      "Move the users to RTK Query endpoints with tags, and delete the slice",
+      "Store users in React Context",
+      "Add `redux-persist`"
+    ],
+    "answer": 1,
+    "explanation": "RTK Query is the server cache of the Redux ecosystem: it replaces hand-written fetching slices and manual refetching with endpoints and tag invalidation, in the same store."
+  },
+  {
+    "question": "After `updateTodo({ id: 2 })`, every todo detail query in the app refetches. Which tag configuration causes it?",
+    "options": [
+      "`invalidatesTags: (result, error, { id }) => [{ type: 'Todo', id }]`",
+      "`invalidatesTags: ['Todo']`",
+      "`providesTags: [{ type: 'Todo', id: 'LIST' }]` on the list",
+      "`keepUnusedDataFor: 0`"
+    ],
+    "answer": 1,
+    "explanation": "A plain type string invalidates every query providing any `Todo` tag. Invalidate `{ type: 'Todo', id }` to refetch only queries containing that todo."
+  },
+  {
+    "question": "Why do creations usually invalidate `{ type: 'Todo', id: 'LIST' }` instead of individual ids?",
+    "options": [
+      "IDs are not allowed in tags",
+      "The new item has no cached detail yet; what changed is the collection, so only queries providing `LIST` need to refetch",
+      "It disables caching",
+      "RTK Query requires it for POST requests"
+    ],
+    "answer": 1,
+    "explanation": "The `LIST` id represents the collection. Lists provide it, details do not, so a creation refreshes lists without touching unrelated detail queries."
+  },
+  {
+    "question": "A new project has no Redux, needs infinite scrolling feeds and colocated queries per feature. Which server state tool fits better?",
+    "options": ["RTK Query", "TanStack Query", "A Zustand store with fetch actions", "Redux Saga"],
+    "answer": 1,
+    "explanation": "Without Redux, adding a store only for RTK Query is overhead, and TanStack Query has first-class infinite queries and colocated `queryOptions`."
+  },
+  {
+    "question": "What does `api.util.updateQueryData('getTodos', undefined, recipe)` return, and why does it matter for optimistic updates?",
+    "options": [
+      "A promise with fresh data from the server",
+      "A patch result with `undo()`, used to roll back if `queryFulfilled` rejects",
+      "Nothing; it only logs to devtools",
+      "A new store"
+    ],
+    "answer": 1,
+    "explanation": "Inside `onQueryStarted`, dispatching `updateQueryData` applies an Immer patch to the cache and returns an object whose `undo()` reverts it when the request fails."
+  }
+]

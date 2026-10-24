@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Interceptors are registered as `withInterceptors([a, b])`. In which order do they see the request and the response?",
+    "options": ["Request: a then b. Response: b then a", "Request: b then a. Response: a then b", "Both in a, b order", "Order is undefined"],
+    "answer": 0,
+    "explanation": "Each interceptor wraps the next one, like an onion: the outermost (first) sees the request first and the response last."
+  },
+  {
+    "question": "Why do you call `request.clone({ setHeaders })` instead of `request.headers.set(...)`?",
+    "options": ["`set` is slower", "HttpRequest and HttpHeaders are immutable; `headers.set` returns a new object and the original request is unchanged", "`clone` also retries", "There is no difference"],
+    "answer": 1,
+    "explanation": "Immutability makes retries safe: the same original request can be re-sent through the chain without accumulated mutations."
+  },
+  {
+    "question": "How do you migrate gradually when some interceptors are still classes?",
+    "options": ["It's impossible, rewrite all of them first", "Use `provideHttpClient(withInterceptors([...fns]), withInterceptorsFromDi())` while the classes remain registered with HTTP_INTERCEPTORS", "Use HttpClientModule", "Wrap classes in `mapToCanActivate`"],
+    "answer": 1,
+    "explanation": "`withInterceptorsFromDi()` keeps DI-based class interceptors working next to functional ones."
+  }
+]

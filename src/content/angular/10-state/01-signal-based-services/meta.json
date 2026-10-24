@@ -1,0 +1,11 @@
+{
+  "title": "Signal-Based Services",
+  "summary": "Manage shared state with a service that owns private signals, exposes read-only views and computed values, and changes state only through methods.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "angular.dev: Signals", "url": "https://angular.dev/guide/signals" },
+    { "label": "angular.dev: Creating an injectable service", "url": "https://angular.dev/guide/di/creating-injectable-service" }
+  ]
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What happens with `<input value={name} />` and no `onChange`?",
+    "options": [
+      "The input works normally",
+      "The field is read-only: typing does nothing and React warns",
+      "React throws an error",
+      "The value is ignored"
+    ],
+    "answer": 1,
+    "explanation": "A controlled value without a change handler can never change. Add `onChange`, use `readOnly`, or use `defaultValue` for an uncontrolled field."
+  },
+  {
+    "question": "Why does React warn \"A component is changing an uncontrolled input to be controlled\"?",
+    "options": [
+      "The state started as `undefined` (or `null`) and later became a string",
+      "The input has a `name` attribute",
+      "`onChange` was declared inline",
+      "The input is inside a form"
+    ],
+    "answer": 0,
+    "explanation": "`value={undefined}` means uncontrolled. Initialize text state with `''` and checkboxes with `false`."
+  },
+  {
+    "question": "How do you read a checkbox's state in `onChange`?",
+    "options": ["`event.target.value`", "`event.target.checked`", "`event.checked`", "`event.target.selected`"],
+    "answer": 1,
+    "explanation": "`checked` is the boolean. A checkbox's `value` is a string (`\"on\"` by default)."
+  }
+]

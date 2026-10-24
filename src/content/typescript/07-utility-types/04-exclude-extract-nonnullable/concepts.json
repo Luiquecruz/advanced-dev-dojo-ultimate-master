@@ -1,0 +1,6 @@
+[
+  { "term": "Exclude<T, U>", "description": "Removes from union `T` every member assignable to `U`." },
+  { "term": "Extract<T, U>", "description": "Keeps from union `T` only the members assignable to `U`; great for picking discriminated union variants." },
+  { "term": "NonNullable<T>", "description": "Removes `null` and `undefined`. Defined as `T & {}` since TypeScript 4.8." },
+  { "term": "Inferred type predicate", "description": "Since TypeScript 5.5, simple callbacks like `x => x != null` are inferred as type predicates, so `filter` narrows." }
+]

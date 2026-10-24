@@ -1,0 +1,8 @@
+[
+  { "term": "Normalized state", "description": "Collections stored as `{ ids: [], entities: { [id]: item } }` for O(1) lookups and single-place updates." },
+  { "term": "createEntityAdapter", "description": "Generates normalized initial state, CRUD reducer helpers (`setAll`, `updateOne`...) and memoized selectors." },
+  { "term": "createAsyncThunk", "description": "Creates a thunk that dispatches `pending`, `fulfilled` and `rejected` around an async payload creator." },
+  { "term": "condition", "description": "`createAsyncThunk` option that can cancel the thunk before it starts, e.g. to avoid duplicate requests." },
+  { "term": "Listener middleware", "description": "`createListenerMiddleware()` runs async effects after matching actions, with `getState`, `dispatch`, `delay`, `cancelActiveListeners` and more." },
+  { "term": "Optimistic update", "description": "Apply the change immediately, confirm with the server in the background and roll back with a visible message on failure." }
+]

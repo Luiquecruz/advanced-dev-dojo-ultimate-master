@@ -1,0 +1,5 @@
+[
+  { "question": "In a setup store, how does Pinia know which values are getters?", "options": ["They are named getX", "They are `computed()` values returned from the setup function", "They are listed in a `getters` option", "Functions are getters"], "answer": 1, "explanation": "Returned computeds become getters, refs become state and functions become actions." },
+  { "question": "Why does `store.$reset()` throw by default in a setup store?", "options": ["Setup stores are read-only", "Pinia cannot recreate the initial state of an arbitrary setup function, so you must write $reset yourself", "$reset was removed in Pinia 4", "It only works in Vuex"], "answer": 1, "explanation": "Option stores call `state()` again; setup stores have no state factory." },
+  { "question": "Which feature is only available in setup stores?", "options": ["Getters", "Async actions", "Using watchers and composables like `useRoute()` inside the store definition", "$patch"], "answer": 2, "explanation": "The setup function runs in an effect scope where any composable or watcher can be used." }
+]

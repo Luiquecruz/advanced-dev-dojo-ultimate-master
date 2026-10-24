@@ -1,0 +1,6 @@
+{
+  "title": "Function types and call signatures",
+  "summary": "Describe function values with type expressions, callable objects with call signatures, and constructors with construct signatures.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

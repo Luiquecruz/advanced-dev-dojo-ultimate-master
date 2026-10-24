@@ -1,0 +1,25 @@
+[
+  {
+    "question": "What is the correct return annotation for `async function count() { return 3; }`?",
+    "options": ["number", "Promise<number>", "Awaited<number>", "Promise<void>"],
+    "answer": 1,
+    "explanation": "An `async` function always wraps its return value in a promise, so the annotation must be `Promise<number>`."
+  },
+  {
+    "question": "What type does `await Promise.all([getUser(), getOrders()])` produce when they return `Promise<User>` and `Promise<Order[]>`?",
+    "options": ["(User | Order[])[]", "[User, Order[]]", "Promise<[User, Order[]]>", "User & Order[]"],
+    "answer": 1,
+    "explanation": "`Promise.all` keeps the position of each element, so the awaited result is the tuple `[User, Order[]]`."
+  },
+  {
+    "question": "Why does `items.forEach(async (item) => { await save(item); })` not wait for the saves?",
+    "options": [
+      "forEach ignores the promises returned by the callback",
+      "await is not allowed inside arrow functions",
+      "forEach runs callbacks in parallel threads",
+      "The callback must be annotated as Promise<void>"
+    ],
+    "answer": 0,
+    "explanation": "`forEach` discards the callback's return value. Use `for...of` with `await` or `await Promise.all(items.map(save))`."
+  }
+]

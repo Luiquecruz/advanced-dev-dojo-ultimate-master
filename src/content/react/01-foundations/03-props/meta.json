@@ -1,0 +1,7 @@
+{
+  "title": "Passing Props",
+  "summary": "Send data from parent to child, destructure props with defaults and forward them with spread.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "react.dev: Passing Props to a Component", "url": "https://react.dev/learn/passing-props-to-a-component" }]
+}

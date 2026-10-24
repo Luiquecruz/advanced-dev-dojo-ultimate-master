@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Which statement about `use` is true?",
+    "options": [
+      "It must be called at the top level like every Hook",
+      "It can be called inside conditions and after early returns, but only during render",
+      "It can be called in event handlers to await promises",
+      "It only works in Server Components"
+    ],
+    "answer": 1,
+    "explanation": "`use` is not a Hook, so it may be conditional. It must still be called while rendering a component or Hook."
+  },
+  {
+    "question": "Why does `use(fetch(url).then((r) => r.json()))` inside a Client Component loop forever?",
+    "options": [
+      "`fetch` is not allowed in React",
+      "A new pending Promise is created on every render, so the component suspends again each time",
+      "`use` only accepts Context",
+      "JSON parsing is synchronous"
+    ],
+    "answer": 1,
+    "explanation": "Promises passed to `use` must be stable (cached or created outside render)."
+  },
+  {
+    "question": "What shows on screen while `use(promise)` waits?",
+    "options": [
+      "Nothing, the whole app freezes",
+      "The nearest `<Suspense>` fallback",
+      "The nearest Error Boundary",
+      "The previous page"
+    ],
+    "answer": 1,
+    "explanation": "Pending promises suspend the component and React renders the closest Suspense fallback. Rejections go to Error Boundaries."
+  },
+  {
+    "question": "What does `use(browser())` from React 19.3 do?",
+    "options": [
+      "Detects the browser vendor",
+      "Suspends during server rendering and resolves in the browser, opting the subtree out of SSR",
+      "Polyfills browser APIs on the server",
+      "Throws on the server"
+    ],
+    "answer": 1,
+    "explanation": "The server renders the nearest Suspense fallback; the client renders the real content after hydration."
+  }
+]

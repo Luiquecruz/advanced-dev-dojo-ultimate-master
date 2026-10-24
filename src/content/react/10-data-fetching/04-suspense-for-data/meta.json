@@ -1,0 +1,11 @@
+{
+  "title": "Suspense for Data",
+  "summary": "Let components suspend on data with useSuspenseQuery and design loading boundaries.",
+  "level": "advanced",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "react.dev: <Suspense>", "url": "https://react.dev/reference/react/Suspense" },
+    { "label": "react.dev: use", "url": "https://react.dev/reference/react/use" },
+    { "label": "TanStack Query: Suspense", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/suspense" }
+  ]
+}

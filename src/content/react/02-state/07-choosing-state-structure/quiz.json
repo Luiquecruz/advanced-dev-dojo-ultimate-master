@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Which of these should NOT be stored in state?",
+    "options": [
+      "The text the user is typing",
+      "The number of completed todos, when the todos are already in state",
+      "Whether a dropdown is open",
+      "The id of the selected row"
+    ],
+    "answer": 1,
+    "explanation": "A count derived from `todos` is redundant. Compute it during render with `todos.filter(...).length`."
+  },
+  {
+    "question": "Why store `selectedId` instead of the selected object?",
+    "options": [
+      "Ids use less memory",
+      "The copied object goes stale when the list is updated; an id is looked up in the current list on every render",
+      "React cannot store objects in state",
+      "It is required by `useState`"
+    ],
+    "answer": 1,
+    "explanation": "Duplicated data can disagree with the source. Looking up by id always returns the current item, or `undefined` once it is removed."
+  },
+  {
+    "question": "How do you avoid an impossible state like `isSending && isSent`?",
+    "options": [
+      "Add a third boolean `isError`",
+      "Use one `status` variable with values like 'typing' | 'sending' | 'sent'",
+      "Sync them with an effect",
+      "Store them in a ref"
+    ],
+    "answer": 1,
+    "explanation": "A single status variable can only hold one valid value at a time. Booleans can be derived from it."
+  },
+  {
+    "question": "What is the problem with `const [color, setColor] = useState(props.color)`?",
+    "options": [
+      "It throws an error",
+      "The state ignores later changes to the `color` prop",
+      "It re-renders infinitely",
+      "Props cannot be passed to useState"
+    ],
+    "answer": 1,
+    "explanation": "The initial value is only read on the first render. Use the prop directly unless you really want an initial value (then name it `initialColor`)."
+  }
+]

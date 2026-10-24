@@ -1,0 +1,6 @@
+[
+  { "term": "Portal", "description": "`createPortal(children, domNode)` renders children into another DOM node while keeping them in the same position in the React tree." },
+  { "term": "React tree vs DOM tree", "description": "Portals follow the DOM for layout and CSS, but the React tree for context, state and event bubbling." },
+  { "term": "Stacking context", "description": "CSS layering scope created by `z-index`, `transform`, `opacity`... Content inside cannot appear above content outside it, which is why overlays use portals." },
+  { "term": "aria-modal", "description": "Tells assistive technology that content outside the dialog is inert while it is open." }
+]

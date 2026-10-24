@@ -1,0 +1,35 @@
+[
+  {
+    "question": "When does a route loader run?",
+    "options": [
+      "After the route component mounts",
+      "When a navigation to that route starts, in parallel with other matching loaders",
+      "Only on the server",
+      "On every render of the component"
+    ],
+    "answer": 1,
+    "explanation": "Data routers call loaders at navigation start, so data loads in parallel and the new page renders with its data ready."
+  },
+  {
+    "question": "What renders when a loader throws `data('Not found', { status: 404 })`?",
+    "options": [
+      "The route element with `undefined` data",
+      "The closest `errorElement`, where `useRouteError()` returns the error response",
+      "A blank page",
+      "The browser's default 404 page"
+    ],
+    "answer": 1,
+    "explanation": "Thrown values render the nearest `errorElement`; `isRouteErrorResponse` recognizes responses created with `data()`."
+  },
+  {
+    "question": "What is `request.signal` in a loader useful for?",
+    "options": [
+      "Reading cookies",
+      "Cancelling the fetch when the user navigates away before it finishes",
+      "Sending analytics",
+      "Detecting the HTTP method"
+    ],
+    "answer": 1,
+    "explanation": "The router aborts the signal for interrupted navigations, preventing stale data and wasted requests."
+  }
+]

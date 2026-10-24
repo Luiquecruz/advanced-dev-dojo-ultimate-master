@@ -1,0 +1,14 @@
+[
+  {
+    "question": "Which signature can callers use when a function has overloads?",
+    "options": ["Only the implementation signature", "Only the overload signatures", "Both", "Whichever is declared first"],
+    "answer": 1,
+    "explanation": "The implementation signature is hidden; it only has to be compatible with the overloads."
+  },
+  {
+    "question": "When does the handbook recommend a union parameter instead of overloads?",
+    "options": ["When the return type does not depend on the argument type", "Never", "When there are more than three overloads", "Only for methods"],
+    "answer": 0,
+    "explanation": "If the return type is the same for every input, a union parameter is simpler and also accepts union arguments."
+  }
+]

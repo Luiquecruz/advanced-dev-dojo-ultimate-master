@@ -1,0 +1,13 @@
+{
+  "title": "Zustand in Production",
+  "summary": "Scale a Zustand store with slices, persist (partialize, versions, migrations), devtools, Immer updates and a per-provider vanilla store.",
+  "level": "advanced",
+  "tags": ["ecosystem", "testing"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "Zustand: Persisting store data", "url": "https://zustand.docs.pmnd.rs/integrations/persisting-store-data" },
+    { "label": "Zustand: Slices pattern", "url": "https://zustand.docs.pmnd.rs/guides/slices-pattern" },
+    { "label": "Zustand: Initialize state with props (context)", "url": "https://zustand.docs.pmnd.rs/guides/initialize-state-with-props" },
+    { "label": "Zustand: Testing", "url": "https://zustand.docs.pmnd.rs/guides/testing" }
+  ]
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "After `let value: string | number = 'a'; value = 10;`, what is the narrowed type of `value` on the next line?",
+    "options": [
+      "`string | number`",
+      "`string`",
+      "`number`",
+      "`10`"
+    ],
+    "answer": 2,
+    "explanation": "Assignment narrows a variable to the assigned type, within the declared type. A `let` assigned `10` widens to `number`, not the literal."
+  },
+  {
+    "question": "Given `const isText = typeof input === 'string'; if (isText) input.trim();` with `input: unknown` as a parameter that is never reassigned, does it compile?",
+    "options": [
+      "No, aliases never narrow",
+      "Yes, since TypeScript 4.4 aliased conditions narrow",
+      "Only with `as const`",
+      "Only if `isText` is a `let`"
+    ],
+    "answer": 1,
+    "explanation": "TypeScript 4.4 analyzes aliased conditions stored in `const` variables when the narrowed reference cannot change."
+  },
+  {
+    "question": "Inside `if (state.value !== null) { reset(state); state.value.length; }`, what does TypeScript assume about `state.value` after `reset(state)`?",
+    "options": [
+      "It becomes `string | null` again",
+      "It stays narrowed to non-null",
+      "It becomes `unknown`",
+      "It reports an error"
+    ],
+    "answer": 1,
+    "explanation": "Function calls do not invalidate property narrowing. This is a deliberate unsoundness; copy the property into a `const` when mutation is possible."
+  },
+  {
+    "question": "What did TypeScript 5.4 change about closures?",
+    "options": [
+      "Closures can no longer use narrowed variables",
+      "Narrowing of `let` variables and parameters is preserved in closures created after their last assignment",
+      "All closures keep narrowing regardless of assignments",
+      "Arrow functions narrow `this`"
+    ],
+    "answer": 1,
+    "explanation": "If no assignment happens after the closure is created, the narrowed type is safe to keep inside it."
+  },
+  {
+    "question": "Why must a `never`-returning helper like `fail()` have an explicit return type annotation to make following code unreachable?",
+    "options": [
+      "To avoid circular dependencies between return type inference and control flow analysis",
+      "Because arrow functions cannot return never",
+      "Because `never` is not a real type",
+      "It does not need one"
+    ],
+    "answer": 0,
+    "explanation": "Reachability is computed while types are still being inferred, so the compiler only trusts never-returning and assertion functions whose types are explicitly annotated."
+  }
+]

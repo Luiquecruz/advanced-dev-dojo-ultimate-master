@@ -1,0 +1,7 @@
+[
+  { "term": "Event binding", "description": "`(event)=\"statement\"` runs a template statement when a DOM event (or component output) fires." },
+  { "term": "$event", "description": "The native event object, or the value emitted by a component output." },
+  { "term": "Key event filtering", "description": "`(keydown.enter)`, `(keydown.control.s)`, `(keyup.escape)` only fire for the given key and modifiers." },
+  { "term": "host listeners", "description": "`host: { '(window:resize)': 'measure()' }` listens on the host element, `window` or `document`. Replaces legacy `@HostListener`." },
+  { "term": "(input) vs (change)", "description": "`input` fires on every keystroke; `change` fires when a text field loses focus after being edited." }
+]

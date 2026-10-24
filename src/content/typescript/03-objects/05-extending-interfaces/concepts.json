@@ -1,0 +1,14 @@
+[
+  {
+    "term": "extends (interfaces)",
+    "description": "`interface Child extends Parent` copies every member of `Parent` into `Child`."
+  },
+  {
+    "term": "Multiple inheritance",
+    "description": "An interface may extend several interfaces: `extends A, B, C`."
+  },
+  {
+    "term": "Subtype",
+    "description": "A type with at least the members of another type. A subtype can be used where the parent type is expected."
+  }
+]

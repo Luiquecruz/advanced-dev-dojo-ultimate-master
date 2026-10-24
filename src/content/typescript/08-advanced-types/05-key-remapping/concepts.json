@@ -1,0 +1,6 @@
+[
+  { "term": "Key remapping (`as` clause)", "description": "TypeScript 4.1+: `[K in keyof T as NewKey]` renames each output property while `K` still refers to the original key." },
+  { "term": "Filtering with never", "description": "When the `as` clause resolves to `never`, the property is removed from the result." },
+  { "term": "`string & K`", "description": "Keeps only string keys, which template literal types and `Capitalize` require." },
+  { "term": "Mapping over a union of objects", "description": "`[Member in Union as Member['type']]` derives one property per union member, ideal for discriminated unions." }
+]

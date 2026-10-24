@@ -1,0 +1,41 @@
+[
+  {
+    "question": "Where does React 19 put a `<title>` rendered deep inside a component?",
+    "options": ["Where it is rendered, inside the body", "In `document.head`", "It is ignored", "In a portal you configure"],
+    "answer": 1,
+    "explanation": "`<title>`, `<meta>` and `<link>` are hoisted into the document head and removed when the component unmounts."
+  },
+  {
+    "question": "Why is `<title>{post.title} | Blog</title>` a bug?",
+    "options": [
+      "Titles cannot use expressions",
+      "It produces an array of children, but `<title>` needs a single string",
+      "The pipe character is invalid",
+      "It renders twice"
+    ],
+    "answer": 1,
+    "explanation": "Use a template literal so the title receives one string child."
+  },
+  {
+    "question": "What is the difference between `preload` and `preinit`?",
+    "options": [
+      "None, they are aliases",
+      "`preload` only downloads; `preinit` downloads and executes a script or inserts a stylesheet",
+      "`preinit` only works on the server",
+      "`preload` is for images only"
+    ],
+    "answer": 1,
+    "explanation": "`preinit` goes one step further and evaluates the script or applies the stylesheet."
+  },
+  {
+    "question": "What does `precedence` on `<link rel=\"stylesheet\">` enable?",
+    "options": [
+      "Lazy loading",
+      "Ordering, deduplication and suspending reveal until the stylesheet loads",
+      "CSS Modules",
+      "Inline critical CSS"
+    ],
+    "answer": 1,
+    "explanation": "React manages stylesheets with `precedence`: it orders them, dedupes them and waits for them before showing dependent content."
+  }
+]

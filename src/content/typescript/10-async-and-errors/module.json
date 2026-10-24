@@ -1,0 +1,4 @@
+{
+  "title": "Async, Iteration & Errors",
+  "description": "Typing promises and async functions, catching unknown errors, Result types, iterators, generators, async iterators and explicit resource management with using."
+}

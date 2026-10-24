@@ -1,0 +1,7 @@
+{
+  "title": "useState: A Component's Memory",
+  "summary": "Store values between renders with useState and trigger re-renders through its setter.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "react.dev: State, a Component's Memory", "url": "https://react.dev/learn/state-a-components-memory" }]
+}

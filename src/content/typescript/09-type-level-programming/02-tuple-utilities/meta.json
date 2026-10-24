@@ -1,0 +1,6 @@
+{
+  "title": "Tuple utilities",
+  "summary": "Treat tuples as type-level lists: read their elements and length, destructure them with `infer`, and transform them recursively.",
+  "level": "expert",
+  "tags": ["typescript"]
+}

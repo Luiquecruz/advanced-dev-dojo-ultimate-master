@@ -1,0 +1,9 @@
+[
+  { "term": "Schema function", "description": "Second argument of `form()`. Receives a path tree (`path.email`) on which you declare rules once; they stay reactive." },
+  { "term": "Built-in rules", "description": "`required`, `email`, `min`, `max`, `minLength`, `maxLength`, `pattern`, each with an optional `{ message }` or `{ when }`." },
+  { "term": "validate()", "description": "Custom rule: `validate(path.x, (ctx) => ValidationResult)`. Return `undefined`/`null` when valid or `{ kind, message }` errors." },
+  { "term": "FieldContext", "description": "Argument of rule functions: `value()`, `valueOf(otherPath)`, `stateOf(otherPath)`, `fieldTree`." },
+  { "term": "submit()", "description": "`submit(form, action)` marks fields touched, runs the async action only when valid, tracks `submitting()` and applies returned server errors." },
+  { "term": "Submission errors", "description": "Errors returned by the action with `fieldTree: f.email` are attached to that field until its value changes." },
+  { "term": "Logic rules", "description": "`disabled()`, `hidden()`, `readonly()`, `debounce()`, `applyWhen()` and `validateAsync()`/`validateHttp()` complete the schema toolkit." }
+]

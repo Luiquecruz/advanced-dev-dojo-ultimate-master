@@ -1,0 +1,8 @@
+[
+  { "term": "output()", "description": "Declares a custom event: `saved = output<Item>()`. Emit with `this.saved.emit(item)`; listen with `(saved)=\"...\"`." },
+  { "term": "OutputEmitterRef", "description": "The object returned by `output()`: `emit()` and `subscribe()`. Not a signal, holds no value." },
+  { "term": "outputFromObservable", "description": "From `@angular/core/rxjs-interop`: exposes an observable as an output, subscribed only while the component lives." },
+  { "term": "outputToObservable", "description": "Converts an output into an observable of its emissions." },
+  { "term": "EventEmitter", "description": "Legacy `@Output()` implementation, an RxJS `Subject` subclass. Replaced by `output()`." },
+  { "term": "Presentational component", "description": "Receives data via inputs and reports intent via outputs, leaving state decisions to a container parent." }
+]

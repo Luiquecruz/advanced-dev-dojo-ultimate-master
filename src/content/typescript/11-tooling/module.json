@@ -1,0 +1,4 @@
+{
+  "title": "Modules, Declarations & Tooling",
+  "description": "ES modules and type-only imports, declaration files, tsconfig with the TypeScript 6 defaults, module resolution, the TypeScript 7 native compiler and type stripping."
+}

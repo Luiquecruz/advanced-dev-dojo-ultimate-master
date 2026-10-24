@@ -1,0 +1,11 @@
+{
+  "title": "Pinia Setup Stores",
+  "summary": "Define a store with the Composition API, write async actions with loading and error state, and implement $reset yourself.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "Pinia: Setup Stores", "url": "https://pinia.vuejs.org/core-concepts/#Setup-Stores" },
+    { "label": "Pinia: Actions", "url": "https://pinia.vuejs.org/core-concepts/actions.html" }
+  ]
+}

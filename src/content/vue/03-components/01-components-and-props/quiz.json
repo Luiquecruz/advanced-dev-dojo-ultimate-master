@@ -1,0 +1,5 @@
+[
+  { "question": "What does `<UserCard online=\"false\" />` pass for a `boolean` prop?", "options": ["`false`", "The string `\"false\"`", "`undefined`", "A compile error"], "answer": 1, "explanation": "Without `v-bind` every attribute value is a string. Use `:online=\"false\"` to pass the boolean." },
+  { "question": "Why does `const { role = 'Member' } = defineProps<...>()` stay reactive in Vue 3.5?", "options": ["Destructuring creates refs", "The compiler rewrites `role` to `props.role`", "Props are never reactive", "Vue re-runs setup on every render"], "answer": 1, "explanation": "Reactive props destructure is a compile-time transform: accesses to destructured names become property reads on the reactive props object." },
+  { "question": "A child needs to change a value it received as a prop. What is the idiomatic approach?", "options": ["Assign to the prop directly", "Emit an event so the parent updates its state", "Use `this.$parent`", "Wrap the prop in `reactive()`"], "answer": 1, "explanation": "Props are read-only. The parent owns the data and updates it in response to an emitted event." }
+]

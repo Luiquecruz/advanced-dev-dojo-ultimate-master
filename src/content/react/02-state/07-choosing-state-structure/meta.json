@@ -1,0 +1,10 @@
+{
+  "title": "Choosing the State Structure",
+  "summary": "Avoid redundant, duplicated and contradictory state by deriving values during render.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: Choosing the State Structure", "url": "https://react.dev/learn/choosing-the-state-structure" },
+    { "label": "react.dev: Thinking in React", "url": "https://react.dev/learn/thinking-in-react" }
+  ]
+}

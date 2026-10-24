@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What type does TypeScript infer for `let mode = 'dark'`?",
+    "options": ["`\"dark\"`", "`string`", "`any`", "`unknown`"],
+    "answer": 1,
+    "explanation": "A `let` can be reassigned, so the literal widens to `string`. With `const mode = 'dark'` the type stays `\"dark\"`."
+  },
+  {
+    "question": "Which place almost always needs an explicit annotation in strict mode?",
+    "options": ["Local `const` with an initializer", "Callback parameters passed to `map`", "Function parameters", "Return type of a private helper"],
+    "answer": 2,
+    "explanation": "Nothing tells the compiler what callers will pass, so an unannotated parameter is an implicit `any` and strict mode reports it."
+  },
+  {
+    "question": "In `[1, 2, 3].map((value) => value * 2)`, why is `value` a `number`?",
+    "options": ["Contextual typing from `map`'s signature", "Because `*` only works with numbers", "Implicit `any` defaults to number", "Return type inference"],
+    "answer": 0,
+    "explanation": "`map` is declared on `number[]` with a callback `(value: number, ...) => U`, and the arrow function picks up that parameter type from its position."
+  }
+]

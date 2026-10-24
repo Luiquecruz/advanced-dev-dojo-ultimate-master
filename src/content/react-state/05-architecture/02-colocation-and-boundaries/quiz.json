@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A product page has two `QuantityPicker`s (main product and an accessory). Both read `quantity` from the global store, so changing one changes the other. What is the right fix?",
+    "options": [
+      "Add `quantityMain` and `quantityAccessory` to the store",
+      "Make quantity local state in each picker (or owned by each product card), lifting it only to the parent that submits it",
+      "Debounce the store updates",
+      "Move quantity to Context"
+    ],
+    "answer": 1,
+    "explanation": "The value belongs to each instance. Global state made the instances share it by accident; colocating it (or lifting to the owner that needs it) restores independence."
+  },
+  {
+    "question": "A 'Create invoice' modal stores its open flag in Redux. After navigating to another page and back, the modal is unexpectedly open. What does this illustrate?",
+    "options": [
+      "A Redux bug",
+      "Global UI state outlives the screen that owns it; local state would reset on unmount",
+      "The need for `redux-persist`",
+      "A missing `useEffect` cleanup in the router"
+    ],
+    "answer": 1,
+    "explanation": "Local state is tied to the component's lifetime. Moving screen-specific UI flags into a global store makes them survive navigation."
+  },
+  {
+    "question": "A comment draft should survive navigating away and back to the same post. Where should it live?",
+    "options": [
+      "`useState` in the comment box",
+      "Somewhere that outlives the component, keyed by post id: a small store or `sessionStorage`",
+      "The URL hash",
+      "TanStack Query"
+    ],
+    "answer": 1,
+    "explanation": "Persistence across unmounts is a legitimate reason to promote state. Key it by post id so drafts never leak between posts."
+  },
+  {
+    "question": "`Header` uses `const { theme } = useAppStore()` with Zustand and re-renders on every keystroke in a search box whose text is also in the store. Which two changes address the cause?",
+    "options": [
+      "Wrap `Header` in `memo` and add `useCallback` everywhere",
+      "Use a selector `useAppStore((state) => state.theme)` and move the search text out of the global store",
+      "Split the app into micro-frontends",
+      "Switch to Redux"
+    ],
+    "answer": 1,
+    "explanation": "Without a selector, `Header` subscribes to the whole store. A narrow selector fixes the subscription, and colocating the search text (local or URL) removes the needless global writes."
+  }
+]

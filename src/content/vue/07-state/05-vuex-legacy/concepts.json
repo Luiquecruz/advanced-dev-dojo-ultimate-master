@@ -1,0 +1,6 @@
+[
+  { "term": "Vuex", "description": "The original official store for Vue 2/3, now in maintenance mode. Uses state, getters, mutations, actions and modules." },
+  { "term": "Mutation", "description": "Vuex-only synchronous function that changes state, triggered with `commit`. Pinia has no mutations." },
+  { "term": "dispatch / commit", "description": "String-based calls to Vuex actions and mutations, e.g. `store.dispatch('cart/checkout')`." },
+  { "term": "Namespaced module", "description": "A Vuex sub-store with `namespaced: true`, addressed with `module/name` strings. In Pinia each store is already separate." }
+]

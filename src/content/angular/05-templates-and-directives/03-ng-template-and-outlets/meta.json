@@ -1,0 +1,10 @@
+{
+  "title": "ng-template and Template Outlets",
+  "summary": "Use ng-template, ng-container, template reference variables, NgTemplateOutlet contexts and @let to build customizable components.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [
+    { "label": "angular.dev: ng-template", "url": "https://angular.dev/guide/templates/ng-template" },
+    { "label": "angular.dev: ng-container", "url": "https://angular.dev/guide/templates/ng-container" }
+  ]
+}

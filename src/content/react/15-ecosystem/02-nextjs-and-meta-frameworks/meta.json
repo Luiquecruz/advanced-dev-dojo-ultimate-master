@@ -1,0 +1,12 @@
+{
+  "title": "Next.js and Meta-Frameworks",
+  "summary": "Next.js 16 (App Router, Cache Components, proxy.ts), React Router framework mode, TanStack Start, Astro and how to choose.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "theory", "new"],
+  "resources": [
+    { "label": "Next.js 16 release notes", "url": "https://nextjs.org/blog/next-16" },
+    { "label": "React Router: Picking a mode", "url": "https://reactrouter.com/start/modes" },
+    { "label": "react.dev: Creating a React App", "url": "https://react.dev/learn/creating-a-react-app" },
+    { "label": "TanStack Start", "url": "https://tanstack.com/start" }
+  ]
+}

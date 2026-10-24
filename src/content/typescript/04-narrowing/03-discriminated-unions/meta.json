@@ -1,0 +1,6 @@
+{
+  "title": "Discriminated unions",
+  "summary": "Model states as a union of tagged objects so impossible combinations do not compile and a single check narrows the whole object.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

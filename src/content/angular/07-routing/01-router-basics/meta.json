@@ -1,0 +1,10 @@
+{
+  "title": "Router Basics",
+  "summary": "Declare routes, provide the router, render pages in a router-outlet and navigate with routerLink and routerLinkActive.",
+  "level": "beginner",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "angular.dev: Routing overview", "url": "https://angular.dev/guide/routing" },
+    { "label": "angular.dev: Define routes", "url": "https://angular.dev/guide/routing/define-routes" }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Declaration merging",
+    "description": "Several `interface` declarations with the same name in the same scope combine into one type."
+  },
+  {
+    "term": "Module augmentation",
+    "description": "Adding members to an interface declared elsewhere, e.g. a library type or a global with `declare global`."
+  },
+  {
+    "term": "Open vs closed types",
+    "description": "Interfaces can be reopened and extended in place. Type aliases cannot be redeclared."
+  }
+]

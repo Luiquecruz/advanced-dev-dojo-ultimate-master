@@ -1,0 +1,6 @@
+{
+  "title": "Pick and Omit",
+  "summary": "Derive DTOs and views from a model by selecting or removing keys, and avoid the classic Omit traps.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

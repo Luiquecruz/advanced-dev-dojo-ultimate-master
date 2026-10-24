@@ -1,0 +1,6 @@
+{
+  "title": "typeof, instanceof and in narrowing",
+  "summary": "Narrow unions with the JavaScript checks TypeScript understands, and stop using type assertions as fake checks.",
+  "level": "beginner",
+  "tags": ["core"]
+}

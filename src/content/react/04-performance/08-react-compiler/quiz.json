@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What does React Compiler do?",
+    "options": [
+      "Compiles JSX to native mobile code",
+      "Automatically memoizes components, values and callbacks at build time",
+      "Replaces the virtual DOM with direct DOM updates",
+      "Converts class components to function components"
+    ],
+    "answer": 1,
+    "explanation": "It is a build-time optimizer that inserts fine-grained memoization based on data-flow analysis, replacing most manual `memo`, `useMemo` and `useCallback`."
+  },
+  {
+    "question": "The compiler finds a component that mutates a prop during render. What does it do?",
+    "options": [
+      "Fails the build",
+      "Rewrites the mutation into an immutable update",
+      "Skips optimizing that component and leaves it as written",
+      "Throws at runtime"
+    ],
+    "answer": 2,
+    "explanation": "When it detects a Rules of React violation, the compiler bails out for that function. The lint rules in `eslint-plugin-react-hooks` surface the problem so you can fix it."
+  },
+  {
+    "question": "How do you temporarily exclude one component from compilation?",
+    "options": [
+      "Wrap it in `memo`",
+      "Add the `'use no memo'` directive at the top of the function",
+      "Rename it to start with a lowercase letter",
+      "Add `// @ts-ignore` above it"
+    ],
+    "answer": 1,
+    "explanation": "`'use no memo'` is the opt-out escape hatch. With `compilationMode: 'annotation'`, the inverse applies: only functions with `'use memo'` are compiled."
+  },
+  {
+    "question": "Your app runs React 18. Can it use React Compiler?",
+    "options": [
+      "No, only React 19+",
+      "Yes, with `target: '18'` and the `react-compiler-runtime` package",
+      "Yes, but only in development",
+      "Only through Next.js"
+    ],
+    "answer": 1,
+    "explanation": "React 19 ships the compiler runtime (`react/compiler-runtime`). For React 17 and 18 set the target option and install `react-compiler-runtime`."
+  },
+  {
+    "question": "What should you do with existing `useMemo` and `useCallback` calls when enabling the compiler?",
+    "options": [
+      "Delete all of them immediately",
+      "Keep them; the compiler preserves them, and removing them can change effect behavior",
+      "Convert them to `memo`",
+      "Wrap them in `'use no memo'`"
+    ],
+    "answer": 1,
+    "explanation": "Manual memoization may be relied on as an effect dependency contract. Leave it, write new code without it, and remove old calls carefully with tests."
+  }
+]

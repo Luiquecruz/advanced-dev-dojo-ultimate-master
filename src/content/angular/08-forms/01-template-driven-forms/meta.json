@@ -1,0 +1,10 @@
+{
+  "title": "Template-Driven Forms",
+  "summary": "Build a form with FormsModule, two-way ngModel bindings to signals, validator attributes and NgForm submission.",
+  "level": "beginner",
+  "tags": ["core", "legacy"],
+  "resources": [
+    { "label": "angular.dev: Template-driven forms", "url": "https://angular.dev/guide/forms/template-driven-forms" },
+    { "label": "angular.dev: Forms overview", "url": "https://angular.dev/guide/forms" }
+  ]
+}

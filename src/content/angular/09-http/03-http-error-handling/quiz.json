@@ -1,0 +1,26 @@
+[
+  {
+    "question": "Why should a 404 not be retried?",
+    "options": ["Retries are forbidden for GET", "It is a permanent client-side condition; repeating the request gives the same answer and wastes time", "Angular retries 404 automatically", "404 means the network is down"],
+    "answer": 1,
+    "explanation": "Retry transient failures (5xx, timeouts, maybe status 0). 4xx responses describe the request itself and won't change on retry."
+  },
+  {
+    "question": "What happens with `pipe(catchError(...), retry(2))`?",
+    "options": ["Same as retry first", "catchError handles the first failure, so retry never sees an error to retry (unless catchError rethrows)", "It retries 2 times then catches", "It throws a compile error"],
+    "answer": 1,
+    "explanation": "Operators apply in order. Put `retry` before `catchError` so failures are retried before being mapped."
+  },
+  {
+    "question": "Which value does `HttpErrorResponse.status` have when the browser is offline?",
+    "options": ["500", "404", "0", "-1"],
+    "answer": 2,
+    "explanation": "Status 0 means no HTTP response was received."
+  },
+  {
+    "question": "Why is an exponential or growing delay preferable to retrying immediately?",
+    "options": ["It is required by HttpClient", "It gives an overloaded server time to recover and avoids synchronized retry storms", "It makes tests faster", "It avoids CORS errors"],
+    "answer": 1,
+    "explanation": "Immediate retries hammer a struggling service. Backoff (often with jitter) spreads the load."
+  }
+]

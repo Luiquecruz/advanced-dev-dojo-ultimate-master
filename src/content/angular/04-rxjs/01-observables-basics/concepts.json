@@ -1,0 +1,8 @@
+[
+  { "term": "Observable", "description": "A lazy push-based stream that can emit zero or more values and then complete or error." },
+  { "term": "Observer", "description": "The `{ next, error, complete }` object (or a single `next` function) passed to `subscribe()`." },
+  { "term": "Subscription", "description": "Returned by `subscribe()`. `unsubscribe()` stops delivery and runs the teardown." },
+  { "term": "Teardown", "description": "Function returned from the producer of `new Observable`; cleans up timers, listeners or requests." },
+  { "term": "Cold observable", "description": "Each subscriber triggers its own execution of the producer (HTTP, `interval`)." },
+  { "term": "`firstValueFrom` / `lastValueFrom`", "description": "Convert an observable into a Promise of its first or last value." }
+]

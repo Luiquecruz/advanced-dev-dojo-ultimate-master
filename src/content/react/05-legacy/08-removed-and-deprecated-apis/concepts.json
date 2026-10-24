@@ -1,0 +1,7 @@
+[
+  { "term": "createClass", "description": "Pre-ES2015 component factory with auto-binding and mixins. Moved to `create-react-class`, removed from React 16." },
+  { "term": "Legacy context", "description": "`childContextTypes`/`getChildContext`/`contextTypes`. Removed in React 19; use `createContext`." },
+  { "term": "Legacy root API", "description": "`ReactDOM.render`, `hydrate`, `unmountComponentAtNode`. Removed in React 19; use `createRoot`/`hydrateRoot`." },
+  { "term": "findDOMNode", "description": "Returned a class instance's first DOM node. Removed in React 19; use refs." },
+  { "term": "React 18.3", "description": "Transitional release that warns about every API removed in React 19." }
+]

@@ -1,0 +1,6 @@
+{
+  "title": "Assertion functions",
+  "summary": "Throw on invalid data and narrow everything after the call with `asserts condition` and `asserts value is Type`.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

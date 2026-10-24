@@ -1,0 +1,10 @@
+{
+  "title": "The use() API",
+  "summary": "Read promises and context during render, conditionally, with Suspense handling the loading state.",
+  "level": "advanced",
+  "tags": ["modern", "new", "core"],
+  "resources": [
+    { "label": "react.dev: use", "url": "https://react.dev/reference/react/use" },
+    { "label": "react.dev: browser", "url": "https://react.dev/reference/react-dom/browser" }
+  ]
+}

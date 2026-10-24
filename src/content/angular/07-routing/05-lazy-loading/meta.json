@@ -1,0 +1,10 @@
+{
+  "title": "Lazy Loading Routes",
+  "summary": "Split pages and feature areas into on-demand chunks with loadComponent and loadChildren, preload them and avoid the classic pitfalls.",
+  "level": "intermediate",
+  "tags": ["core", "performance", "theory"],
+  "resources": [
+    { "label": "angular.dev: Lazy loading routes", "url": "https://angular.dev/guide/routing/define-routes#lazily-loaded-components-and-routes" },
+    { "label": "angular.dev: Customizing route behavior (preloading)", "url": "https://angular.dev/guide/routing/customizing-route-behavior" }
+  ]
+}

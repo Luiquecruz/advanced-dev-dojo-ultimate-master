@@ -1,0 +1,11 @@
+{
+  "title": "SSR and Hydration",
+  "summary": "Server rendering, prerendering and per-route render modes, non-destructive hydration, event replay and incremental hydration with @defer hydrate triggers.",
+  "level": "advanced",
+  "tags": ["ecosystem", "performance", "theory", "new"],
+  "resources": [
+    { "label": "angular.dev: Server-side and hybrid rendering", "url": "https://angular.dev/guide/ssr" },
+    { "label": "angular.dev: Hydration", "url": "https://angular.dev/guide/hydration" },
+    { "label": "angular.dev: Incremental hydration", "url": "https://angular.dev/guide/incremental-hydration" }
+  ]
+}

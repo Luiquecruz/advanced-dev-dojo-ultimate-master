@@ -1,0 +1,6 @@
+[
+  { "term": "useRef", "description": "`useRef(initial)` returns the same `{ current }` object on every render. Changing `current` does **not** re-render." },
+  { "term": "Mutable instance value", "description": "Data an event handler or effect needs across renders but the UI does not display, like a timer id or an `AbortController`." },
+  { "term": "DOM ref", "description": "`<input ref={inputRef} />` makes React set `inputRef.current` to the DOM node after commit and back to `null` on unmount." },
+  { "term": "Escape hatch", "description": "Refs step outside React's data flow. Avoid reading or writing `ref.current` during render; use state for anything shown on screen." }
+]

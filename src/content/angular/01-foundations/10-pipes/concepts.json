@@ -1,0 +1,8 @@
+[
+  { "term": "Pipe", "description": "A template formatter applied with `|`: `{{ value | pipeName: arg1 : arg2 }}`." },
+  { "term": "Built-in pipes", "description": "`DatePipe`, `CurrencyPipe`, `DecimalPipe`, `PercentPipe`, `UpperCasePipe`, `TitleCasePipe`, `SlicePipe`, `JsonPipe`, `KeyValuePipe`, `AsyncPipe` from `@angular/common`." },
+  { "term": "PipeTransform", "description": "Interface with `transform(value, ...args)`, implemented by custom pipes." },
+  { "term": "Pure pipe", "description": "The default. Re-runs only when the input reference or an argument changes." },
+  { "term": "Impure pipe", "description": "`pure: false`; runs on every change detection of the view (e.g. `async`). Use sparingly." },
+  { "term": "LOCALE_ID", "description": "Injection token that controls locale-aware formatting; defaults to `en-US`." }
+]

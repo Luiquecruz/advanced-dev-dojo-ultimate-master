@@ -1,0 +1,11 @@
+{
+  "title": "Nested & Named Routes",
+  "summary": "Share layouts with nested routes, fill several outlets with named views and use redirects for default children.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "Vue Router: Nested Routes", "url": "https://router.vuejs.org/guide/essentials/nested-routes.html" },
+    { "label": "Vue Router: Named Views", "url": "https://router.vuejs.org/guide/essentials/named-views.html" }
+  ]
+}

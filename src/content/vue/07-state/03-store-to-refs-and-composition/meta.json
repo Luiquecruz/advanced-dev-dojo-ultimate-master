@@ -1,0 +1,11 @@
+{
+  "title": "storeToRefs & Store Composition",
+  "summary": "Destructure stores safely with storeToRefs and build stores that derive data from other stores.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "Pinia: Destructuring from a Store", "url": "https://pinia.vuejs.org/core-concepts/#Destructuring-from-a-Store" },
+    { "label": "Pinia: Composing Stores", "url": "https://pinia.vuejs.org/cookbook/composing-stores.html" }
+  ]
+}

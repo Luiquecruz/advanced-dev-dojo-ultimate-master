@@ -1,0 +1,6 @@
+[
+  { "term": "Generic interface", "description": "An interface with type parameters, such as `Page<T>`. It must receive type arguments when used as a type." },
+  { "term": "Generic class", "description": "A class whose instance members share a type parameter, e.g. `class Stack<T>`." },
+  { "term": "Static members and T", "description": "Static members cannot reference the class type parameter because a single class object serves every instantiation." },
+  { "term": "Type erasure", "description": "Type arguments do not exist at runtime: `Stack<number>` and `Stack<string>` are the same JavaScript class." }
+]

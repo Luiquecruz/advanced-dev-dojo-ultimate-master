@@ -1,0 +1,8 @@
+[
+  { "term": "Data router", "description": "Router created with `createBrowserRouter` / `createMemoryRouter` and rendered with `<RouterProvider>`. Enables loaders, actions and pending UI." },
+  { "term": "loader", "description": "Function on a route that receives `{ params, request }` and returns data before the route renders." },
+  { "term": "useLoaderData", "description": "Returns the data from the current route's loader." },
+  { "term": "errorElement", "description": "Element rendered instead of the route element when its loader or render throws. Read the error with `useRouteError()`." },
+  { "term": "data(body, init)", "description": "Creates a response with a status; thrown from a loader it becomes an error recognized by `isRouteErrorResponse`." },
+  { "term": "useNavigation", "description": "Global navigation state: `idle`, `loading` or `submitting`." }
+]

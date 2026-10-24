@@ -1,0 +1,7 @@
+[
+  { "term": "Type guard", "description": "A runtime check the compiler understands, which narrows a type inside the guarded branch." },
+  { "term": "typeof guard", "description": "Narrows primitives. Remember that `typeof null` is `\"object\"`." },
+  { "term": "instanceof guard", "description": "Narrows to class instances by checking the prototype chain. Does not work with interfaces or type aliases." },
+  { "term": "in guard", "description": "`'key' in value` narrows object unions by the presence of a property." },
+  { "term": "Type assertion", "description": "`value as T` changes the static type without any runtime check. An escape hatch, not a guard." }
+]

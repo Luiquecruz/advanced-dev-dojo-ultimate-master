@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What is the type of `const point = { x: 1 }`?",
+    "options": ["`{ x: 1 }`", "`{ readonly x: 1 }`", "`{ x: number }`", "`{ readonly x: number }`"],
+    "answer": 2,
+    "explanation": "The variable is const, but its properties are mutable, so `x` widens to `number`. Only `as const` would give `{ readonly x: 1 }`."
+  },
+  {
+    "question": "What does `as const` do at runtime?",
+    "options": ["Freezes the object", "Nothing, it only changes the inferred type", "Converts the array to a tuple object", "Makes properties non-enumerable"],
+    "answer": 1,
+    "explanation": "Const assertions are erased during compilation. Use `Object.freeze` when you need runtime immutability."
+  },
+  {
+    "question": "Given `const LEVELS = ['low', 'high'] as const`, which type is `\"low\" | \"high\"`?",
+    "options": ["`typeof LEVELS`", "`keyof typeof LEVELS`", "`(typeof LEVELS)[number]`", "`LEVELS[number]`"],
+    "answer": 2,
+    "explanation": "`typeof LEVELS` is the tuple type; indexing it with `number` yields the union of its elements. `LEVELS[number]` is invalid because `LEVELS` is a value, not a type."
+  }
+]

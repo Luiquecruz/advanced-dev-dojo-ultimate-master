@@ -1,0 +1,7 @@
+[
+  { "term": "Recursive type alias", "description": "A type that references itself, e.g. `type JsonValue = ... | JsonValue[]`. Direct self-reference in aliases works since TypeScript 3.7." },
+  { "term": "Recursive conditional type", "description": "TypeScript 4.1+: a conditional type that calls itself in a branch, used as a type-level loop." },
+  { "term": "Base case", "description": "The branch that stops the recursion, usually the false branch of the conditional type." },
+  { "term": "Tail recursion", "description": "TypeScript 4.5+ evaluates conditional types whose branch is exactly the recursive call in a loop, allowing up to 1000 iterations." },
+  { "term": "Accumulator", "description": "An extra type parameter with a default (`Acc extends unknown[] = []`) that carries the partial result, enabling tail recursion." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Observable / observer (MobX)", "description": "`makeAutoObservable(this)` makes fields observable. Components wrapped in `observer` re-render when an observable they read changes." },
+  { "term": "Computed (MobX)", "description": "A getter on an observable class. Cached and recomputed only when its dependencies change; never store derived values as fields." },
+  { "term": "Action / runInAction", "description": "Methods become actions that batch writes. After an `await`, wrap writes in `runInAction` (or use `flow`)." },
+  { "term": "proxy / useSnapshot (Valtio)", "description": "`proxy(obj)` creates mutable tracked state. `useSnapshot(state)` returns a frozen snapshot and re-renders when accessed properties change." },
+  { "term": "Snapshot rule", "description": "Read from the snapshot in render, write to the proxy in handlers. Writing to a snapshot throws; reading the proxy in render does not subscribe." },
+  { "term": "MobX 7", "description": "Proxy-only, legacy decorators removed, `observable.ref`-style helpers became named exports (`observableRef`), and `Provider`/`inject` were removed from the React bindings." }
+]

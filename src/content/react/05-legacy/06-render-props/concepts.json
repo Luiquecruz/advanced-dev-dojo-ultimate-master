@@ -1,0 +1,6 @@
+[
+  { "term": "Render prop", "description": "A function prop that returns JSX, letting the caller decide what to render with the component's state: `<Mouse render={(pos) => ...} />`." },
+  { "term": "Children as a function", "description": "Render-prop variant where `children` is the function: `<Toggle>{({ on }) => ...}</Toggle>`." },
+  { "term": "Render props hell", "description": "Deeply nested callbacks when several render-prop components are combined. Hooks flatten it." },
+  { "term": "renderItem", "description": "A render prop that is still idiomatic today: lists, tables and comboboxes let callers render each row or option." }
+]

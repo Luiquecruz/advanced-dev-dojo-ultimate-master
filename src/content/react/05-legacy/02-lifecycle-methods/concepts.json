@@ -1,0 +1,7 @@
+[
+  { "term": "componentDidMount", "description": "Runs once after the first commit. Start requests, subscriptions and timers here." },
+  { "term": "componentDidUpdate(prevProps, prevState)", "description": "Runs after every re-render commit (not after mount). Compare with `prevProps`/`prevState` before acting to avoid loops." },
+  { "term": "componentWillUnmount", "description": "Runs before the instance is removed. Undo everything started in `componentDidMount`." },
+  { "term": "Render phase vs commit phase", "description": "`render` must be pure and may run more than once. Lifecycle methods named `componentDid*` run after the DOM is updated and may cause side effects." },
+  { "term": "Instance fields", "description": "Values stored on `this` (timer ids, controllers) survive renders without triggering them, like `useRef` in function components." }
+]

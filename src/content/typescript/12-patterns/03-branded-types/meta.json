@@ -1,0 +1,10 @@
+{
+  "title": "Branded types",
+  "summary": "Make structurally identical primitives incompatible with phantom brands and smart constructors that validate once.",
+  "level": "advanced",
+  "tags": ["modern"],
+  "resources": [
+    { "label": "TypeScript Handbook: unique symbol", "url": "https://www.typescriptlang.org/docs/handbook/symbols.html#unique-symbol" },
+    { "label": "Zod: API reference (brand)", "url": "https://zod.dev/api" }
+  ]
+}

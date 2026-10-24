@@ -1,0 +1,7 @@
+[
+  { "term": "Accessor", "description": "`get`/`set` methods used with property syntax. A getter without a setter is typed as `readonly`." },
+  { "term": "Static member", "description": "A property or method on the class itself, shared by all instances and accessed as `ClassName.member`." },
+  { "term": "Static block", "description": "`static { ... }` runs once when the class is defined, with access to private static members." },
+  { "term": "Private constructor", "description": "`private constructor()` forbids `new` outside the class, forcing callers through static factories." },
+  { "term": "Auto-accessor", "description": "`accessor name = value` generates a private backing field with a getter and setter (TS 4.9+)." }
+]

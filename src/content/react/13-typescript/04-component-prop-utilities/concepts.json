@@ -1,0 +1,8 @@
+[
+  { "term": "ComponentProps<T>", "description": "Props of an intrinsic element (`'button'`) or component (`typeof Button`). Includes `ref` in React 19 types." },
+  { "term": "ComponentPropsWithoutRef", "description": "Same props without `ref`. Common in pre-React 19 code combined with `forwardRef`." },
+  { "term": "PropsWithChildren<P>", "description": "`P & { children?: ReactNode }`: adds optional children." },
+  { "term": "Omit<T, K>", "description": "Removes keys from a type, used to drop or replace native props before intersecting." },
+  { "term": "Discriminated props", "description": "A union of prop shapes keyed by a literal prop, so only valid combinations type-check. `never` forbids a prop in a branch." },
+  { "term": "ComponentRef<T>", "description": "The instance or element type a component's ref points to. Replaces the deprecated `ElementRef`." }
+]

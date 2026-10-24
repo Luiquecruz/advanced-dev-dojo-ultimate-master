@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Type alias",
+    "description": "Names any type: unions, tuples, functions, primitives or object shapes. Cannot be redeclared."
+  },
+  {
+    "term": "Interface",
+    "description": "Names an object shape. Supports `extends`, `implements` and declaration merging, but cannot be a union."
+  },
+  {
+    "term": "Labeled tuple",
+    "description": "`[channel: NotificationChannel, enabled: boolean]` adds documentation names to tuple positions without changing the type."
+  }
+]

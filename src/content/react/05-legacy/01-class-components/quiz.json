@@ -1,0 +1,25 @@
+[
+  {
+    "question": "`this.state` is `{ count: 0, label: 'Clicks' }`. What is the state after `this.setState({ count: 1 })`?",
+    "options": ["`{ count: 1 }`", "`{ count: 1, label: 'Clicks' }`", "`{ label: 'Clicks' }`", "It throws because `label` is missing"],
+    "answer": 1,
+    "explanation": "Class `setState` shallowly merges the object into the current state. The `useState` setter, by contrast, replaces the whole value."
+  },
+  {
+    "question": "Why does `onClick={this.save}` crash with `Cannot read properties of undefined (reading 'setState')` when `save` is a regular method?",
+    "options": [
+      "Because event handlers cannot call setState",
+      "Because the method is called without its `this` binding",
+      "Because `save` must be static",
+      "Because classes need `useCallback`"
+    ],
+    "answer": 1,
+    "explanation": "React calls the function detached from the instance, so `this` is `undefined` in strict-mode class bodies. Bind it in the constructor or use an arrow class field."
+  },
+  {
+    "question": "Which feature still REQUIRES a class component in React 19?",
+    "options": ["Local state", "Refs to DOM nodes", "Error boundaries", "Context consumption"],
+    "answer": 2,
+    "explanation": "`getDerivedStateFromError` and `componentDidCatch` have no hook equivalent yet, so error boundaries are still classes (or a library that wraps one)."
+  }
+]

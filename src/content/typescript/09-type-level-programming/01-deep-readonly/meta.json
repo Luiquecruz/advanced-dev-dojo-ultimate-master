@@ -1,0 +1,6 @@
+{
+  "title": "DeepReadonly and friends",
+  "summary": "Build deep versions of `Readonly` and `Partial` with recursive mapped types, keeping functions callable and arrays intact.",
+  "level": "expert",
+  "tags": ["typescript"]
+}

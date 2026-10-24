@@ -1,0 +1,7 @@
+[
+  { "term": "External store", "description": "State held outside React (a module, a browser API, a library) that components read and subscribe to." },
+  { "term": "useSyncExternalStore", "description": "`useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?)` reads an external store consistently and re-renders on change." },
+  { "term": "Snapshot", "description": "The value returned by `getSnapshot`. It must stay `Object.is` equal while the store is unchanged." },
+  { "term": "Tearing", "description": "Visual inconsistency where parts of the UI show different versions of the same store during a concurrent render." },
+  { "term": "Selector", "description": "A function picking a slice of the state, so components re-render only when that slice changes." }
+]

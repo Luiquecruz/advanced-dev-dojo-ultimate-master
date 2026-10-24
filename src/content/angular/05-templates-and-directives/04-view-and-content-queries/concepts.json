@@ -1,0 +1,8 @@
+[
+  { "term": "`viewChild()` / `viewChildren()`", "description": "Signal queries for elements, components or directives in the component's own template." },
+  { "term": "`contentChild()` / `contentChildren()`", "description": "Signal queries for nodes projected into the component through `<ng-content>`." },
+  { "term": "`.required`", "description": "`viewChild.required()` / `contentChild.required()` return a non-undefined signal and throw if the match is missing." },
+  { "term": "`read` option", "description": "Chooses what the query returns from a matched node: `ElementRef`, `ViewContainerRef`, `TemplateRef` or a directive." },
+  { "term": "`QueryList`", "description": "Legacy result type of `@ViewChildren`/`@ContentChildren` with a `changes` observable." },
+  { "term": "`descendants`", "description": "Content query option to match nested nodes instead of only direct children." }
+]

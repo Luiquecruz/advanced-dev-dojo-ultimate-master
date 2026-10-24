@@ -1,0 +1,8 @@
+[
+  { "term": "beforeEach", "description": "Global guard run before every navigation. Return `false` to cancel, a location to redirect, or nothing to continue." },
+  { "term": "afterEach", "description": "Global hook run after a navigation is confirmed. It cannot cancel; use it for titles, analytics and focus." },
+  { "term": "beforeEnter", "description": "Guard declared on a route record. Runs only when entering that route, not on param/query changes." },
+  { "term": "onBeforeRouteLeave", "description": "Composition API in-component guard, e.g. to confirm leaving a page with unsaved changes." },
+  { "term": "RouteMeta", "description": "Custom data on route records (`meta`). Augment the `RouteMeta` interface to type it." },
+  { "term": "next() (deprecated)", "description": "The legacy third guard argument. Vue Router 5 warns when it is used; return values replace it." }
+]

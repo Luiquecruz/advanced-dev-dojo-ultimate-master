@@ -1,0 +1,6 @@
+{
+  "title": "Recursive types",
+  "summary": "Describe self-similar data like JSON and trees, and write recursive conditional types with base cases, tail recursion and depth limits in mind.",
+  "level": "advanced",
+  "tags": ["core", "typescript"]
+}

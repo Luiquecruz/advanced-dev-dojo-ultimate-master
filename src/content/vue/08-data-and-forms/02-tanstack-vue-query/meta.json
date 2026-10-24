@@ -1,0 +1,11 @@
+{
+  "title": "TanStack Vue Query",
+  "summary": "Cache server state with useQuery, write with useMutation and refresh lists with invalidateQueries.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "modern"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "TanStack Query: Vue Overview", "url": "https://tanstack.com/query/latest/docs/framework/vue/overview" },
+    { "label": "TanStack Query: Invalidations from Mutations", "url": "https://tanstack.com/query/latest/docs/framework/vue/guides/invalidations-from-mutations" }
+  ]
+}

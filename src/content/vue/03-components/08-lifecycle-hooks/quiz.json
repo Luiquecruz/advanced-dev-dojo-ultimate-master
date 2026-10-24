@@ -1,0 +1,6 @@
+[
+  { "question": "Where should you read a template ref or call `element.focus()`?", "options": ["Directly in `<script setup>`", "In `onMounted` or later", "In `onBeforeMount`", "In `onBeforeUnmount` only"], "answer": 1, "explanation": "The DOM exists from `onMounted` onward; during setup and `onBeforeMount` it has not been created yet." },
+  { "question": "What is the Composition API equivalent of `created()`?", "options": ["`onCreated()`", "The setup body itself", "`onBeforeMount()`", "`watchEffect()`"], "answer": 1, "explanation": "`setup` runs at creation time, so code written directly in it plays the role of `beforeCreate`/`created`." },
+  { "question": "What happens if you register `onMounted` after an `await` inside setup?", "options": ["It works normally", "Vue warns: there is no active component instance anymore", "It runs twice", "It runs on the server"], "answer": 1, "explanation": "Hooks attach to the current instance, which is only set during synchronous setup. Register hooks before the first `await`." },
+  { "question": "Vue 2's `beforeDestroy` hook is called what in Vue 3?", "options": ["`beforeRemove`", "`beforeUnmount`", "`onDestroy`", "`deactivated`"], "answer": 1, "explanation": "`beforeDestroy`/`destroyed` were renamed `beforeUnmount`/`unmounted`." }
+]

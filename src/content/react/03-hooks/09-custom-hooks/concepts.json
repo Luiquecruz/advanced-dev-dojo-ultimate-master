@@ -1,0 +1,6 @@
+[
+  { "term": "Custom Hook", "description": "A `use`-prefixed function that calls other Hooks to package reusable stateful logic." },
+  { "term": "Independent state", "description": "Every call to a custom Hook has its own state and Effects; Hooks share logic, not data." },
+  { "term": "Lazy initial state", "description": "`useState(() => compute())` runs `compute` only on the first render." },
+  { "term": "renderHook", "description": "Testing Library helper that runs a Hook inside a test component and exposes `result.current`." }
+]

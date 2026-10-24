@@ -1,0 +1,11 @@
+{
+  "title": "Router Basics",
+  "summary": "Create a router, declare named routes, render them with RouterView and navigate with RouterLink.",
+  "level": "beginner",
+  "tags": ["core", "ecosystem"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "Vue Router: Getting Started", "url": "https://router.vuejs.org/guide/" },
+    { "label": "Vue Router: Migrating to v5", "url": "https://router.vuejs.org/guide/migration/v4-to-v5" }
+  ]
+}

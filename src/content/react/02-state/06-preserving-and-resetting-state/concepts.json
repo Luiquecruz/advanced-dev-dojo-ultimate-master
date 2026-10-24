@@ -1,0 +1,6 @@
+[
+  { "term": "Position in the tree", "description": "React attaches state to where a component is rendered. Same type + same position = state preserved." },
+  { "term": "Type change", "description": "Rendering a different component or element type at a position destroys the old subtree and its state." },
+  { "term": "key for identity", "description": "Changing a component's `key` makes React treat it as a new instance, resetting its state." },
+  { "term": "Resetting with effects", "description": "Clearing state in an effect when a prop changes is an anti-pattern; prefer a `key`." }
+]

@@ -1,0 +1,63 @@
+[
+  {
+    "question": "A dashboard stores `/api/projects` in a Zustand store with `projects`, `isLoading` and `error`, filled by a `fetchProjects` action. After creating a project in another tab, users see stale data. What is the root problem?",
+    "options": [
+      "Zustand is too slow for lists",
+      "Server state was treated as client state: there is no staleness, revalidation or invalidation strategy",
+      "`isLoading` should be in the URL",
+      "The store should use Immer"
+    ],
+    "answer": 1,
+    "explanation": "A client store holds what you last set. Server data needs a cache that knows when it is stale and refetches on focus, mount or invalidation. Move it to TanStack Query or RTK Query."
+  },
+  {
+    "question": "A list of countries changes a few times a year, and a stock price changes every second. How should `staleTime` differ?",
+    "options": [
+      "Both should use the default `0`",
+      "Countries: long (hours or `Infinity` with manual invalidation); prices: short, plus polling or server push",
+      "Countries: `0`; prices: `Infinity`",
+      "`staleTime` only affects mutations"
+    ],
+    "answer": 1,
+    "explanation": "Freshness is a per-resource business decision. Rarely changing data can be trusted for long; volatile data needs short freshness and active updates."
+  },
+  {
+    "question": "Three components mount at once and each calls `useQuery({ queryKey: ['me'], queryFn: fetchMe })`. How many requests does TanStack Query make?",
+    "options": ["Three", "One, shared by all three", "Zero until one of them calls `refetch`", "Two"],
+    "answer": 1,
+    "explanation": "Requests are deduplicated per key: concurrent observers of the same key share one in-flight promise and one cache entry."
+  },
+  {
+    "question": "Your REST app shows user 3 in a list (`['users']`) and in a detail page (`['users', 3]`). After `PATCH /users/3`, the list still shows the old name. Why, and what is the usual fix?",
+    "options": [
+      "TanStack Query normalizes entities, so this cannot happen",
+      "It is a document cache keyed by query: invalidate the `['users']` prefix (or update both entries) after the mutation",
+      "Use `gcTime: 0`",
+      "Store users in `useState` instead"
+    ],
+    "answer": 1,
+    "explanation": "Key-based caches store whole responses. Invalidate by prefix (`['users']` matches both) or write the updated entity into each affected entry."
+  },
+  {
+    "question": "Which data does NOT belong in a server cache?",
+    "options": [
+      "The signed-in user's profile",
+      "Search results for the current query",
+      "Whether the filters drawer is open",
+      "The permissions list for the current workspace"
+    ],
+    "answer": 2,
+    "explanation": "The drawer is UI state owned by the client: local state (or URL state if it should be shareable). The other three come from the server."
+  },
+  {
+    "question": "A page is fully server rendered with React Server Components and only displays data (no client-side refetching or mutations). Do you need a client query cache for it?",
+    "options": [
+      "Yes, every React app needs TanStack Query",
+      "Usually not: data fetched on the server per request arrives as props; add a client cache when you need client-side refetching, mutations or interactivity on that data",
+      "Yes, because Server Components cannot fetch",
+      "No, and client caches cannot be used with Server Components"
+    ],
+    "answer": 1,
+    "explanation": "Server Components fetch during the request and stream results. A client cache becomes valuable when the client must refetch, paginate, mutate or share that data interactively; both can coexist."
+  }
+]

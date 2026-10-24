@@ -1,0 +1,13 @@
+{
+  "title": "RTK Query",
+  "summary": "Use Redux Toolkit's server cache: createApi endpoints, generated hooks, provided and invalidated tags, and optimistic patches.",
+  "level": "advanced",
+  "tags": ["ecosystem"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "RTK Query: Overview", "url": "https://redux-toolkit.js.org/rtk-query/overview" },
+    { "label": "RTK Query: Automated Re-fetching (tags)", "url": "https://redux-toolkit.js.org/rtk-query/usage/automated-refetching" },
+    { "label": "RTK Query: Customizing Queries (base queries)", "url": "https://redux-toolkit.js.org/rtk-query/usage/customizing-queries" },
+    { "label": "RTK Query: Comparison with other tools", "url": "https://redux-toolkit.js.org/rtk-query/comparison" }
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  { "term": "Props type", "description": "A `type` or `interface` describing the props object, used to annotate the component's parameter." },
+  { "term": "ReactNode", "description": "Everything React can render: elements, strings, numbers, arrays, fragments, portals, `null`, `undefined`, booleans. The usual type for `children`." },
+  { "term": "Literal union", "description": "`'info' | 'warning'`: a string restricted to a fixed set of values." },
+  { "term": "React.FC", "description": "Legacy-style component type. Once added implicit `children`; plain functions with typed props are preferred." },
+  { "term": "Optional prop", "description": "`subtitle?: string` means the prop may be omitted; its type inside is `string | undefined` unless you give a default." }
+]

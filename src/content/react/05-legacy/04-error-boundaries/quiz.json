@@ -1,0 +1,30 @@
+[
+  {
+    "question": "Which error is caught by an error boundary placed around `<Profile />`?",
+    "options": [
+      "An error thrown inside Profile's `onClick` handler",
+      "An error thrown inside a `setTimeout` callback in Profile",
+      "An error thrown while rendering a child of Profile",
+      "An error thrown by the boundary's own render method"
+    ],
+    "answer": 2,
+    "explanation": "Boundaries catch errors during rendering, lifecycle methods and effects of their descendants. Event handlers and async callbacks run outside React's render, so they are not caught."
+  },
+  {
+    "question": "Why do most codebases still contain at least one class component in 2026?",
+    "options": [
+      "Classes render faster",
+      "Error boundaries have no hook equivalent yet",
+      "Hooks cannot use context",
+      "Server Components require classes"
+    ],
+    "answer": 1,
+    "explanation": "`getDerivedStateFromError` and `componentDidCatch` only exist on classes. Libraries like `react-error-boundary` wrap such a class for you."
+  },
+  {
+    "question": "Where should you send the error to a logging service?",
+    "options": ["In `getDerivedStateFromError`", "In `componentDidCatch`", "In the constructor", "In `render`"],
+    "answer": 1,
+    "explanation": "`getDerivedStateFromError` runs during render and must be pure. `componentDidCatch` runs in the commit phase and is meant for side effects."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "FormControl", "description": "Tracks the value, validity and interaction state (`touched`, `dirty`) of one field." },
+  { "term": "FormGroup", "description": "A keyed collection of controls; its value is an object and it is invalid when any child is invalid." },
+  { "term": "FormBuilder", "description": "Injectable shortcut for creating controls and groups. `fb.nonNullable` makes controls reset to their initial value instead of `null`." },
+  { "term": "formControlName", "description": "Directive connecting an input to a control of the parent `[formGroup]` by key." },
+  { "term": "Validators", "description": "Built-in synchronous validators: `required`, `email`, `min`, `max`, `minLength`, `maxLength`, `pattern`, `requiredTrue`." },
+  { "term": "setValue vs patchValue", "description": "`setValue` needs every key of the group; `patchValue` updates only the provided keys." },
+  { "term": "valueChanges / statusChanges", "description": "Observables that emit when the value or validity changes. Convert with `toSignal()` for signal-based templates." }
+]

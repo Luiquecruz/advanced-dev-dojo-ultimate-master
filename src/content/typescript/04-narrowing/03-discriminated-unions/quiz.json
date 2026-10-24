@@ -1,0 +1,14 @@
+[
+  {
+    "question": "Which property works as a discriminant?",
+    "options": ["`id: number` in every member", "`kind: 'a'` / `kind: 'b'` in every member", "`label?: string` in one member", "`meta: object` in every member"],
+    "answer": 1,
+    "explanation": "A discriminant must exist in every member and have a distinct literal type per member."
+  },
+  {
+    "question": "Why can a discriminated union not be declared with `interface`?",
+    "options": ["Interfaces cannot have literal types", "Interfaces cannot describe unions", "Interfaces are slower", "It can"],
+    "answer": 1,
+    "explanation": "An interface always describes a single object shape. Use a `type` alias for the union; members may still be interfaces."
+  }
+]

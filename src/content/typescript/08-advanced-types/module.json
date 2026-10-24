@@ -1,0 +1,4 @@
+{
+  "title": "Advanced Types",
+  "description": "Conditional types, infer, distribution over unions, mapped types with key remapping, template literal types, recursive types and the satisfies operator."
+}

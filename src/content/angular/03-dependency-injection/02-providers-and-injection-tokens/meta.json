@@ -1,0 +1,11 @@
+{
+  "title": "Providers and Injection Tokens",
+  "summary": "Use useClass, useValue, useFactory and useExisting, typed InjectionTokens with defaults, abstract class tokens and multi providers.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "entry": "app.ts",
+  "preview": true,
+  "resources": [
+    { "label": "angular.dev: Defining dependency providers", "url": "https://angular.dev/guide/di/defining-dependency-providers" }
+  ]
+}

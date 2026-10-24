@@ -1,0 +1,11 @@
+{
+  "title": "React Compiler",
+  "summary": "Automatic memoization at build time: how React Compiler 1.0 works, how to adopt it and what it means for useMemo and useCallback.",
+  "level": "advanced",
+  "tags": ["modern", "new", "performance", "theory", "ecosystem"],
+  "resources": [
+    { "label": "react.dev: React Compiler", "url": "https://react.dev/learn/react-compiler" },
+    { "label": "react.dev: Compiler configuration", "url": "https://react.dev/reference/react-compiler/configuration" },
+    { "label": "react.dev blog: React Compiler v1.0", "url": "https://react.dev/blog/2025/10/07/react-compiler-1" }
+  ]
+}

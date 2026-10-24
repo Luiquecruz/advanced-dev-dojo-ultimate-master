@@ -1,0 +1,7 @@
+[
+  { "term": "State snapshot", "description": "Each render sees fixed state values. Handlers and timers created in that render keep using them." },
+  { "term": "Batching", "description": "React groups all state updates from one event (or task, since React 18) into a single re-render." },
+  { "term": "Updater function", "description": "`setCount((previous) => previous + 1)` computes the next state from the latest queued value." },
+  { "term": "Update queue", "description": "Setter calls are queued and processed in order during the next render." },
+  { "term": "flushSync", "description": "`flushSync(() => setX(...))` from `react-dom` forces a synchronous update. Rarely needed." }
+]

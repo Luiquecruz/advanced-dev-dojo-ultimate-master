@@ -1,0 +1,8 @@
+{
+  "title": "Component v-model",
+  "summary": "Make components work with v-model using defineModel, named models and modifiers.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: Component v-model", "url": "https://vuejs.org/guide/components/v-model.html" }]
+}

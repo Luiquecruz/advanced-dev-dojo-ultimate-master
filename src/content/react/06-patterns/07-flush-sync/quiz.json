@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Inside a click handler, you call `setCount(count + 1)` and then read `ref.current.textContent`. What do you read without flushSync?",
+    "options": ["The new count", "The old count, because the DOM is updated after the handler", "undefined", "It throws"],
+    "answer": 1,
+    "explanation": "React batches updates and re-renders after the event handler finishes. Until then the DOM shows the previous render."
+  },
+  {
+    "question": "Where is calling `flushSync` NOT allowed?",
+    "options": ["In a click handler", "In a `setTimeout` callback", "During render or synchronously inside an effect", "In a `beforeprint` listener"],
+    "answer": 2,
+    "explanation": "React is already rendering or committing there, so it cannot flush; it warns instead."
+  },
+  {
+    "question": "In React 17 with `ReactDOM.render`, how many renders did two setState calls in a `setTimeout` cause?",
+    "options": ["One, they were batched", "Two, updates outside React events were not batched", "None", "It depends on StrictMode"],
+    "answer": 1,
+    "explanation": "Before React 18 only React event handlers were batched. Automatic batching came with `createRoot`, and `flushSync` is the opt-out."
+  }
+]

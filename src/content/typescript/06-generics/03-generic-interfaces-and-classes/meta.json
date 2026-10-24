@@ -1,0 +1,6 @@
+{
+  "title": "Generic interfaces and classes",
+  "summary": "Parameterize interfaces, type aliases and classes to build reusable, type-safe containers.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

@@ -1,0 +1,4 @@
+{
+  "title": "Decorators & Real-World Patterns",
+  "description": "Standard and legacy decorators, branded types, a type-safe event emitter, a type-state builder and a typed dependency injection container."
+}

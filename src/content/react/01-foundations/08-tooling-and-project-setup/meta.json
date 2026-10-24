@@ -1,0 +1,11 @@
+{
+  "title": "Tooling and Project Setup",
+  "summary": "From Create React App to Vite and React frameworks: how modern React projects are created and built.",
+  "level": "beginner",
+  "tags": ["theory", "ecosystem", "legacy", "modern"],
+  "resources": [
+    { "label": "react.dev: Creating a React App", "url": "https://react.dev/learn/creating-a-react-app" },
+    { "label": "react.dev blog: Sunsetting Create React App", "url": "https://react.dev/blog/2025/02/14/sunsetting-create-react-app" },
+    { "label": "Vite: Getting Started", "url": "https://vite.dev/guide/" }
+  ]
+}

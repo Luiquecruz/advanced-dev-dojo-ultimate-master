@@ -1,0 +1,7 @@
+[
+  { "term": "loadComponent", "description": "Route property that lazy loads one standalone component: `loadComponent: () => import('./page')`." },
+  { "term": "loadChildren", "description": "Lazy loads a `Routes` array for a feature area (or an NgModule in legacy apps)." },
+  { "term": "Code splitting", "description": "The bundler turns each dynamic `import()` into a separate chunk downloaded on demand." },
+  { "term": "Preloading strategy", "description": "`withPreloading(PreloadAllModules)` or a custom `PreloadingStrategy` fetches lazy chunks in the background." },
+  { "term": "Route providers", "description": "`providers` on a route create an environment injector scoped to that route subtree." }
+]

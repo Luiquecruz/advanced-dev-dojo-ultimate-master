@@ -1,0 +1,6 @@
+[
+  { "term": "this parameter", "description": "A fake first parameter `this: T` that types `this` and is checked at every call site. Erased at runtime." },
+  { "term": "noImplicitThis", "description": "Strict option that reports `this` with an implicit `any` type in functions without a `this` parameter." },
+  { "term": "bind", "description": "Returns a copy of a function with `this` fixed. Typed through `strictBindCallApply`." },
+  { "term": "OmitThisParameter / ThisParameterType", "description": "Utility types that remove or extract the `this` parameter of a function type." }
+]

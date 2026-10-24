@@ -1,0 +1,6 @@
+[
+  { "term": "useId", "description": "Vue 3.5 API returning an app-unique id that is identical on server and client, for accessibility attributes." },
+  { "term": "defineOptions", "description": "Macro to declare options like `name` and `inheritAttrs` in `<script setup>`." },
+  { "term": "aria-describedby", "description": "Points an input at the id of the element describing it, such as help or error text." },
+  { "term": "idPrefix", "description": "`app.config.idPrefix` customizes `useId` output when several apps share a page." }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "children", "description": "Array of route records nested under a parent. Their components render in the parent's own `<RouterView />`." },
+  { "term": "route.matched", "description": "Every matched record from root to leaf. Useful for breadcrumbs, guards and inherited `meta`." },
+  { "term": "Named view", "description": "`<RouterView name=\"sidebar\" />` paired with `components: { default, sidebar }` in a record." },
+  { "term": "redirect", "description": "Replaces the target location with another one (string, location object or function)." },
+  { "term": "alias", "description": "Another URL that renders the same record without changing the address bar." }
+]

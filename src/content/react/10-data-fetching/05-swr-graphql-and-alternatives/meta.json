@@ -1,0 +1,12 @@
+{
+  "title": "SWR, GraphQL and Alternatives",
+  "summary": "Compare SWR, RTK Query, Apollo, Relay, urql, tRPC and framework loaders for data fetching.",
+  "level": "intermediate",
+  "tags": ["theory", "ecosystem"],
+  "resources": [
+    { "label": "SWR documentation", "url": "https://swr.vercel.app/" },
+    { "label": "RTK Query overview", "url": "https://redux-toolkit.js.org/rtk-query/overview" },
+    { "label": "GraphQL: Introduction", "url": "https://graphql.org/learn/" },
+    { "label": "Apollo Client documentation", "url": "https://www.apollographql.com/docs/react" }
+  ]
+}

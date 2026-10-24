@@ -1,0 +1,11 @@
+{
+  "title": "Signal Inputs",
+  "summary": "Pass data into components with input(), input.required(), transforms, aliases and host bindings, and compare with @Input().",
+  "level": "beginner",
+  "tags": ["core", "modern", "legacy"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "angular.dev: Accepting data with input properties", "url": "https://angular.dev/guide/components/inputs" },
+    { "label": "angular.dev: Signal input migration", "url": "https://angular.dev/reference/migrations/signal-inputs" }
+  ]
+}

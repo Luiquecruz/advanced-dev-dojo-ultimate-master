@@ -1,0 +1,11 @@
+{
+  "title": "Form Basics and Validation",
+  "summary": "Handle form state, validation timing and accessible error messages with plain React.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: <input>", "url": "https://react.dev/reference/react-dom/components/input" },
+    { "label": "MDN: Client-side form validation", "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation" },
+    { "label": "W3C WAI: Form validation", "url": "https://www.w3.org/WAI/tutorials/forms/notifications/" }
+  ]
+}

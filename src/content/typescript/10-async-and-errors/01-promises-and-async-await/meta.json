@@ -1,0 +1,10 @@
+{
+  "title": "Promises and async/await",
+  "summary": "Type asynchronous code with Promise<T>, run independent work in parallel with Promise.all and build a timeout with Promise.race.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "MDN: Using promises", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises" },
+    { "label": "TypeScript Handbook: Awaited<Type>", "url": "https://www.typescriptlang.org/docs/handbook/utility-types.html#awaitedtype" }
+  ]
+}

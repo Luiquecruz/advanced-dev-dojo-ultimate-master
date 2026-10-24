@@ -1,0 +1,8 @@
+{
+  "title": "Provide / Inject",
+  "summary": "Share context with deep descendants using typed InjectionKeys, defaults and readonly state.",
+  "level": "intermediate",
+  "tags": ["core", "typescript"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: Provide / Inject", "url": "https://vuejs.org/guide/components/provide-inject.html" }]
+}

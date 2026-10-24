@@ -1,0 +1,12 @@
+{
+  "title": "Server Components & Server Functions",
+  "summary": "How 'use client' and 'use server' split an app between server and browser, what can cross the boundary, and the 2025 RSC security advisories.",
+  "level": "expert",
+  "tags": ["modern", "theory", "ecosystem"],
+  "resources": [
+    { "label": "react.dev: Server Components", "url": "https://react.dev/reference/rsc/server-components" },
+    { "label": "react.dev: Server Functions", "url": "https://react.dev/reference/rsc/server-functions" },
+    { "label": "react.dev: Critical Security Vulnerability in RSC", "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components" },
+    { "label": "react.dev: DoS and Source Code Exposure in RSC", "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components" }
+  ]
+}

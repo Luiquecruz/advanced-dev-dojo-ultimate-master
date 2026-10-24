@@ -1,0 +1,11 @@
+{
+  "title": "Mutations and Cache Invalidation",
+  "summary": "Write data with useMutation and keep the cache in sync with invalidation, setQueryData and optimistic updates.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "modern"],
+  "resources": [
+    { "label": "TanStack Query: Mutations", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/mutations" },
+    { "label": "TanStack Query: Invalidations from Mutations", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/invalidations-from-mutations" },
+    { "label": "TanStack Query: Optimistic Updates", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates" }
+  ]
+}

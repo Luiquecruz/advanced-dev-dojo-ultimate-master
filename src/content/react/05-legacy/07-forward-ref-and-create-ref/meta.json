@@ -1,0 +1,11 @@
+{
+  "title": "forwardRef and createRef",
+  "summary": "Refs in classes with createRef, forwarding refs with forwardRef, and the React 19 ref-as-prop replacement.",
+  "level": "intermediate",
+  "tags": ["legacy"],
+  "resources": [
+    { "label": "react.dev: forwardRef", "url": "https://react.dev/reference/react/forwardRef" },
+    { "label": "react.dev: createRef", "url": "https://react.dev/reference/react/createRef" },
+    { "label": "react.dev: React 19, ref as a prop", "url": "https://react.dev/blog/2024/12/05/react-19#ref-as-a-prop" }
+  ]
+}

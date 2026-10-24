@@ -1,0 +1,10 @@
+{
+  "title": "Signal Forms",
+  "summary": "Turn a model signal into a field tree with form(), bind inputs with [formField] and read field state such as dirty and touched.",
+  "level": "intermediate",
+  "tags": ["core", "modern", "new"],
+  "resources": [
+    { "label": "angular.dev: Signal Forms overview", "url": "https://angular.dev/guide/forms/signals/overview" },
+    { "label": "angular.dev: Signal Forms models", "url": "https://angular.dev/guide/forms/signals/models" }
+  ]
+}

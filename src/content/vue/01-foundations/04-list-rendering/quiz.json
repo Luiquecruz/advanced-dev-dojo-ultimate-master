@@ -1,0 +1,5 @@
+[
+  {"question": "What does `v-for=\"n in 3\"` iterate over?", "options": ["0, 1, 2", "1, 2, 3", "0, 1, 2, 3", "It is invalid"], "answer": 1, "explanation": "Range `v-for` starts at 1 and ends at the given number."},
+  {"question": "Why is the index a poor key for a list where items can be removed?", "options": ["The index of an item changes, so Vue reuses the wrong DOM node and its state", "Indexes are numbers and keys must be strings", "It is slower to compute", "Vue ignores numeric keys"], "answer": 0, "explanation": "Keys must identify the item. When an earlier item is removed, every following index shifts and stateful DOM (inputs, focus, child state) ends up attached to the wrong item."},
+  {"question": "Where does `:key` go when using `<template v-for>`?", "options": ["On each child element", "Keys are not allowed", "On the `<template>` itself", "On the parent element"], "answer": 2, "explanation": "Since Vue 3 the key belongs on the `<template v-for>` tag."}
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "question": "Why is `useState(() => Math.random().toString())` a bad id generator in server-rendered apps?",
+    "options": [
+      "`useState` cannot store strings",
+      "The server and client generate different values, causing a hydration mismatch",
+      "It changes on every render",
+      "It is slower than `useId`"
+    ],
+    "answer": 1,
+    "explanation": "The lazy initializer is stable on the client, but the server produced a different random value in the HTML. `useId` derives ids from the tree position, so both sides agree."
+  },
+  {
+    "question": "Should you use `useId` to generate keys for list items?",
+    "options": [
+      "Yes, it is designed for keys",
+      "No, keys should come from your data",
+      "Only for lists rendered on the server",
+      "Only when items have no `id` field"
+    ],
+    "answer": 1,
+    "explanation": "Keys identify data items across renders, so they belong to the data. `useId` is for linking DOM elements, such as labels and inputs, for accessibility."
+  }
+]

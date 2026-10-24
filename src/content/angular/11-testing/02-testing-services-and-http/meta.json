@@ -1,0 +1,12 @@
+{
+  "title": "Testing Services and HTTP",
+  "summary": "Test an HttpClient-based service with provideHttpClientTesting and HttpTestingController: expect requests, flush responses and errors, verify nothing is left.",
+  "level": "advanced",
+  "tags": ["testing"],
+  "entry": "user.service.spec.ts",
+  "preview": false,
+  "resources": [
+    { "label": "angular.dev: Testing services", "url": "https://angular.dev/guide/testing/services" },
+    { "label": "angular.dev: HTTP testing", "url": "https://angular.dev/guide/http/testing" }
+  ]
+}

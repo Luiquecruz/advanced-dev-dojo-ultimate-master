@@ -1,0 +1,5 @@
+[
+  { "term": "Union type", "description": "`A | B`: the value is one of the members. Only operations valid for every member are allowed." },
+  { "term": "Narrowing", "description": "Refining a union to a more specific type inside a branch guarded by a runtime check." },
+  { "term": "(A | B)[] vs A[] | B[]", "description": "An array of mixed elements versus either an array of only A or an array of only B." }
+]

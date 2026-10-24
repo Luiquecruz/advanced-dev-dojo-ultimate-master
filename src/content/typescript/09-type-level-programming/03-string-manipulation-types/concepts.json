@@ -1,0 +1,6 @@
+[
+  { "term": "Shortest-prefix matching", "description": "In `` `${infer A}${Sep}${infer B}` `` the first placeholder takes the shortest prefix before `Sep`; the last placeholder takes the rest." },
+  { "term": "Single-character split", "description": "Two adjacent placeholders, `` `${infer Head}${infer Rest}` ``, split off exactly one character." },
+  { "term": "Union in a pattern", "description": "A union inside a template literal pattern matches any of its members, e.g. `` `${Digit}${infer Rest}` ``." },
+  { "term": "Counting with tuples", "description": "`'abc'['length']` is `number`, so string lengths are computed by accumulating a tuple and reading its literal `length`." }
+]

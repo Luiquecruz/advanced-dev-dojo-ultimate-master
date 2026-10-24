@@ -1,0 +1,12 @@
+{
+  "title": "Redux Toolkit Essentials",
+  "summary": "Structure a typed Redux store: slices by domain, typed hooks, cross-slice events with extraReducers, memoized selectors and a store factory.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "typescript", "performance"],
+  "entry": "App.tsx",
+  "resources": [
+    { "label": "Redux Toolkit: TypeScript Quick Start", "url": "https://redux-toolkit.js.org/tutorials/typescript" },
+    { "label": "Redux: Deriving Data with Selectors", "url": "https://redux.js.org/usage/deriving-data-selectors" },
+    { "label": "Redux Style Guide", "url": "https://redux.js.org/style-guide/" }
+  ]
+}

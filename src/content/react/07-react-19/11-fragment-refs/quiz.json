@@ -1,0 +1,36 @@
+[
+  {
+    "question": "What does `fragmentRef.current` hold for `<Fragment ref={fragmentRef}>`?",
+    "options": ["The first DOM child", "An array of DOM nodes", "A FragmentInstance", "null, Fragments render nothing"],
+    "answer": 2,
+    "explanation": "React 19.3 provides a FragmentInstance with DOM-like methods that apply to the Fragment's children."
+  },
+  {
+    "question": "Why use a Fragment ref instead of a wrapper `<div ref>`?",
+    "options": [
+      "It is faster to type",
+      "It avoids an extra DOM node that can break layout, CSS selectors and accessibility structure",
+      "Wrappers cannot have refs",
+      "Fragments render on the server only"
+    ],
+    "answer": 1,
+    "explanation": "The FragmentInstance acts on the children directly, so layout and semantics stay intact."
+  },
+  {
+    "question": "What does `fragmentInstance.focus()` do?",
+    "options": [
+      "Focuses the Fragment itself",
+      "Focuses the first focusable descendant, depth-first",
+      "Focuses every child",
+      "Throws if the first child is not focusable"
+    ],
+    "answer": 1,
+    "explanation": "`focus` searches the children depth-first for the first focusable element; `focusLast` does the reverse."
+  },
+  {
+    "question": "Which method connects an IntersectionObserver to all children of a Fragment?",
+    "options": ["observe", "observeUsing", "addObserver", "intersect"],
+    "answer": 1,
+    "explanation": "`observeUsing(observer)` and `unobserveUsing(observer)` work with IntersectionObserver and ResizeObserver."
+  }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "toRefs()", "description": "Converts every property of a reactive object into a ref linked to the source, so the result can be destructured." },
+  { "term": "toRef()", "description": "`toRef(obj, 'key', default?)` links one property; `toRef(() => value)` creates a read-only getter ref (3.3+)." },
+  { "term": "toValue()", "description": "Normalizes a value, ref or getter into its current value (3.3+). Reactive when called inside an effect." },
+  { "term": "MaybeRefOrGetter<T>", "description": "Type for composable inputs that accept `T`, `Ref<T>` or `() => T`." },
+  { "term": "Reactive props destructure", "description": "Vue 3.5 compiles `const { a } = defineProps()` so `a` reads `props.a` reactively. Works only for props." }
+]

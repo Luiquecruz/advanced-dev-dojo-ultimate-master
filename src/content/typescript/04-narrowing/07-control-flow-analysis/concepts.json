@@ -1,0 +1,6 @@
+[
+  { "term": "Control flow analysis", "description": "The compiler follows every code path and computes the narrowed type of each reference at each position." },
+  { "term": "Declared vs narrowed type", "description": "The declared type limits what can be assigned; the narrowed type is what the compiler knows at a given line." },
+  { "term": "Aliased condition", "description": "A condition stored in a `const` (`const isText = typeof x === 'string'`) that still narrows when used later (TS 4.4+)." },
+  { "term": "Closure narrowing", "description": "Narrowing inside callbacks is kept for `const` values and, since TS 5.4, for variables not reassigned after the closure is created." }
+]

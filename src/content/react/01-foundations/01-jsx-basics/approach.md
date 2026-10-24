@@ -1,0 +1,1 @@
+Replace the placeholder `<div />` with a `<section>`. Inside it, write the heading as static text and the paragraph mixing static text (`Level `) with the expression `{level}`. The `className="level"` attribute is what the tests use to find the paragraph.

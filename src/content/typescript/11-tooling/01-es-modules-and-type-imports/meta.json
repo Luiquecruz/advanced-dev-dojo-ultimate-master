@@ -1,0 +1,10 @@
+{
+  "title": "ES modules and type imports",
+  "summary": "Import and export values and types, erase type-only imports safely with verbatimModuleSyntax and know the CommonJS legacy.",
+  "level": "intermediate",
+  "tags": ["theory", "modern", "ecosystem"],
+  "resources": [
+    { "label": "TypeScript Handbook: Modules", "url": "https://www.typescriptlang.org/docs/handbook/2/modules.html" },
+    { "label": "TSConfig: verbatimModuleSyntax", "url": "https://www.typescriptlang.org/tsconfig/#verbatimModuleSyntax" }
+  ]
+}

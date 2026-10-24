@@ -1,0 +1,7 @@
+[
+  { "term": "useId", "description": "Returns a unique, stable id string for the component instance, safe for server rendering and hydration." },
+  { "term": "htmlFor", "description": "JSX name of the `for` attribute that links a `<label>` to an input by id." },
+  { "term": "aria-describedby", "description": "Points to the id of an element whose text describes the field (hints, errors)." },
+  { "term": "identifierPrefix", "description": "Root option (`createRoot`, `hydrateRoot`, server renderers) that prefixes generated ids when several React apps share a page." },
+  { "term": "Hydration mismatch", "description": "Server HTML differs from the first client render, e.g. because of random ids. React reports it and may re-render." }
+]

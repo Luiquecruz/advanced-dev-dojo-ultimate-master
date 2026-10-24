@@ -1,0 +1,6 @@
+{
+  "title": "Union to intersection",
+  "summary": "Use variance and `infer` in a contravariant position to turn unions into intersections, then merge plugin objects and build overloads with it.",
+  "level": "expert",
+  "tags": ["typescript"]
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Generic Components",
+  "summary": "Write type-safe reusable components with the generic attribute, typed emits and defineSlots.",
+  "level": "advanced",
+  "tags": ["typescript", "modern"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: Generics", "url": "https://vuejs.org/api/sfc-script-setup.html#generics" }]
+}

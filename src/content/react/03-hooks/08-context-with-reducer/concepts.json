@@ -1,0 +1,6 @@
+[
+  { "term": "Reducer + context", "description": "`useReducer` inside a provider component, with state and `dispatch` exposed through context. A feature-scoped store." },
+  { "term": "Split contexts", "description": "Separate contexts for state and `dispatch`, so dispatch-only components do not re-render on state changes." },
+  { "term": "Provider component", "description": "A component like `TasksProvider` that owns the state and renders the providers around `children`." },
+  { "term": "Guarded custom Hook", "description": "A Hook like `useTasks()` that reads a context and throws a clear error when no provider exists." }
+]

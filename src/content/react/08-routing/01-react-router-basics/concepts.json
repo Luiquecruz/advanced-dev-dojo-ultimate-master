@@ -1,0 +1,7 @@
+[
+  { "term": "<Routes> / <Route>", "description": "Declare which element renders for which path. React Router ranks matches, so order does not matter." },
+  { "term": "<Link>", "description": "Client-side navigation: changes the URL without reloading the document." },
+  { "term": "<NavLink>", "description": "A Link that knows whether it is active and sets `aria-current=\"page\"`. Use `end` for `/`." },
+  { "term": "useNavigate", "description": "Returns a function to navigate from code: `navigate('/path')`, `navigate(-1)`, `{ replace: true }`." },
+  { "term": "MemoryRouter", "description": "Router that keeps history in memory. Used in tests and non-browser environments." }
+]

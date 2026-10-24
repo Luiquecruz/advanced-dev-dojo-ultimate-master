@@ -1,0 +1,52 @@
+[
+  {
+    "question": "In development with `<StrictMode>`, how many times does an effect with `[]` dependencies run its setup on mount?",
+    "options": [
+      "Once",
+      "Twice, with a cleanup in between (setup → cleanup → setup)",
+      "Twice, without any cleanup",
+      "It depends on the browser"
+    ],
+    "answer": 1,
+    "explanation": "StrictMode simulates an unmount and remount right after mounting, so a missing cleanup becomes visible during development."
+  },
+  {
+    "question": "What happens to StrictMode checks in a production build?",
+    "options": ["They run once per page load", "They are completely disabled", "They only log warnings", "They throw errors instead of warning"],
+    "answer": 1,
+    "explanation": "StrictMode has no effect in production. It only adds development checks."
+  },
+  {
+    "question": "A component increments a module-level counter while rendering. Why does StrictMode make the bug visible?",
+    "options": [
+      "It freezes module variables",
+      "It renders the component twice, so the impure mutation happens twice",
+      "It forbids module-level variables",
+      "It runs the component on the server"
+    ],
+    "answer": 1,
+    "explanation": "Double rendering does not affect pure components. Mutating something outside the component during render produces different results on each call, which StrictMode exposes."
+  },
+  {
+    "question": "Your data fetch runs twice in development. What is the recommended fix?",
+    "options": [
+      "Remove StrictMode",
+      "Skip the second run with a `hasRun` ref",
+      "Ignore or abort the stale request in the effect cleanup (or use a data-fetching library)",
+      "Move the fetch into render"
+    ],
+    "answer": 2,
+    "explanation": "With a proper cleanup, the first request is ignored or aborted and the app behaves correctly on real remounts too. Skipping the second run only hides the problem."
+  },
+  {
+    "question": "Which extra check did React 19 add to StrictMode?",
+    "options": [
+      "Double-invoking ref callbacks on mount",
+      "Double-invoking event handlers",
+      "Rendering every component three times",
+      "Disabling `useEffect`"
+    ],
+    "answer": 0,
+    "explanation": "React 19 introduced ref cleanup functions and StrictMode now runs ref callbacks setup → cleanup → setup on mount to validate them."
+  }
+]

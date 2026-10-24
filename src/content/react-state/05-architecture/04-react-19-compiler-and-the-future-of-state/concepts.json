@@ -1,0 +1,8 @@
+[
+  { "term": "Action", "description": "An async function run in a transition (`startTransition` or `<form action>`). React tracks its pending state and errors." },
+  { "term": "useOptimistic", "description": "Shows a temporary value while an Action is pending, then falls back to the real value." },
+  { "term": "Server Components", "description": "Components rendered on the server without state, effects or stores. Data arrives as props; interactivity lives in client components." },
+  { "term": "<Activity>", "description": "React 19.2 component that hides a subtree while preserving its state and DOM, unmounting effects until it becomes visible again." },
+  { "term": "React Compiler", "description": "Build-time automatic memoization (stable 1.0, React 17+). Requires following the Rules of React; does not change store or context subscription granularity." },
+  { "term": "use()", "description": "Reads a promise (suspending) or a context during render, and can be called conditionally." }
+]

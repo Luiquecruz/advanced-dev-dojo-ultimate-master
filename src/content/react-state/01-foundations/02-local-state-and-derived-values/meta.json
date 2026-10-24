@@ -1,0 +1,10 @@
+{
+  "title": "Local State and Derived Values",
+  "summary": "Store the minimal set of facts: derive counts and lists, select by id, and never copy props into state.",
+  "level": "beginner",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "react.dev: Choosing the State Structure", "url": "https://react.dev/learn/choosing-the-state-structure" },
+    { "label": "react.dev: You Might Not Need an Effect", "url": "https://react.dev/learn/you-might-not-need-an-effect" }
+  ]
+}

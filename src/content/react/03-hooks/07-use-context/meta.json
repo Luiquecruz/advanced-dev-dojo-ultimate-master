@@ -1,0 +1,10 @@
+{
+  "title": "useContext",
+  "summary": "Pass data deep into the tree without prop drilling, using React 19's <Context value> provider syntax.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "react.dev: Passing Data Deeply with Context", "url": "https://react.dev/learn/passing-data-deeply-with-context" },
+    { "label": "react.dev: useContext", "url": "https://react.dev/reference/react/useContext" }
+  ]
+}

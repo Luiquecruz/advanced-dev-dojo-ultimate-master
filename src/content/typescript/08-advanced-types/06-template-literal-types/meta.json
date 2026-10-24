@@ -1,0 +1,6 @@
+{
+  "title": "Template literal types",
+  "summary": "Build, combine and parse string literal types with backtick syntax, intrinsic helpers like `Capitalize` and `infer` patterns.",
+  "level": "advanced",
+  "tags": ["core", "typescript"]
+}

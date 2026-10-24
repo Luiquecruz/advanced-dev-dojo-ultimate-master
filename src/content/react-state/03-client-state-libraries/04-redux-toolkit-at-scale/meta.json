@@ -1,0 +1,13 @@
+{
+  "title": "Redux Toolkit at Scale",
+  "summary": "Normalize collections with createEntityAdapter, model async flows with createAsyncThunk and move side effects into the listener middleware.",
+  "level": "advanced",
+  "tags": ["ecosystem"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "Redux Toolkit: createEntityAdapter", "url": "https://redux-toolkit.js.org/api/createEntityAdapter" },
+    { "label": "Redux Toolkit: createAsyncThunk", "url": "https://redux-toolkit.js.org/api/createAsyncThunk" },
+    { "label": "Redux Toolkit: createListenerMiddleware", "url": "https://redux-toolkit.js.org/api/createListenerMiddleware" },
+    { "label": "Redux: Normalizing State Shape", "url": "https://redux.js.org/usage/structuring-reducers/normalizing-state-shape" }
+  ]
+}

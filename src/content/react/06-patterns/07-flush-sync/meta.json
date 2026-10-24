@@ -1,0 +1,10 @@
+{
+  "title": "flushSync",
+  "summary": "Force React to commit state updates synchronously when imperative DOM code needs the result immediately, and why it is an escape hatch.",
+  "level": "advanced",
+  "tags": ["performance"],
+  "resources": [
+    { "label": "react.dev: flushSync", "url": "https://react.dev/reference/react-dom/flushSync" },
+    { "label": "react.dev: Flushing state updates synchronously with flushSync", "url": "https://react.dev/learn/manipulating-the-dom-with-refs#flushing-state-updates-synchronously-with-flush-sync" }
+  ]
+}

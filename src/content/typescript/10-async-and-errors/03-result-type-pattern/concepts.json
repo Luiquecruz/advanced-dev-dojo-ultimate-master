@@ -1,0 +1,6 @@
+[
+  { "term": "Result type", "description": "A union `{ ok: true; value: T } | { ok: false; error: E }` that puts expected failures in the return type." },
+  { "term": "Discriminant", "description": "A literal property (`ok: true` / `ok: false`) whose check narrows a union to one member." },
+  { "term": "never in generics", "description": "`Result<T, never>` is assignable to `Result<T, E>` for every `E`, which makes `ok()` reusable." },
+  { "term": "Expected vs unexpected failures", "description": "Validation and not-found cases are values; bugs and infrastructure crashes stay exceptions." }
+]

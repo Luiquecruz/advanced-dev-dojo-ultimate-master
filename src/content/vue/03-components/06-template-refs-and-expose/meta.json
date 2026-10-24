@@ -1,0 +1,8 @@
+{
+  "title": "Template Refs & defineExpose",
+  "summary": "Access DOM elements with useTemplateRef and expose a small imperative API from child components.",
+  "level": "intermediate",
+  "tags": ["core", "modern", "new"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: Template Refs", "url": "https://vuejs.org/guide/essentials/template-refs.html" }]
+}

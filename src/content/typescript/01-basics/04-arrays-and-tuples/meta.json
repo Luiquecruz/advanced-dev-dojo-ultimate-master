@@ -1,0 +1,6 @@
+{
+  "title": "Arrays and tuples",
+  "summary": "Type lists with arrays, protect them with readonly, and model fixed positions with labeled tuples.",
+  "level": "beginner",
+  "tags": ["core"]
+}

@@ -1,0 +1,11 @@
+{
+  "title": "Compound Components",
+  "summary": "Design flexible component APIs like Tabs and Tabs.Panel that share implicit state through context.",
+  "level": "advanced",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: Passing Data Deeply with Context", "url": "https://react.dev/learn/passing-data-deeply-with-context" },
+    { "label": "react.dev: Alternatives to cloneElement", "url": "https://react.dev/reference/react/cloneElement#alternatives" },
+    { "label": "WAI-ARIA APG: Tabs pattern", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/" }
+  ]
+}

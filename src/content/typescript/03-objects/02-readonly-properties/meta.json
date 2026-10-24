@@ -1,0 +1,6 @@
+{
+  "title": "Readonly properties",
+  "summary": "Prevent accidental mutation with readonly properties and ReadonlyArray.",
+  "level": "beginner",
+  "tags": []
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "TestBed.inject()", "description": "Resolves a service from the test injector, honoring overridden providers." },
+  { "term": "provideHttpClientTesting()", "description": "Replaces the HttpClient backend with a recorder. Add it after `provideHttpClient()`." },
+  { "term": "HttpTestingController", "description": "Inspects and answers recorded requests: `expectOne`, `expectNone`, `match`, `verify`." },
+  { "term": "TestRequest.flush()", "description": "Responds to a recorded request with a body and optional `{ status, statusText }`." },
+  { "term": "verify()", "description": "Fails when requests are still pending. Call it in `afterEach`." },
+  { "term": "firstValueFrom()", "description": "RxJS helper that subscribes and returns a promise of the first emitted value (or rejects on error)." }
+]

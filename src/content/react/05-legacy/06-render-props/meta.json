@@ -1,0 +1,10 @@
+{
+  "title": "Render Props",
+  "summary": "Share stateful logic by passing a function that renders, use children as a function, and migrate render props to custom hooks.",
+  "level": "intermediate",
+  "tags": ["legacy"],
+  "resources": [
+    { "label": "legacy.reactjs.org: Render Props", "url": "https://legacy.reactjs.org/docs/render-props.html" },
+    { "label": "react.dev: Passing data with a render prop", "url": "https://react.dev/reference/react/cloneElement#passing-data-with-a-render-prop" }
+  ]
+}

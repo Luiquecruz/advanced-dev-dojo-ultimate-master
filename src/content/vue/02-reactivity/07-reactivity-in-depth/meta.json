@@ -1,0 +1,11 @@
+{
+  "title": "Reactivity in Depth",
+  "summary": "How Proxies, dependency tracking and the scheduler work, plus the 3.5 refactor, alien-signals and Vapor Mode in 3.6.",
+  "level": "advanced",
+  "tags": ["theory", "new", "performance"],
+  "resources": [
+    { "label": "vuejs.org: Reactivity in Depth", "url": "https://vuejs.org/guide/extras/reactivity-in-depth.html" },
+    { "label": "Announcing Vue 3.5", "url": "https://blog.vuejs.org/posts/vue-3-5" },
+    { "label": "vuejs/core changelog (3.6)", "url": "https://github.com/vuejs/core/blob/minor/CHANGELOG.md" }
+  ]
+}

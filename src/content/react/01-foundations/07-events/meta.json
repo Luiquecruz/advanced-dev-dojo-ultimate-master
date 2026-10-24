@@ -1,0 +1,7 @@
+{
+  "title": "Responding to Events",
+  "summary": "Attach handlers, pass them as props, and control propagation and default browser behavior.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "react.dev: Responding to Events", "url": "https://react.dev/learn/responding-to-events" }]
+}

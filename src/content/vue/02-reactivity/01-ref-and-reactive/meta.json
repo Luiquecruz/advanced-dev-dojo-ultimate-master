@@ -1,0 +1,7 @@
+{
+  "title": "ref and reactive",
+  "summary": "Declare reactive state with ref() and reactive(), learn the unwrapping rules and the limits of reactive objects.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "vuejs.org: Reactivity Fundamentals", "url": "https://vuejs.org/guide/essentials/reactivity-fundamentals.html" }]
+}

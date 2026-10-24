@@ -1,0 +1,35 @@
+[
+  {
+    "question": "Why does `use(fetch(url).then((r) => r.json()))` inside a component suspend forever?",
+    "options": [
+      "`use` does not support fetch",
+      "Every render creates a new promise, so React never sees a resolved one",
+      "Suspense requires class components",
+      "fetch must be awaited first"
+    ],
+    "answer": 1,
+    "explanation": "When the promise resolves React re-renders, which creates a brand new pending promise. Promises passed to `use` must be cached, as query libraries and frameworks do."
+  },
+  {
+    "question": "Two `useSuspenseQuery` calls sit one after the other in the same component. What happens?",
+    "options": [
+      "Both requests start in parallel",
+      "The second request starts only after the first resolves (a waterfall)",
+      "React throws an error",
+      "Only the first query runs"
+    ],
+    "answer": 1,
+    "explanation": "The first call suspends, so the second line is not reached until the component re-renders. Use `useSuspenseQueries`, sibling components or prefetching to parallelize."
+  },
+  {
+    "question": "How do you keep the old profile visible while switching to another user that has to load?",
+    "options": [
+      "Remove the Suspense boundary",
+      "Wrap the state update in `startTransition`",
+      "Set `staleTime: 0`",
+      "Use `useEffect` instead"
+    ],
+    "answer": 1,
+    "explanation": "Updates marked as transitions let React keep showing the current UI instead of replacing it with a fallback until the new content is ready."
+  }
+]

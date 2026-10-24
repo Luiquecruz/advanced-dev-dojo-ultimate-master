@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Index signature",
+    "description": "`{ [key: string]: Value }` accepts any key of the given type, all mapping to `Value`."
+  },
+  {
+    "term": "Record<K, V>",
+    "description": "Utility type for an object whose keys are `K` and values are `V`. With a literal union, every key is required."
+  },
+  {
+    "term": "Object.values / Object.entries",
+    "description": "Turn a dictionary into an array of values or `[key, value]` pairs so you can iterate it."
+  }
+]

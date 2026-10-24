@@ -1,0 +1,10 @@
+{
+  "title": "What Is React?",
+  "summary": "Declarative UI, components, one-way data flow and how React updates the screen.",
+  "level": "beginner",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "react.dev: Quick Start", "url": "https://react.dev/learn" },
+    { "label": "react.dev: Thinking in React", "url": "https://react.dev/learn/thinking-in-react" }
+  ]
+}

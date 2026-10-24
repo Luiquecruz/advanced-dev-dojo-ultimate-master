@@ -1,0 +1,6 @@
+[
+  { "term": "Template ref", "description": "`ref=\"name\"` attribute that gives script code access to a DOM element or component instance after mount." },
+  { "term": "useTemplateRef", "description": "Vue 3.5 API: `useTemplateRef<T>('name')` returns a shallow ref linked to `ref=\"name\"` in the template." },
+  { "term": "defineExpose", "description": "Macro that declares the public instance API of a `<script setup>` component." },
+  { "term": "Closed by default", "description": "`<script setup>` components expose nothing through refs unless they call `defineExpose`." }
+]

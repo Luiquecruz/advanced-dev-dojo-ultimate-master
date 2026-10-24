@@ -1,0 +1,6 @@
+[
+  { "term": "State classification", "description": "Server cache, URL state, form state, local UI state, subtree context, shared client state, flows. Classify first, then pick the tool." },
+  { "term": "Promotion", "description": "Moving state up only when needed: local → lifted → URL or Context → external store. Each step adds reach and cost." },
+  { "term": "Typical stack", "description": "A query library for server data, a small client store, URL state, local state and a form library." },
+  { "term": "Derived value", "description": "Anything computable from existing state (totals, filtered lists, validity). Compute it; never store it." }
+]

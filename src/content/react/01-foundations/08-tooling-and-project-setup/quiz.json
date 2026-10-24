@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What is the status of Create React App for new projects?",
+    "options": [
+      "It is the officially recommended starter",
+      "It was deprecated by the React team in 2025; use a framework or a build tool like Vite",
+      "It was renamed to Create Vite App",
+      "It only supports TypeScript now"
+    ],
+    "answer": 1,
+    "explanation": "CRA was deprecated in February 2025. Existing apps still run, but new projects should start with a framework or Vite."
+  },
+  {
+    "question": "Which command scaffolds a React + TypeScript SPA with Vite?",
+    "options": [
+      "`npx create-react-app my-app --typescript`",
+      "`npm create vite@latest my-app -- --template react-ts`",
+      "`npm install react-scripts`",
+      "`npx react new my-app`"
+    ],
+    "answer": 1,
+    "explanation": "`npm create vite@latest` runs the `create-vite` scaffolder; `--template react-ts` selects React with TypeScript."
+  },
+  {
+    "question": "Which API mounts a React 19 app into a DOM node?",
+    "options": [
+      "`ReactDOM.render(<App />, element)`",
+      "`createRoot(element).render(<App />)` from `react-dom/client`",
+      "`React.mount(App, element)`",
+      "`hydrate(<App />, element)`"
+    ],
+    "answer": 1,
+    "explanation": "`ReactDOM.render` and `ReactDOM.hydrate` were removed in React 19. Use `createRoot` (or `hydrateRoot` for server-rendered HTML)."
+  },
+  {
+    "question": "When is a framework like Next.js or React Router (framework mode) the better choice than plain Vite?",
+    "options": [
+      "For a small embedded widget",
+      "When you need routing, server rendering, SEO and data loading out of the box",
+      "Only when you use class components",
+      "Never: frameworks are deprecated"
+    ],
+    "answer": 1,
+    "explanation": "Frameworks integrate routing, data fetching, code splitting and SSR/SSG. Vite is great for SPAs where you choose those pieces yourself."
+  },
+  {
+    "question": "What does `eslint-plugin-react-hooks` check?",
+    "options": [
+      "CSS class names",
+      "The Rules of Hooks and missing effect dependencies",
+      "Bundle size",
+      "Accessibility of images"
+    ],
+    "answer": 1,
+    "explanation": "It flags hooks called conditionally or outside components, and effect/memo dependency arrays that miss values."
+  }
+]

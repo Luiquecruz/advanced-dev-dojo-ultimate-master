@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A file uploader has `isUploading`, `isPaused`, `hasError` and `isDone` booleans, and QA keeps finding states like 'paused and done'. What is the most robust fix?",
+    "options": [
+      "Add more `useEffect`s to keep the booleans in sync",
+      "Model it as a state machine with explicit states and events (XState, or a reducer with a status union for small flows)",
+      "Move the booleans to Redux",
+      "Store the booleans in the URL"
+    ],
+    "answer": 1,
+    "explanation": "The bug is the representation. A machine has exactly one state at a time and only declared transitions, so 'paused and done' cannot exist."
+  },
+  {
+    "question": "While `submitting`, the user clicks 'Cancel' and the machine goes back to `editing`. The payment request resolves later. What happens with an invoked `fromPromise` actor?",
+    "options": [
+      "The result overwrites context and jumps to `success`",
+      "Leaving the state stops the invoked actor, so its late result is ignored (and its `signal` is aborted)",
+      "XState throws an error",
+      "The UI freezes until the promise settles"
+    ],
+    "answer": 1,
+    "explanation": "Invoked actors are scoped to their state. Exiting the state stops them, which is how machines avoid the classic stale-response race."
+  },
+  {
+    "question": "How do you replace the real `chargeCard` API call in a unit test of an XState v5 machine?",
+    "options": [
+      "Monkey patch `fetch` globally",
+      "`machine.provide({ actors: { chargeCard: fromPromise(async () => fakeResult) } })`",
+      "Edit the machine config with `machine.config.states = ...`",
+      "It is not possible; test through the UI only"
+    ],
+    "answer": 1,
+    "explanation": "Named implementations registered in `setup` can be swapped with `provide`, then the machine runs with `createActor` without React."
+  },
+  {
+    "question": "Which state is the weakest fit for a state machine?",
+    "options": [
+      "A multi-step onboarding wizard with conditional steps",
+      "A video player with loading, playing, paused, buffering and ended",
+      "The list of products in a shopping cart",
+      "An auth session with login, refresh, expired and locked states"
+    ],
+    "answer": 2,
+    "explanation": "A cart is data, not a flow: it has no meaningful modes or ordered transitions. A store (Zustand, RTK, MobX) or local state fits better."
+  },
+  {
+    "question": "Migrating from XState v4, which change is correct?",
+    "options": [
+      "`interpret(machine)` became `createActor(machine)`, `cond` became `guard`, and `onDone` data moved to `event.output`",
+      "Machines no longer support context",
+      "`useMachine` was removed from `@xstate/react`",
+      "Guards must now be async"
+    ],
+    "answer": 0,
+    "explanation": "v5 is actor-first: `createActor`, `setup({ actors, guards, actions })`, `guard` instead of `cond`, and `event.output` for done events."
+  }
+]

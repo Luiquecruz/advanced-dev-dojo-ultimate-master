@@ -1,0 +1,6 @@
+[
+  { "term": "Concern-based effects", "description": "Group setup and cleanup by what they synchronize with, not by lifecycle moment. One concern, one `useEffect`." },
+  { "term": "Adjusting state during render", "description": "Track a previous prop in state and call setters during render when it changes. Replaces many `componentDidUpdate`/`getDerivedStateFromProps` resets." },
+  { "term": "Stale closure", "description": "A callback that captured an old render's values. Use updater functions or include values in effect dependencies." },
+  { "term": "Behavior tests", "description": "Tests that check what users see instead of `instance.state`. They survive a class-to-hooks migration unchanged." }
+]

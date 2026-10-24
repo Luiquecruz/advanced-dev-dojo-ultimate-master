@@ -1,0 +1,7 @@
+[
+  { "term": "Error boundary", "description": "A class component that catches errors thrown while rendering its descendants and shows a fallback instead of unmounting the whole app." },
+  { "term": "getDerivedStateFromError", "description": "Static, render-phase method that returns the state used to show the fallback. Must be pure." },
+  { "term": "componentDidCatch", "description": "Commit-phase method for side effects like logging. Receives `info.componentStack`." },
+  { "term": "Uncaught errors", "description": "Event handlers and async callbacks are not caught. Use `try/catch`, or store the error in state and throw it during render." },
+  { "term": "onCaughtError / onUncaughtError", "description": "React 19 `createRoot` options to report errors caught by boundaries or that reached the root." }
+]

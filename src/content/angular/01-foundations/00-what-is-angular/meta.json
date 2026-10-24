@@ -1,0 +1,11 @@
+{
+  "title": "What is Angular?",
+  "summary": "Angular's batteries-included philosophy, the CLI, modern file naming and how the framework evolved into the standalone, signals and zoneless era.",
+  "level": "beginner",
+  "tags": ["theory", "modern", "legacy"],
+  "resources": [
+    { "label": "angular.dev: What is Angular?", "url": "https://angular.dev/overview" },
+    { "label": "angular.dev: Style guide", "url": "https://angular.dev/style-guide" },
+    { "label": "angular.dev: CLI overview", "url": "https://angular.dev/tools/cli" }
+  ]
+}

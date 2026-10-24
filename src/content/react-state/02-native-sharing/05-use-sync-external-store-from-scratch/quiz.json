@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`useSyncExternalStore(store.subscribe, () => ({ count: store.getState().count }))` crashes with \"Maximum update depth exceeded\". Why?",
+    "options": [
+      "`subscribe` must be wrapped in `useCallback`",
+      "`getSnapshot` returns a new object on every call, so React always sees a change",
+      "External stores cannot hold numbers",
+      "The component is missing a key"
+    ],
+    "answer": 1,
+    "explanation": "React compares snapshots with `Object.is`. A fresh object is never equal to the previous one. Return a primitive or a cached reference."
+  },
+  {
+    "question": "A team subscribes to a WebSocket price feed in `useEffect` and copies prices into `useState`. Under concurrent rendering (transitions), two charts briefly show different prices in the same frame. What is this called, and what prevents it?",
+    "options": [
+      "Stale closure; add dependencies",
+      "Tearing; read the feed through `useSyncExternalStore`",
+      "Hydration mismatch; use `suppressHydrationWarning`",
+      "Batching; use `flushSync`"
+    ],
+    "answer": 1,
+    "explanation": "Tearing happens when parts of one render observe different versions of an external source. `useSyncExternalStore` detects changes during render and forces a consistent synchronous render."
+  },
+  {
+    "question": "Why does the memoized `useStore` key its cache on the **selector** too, not only on the snapshot?",
+    "options": [
+      "Selectors are expensive to create",
+      "An inline selector may depend on props; when it changes, the cached result for the old selector would be stale",
+      "React requires selectors to be stable",
+      "It makes server rendering work"
+    ],
+    "answer": 1,
+    "explanation": "`(state) => state.todos.filter((t) => t.done === done)` closes over `done`. If the prop changes but the snapshot does not, only a selector check notices that the result must be recomputed."
+  },
+  {
+    "question": "You need the browser's online/offline status in several components. What is the most appropriate tool?",
+    "options": [
+      "A Redux slice updated from an Effect",
+      "`useSyncExternalStore` subscribing to the `online`/`offline` events and reading `navigator.onLine`",
+      "Context with a `setInterval` polling `navigator.onLine`",
+      "A TanStack Query query"
+    ],
+    "answer": 1,
+    "explanation": "The browser owns that state and emits events: exactly what `useSyncExternalStore` is for. Provide `getServerSnapshot` returning `true` for server rendering."
+  },
+  {
+    "question": "When should an application team build its own store on `useSyncExternalStore` instead of adopting Zustand or Redux Toolkit?",
+    "options": [
+      "Always, to avoid dependencies",
+      "Rarely: for wrapping a browser API or third-party SDK, or in a library that must stay dependency-free",
+      "Whenever state is shared by two components",
+      "Only for server data"
+    ],
+    "answer": 1,
+    "explanation": "Libraries already solve selector memoization, equality, middleware and devtools. Hand-rolled stores make sense for narrow integrations, not as a general app state solution."
+  }
+]

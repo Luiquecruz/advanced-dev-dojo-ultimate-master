@@ -1,0 +1,10 @@
+{
+  "title": "Activity",
+  "summary": "Hide parts of the UI while preserving their state, pausing their effects and pre-rendering them in the background.",
+  "level": "advanced",
+  "tags": ["modern", "new", "performance"],
+  "resources": [
+    { "label": "react.dev: <Activity>", "url": "https://react.dev/reference/react/Activity" },
+    { "label": "react.dev: React 19.2", "url": "https://react.dev/blog/2025/10/01/react-19-2" }
+  ]
+}

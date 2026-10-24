@@ -1,0 +1,10 @@
+{
+  "title": "Route Params & Component Input Binding",
+  "summary": "Read path and query params through component inputs with withComponentInputBinding(), and avoid the ActivatedRoute snapshot pitfall.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "angular.dev: Read route state", "url": "https://angular.dev/guide/routing/read-route-state" },
+    { "label": "angular.dev: withComponentInputBinding", "url": "https://angular.dev/api/router/withComponentInputBinding" }
+  ]
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What happens to navigation while a resolver's HTTP request is pending?",
+    "options": ["The new component renders with undefined data", "Navigation waits; the old page stays visible until the resolver emits", "The router shows a default spinner", "The request is cancelled"],
+    "answer": 1,
+    "explanation": "Resolvers run before activation. Use `Router.events` (NavigationStart/End) to show a global progress bar if needed."
+  },
+  {
+    "question": "A resolver's observable errors and nothing catches it. What happens?",
+    "options": ["The component renders without data", "The navigation is cancelled and the error reaches the router's error handling", "The router retries automatically", "The user is redirected to '/'"],
+    "answer": 1,
+    "explanation": "An uncaught error fails the navigation (`NavigationError`). Handle it with `catchError` and a `RedirectCommand` or a fallback value."
+  },
+  {
+    "question": "When is fetching inside the component (e.g. httpResource) a better choice than a resolver?",
+    "options": ["Never, resolvers are always better", "When you want the page to appear instantly with a skeleton or loading state", "When the data is required", "When using withComponentInputBinding"],
+    "answer": 1,
+    "explanation": "Resolvers trade perceived speed for never rendering incomplete pages. Component-level loading gives instant feedback."
+  }
+]

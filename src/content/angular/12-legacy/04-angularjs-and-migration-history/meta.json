@@ -1,0 +1,10 @@
+{
+  "title": "From AngularJS to Modern Angular",
+  "summary": "How AngularJS became Angular, how teams migrated with ngUpgrade, and how Angular evolved from NgModules and zone.js to standalone, signals and zoneless.",
+  "level": "beginner",
+  "tags": ["legacy", "theory"],
+  "resources": [
+    { "label": "angular.dev: Upgrading from AngularJS", "url": "https://angular.dev/upgrade" },
+    { "label": "angular.dev: Versioning and releases", "url": "https://angular.dev/reference/releases" }
+  ]
+}

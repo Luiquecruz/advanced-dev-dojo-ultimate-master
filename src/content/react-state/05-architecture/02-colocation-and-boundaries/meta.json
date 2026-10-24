@@ -1,0 +1,12 @@
+{
+  "title": "Colocation and Boundaries",
+  "summary": "Refactor an over-globalized store: push state down to its owners, draw feature boundaries and narrow subscriptions.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "Kent C. Dodds: State Colocation will make your React app faster", "url": "https://kentcdodds.com/blog/state-colocation-will-make-your-react-app-faster" },
+    { "label": "react.dev: Preserving and Resetting State", "url": "https://react.dev/learn/preserving-and-resetting-state" },
+    { "label": "react.dev: Sharing State Between Components", "url": "https://react.dev/learn/sharing-state-between-components" }
+  ]
+}

@@ -1,0 +1,6 @@
+[
+  { "term": "<component :is>", "description": "Built-in element that renders the component (object or registered name) or HTML tag passed to `is`." },
+  { "term": "defineAsyncComponent", "description": "Wraps a loader returning a Promise of a component so its code is fetched the first time it renders." },
+  { "term": "Code splitting", "description": "The bundler turns dynamic `import()` calls into separate chunks loaded on demand." },
+  { "term": "shallowRef for components", "description": "Store component definitions in `shallowRef` or plain objects to avoid making them deeply reactive." }
+]

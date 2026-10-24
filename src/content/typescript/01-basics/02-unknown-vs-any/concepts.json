@@ -1,0 +1,14 @@
+[
+  {
+    "term": "any",
+    "description": "Opts out of type checking. Every property access and call compiles, even when it is wrong."
+  },
+  {
+    "term": "unknown",
+    "description": "Accepts every value but forbids using it until it is narrowed."
+  },
+  {
+    "term": "typeof narrowing",
+    "description": "A `typeof value === \"string\"` check refines the type inside the guarded block."
+  }
+]

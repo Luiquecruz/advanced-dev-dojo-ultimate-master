@@ -1,0 +1,10 @@
+{
+  "title": "Hierarchical Injectors",
+  "summary": "Scope services to components with element injectors, understand the resolution walk and use optional/self/skipSelf modifiers.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "angular.dev: Hierarchical injectors", "url": "https://angular.dev/guide/di/hierarchical-dependency-injection" }
+  ]
+}

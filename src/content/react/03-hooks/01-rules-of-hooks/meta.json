@@ -1,0 +1,10 @@
+{
+  "title": "Rules of Hooks",
+  "summary": "Why Hooks rely on call order, the two rules that follow from it, and the tooling that enforces them.",
+  "level": "beginner",
+  "tags": ["core", "theory"],
+  "resources": [
+    { "label": "react.dev: Rules of Hooks", "url": "https://react.dev/reference/rules/rules-of-hooks" },
+    { "label": "react.dev: eslint-plugin-react-hooks", "url": "https://react.dev/reference/eslint-plugin-react-hooks" }
+  ]
+}

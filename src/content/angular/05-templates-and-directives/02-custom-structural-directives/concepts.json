@@ -1,0 +1,7 @@
+[
+  { "term": "Structural directive", "description": "A directive applied with `*` that creates or removes embedded views from a `TemplateRef`." },
+  { "term": "`TemplateRef`", "description": "The blueprint of an `<ng-template>`; injected by structural directives." },
+  { "term": "`ViewContainerRef`", "description": "Anchor where views can be created (`createEmbeddedView`, `createComponent`), moved or cleared." },
+  { "term": "Microsyntax", "description": "The language after `*`: `key expr` maps to inputs, `let x = prop` reads from the context, `let x` reads `$implicit`." },
+  { "term": "`ngTemplateContextGuard`", "description": "Static method that types the template context for `let` variables." }
+]

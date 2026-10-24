@@ -1,0 +1,7 @@
+[
+  { "term": "response.ok", "description": "`true` for 2xx statuses. `fetch` resolves even for 404 or 500, so check `ok` and throw yourself." },
+  { "term": "AbortController", "description": "Creates a `signal` passed to `fetch`; calling `abort()` cancels the request and rejects it with an `AbortError`." },
+  { "term": "Race condition", "description": "An older, slower response arriving after a newer one and overwriting fresh data. Prevented by aborting or ignoring stale requests in the effect cleanup." },
+  { "term": "Custom hook", "description": "A function starting with `use` that calls other hooks. It shares logic; each caller gets its own state." },
+  { "term": "Request waterfall", "description": "Sequential requests caused by children fetching only after their parents finished loading." }
+]

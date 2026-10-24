@@ -1,0 +1,6 @@
+[
+  { "term": "watch()", "description": "Runs a callback when an explicit source (ref, getter, reactive object or array of them) changes. Receives new and old values." },
+  { "term": "watchEffect()", "description": "Runs immediately and re-runs whenever any reactive value it read changes. Tracks only reads before the first `await`." },
+  { "term": "immediate / deep / once", "description": "Watch options: run right away, traverse nested data (a number limits depth since 3.5), or fire a single time." },
+  { "term": "WatchHandle", "description": "Returned by watchers: call it (or `.stop()`) to stop, `.pause()` / `.resume()` (3.5+) to suspend." }
+]

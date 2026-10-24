@@ -1,0 +1,11 @@
+{
+  "title": "Context API Done Right",
+  "summary": "Build a feature provider with a null default, a guarded hook, a stable value and the React 19 context syntax.",
+  "level": "intermediate",
+  "tags": ["core", "new"],
+  "resources": [
+    { "label": "react.dev: createContext", "url": "https://react.dev/reference/react/createContext" },
+    { "label": "react.dev: use", "url": "https://react.dev/reference/react/use" },
+    { "label": "Kent C. Dodds: How to use React Context effectively", "url": "https://kentcdodds.com/blog/how-to-use-react-context-effectively" }
+  ]
+}

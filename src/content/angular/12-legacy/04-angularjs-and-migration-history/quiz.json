@@ -1,0 +1,38 @@
+[
+  {
+    "question": "Why is the Angular 1.x framework called AngularJS while later versions are just Angular?",
+    "options": ["AngularJS only ran on Node.js", "Angular 2 was an incompatible TypeScript rewrite, so the names were split", "Google renamed it for trademark reasons only", "AngularJS was a plugin for Angular"],
+    "answer": 1,
+    "explanation": "Angular 2 was a ground-up rewrite with a different architecture; the old line kept the \"JS\" suffix."
+  },
+  {
+    "question": "What made large AngularJS apps slow?",
+    "options": ["Virtual DOM diffing", "The digest cycle re-running all watchers after each event", "Ahead-of-time compilation", "Signals recomputing too often"],
+    "answer": 1,
+    "explanation": "Every watcher was evaluated repeatedly until the model stabilized, so cost grew with the number of bindings."
+  },
+  {
+    "question": "Which tool let teams run AngularJS and Angular side by side during a migration?",
+    "options": ["`@angular/elements`", "`@angular/upgrade/static` (ngUpgrade)", "`ng generate @angular/core:standalone`", "zone.js"],
+    "answer": 1,
+    "explanation": "ngUpgrade creates hybrid apps with `UpgradeModule`, `downgradeComponent` and `UpgradeComponent`."
+  },
+  {
+    "question": "Which Angular version made Ivy the default compiler and runtime?",
+    "options": ["4", "9", "14", "17"],
+    "answer": 1,
+    "explanation": "Ivy replaced View Engine as the default in Angular 9 (2020)."
+  },
+  {
+    "question": "How does the Angular team usually introduce big changes like standalone, signals or zoneless?",
+    "options": ["As breaking changes in a single major", "Opt-in first with interop and migrations, then as the default in a later major", "Only through third-party libraries", "By forking the framework"],
+    "answer": 1,
+    "explanation": "Each feature shipped as an option, coexisted with the old API, came with schematics, and only later became the default."
+  },
+  {
+    "question": "How long is each Angular major version supported?",
+    "options": ["6 months", "12 months", "18 months (6 active + 12 LTS)", "5 years"],
+    "answer": 2,
+    "explanation": "Majors ship every six months and get 6 months of active support plus 12 months of long-term support."
+  }
+]

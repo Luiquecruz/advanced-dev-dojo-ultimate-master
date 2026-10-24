@@ -1,0 +1,10 @@
+{
+  "title": "Attribute Directives",
+  "summary": "Write attribute directives with host bindings and listeners, compare them with @HostBinding/@HostListener, and compose behavior with hostDirectives.",
+  "level": "intermediate",
+  "tags": ["core", "modern", "legacy"],
+  "resources": [
+    { "label": "angular.dev: Attribute directives", "url": "https://angular.dev/guide/directives/attribute-directives" },
+    { "label": "angular.dev: Directive composition API", "url": "https://angular.dev/guide/directives/directive-composition-api" }
+  ]
+}

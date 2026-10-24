@@ -1,0 +1,9 @@
+[
+  { "term": "Track / trigger", "description": "Reads during an active effect register dependencies (track); writes schedule the dependent effects (trigger)." },
+  { "term": "Effect", "description": "A function Vue re-runs when its dependencies change: component render, computed getter, watcher." },
+  { "term": "Scheduler", "description": "Queues component updates and watchers and flushes them in a microtask, batching synchronous changes." },
+  { "term": "nextTick()", "description": "Promise that resolves after the current update flush, when the DOM reflects the latest state." },
+  { "term": "alien-signals", "description": "Signal algorithm by Johnson Chu that powers `@vue/reactivity` in Vue 3.6." },
+  { "term": "Vapor Mode", "description": "Vue 3.6 opt-in SFC compilation mode without virtual DOM: DOM is created once and patched by fine-grained effects." },
+  { "term": "effectScope()", "description": "Collects effects created inside it so they can be stopped together." }
+]

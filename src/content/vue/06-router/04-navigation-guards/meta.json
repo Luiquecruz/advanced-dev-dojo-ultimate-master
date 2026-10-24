@@ -1,0 +1,11 @@
+{
+  "title": "Navigation Guards",
+  "summary": "Protect routes with beforeEach, type route meta, set titles in afterEach and confirm leaving with onBeforeRouteLeave.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "Vue Router: Navigation Guards", "url": "https://router.vuejs.org/guide/advanced/navigation-guards.html" },
+    { "label": "Vue Router: Route Meta Fields", "url": "https://router.vuejs.org/guide/advanced/meta.html" }
+  ]
+}

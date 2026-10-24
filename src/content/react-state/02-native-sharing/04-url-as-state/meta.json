@@ -1,0 +1,10 @@
+{
+  "title": "URL as State",
+  "summary": "Move filters, search and sorting into search params: parse untrusted input, update functionally and choose push or replace.",
+  "level": "intermediate",
+  "tags": ["core", "ecosystem"],
+  "resources": [
+    { "label": "React Router: useSearchParams", "url": "https://reactrouter.com/api/hooks/useSearchParams" },
+    { "label": "MDN: URLSearchParams", "url": "https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams" }
+  ]
+}

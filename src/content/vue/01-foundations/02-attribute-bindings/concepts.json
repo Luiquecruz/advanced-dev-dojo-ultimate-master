@@ -1,0 +1,7 @@
+[
+  { "term": "v-bind / :", "description": "Binds an attribute or prop to a JavaScript expression and keeps it in sync. `:src=\"url\"` is shorthand for `v-bind:src=\"url\"`." },
+  { "term": "Same-name shorthand", "description": "Since Vue 3.4, `:id` is shorthand for `:id=\"id\"` when the attribute and the variable share a name." },
+  { "term": "Boolean attribute", "description": "Attributes like `disabled` are present when the bound value is truthy (or `''`) and removed when it is falsy." },
+  { "term": "Object binding", "description": "`v-bind=\"obj\"` spreads every key of `obj` as an attribute on the element." },
+  { "term": "Dynamic argument", "description": "`:[name]=\"value\"` computes the attribute name itself from an expression." }
+]

@@ -1,0 +1,11 @@
+{
+  "title": "Headless Components and Hooks",
+  "summary": "Separate behavior from markup with headless hooks, prop getters, handler composition and useId-based accessibility wiring.",
+  "level": "advanced",
+  "tags": ["core", "ecosystem"],
+  "resources": [
+    { "label": "react.dev: Reusing Logic with Custom Hooks", "url": "https://react.dev/learn/reusing-logic-with-custom-hooks" },
+    { "label": "WAI-ARIA APG: Disclosure pattern", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/" },
+    { "label": "Downshift: prop getters", "url": "https://github.com/downshift-js/downshift#prop-getters" }
+  ]
+}

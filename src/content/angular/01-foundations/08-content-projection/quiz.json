@@ -1,0 +1,25 @@
+[
+  {
+    "question": "In whose context are bindings inside projected content evaluated?",
+    "options": ["The child component that contains `<ng-content>`", "The parent component that wrote the markup", "The root component", "No context: projected content is static"],
+    "answer": 1,
+    "explanation": "Projected nodes are declared and owned by the parent, so `{{ unread() }}` reads the parent's signal."
+  },
+  {
+    "question": "A child wraps `<ng-content />` in `@if (open())` and `open()` is false. What happens to a component projected into it?",
+    "options": [
+      "It is never created",
+      "It is created by the parent anyway, just not attached to the DOM",
+      "Angular throws an error",
+      "It is rendered outside the child"
+    ],
+    "answer": 1,
+    "explanation": "Projected content is instantiated by the parent regardless of where (or whether) the child shows it. Use `<ng-template>` for lazy content."
+  },
+  {
+    "question": "Which element is projected into `<ng-content select=\"[title]\" />` for `<app-x><div><h2 title>Hi</h2></div></app-x>`?",
+    "options": ["The `<h2>` only", "Nothing: the `<div>` goes to the default slot because only top-level children are matched", "Both the `<div>` and the `<h2>`", "A compile error is raised"],
+    "answer": 1,
+    "explanation": "`select` only matches the direct children of the component element."
+  }
+]

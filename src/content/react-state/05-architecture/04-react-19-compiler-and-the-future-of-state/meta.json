@@ -1,0 +1,12 @@
+{
+  "title": "React 19, the Compiler and the Future of State",
+  "summary": "Actions, useActionState, useOptimistic, use, Server Components, Activity and React Compiler 1.0: what they replace and what still needs a store or a cache.",
+  "level": "advanced",
+  "tags": ["theory", "new", "performance"],
+  "resources": [
+    { "label": "react.dev: React v19", "url": "https://react.dev/blog/2024/12/05/react-19" },
+    { "label": "react.dev: React 19.2", "url": "https://react.dev/blog/2025/10/01/react-19-2" },
+    { "label": "react.dev: React Compiler v1.0", "url": "https://react.dev/blog/2025/10/07/react-compiler-1" },
+    { "label": "react.dev: React 19.3", "url": "https://react.dev/blog/2026/09/09/react-19-3" }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "State as a Snapshot and Batching",
+  "summary": "Understand why state looks stale inside handlers, how React batches updates and when to use updater functions.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: State as a Snapshot", "url": "https://react.dev/learn/state-as-a-snapshot" },
+    { "label": "react.dev: Queueing a Series of State Updates", "url": "https://react.dev/learn/queueing-a-series-of-state-updates" }
+  ]
+}

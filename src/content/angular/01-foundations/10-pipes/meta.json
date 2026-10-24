@@ -1,0 +1,11 @@
+{
+  "title": "Pipes",
+  "summary": "Format values with built-in pipes (currency, date, percent, titlecase…) and write a pure custom pipe.",
+  "level": "beginner",
+  "tags": ["core"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "angular.dev: Pipes", "url": "https://angular.dev/guide/templates/pipes" },
+    { "label": "angular.dev: Creating custom pipes", "url": "https://angular.dev/guide/templates/pipes#creating-custom-pipes" }
+  ]
+}

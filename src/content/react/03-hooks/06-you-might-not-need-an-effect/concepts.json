@@ -1,0 +1,6 @@
+[
+  { "term": "Derived state", "description": "Data computable from props and state. Calculate it during render instead of syncing it with an Effect." },
+  { "term": "Event-specific logic", "description": "Code that should run because of a particular interaction. It belongs in the event handler, not in an Effect." },
+  { "term": "Reset with key", "description": "Changing a component's `key` remounts it with fresh state, replacing Effects that reset state on prop change." },
+  { "term": "Extra render pass", "description": "Setting state inside an Effect commits a stale UI first, then renders again. Visible as two Profiler commits." }
+]

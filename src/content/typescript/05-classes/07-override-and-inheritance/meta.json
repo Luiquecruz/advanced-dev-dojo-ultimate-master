@@ -1,0 +1,6 @@
+{
+  "title": "override and inheritance",
+  "summary": "Extend classes safely with super, the override keyword, compatible signatures and new.target.",
+  "level": "advanced",
+  "tags": ["core", "modern"]
+}

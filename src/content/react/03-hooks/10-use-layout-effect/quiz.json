@@ -1,0 +1,24 @@
+[
+  {
+    "question": "When does `useLayoutEffect` run compared to `useEffect`?",
+    "options": [
+      "Before the DOM is updated",
+      "After DOM mutations but before the browser paints",
+      "After paint, just like `useEffect`",
+      "Only on the server"
+    ],
+    "answer": 1,
+    "explanation": "Layout effects run synchronously after React mutates the DOM and before paint, so measurements and corrections are never visible as a flicker."
+  },
+  {
+    "question": "Why not use `useLayoutEffect` everywhere?",
+    "options": [
+      "It cannot set state",
+      "It blocks painting, so slow work makes the UI feel sluggish",
+      "It runs twice in production",
+      "It does not support cleanup"
+    ],
+    "answer": 1,
+    "explanation": "Everything inside a layout effect delays the frame. Default to `useEffect` and switch only for layout reads that must be applied before paint."
+  }
+]

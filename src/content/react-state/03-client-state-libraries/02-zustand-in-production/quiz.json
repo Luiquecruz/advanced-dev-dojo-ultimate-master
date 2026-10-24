@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A persisted store renames `darkMode: boolean` to `theme: 'light' | 'dark'`. Returning users report the theme reset to light. What was missing?",
+    "options": [
+      "A `useEffect` that reads `localStorage`",
+      "Bumping `version` and writing a `migrate` function that converts the old field",
+      "`partialize`",
+      "The `devtools` middleware"
+    ],
+    "answer": 1,
+    "explanation": "Persisted data outlives deployments. `version` marks the stored shape, and `migrate` converts older versions on hydration instead of silently dropping data."
+  },
+  {
+    "question": "Which fields should a `persist` `partialize` usually exclude?",
+    "options": [
+      "User preferences such as theme and language",
+      "Transient UI flags (open panels), loading states, server data and secrets",
+      "Recently viewed item ids",
+      "A saved draft the user expects to recover"
+    ],
+    "answer": 1,
+    "explanation": "Persist only what the user expects to find after a reload. Restoring an open modal or stale server data creates confusing states, and secrets do not belong in `localStorage`."
+  },
+  {
+    "question": "A Next.js app uses a module-level `create()` store. Users occasionally see another user's cart after a server render. What is the fix?",
+    "options": [
+      "Add `persist`",
+      "Create a vanilla store per request/tree with `createStore` inside a provider and read it with `useStore` through context",
+      "Use `useShallow`",
+      "Call `setState` in `useEffect`"
+    ],
+    "answer": 1,
+    "explanation": "On the server, module state is shared across requests. A store created per provider (per request) isolates users. The same pattern isolates tests and multiple widget instances."
+  },
+  {
+    "question": "The store is exposed through context (`<StoreContext value={store}>`). Does every consumer re-render when the store state changes?",
+    "options": [
+      "Yes, context always re-renders consumers",
+      "No: the context value is the store reference, which never changes; `useStore(store, selector)` decides re-renders",
+      "Only consumers that use `useShallow`",
+      "Only in development"
+    ],
+    "answer": 1,
+    "explanation": "Context transports a stable reference, so it never triggers updates. Subscriptions and selectors work exactly as with a singleton store."
+  },
+  {
+    "question": "In what order should `devtools` and `persist` wrap the initializer?",
+    "options": [
+      "`persist(devtools(initializer))`, so persisted actions are named",
+      "`devtools(persist(initializer))`, so devtools is outermost and records every update, including rehydration",
+      "Order never matters",
+      "They cannot be combined"
+    ],
+    "answer": 1,
+    "explanation": "Zustand recommends `devtools` as the last (outermost) middleware so it observes changes made by the middleware inside it."
+  }
+]

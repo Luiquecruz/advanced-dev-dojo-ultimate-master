@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Which builder runs unit tests in a new Angular 21+ project?",
+    "options": ["`@angular-devkit/build-angular:karma`", "`@angular/build:unit-test` with Vitest", "`@angular/build:jest`", "`@nx/vite:test` only"],
+    "answer": 1,
+    "explanation": "New projects use the `@angular/build:unit-test` builder, which runs Vitest by default."
+  },
+  {
+    "question": "In a zoneless test, what should you do after clicking a button and before reading the DOM?",
+    "options": ["Nothing, zone.js updates the view", "`await fixture.whenStable()`", "Call `tick()` inside `fakeAsync`", "Re-create the component"],
+    "answer": 1,
+    "explanation": "`whenStable()` lets Angular run change detection for dirty views and finish pending work. `fakeAsync` requires zone.js."
+  },
+  {
+    "question": "What is the Vitest equivalent of `jasmine.createSpy()`?",
+    "options": ["`vi.mock()`", "`vi.fn()`", "`expect.spy()`", "`TestBed.spy()`"],
+    "answer": 1,
+    "explanation": "`vi.fn()` creates a mock function; `vi.spyOn(object, 'method')` replaces `spyOn`."
+  }
+]

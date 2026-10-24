@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Object type literal",
+    "description": "An inline type such as `{ name: string; age: number }` that describes the properties an object must have."
+  },
+  {
+    "term": "Type alias",
+    "description": "`type Name = ...` gives any type a reusable name. It does not create a new type, only a label for it."
+  },
+  {
+    "term": "Optional property",
+    "description": "`key?: T` means the property may be missing. Reading it yields `T | undefined`."
+  }
+]

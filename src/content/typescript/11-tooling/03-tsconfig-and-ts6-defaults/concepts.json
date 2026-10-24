@@ -1,0 +1,8 @@
+[
+  { "term": "tsconfig.json", "description": "Project root marker with `compilerOptions`, file selection (`include`, `exclude`, `files`), `extends` and `references`." },
+  { "term": "strict", "description": "Umbrella flag for the strict checks. On by default since TypeScript 6.0." },
+  { "term": "noUncheckedIndexedAccess", "description": "Adds `| undefined` to index access results. Not part of `strict`." },
+  { "term": "ignoreDeprecations", "description": "`\"6.0\"` silences TypeScript 6 deprecation errors until the options disappear in 7.0." },
+  { "term": "target vs lib", "description": "`target` decides which syntax is downleveled; `lib` decides which built-in APIs are typed." },
+  { "term": "Project references", "description": "Split large codebases into smaller projects built incrementally with `tsc --build`." }
+]

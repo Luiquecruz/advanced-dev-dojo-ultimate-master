@@ -1,0 +1,6 @@
+[
+  { "term": "Setup store", "description": "`defineStore(id, () => { ...; return { ... } })`. Returned refs are state, computeds are getters, functions are actions." },
+  { "term": "Private store state", "description": "Values not returned from the setup function. Avoid it for state: devtools, SSR and plugins cannot see it." },
+  { "term": "$reset", "description": "Built into option stores. Setup stores must define and return their own." },
+  { "term": "Async action", "description": "An `async` function that performs side effects and updates state; always handle loading and error states." }
+]

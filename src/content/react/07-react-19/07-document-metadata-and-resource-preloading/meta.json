@@ -1,0 +1,10 @@
+{
+  "title": "Document Metadata & Resource Preloading",
+  "summary": "Render title, meta and link tags from any component and hint resources with preload, preinit and preconnect.",
+  "level": "intermediate",
+  "tags": ["modern", "new", "performance"],
+  "resources": [
+    { "label": "react.dev: <title>", "url": "https://react.dev/reference/react-dom/components/title" },
+    { "label": "react.dev: Resource Preloading APIs", "url": "https://react.dev/reference/react-dom#resource-preloading-apis" }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Generic functions",
+  "summary": "Type parameters let one function work with many types while keeping the relation between inputs and outputs.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

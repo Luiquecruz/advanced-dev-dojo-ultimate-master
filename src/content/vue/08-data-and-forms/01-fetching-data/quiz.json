@@ -1,0 +1,4 @@
+[
+  { "question": "The API answers with HTTP 500. What does `await fetch(url)` do?", "options": ["Throws a TypeError", "Resolves with a Response whose `ok` is false", "Returns null", "Retries automatically"], "answer": 1, "explanation": "`fetch` only rejects on network failures. HTTP errors resolve normally, so you must check `response.ok`." },
+  { "question": "Where must `onWatcherCleanup()` be called inside an async watcher callback?", "options": ["Anywhere", "After the last `await`", "Synchronously, before the first `await`", "Only inside `onUnmounted`"], "answer": 2, "explanation": "Vue tracks the active watcher synchronously. After an `await`, use the `onCleanup` argument of the callback instead." }
+]

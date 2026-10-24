@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A class declares `private token = 'abc'`. What does `JSON.stringify(instance)` produce?",
+    "options": ["`{}`", "`{\"token\":\"abc\"}`", "A runtime error", "A compile error"],
+    "answer": 1,
+    "explanation": "`private` is erased during compilation, so `token` is an ordinary property at runtime and gets serialized."
+  },
+  {
+    "question": "Which member can a subclass read?",
+    "options": ["`#secret`", "`private secret`", "`protected secret`", "None of them"],
+    "answer": 2,
+    "explanation": "`protected` members are accessible in subclasses. Both `private` and `#private` are restricted to the declaring class."
+  },
+  {
+    "question": "Inside `class Wallet`, may a method read `other.#coins` where `other` is another `Wallet`?",
+    "options": ["Yes, privacy is scoped to the class body", "No, only `this.#coins` is allowed", "Only in static methods", "Only if `other` is `readonly`"],
+    "answer": 0,
+    "explanation": "Private names are visible to all code inside the class body, for any instance of that class."
+  }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Controlled input", "description": "An input whose `value` comes from React state and is updated through `onChange`." },
+  { "term": "Computed property name", "description": "`{ [name]: value }` uses a variable as an object key, letting one handler update any field." },
+  { "term": "Derived errors", "description": "Errors computed from current values during render, so they can never be out of sync." },
+  { "term": "aria-invalid / aria-describedby", "description": "Announce a field as invalid and link it to the element that explains the error." },
+  { "term": "noValidate", "description": "Disables the browser's built-in validation bubbles so the app can render its own messages." },
+  { "term": "preventDefault", "description": "Stops the browser's default full-page form submission." }
+]

@@ -1,0 +1,6 @@
+{
+  "title": "void, never, null and undefined",
+  "summary": "Handle missing values safely under strictNullChecks and know when to use `void` and `never`.",
+  "level": "beginner",
+  "tags": ["core"]
+}

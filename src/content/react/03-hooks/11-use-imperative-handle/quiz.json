@@ -1,0 +1,24 @@
+[
+  {
+    "question": "In React 19, how does a function component receive a ref from its parent?",
+    "options": [
+      "Only through `forwardRef`",
+      "As a regular `ref` prop",
+      "Through `this.ref`",
+      "Function components cannot receive refs"
+    ],
+    "answer": 1,
+    "explanation": "React 19 treats `ref` as a normal prop for function components. `forwardRef` still works but is no longer necessary."
+  },
+  {
+    "question": "A parent wants to open and close a `<Modal>`. What is the best API?",
+    "options": [
+      "`modalRef.current.open()` via `useImperativeHandle`",
+      "An `isOpen` prop",
+      "Accessing the modal's DOM node and toggling `display`",
+      "A global variable"
+    ],
+    "answer": 1,
+    "explanation": "Visibility is state, so it should be declarative. Imperative handles are for actions like focus, scroll or media playback that props cannot express."
+  }
+]

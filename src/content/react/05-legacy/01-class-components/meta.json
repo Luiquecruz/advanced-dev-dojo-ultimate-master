@@ -1,0 +1,10 @@
+{
+  "title": "Class Components",
+  "summary": "Read and write class components: this.props, this.state, setState merging and updaters, method binding and defaultProps.",
+  "level": "intermediate",
+  "tags": ["legacy"],
+  "resources": [
+    { "label": "react.dev: Component (class API reference)", "url": "https://react.dev/reference/react/Component" },
+    { "label": "react.dev: Migrating a simple component from a class to a function", "url": "https://react.dev/reference/react/Component#alternatives" }
+  ]
+}

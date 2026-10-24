@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Which members does `withEntities<Todo>()` add to a store?",
+    "options": ["`todos` and `setTodos`", "`ids`, `entityMap` and `entities`", "`entities` only, as a writable signal", "`selectAll` and `selectById`"],
+    "answer": 1,
+    "explanation": "`ids` and `entityMap` are state; `entities` is a computed array built from them in id order."
+  },
+  {
+    "question": "Why does `withComputed` placed *before* `withState({ filter })` fail to read `filter`?",
+    "options": ["Computed signals cannot read state", "Features are applied in order and only see what earlier features added", "`withComputed` must always be the last feature", "Because `filter` is protected state"],
+    "answer": 1,
+    "explanation": "Each feature receives the store built so far. Declare state before anything that reads it."
+  },
+  {
+    "question": "When does `onInit` of a `providedIn: 'root'` store run?",
+    "options": ["At application bootstrap, always", "The first time the store is injected", "Every time a component injects it", "Only when `ngOnInit` of a component runs"],
+    "answer": 1,
+    "explanation": "The store is instantiated lazily by the root injector, and `onInit` runs when that instance is created."
+  }
+]

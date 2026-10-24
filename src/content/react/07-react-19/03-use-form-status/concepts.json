@@ -1,0 +1,6 @@
+[
+  { "term": "useFormStatus", "description": "Hook from `react-dom` returning `{ pending, data, method, action }` for the nearest parent `<form>` with a function action." },
+  { "term": "pending", "description": "`true` while the parent form's Action runs." },
+  { "term": "data", "description": "The `FormData` being submitted, or `null` when idle. Read fields with `data.get(name)`." },
+  { "term": "Parent form rule", "description": "The Hook must be called in a component rendered *inside* the `<form>`, never in the component that renders it." }
+]

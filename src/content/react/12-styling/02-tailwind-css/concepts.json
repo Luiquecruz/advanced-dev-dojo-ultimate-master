@@ -1,0 +1,7 @@
+[
+  { "term": "Utility class", "description": "A single-purpose class such as `p-4` or `text-sm` that applies one design decision." },
+  { "term": "@theme", "description": "Tailwind v4 block of CSS variables (design tokens). The namespace (`--color-*`, `--font-*`, `--breakpoint-*`) decides which utilities and variants are generated." },
+  { "term": "Variant", "description": "A prefix that applies a utility conditionally: `hover:`, `md:`, `dark:`, `aria-selected:`, `group-hover:`." },
+  { "term": "Content detection", "description": "Tailwind scans source files as text to find class names. Class names built at runtime (`bg-${color}-500`) are invisible to it." },
+  { "term": "tailwind-merge", "description": "Resolves conflicting utilities so the last one wins: `twMerge('p-4', 'p-2')` returns `'p-2'`. Often wrapped with clsx in a `cn()` helper." }
+]

@@ -1,0 +1,6 @@
+{
+  "title": "Type inference",
+  "summary": "Let TypeScript infer types from values and contexts, and annotate only the boundaries it cannot see.",
+  "level": "beginner",
+  "tags": ["core"]
+}

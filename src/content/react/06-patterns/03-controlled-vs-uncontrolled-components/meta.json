@@ -1,0 +1,10 @@
+{
+  "title": "Controlled vs Uncontrolled Components",
+  "summary": "value vs defaultValue, reading forms with FormData, and building components that support both controlled and uncontrolled use.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: Controlled and uncontrolled components", "url": "https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components" },
+    { "label": "react.dev: <input>", "url": "https://react.dev/reference/react-dom/components/input" }
+  ]
+}

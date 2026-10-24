@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Nested object type",
+    "description": "A property whose type is itself an object type, inline or named."
+  },
+  {
+    "term": "Indexed access type",
+    "description": "`Type[\"key\"]` reads the type of a property. `ArrayType[number]` reads the element type."
+  },
+  {
+    "term": "Array<T> methods",
+    "description": "`map`, `filter` and `reduce` preserve and infer element types."
+  }
+]

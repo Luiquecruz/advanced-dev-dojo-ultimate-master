@@ -1,0 +1,58 @@
+[
+  {
+    "question": "What does a React Native `<View>` render to on iOS?",
+    "options": ["A `<div>` inside a WebView", "A native `UIView`", "A canvas drawing", "An HTML string"],
+    "answer": 1,
+    "explanation": "React Native renders real native views; there is no DOM and no WebView involved."
+  },
+  {
+    "question": "Which snippet is valid React Native?",
+    "options": [
+      "<View>Hello</View>",
+      "<View><Text>Hello</Text></View>",
+      "<div><Text>Hello</Text></div>",
+      "<View><p>Hello</p></View>"
+    ],
+    "answer": 1,
+    "explanation": "All text must be inside a `<Text>` component, and DOM elements such as `div` and `p` do not exist."
+  },
+  {
+    "question": "What did the New Architecture replace?",
+    "options": [
+      "JSX with a template language",
+      "The asynchronous JSON bridge, with JSI, the Fabric renderer and TurboModules",
+      "Hooks with class components",
+      "Flexbox with CSS Grid"
+    ],
+    "answer": 1,
+    "explanation": "JSI lets JavaScript call native code directly; Fabric is the concurrent-capable renderer; TurboModules are lazily loaded native modules."
+  },
+  {
+    "question": "Since React Native 0.82, how do apps relate to the legacy architecture?",
+    "options": [
+      "Legacy is still the default",
+      "Apps run only on the New Architecture; the legacy one can no longer be enabled",
+      "Both run side by side",
+      "The New Architecture is experimental"
+    ],
+    "answer": 1,
+    "explanation": "The New Architecture became the default in 0.76, legacy was frozen in 0.80, and 0.82 runs entirely on the New Architecture."
+  },
+  {
+    "question": "What is the recommended way to start a new React Native app today?",
+    "options": [
+      "`npx react-native init` and edit native projects by hand",
+      "A framework such as Expo (`npx create-expo-app`), with Expo Router",
+      "Create React App with a mobile template",
+      "Wrap a web app in a WebView"
+    ],
+    "answer": 1,
+    "explanation": "The React Native docs recommend a framework, and Expo provides native modules, file-based routing, builds and OTA updates."
+  },
+  {
+    "question": "Which library runs animations on the UI thread to avoid JS-thread jank?",
+    "options": ["Reanimated", "Redux", "Axios", "Formik"],
+    "answer": 0,
+    "explanation": "Reanimated runs animation worklets on the UI thread, so animations stay smooth even when JavaScript is busy."
+  }
+]

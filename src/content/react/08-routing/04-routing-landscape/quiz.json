@@ -1,0 +1,52 @@
+[
+  {
+    "question": "Which React Router 7 mode gives you SSR, route type generation and automatic code splitting?",
+    "options": ["Declarative mode", "Data mode", "Framework mode", "Memory mode"],
+    "answer": 2,
+    "explanation": "Framework mode uses the `@react-router/dev` Vite plugin and is the successor of Remix."
+  },
+  {
+    "question": "What happened to Remix with React Router 7?",
+    "options": [
+      "It was discontinued without replacement",
+      "Its features were merged into React Router as framework mode",
+      "It was renamed to TanStack Start",
+      "It became part of Next.js"
+    ],
+    "answer": 1,
+    "explanation": "React Router 7 absorbed Remix: an app can grow from declarative to data to framework mode."
+  },
+  {
+    "question": "What is TanStack Router's main differentiator?",
+    "options": [
+      "It only works with Server Components",
+      "End-to-end type safety, including typed and validated search params",
+      "It has no loaders",
+      "It is built into React"
+    ],
+    "answer": 1,
+    "explanation": "Params, search params and loader data are typed, so invalid links fail at compile time."
+  },
+  {
+    "question": "In the Next.js App Router, how is `/posts/:postId` defined?",
+    "options": [
+      "`<Route path=\"/posts/:postId\">` in a routes file",
+      "`app/posts/[postId]/page.tsx`",
+      "`pages/posts.tsx` with a `postId` prop",
+      "`createBrowserRouter([{ path: 'posts/:postId' }])`"
+    ],
+    "answer": 1,
+    "explanation": "Folders define segments, brackets mark dynamic segments, and `page.tsx` makes the segment routable."
+  },
+  {
+    "question": "How do App Router pages usually load data?",
+    "options": [
+      "`useEffect` in every page",
+      "`getInitialProps`",
+      "`async` Server Components that await data directly",
+      "Only client-side loaders"
+    ],
+    "answer": 2,
+    "explanation": "Components are Server Components by default and can `await` data. `getServerSideProps` and `getInitialProps` belong to the older Pages Router."
+  }
+]

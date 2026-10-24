@@ -1,0 +1,19 @@
+[
+  {
+    "question": "What does `{ [K in keyof T as T[K] extends string ? K : never]: T[K] }` produce for `{ a: string; b: number }`?",
+    "options": ["`{ a: string; b: never }`", "`{ a: string }`", "`{ a: string; b: number }`", "`never`"],
+    "answer": 1,
+    "explanation": "Mapping a key to `never` in the `as` clause removes the property entirely, so only `a` survives."
+  },
+  {
+    "question": "Why write `Capitalize<string & K>` instead of `Capitalize<K>` when `K in keyof T`?",
+    "options": [
+      "To make the property optional",
+      "Because `keyof T` can include `number` and `symbol` keys, and `Capitalize` only accepts strings",
+      "Because `Capitalize` is not distributive",
+      "It is only a style preference"
+    ],
+    "answer": 1,
+    "explanation": "`string & K` keeps the string members of the key union and drops symbols, satisfying the `string` constraint of `Capitalize`."
+  }
+]

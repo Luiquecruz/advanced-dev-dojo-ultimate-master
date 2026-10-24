@@ -1,0 +1,9 @@
+[
+  { "term": "Finite state", "description": "The named mode a flow is in (`editing`, `submitting`). Exactly one at a time, so impossible combinations of booleans disappear." },
+  { "term": "Context", "description": "Extended, quantitative data of a machine (form values, results). Updated only with `assign` in actions." },
+  { "term": "Guard", "description": "A predicate that must pass for a transition to be taken. Named guards are declared in `setup({ guards })` and checked by `snapshot.can(event)`." },
+  { "term": "Invoked actor", "description": "Work started when a state is entered and stopped when it is left, e.g. `fromPromise`. Results arrive as `onDone` (`event.output`) and `onError` (`event.error`)." },
+  { "term": "setup()", "description": "XState v5 entry point that registers named actors, guards, actions and delays, then builds the machine with `.createMachine(config)`." },
+  { "term": "machine.provide()", "description": "Returns a copy of the machine with some implementations replaced, used to inject fake actors in tests." },
+  { "term": "useActorRef + useSelector", "description": "Run a machine without re-rendering on every snapshot, subscribing components to selected slices only." }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "question": "Which type accepts `\"text\"`, `<b>bold</b>`, `null` and an array of elements as children?",
+    "options": ["`JSX.Element`", "`ReactElement`", "`ReactNode`", "`string`"],
+    "answer": 2,
+    "explanation": "`ReactNode` is the union of everything React can render. `JSX.Element`/`ReactElement` only accept a single element."
+  },
+  {
+    "question": "Why did many teams stop using `React.FC<Props>`?",
+    "options": [
+      "It is removed in React 19",
+      "It used to add implicit `children` to every component and worked poorly with generics",
+      "It is slower at runtime",
+      "It cannot type props"
+    ],
+    "answer": 1,
+    "explanation": "Older `@types/react` versions gave every `FC` an optional `children`, hiding bugs. Plain functions with annotated props are simpler and support generics."
+  },
+  {
+    "question": "With `function Badge({ size = 16 }: { size?: number })`, what is the type of `size` inside the component?",
+    "options": ["`number | undefined`", "`number`", "`16`", "`any`"],
+    "answer": 1,
+    "explanation": "The destructuring default replaces `undefined`, so TypeScript narrows `size` to `number`."
+  }
+]

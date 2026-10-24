@@ -1,0 +1,35 @@
+[
+  {
+    "question": "In Tailwind v4, how do you add a brand color that generates `bg-brand-500` and `text-brand-500`?",
+    "options": [
+      "Add it to `theme.extend.colors` in tailwind.config.js",
+      "Declare `--color-brand-500` inside an `@theme` block in your CSS",
+      "Write `.bg-brand-500 { ... }` by hand",
+      "Call `addColor('brand-500')` in a plugin"
+    ],
+    "answer": 1,
+    "explanation": "v4 is configured in CSS. Variables in the `--color-*` namespace inside `@theme` generate every color utility and are also exposed as CSS variables."
+  },
+  {
+    "question": "Why does `className={`text-${tone}-700`}` usually render without color?",
+    "options": [
+      "Tailwind does not support template strings in React",
+      "The scanner reads source as text and never sees the full class name, so no CSS is generated",
+      "The class needs the `!` important modifier",
+      "React strips dynamic class names"
+    ],
+    "answer": 1,
+    "explanation": "Tailwind never executes your code. Map values to complete class strings so they appear literally in the source."
+  },
+  {
+    "question": "What does `p-4 md:p-6` mean?",
+    "options": [
+      "Padding 1.5rem only on medium screens",
+      "Padding 1rem below `md` and 1.5rem from the `md` breakpoint up",
+      "Padding 1rem on medium screens, 1.5rem elsewhere",
+      "The classes conflict and the first one wins"
+    ],
+    "answer": 1,
+    "explanation": "Breakpoint variants are min-width (mobile first): the unprefixed utility applies everywhere until a larger breakpoint overrides it."
+  }
+]

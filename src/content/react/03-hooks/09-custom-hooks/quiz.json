@@ -1,0 +1,19 @@
+[
+  {
+    "question": "Two components both call `useOnlineStatus()`. How many `isOnline` states exist?",
+    "options": ["One shared state", "Two independent states", "Zero; custom Hooks cannot hold state", "It depends on the order of rendering"],
+    "answer": 1,
+    "explanation": "Custom Hooks reuse logic. Each call runs its own `useState` and `useEffect`, so every caller has independent state."
+  },
+  {
+    "question": "Which of these should NOT be named with the `use` prefix?",
+    "options": [
+      "A function calling `useState` and `useEffect`",
+      "A function calling `useContext`",
+      "A pure function `formatPrice(amount)` that calls no Hooks",
+      "A function calling another custom Hook"
+    ],
+    "answer": 2,
+    "explanation": "The prefix signals that the Rules of Hooks apply. A plain function can be called anywhere, including conditionally, so it should not use the prefix."
+  }
+]

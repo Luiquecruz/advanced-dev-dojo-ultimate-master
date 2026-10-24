@@ -1,0 +1,7 @@
+[
+  { "term": "Server state", "description": "Data owned by a remote system: asynchronous, shared, possibly changed by others and always potentially stale." },
+  { "term": "Stale-while-revalidate", "description": "Show cached data immediately and refetch in the background, swapping in fresh data when it arrives." },
+  { "term": "staleTime / gcTime", "description": "How long data is considered fresh (no refetch) and how long unused cache entries are kept in memory." },
+  { "term": "Invalidation", "description": "Marking cached entries stale after a write so active queries refetch: `invalidateQueries` or RTK Query tags." },
+  { "term": "Document vs normalized cache", "description": "Document caches store responses per key (TanStack, RTK Query); normalized caches store entities by id (Apollo, Relay)." }
+]

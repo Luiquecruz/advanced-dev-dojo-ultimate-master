@@ -1,0 +1,11 @@
+{
+  "title": "Pinia Option Stores",
+  "summary": "Share state across components with a Pinia option store: state, getters, actions and $reset.",
+  "level": "beginner",
+  "tags": ["core", "modern"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "Pinia: Defining a Store", "url": "https://pinia.vuejs.org/core-concepts/" },
+    { "label": "Pinia: Migrating from 2.x to 3.x", "url": "https://pinia.vuejs.org/cookbook/migration-v2-v3.html" }
+  ]
+}

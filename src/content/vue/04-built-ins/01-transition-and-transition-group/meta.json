@@ -1,0 +1,7 @@
+{
+  "title": "Transition & TransitionGroup",
+  "summary": "Animate elements entering and leaving, swap views with modes and animate keyed lists.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [{ "label": "vuejs.org: Transition", "url": "https://vuejs.org/guide/built-ins/transition.html" }]
+}

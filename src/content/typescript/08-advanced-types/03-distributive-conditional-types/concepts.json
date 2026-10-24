@@ -1,0 +1,6 @@
+[
+  { "term": "Distributive conditional type", "description": "A conditional type whose checked type is a naked type parameter is applied to each union member separately and the results are unioned." },
+  { "term": "Naked type parameter", "description": "A type parameter that appears alone on the left of `extends`, not wrapped in a tuple, array or object type." },
+  { "term": "`[T] extends [U]`", "description": "Wrapping both sides in a one-element tuple disables distribution, so the union is checked as a whole." },
+  { "term": "never as empty union", "description": "Distributing over `never` produces `never`, regardless of the branches." }
+]

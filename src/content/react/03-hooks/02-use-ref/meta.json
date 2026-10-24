@@ -1,0 +1,11 @@
+{
+  "title": "useRef",
+  "summary": "Keep mutable values across renders without re-rendering, and reach DOM nodes directly.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: Referencing Values with Refs", "url": "https://react.dev/learn/referencing-values-with-refs" },
+    { "label": "react.dev: Manipulating the DOM with Refs", "url": "https://react.dev/learn/manipulating-the-dom-with-refs" },
+    { "label": "react.dev: useRef", "url": "https://react.dev/reference/react/useRef" }
+  ]
+}

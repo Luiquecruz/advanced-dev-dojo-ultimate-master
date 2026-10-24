@@ -1,0 +1,6 @@
+{
+  "title": "Optional, default and rest parameters",
+  "summary": "Make parameters optional, give them defaults that respect falsy values, and accept variable argument lists with typed rest parameters.",
+  "level": "beginner",
+  "tags": ["core", "legacy", "modern"]
+}

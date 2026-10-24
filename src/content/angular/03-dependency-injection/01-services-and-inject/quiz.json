@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Where can `inject(CartService)` be called?",
+    "options": ["Anywhere in a component, including click handlers", "In field initializers, constructors and provider factories (an injection context)", "Only in `ngOnInit`", "Only inside services"],
+    "answer": 1,
+    "explanation": "`inject()` needs an active injection context. Calling it in an event handler throws `NG0203`; inject in a field and use the field later."
+  },
+  {
+    "question": "What happens if a component lists a `providedIn: 'root'` service in its own `providers` array?",
+    "options": ["Nothing, Angular reuses the root instance", "A compile error", "That component and its children get a separate instance", "The root instance is replaced globally"],
+    "answer": 2,
+    "explanation": "Component providers create a new instance in that element injector, shadowing the root singleton for the subtree."
+  },
+  {
+    "question": "Which statement about `@Service()` (Angular 22) is true?",
+    "options": ["It supports constructor injection only", "It is provided in root automatically and uses `inject()` for dependencies", "It replaces `@Component`", "It cannot have a factory"],
+    "answer": 1,
+    "explanation": "`@Service()` is a shorthand for root singletons. It supports `inject()` (not constructor injection) and accepts `autoProvided: false` or a `factory`."
+  }
+]

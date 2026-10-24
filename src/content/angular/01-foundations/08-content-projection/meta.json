@@ -1,0 +1,10 @@
+{
+  "title": "Content Projection",
+  "summary": "Build layout components that render parent markup with <ng-content>, named slots, fallback content and ngProjectAs.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "angular.dev: Content projection with ng-content", "url": "https://angular.dev/guide/components/content-projection" }
+  ]
+}

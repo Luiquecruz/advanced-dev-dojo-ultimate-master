@@ -1,0 +1,5 @@
+[
+  { "term": "Exhaustiveness check", "description": "A compile-time guarantee that every member of a union is handled, usually by assigning the leftover value to `never`." },
+  { "term": "assertNever", "description": "Helper `(value: never): never` called in the unreachable branch. Compile error when a member is missing, runtime error on unexpected data." },
+  { "term": "satisfies never", "description": "TypeScript 4.9+ inline variant: `value satisfies never` fails to compile unless the value is fully narrowed." }
+]

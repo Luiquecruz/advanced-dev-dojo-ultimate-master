@@ -1,0 +1,30 @@
+[
+  {
+    "question": "Which query should you reach for first in Testing Library?",
+    "options": ["getByTestId", "getByRole", "container.querySelector", "getByPlaceholderText"],
+    "answer": 1,
+    "explanation": "`getByRole` with a `name` reflects how assistive technologies expose the element. Test ids are a last resort."
+  },
+  {
+    "question": "How do you assert that an error message is NOT on screen?",
+    "options": [
+      "expect(screen.getByRole('alert')).toBeNull()",
+      "expect(screen.queryByRole('alert')).toBeNull()",
+      "await screen.findByRole('alert')",
+      "expect(screen.getAllByRole('alert')).toThrow()"
+    ],
+    "answer": 1,
+    "explanation": "`getBy*` throws when nothing matches, so it cannot express absence. `queryBy*` returns `null` instead."
+  },
+  {
+    "question": "Why can't `getByRole('button', { name: 'Save' })` find `<div onClick={save}>Save</div>`?",
+    "options": [
+      "The text is not wrapped in a span",
+      "A div has no button role; it is also not focusable or keyboard operable",
+      "getByRole ignores click handlers",
+      "The name option is case sensitive"
+    ],
+    "answer": 1,
+    "explanation": "Roles come from semantics. A `<button>` gets the role, focusability and Enter/Space activation for free."
+  }
+]

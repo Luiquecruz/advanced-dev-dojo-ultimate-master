@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What does `<button disabled=\"false\">` render?",
+    "options": ["An enabled button", "A disabled button, because the attribute is present", "A compile error", "A button whose text is false"],
+    "answer": 1,
+    "explanation": "A static boolean attribute disables the element whenever it is present. Use the property binding `[disabled]=\"false\"` to bind the real boolean."
+  },
+  {
+    "question": "Which binding is correct for an ARIA attribute?",
+    "options": ["`[aria-label]=\"label()\"`", "`[attr.aria-label]=\"label()\"`", "`aria-label=\"label()\"`", "`(aria-label)=\"label()\"`"],
+    "answer": 1,
+    "explanation": "ARIA attributes have no corresponding DOM property, so you need the `attr.` prefix."
+  },
+  {
+    "question": "What does `{{ count }}` print when `count = signal(3)`?",
+    "options": ["`3`", "The signal function's string representation, not 3", "Nothing", "A compile error in every case"],
+    "answer": 1,
+    "explanation": "Signals are functions. You must call them, `{{ count() }}`, to read the value."
+  }
+]

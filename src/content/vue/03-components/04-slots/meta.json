@@ -1,0 +1,8 @@
+{
+  "title": "Slots",
+  "summary": "Pass markup into components with default, named and scoped slots, including fallbacks and conditional outlets.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: Slots", "url": "https://vuejs.org/guide/components/slots.html" }]
+}

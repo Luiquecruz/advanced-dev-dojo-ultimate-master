@@ -1,0 +1,10 @@
+{
+  "title": "using and resource management",
+  "summary": "Release files, locks and connections automatically with using, await using, Symbol.dispose and DisposableStack.",
+  "level": "advanced",
+  "tags": ["new", "modern"],
+  "resources": [
+    { "label": "TypeScript 5.2: using declarations", "url": "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-2.html#using-declarations-and-explicit-resource-management" },
+    { "label": "MDN: Resource management", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Resource_management" }
+  ]
+}

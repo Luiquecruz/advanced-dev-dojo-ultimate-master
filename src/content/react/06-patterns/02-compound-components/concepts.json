@@ -1,0 +1,6 @@
+[
+  { "term": "Compound components", "description": "A set of components that share implicit state through a parent (`Tabs`, `Tabs.Tab`, `Tabs.Panel`) and are composed freely by the caller." },
+  { "term": "Prop explosion", "description": "A component that grows a prop for every customization. Compound components avoid it by giving markup back to the caller." },
+  { "term": "Context guard", "description": "A custom hook that reads the context and throws a clear error when a part is used outside its parent." },
+  { "term": "Children / cloneElement", "description": "Legacy way to inject props into direct children. Breaks with wrappers; prefer context." }
+]

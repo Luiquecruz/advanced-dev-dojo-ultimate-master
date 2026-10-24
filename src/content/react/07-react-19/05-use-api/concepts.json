@@ -1,0 +1,6 @@
+[
+  { "term": "use(resource)", "description": "Reads a Promise or a Context during render. Not a Hook: it may be called conditionally." },
+  { "term": "Suspending", "description": "When `use` receives a pending Promise, the component pauses and the nearest `<Suspense>` fallback is shown." },
+  { "term": "Stable Promise", "description": "A Promise created outside render (parent, loader, cache) so it is the same object on every render." },
+  { "term": "browser()", "description": "React 19.3 `react-dom` API. `use(browser())` suspends during server rendering and resolves in the browser." }
+]

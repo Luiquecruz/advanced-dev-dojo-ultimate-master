@@ -1,0 +1,11 @@
+{
+  "title": "The Routing Landscape",
+  "summary": "Compare React Router's three modes, TanStack Router and the Next.js App Router, and pick the right one.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "theory"],
+  "resources": [
+    { "label": "React Router: Picking a mode", "url": "https://reactrouter.com/start/modes" },
+    { "label": "TanStack Router", "url": "https://tanstack.com/router/latest" },
+    { "label": "Next.js: App Router", "url": "https://nextjs.org/docs/app" }
+  ]
+}

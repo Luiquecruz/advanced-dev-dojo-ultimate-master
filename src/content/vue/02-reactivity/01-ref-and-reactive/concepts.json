@@ -1,0 +1,6 @@
+[
+  { "term": "ref()", "description": "Wraps any value in a reactive object with `.value`. Deep by default; can be reassigned freely." },
+  { "term": "reactive()", "description": "Returns a deep reactive Proxy of an object. No `.value`, but it cannot be replaced or destructured without losing reactivity." },
+  { "term": "Ref unwrapping", "description": "Top-level refs are unwrapped in templates; refs nested in `reactive()` objects are unwrapped on property access; refs in reactive arrays and collections are not." },
+  { "term": "Update batching", "description": "State changes queue a render that runs in the next microtask. Use `await nextTick()` to read the updated DOM." }
+]

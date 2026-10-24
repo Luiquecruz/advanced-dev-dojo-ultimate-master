@@ -1,0 +1,4 @@
+{
+  "title": "Generics",
+  "description": "Type parameters for functions, interfaces and classes, constraints, keyof and indexed access, defaults, and const type parameters."
+}

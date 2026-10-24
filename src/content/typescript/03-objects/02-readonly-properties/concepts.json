@@ -1,0 +1,14 @@
+[
+  {
+    "term": "readonly modifier",
+    "description": "Prevents a property from being reassigned after creation. Compile time only."
+  },
+  {
+    "term": "readonly T[]",
+    "description": "An array type without mutating methods. Same as `ReadonlyArray<T>`."
+  },
+  {
+    "term": "Shallow immutability",
+    "description": "`readonly` protects only the property it is written on, not the objects nested inside it."
+  }
+]

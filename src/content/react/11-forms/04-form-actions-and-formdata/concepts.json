@@ -1,0 +1,8 @@
+[
+  { "term": "FormData", "description": "Browser API collecting every named field of a form. `get`, `getAll`, and `Object.fromEntries(formData)`." },
+  { "term": "Form action", "description": "A function passed to `<form action>`. React calls it with the `FormData` inside a transition and resets the form afterwards." },
+  { "term": "useActionState", "description": "`useActionState(action, initialState)` returns `[state, formAction, isPending]`; the action receives `(previousState, formData)`." },
+  { "term": "useFormStatus", "description": "Hook from `react-dom` that lets a child of a form read its `pending` state, for reusable submit buttons." },
+  { "term": "Progressive enhancement", "description": "With Server Functions, forms submit natively before JavaScript loads and upgrade once it does." },
+  { "term": "defaultValue", "description": "Initial value of an uncontrolled input; also the value restored when the form resets." }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "ReturnType<F>", "description": "The return type of function type `F`. Use `ReturnType<typeof fn>` for a function value." },
+  { "term": "Parameters<F>", "description": "The parameter list of `F` as a labeled tuple, which can be indexed or spread." },
+  { "term": "Awaited<T>", "description": "The type produced by `await`: recursively unwraps promises and thenables." },
+  { "term": "ConstructorParameters / InstanceType", "description": "Constructor argument tuple and instance type of a class (constructor) type." },
+  { "term": "Instantiation expression", "description": "`typeof fn<string>` fixes a generic function's type arguments before extracting types from it (TS 4.7+)." }
+]

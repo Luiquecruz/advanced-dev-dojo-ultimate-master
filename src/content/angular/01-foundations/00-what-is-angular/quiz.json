@@ -1,0 +1,58 @@
+[
+  {
+    "question": "Which command creates the files for a new `ProductCard` component following the Angular 20+ style guide?",
+    "options": ["`ng new product-card`", "`ng generate component product-card`", "`ng add product-card`", "`ng build product-card`"],
+    "answer": 1,
+    "explanation": "`ng generate component` (or `ng g c`) scaffolds a component. Since Angular 20 it produces `product-card.ts` with a `ProductCard` class, without the `.component` suffix."
+  },
+  {
+    "question": "How does a modern Angular application start without an `NgModule`?",
+    "options": [
+      "It cannot: an `AppModule` is always required",
+      "`bootstrapApplication(App, appConfig)` bootstraps a standalone root component with providers",
+      "`platformBrowserDynamic().bootstrapModule(App)`",
+      "By adding `<app-root>` to `index.html` only"
+    ],
+    "answer": 1,
+    "explanation": "`bootstrapApplication` takes a standalone component and an `ApplicationConfig` whose `providers` replace the root module. `bootstrapModule` is the legacy NgModule path."
+  },
+  {
+    "question": "What notifies Angular that the UI must be updated in a zoneless application?",
+    "options": [
+      "zone.js patching `setTimeout`, promises and DOM events",
+      "A global timer that checks every component 60 times per second",
+      "Signals read in templates, template event handlers, `markForCheck()` and similar explicit notifications",
+      "Nothing: the developer must call `detectChanges()` manually after every change"
+    ],
+    "answer": 2,
+    "explanation": "Without zone.js Angular schedules change detection when a signal read by a template changes, when a bound event fires, or when code explicitly marks a view dirty."
+  },
+  {
+    "question": "Which pair correctly maps a legacy API to its modern replacement?",
+    "options": [
+      "`*ngIf` → `@if`",
+      "`@Input()` → `signal()`",
+      "`EventEmitter` → `computed()`",
+      "`NgModule` → `@Injectable()`"
+    ],
+    "answer": 0,
+    "explanation": "`@if` is the built-in control flow block that replaces the `*ngIf` structural directive. `@Input()` maps to `input()`, `@Output()`/`EventEmitter` to `output()`, and NgModules to standalone `imports`."
+  },
+  {
+    "question": "Is AngularJS (1.x) an older version of the same framework as Angular 22?",
+    "options": [
+      "Yes, Angular 22 is AngularJS with TypeScript added",
+      "No, Angular (2+) was a complete rewrite; AngularJS reached end of life in 2021",
+      "Yes, AngularJS code runs unchanged in Angular 22",
+      "No, AngularJS is the server-side version of Angular"
+    ],
+    "answer": 1,
+    "explanation": "Angular 2 was rewritten from scratch in TypeScript with a different architecture. Migration from AngularJS required rewriting or running both side by side with `ngUpgrade`."
+  },
+  {
+    "question": "Which change detection strategy does a component get in Angular 22 when `changeDetection` is not set?",
+    "options": ["`Eager` (formerly `Default`)", "`OnPush`", "`CheckAlways`", "`Detached`"],
+    "answer": 1,
+    "explanation": "Angular 22 made `OnPush` the default. The old always-check strategy still exists as `ChangeDetectionStrategy.Eager`; `Default` is a deprecated alias of it."
+  }
+]

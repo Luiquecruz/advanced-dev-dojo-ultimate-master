@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A header shows the unread count and a sidebar shows the unread messages, both from `/api/messages`. Today they use keys `['unread-count']` and `['unread-list']` and make two requests. What is the better design?",
+    "options": [
+      "Copy the list into a Zustand store and derive the count there",
+      "One query (`messageKeys.list()`) with a different `select` in each component",
+      "Fetch once in the root and pass the data down as props",
+      "Set `staleTime: Infinity` on both keys"
+    ],
+    "answer": 1,
+    "explanation": "Same resource, same key: one cache entry and one request. `select` gives each component its own projection and limits re-renders to changes in that projection."
+  },
+  {
+    "question": "Why build keys like `['users', 'detail', 3]` from a shared root instead of ad-hoc strings such as `['user-3']`?",
+    "options": [
+      "Arrays are faster to hash",
+      "Prefix matching: `invalidateQueries({ queryKey: ['users'] })` reaches every list, search and detail at once",
+      "TanStack Query rejects string keys",
+      "It enables Suspense"
+    ],
+    "answer": 1,
+    "explanation": "Filters match keys by prefix. A hierarchical scheme lets one invalidation target a whole resource or one precise entry."
+  },
+  {
+    "question": "A details page needs `/api/users?email=...` first and then `/api/orders?userId=...`. The second request fires with `userId=undefined` on mount. What fixes it?",
+    "options": [
+      "Wrap the second query in `useEffect`",
+      "Pass `skipToken` as `queryFn` (or `enabled: Boolean(user)`) until the user exists, and include `userId` in its key",
+      "Use `retry: 3`",
+      "Call both requests in one `queryFn` with `Promise.all`"
+    ],
+    "answer": 1,
+    "explanation": "Dependent queries must be disabled until their input exists. `skipToken` is the type-safe way, and the key must include the parameter."
+  },
+  {
+    "question": "Switching a paginated table from page 1 to page 2 flashes a spinner. Which option keeps the old page visible while the new one loads, without caching page 1's data under page 2's key?",
+    "options": [
+      "`initialData`",
+      "`placeholderData: keepPreviousData`",
+      "`gcTime: 0`",
+      "`select`"
+    ],
+    "answer": 1,
+    "explanation": "`placeholderData` is shown while the new key fetches but is never written to the cache. `initialData` would be stored as real data for the new key."
+  },
+  {
+    "question": "When is putting query results into a separate client store justified?",
+    "options": [
+      "Always, so components do not depend on TanStack Query",
+      "Rarely: only for a client-owned copy you intend to diverge from the server, such as an editable draft initialized from fetched data",
+      "Whenever two components need the same data",
+      "When the data is large"
+    ],
+    "answer": 1,
+    "explanation": "Sharing is what the cache is for. A copy is justified only when it becomes client state on purpose (a draft the user edits before saving); otherwise it is a stale duplicate."
+  }
+]

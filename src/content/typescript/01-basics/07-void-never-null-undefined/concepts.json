@@ -1,0 +1,7 @@
+[
+  { "term": "strictNullChecks", "description": "Makes `null` and `undefined` distinct types that must be handled explicitly. Enabled by `strict`." },
+  { "term": "Nullish coalescing (??)", "description": "Falls back only when the left side is `null` or `undefined`, unlike `||` which also replaces `0`, `''` and `false`." },
+  { "term": "Non-null assertion (!)", "description": "Removes `null | undefined` from a type without any runtime check. A wrong assertion crashes at runtime." },
+  { "term": "void", "description": "Return type for functions whose result must be ignored. `() => void` function types accept callbacks that return values." },
+  { "term": "never", "description": "The empty type: functions that always throw, and branches that cannot happen. Assignable to every type." }
+]

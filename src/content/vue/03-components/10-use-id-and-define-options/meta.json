@@ -1,0 +1,8 @@
+{
+  "title": "useId & defineOptions",
+  "summary": "Generate SSR-safe ids for accessible forms with useId and set component options with defineOptions.",
+  "level": "intermediate",
+  "tags": ["modern", "new"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: useId()", "url": "https://vuejs.org/api/composition-api-helpers.html#useid" }]
+}

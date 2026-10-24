@@ -1,0 +1,30 @@
+[
+  {
+    "question": "A `<Modal>` rendered with `createPortal(..., document.body)` sits inside `<form onSubmit={save}>` in JSX. A submit button inside the modal is clicked. Does the form's React `onSubmit` see the event?",
+    "options": [
+      "No, the modal is not inside the form in the DOM",
+      "Yes, React events bubble through the React tree, not the DOM tree",
+      "Only if the portal target is the form",
+      "Only in development"
+    ],
+    "answer": 1,
+    "explanation": "Synthetic events propagate along React ancestors, so portal content behaves as if it were nested where it appears in JSX. (A native form submission would not happen, though, because the button is not inside the `<form>` element in the DOM.)"
+  },
+  {
+    "question": "Which value does portal content read from `useContext(ThemeContext)`?",
+    "options": [
+      "The default value, because it left the tree",
+      "The value of the nearest provider above it in the React tree",
+      "The value of a provider rendered inside `document.body`",
+      "It throws"
+    ],
+    "answer": 1,
+    "explanation": "Context follows the React tree, so a portal keeps every provider above the component that renders it."
+  },
+  {
+    "question": "Where is `createPortal` imported from?",
+    "options": ["`react`", "`react-dom`", "`react-dom/client`", "`react-dom/server`"],
+    "answer": 1,
+    "explanation": "`createPortal` and `flushSync` live in `react-dom`; `createRoot` and `hydrateRoot` live in `react-dom/client`."
+  }
+]

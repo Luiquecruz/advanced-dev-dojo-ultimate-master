@@ -1,0 +1,6 @@
+{
+  "title": "Object path types",
+  "summary": "Generate every dot path of a nested object type and resolve the type at a path, the technique behind typed `get`, form libraries and i18n keys.",
+  "level": "expert",
+  "tags": ["typescript"]
+}

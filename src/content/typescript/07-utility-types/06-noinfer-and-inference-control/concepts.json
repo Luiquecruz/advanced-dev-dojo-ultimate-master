@@ -1,0 +1,5 @@
+[
+  { "term": "Inference candidate", "description": "A type collected from an argument position; candidates from all positions are combined to infer a type parameter." },
+  { "term": "NoInfer<T>", "description": "Intrinsic type (TS 5.4) that behaves like `T` for checking but contributes no inference candidates." },
+  { "term": "Union widening by typo", "description": "Without NoInfer, a wrong literal in a checked position becomes part of the inferred union instead of an error." }
+]

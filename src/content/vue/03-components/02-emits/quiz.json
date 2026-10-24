@@ -1,0 +1,4 @@
+[
+  { "question": "A grandparent listens with `@save` on a child, but the event is emitted by a grandchild. What happens?", "options": ["The grandparent receives it, events bubble", "Nothing, component events do not bubble", "Vue throws an error", "It reaches the root app only"], "answer": 1, "explanation": "Component events are only delivered to the direct parent. Re-emit them or share state through provide/inject or a store." },
+  { "question": "What does `@remove=\"handle\"` compile to on a component?", "options": ["A DOM listener on `window`", "An `onRemove` prop", "A watcher", "A slot"], "answer": 1, "explanation": "Listeners are passed as `on`-prefixed props. That is why `mount(Comp, { props: { onRemove } })` works in tests." }
+]

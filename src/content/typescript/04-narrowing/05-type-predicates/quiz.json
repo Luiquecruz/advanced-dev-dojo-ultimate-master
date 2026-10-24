@@ -1,0 +1,14 @@
+[
+  {
+    "question": "What does the compiler verify about `function isCat(x: Animal): x is Cat`?",
+    "options": ["That the body really checks for a Cat", "Only that it returns a boolean", "That Cat extends Animal and the body returns a boolean", "Nothing"],
+    "answer": 2,
+    "explanation": "The predicate type must be assignable to the parameter type and the body must return a boolean, but the logic itself is trusted."
+  },
+  {
+    "question": "In TypeScript 5.5+, what is the type of `[1, undefined, 2].filter((n) => n !== undefined)`?",
+    "options": ["`(number | undefined)[]`", "`number[]`", "`unknown[]`", "`never[]`"],
+    "answer": 1,
+    "explanation": "TypeScript 5.5 infers the predicate `n is number` for the arrow function, so `filter` returns `number[]`."
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "title": "Suspense",
+  "summary": "Await data in script setup and coordinate loading and error states with Suspense boundaries.",
+  "level": "advanced",
+  "tags": ["core", "modern"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: Suspense", "url": "https://vuejs.org/guide/built-ins/suspense.html" }]
+}

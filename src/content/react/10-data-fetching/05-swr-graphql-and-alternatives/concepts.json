@@ -1,0 +1,8 @@
+[
+  { "term": "SWR", "description": "Vercel's data hook library based on stale-while-revalidate. `useSWR(key, fetcher)` plus `mutate` for revalidation." },
+  { "term": "RTK Query", "description": "Data fetching layer in Redux Toolkit. `createApi` generates hooks; tags drive cache invalidation." },
+  { "term": "GraphQL", "description": "A query language and typed schema served from one endpoint. Clients choose the exact fields they receive." },
+  { "term": "Normalized cache", "description": "Cache storing entities once by type and id (Apollo, Relay, urql Graphcache) so updates propagate to every query." },
+  { "term": "Fragment", "description": "A reusable selection of GraphQL fields. Relay co-locates fragments with components and composes them into queries." },
+  { "term": "tRPC", "description": "Type-safe remote procedure calls between a TypeScript server and client, built on TanStack Query in React." }
+]

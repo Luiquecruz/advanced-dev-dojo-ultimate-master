@@ -1,0 +1,8 @@
+[
+  { "term": "Atom", "description": "A unit of state created with `atom(initialValue)`. It is a config object; its value lives in a store." },
+  { "term": "Derived atom", "description": "`atom((get) => ...)` computes a value from other atoms and updates when they change." },
+  { "term": "Writable derived atom", "description": "`atom(read, (get, set, ...args) => ...)` can be written to and updates other atoms." },
+  { "term": "Write-only atom", "description": "`atom(null, write)` models an action that updates one or more atoms." },
+  { "term": "useSetAtom", "description": "Returns only the setter, so the component does not subscribe to the atom's value." },
+  { "term": "Provider / createStore", "description": "`<Provider>` scopes atom values to a subtree. `createStore()` creates a store you can `get`, `set` and `sub` outside React." }
+]

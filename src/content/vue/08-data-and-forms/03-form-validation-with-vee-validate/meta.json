@@ -1,0 +1,10 @@
+{
+  "title": "Form Validation with VeeValidate",
+  "summary": "Validate forms with useForm, rule functions, defineField and handleSubmit.",
+  "level": "intermediate",
+  "tags": ["ecosystem"],
+  "resources": [
+    { "label": "VeeValidate: Composition API Guide", "url": "https://vee-validate.logaretm.com/v4/guide/composition-api/getting-started/" },
+    { "label": "VeeValidate: Validation", "url": "https://vee-validate.logaretm.com/v4/guide/composition-api/validation/" }
+  ]
+}

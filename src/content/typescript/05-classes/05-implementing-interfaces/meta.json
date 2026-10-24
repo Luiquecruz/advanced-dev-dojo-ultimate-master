@@ -1,0 +1,6 @@
+{
+  "title": "Implementing interfaces",
+  "summary": "Use `implements` to check classes against contracts, and type the constructor side with construct signatures.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

@@ -1,0 +1,7 @@
+[
+  { "term": "Redundant state", "description": "State that can be computed from other state or props. Derive it during render instead." },
+  { "term": "Duplicated state", "description": "The same data stored twice (e.g. a selected object copied out of a list). Store an id and look it up." },
+  { "term": "Impossible states", "description": "Combinations such as `isSending && isSent`. Replace booleans with a single status value." },
+  { "term": "Normalization", "description": "Flattening nested data into objects keyed by id, referencing children by id." },
+  { "term": "Mirroring props", "description": "`useState(props.value)` reads the prop only once; later prop changes are ignored." }
+]

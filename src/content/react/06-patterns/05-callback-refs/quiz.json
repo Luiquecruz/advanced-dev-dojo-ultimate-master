@@ -1,0 +1,35 @@
+[
+  {
+    "question": "In React 19, a ref callback returns a cleanup function. What happens when the element is removed?",
+    "options": [
+      "React calls the callback with `null`",
+      "React calls the returned cleanup and does not call the callback with `null`",
+      "Nothing",
+      "React calls both"
+    ],
+    "answer": 1,
+    "explanation": "Returning a cleanup opts into the new behavior. Callbacks without a cleanup keep the legacy `null` call."
+  },
+  {
+    "question": "Why use callback refs to collect nodes of a `map()`-rendered list?",
+    "options": [
+      "Because useRef cannot be called inside a loop",
+      "Because callback refs are faster than DOM queries",
+      "Because lists cannot have refs",
+      "Because keys are not allowed with refs"
+    ],
+    "answer": 0,
+    "explanation": "Hooks must be called the same number of times every render, so you cannot create one `useRef` per item. A callback ref per item writing into one Map works for any length."
+  },
+  {
+    "question": "Why does `ref={(node) => setWidth(node.offsetWidth)}` risk an infinite loop?",
+    "options": [
+      "offsetWidth is not available",
+      "The inline callback is new every render, so React calls it after every commit, which sets state, which renders again",
+      "setState cannot be called from refs",
+      "It does not; it runs once"
+    ],
+    "answer": 1,
+    "explanation": "A new function identity makes React detach and re-attach the ref each commit. If that sets state with a new value every time, renders never stop. Memoize the callback with `useCallback` or guard the update."
+  }
+]

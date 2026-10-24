@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What must `subscribe(onStoreChange)` return?",
+    "options": ["The current snapshot", "A function that unsubscribes", "A Promise", "Nothing"],
+    "answer": 1,
+    "explanation": "React calls the returned function when the component unmounts or when `subscribe` changes, just like an Effect cleanup."
+  },
+  {
+    "question": "Why does `() => ({ count: store.getState().count })` break as a `getSnapshot`?",
+    "options": [
+      "Snapshots must be strings",
+      "It returns a new object every call, so React thinks the store always changed",
+      "It reads the store during render",
+      "Selectors are not allowed"
+    ],
+    "answer": 1,
+    "explanation": "React compares snapshots with `Object.is`. A fresh object is never equal, which causes an error or an infinite re-render loop. Return primitives or stable references."
+  },
+  {
+    "question": "Which problem does `useSyncExternalStore` solve compared to syncing a store into `useState` with an Effect?",
+    "options": [
+      "It makes the store persistent",
+      "It prevents tearing during concurrent rendering and avoids a stale first render",
+      "It allows transitions for store updates",
+      "It replaces the need for a store"
+    ],
+    "answer": 1,
+    "explanation": "React reads the snapshot during render and guarantees consistency across components. Store updates are still synchronous, not transitions."
+  }
+]

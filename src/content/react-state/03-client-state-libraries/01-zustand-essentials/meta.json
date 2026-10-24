@@ -1,0 +1,12 @@
+{
+  "title": "Zustand Essentials",
+  "summary": "Design a Zustand store with an actions namespace, custom hooks, atomic selectors and useShallow for derived data.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "performance"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "Zustand documentation", "url": "https://zustand.docs.pmnd.rs/" },
+    { "label": "TkDodo: Working with Zustand", "url": "https://tkdodo.eu/blog/working-with-zustand" },
+    { "label": "Zustand: Prevent rerenders with useShallow", "url": "https://zustand.docs.pmnd.rs/guides/prevent-rerenders-with-use-shallow" }
+  ]
+}

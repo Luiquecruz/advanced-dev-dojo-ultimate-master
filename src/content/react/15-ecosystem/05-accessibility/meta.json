@@ -1,0 +1,12 @@
+{
+  "title": "Accessibility",
+  "summary": "Semantic HTML, ARIA patterns, keyboard support, focus management and live regions, applied to an accessible tabs widget.",
+  "level": "advanced",
+  "tags": ["core", "ecosystem"],
+  "resources": [
+    { "label": "WAI-ARIA APG: Tabs pattern", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/" },
+    { "label": "WCAG 2.2 at a glance", "url": "https://www.w3.org/WAI/standards-guidelines/wcag/glance/" },
+    { "label": "react.dev: Accessibility (useId)", "url": "https://react.dev/reference/react/useId" },
+    { "label": "eslint-plugin-jsx-a11y", "url": "https://github.com/jsx-eslint/eslint-plugin-jsx-a11y" }
+  ]
+}

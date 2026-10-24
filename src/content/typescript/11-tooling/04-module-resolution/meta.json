@@ -1,0 +1,10 @@
+{
+  "title": "Module resolution",
+  "summary": "Choose between nodenext and bundler, understand package exports and subpath imports, and use paths without baseUrl.",
+  "level": "advanced",
+  "tags": ["theory", "ecosystem", "modern"],
+  "resources": [
+    { "label": "TypeScript: Modules reference", "url": "https://www.typescriptlang.org/docs/handbook/modules/reference.html" },
+    { "label": "Node.js: Packages (exports and imports)", "url": "https://nodejs.org/api/packages.html" }
+  ]
+}

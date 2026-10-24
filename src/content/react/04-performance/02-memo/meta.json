@@ -1,0 +1,9 @@
+{
+  "title": "memo",
+  "summary": "Skip re-rendering a component when its props have not changed, and avoid the inline object trap.",
+  "level": "intermediate",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "react.dev: memo", "url": "https://react.dev/reference/react/memo" }
+  ]
+}

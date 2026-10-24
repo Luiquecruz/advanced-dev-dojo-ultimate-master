@@ -1,0 +1,13 @@
+{
+  "title": "Capstone: State Architecture",
+  "summary": "Combine TanStack Query, URL state, a Zustand cart and local state in one feature, and prove with tests that each piece lives in the right place.",
+  "level": "expert",
+  "tags": ["core", "ecosystem", "testing"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "React Router: useSearchParams", "url": "https://reactrouter.com/api/hooks/useSearchParams" },
+    { "label": "TanStack Query: Query Keys", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/query-keys" },
+    { "label": "Zustand: Introduction", "url": "https://zustand.docs.pmnd.rs/getting-started/introduction" },
+    { "label": "react.dev: Resetting state with a key", "url": "https://react.dev/learn/preserving-and-resetting-state#option-2-resetting-state-with-a-key" }
+  ]
+}

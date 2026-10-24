@@ -1,0 +1,6 @@
+{
+  "title": "Accessors and static members",
+  "summary": "Getters and setters for derived and validated values, static fields and blocks, and private constructors with factories.",
+  "level": "intermediate",
+  "tags": ["core", "modern"]
+}

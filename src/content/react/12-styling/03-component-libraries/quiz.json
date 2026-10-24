@@ -1,0 +1,52 @@
+[
+  {
+    "question": "What makes shadcn/ui different from libraries like MUI or Chakra UI?",
+    "options": [
+      "It only works with class components",
+      "Its CLI copies component source code into your project, so you own and edit it",
+      "It ships a runtime CSS-in-JS engine",
+      "It renders components on a canvas"
+    ],
+    "answer": 1,
+    "explanation": "shadcn/ui is open code: `npx shadcn add button` writes the component into your repo. It is built on headless primitives and Tailwind."
+  },
+  {
+    "question": "What does a headless component library provide?",
+    "options": [
+      "Behavior and accessibility (focus, keyboard, ARIA) without any styles",
+      "Server-only components without JavaScript",
+      "A complete Material Design theme",
+      "Icons and fonts"
+    ],
+    "answer": 0,
+    "explanation": "Radix Primitives, Base UI, React Aria and Headless UI handle state, keyboard interaction and ARIA. You provide every visual decision."
+  },
+  {
+    "question": "How do headless primitives usually expose their state for styling?",
+    "options": [
+      "Through inline styles they inject",
+      "Through `data-*` attributes such as `data-state=\"open\"` that CSS or Tailwind variants can target",
+      "Through global CSS classes like `.is-open`",
+      "They do not expose state"
+    ],
+    "answer": 1,
+    "explanation": "Attributes such as `data-state`, `data-open` or `data-disabled` let you write `data-[state=open]:rotate-180` or `[data-open] { ... }`."
+  },
+  {
+    "question": "Which primitive layer do new shadcn/ui projects use by default since July 2026?",
+    "options": ["Radix Primitives", "Base UI", "React Aria Components", "Headless UI"],
+    "answer": 1,
+    "explanation": "shadcn/ui switched its default to Base UI. Radix is still fully supported with `shadcn init -b radix`, and existing projects do not need to migrate."
+  },
+  {
+    "question": "Your team needs a branded design system with strict accessibility. Which approach fits best?",
+    "options": [
+      "Write every dropdown and dialog from scratch with divs",
+      "Combine two styled kits to get more components",
+      "Use headless primitives (or shadcn/ui on top of them) and apply your own styles",
+      "Override the internal class names of a styled kit with deep selectors"
+    ],
+    "answer": 2,
+    "explanation": "Headless primitives give you tested accessibility while leaving the brand entirely in your hands. Deep overrides and hand-rolled widgets are fragile."
+  }
+]

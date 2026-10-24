@@ -1,0 +1,7 @@
+[
+  { "term": "useForm", "description": "Creates a form context: values, `errors`, `meta`, `handleSubmit`, `resetForm`, `isSubmitting`." },
+  { "term": "Rule function", "description": "`(value) => true | 'message'`, optionally async. VeeValidate shows the returned string as the error." },
+  { "term": "defineField", "description": "Returns `[valueRef, attrs]` for a field path: bind with `v-model` and `v-bind`." },
+  { "term": "useField", "description": "Field-level API for reusable input components; registers with the nearest `useForm`." },
+  { "term": "handleSubmit", "description": "Wraps a submit callback so it only runs with valid values; prevents the default submit." }
+]

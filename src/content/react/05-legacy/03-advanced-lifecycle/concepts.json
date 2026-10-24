@@ -1,0 +1,7 @@
+[
+  { "term": "shouldComponentUpdate", "description": "Returns `false` to skip `render` for this update. A performance hint; a wrong comparison causes stale UI." },
+  { "term": "PureComponent", "description": "A `Component` with a built-in shallow comparison of props and state. The class counterpart of `memo`." },
+  { "term": "getDerivedStateFromProps", "description": "Static method run before every render that returns a state patch or `null`. Use it only to reset state when a prop changes; prefer a `key`." },
+  { "term": "getSnapshotBeforeUpdate", "description": "Reads the DOM right before it changes (for example scroll position) and passes the value to `componentDidUpdate` as `snapshot`. No hook equivalent." },
+  { "term": "UNSAFE_ lifecycles", "description": "`UNSAFE_componentWillMount`, `UNSAFE_componentWillReceiveProps`, `UNSAFE_componentWillUpdate`: render-phase methods that break with concurrent rendering." }
+]

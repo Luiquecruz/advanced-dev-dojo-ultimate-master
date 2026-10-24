@@ -1,0 +1,7 @@
+[
+  { "term": "Props", "description": "The single object a parent passes to a child component: `<Avatar name=\"Ada\" />` calls `Avatar({ name: 'Ada' })`." },
+  { "term": "Default value", "description": "Destructuring default `({ size = 64 })`. Applies when the prop is missing or `undefined`." },
+  { "term": "defaultProps", "description": "Legacy static defaults. Removed for function components in React 19; still valid on classes." },
+  { "term": "Props spreading", "description": "`<Child {...props} />` forwards every prop. Combine with `...rest` destructuring to forward the remaining ones." },
+  { "term": "Immutability of props", "description": "Props are read-only snapshots. Never reassign or mutate them; use state for values that change." }
+]

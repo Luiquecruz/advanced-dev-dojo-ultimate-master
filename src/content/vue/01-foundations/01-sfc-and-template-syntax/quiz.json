@@ -1,0 +1,4 @@
+[
+  { "question": "Inside `<script setup>`, how do you read the value of `const count = ref(0)`?", "options": ["count", "count.value", "count()", "this.count"], "answer": 1, "explanation": "Refs wrap the value in an object with a `.value` property. The template unwraps top-level refs automatically, but script code must use `.value`." },
+  { "question": "What does `<style scoped>` do?", "options": ["Loads CSS lazily", "Adds a unique data attribute so styles only match this component's elements", "Uses Shadow DOM", "Inlines styles into the template"], "answer": 1, "explanation": "The SFC compiler rewrites selectors with a `[data-v-xxxx]` attribute added to every element rendered by the component." }
+]

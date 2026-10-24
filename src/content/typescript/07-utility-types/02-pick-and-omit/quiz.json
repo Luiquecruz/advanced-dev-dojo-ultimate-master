@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What does `Omit<User, 'pasword'>` (typo) produce when `User` has `password`?",
+    "options": ["A compile error", "`User` unchanged, including `password`", "`User` without `password`", "`never`"],
+    "answer": 1,
+    "explanation": "`Omit` constrains `K` to `keyof any`, not `keyof T`, so an unknown key is accepted and nothing is removed."
+  },
+  {
+    "question": "A function typed `(user: User) => Omit<User, 'password'>` returns `user` directly. What happens at runtime?",
+    "options": ["`password` is removed automatically", "The returned object still contains `password`", "It throws", "It does not compile"],
+    "answer": 1,
+    "explanation": "Types are erased. Structural typing allows the full object, so the field is still present unless you build a new object."
+  },
+  {
+    "question": "Given a union `A | B`, which keys does `Omit<A | B, 'id'>` keep?",
+    "options": ["All keys of A and B except id", "Only the keys common to A and B, except id", "Only the keys of A", "None"],
+    "answer": 1,
+    "explanation": "`keyof (A | B)` contains only shared keys, so `Omit` is not distributive and loses member-specific properties."
+  }
+]

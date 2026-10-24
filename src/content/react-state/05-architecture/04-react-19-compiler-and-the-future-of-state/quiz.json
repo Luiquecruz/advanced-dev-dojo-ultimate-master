@@ -1,0 +1,68 @@
+[
+  {
+    "question": "After enabling React Compiler, a teammate proposes removing all Zustand selectors because 'the compiler memoizes everything'. Is that right?",
+    "options": [
+      "Yes, the compiler makes store subscriptions fine-grained",
+      "No: the compiler memoizes values and JSX, but a component that subscribes to the whole store still re-renders on every store change. Selectors still define the subscription",
+      "Yes, but only for Redux",
+      "No, because the compiler is incompatible with Zustand"
+    ],
+    "answer": 1,
+    "explanation": "Memoization avoids recomputing and re-rendering children when inputs are equal. It cannot stop the subscribed component itself from re-rendering when its subscription fires."
+  },
+  {
+    "question": "A settings page has tabs; switching tabs unmounts the previous one and loses its half-filled form. The team plans to move every tab's form into a global store. What does React 19.2 offer instead?",
+    "options": [
+      "`useEffectEvent`",
+      "Wrapping each tab in `<Activity mode={active ? 'visible' : 'hidden'}>` so hidden tabs keep their local state",
+      "`useOptimistic`",
+      "`<Suspense>` with a fallback"
+    ],
+    "answer": 1,
+    "explanation": "`<Activity>` hides UI while preserving its state and DOM, so local state can stay local instead of being globalized just to survive unmounting."
+  },
+  {
+    "question": "In a Next.js App Router app, a page lists invoices (read-only) and has a 'Mark as paid' button. Which split is most idiomatic?",
+    "options": [
+      "Fetch invoices in a client component with `useEffect` and store them in Redux",
+      "Fetch the list in a Server Component, perform 'Mark as paid' with a Server Function used as an Action, and revalidate the route; keep only button UI state on the client",
+      "Put the invoices in a module-level Zustand store on the server",
+      "Use `<Activity>` to cache the invoices"
+    ],
+    "answer": 1,
+    "explanation": "Read-only server data fits Server Components; mutations become Actions with revalidation. A client cache is only needed if the client refetches or shares the data interactively."
+  },
+  {
+    "question": "What does `useOptimistic` NOT do?",
+    "options": [
+      "Show a temporary value while an Action is pending",
+      "Revert to the real value when the Action finishes",
+      "Update a shared cache so every component reading the same data sees the change and roll it back on error",
+      "Accept a reducer to compute the optimistic value"
+    ],
+    "answer": 2,
+    "explanation": "`useOptimistic` overlays a value locally during an Action. Updating a shared cache across subscribers is what TanStack Query's `onMutate` or RTK Query's `updateQueryData` do."
+  },
+  {
+    "question": "Which code is most likely to behave differently after adopting React Compiler?",
+    "options": [
+      "A component that derives `total` from props during render",
+      "A component that mutates a prop object during render and relies on reading the mutation later",
+      "A component that uses `useState` and event handlers",
+      "A component that renders `<ThemeContext value={theme}>`"
+    ],
+    "answer": 1,
+    "explanation": "The compiler assumes the Rules of React: props and state are immutable during render. Code that mutates them can see stale memoized results. The hooks ESLint preset flags these patterns."
+  },
+  {
+    "question": "Since React 19, how is a context value provided idiomatically?",
+    "options": [
+      "`<ThemeContext.Provider value={theme}>` only",
+      "`<ThemeContext value={theme}>`, with `<Context.Provider>` kept as the legacy form",
+      "`provide(ThemeContext, theme)`",
+      "`useContext(ThemeContext, theme)`"
+    ],
+    "answer": 1,
+    "explanation": "React 19 lets you render the context object itself as the provider. `use(ThemeContext)` can also read it conditionally."
+  }
+]

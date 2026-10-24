@@ -1,0 +1,52 @@
+[
+  {
+    "question": "The URL is `/orders?status=open&page=2`. A component calls `setSearchParams({ sort: 'date' })`. What is the new URL?",
+    "options": [
+      "`/orders?status=open&page=2&sort=date`",
+      "`/orders?sort=date`",
+      "`/orders?status=open&sort=date`",
+      "It throws because `status` is missing"
+    ],
+    "answer": 1,
+    "explanation": "Passing an object replaces every param. Use the functional form `setSearchParams((previous) => { const next = new URLSearchParams(previous); next.set('sort', 'date'); return next; })` to keep the others."
+  },
+  {
+    "question": "Users complain that after typing \"keyboard\" in the search box, they must press Back eight times to leave the page. What is the fix?",
+    "options": [
+      "Store the search term in `useState` instead",
+      "Update the `q` param with `{ replace: true }` while typing",
+      "Disable the back button",
+      "Use a hash (`#q=`) instead of search params"
+    ],
+    "answer": 1,
+    "explanation": "Each keystroke pushes a history entry by default. Replacing the current entry keeps the URL shareable without polluting history."
+  },
+  {
+    "question": "A product list page has a category filter, a \"compare\" checkbox hover tooltip and a sort order. Which belong in the URL?",
+    "options": ["All three", "Category and sort order", "Only the tooltip", "None, use a store"],
+    "answer": 1,
+    "explanation": "Category and sort define what is on screen and should be shareable and navigable. Hover tooltips are transient UI and belong in local state."
+  },
+  {
+    "question": "Someone opens `/products?page=abc&sort=hack`. What should the page do?",
+    "options": [
+      "Crash, the URL is invalid",
+      "Parse and validate the params in one place, falling back to defaults (page 1, default sort)",
+      "Store the raw strings in state",
+      "Redirect to the home page"
+    ],
+    "answer": 1,
+    "explanation": "URLs are user input. A single parsing function (or a schema with defaults) turns untrusted strings into typed, valid filters."
+  },
+  {
+    "question": "Filters live in the URL, and a header badge elsewhere in the app also needs the active category. A teammate proposes copying it into a Zustand store with an Effect. What is better?",
+    "options": [
+      "Copy it into the store; two sources are safer",
+      "Read it from the URL in the badge too (`useSearchParams`), keeping the URL as the single source of truth",
+      "Put it in `localStorage`",
+      "Pass it through context from the page"
+    ],
+    "answer": 1,
+    "explanation": "Mirroring creates two sources that can disagree (for example after back/forward). Any component under the router can read the params directly."
+  }
+]

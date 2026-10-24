@@ -1,0 +1,10 @@
+{
+  "title": "useImperativeHandle",
+  "summary": "Expose a small, explicit API to parent components through refs, using React 19's ref prop.",
+  "level": "advanced",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "react.dev: useImperativeHandle", "url": "https://react.dev/reference/react/useImperativeHandle" },
+    { "label": "react.dev: ref as a prop (React 19)", "url": "https://react.dev/blog/2024/12/05/react-19#ref-as-a-prop" }
+  ]
+}

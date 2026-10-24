@@ -1,0 +1,7 @@
+[
+  { "term": "Attribute directive", "description": "A `@Directive` without template that changes the look or behavior of its host element." },
+  { "term": "`host` metadata", "description": "Object in `@Component`/`@Directive` that declares host bindings (`'[class.x]'`, `'[style.color]'`, `'[attr.role]'`) and listeners (`'(click)'`)." },
+  { "term": "`@HostBinding` / `@HostListener`", "description": "Legacy decorators for host bindings and listeners; still supported, but `host` is preferred." },
+  { "term": "`hostDirectives`", "description": "Applies directives to a component's host element, exposing selected inputs/outputs (with optional aliases)." },
+  { "term": "`ElementRef`", "description": "Wrapper around the host DOM element; use sparingly for imperative APIs." }
+]

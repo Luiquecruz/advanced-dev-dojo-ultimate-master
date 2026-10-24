@@ -1,0 +1,6 @@
+[
+  { "term": "satisfies", "description": "TypeScript 4.9+: `expr satisfies T` checks that `expr` is assignable to `T` but keeps the inferred type of `expr`." },
+  { "term": "Type annotation", "description": "`const x: T = ...` validates the value and makes `T` the declared type, widening every property to `T`." },
+  { "term": "Type assertion", "description": "`expr as T` overrides the inferred type without checking completeness; it can hide bugs." },
+  { "term": "`as const satisfies T`", "description": "Freezes a literal with readonly literal types and still validates it against `T`." }
+]

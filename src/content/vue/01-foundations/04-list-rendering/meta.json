@@ -1,0 +1,7 @@
+{
+  "title": "List Rendering",
+  "summary": "Render arrays, objects and ranges with v-for and understand why stable keys matter.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "vuejs.org: List Rendering", "url": "https://vuejs.org/guide/essentials/list.html" }]
+}

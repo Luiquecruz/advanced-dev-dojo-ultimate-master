@@ -1,0 +1,11 @@
+{
+  "title": "Styling Approaches",
+  "summary": "Compare inline styles, global CSS, CSS Modules, CSS-in-JS and utility classes, and compose class names with clsx.",
+  "level": "beginner",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "react.dev: Applying CSS styles", "url": "https://react.dev/reference/react-dom/components/common#applying-css-styles" },
+    { "label": "clsx on npm", "url": "https://www.npmjs.com/package/clsx" },
+    { "label": "Vite: CSS Modules", "url": "https://vite.dev/guide/features#css-modules" }
+  ]
+}

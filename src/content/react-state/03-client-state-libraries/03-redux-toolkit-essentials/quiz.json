@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A component uses `useAppSelector((s) => s.todos.filter((t) => !t.done))`. What happens when an unrelated action (`ui/themeChanged`) is dispatched?",
+    "options": [
+      "Nothing, because `todos` did not change",
+      "The selector returns a new array, so the component re-renders (and react-redux warns in development)",
+      "Redux throws",
+      "The component unmounts"
+    ],
+    "answer": 1,
+    "explanation": "`useSelector` re-runs selectors after every action and compares results with `===`. Memoize derived data with `createSelector` so it only recomputes when its inputs change."
+  },
+  {
+    "question": "When an order is archived, the selection, the open details panel and an analytics counter must all update. What is the idiomatic Redux Toolkit design?",
+    "options": [
+      "Dispatch `orderArchived`, then `selectionCleared`, then `panelClosed` from the component",
+      "Dispatch one `orderArchived` event and let each slice handle it in `extraReducers` (or a listener for side effects)",
+      "Put all three fields in the orders slice",
+      "Use context for the selection"
+    ],
+    "answer": 1,
+    "explanation": "Actions are events. Several slices can respond to the same event, keeping components simple and the action log meaningful."
+  },
+  {
+    "question": "Why define `RootState` as `ReturnType<typeof rootReducer>` and `AppDispatch` as `AppStore['dispatch']`?",
+    "options": [
+      "Redux requires these exact names",
+      "The types stay in sync with the reducers and middleware automatically; `AppDispatch` also knows about thunks",
+      "It makes the bundle smaller",
+      "It enables Immer"
+    ],
+    "answer": 1,
+    "explanation": "Inferred types cannot drift from the implementation. A hand-written dispatch type would not accept thunks or other middleware-enhanced actions."
+  },
+  {
+    "question": "A team of 25 developers builds a trading back office with complex client workflows, audit needs and many features reacting to the same events. Another team builds a small marketing site with a theme toggle and a cart badge. Which pairing fits best?",
+    "options": [
+      "Redux Toolkit for both",
+      "Redux Toolkit for the back office; Zustand (or context) for the marketing site",
+      "Zustand for the back office; Redux Toolkit for the marketing site",
+      "Context for both"
+    ],
+    "answer": 1,
+    "explanation": "Redux's conventions, event log, middleware and devtools pay off in large, event-heavy apps with big teams. A small site does not need that ceremony."
+  },
+  {
+    "question": "Why export `makeStore(preloadedState?)` instead of a single `store` instance?",
+    "options": [
+      "`configureStore` can only be called inside functions",
+      "Each test, SSR request or story gets an isolated store seeded with the state it needs",
+      "It enables the Redux DevTools",
+      "It is required by `Provider`"
+    ],
+    "answer": 1,
+    "explanation": "A singleton leaks state between tests and between server requests. A factory with `preloadedState` makes stores disposable and easy to seed."
+  }
+]

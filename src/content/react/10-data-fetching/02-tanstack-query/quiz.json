@@ -1,0 +1,30 @@
+[
+  {
+    "question": "A query uses `userId` in its `queryFn` but the key is `['posts']`. What goes wrong?",
+    "options": [
+      "Nothing, TanStack Query reads the closure",
+      "All users share one cache entry, so switching users shows the wrong posts",
+      "The query never runs",
+      "It throws a missing dependency error"
+    ],
+    "answer": 1,
+    "explanation": "The key is the cache identity. Variables used by the query function must be part of it, just like effect dependencies."
+  },
+  {
+    "question": "In TanStack Query v5, which flag means \"there is no data yet\"?",
+    "options": ["`isLoading`", "`isPending`", "`isFetching`", "`isStale`"],
+    "answer": 1,
+    "explanation": "v5 renamed the old `isLoading` to `isPending`. `isFetching` is true during any request, including background refetches with data already on screen."
+  },
+  {
+    "question": "With the default `staleTime: 0`, what happens when a component mounts with cached data?",
+    "options": [
+      "It shows a loading state and waits for a new request",
+      "It shows the cached data immediately and refetches in the background",
+      "It shows cached data and never refetches",
+      "It throws away the cache"
+    ],
+    "answer": 1,
+    "explanation": "Stale-while-revalidate: cached data renders instantly while a background refetch updates it. A longer `staleTime` skips that refetch while data is fresh."
+  }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Slice", "description": "A function `(set, get, api) => partialState` for one feature; slices are spread into a single store initializer." },
+  { "term": "persist", "description": "Middleware that saves state to a storage (default `localStorage`) and rehydrates it on creation." },
+  { "term": "partialize", "description": "`persist` option selecting which fields are saved." },
+  { "term": "version / migrate", "description": "The stored value is `{ state, version }`; `migrate(persisted, oldVersion)` upgrades older shapes on hydration." },
+  { "term": "devtools", "description": "Middleware connecting the store to the Redux DevTools extension; the third argument of `set` names the action." },
+  { "term": "Vanilla store", "description": "`createStore` from `zustand` or `zustand/vanilla` returns a store API without a hook; read it in React with `useStore(store, selector)`." }
+]

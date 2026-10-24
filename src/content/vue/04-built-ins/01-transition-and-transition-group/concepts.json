@@ -1,0 +1,7 @@
+[
+  { "term": "<Transition>", "description": "Built-in that applies enter/leave classes to a single element toggled by `v-if`, `v-show`, `:is` or `key`." },
+  { "term": "*-enter-from / *-leave-to", "description": "Classes describing the hidden state at the start of enter and the end of leave." },
+  { "term": "*-enter-active / *-leave-active", "description": "Classes present during the whole phase; put the CSS `transition` here." },
+  { "term": "mode=\"out-in\"", "description": "Waits for the leaving element before inserting the entering one." },
+  { "term": "<TransitionGroup>", "description": "Animates keyed `v-for` lists, with an optional `tag` wrapper and `*-move` class for reorders." }
+]

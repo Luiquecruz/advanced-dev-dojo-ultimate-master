@@ -1,0 +1,35 @@
+[
+  {
+    "question": "Which version of a recursive conditional type benefits from tail-recursion elimination?",
+    "options": [
+      "`[S, ...Repeat<S, N, [...Acc, S]>]`",
+      "`Repeat<S, N, [...Acc, S]>` returned directly from the branch",
+      "Any recursive type, automatically",
+      "Only types declared with interfaces"
+    ],
+    "answer": 1,
+    "explanation": "Tail recursion requires the recursive call to be the entire result of the branch. Wrapping it in a tuple spread or another type prevents the optimization."
+  },
+  {
+    "question": "What does the error \"Type instantiation is excessively deep and possibly infinite\" usually mean?",
+    "options": [
+      "The type has a syntax error",
+      "A recursive type exceeded the compiler's depth limit, often because the base case is never reached",
+      "The project uses too many files",
+      "A generic parameter is missing a default"
+    ],
+    "answer": 1,
+    "explanation": "The compiler stops deep instantiation chains to protect itself. Check the base case or make the recursion tail recursive."
+  },
+  {
+    "question": "Why do old declaration files describe JSON with `interface JsonArray extends Array<Json> {}`?",
+    "options": [
+      "Interfaces are faster at runtime",
+      "Before TypeScript 3.7 a type alias could not reference itself directly, so interfaces were used to break the cycle",
+      "Arrays cannot be used in unions",
+      "It is required by `strict` mode"
+    ],
+    "answer": 1,
+    "explanation": "Interfaces were always resolved lazily, so they acted as a trampoline for recursive aliases until 3.7 allowed direct recursion."
+  }
+]

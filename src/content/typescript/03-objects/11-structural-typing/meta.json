@@ -1,0 +1,6 @@
+{
+  "title": "Structural typing and brands",
+  "summary": "Learn why TypeScript compares types by shape, not by name.",
+  "level": "advanced",
+  "tags": []
+}

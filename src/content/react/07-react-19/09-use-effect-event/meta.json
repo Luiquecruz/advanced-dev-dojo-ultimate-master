@@ -1,0 +1,10 @@
+{
+  "title": "useEffectEvent",
+  "summary": "Separate events fired by effects from the values that should re-synchronize them, without stale closures.",
+  "level": "advanced",
+  "tags": ["modern", "new"],
+  "resources": [
+    { "label": "react.dev: useEffectEvent", "url": "https://react.dev/reference/react/useEffectEvent" },
+    { "label": "react.dev: Separating Events from Effects", "url": "https://react.dev/learn/separating-events-from-effects" }
+  ]
+}

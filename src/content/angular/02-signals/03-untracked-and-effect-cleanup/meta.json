@@ -1,0 +1,10 @@
+{
+  "title": "untracked & Effect Cleanup",
+  "summary": "Control effect dependencies with untracked() and cancel timers, listeners and requests with onCleanup.",
+  "level": "intermediate",
+  "tags": ["modern"],
+  "resources": [
+    { "label": "angular.dev: Effects", "url": "https://angular.dev/guide/signals/effect" },
+    { "label": "angular.dev: Reading without tracking dependencies", "url": "https://angular.dev/guide/signals#reading-without-tracking-dependencies" }
+  ]
+}

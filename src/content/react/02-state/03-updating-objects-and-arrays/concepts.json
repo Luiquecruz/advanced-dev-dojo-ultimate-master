@@ -1,0 +1,7 @@
+[
+  { "term": "Immutable update", "description": "Create a new object or array with the change instead of modifying the existing one." },
+  { "term": "Object spread", "description": "`{ ...obj, field: value }` copies the top level and overrides a field. Copy nested levels separately." },
+  { "term": "Shallow copy", "description": "Copying an array or object copies references to nested values, not the nested values themselves." },
+  { "term": "Non-mutating array methods", "description": "`map`, `filter`, `concat`, spread, and ES2023 `toSorted`, `toReversed`, `toSpliced`, `with`." },
+  { "term": "Immer", "description": "A library that turns mutations on a draft into a new immutable value. Used by Redux Toolkit." }
+]

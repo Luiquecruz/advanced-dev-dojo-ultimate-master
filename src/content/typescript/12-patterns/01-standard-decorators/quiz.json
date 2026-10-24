@@ -1,0 +1,20 @@
+[
+  {
+    "question": "When does a method decorator run?",
+    "options": ["On every method call", "Once, when the class is defined", "When the first instance is created", "Only in development builds"],
+    "answer": 1,
+    "explanation": "Decorators are applied at class definition time. To run code per instance, use `context.addInitializer`."
+  },
+  {
+    "question": "What does a field decorator receive as its first argument?",
+    "options": ["The initial value", "The prototype", "undefined", "A property descriptor"],
+    "answer": 2,
+    "explanation": "Fields have no value at definition time. A field decorator can return an initializer function that transforms the initial value."
+  },
+  {
+    "question": "Which element can standard decorators NOT decorate?",
+    "options": ["Methods", "Auto-accessors", "Constructor parameters", "Classes"],
+    "answer": 2,
+    "explanation": "Parameter decorators exist only in the legacy `experimentalDecorators` implementation."
+  }
+]

@@ -1,0 +1,6 @@
+[
+  { "term": "Optimistic UI", "description": "Render the expected result of an action immediately, then reconcile with the server response." },
+  { "term": "useOptimistic(state, updateFn)", "description": "Returns `[optimisticState, addOptimistic]`. The optimistic layer exists only while an Action is pending." },
+  { "term": "updateFn", "description": "Pure `(currentState, optimisticValue) => nextState` used to compute what to show while pending." },
+  { "term": "Automatic rollback", "description": "When the Action ends, React renders from the real state again, so failed optimistic changes disappear." }
+]

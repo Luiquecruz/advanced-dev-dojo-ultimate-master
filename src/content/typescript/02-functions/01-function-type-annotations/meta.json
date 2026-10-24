@@ -1,0 +1,6 @@
+{
+  "title": "Function type annotations",
+  "summary": "Annotate parameters and return types of declarations, arrow functions and async functions, and know when inference is enough.",
+  "level": "beginner",
+  "tags": ["core"]
+}

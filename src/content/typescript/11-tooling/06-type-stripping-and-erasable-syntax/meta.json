@@ -1,0 +1,10 @@
+{
+  "title": "Type stripping and erasable syntax",
+  "summary": "Run TypeScript directly in Node by stripping types, and keep code erasable with erasableSyntaxOnly and verbatimModuleSyntax.",
+  "level": "intermediate",
+  "tags": ["theory", "modern", "ecosystem"],
+  "resources": [
+    { "label": "Node.js: Modules: TypeScript", "url": "https://nodejs.org/api/typescript.html" },
+    { "label": "TypeScript 5.8: --erasableSyntaxOnly", "url": "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-8.html#the---erasablesyntaxonly-option" }
+  ]
+}

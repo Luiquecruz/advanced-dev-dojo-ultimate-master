@@ -1,0 +1,11 @@
+{
+  "title": "What Is State and Where It Lives",
+  "summary": "Classify state by owner and lifetime: local UI, shared client, server cache, URL and form state, and why derived values are not state.",
+  "level": "beginner",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "react.dev: Choosing the State Structure", "url": "https://react.dev/learn/choosing-the-state-structure" },
+    { "label": "react.dev: Sharing State Between Components", "url": "https://react.dev/learn/sharing-state-between-components" },
+    { "label": "Kent C. Dodds: Application State Management with React", "url": "https://kentcdodds.com/blog/application-state-management-with-react" }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "title": "Shallow & Raw Reactivity",
+  "summary": "Opt out of deep reactivity with shallowRef, triggerRef, shallowReactive, markRaw and toRaw.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "vuejs.org: Reduce Reactivity Overhead for Large Immutable Structures", "url": "https://vuejs.org/guide/best-practices/performance.html#reduce-reactivity-overhead-for-large-immutable-structures" },
+    { "label": "vuejs.org: Reactivity API Advanced", "url": "https://vuejs.org/api/reactivity-advanced.html" }
+  ]
+}

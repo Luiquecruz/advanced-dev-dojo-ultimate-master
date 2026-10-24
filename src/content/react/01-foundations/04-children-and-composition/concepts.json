@@ -1,0 +1,7 @@
+[
+  { "term": "children", "description": "Special prop containing whatever is nested between a component's tags. Render it with `{children}`." },
+  { "term": "Composition", "description": "Building specialized components by wrapping generic ones with specific props and children, instead of inheritance." },
+  { "term": "Slot props", "description": "Any prop can carry JSX (`sidebar={<Nav />}`), giving a component several named holes to fill." },
+  { "term": "Fragment", "description": "`<>...</>` or `<Fragment key>` groups siblings without adding a DOM node." },
+  { "term": "React.Children / cloneElement", "description": "Legacy APIs to inspect or modify children. Fragile; prefer explicit props or context." }
+]

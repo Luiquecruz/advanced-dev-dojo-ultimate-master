@@ -1,0 +1,6 @@
+[
+  { "term": "useDeferredValue", "description": "`useDeferredValue(value, initialValue?)` returns a copy of `value` that lags behind during urgent renders and catches up in an interruptible background render." },
+  { "term": "Stale content", "description": "UI rendered from the previous deferred value. Detect it with `value !== deferredValue` and dim it or set `aria-busy`." },
+  { "term": "Background render", "description": "The low-priority render where the deferred value updates. It can be interrupted by new input and does not show Suspense fallbacks for visible content." },
+  { "term": "Debounce", "description": "Waits a fixed time before acting. Reduces calls but is not interruptible; complementary to deferred values." }
+]

@@ -1,0 +1,7 @@
+{
+  "title": "Lifecycle Hooks",
+  "summary": "Run code when components mount, update and unmount, and always clean up what you set up.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "vuejs.org: Lifecycle Hooks", "url": "https://vuejs.org/guide/essentials/lifecycle.html" }]
+}

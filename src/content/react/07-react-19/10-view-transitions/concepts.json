@@ -1,0 +1,7 @@
+[
+  { "term": "<ViewTransition>", "description": "Stable in React 19.3. Declares a subtree that animates with the browser View Transition API when a Transition changes it." },
+  { "term": "enter / exit / update / share", "description": "The four animation triggers. Each prop accepts a View Transition Class, `'auto'` or `'none'`, or a map by transition type." },
+  { "term": "addTransitionType(type)", "description": "Called inside `startTransition` to tag the Transition so different causes can animate differently." },
+  { "term": "View Transition Class", "description": "Name React sets as `view-transition-class`, targeted in CSS with `::view-transition-new(.name)`." },
+  { "term": "Urgent updates", "description": "Plain `setState` outside a Transition never animates." }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "In the capstone, why is the category filter not part of the products query key?",
+    "options": [
+      "Query keys cannot contain more than two items",
+      "The API does not filter by category, so filtering the cached results in render avoids a pointless request; if the server filtered, it would belong in the key",
+      "URL params cannot be used in query keys",
+      "Categories are client state"
+    ],
+    "answer": 1,
+    "explanation": "The key must contain every input of the query function. The category is not an input of the request, so it is applied as a derived filter on cached data."
+  },
+  {
+    "question": "Why does the search input keep a local draft instead of writing every keystroke to the URL?",
+    "options": [
+      "`useSearchParams` cannot be called on change events",
+      "The URL should hold committed view state; per-keystroke writes would spam history and trigger a request per character",
+      "Local state is faster to read than the URL",
+      "React Router forbids it"
+    ],
+    "answer": 1,
+    "explanation": "The draft is transient and owned by the form. Committing on submit keeps history meaningful and requests intentional. Debounced URL writes are an alternative when live search is a requirement."
+  },
+  {
+    "question": "A teammate suggests storing the fetched products in the cart store 'so everything is in one place'. What breaks?",
+    "options": [
+      "Nothing, it is a common optimization",
+      "You lose caching per search, staleness and deduplication, and create a second copy that can drift from the query cache",
+      "Zustand cannot store arrays",
+      "The URL would stop working"
+    ],
+    "answer": 1,
+    "explanation": "Server data belongs to the query cache. A store copy needs manual refetching and invalidation and goes stale. The cart stores only cart lines, copied at the moment of adding."
+  },
+  {
+    "question": "A user presses the browser back button from `?q=mon` to `?q=key`. The input still shows 'mon'. What is the cleanest fix?",
+    "options": [
+      "A `useEffect` that copies `q` into the draft on every change",
+      "Give the form `key={q}` so its local draft remounts from the URL whenever `q` changes",
+      "Move the draft to the global store",
+      "Disable the back button"
+    ],
+    "answer": 1,
+    "explanation": "Changing the key remounts the form with fresh local state initialized from the URL, without a synchronization effect."
+  }
+]

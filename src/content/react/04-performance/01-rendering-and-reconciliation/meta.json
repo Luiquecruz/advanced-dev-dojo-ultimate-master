@@ -1,0 +1,10 @@
+{
+  "title": "Rendering and Reconciliation",
+  "summary": "Understand trigger, render and commit, how Fiber works, and how React diffs trees with types and keys.",
+  "level": "intermediate",
+  "tags": ["core", "theory", "performance"],
+  "resources": [
+    { "label": "react.dev: Render and Commit", "url": "https://react.dev/learn/render-and-commit" },
+    { "label": "react.dev: Preserving and Resetting State", "url": "https://react.dev/learn/preserving-and-resetting-state" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "`ApplicationConfig`", "description": "Object passed to `bootstrapApplication()` whose `providers` populate the root environment injector." },
+  { "term": "`EnvironmentProviders`", "description": "Opaque provider bundle returned by `provideX()` functions; only valid in environment injectors." },
+  { "term": "`makeEnvironmentProviders()`", "description": "Wraps providers into `EnvironmentProviders` so you can write your own `provideFeature()` function." },
+  { "term": "`provideAppInitializer()`", "description": "Runs a function in an injection context before bootstrap. Returned Promises/Observables are awaited. Replaces `APP_INITIALIZER`." },
+  { "term": "`provideEnvironmentInitializer()`", "description": "Runs synchronously when an environment injector is created. Replaces `ENVIRONMENT_INITIALIZER`." },
+  { "term": "`createEnvironmentInjector()`", "description": "Creates a child environment injector from a provider list and a parent." }
+]

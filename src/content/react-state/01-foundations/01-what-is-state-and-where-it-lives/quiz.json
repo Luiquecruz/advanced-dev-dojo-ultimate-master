@@ -1,0 +1,63 @@
+[
+  {
+    "question": "An admin dashboard shows an orders table with a status filter and a date range. Support agents paste dashboard links to each other in chat. Where should the filter and date range live?",
+    "options": [
+      "In a Zustand store so every widget can read them",
+      "In the URL search params, read by the components that need them",
+      "In `useState` inside the table component",
+      "In `localStorage` so they survive reloads"
+    ],
+    "answer": 1,
+    "explanation": "The requirement \"paste a link and see the same view\" means the **URL owns** this state. Search params survive reloads, work with back/forward and are shareable. A store or `localStorage` would not reproduce the view on a colleague's machine."
+  },
+  {
+    "question": "A component keeps `const [user, setUser] = useState(props.user)` to display a profile header. The parent later passes an updated `user`. What happens, and what is the fix?",
+    "options": [
+      "The header updates automatically because state tracks props",
+      "The header keeps showing the old user: state is only initialized once. Read `props.user` directly instead of copying it",
+      "React throws because props cannot initialize state",
+      "The header updates after one extra render"
+    ],
+    "answer": 1,
+    "explanation": "The initial value of `useState` is used only on mount. Copying a prop creates a second source of truth that drifts. Use the prop directly; copy it only when it is intentionally an *initial* value (name it `initialUser`)."
+  },
+  {
+    "question": "A notifications list is fetched from `/api/notifications` and displayed in the header badge and in a side panel. Where should the list live?",
+    "options": [
+      "In a server cache such as TanStack Query, keyed by `['notifications']`",
+      "In a Redux slice with `isLoading` and `error` flags",
+      "In a context provider at the root",
+      "In both components' local state"
+    ],
+    "answer": 0,
+    "explanation": "The backend owns this data; the client holds a copy that can go stale. A server cache deduplicates the request for both components, refetches in the background and supports invalidation. A store or context would make you rebuild all of that."
+  },
+  {
+    "question": "Which value is **not** state and should be computed during render?",
+    "options": [
+      "The text typed in a search input",
+      "Whether a modal is open",
+      "The number of unread items in a list that is already in state",
+      "The id of the selected row"
+    ],
+    "answer": 2,
+    "explanation": "The unread count is **derived** from the list. Storing it separately means synchronizing two values. The other three are independent facts that only the user can change."
+  },
+  {
+    "question": "A multi-step signup form keeps every field in a global store, and each keystroke updates it. What is the main problem?",
+    "options": [
+      "Global stores cannot hold strings",
+      "Form drafts are short-lived and owned by the form: keystrokes notify unrelated subscribers, and cancelling must undo global changes",
+      "Forms must always use `useReducer`",
+      "The values will be lost on submit"
+    ],
+    "answer": 1,
+    "explanation": "Form state is a draft with a short lifetime. Keep it in the form (local state, a form library or form actions) and only publish the result on submit. Putting drafts in global state couples the whole app to every keystroke."
+  },
+  {
+    "question": "A component needs to remember a `setInterval` id so it can clear it later. The id is never displayed. What should hold it?",
+    "options": ["`useState`", "`useRef`", "Context", "The URL"],
+    "answer": 1,
+    "explanation": "State is for values the screen depends on. Changing state triggers a render; changing `ref.current` does not. An interval id is bookkeeping, so a ref is the right container."
+  }
+]

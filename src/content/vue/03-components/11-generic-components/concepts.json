@@ -1,0 +1,6 @@
+[
+  { "term": "generic attribute", "description": "`<script setup lang=\"ts\" generic=\"T\">` declares type parameters for a component, inferred from its props at usage." },
+  { "term": "Type constraint", "description": "`T extends { id: number }` restricts what consumers can pass and tells the component what it can rely on." },
+  { "term": "defineSlots", "description": "Macro that types slot names and slot props, e.g. `default(props: { item: T }): any`." },
+  { "term": "Type erasure", "description": "Generic types disappear at runtime; props typed as `T` are not validated in the browser." }
+]

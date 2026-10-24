@@ -1,0 +1,7 @@
+{
+  "title": "Standalone Components & Signals",
+  "summary": "Create a standalone component with a signal-based counter and the built-in @if control flow.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "angular.dev: Components", "url": "https://angular.dev/guide/components" }]
+}

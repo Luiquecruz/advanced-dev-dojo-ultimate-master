@@ -1,0 +1,7 @@
+[
+  { "term": "Controlled component", "description": "Its value comes from props (`value`) and changes are requested through a callback (`onChange`). The parent is the source of truth." },
+  { "term": "Uncontrolled component", "description": "Keeps its own value; the parent only provides an initial `defaultValue` and reads the result later (for inputs, via `FormData` or a ref)." },
+  { "term": "FormData", "description": "Browser API that reads every named field of a form: `new FormData(form).get('email')`." },
+  { "term": "isControlled", "description": "`value !== undefined`. Decide once and never switch modes during the component's life." },
+  { "term": "useControllableState", "description": "Common library hook that implements the controlled/uncontrolled switch for custom components." }
+]

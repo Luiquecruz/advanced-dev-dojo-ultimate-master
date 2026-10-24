@@ -1,0 +1,35 @@
+[
+  {
+    "question": "Why must `lazy()` be called at the module top level?",
+    "options": [
+      "It only works in ES modules",
+      "Calling it in a component creates a new component type each render, resetting state and reloading",
+      "React throws if lazy is called during render",
+      "Bundlers ignore lazy calls inside functions"
+    ],
+    "answer": 1,
+    "explanation": "Each `lazy()` call returns a new component type. A different type on every render makes React unmount and remount the subtree."
+  },
+  {
+    "question": "How do you lazy-load a component exported as `export function SalesChart`?",
+    "options": [
+      "`lazy(() => import('./charts').SalesChart)`",
+      "`lazy(() => import('./charts').then((module) => ({ default: module.SalesChart })))`",
+      "`lazy('./charts#SalesChart')`",
+      "Named exports cannot be lazy loaded"
+    ],
+    "answer": 1,
+    "explanation": "`lazy` expects a Promise of a module with a `default` export, so map the named export to `default`."
+  },
+  {
+    "question": "What happens when a lazy component's chunk fails to download?",
+    "options": [
+      "React retries forever",
+      "The Suspense fallback stays on screen forever",
+      "The Promise rejects and the nearest error boundary handles it",
+      "React renders nothing silently"
+    ],
+    "answer": 2,
+    "explanation": "A rejected import throws during render. Without an error boundary the whole root unmounts, so wrap lazy content in one."
+  }
+]

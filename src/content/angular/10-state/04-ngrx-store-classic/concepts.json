@@ -1,0 +1,8 @@
+[
+  { "term": "Action", "description": "A plain object with a `type` describing an event (`[Source] Event`). Created with `createAction` and `props<T>()`." },
+  { "term": "Reducer", "description": "A pure function `(state, action) => newState`. Built with `createReducer(initialState, on(action, handler))`." },
+  { "term": "Selector", "description": "A memoized function that reads or derives data from the state tree. Built with `createFeatureSelector` and `createSelector`." },
+  { "term": "selectSignal()", "description": "`Store.selectSignal(selector)` returns the selected slice as an Angular signal." },
+  { "term": "provideStore()", "description": "Registers the root reducers. `provideState()` adds feature state, for example in lazy routes." },
+  { "term": "Effects", "description": "Classes or functions from `@ngrx/effects` that react to actions with side effects (HTTP, navigation) and dispatch new actions." }
+]

@@ -1,0 +1,11 @@
+{
+  "title": "Redux Toolkit",
+  "summary": "Write modern Redux with createSlice, configureStore and react-redux hooks, and see what it replaced.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "modern", "legacy"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "Redux Toolkit: Quick Start", "url": "https://redux-toolkit.js.org/tutorials/quick-start" },
+    { "label": "Redux: Why Redux Toolkit is How To Use Redux Today", "url": "https://redux.js.org/introduction/why-rtk-is-redux-today" }
+  ]
+}

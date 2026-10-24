@@ -1,0 +1,8 @@
+[
+  { "term": "Routes", "description": "An array of route objects (`path`, `component`, `redirectTo`, `children`, `title`...). The router walks it top to bottom and uses the **first** match." },
+  { "term": "provideRouter()", "description": "Registers the router in an `ApplicationConfig` or test providers. Accepts optional features such as `withComponentInputBinding()` or `withPreloading()`." },
+  { "term": "<router-outlet>", "description": "Placeholder where the router renders the component of the active route. Nested routes need nested outlets." },
+  { "term": "routerLink", "description": "Directive that navigates without a full page reload. Accepts a string (`'/about'`) or a commands array (`['/users', id]`)." },
+  { "term": "routerLinkActive", "description": "Adds CSS classes while the link's URL is active. `[routerLinkActiveOptions]=\"{ exact: true }\"` requires an exact match." },
+  { "term": "Wildcard route", "description": "`{ path: '**', component: NotFound }` matches any URL. It must be the last entry." }
+]

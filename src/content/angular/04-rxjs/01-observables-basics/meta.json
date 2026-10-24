@@ -1,0 +1,11 @@
+{
+  "title": "Observables Basics",
+  "summary": "Create observables with teardown logic, subscribe with observers, and compare observables with promises and signals.",
+  "level": "intermediate",
+  "tags": ["core", "ecosystem"],
+  "preview": false,
+  "resources": [
+    { "label": "RxJS: Observable", "url": "https://rxjs.dev/guide/observable" },
+    { "label": "angular.dev: RxJS interop", "url": "https://angular.dev/ecosystem/rxjs-interop" }
+  ]
+}

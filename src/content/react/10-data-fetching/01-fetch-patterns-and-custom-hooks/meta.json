@@ -1,0 +1,12 @@
+{
+  "title": "Fetch Patterns and Custom Hooks",
+  "summary": "Handle loading, errors and race conditions with fetch, then package the logic in a useFetch hook.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "react.dev: Fetching data with Effects", "url": "https://react.dev/learn/synchronizing-with-effects#fetching-data" },
+    { "label": "react.dev: Reusing Logic with Custom Hooks", "url": "https://react.dev/learn/reusing-logic-with-custom-hooks" },
+    { "label": "MDN: AbortController", "url": "https://developer.mozilla.org/en-US/docs/Web/API/AbortController" }
+  ]
+}

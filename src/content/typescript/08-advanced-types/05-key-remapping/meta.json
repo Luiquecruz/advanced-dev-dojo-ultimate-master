@@ -1,0 +1,6 @@
+{
+  "title": "Key remapping with as",
+  "summary": "Rename and filter keys inside mapped types with an `as` clause, and derive handler maps from discriminated unions.",
+  "level": "advanced",
+  "tags": ["core", "typescript"]
+}

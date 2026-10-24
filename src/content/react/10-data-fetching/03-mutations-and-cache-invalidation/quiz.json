@@ -1,0 +1,35 @@
+[
+  {
+    "question": "A todo is created successfully but the list does not change. What is the most likely cause?",
+    "options": [
+      "`useMutation` must be called inside `useQuery`",
+      "The `['todos']` query was never invalidated or updated after the mutation",
+      "Mutations cannot use POST",
+      "`staleTime` must be `Infinity`"
+    ],
+    "answer": 1,
+    "explanation": "The cache does not know the server changed. Invalidate the related query or update it with `setQueryData` in `onSuccess`."
+  },
+  {
+    "question": "Which queries does `invalidateQueries({ queryKey: ['todos'] })` match?",
+    "options": [
+      "Only the exact key `['todos']`",
+      "`['todos']`, `['todos', 1]` and `['todos', { done: true }]`",
+      "Every query in the cache",
+      "Only inactive queries"
+    ],
+    "answer": 1,
+    "explanation": "Query filters match by key prefix by default. Pass `exact: true` to match only the exact key."
+  },
+  {
+    "question": "Why return the `invalidateQueries` promise from `onSuccess`?",
+    "options": [
+      "It is required or the mutation throws",
+      "The mutation stays pending until the refetch finishes, so the UI does not flash stale data",
+      "It makes the request faster",
+      "It disables retries"
+    ],
+    "answer": 1,
+    "explanation": "Promises returned from mutation callbacks are awaited, so `isPending` covers both the write and the refetch."
+  }
+]

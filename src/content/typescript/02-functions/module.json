@@ -1,0 +1,4 @@
+{
+  "title": "Functions",
+  "description": "Parameter and return annotations, optional, default and rest parameters, function types and call signatures, overloads, the this parameter and higher-order functions."
+}

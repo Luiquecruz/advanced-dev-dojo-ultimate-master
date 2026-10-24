@@ -1,0 +1,7 @@
+[
+  { "term": "Top-down store", "description": "One store holds everything and components select slices (Redux Toolkit, Zustand)." },
+  { "term": "Bottom-up atoms", "description": "Small independent units composed into a graph (Jotai). Granularity comes from the graph itself." },
+  { "term": "Tracked reads", "description": "Proxies record which properties a component read and re-render it only when those change (MobX, Valtio)." },
+  { "term": "Explicit transitions", "description": "Changes are named events processed by reducers or machines (Redux, XState), which makes them loggable and replayable." },
+  { "term": "Per-request store", "description": "On the server, create stores per request and pass them through context; module singletons would leak data between users." }
+]

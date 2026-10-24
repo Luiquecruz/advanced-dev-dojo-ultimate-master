@@ -1,0 +1,8 @@
+[
+  { "term": "Structural sharing", "description": "An immutable update copies only the objects on the changed path and reuses every untouched branch by reference." },
+  { "term": "Draft", "description": "The Proxy Immer passes to a recipe. Mutations on it are recorded and turned into a new immutable state." },
+  { "term": "Curried producer", "description": "`produce(recipe)` without a base returns `(state, ...args) => nextState`, ready to use as a reducer." },
+  { "term": "Auto-freeze", "description": "Immer freezes the states it produces, so accidental mutations throw instead of silently corrupting data." },
+  { "term": "useImmer", "description": "Hook from `use-immer`: `const [value, update] = useImmer(initial)`; `update` accepts a recipe or a new value." },
+  { "term": "current / original", "description": "`current(draft)` snapshots the draft's present value; `original(draft)` returns the value before the recipe ran." }
+]

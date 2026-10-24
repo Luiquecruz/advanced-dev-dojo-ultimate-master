@@ -1,0 +1,7 @@
+[
+  { "term": "create", "description": "`create((set, get) => initialState)` builds a store and returns a hook that is also the store API (`getState`, `setState`, `subscribe`)." },
+  { "term": "set", "description": "Updates the store. Objects are shallow-merged into the current state; pass a function to read the current state first." },
+  { "term": "Selector", "description": "Function passed to the hook, such as `(state) => state.count`. The component re-renders only when its result changes by `Object.is`." },
+  { "term": "useShallow", "description": "Wraps a selector that returns a new object or array so it is compared field by field. Imported from `zustand/react/shallow`." },
+  { "term": "Middleware", "description": "Wrappers such as `persist`, `devtools` and `immer` from `zustand/middleware` that enhance the store initializer." }
+]

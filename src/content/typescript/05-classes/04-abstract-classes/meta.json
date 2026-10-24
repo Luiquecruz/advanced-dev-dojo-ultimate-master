@@ -1,0 +1,6 @@
+{
+  "title": "Abstract classes",
+  "summary": "Share implementation in a base class while forcing subclasses to provide the missing pieces at compile time.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

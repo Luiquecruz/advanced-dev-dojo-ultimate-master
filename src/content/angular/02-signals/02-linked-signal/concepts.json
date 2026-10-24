@@ -1,0 +1,7 @@
+[
+  { "term": "linkedSignal()", "description": "A writable signal whose value is recomputed (and overrides manual writes) when its source changes." },
+  { "term": "Short form", "description": "`linkedSignal(() => expr)`: every signal read in `expr` is a source." },
+  { "term": "Long form", "description": "`linkedSignal({ source, computation: (value, previous) => ... })`: only `source` is tracked; `previous` holds the old source and value." },
+  { "term": "previous", "description": "`undefined` on the first computation, then `{ source, value }`, where `value` includes manual `set()` calls." },
+  { "term": "Editable copy of an input", "description": "`draft = linkedSignal(() => this.user().name)`: local edits that reset when the input changes." }
+]

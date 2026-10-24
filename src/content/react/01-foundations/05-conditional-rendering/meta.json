@@ -1,0 +1,7 @@
+{
+  "title": "Conditional Rendering",
+  "summary": "Show different UI with early returns, ternaries and && without falling into the 0 trap.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "react.dev: Conditional Rendering", "url": "https://react.dev/learn/conditional-rendering" }]
+}

@@ -1,0 +1,5 @@
+[
+  { "question": "How do you validate an email in Zod 4?", "options": ["z.string().isEmail()", "z.email()", "z.format('email')", "z.string().pattern('email')"], "answer": 1, "explanation": "Zod 4 moved string formats to top-level functions; `z.string().email()` is deprecated." },
+  { "question": "A password confirmation `.refine` on the object shows no error in the form. What is missing?", "options": ["async", "path: ['confirm']", "z.coerce", "A second schema"], "answer": 1, "explanation": "Without a path, the issue belongs to the root object and is not mapped to any field." },
+  { "question": "What is the difference between `parse` and `safeParse`?", "options": ["safeParse is async", "parse throws on invalid data; safeParse returns a result object", "parse skips refinements", "None"], "answer": 1, "explanation": "`safeParse` is the non-throwing variant, ideal for UI code." }
+]

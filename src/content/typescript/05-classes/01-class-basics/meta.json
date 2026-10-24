@@ -1,0 +1,6 @@
+{
+  "title": "Class basics",
+  "summary": "Typed fields, constructors and methods, strict property initialization, and how `this` behaves in class methods.",
+  "level": "beginner",
+  "tags": ["core"]
+}

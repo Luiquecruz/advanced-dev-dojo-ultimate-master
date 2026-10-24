@@ -1,0 +1,9 @@
+[
+  { "term": "Declaration file (.d.ts)", "description": "Contains only types and `declare` statements describing JavaScript that exists elsewhere." },
+  { "term": "declare", "description": "Tells the compiler that a value exists at runtime without emitting any code for it." },
+  { "term": "@types", "description": "DefinitelyTyped packages with community-maintained declarations, e.g. `@types/node`." },
+  { "term": "types option", "description": "Lists global `@types` packages to include. Defaults to `[]` since TypeScript 6.0." },
+  { "term": "Ambient module", "description": "`declare module 'name' { ... }` describes a module that has no types of its own." },
+  { "term": "Module augmentation", "description": "Reopens a library's interfaces with `declare module 'lib'` to add members." },
+  { "term": "isolatedDeclarations", "description": "Requires explicit export types so `.d.ts` files can be generated per file without type checking." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "NgModule", "description": "A class decorated with `@NgModule` that groups declarables and defines their compilation context and providers." },
+  { "term": "declarations", "description": "Components, directives and pipes owned by the module (each may belong to only one module)." },
+  { "term": "exports", "description": "The module's public API: declarables (or modules) that importers can use in their templates." },
+  { "term": "standalone: false", "description": "Opts a component out of the standalone default (Angular 19+) so it can be declared in an NgModule." },
+  { "term": "CommonModule", "description": "Exports `NgIf`, `NgFor`, `NgClass`, the common pipes and more for module-based templates." },
+  { "term": "ng g @angular/core:standalone", "description": "CLI migration that converts an NgModule app to standalone components and `bootstrapApplication`." }
+]

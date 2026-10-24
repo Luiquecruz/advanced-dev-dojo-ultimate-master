@@ -1,0 +1,8 @@
+[
+  { "term": "Query key factory", "description": "An object of functions that build keys from a root, e.g. `userKeys.detail(id)`. Keeps keys consistent and makes prefix invalidation reliable." },
+  { "term": "select", "description": "Transforms cached data per observer. Several components can share one query and request while each subscribes to its own projection." },
+  { "term": "Dependent query", "description": "A query that needs data from another one. Use `skipToken` (type-safe) or `enabled: false` until its input exists." },
+  { "term": "skipToken", "description": "Passed as `queryFn` to skip a query. The query stays pending without fetching until a real function is provided." },
+  { "term": "Structural sharing", "description": "TanStack Query keeps unchanged parts of new data referentially equal to the old data, so memoized consumers and `select` results stay stable." },
+  { "term": "placeholderData / initialData", "description": "`placeholderData` shows temporary data (e.g. `keepPreviousData`) without caching it; `initialData` seeds the cache, for example from a list entry." }
+]

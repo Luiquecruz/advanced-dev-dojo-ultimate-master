@@ -1,0 +1,7 @@
+[
+  { "term": "Context propagation", "description": "When a provider value changes, every component reading that context re-renders, even inside `memo`." },
+  { "term": "Split by concern", "description": "Separate contexts for data that is read by different components or changes at different rates (user vs cart)." },
+  { "term": "Actions context", "description": "A context holding only stable functions, so components that only dispatch never re-render on data changes." },
+  { "term": "<Profiler>", "description": "`<Profiler id onRender>` reports every commit of its subtree with the phase and timings; useful for render-count assertions." },
+  { "term": "Selector", "description": "A function that picks a slice of state so a subscriber re-renders only when that slice changes. Context has none; stores do." }
+]

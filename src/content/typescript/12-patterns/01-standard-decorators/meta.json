@@ -1,0 +1,10 @@
+{
+  "title": "Standard decorators",
+  "summary": "Write TC39 decorators for methods and auto-accessors with typed contexts, decorator factories and addInitializer.",
+  "level": "advanced",
+  "tags": ["modern"],
+  "resources": [
+    { "label": "TypeScript 5.0: Decorators", "url": "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html#decorators" },
+    { "label": "TC39 decorators proposal", "url": "https://github.com/tc39/proposal-decorators" }
+  ]
+}

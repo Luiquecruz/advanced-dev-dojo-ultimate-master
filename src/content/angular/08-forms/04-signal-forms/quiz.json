@@ -1,0 +1,20 @@
+[
+  {
+    "question": "In Signal Forms, where does the form value live?",
+    "options": ["In an internal FormGroup copy", "In the WritableSignal you pass to `form()`", "In the DOM inputs", "In an RxJS BehaviorSubject"],
+    "answer": 1,
+    "explanation": "`form()` does not copy data. Editing an input writes into your signal, and setting the signal updates the inputs."
+  },
+  {
+    "question": "What does `profileForm.address.city()` return?",
+    "options": ["The city string", "The `FieldState` of the city field (value, errors, touched...)", "A FormControl", "An Observable"],
+    "answer": 1,
+    "explanation": "Fields are navigated with dot access and called to read their state. The value is `profileForm.address.city().value()`."
+  },
+  {
+    "question": "Does `model.set(...)` from code mark the form as dirty?",
+    "options": ["Yes, always", "No, dirty tracks user interaction through bound controls", "Only for nested fields", "Only when the value changes type"],
+    "answer": 1,
+    "explanation": "`dirty` means the user changed a value through the UI. Programmatic updates of the model keep the field pristine."
+  }
+]

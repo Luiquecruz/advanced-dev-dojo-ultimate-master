@@ -1,0 +1,11 @@
+{
+  "title": "NgRx SignalStore",
+  "summary": "Compose an injectable store from withState and withMethods, and update it safely with patchState.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "modern"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "ngrx.io: SignalStore", "url": "https://ngrx.io/guide/signals/signal-store" },
+    { "label": "ngrx.io: State tracking and patchState", "url": "https://ngrx.io/guide/signals/signal-state" }
+  ]
+}

@@ -1,0 +1,6 @@
+[
+  { "term": "useImperativeHandle", "description": "`useImperativeHandle(ref, () => handle, deps)` customizes what a parent receives in `ref.current`." },
+  { "term": "ref as a prop", "description": "React 19 passes `ref` to function components as a regular prop, replacing `forwardRef`." },
+  { "term": "Imperative handle", "description": "A small object of methods (`focus`, `play`, `scrollToTop`) exposed to the parent instead of a DOM node." },
+  { "term": "forwardRef (legacy)", "description": "Pre-19 wrapper that let function components receive a ref as a second argument." }
+]

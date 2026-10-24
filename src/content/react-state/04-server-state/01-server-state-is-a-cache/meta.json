@@ -1,0 +1,11 @@
+{
+  "title": "Server State Is a Cache",
+  "summary": "Why remote data is a cache and not state: freshness, deduplication, revalidation, invalidation and where server state lives in modern React.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "TanStack Query: Does this replace client state?", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/does-this-replace-client-state" },
+    { "label": "TkDodo: React Query as a State Manager", "url": "https://tkdodo.eu/blog/react-query-as-a-state-manager" },
+    { "label": "RTK Query: Overview", "url": "https://redux-toolkit.js.org/rtk-query/overview" }
+  ]
+}

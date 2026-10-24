@@ -1,0 +1,5 @@
+[
+  {"question": "`const { count } = toRefs(state); count.value = 5`. What is `state.count`?", "options": ["Unchanged", "A ref", "5", "undefined"], "answer": 2, "explanation": "Refs created by `toRefs` are linked to the source object in both directions."},
+  {"question": "What does `toValue(() => props.id)` return?", "options": ["The getter function", "A ref", "The current value of `props.id`", "A computed"], "answer": 2, "explanation": "`toValue` calls getters and unwraps refs; `unref` would return the function unchanged."},
+  {"question": "Which destructuring stays reactive without helpers in Vue 3.5?", "options": ["`const { a } = defineProps<{ a: number }>()` in `<script setup>`", "`const { a } = reactive({ a: 1 })`", "`const { a } = useStore()` with Pinia", "`const { a } = ref({ a: 1 }).value`"], "answer": 0, "explanation": "Reactive props destructure is a compiler feature of `<script setup>`. Other objects need `toRefs` / `storeToRefs`."}
+]

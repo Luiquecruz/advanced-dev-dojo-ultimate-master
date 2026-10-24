@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`const { isPlaying } = usePlayerStore();` is used in a play button. What is the consequence?",
+    "options": [
+      "None, destructuring only subscribes to `isPlaying`",
+      "The button re-renders on every store change, because the hook without a selector subscribes to the whole state",
+      "It throws in Zustand 5",
+      "It never re-renders"
+    ],
+    "answer": 1,
+    "explanation": "Without a selector the hook returns the whole state object, which changes on every `set`. Destructuring happens after subscribing. Select the field: `usePlayerStore((s) => s.isPlaying)`."
+  },
+  {
+    "question": "Which selector needs `useShallow` in Zustand 5?",
+    "options": [
+      "`(s) => s.items.length`",
+      "`(s) => s.items`",
+      "`(s) => s.items.filter((item) => item.inStock)`",
+      "`(s) => s.actions`"
+    ],
+    "answer": 2,
+    "explanation": "`filter` creates a new array on every call, so the result never compares equal. Lengths, existing references and the stable `actions` object are already safe."
+  },
+  {
+    "question": "A canvas editor needs: the selected shape ids (read by toolbar, canvas, layers panel and keyboard shortcuts outside React), the list of saved documents from the API, and the text typed in a rename input. Which mapping is best?",
+    "options": [
+      "Everything in one Zustand store",
+      "Selection in Zustand, documents in a server cache, rename text in local state",
+      "Selection in local state, documents in Zustand, rename text in the URL",
+      "Everything in context"
+    ],
+    "answer": 1,
+    "explanation": "The selection is shared client state used across the tree and outside React: a good Zustand fit. Saved documents are server state. The rename draft belongs to the input that owns it."
+  },
+  {
+    "question": "Why group actions under an `actions` key in the store?",
+    "options": [
+      "Zustand requires it",
+      "The object is created once and never replaced, so `useStore((s) => s.actions)` is stable and components that only call actions never re-render",
+      "It makes actions run faster",
+      "It persists actions to `localStorage`"
+    ],
+    "answer": 1,
+    "explanation": "Selecting one stable object gives every action without `useShallow` and without re-renders. It also keeps state and behavior clearly separated when you use `persist` or devtools."
+  },
+  {
+    "question": "How do you reset a Zustand store to its initial state between tests?",
+    "options": [
+      "Reload the page",
+      "`useStore.setState(useStore.getInitialState(), true)`",
+      "`useStore.reset()`",
+      "Unmount every component"
+    ],
+    "answer": 1,
+    "explanation": "`getInitialState` returns the state created by the initializer, and the `true` flag replaces instead of merging. There is no built-in `reset` method."
+  }
+]

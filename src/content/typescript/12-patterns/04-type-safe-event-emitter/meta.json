@@ -1,0 +1,10 @@
+{
+  "title": "Type-safe event emitter",
+  "summary": "Build an emitter whose event names, payloads and listeners are all checked from a single event map, without any.",
+  "level": "advanced",
+  "tags": ["modern"],
+  "resources": [
+    { "label": "TypeScript Handbook: Indexed Access Types", "url": "https://www.typescriptlang.org/docs/handbook/2/indexed-access-types.html" },
+    { "label": "mitt", "url": "https://github.com/developit/mitt" }
+  ]
+}

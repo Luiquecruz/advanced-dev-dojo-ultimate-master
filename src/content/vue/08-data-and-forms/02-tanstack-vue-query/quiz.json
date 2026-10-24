@@ -1,0 +1,5 @@
+[
+  { "question": "Two components call `useQuery({ queryKey: ['todos'], queryFn: fetchTodos })` at the same time. How many requests are made?", "options": ["Two", "One, shared through the cache", "None until one calls refetch", "It depends on `retry`"], "answer": 1, "explanation": "Queries with the same key are deduplicated and share one cache entry." },
+  { "question": "After a mutation creates a todo, how do you make the list refetch?", "options": ["Reload the page", "queryClient.invalidateQueries({ queryKey: ['todos'] })", "Call useQuery again", "Set staleTime to 0"], "answer": 1, "explanation": "Invalidation marks the cached list stale and refetches it if it is being used." },
+  { "question": "Your `queryFn` returns `response.json()` without checking `response.ok`. What happens on a 500?", "options": ["isError becomes true", "The error body is treated as successful data", "Vue Query retries forever", "It throws a TypeError"], "answer": 1, "explanation": "`fetch` resolves on HTTP errors, so the query function must throw for Vue Query to see a failure." }
+]

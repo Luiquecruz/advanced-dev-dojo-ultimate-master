@@ -1,0 +1,10 @@
+{
+  "title": "Constructor Injection and Decorator Inputs",
+  "summary": "Read and write decorator-era components: constructor injection, @Input with transforms, @Output with EventEmitter, and how they map to inject(), input() and output().",
+  "level": "intermediate",
+  "tags": ["legacy"],
+  "resources": [
+    { "label": "angular.dev: Accepting data with input properties", "url": "https://angular.dev/guide/components/inputs" },
+    { "label": "angular.dev: Migration to inject()", "url": "https://angular.dev/reference/migrations/inject-function" }
+  ]
+}

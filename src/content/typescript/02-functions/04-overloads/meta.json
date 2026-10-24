@@ -1,0 +1,6 @@
+{
+  "title": "Function overloads",
+  "summary": "Declare several call signatures for one implementation so return types follow the way a function is called.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

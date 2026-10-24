@@ -1,0 +1,10 @@
+{
+  "title": "Updating Objects and Arrays",
+  "summary": "Replace instead of mutate: spread, map and filter for objects and arrays held in state.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: Updating Objects in State", "url": "https://react.dev/learn/updating-objects-in-state" },
+    { "label": "react.dev: Updating Arrays in State", "url": "https://react.dev/learn/updating-arrays-in-state" }
+  ]
+}

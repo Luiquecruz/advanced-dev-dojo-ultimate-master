@@ -1,0 +1,9 @@
+{
+  "title": "useCallback",
+  "summary": "Keep callback identities stable so memoized children and effects skip unnecessary work.",
+  "level": "intermediate",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "react.dev: useCallback", "url": "https://react.dev/reference/react/useCallback" }
+  ]
+}

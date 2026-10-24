@@ -1,0 +1,4 @@
+[
+  { "question": "Slot content written in the parent can access…", "options": ["Only the child's state", "The parent's state, plus any slot props the child passes", "Both components' entire state", "Nothing reactive"], "answer": 1, "explanation": "Slot content is compiled in the parent's scope. The child can expose specific values through scoped slot props." },
+  { "question": "What replaced `slot-scope` from Vue 2.5?", "options": ["`v-slot` / `#name`", "`$scopedSlots`", "`slot-props`", "`v-bind:slot`"], "answer": 0, "explanation": "`v-slot` (shorthand `#`) unifies named and scoped slots; the old attributes were removed in Vue 3." }
+]

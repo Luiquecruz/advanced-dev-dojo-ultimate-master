@@ -1,0 +1,46 @@
+[
+  {
+    "question": "How does a React 19 function component receive a ref passed as `<TextInput ref={inputRef} />`?",
+    "options": [
+      "Only through `forwardRef`",
+      "As the `ref` prop",
+      "Through `useImperativeHandle` only",
+      "Function components cannot receive refs"
+    ],
+    "answer": 1,
+    "explanation": "Since React 19, `ref` is a normal prop for function components."
+  },
+  {
+    "question": "What happens when a ref callback returns a cleanup function?",
+    "options": [
+      "React ignores it",
+      "React calls the cleanup on detach and no longer calls the callback with `null`",
+      "React calls both the cleanup and the callback with `null`",
+      "It throws in development"
+    ],
+    "answer": 1,
+    "explanation": "Returning a cleanup opts into the new behavior, mirroring effect cleanups."
+  },
+  {
+    "question": "Why can `ref={(node) => (instance = node)}` become a TypeScript error in React 19?",
+    "options": [
+      "Assignments are not allowed in JSX",
+      "The arrow implicitly returns the node, which is not a valid cleanup function",
+      "Refs must be objects",
+      "`instance` must be a state variable"
+    ],
+    "answer": 1,
+    "explanation": "Ref callbacks may now return a cleanup, so returning anything else is rejected. Use a block body."
+  },
+  {
+    "question": "Which is the React 19 way to provide a context value?",
+    "options": [
+      "`<ThemeContext.Provider value=\"dark\">`",
+      "`<ThemeContext value=\"dark\">`",
+      "`<Provider context={ThemeContext} value=\"dark\">`",
+      "`ThemeContext.set('dark')`"
+    ],
+    "answer": 1,
+    "explanation": "Contexts can be rendered directly as providers; `.Provider` is legacy."
+  }
+]

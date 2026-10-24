@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Interface",
+    "description": "A named object shape declared with `interface Name { ... }`. It can describe properties and methods."
+  },
+  {
+    "term": "Method signature",
+    "description": "`name(parameters): ReturnType` inside an interface declares a callable member."
+  },
+  {
+    "term": "Contextual typing",
+    "description": "When the expected type is known, TypeScript infers parameter types of functions written in that position."
+  }
+]

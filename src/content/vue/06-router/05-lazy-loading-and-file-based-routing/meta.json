@@ -1,0 +1,11 @@
+{
+  "title": "Lazy Loading & File-Based Routing",
+  "summary": "Split route chunks with dynamic imports and generate typed routes from src/pages with the file-based routing built into Vue Router 5.",
+  "level": "intermediate",
+  "tags": ["new", "performance", "theory"],
+  "resources": [
+    { "label": "Vue Router: Lazy Loading Routes", "url": "https://router.vuejs.org/guide/advanced/lazy-loading.html" },
+    { "label": "Vue Router: File-Based Routing", "url": "https://router.vuejs.org/file-based-routing/" },
+    { "label": "Vue Router: Migrating to v5", "url": "https://router.vuejs.org/guide/migration/v4-to-v5" }
+  ]
+}

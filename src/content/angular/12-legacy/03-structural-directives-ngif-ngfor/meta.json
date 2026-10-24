@@ -1,0 +1,10 @@
+{
+  "title": "*ngIf, *ngFor and Structural Directives",
+  "summary": "Read and maintain templates written with the deprecated CommonModule structural directives: *ngIf/else/as, *ngFor with trackBy, and their control flow equivalents.",
+  "level": "beginner",
+  "tags": ["legacy"],
+  "resources": [
+    { "label": "angular.dev: Control flow migration", "url": "https://angular.dev/reference/migrations/control-flow" },
+    { "label": "angular.dev: Structural directives", "url": "https://angular.dev/guide/directives/structural-directives" }
+  ]
+}

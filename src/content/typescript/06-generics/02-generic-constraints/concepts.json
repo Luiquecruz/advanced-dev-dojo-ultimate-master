@@ -1,0 +1,5 @@
+[
+  { "term": "Generic constraint", "description": "`T extends Shape` limits the type arguments to subtypes of `Shape` and lets the body use `Shape`'s members." },
+  { "term": "Preserving the caller's type", "description": "Returning `T` instead of the constraint keeps every extra property of the argument." },
+  { "term": "Different subtype error", "description": "A value that only matches the constraint is not a valid `T`, because the caller may have chosen a more specific type." }
+]

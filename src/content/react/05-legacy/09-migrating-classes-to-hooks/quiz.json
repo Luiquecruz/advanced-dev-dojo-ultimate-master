@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A class stores `state = { email: '', name: '' }`. After migrating to `const [form, setForm] = useState({ email: '', name: '' })`, what does `setForm({ email: 'a@b.c' })` do?",
+    "options": ["Merges, keeping name", "Replaces the object, so name becomes undefined", "Throws", "Nothing"],
+    "answer": 1,
+    "explanation": "Unlike `this.setState`, the `useState` setter replaces the value. Spread the previous object: `setForm((form) => ({ ...form, email }))`, or use separate state variables."
+  },
+  {
+    "question": "Which hook replaces an instance field like `this.intervalId`?",
+    "options": ["useState", "useMemo", "useRef", "useContext"],
+    "answer": 2,
+    "explanation": "`useRef` keeps a mutable value across renders without triggering re-renders, exactly like an instance field."
+  },
+  {
+    "question": "Which component should you keep as a class?",
+    "options": ["A form with many fields", "An error boundary", "A component that fetches data", "A component using context"],
+    "answer": 1,
+    "explanation": "Error boundaries need `getDerivedStateFromError`/`componentDidCatch`, which have no hook equivalent."
+  }
+]

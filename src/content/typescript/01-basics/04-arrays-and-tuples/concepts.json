@@ -1,0 +1,6 @@
+[
+  { "term": "Tuple", "description": "A fixed-length array type where every position has its own type, e.g. `[string, number]`." },
+  { "term": "Labeled tuple element", "description": "`[player: string, score: number]` names each position for tooltips and errors without changing assignability." },
+  { "term": "readonly array", "description": "`readonly T[]` / `ReadonlyArray<T>` removes mutating methods and index assignment from the type." },
+  { "term": "toSorted", "description": "ES2023 array method that returns a sorted copy instead of sorting in place." }
+]

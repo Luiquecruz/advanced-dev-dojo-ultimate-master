@@ -1,0 +1,25 @@
+[
+  {
+    "question": "Why does `type UserId = string` not prevent passing an order id?",
+    "options": [
+      "Type aliases are erased at runtime",
+      "Aliases do not create new types; both are just string structurally",
+      "Strings cannot be typed",
+      "Because strict mode is off"
+    ],
+    "answer": 1,
+    "explanation": "An alias is another name for the same type. Structural typing only distinguishes different shapes."
+  },
+  {
+    "question": "What does a brand cost at runtime?",
+    "options": ["One extra property per value", "A wrapper object", "Nothing, it exists only in the type system", "A Symbol allocation per value"],
+    "answer": 2,
+    "explanation": "The brand property is never created; only the smart constructor's validation runs."
+  },
+  {
+    "question": "What is the type of `price + 1` when `price: Cents`?",
+    "options": ["Cents", "number", "Brand<number, 'Cents'> | number", "never"],
+    "answer": 1,
+    "explanation": "Arithmetic operators produce `number`. Re-brand the result deliberately if it is still in cents."
+  }
+]

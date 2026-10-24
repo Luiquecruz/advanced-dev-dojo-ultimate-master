@@ -1,0 +1,11 @@
+{
+  "title": "Tailwind CSS",
+  "summary": "Compose designs with utility classes, configure tokens with Tailwind v4's @theme and avoid dynamic class names.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "modern", "new"],
+  "resources": [
+    { "label": "Tailwind CSS: Theme variables", "url": "https://tailwindcss.com/docs/theme" },
+    { "label": "Tailwind CSS: Detecting classes in source files", "url": "https://tailwindcss.com/docs/detecting-classes-in-source-files" },
+    { "label": "Tailwind CSS: Upgrade guide (v3 to v4)", "url": "https://tailwindcss.com/docs/upgrade-guide" }
+  ]
+}

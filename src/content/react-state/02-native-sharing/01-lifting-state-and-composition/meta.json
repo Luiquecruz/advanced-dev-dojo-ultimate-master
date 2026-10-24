@@ -1,0 +1,10 @@
+{
+  "title": "Lifting State and Composition",
+  "summary": "Lift state only to the closest common parent, move it down when possible, and use children and slots to avoid drilling and re-renders.",
+  "level": "intermediate",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "react.dev: Sharing State Between Components", "url": "https://react.dev/learn/sharing-state-between-components" },
+    { "label": "Dan Abramov: Before You memo()", "url": "https://overreacted.io/before-you-memo/" }
+  ]
+}

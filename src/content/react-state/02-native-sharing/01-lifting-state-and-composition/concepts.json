@@ -1,0 +1,7 @@
+[
+  { "term": "Closest common parent", "description": "The lowest component that contains every reader of a piece of state. Lifting stops there." },
+  { "term": "Colocation", "description": "Keeping state as close as possible to where it is used, often by moving it down into a new component." },
+  { "term": "Lifting content up", "description": "Passing subtrees as `children` or slot props so they are created by a parent that does not re-render." },
+  { "term": "Slot prop", "description": "A prop that receives JSX (`header`, `sidebar`), letting the owner render leaves directly and avoiding prop drilling." },
+  { "term": "Controlled component", "description": "A component that receives its value and change callback from its parent instead of owning the state." }
+]

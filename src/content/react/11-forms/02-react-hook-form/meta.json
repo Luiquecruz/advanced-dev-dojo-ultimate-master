@@ -1,0 +1,10 @@
+{
+  "title": "React Hook Form",
+  "summary": "Build performant forms with register, built-in rules, async submit state and server errors.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "modern"],
+  "resources": [
+    { "label": "React Hook Form: Get Started", "url": "https://react-hook-form.com/get-started" },
+    { "label": "React Hook Form: useForm", "url": "https://react-hook-form.com/docs/useform" }
+  ]
+}

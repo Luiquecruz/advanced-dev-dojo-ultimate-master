@@ -1,0 +1,11 @@
+{
+  "title": "Functional Interceptors",
+  "summary": "Add auth headers and request logging with HttpInterceptorFn, opt out per request with HttpContextToken and compare with legacy class interceptors.",
+  "level": "intermediate",
+  "tags": ["core", "modern", "legacy"],
+  "preview": false,
+  "resources": [
+    { "label": "angular.dev: Interceptors", "url": "https://angular.dev/guide/http/interceptors" },
+    { "label": "angular.dev: HttpContextToken", "url": "https://angular.dev/api/common/http/HttpContextToken" }
+  ]
+}

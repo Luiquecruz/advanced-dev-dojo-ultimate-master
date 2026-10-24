@@ -1,0 +1,52 @@
+[
+  {
+    "question": "What does a legacy method decorator receive?",
+    "options": [
+      "(method, context)",
+      "(prototype, propertyKey, descriptor)",
+      "(instance, value)",
+      "(constructor, metadata)"
+    ],
+    "answer": 1,
+    "explanation": "Legacy decorators get the prototype, the key and the property descriptor. Standard ones get the value and a context object."
+  },
+  {
+    "question": "Why does NestJS still rely on `experimentalDecorators`?",
+    "options": [
+      "Standard decorators are slower",
+      "It needs parameter decorators and emitted constructor parameter types (design:paramtypes)",
+      "Standard decorators do not support classes",
+      "Node.js cannot run standard decorators"
+    ],
+    "answer": 1,
+    "explanation": "Constructor injection by type depends on parameter decorators and `emitDecoratorMetadata`, which only exist in the legacy implementation."
+  },
+  {
+    "question": "With `emitDecoratorMetadata`, what is recorded for a constructor parameter typed as an interface `Clock`?",
+    "options": ["Clock", "Object", "undefined", "A compile error"],
+    "answer": 1,
+    "explanation": "Interfaces do not exist at runtime, so the emitted metadata falls back to `Object`. That is why such parameters need explicit injection tokens."
+  },
+  {
+    "question": "Why can Node's type stripping not run code that uses legacy decorators?",
+    "options": [
+      "Decorators are invalid JavaScript syntax forever",
+      "Legacy decorators need compiler-generated helper calls, so the syntax is not erasable",
+      "Node disables classes in .ts files",
+      "Decorators require the DOM"
+    ],
+    "answer": 1,
+    "explanation": "The compiler rewrites legacy decorators into `__decorate` and `__metadata` calls. Stripping only removes types, it does not transform code."
+  },
+  {
+    "question": "Can one project use legacy and standard decorators at the same time?",
+    "options": [
+      "Yes, per file",
+      "Yes, per class",
+      "No, experimentalDecorators switches the whole compilation",
+      "Only with emitDecoratorMetadata"
+    ],
+    "answer": 2,
+    "explanation": "The flag selects one implementation for the entire program."
+  }
+]

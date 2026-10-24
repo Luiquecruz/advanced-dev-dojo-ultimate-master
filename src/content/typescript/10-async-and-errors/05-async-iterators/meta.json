@@ -1,0 +1,10 @@
+{
+  "title": "Async iterators",
+  "summary": "Stream values that arrive over time with async generators and for await, and hide pagination behind a lazy stream.",
+  "level": "advanced",
+  "tags": ["modern"],
+  "resources": [
+    { "label": "MDN: for await...of", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of" },
+    { "label": "MDN: Array.fromAsync", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fromAsync" }
+  ]
+}

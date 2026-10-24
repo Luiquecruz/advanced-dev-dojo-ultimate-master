@@ -1,0 +1,9 @@
+{
+  "title": "useFormStatus",
+  "summary": "Build reusable submit buttons and indicators that read the pending state of their parent form.",
+  "level": "intermediate",
+  "tags": ["modern", "new"],
+  "resources": [
+    { "label": "react.dev: useFormStatus", "url": "https://react.dev/reference/react-dom/hooks/useFormStatus" }
+  ]
+}

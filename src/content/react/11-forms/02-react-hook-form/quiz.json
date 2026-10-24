@@ -1,0 +1,30 @@
+[
+  {
+    "question": "Why does React Hook Form usually re-render less than a hand-written controlled form?",
+    "options": [
+      "It uses class components",
+      "Inputs are uncontrolled: values stay in the DOM and are read through refs",
+      "It disables validation",
+      "It batches renders with setTimeout"
+    ],
+    "answer": 1,
+    "explanation": "Typing updates the DOM, not React state. RHF re-renders only when subscribed `formState` values such as `errors` change."
+  },
+  {
+    "question": "What is wrong with `<form onSubmit={handleSubmit(onSubmit())}>`?",
+    "options": [
+      "Nothing",
+      "`onSubmit` is called during render instead of being passed to `handleSubmit`",
+      "`handleSubmit` must be awaited",
+      "Forms cannot have an onSubmit prop"
+    ],
+    "answer": 1,
+    "explanation": "`handleSubmit` expects your function. Write `handleSubmit(onSubmit)`."
+  },
+  {
+    "question": "Which tool connects a controlled date picker from a UI library to React Hook Form?",
+    "options": ["`register`", "`Controller` / `useController`", "`watch`", "`reset`"],
+    "answer": 1,
+    "explanation": "`Controller` provides `value` and `onChange` for components that do not expose a DOM ref."
+  }
+]

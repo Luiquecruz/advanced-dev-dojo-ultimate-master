@@ -1,0 +1,7 @@
+[
+  { "term": "Event map", "description": "An object type mapping each event name to its payload type, e.g. `{ login: { userId: number }; logout: void }`." },
+  { "term": "Per-method type parameter", "description": "`<K extends keyof Events>` on each method lets TypeScript infer the literal event name and look up `Events[K]`." },
+  { "term": "Tuple rest parameters", "description": "`...args: [] | [payload: P]` turns a payload type into a parameter list, making void payloads argument-free." },
+  { "term": "Non-distributive conditional", "description": "`[T] extends [void]` prevents a conditional type from splitting unions." },
+  { "term": "Unsubscribe function", "description": "A `() => void` returned by `on` that removes the listener it registered." }
+]

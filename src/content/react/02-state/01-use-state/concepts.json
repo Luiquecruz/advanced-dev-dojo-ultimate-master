@@ -1,0 +1,7 @@
+[
+  { "term": "State", "description": "Data a component remembers between renders. Updating it schedules a re-render." },
+  { "term": "useState", "description": "`const [value, setValue] = useState(initial)` declares a state variable and its setter." },
+  { "term": "Lazy initializer", "description": "`useState(() => compute())` runs the function only on the first render." },
+  { "term": "Instance isolation", "description": "Each rendered component instance has its own state. Two `<Counter />` elements never share a count." },
+  { "term": "Hook", "description": "A function starting with `use` that can only be called at the top level of components or other hooks." }
+]

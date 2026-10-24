@@ -1,0 +1,5 @@
+[
+  { "question": "A cached component is switched away and back. Which hooks run?", "options": ["onUnmounted then onMounted", "onDeactivated then onActivated", "Only onUpdated", "None"], "answer": 1, "explanation": "Cached instances are deactivated and activated, not destroyed and recreated." },
+  { "question": "`<KeepAlive include=\"DraftTab\">` does not cache anything. A likely cause?", "options": ["include needs an array", "The component's name does not match", "KeepAlive only works with the router", "include requires max"], "answer": 1, "explanation": "include/exclude match the component name (inferred from the SFC file name or set with defineOptions)." },
+  { "question": "What does `:max=\"3\"` do?", "options": ["Limits re-renders", "Caches at most 3 instances, evicting the least recently used", "Delays activation by 3ms", "Allows 3 children"], "answer": 1, "explanation": "KeepAlive uses an LRU cache bounded by `max`." }
+]

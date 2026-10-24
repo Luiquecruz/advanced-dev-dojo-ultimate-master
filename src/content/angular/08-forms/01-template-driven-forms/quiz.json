@@ -1,0 +1,14 @@
+[
+  {
+    "question": "Why does an `ngModel` inside a `<form>` need a `name` attribute?",
+    "options": ["For accessibility only", "NgForm uses it as the key to register the control in the form group", "To set the input id", "It is optional"],
+    "answer": 1,
+    "explanation": "Inside a form, `ngModel` registers itself in the parent `NgForm` under its `name`. Without it Angular throws (unless `[ngModelOptions]=\"{ standalone: true }\"`)."
+  },
+  {
+    "question": "When are template-driven forms a good fit?",
+    "options": ["Large dynamic forms with conditional sections", "Small, simple forms where the template is the clearest place to declare fields", "Forms that need unit tests without a DOM", "Always, they replaced reactive forms"],
+    "answer": 1,
+    "explanation": "The model lives in the template, which is convenient for simple forms but harder to test and compose. Reactive or Signal Forms scale better."
+  }
+]

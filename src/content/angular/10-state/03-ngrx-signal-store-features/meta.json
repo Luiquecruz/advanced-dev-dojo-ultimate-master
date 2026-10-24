@@ -1,0 +1,11 @@
+{
+  "title": "SignalStore Features",
+  "summary": "Extend a SignalStore with withEntities, withComputed, async withMethods and withHooks to load and manage a todo collection.",
+  "level": "advanced",
+  "tags": ["ecosystem", "modern"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "ngrx.io: Entity management", "url": "https://ngrx.io/guide/signals/signal-store/entity-management" },
+    { "label": "ngrx.io: Lifecycle hooks", "url": "https://ngrx.io/guide/signals/signal-store/lifecycle-hooks" }
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  { "term": "create", "description": "`create((set, get) => initialState)` returns a hook that is also the store API (`getState`, `setState`, `subscribe`, `getInitialState`)." },
+  { "term": "Atomic selector", "description": "A selector that returns one primitive or existing reference, such as `(s) => s.isPlaying`. Cheap and stable." },
+  { "term": "useShallow", "description": "Wraps a selector that builds a new array or object, keeping the previous result while it is shallowly equal. From `zustand/react/shallow`." },
+  { "term": "actions namespace", "description": "Grouping actions under one stable key so components can select all of them without re-rendering." },
+  { "term": "Custom store hooks", "description": "Exporting `useIsPlaying()`-style hooks instead of the raw store keeps selectors precise and the state shape private." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Route parameter", "description": "A dynamic URL segment declared with a colon (`users/:id`). Its value is always a **string**." },
+  { "term": "Query parameter", "description": "Optional `?key=value` pairs after the path. Not part of route matching." },
+  { "term": "withComponentInputBinding()", "description": "Router feature that binds path params, query params, route `data` and resolved values to component inputs with matching names." },
+  { "term": "ActivatedRoute", "description": "Injectable describing the current route: `paramMap`, `queryParamMap`, `data` observables plus a `snapshot` with the values at creation time." },
+  { "term": "Component reuse", "description": "When only params change, the router keeps the same component instance. Code that reads `snapshot` once in the constructor misses the update." },
+  { "term": "numberAttribute", "description": "Built-in input transform that converts strings such as `'42'` to numbers (`NaN` falls back to an optional default)." }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "Type stripping", "description": "Running TypeScript by replacing type syntax with whitespace. No type checking happens." },
+  { "term": "Erasable syntax", "description": "TypeScript syntax that can be deleted without changing runtime behavior: annotations, interfaces, type aliases, `as`, `satisfies`." },
+  { "term": "erasableSyntaxOnly", "description": "TypeScript 5.8+ flag that reports enums, value namespaces, parameter properties, `import =` and angle-bracket assertions." },
+  { "term": "ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX", "description": "Node's error for non-erasable syntax in a stripped file." },
+  { "term": "as const object", "description": "Erasable replacement for `enum`: a frozen-literal object plus a derived union type." }
+]

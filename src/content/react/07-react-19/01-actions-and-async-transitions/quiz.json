@@ -1,0 +1,35 @@
+[
+  {
+    "question": "When does `isPending` from `useTransition` go back to `false` for `startTransition(async () => { await save(); })`?",
+    "options": [
+      "Immediately after `startTransition` returns",
+      "When the async function's Promise settles (and no other Action is pending)",
+      "After the next render, regardless of the request",
+      "Never: async functions are not supported"
+    ],
+    "answer": 1,
+    "explanation": "React 19 tracks the Promise returned by the Action. `isPending` stays true until it settles and every other queued Action is done."
+  },
+  {
+    "question": "Why wrap `setTodo(todo)` in another `startTransition` when it runs after an `await`?",
+    "options": [
+      "Otherwise React throws an error",
+      "Because state setters are async",
+      "Because the Transition context is lost after `await`, so the update would be treated as urgent",
+      "To make the request faster"
+    ],
+    "answer": 2,
+    "explanation": "JavaScript has no async context propagation yet, so React cannot know an update after `await` belongs to the Transition. Wrapping it restores that."
+  },
+  {
+    "question": "A `fetch` call inside an Action receives a 500 response. What happens if you don't check `response.ok`?",
+    "options": [
+      "`fetch` rejects and the nearest Error Boundary renders",
+      "Nothing special: `fetch` resolves and your code treats the error body as success",
+      "React retries the Action automatically",
+      "The Transition is cancelled"
+    ],
+    "answer": 1,
+    "explanation": "`fetch` only rejects on network failures. HTTP error statuses resolve normally, so you must check `response.ok` yourself."
+  }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "Implicit role", "description": "The ARIA role a native element has by default: `<button>` is `button`, `<h2>` is `heading` level 2, `<input type=\"checkbox\">` is `checkbox`." },
+  { "term": "Accessible name", "description": "What assistive technologies announce for an element, computed from `aria-labelledby`, `aria-label`, `<label>`, `alt`, text content or `title`. Matched by the `name` query option." },
+  { "term": "getBy / queryBy / findBy", "description": "`getBy` throws when missing, `queryBy` returns `null` (for absence checks), `findBy` returns a Promise that waits for the element." },
+  { "term": "within", "description": "Scopes queries to a container element: `within(dialog).getByRole('button', { name: 'OK' })`." },
+  { "term": "role=\"alert\"", "description": "A live region that screen readers announce immediately when its content appears. Use it for errors." }
+]

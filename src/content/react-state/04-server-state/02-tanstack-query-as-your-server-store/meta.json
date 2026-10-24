@@ -1,0 +1,12 @@
+{
+  "title": "TanStack Query as Your Server Store",
+  "summary": "Go beyond useQuery: key factories, shared queries with select, dependent queries with skipToken and freshness per resource.",
+  "level": "advanced",
+  "tags": ["ecosystem", "performance"],
+  "resources": [
+    { "label": "TanStack Query: Query Keys", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/query-keys" },
+    { "label": "TanStack Query: Dependent Queries", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/dependent-queries" },
+    { "label": "TkDodo: Effective React Query Keys", "url": "https://tkdodo.eu/blog/effective-react-query-keys" },
+    { "label": "TkDodo: React Query Data Transformations", "url": "https://tkdodo.eu/blog/react-query-data-transformations" }
+  ]
+}

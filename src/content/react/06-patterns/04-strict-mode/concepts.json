@@ -1,0 +1,6 @@
+[
+  { "term": "StrictMode", "description": "`<StrictMode>` enables development-only checks for its subtree. No effect in production." },
+  { "term": "Double rendering", "description": "Components, initializers and updaters run twice to expose impure rendering." },
+  { "term": "Strict effects", "description": "Effects run setup → cleanup → setup on mount to expose missing cleanups." },
+  { "term": "Pure render", "description": "Rendering that only computes JSX from props, state and context, with no side effects or outside mutations." }
+]

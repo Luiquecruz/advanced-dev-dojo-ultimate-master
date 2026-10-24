@@ -1,0 +1,10 @@
+{
+  "title": "Generic Components",
+  "summary": "Write reusable List and Select components whose item type is inferred from props, with typed callbacks end to end.",
+  "level": "advanced",
+  "tags": ["typescript"],
+  "resources": [
+    { "label": "React TypeScript Cheatsheet: Generic Components", "url": "https://react-typescript-cheatsheet.netlify.app/docs/advanced/patterns_by_usecase/#generic-components" },
+    { "label": "TypeScript Handbook: Generics", "url": "https://www.typescriptlang.org/docs/handbook/2/generics.html" }
+  ]
+}

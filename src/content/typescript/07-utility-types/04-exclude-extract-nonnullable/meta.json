@@ -1,0 +1,6 @@
+{
+  "title": "Exclude, Extract and NonNullable",
+  "summary": "Filter union members by type or shape, strip null and undefined, and narrow filtered arrays.",
+  "level": "intermediate",
+  "tags": ["core", "modern"]
+}

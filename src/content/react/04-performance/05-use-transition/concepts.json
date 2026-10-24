@@ -1,0 +1,7 @@
+[
+  { "term": "Transition", "description": "A state update marked as non-urgent with `startTransition`. It can be interrupted and does not replace visible content with Suspense fallbacks." },
+  { "term": "useTransition", "description": "Returns `[isPending, startTransition]`. `isPending` is `true` until the transition commits, including the whole duration of an async action." },
+  { "term": "Urgent update", "description": "A normal state update, such as typing. React commits it as soon as possible and shows Suspense fallbacks if something suspends." },
+  { "term": "Concurrent rendering", "description": "React's ability (since 18, with `createRoot`) to prepare several versions of the UI and interrupt low-priority work." },
+  { "term": "Async action", "description": "React 19: an async function passed to `startTransition`. Updates after `await` need another `startTransition` wrapper." }
+]

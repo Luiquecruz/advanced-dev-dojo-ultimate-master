@@ -1,0 +1,7 @@
+{
+  "title": "Attribute Bindings",
+  "summary": "Bind reactive values to attributes with v-bind, same-name shorthand, boolean attributes and object spreading.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "vuejs.org: Attribute Bindings", "url": "https://vuejs.org/guide/essentials/template-syntax.html#attribute-bindings" }]
+}

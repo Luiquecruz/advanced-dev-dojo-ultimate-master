@@ -1,0 +1,6 @@
+[
+  { "term": "Early return", "description": "Return different JSX (or `null`) from the top of a component when a condition makes the rest irrelevant." },
+  { "term": "Ternary rendering", "description": "`{condition ? <A /> : <B />}` chooses between two outputs inline." },
+  { "term": "&& rendering", "description": "`{condition && <A />}` renders `<A />` or nothing. The left side must be a real boolean to avoid printing `0`." },
+  { "term": "null", "description": "Returning or rendering `null` produces no output." }
+]

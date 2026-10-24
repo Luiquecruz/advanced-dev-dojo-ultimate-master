@@ -1,0 +1,12 @@
+{
+  "title": "React Native",
+  "summary": "React for iOS and Android: core components, styling, the New Architecture (JSI, Fabric, TurboModules) and Expo.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "theory", "new"],
+  "resources": [
+    { "label": "React Native: Core components", "url": "https://reactnative.dev/docs/components-and-apis" },
+    { "label": "React Native: About the New Architecture", "url": "https://reactnative.dev/architecture/landing-page" },
+    { "label": "React Native blog (releases)", "url": "https://reactnative.dev/blog" },
+    { "label": "Expo documentation", "url": "https://docs.expo.dev" }
+  ]
+}

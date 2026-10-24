@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A file uploader uses `isUploading`, `isError` and `isDone` booleans. QA reports a screen showing a spinner **and** an error. What is the root cause and the fix?",
+    "options": [
+      "A missing `useEffect` dependency; add it",
+      "Independent booleans allow impossible combinations; replace them with one `status: 'idle' | 'uploading' | 'error' | 'done'`",
+      "React batched the updates; use `flushSync`",
+      "The component needs `React.memo`"
+    ],
+    "answer": 1,
+    "explanation": "Three booleans allow eight combinations but only four are valid. A single finite status makes the invalid ones unrepresentable, and each event moves to exactly one state."
+  },
+  {
+    "question": "Which action naming best fits a reducer that owns the rules of a flow?",
+    "options": [
+      "`{ type: 'setStatus', status: 'submitting' }`",
+      "`{ type: 'orderPlaced' }`",
+      "`{ type: 'update', field: 'status', value: 'submitting' }`",
+      "`{ type: 'SET_STATE', payload: nextState }`"
+    ],
+    "answer": 1,
+    "explanation": "Events describe **what happened**; the reducer decides what it means in the current status. Setter-style actions move the decision back into components, which defeats the purpose of a reducer."
+  },
+  {
+    "question": "A user double-clicks \"Place order\". With a transition table where `submitting` has no `orderPlaced` entry, what should the reducer return for the second event?",
+    "options": [
+      "A new copy of the state",
+      "The same state object, so React bails out of rendering",
+      "It should throw an Error",
+      "`undefined`"
+    ],
+    "answer": 1,
+    "explanation": "A known event that is not valid in the current status is ignored. Returning the same reference lets React skip the render. Throwing is reserved for unknown action types (programmer errors)."
+  },
+  {
+    "question": "Where should the `fetch` that places the order run?",
+    "options": [
+      "Inside the reducer, in the `orderPlaced` case",
+      "In the event handler (or an Effect/action), which dispatches events before and after the `await`",
+      "In the initial state",
+      "In a `useMemo`"
+    ],
+    "answer": 1,
+    "explanation": "Reducers must be pure and synchronous: React may call them more than once. Side effects live outside and report their outcome as events (`orderSucceeded`, `orderFailed`)."
+  },
+  {
+    "question": "A settings panel has a dark-mode toggle and a font-size slider that never affect each other. Should it use `useReducer`?",
+    "options": [
+      "Yes, every component with two state values needs a reducer",
+      "No, two independent values with no transition rules are simpler as two `useState` calls",
+      "Yes, because reducers render faster",
+      "No, it should use a global store"
+    ],
+    "answer": 1,
+    "explanation": "Reducers pay off when values change together or when the next state depends on the current phase. Independent values gain nothing from the extra ceremony."
+  }
+]

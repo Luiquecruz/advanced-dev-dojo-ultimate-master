@@ -1,0 +1,12 @@
+{
+  "title": "Security and XSS",
+  "summary": "How React escapes output, where XSS still gets in (raw HTML, URLs, spreads, SSR state) and how to defend in depth.",
+  "level": "advanced",
+  "tags": ["ecosystem", "core"],
+  "resources": [
+    { "label": "react.dev: dangerouslySetInnerHTML", "url": "https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html" },
+    { "label": "OWASP: Cross Site Scripting Prevention Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" },
+    { "label": "DOMPurify", "url": "https://github.com/cure53/DOMPurify" },
+    { "label": "React blog: Critical security vulnerability in React Server Components", "url": "https://react.dev/blog" }
+  ]
+}

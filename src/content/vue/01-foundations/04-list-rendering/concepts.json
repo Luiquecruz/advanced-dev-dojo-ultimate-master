@@ -1,0 +1,6 @@
+[
+  { "term": "v-for", "description": "Repeats an element for each item of an array, object, number range or iterable: `v-for=\"(item, index) in items\"`." },
+  { "term": ":key", "description": "A unique, stable primitive that tells Vue which DOM node belongs to which item, so it can move nodes instead of patching them in place." },
+  { "term": "In-place patch", "description": "Default strategy without keys: reuse nodes by position and update their content. Breaks stateful elements when items move." },
+  { "term": "Mutation methods", "description": "`push`, `pop`, `shift`, `unshift`, `splice`, `sort` and `reverse` on reactive arrays trigger updates. `filter`/`map` return new arrays that must be assigned." }
+]

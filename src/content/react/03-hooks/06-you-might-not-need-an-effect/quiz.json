@@ -1,0 +1,35 @@
+[
+  {
+    "question": "A component keeps `total` in state and updates it in an Effect whenever `items` changes. What is the better approach?",
+    "options": [
+      "Use `useLayoutEffect` to avoid flicker",
+      "Compute `total` from `items` during render",
+      "Store `total` in a ref",
+      "Debounce the Effect"
+    ],
+    "answer": 1,
+    "explanation": "`total` is derived data. Computing it during render removes a state variable, an Effect and an extra render pass."
+  },
+  {
+    "question": "How do you reset all state of `<Profile userId={id} />` when `id` changes?",
+    "options": [
+      "An Effect that resets every state variable when `userId` changes",
+      "Render `<Profile userId={id} key={id} />`",
+      "Call `forceUpdate`",
+      "Store the state in context"
+    ],
+    "answer": 1,
+    "explanation": "A new `key` tells React it is a different component instance, so it remounts with fresh state."
+  },
+  {
+    "question": "Which of these is a legitimate Effect?",
+    "options": [
+      "Sending a POST request when the user submits a form",
+      "Filtering a list when the search text changes",
+      "Connecting to a chat server while the room screen is displayed",
+      "Showing a toast after clicking Buy"
+    ],
+    "answer": 2,
+    "explanation": "The connection must exist because the component is on screen, which is synchronization with an external system. The others are user events or derived data."
+  }
+]

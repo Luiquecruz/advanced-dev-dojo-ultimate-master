@@ -1,0 +1,8 @@
+[
+  { "term": "input()", "description": "Declares a signal input with a default value: `size = input('small')`. Read it with `size()`." },
+  { "term": "input.required()", "description": "Declares an input every parent must bind; missing bindings are template compile errors. Reading it before binding throws NG0950." },
+  { "term": "Input transform", "description": "`input(false, { transform: booleanAttribute })` converts the incoming value. Angular ships `booleanAttribute` and `numberAttribute`." },
+  { "term": "alias", "description": "`input('', { alias: 'publicName' })` binds under a different name in templates." },
+  { "term": "host bindings", "description": "`host: { '[class.x]': 'expr()' }` binds properties, classes and styles on the component's own element." },
+  { "term": "@Input()", "description": "Legacy decorator input: a mutable property, typically combined with `ngOnChanges` or setters." }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Which construct is rejected by `erasableSyntaxOnly`?",
+    "options": [
+      "interface User { id: number }",
+      "const value = input as string",
+      "enum Direction { Up, Down }",
+      "type Id = string | number"
+    ],
+    "answer": 2,
+    "explanation": "Enums emit a runtime object, so they cannot be removed by stripping types. The others disappear completely."
+  },
+  {
+    "question": "What does `node app.ts` do with a type error in app.ts?",
+    "options": [
+      "Refuses to run and prints the error",
+      "Runs the code: stripping never type checks",
+      "Runs the code with a warning",
+      "Falls back to tsc"
+    ],
+    "answer": 1,
+    "explanation": "Type stripping only removes syntax. Run `tsc --noEmit` separately to check types."
+  },
+  {
+    "question": "How do you rewrite `class User { constructor(private name: string) {} }` as erasable code?",
+    "options": [
+      "Add `declare` before the class",
+      "Declare the field `private name: string;` and assign `this.name = name` in the constructor",
+      "Use `const enum` instead",
+      "Wrap the class in a namespace"
+    ],
+    "answer": 1,
+    "explanation": "Parameter properties generate assignments. Writing the field and assignment explicitly is plain, erasable class syntax."
+  },
+  {
+    "question": "Why is `verbatimModuleSyntax` important for type-stripped code?",
+    "options": [
+      "It enables JSX",
+      "It forces `import type` so the stripper knows which imports to remove",
+      "It rewrites .ts extensions",
+      "It turns on strict mode"
+    ],
+    "answer": 1,
+    "explanation": "A stripper sees one file at a time. Without `import type`, it would keep an import of a name that only exists as a type."
+  },
+  {
+    "question": "Your Node project uses `paths: { \"@/*\": [\"./src/*\"] }` and runs files with `node`. What happens to `import x from '@/x.ts'`?",
+    "options": [
+      "Node reads tsconfig paths and resolves it",
+      "It fails at runtime: Node ignores tsconfig, so use package.json imports (#/*) instead",
+      "Node strips the @ prefix",
+      "It works only with --experimental-transform-types"
+    ],
+    "answer": 1,
+    "explanation": "Node never reads `tsconfig.json`. Subpath imports in `package.json` work for both Node and TypeScript."
+  }
+]

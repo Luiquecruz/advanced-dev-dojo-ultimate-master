@@ -1,0 +1,11 @@
+{
+  "title": "Dynamic Routes & Params",
+  "summary": "Match URL params with custom regexes, pass them as props and react when a reused component's param changes.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "Vue Router: Dynamic Route Matching", "url": "https://router.vuejs.org/guide/essentials/dynamic-matching.html" },
+    { "label": "Vue Router: Passing Props to Route Components", "url": "https://router.vuejs.org/guide/essentials/passing-props.html" }
+  ]
+}

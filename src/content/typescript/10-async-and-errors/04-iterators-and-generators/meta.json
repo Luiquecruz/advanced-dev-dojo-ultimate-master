@@ -1,0 +1,10 @@
+{
+  "title": "Iterators and generators",
+  "summary": "Implement the iteration protocols, write lazy sequences with generators and make classes iterable.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "MDN: Iteration protocols", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols" },
+    { "label": "TypeScript Handbook: Iterators and Generators", "url": "https://www.typescriptlang.org/docs/handbook/iterators-and-generators.html" }
+  ]
+}

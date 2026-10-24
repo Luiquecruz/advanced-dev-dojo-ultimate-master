@@ -1,0 +1,19 @@
+[
+  {
+    "question": "What does `<button onClick={save}>Save</button>` compile to with the automatic runtime?",
+    "options": [
+      "An HTML string",
+      "_jsx('button', { onClick: save, children: 'Save' })",
+      "document.createElement('button')",
+      "React.render('button', save)"
+    ],
+    "answer": 1,
+    "explanation": "JSX compiles to plain function calls that create React element objects. Since React 17 the automatic runtime imports `jsx` from `react/jsx-runtime`."
+  },
+  {
+    "question": "Which value renders NOTHING when placed inside JSX braces?",
+    "options": ["0", "\"\"", "false", "NaN"],
+    "answer": 2,
+    "explanation": "`null`, `undefined`, `true` and `false` render nothing. `0` and `NaN` are rendered as text, a classic bug with `count && <List />`."
+  }
+]

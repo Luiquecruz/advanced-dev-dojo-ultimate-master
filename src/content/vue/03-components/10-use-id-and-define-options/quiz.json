@@ -1,0 +1,4 @@
+[
+  { "question": "Why is `Math.random()` a bad source of ids in components?", "options": ["It is slow", "Server and client generate different values, causing hydration mismatches", "It can return negative numbers", "Ids must be numbers"], "answer": 1, "explanation": "`useId()` produces the same ids on the server and in the browser." },
+  { "question": "Which of these can `defineOptions` declare?", "options": ["`props`", "`emits`", "`inheritAttrs`", "`expose`"], "answer": 2, "explanation": "Props, emits, expose and slots have dedicated macros; `defineOptions` is for the remaining options such as `name` and `inheritAttrs`." }
+]

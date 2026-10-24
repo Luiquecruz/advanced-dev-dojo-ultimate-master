@@ -1,0 +1,10 @@
+{
+  "title": "Data Routers & Loaders",
+  "summary": "Load route data before rendering with createBrowserRouter, loaders, errorElement and useNavigation.",
+  "level": "advanced",
+  "tags": ["ecosystem", "modern"],
+  "resources": [
+    { "label": "React Router: Data mode", "url": "https://reactrouter.com/start/data/routing" },
+    { "label": "React Router: Data loading", "url": "https://reactrouter.com/start/data/data-loading" }
+  ]
+}

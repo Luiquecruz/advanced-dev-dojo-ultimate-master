@@ -1,0 +1,9 @@
+{
+  "title": "Dynamic Components",
+  "summary": "Create components at runtime with ViewContainerRef.createComponent, inputBinding/outputBinding and NgComponentOutlet.",
+  "level": "advanced",
+  "tags": ["core", "modern", "legacy"],
+  "resources": [
+    { "label": "angular.dev: Programmatically rendering components", "url": "https://angular.dev/guide/components/programmatic-rendering" }
+  ]
+}

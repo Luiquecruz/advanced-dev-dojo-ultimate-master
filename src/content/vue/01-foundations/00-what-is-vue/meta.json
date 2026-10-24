@@ -1,0 +1,10 @@
+{
+  "title": "What Is Vue?",
+  "summary": "The progressive framework, Single File Components, the two API styles, Vite, create-vue and where Vue is heading.",
+  "level": "beginner",
+  "tags": ["theory", "ecosystem"],
+  "resources": [
+    { "label": "vuejs.org: Introduction", "url": "https://vuejs.org/guide/introduction.html" },
+    { "label": "vuejs.org: Quick Start", "url": "https://vuejs.org/guide/quick-start.html" }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Vuex (Legacy)",
+  "summary": "Read Vuex code fluently: state, mutations, actions, modules, and how to migrate them to Pinia.",
+  "level": "intermediate",
+  "tags": ["legacy", "theory"],
+  "resources": [
+    { "label": "Pinia: Migrating from Vuex", "url": "https://pinia.vuejs.org/cookbook/migration-vuex.html" },
+    { "label": "Vuex documentation", "url": "https://vuex.vuejs.org/" }
+  ]
+}

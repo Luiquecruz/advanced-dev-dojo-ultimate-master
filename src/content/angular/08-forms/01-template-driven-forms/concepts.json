@@ -1,0 +1,8 @@
+[
+  { "term": "Template-driven form", "description": "Form whose model is built by directives in the template (`ngModel`, `ngForm`). Angular creates the `FormControl`s for you." },
+  { "term": "NgForm", "description": "Directive automatically attached to `<form>` by `FormsModule`. Exposes `value`, `valid`, `invalid`, `submitted`, `resetForm()`." },
+  { "term": "NgModel", "description": "Registers a control under its `name` attribute and syncs it with a property or signal through `[(ngModel)]`." },
+  { "term": "touched / dirty", "description": "`touched` becomes true after blur; `dirty` after the user changes the value. Use them to avoid showing errors too early." },
+  { "term": "Validator directives", "description": "`required`, `minlength`, `maxlength`, `pattern`, `email`, `min`, `max` attributes add validators to the control." },
+  { "term": "(ngSubmit)", "description": "Event emitted by `NgForm` on submit. Unlike `(submit)`, it marks the form as submitted." }
+]

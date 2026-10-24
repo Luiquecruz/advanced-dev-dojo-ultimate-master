@@ -1,0 +1,8 @@
+[
+  { "term": "Interpolation", "description": "`{{ expr }}` renders an expression as escaped text." },
+  { "term": "Property binding", "description": "`[prop]=\"expr\"` sets a DOM property, e.g. `[disabled]=\"saving()\"`." },
+  { "term": "Attribute binding", "description": "`[attr.name]=\"expr\"` sets an HTML attribute that has no DOM property (ARIA, `colspan`). `null` removes it." },
+  { "term": "Class binding", "description": "`[class.name]=\"bool\"` toggles one class; `[class]=\"{ a: x, b: y }\"` sets many. Replaces legacy `[ngClass]`." },
+  { "term": "Style binding", "description": "`[style.width.px]=\"n\"` sets one style with an optional unit; `[style]=\"{...}\"` sets many. Replaces legacy `[ngStyle]`." },
+  { "term": "Template reference variable", "description": "`#ref` exposes an element or directive instance to the rest of the template." }
+]

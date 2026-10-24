@@ -1,0 +1,25 @@
+[
+  {
+    "question": "What happens with `<input value={name} />` and no `onChange`?",
+    "options": ["It works like a normal input", "The input is read-only and React warns", "React throws", "The value is ignored"],
+    "answer": 1,
+    "explanation": "A controlled input only changes when its `value` prop changes. Without `onChange` nothing updates it, so React warns that you created a read-only field."
+  },
+  {
+    "question": "A component decides it is controlled with `if (value)`. What bug does this cause?",
+    "options": [
+      "None",
+      "`value={0}` or `value=\"\"` is treated as uncontrolled",
+      "It re-renders twice",
+      "onChange is never called"
+    ],
+    "answer": 1,
+    "explanation": "Falsy but valid values flip the component into uncontrolled mode. Check `value !== undefined`."
+  },
+  {
+    "question": "You change the `defaultValue` prop of a mounted uncontrolled input. What happens?",
+    "options": ["The input shows the new value", "Nothing: defaultValue only sets the initial value", "React throws", "The input becomes controlled"],
+    "answer": 1,
+    "explanation": "Default values are read on mount only. To reset an uncontrolled input, change its `key` or call `form.reset()`."
+  }
+]

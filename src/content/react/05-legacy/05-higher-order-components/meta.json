@@ -1,0 +1,10 @@
+{
+  "title": "Higher-Order Components",
+  "summary": "Wrap components with functions that inject data or behavior, follow the HOC conventions and see why custom hooks replaced most of them.",
+  "level": "intermediate",
+  "tags": ["legacy"],
+  "resources": [
+    { "label": "legacy.reactjs.org: Higher-Order Components", "url": "https://legacy.reactjs.org/docs/higher-order-components.html" },
+    { "label": "react.dev: Reusing Logic with Custom Hooks", "url": "https://react.dev/learn/reusing-logic-with-custom-hooks" }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "title": "Services and inject()",
+  "summary": "Create a root singleton service with signal state and share it between components using inject().",
+  "level": "beginner",
+  "tags": ["core", "modern", "new"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "angular.dev: Creating and using services", "url": "https://angular.dev/guide/di/creating-and-using-services" },
+    { "label": "angular.dev: Injection context", "url": "https://angular.dev/guide/di/dependency-injection-context" }
+  ]
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "question": "What does breaking out of `for await (const x of gen())` do to an async generator paused at `yield`?",
+    "options": [
+      "Nothing, it keeps running in the background",
+      "It calls return(), which runs the generator's finally blocks",
+      "It throws an AbortError inside the generator",
+      "It restarts the generator from the beginning"
+    ],
+    "answer": 1,
+    "explanation": "Early exits call the iterator's `return()` method. The generator resumes as if `return` were executed at the paused `yield`, so cleanup in `finally` runs."
+  },
+  {
+    "question": "Ten independent requests are made inside `for await (const id of ids) await load(id)`. How do they run?",
+    "options": ["In parallel", "Sequentially, one after another", "In batches of five", "Only the first one runs"],
+    "answer": 1,
+    "explanation": "Each iteration awaits before moving on. Use `Promise.all(ids.map(load))` for parallel work."
+  },
+  {
+    "question": "What does an `async function*` with `yield 1` return when called?",
+    "options": ["Promise<number>", "Generator<number>", "AsyncGenerator<number, void, ...>", "AsyncIterable<Promise<number>>"],
+    "answer": 2,
+    "explanation": "Async generator functions return an `AsyncGenerator` immediately; its `next()` calls return promises of iterator results."
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "question": "Which update animates a `<ViewTransition>`?",
+    "options": [
+      "`setIndex(1)` in an onClick handler",
+      "`startTransition(() => setIndex(1))`",
+      "`flushSync(() => setIndex(1))`",
+      "Any update at all"
+    ],
+    "answer": 1,
+    "explanation": "Only Transitions (startTransition, useDeferredValue, Actions, Suspense reveals) animate. Urgent updates apply instantly."
+  },
+  {
+    "question": "What does `addTransitionType('next')` do?",
+    "options": [
+      "Starts a new Transition",
+      "Tags the current Transition so `<ViewTransition>` props can pick an animation by type",
+      "Registers a CSS keyframe",
+      "Forces a re-render"
+    ],
+    "answer": 1,
+    "explanation": "Call it inside `startTransition`; enter/exit/update/share maps like `{ next: 'slide-from-right' }` read the type."
+  },
+  {
+    "question": "Which trigger fires when a named `<ViewTransition>` unmounts in one place and a same-named one mounts elsewhere?",
+    "options": ["enter", "exit", "update", "share"],
+    "answer": 3,
+    "explanation": "`share` creates shared-element transitions, for example a thumbnail growing into a detail view."
+  },
+  {
+    "question": "What happens in a browser without the View Transition API?",
+    "options": [
+      "React throws",
+      "The update never commits",
+      "React applies the update without animation",
+      "React polyfills the animation with JavaScript"
+    ],
+    "answer": 2,
+    "explanation": "View Transitions are progressive enhancement: the UI still updates, just without the animation."
+  }
+]

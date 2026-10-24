@@ -1,0 +1,35 @@
+[
+  {
+    "question": "When does the optimistic value added with `addOptimistic` stop being shown?",
+    "options": [
+      "After 5 seconds",
+      "When the Action (Transition) that added it finishes",
+      "When you call a `removeOptimistic` function",
+      "Never, it becomes the new state"
+    ],
+    "answer": 1,
+    "explanation": "Optimistic values only exist while their Action is pending. Afterwards React renders from the real state passed as the first argument."
+  },
+  {
+    "question": "How do you roll back a failed optimistic update?",
+    "options": [
+      "Call `addOptimistic(null)`",
+      "Throw inside `updateFn`",
+      "Do nothing to the real state: the optimistic layer is discarded when the Action ends",
+      "Reload the page"
+    ],
+    "answer": 2,
+    "explanation": "If the real state is never updated, the optimistic item disappears when the Action completes. Just show an error message."
+  },
+  {
+    "question": "What happens if you call `addOptimistic` in a plain `onClick` handler, outside any Action?",
+    "options": [
+      "It works the same",
+      "React warns and the optimistic update is reverted immediately",
+      "It throws a TypeError",
+      "It updates the real state"
+    ],
+    "answer": 1,
+    "explanation": "Optimistic updates must happen inside a Transition or form Action so React knows when to discard them."
+  }
+]

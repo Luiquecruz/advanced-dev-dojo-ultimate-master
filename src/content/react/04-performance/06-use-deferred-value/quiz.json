@@ -1,0 +1,25 @@
+[
+  {
+    "question": "During the urgent render right after `query` changes, what does `useDeferredValue(query)` return?",
+    "options": ["The new query", "The previous query", "`undefined`", "A Promise of the new query"],
+    "answer": 1,
+    "explanation": "React first renders with the old deferred value so urgent UI (the input) updates immediately, then renders again in the background with the new value."
+  },
+  {
+    "question": "Why do slow children usually need `memo` when you use `useDeferredValue`?",
+    "options": [
+      "`useDeferredValue` only works inside memoized components",
+      "So the urgent render can skip them, since their props did not change",
+      "To cache the network response",
+      "To avoid the Suspense fallback"
+    ],
+    "answer": 1,
+    "explanation": "In the urgent render the slow child receives the same old value. Without `memo` it would re-render anyway, blocking the input."
+  },
+  {
+    "question": "Which value is a bad argument for `useDeferredValue`?",
+    "options": ["`query` (a string)", "`page` (a number)", "`{ query, page }` created inline during render", "`items` from state"],
+    "answer": 2,
+    "explanation": "An object created during render is new every time, so the deferred value never matches and React keeps scheduling background renders."
+  }
+]

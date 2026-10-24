@@ -1,0 +1,41 @@
+[
+  {
+    "question": "A `ProductFilters` sidebar and a `ProductGrid` sibling must share the active category. Their closest common parent is `ProductsPage`, which sits under `App`. Where should the category state go (assuming it does not need to be in the URL)?",
+    "options": ["In `App`, so any page can read it", "In `ProductsPage`", "In a global store", "In `ProductFilters`, passed up with a ref"],
+    "answer": 1,
+    "explanation": "Lift to the **closest** common parent. Higher placement couples unrelated parts of the app and re-renders more than necessary."
+  },
+  {
+    "question": "A `ThemeFrame` with theme state wraps an expensive `<Editor />`. Which version keeps `Editor` from re-rendering when the theme changes, without `memo`?",
+    "options": [
+      "`ThemeFrame` renders `<Editor />` itself",
+      "`ThemeFrame({ children })` renders `{children}`, and the parent writes `<ThemeFrame><Editor /></ThemeFrame>`",
+      "Store the theme in a ref",
+      "Wrap the theme in `useMemo`"
+    ],
+    "answer": 1,
+    "explanation": "Elements passed as `children` are created by the parent. When only `ThemeFrame` re-renders, the `children` element is the same object, so React skips it."
+  },
+  {
+    "question": "`App` passes `user` through `Layout` and `Sidebar` (which never use it) down to `UserMenu`. What should you try first?",
+    "options": [
+      "A `UserContext` provider at the root",
+      "Make `Layout` accept a `sidebar` slot so `App` renders `<UserMenu user={user} />` directly",
+      "A Zustand store for `user`",
+      "Copy `user` into `Sidebar` state"
+    ],
+    "answer": 1,
+    "explanation": "Drilling through layout components disappears with composition: the owner renders the leaf and passes it as an element. Context is for deep trees you cannot restructure, or values used in many places."
+  },
+  {
+    "question": "Typing in a search box at the top of the app re-renders the whole page. Profiling shows `query` lives in `App` but only `SearchResults` uses it. What is the best fix?",
+    "options": [
+      "Wrap every page component in `memo`",
+      "Move `query` down into a component that renders only the search box and results",
+      "Debounce every keystroke",
+      "Move `query` into context"
+    ],
+    "answer": 1,
+    "explanation": "Colocating state with its only readers is free and removes the re-renders at the source. Memoizing every sibling treats the symptom and adds maintenance."
+  }
+]

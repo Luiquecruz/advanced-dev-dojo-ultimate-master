@@ -1,0 +1,9 @@
+{
+  "title": "Custom Structural Directives",
+  "summary": "Build structural directives with TemplateRef, ViewContainerRef, signal inputs and template context, and understand the * microsyntax.",
+  "level": "advanced",
+  "tags": ["core", "legacy"],
+  "resources": [
+    { "label": "angular.dev: Structural directives", "url": "https://angular.dev/guide/directives/structural-directives" }
+  ]
+}

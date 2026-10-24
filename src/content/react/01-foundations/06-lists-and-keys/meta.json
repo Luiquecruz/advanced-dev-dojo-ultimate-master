@@ -1,0 +1,7 @@
+{
+  "title": "Lists and Keys",
+  "summary": "Render arrays with map, derive filtered and sorted lists, and pick stable keys.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "react.dev: Rendering Lists", "url": "https://react.dev/learn/rendering-lists" }]
+}

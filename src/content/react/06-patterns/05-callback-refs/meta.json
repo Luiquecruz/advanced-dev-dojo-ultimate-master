@@ -1,0 +1,11 @@
+{
+  "title": "Callback Refs",
+  "summary": "Pass a function as ref to act on nodes when they attach, manage refs for dynamic lists and use React 19 ref cleanup functions.",
+  "level": "advanced",
+  "tags": ["core", "new"],
+  "resources": [
+    { "label": "react.dev: Manipulating the DOM with Refs", "url": "https://react.dev/learn/manipulating-the-dom-with-refs#how-to-manage-a-list-of-refs-using-a-ref-callback" },
+    { "label": "react.dev: ref callback function", "url": "https://react.dev/reference/react-dom/components/common#ref-callback" },
+    { "label": "react.dev: React 19, cleanup functions for refs", "url": "https://react.dev/blog/2024/12/05/react-19#cleanup-functions-for-refs" }
+  ]
+}

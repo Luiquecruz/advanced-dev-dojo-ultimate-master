@@ -1,0 +1,14 @@
+[
+  {
+    "question": "What does `<li *appTimes=\"3; let i\">` give the variable `i`?",
+    "options": ["The value 3", "`context.$implicit`", "`context.i`", "The directive instance"],
+    "answer": 1,
+    "explanation": "`let i` without a right-hand side reads the `$implicit` property of the context."
+  },
+  {
+    "question": "How do you apply two structural directives to the same content?",
+    "options": ["Put both `*` attributes on the element", "Wrap the element in `<ng-container>` with one directive and keep the other on the element", "Use `hostDirectives`", "It is impossible"],
+    "answer": 1,
+    "explanation": "Only one structural directive is allowed per element; `<ng-container>` adds a wrapper without extra DOM."
+  }
+]

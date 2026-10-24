@@ -1,0 +1,10 @@
+{
+  "title": "Built-in Control Flow",
+  "summary": "Render conditionally and in loops with @if, @for (with track and @empty), @switch and @let, and compare them with *ngIf/*ngFor.",
+  "level": "beginner",
+  "tags": ["core", "modern", "legacy"],
+  "resources": [
+    { "label": "angular.dev: Control flow", "url": "https://angular.dev/guide/templates/control-flow" },
+    { "label": "angular.dev: @let", "url": "https://angular.dev/guide/templates/variables#local-template-variables-with-let" }
+  ]
+}

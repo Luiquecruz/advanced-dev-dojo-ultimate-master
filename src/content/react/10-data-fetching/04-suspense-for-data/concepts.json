@@ -1,0 +1,7 @@
+[
+  { "term": "Suspense boundary", "description": "`<Suspense fallback={...}>` shows its fallback while any component inside it is suspended, and reveals the content together when ready." },
+  { "term": "useSuspenseQuery", "description": "TanStack Query hook that suspends until data is available. `data` is always defined; errors are thrown to error boundaries." },
+  { "term": "use(promise)", "description": "React 19 API that suspends on a promise. The promise must be cached across renders, not created during render." },
+  { "term": "Progressive reveal", "description": "Nested boundaries let important content appear first while secondary parts keep loading." },
+  { "term": "Render-as-you-fetch", "description": "Start requests before rendering (loaders, prefetching, event handlers) so components suspend on data that is already on its way." }
+]

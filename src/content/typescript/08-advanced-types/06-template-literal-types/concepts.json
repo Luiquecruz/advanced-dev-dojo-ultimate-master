@@ -1,0 +1,6 @@
+[
+  { "term": "Template literal type", "description": "A string type built with backticks and placeholders, e.g. `` `btn-${Size}` ``." },
+  { "term": "Cross product", "description": "Unions inside placeholders expand into every combination of their members." },
+  { "term": "Intrinsic string types", "description": "`Uppercase`, `Lowercase`, `Capitalize` and `Uncapitalize` transform string literal types; they are implemented by the compiler." },
+  { "term": "String pattern matching", "description": "`S extends `${infer A}.${infer B}`` parses a string literal type into parts; `infer N extends number` converts a part into a number literal." }
+]

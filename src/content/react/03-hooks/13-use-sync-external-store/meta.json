@@ -1,0 +1,9 @@
+{
+  "title": "useSyncExternalStore",
+  "summary": "Subscribe components to state that lives outside React, safely under concurrent rendering, and build a tiny store.",
+  "level": "advanced",
+  "tags": ["core", "ecosystem"],
+  "resources": [
+    { "label": "react.dev: useSyncExternalStore", "url": "https://react.dev/reference/react/useSyncExternalStore" }
+  ]
+}

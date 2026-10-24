@@ -1,0 +1,25 @@
+[
+  {
+    "question": "Given `const c = { mode: 'dark' } satisfies { mode: string }`, what is `typeof c.mode`?",
+    "options": ["`string`", "`'dark'`", "`unknown`", "`{ mode: string }`"],
+    "answer": 0,
+    "explanation": "`satisfies` keeps the inferred type, and a property of a mutable object literal is inferred as `string`. Add `as const` to keep `'dark'`."
+  },
+  {
+    "question": "Which option reports an error when a required key is missing from the object literal?",
+    "options": ["`{} as Record<Key, Color>`", "`{} satisfies Record<Key, Color>`", "Neither", "Both"],
+    "answer": 1,
+    "explanation": "`satisfies` performs a full assignability check. `as` only requires the types to be comparable, so the empty object is accepted."
+  },
+  {
+    "question": "Why is `keyof typeof routes` equal to `string` when `routes` is annotated as `Record<string, Route>`?",
+    "options": [
+      "Because annotations make the declared type the variable's type, discarding the literal keys",
+      "Because `keyof` always returns `string`",
+      "Because routes is not `as const`",
+      "Because `Record` is a class"
+    ],
+    "answer": 0,
+    "explanation": "With an annotation, `typeof routes` is `Record<string, Route>`, whose keys are `string`. With `satisfies`, the inferred object type keeps its literal keys."
+  }
+]

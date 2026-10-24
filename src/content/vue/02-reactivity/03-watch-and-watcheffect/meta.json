@@ -1,0 +1,7 @@
+{
+  "title": "watch and watchEffect",
+  "summary": "Run side effects when state changes with watch and watchEffect, and know when computed is the better tool.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [{ "label": "vuejs.org: Watchers", "url": "https://vuejs.org/guide/essentials/watchers.html" }]
+}

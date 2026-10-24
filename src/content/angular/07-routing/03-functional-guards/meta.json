@@ -1,0 +1,10 @@
+{
+  "title": "Functional Guards",
+  "summary": "Protect routes with CanActivateFn and CanDeactivateFn, redirect with UrlTree and compare them with legacy class guards.",
+  "level": "intermediate",
+  "tags": ["core", "modern", "legacy"],
+  "resources": [
+    { "label": "angular.dev: Route guards", "url": "https://angular.dev/guide/routing/route-guards" },
+    { "label": "angular.dev: CanActivateFn", "url": "https://angular.dev/api/router/CanActivateFn" }
+  ]
+}

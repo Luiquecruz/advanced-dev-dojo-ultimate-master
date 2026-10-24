@@ -1,0 +1,63 @@
+[
+  {
+    "question": "Which of these can a Server Component do?",
+    "options": [
+      "Call `useState` to track a counter",
+      "Attach an `onClick` handler",
+      "Be an `async` function that awaits a database query",
+      "Read `window.localStorage`"
+    ],
+    "answer": 2,
+    "explanation": "Server Components may be async and access server resources. State, event handlers and browser APIs belong to Client Components."
+  },
+  {
+    "question": "What does the `'use server'` directive mark?",
+    "options": [
+      "Server Components",
+      "Server Functions that the client can call through a network request",
+      "Files that must not be bundled",
+      "Components rendered at build time"
+    ],
+    "answer": 1,
+    "explanation": "Server Components need no directive. `'use server'` exposes async functions to the client as Server Functions."
+  },
+  {
+    "question": "Which prop can NOT be passed from a Server Component to a Client Component?",
+    "options": ["A Promise", "A plain object", "A regular arrow function `() => alert('hi')`", "JSX"],
+    "answer": 2,
+    "explanation": "Regular functions are not serializable. Only Server Functions (marked with `'use server'`) can be passed as functions."
+  },
+  {
+    "question": "How should you treat a Server Function from a security point of view?",
+    "options": [
+      "As private: only your own components can call it",
+      "As a public HTTP endpoint: validate input and check authorization inside it",
+      "As safe because hidden form fields cannot be changed",
+      "As safe as long as it is not exported"
+    ],
+    "answer": 1,
+    "explanation": "Anyone can send a request to a Server Function endpoint with arbitrary arguments."
+  },
+  {
+    "question": "What was CVE-2025-55182 (\"React2Shell\"), disclosed in December 2025?",
+    "options": [
+      "An XSS in `dangerouslySetInnerHTML`",
+      "Unauthenticated remote code execution through crafted payloads sent to Server Function endpoints",
+      "A memory leak in `useEffect`",
+      "A bug in the React DevTools extension"
+    ],
+    "answer": 1,
+    "explanation": "It affected the `react-server-dom-*` packages (CVSS 10.0). Follow-up advisories fixed DoS and source code exposure issues; the complete fixes are 19.0.4, 19.1.5 and 19.2.4."
+  },
+  {
+    "question": "What changed for Context in Server Components in React 19.3?",
+    "options": [
+      "Server Components can now create contexts with `createContext`",
+      "Server Components can render `<Context value>` directly when the context comes from a `'use client'` module",
+      "`useContext` works in Server Components",
+      "Context was removed from Server Components"
+    ],
+    "answer": 1,
+    "explanation": "You still create the context in a client module, but no longer need a wrapper Provider component to render it from the server."
+  }
+]

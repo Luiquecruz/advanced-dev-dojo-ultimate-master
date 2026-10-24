@@ -1,0 +1,6 @@
+[
+  { "term": "flushSync", "description": "`flushSync(fn)` from `react-dom` applies the updates inside `fn` synchronously, so the DOM is current when it returns." },
+  { "term": "Automatic batching", "description": "Since React 18, all updates in the same tick (events, timeouts, promises) are batched into one render." },
+  { "term": "Stale DOM in handlers", "description": "Right after calling a setter, the DOM still reflects the previous render." },
+  { "term": "Escape hatch", "description": "An API for rare imperative needs. flushSync opts out of batching and can hurt performance." }
+]

@@ -1,0 +1,4 @@
+[
+  { "question": "How is `T` determined when a parent uses `<SelectList :items=\"users\" />`?", "options": ["It must be passed explicitly", "It is inferred from the props by the type checker", "It is always `any`", "It is read from the runtime value"], "answer": 1, "explanation": "Like generic functions, generic components infer type parameters from their arguments (the props)." },
+  { "question": "Does Vue validate at runtime that `items` match `T`?", "options": ["Yes, with the constraint", "No, generic types are erased; only the editor and vue-tsc check them", "Only in development builds", "Only for primitive types"], "answer": 1, "explanation": "Type parameters do not exist at runtime; props typed as `T` accept any value in the browser." }
+]

@@ -1,0 +1,5 @@
+[
+  { "term": "Literal widening", "description": "Inference turns literals such as `'admin'` into `string` and array literals into arrays, unless told otherwise." },
+  { "term": "const type parameter", "description": "`<const T>` (TS 5.0) infers literal, readonly types for arguments written inline, as if the caller wrote `as const`." },
+  { "term": "as const", "description": "Const assertion at the value site. Still useful for variables, but no longer required at every call of a `const`-generic helper." }
+]

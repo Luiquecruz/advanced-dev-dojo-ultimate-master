@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Type annotation",
+    "description": "The `: Type` syntax that tells the compiler which type a variable, parameter or return value must have."
+  },
+  {
+    "term": "Primitive types",
+    "description": "`string`, `number`, `boolean`, `bigint`, `symbol`, `null` and `undefined`, always written in lowercase."
+  },
+  {
+    "term": "Type erasure",
+    "description": "Types exist only at compile time. The emitted JavaScript has no annotations."
+  }
+]

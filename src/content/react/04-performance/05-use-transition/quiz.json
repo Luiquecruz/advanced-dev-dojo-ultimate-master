@@ -1,0 +1,30 @@
+[
+  {
+    "question": "A tab that suspends is opened with `startTransition(() => setTab('posts'))`. What does the user see while the data loads?",
+    "options": [
+      "The nearest Suspense fallback",
+      "A blank screen",
+      "The previous tab, with `isPending` set to true",
+      "An error, because transitions cannot suspend"
+    ],
+    "answer": 2,
+    "explanation": "Transitions avoid hiding content that is already visible. React keeps the committed UI and exposes `isPending` so you can show a subtle indicator."
+  },
+  {
+    "question": "Why should `setText` for a controlled `<input>` NOT be wrapped in `startTransition`?",
+    "options": [
+      "It throws an error",
+      "The input must update synchronously or typing feels broken",
+      "Transitions only work with arrays",
+      "It disables the Suspense boundary"
+    ],
+    "answer": 1,
+    "explanation": "Input value updates must be urgent. Keep `setText` urgent and defer only the expensive work derived from it, with a separate transition or `useDeferredValue`."
+  },
+  {
+    "question": "When does the function passed to `startTransition` run?",
+    "options": ["Immediately", "On the next animation frame", "After the browser is idle", "After all effects ran"],
+    "answer": 0,
+    "explanation": "The callback runs synchronously. Only the state updates scheduled inside it are marked as low priority."
+  }
+]

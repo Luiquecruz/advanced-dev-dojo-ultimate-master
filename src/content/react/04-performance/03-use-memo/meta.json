@@ -1,0 +1,9 @@
+{
+  "title": "useMemo",
+  "summary": "Cache expensive calculations and keep object references stable between renders.",
+  "level": "intermediate",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "react.dev: useMemo", "url": "https://react.dev/reference/react/useMemo" }
+  ]
+}

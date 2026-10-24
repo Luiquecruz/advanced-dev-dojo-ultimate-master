@@ -1,0 +1,52 @@
+[
+  {
+    "question": "A reducer does `state.items.push(item); return state;`. The list on screen does not update. Why?",
+    "options": [
+      "Arrays cannot be stored in reducers",
+      "The returned state has the same reference, so React assumes nothing changed and bails out",
+      "`push` is asynchronous",
+      "Reducers must return arrays"
+    ],
+    "answer": 1,
+    "explanation": "React compares the previous and next state with `Object.is`. Mutating and returning the same object looks like \"no change\". Return a new object, or let Immer build one from a draft."
+  },
+  {
+    "question": "Inside `produce(state, (draft) => { ... })`, a teammate writes `return draft.todos.filter((t) => !t.done);` where the state is `{ todos, filter }`. What happens?",
+    "options": [
+      "Immer filters `todos` and keeps `filter`",
+      "The whole state is replaced by the filtered array, losing `filter`",
+      "Immer throws because filtering is not allowed",
+      "Nothing changes"
+    ],
+    "answer": 1,
+    "explanation": "Returning a value from a recipe replaces the state. Either mutate (`draft.todos = draft.todos.filter(...)`) or return a complete new state, never mix the two intentions."
+  },
+  {
+    "question": "A board renders each column with `memo`. After renaming one card, every column re-renders. Which update causes this?",
+    "options": [
+      "`produce` with `findCard(draft, id).title = title`",
+      "A hand-written `columns.map((c) => ({ ...c, cards: c.cards.map(...) }))`",
+      "`useReducer` itself",
+      "Using card ids as keys"
+    ],
+    "answer": 1,
+    "explanation": "Spreading every column creates new references for columns that did not change, defeating `memo`. Immer copies only the path that was modified (structural sharing)."
+  },
+  {
+    "question": "Which state is the **least** likely to benefit from Immer?",
+    "options": [
+      "A tree of folders and files edited in place",
+      "A normalized `entities` map updated by many reducers",
+      "A single `count` number and a `isOpen` boolean",
+      "A nested form with arrays of addresses"
+    ],
+    "answer": 2,
+    "explanation": "Flat primitives are already trivial to update immutably. Immer pays off when updates reach into nested objects and arrays."
+  },
+  {
+    "question": "You want to `console.log` the draft inside a recipe and inspect it later in DevTools, but it shows a revoked Proxy. What should you log?",
+    "options": ["`draft`", "`JSON.parse(draft)`", "`current(draft)`", "`original(draft)` only"],
+    "answer": 2,
+    "explanation": "Drafts are revoked when the recipe finishes. `current(draft)` creates a plain snapshot of the draft's current value; `original(draft)` returns the value before any change."
+  }
+]

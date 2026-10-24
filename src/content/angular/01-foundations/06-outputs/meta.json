@@ -1,0 +1,11 @@
+{
+  "title": "Component Outputs",
+  "summary": "Emit custom events to the parent with output(), build outputs from RxJS with outputFromObservable, and compare with @Output/EventEmitter.",
+  "level": "beginner",
+  "tags": ["core", "modern", "legacy"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "angular.dev: Custom events with outputs", "url": "https://angular.dev/guide/components/outputs" },
+    { "label": "angular.dev: RxJS interop with component outputs", "url": "https://angular.dev/ecosystem/rxjs-interop/output-interop" }
+  ]
+}

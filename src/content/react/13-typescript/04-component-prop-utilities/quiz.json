@@ -1,0 +1,35 @@
+[
+  {
+    "question": "Why use `Omit<ComponentProps<'input'>, 'size'> & { size?: 'sm' | 'lg' }` instead of a plain intersection?",
+    "options": [
+      "Omit is faster",
+      "Without Omit, `size` becomes `number & ('sm' | 'lg')`, which is `never`",
+      "Intersections are not allowed with ComponentProps",
+      "To remove the ref"
+    ],
+    "answer": 1,
+    "explanation": "Intersecting two incompatible property types produces `never`. Omit the native prop first, then add your own definition."
+  },
+  {
+    "question": "With `AlertProps` = `{ dismissible: true; onDismiss: () => void } | { dismissible?: false; onDismiss?: never }`, which usage type-checks?",
+    "options": [
+      "`<Alert dismissible />`",
+      "`<Alert onDismiss={close} />`",
+      "`<Alert dismissible onDismiss={close} />`",
+      "`<Alert dismissible={false} onDismiss={close} />`"
+    ],
+    "answer": 2,
+    "explanation": "Only the combinations described by the union are accepted. `never` forbids `onDismiss` when the alert is not dismissible."
+  },
+  {
+    "question": "In React 19, how does a component typed with `ComponentProps<'button'>` forward a ref to its `<button>`?",
+    "options": [
+      "It needs forwardRef",
+      "`ref` is part of the props, so spreading `...rest` onto the button forwards it",
+      "With useImperativeHandle only",
+      "Refs cannot be forwarded"
+    ],
+    "answer": 1,
+    "explanation": "React 19 passes `ref` as a regular prop and the types include it in `ComponentProps`, so a plain spread is enough."
+  }
+]

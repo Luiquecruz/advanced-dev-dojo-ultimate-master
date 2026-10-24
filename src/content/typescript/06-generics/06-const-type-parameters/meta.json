@@ -1,0 +1,6 @@
+{
+  "title": "const type parameters",
+  "summary": "Preserve literal types in generic helpers with `<const T>` instead of forcing every caller to write `as const`.",
+  "level": "advanced",
+  "tags": ["modern"]
+}

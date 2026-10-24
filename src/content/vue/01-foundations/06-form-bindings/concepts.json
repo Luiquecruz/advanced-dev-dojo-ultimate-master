@@ -1,0 +1,6 @@
+[
+  { "term": "v-model", "description": "Two-way binding for form fields. Expands to a value/checked binding plus an input/change listener." },
+  { "term": ".trim / .number / .lazy", "description": "`v-model` modifiers: strip whitespace, cast to number with `parseFloat`, sync on `change` instead of `input`." },
+  { "term": "Checkbox array mode", "description": "Several checkboxes bound to the same array add or remove their `value` when checked or unchecked." },
+  { "term": "true-value / false-value", "description": "Custom values stored by a single checkbox instead of `true` / `false`." }
+]

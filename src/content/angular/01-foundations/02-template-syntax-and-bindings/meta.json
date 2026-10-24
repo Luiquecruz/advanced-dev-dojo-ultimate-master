@@ -1,0 +1,9 @@
+{
+  "title": "Template Syntax & Bindings",
+  "summary": "Interpolation, property, attribute, class and style bindings, and how they differ from static HTML attributes.",
+  "level": "beginner",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "angular.dev: Binding dynamic text, properties and attributes", "url": "https://angular.dev/guide/templates/binding" }
+  ]
+}

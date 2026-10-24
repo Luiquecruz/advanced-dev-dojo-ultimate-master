@@ -1,0 +1,35 @@
+[
+  {
+    "question": "In which order are these methods called when a class component mounts?",
+    "options": [
+      "`render` → `constructor` → `componentDidMount`",
+      "`constructor` → `render` → `componentDidMount`",
+      "`constructor` → `componentDidMount` → `render`",
+      "`componentDidMount` → `constructor` → `render`"
+    ],
+    "answer": 1,
+    "explanation": "React constructs the instance, renders it, commits the DOM and then calls `componentDidMount`."
+  },
+  {
+    "question": "What happens with `componentDidUpdate() { this.setState({ loaded: true }); }`?",
+    "options": [
+      "Nothing, React ignores setState in componentDidUpdate",
+      "The state updates once and stops",
+      "An infinite update loop, because each update calls componentDidUpdate again",
+      "A compile error"
+    ],
+    "answer": 2,
+    "explanation": "Every `setState` creates a new update, which calls `componentDidUpdate` again. Always guard with a comparison against `prevProps` or `prevState`. React eventually throws \"Maximum update depth exceeded\"."
+  },
+  {
+    "question": "Which hook setup is the closest equivalent of componentDidMount + componentDidUpdate (on `roomId` change) + componentWillUnmount?",
+    "options": [
+      "`useEffect(() => { connect(roomId); }, [])`",
+      "`useEffect(() => { connect(roomId); return () => disconnect(); }, [roomId])`",
+      "`useLayoutEffect(() => disconnect())`",
+      "`useMemo(() => connect(roomId), [roomId])`"
+    ],
+    "answer": 1,
+    "explanation": "The effect runs after mount, re-runs when `roomId` changes (running the cleanup first) and its cleanup runs on unmount."
+  }
+]

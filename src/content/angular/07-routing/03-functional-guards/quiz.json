@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Why is returning a `UrlTree` preferred over calling `router.navigate()` and returning `false`?",
+    "options": ["It is faster to type", "The router cancels the current navigation and performs the redirect atomically, avoiding races between two navigations", "`router.navigate()` is not allowed inside guards", "Returning false shows an error page"],
+    "answer": 1,
+    "explanation": "A returned `UrlTree` is handled by the router itself, with correct priority when several guards redirect."
+  },
+  {
+    "question": "Which guard prevents a lazy route's code from being downloaded when the user lacks permission?",
+    "options": ["canActivate", "canDeactivate", "canMatch", "resolve"],
+    "answer": 2,
+    "explanation": "`canMatch` runs before matching completes; if it rejects, `loadComponent`/`loadChildren` never runs. `canActivate` runs after the route was matched (and loaded)."
+  },
+  {
+    "question": "Is a client-side guard enough to protect private data?",
+    "options": ["Yes, users cannot bypass Angular guards", "No, guards are UX; the server must authorize every API request", "Yes, if combined with canMatch", "Only in production builds"],
+    "answer": 1,
+    "explanation": "Anyone can modify JavaScript running in their browser. Guards keep honest users on the right path; the API enforces security."
+  }
+]

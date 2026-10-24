@@ -1,0 +1,7 @@
+{
+  "title": "JSX Basics",
+  "summary": "Write UI as JavaScript expressions that compile to React elements.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "react.dev: Writing Markup with JSX", "url": "https://react.dev/learn/writing-markup-with-jsx" }]
+}

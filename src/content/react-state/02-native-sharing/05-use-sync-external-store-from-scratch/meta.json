@@ -1,0 +1,10 @@
+{
+  "title": "useSyncExternalStore from Scratch",
+  "summary": "Build a production-grade store hook: cached snapshots, memoized selectors with equality functions, and server snapshots.",
+  "level": "expert",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "react.dev: useSyncExternalStore", "url": "https://react.dev/reference/react/useSyncExternalStore" },
+    { "label": "React 18 working group: What is tearing?", "url": "https://github.com/reactwg/react-18/discussions/69" }
+  ]
+}

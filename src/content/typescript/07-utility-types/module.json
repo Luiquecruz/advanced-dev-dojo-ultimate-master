@@ -1,0 +1,4 @@
+{
+  "title": "Built-in Utility Types",
+  "description": "Transform existing types with Partial, Required, Readonly, Pick, Omit, Record, Exclude, Extract, NonNullable, ReturnType, Parameters, Awaited and NoInfer."
+}

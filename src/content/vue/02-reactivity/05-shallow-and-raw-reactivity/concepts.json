@@ -1,0 +1,7 @@
+[
+  { "term": "shallowRef()", "description": "A ref that only tracks `.value` assignment. Its value is stored raw, without nested proxies." },
+  { "term": "triggerRef()", "description": "Forces effects that depend on a shallow ref to run after you mutated its inner value." },
+  { "term": "shallowReactive()", "description": "Reactive object that tracks only root-level properties." },
+  { "term": "markRaw()", "description": "Marks an object so Vue never wraps it in a Proxy, even inside reactive state." },
+  { "term": "toRaw()", "description": "Returns the original object behind a reactive or readonly proxy. Useful for cloning and passing data to non-Vue APIs." }
+]

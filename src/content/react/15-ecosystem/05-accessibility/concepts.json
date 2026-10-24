@@ -1,0 +1,8 @@
+[
+  { "term": "WCAG 2.2 AA", "description": "The Web Content Accessibility Guidelines conformance level most laws and policies reference." },
+  { "term": "Semantic HTML", "description": "Using elements for their meaning (`button`, `a`, `nav`, `label`, headings) so roles and keyboard behavior come for free." },
+  { "term": "ARIA", "description": "Attributes (`role`, `aria-*`) that describe semantics and state to assistive tech. They never add behavior." },
+  { "term": "Roving tabindex", "description": "In a composite widget only the active item has `tabIndex={0}`; the others have `-1` and are reached with arrow keys." },
+  { "term": "Focus management", "description": "Moving focus deliberately when UI changes: into dialogs, back to triggers, to the new page heading after navigation." },
+  { "term": "Live region", "description": "`role=\"status\"` or `role=\"alert\"` containers whose updates screen readers announce without moving focus." }
+]

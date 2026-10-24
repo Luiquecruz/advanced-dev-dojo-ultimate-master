@@ -1,0 +1,6 @@
+[
+  { "term": "Async setup", "description": "Top-level `await` in `<script setup>` makes the component an async dependency." },
+  { "term": "<Suspense>", "description": "Experimental built-in that waits for nested async dependencies and shows `#fallback` meanwhile." },
+  { "term": "onErrorCaptured", "description": "Hook that receives errors from descendants; return `false` to stop propagation." },
+  { "term": "Async waterfall", "description": "Requests that run sequentially because each waits for the previous component to resolve." }
+]

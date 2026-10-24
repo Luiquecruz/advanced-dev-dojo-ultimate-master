@@ -1,0 +1,5 @@
+[
+  {"question": "What does `<img src=\"avatarUrl\">` render?", "options": ["The literal text `avatarUrl` as the src", "The value of the `avatarUrl` ref", "A compile error", "Nothing, the attribute is removed"], "answer": 0, "explanation": "Without `v-bind`/`:` the attribute value is a static string. Use `:src=\"avatarUrl\"` to evaluate the expression."},
+  {"question": "How do you remove an attribute conditionally?", "options": ["Bind it to `false` for any attribute", "Bind it to an empty string", "Use `v-if` on the attribute", "Bind it to `null` or `undefined`"], "answer": 3, "explanation": "`null` and `undefined` remove any attribute. `false` only removes boolean attributes like `disabled`; for others it renders `\"false\"`."},
+  {"question": "Which binding keeps a button enabled?", "options": [":disabled=\"'false'\"", ":disabled=\"false\"", "disabled=\"false\"", ":disabled=\"''\""], "answer": 1, "explanation": "Only the boolean `false` removes the attribute. Non-empty strings are truthy, and an empty string means the attribute is present."}
+]

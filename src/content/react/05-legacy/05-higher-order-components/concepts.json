@@ -1,0 +1,7 @@
+[
+  { "term": "Higher-order component (HOC)", "description": "A function `(Component) => EnhancedComponent` that wraps a component to add behavior or data." },
+  { "term": "Prop pass-through", "description": "A HOC consumes its own props and spreads the rest onto the wrapped component so the wrapper stays transparent." },
+  { "term": "displayName", "description": "Static name shown in React DevTools and warnings. Convention: `withX(Inner)` sets `WithX(InnerName)`." },
+  { "term": "Wrapper hell", "description": "Deep trees of HOC wrappers that make DevTools and prop origins hard to follow. Custom hooks avoid it." },
+  { "term": "hoist-non-react-statics", "description": "Legacy helper that copied static methods from the wrapped component to the HOC output." }
+]

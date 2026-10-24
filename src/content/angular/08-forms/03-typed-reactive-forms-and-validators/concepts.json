@@ -1,0 +1,9 @@
+[
+  { "term": "Typed forms", "description": "Since v14, `FormControl<string>`, `FormGroup<{...}>` and `FormArray<...>` carry value types, so `form.value.email` is typed." },
+  { "term": "NonNullableFormBuilder", "description": "A `FormBuilder` whose controls are non-nullable by default (`inject(NonNullableFormBuilder)` or `fb.nonNullable`)." },
+  { "term": "ValidatorFn", "description": "`(control: AbstractControl) => ValidationErrors | null`. Return an error object to mark the control invalid." },
+  { "term": "Validator factory", "description": "A function that takes configuration and returns a `ValidatorFn`, like `Validators.minLength(8)` or `forbiddenNameValidator(['admin'])`." },
+  { "term": "Cross-field validation", "description": "A validator on a `FormGroup` that compares children. Its error is set on the group, not on a child." },
+  { "term": "FormArray", "description": "An ordered list of controls for dynamic fields. Bind with `formArrayName` and index-based `[formControlName]`." },
+  { "term": "AsyncValidatorFn", "description": "Returns `Promise`/`Observable` of errors, e.g. a server check. While running, the control is `pending`." }
+]

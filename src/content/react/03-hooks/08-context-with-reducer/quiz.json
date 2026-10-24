@@ -1,0 +1,24 @@
+[
+  {
+    "question": "Why put `dispatch` in its own context?",
+    "options": [
+      "`dispatch` cannot be stored together with state",
+      "Its identity never changes, so dispatch-only consumers avoid re-rendering on state changes",
+      "React requires one context per Hook",
+      "It makes the reducer run faster"
+    ],
+    "answer": 1,
+    "explanation": "Consumers re-render when their context value changes. Isolating the stable `dispatch` lets components that only send actions skip state updates."
+  },
+  {
+    "question": "Why create the contexts with `null` as the default?",
+    "options": [
+      "`undefined` defaults are not allowed",
+      "So the custom Hooks can detect a missing provider and throw a clear error",
+      "It improves performance",
+      "React 19 requires it"
+    ],
+    "answer": 1,
+    "explanation": "A `null` default signals that no provider exists above. The Hook turns that into an explicit error instead of a confusing crash later."
+  }
+]

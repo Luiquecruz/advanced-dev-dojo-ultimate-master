@@ -1,0 +1,8 @@
+[
+  { "term": "Service", "description": "A class with no template that holds shared logic or state and is created by the injector." },
+  { "term": "`providedIn: 'root'`", "description": "Registers an `@Injectable` in the root injector: one lazily created, tree-shakable instance for the whole app." },
+  { "term": "`inject()`", "description": "Function that returns a dependency from the current injector. Valid only in an injection context (field initializers, constructors, provider factories)." },
+  { "term": "Injection context", "description": "The moment Angular is creating something through DI. `runInInjectionContext(injector, fn)` creates one manually." },
+  { "term": "`@Service()`", "description": "Angular 22 shorthand for a root-provided singleton that uses `inject()` only. Options: `autoProvided: false`, `factory`." },
+  { "term": "Constructor injection", "description": "Legacy style where dependencies are constructor parameters resolved from TypeScript decorator metadata." }
+]

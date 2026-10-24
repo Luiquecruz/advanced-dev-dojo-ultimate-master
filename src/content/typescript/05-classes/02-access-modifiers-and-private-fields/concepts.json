@@ -1,0 +1,6 @@
+[
+  { "term": "private / protected", "description": "TypeScript-only modifiers checked at compile time and erased from the emitted JavaScript." },
+  { "term": "#private field", "description": "ES2022 hard privacy: unreachable outside the class body, invisible to `Object.keys` and `JSON.stringify`." },
+  { "term": "Brand check", "description": "`#field in value` returns whether `value` was constructed by the class that declares `#field`." },
+  { "term": "readonly", "description": "Allows assignment only in the declaration or the constructor. Enforced by the type checker only." }
+]

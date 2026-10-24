@@ -1,0 +1,6 @@
+{
+  "title": "Exhaustiveness checking with never",
+  "summary": "Make the compiler report every switch that forgets a union member, using never, assertNever and satisfies never.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

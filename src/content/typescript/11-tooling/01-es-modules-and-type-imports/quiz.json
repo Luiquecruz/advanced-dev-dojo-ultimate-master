@@ -1,0 +1,52 @@
+[
+  {
+    "question": "With `verbatimModuleSyntax` on, what happens to `import { type User, createUser } from './users.js'` in the output?",
+    "options": [
+      "The whole import is removed",
+      "It becomes `import { createUser } from './users.js'`",
+      "It is kept unchanged, including User",
+      "It is converted to require()"
+    ],
+    "answer": 1,
+    "explanation": "Specifiers marked with `type` are dropped and the rest is kept verbatim."
+  },
+  {
+    "question": "Why do single-file transpilers like esbuild or Node's type stripping need `import type`?",
+    "options": [
+      "They cannot parse interfaces",
+      "They only see one file, so they cannot tell whether an imported name is a type or a value",
+      "They do not support ES modules",
+      "They run the type checker first"
+    ],
+    "answer": 1,
+    "explanation": "Without whole-program information a transpiler cannot know that `User` is only a type. `import type` makes erasure explicit."
+  },
+  {
+    "question": "Which syntax imports JSON in TypeScript 6.0?",
+    "options": [
+      "import data from './data.json' assert { type: 'json' }",
+      "import data from './data.json' with { type: 'json' }",
+      "import json data from './data.json'",
+      "import data = require('./data.json') as json"
+    ],
+    "answer": 1,
+    "explanation": "Import attributes use `with`. The legacy `assert` keyword is an error since TypeScript 6.0."
+  },
+  {
+    "question": "Under `--module nodenext`, how should `app.ts` import `utils.ts` from the same folder?",
+    "options": ["import { x } from './utils'", "import { x } from './utils.ts'", "import { x } from './utils.js'", "import { x } from 'utils'"],
+    "answer": 2,
+    "explanation": "Node resolves the emitted file, so the specifier names the `.js` output. TypeScript maps it back to `utils.ts`."
+  },
+  {
+    "question": "What does `noUncheckedSideEffectImports`, on by default in TypeScript 6.0, report?",
+    "options": [
+      "Unused named imports",
+      "Side-effect imports like `import './setup.js'` whose path cannot be resolved",
+      "Any import that has side effects",
+      "Imports of CommonJS modules"
+    ],
+    "answer": 1,
+    "explanation": "Previously TypeScript silently ignored unresolved side-effect imports, hiding typos. Now they are errors."
+  }
+]

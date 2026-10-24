@@ -1,0 +1,30 @@
+[
+  {
+    "question": "Inside an RTK case reducer for state `{ items }`, which line is a bug?",
+    "options": [
+      "`state.items.push(action.payload)`",
+      "`state.items = state.items.filter((t) => !t.completed)`",
+      "`return state.items.filter((t) => !t.completed)`",
+      "`state.items[0].completed = true`"
+    ],
+    "answer": 2,
+    "explanation": "Returning a value replaces the whole slice state. Returning the filtered array turns `{ items }` into an array. Mutate the draft or return a complete new state, never mix them."
+  },
+  {
+    "question": "Why generate ids in a `prepare` callback instead of inside the reducer?",
+    "options": [
+      "Reducers cannot access `nanoid`",
+      "Reducers must be pure: the same state and action must always produce the same result",
+      "Prepare callbacks run on the server",
+      "It makes the action type shorter"
+    ],
+    "answer": 1,
+    "explanation": "Randomness in reducers breaks replaying actions and time-travel debugging. `prepare` runs in the action creator, so the random id becomes part of the action itself."
+  },
+  {
+    "question": "What does RTK recommend instead of hand-written `FETCH_START`/`FETCH_SUCCESS` reducers for API data?",
+    "options": ["`connect()`", "RTK Query or `createAsyncThunk`", "`combineReducers`", "Storing data in `localStorage`"],
+    "answer": 1,
+    "explanation": "`createAsyncThunk` generates pending/fulfilled/rejected actions, and RTK Query goes further with caching, deduplication and invalidation, similar to TanStack Query."
+  }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "useLayoutEffect", "description": "Runs synchronously after DOM mutations and before paint. Use it to measure layout and adjust the UI without flicker." },
+  { "term": "Paint", "description": "The moment the browser draws the frame. `useEffect` usually runs after it; `useLayoutEffect` before it." },
+  { "term": "nested-update", "description": "Profiler phase for an update scheduled during a commit, such as `setState` inside a layout effect." },
+  { "term": "useInsertionEffect", "description": "Fires before layout effects; meant for CSS-in-JS libraries to inject styles." },
+  { "term": "getBoundingClientRect", "description": "DOM API returning an element's size and position relative to the viewport." }
+]

@@ -1,0 +1,6 @@
+{
+  "title": "ReturnType, Parameters and Awaited",
+  "summary": "Extract types from functions, promises and classes when the type you need is not exported.",
+  "level": "advanced",
+  "tags": ["core"]
+}

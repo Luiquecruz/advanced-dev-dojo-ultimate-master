@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What does `settings.timeout || 1000` return when `timeout` is `0`?",
+    "options": ["`0`", "`1000`", "`undefined`", "A type error"],
+    "answer": 1,
+    "explanation": "`||` treats every falsy value as missing. Use `??` when `0` is a valid value."
+  },
+  {
+    "question": "What is the inferred return type of `function stop() { throw new Error('x'); }`?",
+    "options": ["`never`", "`void`", "`undefined`", "`Error`"],
+    "answer": 1,
+    "explanation": "Function declarations without a return statement infer `void`, even when they only throw. Annotate `: never` explicitly."
+  },
+  {
+    "question": "Why does `const f: () => void = () => 42` compile?",
+    "options": ["Because `42` is converted to `undefined`", "A `void` function type means the result is ignored, so returning a value is allowed", "Because of implicit any", "It does not compile"],
+    "answer": 1,
+    "explanation": "Contextual `void` return types are permissive so callbacks like `forEach((x) => list.push(x))` work."
+  }
+]

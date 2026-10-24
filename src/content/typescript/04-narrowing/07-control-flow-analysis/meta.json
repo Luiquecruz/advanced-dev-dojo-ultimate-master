@@ -1,0 +1,6 @@
+{
+  "title": "Control flow analysis",
+  "summary": "Understand how the compiler tracks types along code paths, where narrowing is preserved and where it is lost.",
+  "level": "advanced",
+  "tags": ["theory", "core"]
+}

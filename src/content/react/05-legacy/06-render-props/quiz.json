@@ -1,0 +1,25 @@
+[
+  {
+    "question": "What renders for `function Toggle({ children }) { const [on] = useState(false); return <div>{children}</div>; }` used as `<Toggle>{({ on }) => <p>{String(on)}</p>}</Toggle>`?",
+    "options": ["`<p>false</p>`", "Nothing for the function, plus a warning that functions are not valid as a React child", "A compile error", "`<p>undefined</p>`"],
+    "answer": 1,
+    "explanation": "The component must call the function: `children({ on })`. Rendering the function itself is invalid and React warns about it."
+  },
+  {
+    "question": "Which old React API used children as a function?",
+    "options": ["`useContext`", "`Context.Consumer`", "`createPortal`", "`Suspense`"],
+    "answer": 1,
+    "explanation": "`<ThemeContext.Consumer>{(theme) => ...}</ThemeContext.Consumer>` was the way to read context before `useContext` (and `static contextType` in classes)."
+  },
+  {
+    "question": "When is a render prop still a better choice than a custom hook?",
+    "options": [
+      "When the caller only needs a value",
+      "When the component must decide where the caller's markup is placed, like `renderItem` in a virtual list",
+      "Never, hooks replaced them entirely",
+      "When using class components only"
+    ],
+    "answer": 1,
+    "explanation": "If the component owns the layout and needs the caller to fill slots (rows, cells, options), a render prop expresses that directly. For sharing data or logic, a hook is simpler."
+  }
+]

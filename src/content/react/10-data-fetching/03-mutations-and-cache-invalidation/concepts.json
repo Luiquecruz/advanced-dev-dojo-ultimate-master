@@ -1,0 +1,7 @@
+[
+  { "term": "useMutation", "description": "Hook for create/update/delete operations. Returns `mutate`, `mutateAsync` and state such as `isPending`, `isError`, `data` and `variables`." },
+  { "term": "invalidateQueries", "description": "Marks queries matching a key prefix as stale and refetches the active ones. The simplest way to sync after a mutation." },
+  { "term": "setQueryData", "description": "Writes data directly into the cache for a key, for example the entity returned by the server. Must be immutable." },
+  { "term": "Optimistic update", "description": "Updating the UI before the server confirms, then rolling back on error. Done with `variables` in the UI or with `onMutate`/`onError` on the cache." },
+  { "term": "mutate vs mutateAsync", "description": "`mutate` reports errors through state; `mutateAsync` returns a promise that rejects and must be caught." }
+]

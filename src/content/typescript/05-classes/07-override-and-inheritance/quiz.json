@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Without `noImplicitOverride`, what happens if a subclass misspells the method it wants to override?",
+    "options": ["A compile error", "A runtime error", "A new method is silently added and the base method still runs", "TypeScript renames it"],
+    "answer": 2,
+    "explanation": "Without the `override` keyword the compiler has no way to know your intent, so the misspelled member is just a new method."
+  },
+  {
+    "question": "Which override of `speak(): string` is valid?",
+    "options": ["`override speak(): number`", "`override speak(loud: boolean): string`", "`override speak(): 'woof'`", "`override speak(): string | number`"],
+    "answer": 2,
+    "explanation": "The override must be assignable to the base member. A narrower return type (`'woof'`) is fine; a required extra parameter or a wider return type is not."
+  },
+  {
+    "question": "How do you narrow an inherited field's type without resetting it at runtime?",
+    "options": ["`value: string;`", "`declare value: string;`", "`override value: string;`", "`readonly value: string;`"],
+    "answer": 1,
+    "explanation": "`declare` fields are type-only. A normal field declaration is emitted and re-initializes the property after the base constructor."
+  }
+]

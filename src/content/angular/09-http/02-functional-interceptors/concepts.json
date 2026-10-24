@@ -1,0 +1,8 @@
+[
+  { "term": "HttpInterceptorFn", "description": "`(req: HttpRequest<unknown>, next: HttpHandlerFn) => Observable<HttpEvent<unknown>>`. Runs in an injection context." },
+  { "term": "withInterceptors([...])", "description": "Registers functional interceptors in `provideHttpClient()`. Requests pass through them in array order; responses come back in reverse order." },
+  { "term": "request.clone()", "description": "Requests are immutable. `clone({ setHeaders, setParams, url, body, context })` creates a modified copy." },
+  { "term": "HttpContextToken", "description": "Typed per-request metadata (`new HttpContextToken(() => default)`) that interceptors read with `req.context.get(TOKEN)`." },
+  { "term": "HttpEvent stream", "description": "`next()` emits several events (Sent, progress, `HttpResponse`). Filter with `instanceof HttpResponse` when you need the final response." },
+  { "term": "Class interceptors (legacy)", "description": "`@Injectable` classes implementing `HttpInterceptor`, registered via the `HTTP_INTERCEPTORS` multi-provider and `withInterceptorsFromDi()`." }
+]

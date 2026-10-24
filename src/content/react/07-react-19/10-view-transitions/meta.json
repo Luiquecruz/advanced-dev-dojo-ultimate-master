@@ -1,0 +1,11 @@
+{
+  "title": "View Transitions",
+  "summary": "Animate enters, exits and shared elements with <ViewTransition> and tag Transitions with addTransitionType.",
+  "level": "advanced",
+  "tags": ["modern", "new"],
+  "resources": [
+    { "label": "react.dev: <ViewTransition>", "url": "https://react.dev/reference/react/ViewTransition" },
+    { "label": "react.dev: addTransitionType", "url": "https://react.dev/reference/react/addTransitionType" },
+    { "label": "react.dev: React 19.3", "url": "https://react.dev/blog/2026/09/09/react-19-3" }
+  ]
+}

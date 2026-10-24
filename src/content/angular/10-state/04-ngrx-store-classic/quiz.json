@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Which name follows NgRx action conventions best?",
+    "options": ["`addTodo`", "`[Todo Page] Todo Added`", "`TODO_REDUCER_ADD`", "`setTodos`"],
+    "answer": 1,
+    "explanation": "Actions describe events with a `[Source] Event` type; the reducer decides how state changes."
+  },
+  {
+    "question": "Where should an HTTP request triggered by `loadTodos` live?",
+    "options": ["In the reducer", "In a selector", "In an effect", "In the action creator"],
+    "answer": 2,
+    "explanation": "Reducers and selectors must stay pure. Effects listen to actions, perform side effects and dispatch result actions."
+  },
+  {
+    "question": "What does `selectLeader.projector(3, 1)` do?",
+    "options": ["Selects from the live store", "Calls only the projection function with the given inputs", "Resets the selector memoization", "Throws, projector is private"],
+    "answer": 1,
+    "explanation": "`projector` exposes the last argument of `createSelector`, which makes selectors easy to unit test."
+  }
+]

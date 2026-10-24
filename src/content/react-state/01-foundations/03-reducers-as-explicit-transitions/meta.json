@@ -1,0 +1,11 @@
+{
+  "title": "Reducers as Explicit Transitions",
+  "summary": "Replace boolean flags with a finite status, name actions as events and encode the allowed transitions in a reducer.",
+  "level": "intermediate",
+  "tags": ["core", "typescript"],
+  "resources": [
+    { "label": "react.dev: Extracting State Logic into a Reducer", "url": "https://react.dev/learn/extracting-state-logic-into-a-reducer" },
+    { "label": "Kent C. Dodds: Stop using isLoading booleans", "url": "https://kentcdodds.com/blog/stop-using-isloading-booleans" },
+    { "label": "Redux style guide: Model actions as events", "url": "https://redux.js.org/style-guide/#model-actions-as-events-not-setters" }
+  ]
+}

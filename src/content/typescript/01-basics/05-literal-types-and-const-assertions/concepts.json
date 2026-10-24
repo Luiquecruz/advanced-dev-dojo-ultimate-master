@@ -1,0 +1,6 @@
+[
+  { "term": "Literal type", "description": "A type with a single value such as `'GET'` or `42`. Unions of literals describe closed sets of options." },
+  { "term": "Widening", "description": "Inference turns literals into their base type (`string`, `number`) when the value can change: `let` variables and object properties." },
+  { "term": "as const", "description": "Const assertion: infers the narrowest literal types and marks arrays and properties `readonly`. Type-level only." },
+  { "term": "(typeof X)[number]", "description": "Derives the union of element types from an array or tuple value." }
+]

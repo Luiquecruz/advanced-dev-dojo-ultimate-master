@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A checkout form mirrors every field into a Zustand store 'so the order summary can show the address'. Typing is laggy and old addresses reappear on the next order. What is the better design?",
+    "options": [
+      "Add `persist` middleware to the store",
+      "Keep the draft in the form (React Hook Form or uncontrolled), let the summary subscribe to the one field it shows (`useWatch`), and submit to the server",
+      "Debounce every store update by 500 ms",
+      "Move the form to Context"
+    ],
+    "answer": 1,
+    "explanation": "The draft is transient. Keeping it in the form removes global writes per keystroke and leftover drafts; `useWatch` gives live access to a single field without re-rendering everything."
+  },
+  {
+    "question": "An edit form must show the current product data, which is loaded with TanStack Query. What is the correct way to initialize it?",
+    "options": [
+      "`useEffect` that copies `data` into `useState` for each field on every change",
+      "Seed the form from the query data (`defaultValues` once data exists, or RHF's `values` / `reset(data)`), then submit with a mutation that invalidates the query",
+      "Edit the cached query data directly with `setQueryData` on each keystroke",
+      "Store the product in Redux first"
+    ],
+    "answer": 1,
+    "explanation": "The cache holds the saved version; the form holds an editable copy. Seed once, mutate on submit, invalidate to refresh. Editing the cache while typing would show unsaved values everywhere."
+  },
+  {
+    "question": "With React 19, what does `useActionState(action, initialState)` give you?",
+    "options": [
+      "A global store shared by all forms",
+      "`[state, formAction, isPending]`: the last result returned by the action, a function to pass to `<form action>`, and a pending flag",
+      "Field-level validation like React Hook Form",
+      "A replacement for TanStack Query"
+    ],
+    "answer": 1,
+    "explanation": "It tracks the outcome of submissions (errors, messages) and the pending status. Field values stay in the DOM, and successful Actions reset uncontrolled fields automatically."
+  },
+  {
+    "question": "Users lose long support-ticket drafts when they open another ticket and come back. Which solution fits?",
+    "options": [
+      "Keep the draft in `useState` and accept the loss",
+      "Persist the draft explicitly, keyed by ticket id (e.g. `sessionStorage` or a small persisted store), and clear it on submit",
+      "Put the draft in the URL",
+      "Store it in the TanStack Query cache under `['tickets', id]`"
+    ],
+    "answer": 1,
+    "explanation": "Surviving unmount is a real requirement, so promote the draft deliberately and key it by entity. The query cache represents saved server data, not unsent drafts."
+  },
+  {
+    "question": "A 30-field insurance form has conditional sections and a zod schema shared with the backend. Which approach is most appropriate?",
+    "options": [
+      "One `useState` per field in the root component",
+      "React Hook Form with `zodResolver`, `useWatch` for conditional sections, and `setError` for server-side errors",
+      "Redux Toolkit slice per section",
+      "Controlled inputs stored in Context"
+    ],
+    "answer": 1,
+    "explanation": "Large, validated, conditional forms benefit from uncontrolled fields, subscription-based re-renders and schema resolvers. The same schema keeps client and server validation aligned."
+  }
+]

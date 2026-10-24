@@ -1,0 +1,25 @@
+[
+  {
+    "question": "What does `<div style={{ width: 50, opacity: 0.5 }} />` render?",
+    "options": ["width: 50; opacity: 0.5px", "width: 50px; opacity: 0.5", "It throws: style must be a string", "width: 50%; opacity: 50%"],
+    "answer": 1,
+    "explanation": "React appends `px` to numeric length properties, but unitless properties such as `opacity`, `zIndex` and `flexGrow` stay plain numbers."
+  },
+  {
+    "question": "Why do new projects, especially those using Server Components, avoid runtime CSS-in-JS?",
+    "options": [
+      "It cannot use props",
+      "It generates and injects styles during render, costing CPU and not working in Server Components",
+      "It is not supported by Vite",
+      "It requires class components"
+    ],
+    "answer": 1,
+    "explanation": "Runtime libraries compute styles while rendering and rely on client context. Zero-runtime tools and utility classes output static CSS at build time instead."
+  },
+  {
+    "question": "What does `clsx('btn', { active: false, large: true }, undefined, 'mt-2')` return?",
+    "options": ["\"btn active large mt-2\"", "\"btn large undefined mt-2\"", "\"btn large mt-2\"", "\"btn,large,mt-2\""],
+    "answer": 2,
+    "explanation": "`clsx` keeps object keys whose values are truthy and drops falsy inputs such as `undefined`."
+  }
+]

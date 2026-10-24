@@ -1,0 +1,52 @@
+[
+  {
+    "question": "A MobX component shows the cart total correctly on first render but never updates. Its store methods work in unit tests. What is the most likely cause?",
+    "options": [
+      "The store needs `runInAction` inside every method",
+      "The component is not wrapped in `observer`",
+      "MobX only works with class components",
+      "The total must be stored in a field"
+    ],
+    "answer": 1,
+    "explanation": "Without `observer`, MobX never tracks what the component reads, so it renders once and never again. Methods created by `makeAutoObservable` are already actions."
+  },
+  {
+    "question": "In Valtio, a handler calls `snap.items.push(item)` where `snap = useSnapshot(state)`. What happens?",
+    "options": [
+      "It works and re-renders",
+      "It throws because snapshots are frozen; mutate `state.items` instead",
+      "It silently updates only this component",
+      "It schedules the write for the next render"
+    ],
+    "answer": 1,
+    "explanation": "Snapshots are immutable views for rendering. All writes go to the proxy (`state`), which then produces a new snapshot."
+  },
+  {
+    "question": "A trading screen has a domain model with dozens of interrelated computed values (positions, P&L, exposure) and side effects that must run when some of them change. The team writes OOP backend code. Which tool fits best?",
+    "options": ["`useReducer` + Context", "MobX", "TanStack Query", "URL search params"],
+    "answer": 1,
+    "explanation": "MobX shines with rich class-based models: cached computeds form a dependency graph, `reaction` handles side effects, and `observer` keeps re-renders fine-grained."
+  },
+  {
+    "question": "A team upgrading to MobX 7 uses `@inject('cartStore')` and `<Provider cartStore={cart}>` from `mobx-react`. What is the migration path?",
+    "options": [
+      "Nothing changes in MobX 7",
+      "Use React context (`createContext` + a hook) to pass stores; `Provider`/`inject` were removed",
+      "Move stores to `window` globals",
+      "Switch every component to class components"
+    ],
+    "answer": 1,
+    "explanation": "MobX 7 removed `Provider`, `inject` and `MobXProviderContext` from the React bindings. Plain React context, or passing stores as props, replaces them."
+  },
+  {
+    "question": "Which requirement is the strongest reason to pick Redux Toolkit over MobX or Valtio?",
+    "options": [
+      "Writing less code for a small widget",
+      "An auditable log of every state change with time-travel debugging and serializable state",
+      "Mutating objects directly",
+      "Avoiding re-renders without selectors"
+    ],
+    "answer": 1,
+    "explanation": "Proxy libraries trade explicit action logs for convenience. When every change must be a serializable, inspectable event, Redux Toolkit's model and devtools are the better fit."
+  }
+]

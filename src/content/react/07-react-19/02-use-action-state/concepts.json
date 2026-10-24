@@ -1,0 +1,7 @@
+[
+  { "term": "useActionState", "description": "`const [state, formAction, isPending] = useActionState(action, initialState)`: state derived from the result of the last Action call." },
+  { "term": "action(previousState, payload)", "description": "The reducer-like function you pass in. For forms the payload is a `FormData` object." },
+  { "term": "<form action={fn}>", "description": "React 19 form Actions: React prevents the default submission, builds `FormData` and runs `fn` inside a Transition." },
+  { "term": "Automatic form reset", "description": "After a successful form Action, React resets the form's uncontrolled fields." },
+  { "term": "useFormState", "description": "Deprecated canary name of `useActionState` that lived in `react-dom`." }
+]

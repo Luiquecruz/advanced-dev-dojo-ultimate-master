@@ -1,0 +1,9 @@
+{
+  "title": "You Might Not Need an Effect",
+  "summary": "Remove unnecessary Effects: compute derived data during render, handle user actions in events and reset state with keys.",
+  "level": "intermediate",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "react.dev: You Might Not Need an Effect", "url": "https://react.dev/learn/you-might-not-need-an-effect" }
+  ]
+}

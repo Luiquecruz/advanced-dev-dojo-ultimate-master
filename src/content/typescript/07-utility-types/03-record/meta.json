@@ -1,0 +1,6 @@
+{
+  "title": "Record",
+  "summary": "Type dictionaries and exhaustive lookup tables with `Record<K, V>`, and know when a Map is the better choice.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

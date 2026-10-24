@@ -1,0 +1,12 @@
+{
+  "title": "Forms and Transient State",
+  "summary": "Treat form drafts as transient: uncontrolled inputs, React 19 Actions, React Hook Form with zod, seeding from server data and deliberate draft persistence.",
+  "level": "advanced",
+  "tags": ["theory", "core", "new"],
+  "resources": [
+    { "label": "react.dev: useActionState", "url": "https://react.dev/reference/react/useActionState" },
+    { "label": "react.dev: <form>", "url": "https://react.dev/reference/react-dom/components/form" },
+    { "label": "React Hook Form: useForm", "url": "https://react-hook-form.com/docs/useform" },
+    { "label": "React Hook Form: useWatch", "url": "https://react-hook-form.com/docs/usewatch" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "Testing trophy", "description": "A strategy that favors many integration tests, fewer unit and E2E tests, on top of static analysis." },
+  { "term": "Vitest", "description": "Vite-native test runner with a Jest-compatible API (`vi.fn`, `vi.mock`). Browser Mode runs tests in real browsers." },
+  { "term": "React Testing Library", "description": "Renders components and queries the DOM the way users do (`getByRole`, `getByLabelText`, `getByText`)." },
+  { "term": "user-event", "description": "Simulates realistic interactions (typing, clicking, keyboard) by dispatching the full event sequence." },
+  { "term": "Playwright / Cypress", "description": "End-to-end frameworks that drive real browsers against the running app." },
+  { "term": "MSW", "description": "Mock Service Worker: intercepts HTTP requests at the network level in Node and the browser." }
+]

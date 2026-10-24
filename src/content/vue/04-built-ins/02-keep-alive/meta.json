@@ -1,0 +1,8 @@
+{
+  "title": "KeepAlive",
+  "summary": "Cache component instances across switches and react with onActivated / onDeactivated.",
+  "level": "intermediate",
+  "tags": ["core", "performance"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: KeepAlive", "url": "https://vuejs.org/guide/built-ins/keep-alive.html" }]
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "question": "A Vite + React project needs a unit and component test runner. What is the most natural choice?",
+    "options": ["Enzyme", "Vitest", "Karma", "react-test-renderer"],
+    "answer": 1,
+    "explanation": "Vitest reuses the Vite config, runs ESM and TypeScript natively and offers a Jest-compatible API. Enzyme is unmaintained and react-test-renderer is deprecated."
+  },
+  {
+    "question": "What is the guiding principle of React Testing Library?",
+    "options": [
+      "Assert on component state and props for precision",
+      "Test the way users interact with the UI: by role, label and text",
+      "Prefer shallow rendering to isolate components",
+      "Snapshot every render"
+    ],
+    "answer": 1,
+    "explanation": "RTL hides implementation details on purpose. Queries like `getByRole` and `getByLabelText` mirror how people (and assistive technologies) find elements."
+  },
+  {
+    "question": "Why is `userEvent` preferred over `fireEvent` for interactions?",
+    "options": [
+      "It is synchronous",
+      "It dispatches the full sequence of events a real user produces (focus, keydown, input, keyup, click)",
+      "It bypasses React's event system",
+      "It works without a DOM"
+    ],
+    "answer": 1,
+    "explanation": "`fireEvent.change` dispatches a single event. `user.type` focuses the element and types character by character, catching bugs that a single event hides."
+  },
+  {
+    "question": "Which tool runs tests against the real app in Chromium, Firefox and WebKit with auto-waiting locators?",
+    "options": ["Jest", "Playwright", "MSW", "jsdom"],
+    "answer": 1,
+    "explanation": "Playwright is an end-to-end framework. Cypress is the other common choice."
+  },
+  {
+    "question": "What does Mock Service Worker (MSW) do?",
+    "options": [
+      "Replaces React with a mock renderer",
+      "Intercepts network requests so components keep using fetch while tests control the responses",
+      "Generates snapshots of API responses",
+      "Mocks CSS modules"
+    ],
+    "answer": 1,
+    "explanation": "MSW mocks at the network boundary instead of replacing modules, so the same handlers serve tests, Storybook and local development."
+  },
+  {
+    "question": "Which limitation of jsdom often surprises people in component tests?",
+    "options": [
+      "It cannot render React",
+      "It has no layout engine: sizes are zero and CSS animations never run",
+      "It does not support events",
+      "It only supports class components"
+    ],
+    "answer": 1,
+    "explanation": "jsdom simulates the DOM API but not rendering. For layout-dependent behavior use Vitest Browser Mode or Playwright."
+  }
+]

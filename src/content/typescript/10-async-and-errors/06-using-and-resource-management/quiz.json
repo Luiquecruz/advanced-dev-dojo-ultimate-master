@@ -1,0 +1,25 @@
+[
+  {
+    "question": "In `{ using a = open('a'); using b = open('b'); }`, which resource is disposed first?",
+    "options": ["a", "b", "Both at the same time", "It depends on which was used last"],
+    "answer": 1,
+    "explanation": "Disposal runs in reverse declaration order (LIFO), mirroring nested try/finally blocks."
+  },
+  {
+    "question": "What must an object provide to be used with `await using`?",
+    "options": [
+      "A close() method",
+      "[Symbol.asyncDispose]() or [Symbol.dispose]()",
+      "A then() method",
+      "It must extend the built-in Resource class"
+    ],
+    "answer": 1,
+    "explanation": "`await using` accepts `AsyncDisposable` and plain `Disposable` values (and `null`/`undefined`, which are skipped)."
+  },
+  {
+    "question": "A function declares `using file = openFile(path)` and then `return file`. What does the caller get?",
+    "options": ["An open file", "An already disposed file", "A compile error", "undefined"],
+    "answer": 1,
+    "explanation": "The block exits on `return`, so the file is disposed before the caller receives it. Use `const` when ownership moves to the caller."
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A component needs the `ViewContainerRef` of `<ng-container #host>` in its own template. Which query?",
+    "options": ["`contentChild('host')`", "`viewChild('host', { read: ViewContainerRef })`", "`viewChildren(ViewContainerRef)`", "`inject(ViewContainerRef)`"],
+    "answer": 1,
+    "explanation": "The node is in the component's view; `read` selects which token to return from it."
+  },
+  {
+    "question": "Which lifecycle hook did legacy code use to safely read `@ContentChildren` results?",
+    "options": ["`ngOnInit`", "`ngAfterContentInit`", "`ngAfterViewInit`", "`ngOnChanges`"],
+    "answer": 1,
+    "explanation": "Content queries were resolved before `ngAfterContentInit`; view queries before `ngAfterViewInit`. Signal queries need no hook."
+  },
+  {
+    "question": "What do `viewChildren()` and `contentChildren()` return?",
+    "options": ["A `QueryList`", "An Observable", "A `Signal<readonly T[]>`", "A Promise"],
+    "answer": 2,
+    "explanation": "Signal queries return read-only signals that update when matches change."
+  }
+]

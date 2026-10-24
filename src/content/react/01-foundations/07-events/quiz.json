@@ -1,0 +1,41 @@
+[
+  {
+    "question": "What is wrong with `<button onClick={deleteItem(id)}>`?",
+    "options": [
+      "Nothing, this is the recommended syntax",
+      "`deleteItem` runs during every render instead of on click",
+      "Event handlers cannot receive arguments",
+      "`onClick` must be lowercase"
+    ],
+    "answer": 1,
+    "explanation": "The braces evaluate the call while rendering. Use `onClick={() => deleteItem(id)}`."
+  },
+  {
+    "question": "Inside a form's `onSubmit` handler, what is `event.currentTarget`?",
+    "options": ["The submit button", "The form element", "`document`", "The first input"],
+    "answer": 1,
+    "explanation": "`currentTarget` is the element the handler is attached to (the form). `target` is where the event originated."
+  },
+  {
+    "question": "A click on a Like button inside a clickable card also opens the card. How do you fix it?",
+    "options": [
+      "Return `false` from the Like handler",
+      "Call `event.stopPropagation()` in the Like handler",
+      "Call `event.persist()`",
+      "Use `onClickCapture` on the button"
+    ],
+    "answer": 1,
+    "explanation": "Events bubble to ancestors. `stopPropagation()` stops the click from reaching the card's handler. Returning `false` does nothing in React."
+  },
+  {
+    "question": "What happened to `event.persist()` in React 17?",
+    "options": [
+      "It became required for async code",
+      "Event pooling was removed, so `persist()` is a no-op",
+      "It was renamed to `event.keep()`",
+      "It now prevents the default action"
+    ],
+    "answer": 1,
+    "explanation": "React 17 removed event pooling. Event objects are no longer reused, so you can read them asynchronously without `persist()`."
+  }
+]

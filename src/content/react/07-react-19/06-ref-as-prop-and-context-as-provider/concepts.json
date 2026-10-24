@@ -1,0 +1,6 @@
+[
+  { "term": "ref as a prop", "description": "Function components receive `ref` in props since React 19; `forwardRef` is no longer needed." },
+  { "term": "<Context value>", "description": "A context object can be rendered directly as its provider. `Context.Provider` is legacy." },
+  { "term": "Ref callback cleanup", "description": "A ref callback may return a function that React calls when the element detaches, instead of calling the callback with `null`." },
+  { "term": "forwardRef", "description": "Legacy HOC that passed `ref` to function components. Still works, will be deprecated." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "SSR", "description": "Rendering HTML on the server per request (`RenderMode.Server`)." },
+  { "term": "Prerendering (SSG)", "description": "Generating HTML at build time (`RenderMode.Prerender`), optionally for many params with `getPrerenderParams`." },
+  { "term": "Hydration", "description": "Reusing server-rendered DOM in the browser instead of re-rendering it. Enabled with `provideClientHydration()`." },
+  { "term": "Event replay", "description": "Captures user events before hydration and replays them once the app (or block) is ready." },
+  { "term": "Incremental hydration", "description": "Keeps `@defer` blocks dehydrated until a hydrate trigger (`hydrate on viewport`, `hydrate on interaction`, `hydrate never`...) fires." },
+  { "term": "afterNextRender()", "description": "Runs a callback in the browser only, after rendering; the safe place for browser APIs in SSR apps." }
+]

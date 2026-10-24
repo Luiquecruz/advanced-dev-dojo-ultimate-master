@@ -1,0 +1,10 @@
+{
+  "title": "useEffect & Data Fetching",
+  "summary": "Synchronize components with external systems and fetch data without race conditions.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: Synchronizing with Effects", "url": "https://react.dev/learn/synchronizing-with-effects" },
+    { "label": "react.dev: You Might Not Need an Effect", "url": "https://react.dev/learn/you-might-not-need-an-effect" }
+  ]
+}

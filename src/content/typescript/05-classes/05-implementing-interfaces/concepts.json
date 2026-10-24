@@ -1,0 +1,5 @@
+[
+  { "term": "implements", "description": "Checks at the class declaration that instances satisfy one or more interfaces. It does not change the class type." },
+  { "term": "Instance side vs static side", "description": "`implements` checks instances only. Constructors and static members belong to `typeof ClassName`." },
+  { "term": "Construct signature", "description": "`new (args) => T` inside an interface describes a constructor, useful to type factories and the static side." }
+]

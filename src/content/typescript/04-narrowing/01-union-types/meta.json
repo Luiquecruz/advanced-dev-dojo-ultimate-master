@@ -1,0 +1,6 @@
+{
+  "title": "Union types",
+  "summary": "Accept several types with `A | B`, use only what all members share, and narrow to reach member-specific operations.",
+  "level": "beginner",
+  "tags": ["core"]
+}

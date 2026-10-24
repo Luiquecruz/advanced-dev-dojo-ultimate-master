@@ -1,0 +1,25 @@
+[
+  {
+    "question": "Why is `const inputRef = createRef();` inside a function component body a bug?",
+    "options": [
+      "createRef only works with classes and throws",
+      "It creates a new empty ref on every render, losing the previous node",
+      "It causes an infinite loop",
+      "It is not a bug"
+    ],
+    "answer": 1,
+    "explanation": "The function body runs on every render, so each call returns a fresh `{ current: null }`. `useRef` returns the same object for the lifetime of the component."
+  },
+  {
+    "question": "In React 19, what does `<Field ref={myRef} />` give `function Field(props)`?",
+    "options": ["Nothing, ref is stripped", "`props.ref`", "A second argument", "`this.refs`"],
+    "answer": 1,
+    "explanation": "React 19 treats `ref` as a regular prop for function components. Before React 19 it was stripped, which is why `forwardRef` existed."
+  },
+  {
+    "question": "What does a ref attached to a class component element hold?",
+    "options": ["Its root DOM node", "The component instance", "Its props", "null"],
+    "answer": 1,
+    "explanation": "Class component refs point to the instance. To get a DOM node, the class must attach its own ref to an element (finding it with `findDOMNode` was removed in React 19)."
+  }
+]

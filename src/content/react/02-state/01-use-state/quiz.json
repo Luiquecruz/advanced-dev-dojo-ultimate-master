@@ -1,0 +1,30 @@
+[
+  {
+    "question": "Why doesn't `let count = 0; count++` inside a click handler update the screen?",
+    "options": [
+      "Because `let` is block scoped",
+      "Changing a local variable does not trigger a render, and the variable resets on every render anyway",
+      "Because handlers cannot change variables",
+      "It does update the screen"
+    ],
+    "answer": 1,
+    "explanation": "React only re-renders when state changes through a setter. And each render re-runs the function body, re-creating `count` as `0`."
+  },
+  {
+    "question": "When is the argument of `useState(initialValue)` used?",
+    "options": ["On every render", "Only on the first render", "Only when the setter is called", "Whenever props change"],
+    "answer": 1,
+    "explanation": "After mount React keeps its own copy. The initial value (or lazy initializer) is ignored on later renders."
+  },
+  {
+    "question": "What is the difference between `useState(load())` and `useState(() => load())`?",
+    "options": [
+      "None",
+      "The function form calls `load` only on the first render; the other calls it on every render",
+      "The function form stores the function itself as state",
+      "The first form is lazy"
+    ],
+    "answer": 1,
+    "explanation": "Passing a function makes it a lazy initializer. `useState(load())` still runs `load()` each render even though the result is ignored."
+  }
+]

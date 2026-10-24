@@ -1,0 +1,6 @@
+[
+  { "term": "Styled kit", "description": "A library with ready-made, themed components (MUI, Ant Design, Mantine, Chakra UI). Customized through a theme and props." },
+  { "term": "Headless primitives", "description": "Unstyled components that implement behavior and accessibility (Radix, Base UI, React Aria, Headless UI, Ark UI)." },
+  { "term": "shadcn/ui", "description": "A CLI and registry that copies component source into your repo. Built on Base UI (default) or Radix plus Tailwind." },
+  { "term": "asChild / render prop", "description": "Ways to render a primitive as your own element: Radix merges props into its child with `asChild`, Base UI accepts a `render` prop." }
+]

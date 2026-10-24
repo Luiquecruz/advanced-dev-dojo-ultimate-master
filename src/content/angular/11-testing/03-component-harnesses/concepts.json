@@ -1,0 +1,8 @@
+[
+  { "term": "ComponentHarness", "description": "Base class from `@angular/cdk/testing` for a test API that hides a component's DOM structure." },
+  { "term": "hostSelector", "description": "Static selector a harness uses to find its component element." },
+  { "term": "HarnessLoader", "description": "Finds harnesses: `getHarness`, `getAllHarnesses`, `getHarnessOrNull`." },
+  { "term": "TestbedHarnessEnvironment", "description": "Creates loaders for TestBed fixtures: `loader(fixture)` or `documentRootLoader(fixture)` for overlays." },
+  { "term": "locatorFor / locatorForAll", "description": "Factories inside a harness that locate one or many child elements (or child harnesses)." },
+  { "term": "TestElement", "description": "Environment-agnostic element wrapper with async methods like `click()`, `text()` and `setInputValue()`." }
+]

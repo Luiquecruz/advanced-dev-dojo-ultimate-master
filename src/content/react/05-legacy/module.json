@@ -1,0 +1,1 @@
+{ "title": "Class Components and Legacy APIs", "description": "Class components, lifecycle methods, error boundaries, HOCs, render props and the APIs React 19 removed, plus how to migrate them to hooks." }

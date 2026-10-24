@@ -1,0 +1,7 @@
+[
+  { "term": "Metadata hoisting", "description": "`<title>`, `<meta>` and `<link>` rendered anywhere are moved into `document.head` by React 19 and removed on unmount." },
+  { "term": "Single string <title>", "description": "`<title>` must receive one string child; use a template literal instead of mixing text and expressions." },
+  { "term": "preconnect / prefetchDNS", "description": "`react-dom` functions that warm up connections to another origin." },
+  { "term": "preload / preinit", "description": "`preload` downloads a resource; `preinit` downloads and executes a script or inserts a stylesheet. Calls are deduplicated." },
+  { "term": "precedence", "description": "Prop on `<link rel=\"stylesheet\">` that lets React order, dedupe and wait for stylesheets." }
+]

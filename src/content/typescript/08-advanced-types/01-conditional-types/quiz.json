@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What is `IsString<any>` when `type IsString<T> = T extends string ? true : false`?",
+    "options": ["`true`", "`false`", "`boolean`", "`never`"],
+    "answer": 2,
+    "explanation": "`any` is treated as both assignable and not assignable, so the conditional type resolves to the union of both branches: `true | false`, which is `boolean`."
+  },
+  {
+    "question": "Inside `function f<T>(value: T): Kind<T>`, why does `return 'text'` fail even after `if (typeof value === 'string')`?",
+    "options": [
+      "Conditional types cannot be used as return types",
+      "The compiler does not narrow the type parameter `T` from runtime checks, so `Kind<T>` stays deferred",
+      "`typeof` does not narrow unknown values",
+      "Return types must be declared with interfaces"
+    ],
+    "answer": 1,
+    "explanation": "Narrowing refines the type of `value`, not the type parameter `T`. `Kind<T>` remains unresolved inside the body, so an assertion is needed."
+  },
+  {
+    "question": "Which statement about `A extends B ? X : Y` is correct?",
+    "options": [
+      "It checks that `A` and `B` are identical",
+      "It checks that `A` is a subclass of `B`",
+      "It checks that `A` is assignable to `B`",
+      "It only works with object types"
+    ],
+    "answer": 2,
+    "explanation": "The check is plain assignability: `'a' extends string` is true even though the two types are not identical."
+  }
+]

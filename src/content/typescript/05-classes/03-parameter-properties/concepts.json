@@ -1,0 +1,5 @@
+[
+  { "term": "Parameter property", "description": "A constructor parameter with `public`, `protected`, `private` or `readonly` that also declares and assigns a class field." },
+  { "term": "erasableSyntaxOnly", "description": "Compiler flag (TS 5.8+) that rejects syntax which emits code, such as parameter properties, enums and namespaces with values." },
+  { "term": "Type stripping", "description": "Running TypeScript by deleting type annotations without transforming code, as Node.js, Deno and Bun can do." }
+]

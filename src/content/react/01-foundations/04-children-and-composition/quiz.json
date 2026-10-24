@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What does `Card` receive as `children` in `<Card><h2>Hi</h2><p>Text</p></Card>`?",
+    "options": ["Only the `<h2>`", "An array with both elements", "A string of HTML", "Nothing unless you call React.Children.toArray"],
+    "answer": 1,
+    "explanation": "With several nested elements, `children` is an array. React renders arrays directly, so `{children}` just works."
+  },
+  {
+    "question": "Which is the idiomatic React way to give a component two separate areas to fill?",
+    "options": [
+      "Extend the component class and override a method",
+      "Pass JSX through regular props, such as `header={<Logo />}` and `children`",
+      "Use `React.Children.map` to find children by type",
+      "Use `dangerouslySetInnerHTML`"
+    ],
+    "answer": 1,
+    "explanation": "Any prop can carry JSX. Named \"slot\" props plus `children` are explicit and easy to follow."
+  },
+  {
+    "question": "Why are `React.Children` and `cloneElement` considered legacy?",
+    "options": [
+      "They were removed in React 19",
+      "They only work in class components",
+      "They are fragile: wrapping a child in another component or Fragment changes what they see",
+      "They are slower than `document.querySelector`"
+    ],
+    "answer": 2,
+    "explanation": "They still exist, but inspecting children couples a component to the exact shape of its children. Explicit props or context are more robust."
+  }
+]

@@ -1,0 +1,6 @@
+[
+  { "term": "model()", "description": "A writable signal input. Declares input `x` and output `xChange`; writing to it in the child emits the change." },
+  { "term": "model.required()", "description": "A model input that every parent must bind." },
+  { "term": "Banana in a box", "description": "`[(x)]=\"sig\"` is sugar for `[x]=\"sig()\" (xChange)=\"sig.set($event)\"`." },
+  { "term": "xChange convention", "description": "An input `x` paired with an output `xChange` enables `[(x)]`. Legacy components implement it with `@Input()` + `@Output()`." }
+]

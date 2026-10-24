@@ -1,0 +1,6 @@
+{
+  "title": "Parameter properties",
+  "summary": "Declare and assign fields straight from constructor parameters, and learn why erasable-syntax projects avoid them.",
+  "level": "intermediate",
+  "tags": ["core", "legacy", "modern"]
+}

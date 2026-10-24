@@ -1,0 +1,6 @@
+[
+  { "term": "Generic component", "description": "A component with a type parameter, `function List<T>(props: ListProps<T>)`, inferred from its props at each call site." },
+  { "term": "<T,> in .tsx", "description": "Arrow-function generics need a trailing comma or `extends` in TSX so the parser does not read `<T>` as a JSX tag." },
+  { "term": "Generic constraint", "description": "`T extends { id: string }` lets the component use members every item must have." },
+  { "term": "Typed callbacks", "description": "Callbacks typed with `T` (`onChange: (option: T) => void`) hand back the caller's own objects without casts." }
+]

@@ -1,0 +1,5 @@
+[
+  {"question": "`const list = shallowRef([1, 2])`. Which change updates the UI?", "options": ["list.value = [...list.value, 3]", "list.value.push(3)", "list.value[0] = 9", "None of them"], "answer": 0, "explanation": "Shallow refs only track `.value` assignment. Mutations need `triggerRef(list)` afterwards."},
+  {"question": "Why wrap a third-party class instance with `markRaw` before storing it in reactive state?", "options": ["To make it reactive", "To serialize it", "To avoid proxying it, which can break private fields and identity checks and wastes tracking", "To make it readonly"], "answer": 2, "explanation": "External instances manage their own state. Proxying them adds overhead and can break `#private` fields."},
+  {"question": "`structuredClone(reactive({ a: 1 }))`...", "options": ["returns a reactive copy", "returns `{ a: 1 }`", "throws a DataCloneError", "returns undefined"], "answer": 2, "explanation": "Proxies cannot be structured-cloned. Unwrap with `toRaw()` first."}
+]

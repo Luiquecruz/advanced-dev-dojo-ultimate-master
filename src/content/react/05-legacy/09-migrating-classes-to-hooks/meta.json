@@ -1,0 +1,10 @@
+{
+  "title": "Migrating Classes to Hooks",
+  "summary": "Refactor a class component to hooks safely: translate state, regroup lifecycles into effects by concern and reset state on prop changes.",
+  "level": "advanced",
+  "tags": ["legacy", "modern"],
+  "resources": [
+    { "label": "react.dev: Component alternatives (migrating to functions)", "url": "https://react.dev/reference/react/Component#alternatives" },
+    { "label": "react.dev: Adjusting some state when a prop changes", "url": "https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes" }
+  ]
+}

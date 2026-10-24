@@ -1,0 +1,7 @@
+[
+  { "term": "Signal service", "description": "An `@Injectable` class that owns application state in signals and exposes methods to change it." },
+  { "term": "asReadonly()", "description": "Returns a read-only `Signal` view of a `WritableSignal`. Consumers can read it but cannot call `set` or `update`." },
+  { "term": "computed()", "description": "A memoized, read-only signal derived from other signals. Recomputes lazily when a dependency changes." },
+  { "term": "Immutable update", "description": "Producing a new array/object instead of mutating the existing one, so `Object.is` detects the change." },
+  { "term": "providedIn: 'root'", "description": "Registers the service in the root injector: one shared instance for the whole application." }
+]

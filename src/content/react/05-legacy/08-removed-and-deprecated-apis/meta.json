@@ -1,0 +1,10 @@
+{
+  "title": "Removed and Deprecated APIs",
+  "summary": "createClass, mixins, PropTypes, function defaultProps, legacy context, string refs, ReactDOM.render, findDOMNode and their modern replacements.",
+  "level": "intermediate",
+  "tags": ["legacy", "theory"],
+  "resources": [
+    { "label": "react.dev: React 19 Upgrade Guide", "url": "https://react.dev/blog/2024/04/25/react-19-upgrade-guide" },
+    { "label": "react.dev: Legacy React APIs", "url": "https://react.dev/reference/react/legacy" }
+  ]
+}

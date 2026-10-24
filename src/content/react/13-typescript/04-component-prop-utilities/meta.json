@@ -1,0 +1,11 @@
+{
+  "title": "Component Prop Utilities",
+  "summary": "Reuse native and component prop types with ComponentProps, Omit and PropsWithChildren, and model valid prop combinations with discriminated unions.",
+  "level": "advanced",
+  "tags": ["typescript"],
+  "resources": [
+    { "label": "React TypeScript Cheatsheet: ComponentProps", "url": "https://react-typescript-cheatsheet.netlify.app/docs/react-types/componentprops/" },
+    { "label": "React TypeScript Cheatsheet: Props that depend on each other", "url": "https://react-typescript-cheatsheet.netlify.app/docs/advanced/patterns_by_usecase/#props-one-or-the-other-but-not-both" },
+    { "label": "react.dev: TypeScript, useful types", "url": "https://react.dev/learn/typescript#useful-types" }
+  ]
+}

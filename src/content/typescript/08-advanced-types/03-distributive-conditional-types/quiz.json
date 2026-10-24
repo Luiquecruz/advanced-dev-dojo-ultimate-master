@@ -1,0 +1,25 @@
+[
+  {
+    "question": "What is `Box<string | number>` when `type Box<T> = T extends unknown ? { value: T } : never`?",
+    "options": ["`{ value: string | number }`", "`{ value: string } | { value: number }`", "`never`", "`{ value: unknown }`"],
+    "answer": 1,
+    "explanation": "`T` is naked, so the conditional type distributes and produces one object per union member."
+  },
+  {
+    "question": "Why does `type IsNever<T> = T extends never ? true : false` return `never` for `IsNever<never>`?",
+    "options": [
+      "`never` is not assignable to `never`",
+      "`never` is the empty union, so distributing over it produces no results",
+      "Conditional types do not accept `never`",
+      "It is a compiler bug"
+    ],
+    "answer": 1,
+    "explanation": "Distribution maps over zero members and returns the empty union, which is `never`. Wrapping in tuples (`[T] extends [never]`) fixes it."
+  },
+  {
+    "question": "Which of these conditional types distributes over a union passed as `T`?",
+    "options": ["`[T] extends [string] ? 1 : 2`", "`T[] extends string[] ? 1 : 2`", "`T extends string ? 1 : 2`", "`keyof T extends string ? 1 : 2`"],
+    "answer": 2,
+    "explanation": "Only a naked type parameter on the left of `extends` triggers distribution."
+  }
+]

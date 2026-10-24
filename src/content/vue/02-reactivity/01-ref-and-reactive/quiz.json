@@ -1,0 +1,5 @@
+[
+  {"question": "What is wrong with `let state = reactive({ n: 0 }); state = reactive({ n: 1 });`?", "options": ["Nothing", "reactive() cannot be called twice", "Anything that tracked the first proxy (like the template) still points to it, so it stops updating", "It throws a TypeError"], "answer": 2, "explanation": "Reactivity is tied to the proxy instance. Mutate it in place (`Object.assign(state, ...)`) or use a `ref` when you need to replace the whole value."},
+  {"question": "`const { count } = reactive({ count: 0 })`. Is `count` reactive?", "options": ["No, it is a plain number copied at destructuring time", "Yes", "Only in the template", "Only with TypeScript"], "answer": 0, "explanation": "Destructuring reads the current value. Use `toRefs()` to keep a live connection."},
+  {"question": "Which value is NOT unwrapped automatically?", "options": ["A top-level ref used in the template", "A ref stored as a property of a `reactive()` object", "A ref returned by `computed()` used in the template", "A ref stored inside a reactive array"], "answer": 3, "explanation": "Refs inside reactive arrays and collections such as Map keep their `.value`."}
+]

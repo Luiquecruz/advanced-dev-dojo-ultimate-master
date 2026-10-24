@@ -1,0 +1,52 @@
+[
+  {
+    "question": "In the Next.js App Router, which components run only on the server by default?",
+    "options": [
+      "Only files in `pages/`",
+      "Every component unless its module (or an importing module) is marked `'use client'`",
+      "Only components named `*.server.tsx`",
+      "None: everything hydrates"
+    ],
+    "answer": 1,
+    "explanation": "App Router components are Server Components by default. `'use client'` marks the boundary where code is sent to the browser."
+  },
+  {
+    "question": "With `cacheComponents: true` in Next.js 16, how is a component's output cached?",
+    "options": [
+      "Every `fetch` is cached automatically",
+      "Only when you opt in with the `'use cache'` directive; everything else runs at request time",
+      "Through `getStaticProps`",
+      "Caching is not available"
+    ],
+    "answer": 1,
+    "explanation": "Cache Components make caching explicit with `'use cache'`, replacing the implicit caching of earlier App Router versions."
+  },
+  {
+    "question": "What happened to `middleware.ts` in Next.js 16?",
+    "options": [
+      "Nothing",
+      "It was renamed to `proxy.ts` (exporting `proxy`) and runs on the Node.js runtime; `middleware.ts` is deprecated",
+      "It moved into `next.config.ts`",
+      "It became a React component"
+    ],
+    "answer": 1,
+    "explanation": "`proxy.ts` makes the network boundary explicit. The old file still works for edge use cases but is deprecated."
+  },
+  {
+    "question": "In React Router framework mode, where do you load data for a route?",
+    "options": [
+      "In a `useEffect` inside the route component",
+      "In an exported `loader` function of the route module, read through `loaderData`",
+      "In `getServerSideProps`",
+      "In `routes.ts`"
+    ],
+    "answer": 1,
+    "explanation": "Route modules export `loader` (and `action` for mutations). The router runs them before rendering, avoiding waterfalls."
+  },
+  {
+    "question": "Which framework renders zero JavaScript by default and hydrates React components as islands?",
+    "options": ["Next.js", "Astro", "TanStack Start", "Create React App"],
+    "answer": 1,
+    "explanation": "Astro is content-first: React components are static HTML unless you add a `client:*` directive to hydrate them."
+  }
+]

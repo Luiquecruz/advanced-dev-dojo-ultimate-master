@@ -1,0 +1,30 @@
+[
+  {
+    "question": "Where must `useFormStatus` be called to report the pending state of a form?",
+    "options": [
+      "In the component that renders the `<form>`",
+      "In a component rendered inside the `<form>`",
+      "Anywhere in the app",
+      "Only in Server Components"
+    ],
+    "answer": 1,
+    "explanation": "It reads the status of the nearest parent form, like a Context consumer. Calling it in the component that renders the form always returns `pending: false`."
+  },
+  {
+    "question": "What is `data` while the form is NOT submitting?",
+    "options": ["An empty FormData", "`undefined`", "`null`", "The last submitted FormData"],
+    "answer": 2,
+    "explanation": "When idle, `data`, `method` and `action` are all `null`."
+  },
+  {
+    "question": "Which form makes `useFormStatus` report `pending: true` during submission?",
+    "options": [
+      "`<form onSubmit={handleSubmit}>`",
+      "`<form action=\"/subscribe\">`",
+      "`<form action={subscribe}>` where `subscribe` is a function",
+      "Any form on the page"
+    ],
+    "answer": 2,
+    "explanation": "Only React form Actions (a function passed to `action`) are tracked."
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A product listing has: (A) the products from `/api/products`, (B) the selected category and sort order, which marketing wants to share as links, (C) whether the 'Filters' drawer is open on mobile, (D) the cart, shown in the header and the checkout page. Which assignment is right?",
+    "options": [
+      "A: Zustand · B: Zustand · C: Zustand · D: Zustand",
+      "A: TanStack Query · B: URL search params · C: `useState` · D: a small client store (e.g. Zustand)",
+      "A: Context · B: `useState` · C: URL · D: TanStack Query",
+      "A: `useEffect` + `useState` · B: Redux · C: Context · D: localStorage only"
+    ],
+    "answer": 1,
+    "explanation": "Remote data is a cache; shareable view state lives in the URL; a drawer toggle is local UI state; the cart is client-owned and shared across distant screens, so a small store fits."
+  },
+  {
+    "question": "A settings page edits 25 fields with validation rules shared with the backend (zod schema). Typing feels laggy because every keystroke re-renders the whole form. What is the best fit?",
+    "options": [
+      "Move every field into Redux Toolkit",
+      "React Hook Form with the zod schema via a resolver: uncontrolled fields and per-field subscriptions",
+      "One Context per field",
+      "Store the draft in the URL"
+    ],
+    "answer": 1,
+    "explanation": "Form drafts are transient. React Hook Form keeps inputs uncontrolled, re-renders only what subscribes to a field, and reuses the zod schema for validation."
+  },
+  {
+    "question": "An enterprise banking app with 60 frontend developers needs an auditable trail of every client state change, time-travel debugging for support tickets, and endpoints generated from an OpenAPI spec. Which pairing fits best?",
+    "options": [
+      "Valtio + SWR",
+      "Redux Toolkit + RTK Query",
+      "Jotai + React Context",
+      "MobX + `useEffect` fetching"
+    ],
+    "answer": 1,
+    "explanation": "Explicit serializable actions, the strongest devtools and team-scale conventions point to Redux Toolkit; RTK Query shares the store and supports OpenAPI code generation."
+  },
+  {
+    "question": "Match the tool to the problem: (1) a whiteboard app with hundreds of shapes and many derived values (selection bounds, snapping), (2) a video upload flow with idle, uploading, paused, processing, failed and done, (3) the app's theme and locale.",
+    "options": [
+      "(1) Context · (2) Zustand · (3) XState",
+      "(1) Jotai (or MobX/Valtio) · (2) XState · (3) Context",
+      "(1) TanStack Query · (2) Context · (3) Jotai",
+      "(1) URL state · (2) `useState` booleans · (3) Redux Toolkit"
+    ],
+    "answer": 1,
+    "explanation": "Fine-grained graphs of derived values suit atoms or tracked proxies; ordered flows with retry and pause suit a state machine; rarely changing subtree values suit Context."
+  },
+  {
+    "question": "A team stores the current user's profile (from `/api/me`) in Context via `useEffect` in the root, plus `isLoading` and `error`. After the user edits their name, the header still shows the old one in other tabs and after focus. What would a senior engineer change?",
+    "options": [
+      "Add more Context providers",
+      "Fetch `/api/me` with TanStack Query (shared key, refetch on focus, invalidate after the edit); keep Context only for dependency injection if needed",
+      "Move the profile to localStorage",
+      "Poll `/api/me` every second inside the Context"
+    ],
+    "answer": 1,
+    "explanation": "Context distributes values but does not manage freshness. The profile is server state, so a query cache gives deduplication, focus refetching and invalidation after mutations."
+  },
+  {
+    "question": "A small internal tool has two pages and one shared value: the selected environment (dev, staging, prod), changed rarely from a header dropdown. A teammate proposes adding Redux Toolkit. What is the most proportionate choice?",
+    "options": [
+      "Redux Toolkit with a slice and typed hooks",
+      "XState with a parallel machine",
+      "Context with a guarded hook (or the URL if the environment should be linkable)",
+      "MobX observable class"
+    ],
+    "answer": 2,
+    "explanation": "One rarely changing value shared by a subtree is exactly what Context is for, and the URL is better if links should carry it. A store library adds dependencies and ceremony with no benefit."
+  }
+]

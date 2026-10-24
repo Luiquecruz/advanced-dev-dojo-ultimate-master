@@ -1,0 +1,7 @@
+{
+  "title": "Preserving and Resetting State",
+  "summary": "Learn how React ties state to tree position and use keys to reset components on purpose.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [{ "label": "react.dev: Preserving and Resetting State", "url": "https://react.dev/learn/preserving-and-resetting-state" }]
+}

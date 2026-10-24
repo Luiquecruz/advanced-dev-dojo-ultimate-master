@@ -1,0 +1,10 @@
+{
+  "title": "Effect Cleanup and Subscriptions",
+  "summary": "Pair every Effect setup with a cleanup, re-synchronize on dependency changes and survive StrictMode's double invoke.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: Lifecycle of Reactive Effects", "url": "https://react.dev/learn/lifecycle-of-reactive-effects" },
+    { "label": "react.dev: Synchronizing with Effects", "url": "https://react.dev/learn/synchronizing-with-effects#how-to-handle-the-effect-firing-twice-in-development" }
+  ]
+}

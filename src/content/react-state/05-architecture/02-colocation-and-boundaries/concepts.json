@@ -1,0 +1,7 @@
+[
+  { "term": "Colocation", "description": "Keeping state in the component that uses it, and moving it up only as far as its consumers require." },
+  { "term": "Over-globalization", "description": "Putting single-consumer UI state in a global store. Causes extra re-renders, coupling and instances that share state by accident." },
+  { "term": "State boundary", "description": "The component or provider that owns a piece of state. Everything below can use it; good boundaries follow features." },
+  { "term": "Reset with key", "description": "Changing a component's `key` remounts it with fresh local state, e.g. `<CommentBox key={post.id} />`." },
+  { "term": "Narrow subscription", "description": "Selecting only the slice a component reads (`useStore((state) => state.theme)`) so unrelated changes do not re-render it." }
+]

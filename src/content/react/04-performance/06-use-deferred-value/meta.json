@@ -1,0 +1,9 @@
+{
+  "title": "useDeferredValue",
+  "summary": "Keep urgent UI responsive by rendering a lagging copy of a value, and show stale results instead of fallbacks.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "react.dev: useDeferredValue", "url": "https://react.dev/reference/react/useDeferredValue" }
+  ]
+}

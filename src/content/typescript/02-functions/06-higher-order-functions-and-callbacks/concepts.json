@@ -1,0 +1,6 @@
+[
+  { "term": "Higher-order function", "description": "A function that takes or returns another function, such as `map`, `filter` or a factory." },
+  { "term": "Closure", "description": "A function that keeps access to variables of the scope where it was created, e.g. `factor` in `multiplyBy(factor)`." },
+  { "term": "Callback parameter rule", "description": "Callbacks may declare fewer parameters than provided, so callback types should not mark parameters optional." },
+  { "term": "Error-first callback", "description": "Legacy Node.js style `(error, result) => void`, replaced by promises and `async`/`await`." }
+]

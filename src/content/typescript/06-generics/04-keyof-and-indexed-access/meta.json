@@ -1,0 +1,6 @@
+{
+  "title": "keyof and indexed access types",
+  "summary": "Derive key unions with `keyof` and property types with `T[K]`, then combine them in type-safe generic helpers.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

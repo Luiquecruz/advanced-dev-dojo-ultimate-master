@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What does `<p>{'<b>Hi</b>'}</p>` display?",
+    "options": ["Hi in bold", "The literal text <b>Hi</b>", "Nothing", "It throws an error"],
+    "answer": 1,
+    "explanation": "React escapes strings: they become text nodes. Markup only renders through `dangerouslySetInnerHTML`."
+  },
+  {
+    "question": "Why validate URLs with a protocol allowlist even though React 19 blocks `javascript:` URLs?",
+    "options": [
+      "React's blocking only works in development",
+      "Other schemes such as `data:text/html` can still be abused, and the check documents intent",
+      "Allowlists are faster",
+      "React does not block anything"
+    ],
+    "answer": 1,
+    "explanation": "React replaces `javascript:` URLs, but other dangerous schemes are outside its scope. Allow only what you expect (`http:`, `https:`, `mailto:`)."
+  },
+  {
+    "question": "How should a Server Function treat its arguments?",
+    "options": [
+      "As trusted, because only your own forms call it",
+      "As untrusted input from a public HTTP endpoint: validate it and check authorization",
+      "As already sanitized by React",
+      "Arguments cannot be forged"
+    ],
+    "answer": 1,
+    "explanation": "Server Functions are reachable over HTTP by anyone. Validate input and verify the user inside every function."
+  }
+]

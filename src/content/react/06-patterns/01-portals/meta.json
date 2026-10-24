@@ -1,0 +1,10 @@
+{
+  "title": "Portals",
+  "summary": "Render modals and overlays outside the parent DOM node with createPortal while keeping context and event bubbling.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: createPortal", "url": "https://react.dev/reference/react-dom/createPortal" },
+    { "label": "WAI-ARIA APG: Dialog (Modal) pattern", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/" }
+  ]
+}

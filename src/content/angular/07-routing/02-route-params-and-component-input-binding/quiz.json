@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A component reads `inject(ActivatedRoute).snapshot.paramMap.get('id')` in its constructor. The user navigates from `/users/1` to `/users/2`. What happens?",
+    "options": ["The component is destroyed and recreated, so it shows user 2", "The component is reused and still shows user 1", "Angular throws an error", "The snapshot updates automatically"],
+    "answer": 1,
+    "explanation": "The router reuses the instance when only params change. A snapshot is a one-time read; use `paramMap` (observable) or input binding instead."
+  },
+  {
+    "question": "With `withComponentInputBinding()`, which values can be bound to an input called `id`?",
+    "options": ["Only path params", "Path params, query params, route `data` and resolver results named `id`", "Only resolver results", "Only query params"],
+    "answer": 1,
+    "explanation": "The router merges all those sources and writes the value whose key matches the input name."
+  },
+  {
+    "question": "What type does a route param have before any transform?",
+    "options": ["number", "string", "unknown", "It depends on the route config"],
+    "answer": 1,
+    "explanation": "URLs are text. Convert with `numberAttribute` or `Number()` when you need a number."
+  }
+]

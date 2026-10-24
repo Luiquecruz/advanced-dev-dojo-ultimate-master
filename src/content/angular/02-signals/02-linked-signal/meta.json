@@ -1,0 +1,10 @@
+{
+  "title": "linkedSignal",
+  "summary": "Model writable state that resets from a source with linkedSignal(), using the short form and source/computation with previous.",
+  "level": "intermediate",
+  "tags": ["modern", "new"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "angular.dev: Dependent state with linkedSignal", "url": "https://angular.dev/guide/signals/linked-signal" }
+  ]
+}

@@ -1,0 +1,5 @@
+[
+  { "question": "A parent writes `<MyCard class=\"highlight\" />` and `MyCard`'s root has `class=\"card\"`. What is rendered?", "options": ["`class=\"highlight\"`", "`class=\"card\"`", "`class=\"card highlight\"`", "A warning and no class"], "answer": 2, "explanation": "`class` and `style` are merged with the root's values; other attributes replace them." },
+  { "question": "Where did Vue 2's `$listeners` go in Vue 3?", "options": ["`$emit`", "Merged into `$attrs` as `on*` properties", "`$slots`", "Removed with no replacement"], "answer": 1, "explanation": "Listeners are part of `$attrs` (e.g. `onClick`), so `v-bind=\"$attrs\"` forwards both attributes and listeners." },
+  { "question": "Can you `watch(useAttrs(), ...)`?", "options": ["Yes, attrs are deeply reactive", "No, attrs are always current but not reactive; declare a prop instead", "Only with `deep: true`", "Only in the Options API"], "answer": 1, "explanation": "`useAttrs()` returns the latest values on each render but does not track dependencies." }
+]

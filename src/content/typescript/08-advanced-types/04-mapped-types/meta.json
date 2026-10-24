@@ -1,0 +1,6 @@
+{
+  "title": "Mapped types",
+  "summary": "Build new object types by iterating over keys with `[K in keyof T]`, adding or removing `readonly` and `?` along the way.",
+  "level": "advanced",
+  "tags": ["core", "typescript"]
+}

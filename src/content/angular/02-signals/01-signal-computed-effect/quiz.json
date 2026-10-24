@@ -1,0 +1,31 @@
+[
+  {
+    "question": "`const label = computed(() => expensive(name()))` is created but never read. How many times has `expensive` run?",
+    "options": ["Once, at creation", "Zero: computed signals are lazy", "Once per change detection cycle", "Every time `name` changes"],
+    "answer": 1,
+    "explanation": "A computed only runs when it's read (and then only again when a dependency changed)."
+  },
+  {
+    "question": "What is wrong with `effect(() => this.fullName.set(this.first() + ' ' + this.last()))`?",
+    "options": [
+      "Nothing, it's the recommended pattern",
+      "It propagates state with an effect; `fullName` should be a `computed()`",
+      "Effects cannot read two signals",
+      "`set` is not available on signals"
+    ],
+    "answer": 1,
+    "explanation": "Derived values belong in `computed()`. Effects are for synchronizing with things outside the signal graph."
+  },
+  {
+    "question": "`items = signal([1, 2])`, then `items().push(3)`. Does a template showing `items().length` update?",
+    "options": ["Yes, always", "No: the array reference didn't change, so the signal doesn't notify", "Only in zoneless apps", "Only if the template uses `track`"],
+    "answer": 1,
+    "explanation": "Mutation bypasses the signal. Use `items.update(list => [...list, 3])`."
+  },
+  {
+    "question": "When does a component `effect()` run after `this.count.set(1); this.count.set(2);`?",
+    "options": ["Twice, synchronously after each `set`", "Once, asynchronously, seeing the value 2", "Never, effects only run at creation", "Once, synchronously after the first `set`"],
+    "answer": 1,
+    "explanation": "Effects are scheduled, not synchronous. Several writes in the same task result in a single run with the latest values."
+  }
+]

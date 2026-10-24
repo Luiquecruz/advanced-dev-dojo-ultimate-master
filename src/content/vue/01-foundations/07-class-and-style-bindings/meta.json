@@ -1,0 +1,7 @@
+{
+  "title": "Class & Style Bindings",
+  "summary": "Toggle classes and inline styles with the object and array syntaxes of :class and :style.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "vuejs.org: Class and Style Bindings", "url": "https://vuejs.org/guide/essentials/class-and-style.html" }]
+}

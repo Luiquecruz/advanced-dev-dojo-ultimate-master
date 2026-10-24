@@ -1,0 +1,7 @@
+[
+  { "term": "useSearchParams", "description": "React Router hook returning `[URLSearchParams, setSearchParams]` for the current location's query string." },
+  { "term": "Functional update", "description": "`setSearchParams((previous) => next)` builds the next params from the current ones, preserving unrelated keys." },
+  { "term": "Push vs replace", "description": "Push adds a history entry (back undoes it); `{ replace: true }` overwrites the current entry." },
+  { "term": "Canonical URL", "description": "One URL per view: default values are omitted so equivalent states produce identical links." },
+  { "term": "Param parsing", "description": "Treat params as untrusted strings: validate, convert types and fall back to defaults in one function." }
+]

@@ -1,0 +1,5 @@
+[
+  { "term": "Type parameter", "description": "A placeholder like `<T>` that is replaced by a concrete type at each use of a generic function or type." },
+  { "term": "Type argument inference", "description": "TypeScript deduces type arguments from the values passed to a generic function." },
+  { "term": "Explicit type argument", "description": "`first<string>([])` sets the type parameter manually when inference is not enough." }
+]

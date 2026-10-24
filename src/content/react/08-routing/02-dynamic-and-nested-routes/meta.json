@@ -1,0 +1,10 @@
+{
+  "title": "Dynamic & Nested Routes",
+  "summary": "Read URL params with useParams and compose layouts with nested routes, index routes and Outlet.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "core"],
+  "resources": [
+    { "label": "React Router: Routing", "url": "https://reactrouter.com/start/declarative/routing" },
+    { "label": "React Router: useParams", "url": "https://reactrouter.com/api/hooks/useParams" }
+  ]
+}

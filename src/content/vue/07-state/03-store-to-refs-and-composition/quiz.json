@@ -1,0 +1,5 @@
+[
+  { "question": "`const { total } = useCartStore()`: what happens when the cart changes?", "options": ["total updates", "total keeps the old value", "Pinia throws", "total becomes a ref"], "answer": 1, "explanation": "Destructuring a reactive object copies the current values; use `storeToRefs` to keep reactivity." },
+  { "question": "What does `storeToRefs(store)` return for actions?", "options": ["Refs wrapping the functions", "Nothing: actions are skipped", "Bound copies of the actions", "An error"], "answer": 1, "explanation": "Only state and getters become refs; destructure actions from the store directly." },
+  { "question": "Where should a store call another store's `useXxxStore()`?", "options": ["At the top level of the store module", "Inside the setup function, getters or actions", "Only in components", "In main.ts"], "answer": 1, "explanation": "Inside the store, Pinia is guaranteed to be active and the right instance is used (important for SSR)." }
+]

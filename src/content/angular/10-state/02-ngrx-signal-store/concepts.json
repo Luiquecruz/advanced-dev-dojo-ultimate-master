@@ -1,0 +1,8 @@
+[
+  { "term": "signalStore()", "description": "Creates an injectable store class from a list of features. Pass `{ providedIn: 'root' }` first for a global singleton." },
+  { "term": "withState()", "description": "Adds state. Each top-level key becomes a read-only signal (`store.key()`); nested objects become deep signals." },
+  { "term": "withMethods()", "description": "Adds methods. The factory receives the store so far and may call `inject()`." },
+  { "term": "patchState()", "description": "Writes state with partial objects or updater functions `(state) => partial`. Unmentioned keys are kept." },
+  { "term": "Protected state", "description": "Default since NgRx 18: state can only be patched from inside the store, not from consumers." },
+  { "term": "getState()", "description": "Returns a plain snapshot of the store state." }
+]

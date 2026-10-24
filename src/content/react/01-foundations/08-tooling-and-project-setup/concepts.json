@@ -1,0 +1,7 @@
+[
+  { "term": "Create React App", "description": "The former official starter (webpack + Babel + Jest). Deprecated in February 2025; do not use it for new projects." },
+  { "term": "Vite", "description": "A fast dev server and bundler. `npm create vite@latest -- --template react-ts` scaffolds a React SPA." },
+  { "term": "React framework", "description": "Next.js, React Router v7 framework mode or Expo: routing, data loading and rendering strategies in one package." },
+  { "term": "createRoot", "description": "`createRoot(container).render(<App />)` mounts a React app. Replaced `ReactDOM.render`, removed in React 19." },
+  { "term": "HMR", "description": "Hot module replacement: edited modules are swapped in the running app without a full reload." }
+]

@@ -1,0 +1,5 @@
+[
+  { "question": "Why must `state` be a function in an option store?", "options": ["So Pinia can lazy-load it", "So every pinia instance (SSR request, test) gets fresh state", "Because getters require it", "It does not have to be"], "answer": 1, "explanation": "Pinia calls `state()` per pinia instance and again for `$reset()`, which needs a factory, not a shared object." },
+  { "question": "What replaced Vuex mutations in Pinia?", "options": ["Getters", "Nothing: actions change state directly", "`$commit`", "Watchers"], "answer": 1, "explanation": "Pinia has no mutations. Actions mutate state directly and devtools still record the changes." },
+  { "question": "Which store type gets a built-in `$reset()`?", "options": ["Option stores only", "Setup stores only", "Both", "Neither"], "answer": 0, "explanation": "Option stores can rebuild state by calling `state()` again. Setup stores have no such factory, so you write your own reset action." }
+]

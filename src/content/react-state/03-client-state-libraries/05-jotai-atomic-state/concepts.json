@@ -1,0 +1,9 @@
+[
+  { "term": "Atom graph", "description": "Atoms read other atoms with `get`, forming a dependency graph. A component re-renders only when an atom it reads changes." },
+  { "term": "atomWithStorage", "description": "`atomWithStorage(key, initial, storage?, { getOnInit? })` from `jotai/utils` persists an atom (JSON in `localStorage` by default). Setting `RESET` removes the key." },
+  { "term": "useHydrateAtoms", "description": "Writes initial values into the nearest store once. Must run in a component inside the `<Provider>` it seeds; used for per-instance seeds and SSR data." },
+  { "term": "Provider scope", "description": "`<Provider>` creates an isolated store for its subtree, so the same atoms hold different values in different widgets." },
+  { "term": "createStore", "description": "A store usable outside React with `get`, `set` and `sub`. Perfect for unit testing atoms or sharing a store with non-React code." },
+  { "term": "selectAtom / splitAtom", "description": "Granularity helpers: `selectAtom` derives a slice with an equality check; `splitAtom` turns an array atom into one atom per item." },
+  { "term": "Jotai 3", "description": "ESM-only release that removed `atomFamily` (moved to `jotai-family`), `loadable` (use `unwrap`) and the `setSelf` read argument." }
+]

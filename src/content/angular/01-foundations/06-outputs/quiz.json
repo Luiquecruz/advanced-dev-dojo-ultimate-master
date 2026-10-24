@@ -1,0 +1,25 @@
+[
+  {
+    "question": "A grandparent template binds `(rated)` on an element that contains the component emitting `rated`, but not directly on it. What happens?",
+    "options": ["The handler runs because outputs bubble", "Nothing: component outputs do not bubble through the DOM", "Angular throws an error", "The handler runs twice"],
+    "answer": 1,
+    "explanation": "Outputs are delivered only to listeners bound directly on the component's element."
+  },
+  {
+    "question": "What is `$event` in `(added)=\"cart.add($event)\"` when the child calls `this.added.emit(product)`?",
+    "options": ["A DOM `CustomEvent`", "The `product` value", "An `OutputEmitterRef`", "`undefined`"],
+    "answer": 1,
+    "explanation": "For component outputs `$event` is exactly the value passed to `emit()`."
+  },
+  {
+    "question": "Why prefer `output()` over `@Output() x = new EventEmitter()`?",
+    "options": [
+      "It is the only way to emit values",
+      "It exposes a minimal API instead of a full RxJS Subject and is cleaned up with the component",
+      "It makes outputs bubble",
+      "It stores the last emitted value as a signal"
+    ],
+    "answer": 1,
+    "explanation": "`OutputEmitterRef` only offers `emit`/`subscribe`, avoids leaking RxJS into the component API and ties subscriptions to the component lifecycle."
+  }
+]

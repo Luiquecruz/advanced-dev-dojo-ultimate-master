@@ -1,0 +1,8 @@
+[
+  { "term": "XSS", "description": "Cross-site scripting: attacker-controlled data executed as script in another user's browser." },
+  { "term": "Automatic escaping", "description": "React renders values in braces as text nodes, so markup in strings is displayed, not executed." },
+  { "term": "dangerouslySetInnerHTML", "description": "Inserts a raw HTML string. Only use it with sanitized or fully trusted HTML." },
+  { "term": "Allowlist sanitization", "description": "Keep only explicitly permitted tags, attributes and URL protocols. Safer than trying to block known-bad patterns." },
+  { "term": "Content Security Policy", "description": "HTTP header that restricts where scripts may come from, blocking injected inline scripts." },
+  { "term": "Trusted Types", "description": "Browser API that forces values written to DOM sinks like `innerHTML` to go through a vetted policy." }
+]

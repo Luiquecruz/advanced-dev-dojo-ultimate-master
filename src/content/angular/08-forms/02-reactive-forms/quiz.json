@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What is the difference between `form.value` and `form.getRawValue()`?",
+    "options": ["None", "`value` omits disabled controls; `getRawValue()` includes them", "`getRawValue()` returns strings only", "`value` is a signal"],
+    "answer": 1,
+    "explanation": "Disabled controls are excluded from `value`. Use `getRawValue()` when you need every field."
+  },
+  {
+    "question": "Why use `fb.nonNullable.group()`?",
+    "options": ["It disables validation", "Controls reset to their initial value and their types exclude `null`", "It makes the form faster", "It is required for formControlName"],
+    "answer": 1,
+    "explanation": "By default `reset()` sets controls to `null`, so their type is `string | null`. Non-nullable controls reset to the initial value."
+  },
+  {
+    "question": "How do you react to every change of the email control in a reactive form?",
+    "options": ["Add (change) on the input", "Subscribe to `form.controls.email.valueChanges` (or convert it with `toSignal`)", "Use ngOnChanges", "Use ngModel"],
+    "answer": 1,
+    "explanation": "Controls expose `valueChanges` and `statusChanges` observables, ideal for debounced searches or dependent fields."
+  }
+]

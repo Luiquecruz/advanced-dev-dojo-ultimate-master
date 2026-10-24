@@ -1,0 +1,6 @@
+[
+  { "term": "Shallow vs deep", "description": "`Readonly<T>` and `Object.freeze` only affect the top level; nested objects stay mutable." },
+  { "term": "Recursive mapped type", "description": "A mapped type whose value side calls the same type on `T[K]`, transforming every depth." },
+  { "term": "Function guard", "description": "`T extends (...args: never[]) => unknown ? T : ...` stops recursion at functions, which would otherwise lose their call signature." },
+  { "term": "Homomorphic passthrough", "description": "Homomorphic mapped types return primitives unchanged and map arrays and tuples to arrays and tuples." }
+]

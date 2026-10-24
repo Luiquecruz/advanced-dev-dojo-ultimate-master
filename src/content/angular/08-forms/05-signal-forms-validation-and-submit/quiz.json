@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What does `submit(form, action)` do when the form is invalid?",
+    "options": ["Runs the action anyway", "Marks fields as touched and returns false without running the action", "Throws an error", "Resets the form"],
+    "answer": 1,
+    "explanation": "By default only valid forms run the action (`ignoreValidators: 'pending'` lets pending async validators through). Touching every field reveals the errors."
+  },
+  {
+    "question": "How does a cross-field rule read another field's value reactively?",
+    "options": ["`this.model().password`", "`ctx.valueOf(path.password)`", "`document.querySelector`", "It cannot"],
+    "answer": 1,
+    "explanation": "`valueOf` reads the other field inside the rule's reactive context, so the rule re-runs when either field changes."
+  },
+  {
+    "question": "Where should a server error such as \"email already registered\" appear?",
+    "options": ["Only in a global alert", "On the email field, by returning an error with `fieldTree: field.email` from the submit action", "In the console", "As a required error"],
+    "answer": 1,
+    "explanation": "Submission errors with a `fieldTree` are merged into that field's `errors()`, so the same template code shows client and server errors."
+  }
+]

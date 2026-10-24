@@ -1,0 +1,6 @@
+{
+  "title": "Conditional types",
+  "summary": "Choose between two types with `T extends U ? X : Y`, the type-level ternary behind most utility types.",
+  "level": "advanced",
+  "tags": ["core", "typescript"]
+}

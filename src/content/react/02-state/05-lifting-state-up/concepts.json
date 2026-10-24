@@ -1,0 +1,6 @@
+[
+  { "term": "Lifting state up", "description": "Moving state to the closest common parent so several children can share and coordinate it." },
+  { "term": "Single source of truth", "description": "Each piece of state has exactly one owner component; others receive it through props." },
+  { "term": "Controlled component", "description": "A component whose important data comes from props, with change requests sent through callback props." },
+  { "term": "Callback props", "description": "Functions such as `onShow` or `onChange` that children call to ask the parent to update state." }
+]

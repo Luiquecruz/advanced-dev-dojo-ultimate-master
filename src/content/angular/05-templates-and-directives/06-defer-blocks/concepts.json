@@ -1,0 +1,8 @@
+[
+  { "term": "`@defer`", "description": "Template block whose standalone dependencies are lazily loaded and rendered when a trigger fires." },
+  { "term": "`@placeholder` / `@loading` / `@error`", "description": "Sub-blocks shown before the trigger, while loading (`after`, `minimum`) and on failure." },
+  { "term": "Triggers", "description": "`on idle` (default), `viewport`, `interaction`, `hover`, `immediate`, `timer(ms)` and `when <expr>`." },
+  { "term": "`prefetch`", "description": "Loads the block's code on a different, earlier trigger than rendering." },
+  { "term": "`DeferBlockBehavior`", "description": "TestBed option: `Playthrough` (default, real triggers) or `Manual` (drive states with `getDeferBlocks()` and `render(state)`)." },
+  { "term": "Incremental hydration", "description": "SSR feature using `hydrate on ...` triggers to hydrate deferred content on demand." }
+]

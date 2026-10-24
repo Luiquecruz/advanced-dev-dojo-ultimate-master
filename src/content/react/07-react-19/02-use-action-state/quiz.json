@@ -1,0 +1,25 @@
+[
+  {
+    "question": "What are the arguments of the function passed to `useActionState` when it is used as a form action?",
+    "options": ["(event)", "(formData)", "(previousState, formData)", "(state, dispatch)"],
+    "answer": 2,
+    "explanation": "The action receives the previous state first and the payload (a `FormData` for forms) second, like a reducer."
+  },
+  {
+    "question": "What happens when the user submits the form twice quickly?",
+    "options": [
+      "Both calls run in parallel and the slowest one wins",
+      "The calls are queued: the second receives the state returned by the first",
+      "The second submission is ignored",
+      "React throws a warning"
+    ],
+    "answer": 1,
+    "explanation": "`useActionState` queues calls sequentially so each one gets the latest state."
+  },
+  {
+    "question": "Which API was renamed to `useActionState`?",
+    "options": ["useFormStatus", "useFormState from react-dom", "useTransition", "useReducer"],
+    "answer": 1,
+    "explanation": "The canary `ReactDOM.useFormState` became `React.useActionState` because it works with any Action, not only forms."
+  }
+]

@@ -1,0 +1,6 @@
+[
+  { "term": "Conditional type", "description": "`T extends U ? X : Y` resolves to `X` when `T` is assignable to `U`, otherwise to `Y`." },
+  { "term": "Assignability check", "description": "`extends` in a conditional type uses the same rule as passing an argument to a parameter. It is not an equality test." },
+  { "term": "Deferred conditional type", "description": "When the checked type is an unresolved type parameter, the compiler keeps the conditional type unevaluated until it is instantiated." },
+  { "term": "Indexed access `T[number]`", "description": "Reads the element type of an array or the union of element types of a tuple." }
+]

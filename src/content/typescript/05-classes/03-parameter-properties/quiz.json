@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Which constructor creates a `this.name` property?",
+    "options": ["`constructor(name: string) {}`", "`constructor(readonly name: string) {}`", "`constructor(...name: string[]) {}`", "`constructor({ name }: { name: string }) {}`"],
+    "answer": 1,
+    "explanation": "Only parameters with a modifier (`readonly`, `public`, `protected`, `private`) become properties."
+  },
+  {
+    "question": "Why does `erasableSyntaxOnly` reject parameter properties?",
+    "options": ["They are deprecated", "They generate assignment code that type stripping cannot produce", "They break `strict` mode", "They only work with decorators"],
+    "answer": 1,
+    "explanation": "Erasable syntax can be removed without changing behavior. Parameter properties add `this.x = x` assignments, so they need a real transform."
+  },
+  {
+    "question": "With ES2022 class fields, what happens with `label = this.name.toUpperCase()` when `name` is a parameter property?",
+    "options": ["It works", "Compile error: `name` is used before its initialization", "It silently becomes `undefined`", "It is moved after the constructor automatically"],
+    "answer": 1,
+    "explanation": "Field initializers run before the constructor body where parameter properties are assigned, and TypeScript reports error 2729."
+  }
+]

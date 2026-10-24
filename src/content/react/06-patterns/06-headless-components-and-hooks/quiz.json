@@ -1,0 +1,30 @@
+[
+  {
+    "question": "Why do prop getters accept the caller's props instead of just returning their own?",
+    "options": [
+      "To make the bundle smaller",
+      "So user props like className and onClick are merged and composed instead of being lost",
+      "Because React requires it",
+      "To avoid useId"
+    ],
+    "answer": 1,
+    "explanation": "If the caller spreads `getButtonProps()` and also sets `onClick`, one of them would overwrite the other. Passing user props into the getter lets it merge and compose them correctly."
+  },
+  {
+    "question": "Which library popularized prop getters with a render-prop API before hooks existed?",
+    "options": ["Redux", "Downshift", "Formik", "React Router"],
+    "answer": 1,
+    "explanation": "Downshift's render prop handed out `getInputProps`, `getItemProps` and friends. Its modern API exposes the same getters from hooks like `useCombobox`."
+  },
+  {
+    "question": "Why use `useId` instead of `id=\"faq-panel\"` in a headless hook?",
+    "options": [
+      "useId is faster",
+      "A fixed id collides when the component renders more than once, breaking aria-controls",
+      "Fixed ids are not valid HTML",
+      "useId adds styles"
+    ],
+    "answer": 1,
+    "explanation": "IDs must be unique per document. `useId` creates a unique id per instance that also matches between server and client rendering."
+  }
+]

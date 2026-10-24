@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Where can `takeUntilDestroyed()` be called without passing a `DestroyRef`?",
+    "options": ["Anywhere", "In an injection context such as the constructor or a field initializer", "Only in `ngOnInit`", "Only in services"],
+    "answer": 1,
+    "explanation": "Without arguments it injects `DestroyRef`, so it needs an injection context. Elsewhere pass `inject(DestroyRef)` stored in a field."
+  },
+  {
+    "question": "What does the `async` pipe return before the observable emits?",
+    "options": ["`undefined`", "`null`", "An empty string", "It throws"],
+    "answer": 1,
+    "explanation": "AsyncPipe returns `null` until the first value; `@if (obs$ | async; as value)` handles that neatly."
+  },
+  {
+    "question": "Which legacy pattern does `takeUntilDestroyed()` replace?",
+    "options": ["`ngOnChanges` + `SimpleChanges`", "A `destroy$` Subject completed in `ngOnDestroy` with `takeUntil(destroy$)`", "`ChangeDetectorRef.detach()`", "`APP_INITIALIZER`"],
+    "answer": 1,
+    "explanation": "The `destroy$` + `takeUntil` boilerplate becomes a single operator."
+  }
+]

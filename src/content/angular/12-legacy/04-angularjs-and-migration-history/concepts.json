@@ -1,0 +1,8 @@
+[
+  { "term": "AngularJS", "description": "The original JavaScript framework (1.x, 2010-2021) built on `$scope`, controllers and the digest cycle." },
+  { "term": "Digest cycle", "description": "AngularJS change detection: re-running every watcher until values stop changing." },
+  { "term": "ngUpgrade", "description": "`@angular/upgrade/static`: runs AngularJS and Angular in one hybrid app (`UpgradeModule`, `downgradeComponent`, `UpgradeComponent`)." },
+  { "term": "Ivy", "description": "The compiler and runtime default since Angular 9, the foundation for standalone components, signals and zoneless." },
+  { "term": "ng update", "description": "CLI command that bumps Angular packages and runs version migrations automatically." },
+  { "term": "Release cadence", "description": "A major every six months, 18 months of support (6 active + 12 LTS)." }
+]

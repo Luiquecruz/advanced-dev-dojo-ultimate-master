@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What is rendered by `<ng-template><p>Hi</p></ng-template>` on its own?",
+    "options": ["`<p>Hi</p>`", "Nothing: it only defines a TemplateRef", "An `<ng-template>` element containing `<p>`", "A comment with the text Hi"],
+    "answer": 1,
+    "explanation": "Templates are instantiated only by a directive, outlet or control-flow block."
+  },
+  {
+    "question": "Inside `<ng-template let-a let-b=\"total\">`, where does `a` come from?",
+    "options": ["`context.a`", "`context.$implicit`", "`context.total`", "The component field `a`"],
+    "answer": 1,
+    "explanation": "A `let-` variable without a value maps to `$implicit`; `let-b=\"total\"` maps to `context.total`."
+  },
+  {
+    "question": "When is a template input preferable to `<ng-content>`?",
+    "options": ["Never", "When the child must render the parent's markup many times with different data", "When the content is static text", "When using OnPush"],
+    "answer": 1,
+    "explanation": "Projected content is created once by the parent; a template can be stamped out repeatedly with a context."
+  }
+]

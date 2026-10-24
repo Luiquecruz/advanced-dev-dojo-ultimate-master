@@ -1,0 +1,5 @@
+[
+  {"question": "`<input type=\"number\" v-model=\"qty\">`: what type does `qty` hold after typing `3`?", "options": ["number", "bigint", "string", "it depends on the browser"], "answer": 2, "explanation": "Input values are always strings. Use `v-model.number` to cast them."},
+  {"question": "`<input v-model=\"name\" value=\"Ada\">` with `const name = ref('')` renders...", "options": ["\"Ada\"", "\"Ada\" and sets the ref to \"Ada\"", "an empty field, because v-model ignores the value attribute", "a compile error"], "answer": 2, "explanation": "`v-model` treats the ref as the source of truth and ignores `value`, `checked` and `selected` in the markup."},
+  {"question": "Which modifier updates the model on blur instead of on every keystroke?", "options": [".lazy", ".trim", ".number", ".sync"], "answer": 0, "explanation": "`.lazy` listens to `change` instead of `input`. `.sync` is a Vue 2 modifier for props and no longer exists."}
+]

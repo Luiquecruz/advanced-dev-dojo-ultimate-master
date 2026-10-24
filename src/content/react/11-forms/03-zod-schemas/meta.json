@@ -1,0 +1,12 @@
+{
+  "title": "Zod Schemas",
+  "summary": "Validate forms with Zod 4 schemas, coercion and cross-field rules through zodResolver.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "modern", "new"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "Zod documentation", "url": "https://zod.dev/" },
+    { "label": "Zod 4 migration guide", "url": "https://zod.dev/v4/changelog" },
+    { "label": "React Hook Form resolvers", "url": "https://github.com/react-hook-form/resolvers" }
+  ]
+}

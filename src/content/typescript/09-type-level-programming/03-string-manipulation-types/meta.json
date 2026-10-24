@@ -1,0 +1,6 @@
+{
+  "title": "String manipulation types",
+  "summary": "Parse and rewrite string literal types: trimming, replacing, splitting, case conversion and counting characters with recursive template literal patterns.",
+  "level": "expert",
+  "tags": ["typescript"]
+}

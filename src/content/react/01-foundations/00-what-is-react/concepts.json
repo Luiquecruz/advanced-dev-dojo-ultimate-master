@@ -1,0 +1,7 @@
+[
+  { "term": "Component", "description": "A JavaScript function that returns JSX. The reusable building block of every React UI." },
+  { "term": "Declarative UI", "description": "You describe what the UI should look like for the current state; React computes the DOM changes. Summarized as `UI = f(state)`." },
+  { "term": "One-way data flow", "description": "Data travels from parent to child through props. Children request changes by calling functions the parent passed down." },
+  { "term": "Reconciliation", "description": "The process of comparing the new element tree with the previous one to find the minimal DOM updates. Implemented by the Fiber architecture." },
+  { "term": "Renderer", "description": "A package that connects React to a platform: `react-dom` (web), `react-native` (mobile) and others." }
+]

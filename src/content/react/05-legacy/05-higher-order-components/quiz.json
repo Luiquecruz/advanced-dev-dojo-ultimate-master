@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What is wrong with calling `const Enhanced = withLoading(List);` inside a component's render body?",
+    "options": [
+      "Nothing, it is the recommended place",
+      "A new component type is created every render, so React remounts the subtree and loses its state",
+      "HOCs cannot be called with arrow functions",
+      "It only works with class components"
+    ],
+    "answer": 1,
+    "explanation": "React compares element types by reference. A fresh `Enhanced` each render looks like a different component, so the old subtree is unmounted. Create HOCs once at module level."
+  },
+  {
+    "question": "Which modern pattern replaced most HOCs that only shared stateful logic?",
+    "options": ["Render props", "Custom hooks", "Mixins", "Portals"],
+    "answer": 1,
+    "explanation": "Custom hooks share logic without adding components to the tree and return values you name explicitly."
+  },
+  {
+    "question": "In React 19, how does a function-component HOC pass a `ref` through to the wrapped component?",
+    "options": [
+      "It must use `forwardRef`",
+      "Refs can never pass through HOCs",
+      "`ref` is a regular prop, so spreading `{...props}` forwards it",
+      "With `findDOMNode`"
+    ],
+    "answer": 2,
+    "explanation": "Since React 19 function components receive `ref` in props. Before that, HOCs needed `forwardRef` because `ref` was stripped from props."
+  }
+]

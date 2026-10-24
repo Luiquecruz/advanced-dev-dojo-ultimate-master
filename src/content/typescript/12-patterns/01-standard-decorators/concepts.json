@@ -1,0 +1,7 @@
+[
+  { "term": "Standard decorators", "description": "TC39 decorators supported since TypeScript 5.0 without flags. Signature `(target, context)`." },
+  { "term": "Decorator context", "description": "Typed object (`ClassMethodDecoratorContext`, `ClassAccessorDecoratorContext`, ...) with `kind`, `name`, `static`, `private`, `access`, `addInitializer` and `metadata`." },
+  { "term": "Decorator factory", "description": "A function that takes options and returns a decorator, e.g. `@retry(3)`." },
+  { "term": "addInitializer", "description": "Registers code that runs for each new instance (or once for static members and classes)." },
+  { "term": "accessor", "description": "Keyword creating an auto-accessor: private storage plus getter and setter that decorators can intercept." }
+]

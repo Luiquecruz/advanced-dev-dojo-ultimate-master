@@ -1,0 +1,7 @@
+[
+  { "term": "useReducer", "description": "`const [state, dispatch] = useReducer(reducer, initialArg, init?)`. Centralizes state transitions in a reducer function." },
+  { "term": "Reducer", "description": "A pure function `(state, action) => nextState`. No mutation, no side effects." },
+  { "term": "Action", "description": "A value describing what happened, usually `{ type: 'added', ...payload }`." },
+  { "term": "dispatch", "description": "Sends an action to the reducer. Its identity is stable across renders." },
+  { "term": "Immutable update", "description": "Returning new arrays/objects (`...spread`, `map`, `filter`) instead of mutating, so React detects the change." }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "Prop drilling", "description": "Passing a prop through components that only forward it to reach a deep descendant." },
+  { "term": "createContext", "description": "`createContext(defaultValue)` creates a context object. Call it at module level." },
+  { "term": "Provider", "description": "React 19: `<MyContext value={...}>`. Older: `<MyContext.Provider value={...}>`. The nearest one above a consumer wins." },
+  { "term": "useContext / use", "description": "Read the nearest provided value. `use(Context)` may be called conditionally." },
+  { "term": "Default value", "description": "Used only when no provider exists above the consumer." }
+]

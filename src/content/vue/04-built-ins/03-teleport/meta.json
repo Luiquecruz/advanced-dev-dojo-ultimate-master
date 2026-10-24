@@ -1,0 +1,8 @@
+{
+  "title": "Teleport",
+  "summary": "Render modals and overlays into the body while keeping them in the component tree.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: Teleport", "url": "https://vuejs.org/guide/built-ins/teleport.html" }]
+}

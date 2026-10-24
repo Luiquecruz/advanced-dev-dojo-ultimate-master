@@ -1,0 +1,8 @@
+[
+  { "term": "signal()", "description": "Writable reactive value. Read with `s()`, write with `s.set(v)` or `s.update(fn)`." },
+  { "term": "computed()", "description": "Read-only signal derived from others. Lazy, memoized, tracks dependencies dynamically." },
+  { "term": "effect()", "description": "Runs a side effect whenever the signals it read change. Created in an injection context, destroyed with its owner, runs asynchronously." },
+  { "term": "Equality", "description": "Signals notify only when the new value is not `Object.is`-equal to the old one. Customize with `{ equal }`." },
+  { "term": "asReadonly()", "description": "Exposes a writable signal as a read-only `Signal<T>`, e.g. from a service." },
+  { "term": "Immutable update", "description": "Replace arrays/objects (`[...list, x]`, `{ ...obj, a: 1 }`) so the signal sees a new reference." }
+]

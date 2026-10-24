@@ -1,0 +1,5 @@
+[
+  {"question": "Why prefer `computed` over calling a method in the template for derived data?", "options": ["Computed values are cached until a reactive dependency changes", "Methods cannot access refs", "Computed values run before setup", "Methods are not allowed in templates"], "answer": 0, "explanation": "A method runs on every render; a computed re-evaluates only when what it read has changed."},
+  {"question": "`const now = computed(() => Date.now())`. What happens over time?", "options": ["It updates every millisecond", "It updates on every render", "It throws an error", "It never updates, because `Date.now()` is not reactive"], "answer": 3, "explanation": "Computed values only re-run when tracked reactive dependencies change. Use a ref updated by a timer instead."},
+  {"question": "Where should you fetch data when a value changes?", "options": ["In a computed getter", "In a watcher", "In the computed setter", "In the template"], "answer": 1, "explanation": "Computed getters must be pure. Side effects like fetching belong in `watch` / `watchEffect`."}
+]

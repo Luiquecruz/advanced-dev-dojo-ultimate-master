@@ -1,0 +1,36 @@
+[
+  {
+    "question": "`count` is 0. A click runs `setCount(count + 1); setCount(count + 1);`. What is `count` after the re-render?",
+    "options": ["0", "1", "2", "It throws"],
+    "answer": 1,
+    "explanation": "Both calls read the same snapshot (`0`) and request `1`. Use updater functions to accumulate."
+  },
+  {
+    "question": "`count` is 0. A click runs `setCount(count + 5); setCount((n) => n + 1);`. Result?",
+    "options": ["1", "5", "6", "0"],
+    "answer": 2,
+    "explanation": "The queue is \"replace with 5\" then \"n => n + 1\", so the updater receives 5 and returns 6."
+  },
+  {
+    "question": "Which updates are batched automatically in React 18 and later?",
+    "options": [
+      "Only updates inside React event handlers",
+      "Updates in event handlers, timeouts, promises and native event listeners",
+      "Only updates inside `unstable_batchedUpdates`",
+      "None; batching must be enabled manually"
+    ],
+    "answer": 1,
+    "explanation": "React 18 introduced automatic batching for all updates. React 17 only batched inside React event handlers."
+  },
+  {
+    "question": "Right after `setName('Ada')` in a handler, what does `console.log(name)` print?",
+    "options": [
+      "'Ada'",
+      "The value of `name` from the current render",
+      "undefined",
+      "A Promise"
+    ],
+    "answer": 1,
+    "explanation": "State is a snapshot. The new value is only visible in the next render."
+  }
+]

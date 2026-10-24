@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What does `(U extends unknown ? () => U : never) extends () => infer I ? I : never` return for `U = A | B`?",
+    "options": ["`A & B`", "`A | B`", "`never`", "`unknown`"],
+    "answer": 1,
+    "explanation": "The candidates for `I` come from return positions, which are covariant, so they are combined into a union."
+  },
+  {
+    "question": "Why is `UnionToIntersection<boolean>` equal to `never`?",
+    "options": [
+      "`boolean` is not a union",
+      "`boolean` is `true | false`, and `true & false` has no values",
+      "Conditional types reject primitives",
+      "Because `infer` cannot be used with literals"
+    ],
+    "answer": 1,
+    "explanation": "`boolean` distributes into `true` and `false`; their intersection is empty, so the result is `never`."
+  },
+  {
+    "question": "Which practical use of `UnionToIntersection` is safe to rely on in production types?",
+    "options": [
+      "Getting the last member of a union",
+      "Converting a union into an ordered tuple",
+      "Merging the object types contributed by a list of plugins",
+      "Sorting union members alphabetically"
+    ],
+    "answer": 2,
+    "explanation": "Merging object types does not depend on union order. Tricks that read union order rely on compiler internals and can change between versions."
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "title": "Resolvers",
+  "summary": "Fetch data before a route activates with ResolveFn, redirect on failure with RedirectCommand and receive the result as a signal input.",
+  "level": "intermediate",
+  "tags": ["core", "modern", "legacy"],
+  "resources": [
+    { "label": "angular.dev: Data resolvers", "url": "https://angular.dev/guide/routing/data-resolvers" },
+    { "label": "angular.dev: ResolveFn", "url": "https://angular.dev/api/router/ResolveFn" }
+  ]
+}

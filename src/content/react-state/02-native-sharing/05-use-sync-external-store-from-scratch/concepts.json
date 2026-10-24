@@ -1,0 +1,8 @@
+[
+  { "term": "useSyncExternalStore", "description": "`useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?)` subscribes a component to a store outside React without tearing." },
+  { "term": "Snapshot", "description": "The value `getSnapshot` returns. React compares consecutive snapshots with `Object.is`; it must be cached." },
+  { "term": "Tearing", "description": "A visual inconsistency where components in one render show different versions of the same external data." },
+  { "term": "Memoized selector", "description": "A selector whose result is reused while its inputs, or an equality check, say nothing changed." },
+  { "term": "shallowEqual", "description": "One-level comparison of arrays or objects with `Object.is` on each value." },
+  { "term": "getServerSnapshot", "description": "Returns the value used during server rendering and hydration, usually the initial state." }
+]

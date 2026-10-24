@@ -1,0 +1,8 @@
+[
+  { "term": "useForm", "description": "Creates the form controller: `register`, `handleSubmit`, `formState`, `setError`, `reset`, `watch` and more." },
+  { "term": "register", "description": "`register(name, rules)` returns `{ name, onChange, onBlur, ref }` to spread on an uncontrolled input." },
+  { "term": "handleSubmit", "description": "Wraps your submit function: prevents default, validates, and calls it with the data only when valid." },
+  { "term": "formState", "description": "Proxy with `errors`, `isSubmitting`, `isDirty`, `isValid`... Only properties read during render trigger re-renders." },
+  { "term": "setError('root.x')", "description": "Adds an error not tied to a field, such as a server response. Cleared on the next submit." },
+  { "term": "Controller", "description": "Adapter for controlled third-party inputs that cannot receive a ref." }
+]

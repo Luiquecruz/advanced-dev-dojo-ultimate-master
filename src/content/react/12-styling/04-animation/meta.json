@@ -1,0 +1,11 @@
+{
+  "title": "Animation",
+  "summary": "Animate with CSS classes, keep elements mounted for exit animations and respect prefers-reduced-motion.",
+  "level": "intermediate",
+  "tags": ["modern", "ecosystem"],
+  "resources": [
+    { "label": "MDN: prefers-reduced-motion", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion" },
+    { "label": "Motion for React", "url": "https://motion.dev/docs/react" },
+    { "label": "react.dev: ViewTransition", "url": "https://react.dev/reference/react/ViewTransition" }
+  ]
+}

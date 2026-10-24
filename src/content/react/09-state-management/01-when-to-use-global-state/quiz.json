@@ -1,0 +1,63 @@
+[
+  {
+    "question": "A product list loaded from `/api/products` is shown on three screens. Where should it live?",
+    "options": [
+      "In a Redux slice with loading and error flags",
+      "In a query library cache such as TanStack Query",
+      "In a top-level context provider",
+      "In `localStorage`"
+    ],
+    "answer": 1,
+    "explanation": "API data is **server state**: a cache of data owned by the backend. Query libraries handle deduplication, staleness, refetching and invalidation, which you would otherwise rebuild by hand in a global store."
+  },
+  {
+    "question": "A component stores `const [total, setTotal] = useState(0)` and updates it in an effect whenever `items` changes. What is the better approach?",
+    "options": [
+      "Move `total` into a global store",
+      "Use `useLayoutEffect` instead of `useEffect`",
+      "Compute `total` from `items` during render",
+      "Store `total` in a ref"
+    ],
+    "answer": 2,
+    "explanation": "`total` is derived state. Computing it during render keeps a single source of truth and avoids an extra render pass. Wrap it in `useMemo` only if the computation is expensive."
+  },
+  {
+    "question": "Why can a single large context with `{ user, cart, theme }` hurt performance?",
+    "options": [
+      "Context values must be serializable",
+      "Every consumer re-renders when the value changes, even if it reads a field that did not change",
+      "Context only supports primitive values",
+      "React limits an app to one context"
+    ],
+    "answer": 1,
+    "explanation": "Context has no selectors. When the provider value changes, all consumers re-render. Split contexts by concern or use a store whose hooks subscribe to a selected slice."
+  },
+  {
+    "question": "The current search term and page number should survive a reload and be shareable as a link. Where should they live?",
+    "options": ["In the URL (search params)", "In a Zustand store", "In component state", "In a context provider"],
+    "answer": 0,
+    "explanation": "State that must be bookmarkable and shareable belongs in the URL. The router becomes the source of truth and components read it with hooks such as `useSearchParams`."
+  },
+  {
+    "question": "Several layout components pass `user` down without using it. What should you try before adding context?",
+    "options": [
+      "Copy `user` into each component's state",
+      "Composition: pass the elements that need `user` as `children` or props",
+      "Use a global variable",
+      "Convert the components to classes"
+    ],
+    "answer": 1,
+    "explanation": "Prop drilling through layout components often disappears with composition: the parent renders `<Layout sidebar={<UserMenu user={user} />}>` so the intermediate components never touch `user`."
+  },
+  {
+    "question": "Which situation best justifies an external store like Zustand or Redux Toolkit?",
+    "options": [
+      "A modal's open/closed flag used by one component",
+      "A form's input values",
+      "Frequently changing client state read and written by many unrelated components, also needed outside React",
+      "A list of users fetched from the API"
+    ],
+    "answer": 2,
+    "explanation": "External stores shine when state is truly global client state, changes often, and benefits from selectors, middleware or access outside React. Local UI state, form state and server state have better homes."
+  }
+]

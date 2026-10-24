@@ -1,0 +1,10 @@
+{
+  "title": "tsconfig and the TypeScript 6 defaults",
+  "summary": "Read and write tsconfig.json, understand the strict family, the new TypeScript 6.0 defaults and the options deprecated ahead of TypeScript 7.",
+  "level": "intermediate",
+  "tags": ["theory", "new", "ecosystem"],
+  "resources": [
+    { "label": "Announcing TypeScript 6.0", "url": "https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/" },
+    { "label": "TSConfig reference", "url": "https://www.typescriptlang.org/tsconfig/" }
+  ]
+}

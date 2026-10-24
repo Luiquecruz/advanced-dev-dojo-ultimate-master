@@ -1,0 +1,24 @@
+[
+  {
+    "question": "What happens when you run `countRef.current += 1` inside a click handler?",
+    "options": [
+      "The component re-renders with the new value",
+      "The value changes but the component does not re-render",
+      "React throws because refs are read-only",
+      "The change is discarded at the next render"
+    ],
+    "answer": 1,
+    "explanation": "Refs are mutable boxes that React does not track. The value persists across renders, but changing it never schedules a render."
+  },
+  {
+    "question": "Which value is a good fit for a ref instead of state?",
+    "options": [
+      "The text of a controlled input",
+      "The list of todos rendered on the page",
+      "The id returned by `setInterval`",
+      "Whether a modal is open"
+    ],
+    "answer": 2,
+    "explanation": "A timer id is only needed by event handlers and effects, never by the rendered output. Everything visible on screen belongs in state."
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "title": "RxJS Operators",
+  "summary": "Compose map, filter, debounceTime, distinctUntilChanged and switchMap into a typeahead, and choose the right flattening operator.",
+  "level": "intermediate",
+  "tags": ["core", "ecosystem"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "RxJS: Operators", "url": "https://rxjs.dev/guide/operators" },
+    { "label": "angular.dev: toSignal", "url": "https://angular.dev/ecosystem/rxjs-interop" }
+  ]
+}

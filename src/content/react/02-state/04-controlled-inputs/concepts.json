@@ -1,0 +1,6 @@
+[
+  { "term": "Controlled input", "description": "A field whose `value`/`checked` comes from state and is updated through `onChange`." },
+  { "term": "Uncontrolled input", "description": "A field whose value lives in the DOM. Initialize with `defaultValue` and read it with `FormData` or a ref." },
+  { "term": "event.target.checked", "description": "The boolean state of a checkbox or radio. `value` would be the string `\"on\"`." },
+  { "term": "Derived validity", "description": "Compute flags such as `canSubmit` during render from existing state instead of storing them." }
+]

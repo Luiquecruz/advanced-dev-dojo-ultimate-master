@@ -1,0 +1,8 @@
+{
+  "engine": "vue",
+  "order": 4,
+  "title": "Vue",
+  "description": "Single File Components, the Composition API, reactivity in depth, Vue Router, Pinia and the Vue ecosystem, plus the Options API legacy.",
+  "version": "Vue 3.5 \u00b7 Router 5 \u00b7 Pinia 4",
+  "accent": "#42b883"
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "Vitest", "description": "The default unit test runner since Angular 21, run by `ng test` through the `@angular/build:unit-test` builder." },
+  { "term": "TestBed", "description": "Angular's testing utility that configures a test module (`imports`, `providers`) and creates components and services." },
+  { "term": "ComponentFixture", "description": "Wrapper around a created component: `nativeElement`, `componentInstance`, `componentRef.setInput`, `detectChanges`, `whenStable`." },
+  { "term": "whenStable()", "description": "Resolves once Angular has run change detection and finished pending work. The main way to sync DOM in zoneless tests." },
+  { "term": "Mutation testing", "description": "Introducing deliberate bugs (mutants) to check that the test suite detects them." },
+  { "term": "refactor-jasmine-vitest", "description": "Experimental schematic (`ng g @schematics/angular:refactor-jasmine-vitest`) that rewrites Jasmine specs to Vitest." }
+]

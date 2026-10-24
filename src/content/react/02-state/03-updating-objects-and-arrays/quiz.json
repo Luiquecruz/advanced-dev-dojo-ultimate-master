@@ -1,0 +1,41 @@
+[
+  {
+    "question": "Why does `items.push(x); setItems(items);` not re-render?",
+    "options": [
+      "`push` is asynchronous",
+      "The setter receives the same array reference, so React's `Object.is` check finds no change",
+      "Arrays cannot be stored in state",
+      "React only re-renders on props changes"
+    ],
+    "answer": 1,
+    "explanation": "React bails out when the next state is `Object.is` equal to the current one. A mutated array is still the same reference."
+  },
+  {
+    "question": "What is wrong with `const copy = [...todos]; copy[0].completed = true; setTodos(copy);`?",
+    "options": [
+      "Nothing",
+      "The array is new, but the todo object is shared with the old state and gets mutated",
+      "Spread does not copy arrays",
+      "`setTodos` needs an updater"
+    ],
+    "answer": 1,
+    "explanation": "Spread is shallow. Replace the changed object too: `copy[0] = { ...copy[0], completed: true }`, or use `map`."
+  },
+  {
+    "question": "Which array method is safe to call directly on state?",
+    "options": ["`sort`", "`reverse`", "`splice`", "`toSorted`"],
+    "answer": 3,
+    "explanation": "`toSorted` (ES2023) returns a new sorted array. `sort`, `reverse` and `splice` mutate in place."
+  },
+  {
+    "question": "How do you update `city` inside `person.address` immutably?",
+    "options": [
+      "`setPerson({ ...person, city: 'Paris' })`",
+      "`person.address.city = 'Paris'; setPerson({ ...person })`",
+      "`setPerson({ ...person, address: { ...person.address, city: 'Paris' } })`",
+      "`setPerson(Object.assign(person, { city: 'Paris' }))`"
+    ],
+    "answer": 2,
+    "explanation": "Copy every level along the path to the change: a new person object containing a new address object."
+  }
+]

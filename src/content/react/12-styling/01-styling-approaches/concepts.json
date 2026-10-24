@@ -1,0 +1,7 @@
+[
+  { "term": "style prop", "description": "An object of camelCase CSS properties. Numbers become `px` for length properties. Supports CSS custom properties like `{ '--level': 3 }`." },
+  { "term": "className", "description": "The React prop for the HTML `class` attribute. A plain string of space-separated classes." },
+  { "term": "CSS Modules", "description": "`*.module.css` files whose class names are rewritten to unique names. Importing returns a map: `styles.primary`." },
+  { "term": "CSS-in-JS", "description": "Writing styles in JavaScript (styled-components, Emotion). Runtime versions inject CSS while rendering; zero-runtime ones (vanilla-extract, Panda, StyleX) extract CSS at build time." },
+  { "term": "clsx", "description": "A tiny helper that joins class names from strings, objects and arrays, dropping falsy values." }
+]

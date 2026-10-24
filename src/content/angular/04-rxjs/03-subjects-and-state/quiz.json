@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A component subscribes to a plain `Subject` after two values were emitted. What does it receive?",
+    "options": ["Both previous values", "Only the last value", "Nothing until the next `next()`", "An error"],
+    "answer": 2,
+    "explanation": "Plain Subjects do not replay. Use `BehaviorSubject` or `ReplaySubject` for late subscribers."
+  },
+  {
+    "question": "Why expose `subject.asObservable()` instead of the subject?",
+    "options": ["It is faster", "Consumers cannot call `next()` and corrupt the state", "It converts the stream to a signal", "It makes the stream cold"],
+    "answer": 1,
+    "explanation": "Only the service should write; consumers get a read-only view."
+  },
+  {
+    "question": "In modern Angular, what is usually the better default for synchronous shared state?",
+    "options": ["`BehaviorSubject`", "Signals (`signal`, `computed`)", "`ReplaySubject`", "`AsyncSubject`"],
+    "answer": 1,
+    "explanation": "Signals give synchronous reads and automatic change detection; Subjects remain great for events and async pipelines."
+  }
+]

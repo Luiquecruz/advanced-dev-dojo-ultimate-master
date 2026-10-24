@@ -1,0 +1,25 @@
+[
+  {
+    "question": "Given `function parse(x: string): number; function parse(x: number): string;`, what does `ReturnType<typeof parse>` give?",
+    "options": ["`number | string`", "`number`", "`string`", "`never`"],
+    "answer": 2,
+    "explanation": "Inference against an overloaded function only considers the **last** overload signature, here `(x: number) => string`."
+  },
+  {
+    "question": "Why does `(() => void) extends (first: infer A) => unknown ? A : never` resolve to `unknown` instead of `never`?",
+    "options": [
+      "Because `void` is converted to `unknown`",
+      "Because a function with fewer parameters is assignable to a function type with more parameters",
+      "Because `infer` always defaults to `unknown`",
+      "Because conditional types ignore parameters"
+    ],
+    "answer": 1,
+    "explanation": "Ignoring extra arguments is safe in JavaScript, so `() => void` matches the pattern and `A` has no candidate, which defaults to `unknown`."
+  },
+  {
+    "question": "Where can a type variable declared with `infer` be used?",
+    "options": ["In both branches", "Only in the false branch", "Only in the true branch", "Anywhere in the file"],
+    "answer": 2,
+    "explanation": "The variable only exists when the pattern matched, which is the true branch of that conditional type."
+  }
+]

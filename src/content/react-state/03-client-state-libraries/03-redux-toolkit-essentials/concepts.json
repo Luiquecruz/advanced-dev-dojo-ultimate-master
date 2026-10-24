@@ -1,0 +1,8 @@
+[
+  { "term": "RootState / AppDispatch", "description": "Types inferred from the root reducer and the configured store; never written by hand." },
+  { "term": "withTypes", "description": "`useSelector.withTypes<RootState>()` and `useDispatch.withTypes<AppDispatch>()` create pre-typed hooks (react-redux 9+)." },
+  { "term": "extraReducers", "description": "Lets a slice respond to actions defined elsewhere, via `builder.addCase(actionCreator, reducer)`." },
+  { "term": "createSelector", "description": "Memoized selector from Reselect: recomputes only when its input selectors return new references." },
+  { "term": "Input selector", "description": "A plain lookup such as `(state) => state.orders.items`, used as an input to `createSelector`." },
+  { "term": "preloadedState", "description": "Initial state passed to `configureStore`, used to seed stores in tests, stories and SSR." }
+]

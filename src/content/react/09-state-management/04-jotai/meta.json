@@ -1,0 +1,11 @@
+{
+  "title": "Jotai",
+  "summary": "Compose global state bottom-up from primitive, derived and action atoms.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "modern"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "Jotai documentation", "url": "https://jotai.org/docs/introduction" },
+    { "label": "Jotai: Comparison with Zustand and Recoil", "url": "https://jotai.org/docs/basics/comparison" }
+  ]
+}

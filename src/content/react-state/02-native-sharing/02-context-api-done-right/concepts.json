@@ -1,0 +1,7 @@
+[
+  { "term": "Provider component", "description": "A component that owns the state and renders `<Context value={...}>{children}</Context>`. Consumers never see the raw context." },
+  { "term": "Guarded hook", "description": "A custom hook that reads the context and throws when it is `null`, reporting a missing provider." },
+  { "term": "Stable value", "description": "A context value memoized with `useMemo` (and functions with `useCallback`) so it only changes when its data changes." },
+  { "term": "use(Context)", "description": "React 19 API to read a context; unlike `useContext` it can be called inside conditions and loops." },
+  { "term": "Scoped provider", "description": "Each rendered provider creates an independent state instance for its subtree; the nearest provider wins." }
+]

@@ -1,0 +1,12 @@
+{
+  "title": "Choosing the Right Tool",
+  "summary": "Classify state before picking a tool: a decision order and a full comparison of React's built-ins, URL state, stores, machines, server caches and form libraries.",
+  "level": "advanced",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "react.dev: Choosing the State Structure", "url": "https://react.dev/learn/choosing-the-state-structure" },
+    { "label": "TkDodo: Working with Zustand", "url": "https://tkdodo.eu/blog/working-with-zustand" },
+    { "label": "Redux FAQ: Organizing State", "url": "https://redux.js.org/faq/organizing-state" },
+    { "label": "TanStack Query: Does this replace client state?", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/does-this-replace-client-state" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Component Libraries",
+  "summary": "Styled kits, headless primitives and open-code libraries like shadcn/ui: what each owns and how to choose.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "theory", "modern"],
+  "resources": [
+    { "label": "shadcn/ui", "url": "https://ui.shadcn.com" },
+    { "label": "Base UI", "url": "https://base-ui.com" },
+    { "label": "Radix Primitives", "url": "https://www.radix-ui.com/primitives" },
+    { "label": "React Aria Components", "url": "https://react-spectrum.adobe.com/react-aria/" },
+    { "label": "Material UI", "url": "https://mui.com/material-ui/" }
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  { "term": "Hook", "description": "A function starting with `use` that lets components use React features such as state (`useState`), effects (`useEffect`) or context (`useContext`)." },
+  { "term": "Call order", "description": "React matches Hook calls to stored values by their position in the render. The order must be the same on every render." },
+  { "term": "Top level", "description": "The body of a component or custom Hook, outside conditions, loops, nested functions, `try/catch` and code after an early `return`." },
+  { "term": "Custom Hook", "description": "A function named `useSomething` that calls other Hooks. It shares **logic**; every caller gets its own state." },
+  { "term": "eslint-plugin-react-hooks", "description": "Official lint plugin with `rules-of-hooks` and `exhaustive-deps`, plus compiler-powered diagnostics in recent versions." }
+]

@@ -1,0 +1,10 @@
+{
+  "title": "Controlled Inputs",
+  "summary": "Make React state the source of truth for text fields, selects and checkboxes.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: <input>", "url": "https://react.dev/reference/react-dom/components/input" },
+    { "label": "react.dev: <select>", "url": "https://react.dev/reference/react-dom/components/select" }
+  ]
+}

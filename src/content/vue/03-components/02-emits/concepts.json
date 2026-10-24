@@ -1,0 +1,6 @@
+[
+  { "term": "defineEmits", "description": "Compiler macro that declares the events a component can emit and returns a typed `emit` function." },
+  { "term": "Named tuple syntax", "description": "`defineEmits<{ save: [id: number] }>()` describes the argument list of every event." },
+  { "term": "$emit", "description": "Template (and Options API) way to emit an event: `$emit('remove')` / `this.$emit('remove')`." },
+  { "term": "Listener prop", "description": "`@remove=\"fn\"` is compiled into an `onRemove` prop, so listeners can be passed as props in tests or render functions." }
+]

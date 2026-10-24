@@ -1,0 +1,4 @@
+{
+  "title": "Objects & Interfaces",
+  "description": "Object type literals, optional and readonly properties, dictionaries, interfaces, intersections, excess property checks, declaration merging and structural typing."
+}

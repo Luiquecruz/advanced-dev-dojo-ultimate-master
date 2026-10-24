@@ -1,0 +1,8 @@
+[
+  { "term": "Module", "description": "A file with top-level `import`/`export` (or any file under `moduleDetection: force`). Has its own scope." },
+  { "term": "import type", "description": "An import used only for types. Always erased from the JavaScript output." },
+  { "term": "Inline type modifier", "description": "`import { value, type SomeType }` marks individual specifiers as type-only." },
+  { "term": "verbatimModuleSyntax", "description": "Keeps imports without `type` exactly as written and drops imports with `type`. Required for safe single-file transpilation." },
+  { "term": "Import attributes", "description": "`with { type: 'json' }` describes how a non-JS module is loaded. Replaces the old `assert` syntax." },
+  { "term": "import x = require()", "description": "TypeScript's CommonJS import syntax. Not erasable, so modern code prefers ESM." }
+]

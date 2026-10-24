@@ -1,0 +1,35 @@
+[
+  {
+    "question": "Why does `const List = <T>(props: ListProps<T>) => ...` fail in a `.tsx` file?",
+    "options": [
+      "Arrow functions cannot be generic",
+      "The parser reads `<T>` as the start of a JSX element; write `<T,>` or `<T extends unknown>`",
+      "Components cannot be arrow functions",
+      "It only fails in strict mode"
+    ],
+    "answer": 1,
+    "explanation": "TSX syntax is ambiguous for `<T>`. A trailing comma or an `extends` clause makes it a type parameter list."
+  },
+  {
+    "question": "Why can't `React.FC` describe a generic component?",
+    "options": [
+      "Because FC is deprecated",
+      "Because the type annotation `const List: FC<ListProps<T>>` has no place to declare `T`",
+      "Because FC does not accept props",
+      "It can, with `FC<T>`"
+    ],
+    "answer": 1,
+    "explanation": "A variable's type annotation cannot introduce a type parameter. A generic function declaration can, so generic components are written as plain functions."
+  },
+  {
+    "question": "With `<List items={users} renderItem={(user) => user.name} getKey={(user) => user.id} />`, how does TypeScript know `user` is a `User`?",
+    "options": [
+      "You must write `<List<User> ...>`",
+      "It infers `T = User` from the `items` prop and applies it to the callbacks",
+      "It uses `any`",
+      "From the `key` prop"
+    ],
+    "answer": 1,
+    "explanation": "Type arguments of generic components are inferred from props, exactly like generic function calls."
+  }
+]

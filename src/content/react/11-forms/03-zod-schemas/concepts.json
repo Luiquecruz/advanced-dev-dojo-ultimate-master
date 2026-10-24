@@ -1,0 +1,9 @@
+[
+  { "term": "Schema", "description": "A runtime description of data shape and rules that also yields a static TypeScript type via `z.infer`." },
+  { "term": "safeParse", "description": "Validates without throwing and returns `{ success: true, data }` or `{ success: false, error }`." },
+  { "term": "Issue", "description": "One validation failure with a `code`, a `path` (such as `['email']`) and a `message`." },
+  { "term": "z.coerce", "description": "Converts input before validating, for example `z.coerce.number()` turns `'36'` into `36`." },
+  { "term": "refine", "description": "Adds a custom rule. On objects, use `path` to attach the error to a specific field." },
+  { "term": "zodResolver", "description": "Adapter from `@hookform/resolvers/zod` that runs a Zod schema as React Hook Form's validator." },
+  { "term": "Standard Schema", "description": "Shared interface implemented by Zod, Valibot and ArkType so tools can accept any of them." }
+]

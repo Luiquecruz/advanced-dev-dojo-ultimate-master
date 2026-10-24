@@ -1,0 +1,24 @@
+[
+  {
+    "question": "`Feed` updates its own state. Which profilers call `onRender`?",
+    "options": [
+      "Every Profiler in the app",
+      "Only the Profiler wrapping `Feed` (and any Profiler above it)",
+      "Only the root Profiler",
+      "None, profilers only report mounts"
+    ],
+    "answer": 1,
+    "explanation": "A Profiler reports a commit only when something inside its subtree rendered. Siblings that did not render stay silent."
+  },
+  {
+    "question": "Why should you profile a production-like build?",
+    "options": [
+      "Profilers do not work in development",
+      "Development React is slower and runs extra checks, which distorts timings",
+      "DevTools cannot connect to development builds",
+      "Production builds render twice"
+    ],
+    "answer": 1,
+    "explanation": "Development mode adds warnings, extra checks and StrictMode double rendering. Use the profiling build to get representative numbers."
+  }
+]

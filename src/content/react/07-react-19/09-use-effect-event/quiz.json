@@ -1,0 +1,30 @@
+[
+  {
+    "question": "Should an Effect Event created with `useEffectEvent` be listed in the effect's dependency array?",
+    "options": ["Yes, always", "No, Effect Events are not reactive", "Only if it reads state", "Only in Strict Mode"],
+    "answer": 1,
+    "explanation": "Effect Events are intentionally non-reactive. The React Hooks linter knows not to require them."
+  },
+  {
+    "question": "Where may you call an Effect Event?",
+    "options": [
+      "During render",
+      "Inside effects (or other Effect Events)",
+      "In any child component it is passed to",
+      "Only in event handlers like onClick"
+    ],
+    "answer": 1,
+    "explanation": "They are meant to be fired from effects. Calling them during render or passing them around is not allowed."
+  },
+  {
+    "question": "Which value belongs in the dependency array of a chat connection effect, and which in an Effect Event?",
+    "options": [
+      "`theme` in dependencies, `roomId` in the Effect Event",
+      "`roomId` in dependencies, `theme` read in the Effect Event",
+      "Both in dependencies",
+      "Neither"
+    ],
+    "answer": 1,
+    "explanation": "Reconnecting depends on `roomId`. The notification only reads `theme` when the event happens."
+  }
+]

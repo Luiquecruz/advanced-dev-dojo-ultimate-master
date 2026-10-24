@@ -1,0 +1,7 @@
+[
+  { "term": "Subject", "description": "Hot observable that is also an observer: `next()` multicasts a value to all current subscribers." },
+  { "term": "`BehaviorSubject`", "description": "Subject with a current value (`.value`) that is replayed to every new subscriber." },
+  { "term": "`ReplaySubject(n)`", "description": "Replays the last `n` values to new subscribers." },
+  { "term": "`asObservable()`", "description": "Returns a read-only observable view of a Subject, hiding `next()`." },
+  { "term": "`shareReplay`", "description": "Multicasts a cold source and replays the latest values; use `refCount: true` to unsubscribe when nobody listens." }
+]

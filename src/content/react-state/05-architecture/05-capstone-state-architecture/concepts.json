@@ -1,0 +1,7 @@
+[
+  { "term": "Layered state architecture", "description": "Server cache + URL state + client store + local state, each holding only the state that matches its strengths." },
+  { "term": "URL-driven query key", "description": "Using URL params as query key parts, so navigation, reloads and shared links map directly to cache entries." },
+  { "term": "Functional setSearchParams", "description": "`setSearchParams((params) => ...)` updates one param while keeping the others; delete defaults to keep URLs clean." },
+  { "term": "Draft reset with key", "description": "`key={q}` remounts a local draft when the committed URL value changes elsewhere, avoiding sync effects." },
+  { "term": "Copy on intent", "description": "A client store copies server data only at a user's explicit action (adding to cart) and only the fields it needs." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "`<ng-template>`", "description": "Defines a `TemplateRef` that is not rendered until a directive or outlet instantiates it." },
+  { "term": "`<ng-container>`", "description": "Logical grouping element that renders no DOM node." },
+  { "term": "Template reference variable", "description": "`#name` on an element, component or `<ng-template>`, usable elsewhere in the same template." },
+  { "term": "`NgTemplateOutlet`", "description": "Renders a `TemplateRef` at a location with an optional context: `*ngTemplateOutlet=\"tpl; context: ctx\"`." },
+  { "term": "`let-` variables", "description": "Inputs of an `<ng-template>` read from the context: `let-item` reads `$implicit`, `let-i=\"index\"` reads `index`." },
+  { "term": "`@let`", "description": "Declares a read-only local variable inside a template." }
+]

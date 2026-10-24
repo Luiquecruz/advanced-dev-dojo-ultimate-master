@@ -1,0 +1,6 @@
+[
+  { "term": "Framework mode", "description": "React Router 7 with the `@react-router/dev` Vite plugin: route config in `app/routes.ts`, SSR or pre-rendering, generated types, automatic code splitting." },
+  { "term": "TanStack Router", "description": "Type-safe router with typed params and validated search params, cached loaders and preloading. TanStack Start adds SSR and server functions." },
+  { "term": "Next.js App Router", "description": "File-system routing in `app/` with layouts, `loading.tsx`, `error.tsx` and Server Components by default." },
+  { "term": "Remix merge", "description": "Remix's features became React Router 7's framework mode." }
+]

@@ -1,0 +1,5 @@
+[
+  { "question": "A component with top-level `await` is rendered without any `<Suspense>` ancestor. What happens?", "options": ["It renders normally", "It renders nothing (and Vue warns)", "It blocks the whole app", "It retries forever"], "answer": 1, "explanation": "Async setup components need a Suspense boundary to resolve and display them." },
+  { "question": "How do you show an error state for a failed async setup?", "options": ["Suspense's `#error` slot", "Capture it in an ancestor with `onErrorCaptured`", "A try/catch in the template", "The `timeout` prop"], "answer": 1, "explanation": "Suspense has no error slot; errors propagate to ancestors where `onErrorCaptured` can handle them." },
+  { "question": "The `userId` prop changes but the async component shows the old user. Why?", "options": ["Props are not reactive", "Async setup runs only once per instance", "Suspense caches results", "fetch is cached"], "answer": 1, "explanation": "Use `:key=\"userId\"` to recreate the component or fetch inside a watcher instead." }
+]

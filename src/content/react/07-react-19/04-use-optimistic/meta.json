@@ -1,0 +1,9 @@
+{
+  "title": "useOptimistic",
+  "summary": "Show expected results instantly while an Action runs, with automatic rollback on failure.",
+  "level": "advanced",
+  "tags": ["modern", "new"],
+  "resources": [
+    { "label": "react.dev: useOptimistic", "url": "https://react.dev/reference/react/useOptimistic" }
+  ]
+}

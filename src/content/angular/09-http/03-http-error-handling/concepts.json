@@ -1,0 +1,9 @@
+[
+  { "term": "HttpErrorResponse", "description": "Error emitted by HttpClient for non-2xx statuses and network failures. Key fields: `status`, `statusText`, `error` (parsed body), `url`, `message`." },
+  { "term": "status 0", "description": "No HTTP response at all: offline, DNS, CORS rejection or aborted request." },
+  { "term": "catchError", "description": "RxJS operator that replaces an error with another observable: a fallback value (`of(...)`), `EMPTY`, or a mapped error (`throwError(() => e)`)." },
+  { "term": "retry({ count, delay })", "description": "Resubscribes (re-sends the request) after errors. `delay(error, retryCount)` returns a notifier observable or throws to stop." },
+  { "term": "Idempotency", "description": "GET, PUT and DELETE can be repeated safely. Retrying a POST may create duplicates." },
+  { "term": "rxResource", "description": "Signal resource fed by an Observable: `value()`, `hasValue()`, `isLoading()`, `error()` and `reload()`." },
+  { "term": "ErrorHandler", "description": "Global Angular hook for uncaught errors. Report them to monitoring; handle expected HTTP failures closer to the UI." }
+]

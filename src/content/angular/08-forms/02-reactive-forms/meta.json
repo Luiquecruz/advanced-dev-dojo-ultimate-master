@@ -1,0 +1,10 @@
+{
+  "title": "Reactive Forms",
+  "summary": "Model a login form with FormBuilder, FormGroup and Validators, show touched-only errors, patch values and emit the typed result.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [
+    { "label": "angular.dev: Reactive forms", "url": "https://angular.dev/guide/forms/reactive-forms" },
+    { "label": "angular.dev: Validating form input", "url": "https://angular.dev/guide/forms/form-validation" }
+  ]
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Inside `if (typeof value === 'object')`, where `value: string[] | null`, what is the type of `value`?",
+    "options": ["`string[]`", "`string[] | null`", "`object`", "`never`"],
+    "answer": 1,
+    "explanation": "`typeof null` is `\"object\"`, so `null` stays in the union. Add `value !== null` to remove it."
+  },
+  {
+    "question": "Why can you not write `if (value instanceof User)` when `User` is an interface?",
+    "options": ["Interfaces are erased and do not exist at runtime", "instanceof only works with Date", "Interfaces cannot be in unions", "You can, it works"],
+    "answer": 0,
+    "explanation": "`instanceof` needs a constructor function at runtime. Interfaces and type aliases are compile-time only; use `in`, a discriminant, or a type predicate."
+  },
+  {
+    "question": "What does `(value as Date).getTime()` check at runtime?",
+    "options": ["That value is a Date", "That value has getTime", "Nothing, assertions are erased", "That value is not null"],
+    "answer": 2,
+    "explanation": "Type assertions only change the static type; no code is generated. Use a type guard when you need a check."
+  }
+]

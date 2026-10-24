@@ -1,0 +1,6 @@
+[
+  { "term": "keyof", "description": "Type operator producing the union of an object type's property names." },
+  { "term": "Indexed access type", "description": "`T['key']` or `T[K]` looks up the type of a property; `T[number]` reads the element type of an array." },
+  { "term": "K extends keyof T", "description": "Constrains a type parameter to valid keys of `T`, so the key is checked and `T[K]` is exact." },
+  { "term": "Object.keys returns string[]", "description": "Objects may have more properties than their type declares, so TypeScript does not promise `(keyof T)[]`." }
+]

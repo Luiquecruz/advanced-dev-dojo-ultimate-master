@@ -1,0 +1,10 @@
+{
+  "title": "useReducer",
+  "summary": "Centralize complex state transitions in a pure reducer and dispatch actions that describe what happened.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: Extracting State Logic into a Reducer", "url": "https://react.dev/learn/extracting-state-logic-into-a-reducer" },
+    { "label": "react.dev: useReducer", "url": "https://react.dev/reference/react/useReducer" }
+  ]
+}

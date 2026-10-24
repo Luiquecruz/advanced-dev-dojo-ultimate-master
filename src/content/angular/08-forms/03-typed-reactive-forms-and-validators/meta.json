@@ -1,0 +1,11 @@
+{
+  "title": "Typed Reactive Forms & Custom Validators",
+  "summary": "Type your forms with NonNullableFormBuilder, write validator factories, validate across fields on a FormGroup and manage dynamic FormArrays.",
+  "level": "advanced",
+  "tags": ["core", "typescript"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "angular.dev: Typed forms", "url": "https://angular.dev/guide/forms/typed-forms" },
+    { "label": "angular.dev: Custom validators", "url": "https://angular.dev/guide/forms/form-validation#defining-custom-validators" }
+  ]
+}

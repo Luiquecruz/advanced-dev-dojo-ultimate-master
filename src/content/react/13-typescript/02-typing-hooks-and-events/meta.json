@@ -1,0 +1,11 @@
+{
+  "title": "Typing Hooks and Events",
+  "summary": "Type useState, useRef and useReducer with discriminated union actions, and handle ChangeEvent and SubmitEvent safely.",
+  "level": "intermediate",
+  "tags": ["typescript"],
+  "resources": [
+    { "label": "react.dev: TypeScript, typing hooks", "url": "https://react.dev/learn/typescript#typing-hooks" },
+    { "label": "React TypeScript Cheatsheet: Hooks", "url": "https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/hooks" },
+    { "label": "React TypeScript Cheatsheet: Forms and Events", "url": "https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/forms_and_events" }
+  ]
+}

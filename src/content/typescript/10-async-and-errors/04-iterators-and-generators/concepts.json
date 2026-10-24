@@ -1,0 +1,7 @@
+[
+  { "term": "Iterable", "description": "An object with a `[Symbol.iterator]()` method. Consumed by `for...of`, spread and `Array.from`." },
+  { "term": "Iterator", "description": "An object with `next()` returning `{ done, value }` results." },
+  { "term": "Generator<T, TReturn, TNext>", "description": "The object returned by a `function*`: yields `T`, returns `TReturn`, accepts `TNext` through `next()`." },
+  { "term": "yield*", "description": "Delegates to another iterable, yielding each of its values." },
+  { "term": "Iterator helpers", "description": "ES2025 lazy `map`, `filter`, `take`, `drop`, `toArray`… on built-in iterators, typed via `IteratorObject`." }
+]

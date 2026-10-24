@@ -1,0 +1,9 @@
+{
+  "title": "View and Content Queries",
+  "summary": "Query elements and components with viewChild(), viewChildren(), contentChild() and contentChildren(), and compare them with @ViewChild/@ContentChildren.",
+  "level": "intermediate",
+  "tags": ["core", "modern", "legacy"],
+  "resources": [
+    { "label": "angular.dev: Referencing component children with queries", "url": "https://angular.dev/guide/components/queries" }
+  ]
+}

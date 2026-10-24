@@ -1,0 +1,7 @@
+{
+  "title": "Event Handling",
+  "summary": "Listen to DOM events with v-on, pass $event, and use event, key and mouse modifiers.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "vuejs.org: Event Handling", "url": "https://vuejs.org/guide/essentials/event-handling.html" }]
+}

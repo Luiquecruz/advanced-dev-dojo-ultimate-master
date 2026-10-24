@@ -1,0 +1,20 @@
+[
+  {
+    "question": "You call `this.http.post('/api/todos', body)` but nothing reaches the server. Why?",
+    "options": ["POST needs headers", "HttpClient observables are cold: no subscription, no request", "The body must be stringified", "You must call `.send()`"],
+    "answer": 1,
+    "explanation": "Requests are sent on subscription. Subscribe (or use `firstValueFrom`, `toSignal`, or the async pipe)."
+  },
+  {
+    "question": "What does the generic in `http.get<User[]>(url)` guarantee at runtime?",
+    "options": ["The response is validated against User[]", "Nothing: it is a compile-time assertion about the JSON shape", "It converts dates", "It throws on extra properties"],
+    "answer": 1,
+    "explanation": "TypeScript types are erased. Validate untrusted responses yourself (e.g. with zod) when correctness matters."
+  },
+  {
+    "question": "Which tool lets a test answer HTTP requests synchronously with fake data?",
+    "options": ["`HttpTestingController` with `provideHttpClientTesting()`", "`fakeAsync` only", "`HttpClientModule`", "`mockFetch`"],
+    "answer": 0,
+    "explanation": "`expectOne()` finds the pending request, `flush()` answers it, and `verify()` fails if unexpected requests remain."
+  }
+]

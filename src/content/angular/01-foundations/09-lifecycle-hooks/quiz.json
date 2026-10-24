@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Why does `this.intervalMs()` in the constructor return the default instead of the parent's value?",
+    "options": ["Signals are lazy", "Inputs are set after the instance is constructed", "The constructor runs on the server", "It's a bug in Angular"],
+    "answer": 1,
+    "explanation": "Angular must create the instance before it can write inputs to it. Use `ngOnInit`, `computed()` or `effect()` to read inputs."
+  },
+  {
+    "question": "Where should code that measures an element's height after rendering live?",
+    "options": ["`constructor`", "`ngOnInit`", "`afterNextRender` / `afterEveryRender`", "`ngOnChanges`"],
+    "answer": 2,
+    "explanation": "Render hooks run after the DOM has been updated and are skipped during SSR, where there is no layout."
+  },
+  {
+    "question": "Which is the modern replacement for `destroy$ = new Subject()` + `takeUntil(this.destroy$)` + `ngOnDestroy`?",
+    "options": ["`ngDoCheck`", "`DestroyRef` / `takeUntilDestroyed()`", "`afterEveryRender`", "`OnPush`"],
+    "answer": 1,
+    "explanation": "`DestroyRef.onDestroy()` and the RxJS operator `takeUntilDestroyed()` tie cleanup to the component's lifetime without boilerplate."
+  }
+]

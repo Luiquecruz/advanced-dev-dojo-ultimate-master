@@ -1,0 +1,52 @@
+[
+  {
+    "question": "After upgrading to TypeScript 6.0, `process` and `describe` are suddenly unknown. What is the fix?",
+    "options": [
+      "Install @types/node again",
+      "Add \"types\": [\"node\", \"vitest/globals\"] (or the relevant packages) to compilerOptions",
+      "Enable skipLibCheck",
+      "Switch moduleResolution to node10"
+    ],
+    "answer": 1,
+    "explanation": "TypeScript 6.0 defaults `types` to `[]`, so global type packages must be listed explicitly."
+  },
+  {
+    "question": "What can a `.d.ts` file NOT contain?",
+    "options": ["Interfaces", "declare const statements", "A function body", "declare module blocks"],
+    "answer": 2,
+    "explanation": "Declaration files describe shapes only. Implementations belong in `.ts` or `.js` files."
+  },
+  {
+    "question": "How do you make `import logo from './logo.svg'` type check in a bundler project?",
+    "options": [
+      "declare module '*.svg' { const url: string; export default url; }",
+      "import type logo from './logo.svg'",
+      "Add svg to the lib option",
+      "Rename the file to logo.svg.ts"
+    ],
+    "answer": 0,
+    "explanation": "A wildcard ambient module declaration describes every import that matches the pattern."
+  },
+  {
+    "question": "Why does adding `export {}` to a global `.d.ts` file break its global declarations?",
+    "options": [
+      "export {} is invalid in declaration files",
+      "It turns the file into a module, so top-level declarations become module-scoped",
+      "It deletes all interfaces in the file",
+      "It disables skipLibCheck"
+    ],
+    "answer": 1,
+    "explanation": "Any top-level import or export makes the file a module. Wrap globals in `declare global { ... }`."
+  },
+  {
+    "question": "What does `isolatedDeclarations` enable?",
+    "options": [
+      "Checking each .d.ts file in a separate process",
+      "Fast, per-file declaration emit by tools that do not run the type checker",
+      "Loading declarations from DefinitelyTyped lazily",
+      "Removing declare global blocks"
+    ],
+    "answer": 1,
+    "explanation": "By requiring explicit types on exported API, `.d.ts` output can be produced from each file alone, which tools like oxc and swc exploit."
+  }
+]

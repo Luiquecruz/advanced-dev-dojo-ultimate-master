@@ -1,0 +1,9 @@
+{
+  "title": "Lifecycle Hooks",
+  "summary": "Run code at the right moment with ngOnInit, ngOnChanges, ngOnDestroy, DestroyRef and the afterNextRender render hook.",
+  "level": "intermediate",
+  "tags": ["core", "modern", "legacy"],
+  "resources": [
+    { "label": "angular.dev: Component lifecycle", "url": "https://angular.dev/guide/components/lifecycle" }
+  ]
+}

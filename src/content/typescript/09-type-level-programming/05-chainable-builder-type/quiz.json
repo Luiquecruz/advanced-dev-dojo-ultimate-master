@@ -1,0 +1,24 @@
+[
+  {
+    "question": "Why does `Equal<{ a: 1 } & { b: 2 }, { a: 1; b: 2 }>` fail while the two types are mutually assignable?",
+    "options": [
+      "Intersections are not assignable to object types",
+      "The strict `Equal` helper distinguishes an intersection from the equivalent flat object type",
+      "Literal types are widened inside intersections",
+      "Because `&` removes properties"
+    ],
+    "answer": 1,
+    "explanation": "`Equal` compares types through an identity check, not assignability. Flattening with `Simplify` makes them identical."
+  },
+  {
+    "question": "How can `option(key: K extends keyof T ? never : K, ...)` reject duplicate keys?",
+    "options": [
+      "TypeScript infers `K` from the argument, then the parameter resolves to `never` when `K` already exists, so the argument is not assignable",
+      "The conditional type throws at runtime",
+      "`never` parameters make the method optional",
+      "It relies on overloads"
+    ],
+    "answer": 0,
+    "explanation": "Inference sees the naked `K` inside the conditional type, then checks the argument against the resolved type, which is `never` for duplicate keys."
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "title": "Excess property checks",
+  "summary": "Understand why object literals with unknown properties are rejected.",
+  "level": "intermediate",
+  "tags": []
+}

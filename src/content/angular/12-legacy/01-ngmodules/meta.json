@@ -1,0 +1,10 @@
+{
+  "title": "NgModules",
+  "summary": "Declare non-standalone components in an NgModule, control its public API with exports and consume it from a standalone component.",
+  "level": "intermediate",
+  "tags": ["legacy"],
+  "resources": [
+    { "label": "angular.dev: NgModules", "url": "https://angular.dev/guide/ngmodules/overview" },
+    { "label": "angular.dev: Migrate to standalone", "url": "https://angular.dev/reference/migrations/standalone" }
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  { "term": "form(model)", "description": "Wraps a `WritableSignal` in a **field tree** mirroring its shape. The signal stays the source of truth: edits write into it, `model.set()` updates the inputs." },
+  { "term": "Field tree", "description": "Navigable structure (`f.address.city`). Calling a field, `f.address.city()`, returns its `FieldState`." },
+  { "term": "FieldState", "description": "Signals describing one field: `value`, `valid`, `invalid`, `errors`, `touched`, `dirty`, `disabled`, `pending`, plus `markAsTouched()` and `reset()`." },
+  { "term": "FormField directive", "description": "`[formField]=\"f.email\"` binds a native input, select, textarea or custom control to a field, with automatic type handling for numbers and checkboxes." },
+  { "term": "Schema", "description": "Optional second argument of `form()`: a function receiving paths where you declare validation and logic (`required(p.name)`)." }
+]

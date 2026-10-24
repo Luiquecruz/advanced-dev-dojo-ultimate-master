@@ -1,0 +1,9 @@
+[
+  { "term": "createApi", "description": "Defines a base query and endpoints, and generates a reducer, a middleware and hooks such as `useGetTodosQuery`." },
+  { "term": "providesTags", "description": "Tags describing what a query's data contains, e.g. `{ type: 'Todo', id: 2 }` or the collection tag `{ type: 'Todo', id: 'LIST' }`." },
+  { "term": "invalidatesTags", "description": "Tags a mutation makes stale. Active queries providing a matching tag refetch automatically." },
+  { "term": "LIST tag", "description": "Convention for the collection itself: creations invalidate it so lists refetch without touching detail queries." },
+  { "term": "baseQuery", "description": "Function `(args, api, extraOptions)` returning `{ data }` or `{ error }`. `fetchBaseQuery` is the default; custom ones wrap other clients." },
+  { "term": "updateQueryData", "description": "`api.util.updateQueryData(endpoint, args, recipe)` patches cached data with Immer and returns a patch with `undo()` for optimistic updates." },
+  { "term": "selectFromResult", "description": "Hook option that subscribes a component to a derived part of a query result, limiting re-renders." }
+]

@@ -1,0 +1,8 @@
+{
+  "title": "Fallthrough Attributes",
+  "summary": "Understand $attrs, class/style merging and inheritAttrs: false to build wrapper components.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: Fallthrough Attributes", "url": "https://vuejs.org/guide/components/attrs.html" }]
+}

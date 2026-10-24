@@ -1,0 +1,8 @@
+[
+  { "term": "PiniaPlugin", "description": "Function receiving `{ store, options, pinia, app }`, run once per store. Registered with `pinia.use(plugin)`." },
+  { "term": "$subscribe", "description": "Observes state changes with `(mutation, state)`. Options: `flush` (`'pre'` by default) and `detached`." },
+  { "term": "$onAction", "description": "Hooks into every action call with `name`, `args`, `after` and `onError`." },
+  { "term": "DefineStoreOptionsBase", "description": "Interface to augment so custom store options (like `persist`) type-check." },
+  { "term": "setActivePinia", "description": "Makes a Pinia instance active so stores can be used outside components, e.g. in unit tests." },
+  { "term": "createTestingPinia", "description": "From `@pinia/testing`: stubs actions with spies and accepts `initialState` for component tests." }
+]

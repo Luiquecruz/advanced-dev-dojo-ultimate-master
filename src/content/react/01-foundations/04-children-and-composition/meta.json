@@ -1,0 +1,11 @@
+{
+  "title": "Children and Composition",
+  "summary": "Build container components with children and slot props, and compose instead of inheriting.",
+  "level": "beginner",
+  "tags": ["core"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "react.dev: Passing JSX as children", "url": "https://react.dev/learn/passing-props-to-a-component#passing-jsx-as-children" },
+    { "label": "react.dev: Legacy React APIs", "url": "https://react.dev/reference/react/legacy" }
+  ]
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "question": "What does React render for `<card />` when `function card()` exists in scope?",
+    "options": [
+      "It calls `card()` and renders its result",
+      "An unknown `<card>` HTML element; the function is never called",
+      "A compile error",
+      "Nothing, React skips lowercase tags"
+    ],
+    "answer": 1,
+    "explanation": "Lowercase tags compile to strings (`jsx('card', ...)`), so React creates a DOM element named `card`. Components must be capitalized."
+  },
+  {
+    "question": "Why should you avoid declaring a component inside another component?",
+    "options": [
+      "It is a syntax error",
+      "It makes the bundle larger",
+      "The inner component is a new type on every render, so React remounts it and resets its state",
+      "Inner components cannot receive props"
+    ],
+    "answer": 2,
+    "explanation": "React compares component types by reference. A function recreated on each render is a different type each time, so the subtree is destroyed and recreated."
+  },
+  {
+    "question": "How do you import `export function Avatar() {}` from `./Avatar`?",
+    "options": [
+      "`import Avatar from './Avatar'`",
+      "`import { Avatar } from './Avatar'`",
+      "`import * from './Avatar'`",
+      "`require Avatar from './Avatar'`"
+    ],
+    "answer": 1,
+    "explanation": "Named exports are imported with braces. Only a default export can be imported without them."
+  }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Angular CLI", "description": "The `ng` command line tool: `ng new`, `ng serve`, `ng generate`, `ng test`, `ng build`, `ng update`." },
+  { "term": "Standalone component", "description": "A component that lists its own dependencies in `imports` and needs no `NgModule`. The default since Angular 19." },
+  { "term": "bootstrapApplication", "description": "Starts an application from a standalone root component and an `ApplicationConfig` with providers." },
+  { "term": "Signal", "description": "A reactive value container (`signal()`, `computed()`) that tells Angular precisely which views depend on it." },
+  { "term": "Zoneless", "description": "Change detection without zone.js, driven by signals and explicit notifications. The default for new apps since Angular 21." },
+  { "term": "AngularJS", "description": "The original 1.x framework (2010). Angular 2+ is a rewrite, not an upgrade." }
+]

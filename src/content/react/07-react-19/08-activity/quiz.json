@@ -1,0 +1,41 @@
+[
+  {
+    "question": "What happens to a component's state when its `<Activity>` switches to `mode=\"hidden\"`?",
+    "options": ["It is reset", "It is preserved", "It is serialized to sessionStorage", "It becomes read-only"],
+    "answer": 1,
+    "explanation": "Hidden Activities keep their state and DOM; only effects are cleaned up."
+  },
+  {
+    "question": "Which is true about effects inside a hidden Activity?",
+    "options": [
+      "They keep running normally",
+      "Their cleanups run, and they are re-created when the Activity becomes visible",
+      "They run twice",
+      "They throw"
+    ],
+    "answer": 1,
+    "explanation": "Hidden mode unmounts effects, so subscriptions and timers stop while hidden."
+  },
+  {
+    "question": "How does hiding with `<Activity>` differ from hiding with CSS `display: none`?",
+    "options": [
+      "No difference",
+      "Activity also pauses effects and defers updates of the hidden tree",
+      "CSS preserves state but Activity does not",
+      "Activity removes the DOM nodes"
+    ],
+    "answer": 1,
+    "explanation": "Both keep the DOM, but only Activity cleans up effects and lowers the rendering priority of hidden content."
+  },
+  {
+    "question": "Why can `<Activity mode=\"hidden\">` make the next tab appear instantly?",
+    "options": [
+      "It caches screenshots",
+      "Hidden content is pre-rendered in the background at low priority",
+      "It disables animations",
+      "It prefetches the next route's JavaScript only"
+    ],
+    "answer": 1,
+    "explanation": "Hidden trees still render when React is idle, so their data, code and images can be ready before they are shown."
+  }
+]

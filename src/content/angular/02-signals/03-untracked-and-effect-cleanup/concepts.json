@@ -1,0 +1,7 @@
+[
+  { "term": "untracked()", "description": "Reads a signal or runs a function without registering dependencies for the surrounding effect/computed." },
+  { "term": "onCleanup", "description": "Parameter of the effect function. Registers a callback run before the next execution and on destroy." },
+  { "term": "EffectRef", "description": "Returned by `effect()`; `destroy()` stops the effect manually." },
+  { "term": "manualCleanup", "description": "Effect option that disables automatic destruction with the owning injector." },
+  { "term": "afterRenderEffect()", "description": "An effect variant that runs after rendering, for DOM reads/writes based on signals." }
+]

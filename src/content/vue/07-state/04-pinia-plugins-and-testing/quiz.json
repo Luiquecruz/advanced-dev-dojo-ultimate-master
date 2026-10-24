@@ -1,0 +1,5 @@
+[
+  { "question": "In a unit test you call `pinia.use(myPlugin)` and `setActivePinia(pinia)`, but the plugin never runs. Why?", "options": ["Plugins only run in production", "Plugins are queued until Pinia is installed in an app with `app.use(pinia)`", "setActivePinia disables plugins", "Plugins must be async"], "answer": 1, "explanation": "Install Pinia into a throwaway app (`createApp({}).use(pinia)`) in tests that need plugins." },
+  { "question": "What does `createTestingPinia()` do to actions by default?", "options": ["Runs them normally", "Replaces them with spies that do not execute the real code", "Removes them", "Makes them async"], "answer": 1, "explanation": "Actions are stubbed so component tests only verify the calls; pass `stubActions: false` to run them." },
+  { "question": "Which API lets a plugin react after an action finishes?", "options": ["$subscribe", "$patch", "$onAction with after()", "watch(store)"], "answer": 2, "explanation": "`$onAction` callbacks receive `after` and `onError` hooks." }
+]

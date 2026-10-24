@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What value does the child receive for `<app-price amount=\"120\" />` when `amount = input(0)`?",
+    "options": ["The number 120", "The string \"120\"", "0", "A compile error is always raised"],
+    "answer": 1,
+    "explanation": "Static attributes always pass strings. Bind `[amount]=\"120\"` or add `transform: numberAttribute` to get a number."
+  },
+  {
+    "question": "How do you derive state from a signal input?",
+    "options": ["Implement `ngOnChanges`", "Use `computed(() => ...)` reading the input", "Call `input.set()` in the constructor", "Use a setter on the property"],
+    "answer": 1,
+    "explanation": "Input signals are regular signals for the child, so `computed()` re-evaluates whenever the parent passes a new value."
+  },
+  {
+    "question": "What happens when a child tries `this.name.set('x')` on `name = input('')`?",
+    "options": ["The parent's value updates", "It works locally only", "It does not compile: `InputSignal` has no `set` method", "It throws at runtime only in production"],
+    "answer": 2,
+    "explanation": "Inputs are read-only for the child. Use `model()` for two-way binding or `linkedSignal()` for a local editable copy."
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "title": "The this parameter",
+  "summary": "Type `this` explicitly, let the compiler reject detached method calls, and keep receivers attached with bind or arrow functions.",
+  "level": "intermediate",
+  "tags": ["core", "legacy"]
+}

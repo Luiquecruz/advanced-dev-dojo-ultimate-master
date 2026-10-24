@@ -1,0 +1,11 @@
+{
+  "title": "Schema Validation with Zod",
+  "summary": "Describe form rules once with Zod 4 and connect them to VeeValidate through a TypedSchema adapter.",
+  "level": "advanced",
+  "tags": ["ecosystem", "typescript"],
+  "entry": "App.vue",
+  "resources": [
+    { "label": "Zod 4 documentation", "url": "https://zod.dev/" },
+    { "label": "VeeValidate: Typed Schemas", "url": "https://vee-validate.logaretm.com/v4/guide/composition-api/typed-schema/" }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Distributive conditional types",
+  "summary": "Conditional types map over union members one by one. Learn to use distribution for filtering and to switch it off when you need the whole union.",
+  "level": "advanced",
+  "tags": ["core", "typescript"]
+}

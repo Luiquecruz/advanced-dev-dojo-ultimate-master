@@ -1,0 +1,11 @@
+{
+  "title": "Two-Way Binding with model()",
+  "summary": "Create components the parent can bind with [( )] using model(), and see how it replaces the @Input + @Output xChange pair.",
+  "level": "intermediate",
+  "tags": ["core", "modern", "legacy"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "angular.dev: Model inputs", "url": "https://angular.dev/guide/components/inputs#model-inputs" },
+    { "label": "angular.dev: Two-way binding", "url": "https://angular.dev/guide/templates/two-way-binding" }
+  ]
+}

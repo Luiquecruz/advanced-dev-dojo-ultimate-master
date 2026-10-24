@@ -1,0 +1,11 @@
+{
+  "title": "toRef, toRefs & Destructuring",
+  "summary": "Keep reactivity when destructuring with toRefs and toRef, and accept flexible inputs with toValue.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "preview": false,
+  "resources": [
+    { "label": "vuejs.org: Reactivity API Utilities", "url": "https://vuejs.org/api/reactivity-utilities.html" },
+    { "label": "vuejs.org: Composables, input arguments", "url": "https://vuejs.org/guide/reusability/composables.html#input-arguments" }
+  ]
+}

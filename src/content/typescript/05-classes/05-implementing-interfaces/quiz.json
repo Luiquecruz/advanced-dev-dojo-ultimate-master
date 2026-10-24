@@ -1,0 +1,20 @@
+[
+  {
+    "question": "`class A implements Parser { parse(input) { ... } }` where `Parser.parse(input: string)`. What type does `input` get under `strict`?",
+    "options": ["`string`, inferred from the interface", "Implicit `any`, which is an error", "`unknown`", "`never`"],
+    "answer": 1,
+    "explanation": "`implements` does not contextually type class members, so unannotated parameters are implicit `any` and rejected by `noImplicitAny`."
+  },
+  {
+    "question": "How do you check that a class constructor matches `interface Factory { new (): Shape }`?",
+    "options": ["`class Square implements Factory`", "`const factory: Factory = Square;`", "`class Square extends Factory`", "`Square satisfies Shape`"],
+    "answer": 1,
+    "explanation": "Construct signatures describe the class value. Assigning the class to a variable of that type checks the static side."
+  },
+  {
+    "question": "Is `value instanceof Logger` valid when `Logger` is an interface?",
+    "options": ["Yes", "No, interfaces are erased and have no runtime value", "Only with `implements`", "Only for abstract members"],
+    "answer": 1,
+    "explanation": "Interfaces exist only at compile time. Use a type predicate or a class for runtime checks."
+  }
+]

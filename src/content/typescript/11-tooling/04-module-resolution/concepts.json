@@ -1,0 +1,8 @@
+[
+  { "term": "Module resolution", "description": "The algorithm that maps an import specifier to a file. Must match the runtime or bundler." },
+  { "term": "nodenext", "description": "Node's ESM/CommonJS rules: extensions required in ESM, `type` field and `.mts`/`.cts` decide the format." },
+  { "term": "bundler", "description": "Resolution for bundled apps: extensionless and index imports allowed, `exports` still respected." },
+  { "term": "exports field", "description": "`package.json` map of public entry points and conditions such as `types`, `import`, `require`, `default`." },
+  { "term": "Subpath imports", "description": "Package-private specifiers starting with `#` defined in the `imports` field. Understood by Node, bundlers and TypeScript." },
+  { "term": "paths", "description": "Compile-time aliases. The runtime needs an equivalent alias, since tsc does not rewrite specifiers." }
+]

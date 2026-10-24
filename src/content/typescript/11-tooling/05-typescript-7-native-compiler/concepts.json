@@ -1,0 +1,8 @@
+[
+  { "term": "Project Corsa", "description": "Codename of the Go port of the TypeScript compiler that became TypeScript 7." },
+  { "term": "Port vs rewrite", "description": "The code was translated with the same structure and logic, so type checking matches TypeScript 6.0." },
+  { "term": "--checkers / --builders", "description": "Control how many type-checking workers and parallel project builds TypeScript 7 uses." },
+  { "term": "@typescript/typescript6", "description": "Package exposing the 6.0 JavaScript API and a `tsc6` binary for tools that need the compiler API." },
+  { "term": "LSP", "description": "Language Server Protocol, the editor protocol used by TypeScript 7's language server." },
+  { "term": "stableTypeOrdering", "description": "Deterministic type ordering, always on in 7.0 and available as a flag in 6.0 to preview differences." }
+]

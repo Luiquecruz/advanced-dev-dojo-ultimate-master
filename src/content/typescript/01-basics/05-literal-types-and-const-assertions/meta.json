@@ -1,0 +1,6 @@
+{
+  "title": "Literal types and const assertions",
+  "summary": "Use literal unions for closed sets of values and derive them from `as const` data to keep one source of truth.",
+  "level": "beginner",
+  "tags": ["core", "modern"]
+}

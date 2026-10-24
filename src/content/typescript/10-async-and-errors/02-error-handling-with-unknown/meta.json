@@ -1,0 +1,10 @@
+{
+  "title": "Error handling with unknown",
+  "summary": "Catch variables are unknown: narrow them, build custom error classes and wrap failures with cause.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "TypeScript 4.4: unknown in catch variables", "url": "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-4.html#defaulting-to-the-unknown-type-in-catch-variables---useunknownincatchvariables" },
+    { "label": "MDN: Error cause", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause" }
+  ]
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "question": "Which route definition lazy loads a standalone component that is the default export of `./settings.ts`?",
+    "options": ["`{ path: 'settings', component: import('./settings') }`", "`{ path: 'settings', loadComponent: () => import('./settings') }`", "`{ path: 'settings', loadChildren: './settings#Settings' }`", "`{ path: 'settings', lazy: Settings }`"],
+    "answer": 1,
+    "explanation": "`loadComponent` takes a function returning a dynamic `import()`. With a default export, the `.then(m => m.X)` step can be omitted."
+  },
+  {
+    "question": "What does `loadChildren` resolve to in a standalone application?",
+    "options": ["A component", "A `Routes` array (or an NgModule in legacy code)", "A service", "A URL string"],
+    "answer": 1,
+    "explanation": "`loadChildren` lazy loads a set of child routes, typically `export default [...] satisfies Routes` in a `*.routes.ts` file."
+  },
+  {
+    "question": "Why use `canMatch` instead of `canActivate` on a lazy admin area?",
+    "options": ["`canActivate` doesn't work on lazy routes", "`canMatch` runs before the chunk is downloaded, so unauthorized users never fetch the admin code", "`canMatch` is faster at runtime", "They behave identically"],
+    "answer": 1,
+    "explanation": "`canActivate` runs after the route was matched and its code loaded. `canMatch` rejects the match itself and also prevents preloading."
+  },
+  {
+    "question": "What does `withPreloading(PreloadAllModules)` do?",
+    "options": ["Bundles every route into the main chunk", "Downloads all lazy chunks in the background after the initial navigation", "Prerenders pages on the server", "Disables lazy loading"],
+    "answer": 1,
+    "explanation": "The initial bundle stays small, and lazy chunks arrive in the background so later navigations are instant."
+  },
+  {
+    "question": "Your lazy route's chunk still appears in the main bundle. What is the most likely cause?",
+    "options": ["Preloading is enabled", "Some eagerly loaded file imports the component statically", "The component is standalone", "The route has a title"],
+    "answer": 1,
+    "explanation": "A single static `import { Reports } from './reports'` in eager code makes the bundler include it in the main chunk."
+  },
+  {
+    "question": "When should you reach for `@defer` instead of a lazy route?",
+    "options": ["To split whole pages", "To lazy load a heavy part of a template inside a page that is already displayed", "To replace guards", "Never, they do the same thing"],
+    "answer": 1,
+    "explanation": "Lazy routes split at navigation boundaries; `@defer` splits within a template (viewport, interaction, idle triggers)."
+  }
+]

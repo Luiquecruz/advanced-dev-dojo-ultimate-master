@@ -1,0 +1,9 @@
+[
+  { "term": "Store", "description": "A reactive object living outside the component tree, shared by every component that calls its `useXxxStore()` function." },
+  { "term": "defineStore(id, options)", "description": "Declares a store. The `id` is unique and must be the first argument." },
+  { "term": "Option store", "description": "A store described with `state`, `getters` and `actions`, mirroring the Options API." },
+  { "term": "Getter", "description": "A cached computed value derived from state. Receives `state`; can use `this` to reach other getters." },
+  { "term": "Action", "description": "A method (sync or async) that changes state through `this`. Replaces Vuex mutations and actions." },
+  { "term": "$reset()", "description": "Restores the initial state by calling `state()` again. Only available on option stores." },
+  { "term": "$patch", "description": "Applies a partial object or a mutator function to the state as a single change." }
+]

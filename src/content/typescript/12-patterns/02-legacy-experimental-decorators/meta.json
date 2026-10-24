@@ -1,0 +1,10 @@
+{
+  "title": "Legacy experimental decorators",
+  "summary": "How experimentalDecorators, parameter decorators and emitDecoratorMetadata power NestJS-style frameworks, and how to migrate to standard decorators.",
+  "level": "advanced",
+  "tags": ["legacy", "theory", "ecosystem"],
+  "resources": [
+    { "label": "TypeScript Handbook: Decorators (experimental)", "url": "https://www.typescriptlang.org/docs/handbook/decorators.html" },
+    { "label": "NestJS: Providers", "url": "https://docs.nestjs.com/providers" }
+  ]
+}

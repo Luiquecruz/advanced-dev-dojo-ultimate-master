@@ -1,0 +1,7 @@
+[
+  { "term": "experimentalDecorators", "description": "Flag that switches TypeScript to the legacy, pre-standard decorator implementation." },
+  { "term": "Property descriptor", "description": "Object with `value`, `get`, `set`, `writable`... that legacy method decorators mutate or replace." },
+  { "term": "Parameter decorator", "description": "Legacy-only decorator on a constructor or method parameter, receiving `(target, key, index)`." },
+  { "term": "emitDecoratorMetadata", "description": "Emits `design:type`, `design:paramtypes` and `design:returntype` metadata via `reflect-metadata`." },
+  { "term": "reflect-metadata", "description": "Polyfill for the `Reflect.getMetadata` API used by legacy dependency injection frameworks." }
+]

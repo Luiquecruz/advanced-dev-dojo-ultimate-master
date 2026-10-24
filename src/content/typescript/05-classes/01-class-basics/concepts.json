@@ -1,0 +1,6 @@
+[
+  { "term": "Class field", "description": "A typed property declared in the class body, optionally with an initializer that runs for every new instance." },
+  { "term": "strictPropertyInitialization", "description": "Strict check that every non-optional field is assigned by an initializer or in the constructor." },
+  { "term": "Definite assignment assertion", "description": "`field!: Type` tells the compiler the field is assigned somewhere it cannot see. It disables the check for that field." },
+  { "term": "Class as value and type", "description": "`class Timer` declares both the constructor function (a value) and the instance type `Timer`." }
+]

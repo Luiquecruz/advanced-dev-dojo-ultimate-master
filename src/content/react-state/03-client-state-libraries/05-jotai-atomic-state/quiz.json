@@ -1,0 +1,52 @@
+[
+  {
+    "question": "A design tool shows the same `ColorPicker` widget in three panels, each editing a different layer. They use the same atoms and currently all change together. What is the idiomatic fix?",
+    "options": [
+      "Create the atoms inside the component body",
+      "Wrap each widget in its own `<Provider>` and seed it with `useHydrateAtoms`",
+      "Switch to `atomWithStorage` with three keys",
+      "Use `useAtomValue` instead of `useAtom`"
+    ],
+    "answer": 1,
+    "explanation": "Atoms are definitions; values live in a store. A `<Provider>` per widget gives each instance its own store, and `useHydrateAtoms` seeds it. Creating atoms in render would reset them every render."
+  },
+  {
+    "question": "A list of 2,000 editable rows lives in one array atom, and typing in one row re-renders every row. Which Jotai tool targets this directly?",
+    "options": ["`atomWithStorage`", "`splitAtom`", "`useHydrateAtoms`", "`createJSONStorage`"],
+    "answer": 1,
+    "explanation": "`splitAtom` turns the array atom into an atom per item; each row subscribes to its own atom and only the edited row re-renders."
+  },
+  {
+    "question": "A teammate stores `totalPriceAtom` and updates it manually inside every action that touches the cart. What is the problem and the Jotai way?",
+    "options": [
+      "Nothing, manual sync is the recommended pattern",
+      "It is duplicated state that can drift; make it a derived atom `atom((get) => ...)`",
+      "Atoms cannot hold numbers",
+      "It must be moved to `atomWithStorage`"
+    ],
+    "answer": 1,
+    "explanation": "Derived values should be computed, not stored. A read-only derived atom recomputes when its dependencies change and can never be out of sync."
+  },
+  {
+    "question": "You are upgrading an app from Jotai 2 to Jotai 3 and the build fails on `import { atomFamily, loadable } from 'jotai/utils'`. What do you do?",
+    "options": [
+      "Pin `jotai/utils` to v2 while using core v3",
+      "Install `jotai-family` for `atomFamily`, and replace `loadable` with `unwrap` (or Suspense)",
+      "Rewrite the app with Recoil",
+      "Rename them to `atomFamilyV3` and `loadableV3`"
+    ],
+    "answer": 1,
+    "explanation": "Jotai 3 removed those deprecated utilities from the core package. `atomFamily` lives in `jotai-family`, and `unwrap(asyncAtom, fallback)` covers the non-suspending use case of `loadable`."
+  },
+  {
+    "question": "Which situation is the weakest fit for Jotai?",
+    "options": [
+      "A node-based editor where many small values depend on each other",
+      "A dashboard with linked filters and derived summaries",
+      "Caching paginated API data with background refetching and invalidation",
+      "Reusable widgets that need per-instance state"
+    ],
+    "answer": 2,
+    "explanation": "Server data needs a cache with staleness, deduplication and invalidation. Use TanStack Query or RTK Query; atoms are for client state."
+  }
+]

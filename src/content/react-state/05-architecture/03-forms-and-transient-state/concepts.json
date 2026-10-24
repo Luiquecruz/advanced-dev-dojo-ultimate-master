@@ -1,0 +1,7 @@
+[
+  { "term": "Transient state", "description": "State that exists only until an action completes or is cancelled, such as a form draft. Belongs to the form, not to a global store." },
+  { "term": "Uncontrolled input", "description": "The DOM owns the value (`defaultValue`, read with `FormData` or refs). No re-render per keystroke." },
+  { "term": "useActionState", "description": "React 19 hook returning `[state, formAction, isPending]`; the action receives the previous state and the `FormData`." },
+  { "term": "React Hook Form", "description": "Form library built on uncontrolled inputs with `register`, subscription-based `formState`, `useWatch` and schema resolvers." },
+  { "term": "Draft persistence", "description": "Deliberately saving a draft (keyed by entity id) to storage or a store when it must survive navigation or reload." }
+]

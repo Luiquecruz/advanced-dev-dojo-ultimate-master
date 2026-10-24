@@ -1,0 +1,12 @@
+{
+  "title": "The Testing Landscape",
+  "summary": "Vitest, Jest, React Testing Library, Playwright, Cypress and MSW: what each layer tests and how they fit together.",
+  "level": "beginner",
+  "tags": ["testing", "theory", "ecosystem"],
+  "resources": [
+    { "label": "Testing Library: Guiding principles", "url": "https://testing-library.com/docs/guiding-principles" },
+    { "label": "Vitest", "url": "https://vitest.dev" },
+    { "label": "Playwright", "url": "https://playwright.dev" },
+    { "label": "Mock Service Worker", "url": "https://mswjs.io" }
+  ]
+}

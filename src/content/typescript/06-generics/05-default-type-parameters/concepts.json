@@ -1,0 +1,6 @@
+[
+  { "term": "Default type parameter", "description": "`<T = Default>` supplies a type argument when none is written or inferred." },
+  { "term": "Inference beats defaults", "description": "In generic calls, the default is only used when no argument or expected type provides a candidate." },
+  { "term": "Return type inference", "description": "TypeScript can infer a type argument from the type the call result is assigned to." },
+  { "term": "No partial inference", "description": "Explicit type arguments must cover every parameter without a default; the rest is not inferred." }
+]

@@ -1,0 +1,6 @@
+{
+  "title": "Chainable builder types",
+  "summary": "Carry type-level state through a fluent API: accumulate options in a generic parameter, reject duplicates and flatten the result with `Simplify`.",
+  "level": "expert",
+  "tags": ["typescript"]
+}

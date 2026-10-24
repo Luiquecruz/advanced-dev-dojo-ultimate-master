@@ -1,0 +1,7 @@
+[
+  { "term": "Schema", "description": "A runtime description of data that validates input and infers a TypeScript type with `z.infer`." },
+  { "term": "safeParse", "description": "Validates without throwing; returns `{ success: true, data }` or `{ success: false, error }` with `error.issues`." },
+  { "term": "refine", "description": "Adds a custom check. On objects, `path` targets the field that should show the message." },
+  { "term": "TypedSchema", "description": "VeeValidate's schema interface: `{ __type: 'VVTypedSchema', parse }`. Adapters like `@vee-validate/zod` implement it." },
+  { "term": "Standard Schema", "description": "A shared interface implemented by Zod 4, Valibot and ArkType so tools can accept any of them." }
+]

@@ -1,0 +1,10 @@
+{
+  "title": "Context Performance Pitfalls",
+  "summary": "Measure context-driven re-renders, then split contexts by concern, isolate actions and memoize values.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "react.dev: Optimizing re-renders when passing objects and functions", "url": "https://react.dev/reference/react/useContext#optimizing-re-renders-when-passing-objects-and-functions" },
+    { "label": "react.dev: Profiler", "url": "https://react.dev/reference/react/Profiler" }
+  ]
+}

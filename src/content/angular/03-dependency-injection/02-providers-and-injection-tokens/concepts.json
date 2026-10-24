@@ -1,0 +1,8 @@
+[
+  { "term": "Token", "description": "The key used to look up a dependency: a class, an abstract class or an `InjectionToken`." },
+  { "term": "Provider", "description": "A recipe registered under a token: `useClass`, `useValue`, `useFactory` or `useExisting`." },
+  { "term": "`InjectionToken<T>`", "description": "A typed token for values that are not classes (config objects, primitives, functions). Can declare a default with `providedIn` + `factory`." },
+  { "term": "`multi: true`", "description": "Collects all providers of a token into an array instead of letting the last one win." },
+  { "term": "`useExisting`", "description": "Aliases one token to another so both resolve to the same instance." },
+  { "term": "`inject(token, { optional: true })`", "description": "Returns `null` when the token has no provider instead of throwing `NG0201`." }
+]

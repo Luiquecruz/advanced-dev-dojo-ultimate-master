@@ -1,0 +1,11 @@
+{
+  "title": "TypeScript 7: the native compiler",
+  "summary": "Why TypeScript 7 was ported to Go, how much faster it is, what was removed and how to keep tools that need the compiler API working.",
+  "level": "intermediate",
+  "tags": ["theory", "new", "performance", "ecosystem"],
+  "resources": [
+    { "label": "Announcing TypeScript 7.0", "url": "https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/" },
+    { "label": "A 10x faster TypeScript (2025)", "url": "https://devblogs.microsoft.com/typescript/typescript-native-port/" },
+    { "label": "microsoft/typescript-go", "url": "https://github.com/microsoft/typescript-go" }
+  ]
+}

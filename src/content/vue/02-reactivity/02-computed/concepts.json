@@ -1,0 +1,6 @@
+[
+  { "term": "computed()", "description": "Creates a cached, read-only ref derived from reactive state. The getter re-runs only when a dependency changes." },
+  { "term": "Writable computed", "description": "`computed({ get, set })` lets you assign to `.value`; the setter should update the source state." },
+  { "term": "Dependency tracking", "description": "Every reactive value read while the getter runs becomes a dependency automatically." },
+  { "term": "Previous value", "description": "Since Vue 3.4 the getter receives the previously computed value as its first argument." }
+]

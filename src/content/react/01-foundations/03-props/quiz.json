@@ -1,0 +1,25 @@
+[
+  {
+    "question": "With `function Badge({ count = 1 })`, what is `count` for `<Badge count={null} />`?",
+    "options": ["1", "null", "0", "undefined"],
+    "answer": 1,
+    "explanation": "Default values only apply to `undefined`. An explicit `null` is kept."
+  },
+  {
+    "question": "What happens to `Avatar.defaultProps = { size: 64 }` on a function component in React 19?",
+    "options": [
+      "It works exactly as before",
+      "It throws an error at render",
+      "It is ignored; use destructuring defaults instead",
+      "It only works in development"
+    ],
+    "answer": 2,
+    "explanation": "React 19 removed `defaultProps` support for function components. Classes still support `static defaultProps`."
+  },
+  {
+    "question": "Which prop is NOT received by your component?",
+    "options": ["`children`", "`key`", "`onClick`", "`style`"],
+    "answer": 1,
+    "explanation": "`key` is consumed by React to identify elements in lists. It never reaches the component's props."
+  }
+]

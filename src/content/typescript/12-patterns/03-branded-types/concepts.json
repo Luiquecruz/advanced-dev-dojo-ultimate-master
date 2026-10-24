@@ -1,0 +1,6 @@
+[
+  { "term": "Branded type", "description": "A base type intersected with a phantom property so structurally identical values become incompatible." },
+  { "term": "unique symbol", "description": "A symbol type that is unique to its declaration. `declare const brand: unique symbol` creates a collision-free key with no runtime cost." },
+  { "term": "Smart constructor", "description": "A function that validates raw input and returns the branded type. The only place a cast belongs." },
+  { "term": "Parse, don't validate", "description": "Turn checked data into a more precise type so later code cannot receive unchecked values." }
+]

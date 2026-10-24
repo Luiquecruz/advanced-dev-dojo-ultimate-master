@@ -1,0 +1,6 @@
+{
+  "title": "Default type parameters",
+  "summary": "Give type parameters sensible defaults so common uses need fewer type arguments, and learn how defaults interact with inference.",
+  "level": "advanced",
+  "tags": ["core"]
+}

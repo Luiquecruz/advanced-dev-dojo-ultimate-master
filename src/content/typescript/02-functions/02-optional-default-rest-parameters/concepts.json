@@ -1,0 +1,6 @@
+[
+  { "term": "Optional parameter", "description": "`name?: T`: callers may omit it, and inside the body its type is `T | undefined`." },
+  { "term": "Default parameter", "description": "`name = value`: optional for callers, never `undefined` inside the body. Applies only when the argument is `undefined`." },
+  { "term": "Rest parameter", "description": "`...items: T[]` collects the remaining arguments into a real array. Must be the last parameter." },
+  { "term": "arguments", "description": "Legacy array-like object with all arguments. Untyped, missing in arrow functions, replaced by rest parameters." }
+]

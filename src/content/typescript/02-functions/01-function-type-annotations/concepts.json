@@ -1,0 +1,6 @@
+[
+  { "term": "Parameter annotation", "description": "`(price: number)` declares what callers must pass. Required in strict mode because nothing else tells the compiler." },
+  { "term": "Return type annotation", "description": "`(): number` after the parameter list. Optional thanks to inference, but useful on public APIs and to check every path." },
+  { "term": "Arity check", "description": "TypeScript reports calls with too few or too many arguments, unlike JavaScript." },
+  { "term": "Promise<T>", "description": "Return type of every `async` function, where `T` is the type of the returned value." }
+]

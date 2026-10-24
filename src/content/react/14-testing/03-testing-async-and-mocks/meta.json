@@ -1,0 +1,11 @@
+{
+  "title": "Testing Async Code and Mocks",
+  "summary": "Wait for async UI with findBy and waitFor, mock the network and callbacks, and cover error and retry paths.",
+  "level": "intermediate",
+  "tags": ["testing"],
+  "resources": [
+    { "label": "Testing Library: Async methods", "url": "https://testing-library.com/docs/dom-testing-library/api-async" },
+    { "label": "Vitest: Mocking", "url": "https://vitest.dev/guide/mocking" },
+    { "label": "Mock Service Worker", "url": "https://mswjs.io/docs" }
+  ]
+}

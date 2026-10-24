@@ -1,0 +1,6 @@
+{
+  "title": "The satisfies operator",
+  "summary": "Validate a value against a type without losing its precise inferred type, and know when to choose an annotation, `satisfies` or `as`.",
+  "level": "advanced",
+  "tags": ["core", "modern", "typescript"]
+}

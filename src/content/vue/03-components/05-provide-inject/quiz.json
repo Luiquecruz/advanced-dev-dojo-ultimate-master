@@ -1,0 +1,5 @@
+[
+  { "question": "A component calls `provide('x', 1)` and then `inject('x')`. What does `inject` return?", "options": ["`1`", "The value provided by an ancestor, or `undefined`", "An error", "A ref of 1"], "answer": 1, "explanation": "Injection starts at the parent; a component never injects its own provided values." },
+  { "question": "Why provide `readonly(theme)` plus a `toggle` function?", "options": ["Readonly refs are faster", "Only the provider mutates state, which keeps changes traceable", "inject cannot read writable refs", "It is required by TypeScript"], "answer": 1, "explanation": "Descendants request changes through functions; the owner applies them, mirroring props down / events up." },
+  { "question": "Where can `inject()` be called?", "options": ["Anywhere, any time", "Synchronously during setup or in a composable called from setup", "Only in onMounted", "Only in the template"], "answer": 1, "explanation": "inject needs the current component instance, which only exists during synchronous setup (or app.runWithContext)." }
+]

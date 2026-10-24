@@ -1,0 +1,6 @@
+{
+  "title": "Annotating primitive values",
+  "summary": "Annotate variables with string, number and boolean and let the compiler catch type mismatches.",
+  "level": "beginner",
+  "tags": []
+}

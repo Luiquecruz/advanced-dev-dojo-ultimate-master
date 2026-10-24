@@ -1,0 +1,8 @@
+[
+  { "term": "using", "description": "Declares a constant whose `[Symbol.dispose]()` runs automatically when the enclosing block exits." },
+  { "term": "await using", "description": "Like `using`, but awaits `[Symbol.asyncDispose]()`. Only inside async functions or module top level." },
+  { "term": "Disposable / AsyncDisposable", "description": "Interfaces for objects with `[Symbol.dispose]()` or `[Symbol.asyncDispose]()` cleanup methods." },
+  { "term": "Disposal order", "description": "Resources are released in reverse order of declaration, even when an exception leaves the block." },
+  { "term": "DisposableStack", "description": "A container that collects disposables, callbacks (`defer`) and adopted values, and disposes them together." },
+  { "term": "SuppressedError", "description": "Thrown when disposal fails while another error is already propagating; keeps both errors." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Render phase", "description": "React calls components to compute the next UI tree. Pure, interruptible, no DOM changes." },
+  { "term": "Commit phase", "description": "React applies the minimal DOM mutations, then runs layout effects and, after paint, passive effects. Always synchronous." },
+  { "term": "Fiber", "description": "Internal object per component instance holding type, key, props, hooks state and links to parent/child/sibling. Enables pausing and resuming work." },
+  { "term": "Reconciliation", "description": "Diffing the new element tree against the previous one using two heuristics: element **type** and **key**." },
+  { "term": "Key", "description": "Identity of an element among its siblings. Changing it remounts the component and resets its state." },
+  { "term": "Automatic batching", "description": "Multiple state updates in the same event, timeout or promise callback produce a single render (React 18+)." }
+]

@@ -1,0 +1,10 @@
+{
+  "title": "useActionState",
+  "summary": "Derive state from form Actions with built-in pending tracking, queuing and automatic form reset.",
+  "level": "intermediate",
+  "tags": ["modern", "new", "core"],
+  "resources": [
+    { "label": "react.dev: useActionState", "url": "https://react.dev/reference/react/useActionState" },
+    { "label": "react.dev: <form>", "url": "https://react.dev/reference/react-dom/components/form" }
+  ]
+}

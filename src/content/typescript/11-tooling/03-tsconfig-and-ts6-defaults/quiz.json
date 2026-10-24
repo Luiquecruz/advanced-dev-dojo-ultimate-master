@@ -1,0 +1,47 @@
+[
+  {
+    "question": "A project has `{ \"compilerOptions\": {} }` and TypeScript 6.0. Is `strictNullChecks` active?",
+    "options": [
+      "No, strict must be enabled explicitly",
+      "Yes, strict defaults to true in TypeScript 6.0",
+      "Only for .tsx files",
+      "Only when target is es2025"
+    ],
+    "answer": 1,
+    "explanation": "TypeScript 6.0 changed the default of `strict` to `true`, which includes `strictNullChecks`."
+  },
+  {
+    "question": "Which option is deprecated in TypeScript 6.0 and removed in 7.0?",
+    "options": ["paths", "baseUrl", "rootDir", "verbatimModuleSyntax"],
+    "answer": 1,
+    "explanation": "`baseUrl` is deprecated. `paths` keeps working, with entries written relative to the tsconfig file."
+  },
+  {
+    "question": "What does `\"ignoreDeprecations\": \"6.0\"` do?",
+    "options": [
+      "Removes the deprecated options from the config",
+      "Silences the 6.0 deprecation errors; the options still stop working in 7.0",
+      "Makes TypeScript 7 accept the old options",
+      "Downgrades the compiler to 5.9 behavior"
+    ],
+    "answer": 1,
+    "explanation": "It is a temporary escape hatch for the migration window. TypeScript 7.0 removes the options entirely."
+  },
+  {
+    "question": "Which check is NOT part of the `strict` family?",
+    "options": ["strictNullChecks", "noImplicitAny", "noUncheckedIndexedAccess", "useUnknownInCatchVariables"],
+    "answer": 2,
+    "explanation": "`noUncheckedIndexedAccess` (like `exactOptionalPropertyTypes`) must be enabled on its own."
+  },
+  {
+    "question": "Your code uses `Array.prototype.findLast` and targets ES2025 but `lib` is `[\"es2020\"]`. What happens?",
+    "options": [
+      "TypeScript polyfills findLast",
+      "Type error: findLast does not exist on the type, because lib controls available APIs",
+      "It works because target is newer",
+      "Runtime error only"
+    ],
+    "answer": 1,
+    "explanation": "`lib` decides which built-in declarations exist. `target` only affects syntax output and never polyfills."
+  }
+]

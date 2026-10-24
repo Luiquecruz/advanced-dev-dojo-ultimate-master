@@ -1,0 +1,7 @@
+[
+  { "term": "Class component", "description": "A class that extends `React.Component` and implements `render()`. Still supported in React 19, but not recommended for new code." },
+  { "term": "this.setState", "description": "Schedules a state update and **shallowly merges** the object into `this.state`. Updates are batched and asynchronous." },
+  { "term": "Updater function", "description": "`setState((prev, props) => next)` computes the next state from the latest pending state, so several updates in a row compose correctly." },
+  { "term": "Method binding", "description": "Class methods lose `this` when passed as callbacks. Bind in the constructor or declare them as arrow class fields." },
+  { "term": "static defaultProps", "description": "Default values for missing props. Still supported on classes; removed for function components in React 19." }
+]

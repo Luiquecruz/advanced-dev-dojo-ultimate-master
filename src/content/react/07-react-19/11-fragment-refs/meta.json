@@ -1,0 +1,10 @@
+{
+  "title": "Fragment Refs",
+  "summary": "Attach a ref to <Fragment> to handle events, focus and observers for a group of children without wrapper elements.",
+  "level": "advanced",
+  "tags": ["modern", "new"],
+  "resources": [
+    { "label": "react.dev: <Fragment>", "url": "https://react.dev/reference/react/Fragment" },
+    { "label": "react.dev: React 19.3", "url": "https://react.dev/blog/2026/09/09/react-19-3" }
+  ]
+}

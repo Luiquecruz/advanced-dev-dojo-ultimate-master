@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What does \"stale-while-revalidate\", the strategy SWR is named after, mean?",
+    "options": [
+      "Never show cached data",
+      "Show cached data immediately, then fetch fresh data in the background and update",
+      "Block rendering until the server confirms the cache is valid",
+      "Cache data only in the service worker"
+    ],
+    "answer": 1,
+    "explanation": "Users see something instantly from the cache while a background request revalidates it. TanStack Query uses the same strategy for stale queries."
+  },
+  {
+    "question": "How does RTK Query decide which cached data to refetch after a mutation?",
+    "options": [
+      "It refetches every endpoint",
+      "Queries `providesTags` and mutations `invalidatesTags`; matching tags are refetched",
+      "You must call `refetch()` manually in each component",
+      "It compares URLs"
+    ],
+    "answer": 1,
+    "explanation": "Tag-based invalidation is declarative: a mutation that invalidates the `Todo` tag refetches every active query that provides it."
+  },
+  {
+    "question": "What is a key advantage of GraphQL over a typical REST API?",
+    "options": [
+      "It works without a server",
+      "Clients request exactly the fields they need, including nested data, in one request",
+      "Responses are always cached by the browser",
+      "It does not need a schema"
+    ],
+    "answer": 1,
+    "explanation": "GraphQL queries describe the shape of the response, which avoids over-fetching and multiple round trips. HTTP caching is actually harder, since queries usually go through a single POST endpoint."
+  },
+  {
+    "question": "What does Apollo Client's normalized cache do?",
+    "options": [
+      "Stores each query response as an opaque blob",
+      "Stores each entity once by type and id, so an update is reflected in every query that includes it",
+      "Compresses responses with gzip",
+      "Removes duplicate requests only"
+    ],
+    "answer": 1,
+    "explanation": "Normalization splits responses into entities keyed by `__typename` and `id`. Updating `User:1` once updates every view that references it."
+  },
+  {
+    "question": "Is axios a replacement for TanStack Query?",
+    "options": [
+      "Yes, axios caches responses automatically",
+      "No, axios only sends HTTP requests; it can be used inside a `queryFn`",
+      "Yes, axios has built-in Suspense support",
+      "No, axios cannot be used with React"
+    ],
+    "answer": 1,
+    "explanation": "HTTP clients (fetch, axios, ky) send requests. Caching, deduplication and revalidation come from the data library around them."
+  },
+  {
+    "question": "In a Next.js App Router page that only displays data, where is the data typically fetched?",
+    "options": [
+      "In a `useEffect` in a client component",
+      "In an async Server Component with `await`",
+      "In a Redux thunk",
+      "In `componentDidMount`"
+    ],
+    "answer": 1,
+    "explanation": "Server Components can be async and fetch directly on the server, streaming the rendered result. Client data libraries remain useful for interactive, frequently updated data."
+  }
+]

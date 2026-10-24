@@ -1,0 +1,6 @@
+[
+  { "term": "Tuple as a type-level list", "description": "Tuples have ordered element types and a literal `length`, which makes them the main data structure of type-level algorithms." },
+  { "term": "Variadic tuple types", "description": "TypeScript 4.0+: spreads inside tuple types, e.g. `[...A, ...B]`, to build and destructure tuples." },
+  { "term": "Readonly tuple", "description": "Produced by `as const` and `const` type parameters. It matches `readonly unknown[]` but not `unknown[]`." },
+  { "term": "Tuple counter", "description": "Using a tuple's literal `length` to do type-level arithmetic." }
+]

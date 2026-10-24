@@ -1,0 +1,6 @@
+[
+  { "term": "v-on / @", "description": "Attaches an event listener. The value is a method reference (receives the event) or an inline statement." },
+  { "term": "$event", "description": "Special variable holding the native event inside inline handlers, e.g. `@input=\"update($event)\"`." },
+  { "term": "Event modifiers", "description": "`.prevent`, `.stop`, `.self`, `.once`, `.capture` and `.passive` handle common DOM event details declaratively. Order matters when chaining." },
+  { "term": "Key modifiers", "description": "`@keyup.enter`, `@keydown.esc`, `.ctrl.enter`, `.exact`... filter keyboard events by key and system modifiers." }
+]

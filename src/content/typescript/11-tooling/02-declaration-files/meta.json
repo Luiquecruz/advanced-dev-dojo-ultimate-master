@@ -1,0 +1,10 @@
+{
+  "title": "Declaration files",
+  "summary": "How .d.ts files, @types packages, ambient modules and global augmentation describe JavaScript, and why TypeScript 6.0 defaults types to [].",
+  "level": "intermediate",
+  "tags": ["theory", "ecosystem", "new"],
+  "resources": [
+    { "label": "TypeScript Handbook: Declaration Files", "url": "https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html" },
+    { "label": "DefinitelyTyped", "url": "https://github.com/DefinitelyTyped/DefinitelyTyped" }
+  ]
+}

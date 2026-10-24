@@ -1,0 +1,7 @@
+[
+  { "term": "SSR", "description": "Server-side rendering: HTML is produced per request on the server, then hydrated in the browser." },
+  { "term": "SSG / prerendering", "description": "HTML produced at build time and served statically. ISR regenerates it later in the background." },
+  { "term": "Hydration", "description": "`hydrateRoot` renders the same tree on the client, adopts the server DOM nodes and attaches event listeners." },
+  { "term": "Hydration mismatch", "description": "The first client render differs from the server HTML (random values, dates, browser-only APIs). Logged as an error and may force client re-rendering." },
+  { "term": "Streaming SSR", "description": "`renderToPipeableStream` / `renderToReadableStream` send the shell first and stream Suspense boundaries as data resolves." }
+]

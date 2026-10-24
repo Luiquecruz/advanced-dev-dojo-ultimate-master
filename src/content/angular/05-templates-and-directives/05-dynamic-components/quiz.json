@@ -1,0 +1,14 @@
+[
+  {
+    "question": "How should you set a signal input on a component created with `createComponent`?",
+    "options": ["`ref.instance.title = 'x'`", "`ref.setInput('title', 'x')` or `inputBinding('title', () => 'x')`", "`ref.instance.title.set('x')`", "Signal inputs cannot be set dynamically"],
+    "answer": 1,
+    "explanation": "Signal inputs are read-only from outside; `setInput` and `inputBinding` go through Angular's input machinery and mark the view for check."
+  },
+  {
+    "question": "Why is `ComponentFactoryResolver` no longer needed?",
+    "options": ["It was renamed `ComponentRef`", "Ivy components carry their own definitions, so the class can be passed directly", "Dynamic components were removed", "It moved to `@angular/cdk`"],
+    "answer": 1,
+    "explanation": "With Ivy, `createComponent(Type)` works directly; factories and `entryComponents` were View Engine requirements."
+  }
+]

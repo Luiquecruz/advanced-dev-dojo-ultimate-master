@@ -1,0 +1,6 @@
+[
+  { "term": "Type-level state", "description": "A type parameter that grows with every method call, e.g. `Chainable<T & Record<K, V>>`, so the final type reflects the whole chain." },
+  { "term": "Simplify / Prettify", "description": "`{ [K in keyof T]: T[K] } & {}` flattens intersections into one readable object type." },
+  { "term": "Conditional parameter type", "description": "`key: K extends keyof T ? never : K` rejects arguments based on the accumulated state while still inferring `K`." },
+  { "term": "Immutable builder", "description": "Each step returns a new object, so runtime behavior matches the immutable type-level state." }
+]

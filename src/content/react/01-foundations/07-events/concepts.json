@@ -1,0 +1,7 @@
+[
+  { "term": "Event handler", "description": "A function passed to a camelCase prop like `onClick`. Pass the function, do not call it." },
+  { "term": "Synthetic event", "description": "React's cross-browser event wrapper with `target`, `currentTarget`, `preventDefault()` and `stopPropagation()`." },
+  { "term": "preventDefault", "description": "Cancels the browser default, such as a page reload on form submit." },
+  { "term": "stopPropagation", "description": "Stops an event from bubbling to ancestor handlers." },
+  { "term": "FormData", "description": "`new FormData(form)` reads every named field of a form; `data.get('query')` returns one value." }
+]

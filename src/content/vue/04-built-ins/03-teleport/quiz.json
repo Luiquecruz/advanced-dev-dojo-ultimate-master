@@ -1,0 +1,4 @@
+[
+  { "question": "What moves when content is teleported?", "options": ["The component instance", "Only the DOM nodes; the component tree, props, events and injection stay the same", "The reactive state", "The styles"], "answer": 1, "explanation": "Teleport changes where the DOM is mounted, not the logical component hierarchy." },
+  { "question": "Which library filled this role in Vue 2?", "options": ["vue-portal-target", "portal-vue", "vue-teleport", "vuex"], "answer": 1, "explanation": "`portal-vue` provided portals before Vue 3 added `<Teleport>`." }
+]

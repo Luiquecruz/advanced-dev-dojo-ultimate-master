@@ -1,0 +1,6 @@
+{
+  "title": "Higher-order functions and callbacks",
+  "summary": "Type callbacks, factories that return functions and pipelines, and avoid optional parameters in callback types.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

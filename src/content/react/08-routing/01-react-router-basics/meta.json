@@ -1,0 +1,10 @@
+{
+  "title": "React Router Basics",
+  "summary": "Map URLs to components with Routes, navigate with Link, NavLink and useNavigate, and handle 404s.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "core"],
+  "resources": [
+    { "label": "React Router: Declarative mode", "url": "https://reactrouter.com/start/declarative/routing" },
+    { "label": "React Router: Picking a mode", "url": "https://reactrouter.com/start/modes" }
+  ]
+}

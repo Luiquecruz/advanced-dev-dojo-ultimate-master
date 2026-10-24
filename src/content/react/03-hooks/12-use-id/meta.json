@@ -1,0 +1,9 @@
+{
+  "title": "useId",
+  "summary": "Generate unique, SSR-safe ids to connect labels, inputs and ARIA attributes in reusable components.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: useId", "url": "https://react.dev/reference/react/useId" }
+  ]
+}

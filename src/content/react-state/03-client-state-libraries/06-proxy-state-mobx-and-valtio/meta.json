@@ -1,0 +1,13 @@
+{
+  "title": "Proxy State: MobX and Valtio",
+  "summary": "Mutate state and let proxies track reads: MobX observables, computeds and observer, Valtio proxy and snapshots, and their classic bugs.",
+  "level": "advanced",
+  "tags": ["ecosystem", "performance", "new"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "MobX: The gist of MobX", "url": "https://mobx.js.org/the-gist-of-mobx.html" },
+    { "label": "MobX: React integration", "url": "https://mobx.js.org/react-integration.html" },
+    { "label": "Valtio: How to use useSnapshot", "url": "https://valtio.dev/docs/api/basic/useSnapshot" },
+    { "label": "MobX changelog (v7)", "url": "https://github.com/mobxjs/mobx/blob/main/packages/mobx/CHANGELOG.md" }
+  ]
+}

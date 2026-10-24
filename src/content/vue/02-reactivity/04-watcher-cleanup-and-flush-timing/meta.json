@@ -1,0 +1,10 @@
+{
+  "title": "Watcher Cleanup & Flush Timing",
+  "summary": "Cancel stale async work with onWatcherCleanup and control when watchers run relative to rendering with flush.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "vuejs.org: Side Effect Cleanup", "url": "https://vuejs.org/guide/essentials/watchers.html#side-effect-cleanup" },
+    { "label": "vuejs.org: Callback Flush Timing", "url": "https://vuejs.org/guide/essentials/watchers.html#callback-flush-timing" }
+  ]
+}

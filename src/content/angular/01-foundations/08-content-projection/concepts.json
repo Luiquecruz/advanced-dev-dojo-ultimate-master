@@ -1,0 +1,7 @@
+[
+  { "term": "Content projection", "description": "Rendering markup supplied by the parent inside a child component, via `<ng-content>`." },
+  { "term": "<ng-content select>", "description": "A named slot matching top-level children by CSS selector, e.g. `select=\"[card-title]\"`." },
+  { "term": "Default slot", "description": "The `<ng-content>` without `select`; receives content matching no other slot." },
+  { "term": "Fallback content", "description": "Content inside `<ng-content>...</ng-content>` shown when nothing is projected into that slot (Angular 18+)." },
+  { "term": "ngProjectAs", "description": "Makes an element (often `<ng-container>`) match a slot selector it doesn't naturally match." }
+]

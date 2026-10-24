@@ -1,0 +1,6 @@
+[
+  { "term": "onMounted", "description": "Runs after the component's DOM is inserted. Safe place for DOM access and browser-only APIs." },
+  { "term": "onUnmounted", "description": "Runs after the component is removed. Clean up listeners, timers and subscriptions here." },
+  { "term": "onUpdated", "description": "Runs after a reactive change re-rendered the component. Avoid mutating state inside it." },
+  { "term": "beforeDestroy / destroyed", "description": "Vue 2 names of `beforeUnmount` / `unmounted`." }
+]

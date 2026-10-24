@@ -1,0 +1,8 @@
+[
+  { "term": "Route param", "description": "A `:name` segment in a path. Its value is available as `route.params.name` and is always a string (or string array when repeatable)." },
+  { "term": "Custom param regex", "description": "`:id(\\\\d+)` restricts what a param matches, e.g. digits only." },
+  { "term": "Query", "description": "Key/value pairs after `?` in the URL, exposed as `route.query`. Not declared in the route record." },
+  { "term": "props: true", "description": "Passes `route.params` to the routed component as props, decoupling it from `useRoute()`." },
+  { "term": "Component reuse", "description": "Navigating between URLs of the same record keeps the component instance; watch the param instead of relying on `onMounted`." },
+  { "term": "onBeforeRouteUpdate", "description": "In-component guard called when the route changes but the component is reused." }
+]

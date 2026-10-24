@@ -1,0 +1,6 @@
+[
+  { "term": "Assertion function", "description": "A function whose return type is `asserts ...`. If it returns, the compiler narrows types for the rest of the scope." },
+  { "term": "asserts condition", "description": "Narrows as if the condition argument was checked in an `if`. Used for invariants." },
+  { "term": "asserts value is T", "description": "Narrows the argument to `T` after the call; throws otherwise." },
+  { "term": "Invariant", "description": "A condition that must hold for the program to continue; violations throw immediately." }
+]

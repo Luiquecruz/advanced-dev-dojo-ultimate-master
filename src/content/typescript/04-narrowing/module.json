@@ -1,0 +1,4 @@
+{
+  "title": "Unions and Narrowing",
+  "description": "Union types, typeof, instanceof and in guards, discriminated unions, exhaustiveness checks with never, type predicates, assertion functions and control flow analysis."
+}

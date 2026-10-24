@@ -1,0 +1,6 @@
+[
+  { "term": "Function type expression", "description": "`(a: number) => string`: the type of a function value. Parameter names are required." },
+  { "term": "Call signature", "description": "`{ (a: number): string }` inside an object type: describes a callable value that can also have properties." },
+  { "term": "Construct signature", "description": "`{ new (a: number): Point }`: describes something called with `new`, such as a class." },
+  { "term": "Function type (global)", "description": "Accepts any function and returns `any` when called. Avoid it like `any`." }
+]

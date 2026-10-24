@@ -1,0 +1,6 @@
+[
+  { "term": "Pick<T, K>", "description": "Object type with only the keys `K` of `T`. `K` must be real keys of `T`." },
+  { "term": "Omit<T, K>", "description": "Object type with every key of `T` except `K`. `K` is not checked against `keyof T`, so typos pass silently." },
+  { "term": "Non-distributive Omit", "description": "`Omit` on a union keeps only the keys common to all members. Use a distributive conditional type to omit per member." },
+  { "term": "Rest destructuring", "description": "`const { secret, ...rest } = value` copies every property except `secret` into a new object." }
+]

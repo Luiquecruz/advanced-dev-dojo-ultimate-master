@@ -1,0 +1,10 @@
+{
+  "title": "The Result type pattern",
+  "summary": "Model expected failures as values with a discriminated Result union so the compiler forces callers to handle them.",
+  "level": "advanced",
+  "tags": ["modern"],
+  "resources": [
+    { "label": "TypeScript Handbook: Discriminated unions", "url": "https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions" },
+    { "label": "neverthrow", "url": "https://github.com/supermacro/neverthrow" }
+  ]
+}

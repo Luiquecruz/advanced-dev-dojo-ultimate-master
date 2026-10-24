@@ -1,0 +1,6 @@
+{
+  "title": "Generic constraints",
+  "summary": "Use `extends` to require capabilities from a type parameter while still returning the caller's exact type.",
+  "level": "intermediate",
+  "tags": ["core"]
+}

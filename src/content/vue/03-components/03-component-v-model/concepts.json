@@ -1,0 +1,6 @@
+[
+  { "term": "modelValue / update:modelValue", "description": "The prop and event pair that `v-model` expands to on a component." },
+  { "term": "defineModel", "description": "Vue 3.4+ macro returning a ref that reads the model prop and emits `update:*` when written." },
+  { "term": "Named model", "description": "`defineModel('title')` pairs with `v-model:title` in the parent; a component can have several." },
+  { "term": "Model modifiers", "description": "`const [model, modifiers] = defineModel()` exposes modifiers like `.trim` used by the parent." }
+]

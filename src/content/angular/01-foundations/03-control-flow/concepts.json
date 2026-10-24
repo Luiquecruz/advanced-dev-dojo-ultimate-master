@@ -1,0 +1,9 @@
+[
+  { "term": "@if / @else", "description": "Conditional rendering block. `@if (value(); as v)` stores the condition result in a local variable." },
+  { "term": "@for", "description": "Loop block with a mandatory `track` expression and implicit variables `$index`, `$count`, `$first`, `$last`, `$even`, `$odd`." },
+  { "term": "track", "description": "Identity of each item in `@for`. Lets Angular move existing DOM nodes instead of recreating them. Use a stable id." },
+  { "term": "@empty", "description": "Optional block after `@for` rendered when the collection is empty." },
+  { "term": "@switch", "description": "Renders the first `@case` strictly equal to the expression, or `@default`." },
+  { "term": "@let", "description": "Declares a read-only template variable: `@let total = cart().length;`." },
+  { "term": "*ngIf / *ngFor", "description": "Legacy structural directives replaced by the built-in blocks. Migrate with `ng g @angular/core:control-flow`." }
+]

@@ -1,0 +1,11 @@
+{
+  "title": "Accessible Queries",
+  "summary": "Query by role and label like a real user, and fix components until the tests (and screen readers) can find them.",
+  "level": "intermediate",
+  "tags": ["testing", "core"],
+  "resources": [
+    { "label": "Testing Library: Which query should I use?", "url": "https://testing-library.com/docs/queries/about#priority" },
+    { "label": "Testing Library: ByRole", "url": "https://testing-library.com/docs/queries/byrole" },
+    { "label": "Common mistakes with React Testing Library", "url": "https://kentcdodds.com/blog/common-mistakes-with-react-testing-library" }
+  ]
+}

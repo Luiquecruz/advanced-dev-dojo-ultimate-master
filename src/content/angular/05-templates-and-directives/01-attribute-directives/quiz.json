@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Which `host` entry listens to the Escape key anywhere in the document?",
+    "options": ["`'[document:keydown.escape]': 'close()'`", "`'(document:keydown.escape)': 'close()'`", "`'(escape)': 'close()'`", "`'@keydown': 'close()'`"],
+    "answer": 1,
+    "explanation": "Listeners use parentheses; `document:` and `window:` prefixes target global objects, and key event filters like `.escape` work there too."
+  },
+  {
+    "question": "A component lists `hostDirectives: [Tooltip]`. Can consumers bind `[tooltipText]` on it?",
+    "options": ["Yes, all inputs are exposed automatically", "No, host directive inputs must be listed in `inputs` to be exposed", "Only if Tooltip is in `imports`", "Only with `@Input()` decorators"],
+    "answer": 1,
+    "explanation": "Host directive inputs and outputs are private unless explicitly exposed."
+  },
+  {
+    "question": "Why does the style guide prefer `host: {...}` over `@HostBinding`/`@HostListener`?",
+    "options": ["Decorators were removed", "All host interactions live in one place, are type-checked and work naturally with signals", "`host` is faster at runtime", "Decorators do not work with directives"],
+    "answer": 1,
+    "explanation": "Both still work; `host` is the recommended, consolidated form."
+  }
+]

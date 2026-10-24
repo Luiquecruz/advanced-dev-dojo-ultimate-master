@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A save button triggers an HTTP request. Users double-click it. Which operator ignores clicks while a save is in flight?",
+    "options": ["`switchMap`", "`mergeMap`", "`concatMap`", "`exhaustMap`"],
+    "answer": 3,
+    "explanation": "`exhaustMap` ignores new source values until the current inner observable completes."
+  },
+  {
+    "question": "Why is `catchError` placed inside `switchMap` in a typeahead?",
+    "options": ["It is faster", "An error reaching the outer stream would complete it and stop future searches", "`catchError` cannot be used at the top level", "To retry automatically"],
+    "answer": 1,
+    "explanation": "Handling the error on the inner observable keeps the outer query stream alive."
+  },
+  {
+    "question": "Which operator would show results for an older query if responses arrive out of order?",
+    "options": ["`switchMap`", "`mergeMap`", "`exhaustMap`", "`debounceTime`"],
+    "answer": 1,
+    "explanation": "`mergeMap` keeps every inner request alive, so a slow old response can arrive last."
+  }
+]

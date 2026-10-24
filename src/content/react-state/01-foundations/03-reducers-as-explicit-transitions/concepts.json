@@ -1,0 +1,7 @@
+[
+  { "term": "Finite status", "description": "A single field that can only hold the phases a flow really has, e.g. `'review' | 'submitting' | 'done'`. Replaces combinations of booleans." },
+  { "term": "Impossible state", "description": "A combination of values that the UI should never show, such as `isSubmitting && isDone`. Good modeling makes it unrepresentable." },
+  { "term": "Discriminated union", "description": "A union of objects sharing a literal `type` field. Checking `type` tells you (and TypeScript) which payload exists." },
+  { "term": "Transition table", "description": "A map from status to the events it accepts and the function that computes the next state." },
+  { "term": "Event-style action", "description": "An action named in the past tense after what happened (`orderFailed`), letting the reducer decide its meaning." }
+]

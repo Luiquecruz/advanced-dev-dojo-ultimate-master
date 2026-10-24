@@ -1,0 +1,11 @@
+{
+  "title": "lazy and Suspense",
+  "summary": "Split rarely used code into separate chunks with lazy() and show a fallback with Suspense while it loads.",
+  "level": "intermediate",
+  "tags": ["core", "performance"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "react.dev: lazy", "url": "https://react.dev/reference/react/lazy" },
+    { "label": "react.dev: Suspense", "url": "https://react.dev/reference/react/Suspense" }
+  ]
+}

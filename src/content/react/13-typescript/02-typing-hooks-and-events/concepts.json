@@ -1,0 +1,7 @@
+[
+  { "term": "useState<T>", "description": "Explicit type argument for state whose initial value does not cover every case: `useState<User | null>(null)`, `useState<Todo[]>([])`." },
+  { "term": "useRef<HTMLElement>(null)", "description": "DOM ref typed with the element type, read with optional chaining." },
+  { "term": "ChangeEvent / SubmitEvent", "description": "React synthetic event types, generic over the element: `ChangeEvent<HTMLInputElement>`. `FormEvent` is deprecated in the latest types." },
+  { "term": "Discriminated union", "description": "Union of object types sharing a literal `type` field. `switch (action.type)` narrows each member." },
+  { "term": "Exhaustiveness check", "description": "Assigning the value to `never` in `default` makes unhandled union members a compile error." }
+]

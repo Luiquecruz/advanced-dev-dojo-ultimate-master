@@ -1,0 +1,41 @@
+[
+  {
+    "question": "A `PureComponent` list receives `items` that the parent mutates with `items.push(newItem)` before re-rendering. What happens?",
+    "options": [
+      "The list updates normally",
+      "The list does not update, because the array reference did not change",
+      "React throws an immutability error",
+      "The list renders twice"
+    ],
+    "answer": 1,
+    "explanation": "The shallow comparison sees the same array reference and skips `render`. Always create a new array: `[...items, newItem]`."
+  },
+  {
+    "question": "Which method can read the scroll position of a list right BEFORE React applies DOM changes?",
+    "options": ["componentDidUpdate", "getSnapshotBeforeUpdate", "getDerivedStateFromProps", "shouldComponentUpdate"],
+    "answer": 1,
+    "explanation": "`getSnapshotBeforeUpdate` runs after render but before the commit; its return value arrives as the third argument of `componentDidUpdate`."
+  },
+  {
+    "question": "What is usually the simplest modern way to reset a component's state when `userId` changes?",
+    "options": [
+      "`UNSAFE_componentWillReceiveProps`",
+      "An effect that calls setState when `userId` changes",
+      "Render it with `key={userId}`",
+      "`forceUpdate()`"
+    ],
+    "answer": 2,
+    "explanation": "A different `key` makes React unmount the old instance and mount a fresh one with initial state. No extra render pass, no derived state."
+  },
+  {
+    "question": "Why were `componentWillMount`, `componentWillReceiveProps` and `componentWillUpdate` prefixed with `UNSAFE_`?",
+    "options": [
+      "They contain security vulnerabilities",
+      "They run in the render phase and can be called multiple times or for discarded renders with concurrent rendering",
+      "They only work in production",
+      "They were renamed to match hooks"
+    ],
+    "answer": 1,
+    "explanation": "Side effects in render-phase methods become unreliable once React can pause, restart or abandon renders."
+  }
+]

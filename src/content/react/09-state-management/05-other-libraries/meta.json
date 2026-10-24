@@ -1,0 +1,12 @@
+{
+  "title": "Other State Libraries",
+  "summary": "Tour MobX, Valtio, XState, signals and the Recoil sunset, and learn how to pick a state model.",
+  "level": "intermediate",
+  "tags": ["theory", "ecosystem", "legacy"],
+  "resources": [
+    { "label": "MobX documentation", "url": "https://mobx.js.org/README.html" },
+    { "label": "Valtio documentation", "url": "https://valtio.dev/" },
+    { "label": "XState documentation", "url": "https://stately.ai/docs/xstate" },
+    { "label": "TC39 Signals proposal", "url": "https://github.com/tc39/proposal-signals" }
+  ]
+}

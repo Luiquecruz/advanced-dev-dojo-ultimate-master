@@ -1,0 +1,10 @@
+{
+  "title": "Component Harnesses",
+  "summary": "Use and write CDK component harnesses to test components through a stable, environment-agnostic API.",
+  "level": "advanced",
+  "tags": ["testing", "theory", "ecosystem"],
+  "resources": [
+    { "label": "angular.dev: Component harnesses overview", "url": "https://angular.dev/guide/testing/component-harnesses-overview" },
+    { "label": "angular.dev: Creating harnesses", "url": "https://angular.dev/guide/testing/creating-component-harnesses" }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Dynamic & Async Components",
+  "summary": "Swap components at runtime with <component :is> and lazy-load code with defineAsyncComponent.",
+  "level": "intermediate",
+  "tags": ["core", "performance"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: Async Components", "url": "https://vuejs.org/guide/components/async.html" }]
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "question": "`const AuthContext = createContext({ user: null, login: () => {} })`. A login button rendered outside the provider is clicked. What happens?",
+    "options": [
+      "React throws \"missing provider\"",
+      "Nothing visible: the default no-op `login` runs silently",
+      "The button logs the user in through the nearest provider",
+      "The app crashes on render"
+    ],
+    "answer": 1,
+    "explanation": "Default values are used when no provider exists, so the bug is hidden. A `null` default plus a guarded hook that throws makes the misplacement obvious."
+  },
+  {
+    "question": "A team needs: (a) the current locale for the whole app, (b) a cursor position updated 60 times per second and read by 40 components, (c) the open step of a wizard used inside that wizard. Which are good fits for context?",
+    "options": ["Only (b)", "(a) and (c)", "All three", "None, always use a store"],
+    "answer": 1,
+    "explanation": "Context is ideal for rarely changing app-wide values and for feature-scoped state. High-frequency state read by many components re-renders every consumer on each change; an external store with selectors fits (b)."
+  },
+  {
+    "question": "A provider renders `<Ctx value={{ items, add }}>`. Its parent re-renders because of an unrelated clock. What happens to `memo` consumers of `Ctx`?",
+    "options": [
+      "Nothing, because `items` did not change",
+      "They all re-render, because the value is a new object on every provider render",
+      "Only the first consumer re-renders",
+      "React warns and skips the update"
+    ],
+    "answer": 1,
+    "explanation": "Context compares the value with `Object.is`. An inline object is new each time. `useMemo` for the object and `useCallback` for the functions keep it stable."
+  },
+  {
+    "question": "Which is a valid use of `use(ThemeContext)` that `useContext` does not allow?",
+    "options": [
+      "Reading the context inside a class component",
+      "Reading the context inside an `if` block in a component",
+      "Reading a context without any provider",
+      "Writing to the context"
+    ],
+    "answer": 1,
+    "explanation": "`use` can be called conditionally and in loops (it is not bound to the order of Hooks). It still only reads the nearest provider's value."
+  },
+  {
+    "question": "A dashboard renders three independent chart widgets, each with its own \"selected series\" state shared by the widget's legend and plot. What is the cleanest design?",
+    "options": [
+      "One global store with `selectedSeries[widgetId]`",
+      "A `ChartProvider` around each widget, so each instance has its own scoped state",
+      "One context at the root holding all three selections",
+      "Module-level variables"
+    ],
+    "answer": 1,
+    "explanation": "Each provider element creates an independent instance of its state for its subtree. Scoping per widget avoids ids, global coupling and cross-widget re-renders."
+  }
+]

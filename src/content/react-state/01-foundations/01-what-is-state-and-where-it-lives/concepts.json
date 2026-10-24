@@ -1,0 +1,8 @@
+[
+  { "term": "State", "description": "Data that changes over time **and** that the rendered UI depends on. Changing it triggers a render." },
+  { "term": "Derived value", "description": "A value computed from props or state during render, such as a total or a filtered list. Never stored separately." },
+  { "term": "Server cache", "description": "A local copy of data owned by the backend. It can go stale, so it needs refetching and invalidation." },
+  { "term": "URL state", "description": "State owned by the address bar (path and search params). It survives reloads and can be shared as a link." },
+  { "term": "Single source of truth", "description": "Each fact is stored once; everything else is derived from it, so copies cannot drift apart." },
+  { "term": "Lifetime", "description": "How long a piece of state must survive: one render, while mounted, across navigation, across reloads, or forever on the server." }
+]

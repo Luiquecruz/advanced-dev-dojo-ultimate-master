@@ -1,0 +1,7 @@
+[
+  { "term": "`AsyncPipe`", "description": "Subscribes in the template, marks the view for check on each value and unsubscribes on destroy. Returns `null` before the first value." },
+  { "term": "`takeUntilDestroyed()`", "description": "Operator from `@angular/core/rxjs-interop` that completes the stream when the current `DestroyRef` is destroyed." },
+  { "term": "`DestroyRef`", "description": "Injectable handle of the current component/service lifecycle; `onDestroy(fn)` registers cleanup." },
+  { "term": "`takeUntil(notifier$)`", "description": "Completes the source when `notifier$` emits. Legacy cleanup pattern with a `destroy$` Subject." },
+  { "term": "Subscription leak", "description": "A subscription that outlives its component, keeping callbacks and memory alive." }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "question": "Which is the Zod 4 way to validate an email address?",
+    "options": ["`z.string().email()` only", "`z.email()`", "`z.mail()`", "`z.string({ format: 'email' })`"],
+    "answer": 1,
+    "explanation": "Zod 4 promoted string formats to top-level schemas: `z.email()`, `z.url()`, `z.uuid()`. The method form still exists but is deprecated."
+  },
+  {
+    "question": "A form sends `age: '36'` and the schema uses `z.number()`. What happens?",
+    "options": [
+      "It passes, Zod converts automatically",
+      "It fails with an invalid type error because the value is a string",
+      "It passes with age 0",
+      "Zod throws at import time"
+    ],
+    "answer": 1,
+    "explanation": "`z.number()` does not convert. Use `z.coerce.number()` or RHF's `valueAsNumber` so the input string becomes a number."
+  },
+  {
+    "question": "Why add `path: ['confirmPassword']` to an object-level `refine`?",
+    "options": [
+      "It is required syntax",
+      "So the issue is attached to that field instead of the form root, and the form shows it under the right input",
+      "It makes validation faster",
+      "It renames the field"
+    ],
+    "answer": 1,
+    "explanation": "Without `path`, the issue has an empty path and belongs to the whole object, so no field error is displayed."
+  },
+  {
+    "question": "In Zod 4, which option replaces `message`, `invalid_type_error` and `errorMap`?",
+    "options": ["`error`", "`issue`", "`text`", "`label`"],
+    "answer": 0,
+    "explanation": "Zod 4 unified error customization in a single `error` option, which accepts a string or a function. `message` still works but is deprecated."
+  }
+]

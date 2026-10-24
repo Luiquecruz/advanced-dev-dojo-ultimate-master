@@ -1,0 +1,7 @@
+[
+  { "term": "override", "description": "Modifier that marks a member as overriding a base member. It is an error when no base member with that name exists." },
+  { "term": "noImplicitOverride", "description": "Compiler option that requires `override` on every member that overrides a base class member." },
+  { "term": "super", "description": "`super(...)` calls the base constructor; `super.method()` calls the base implementation from an override." },
+  { "term": "new.target", "description": "Inside a constructor, the class actually invoked with `new`, which may be a subclass." },
+  { "term": "declare field", "description": "`declare value: string` redeclares a field type in a subclass without emitting a field initializer." }
+]

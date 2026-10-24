@@ -1,0 +1,19 @@
+[
+  {
+    "question": "`fetch('/api/missing')` responds with status 404. What happens?",
+    "options": [
+      "The promise rejects with a 404 error",
+      "The promise resolves with `response.ok === false`",
+      "`fetch` throws synchronously",
+      "The promise never settles"
+    ],
+    "answer": 1,
+    "explanation": "`fetch` rejects only on network errors (or abort). HTTP error statuses resolve normally, so check `response.ok` and throw to reach your error handling."
+  },
+  {
+    "question": "Two components call `useFetch('/api/users')`. How many requests are made?",
+    "options": ["One, the hook shares state", "Two, each call has its own state and effect", "Zero until one finishes", "It depends on StrictMode only"],
+    "answer": 1,
+    "explanation": "Custom hooks share logic, not state. Deduplication requires a shared cache, which is what query libraries provide."
+  }
+]

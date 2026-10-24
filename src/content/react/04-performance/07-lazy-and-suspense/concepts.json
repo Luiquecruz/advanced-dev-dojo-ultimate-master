@@ -1,0 +1,7 @@
+[
+  { "term": "Code splitting", "description": "Breaking the bundle into chunks loaded on demand with dynamic `import()`." },
+  { "term": "lazy", "description": "`lazy(() => import('./X'))` returns a component that suspends until the module's default export is loaded. Declare it at module top level." },
+  { "term": "Suspense", "description": "`<Suspense fallback={...}>` shows the fallback while any child suspends (lazy code, `use(promise)`, Suspense-enabled data libraries)." },
+  { "term": "Preloading", "description": "Calling the same `import()` early (on hover or idle) so the chunk is cached before the lazy component renders." },
+  { "term": "Error boundary", "description": "Catches a rejected lazy import (failed chunk) and renders a recovery UI." }
+]

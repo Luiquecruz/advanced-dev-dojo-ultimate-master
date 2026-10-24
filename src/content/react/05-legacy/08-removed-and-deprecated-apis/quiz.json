@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A React 19 app still contains `Button.propTypes = { label: PropTypes.string.isRequired }` and renders `<Button />` without a label. What happens?",
+    "options": [
+      "A console warning about the missing prop",
+      "A runtime error",
+      "Nothing: React 19 ignores propTypes entirely",
+      "The build fails"
+    ],
+    "answer": 2,
+    "explanation": "React 19 removed propTypes checks. The property is silently ignored. Use TypeScript to validate props at compile time."
+  },
+  {
+    "question": "What replaces `ReactDOM.render(<App />, container)` in React 19?",
+    "options": [
+      "`ReactDOM.hydrate(<App />, container)`",
+      "`createRoot(container).render(<App />)` from `react-dom/client`",
+      "`React.mount(<App />, container)`",
+      "`renderToString(<App />)`"
+    ],
+    "answer": 1,
+    "explanation": "The legacy root API was removed. `createRoot` (and `hydrateRoot` for server-rendered HTML) enable concurrent features."
+  },
+  {
+    "question": "How do you replace `ReactDOM.findDOMNode(this)` in a class component?",
+    "options": [
+      "`document.querySelector` in render",
+      "Attach a ref (`createRef`) to the element you need",
+      "`this.refs.root`",
+      "`React.findNode(this)`"
+    ],
+    "answer": 1,
+    "explanation": "Refs point to exactly the node you choose. `findDOMNode` was removed because it broke component encapsulation. String refs (`this.refs`) were removed too."
+  },
+  {
+    "question": "Which of these still works in React 19?",
+    "options": [
+      "`Avatar.defaultProps = { size: 64 }` on a function component",
+      "`static defaultProps = { size: 64 }` on a class component",
+      "`<input ref=\"name\" />`",
+      "`static childContextTypes` + `getChildContext()`"
+    ],
+    "answer": 1,
+    "explanation": "Classes keep `static defaultProps`. Function-component defaultProps, string refs and legacy context were all removed."
+  },
+  {
+    "question": "Why were mixins (from `createClass`) abandoned?",
+    "options": [
+      "They were slower than classes",
+      "They created implicit dependencies and name clashes, and complexity snowballed",
+      "They required TypeScript",
+      "They only worked on the server"
+    ],
+    "answer": 1,
+    "explanation": "Mixins silently merged methods and state into components. HOCs, render props and finally custom hooks replaced them with explicit composition."
+  },
+  {
+    "question": "What is the recommended first step before upgrading a large app to React 19?",
+    "options": [
+      "Rewrite all classes as functions",
+      "Upgrade to React 18.3, which warns about every API removed in 19, and fix the warnings",
+      "Remove StrictMode",
+      "Switch to UMD builds"
+    ],
+    "answer": 1,
+    "explanation": "React 18.3 is 18.2 plus deprecation warnings. Fixing them (with the help of codemods) makes the jump to 19 safe. Classes do not need rewriting."
+  }
+]

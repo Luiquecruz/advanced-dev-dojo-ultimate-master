@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Why does `ReturnType<fetchUser>` fail while `ReturnType<typeof fetchUser>` works?",
+    "options": ["ReturnType only accepts arrow functions", "`fetchUser` is a value; `typeof` turns it into its function type", "`fetchUser` is async", "It needs `Awaited` first"],
+    "answer": 1,
+    "explanation": "Utility types operate on types. `typeof` in a type position obtains the type of a value."
+  },
+  {
+    "question": "What is `Awaited<Promise<Promise<string>>>`?",
+    "options": ["`Promise<string>`", "`string`", "`unknown`", "`never`"],
+    "answer": 1,
+    "explanation": "`Awaited` unwraps recursively, just like `await` does at runtime."
+  },
+  {
+    "question": "For an overloaded function, which signature does `ReturnType` use?",
+    "options": ["The first one", "The last one", "A union of all of them", "The implementation signature"],
+    "answer": 1,
+    "explanation": "Conditional type inference against overloaded functions uses the last overload signature."
+  }
+]

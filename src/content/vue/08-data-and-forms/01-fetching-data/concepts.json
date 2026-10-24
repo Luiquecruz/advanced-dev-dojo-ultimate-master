@@ -1,0 +1,7 @@
+[
+  { "term": "Loading / error / data", "description": "The three states every remote resource has. Render exactly one of them with a `v-if` / `v-else-if` / `v-else` chain." },
+  { "term": "response.ok", "description": "`true` for 2xx statuses. `fetch` resolves on 404 and 500, so check it and throw yourself." },
+  { "term": "Race condition", "description": "Two in-flight requests resolving out of order, so an older response overwrites newer data." },
+  { "term": "AbortController", "description": "Creates a `signal` you pass to `fetch`; calling `abort()` cancels the request and rejects it with an `AbortError`." },
+  { "term": "onWatcherCleanup", "description": "Vue 3.5+ API that registers cleanup for the current watcher run. Must be called before the first `await`." }
+]

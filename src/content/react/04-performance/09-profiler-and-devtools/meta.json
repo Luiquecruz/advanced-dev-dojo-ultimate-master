@@ -1,0 +1,11 @@
+{
+  "title": "Profiler and DevTools",
+  "summary": "Measure rendering with the Profiler API, React Developer Tools and React performance tracks before optimizing.",
+  "level": "advanced",
+  "tags": ["performance", "testing"],
+  "resources": [
+    { "label": "react.dev: Profiler", "url": "https://react.dev/reference/react/Profiler" },
+    { "label": "react.dev: React Developer Tools", "url": "https://react.dev/learn/react-developer-tools" },
+    { "label": "react.dev: React Performance tracks", "url": "https://react.dev/reference/dev-tools/react-performance-tracks" }
+  ]
+}

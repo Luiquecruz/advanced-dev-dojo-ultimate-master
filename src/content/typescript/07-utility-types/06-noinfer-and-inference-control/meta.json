@@ -1,0 +1,6 @@
+{
+  "title": "NoInfer and inference control",
+  "summary": "Stop unwanted inference sites from widening type parameters with `NoInfer`, and know the other tools that steer inference.",
+  "level": "advanced",
+  "tags": ["modern", "new"]
+}

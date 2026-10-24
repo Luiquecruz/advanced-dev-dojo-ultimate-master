@@ -1,0 +1,7 @@
+[
+  { "term": "Dynamic segment", "description": "A path segment like `:userId` that matches any value and exposes it through `useParams()`." },
+  { "term": "useParams", "description": "Returns the URL params of the current route. Values are always strings." },
+  { "term": "<Outlet>", "description": "Placeholder in a parent route element where the matched child route renders." },
+  { "term": "Index route", "description": "`<Route index>`: renders in the parent's outlet when the parent path matches exactly." },
+  { "term": "Layout route", "description": "A `<Route>` with an element but no path, used to wrap children in shared UI." }
+]

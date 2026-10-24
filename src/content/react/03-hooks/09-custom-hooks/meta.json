@@ -1,0 +1,9 @@
+{
+  "title": "Custom Hooks",
+  "summary": "Extract reusable stateful logic into use-prefixed functions, and build a useLocalStorage Hook.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: Reusing Logic with Custom Hooks", "url": "https://react.dev/learn/reusing-logic-with-custom-hooks" }
+  ]
+}

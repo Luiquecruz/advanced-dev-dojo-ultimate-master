@@ -1,0 +1,1 @@
+{ "title": "Performance and Concurrency", "description": "How React renders, how to skip work with memoization, keep the UI responsive with transitions and Suspense, and measure it all with the Profiler and React Compiler." }

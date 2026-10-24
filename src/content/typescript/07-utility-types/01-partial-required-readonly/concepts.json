@@ -1,0 +1,7 @@
+[
+  { "term": "Partial<T>", "description": "Makes every property of `T` optional. Ideal for patches and option overrides." },
+  { "term": "Required<T>", "description": "Makes every property of `T` required, removing `?` and the `undefined` it implied." },
+  { "term": "Readonly<T>", "description": "Marks every top-level property as `readonly`. Shallow and compile-time only." },
+  { "term": "Mapped type", "description": "`{ [P in keyof T]: ... }` builds a new object type by iterating over the keys of another." },
+  { "term": "exactOptionalPropertyTypes", "description": "Compiler option that forbids writing `undefined` into optional properties unless their type includes it explicitly." }
+]

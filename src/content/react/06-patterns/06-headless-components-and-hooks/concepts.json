@@ -1,0 +1,6 @@
+[
+  { "term": "Headless component / hook", "description": "Provides behavior, state and accessibility wiring without rendering any markup or styles." },
+  { "term": "Prop getter", "description": "A function like `getButtonProps(userProps)` that returns all props an element needs, merged with the caller's props." },
+  { "term": "Handler composition", "description": "Calling the user's handler and then the internal one, instead of overwriting either." },
+  { "term": "useId", "description": "Generates unique ids stable across server and client, ideal for `aria-controls` / `aria-labelledby`." }
+]

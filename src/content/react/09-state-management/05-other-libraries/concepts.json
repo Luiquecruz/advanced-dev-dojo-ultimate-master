@@ -1,0 +1,7 @@
+[
+  { "term": "Observable", "description": "A value whose reads are tracked and whose changes notify dependents automatically (MobX, Legend-State)." },
+  { "term": "Proxy state", "description": "Valtio wraps an object in a JavaScript `Proxy`: you mutate it, components read immutable snapshots." },
+  { "term": "Finite state machine", "description": "A model with a finite set of states and explicit event-driven transitions. Implemented by XState." },
+  { "term": "Actor model", "description": "XState v5 treats machines as actors that receive events, keep private state and can spawn or message other actors." },
+  { "term": "Signals", "description": "Reactive primitives that push updates to subscribers. Native in Solid, Preact, Vue, Angular and proposed for JavaScript at TC39." }
+]

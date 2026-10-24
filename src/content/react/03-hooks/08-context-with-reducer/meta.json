@@ -1,0 +1,9 @@
+{
+  "title": "Scaling Up with Reducer and Context",
+  "summary": "Combine useReducer with two contexts and guarded custom Hooks to build a feature-scoped store.",
+  "level": "intermediate",
+  "tags": ["core"],
+  "resources": [
+    { "label": "react.dev: Scaling Up with Reducer and Context", "url": "https://react.dev/learn/scaling-up-with-reducer-and-context" }
+  ]
+}

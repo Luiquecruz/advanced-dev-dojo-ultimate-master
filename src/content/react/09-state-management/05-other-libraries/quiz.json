@@ -1,0 +1,68 @@
+[
+  {
+    "question": "How does MobX know which components to re-render?",
+    "options": [
+      "Components declare selectors",
+      "It tracks which observables each `observer` component read during render",
+      "It re-renders the whole tree on every change",
+      "Components subscribe with string keys"
+    ],
+    "answer": 1,
+    "explanation": "MobX records the observables accessed while an `observer` component renders and re-renders it only when one of those observables changes."
+  },
+  {
+    "question": "In Valtio, what is the rule for reading and writing?",
+    "options": [
+      "Read from the proxy, write to the snapshot",
+      "Read from the snapshot returned by `useSnapshot`, write to the proxy",
+      "Both reads and writes go through `setState`",
+      "Writes must be dispatched as actions"
+    ],
+    "answer": 1,
+    "explanation": "`useSnapshot` returns an immutable snapshot that tracks accessed properties for rendering. Mutations go to the original `proxy` object."
+  },
+  {
+    "question": "Which problem does XState address most directly?",
+    "options": [
+      "Caching API responses",
+      "Impossible state combinations such as `isLoading && isError`, by modeling explicit states and transitions",
+      "Styling components",
+      "Reducing bundle size"
+    ],
+    "answer": 1,
+    "explanation": "A finite state machine is always in exactly one state, and only declared events can move it to another state, which eliminates contradictory boolean flags."
+  },
+  {
+    "question": "What is the recommended path for an app still using Recoil?",
+    "options": [
+      "Keep it, Recoil is actively maintained",
+      "Migrate to Jotai, which has a nearly one-to-one atom model",
+      "Rewrite everything with class components",
+      "Move all state into URL parameters"
+    ],
+    "answer": 1,
+    "explanation": "Recoil was archived and is not kept compatible with new React versions. Jotai offers atoms and derived atoms without string keys and is the common migration target."
+  },
+  {
+    "question": "Why has React not adopted signals as its core reactivity model?",
+    "options": [
+      "Signals are not possible in JavaScript",
+      "React keeps the \"UI as a function of state\" model and optimizes re-renders with tools like the React Compiler instead",
+      "Signals only work on the server",
+      "React already uses signals internally for every hook"
+    ],
+    "answer": 1,
+    "explanation": "React re-runs components to compute UI and relies on memoization (now automated by the React Compiler) for performance, rather than fine-grained signal subscriptions."
+  },
+  {
+    "question": "A typical modern React app needs API data plus a small amount of global UI state. Which combination is most common?",
+    "options": [
+      "Redux for everything, including API data",
+      "A query library for server state plus a small client store such as Zustand or context",
+      "XState for every component",
+      "Only `useState` with prop drilling"
+    ],
+    "answer": 1,
+    "explanation": "Splitting server state (TanStack Query, SWR, RTK Query) from client state keeps each tool focused. The remaining global client state is usually small."
+  }
+]

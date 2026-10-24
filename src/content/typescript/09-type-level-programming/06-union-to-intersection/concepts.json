@@ -1,0 +1,6 @@
+[
+  { "term": "Variance", "description": "How subtyping of a part relates to subtyping of the whole. Return types are covariant, function parameters are contravariant." },
+  { "term": "Inference candidates", "description": "When one `infer` variable receives several candidates, covariant positions produce a union and contravariant positions produce an intersection." },
+  { "term": "UnionToIntersection", "description": "`(U extends unknown ? (arg: U) => void : never) extends (arg: infer I) => void ? I : never`." },
+  { "term": "Overloaded function type", "description": "An intersection of function types such as `((a: string) => string) & ((a: number) => number)` accepts every listed signature." }
+]

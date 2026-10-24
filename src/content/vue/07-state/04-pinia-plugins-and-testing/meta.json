@@ -1,0 +1,11 @@
+{
+  "title": "Pinia Plugins & Testing",
+  "summary": "Extend every store with a persistence plugin using $subscribe and $patch, and test stores with fresh Pinia instances.",
+  "level": "advanced",
+  "tags": ["testing", "ecosystem"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "Pinia: Plugins", "url": "https://pinia.vuejs.org/core-concepts/plugins.html" },
+    { "label": "Pinia: Testing Stores", "url": "https://pinia.vuejs.org/cookbook/testing.html" }
+  ]
+}

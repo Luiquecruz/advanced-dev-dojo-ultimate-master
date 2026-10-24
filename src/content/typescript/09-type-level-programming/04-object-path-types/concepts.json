@@ -1,0 +1,6 @@
+[
+  { "term": "Dot path", "description": "A string like `'address.geo.lat'` that addresses a nested property." },
+  { "term": "`{ [K in keyof T]: X }[keyof T]`", "description": "A mapped type indexed by its own keys: computes a value per key, then collapses them into a single union." },
+  { "term": "Leaf types", "description": "Types where path recursion stops, such as arrays, functions and class instances like `Date`." },
+  { "term": "Path-constrained parameter", "description": "`P extends Paths<T>` gives autocomplete for valid paths and compile errors for typos." }
+]

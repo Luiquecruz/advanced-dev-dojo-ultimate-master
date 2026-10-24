@@ -1,0 +1,7 @@
+[
+  { "term": "Exit animation", "description": "Animating an element as it leaves. Requires keeping it mounted until the animation ends, because unmounting removes the DOM node instantly." },
+  { "term": "onAnimationEnd / onTransitionEnd", "description": "React events fired when a CSS animation or transition finishes. They bubble, so check `event.target` when children animate too." },
+  { "term": "prefers-reduced-motion", "description": "Media query reflecting the OS setting to minimize motion. Read it in CSS with `@media` or in JS with `matchMedia`." },
+  { "term": "Motion (motion/react)", "description": "The library formerly called Framer Motion. `<AnimatePresence>` plus an `exit` prop handles exit animations declaratively." },
+  { "term": "Compositor-friendly properties", "description": "`transform` and `opacity` animate without triggering layout or paint of other elements." }
+]

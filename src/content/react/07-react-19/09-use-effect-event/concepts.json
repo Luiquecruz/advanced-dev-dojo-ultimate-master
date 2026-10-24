@@ -1,0 +1,6 @@
+[
+  { "term": "Effect Event", "description": "A function created with `useEffectEvent` that reads the latest props and state but is not reactive." },
+  { "term": "useEffectEvent", "description": "React 19.2 Hook: `const onEvent = useEffectEvent(callback)`. Call the result only from inside effects." },
+  { "term": "Stale closure", "description": "A callback that captured an old value because the effect that created it did not re-run." },
+  { "term": "Reactive vs non-reactive logic", "description": "Values that decide *when* to re-synchronize go in dependencies; values only *read* when something happens belong in Effect Events." }
+]

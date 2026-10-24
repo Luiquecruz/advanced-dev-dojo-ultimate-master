@@ -1,0 +1,6 @@
+[
+  { "term": "Type predicate", "description": "Return type `param is T`. A `true` result narrows the argument to `T` at the call site." },
+  { "term": "User-defined type guard", "description": "A function with a type predicate, used to validate untyped data such as JSON." },
+  { "term": "Inferred type predicate", "description": "TypeScript 5.5+ infers `x is T` for simple boolean functions, e.g. `filter((x) => x !== undefined)`." },
+  { "term": "filter(Boolean)", "description": "Does not narrow types and also removes `0`, `''` and `false`." }
+]

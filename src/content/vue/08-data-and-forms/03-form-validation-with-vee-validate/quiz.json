@@ -1,0 +1,5 @@
+[
+  { "question": "What should a VeeValidate rule function return for an invalid value?", "options": ["false only", "An error message string (or false)", "It must throw", "null"], "answer": 1, "explanation": "Returning a string makes it the field's error message; `true` means valid." },
+  { "question": "What does `handleSubmit(fn)` do before calling `fn`?", "options": ["Nothing", "Prevents the default submit and validates every field, calling fn only when valid", "Sends the form to the server", "Resets the form"], "answer": 1, "explanation": "It is the standard way to get validated values on submit." },
+  { "question": "When is `useField` a better fit than `defineField`?", "options": ["Never", "When the input is its own reusable component", "Only for checkboxes", "When there is no useForm"], "answer": 1, "explanation": "`useField` lets a child component own its value, error and validation while registering with the parent form." }
+]

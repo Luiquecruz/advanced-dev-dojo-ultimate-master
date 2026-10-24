@@ -1,0 +1,7 @@
+[
+  { "term": "ResolveFn<T>", "description": "`(route, state) => MaybeAsync<T | RedirectCommand>`. The router waits for the value before activating the route." },
+  { "term": "resolve", "description": "Route property mapping keys to resolvers: `resolve: { user: userResolver }`. Results land in `ActivatedRoute.data` and, with input binding, in inputs of the same name." },
+  { "term": "RedirectCommand", "description": "Returned from a guard or resolver to redirect. Accepts navigation options such as `skipLocationChange`." },
+  { "term": "Resolver vs component loading", "description": "Resolvers block navigation until data arrives. Loading inside the component (httpResource, resource) shows the page immediately with a loading state." },
+  { "term": "runGuardsAndResolvers", "description": "Route option controlling when resolvers re-run: `'paramsChange'` (default), `'paramsOrQueryParamsChange'`, `'always'`..." }
+]

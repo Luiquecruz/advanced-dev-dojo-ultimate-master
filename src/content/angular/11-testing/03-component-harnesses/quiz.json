@@ -1,0 +1,32 @@
+[
+  {
+    "question": "What is the main benefit of a component harness?",
+    "options": ["Tests run without TestBed", "Tests use a stable API instead of the component's internal DOM structure", "It removes the need for assertions", "It renders components on the server"],
+    "answer": 1,
+    "explanation": "Harnesses encapsulate DOM details. When the component markup changes, only the harness needs updating, not every test."
+  },
+  {
+    "question": "Which loader should you use to find a `MatDialogHarness` for a dialog opened by your component?",
+    "options": ["`TestbedHarnessEnvironment.loader(fixture)`", "`TestbedHarnessEnvironment.documentRootLoader(fixture)`", "`fixture.debugElement.query()`", "`new HarnessLoader()`"],
+    "answer": 1,
+    "explanation": "Dialogs, menus and other overlays render outside the component host. `documentRootLoader` searches the whole document."
+  },
+  {
+    "question": "In a custom harness, what does `this.locatorFor('.label')` return?",
+    "options": ["The element synchronously", "An async function that finds the element and throws if it is missing", "An array of matching elements", "`null` when nothing matches"],
+    "answer": 1,
+    "explanation": "Locators are lazy async functions. `locatorForOptional` returns `null` instead of throwing; `locatorForAll` returns a list."
+  },
+  {
+    "question": "Why do tests using harnesses rarely call `fixture.detectChanges()`?",
+    "options": ["Harnesses disable change detection", "Harness methods automatically trigger change detection and wait for stability", "Change detection is not needed in tests", "They only work with OnPush components"],
+    "answer": 1,
+    "explanation": "The TestBed harness environment stabilizes the fixture before and after each interaction."
+  },
+  {
+    "question": "How do you filter harnesses, for example to get the button labeled 'Save'?",
+    "options": ["`loader.getHarness(MatButtonHarness, 'Save')`", "`loader.getHarness(MatButtonHarness.with({ text: 'Save' }))`", "`MatButtonHarness.find('Save')`", "`loader.query('button:Save')`"],
+    "answer": 1,
+    "explanation": "`.with()` builds a `HarnessPredicate` with the harness' supported filters."
+  }
+]

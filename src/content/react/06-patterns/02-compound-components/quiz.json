@@ -1,0 +1,30 @@
+[
+  {
+    "question": "Why do modern compound components use context instead of `Children.map` + `cloneElement`?",
+    "options": [
+      "cloneElement is removed in React 19",
+      "cloneElement only reaches direct children, so wrapping a part in a `<div>` breaks it",
+      "Context is faster in every case",
+      "cloneElement cannot pass functions"
+    ],
+    "answer": 1,
+    "explanation": "`cloneElement` only touches the elements you iterate over. Context reaches any descendant. `cloneElement` still exists but is listed as a legacy API."
+  },
+  {
+    "question": "Which ARIA attribute marks the active tab?",
+    "options": ["`aria-current`", "`aria-pressed`", "`aria-selected`", "`aria-checked`"],
+    "answer": 2,
+    "explanation": "In the WAI-ARIA tabs pattern, each `role=\"tab\"` uses `aria-selected` to indicate the active one."
+  },
+  {
+    "question": "What is the main advantage of `<Tabs><Tabs.Tab /></Tabs>` over `<Tabs items={[...]} />`?",
+    "options": [
+      "Smaller bundle",
+      "The caller controls markup and order, so new layouts do not require new props",
+      "No state is needed",
+      "It works without JavaScript"
+    ],
+    "answer": 1,
+    "explanation": "Composition gives callers full control of what is rendered, avoiding a growing list of configuration props."
+  }
+]

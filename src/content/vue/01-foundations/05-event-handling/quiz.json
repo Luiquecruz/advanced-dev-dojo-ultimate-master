@@ -1,0 +1,5 @@
+[
+  {"question": "With `@click=\"save('draft')\"`, how do you also get the native event?", "options": ["Use the special `$event` variable", "It is passed as the last argument automatically", "Read `this.event`", "It is not possible"], "answer": 0, "explanation": "Inline calls only receive what you pass. Write `save('draft', $event)` or use an arrow function."},
+  {"question": "Which listener closes a modal overlay only when the backdrop itself is clicked?", "options": ["@click.stop", "@click.prevent", "@click.self", "@click.capture"], "answer": 2, "explanation": "`.self` runs the handler only when `event.target` is the element itself, so clicks inside the dialog are ignored."},
+  {"question": "Why should `.passive` and `.prevent` not be combined?", "options": ["Vue throws a compile error", "It doubles the listener", "Passive listeners cannot cancel the event, so `.prevent` is ignored", "`.passive` only works on forms"], "answer": 2, "explanation": "A passive listener promises not to call `preventDefault()`; the browser ignores it and warns."}
+]

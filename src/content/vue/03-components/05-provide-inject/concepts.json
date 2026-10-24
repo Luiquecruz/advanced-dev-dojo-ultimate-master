@@ -1,0 +1,7 @@
+[
+  { "term": "provide", "description": "Makes a value available to every descendant of the current component under a key." },
+  { "term": "inject", "description": "Reads the closest ancestor's provided value for a key, with an optional default." },
+  { "term": "InjectionKey", "description": "Typed `Symbol` key: `const Key: InjectionKey<T> = Symbol()` gives `inject(Key)` the type `T | undefined`." },
+  { "term": "Prop drilling", "description": "Passing props through intermediate components that only forward them." },
+  { "term": "app.provide", "description": "Provides a value to the whole application, typically from a plugin." }
+]

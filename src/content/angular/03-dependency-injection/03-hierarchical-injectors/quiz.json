@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A component lists `providers: [Store]`. How many `Store` instances exist when the component is rendered three times?",
+    "options": ["One, services are singletons", "Three, one per component instance", "Zero until a child injects it", "It depends on `providedIn`"],
+    "answer": 1,
+    "explanation": "Component providers live in the element injector of each component instance."
+  },
+  {
+    "question": "In which order does `inject()` search for a provider?",
+    "options": ["Root first, then element injectors", "Element injectors up the component tree, then environment injectors", "Only the current component", "Platform injector first"],
+    "answer": 1,
+    "explanation": "Element injectors are checked from the requesting node upwards; environment (route/root/platform) injectors come after."
+  },
+  {
+    "question": "Which option makes a nested menu find its *parent* menu instead of itself?",
+    "options": ["`{ self: true }`", "`{ optional: true }`", "`{ skipSelf: true }`", "`{ host: true }`"],
+    "answer": 2,
+    "explanation": "`skipSelf` starts the lookup at the parent element injector."
+  }
+]

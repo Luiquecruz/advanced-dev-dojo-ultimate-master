@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What is TypeScript 7.0?",
+    "options": [
+      "A new language with breaking syntax changes",
+      "A native Go port of the compiler with the same type checking as 6.0",
+      "A Rust-based bundler",
+      "A JavaScript runtime that executes .ts files"
+    ],
+    "answer": 1,
+    "explanation": "TypeScript 7 is a faithful port of the 6.0 compiler to Go. The language stays the same; builds get roughly 10x faster."
+  },
+  {
+    "question": "Your project uses typescript-eslint, which imports the compiler API. What should you do when adopting 7.0?",
+    "options": [
+      "Nothing, 7.0 exposes the same API",
+      "Keep the 6.0 API available through @typescript/typescript6 alongside the 7.0 compiler",
+      "Switch typescript-eslint to the tsgo binary",
+      "Downgrade to TypeScript 5.9"
+    ],
+    "answer": 1,
+    "explanation": "7.0 ships no programmatic API. Tools keep using the 6.0 API via `@typescript/typescript6` until the new API arrives."
+  },
+  {
+    "question": "Which config compiles on TypeScript 6.0 with ignoreDeprecations but fails on 7.0?",
+    "options": [
+      "{ \"module\": \"nodenext\" }",
+      "{ \"baseUrl\": \".\", \"paths\": { \"@/*\": [\"src/*\"] } }",
+      "{ \"strict\": true }",
+      "{ \"verbatimModuleSyntax\": true }"
+    ],
+    "answer": 1,
+    "explanation": "`baseUrl` is deprecated in 6.0 and removed in 7.0. Write `paths` relative to the tsconfig instead."
+  },
+  {
+    "question": "Which two factors explain most of TypeScript 7's speedup?",
+    "options": [
+      "Skipping type checking and caching on disk",
+      "Native code execution and shared-memory parallelism",
+      "A simpler type system and fewer diagnostics",
+      "Running in the browser via WebAssembly"
+    ],
+    "answer": 1,
+    "explanation": "Native code removes JIT and memory overhead, and Go's threads let parsing, checking and emit run in parallel."
+  },
+  {
+    "question": "What is the recommended preparation before switching a project to 7.0?",
+    "options": [
+      "Compile cleanly on 6.0 without ignoreDeprecations and with --stableTypeOrdering",
+      "Rewrite enums as namespaces",
+      "Convert the project to JavaScript with JSDoc",
+      "Enable --singleThreaded permanently"
+    ],
+    "answer": 0,
+    "explanation": "If 6.0 accepts the project without silenced deprecations and with stable ordering, 7.0 should produce identical results."
+  }
+]

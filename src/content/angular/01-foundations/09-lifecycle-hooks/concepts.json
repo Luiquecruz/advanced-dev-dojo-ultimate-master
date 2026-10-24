@@ -1,0 +1,9 @@
+[
+  { "term": "ngOnInit", "description": "Runs once after the first input values are set. The place to start work that depends on inputs." },
+  { "term": "ngOnChanges", "description": "Runs before `ngOnInit` and on every input change with a `SimpleChanges` map (`previousValue`, `currentValue`, `firstChange`)." },
+  { "term": "ngOnDestroy", "description": "Runs once before the component is destroyed. Clean up timers, listeners and subscriptions." },
+  { "term": "DestroyRef", "description": "Injectable handle with `onDestroy(callback)`; lets you register cleanup next to setup, also in services." },
+  { "term": "afterNextRender", "description": "Runs a callback once after the next full render. Browser-only (skipped in SSR). Supports `earlyRead`/`write`/`mixedReadWrite`/`read` phases." },
+  { "term": "afterEveryRender", "description": "Like `afterNextRender` but runs after every render." },
+  { "term": "NG0100", "description": "`ExpressionChangedAfterItHasBeenCheckedError`: state bound in the template changed after Angular checked it, e.g. in `ngAfterViewInit`." }
+]

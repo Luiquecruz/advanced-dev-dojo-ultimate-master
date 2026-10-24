@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Intersection type",
+    "description": "`A & B` has every member of `A` and every member of `B`."
+  },
+  {
+    "term": "Property conflict",
+    "description": "Intersecting incompatible property types produces `never` for that property instead of an error."
+  },
+  {
+    "term": "never",
+    "description": "The empty type: no value can ever be assigned to it."
+  }
+]

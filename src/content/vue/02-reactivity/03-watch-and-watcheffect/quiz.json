@@ -1,0 +1,5 @@
+[
+  {"question": "How do you watch the `page` property of `const state = reactive({ page: 1 })`?", "options": ["watch(state.page, cb)", "watch('state.page', cb)", "watchEffect(state.page, cb)", "watch(() => state.page, cb)"], "answer": 3, "explanation": "`state.page` evaluates to a number. Wrap it in a getter so Vue can track the property access."},
+  {"question": "Which reads does this effect track? `watchEffect(async () => { const a = x.value; await load(); console.log(y.value); })`", "options": ["x and y", "only x", "only y", "neither"], "answer": 1, "explanation": "Tracking stops at the first `await`; `y.value` is read afterwards and is not tracked."},
+  {"question": "A watcher is created inside `setTimeout` in `<script setup>`. What must you do?", "options": ["Stop it manually, it is not bound to the component", "Nothing, it stops on unmount", "Wrap it in computed", "Use `once: true`"], "answer": 0, "explanation": "Only watchers created synchronously during setup are tied to the component instance and stopped automatically."}
+]

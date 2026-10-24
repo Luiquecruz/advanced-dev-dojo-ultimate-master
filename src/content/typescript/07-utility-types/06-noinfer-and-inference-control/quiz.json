@@ -1,0 +1,20 @@
+[
+  {
+    "question": "`function pick<T extends string>(all: T[], one: T)` is called as `pick(['a', 'b'], 'c')`. What happens?",
+    "options": ["Compile error on `'c'`", "T is inferred as `'a' | 'b' | 'c'` and it compiles", "T is `string`", "Runtime error"],
+    "answer": 1,
+    "explanation": "Both parameters contribute inference candidates, so the typo widens the union."
+  },
+  {
+    "question": "What does `NoInfer<T>` change when checking an argument?",
+    "options": ["It makes the parameter `unknown`", "Nothing; it only stops that position from inferring T", "It makes the argument readonly", "It disables type checking"],
+    "answer": 1,
+    "explanation": "`NoInfer<T>` is identical to `T` for assignability; it only removes the position from inference."
+  },
+  {
+    "question": "Which legacy pattern achieved the same goal before TypeScript 5.4?",
+    "options": ["`<T, U extends T>(all: T[], one: U)`", "`<T = never>`", "`as const` on the function", "`declare` on the parameter"],
+    "answer": 0,
+    "explanation": "A second type parameter constrained by the first lets the first be inferred from the list alone and checks the other argument against it."
+  }
+]

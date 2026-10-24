@@ -1,0 +1,7 @@
+[
+  { "term": "Profiler", "description": "`<Profiler id onRender>` calls `onRender(id, phase, actualDuration, baseDuration, startTime, commitTime)` each time its subtree commits." },
+  { "term": "actualDuration vs baseDuration", "description": "`actualDuration` is the time spent in this commit; `baseDuration` estimates a full re-render without memoization. A large gap means memoization is working." },
+  { "term": "React DevTools Profiler", "description": "Records commits as flame graphs and ranked charts, and can explain why each component rendered." },
+  { "term": "Highlight updates", "description": "DevTools setting that flashes components when they re-render, revealing wasted renders." },
+  { "term": "Performance tracks", "description": "React 19.2+ Scheduler and Components tracks inside the Chrome DevTools Performance panel." }
+]

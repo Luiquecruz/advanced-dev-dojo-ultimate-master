@@ -1,0 +1,7 @@
+[
+  { "term": "Cleanup function", "description": "The function returned from an Effect. Runs before the next setup (with old values) and on unmount." },
+  { "term": "Synchronization", "description": "An Effect describes how to start and stop syncing with an external system for the current props and state." },
+  { "term": "Reactive value", "description": "Props, state and values computed from them during render. Effects must list every reactive value they read." },
+  { "term": "StrictMode double invoke", "description": "In development, React runs setup, cleanup, setup to reveal missing cleanups." },
+  { "term": "Listener identity", "description": "`removeEventListener` must receive the exact function passed to `addEventListener`." }
+]

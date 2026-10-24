@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What does Angular do with a Promise returned from a `provideAppInitializer()` callback?",
+    "options": ["Ignores it", "Waits for it before bootstrapping the root component", "Runs it after the first render", "Converts it into a signal"],
+    "answer": 1,
+    "explanation": "Promises and Observables returned by app initializers are awaited; rejections fail the bootstrap."
+  },
+  {
+    "question": "Where can the result of `makeEnvironmentProviders()` be used?",
+    "options": ["In any component's `providers`", "Only in environment injectors: `appConfig`, route `providers`, `createEnvironmentInjector()`", "Only in tests", "Only in NgModules"],
+    "answer": 1,
+    "explanation": "`EnvironmentProviders` are rejected by element injectors, which keeps app-level configuration out of components."
+  },
+  {
+    "question": "Which API replaces the deprecated `ENVIRONMENT_INITIALIZER` multi token?",
+    "options": ["`provideAppInitializer()`", "`provideEnvironmentInitializer()`", "`runInInjectionContext()`", "`afterNextRender()`"],
+    "answer": 1,
+    "explanation": "`provideEnvironmentInitializer(fn)` runs `fn` synchronously when the environment injector is created."
+  }
+]

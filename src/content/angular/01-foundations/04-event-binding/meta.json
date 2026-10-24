@@ -1,0 +1,10 @@
+{
+  "title": "Event Binding",
+  "summary": "Handle DOM events with (event), read $event, filter keys with (keydown.enter) and listen on the host or window.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [
+    { "label": "angular.dev: Adding event listeners", "url": "https://angular.dev/guide/templates/event-listeners" },
+    { "label": "angular.dev: Host elements", "url": "https://angular.dev/guide/components/host-elements" }
+  ]
+}

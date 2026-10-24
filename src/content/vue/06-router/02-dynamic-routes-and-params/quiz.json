@@ -1,0 +1,5 @@
+[
+  { "question": "What is the type of `route.params.id` for the path `/users/:id`?", "options": ["number", "string", "number | string", "unknown"], "answer": 1, "explanation": "URL params are always strings. Convert with `Number()` when needed." },
+  { "question": "A user navigates from `/users/1` to `/users/2`. Which code reloads the data?", "options": ["onMounted(load)", "onBeforeMount(load)", "watch(() => props.id, load, { immediate: true })", "onUnmounted(load)"], "answer": 2, "explanation": "The same instance is reused, so mount hooks do not run again. A watcher on the param reacts to the change." },
+  { "question": "Which path only matches numeric ids?", "options": ["/users/:id", "/users/:id?", "/users/:id(\\\\d+)", "/users/:id+"], "answer": 2, "explanation": "A regex in parentheses after the param name restricts what it matches." }
+]

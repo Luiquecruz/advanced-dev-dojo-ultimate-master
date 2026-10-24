@@ -1,0 +1,11 @@
+{
+  "title": "TanStack Query",
+  "summary": "Cache, deduplicate and refresh server state with useQuery, query keys and staleTime.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "modern"],
+  "resources": [
+    { "label": "TanStack Query: Overview", "url": "https://tanstack.com/query/latest/docs/framework/react/overview" },
+    { "label": "TanStack Query: Important Defaults", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/important-defaults" },
+    { "label": "TanStack Query: Migrating to v5", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/migrating-to-v5" }
+  ]
+}

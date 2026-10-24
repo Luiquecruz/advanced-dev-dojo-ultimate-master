@@ -1,0 +1,8 @@
+[
+  { "term": "Optimistic update", "description": "Writing the expected result before the server confirms it, keeping a snapshot to roll back on error." },
+  { "term": "onMutate result", "description": "The value returned by `onMutate` (usually `{ previous }`), passed to `onError`, `onSuccess` and `onSettled` as `onMutateResult`." },
+  { "term": "cancelQueries", "description": "Cancels in-flight fetches for a key so a stale response cannot overwrite an optimistic write." },
+  { "term": "onSettled re-sync", "description": "Invalidating after success or error so the cache converges to what the server stored." },
+  { "term": "useMutationState", "description": "Reads the state or variables of mutations (filtered by `mutationKey`) from anywhere, enabling UI-only optimism across components." },
+  { "term": "useOptimistic", "description": "React 19 hook that shows a temporary value while an Action is pending and reverts when it ends." }
+]

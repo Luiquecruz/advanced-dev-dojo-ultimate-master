@@ -1,0 +1,7 @@
+[
+  { "term": "Action", "description": "A function, sync or async, that runs inside a Transition. React tracks it until its Promise settles." },
+  { "term": "Async transition", "description": "`startTransition(async () => { ... })`: React 19 keeps `isPending` true until the async function finishes." },
+  { "term": "isPending", "description": "First value returned by `useTransition()`. `true` from the moment an Action starts until every queued Action finishes." },
+  { "term": "Updates after await", "description": "State updates after an `await` lose the Transition context. Wrap them in another `startTransition` to keep them non-urgent." },
+  { "term": "response.ok", "description": "`fetch` resolves for HTTP errors such as 500. Check `response.ok` to detect a failed request." }
+]

@@ -1,0 +1,6 @@
+[
+  { "term": "storeToRefs", "description": "Returns refs for a store's state and getters (not actions), so destructuring keeps reactivity." },
+  { "term": "Store composition", "description": "Calling `useOtherStore()` inside another store's setup function, getters or actions." },
+  { "term": "Getter with arguments", "description": "A getter that returns a function, like `byId(id)`. The returned function is not cached." },
+  { "term": "mapState / mapActions", "description": "Options API helpers inherited from the Vuex era; not needed with `<script setup>`." }
+]

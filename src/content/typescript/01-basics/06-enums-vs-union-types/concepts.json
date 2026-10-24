@@ -1,0 +1,6 @@
+[
+  { "term": "enum", "description": "TypeScript-only construct that emits a runtime object. Numeric enums have reverse mappings; string enums are nominal." },
+  { "term": "const enum", "description": "Enum whose members are inlined at compile time. Fragile with single-file transpilers and `isolatedModules`." },
+  { "term": "erasableSyntaxOnly", "description": "TypeScript 5.8 option that rejects syntax that cannot simply be stripped: enums, namespaces with values and parameter properties." },
+  { "term": "as const object + union", "description": "Erasable replacement for enums: `const X = {...} as const; type X = (typeof X)[keyof typeof X];`" }
+]

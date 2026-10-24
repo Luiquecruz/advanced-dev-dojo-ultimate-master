@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Fresh object literal",
+    "description": "An object literal written directly where a typed value is expected. Only these get excess property checks."
+  },
+  {
+    "term": "Excess property check",
+    "description": "Compile error for properties that the target type does not declare. Catches typos in literals."
+  },
+  {
+    "term": "Index signature",
+    "description": "`[key: string]: T` makes every key valid, which also disables excess property checks."
+  }
+]

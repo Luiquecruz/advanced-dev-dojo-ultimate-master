@@ -1,0 +1,10 @@
+{
+  "title": "Async Pipe and Subscription Management",
+  "summary": "Avoid subscription leaks with the async pipe, toSignal and takeUntilDestroyed, and recognize the legacy ngOnDestroy + takeUntil pattern.",
+  "level": "intermediate",
+  "tags": ["core", "modern", "legacy"],
+  "resources": [
+    { "label": "angular.dev: takeUntilDestroyed", "url": "https://angular.dev/ecosystem/rxjs-interop/take-until-destroyed" },
+    { "label": "angular.dev: AsyncPipe", "url": "https://angular.dev/api/common/AsyncPipe" }
+  ]
+}

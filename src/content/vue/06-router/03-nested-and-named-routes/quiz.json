@@ -1,0 +1,5 @@
+[
+  { "question": "A child record has `path: '/account'` under the `/settings` parent. Which URL matches it?", "options": ["/settings/account", "/account", "Both", "Neither"], "answer": 1, "explanation": "A leading slash makes a child path absolute. Use `'account'` to get `/settings/account`." },
+  { "question": "The layout renders but the child page never appears. What is the most likely cause?", "options": ["Missing `name` on the child", "Missing `<RouterView />` inside the parent component", "The child uses `component` instead of `components`", "The history mode"], "answer": 1, "explanation": "Each nesting level needs its own `<RouterView />` to render the matched child." },
+  { "question": "What is the difference between `redirect` and `alias`?", "options": ["None", "redirect changes the URL; alias keeps the visited URL and renders the same record", "alias changes the URL; redirect keeps it", "alias only works for named routes"], "answer": 1, "explanation": "A redirect navigates to another location. An alias is a second URL for the same record." }
+]

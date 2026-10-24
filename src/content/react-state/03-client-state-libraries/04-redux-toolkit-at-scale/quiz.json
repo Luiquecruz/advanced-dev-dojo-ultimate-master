@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A chat app stores messages as an array and frequently updates one message by id (reactions, edits). Lookups and updates are getting slow and error-prone. What should change?",
+    "options": [
+      "Store messages in context",
+      "Normalize them with `createEntityAdapter` (`ids` + `entities`) and use `updateOne` / `selectById`",
+      "Use `useMemo` in every component",
+      "Store messages in `localStorage`"
+    ],
+    "answer": 1,
+    "explanation": "Normalized collections give O(1) lookups and single-place updates. The adapter also generates reducer helpers and memoized selectors."
+  },
+  {
+    "question": "Two components mount at the same time and both dispatch `fetchProjects()`. How do you guarantee a single request with `createAsyncThunk`?",
+    "options": [
+      "Wrap the dispatch in `useCallback`",
+      "Add a `condition` option that returns `false` while the status is `'loading'`",
+      "Use `setTimeout` to delay one of them",
+      "It is impossible without RTK Query"
+    ],
+    "answer": 1,
+    "explanation": "`condition` runs before `pending`. Returning `false` cancels the thunk entirely (the returned action has `meta.condition: true`)."
+  },
+  {
+    "question": "Product asks: \"whenever a document changes, autosave it 1 second after the last edit\". Edits come from five different components. Where should this logic live?",
+    "options": [
+      "In each component's `onChange`",
+      "In a listener that matches the edit actions and uses `cancelActiveListeners()` + `await delay(1000)` before saving",
+      "In the reducer",
+      "In a `useEffect` in the root component that watches the whole state"
+    ],
+    "answer": 1,
+    "explanation": "Listeners centralize reactions to actions. Cancelling the previous run and delaying gives debounced autosave without touching the five components, and reducers stay pure."
+  },
+  {
+    "question": "A listener reverts a failed toggle by dispatching `todoToggled(id)` again. What goes wrong?",
+    "options": [
+      "Nothing, it is the cleanest option",
+      "The revert triggers the same listener, which sends another PATCH; use a dedicated `todoToggleReverted` action",
+      "Reducers cannot handle the same action twice",
+      "The notification is lost"
+    ],
+    "answer": 1,
+    "explanation": "The listener reacts to every `todoToggled`, including its own. A separate action expresses the real event (a rollback) and is not listened to."
+  },
+  {
+    "question": "A new screen just lists `/api/invoices` with caching, refetch on focus and pagination. What is the best tool in a Redux Toolkit app?",
+    "options": [
+      "`createAsyncThunk` + an entity adapter + hand-written cache timestamps",
+      "RTK Query (`createApi`), which handles caching, deduplication, refetching and invalidation",
+      "A listener that polls every second",
+      "Context with `useEffect`"
+    ],
+    "answer": 1,
+    "explanation": "Plain server data fetching and caching is exactly what RTK Query solves. Hand-written thunks are for client-side workflows that a cache does not model."
+  }
+]

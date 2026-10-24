@@ -1,0 +1,10 @@
+{
+  "title": "StrictMode",
+  "summary": "What StrictMode double-invokes in development (renders, effects, ref callbacks), the bugs it reveals and why you should keep it on.",
+  "level": "intermediate",
+  "tags": ["core", "theory"],
+  "resources": [
+    { "label": "react.dev: <StrictMode>", "url": "https://react.dev/reference/react/StrictMode" },
+    { "label": "react.dev: How to handle the Effect firing twice in development", "url": "https://react.dev/learn/synchronizing-with-effects#how-to-handle-the-effect-firing-twice-in-development" }
+  ]
+}

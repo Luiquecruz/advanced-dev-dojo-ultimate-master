@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Structural typing",
+    "description": "Compatibility is decided by members, not by declared names or `implements` clauses."
+  },
+  {
+    "term": "Nominal typing",
+    "description": "Compatibility decided by name (Java, C#). TypeScript emulates it with brands."
+  },
+  {
+    "term": "Branded type",
+    "description": "`string & { readonly brand: \"Email\" }`: a primitive with a phantom property that only a validating function can produce."
+  }
+]

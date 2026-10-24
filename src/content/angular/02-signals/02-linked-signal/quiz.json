@@ -1,0 +1,20 @@
+[
+  {
+    "question": "`sel = linkedSignal(() => opts()[0])`. You call `sel.set('B')`, then `opts.set([...])` with a new array. What is `sel()`?",
+    "options": ["'B'", "The first element of the new array", "`undefined`", "It throws"],
+    "answer": 1,
+    "explanation": "In the short form a source change always recomputes and overrides the manual value."
+  },
+  {
+    "question": "When should you use `computed()` instead of `linkedSignal()`?",
+    "options": ["When the value is never set manually", "When the source is an input", "When the value is an array", "Never, linkedSignal replaces computed"],
+    "answer": 0,
+    "explanation": "If nothing writes to it, it's purely derived state: `computed()` is simpler and read-only."
+  },
+  {
+    "question": "In the long form, which signals trigger a recomputation?",
+    "options": ["Every signal read in `computation`", "Only the signals read by `source`", "None, it must be reset manually", "Only signal inputs"],
+    "answer": 1,
+    "explanation": "The long form tracks `source` only; `computation` runs untracked with the new source value and `previous`."
+  }
+]

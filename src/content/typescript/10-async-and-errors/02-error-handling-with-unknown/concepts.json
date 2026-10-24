@@ -1,0 +1,7 @@
+[
+  { "term": "useUnknownInCatchVariables", "description": "Part of `strict`. Types `catch (error)` as `unknown` instead of `any`." },
+  { "term": "instanceof narrowing", "description": "`error instanceof Error` narrows an unknown value to `Error` (or a subclass)." },
+  { "term": "ErrorOptions", "description": "The `{ cause?: unknown }` options bag accepted by `Error` and its subclasses since ES2022." },
+  { "term": "Error cause", "description": "Links a high-level error to the low-level error that triggered it without losing the original stack." },
+  { "term": "Error.isError", "description": "ES2026 type predicate that recognises real errors across realms, typed in `lib.esnext`." }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "question": "When does the producer function of `new Observable(producer)` run?",
+    "options": ["Immediately when the observable is created", "Once per subscriber, when `subscribe()` is called", "Only once, shared by all subscribers", "When `complete()` is called"],
+    "answer": 1,
+    "explanation": "Observables are lazy and (by default) cold: each subscription executes the producer."
+  },
+  {
+    "question": "What does `of(1, 2)` do when subscribed?",
+    "options": ["Emits 1 and 2 asynchronously and never completes", "Emits 1 and 2 synchronously, then completes", "Emits [1, 2] once", "Throws because it needs a scheduler"],
+    "answer": 1,
+    "explanation": "`of` emits its arguments synchronously and completes."
+  },
+  {
+    "question": "Two components subscribe to the same `http.get('/api/users')` observable. How many requests are sent?",
+    "options": ["One, HttpClient caches automatically", "Two, because the observable is cold", "Zero until `toPromise()`", "It depends on change detection"],
+    "answer": 1,
+    "explanation": "HTTP observables are cold; share them with `shareReplay` or store the result in a signal."
+  }
+]

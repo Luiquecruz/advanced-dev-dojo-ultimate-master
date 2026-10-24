@@ -1,0 +1,9 @@
+[
+  { "term": "Action", "description": "A plain object `{ type, payload }` describing something that happened. Created by action creators such as `todoAdded('x')`." },
+  { "term": "Reducer", "description": "A pure function `(state, action) => nextState`. In RTK case reducers can mutate an Immer draft instead." },
+  { "term": "createSlice", "description": "Generates action creators, action types and a reducer from a `name`, `initialState` and `reducers` map. Optional `selectors` are wrapped to read from the root state." },
+  { "term": "prepare callback", "description": "Customizes the action payload inside the action creator, the right place for ids and timestamps." },
+  { "term": "configureStore", "description": "Creates the store with good defaults: combined reducers, thunk middleware, DevTools and development checks for mutations and non-serializable values." },
+  { "term": "useSelector / useDispatch", "description": "react-redux hooks to read a selected value (re-rendering when it changes) and to dispatch actions." },
+  { "term": "RTK Query", "description": "Data fetching and caching layer built into Redux Toolkit (`createApi`), an alternative to TanStack Query for server state." }
+]

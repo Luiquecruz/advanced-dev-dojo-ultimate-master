@@ -1,0 +1,6 @@
+{
+  "title": "Type predicates",
+  "summary": "Write reusable type guards with `value is Type`, filter arrays safely and benefit from inferred predicates in TypeScript 5.5+.",
+  "level": "intermediate",
+  "tags": ["core", "modern"]
+}

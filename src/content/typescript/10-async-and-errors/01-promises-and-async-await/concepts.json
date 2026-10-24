@@ -1,0 +1,8 @@
+[
+  { "term": "Promise<T>", "description": "A value of type `T` that will be available later. `await` and `.then` unwrap it to `T`." },
+  { "term": "async function", "description": "Always returns a promise. Annotate the return type as `Promise<T>`." },
+  { "term": "Awaited<T>", "description": "Recursively unwraps promise types: `Awaited<Promise<Promise<number>>>` is `number`." },
+  { "term": "Promise.all", "description": "Runs promises concurrently and resolves to a tuple of their values; rejects on the first failure." },
+  { "term": "Promise.race", "description": "Settles like the first promise that settles. The basis for timeouts." },
+  { "term": "Floating promise", "description": "A promise that is neither awaited nor handled. Its rejection goes unnoticed." }
+]

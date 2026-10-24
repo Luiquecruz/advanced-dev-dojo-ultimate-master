@@ -1,0 +1,7 @@
+[
+  { "term": "React Compiler", "description": "Build-time Babel plugin (`babel-plugin-react-compiler`, stable 1.0 since October 2025) that inserts automatic memoization." },
+  { "term": "Rules of React", "description": "Purity during render, immutable props and state, Rules of Hooks, no ref reads during render. The compiler relies on them and bails out when it detects violations." },
+  { "term": "'use no memo'", "description": "Directive that opts a component or Hook out of compilation." },
+  { "term": "Annotation mode", "description": "`compilationMode: 'annotation'` compiles only functions marked with the `'use memo'` directive, for gradual rollout." },
+  { "term": "react-compiler-runtime", "description": "Runtime package needed to run compiled output on React 17 and 18. React 19 includes it as `react/compiler-runtime`." }
+]

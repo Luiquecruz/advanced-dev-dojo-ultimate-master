@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Why does `constructor(private config: AppConfig)` fail when `AppConfig` is a TypeScript interface?",
+    "options": ["Interfaces cannot be private", "Interfaces do not exist at runtime, so there is no token to inject", "Constructor injection only works for components", "It needs `providedIn: 'any'`"],
+    "answer": 1,
+    "explanation": "Types are erased. Use an `InjectionToken<AppConfig>` with `@Inject(TOKEN)` or `inject(TOKEN)`."
+  },
+  {
+    "question": "Where is it safe to first read a decorator `@Input()` value?",
+    "options": ["In the constructor", "In `ngOnChanges` or `ngOnInit`", "In a field initializer", "Only in the template"],
+    "answer": 1,
+    "explanation": "Inputs are set after construction. `ngOnChanges` runs first with the initial values, then `ngOnInit`."
+  },
+  {
+    "question": "Which signal API replaces the `@Input() value` + `@Output() valueChange` pair?",
+    "options": ["`input()`", "`output()`", "`model()`", "`linkedSignal()`"],
+    "answer": 2,
+    "explanation": "`model()` creates a writable signal input that supports `[(value)]` two-way binding."
+  }
+]

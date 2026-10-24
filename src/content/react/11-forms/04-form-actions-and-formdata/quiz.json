@@ -1,0 +1,25 @@
+[
+  {
+    "question": "With `useActionState(action, initialState)`, what are the action's parameters?",
+    "options": ["`(formData)`", "`(previousState, formData)`", "`(event)`", "`(state, dispatch)`"],
+    "answer": 1,
+    "explanation": "`useActionState` passes the previous result as the first argument so the action can compute the next state; the form data comes second."
+  },
+  {
+    "question": "Why return the submitted title in the error state and use it as `defaultValue`?",
+    "options": [
+      "React requires it",
+      "React resets the form after every action, so the input would otherwise be emptied even on errors",
+      "It makes the request faster",
+      "`FormData` cannot be read twice"
+    ],
+    "answer": 1,
+    "explanation": "The automatic reset restores each input's `defaultValue`. Feeding the submitted value back makes the reset keep the user's input."
+  },
+  {
+    "question": "What does `formData.get('age')` return for `<input name=\"age\" type=\"number\" />` with 30 typed in?",
+    "options": ["The number `30`", "The string `'30'`", "`undefined`", "An object"],
+    "answer": 1,
+    "explanation": "`FormData` values are strings (or `File`s). Convert and validate them yourself, for example with `z.coerce.number()`."
+  }
+]

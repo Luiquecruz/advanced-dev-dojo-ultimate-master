@@ -1,0 +1,10 @@
+{
+  "title": "signal, computed & effect",
+  "summary": "Hold state in signals, derive it with computed() and sync it with the outside world using effect(), with immutable updates.",
+  "level": "beginner",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "angular.dev: Signals overview", "url": "https://angular.dev/guide/signals" },
+    { "label": "angular.dev: Effects", "url": "https://angular.dev/guide/signals/effect" }
+  ]
+}

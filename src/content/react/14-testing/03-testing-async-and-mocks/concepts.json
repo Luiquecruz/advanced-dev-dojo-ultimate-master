@@ -1,0 +1,7 @@
+[
+  { "term": "findBy*", "description": "Async query: waits (default 1000 ms) until the element appears. Equivalent to `waitFor(() => getBy*(...))`." },
+  { "term": "waitFor", "description": "Retries a callback until it stops throwing. Use for non-query assertions such as mock calls." },
+  { "term": "Mock function", "description": "`vi.fn()` / `jest.fn()`: records calls (`mock.calls`) and can return or resolve canned values." },
+  { "term": "Network mocking", "description": "Intercepting requests (MSW, or `mockApi` in the Dojo) so components keep their real fetching code while tests control responses." },
+  { "term": "response.ok", "description": "`true` for status 200-299. `fetch` does not reject on HTTP errors, so check it yourself." }
+]

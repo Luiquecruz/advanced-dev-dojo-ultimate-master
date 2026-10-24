@@ -1,0 +1,10 @@
+{
+  "title": "Deferrable Views (@defer)",
+  "summary": "Lazy load template sections with @defer, triggers, prefetching and placeholder/loading/error blocks, and test them with DeferBlockBehavior.",
+  "level": "advanced",
+  "tags": ["modern", "performance", "testing"],
+  "resources": [
+    { "label": "angular.dev: Deferred loading with @defer", "url": "https://angular.dev/guide/templates/defer" },
+    { "label": "angular.dev: Testing @defer blocks", "url": "https://angular.dev/guide/testing/defer" }
+  ]
+}

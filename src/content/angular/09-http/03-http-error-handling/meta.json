@@ -1,0 +1,12 @@
+{
+  "title": "HTTP Error Handling",
+  "summary": "Classify HttpErrorResponse failures, retry transient 5xx errors with backoff, map errors to friendly messages and render error states with rxResource.",
+  "level": "advanced",
+  "tags": ["core", "modern"],
+  "entry": "app.ts",
+  "preview": false,
+  "resources": [
+    { "label": "angular.dev: Handling request failure", "url": "https://angular.dev/guide/http/making-requests#handling-request-failure" },
+    { "label": "rxjs.dev: retry", "url": "https://rxjs.dev/api/operators/retry" }
+  ]
+}

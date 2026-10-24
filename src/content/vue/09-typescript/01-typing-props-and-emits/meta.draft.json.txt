@@ -1,0 +1,1 @@
+{ "title": "tmp", "summary": "temporary meta for verification", "level": "intermediate", "entry": "App.vue" }

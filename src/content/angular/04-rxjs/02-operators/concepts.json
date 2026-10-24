@@ -1,0 +1,8 @@
+[
+  { "term": "Pipeable operator", "description": "A function `(source$) => result$` used inside `pipe()`, such as `map`, `filter` or `debounceTime`." },
+  { "term": "`debounceTime(ms)`", "description": "Emits the latest value only after `ms` milliseconds without new values." },
+  { "term": "`distinctUntilChanged()`", "description": "Drops a value when it equals the previous emitted value." },
+  { "term": "`switchMap`", "description": "Maps each value to an inner observable and cancels the previous inner subscription." },
+  { "term": "`mergeMap` / `concatMap` / `exhaustMap`", "description": "Flatten inner observables in parallel / in sequence / ignoring new values while busy." },
+  { "term": "`catchError`", "description": "Replaces an error notification with a fallback observable." }
+]

@@ -1,0 +1,6 @@
+{
+  "title": "Extracting types with infer",
+  "summary": "Use `infer` inside conditional types to pattern match a type and pull out its parts: return types, parameters, promise values and more.",
+  "level": "advanced",
+  "tags": ["core", "typescript"]
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Emits",
+  "summary": "Send events from child to parent with typed defineEmits and keep the parent as the owner of state.",
+  "level": "beginner",
+  "tags": ["core", "typescript"],
+  "entry": "App.vue",
+  "resources": [{ "label": "vuejs.org: Component Events", "url": "https://vuejs.org/guide/components/events.html" }]
+}

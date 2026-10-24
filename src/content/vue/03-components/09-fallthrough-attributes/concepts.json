@@ -1,0 +1,6 @@
+[
+  { "term": "Fallthrough attributes", "description": "Attributes and listeners not declared as props or emits, applied to the root element by default." },
+  { "term": "$attrs / useAttrs", "description": "Object holding the fallthrough attributes, including `class`, `style` and `on*` listeners. Always current but not reactive." },
+  { "term": "inheritAttrs: false", "description": "Option that disables automatic fallthrough so you can bind `$attrs` to a chosen element." },
+  { "term": "defineOptions", "description": "Vue 3.3+ macro to set component options such as `name` and `inheritAttrs` from `<script setup>`." }
+]

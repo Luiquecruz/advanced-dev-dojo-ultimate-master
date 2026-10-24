@@ -1,0 +1,7 @@
+{
+  "title": "Conditional Rendering",
+  "summary": "Show and hide content with v-if, v-else-if, v-else and v-show, and learn when each one fits.",
+  "level": "beginner",
+  "tags": ["core"],
+  "resources": [{ "label": "vuejs.org: Conditional Rendering", "url": "https://vuejs.org/guide/essentials/conditional.html" }]
+}

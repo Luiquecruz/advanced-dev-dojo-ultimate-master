@@ -1,0 +1,12 @@
+{
+  "title": "Library Comparison",
+  "summary": "Compare Context, Zustand, Redux Toolkit, Jotai, MobX, Valtio and XState by mental model, boilerplate, devtools, granularity, SSR and ecosystem.",
+  "level": "advanced",
+  "tags": ["theory", "ecosystem", "performance"],
+  "resources": [
+    { "label": "Zustand: Comparison", "url": "https://zustand.docs.pmnd.rs/getting-started/comparison" },
+    { "label": "Jotai: Comparison", "url": "https://jotai.org/docs/basics/comparison" },
+    { "label": "Redux: Why Redux Toolkit", "url": "https://redux.js.org/introduction/why-rtk-is-redux-today" },
+    { "label": "Next.js: Zustand setup with per-request stores", "url": "https://zustand.docs.pmnd.rs/guides/nextjs" }
+  ]
+}

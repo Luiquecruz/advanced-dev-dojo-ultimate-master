@@ -1,0 +1,11 @@
+{
+  "title": "Form Actions and FormData",
+  "summary": "Submit uncontrolled forms with React 19 actions, FormData and useActionState.",
+  "level": "intermediate",
+  "tags": ["core", "new", "modern"],
+  "resources": [
+    { "label": "react.dev: <form>", "url": "https://react.dev/reference/react-dom/components/form" },
+    { "label": "react.dev: useActionState", "url": "https://react.dev/reference/react/useActionState" },
+    { "label": "MDN: FormData", "url": "https://developer.mozilla.org/en-US/docs/Web/API/FormData" }
+  ]
+}

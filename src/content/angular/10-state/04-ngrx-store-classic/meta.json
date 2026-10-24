@@ -1,0 +1,11 @@
+{
+  "title": "NgRx Store (Classic)",
+  "summary": "Model state changes as actions, handle them in a pure reducer and read derived data through memoized selectors with selectSignal.",
+  "level": "advanced",
+  "tags": ["ecosystem", "legacy"],
+  "entry": "app.ts",
+  "resources": [
+    { "label": "ngrx.io: Store", "url": "https://ngrx.io/guide/store" },
+    { "label": "ngrx.io: Selectors", "url": "https://ngrx.io/guide/store/selectors" }
+  ]
+}

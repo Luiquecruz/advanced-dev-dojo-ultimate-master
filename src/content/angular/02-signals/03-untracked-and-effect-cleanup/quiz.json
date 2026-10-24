@@ -1,0 +1,20 @@
+[
+  {
+    "question": "When does a callback registered with `onCleanup` run?",
+    "options": ["Only when the app shuts down", "Before the effect's next execution and when the effect is destroyed", "After every change detection", "Immediately after registration"],
+    "answer": 1,
+    "explanation": "Cleanup cancels the previous run's work before re-running, and releases resources on destroy."
+  },
+  {
+    "question": "An effect calls `this.logger.log(...)`, and the logger internally reads a `level()` signal. What happens when `level` changes?",
+    "options": ["Nothing, signals in services aren't tracked", "The effect re-runs, because reads inside called functions are tracked too", "An error is thrown", "Only the logger re-runs"],
+    "answer": 1,
+    "explanation": "Tracking is dynamic and follows calls. Wrap external calls in `untracked(() => ...)` to avoid hidden dependencies."
+  },
+  {
+    "question": "In `effect(async () => { const id = this.id(); await load(id); this.flag(); })`, which signals are tracked?",
+    "options": ["`id` and `flag`", "Only `id`, read before the `await`", "Only `flag`", "None, async effects aren't allowed"],
+    "answer": 1,
+    "explanation": "Tracking only happens synchronously during the effect run; reads after `await` are not tracked."
+  }
+]

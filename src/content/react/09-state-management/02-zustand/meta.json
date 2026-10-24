@@ -1,0 +1,11 @@
+{
+  "title": "Zustand",
+  "summary": "Share global client state with a minimal hook-based store, selectors and middleware.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "modern"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "Zustand documentation", "url": "https://zustand.docs.pmnd.rs/" },
+    { "label": "Zustand: Migrating to v5", "url": "https://zustand.docs.pmnd.rs/migrations/migrating-to-v5" }
+  ]
+}

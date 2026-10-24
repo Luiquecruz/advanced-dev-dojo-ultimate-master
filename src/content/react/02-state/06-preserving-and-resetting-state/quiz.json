@@ -1,0 +1,35 @@
+[
+  {
+    "question": "`{isFancy ? <Counter isFancy /> : <Counter />}` toggles. What happens to the counter's state?",
+    "options": [
+      "It resets on every toggle",
+      "It is preserved: same component type at the same position",
+      "It is shared with every other Counter",
+      "React throws a duplicate component error"
+    ],
+    "answer": 1,
+    "explanation": "React only looks at the type and position in the rendered tree. Both branches produce a `Counter` in the same slot."
+  },
+  {
+    "question": "Which change resets the state of `<Counter />` inside a wrapper?",
+    "options": [
+      "Passing a new prop to Counter",
+      "Changing the wrapper from `<div>` to `<section>`",
+      "Re-rendering the parent",
+      "Changing the wrapper's className"
+    ],
+    "answer": 1,
+    "explanation": "A different element type at a position destroys that whole subtree, including the state of every component inside it."
+  },
+  {
+    "question": "Why is `useEffect(() => setDraft(''), [contactId])` worse than `key={contactId}`?",
+    "options": [
+      "Effects cannot call setters",
+      "It first renders with the stale draft, adds an extra render, and must be repeated for every piece of state",
+      "Keys are faster because they skip rendering",
+      "There is no difference"
+    ],
+    "answer": 1,
+    "explanation": "The effect runs after the stale render has been committed. A key resets the entire subtree before anything stale is shown."
+  }
+]

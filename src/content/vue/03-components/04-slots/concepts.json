@@ -1,0 +1,7 @@
+[
+  { "term": "Default slot", "description": "`<slot />` outlet that receives content placed directly between the component tags." },
+  { "term": "Fallback content", "description": "Markup inside `<slot>...</slot>` rendered when the parent provides nothing." },
+  { "term": "Named slot", "description": "`<slot name=\"header\" />`, targeted from the parent with `<template #header>`." },
+  { "term": "Scoped slot", "description": "A slot that passes data back to the parent: `<slot :item=\"item\" />` received as `#default=\"{ item }\"`." },
+  { "term": "$slots / useSlots", "description": "Object of slot functions provided by the parent; useful to check whether a slot was passed." }
+]

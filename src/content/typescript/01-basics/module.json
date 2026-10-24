@@ -1,0 +1,4 @@
+{
+  "title": "Type Basics",
+  "description": "Primitive types, annotations, inference, arrays and tuples, literal types, enums versus unions and the special types any, unknown, void, never, null and undefined."
+}

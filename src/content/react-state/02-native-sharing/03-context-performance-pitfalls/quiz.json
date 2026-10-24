@@ -1,0 +1,52 @@
+[
+  {
+    "question": "A component wrapped in `memo` reads `useContext(CartContext)`. The cart changes. Does it re-render?",
+    "options": [
+      "No, `memo` blocks all re-renders when props are equal",
+      "Yes, `memo` only compares props; a changed context value always re-renders its consumers",
+      "Only if it also receives a prop from the cart",
+      "Only in development"
+    ],
+    "answer": 1,
+    "explanation": "Context updates bypass `memo`. To avoid re-rendering, the component must not read a context whose value changed, which is why splitting contexts matters."
+  },
+  {
+    "question": "React DevTools shows every product card re-rendering on each \"Add to cart\" click with the reason \"Context changed\". The cards only call `addItem`. What is the targeted fix?",
+    "options": [
+      "Wrap every card in `memo`",
+      "Move the actions into a separate context whose value is stable",
+      "Debounce the click handler",
+      "Store the cart in a ref"
+    ],
+    "answer": 1,
+    "explanation": "The cards subscribe to a context that also contains `items`. A dedicated actions context with a memoized, never-changing value removes them from the update path. `memo` would not help because context bypasses it."
+  },
+  {
+    "question": "A real-time trading dashboard keeps 200 tickers in one context; each widget shows one ticker. After splitting into 200 contexts, the code is unmaintainable. What does this signal?",
+    "options": [
+      "You need even more contexts",
+      "Context lacks selectors; move the data to an external store where each widget selects its ticker",
+      "Use `useMemo` on every widget",
+      "Disable StrictMode"
+    ],
+    "answer": 1,
+    "explanation": "When consumers need different slices of the same frequently changing state, an external store with selectors (useSyncExternalStore, Zustand, Redux, Jotai) re-renders only the widgets whose slice changed."
+  },
+  {
+    "question": "Which tool lets an automated test assert that a subtree did **not** commit after an interaction?",
+    "options": ["`console.time`", "`<Profiler onRender>`", "`useDebugValue`", "`StrictMode`"],
+    "answer": 1,
+    "explanation": "`<Profiler>` calls `onRender` after each commit of its subtree, so counting calls (with a mock function) shows exactly when it rendered."
+  },
+  {
+    "question": "A `ThemeContext` holds `'light' | 'dark'` and changes once per session. A teammate proposes splitting it into state and actions contexts for performance. Is it worth it?",
+    "options": [
+      "Yes, always split every context",
+      "No: it changes rarely, so the extra provider adds complexity without measurable gain",
+      "Yes, because themes are expensive",
+      "No, themes cannot be put in context"
+    ],
+    "answer": 1,
+    "explanation": "Optimize where profiling shows a problem. Rarely changing contexts cause negligible re-renders; splitting them only costs readability."
+  }
+]

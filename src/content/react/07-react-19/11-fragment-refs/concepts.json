@@ -1,0 +1,6 @@
+[
+  { "term": "<Fragment ref>", "description": "Stable in React 19.3. A ref on a Fragment receives a FragmentInstance for its children, without adding a DOM node." },
+  { "term": "FragmentInstance", "description": "Object with `addEventListener`, `focus`, `focusLast`, `blur`, `observeUsing`, `getClientRects`, `scrollIntoView` and more, applied to the Fragment's children." },
+  { "term": "First-level host children", "description": "The nearest DOM elements inside the Fragment, even when rendered by nested components." },
+  { "term": "observeUsing", "description": "Connects an `IntersectionObserver` or `ResizeObserver` to every child of the Fragment." }
+]

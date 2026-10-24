@@ -1,0 +1,6 @@
+[
+  { "term": "Callback ref", "description": "A function passed to `ref`. React calls it with the DOM node when attached, and runs its cleanup (or calls it with `null`) when detached." },
+  { "term": "Ref cleanup function", "description": "React 19: a ref callback may return a function that React calls on detach, like an effect cleanup." },
+  { "term": "Ref map pattern", "description": "One `Map` stored in a ref, filled by callback refs, to hold DOM nodes for a dynamic list." },
+  { "term": "Node lifecycle vs component lifecycle", "description": "Callback refs track a specific DOM node; effects track the component's commits and dependencies." }
+]

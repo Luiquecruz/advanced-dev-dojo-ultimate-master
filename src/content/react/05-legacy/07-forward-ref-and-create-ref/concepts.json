@@ -1,0 +1,7 @@
+[
+  { "term": "createRef", "description": "Creates a `{ current: null }` ref object. Use it in class fields; in function components use `useRef`, because `createRef` returns a new object every render." },
+  { "term": "forwardRef", "description": "Pre-React 19 wrapper that lets a function component receive a `ref` as a second argument. Still works, but no longer necessary." },
+  { "term": "Ref as a prop", "description": "React 19 passes `ref` to function components in props: `function Input({ ref })`." },
+  { "term": "Ref to a class instance", "description": "A ref on a class component element points to the instance, so the parent can call its methods." },
+  { "term": "String refs", "description": "`ref=\"name\"` + `this.refs.name`. Legacy API removed in React 19." }
+]

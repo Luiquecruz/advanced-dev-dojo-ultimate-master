@@ -1,0 +1,52 @@
+[
+  {
+    "question": "What best describes React's programming model?",
+    "options": [
+      "Imperative: you manually update DOM nodes when data changes",
+      "Declarative: you describe the UI for a given state and React updates the DOM",
+      "Two-way data binding between templates and models",
+      "A server-only templating language"
+    ],
+    "answer": 1,
+    "explanation": "React components describe *what* the UI looks like for the current state (`UI = f(state)`). React computes and applies the DOM changes."
+  },
+  {
+    "question": "In which direction does data flow between React components?",
+    "options": [
+      "From children up to parents automatically",
+      "In both directions through two-way binding",
+      "From parents down to children through props",
+      "Through a global event bus by default"
+    ],
+    "answer": 2,
+    "explanation": "React uses one-way data flow. A child can only influence its parent by calling a callback the parent passed as a prop."
+  },
+  {
+    "question": "Which package lets React render to the browser DOM?",
+    "options": ["react", "react-dom", "react-native", "react-router"],
+    "answer": 1,
+    "explanation": "`react` contains components and hooks but no DOM code. `react-dom` is the renderer for the web; `react-native` targets mobile."
+  },
+  {
+    "question": "Why must rendering be pure?",
+    "options": [
+      "Because React may call your component many times and expects the same output for the same inputs",
+      "Because pure functions run on the GPU",
+      "Because JSX cannot contain JavaScript expressions",
+      "It doesn't have to be: render is the best place for side effects"
+    ],
+    "answer": 0,
+    "explanation": "React can render a component more than once (StrictMode, concurrent rendering, retries). Side effects belong in event handlers or effects, never in the render body."
+  },
+  {
+    "question": "Why is React often called a library rather than a framework?",
+    "options": [
+      "It cannot be used in large applications",
+      "It only handles the view layer; routing, data fetching and builds come from other tools or frameworks like Next.js",
+      "It has no component model",
+      "It only works with TypeScript"
+    ],
+    "answer": 1,
+    "explanation": "React focuses on components, state and rendering. Frameworks such as Next.js or React Router (framework mode) add routing, data loading and server rendering on top."
+  }
+]

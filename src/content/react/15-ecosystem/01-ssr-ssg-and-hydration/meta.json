@@ -1,0 +1,11 @@
+{
+  "title": "SSR, SSG and Hydration",
+  "summary": "Render React to HTML on the server or at build time, hydrate it in the browser and avoid hydration mismatches.",
+  "level": "advanced",
+  "tags": ["ecosystem", "core", "performance"],
+  "resources": [
+    { "label": "react.dev: Server React DOM APIs", "url": "https://react.dev/reference/react-dom/server" },
+    { "label": "react.dev: hydrateRoot", "url": "https://react.dev/reference/react-dom/client/hydrateRoot" },
+    { "label": "react.dev: useId", "url": "https://react.dev/reference/react/useId" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "Progressive framework", "description": "Vue can be adopted gradually, from a single widget to a full application." },
+  { "term": "SFC", "description": "Single File Component: a `.vue` file with `<script>`, `<template>` and `<style>` blocks compiled by a build tool." },
+  { "term": "Vite", "description": "The standard dev server and bundler for Vue, with fast startup and hot module replacement." },
+  { "term": "create-vue", "description": "Official scaffolding tool: `npm create vue@latest`." },
+  { "term": "Composition API", "description": "Function-based API (`ref`, `computed`, `watch`) used inside `setup()` or `<script setup>`." },
+  { "term": "Vapor Mode", "description": "Vue 3.6 opt-in compilation mode that skips the virtual DOM for faster updates and smaller output." }
+]

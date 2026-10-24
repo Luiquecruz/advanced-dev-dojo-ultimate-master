@@ -1,0 +1,30 @@
+[
+  {
+    "question": "Why is `track` required in `@for`?",
+    "options": [
+      "It sorts the list",
+      "It identifies items so Angular can reuse and move DOM nodes instead of recreating them",
+      "It is only used by the dev tools",
+      "It filters duplicate values"
+    ],
+    "answer": 1,
+    "explanation": "With a stable key Angular knows which item each DOM node belongs to, which keeps updates fast and preserves element state like focus or input text."
+  },
+  {
+    "question": "Which is the modern equivalent of `<li *ngFor=\"let x of list; let i = index\">`?",
+    "options": [
+      "`@for (x of list; let i = $index) { <li>…</li> }`",
+      "`@for (x of list; track x; let i = $index) { <li>…</li> }`",
+      "`@each (x in list) { <li>…</li> }`",
+      "`<li @for=\"x of list\">`"
+    ],
+    "answer": 1,
+    "explanation": "`@for` requires a `track` expression; the index is the implicit `$index` variable, optionally aliased with `let`."
+  },
+  {
+    "question": "What happens in `@switch` when two `@case` blocks follow each other without `break`?",
+    "options": ["Execution falls through to the next case", "Only the matching case renders; there is no fall-through", "A compile error", "Both always render"],
+    "answer": 1,
+    "explanation": "Template `@switch` has no fall-through and no `break`: exactly one matching `@case` (or `@default`) renders."
+  }
+]
