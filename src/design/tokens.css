@@ -27,13 +27,13 @@
 }
 
 [data-trail='react'] {
-  --accent: #7c9cff;
-  --accent-rgb: 124 156 255;
+  --accent: #8c8cff;
+  --accent-rgb: 140 140 255;
 }
 
 [data-trail='react-state'] {
-  --accent: #b69cff;
-  --accent-rgb: 182 156 255;
+  --accent: #d29cff;
+  --accent-rgb: 210 156 255;
 }
 
 [data-trail='vue'] {
@@ -42,8 +42,8 @@
 }
 
 [data-trail='angular'] {
-  --accent: #ff8fb1;
-  --accent-rgb: 255 143 177;
+  --accent: #ff6b81;
+  --accent-rgb: 255 107 129;
 }
 
 @theme {
