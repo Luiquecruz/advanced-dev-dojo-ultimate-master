@@ -45,6 +45,9 @@ function update(recipe: (current: ProgressState) => ProgressState): void {
 }
 
 export const progress = {
+  getState(): ProgressState {
+    return state;
+  },
   saveCode(lessonKey: string, files: ProjectFiles) {
     update((current) => ({ ...current, code: { ...current.code, [lessonKey]: files } }));
   },

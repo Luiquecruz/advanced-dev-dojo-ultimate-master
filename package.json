@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "verify": "vitest run"
+    "test": "vitest run --exclude 'src/verify/**'",
+    "verify": "vitest run src/verify"
   },
   "dependencies": {
     "@angular/common": "^22.2.3",
