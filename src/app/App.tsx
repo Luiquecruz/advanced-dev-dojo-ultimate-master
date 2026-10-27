@@ -33,7 +33,7 @@ export function App() {
   return (
     <>
       <AmbientScene {...sceneTargetFor(motionState, route, homeTrail)} />
-      <div ref={baseRef} className="h-full [view-transition-name:page]" inert={baseInactive} aria-hidden={baseInactive || undefined}>
+      <div ref={baseRef} className="h-full [view-transition-name:page]" inert={baseInactive}>
         <BasePage base={layers.base} onExploreChange={setExploring} onTrailChange={setHomeTrail} />
       </div>
       {layers.activity && (

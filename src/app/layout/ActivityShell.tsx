@@ -23,7 +23,7 @@ export function ActivityShell({ surfaceRef, contentRef, inactive, children }: Ac
   }, []);
 
   return (
-    <div className="fixed inset-0 z-40 overscroll-contain" inert={inactive} aria-hidden={inactive || undefined}>
+    <div className="fixed inset-0 z-40 overscroll-contain" inert={inactive}>
       <div ref={surfaceRef} className="absolute inset-0 origin-top-left bg-panel will-change-transform" />
       <div ref={contentRef} className="absolute inset-0">
         {contentReady && children}
