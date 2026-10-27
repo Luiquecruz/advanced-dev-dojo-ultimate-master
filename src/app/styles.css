@@ -23,7 +23,9 @@
 }
 
 @utility tilt-glow {
-  background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 30%), rgb(var(--accent-rgb) / 0.14), transparent 55%);
+  --glow-x: inherit;
+  --glow-y: inherit;
+  background: radial-gradient(circle at var(--glow-x) var(--glow-y), rgb(var(--accent-rgb) / 0.14), transparent 55%);
 }
 
 @utility bg-frost {
@@ -33,11 +35,11 @@
 }
 
 @utility carousel-slide {
-  --slide-offset: calc(var(--slide-base) + var(--drag, 0));
+  --slide-offset: calc(var(--slide-base) + var(--drag));
   --slide-distance: max(var(--slide-offset), calc(var(--slide-offset) * -1));
-  translate: calc(var(--slide-offset) * var(--slide-spacing) - 50%) calc(var(--slide-enter) * 140px) calc(var(--slide-distance) * var(--slide-depth) * -1 - var(--slide-enter) * 320px);
+  translate: calc(var(--slide-offset) * var(--slide-spacing) - 50%) 0 calc(var(--slide-distance) * var(--slide-depth) * -1);
   rotate: y calc(var(--slide-offset) * var(--slide-angle) * -1);
-  opacity: calc(clamp(0, calc(2 - var(--slide-distance)), 1) * (1 - var(--slide-enter)));
+  opacity: clamp(0, calc(2 - var(--slide-distance)), 1);
   transform-style: preserve-3d;
   transition:
     translate var(--dur-expand) var(--ease-out),
@@ -46,6 +48,7 @@
 }
 
 @utility carousel-shade {
+  --slide-distance: inherit;
   opacity: calc(min(var(--slide-distance), 1) * 0.5);
   transition: opacity var(--dur-base) var(--ease-out);
 }

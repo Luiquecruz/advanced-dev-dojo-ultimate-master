@@ -12,7 +12,9 @@ interface TiltGroup {
 }
 
 /**
- * React adapter for the card group tilt: pointer, touch fallback and optional device orientation. Disabled with reduced motion.
+ * React adapter for the card group tilt: pointer, touch fallback and optional device orientation. Pointer input is read on
+ * the group; the tilt is written on the descendant marked `data-tilt-target` (the group itself when there is none).
+ * Disabled with reduced motion.
  */
 export function useTiltGroup(ref: RefObject<HTMLElement | null>): TiltGroup {
   const capabilities = detectCapabilities();
@@ -25,7 +27,7 @@ export function useTiltGroup(ref: RefObject<HTMLElement | null>): TiltGroup {
       return;
     }
     const element = ref.current!;
-    const controller = createTilt(element, capabilities.coarsePointer ? MOBILE_TILT_LIMITS : DESKTOP_TILT_LIMITS);
+    const controller = createTilt(() => element.querySelector<HTMLElement>('[data-tilt-target]') ?? element, capabilities.coarsePointer ? MOBILE_TILT_LIMITS : DESKTOP_TILT_LIMITS);
     const unbindPointer = bindPointerTilt(element, controller);
     const unbindTouch = bindTouchTilt(element, controller);
     const gyro = createGyro({ onTilt: (horizontal, vertical) => controller.setTarget(horizontal, vertical), onStatusChange: setGyroStatus });

@@ -17,7 +17,7 @@ export interface PerformanceProfile {
 }
 
 const PROFILES: Record<PerformanceTier, { particles: [desktop: number, mobile: number]; maxPixelRatio: [desktop: number, mobile: number]; grid: PerformanceProfile['grid'] }> = {
-  high: { particles: [5000, 1500], maxPixelRatio: [2, 1.5], grid: 'webgl' },
+  high: { particles: [5000, 1500], maxPixelRatio: [1.5, 1.5], grid: 'webgl' },
   mid: { particles: [2500, 1000], maxPixelRatio: [1.5, 1.5], grid: 'webgl' },
   low: { particles: [800, 800], maxPixelRatio: [1, 1], grid: 'css' },
 };

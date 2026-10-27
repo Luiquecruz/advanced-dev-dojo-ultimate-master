@@ -4,9 +4,51 @@
   initial-value: #4dd9ff;
 }
 
-@property --slide-enter {
+@property --tilt-x {
   syntax: '<number>';
-  inherits: true;
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --tilt-y {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --glow-x {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 50%;
+}
+
+@property --glow-y {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 30%;
+}
+
+@property --drag {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --slide-base {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --slide-offset {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --slide-distance {
+  syntax: '<number>';
+  inherits: false;
   initial-value: 0;
 }
 
@@ -24,8 +66,6 @@
   --dur-expand: 520ms;
   --dur-enter: 900ms;
   --enter-step: 70ms;
-  --tilt-x: 0;
-  --tilt-y: 0;
   color-scheme: dark;
 }
 
@@ -91,7 +131,7 @@
   --animate-glow-run: glow-run 6s linear infinite;
   --animate-rise: rise var(--dur-enter) var(--ease-out) both;
   --animate-draw: draw 1400ms var(--ease-out) both;
-  --animate-slide-enter: slide-enter 1100ms var(--ease-out) both;
+  --animate-card-in: card-in 1100ms var(--ease-out) backwards;
 
   @keyframes slide-in {
     from {
@@ -123,12 +163,10 @@
     }
   }
 
-  @keyframes slide-enter {
+  @keyframes card-in {
     from {
-      --slide-enter: 1;
-    }
-    to {
-      --slide-enter: 0;
+      opacity: 0;
+      transform: translate3d(0, 140px, -320px);
     }
   }
 

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import type { ReactNode } from 'react';
+import { memo, useMemo, type ReactNode } from 'react';
 import type { Track } from '@/content';
 import { ProgressBar } from '@/shared/ui/ProgressBar';
 import { type ModuleProgress, modulesAroundStage, summarizeTrack, type TrackStatus, useProgress } from '@/entities/progress';
@@ -22,9 +22,9 @@ const STATUS: Record<TrackStatus, { label: string; icon: ReactNode; className: s
  * Only the active card is interactive. The card is a single flat plane inside the 3D stage (no `preserve-3d` of its own),
  * so its buttons hit-test in plain 2D in every browser.
  */
-export function PathCard({ track, active }: { track: Track; active: boolean }) {
+export const PathCard = memo(function PathCard({ track, active }: { track: Track; active: boolean }) {
   const state = useProgress();
-  const summary = summarizeTrack(track, state);
+  const summary = useMemo(() => summarizeTrack(track, state), [track, state]);
   const status = STATUS[summary.status];
   const currentModule = summary.modules[summary.currentModuleIndex];
 
@@ -32,8 +32,9 @@ export function PathCard({ track, active }: { track: Track; active: boolean }) {
     <article
       data-trail={track.id}
       data-motion-origin={`track:${track.id}`}
+      data-tilt-target={active || undefined}
       className={clsx(
-        'group/card relative flex h-full flex-col gap-4 rounded-panel border border-accent/25 bg-panel/85 p-6 tilt-surface shadow-[0_0_0_1px_rgb(var(--accent-rgb)/0.06),0_30px_80px_-30px_rgb(var(--accent-rgb)/0.45),inset_0_1px_0_rgb(255_255_255/0.06)] transition-[border-color] duration-(--dur-base) ease-out',
+        'group/card relative flex h-full flex-col gap-4 rounded-panel [--slide-distance:inherit] border border-accent/25 bg-panel/85 p-6 tilt-surface shadow-[0_0_0_1px_rgb(var(--accent-rgb)/0.06),0_30px_80px_-30px_rgb(var(--accent-rgb)/0.45),inset_0_1px_0_rgb(255_255_255/0.06)] transition-[border-color] duration-(--dur-base) ease-out',
         active && 'pointer-events-auto hover:border-accent/45 has-focus-visible:border-accent/45',
       )}
     >
@@ -106,7 +107,7 @@ export function PathCard({ track, active }: { track: Track; active: boolean }) {
       <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[inherit] bg-void carousel-shade" />
     </article>
   );
-}
+});
 
 function TimelineRow({ entry }: { entry: ModuleProgress }) {
   const current = entry.state === 'current';

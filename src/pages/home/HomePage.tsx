@@ -50,7 +50,7 @@ export function HomePage({ onExploreChange, onTrailChange }: HomePageProps) {
   return (
     <main
       data-trail={track.id}
-      className="relative isolate grid h-dvh min-h-150 grid-cols-[minmax(19rem,0.32fr)_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)_auto] gap-x-8 gap-y-4 overflow-hidden px-16 pt-6 pb-5 transition-[--accent] duration-700 ease-out max-wide:grid-cols-1 max-wide:grid-rows-[auto_auto_minmax(0,1fr)_auto] max-wide:gap-y-3 max-wide:px-4 max-wide:pt-4 max-wide:pb-3"
+      className="relative isolate grid h-dvh min-h-150 grid-cols-[minmax(19rem,0.32fr)_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)_auto] gap-x-8 gap-y-4 overflow-hidden px-16 pt-6 pb-5 max-wide:grid-cols-1 max-wide:grid-rows-[auto_auto_minmax(0,1fr)_auto] max-wide:gap-y-3 max-wide:px-4 max-wide:pt-4 max-wide:pb-3"
     >
       <SideRail side="left">Front-end training ground · Est. 2026</SideRail>
       <SideRail side="right">
@@ -141,8 +141,8 @@ function Backdrop({ active }: { active: number }) {
             key={track.id}
             data-trail={track.id}
             className={clsx(
-              'col-start-1 row-start-1 translate-y-[18%] mask-b-from-30% mask-b-to-90% backdrop-word leading-[0.8] font-extrabold tracking-[-0.065em] whitespace-nowrap transition-[opacity,filter,scale] duration-700 ease-out select-none',
-              index === active ? 'scale-100 opacity-100 blur-none' : 'scale-105 opacity-0 blur-xl',
+              'col-start-1 row-start-1 translate-y-[18%] mask-b-from-30% mask-b-to-90% backdrop-word leading-[0.8] font-extrabold tracking-[-0.065em] whitespace-nowrap transition-[opacity,scale] duration-700 ease-out select-none',
+              index === active ? 'scale-100 opacity-100' : 'scale-105 opacity-0',
             )}
             style={{ fontSize: `min(30cqw, ${(165 / label.length).toFixed(2)}cqw, 36dvh)` }}
           >

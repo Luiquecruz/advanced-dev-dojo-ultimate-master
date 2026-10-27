@@ -11,7 +11,8 @@ export interface TiltController {
 }
 
 interface TiltState {
-  element: HTMLElement;
+  resolveTarget(): HTMLElement;
+  written?: HTMLElement;
   limits: TiltLimits;
   targetX: number;
   targetY: number;
@@ -29,6 +30,7 @@ const GLOW_TRAVEL_PERCENT = 40;
 const MAX_DELTA_SECONDS = 0.1;
 const DEFAULT_DELTA_SECONDS = 1 / 60;
 const TOUCH_INTENT_DISTANCE = 6;
+const TILT_PROPERTIES = ['--tilt-x', '--tilt-y', '--glow-x', '--glow-y'];
 
 const active = new Set<TiltState>();
 let frame: number | undefined;
@@ -38,8 +40,18 @@ function clampUnit(value: number): number {
   return Math.min(1, Math.max(-1, value));
 }
 
+function clear(element: HTMLElement): void {
+  TILT_PROPERTIES.forEach((property) => element.style.removeProperty(property));
+  element.removeAttribute('data-tilting');
+}
+
 function write(state: TiltState): void {
-  const { element, limits, currentX, currentY } = state;
+  const { limits, currentX, currentY } = state;
+  const element = state.resolveTarget();
+  if (state.written && state.written !== element) {
+    clear(state.written);
+  }
+  state.written = element;
   element.style.setProperty('--tilt-x', currentX.toFixed(3));
   element.style.setProperty('--tilt-y', currentY.toFixed(3));
   element.style.setProperty('--glow-x', `${(50 + (currentY / limits.y) * GLOW_TRAVEL_PERCENT).toFixed(1)}%`);
@@ -75,11 +87,13 @@ function wake(state: TiltState): void {
 }
 
 /**
- * Smoothed tilt of a group of cards, written as `--tilt-x`/`--tilt-y` (degrees) and `--glow-x`/`--glow-y` on the element.
+ * Smoothed tilt, written as `--tilt-x`/`--tilt-y` (degrees) and `--glow-x`/`--glow-y` on the element `resolveTarget`
+ * returns (resolved on every frame, so the target can change, e.g. the active carousel card). The properties are
+ * registered as non-inheriting, so each write only restyles that element, never its subtree.
  * Every controller shares one animation frame loop that only runs while some tilt is still moving.
  */
-export function createTilt(element: HTMLElement, limits: TiltLimits): TiltController {
-  const state: TiltState = { element, limits, targetX: 0, targetY: 0, currentX: 0, currentY: 0 };
+export function createTilt(resolveTarget: () => HTMLElement, limits: TiltLimits): TiltController {
+  const state: TiltState = { resolveTarget, limits, targetX: 0, targetY: 0, currentX: 0, currentY: 0 };
   write(state);
   return {
     setTarget(horizontal, vertical) {
@@ -99,10 +113,9 @@ export function createTilt(element: HTMLElement, limits: TiltLimits): TiltContro
     },
     destroy() {
       active.delete(state);
-      for (const property of ['--tilt-x', '--tilt-y', '--glow-x', '--glow-y']) {
-        element.style.removeProperty(property);
+      if (state.written) {
+        clear(state.written);
       }
-      element.removeAttribute('data-tilting');
     },
   };
 }

@@ -17,7 +17,6 @@ interface PathCarouselProps {
 const STAGE_HEIGHT_PX = 660;
 const ENTER_BASE_DELAY_MS = 260;
 const ENTER_STEP_MS = 120;
-const ENTER_DURATION_MS = 1100;
 
 export function wrapIndex(index: number, count: number): number {
   return ((index % count) + count) % count;
@@ -34,14 +33,16 @@ function circularOffset(index: number, active: number, count: number): number {
  * receives pointer events and is exposed to assistive technology. The 3D containers (stage, slides) never take part in
  * hit-testing: they are coplanar with the cards, and coplanar 3D planes hit-test unpredictably (it varies with the
  * perspective, the fit scale and the window size), which swallowed clicks on the card buttons.
- * The stage scales down to fit the height it is given, and the cards rise into place on mount.
+ * The stage scales down to fit the height it is given, and the cards rise into place on mount (a transform/opacity
+ * keyframe, so it runs on the compositor). Per-frame values (`--drag`, `--slide-*`) are non-inheriting registered
+ * properties written on the slides themselves, so a drag never restyles the card subtrees.
  */
 export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef(active);
+  const initialActive = useRef(active);
   const [fit, setFit] = useState(1);
-  const [entering, setEntering] = useState(true);
   const { gyroSupported, gyroStatus, toggleGyro } = useTiltGroup(viewportRef);
   const count = tracks.length;
   activeRef.current = active;
@@ -55,18 +56,14 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setEntering(false), ENTER_BASE_DELAY_MS + ENTER_STEP_MS * 2 + ENTER_DURATION_MS);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
     const stage = stageRef.current!;
+    const setDrag = (slides: number) => stage.querySelectorAll<HTMLElement>('[data-slide]').forEach((slide) => slide.style.setProperty('--drag', slides.toFixed(4)));
     return bindCarouselDrag(viewportRef.current!, {
       slideWidth: () => stage.querySelector<HTMLElement>('[data-slide-active]')!.offsetWidth,
-      onDrag: (slides) => stage.style.setProperty('--drag', slides.toFixed(4)),
+      onDrag: setDrag,
       onRelease: (steps) => {
         flushSync(() => onActiveChange(wrapIndex(activeRef.current - steps, count)));
-        stage.style.setProperty('--drag', '0');
+        setDrag(0);
       },
     });
   }, [count, onActiveChange]);
@@ -111,14 +108,17 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
                   aria-roledescription="slide"
                   aria-label={`${index + 1} of ${count}: ${track.title}`}
                   aria-hidden={!isActive || undefined}
+                  data-slide
                   data-slide-active={isActive || undefined}
-                  className={clsx(
-                    'pointer-events-none absolute top-5 left-1/2 h-[620px] w-(--card-width) carousel-slide in-data-dragging:transition-none motion-reduce:transition-none',
-                    entering && 'animate-slide-enter transition-none motion-reduce:animate-none',
-                  )}
-                  style={{ ['--slide-base' as string]: offset, zIndex: count - Math.abs(offset), animationDelay: `${ENTER_BASE_DELAY_MS + Math.abs(offset) * ENTER_STEP_MS}ms` }}
+                  className="pointer-events-none absolute top-5 left-1/2 h-[620px] w-(--card-width) carousel-slide in-data-dragging:transition-none motion-reduce:transition-none"
+                  style={{ ['--slide-base' as string]: offset, zIndex: count - Math.abs(offset) }}
                 >
-                  <PathCard track={track} active={isActive} />
+                  <div
+                    className="h-full animate-card-in [--slide-distance:inherit] motion-reduce:animate-none"
+                    style={{ animationDelay: `${ENTER_BASE_DELAY_MS + Math.abs(circularOffset(index, initialActive.current, count)) * ENTER_STEP_MS}ms` }}
+                  >
+                    <PathCard track={track} active={isActive} />
+                  </div>
                 </div>
               );
             })}
