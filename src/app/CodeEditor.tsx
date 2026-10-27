@@ -63,5 +63,5 @@ export function CodeEditor({ modelPath, fileName, value, readOnly = false, onCha
     }
   }, [value]);
 
-  return <div className="code-editor" ref={containerRef} />;
+  return <div className="min-h-0 flex-1" ref={containerRef} />;
 }

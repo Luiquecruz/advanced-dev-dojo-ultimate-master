@@ -56,9 +56,9 @@ export function PreviewFrame({ engine, files, entry, reloadKey, onConsole }: Pre
   }, [ready, files, entry]);
 
   return (
-    <div className="preview-frame">
-      {!ready && <div className="preview-loading">Starting {engine} sandbox…</div>}
-      <iframe key={`${engine}-${reloadKey}`} ref={iframeRef} title="Preview" src={sandboxUrl(engine, 'preview')} />
+    <div className="absolute inset-0">
+      {!ready && <div className="absolute inset-0 grid place-items-center bg-panel text-[13px] text-ink-muted">Starting {engine} sandbox…</div>}
+      <iframe key={`${engine}-${reloadKey}`} ref={iframeRef} title="Preview" src={sandboxUrl(engine, 'preview')} className="size-full border-none bg-white" />
     </div>
   );
 }

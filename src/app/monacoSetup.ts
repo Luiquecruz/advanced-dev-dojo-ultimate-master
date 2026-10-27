@@ -72,14 +72,14 @@ monaco.editor.defineTheme(EDITOR_THEME, {
     { token: 'attribute.name', foreground: 'ffcb6b' },
   ],
   colors: {
-    'editor.background': '#0d1117',
-    'editor.lineHighlightBackground': '#151b26',
-    'editorLineNumber.foreground': '#3a465c',
-    'editorLineNumber.activeForeground': '#9fb0cc',
-    'editorGutter.background': '#0d1117',
-    'editor.selectionBackground': '#2a3d63',
-    'editorIndentGuide.background1': '#1c2538',
-    'editorWidget.background': '#141a24',
+    'editor.background': '#0c131e',
+    'editor.lineHighlightBackground': '#121c2a',
+    'editorLineNumber.foreground': '#3a4a62',
+    'editorLineNumber.activeForeground': '#93a3ba',
+    'editorGutter.background': '#0c131e',
+    'editor.selectionBackground': '#24405e',
+    'editorIndentGuide.background1': '#1f2d40',
+    'editorWidget.background': '#121c2a',
   },
 });
 monaco.editor.setTheme(EDITOR_THEME);

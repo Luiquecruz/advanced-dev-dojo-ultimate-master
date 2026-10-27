@@ -3,6 +3,5 @@
   "order": 3,
   "title": "React State Management",
   "description": "From useState to state architecture: Context API, external stores, Zustand, Redux Toolkit, Jotai, MobX, Valtio, XState, TanStack Query and RTK Query, and how to choose the right tool for each kind of state.",
-  "version": "React 19.3 · Zustand 5 · RTK 2 · Jotai 3 · TanStack Query 5",
-  "accent": "#a78bfa"
+  "version": "React 19.3 · Zustand 5 · RTK 2 · Jotai 3 · TanStack Query 5"
 }

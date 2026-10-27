@@ -44,7 +44,7 @@ let nextRequestId = 1;
 function runInSandbox(engine: EngineId, files: ProjectFiles, entry: string, tests: string): Promise<RunReport> {
   return new Promise((resolve) => {
     const iframe = document.createElement('iframe');
-    iframe.className = 'test-sandbox';
+    iframe.className = 'pointer-events-none fixed top-0 -left-[10000px] h-[768px] w-[1024px] border-none opacity-0';
     iframe.setAttribute('aria-hidden', 'true');
     iframe.src = sandboxUrl(engine, 'test');
     const id = nextRequestId++;

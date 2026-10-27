@@ -3,6 +3,5 @@
   "order": 2,
   "title": "React",
   "description": "Components, hooks, React 19 Actions, Server Components and the modern ecosystem, plus the legacy class APIs you still meet in real code.",
-  "version": "React 19.3",
-  "accent": "#58c4dc"
+  "version": "React 19.3"
 }

@@ -25,7 +25,7 @@ All content is written in **English**.
 | `approach.md` | with challenge | "Solution path": numbered reasoning steps, without pasting the full solution |
 | `quiz.json` | optional | `[{ "question", "options": [...], "answer": <index>, "explanation" }]` (Markdown allowed) |
 | `module.json` | per module | `{ "title", "description" }` |
-| `track.json` | per track | `{ "engine", "order", "title", "description", "version", "accent" }` |
+| `track.json` | per track | `{ "engine", "order", "title", "description", "version" }` (the accent color lives in `src/design/tokens.css`) |
 
 - `level`: `beginner`, `intermediate`, `advanced` or `expert`.
 - `tags`: free list. Conventions: `core`, `legacy`, `modern`, `new` (latest-version feature), `ecosystem`, `theory`, `typescript`, `performance`, `testing`.

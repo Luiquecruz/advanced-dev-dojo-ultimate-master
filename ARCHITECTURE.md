@@ -6,7 +6,10 @@ This document describes how Dev Dojo is built and the step-by-step pattern to ad
 
 ```
 src/
-├── app/                 UI shell (React 19): pages, Monaco editor, preview frame, quiz, progress store
+├── app/                 UI shell (React 19 + Tailwind CSS 4): pages, Monaco editor, preview frame, quiz, progress store
+├── design/              tokens.css: Tailwind @theme tokens and per-track accents ([data-trail])
+├── capabilities/        device detection and performance tiers for the ambient scene
+├── scene/               persistent Three.js ambient scene (particles, grid, shaders), lazy loaded
 ├── content/
 │   ├── index.ts         Content loader: builds tracks → modules → lessons from the folders below
 │   └── <track>/         track.json (declares its engine) + <NN-module>/module.json + <NN-lesson>/...
@@ -68,7 +71,7 @@ Most new tracks do not need a new engine. `react-state` (React State Management)
 1. **Libraries**: install what the lessons import and register each import path in the engine registry (`src/engines/react/registry.ts` for React). Check the package `exports` map for subpaths (`zustand/react/shallow`, `@reduxjs/toolkit/query/react`, `valtio/utils`). Run the engine's existing suite afterwards to prove nothing broke.
 2. **Track folder**: `src/content/<track-id>/track.json` with `"engine": "react"` and an `"order"` (position on the home page), plus one `module.json` per module.
 3. **Verification suite**: `src/verify/<track-id>.test.ts` calling `defineChallengeSuite('<track-id>', reactAdapter)`.
-4. **Logo**: add a label to `LABELS` in `src/app/TrackLogo.tsx` (it falls back to the engine label) and a `.track-logo-<track-id>` style in `src/app/styles.css`.
+4. **Logo and accent**: add a label to `LABELS` in `src/app/TrackLogo.tsx` (it falls back to the engine label) and a `[data-trail='<track-id>']` rule with `--accent` and `--accent-rgb` in `src/design/tokens.css`.
 5. **Plan and guide**: add the module/lesson plan to `CURRICULUM.md` and list new libraries in `CONTENT_GUIDE.md`.
 
 No change is needed in the runner, sandbox, loader or pages: they read `track.engine`.
@@ -120,7 +123,7 @@ export const svelteRegistry: ModuleRegistry = {
 | `src/content/index.ts` | Add the engine to `EngineId` and `DEFAULT_ENTRY` (e.g. `{ svelte: 'App.svelte', ts: 'main.ts' }`); the track declares `"engine": "svelte"` in `track.json` |
 | `src/engines/shared/project.ts` | Add the file extension to `EXTENSIONS` if learners import it without an extension |
 | `src/app/monacoSetup.ts` | Map the extension in `languageForFile`; adjust `configureLanguageService` if the track needs different compiler options |
-| `src/app/TrackLogo.tsx` + `src/app/styles.css` | Add a label and a `.track-logo-<id>` style |
+| `src/app/TrackLogo.tsx` + `src/design/tokens.css` | Add a label and a `[data-trail='<id>']` accent rule |
 
 `app/runner.ts` needs no change: every engine other than `typescript` goes through the sandbox.
 
@@ -140,7 +143,7 @@ Then update the expected track list in `src/verify/content.test.ts`.
 ### 5. Create the content skeleton
 
 ```
-src/content/svelte/track.json                 { "title", "description", "version", "accent" }
+src/content/svelte/track.json                 { "engine", "order", "title", "description", "version" }
 src/content/svelte/01-foundations/module.json { "title", "description" }
 src/content/svelte/01-foundations/01-.../     one reference lesson (see CONTENT_GUIDE.md)
 ```
@@ -160,7 +163,7 @@ Follow the TypeScript engine (`src/engines/typescript`): a worker that analyzes 
 ## Checklist
 
 - [ ] Engine folder with `registry.ts`, `adapter.ts` (and compiler/transform if needed)
-- [ ] Registered in `protocol.ts`, `sandbox.ts`, `content/index.ts`, `monacoSetup.ts`, `TrackLogo.tsx`, `styles.css`
+- [ ] Registered in `protocol.ts`, `sandbox.ts`, `content/index.ts`, `monacoSetup.ts`, `TrackLogo.tsx`, `tokens.css`
 - [ ] `src/verify/<track>.test.ts` and updated `content.test.ts`
 - [ ] `track.json`, first module and one hand-written reference lesson passing verification
 - [ ] Preview and test run checked in the browser, `npm run build` passes

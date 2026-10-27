@@ -3,6 +3,5 @@
   "order": 1,
   "title": "TypeScript",
   "description": "From type annotations to type-level programming, with TypeScript 6/7 era defaults.",
-  "version": "TypeScript 6.0 \u00b7 7.0",
-  "accent": "#3178c6"
+  "version": "TypeScript 6.0 \u00b7 7.0"
 }

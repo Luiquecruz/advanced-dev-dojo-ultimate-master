@@ -1,0 +1,110 @@
+@property --accent {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #4dd9ff;
+}
+
+:root {
+  --void: #0a0f18;
+  --panel: #121c2a;
+  --elevated: #1b293a;
+  --text-primary: #eaf2fc;
+  --on-accent: #0a0f18;
+  --accent: #4dd9ff;
+  --accent-rgb: 77 217 255;
+  --persp: 1200px;
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-expand: 520ms;
+  --tilt-x: 0;
+  --tilt-y: 0;
+  color-scheme: dark;
+}
+
+[data-trail='typescript'] {
+  --accent: #4dd9ff;
+  --accent-rgb: 77 217 255;
+}
+
+[data-trail='react'] {
+  --accent: #7c9cff;
+  --accent-rgb: 124 156 255;
+}
+
+[data-trail='react-state'] {
+  --accent: #b69cff;
+  --accent-rgb: 182 156 255;
+}
+
+[data-trail='vue'] {
+  --accent: #6de6b2;
+  --accent-rgb: 109 230 178;
+}
+
+[data-trail='angular'] {
+  --accent: #ff8fb1;
+  --accent-rgb: 255 143 177;
+}
+
+@theme {
+  --color-void: #0a0f18;
+  --color-panel: #121c2a;
+  --color-elevated: #1b293a;
+  --color-hover: #223349;
+  --color-code: #0c131e;
+  --color-line: #1f2d40;
+  --color-line-strong: #2c3e57;
+  --color-ink: #eaf2fc;
+  --color-ink-muted: #93a3ba;
+  --color-ink-faint: #8394ad;
+  --color-on-accent: #0a0f18;
+  --color-success: #3fcf8e;
+  --color-danger: #ff6b6b;
+  --color-danger-soft: #ffb3b3;
+  --color-warning: #f5b754;
+  --color-theory: #b9a4ff;
+  --color-advanced: #f0a3c4;
+  --color-code-inline: #f0c38b;
+
+  --font-sans: 'Geist', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace;
+
+  --radius-card: 16px;
+  --radius-panel: 20px;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --breakpoint-wide: 56.25rem;
+
+  --shadow-float: 0 12px 40px rgb(0 0 0 / 0.45);
+
+  --animate-slide-in: slide-in 180ms var(--ease-out);
+  --animate-pulse-soft: pulse-soft 1s ease-in-out infinite;
+  --animate-glow-run: glow-run 6s linear infinite;
+
+  @keyframes slide-in {
+    from {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes pulse-soft {
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes glow-run {
+    from {
+      stroke-dashoffset: 0px;
+    }
+    to {
+      stroke-dashoffset: calc(var(--glow-period, 50) * -1px);
+    }
+  }
+}
+
+@theme inline {
+  --color-accent: var(--accent);
+}

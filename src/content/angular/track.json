@@ -3,6 +3,5 @@
   "order": 5,
   "title": "Angular",
   "description": "Standalone components, signals, zoneless change detection, DI, RxJS, Router, Signal Forms and NgRx, plus NgModules and decorator-era APIs.",
-  "version": "Angular 22",
-  "accent": "#dd0031"
+  "version": "Angular 22"
 }

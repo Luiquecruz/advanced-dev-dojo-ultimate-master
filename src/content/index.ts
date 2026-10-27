@@ -57,7 +57,6 @@ export interface Track {
   title: string;
   description: string;
   version: string;
-  accent: string;
   modules: Module[];
   lessons: Lesson[];
 }
