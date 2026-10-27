@@ -172,10 +172,10 @@
 
   @keyframes glow-run {
     from {
-      stroke-dashoffset: 0px;
+      stroke-dashoffset: calc(var(--glow-shift, 0) * -1px);
     }
     to {
-      stroke-dashoffset: calc(var(--glow-period, 50) * -1px);
+      stroke-dashoffset: calc((var(--glow-shift, 0) + var(--glow-period, 50)) * -1px);
     }
   }
 }

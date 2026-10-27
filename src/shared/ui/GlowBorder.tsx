@@ -7,23 +7,36 @@ interface Geometry {
   radius: number;
 }
 
+interface LightLayer {
+  width: number;
+  opacity: number;
+  length: number;
+}
+
 const TRACK_WIDTH = 1;
-const LIGHT_WIDTH = 1.5;
-const INSET = LIGHT_WIDTH / 2;
+const INSET = 0.75;
 const PATH_LENGTH = 100;
 const MIN_LIGHTS = 2;
 const LIGHT_SPACING_PX = 1400;
-const MAX_LIGHT_UNITS = 4;
-const MAX_LIGHT_PX = 80;
-const MIN_DURATION_S = 6;
-const LIGHT_SPEED_PX = 160;
+const MAX_LIGHT_UNITS = 7;
+const MAX_LIGHT_PX = 140;
+const MIN_DURATION_S = 11;
+const LIGHT_SPEED_PX = 90;
+const LIGHT_LAYERS: LightLayer[] = [
+  { width: 8, opacity: 0.05, length: 1 },
+  { width: 3.5, opacity: 0.09, length: 0.72 },
+  { width: 1.2, opacity: 0.2, length: 0.45 },
+];
 
 function perimeterOf(width: number, height: number, radius: number): number {
   return 2 * (width + height - 4 * radius) + 2 * Math.PI * radius;
 }
 
 /**
- * Luminous perimeter of its positioned parent: a faint track plus points of light running along it, two per card-sized perimeter.
+ * Luminous perimeter of its positioned parent: a faint track plus soft points of light drifting along it, two per
+ * card-sized perimeter. Each light is three stacked strokes (wide faint halo, mid layer, thin core) of decreasing length,
+ * centred on each other, which fakes a diffuse glow without an SVG blur filter (a filter would re-rasterize the whole
+ * border every frame). Deliberately dim and slow so it adds atmosphere without drawing the eye.
  * Purely decorative: ignores the pointer, sizes itself to the parent and pauses while off screen or when `paused`.
  */
 export function GlowBorder({ paused = false }: { paused?: boolean }) {
@@ -69,17 +82,30 @@ export function GlowBorder({ paused = false }: { paused?: boolean }) {
     >
       {width > 0 && (
         <>
-          <rect {...rect} fill="none" strokeWidth={TRACK_WIDTH} className="stroke-accent/18" />
-          <rect
-            {...rect}
-            pathLength={PATH_LENGTH}
-            fill="none"
-            strokeWidth={LIGHT_WIDTH}
-            strokeLinecap="round"
-            strokeDasharray={`${lightUnits.toFixed(3)} ${(period - lightUnits).toFixed(3)}`}
-            style={{ animationDuration: `${durationSeconds.toFixed(2)}s`, ['--glow-period' as string]: period.toFixed(3) }}
-            className={clsx('animate-glow-run stroke-accent motion-reduce:animate-none motion-reduce:opacity-40', (paused || !onScreen) && '[animation-play-state:paused]')}
-          />
+          <rect {...rect} fill="none" strokeWidth={TRACK_WIDTH} className="stroke-accent/10" />
+          <g className="stroke-accent motion-reduce:opacity-50">
+            {LIGHT_LAYERS.map((layer) => {
+              const dash = lightUnits * layer.length;
+              return (
+                <rect
+                  key={layer.width}
+                  {...rect}
+                  pathLength={PATH_LENGTH}
+                  fill="none"
+                  strokeWidth={layer.width}
+                  strokeOpacity={layer.opacity}
+                  strokeLinecap="round"
+                  strokeDasharray={`${dash.toFixed(3)} ${(period - dash).toFixed(3)}`}
+                  style={{
+                    animationDuration: `${durationSeconds.toFixed(2)}s`,
+                    ['--glow-period' as string]: period.toFixed(3),
+                    ['--glow-shift' as string]: ((lightUnits - dash) / 2).toFixed(3),
+                  }}
+                  className={clsx('animate-glow-run motion-reduce:animate-none', (paused || !onScreen) && '[animation-play-state:paused]')}
+                />
+              );
+            })}
+          </g>
         </>
       )}
     </svg>
