@@ -1,15 +1,15 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import { trackById } from '../content';
-import { isActivityState } from '../motion/states';
-import { ActivityShell } from '../ui/ActivityShell';
-import { useMotionState } from '../ui/useMotionState';
-import { AmbientScene } from './AmbientScene';
-import { Home } from './Home';
-import { LessonPage } from './LessonPage';
-import { TrackPage } from './TrackPage';
-import { hrefTo, useRoute } from './route';
-import { sceneTargetFor, useMotionRouting, type ActivityRoute, type BaseRoute } from './router-adapter';
-import { buttonClass } from './ui';
+import { trackById } from '@/content';
+import { isActivityState } from '@/shared/motion/states';
+import { ActivityShell } from './layout/ActivityShell';
+import { useMotionState } from '@/shared/motion/useMotionState';
+import { AmbientScene } from '@/features/ambient-scene';
+import { HomePage } from '@/pages/home/HomePage';
+import { LessonPage } from '@/pages/lesson/LessonPage';
+import { TrackPage } from '@/pages/track/TrackPage';
+import { hrefTo, useRoute } from '@/shared/routing/route';
+import { sceneTargetFor, useMotionRouting, type ActivityRoute, type BaseRoute } from './routing/router-adapter';
+import { buttonClass } from '@/shared/ui/classNames';
 
 /**
  * Root component: keeps the ambient scene mounted, renders the base layer (home or curriculum) and the activity shell
@@ -53,7 +53,7 @@ interface BasePageProps {
 
 function BasePage({ base, onExploreChange, onTrailChange }: BasePageProps) {
   if (base.page === 'home') {
-    return <Home onExploreChange={onExploreChange} onTrailChange={onTrailChange} />;
+    return <HomePage onExploreChange={onExploreChange} onTrailChange={onTrailChange} />;
   }
   const track = trackById.get(base.trackId);
   return track ? <TrackPage key={track.id} track={track} /> : <NotFound />;

@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: [
+      { find: /^@\//, replacement: `${resolve(import.meta.dirname, 'src')}/` },
       { find: /^vue$/, replacement: 'vue/dist/vue.esm-bundler.js' },
       { find: /^@vue\/compiler-sfc$/, replacement: '@vue/compiler-sfc/dist/compiler-sfc.esm-browser.js' },
     ],

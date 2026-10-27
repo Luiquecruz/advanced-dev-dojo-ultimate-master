@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import '../design/tokens.css';
+@import '../shared/design/tokens.css';
 
 @source not '../content';
 
