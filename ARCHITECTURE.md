@@ -6,10 +6,25 @@ This document describes how Dev Dojo is built and the step-by-step pattern to ad
 
 ```
 src/
-├── app/                 UI shell (React 19 + Tailwind CSS 4): pages, Monaco editor, preview frame, quiz, progress store
-├── design/              tokens.css: Tailwind @theme tokens and per-track accents ([data-trail])
-├── capabilities/        device detection and performance tiers for the ambient scene
-├── scene/               persistent Three.js ambient scene (particles, grid, shaders), lazy loaded
+├── main.tsx             Entry: mounts App and the Tailwind stylesheet
+├── app/                 Composition root: App, routing adapter (route → layers, motion, scene), ActivityShell, styles.css
+├── pages/               One screen per route: home/HomePage, track/TrackPage, lesson/LessonPage
+├── features/            User-facing capabilities, each with an index.ts public API
+│   ├── lesson/          LessonPanel, Quiz, CodeEditor (Monaco), PreviewFrame, runner (grading bridge)
+│   ├── curriculum/      ModuleList, CurriculumDrawer, CurriculumPanel (frosted panel + glow border)
+│   ├── path-carousel/   3D path carousel, PathCard, tilt adapter
+│   └── ambient-scene/   AmbientScene host (lazy WebGL scene) and the ?debug=perf overlay
+├── entities/            Domain state and domain widgets
+│   ├── progress/        progress store (localStorage), isLessonComplete, summarizeTrack
+│   └── track/           TrackLogo
+├── shared/              Building blocks with no course knowledge
+│   ├── ui/              classNames, icons, ProgressBar, Markdown, BrandMark, GlowBorder
+│   ├── motion/          motion coordinator (state machine), FLIP, tilt, gyro, carousel drag, useMotionState
+│   ├── scene/           persistent Three.js ambient scene (particles, grid, shaders)
+│   ├── capabilities/    device detection and performance tiers
+│   ├── design/          tokens.css: Tailwind @theme tokens, registered properties, per-track accents
+│   ├── routing/         hash route parsing and links
+│   └── lib/             small React hooks (useMediaQuery)
 ├── content/
 │   ├── index.ts         Content loader: builds tracks → modules → lessons from the folders below
 │   └── <track>/         track.json (declares its engine) + <NN-module>/module.json + <NN-lesson>/...
@@ -20,8 +35,63 @@ src/
 │   ├── vue/             Framework adapter + SFC compiler
 │   └── angular/         Framework adapter + JIT transform for signal APIs
 ├── sandbox/             sandbox.html entry: loads one framework engine inside an iframe
-└── verify/              Vitest suites that validate every lesson (solution passes, starter fails)
+├── verify/              Vitest suites that validate every lesson (solution passes, starter fails)
+└── architecture.test.ts Enforces the layer rules below
 ```
+
+## Frontend architecture
+
+The UI follows feature-sliced design: code is grouped by what it does for the learner, and dependencies only point down.
+
+```
+app ──► pages ──► features ──► entities ──► shared
+ │        │          │            │
+ └────────┴──────────┴────────────┴──► domain (content, engines, sandbox)    shared never imports the domain
+```
+
+| Layer | Responsibility | Rules |
+| --- | --- | --- |
+| `app` | Wires everything: chooses the page for the route, keeps the base layer and the activity shell mounted, drives the motion coordinator and the scene target | May import anything |
+| `pages` | Compose features and entities into one screen; own screen-level state (tabs, test report, console) | No page imports another page |
+| `features` | One capability each, with its own components, hooks and logic | No feature imports another feature; others reach it through its `index.ts` |
+| `entities` | Domain state and the small widgets that render it | Same isolation as features |
+| `shared` | Generic UI, motion, scene, capabilities, design tokens, routing | Imports only `shared`; no course knowledge |
+
+Conventions:
+
+- Imports use the `@/` alias (configured in `tsconfig.json` and `vite.config.ts`). Relative imports are only for files of the same slice.
+- A slice's `index.ts` lists its public API with explicit named exports. Shared modules are imported by their path (`@/shared/ui/icons`).
+- A type used by several layers lives in the lowest one (`SceneTarget` is in `shared/scene/types.ts`, not in the app router).
+- `src/architecture.test.ts` checks every import against these rules; `npm run test` fails on a violation.
+
+### Data flow
+
+```
+hash change ─► useRoute (shared/routing) ─► useMotionRouting (app/routing)
+                                               ├─► layers: base page + optional activity (React state)
+                                               ├─► motionCoordinator.go() ─► FLIP / view transition ─► MotionState
+                                               └─► sceneTargetFor(MotionState, route) ─► AmbientScene ─► SceneAPI
+learner actions ─► progress.* (entities/progress) ─► localStorage + useProgress subscribers ─► summarizeTrack (derived)
+```
+
+### State and storage
+
+| State | Owner | Read with | Persisted |
+| --- | --- | --- | --- |
+| Route | `shared/routing/route.ts` (hash) | `useRoute()` | URL |
+| Motion state | `shared/motion/coordinator.ts` | `useMotionState()` | no |
+| Learner progress and code | `entities/progress/progressStore.ts` | `useProgress()`, `progress.getState()` | `localStorage` `dev-dojo:progress:v1`, debounced 300ms |
+| Screen state (tabs, report, console, carousel index) | the page component | React state | no |
+| Ambient scene | `shared/scene/scene.ts` | imperative `SceneAPI` | no |
+
+Stores are plain external stores read through `useSyncExternalStore`: no state library, no context providers. Derived values (`summarizeTrack`, `isLessonComplete`) are computed from the store, never stored.
+
+### Adding UI
+
+1. Decide the layer: a new screen goes in `pages/`, a capability used by a screen in `features/<name>/`, domain state in `entities/<name>/`, anything generic in `shared/`.
+2. Export what other slices need from the slice's `index.ts`.
+3. Put pure logic in plain TypeScript next to the component and cover it with a `*.test.ts` file.
+4. Run `npm run test` (architecture and unit tests), `npm run typecheck` and, for interaction work, check real input in the browser.
 
 ### Two engine families
 
@@ -46,7 +116,7 @@ for each test:  beforeEach → evaluateProject(compiled, entry, registry) → bu
 - `shared/project.ts`: `compileProject()` and `evaluateProject()` implement a tiny CommonJS loader. Bare imports resolve through the adapter **registry**; relative imports resolve between project files (`.ts`, `.tsx`, `.js`, `.jsx`, `.vue`).
 - `shared/testRunner.ts`: `runTests(adapter, { files, entry, tests })` evaluates the project **fresh for every test**, resets the fake API and DOM, and injects the shared globals (`expect`, `fn`, `mod`, `modules`, `require`, `source`, `sources`, `sleep`, `mockApi`, ...) plus `adapter.createScope(project)`.
 - `sandbox/sandbox.ts`: picks the engine from `?engine=`, installs the loop guard and fake API, forwards `console` to the parent in preview mode, and answers `preview` / `run-tests` messages (`sandbox/protocol.ts`).
-- `app/runner.ts`: the UI side. Test runs create a hidden iframe per run (`mode=test`); the preview uses a persistent iframe (`mode=preview`) that re-renders on edits.
+- `features/lesson/runner.ts`: the UI side. Test runs create a hidden iframe per run (`mode=test`); the preview uses a persistent iframe (`mode=preview`) that re-renders on edits.
 
 ### The `FrameworkAdapter` contract
 
@@ -71,7 +141,7 @@ Most new tracks do not need a new engine. `react-state` (React State Management)
 1. **Libraries**: install what the lessons import and register each import path in the engine registry (`src/engines/react/registry.ts` for React). Check the package `exports` map for subpaths (`zustand/react/shallow`, `@reduxjs/toolkit/query/react`, `valtio/utils`). Run the engine's existing suite afterwards to prove nothing broke.
 2. **Track folder**: `src/content/<track-id>/track.json` with `"engine": "react"` and an `"order"` (position on the home page), plus one `module.json` per module.
 3. **Verification suite**: `src/verify/<track-id>.test.ts` calling `defineChallengeSuite('<track-id>', reactAdapter)`.
-4. **Logo and accent**: add a label to `LABELS` in `src/app/TrackLogo.tsx` (it falls back to the engine label) and a `[data-trail='<track-id>']` rule with `--accent` and `--accent-rgb` in `src/design/tokens.css`.
+4. **Logo and accent**: add a label to `LABELS` in `src/entities/track/TrackLogo.tsx` (it falls back to the engine label) and a `[data-trail='<track-id>']` rule with `--accent` and `--accent-rgb` in `src/shared/design/tokens.css`.
 5. **Plan and guide**: add the module/lesson plan to `CURRICULUM.md` and list new libraries in `CONTENT_GUIDE.md`.
 
 No change is needed in the runner, sandbox, loader or pages: they read `track.engine`.
@@ -122,10 +192,10 @@ export const svelteRegistry: ModuleRegistry = {
 | `src/sandbox/sandbox.ts` | Add a lazy loader to `engines` (`() => import('../engines/svelte/adapter')`) so each engine stays in its own chunk |
 | `src/content/index.ts` | Add the engine to `EngineId` and `DEFAULT_ENTRY` (e.g. `{ svelte: 'App.svelte', ts: 'main.ts' }`); the track declares `"engine": "svelte"` in `track.json` |
 | `src/engines/shared/project.ts` | Add the file extension to `EXTENSIONS` if learners import it without an extension |
-| `src/app/monacoSetup.ts` | Map the extension in `languageForFile`; adjust `configureLanguageService` if the track needs different compiler options |
-| `src/app/TrackLogo.tsx` + `src/design/tokens.css` | Add a label and a `[data-trail='<id>']` accent rule |
+| `src/features/lesson/monacoSetup.ts` | Map the extension in `languageForFile`; adjust `configureLanguageService` if the track needs different compiler options |
+| `src/entities/track/TrackLogo.tsx` + `src/shared/design/tokens.css` | Add a label and a `[data-trail='<id>']` accent rule |
 
-`app/runner.ts` needs no change: every engine other than `typescript` goes through the sandbox.
+`features/lesson/runner.ts` needs no change: every engine other than `typescript` goes through the sandbox.
 
 ### 4. Add the verification suite
 

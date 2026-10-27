@@ -15,6 +15,7 @@ A freeCodeCamp-style learning platform for **TypeScript**, **React**, **Vue** an
 npm install
 npm run dev        # http://localhost:5173
 npm run build      # production build in dist/
+npm run test       # unit and architecture tests
 npm run verify     # validates every lesson (solution passes, starter fails, structure)
 ```
 
@@ -27,4 +28,4 @@ npm run verify     # validates every lesson (solution passes, starter fails, str
 
 ## Content
 
-Lessons live in `src/content/<track>/<NN-module>/<NN-lesson>/` as plain Markdown, JSON and code files. See [CONTENT_GUIDE.md](CONTENT_GUIDE.md) for the format and [CURRICULUM.md](CURRICULUM.md) for the full plan. To add a new track, follow [ARCHITECTURE.md](ARCHITECTURE.md).
+Lessons live in `src/content/<track>/<NN-module>/<NN-lesson>/` as plain Markdown, JSON and code files. See [CONTENT_GUIDE.md](CONTENT_GUIDE.md) for the format and [CURRICULUM.md](CURRICULUM.md) for the full plan. To add a new track or a new part of the UI, follow [ARCHITECTURE.md](ARCHITECTURE.md).
