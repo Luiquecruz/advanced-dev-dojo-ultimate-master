@@ -107,7 +107,7 @@ export function Home({ onExploreChange, onTrailChange }: HomeProps) {
       </div>
 
       <footer
-        className="enter col-span-2 flex items-center justify-between gap-6 border-t border-line/60 pt-3.5 text-xs text-ink-faint max-wide:col-span-1 max-wide:justify-center max-wide:border-none max-wide:pt-0"
+        className="enter col-span-2 grid grid-cols-[1fr_auto_1fr] items-center gap-6 border-t border-line/60 pt-3.5 text-xs text-ink-faint max-wide:col-span-1 max-wide:grid-cols-1 max-wide:justify-items-center max-wide:border-none max-wide:pt-0"
         style={{ ['--enter-delay' as string]: '900ms' }}
       >
         <span className="max-wide:hidden">© 2026 Dev Dojo · Learn by building</span>

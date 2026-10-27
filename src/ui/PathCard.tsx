@@ -35,7 +35,7 @@ export function PathCard({ track, active }: { track: Track; active: boolean }) {
       data-motion-origin={`track:${track.id}`}
       className={clsx(
         'group/card relative flex h-full flex-col gap-4 rounded-panel border border-accent/25 bg-panel/85 p-6 tilt-surface shadow-[0_0_0_1px_rgb(var(--accent-rgb)/0.06),0_30px_80px_-30px_rgb(var(--accent-rgb)/0.45),inset_0_1px_0_rgb(255_255_255/0.06)] transition-[border-color] duration-(--dur-base) ease-out',
-        active && 'hover:border-accent/45 has-focus-visible:border-accent/45',
+        active && 'pointer-events-auto hover:border-accent/45 has-focus-visible:border-accent/45',
       )}
     >
       <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(160deg,rgb(var(--accent-rgb)/0.10),transparent_45%)]" />

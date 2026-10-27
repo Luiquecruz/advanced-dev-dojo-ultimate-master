@@ -31,7 +31,9 @@ function circularOffset(index: number, active: number, count: number): number {
 /**
  * 3D carousel of the learning paths: the active card faces the viewer, the neighbours recede at an angle. Navigates by
  * swipe or drag, keyboard arrows, the side buttons, the dots or a click beside the active card. Only the active slide
- * receives pointer events and is exposed to assistive technology, so clicks never depend on 3D hit-testing between slides.
+ * receives pointer events and is exposed to assistive technology. The 3D containers (stage, slides) never take part in
+ * hit-testing: they are coplanar with the cards, and coplanar 3D planes hit-test unpredictably (it varies with the
+ * perspective, the fit scale and the window size), which swallowed clicks on the card buttons.
  * The stage scales down to fit the height it is given, and the cards rise into place on mount.
  */
 export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselProps) {
@@ -96,7 +98,7 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
         <div ref={viewportRef} onClick={onViewportClick} className="absolute inset-0 touch-pan-y overflow-x-clip mask-x-from-88% mask-x-to-100% max-wide:mask-x-from-92%">
           <div
             ref={stageRef}
-            className="absolute top-1/2 left-0 h-[660px] w-full -translate-y-1/2 touch-pan-y perspective-(--persp) transform-3d select-none [--card-width:400px] [--slide-angle:32deg] [--slide-depth:260px] [--slide-spacing:380px] max-wide:[--card-width:min(86vw,360px)] max-wide:[--slide-angle:22deg] max-wide:[--slide-depth:170px] max-wide:[--slide-spacing:74vw]"
+            className="pointer-events-none absolute top-1/2 left-0 h-[660px] w-full -translate-y-1/2 touch-pan-y perspective-(--persp) transform-3d select-none [--card-width:400px] [--slide-angle:32deg] [--slide-depth:260px] [--slide-spacing:380px] max-wide:[--card-width:min(86vw,360px)] max-wide:[--slide-angle:22deg] max-wide:[--slide-depth:170px] max-wide:[--slide-spacing:74vw]"
             style={{ scale: fit }}
           >
             {tracks.map((track, index) => {
@@ -111,8 +113,7 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
                   aria-hidden={!isActive || undefined}
                   data-slide-active={isActive || undefined}
                   className={clsx(
-                    'absolute top-5 left-1/2 h-[620px] w-(--card-width) carousel-slide in-data-dragging:transition-none motion-reduce:transition-none',
-                  !isActive && 'pointer-events-none',
+                    'pointer-events-none absolute top-5 left-1/2 h-[620px] w-(--card-width) carousel-slide in-data-dragging:transition-none motion-reduce:transition-none',
                     entering && 'animate-slide-enter transition-none motion-reduce:animate-none',
                   )}
                   style={{ ['--slide-base' as string]: offset, zIndex: count - Math.abs(offset), animationDelay: `${ENTER_BASE_DELAY_MS + Math.abs(offset) * ENTER_STEP_MS}ms` }}
