@@ -2,6 +2,7 @@
   "engine": "react",
   "order": 2,
   "title": "React",
+  "monogram": "R",
   "description": "Components, hooks, React 19 Actions, Server Components and the modern ecosystem, plus the legacy class APIs you still meet in real code.",
   "version": "React 19.3"
 }

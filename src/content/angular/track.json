@@ -2,6 +2,7 @@
   "engine": "angular",
   "order": 5,
   "title": "Angular",
+  "monogram": "A",
   "description": "Standalone components, signals, zoneless change detection, DI, RxJS, Router, Signal Forms and NgRx, plus NgModules and decorator-era APIs.",
   "version": "Angular 22"
 }

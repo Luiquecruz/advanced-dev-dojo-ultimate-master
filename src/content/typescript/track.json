@@ -2,6 +2,7 @@
   "engine": "typescript",
   "order": 1,
   "title": "TypeScript",
+  "monogram": "TS",
   "description": "From type annotations to type-level programming, with TypeScript 6/7 era defaults.",
-  "version": "TypeScript 6.0 \u00b7 7.0"
+  "version": "TypeScript 6.0 · 7.0"
 }

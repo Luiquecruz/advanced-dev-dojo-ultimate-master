@@ -1,11 +1,9 @@
 import type { Track } from '@/content';
 
-const LABELS: Record<string, string> = { typescript: 'TS', react: 'R', vue: 'V', angular: 'A', 'react-state': 'S' };
-
 /**
  * Monogram logo of a track, tinted with the track accent.
  */
-export function TrackLogo({ track, size = 36 }: { track: Pick<Track, 'id' | 'engine'>; size?: number }) {
+export function TrackLogo({ track, size = 36 }: { track: Pick<Track, 'id' | 'monogram'>; size?: number }) {
   return (
     <span
       data-trail={track.id}
@@ -13,7 +11,7 @@ export function TrackLogo({ track, size = 36 }: { track: Pick<Track, 'id' | 'eng
       style={{ width: size, height: size, fontSize: size * 0.42 }}
       aria-hidden="true"
     >
-      {LABELS[track.id] ?? LABELS[track.engine]}
+      {track.monogram}
     </span>
   );
 }

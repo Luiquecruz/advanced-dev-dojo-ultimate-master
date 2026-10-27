@@ -14,7 +14,6 @@ interface HomePageProps {
 const HEADLINE = ['Learn', 'modern', 'front-end', 'by', 'writing', 'real', 'code.'];
 const HIGHLIGHT_FROM = 5;
 const EXPLORE_AFTER_MS = 1400;
-const BACKDROP_LABELS: Record<string, string> = { 'react-state': 'State' };
 const STEPS = [
   { title: 'Learn', text: 'Focused theory, examples, key concepts and links to the official docs.' },
   { title: 'Practice', text: 'A real editor, a live preview and automated tests on every challenge.' },
@@ -135,7 +134,7 @@ function Backdrop({ active }: { active: number }) {
   return (
     <div aria-hidden="true" className="enter pointer-events-none absolute inset-0 -z-10 grid items-end justify-items-center overflow-hidden max-wide:hidden" style={{ ['--enter-delay' as string]: '100ms' }}>
       {tracks.map((track, index) => {
-        const label = BACKDROP_LABELS[track.id] ?? track.title;
+        const label = track.shortTitle ?? track.title;
         return (
           <span
             key={track.id}

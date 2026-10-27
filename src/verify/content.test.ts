@@ -11,6 +11,10 @@ describe('content structure', () => {
     tracks.forEach((track) => expect(['typescript', 'react', 'vue', 'angular']).toContain(track.engine));
   });
 
+  it.each(tracks.map((track) => [track.id, track] as const))('%s declares a short monogram', (_, track) => {
+    expect(track.monogram).toMatch(/^.{1,3}$/u);
+  });
+
   it.each(tracks.map((track) => [track.id, track] as const))('%s has unique lesson ids', (_, track) => {
     const ids = track.lessons.map((lesson) => lesson.id);
     expect(ids.length).toBe(new Set(ids).size);

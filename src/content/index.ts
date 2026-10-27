@@ -29,6 +29,7 @@ export interface Challenge {
 export interface Lesson {
   key: string;
   id: string;
+  folder: string;
   trackId: TrackId;
   moduleId: string;
   title: string;
@@ -55,6 +56,8 @@ export interface Track {
   engine: EngineId;
   order: number;
   title: string;
+  shortTitle?: string;
+  monogram: string;
   description: string;
   version: string;
   modules: Module[];
@@ -167,6 +170,7 @@ function buildTracks(): Track[] {
     module.lessons.push({
       key: `${trackId}/${id}`,
       id,
+      folder: `${trackId}/${moduleDirectory}/${lessonDirectory}`,
       trackId,
       moduleId: module.id,
       title: meta.title,
