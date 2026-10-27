@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState, type RefObject } from 'react';
+import { flushSync } from 'react-dom';
 import type { TrackId } from '../content';
 import { motionCoordinator } from '../motion/coordinator';
 import { isActivityState, type MotionState, type RestingState } from '../motion/states';
@@ -47,8 +48,8 @@ export function restingStateFor(route: Route, exploring: boolean): RestingState 
 /**
  * Ambient scene target for the motion state. During a return the route already names the destination.
  */
-export function sceneTargetFor(state: MotionState, route: Route): SceneTarget {
-  const trail = route.page === 'home' ? undefined : route.trackId;
+export function sceneTargetFor(state: MotionState, route: Route, homeTrail?: TrackId): SceneTarget {
+  const trail = route.page === 'home' ? homeTrail : route.trackId;
   if (state === 'ACTIVITY_TRANSITION') {
     return { state: 'activity', trail, focus: CURRICULUM_FOCUS, renderMode: 'running' };
   }
@@ -76,6 +77,10 @@ function findOrigin(base: HTMLElement, activity: ActivityRoute): HTMLElement | n
   );
 }
 
+function canViewTransition(): boolean {
+  return 'startViewTransition' in document && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 function isOnScreen(element: HTMLElement): boolean {
   const rect = element.getBoundingClientRect();
   return rect.bottom > 0 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth;
@@ -83,7 +88,8 @@ function isOnScreen(element: HTMLElement): boolean {
 
 /**
  * Maps routes to the rendered layers and drives the motion coordinator: a lesson route expands the activity from its origin
- * in the base layer, leaving it collapses back to that origin. Direct loads resolve their state without animation.
+ * in the base layer, leaving it collapses back to that origin. Switching base pages (home, curriculum) runs a view
+ * transition on the page layer only. Direct loads resolve their state without animation.
  */
 export function useMotionRouting(route: Route, exploring: boolean, refs: MotionRefs): Layers {
   const routeKey = hrefTo(route);
@@ -104,10 +110,16 @@ export function useMotionRouting(route: Route, exploring: boolean, refs: MotionR
       return;
     }
     const base = baseOf(route);
-    setLayers((current) => {
-      pending.current = { kind: 'leave', target: restingStateFor(route, exploring), baseChanged: hrefTo(current.base) !== hrefTo(base) };
-      return { base, activity: current.activity };
-    });
+    const leave = () =>
+      setLayers((current) => {
+        pending.current = { kind: 'leave', target: restingStateFor(route, exploring), baseChanged: hrefTo(current.base) !== hrefTo(base) };
+        return { base, activity: current.activity };
+      });
+    if (!layers.activity && hrefTo(layers.base) !== hrefTo(base) && canViewTransition()) {
+      document.startViewTransition(() => flushSync(leave)).updateCallbackDone.catch(leave);
+      return;
+    }
+    leave();
   }, [routeKey]);
 
   useLayoutEffect(() => {

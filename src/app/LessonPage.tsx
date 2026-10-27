@@ -14,6 +14,7 @@ import { gradeChallenge, runTypeScript, testNamesFor, type Report } from './runn
 import { hrefTo } from './route';
 import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, CrossIcon, MenuIcon, PlayIcon, RefreshIcon, ResetIcon, TerminalIcon } from './icons';
 import { useMediaQuery } from './useMediaQuery';
+import { BrandMark } from '../ui/BrandMark';
 import { COMPILE_ERROR_CLASS, SUCCESS_BADGE_CLASS, TEST_MESSAGE_CLASS, buttonClass, iconButtonClass } from './ui';
 
 type BottomTab = 'preview' | 'tests' | 'console';
@@ -233,7 +234,8 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
           <MenuIcon />
         </button>
         <nav className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden text-sm whitespace-nowrap text-ink-muted">
-          <a href={hrefTo({ page: 'home' })} className="font-extrabold text-ink max-wide:hidden">
+          <a href={hrefTo({ page: 'home' })} className="flex items-center gap-2 font-semibold tracking-[-0.02em] text-ink max-wide:hidden">
+            <BrandMark size={24} />
             Dev Dojo
           </a>
           <span className="max-wide:hidden">/</span>

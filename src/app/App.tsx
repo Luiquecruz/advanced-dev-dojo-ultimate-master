@@ -19,6 +19,7 @@ export function App() {
   const route = useRoute();
   const motionState = useMotionState();
   const [exploring, setExploring] = useState(false);
+  const [homeTrail, setHomeTrail] = useState<string | undefined>();
   const baseRef = useRef<HTMLDivElement>(null);
   const surfaceRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -31,9 +32,9 @@ export function App() {
 
   return (
     <>
-      <AmbientScene {...sceneTargetFor(motionState, route)} />
-      <div ref={baseRef} className="h-full" inert={baseInactive} aria-hidden={baseInactive || undefined}>
-        <BasePage base={layers.base} onExploreChange={setExploring} />
+      <AmbientScene {...sceneTargetFor(motionState, route, homeTrail)} />
+      <div ref={baseRef} className="h-full [view-transition-name:page]" inert={baseInactive} aria-hidden={baseInactive || undefined}>
+        <BasePage base={layers.base} onExploreChange={setExploring} onTrailChange={setHomeTrail} />
       </div>
       {layers.activity && (
         <ActivityShell surfaceRef={surfaceRef} contentRef={contentRef} inactive={motionState === 'RETURN_TRANSITION'}>
@@ -44,9 +45,15 @@ export function App() {
   );
 }
 
-function BasePage({ base, onExploreChange }: { base: BaseRoute; onExploreChange(exploring: boolean): void }) {
+interface BasePageProps {
+  base: BaseRoute;
+  onExploreChange(exploring: boolean): void;
+  onTrailChange(trackId: string | undefined): void;
+}
+
+function BasePage({ base, onExploreChange, onTrailChange }: BasePageProps) {
   if (base.page === 'home') {
-    return <Home onExploreChange={onExploreChange} />;
+    return <Home onExploreChange={onExploreChange} onTrailChange={onTrailChange} />;
   }
   const track = trackById.get(base.trackId);
   return track ? <TrackPage key={track.id} track={track} /> : <NotFound />;

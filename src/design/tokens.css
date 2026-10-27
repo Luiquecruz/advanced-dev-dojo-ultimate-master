@@ -4,6 +4,12 @@
   initial-value: #4dd9ff;
 }
 
+@property --slide-enter {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
 :root {
   --void: #0a0f18;
   --panel: #121c2a;
@@ -16,6 +22,8 @@
   --dur-fast: 150ms;
   --dur-base: 250ms;
   --dur-expand: 520ms;
+  --dur-enter: 900ms;
+  --enter-step: 70ms;
   --tilt-x: 0;
   --tilt-y: 0;
   color-scheme: dark;
@@ -81,6 +89,9 @@
   --animate-slide-in: slide-in 180ms var(--ease-out);
   --animate-pulse-soft: pulse-soft 1s ease-in-out infinite;
   --animate-glow-run: glow-run 6s linear infinite;
+  --animate-rise: rise var(--dur-enter) var(--ease-out) both;
+  --animate-draw: draw 1400ms var(--ease-out) both;
+  --animate-slide-enter: slide-enter 1100ms var(--ease-out) both;
 
   @keyframes slide-in {
     from {
@@ -92,6 +103,32 @@
   @keyframes pulse-soft {
     50% {
       opacity: 0.3;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      translate: 0 0.6em;
+      filter: blur(10px);
+    }
+  }
+
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes slide-enter {
+    from {
+      --slide-enter: 1;
+    }
+    to {
+      --slide-enter: 0;
     }
   }
 

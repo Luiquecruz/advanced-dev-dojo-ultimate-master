@@ -13,6 +13,8 @@ interface ModuleListProps {
   onNavigate?(): void;
 }
 
+const MAX_STAGGERED_MODULES = 8;
+
 /**
  * Modules of a track with their lessons and completion state.
  */
@@ -23,7 +25,11 @@ export function ModuleList({ track, currentKey, compact = false, className, onNa
       {track.modules.map((module, moduleIndex) => {
         const done = module.lessons.filter((lesson) => isLessonComplete(state, lesson)).length;
         return (
-          <section key={module.id} className="overflow-hidden rounded-xl border border-line bg-elevated/45">
+          <section
+            key={module.id}
+            className="enter overflow-hidden rounded-xl border border-line bg-elevated/45"
+            style={{ ['--enter-index' as string]: Math.min(moduleIndex, MAX_STAGGERED_MODULES), ['--enter-delay' as string]: '220ms' }}
+          >
             <header className="flex items-start gap-3.5 border-b border-line px-4.5 py-4">
               <span className="pt-0.5 font-mono text-[13px] font-semibold text-accent">{String(moduleIndex + 1).padStart(2, '0')}</span>
               <div className="flex-1">

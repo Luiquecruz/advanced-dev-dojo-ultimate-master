@@ -56,7 +56,7 @@ export function LessonPanel({ track, lesson, tab, onTabChange, testNames, report
 
   return (
     <div className="flex h-full flex-col bg-panel">
-      <header className="px-6.5 pt-5.5 pb-3.5 max-wide:px-4 max-wide:pt-4 max-wide:pb-2.5">
+      <header className="enter px-6.5 pt-5.5 pb-3.5 max-wide:px-4 max-wide:pt-4 max-wide:pb-2.5" style={{ ['--enter-delay' as string]: '280ms' }}>
         <div className="text-xs font-semibold tracking-[0.06em] text-accent uppercase">
           {module.title} · {LEVEL_LABEL[lesson.level]}
         </div>
@@ -94,11 +94,13 @@ export function LessonPanel({ track, lesson, tab, onTabChange, testNames, report
       </nav>
 
       <div className="flex-1 overflow-y-auto px-6.5 pt-4.5 pb-10 max-wide:px-4 max-wide:pt-3.5 max-wide:pb-8">
-        {tab === 'learn' && <LearnTab lesson={lesson} onStart={() => onTabChange(lesson.challenge ? 'challenge' : 'quiz')} />}
-        {tab === 'challenge' && lesson.challenge && (
-          <ChallengeTab lesson={lesson} testNames={testNames} report={report} running={running} onRevealSolution={onRevealSolution} />
-        )}
-        {tab === 'quiz' && <Quiz lesson={lesson} />}
+        <div key={tab} className="enter" style={{ ['--enter-delay' as string]: '60ms' }}>
+          {tab === 'learn' && <LearnTab lesson={lesson} onStart={() => onTabChange(lesson.challenge ? 'challenge' : 'quiz')} />}
+          {tab === 'challenge' && lesson.challenge && (
+            <ChallengeTab lesson={lesson} testNames={testNames} report={report} running={running} onRevealSolution={onRevealSolution} />
+          )}
+          {tab === 'quiz' && <Quiz lesson={lesson} />}
+        </div>
 
         {complete && (
           <div className="mt-7 flex items-center gap-3.5 rounded-[10px] border border-success/35 bg-success/12 px-4 py-3.5 text-sm">

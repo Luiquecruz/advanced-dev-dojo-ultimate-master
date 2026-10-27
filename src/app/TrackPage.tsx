@@ -19,10 +19,10 @@ export function TrackPage({ track }: { track: Track }) {
 
   return (
     <main data-trail={track.id} className="mx-auto max-w-245 px-6 pt-9 pb-16 max-wide:px-4 max-wide:pt-6 max-wide:pb-12">
-      <a href={hrefTo({ page: 'home' })} className="text-sm text-ink-muted hover:text-ink">
+      <a href={hrefTo({ page: 'home' })} className="enter inline-block text-sm text-ink-muted hover:text-ink">
         ← All tracks
       </a>
-      <div className="mt-5.5">
+      <div className="enter mt-5.5" style={{ ['--enter-delay' as string]: '80ms' }}>
         <Curriculum label={`${track.title} curriculum`} paused={motionState === 'ACTIVITY'}>
           <header>
             <div className="flex items-center gap-4.5">
