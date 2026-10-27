@@ -5,6 +5,7 @@ export interface TiltLimits {
 
 export interface TiltController {
   setTarget(horizontal: number, vertical: number): void;
+  hold(): void;
   reset(): void;
   destroy(): void;
 }
@@ -86,6 +87,11 @@ export function createTilt(element: HTMLElement, limits: TiltLimits): TiltContro
       state.targetY = clampUnit(horizontal) * limits.y;
       wake(state);
     },
+    hold() {
+      state.targetX = state.currentX;
+      state.targetY = state.currentY;
+      active.delete(state);
+    },
     reset() {
       state.targetX = 0;
       state.targetY = 0;
@@ -107,13 +113,24 @@ function normalizedPosition(element: HTMLElement, event: PointerEvent): [horizon
 }
 
 /**
- * Drives a tilt from mouse and pen movement over the element, relative to its center.
+ * Drives a tilt from mouse and pen movement over the element, relative to its center. The tilt freezes while a button is
+ * pressed so the element under the pointer does not move between press and release.
  */
 export function bindPointerTilt(element: HTMLElement, controller: TiltController): () => void {
+  let pressed = false;
   const onPointerMove = (event: PointerEvent) => {
-    if (event.pointerType !== 'touch') {
+    if (event.pointerType !== 'touch' && !pressed) {
       controller.setTarget(...normalizedPosition(element, event));
     }
+  };
+  const onPointerDown = (event: PointerEvent) => {
+    pressed = event.pointerType !== 'touch';
+    if (pressed) {
+      controller.hold();
+    }
+  };
+  const onPointerRelease = () => {
+    pressed = false;
   };
   const onPointerLeave = () => controller.reset();
   const onFocusIn = (event: FocusEvent) => {
@@ -122,10 +139,16 @@ export function bindPointerTilt(element: HTMLElement, controller: TiltController
     }
   };
   element.addEventListener('pointermove', onPointerMove);
+  element.addEventListener('pointerdown', onPointerDown);
+  window.addEventListener('pointerup', onPointerRelease);
+  window.addEventListener('pointercancel', onPointerRelease);
   element.addEventListener('pointerleave', onPointerLeave);
   element.addEventListener('focusin', onFocusIn);
   return () => {
     element.removeEventListener('pointermove', onPointerMove);
+    element.removeEventListener('pointerdown', onPointerDown);
+    window.removeEventListener('pointerup', onPointerRelease);
+    window.removeEventListener('pointercancel', onPointerRelease);
     element.removeEventListener('pointerleave', onPointerLeave);
     element.removeEventListener('focusin', onFocusIn);
   };

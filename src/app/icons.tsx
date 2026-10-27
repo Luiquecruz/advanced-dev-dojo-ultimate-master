@@ -78,3 +78,16 @@ export const TerminalIcon = (props: IconProps) => (
     <line x1="12" y1="19" x2="20" y2="19" />
   </svg>
 );
+export const HalfCircleIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <circle cx="12" cy="12" r="8" />
+    <path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" />
+  </svg>
+);
+export const ChartIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <line x1="6" y1="20" x2="6" y2="14" />
+    <line x1="12" y1="20" x2="12" y2="9" />
+    <line x1="18" y1="20" x2="18" y2="4" />
+  </svg>
+);
