@@ -1,6 +1,22 @@
+import type { PerformanceTier } from '../capabilities/capabilities';
+
 export type SceneState = 'intro' | 'explorer' | 'curriculum' | 'activity';
 
 export type RenderMode = 'running' | 'idle' | 'paused';
+
+export interface SceneStats {
+  fps: number;
+  frameMs: number;
+  tier: PerformanceTier;
+  particles: number;
+  pixelRatio: number;
+  renderMode: RenderMode;
+  renderers: number;
+  geometries: number;
+  textures: number;
+  programs: number;
+  drawCalls: number;
+}
 
 export interface SceneAPI {
   setAccent(hex: string, durationMs?: number): void;
@@ -9,5 +25,6 @@ export interface SceneAPI {
   setPointer(x: number, y: number): void;
   setRenderMode(mode: RenderMode): void;
   resize(): void;
+  stats(): SceneStats;
   destroy(): void;
 }

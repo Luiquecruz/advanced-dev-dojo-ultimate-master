@@ -3,6 +3,7 @@ export type GyroStatus = 'idle' | 'active' | 'denied' | 'unavailable';
 export interface GyroController {
   enable(): Promise<GyroStatus>;
   disable(): void;
+  setPaused(paused: boolean): void;
   destroy(): void;
 }
 
@@ -41,6 +42,7 @@ function alignToScreen(gamma: number, beta: number): [horizontal: number, vertic
 export function createGyro({ onTilt, onStatusChange }: GyroOptions): GyroController {
   let status: GyroStatus = 'idle';
   let listening = false;
+  let paused = false;
   let samples = 0;
   let betaSum = 0;
   let gammaSum = 0;
@@ -88,18 +90,18 @@ export function createGyro({ onTilt, onStatusChange }: GyroOptions): GyroControl
     onTilt(0, 0);
   }
 
-  function onVisibilityChange(): void {
+  function syncListening(): void {
     if (status !== 'active') {
       return;
     }
-    if (document.hidden) {
+    if (document.hidden || paused) {
       stopListening();
     } else {
       listen();
     }
   }
 
-  document.addEventListener('visibilitychange', onVisibilityChange);
+  document.addEventListener('visibilitychange', syncListening);
 
   return {
     async enable() {
@@ -116,22 +118,27 @@ export function createGyro({ onTilt, onStatusChange }: GyroOptions): GyroControl
       samples = 0;
       betaSum = 0;
       gammaSum = 0;
-      listen();
       firstEventTimer = setTimeout(() => {
         stopListening();
         setStatus('unavailable');
       }, FIRST_EVENT_TIMEOUT_MS);
-      return setStatus('active');
+      setStatus('active');
+      syncListening();
+      return status;
     },
     disable() {
       clearTimeout(firstEventTimer);
       stopListening();
       setStatus('idle');
     },
+    setPaused(next) {
+      paused = next;
+      syncListening();
+    },
     destroy() {
       clearTimeout(firstEventTimer);
       stopListening();
-      document.removeEventListener('visibilitychange', onVisibilityChange);
+      document.removeEventListener('visibilitychange', syncListening);
     },
   };
 }

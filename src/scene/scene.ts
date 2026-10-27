@@ -36,6 +36,9 @@ const SAMPLE_FRAMES = 90;
 const DEGRADED_FRAME_MS = 24;
 const DEGRADED_WINDOW_MS = 2000;
 const FRAME_AVERAGE_WEIGHT = 0.05;
+const STATS_AVERAGE_WEIGHT = 0.1;
+
+let createdRenderers = 0;
 
 function damp(current: number, target: number, rate: number, delta: number): number {
   return current + (target - current) * (1 - Math.exp(-delta * rate));
@@ -58,6 +61,7 @@ export async function createScene(canvas: HTMLCanvasElement, capabilities: Capab
   let profile = profileFor(tier, capabilities.coarsePointer);
 
   const renderer = new WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: 'high-performance' });
+  createdRenderers++;
   renderer.setClearColor(0x000000, 0);
   const scene = new Scene();
   const camera = new PerspectiveCamera(CAMERA_FIELD_OF_VIEW, 1, 0.1, 120);
@@ -99,6 +103,7 @@ export async function createScene(canvas: HTMLCanvasElement, capabilities: Capab
   let sampledMs = 0;
   let averageFrameMs: number | undefined;
   let degradedSince: number | undefined;
+  let statsFrameMs = 0;
 
   function effectiveMode(): RenderMode {
     return hidden || contextLost ? 'paused' : requestedMode;
@@ -189,6 +194,7 @@ export async function createScene(canvas: HTMLCanvasElement, capabilities: Capab
 
   function tick(time: number): void {
     if (lastTime !== undefined) {
+      statsFrameMs = statsFrameMs === 0 ? time - lastTime : statsFrameMs + (time - lastTime - statsFrameMs) * STATS_AVERAGE_WEIGHT;
       measure(time, time - lastTime);
       pendingDelta += Math.min((time - lastTime) / 1000, MAX_DELTA_SECONDS);
     }
@@ -273,6 +279,21 @@ export async function createScene(canvas: HTMLCanvasElement, capabilities: Capab
       applyMode();
     },
     resize,
+    stats() {
+      return {
+        fps: statsFrameMs > 0 && loopActive ? 1000 / statsFrameMs : 0,
+        frameMs: loopActive ? statsFrameMs : 0,
+        tier,
+        particles: profile.particles,
+        pixelRatio: renderer.getPixelRatio(),
+        renderMode: effectiveMode(),
+        renderers: createdRenderers,
+        geometries: renderer.info.memory.geometries,
+        textures: renderer.info.memory.textures,
+        programs: renderer.info.programs?.length ?? 0,
+        drawCalls: renderer.info.render.calls,
+      };
+    },
     destroy() {
       renderer.setAnimationLoop(null);
       document.removeEventListener('visibilitychange', onVisibilityChange);

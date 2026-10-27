@@ -60,7 +60,7 @@ export function LessonPanel({ track, lesson, tab, onTabChange, testNames, report
         <div className="text-xs font-semibold tracking-[0.06em] text-accent uppercase">
           {module.title} · {LEVEL_LABEL[lesson.level]}
         </div>
-        <h1 className="mt-1.5 mb-1 text-[26px]/[1.2] font-bold tracking-[-0.02em] outline-none" tabIndex={-1}>
+        <h1 className="mt-1.5 mb-1 text-[26px]/[1.2] font-bold tracking-[-0.02em] outline-none" tabIndex={-1} data-activity-title>
           {lesson.title}
         </h1>
         <p className="m-0 text-ink-muted">{lesson.summary}</p>

@@ -1,55 +1,70 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { trackById } from '../content';
+import { isActivityState } from '../motion/states';
+import { ActivityShell } from '../ui/ActivityShell';
+import { useMotionState } from '../ui/useMotionState';
 import { AmbientScene } from './AmbientScene';
 import { Home } from './Home';
 import { LessonPage } from './LessonPage';
 import { TrackPage } from './TrackPage';
 import { hrefTo, useRoute } from './route';
-import { sceneTargetFor } from './router-adapter';
+import { sceneTargetFor, useMotionRouting, type ActivityRoute, type BaseRoute } from './router-adapter';
 import { buttonClass } from './ui';
 
 /**
- * Root component: keeps the ambient scene mounted and routes between home, track and lesson pages.
+ * Root component: keeps the ambient scene mounted, renders the base layer (home or curriculum) and the activity shell
+ * above it, and lets the motion coordinator run the transitions between them.
  */
 export function App() {
   const route = useRoute();
+  const motionState = useMotionState();
   const [exploring, setExploring] = useState(false);
+  const baseRef = useRef<HTMLDivElement>(null);
+  const surfaceRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const layers = useMotionRouting(route, exploring, { base: baseRef, surface: surfaceRef, content: contentRef });
+  const baseInactive = motionState === 'ACTIVITY_TRANSITION' || motionState === 'ACTIVITY';
+
+  useLayoutEffect(() => {
+    document.documentElement.style.overflow = isActivityState(motionState) ? 'hidden' : '';
+  }, [motionState]);
 
   return (
     <>
-      <AmbientScene {...sceneTargetFor(route, exploring)} />
-      <RoutedPage onExploreChange={setExploring} />
+      <AmbientScene {...sceneTargetFor(motionState, route)} />
+      <div ref={baseRef} className="h-full" inert={baseInactive} aria-hidden={baseInactive || undefined}>
+        <BasePage base={layers.base} onExploreChange={setExploring} />
+      </div>
+      {layers.activity && (
+        <ActivityShell surfaceRef={surfaceRef} contentRef={contentRef} inactive={motionState === 'RETURN_TRANSITION'}>
+          <ActivityPage activity={layers.activity} />
+        </ActivityShell>
+      )}
     </>
   );
 }
 
-function RoutedPage({ onExploreChange }: { onExploreChange(exploring: boolean): void }) {
-  const route = useRoute();
-  const track = route.page === 'home' ? undefined : trackById.get(route.trackId);
-
-  if (route.page === 'home') {
+function BasePage({ base, onExploreChange }: { base: BaseRoute; onExploreChange(exploring: boolean): void }) {
+  if (base.page === 'home') {
     return <Home onExploreChange={onExploreChange} />;
   }
-  if (!track) {
-    return <NotFound />;
-  }
-  if (route.page === 'track') {
-    return <TrackPage track={track} />;
-  }
-  const lesson = track.lessons.find((entry) => entry.id === route.lessonId);
-  if (!lesson) {
-    return <NotFound />;
-  }
-  return <LessonPage key={lesson.key} track={track} lesson={lesson} />;
+  const track = trackById.get(base.trackId);
+  return track ? <TrackPage key={track.id} track={track} /> : <NotFound />;
+}
+
+function ActivityPage({ activity }: { activity: ActivityRoute }) {
+  const track = trackById.get(activity.trackId);
+  const lesson = track?.lessons.find((entry) => entry.id === activity.lessonId);
+  return track && lesson ? <LessonPage key={lesson.key} track={track} lesson={lesson} /> : <NotFound />;
 }
 
 function NotFound() {
   return (
-    <div className="grid h-full place-items-center content-center gap-4">
+    <main className="grid h-full place-items-center content-center gap-4 bg-void">
       <h1 className="text-3xl font-bold">Page not found</h1>
       <a className={buttonClass('primary')} href={hrefTo({ page: 'home' })}>
         Back to Dev Dojo
       </a>
-    </div>
+    </main>
   );
 }

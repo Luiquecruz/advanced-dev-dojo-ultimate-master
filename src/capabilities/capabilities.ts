@@ -23,6 +23,7 @@ const PROFILES: Record<PerformanceTier, { particles: [desktop: number, mobile: n
 };
 
 const LOWER_TIER: Record<PerformanceTier, PerformanceTier> = { high: 'mid', mid: 'low', low: 'low' };
+const TIERS: PerformanceTier[] = ['high', 'mid', 'low'];
 
 interface DeviceOrientationEventWithPermission {
   requestPermission?: () => Promise<'granted' | 'denied'>;
@@ -43,9 +44,18 @@ function detectOrientation(secureContext: boolean): Capabilities['orientation'] 
   return typeof (DeviceOrientationEvent as DeviceOrientationEventWithPermission).requestPermission === 'function' ? 'needs-permission' : 'available';
 }
 
+function forcedTier(): PerformanceTier | undefined {
+  const requested = new URLSearchParams(location.search).get('tier');
+  return TIERS.find((tier) => tier === requested);
+}
+
 function estimateTier(webgl2: boolean, coarsePointer: boolean): PerformanceTier {
   if (!webgl2) {
     return 'low';
+  }
+  const forced = forcedTier();
+  if (forced) {
+    return forced;
   }
   const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
   const cores = navigator.hardwareConcurrency || 8;

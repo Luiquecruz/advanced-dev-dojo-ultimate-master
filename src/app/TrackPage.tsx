@@ -6,22 +6,24 @@ import { hrefTo } from './route';
 import { TrackLogo } from './TrackLogo';
 import { buttonClass } from './ui';
 import { Curriculum } from '../ui/Curriculum';
+import { useMotionState } from '../ui/useMotionState';
 
 /**
  * Curriculum overview of one track.
  */
 export function TrackPage({ track }: { track: Track }) {
   const state = useProgress();
+  const motionState = useMotionState();
   const done = track.lessons.filter((lesson) => isLessonComplete(state, lesson)).length;
   const resumeId = state.lastLesson[track.id] ?? track.lessons[0]?.id;
 
   return (
-    <div data-trail={track.id} className="mx-auto max-w-245 px-6 pt-9 pb-16 max-wide:px-4 max-wide:pt-6 max-wide:pb-12">
+    <main data-trail={track.id} className="mx-auto max-w-245 px-6 pt-9 pb-16 max-wide:px-4 max-wide:pt-6 max-wide:pb-12">
       <a href={hrefTo({ page: 'home' })} className="text-sm text-ink-muted hover:text-ink">
         ← All tracks
       </a>
       <div className="mt-5.5">
-        <Curriculum label={`${track.title} curriculum`}>
+        <Curriculum label={`${track.title} curriculum`} paused={motionState === 'ACTIVITY'}>
           <header>
             <div className="flex items-center gap-4.5">
               <TrackLogo track={track} size={56} />
@@ -46,6 +48,6 @@ export function TrackPage({ track }: { track: Track }) {
           <ModuleList track={track} />
         </Curriculum>
       </div>
-    </div>
+    </main>
   );
 }

@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { detectCapabilities } from '../capabilities/capabilities';
 import type { SceneAPI } from '../scene/types';
+import { PerfOverlay } from './PerfOverlay';
 import type { SceneTarget } from './router-adapter';
 
 const IDLE_TIMEOUT_MS = 1500;
+const PERF_DEBUG = new URLSearchParams(location.search).get('debug') === 'perf';
 
 function whenIdle(callback: () => void): () => void {
   if ('requestIdleCallback' in window) {
@@ -98,14 +100,12 @@ export function AmbientScene({ state, trail, focus, renderMode }: SceneTarget) {
   }, [scene, capabilities]);
 
   return (
-    <div
-      ref={layerRef}
-      data-trail={trail}
-      aria-hidden="true"
-      className="group pointer-events-none fixed inset-0 -z-10 bg-ambient transition-[--accent] duration-600 ease-out"
-    >
-      <div className="absolute inset-0 bg-ambient-grid transition-opacity duration-(--dur-expand) group-has-[canvas[data-ready][data-grid=webgl]]:opacity-0" />
-      <canvas ref={canvasRef} className="absolute inset-0 size-full opacity-0 transition-opacity duration-700 ease-out data-ready:opacity-100" />
-    </div>
+    <>
+      {PERF_DEBUG && <PerfOverlay scene={scene} />}
+      <div ref={layerRef} data-trail={trail} aria-hidden="true" className="group pointer-events-none fixed inset-0 -z-10 bg-ambient transition-[--accent] duration-600 ease-out">
+        <div className="absolute inset-0 bg-ambient-grid transition-opacity duration-(--dur-expand) group-has-[canvas[data-ready][data-grid=webgl]]:opacity-0" />
+        <canvas ref={canvasRef} className="absolute inset-0 size-full opacity-0 transition-opacity duration-700 ease-out data-ready:opacity-100" />
+      </div>
+    </>
   );
 }

@@ -40,6 +40,10 @@
     height: 100%;
   }
 
+  html {
+    scrollbar-gutter: stable;
+  }
+
   body {
     @apply bg-void font-sans text-[15px]/[1.6] text-ink antialiased;
   }

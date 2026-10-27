@@ -18,6 +18,7 @@ export function PathCard({ track }: { track: Track }) {
   return (
     <article
       data-trail={track.id}
+      data-motion-origin={`track:${track.id}`}
       className="group/card relative flex flex-col gap-3.5 rounded-card border border-line bg-panel/80 p-5.5 shadow-[inset_0_3px_0_var(--accent)] tilt-surface transition-[translate,border-color] duration-(--dur-base) ease-out hover:translate-z-1.5 hover:border-line-strong has-focus-visible:translate-z-1.5 has-focus-visible:border-line-strong"
     >
       <span

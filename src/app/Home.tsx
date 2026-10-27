@@ -25,7 +25,7 @@ export function Home({ onExploreChange }: { onExploreChange(exploring: boolean):
   }, [onExploreChange]);
 
   return (
-    <div className="mx-auto max-w-295 px-6 pt-12 pb-16 max-wide:px-4 max-wide:pt-8 max-wide:pb-12">
+    <main className="mx-auto max-w-295 px-6 pt-12 pb-16 max-wide:px-4 max-wide:pt-8 max-wide:pb-12">
       <header>
         <div className="inline-flex items-center gap-3 text-xl font-extrabold tracking-[-0.02em]">
           <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="" width={40} height={40} />
@@ -77,6 +77,6 @@ export function Home({ onExploreChange }: { onExploreChange(exploring: boolean):
           Reset progress
         </button>
       </footer>
-    </div>
+    </main>
   );
 }

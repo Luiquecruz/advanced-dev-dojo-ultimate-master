@@ -261,26 +261,28 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
         </div>
       </header>
 
-      <Group orientation={narrow ? 'vertical' : 'horizontal'} className="min-h-0 flex-1">
-        <Panel defaultSize={narrow ? '50' : '40'} minSize="20">
-          <LessonPanel
-            key={lesson.key}
-            track={track}
-            lesson={lesson}
-            tab={tab}
-            onTabChange={setTab}
-            testNames={testNames}
-            report={report}
-            running={running}
-            onRevealSolution={() => setSolutionOpen(true)}
-            nextLesson={next}
-          />
-        </Panel>
-        <Separator className={narrow ? SEPARATOR_CLASS.horizontal : SEPARATOR_CLASS.vertical} />
-        <Panel defaultSize={narrow ? '50' : '60'} minSize="25">
-          {workspace}
-        </Panel>
-      </Group>
+      <main className="min-h-0 flex-1">
+        <Group orientation={narrow ? 'vertical' : 'horizontal'} className="h-full">
+          <Panel defaultSize={narrow ? '50' : '40'} minSize="20">
+            <LessonPanel
+              key={lesson.key}
+              track={track}
+              lesson={lesson}
+              tab={tab}
+              onTabChange={setTab}
+              testNames={testNames}
+              report={report}
+              running={running}
+              onRevealSolution={() => setSolutionOpen(true)}
+              nextLesson={next}
+            />
+          </Panel>
+          <Separator className={narrow ? SEPARATOR_CLASS.horizontal : SEPARATOR_CLASS.vertical} />
+          <Panel defaultSize={narrow ? '50' : '60'} minSize="25">
+            {workspace}
+          </Panel>
+        </Group>
+      </main>
 
       {drawerOpen && <CurriculumDrawer track={track} currentKey={lesson.key} onClose={() => setDrawerOpen(false)} />}
       {solutionOpen && challenge && (

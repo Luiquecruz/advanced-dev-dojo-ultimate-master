@@ -27,7 +27,7 @@ export function ModuleList({ track, currentKey, compact = false, className, onNa
             <header className="flex items-start gap-3.5 border-b border-line px-4.5 py-4">
               <span className="pt-0.5 font-mono text-[13px] font-semibold text-accent">{String(moduleIndex + 1).padStart(2, '0')}</span>
               <div className="flex-1">
-                <h3 className="m-0 text-base font-semibold">{module.title}</h3>
+                <h2 className="m-0 text-base font-semibold">{module.title}</h2>
                 <p className="mt-0.5 text-[13px] text-ink-muted">{module.description}</p>
               </div>
               <span className="text-xs whitespace-nowrap text-ink-faint">
@@ -44,6 +44,7 @@ export function ModuleList({ track, currentKey, compact = false, className, onNa
                       href={hrefTo({ page: 'lesson', trackId: track.id, lessonId: lesson.id })}
                       className={clsx('flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm hover:bg-hover', current && 'bg-hover shadow-[inset_3px_0_0_var(--accent)]')}
                       aria-current={current ? 'page' : undefined}
+                      data-motion-origin={`lesson:${lesson.key}`}
                       data-current={current || undefined}
                       onClick={onNavigate}
                     >
