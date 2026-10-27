@@ -73,7 +73,7 @@ Globals available in every framework track:
 
 React extras: `render`, `renderHook`, `act` (React Testing Library), `React`.
 
-Vue extras: `mount`, `shallowMount`, `flushPromises` (Vue Test Utils), `render` (Testing Library Vue), `nextTick`. Mount plugins with `mount(mod.default, { global: { plugins: [require('pinia').createPinia(), router] } })`. Mounted wrappers are unmounted automatically.
+Vue extras: `mount`, `shallowMount`, `flushPromises` (Vue Test Utils), `render` (Testing Library Vue), `nextTick`. Mount plugins with `mount(mod.default, { global: { plugins: [require('pinia').createPinia(), router] } })`. Mounted wrappers are unmounted automatically. For components that resolve through `<Suspense>` (async `setup`, top-level `await`), use `mount(Component, { attachTo: document.body })` instead of `render`: Testing Library's `render` unwraps the app root element, so the resolved branch is inserted into a detached node and the container ends up empty.
 
 Angular extras (signal `input()`, `model()`, `output()`, `outputFromObservable()` and signal queries `viewChild()`/`viewChildren()`/`contentChild()`/`contentChildren()` are supported through a JIT transform equivalent to the Angular CLI one, in learner files and in test files; declare host components in tests with `const { Component } = require('@angular/core');` at the top of the test file): `render(Component, { inputs?, providers?, imports? })` → `{ fixture, component, element, setInput(name, value), stable() }` (configures TestBed, creates the component, auto-detects changes and awaits stability), `stable()` (awaits every rendered fixture; call it after user interactions or async work), `TestBed`. TestBed is reset between tests.
 
