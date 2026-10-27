@@ -1,6 +1,6 @@
 # Architecture and Adding a Track
 
-This document describes how Dev Dojo is built and the step-by-step pattern to add a new track (for example Svelte, Solid, Node.js or Python-in-the-browser). For the lesson file format see [CONTENT_GUIDE.md](CONTENT_GUIDE.md).
+This document describes how Dev Dojo is built and the step-by-step pattern to add a new track (for example Svelte, Solid, Node.js or Python-in-the-browser). For the lesson file format see [CONTENT_GUIDE.md](CONTENT_GUIDE.md); for the lesson plan see [CURRICULUM.md](CURRICULUM.md). All project docs live in `.claude/docs/`.
 
 ## Overview
 
@@ -139,12 +139,41 @@ Plus one preview function per engine: `(files, entry, container) => void | Promi
 Most new tracks do not need a new engine. `react-state` (React State Management) runs on the React engine; a future React ecosystem track (Next.js concepts, testing, animation...) or a Vue/Angular deep dive works the same way.
 
 1. **Libraries**: install what the lessons import and register each import path in the engine registry (`src/engines/react/registry.ts` for React). Check the package `exports` map for subpaths (`zustand/react/shallow`, `@reduxjs/toolkit/query/react`, `valtio/utils`). Run the engine's existing suite afterwards to prove nothing broke.
-2. **Track folder**: `src/content/<track-id>/track.json` with `"engine": "react"` and an `"order"` (position on the home page), plus one `module.json` per module.
-3. **Verification suite**: `src/verify/<track-id>.test.ts` calling `defineChallengeSuite('<track-id>', reactAdapter)`.
-4. **Logo and accent**: add a label to `LABELS` in `src/entities/track/TrackLogo.tsx` (it falls back to the engine label) and a `[data-trail='<track-id>']` rule with `--accent` and `--accent-rgb` in `src/shared/design/tokens.css`.
-5. **Plan and guide**: add the module/lesson plan to `CURRICULUM.md` and list new libraries in `CONTENT_GUIDE.md`.
+2. **Track folder**: `src/content/<track-id>/track.json` (see [Track presentation](#track-presentation)) with `"engine": "react"` and an `"order"` (position on the home carousel), plus one `module.json` per module.
+3. **Accent**: a `[data-trail='<track-id>']` rule in `src/shared/design/tokens.css` (see [Track presentation](#track-presentation)).
+4. **Verification suite**: `src/verify/<track-id>.test.ts` calling `defineChallengeSuite('<track-id>', reactAdapter)`.
+5. **Plan and guide**: add the module and lesson plan to [CURRICULUM.md](CURRICULUM.md) (written lessons get `✓`) and list new libraries in [CONTENT_GUIDE.md](CONTENT_GUIDE.md).
+6. **Copy that names the tracks**: update the track list in the home description (`src/pages/home/HomePage.tsx`) and the `<meta name="description">` in `index.html` when the new track should be named there.
 
-No change is needed in the runner, sandbox, loader or pages: they read `track.engine`.
+No change is needed in the runner, sandbox, loader, pages or features: they read `track.engine`, and the home carousel, curriculum, progress, stats, logo and ambient scene pick the track up from `track.json` and its accent rule.
+
+## Track presentation
+
+Everything the UI shows about a track comes from two places:
+
+| Where | Field | Used for |
+| --- | --- | --- |
+| `track.json` | `title`, `description`, `version` | carousel card, curriculum header, breadcrumbs |
+| `track.json` | `monogram` (1–3 characters, required) | the track logo (`entities/track/TrackLogo.tsx`) |
+| `track.json` | `shortTitle` (optional) | the giant backdrop word on the home page; set it when `title` is longer than about 10 characters (`react-state` uses `"State"`) |
+| `track.json` | `order` | position in the home carousel and the track list |
+| `tokens.css` | `[data-trail='<id>'] { --accent; --accent-rgb }` | every accent: buttons, borders, glow, scene particles, headline highlight |
+
+Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
+
+- At least 4.5:1 contrast against `void` (`#0a0f18`), `panel` (`#121c2a`) and `elevated` (`#1b293a`), and at least 4.5:1 for the dark `on-accent` text drawn on top of it.
+- At least 30° of hue away from every other track accent, so tracks stay distinguishable (also for color-blind users; the monogram and title are the second cue).
+- `--accent-rgb` must be the same color as `--accent` written as `R G B`.
+
+Current accents and their hues, to pick the next one from a free region (the 20°–130° band, amber to lime, is still open):
+
+| Track | Accent | Hue |
+| --- | --- | --- |
+| vue | `#6de6b2` | 154° |
+| typescript | `#4dd9ff` | 193° |
+| react | `#8c8cff` | 240° |
+| react-state | `#d29cff` | 273° |
+| angular | `#ff6b81` | 351° |
 
 ## Adding a framework track (step by step)
 
@@ -193,7 +222,7 @@ export const svelteRegistry: ModuleRegistry = {
 | `src/content/index.ts` | Add the engine to `EngineId` and `DEFAULT_ENTRY` (e.g. `{ svelte: 'App.svelte', ts: 'main.ts' }`); the track declares `"engine": "svelte"` in `track.json` |
 | `src/engines/shared/project.ts` | Add the file extension to `EXTENSIONS` if learners import it without an extension |
 | `src/features/lesson/monacoSetup.ts` | Map the extension in `languageForFile`; adjust `configureLanguageService` if the track needs different compiler options |
-| `src/entities/track/TrackLogo.tsx` + `src/shared/design/tokens.css` | Add a label and a `[data-trail='<id>']` accent rule |
+| `src/content/<id>/track.json` + `src/shared/design/tokens.css` | `monogram` (and `shortTitle` when needed) plus a `[data-trail='<id>']` accent rule, see [Track presentation](#track-presentation) |
 
 `features/lesson/runner.ts` needs no change: every engine other than `typescript` goes through the sandbox.
 
@@ -208,12 +237,12 @@ import { defineChallengeSuite } from './challengeSuite';
 defineChallengeSuite('svelte', svelteAdapter);
 ```
 
-Then update the expected track list in `src/verify/content.test.ts`.
+Then add the engine id to the list of valid engines in `src/verify/content.test.ts`.
 
 ### 5. Create the content skeleton
 
 ```
-src/content/svelte/track.json                 { "engine", "order", "title", "description", "version" }
+src/content/svelte/track.json                 { "engine", "order", "title", "monogram", "description", "version" }
 src/content/svelte/01-foundations/module.json { "title", "description" }
 src/content/svelte/01-foundations/01-.../     one reference lesson (see CONTENT_GUIDE.md)
 ```
@@ -222,19 +251,23 @@ Write **one reference lesson by hand first** and run `LESSON=<id> npx vitest run
 
 ### 6. Document and plan
 
-- Add the track section (test globals, preview contract, quirks) to `CONTENT_GUIDE.md`.
-- Add the module and lesson plan to `CURRICULUM.md`.
+- Add the track section (test globals, preview contract, quirks) to [CONTENT_GUIDE.md](CONTENT_GUIDE.md).
+- Add the module and lesson plan to [CURRICULUM.md](CURRICULUM.md).
 - Write the remaining lessons following the plan, verifying each one.
 
 ## Adding a static (non-DOM) track
 
-Follow the TypeScript engine (`src/engines/typescript`): a worker that analyzes code, a worker that runs it with a timeout, a test DSL parsed from `tests.md` (`testsDsl.ts`), and a branch in `app/runner.ts` (`testNamesFor`, `gradeChallenge`) plus `src/verify/typescript.test.ts` for verification.
+Follow the TypeScript engine (`src/engines/typescript`): a worker that analyzes code, a worker that runs it with a timeout, a test DSL parsed from `tests.md` (`testsDsl.ts`), and a branch in `src/features/lesson/runner.ts` (`testNamesFor`, `gradeChallenge`) plus `src/verify/typescript.test.ts` for verification. The UI only special-cases the static engine in two places: the extra **Run** button in `src/pages/lesson/LessonPage.tsx` and the strict compiler options in `src/features/lesson/monacoSetup.ts`.
 
 ## Checklist
 
+For a track on an existing engine, only the items marked *(track)* apply.
+
 - [ ] Engine folder with `registry.ts`, `adapter.ts` (and compiler/transform if needed)
-- [ ] Registered in `protocol.ts`, `sandbox.ts`, `content/index.ts`, `monacoSetup.ts`, `TrackLogo.tsx`, `tokens.css`
-- [ ] `src/verify/<track>.test.ts` and updated `content.test.ts`
-- [ ] `track.json`, first module and one hand-written reference lesson passing verification
-- [ ] Preview and test run checked in the browser, `npm run build` passes
-- [ ] `CONTENT_GUIDE.md` and `CURRICULUM.md` updated
+- [ ] Engine registered in `protocol.ts`, `sandbox.ts`, `content/index.ts`, `monacoSetup.ts`, and listed in `src/verify/content.test.ts`
+- [ ] *(track)* `track.json` with `monogram` (and `shortTitle` if the title is long), first module and one hand-written reference lesson passing verification
+- [ ] *(track)* `[data-trail]` accent rule in `tokens.css` passing `src/verify/trackPresentation.test.ts`
+- [ ] *(track)* `src/verify/<track>.test.ts`
+- [ ] *(track)* `CURRICULUM.md` plan with `✓` on written lessons (`src/verify/curriculum.test.ts`), new libraries in `CONTENT_GUIDE.md`
+- [ ] *(track)* Home description and `index.html` meta description name the track if they should
+- [ ] *(track)* Carousel, curriculum, preview and test run checked in the browser; `npm run test`, `npm run verify` and `npm run build` pass

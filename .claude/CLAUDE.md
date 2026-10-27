@@ -20,7 +20,20 @@ LESSON=use-effect npx vitest run src/verify/content.test.ts    # structure check
 
 Debug query params (before the `#`): `?debug=perf` shows the scene panel (fps, frame time, tier, particles, DPR, render mode, renderer count, `renderer.info`, motion state); `?tier=high|mid|low` forces a performance tier. Example: `http://localhost:5173/?debug=perf&tier=mid#/typescript`.
 
-No linter is configured. `tsconfig.json` excludes lesson folders (`src/content/*/**`), so lesson code is only checked by `verify`. The full architecture is documented in `ARCHITECTURE.md`; read it before touching engines, adding a track or adding a slice.
+No linter is configured. `tsconfig.json` excludes lesson folders (`src/content/*/**`), so lesson code is only checked by `verify`.
+
+## Documentation
+
+All project documentation lives in `.claude/docs/` (the root `README.md` only links to it). Read the relevant file before working in its area, and update it in the same change when you alter what it describes.
+
+| Document | Covers | Read before |
+| --- | --- | --- |
+| `.claude/docs/ARCHITECTURE.md` | frontend layers and rules, data flow, state and storage, engines, sandbox, adding a track, an engine or a UI feature, track presentation rules | touching engines, adding a track, adding or moving a slice |
+| `.claude/docs/CONTENT_GUIDE.md` | lesson file format, `track.json` fields, test globals per engine, fake REST API data, installed library versions, verification commands | writing or fixing a lesson |
+| `.claude/docs/CURRICULUM.md` | every track, its modules and lessons; `✓` marks written lessons and the rest is the backlog | adding lessons or planning a track |
+| `.claude/specs/` | the visual and motion spec (Portuguese) | changing the scene, motion or the visual system |
+
+Docs are kept honest by tests: `src/verify/curriculum.test.ts` (every written lesson is `✓` in CURRICULUM.md and every `✓` exists), `src/verify/trackPresentation.test.ts` (accent rules), `src/architecture.test.ts` (layer rules described in ARCHITECTURE.md).
 
 ## Source map
 
@@ -94,6 +107,15 @@ The visual/motion spec lives in `.claude/specs/` (Portuguese; phases 1 scene, 2 
 
 ## Writing lessons
 
-Follow `CONTENT_GUIDE.md` (file format, test globals per engine, fake API data, installed library versions) and `CURRICULUM.md` (planned modules and lessons). The verify suites enforce: the solution passes every test, the starter fails at least one, at least 2 hints separated by `---`, a non-trivial `approach.md`, theory over 200 characters, and a challenge or a quiz in every lesson. Write `meta.json` last. Check library APIs against the type definitions in `node_modules` instead of relying on memory.
+Follow `.claude/docs/CONTENT_GUIDE.md` and `.claude/docs/CURRICULUM.md`. The verify suites enforce: the solution passes every test, the starter fails at least one, at least 2 hints separated by `---`, a non-trivial `approach.md`, theory over 200 characters, a challenge or a quiz in every lesson, and a `✓` in CURRICULUM.md for every written lesson. Write `meta.json` last. Check library APIs against the type definitions in `node_modules` instead of relying on memory.
 
-When adding a track or engine, follow the checklist at the end of `ARCHITECTURE.md`. `src/verify/content.test.ts` hardcodes the list of valid engines.
+## Adding a track
+
+New tracks are coming; follow the checklist at the end of `.claude/docs/ARCHITECTURE.md`. In short, a track on an existing engine needs no UI code:
+
+1. `src/content/<id>/track.json`: `engine`, `order`, `title`, `monogram` (1–3 characters), `shortTitle` when the title is long (home backdrop word), `description`, `version`; then modules and lessons.
+2. `[data-trail='<id>']` accent rule in `src/shared/design/tokens.css`: AA on void, panel and elevated, AA under dark text, at least 30° of hue from every other accent (the amber to lime band is free). `trackPresentation.test.ts` checks it.
+3. `src/verify/<id>.test.ts` with `defineChallengeSuite`, the plan in CURRICULUM.md, new libraries registered in the engine `registry.ts` and listed in CONTENT_GUIDE.md.
+4. Name the track in the home description (`pages/home/HomePage.tsx`) and the `index.html` meta description if it should appear there.
+
+A new engine also needs the registrations listed in ARCHITECTURE.md (`sandbox/protocol.ts`, `sandbox/sandbox.ts`, `content/index.ts`, `features/lesson/monacoSetup.ts`) and its id in the engine list of `src/verify/content.test.ts`.

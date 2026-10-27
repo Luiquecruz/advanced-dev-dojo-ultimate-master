@@ -1,6 +1,6 @@
 # Content Guide
 
-Dev Dojo has these tracks: `typescript`, `react`, `react-state` (runs on the React engine), `vue`, `angular`. A track declares its engine in `track.json` (`"engine": "react"`), so several tracks can share one engine. Every lesson is a folder:
+Each track is a folder in `src/content/<track>/`; the current tracks and their plans are listed in [CURRICULUM.md](CURRICULUM.md). A track declares its engine in `track.json` (`"engine": "react"`), so several tracks can share one engine (`react-state` runs on the React engine). Every lesson is a folder:
 
 ```
 src/content/<track>/<NN-module>/<NN-lesson-id>/
@@ -25,7 +25,7 @@ All content is written in **English**.
 | `approach.md` | with challenge | "Solution path": numbered reasoning steps, without pasting the full solution |
 | `quiz.json` | optional | `[{ "question", "options": [...], "answer": <index>, "explanation" }]` (Markdown allowed) |
 | `module.json` | per module | `{ "title", "description" }` |
-| `track.json` | per track | `{ "engine", "order", "title", "description", "version" }` (the accent color lives in `src/shared/design/tokens.css`) |
+| `track.json` | per track | `{ "engine", "order", "title", "monogram", "shortTitle"?, "description", "version" }`; the accent color lives in `src/shared/design/tokens.css` (rules in [ARCHITECTURE.md](ARCHITECTURE.md#track-presentation)) |
 
 - `level`: `beginner`, `intermediate`, `advanced` or `expert`.
 - `tags`: free list. Conventions: `core`, `legacy`, `modern`, `new` (latest-version feature), `ecosystem`, `theory`, `typescript`, `performance`, `testing`.
@@ -126,7 +126,8 @@ flags: i
 npx vitest run src/verify/<track>.test.ts                      # whole track
 LESSON=use-effect npx vitest run src/verify/react.test.ts      # lessons whose id contains "use-effect"
 LESSON=use-effect npx vitest run src/verify/content.test.ts    # structure checks
+npx vitest run src/verify/curriculum.test.ts                    # CURRICULUM.md matches the written lessons
 npm run verify                                                  # everything
 ```
 
-The suites check structure (theory length, hints, approach, quiz indexes), that the solution passes every test and that the starter fails at least one.
+The suites check structure (theory length, hints, approach, quiz indexes, track monogram), that the solution passes every test, that the starter fails at least one, that every written lesson is marked `✓` in [CURRICULUM.md](CURRICULUM.md), and that every track accent meets the contrast and hue rules.
