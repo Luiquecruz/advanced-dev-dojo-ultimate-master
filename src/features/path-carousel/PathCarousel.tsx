@@ -1,9 +1,10 @@
 import clsx from 'clsx';
-import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type MouseEvent } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent, type MouseEvent, type PointerEvent } from 'react';
 import { flushSync } from 'react-dom';
 import type { Track } from '@/content';
-import { ChevronLeftIcon, ChevronRightIcon } from '@/shared/ui/icons';
-import { buttonClass, iconButtonClass } from '@/shared/ui/classNames';
+import { summarizeTrack, useProgress } from '@/entities/progress';
+import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@/shared/ui/icons';
+import { buttonClass } from '@/shared/ui/classNames';
 import { bindCarouselDrag } from '@/shared/motion/carousel';
 import { PathCard } from './PathCard';
 import { useTiltGroup } from './useTiltGroup';
@@ -15,6 +16,8 @@ interface PathCarouselProps {
 }
 
 const STAGE_HEIGHT_PX = 660;
+const ARROW_CLASS =
+  'group/arrow absolute top-1/2 z-20 grid h-14 w-14 -translate-y-1/2 place-items-center text-ink-faint transition-colors duration-(--dur-base) hover:text-accent focus-visible:text-accent max-wide:hidden';
 const ENTER_BASE_DELAY_MS = 260;
 const ENTER_STEP_MS = 120;
 
@@ -29,7 +32,8 @@ function circularOffset(index: number, active: number, count: number): number {
 
 /**
  * 3D carousel of the learning paths: the active card faces the viewer, the neighbours recede at an angle. Navigates by
- * swipe or drag, keyboard arrows, the side buttons, the dots or a click beside the active card. Only the active slide
+ * swipe or drag, keyboard arrows, the side arrows, the progress segments or a click beside the active card (the cursor
+ * turns into a prev/next arrow there). Only the active slide
  * receives pointer events and is exposed to assistive technology. The 3D containers (stage, slides) never take part in
  * hit-testing: they are coplanar with the cards, and coplanar 3D planes hit-test unpredictably (it varies with the
  * perspective, the fit scale and the window size), which swallowed clicks on the card buttons.
@@ -45,6 +49,8 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
   const [fit, setFit] = useState(1);
   const { gyroSupported, gyroStatus, toggleGyro } = useTiltGroup(viewportRef);
   const count = tracks.length;
+  const state = useProgress();
+  const percents = useMemo(() => tracks.map((track) => summarizeTrack(track, state).percent), [tracks, state]);
   activeRef.current = active;
   const go = (index: number) => onActiveChange(wrapIndex(index, count));
 
@@ -68,16 +74,30 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
     });
   }, [count, onActiveChange]);
 
-  const onViewportClick = (event: MouseEvent) => {
+  const sideOf = (clientX: number, target: EventTarget): 'prev' | 'next' | undefined => {
     const activeSlide = stageRef.current!.querySelector<HTMLElement>('[data-slide-active]')!;
-    if (activeSlide.contains(event.target as Node)) {
-      return;
+    if (activeSlide.contains(target as Node)) {
+      return undefined;
     }
     const rect = activeSlide.getBoundingClientRect();
-    if (event.clientX < rect.left) {
-      go(active - 1);
-    } else if (event.clientX > rect.right) {
-      go(active + 1);
+    return clientX < rect.left ? 'prev' : clientX > rect.right ? 'next' : undefined;
+  };
+
+  const onViewportClick = (event: MouseEvent) => {
+    const side = sideOf(event.clientX, event.target);
+    if (side) {
+      go(side === 'prev' ? active - 1 : active + 1);
+    }
+  };
+
+  const onViewportPointerMove = (event: PointerEvent) => {
+    const side = event.pointerType === 'mouse' ? sideOf(event.clientX, event.target) : undefined;
+    if (viewportRef.current!.dataset.side !== side) {
+      if (side) {
+        viewportRef.current!.dataset.side = side;
+      } else {
+        delete viewportRef.current!.dataset.side;
+      }
     }
   };
 
@@ -91,8 +111,14 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
 
   return (
     <section aria-roledescription="carousel" aria-label="Learning paths" onKeyDown={onKeyDown} className="relative flex h-full min-h-0 flex-col">
-      <div className="relative min-h-0 flex-1 max-wide:-mx-4">
-        <div ref={viewportRef} onClick={onViewportClick} className="absolute inset-0 touch-pan-y overflow-x-clip mask-x-from-88% mask-x-to-100% max-wide:mask-x-from-92%">
+      <div className="relative min-h-0 flex-1 max-wide:-mx-4 max-wide:max-h-[660px]">
+        <div
+          ref={viewportRef}
+          onClick={onViewportClick}
+          onPointerMove={onViewportPointerMove}
+          onPointerLeave={() => delete viewportRef.current!.dataset.side}
+          className="absolute inset-0 touch-pan-y overflow-x-clip mask-x-from-88% mask-x-to-100% data-[side=next]:cursor-next data-[side=prev]:cursor-prev max-wide:mask-x-from-92%"
+        >
           <div
             ref={stageRef}
             className="pointer-events-none absolute top-1/2 left-0 h-[660px] w-full -translate-y-1/2 touch-pan-y perspective-(--persp) transform-3d select-none [--card-width:400px] [--slide-angle:32deg] [--slide-depth:260px] [--slide-spacing:380px] max-wide:[--card-width:min(86vw,360px)] max-wide:[--slide-angle:22deg] max-wide:[--slide-depth:170px] max-wide:[--slide-spacing:74vw]"
@@ -125,19 +151,11 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
           </div>
         </div>
 
-        <button
-          className={iconButtonClass(false, 'absolute top-1/2 left-0 z-20 -translate-y-1/2 border-line-strong! bg-void/70 max-wide:hidden')}
-          onClick={() => go(active - 1)}
-          aria-label={`Previous path: ${tracks[wrapIndex(active - 1, count)].title}`}
-        >
-          <ChevronLeftIcon />
+        <button className={clsx(ARROW_CLASS, 'left-0 cursor-prev')} onClick={() => go(active - 1)} aria-label={`Previous path: ${tracks[wrapIndex(active - 1, count)].title}`}>
+          <ArrowLongLeftIcon className="transition-transform duration-(--dur-base) ease-out group-hover/arrow:-translate-x-1.5" />
         </button>
-        <button
-          className={iconButtonClass(false, 'absolute top-1/2 right-0 z-20 -translate-y-1/2 border-line-strong! bg-void/70 max-wide:hidden')}
-          onClick={() => go(active + 1)}
-          aria-label={`Next path: ${tracks[wrapIndex(active + 1, count)].title}`}
-        >
-          <ChevronRightIcon />
+        <button className={clsx(ARROW_CLASS, 'right-0 cursor-next')} onClick={() => go(active + 1)} aria-label={`Next path: ${tracks[wrapIndex(active + 1, count)].title}`}>
+          <ArrowLongRightIcon className="transition-transform duration-(--dur-base) ease-out group-hover/arrow:translate-x-1.5" />
         </button>
       </div>
 
@@ -147,17 +165,19 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
             <button
               key={track.id}
               data-trail={track.id}
-              aria-label={`Show ${track.title}`}
+              aria-label={`Show ${track.title}, ${percents[index]}% complete`}
               aria-current={index === active || undefined}
               onClick={() => go(index)}
-              className="group/dot grid h-6 min-w-6 cursor-pointer place-items-center rounded-full px-1"
+              className="group/segment grid h-6 cursor-pointer place-items-center px-0.5"
             >
               <span
                 className={clsx(
-                  'block h-2 rounded-full transition-[width,background-color] duration-(--dur-base) ease-out',
-                  index === active ? 'w-7 bg-accent' : 'w-2 bg-line-strong group-hover/dot:bg-ink-faint',
+                  'relative block overflow-hidden rounded-full transition-[width,height,background-color] duration-(--dur-base) ease-out',
+                  index === active ? 'h-0.5 w-12 bg-accent/30' : 'h-px w-7 bg-line-strong group-hover/segment:bg-ink-faint',
                 )}
-              />
+              >
+                <span className="absolute inset-y-0 left-0 bg-accent transition-[width] duration-(--dur-expand) ease-out" style={{ width: `${percents[index]}%` }} />
+              </span>
             </button>
           ))}
         </div>

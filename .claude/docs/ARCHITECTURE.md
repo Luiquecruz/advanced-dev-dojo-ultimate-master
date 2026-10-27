@@ -143,7 +143,7 @@ Most new tracks do not need a new engine. `react-state` (React State Management)
 3. **Accent**: a `[data-trail='<track-id>']` rule in `src/shared/design/tokens.css` (see [Track presentation](#track-presentation)).
 4. **Verification suite**: `src/verify/<track-id>.test.ts` calling `defineChallengeSuite('<track-id>', reactAdapter)`.
 5. **Plan and guide**: add the module and lesson plan to [CURRICULUM.md](CURRICULUM.md) (written lessons get `✓`) and list new libraries in [CONTENT_GUIDE.md](CONTENT_GUIDE.md).
-6. **Copy that names the tracks**: update the track list in the home description (`src/pages/home/HomePage.tsx`) and the `<meta name="description">` in `index.html` when the new track should be named there.
+6. **Copy that names the tracks**: update the `<meta name="description">` in `index.html` when the new track should be named there.
 
 No change is needed in the runner, sandbox, loader, pages or features: they read `track.engine`, and the home carousel, curriculum, progress, stats, logo and ambient scene pick the track up from `track.json` and its accent rule.
 
@@ -269,5 +269,5 @@ For a track on an existing engine, only the items marked *(track)* apply.
 - [ ] *(track)* `[data-trail]` accent rule in `tokens.css` passing `src/verify/trackPresentation.test.ts`
 - [ ] *(track)* `src/verify/<track>.test.ts`
 - [ ] *(track)* `CURRICULUM.md` plan with `✓` on written lessons (`src/verify/curriculum.test.ts`), new libraries in `CONTENT_GUIDE.md`
-- [ ] *(track)* Home description and `index.html` meta description name the track if they should
+- [ ] *(track)* `index.html` meta description names the track if it should
 - [ ] *(track)* Carousel, curriculum, preview and test run checked in the browser; `npm run test`, `npm run verify` and `npm run build` pass

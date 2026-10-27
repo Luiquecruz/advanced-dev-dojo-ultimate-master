@@ -91,3 +91,18 @@ export const ChartIcon = (props: IconProps) => (
     <line x1="18" y1="20" x2="18" y2="4" />
   </svg>
 );
+
+const longArrow = { width: 40, height: 24, viewBox: '0 0 40 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.25, strokeLinecap: 'round', strokeLinejoin: 'round' } as const;
+
+export const ArrowLongLeftIcon = (props: IconProps) => (
+  <svg {...longArrow} {...props}>
+    <line x1="38" y1="12" x2="3" y2="12" />
+    <polyline points="10 5 3 12 10 19" />
+  </svg>
+);
+export const ArrowLongRightIcon = (props: IconProps) => (
+  <svg {...longArrow} {...props}>
+    <line x1="2" y1="12" x2="37" y2="12" />
+    <polyline points="30 5 37 12 30 19" />
+  </svg>
+);
