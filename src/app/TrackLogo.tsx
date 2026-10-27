@@ -1,6 +1,6 @@
 import type { Track } from '../content';
 
-const LABELS: Record<string, string> = { typescript: 'TS', react: '⚛', vue: 'V', angular: 'A', 'react-state': 'S' };
+const LABELS: Record<string, string> = { typescript: 'TS', react: 'R', vue: 'V', angular: 'A', 'react-state': 'S' };
 
 /**
  * Monogram logo of a track, tinted with the track accent.
