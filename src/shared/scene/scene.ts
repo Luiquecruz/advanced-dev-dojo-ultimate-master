@@ -11,10 +11,10 @@ interface StateTarget {
 }
 
 const STATE_TARGETS: Record<SceneState, StateTarget> = {
-  intro: { speed: 1, brightness: 1, distance: 8 },
-  explorer: { speed: 0.75, brightness: 0.85, distance: 8 },
-  curriculum: { speed: 0.45, brightness: 0.7, distance: 8 },
-  activity: { speed: 0.2, brightness: 0.55, distance: 8 * 0.94 },
+  intro: { speed: 0.6, brightness: 1, distance: 8 },
+  explorer: { speed: 0.45, brightness: 0.85, distance: 8 },
+  curriculum: { speed: 0.3, brightness: 0.7, distance: 8 },
+  activity: { speed: 0.15, brightness: 0.55, distance: 8 * 0.94 },
 };
 
 const CAMERA_FIELD_OF_VIEW = 60;

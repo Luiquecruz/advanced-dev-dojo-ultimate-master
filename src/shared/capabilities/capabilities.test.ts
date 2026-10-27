@@ -22,6 +22,6 @@ describe('profileFor', () => {
   });
 
   it('caps the pixel ratio and uses the CSS grid on the low tier', () => {
-    expect(profileFor('low', false)).toEqual({ particles: 800, maxPixelRatio: 1, grid: 'css' });
+    expect(profileFor('low', false)).toEqual({ particles: 600, maxPixelRatio: 1, grid: 'css' });
   });
 });

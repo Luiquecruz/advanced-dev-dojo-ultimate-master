@@ -12,10 +12,9 @@
 
 @utility bg-ambient-grid {
   background-image:
-    linear-gradient(color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: linear-gradient(to top, black, transparent 65%);
+    repeating-radial-gradient(ellipse 120% 40% at 50% 78%, transparent 0 84px, color-mix(in srgb, var(--accent) 10%, transparent) 86px, transparent 88px 90px),
+    repeating-conic-gradient(from 0deg at 50% 78%, transparent 0deg, color-mix(in srgb, var(--accent) 7%, transparent) 0.2deg 0.45deg, transparent 0.65deg 22.5deg);
+  mask-image: radial-gradient(ellipse 90% 55% at 50% 78%, black 20%, transparent 75%);
 }
 
 @utility tilt-surface {
