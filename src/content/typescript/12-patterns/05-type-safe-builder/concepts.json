@@ -1,0 +1,8 @@
+[
+  { "term": "Builder", "description": "An object that assembles a complex value step by step and returns it from `build()`." },
+  { "term": "Type-state", "description": "Encoding an object's state in its type, so methods are only callable in valid states and invalid sequences fail to compile." },
+  { "term": "Phantom type parameter", "description": "A type parameter no member uses. Structural typing ignores it, so it gives no protection: make it appear in a member signature." },
+  { "term": "Conditional rest parameter", "description": "`build(...args: Ready extends true ? [] : [missing: 'Missing step: url'])`: the call compiles only in the right state and the error names what is missing." },
+  { "term": "Non-distributive conditional", "description": "`[X] extends [never] ? A : B` wraps the checked type in a tuple so a union is tested as a whole instead of member by member." },
+  { "term": "Immutable step", "description": "Each step returns a new builder with copied state, so earlier builders keep their type and value and can be safely reused as bases." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Dependency injection", "description": "A class receives its collaborators (usually through the constructor) instead of creating them, so implementations can be swapped and faked in tests." },
+  { "term": "Composition root", "description": "The single place at the application edge where the object graph is wired, by hand or with a container." },
+  { "term": "Container", "description": "A registry of factories that builds services and their dependencies on demand." },
+  { "term": "Lifetime", "description": "How long an instance lives: singleton (one per container), transient (new per resolve) or scoped (one per request)." },
+  { "term": "Service locator", "description": "Anti-pattern where business code calls `container.resolve` itself, hiding its dependencies." },
+  { "term": "Growing type parameter", "description": "`register` returns `Container<Services & { [P in K]: T }>`, so the services map type gains one key per registration." }
+]

@@ -1,0 +1,10 @@
+{
+  "title": "Type-safe builder",
+  "summary": "Build a type-state builder: required steps tracked in a type parameter, build() gated until they run, steps that depend on earlier choices, and immutable chaining.",
+  "level": "expert",
+  "tags": ["modern"],
+  "resources": [
+    { "label": "TypeScript Handbook: Conditional Types", "url": "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html" },
+    { "label": "TypeScript Handbook: Template Literal Types", "url": "https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html" }
+  ]
+}

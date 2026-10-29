@@ -1,0 +1,26 @@
+[
+  {
+    "question": "A domain class receives the container and calls `container.resolve('mailer')` inside its methods. What is the problem?",
+    "options": ["Nothing, this is how containers are meant to be used", "It is the service locator anti-pattern: dependencies are hidden and tests must build a container", "Resolving in methods is slower than in constructors", "Containers cannot be passed as arguments"],
+    "answer": 1,
+    "explanation": "Inject collaborators through the constructor and resolve only at the composition root. Hidden dependencies make code harder to read, reuse and test."
+  },
+  {
+    "question": "A singleton `RequestContext` stores the current user. What happens under concurrent requests?",
+    "options": ["Each request gets its own copy automatically", "Node.js isolates each request in its own thread", "The container throws because singletons cannot hold state", "Requests overwrite each other's user: request data needs a scoped (per-request) lifetime"],
+    "answer": 3,
+    "explanation": "One process serves many requests at once. Per-request data belongs in a scoped lifetime (or AsyncLocalStorage), never in a singleton."
+  },
+  {
+    "question": "Why can't the typed container in this lesson express a dependency cycle?",
+    "options": ["Each factory's resolver is typed with the services registered before it, so a service cannot depend on a later one", "It detects cycles at runtime with a stack", "Cycles are allowed only for transients", "TypeScript forbids recursive types"],
+    "answer": 0,
+    "explanation": "Dependencies must already be in the map when a factory is registered. A cycle would require registering both services before each other, which the types reject."
+  },
+  {
+    "question": "When is manual wiring in a composition root a better choice than a container?",
+    "options": ["Never, containers are always better", "Only when using decorators", "For most small and medium services: it is explicit, fully typed and has no extra concepts", "Only in frontend code"],
+    "answer": 2,
+    "explanation": "A container pays off with large graphs, varied lifetimes or plugin registration. Otherwise a function that builds the graph by hand is simpler and just as testable."
+  }
+]

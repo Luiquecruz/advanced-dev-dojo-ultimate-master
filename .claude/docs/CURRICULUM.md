@@ -38,7 +38,7 @@ Folder plan for every track. `✓` = written (the lesson folder exists with a `m
 01-es-modules-and-type-imports **(quiz)** ✓ · 02-declaration-files **(quiz)** ✓ · 03-tsconfig-and-ts6-defaults **(quiz)** ✓ · 04-module-resolution **(quiz)** ✓ · 05-typescript-7-native-compiler **(quiz)** ✓ · 06-type-stripping-and-erasable-syntax **(quiz)** ✓
 
 ### 12-patterns — Decorators and Real-World Patterns
-01-standard-decorators ✓ · 02-legacy-experimental-decorators **(quiz)** ✓ · 03-branded-types ✓ · 04-type-safe-event-emitter ✓ · 05-type-safe-builder · 06-dependency-injection-container
+01-standard-decorators ✓ · 02-legacy-experimental-decorators **(quiz)** ✓ · 03-branded-types ✓ · 04-type-safe-event-emitter ✓ · 05-type-safe-builder ✓ · 06-dependency-injection-container ✓
 
 ## React (`src/content/react`) — complete: 100 lessons, every challenge verified in jsdom and in Chrome
 

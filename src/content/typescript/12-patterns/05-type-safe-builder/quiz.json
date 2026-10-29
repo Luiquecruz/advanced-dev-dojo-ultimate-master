@@ -1,0 +1,35 @@
+[
+  {
+    "question": "`class Builder<Done extends 'url' | 'method' = never>` has `url(): Builder<Done | 'url'>`, `method(): Builder<Done | 'method'>` and `build(this: Builder<'url' | 'method'>)`. Why does `new Builder().url().build()` compile?",
+    "options": [
+      "`this` parameters are ignored on classes",
+      "`Done` only appears in return types, so the class is covariant in it: `Builder<'url'>` is assignable to `Builder<'url' | 'method'>`",
+      "Default type parameters disable checks",
+      "`build` needs an explicit return type"
+    ],
+    "answer": 1,
+    "explanation": "A builder with fewer completed steps has a smaller union, and a covariant class accepts it where a larger union is expected. Gate on the missing steps instead: `[Exclude<Step, Done>] extends [never] ? [] : [missing: ...]`."
+  },
+  {
+    "question": "Why wrap the check in a tuple: `[Missing<Done>] extends [never] ? [] : [...]`?",
+    "options": [
+      "Tuples compile faster",
+      "Without the wrapper, a conditional on a union distributes per member, and `never` distributes to `never`, breaking the result",
+      "It is required syntax for rest parameters",
+      "It makes the type readonly"
+    ],
+    "answer": 1,
+    "explanation": "Distributive conditionals map over union members; over `never` they return `never`. Wrapping both sides in a tuple tests the union as a whole."
+  },
+  {
+    "question": "Your team needs `createUser({ name, email, role? })` with three fields and no ordering rules. Which design fits best?",
+    "options": [
+      "A type-state builder with four type parameters",
+      "An options object with a precise interface",
+      "A mutable builder returning `this`",
+      "A class with setters"
+    ],
+    "answer": 1,
+    "explanation": "Type-state pays off when steps are required or depend on earlier choices. For a flat set of fields, a typed options object is simpler and gives better autocomplete."
+  }
+]

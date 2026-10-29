@@ -1,0 +1,10 @@
+{
+  "title": "Dependency injection container",
+  "summary": "Build a typed DI container: a services map that grows with each registration, factories that can only use earlier services, duplicate keys rejected at compile time, and singleton vs transient lifetimes.",
+  "level": "expert",
+  "tags": ["modern"],
+  "resources": [
+    { "label": "Awilix: function-based DI for Node.js", "url": "https://github.com/jeffijoe/awilix" },
+    { "label": "Angular: Dependency injection", "url": "https://angular.dev/guide/di" }
+  ]
+}
