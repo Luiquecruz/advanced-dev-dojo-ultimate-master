@@ -1,0 +1,8 @@
+[
+  { "term": "Express", "description": "The original Node.js web framework: `(req, res, next)` middleware on `node:http`. Huge ecosystem; Express 5 handles rejected promises." },
+  { "term": "Fastify", "description": "Performance-focused Node framework with JSON Schema validation and serialization per route, pino logging and encapsulated plugins." },
+  { "term": "Hono", "description": "Web Standards framework (`Request` → `Response`) that runs on Node, Bun, Deno, Workers and serverless, with strong TypeScript inference and an RPC client." },
+  { "term": "NestJS", "description": "Opinionated framework with modules, controllers, providers and dependency injection via decorators, inspired by Angular." },
+  { "term": "Route handlers", "description": "File-based API endpoints inside a meta-framework (Next.js `route.ts`, Nuxt `server/api`, SvelteKit `+server.ts`) deployed with the frontend." },
+  { "term": "Runtime adapter", "description": "Glue that connects a Fetch-style app to a platform, such as `@hono/node-server` for Node.js." }
+]

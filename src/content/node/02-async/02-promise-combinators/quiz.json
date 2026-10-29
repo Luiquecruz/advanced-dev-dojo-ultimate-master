@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A handler does `const a = await getA(); const b = await getB();`. `getA` takes 200 ms, `getB` 300 ms, and they are independent. How long does it take, and how long with `Promise.all`?",
+    "options": [
+      "300 ms both ways: Node runs awaits in parallel",
+      "500 ms sequentially, about 300 ms with `Promise.all`",
+      "200 ms sequentially, 500 ms with `Promise.all`",
+      "500 ms both ways: Node has one thread"
+    ],
+    "answer": 1,
+    "explanation": "Each `await` waits before the next call starts. Starting both first lets the waits overlap; one thread is enough because waiting for I/O does not use it."
+  },
+  {
+    "question": "A checkout sends a receipt email, an analytics event and a CRM update after payment. Any of them may fail without affecting the others, and failures must be logged. Which combinator fits?",
+    "options": [
+      "`Promise.all`",
+      "`Promise.race`",
+      "`Promise.allSettled`",
+      "`Promise.any`"
+    ],
+    "answer": 2,
+    "explanation": "The jobs are independent and you need every outcome. `all` would reject on the first failure and hide the others; `race` and `any` stop caring after one result."
+  },
+  {
+    "question": "`await Promise.race([fetchReport(), timeout(2000)])` rejects after 2 s. What happens to `fetchReport()`?",
+    "options": [
+      "It is cancelled automatically",
+      "It keeps running in the background and its result is ignored, unless it receives an `AbortSignal` that the timeout aborts",
+      "Node throws an error inside it",
+      "It is retried"
+    ],
+    "answer": 1,
+    "explanation": "Promises cannot be cancelled. The losing operation still consumes connections and CPU. Pass an `AbortSignal` (covered in the cancellation lesson) to actually stop it."
+  },
+  {
+    "question": "An assistant generates `await Promise.all(userIds.map((id) => db.findUser(id)))` for an admin export where `userIds` can contain 50 000 ids. What is the main review concern?",
+    "options": [
+      "It should use `Promise.any`",
+      "`map` does not work with async functions",
+      "Nothing: `Promise.all` queues the calls automatically",
+      "Unbounded concurrency: 50 000 queries start at once and can exhaust the connection pool. Use a concurrency limit or one batched query"
+    ],
+    "answer": 3,
+    "explanation": "`Promise.all` does not limit anything: every call has already started when `map` returns. Batch the query (`WHERE id IN (...)`) or limit concurrency."
+  }
+]

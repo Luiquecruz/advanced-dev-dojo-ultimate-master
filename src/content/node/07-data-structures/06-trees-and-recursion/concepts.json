@@ -1,0 +1,9 @@
+[
+  { "term": "Adjacency list", "description": "Storing a tree as flat rows where each row has a `parentId`. The default model in relational databases." },
+  { "term": "Root and leaf", "description": "A root has no parent (`parentId: null`); a leaf has no children. Orphans are nodes whose parent is missing." },
+  { "term": "Base case", "description": "The input a recursive function answers without calling itself (a leaf). Without it, recursion never ends." },
+  { "term": "Call stack limit", "description": "V8 throws `RangeError: Maximum call stack size exceeded` after roughly ten thousand nested calls, so recursion depth must be bounded." },
+  { "term": "Explicit stack", "description": "An array used instead of recursion: push children, pop to visit. Same depth-first order, limited only by heap memory." },
+  { "term": "Pre-order traversal", "description": "Depth-first order that visits a node before its children: the order of an indented comment thread." },
+  { "term": "Recursive CTE", "description": "SQL `WITH RECURSIVE` query that walks a parent-child table inside the database." }
+]

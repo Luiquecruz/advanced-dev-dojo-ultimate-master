@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A download proxy uses `upstream.pipe(gunzip).pipe(res)`. When the upstream sends corrupted gzip data, the request hangs and file descriptors pile up. What is the fix?",
+    "options": ["Add `res.setTimeout`", "Use `await pipeline(upstream, gunzip, res)`, which destroys every stream on error and rejects once", "Call `.pipe()` with `{ end: false }`", "Wrap the line in `try/catch`"],
+    "answer": 1,
+    "explanation": "`.pipe()` does not forward errors or clean up other streams. `pipeline` propagates the first error and destroys the whole chain; `try/catch` cannot catch events."
+  },
+  {
+    "question": "A custom transform validates rows and, for invalid ones, just `return`s without calling `callback`. What happens?",
+    "options": ["The row is skipped and processing continues", "The stream throws", "The stream stalls: no more chunks are processed and the pipeline never settles", "The row is pushed unchanged"],
+    "answer": 2,
+    "explanation": "Each `transform` call must call `callback` exactly once. To skip a row call `callback()` with no value; to fail call `callback(error)`."
+  },
+  {
+    "question": "An import endpoint converts a 2 GB CSV and fails on a bad row near the end. Consumers must never read a half-written output file. Which design meets that?",
+    "options": ["Write to a temporary file and `rename` it over the target only after `pipeline` resolves", "Write directly to the target and log the error", "Increase `highWaterMark` so it fails earlier", "Use `.pipe()` so the output is closed automatically"],
+    "answer": 0,
+    "explanation": "Streams write as they go, so failures leave partial output. Atomic rename (or deleting the output on failure) keeps consumers from seeing it."
+  }
+]

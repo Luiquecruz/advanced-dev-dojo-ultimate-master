@@ -1,0 +1,10 @@
+{
+  "title": "Heaps and Priority Queues",
+  "summary": "Implement a binary heap with a comparator for a delayed-job scheduler, take due jobs in order, and compute top K over a stream in O(n log k) without sorting everything.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "Wikipedia: Binary heap", "url": "https://en.wikipedia.org/wiki/Binary_heap" },
+    { "label": "MDN: Array.prototype.sort (comparators)", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort" }
+  ]
+}

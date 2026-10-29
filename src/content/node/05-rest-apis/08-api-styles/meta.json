@@ -1,0 +1,11 @@
+{
+  "title": "API Styles",
+  "summary": "REST, GraphQL, typed RPC, gRPC, WebSockets, SSE and webhooks compared by clients, data direction and costs, with a decision guide.",
+  "level": "intermediate",
+  "tags": ["theory", "architecture"],
+  "resources": [
+    { "label": "GraphQL: Introduction", "url": "https://graphql.org/learn/" },
+    { "label": "Hono docs: RPC", "url": "https://hono.dev/docs/guides/rpc" },
+    { "label": "gRPC: Introduction", "url": "https://grpc.io/docs/what-is-grpc/introduction/" }
+  ]
+}

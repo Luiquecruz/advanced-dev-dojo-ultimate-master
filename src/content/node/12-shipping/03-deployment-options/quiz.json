@@ -1,0 +1,38 @@
+[
+  {
+    "question": "A two-person team ships a Hono API with Postgres and steady moderate traffic. They want HTTPS, logs, rollbacks and minimal ops. Which option fits best?",
+    "options": ["A self-managed Kubernetes cluster", "A PaaS or managed container platform (Render, Railway, Fly.io, Cloud Run) running a Docker image", "Bare metal servers in a colocation center", "Edge functions with the database on each edge node"],
+    "answer": 1,
+    "explanation": "Managed platforms give the production basics with almost no operations work. Kubernetes and bare metal add ops the team cannot afford."
+  },
+  {
+    "question": "A Cloudflare Workers deploy fails with errors about `fs` and `net` after an AI added a PDF library. Why?",
+    "options": ["Workers require CommonJS", "The library needs a newer TypeScript", "Workers block all npm packages", "Edge runtimes expose Web-standard APIs, not the full Node API, so Node-only libraries do not run there"],
+    "answer": 3,
+    "explanation": "Edge runtimes support a subset (with partial Node compatibility layers). Check that dependencies are runtime-agnostic, or move the work to a Node container."
+  },
+  {
+    "question": "Nightly report generation takes 8 minutes. Where should it run?",
+    "options": ["In an API route handler on the serverless function", "In an edge function", "In a worker container or job runner fed by a queue or scheduler", "In the browser of the admin user"],
+    "answer": 2,
+    "explanation": "Functions have execution limits and request handlers should stay fast. Long work belongs to a worker process triggered by a queue or cron."
+  },
+  {
+    "question": "Which Dockerfile line causes graceful shutdown to be skipped on deploys?",
+    "options": ["`CMD [\"npm\", \"start\"]` instead of running `node` directly", "`USER node`", "`RUN npm ci`", "`FROM node:24-slim`"],
+    "answer": 0,
+    "explanation": "`npm` may not forward `SIGTERM` to the child process, so the app is killed without draining requests. Run `node` as the main process (or use an init like tini)."
+  },
+  {
+    "question": "During a rolling deploy, the new version renames a column. Old instances still running start failing. What is the safe approach?",
+    "options": ["Deploy at night", "Expand and contract: add the new column, deploy code that writes both, backfill, then remove the old column in a later release", "Stop all instances, migrate, then start the new version", "Rename the column in the ORM model only"],
+    "answer": 1,
+    "explanation": "Migrations must stay compatible with the previous version during a rollout. Expand-contract keeps both versions working at every step."
+  },
+  {
+    "question": "Why do many teams pick Hono when they are unsure of the final deployment target?",
+    "options": ["It compiles to a native binary", "It includes a database", "It is built on the Fetch API, so the same app runs on Node, Bun, Deno, Lambda and Cloudflare Workers with a small adapter", "It only runs on Vercel"],
+    "answer": 2,
+    "explanation": "Web-standard `Request`/`Response` handlers are portable. Only the entry point changes between targets."
+  }
+]

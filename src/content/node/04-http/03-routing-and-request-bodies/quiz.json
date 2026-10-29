@@ -1,0 +1,26 @@
+[
+  {
+    "question": "A hand-written JSON endpoint concatenates every chunk of `req` into a string and calls `JSON.parse`. What is the most serious problem?",
+    "options": ["String concatenation is slow for small bodies", "There is no size limit: one client can send gigabytes and exhaust the server's memory", "JSON.parse cannot read strings", "Chunks arrive out of order"],
+    "answer": 1,
+    "explanation": "Unbounded bodies are a denial-of-service vector. Count bytes while reading and answer `413` past the limit (plus decode once to keep multi-byte characters intact)."
+  },
+  {
+    "question": "The route `GET /orders/:id` exists. A client sends `DELETE /orders/5`. What is the most accurate response?",
+    "options": ["`404 Not Found`", "`400 Bad Request`", "`405 Method Not Allowed` with `Allow: GET`", "`500 Internal Server Error`"],
+    "answer": 2,
+    "explanation": "The resource exists; the method does not. `405` with `Allow` tells the client exactly what it can do instead."
+  },
+  {
+    "question": "An assistant's error handler does `res.status(500).json({ error: err.message, stack: err.stack })`. What should the review say?",
+    "options": ["Good, it helps the frontend debug", "Remove the stack but keep the message", "Fine in production if the API is internal", "Log the error server-side and send a generic message; internal messages and stacks leak implementation details"],
+    "answer": 3,
+    "explanation": "Messages from databases and libraries reveal hosts, tables, paths and versions. Expected errors carry safe messages via a typed error; unexpected ones get a generic 500."
+  },
+  {
+    "question": "`JSON.parse(body)` succeeds. Is the request valid?",
+    "options": ["Only syntactically: the fields still need validation (types, required values), answered with 400 or 422 when wrong", "Yes, parsing proves it matches the expected type", "Yes, if the TypeScript type annotation says so", "Only if `Content-Length` is present"],
+    "answer": 0,
+    "explanation": "`JSON.parse` returns `any`-shaped data. Type annotations do not check runtime values; validate with code or a schema library like Zod."
+  }
+]

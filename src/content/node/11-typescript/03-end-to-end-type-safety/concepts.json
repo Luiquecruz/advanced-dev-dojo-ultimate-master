@@ -1,0 +1,9 @@
+[
+  { "term": "End-to-end type safety", "description": "Client types derived from the server's code or contract, so breaking API changes become compile errors in the frontend." },
+  { "term": "AppType", "description": "`export type AppType = typeof app` of a chained Hono app: carries every route's inputs and outputs for the RPC client." },
+  { "term": "hc", "description": "Hono's RPC client from `hono/client`: `hc<AppType>(baseUrl, { fetch? })` exposes routes as typed methods (`client.todos.$post({ json })`)." },
+  { "term": "Shared schema", "description": "A Zod schema imported by both server (request validation) and client (form validation), so both enforce the same rules." },
+  { "term": "import type", "description": "Imports only types; erased at compile time, so server code never reaches the client bundle." },
+  { "term": "Status narrowing", "description": "Checking `response.status === 201` narrows the type of `response.json()` to the body returned with that status." },
+  { "term": "OpenAPI codegen", "description": "Generating typed clients from an OpenAPI document, the cross-language alternative to RPC types." }
+]

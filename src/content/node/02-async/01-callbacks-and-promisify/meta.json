@@ -1,0 +1,10 @@
+{
+  "title": "Callbacks and promisify",
+  "summary": "The error-first callback convention, its classic bugs, and how to bridge callback APIs to async/await by writing promisify yourself.",
+  "level": "intermediate",
+  "tags": ["core", "legacy", "modern"],
+  "resources": [
+    { "label": "Node.js docs: util.promisify", "url": "https://nodejs.org/api/util.html#utilpromisifyoriginal" },
+    { "label": "Node.js guide: JavaScript Asynchronous Programming and Callbacks", "url": "https://nodejs.org/en/learn/asynchronous-work/javascript-asynchronous-programming-and-callbacks" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "HTTPException", "description": "From `hono/http-exception`: an error with a `status` and `message` for the HTTP layer (validation, auth). Hono's default handler turns it into a response." },
+  { "term": "app.onError", "description": "One handler for everything thrown in routes and middleware. Maps error classes to status codes and the API's error shape." },
+  { "term": "app.notFound", "description": "Handler for requests that matched no route. Customize it so 404s share the API's JSON error shape." },
+  { "term": "Domain error", "description": "An `Error` subclass thrown by business code (`NotFoundError`, `InsufficientFundsError`) that knows nothing about HTTP." },
+  { "term": "Information leakage", "description": "Error responses that expose stack traces, SQL, hostnames or secrets. Unknown errors must answer a generic 500 and be logged instead." },
+  { "term": "unhandledRejection", "description": "Emitted for a rejected promise nobody awaited. Since Node 15 it crashes the process by default." }
+]

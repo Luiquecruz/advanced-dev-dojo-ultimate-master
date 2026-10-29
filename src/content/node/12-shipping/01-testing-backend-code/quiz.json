@@ -1,0 +1,32 @@
+[
+  {
+    "question": "Your repository uses hand-written SQL with a unique constraint on `email`. Which test gives real confidence that a duplicate signup returns 409?",
+    "options": ["A unit test with a mocked repository that throws a fake error", "A snapshot test of the SQL string", "An integration test against Postgres started with Testcontainers, sending two signups through `app.request`", "A coverage report above 90%"],
+    "answer": 2,
+    "explanation": "Only a real database enforces the constraint and returns the real error your code must map to 409. A mock just confirms your assumption."
+  },
+  {
+    "question": "An AI-generated test computes `expected = items.reduce((s, i) => s + i.price * i.qty, 0)` and compares it with `cartTotal(items)`. What is wrong?",
+    "options": ["It recomputes the answer with the same logic as the code, so a shared mistake passes; use a literal expected value", "`reduce` is not allowed in tests", "It should use a snapshot instead", "Nothing, it is a thorough test"],
+    "answer": 0,
+    "explanation": "Tautological tests mirror the implementation. A literal value (`expect(total).toBe(2547)`) is an independent statement of correctness."
+  },
+  {
+    "question": "A test for 'tokens expire after 1 hour' sometimes fails in CI. The code calls `Date.now()` internally. Best fix?",
+    "options": ["Retry the test three times", "Increase the timeout", "Inject a clock (`now: () => number`) and pass fixed times in the test", "Run tests serially"],
+    "answer": 2,
+    "explanation": "Hidden time dependence makes tests flaky. Injecting the clock makes the test deterministic and lets you test the exact boundary."
+  },
+  {
+    "question": "Which use of mocks is the most appropriate?",
+    "options": ["Mock the ORM's internal query builder methods and assert each call", "Spy on your `Mailer.send` interface to verify the welcome email is sent once", "Mock `Array.prototype.map` to control iteration", "Mock every private method of the service"],
+    "answer": 1,
+    "explanation": "Mock at your own boundaries and only to verify outgoing side effects that matter. Mocking library internals couples tests to implementation details."
+  },
+  {
+    "question": "For a new TypeScript Hono service, which runner choice is the most common sensible default?",
+    "options": ["Mocha with Chai and ts-node", "Vitest, with `app.request` for HTTP-level tests", "No runner: test manually with Postman", "Karma in a browser"],
+    "answer": 1,
+    "explanation": "Vitest runs TypeScript and ESM natively, is fast and shares tooling with most frontends. `node:test` is a fine zero-dependency alternative."
+  }
+]

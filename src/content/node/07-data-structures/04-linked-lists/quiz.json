@@ -1,0 +1,35 @@
+[
+  {
+    "question": "A chat server stores 40 000 open sockets in an array and, on disconnect, runs `sockets.splice(sockets.indexOf(socket), 1)`. CPU spikes when many users disconnect at once. What is the cheapest correct change?",
+    "options": [
+      "Use `filter` instead of `splice`",
+      "Store the sockets in a `Set` (O(1) delete, insertion order kept), or keep a linked-list node on each socket and remove it in O(1)",
+      "Sort the array so `indexOf` is faster",
+      "Run the removal in a `setTimeout`"
+    ],
+    "answer": 1,
+    "explanation": "`indexOf` plus `splice` is O(n) per disconnect. A Set is the least code; a linked list with handles also allows reordering by activity."
+  },
+  {
+    "question": "A hand-written `remove(node)` updates `node.prev.next` and `node.next.prev` when they exist but never touches `head` or `tail`. Which bug appears?",
+    "options": [
+      "None, the neighbors are enough",
+      "`size` becomes negative immediately",
+      "Removing the first or last node leaves `head` or `tail` pointing at a removed node, so later pushes or shifts corrupt the list",
+      "It throws a TypeError on every call"
+    ],
+    "answer": 2,
+    "explanation": "Edge nodes have no neighbor on one side; the list's own `head`/`tail` must be updated instead. Pointer bugs are silent, so test head, tail and single-node removals."
+  },
+  {
+    "question": "When is a plain array the better choice over a linked list?",
+    "options": [
+      "When you mostly iterate or access by index and rarely remove from the middle",
+      "When you remove nodes by handle thousands of times per second",
+      "When you need O(1) insertion at the front",
+      "Never: linked lists are always faster"
+    ],
+    "answer": 0,
+    "explanation": "Arrays are contiguous in memory, which makes iteration and indexed access very fast. Linked lists only win for removal or reordering by reference."
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "title": "Trees and Recursion",
+  "summary": "Turn flat comment rows into nested threads in O(n) with a Map, use recursion where depth is bounded, and walk user-controlled trees with an explicit stack instead of overflowing the call stack.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "MDN: Recursion", "url": "https://developer.mozilla.org/en-US/docs/Glossary/Recursion" },
+    { "label": "PostgreSQL: WITH queries (recursive)", "url": "https://www.postgresql.org/docs/current/queries-with.html" }
+  ]
+}

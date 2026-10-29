@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A project has `\"type\": \"module\"` in `package.json`. An assistant generates `import { db } from './db';` in `src/server.js`. What happens when Node runs it?",
+    "options": [
+      "It works: Node tries `.js`, `.ts` and `index.js` automatically",
+      "It fails with `ERR_MODULE_NOT_FOUND`: Node ESM requires the extension (`./db.js`)",
+      "It works only if `db.js` uses CommonJS",
+      "Node silently treats the file as CommonJS"
+    ],
+    "answer": 1,
+    "explanation": "Node's ESM resolver does no extension guessing for relative imports. Write `./db.js` (or `./db.ts` when running TypeScript directly). Bundlers hide this in frontend projects."
+  },
+  {
+    "question": "Your library's `package.json` has `\"exports\": { \".\": \"./dist/index.js\" }`. A consumer writes `import { helper } from 'your-lib/dist/internal.js'`. What happens?",
+    "options": [
+      "It works, because the file exists",
+      "It works but prints a deprecation warning",
+      "It fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`: only listed entry points are public",
+      "It imports `dist/index.js` instead"
+    ],
+    "answer": 2,
+    "explanation": "The `exports` map encapsulates the package. Anything not listed is private, which lets you refactor internals without breaking consumers."
+  },
+  {
+    "question": "Why prefer `export { createId } from './ids.ts'` over `export * from './ids.ts'` in an entry file?",
+    "options": [
+      "The star syntax is not valid in Node",
+      "The star re-exports every current and future export, so internal helpers silently become public API",
+      "Explicit re-exports run faster at runtime",
+      "The star only works with default exports"
+    ],
+    "answer": 1,
+    "explanation": "Explicit names make the public surface a deliberate decision and keep internals private. `export *` is valid but leaks whatever gets added later."
+  },
+  {
+    "question": "An old CommonJS service on Node 24 needs a package that is published as ESM only (no top-level `await`). What is the simplest option?",
+    "options": [
+      "`require()` it: Node 22.12+ supports `require(esm)` for modules without top-level `await`",
+      "It is impossible without rewriting the whole service to ESM",
+      "Fork the package and convert it to CommonJS",
+      "Use `import` statements inside the CommonJS file"
+    ],
+    "answer": 0,
+    "explanation": "`require(esm)` removed the main blocker of mixed codebases. Static `import` statements are a syntax error in CommonJS; `await import()` is the fallback for modules that use top-level `await`."
+  }
+]

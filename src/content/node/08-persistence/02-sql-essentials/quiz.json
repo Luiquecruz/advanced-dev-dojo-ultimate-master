@@ -1,0 +1,42 @@
+[
+  {
+    "question": "You need every user with their number of orders, including users who never ordered. Which query is correct?",
+    "options": [
+      "`SELECT u.name, count(*) FROM users u JOIN orders o ON o.user_id = u.id GROUP BY u.name`",
+      "`SELECT u.name, count(o.id) FROM users u LEFT JOIN orders o ON o.user_id = u.id GROUP BY u.id, u.name`",
+      "`SELECT u.name, count(o.id) FROM users u LEFT JOIN orders o ON o.user_id = u.id`",
+      "`SELECT u.name, count(*) FROM orders o LEFT JOIN users u ON o.user_id = u.id GROUP BY u.name`"
+    ],
+    "answer": 1,
+    "explanation": "`LEFT JOIN` keeps users without orders, `count(o.id)` counts 0 for them (`count(*)` would count 1), and grouping by `u.id` avoids merging two users with the same name."
+  },
+  {
+    "question": "A query `SELECT ... FROM users u LEFT JOIN orders o ON o.user_id = u.id WHERE o.status = 'paid'` drops users without orders. Why?",
+    "options": [
+      "`WHERE o.status = 'paid'` is false for the `NULL` rows a LEFT JOIN produces, so it behaves like an inner join; move the condition into `ON`",
+      "LEFT JOIN never keeps unmatched rows",
+      "The query needs `GROUP BY`",
+      "`status` must be indexed"
+    ],
+    "answer": 0,
+    "explanation": "Unmatched rows have `o.status = NULL`, and `NULL = 'paid'` is not true. Conditions on the right table belong in the `ON` clause of an outer join."
+  },
+  {
+    "question": "`GET /orders?userId=42` is slow on a table with 30 million orders. `EXPLAIN ANALYZE` shows `Seq Scan on orders`. What is the most likely fix?",
+    "options": ["Add `LIMIT 1000`", "Switch to a document database", "Cache the whole table in Redis", "Create an index on `orders (user_id)`"],
+    "answer": 3,
+    "explanation": "Postgres does not index foreign keys automatically. Without an index on `user_id` the database reads all 30 million rows."
+  },
+  {
+    "question": "There is a composite index on `orders (user_id, status)`. Which filter can NOT use it efficiently?",
+    "options": ["`WHERE user_id = $1`", "`WHERE user_id = $1 AND status = $2`", "`WHERE status = $1`", "`WHERE user_id = $1 ORDER BY status`"],
+    "answer": 2,
+    "explanation": "B-tree composite indexes follow the leftmost prefix rule: they help filters that start with `user_id`. A filter on `status` alone needs its own index."
+  },
+  {
+    "question": "Why does `SELECT id, total * 2 AS doubled FROM orders WHERE doubled > 100` fail?",
+    "options": ["`WHERE` runs before `SELECT`, so the alias does not exist yet", "Aliases are not allowed in Postgres", "`total` must be cast first", "Arithmetic is not allowed in `SELECT`"],
+    "answer": 0,
+    "explanation": "The logical order is FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY, LIMIT. Repeat the expression in `WHERE` (or use a subquery)."
+  }
+]

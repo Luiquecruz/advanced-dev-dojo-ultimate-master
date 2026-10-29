@@ -1,0 +1,8 @@
+[
+  { "term": "Unit test", "description": "Tests one function or class in isolation with fakes for collaborators. Fast; best for business rules." },
+  { "term": "Integration test", "description": "Tests your code with real pieces wired together: the HTTP layer, middleware, a real database in a container." },
+  { "term": "Supertest / app.request", "description": "Send requests to an app in memory without opening a port: Supertest for Express, `app.request()` and `testClient` for Hono, `inject()` for Fastify." },
+  { "term": "Testcontainers", "description": "Library that starts real dependencies (Postgres, Redis) in Docker for a test run and disposes them afterwards." },
+  { "term": "Contract test", "description": "Verifies that a provider API still satisfies what its consumers expect (Pact, OpenAPI schema checks)." },
+  { "term": "Flaky test", "description": "A test that passes and fails without code changes, usually due to time, randomness, ordering or shared state." }
+]

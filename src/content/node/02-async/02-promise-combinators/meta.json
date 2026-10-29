@@ -1,0 +1,10 @@
+{
+  "title": "Promise Combinators",
+  "summary": "Run independent async work concurrently with Promise.all, allSettled, race and any, and choose each by its failure policy.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "MDN: Promise", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" },
+    { "label": "MDN: Using promises", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises" }
+  ]
+}

@@ -1,0 +1,9 @@
+[
+  { "term": "response.ok", "description": "`true` for 2xx statuses. `fetch` resolves for 404 and 500 too; only missing responses reject." },
+  { "term": "AbortSignal.timeout(ms)", "description": "A signal that aborts after `ms`. Pass it to `fetch` so a slow upstream cannot hold your request forever." },
+  { "term": "502 Bad Gateway", "description": "Your server, acting as a gateway, got an invalid or failed response from a dependency." },
+  { "term": "504 Gateway Timeout", "description": "A dependency did not answer within your deadline." },
+  { "term": "Error mapping", "description": "Translating upstream failures into your own error type and status codes at the boundary, without leaking upstream bodies." },
+  { "term": "Cascading failure", "description": "A slow dependency without timeouts ties up your requests until your service fails too." },
+  { "term": "Circuit breaker", "description": "Stops calling a dependency that keeps failing and fails fast for a while, giving it time to recover." }
+]

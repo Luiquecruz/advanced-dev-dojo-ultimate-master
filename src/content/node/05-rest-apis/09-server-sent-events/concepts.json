@@ -1,0 +1,8 @@
+[
+  { "term": "Server-Sent Events", "description": "A long-lived HTTP response with `Content-Type: text/event-stream` that carries a sequence of text events from server to client." },
+  { "term": "EventSource", "description": "The browser client for SSE: `addEventListener(eventName)`, automatic reconnection and the `Last-Event-ID` header. GET only, no custom headers." },
+  { "term": "Last-Event-ID", "description": "Request header sent on reconnect with the id of the last event received, so the server can resume instead of replaying." },
+  { "term": "streamSSE", "description": "Hono helper (`hono/streaming`) that returns a streaming response and gives you `writeSSE`, `sleep`, `onAbort` and `close`." },
+  { "term": "Heartbeat", "description": "A periodic comment line (`: ping`) that keeps proxies and load balancers from closing an idle stream." },
+  { "term": "Response buffering", "description": "A proxy or CDN collecting the whole response before forwarding it, which turns a live stream into one late burst." }
+]

@@ -1,0 +1,11 @@
+{
+  "title": "Design Patterns for Backends",
+  "summary": "Adapter, decorator and factory: wrap vendor SDKs behind your interface, stack cross-cutting behavior and choose implementations from config.",
+  "level": "advanced",
+  "tags": ["core", "theory", "typescript"],
+  "resources": [
+    { "label": "Refactoring Guru: Adapter", "url": "https://refactoring.guru/design-patterns/adapter" },
+    { "label": "Refactoring Guru: Decorator", "url": "https://refactoring.guru/design-patterns/decorator" },
+    { "label": "Refactoring Guru: Factory Method", "url": "https://refactoring.guru/design-patterns/factory-method" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "Readable stream", "description": "A source that produces chunks over time: files, request bodies, `process.stdin`. Consume it with `for await`." },
+  { "term": "Writable stream", "description": "A destination for chunks: files, HTTP responses. `write()` returns `false` when its buffer is full." },
+  { "term": "Chunk", "description": "One piece of a stream, a `Buffer` (or a string with an `encoding`) up to `highWaterMark` bytes. Boundaries are arbitrary." },
+  { "term": "highWaterMark", "description": "The buffer size a stream aims for (64 KB for files). It bounds memory per stream." },
+  { "term": "Async generator", "description": "`async function*` yields values over time; callers iterate with `for await`. Ideal to turn chunks into lines or records." },
+  { "term": "Backpressure", "description": "Slowing the producer when the consumer cannot keep up, so buffers do not grow without limit." }
+]

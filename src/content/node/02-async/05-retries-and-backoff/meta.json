@@ -1,0 +1,10 @@
+{
+  "title": "Retries and Backoff",
+  "summary": "Retry transient failures safely: retryable errors, exponential backoff with full jitter, attempt limits, idempotency and when a circuit breaker or a queue fits better.",
+  "level": "intermediate",
+  "tags": ["core", "testing"],
+  "resources": [
+    { "label": "AWS Architecture Blog: Exponential Backoff and Jitter", "url": "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/" },
+    { "label": "MDN: Retry-After", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Retry-After" }
+  ]
+}

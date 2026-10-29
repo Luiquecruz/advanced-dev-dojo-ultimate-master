@@ -1,0 +1,8 @@
+[
+  { "term": "LRU", "description": "Least recently used: when the cache is full, evict the entry that was read or written longest ago." },
+  { "term": "Eviction", "description": "Removing an entry to respect the cache bound. An `onEvict` hook releases resources the entry owns." },
+  { "term": "Recency refresh", "description": "Moving an entry to the most-recent end on access. With a `Map`: `delete(key)` then `set(key, value)`." },
+  { "term": "Cache-aside", "description": "The caller checks the cache, loads from the source on a miss and stores the result." },
+  { "term": "Hit ratio", "description": "Share of lookups answered by the cache. Too small a `max` keeps evicting entries that are about to be used." },
+  { "term": "TTL", "description": "Time to live: entries expire after a duration. Usually combined with LRU so stale data does not survive just because it is popular." }
+]

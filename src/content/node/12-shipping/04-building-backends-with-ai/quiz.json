@@ -1,0 +1,38 @@
+[
+  {
+    "question": "You ask an assistant: \"Build the bookmarks feature.\" It returns 14 files, a new ORM, a Redis cache and JWT auth. What was missing from the brief?",
+    "options": ["A request to write shorter code", "A deadline", "Nothing: the assistant should infer the stack", "Stack, architecture, an explicit contract, constraints (no new dependencies, follow an existing example) and an out-of-scope list"],
+    "answer": 3,
+    "explanation": "Without constraints the assistant fills gaps with its own defaults. A contract plus constraints and out-of-scope lines keep the change small and consistent."
+  },
+  {
+    "question": "Generated code imports `hono-zod-openapi-validator-pro`. You have never heard of it. What do you do first?",
+    "options": ["Check that the package exists, who publishes it and its usage; prefer the documented `@hono/zod-validator`, because invented or typosquatted names can be malicious", "Install it, since the assistant suggested it", "Rename the import to something shorter", "Add `// @ts-ignore` above the import"],
+    "answer": 0,
+    "explanation": "Assistants invent plausible package names, and attackers register them (slopsquatting). Verify every new dependency before installing."
+  },
+  {
+    "question": "A generated `DELETE /bookmarks/:id` checks that the request has a valid token, then deletes by id. Which review finding matters most?",
+    "options": ["It should return 200 instead of 204", "The handler should be a class", "Missing per-resource authorization: any logged-in user can delete anyone's bookmark (BOLA); scope the query by owner and answer 404 otherwise", "It should log the token for debugging"],
+    "answer": 2,
+    "explanation": "Broken object-level authorization is the top API vulnerability. Authentication proves who you are; each resource still needs an ownership check."
+  },
+  {
+    "question": "Which task is the best candidate to delegate almost entirely, with a quick review?",
+    "options": ["Designing the password reset flow", "Writing integration tests for a list of status codes and bodies you specified", "A migration that deletes duplicated customer rows in production", "Choosing between a monolith and microservices"],
+    "answer": 1,
+    "explanation": "Well-specified, verifiable, low-risk work suits delegation. Security flows, irreversible data changes and architecture need your judgment."
+  },
+  {
+    "question": "After a refactor, the assistant reports \"all tests pass\". The diff also changed three expected values in the tests. What should you conclude?",
+    "options": ["The tests may have been edited to match new (possibly wrong) behavior; review each changed expectation against the contract", "Great, the refactor is safe", "Tests with changed values are always better", "Delete the changed tests"],
+    "answer": 0,
+    "explanation": "Tests are the specification you own. An assistant 'fixing' a test to match output can hide a regression. Expectations change only when the contract changes."
+  },
+  {
+    "question": "A reporting endpoint must notify 20 000 users after an import. The assistant loops over `await sendEmail(user)` inside the HTTP handler. Using the decision matrix, what do you ask for instead?",
+    "options": ["Wrap the loop in `Promise.all` to send all emails at once", "Increase the HTTP timeout to 10 minutes", "Send the emails from the frontend", "Enqueue a job per batch and let a worker send with retries and a concurrency limit, answering 202 immediately"],
+    "answer": 3,
+    "explanation": "Slow, retryable work belongs to a queue and a worker. The handler stays fast, failures retry, and concurrency is controlled."
+  }
+]

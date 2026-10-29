@@ -1,0 +1,8 @@
+[
+  { "term": "Request listener", "description": "The `(req, res) => {}` function passed to `createServer`. Node calls it once per request." },
+  { "term": "IncomingMessage", "description": "`req`: a readable stream with `method`, `url` (path + query) and lowercase `headers`. The body arrives as chunks." },
+  { "term": "ServerResponse", "description": "`res`: a writable stream. Set `statusCode`/headers first, then write the body and call `res.end()`." },
+  { "term": "Content-Type", "description": "Header that tells the client how to parse the body. JSON APIs send `application/json`." },
+  { "term": "ERR_HTTP_HEADERS_SENT", "description": "Thrown when you set a header or status after the body started: headers always travel before the body." },
+  { "term": "WHATWG URL", "description": "`new URL(req.url, 'http://localhost')` splits `pathname` and `searchParams`; the base is required because `req.url` is relative." }
+]

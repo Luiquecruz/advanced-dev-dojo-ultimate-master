@@ -1,0 +1,11 @@
+{
+  "title": "Modules: ESM and CommonJS",
+  "summary": "Wire a small package with named and default exports, re-exports and node: prefixes, and learn how type: module, exports maps and CommonJS interop decide what Node loads.",
+  "level": "beginner",
+  "tags": ["core", "modern", "legacy"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "Node.js docs: ECMAScript modules", "url": "https://nodejs.org/api/esm.html" },
+    { "label": "Node.js docs: Modules: Packages (exports)", "url": "https://nodejs.org/api/packages.html" }
+  ]
+}

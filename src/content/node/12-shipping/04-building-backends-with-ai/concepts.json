@@ -1,0 +1,9 @@
+[
+  { "term": "Brief", "description": "The specification you give an assistant: goal, stack, architecture, contract (statuses and bodies), rules, non-functional needs, constraints, deliverables, out of scope." },
+  { "term": "Vertical slice", "description": "One endpoint or module generated, run and reviewed at a time, instead of a whole system in one prompt." },
+  { "term": "Decision matrix", "description": "A default choice per backend problem plus the conditions that justify switching, so you decide before the assistant does." },
+  { "term": "Review checklist", "description": "Contract, validation, security, data, reliability, maintainability and tests: the questions to ask of every generated change." },
+  { "term": "Hallucinated API", "description": "A package, method or option that does not exist (or no longer exists) but appears plausible in generated code." },
+  { "term": "Slopsquatting", "description": "Attackers publish packages under names assistants tend to invent, so blindly installing suggested dependencies installs malware." },
+  { "term": "Project rules file", "description": "A committed file (`CLAUDE.md`, rules) describing stack, layers and conventions so every session starts with the same context." }
+]

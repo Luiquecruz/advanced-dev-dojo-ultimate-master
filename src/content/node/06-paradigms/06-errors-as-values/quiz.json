@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Which failure should a booking service return as a `Result` error rather than throw?",
+    "options": ["The database connection pool is exhausted", "The requested time slot is already booked", "A typo calls `undefined` as a function", "The process runs out of memory"],
+    "answer": 1,
+    "explanation": "A taken slot is an expected business outcome the caller handles (409, suggest another slot). The others are unexpected and belong to the 500 path."
+  },
+  {
+    "question": "A teammate adds `{ type: 'account_frozen' }` to `TransferError`. With a `never` check in `toHttpError`, what happens?",
+    "options": ["The API answers 500 for frozen accounts at runtime", "The switch silently returns `undefined`", "Compilation fails until the new variant is mapped", "Nothing changes"],
+    "answer": 2,
+    "explanation": "The leftover type in `default` is no longer `never`, so assigning it to `never` is a type error. The compiler finds the missing mapping, not production."
+  },
+  {
+    "question": "Reviewing generated code, you see every repository call wrapped as `Result<T, string>` with `err('db error')`. What is the main problem?",
+    "options": ["Infrastructure failures are not domain outcomes, and string errors drop the details; let them throw to the global handler", "Results are slower than exceptions", "Repositories must return promises, not results", "Nothing: more results are always safer"],
+    "answer": 0,
+    "explanation": "Results earn their keep for expected failures with typed data. Wrapping unexpected failures adds noise and usually loses stack traces."
+  }
+]

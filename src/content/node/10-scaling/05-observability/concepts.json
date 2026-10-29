@@ -1,0 +1,9 @@
+[
+  { "term": "Structured log", "description": "One JSON object per line with `level`, `time`, `msg` and fields, so log platforms can filter and aggregate." },
+  { "term": "Child logger", "description": "A logger that adds fixed bindings (`requestId`, `jobId`) to every line it writes." },
+  { "term": "Redaction", "description": "Replacing sensitive fields (passwords, tokens, authorization headers) before a log line leaves the process." },
+  { "term": "Request id", "description": "An id per request, reused from `X-Request-Id` or generated, returned to the client and attached to every log line." },
+  { "term": "Percentile", "description": "The value below which p% of observations fall. p95 and p99 latency describe the slow requests an average hides." },
+  { "term": "Cardinality", "description": "The number of distinct label values of a metric. Ids or raw paths as labels explode storage and cost." },
+  { "term": "OpenTelemetry", "description": "Vendor-neutral standard and SDKs for logs, metrics and traces, with auto-instrumentation for Node.js libraries." }
+]

@@ -1,0 +1,11 @@
+{
+  "title": "Typed Configuration with Zod",
+  "summary": "Parse process.env once into a typed, frozen config: coercion, stringbool, defaults, production-only rules and errors that never leak secrets.",
+  "level": "advanced",
+  "tags": ["typescript", "zod", "security", "modern"],
+  "resources": [
+    { "label": "Zod: Defining schemas", "url": "https://zod.dev/api" },
+    { "label": "Node.js guide: How to read environment variables", "url": "https://nodejs.org/en/learn/command-line/how-to-read-environment-variables-from-nodejs" },
+    { "label": "The Twelve-Factor App: Config", "url": "https://12factor.net/config" }
+  ]
+}

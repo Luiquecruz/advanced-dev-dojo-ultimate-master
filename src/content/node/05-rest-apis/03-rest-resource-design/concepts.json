@@ -1,0 +1,8 @@
+[
+  { "term": "Resource", "description": "A thing the API exposes, addressed by a URL with a plural noun (`/projects/42`). Methods act on it; the URL never contains the verb." },
+  { "term": "Location header", "description": "Sent with `201 Created` to point at the new resource (`Location: /projects/43`)." },
+  { "term": "204 No Content", "description": "Success without a body, typical for `DELETE`. Send it with `c.body(null, 204)`." },
+  { "term": "409 Conflict", "description": "The request is valid but clashes with the current state: duplicate unique field, stale version, invalid state transition." },
+  { "term": "Idempotency", "description": "Repeating the request leaves the server in the same state. `GET`, `PUT` and `DELETE` are idempotent; `POST` is not, unless you add an `Idempotency-Key`." },
+  { "term": "PATCH vs PUT", "description": "`PATCH` changes the fields you send; `PUT` replaces the whole representation." }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "question": "A developer registers routes as separate statements (`app.get(...); app.post(...);`) and exports `type AppType = typeof app`. The client compiles, but `client.todos` has no methods. Why?",
+    "options": ["`hc` needs a runtime import of the app", "Route types only accumulate through the method chain; separate statements register routes at runtime but do not change the type of `app`", "`AppType` must be an interface", "The client needs `InferResponseType`"],
+    "answer": 1,
+    "explanation": "Each chained call returns a new, more specific type. Chain the routes (per resource if needed) and export `typeof` the chained result."
+  },
+  {
+    "question": "With a typed RPC client in place, can the server skip request validation?",
+    "options": ["Yes, the types guarantee the input shape", "Yes, if the client also validates", "No: types are erased and other callers (`curl`, old app versions, attackers) send arbitrary data", "Only for GET requests"],
+    "answer": 2,
+    "explanation": "Types only constrain code you compile. The server is a public boundary and must parse every request at runtime."
+  },
+  {
+    "question": "Why must the client use `import type { AppType } from './server'` instead of `import { AppType } from './server'`?",
+    "options": ["A value import could pull the server module, its dependencies and possibly secrets into the frontend bundle; `import type` is erased", "`import type` is faster to type-check", "Hono requires it at runtime", "There is no difference"],
+    "answer": 0,
+    "explanation": "Only the type crosses the boundary. `import type` (enforced by `verbatimModuleSyntax`) guarantees nothing from the server is executed or bundled on the client."
+  },
+  {
+    "question": "Your API will be used by your React app and by a partner's Kotlin mobile app. What is the best way to keep both typed?",
+    "options": ["Hono RPC for both", "Hand-written interfaces in each client", "tRPC with a Kotlin adapter", "Publish an OpenAPI document (for example generated with `@hono/zod-openapi`) and generate clients; Hono RPC can still serve the React app"],
+    "answer": 3,
+    "explanation": "RPC types only exist in TypeScript. OpenAPI is the cross-language contract, and the same Zod schemas can produce it."
+  }
+]

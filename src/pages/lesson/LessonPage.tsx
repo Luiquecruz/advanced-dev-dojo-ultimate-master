@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
 import type { Lesson, ProjectFiles, Track } from '@/content';
-import { CodeEditor, configureLanguageService, type ConsoleEntry, gradeChallenge, LessonPanel, type LessonTab, PreviewFrame, type Report, runTypeScript, TestName, testNamesFor } from '@/features/lesson';
+import { canRunProgram, CodeEditor, configureLanguageService, type ConsoleEntry, gradeChallenge, LessonPanel, type LessonTab, PreviewFrame, type Report, runProgram, TestName, testNamesFor } from '@/features/lesson';
 import { CurriculumDrawer } from '@/features/curriculum';
 import { Markdown } from '@/shared/ui/Markdown';
 import { isLessonComplete, progress, useProgress } from '@/entities/progress';
@@ -32,6 +32,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   const [activeFile, setActiveFile] = useState(challenge?.entry ?? '');
   const [report, setReport] = useState<Report | null>(null);
   const [running, setRunning] = useState(false);
+  const [programRunning, setProgramRunning] = useState(false);
   const [bottomTab, setBottomTab] = useState<BottomTab>(challenge?.preview ? 'preview' : 'tests');
   const [consoleEntries, setConsoleEntries] = useState<ConsoleEntry[]>([]);
   const [reloadKey, setReloadKey] = useState(0);
@@ -85,17 +86,25 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   }, [challenge, running, track.engine, files, lesson.key]);
 
   const runCode = useCallback(async () => {
-    if (track.engine !== 'typescript' || !challenge) {
+    if (!canRunProgram(track.engine) || !challenge || programRunning) {
       return;
     }
     setBottomTab('console');
-    const logs = await runTypeScript(files[challenge.entry]);
-    setConsoleEntries(
-      logs.length > 0
-        ? logs.map((text) => ({ level: text.startsWith('✖') ? 'error' : text.startsWith('⚠') ? 'warn' : 'log', text }))
-        : [{ level: 'info', text: 'No output. Use console.log() to print values.' }],
-    );
-  }, [track.engine, challenge, files]);
+    setProgramRunning(true);
+    const entries: ConsoleEntry[] = [];
+    setConsoleEntries([]);
+    try {
+      await runProgram(track.engine, files, challenge.entry, (entry) => {
+        entries.push(entry);
+        appendConsole(entry);
+      });
+    } finally {
+      setProgramRunning(false);
+    }
+    if (entries.length === 0) {
+      setConsoleEntries([{ level: 'info', text: 'No output. Use console.log() to print values.' }]);
+    }
+  }, [track.engine, challenge, programRunning, files, appendConsole]);
 
   const resetCode = () => {
     if (!challenge || !confirm('Reset the editor to the starter code? Your changes for this lesson will be lost.')) {
@@ -140,9 +149,9 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
               <button className={iconButtonClass()} title="Reset to starter code" onClick={resetCode}>
                 <ResetIcon />
               </button>
-              {track.engine === 'typescript' && (
-                <button className={buttonClass('ghost', 'regular', 'max-wide:hidden')} onClick={runCode}>
-                  <TerminalIcon /> Run
+              {canRunProgram(track.engine) && (
+                <button className={buttonClass('ghost', 'regular', 'max-wide:hidden')} onClick={runCode} disabled={programRunning}>
+                  <TerminalIcon /> {programRunning ? 'Running…' : 'Run'}
                 </button>
               )}
               <button className={buttonClass('primary')} onClick={runTests} disabled={running}>

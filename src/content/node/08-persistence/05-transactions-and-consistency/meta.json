@@ -1,0 +1,10 @@
+{
+  "title": "Transactions and Consistency",
+  "summary": "Build a unit of work with commit and rollback, prevent lost updates under concurrency, and learn the pg transaction, locking and outbox patterns to look for in review.",
+  "level": "advanced",
+  "tags": ["database", "concurrency"],
+  "resources": [
+    { "label": "PostgreSQL docs: Transaction Isolation", "url": "https://www.postgresql.org/docs/current/transaction-iso.html" },
+    { "label": "node-postgres: Transactions", "url": "https://node-postgres.com/features/transactions" }
+  ]
+}

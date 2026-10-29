@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A worker charges a customer's card, then crashes before acknowledging the job. The queue redelivers it and the customer is charged twice. What is the right fix?",
+    "options": [
+      "Switch to a queue with exactly-once delivery",
+      "Set `maxAttempts` to 1",
+      "Make the handler idempotent: check the stored payment state first and pass an idempotency key (for example the order id) to the payment provider",
+      "Acknowledge the job before charging the card"
+    ],
+    "answer": 2,
+    "explanation": "Durable queues deliver at least once; exactly-once processing comes from idempotent handlers. Acknowledging first trades duplicates for lost payments, and a single attempt drops transient failures."
+  },
+  {
+    "question": "An API inserts an order and then calls `queue.add('send-confirmation', { orderId })`. Occasionally an order exists but the email never goes out. What explains it, and what pattern fixes it?",
+    "options": [
+      "The process can fail between the database commit and the enqueue (a dual write); enqueue inside the same transaction (Postgres-based queue) or use a transactional outbox",
+      "The email provider dropped the message; add more retries",
+      "The queue is too slow; increase concurrency",
+      "The order id is wrong; pass the whole order instead"
+    ],
+    "answer": 0,
+    "explanation": "Two separate writes cannot be atomic. Writing the job in the same transaction as the order, directly or through an outbox table, guarantees both happen or neither does."
+  },
+  {
+    "question": "A queue runs 5 jobs at a time. During a partner outage, every job fails and its handler `await sleep(60_000)` before throwing again. What happens to unrelated jobs?",
+    "options": [
+      "They run normally on other threads",
+      "They wait: all 5 slots are busy sleeping; retries should be rescheduled with a delay so the slot is freed",
+      "They are moved to the dead-letter queue",
+      "Node.js cancels the sleeping jobs automatically"
+    ],
+    "answer": 1,
+    "explanation": "A sleeping handler still occupies its concurrency slot. Queues like BullMQ reschedule failed jobs with a backoff delay and free the slot immediately."
+  },
+  {
+    "question": "Which job payload is better for \"generate monthly report\"?",
+    "options": [
+      "The full report data (all rows) serialized into the job",
+      "A reference to an in-memory object in the API process",
+      "`{ accountId, month }`, and the worker loads fresh data when it runs",
+      "Nothing; workers should guess which report to build"
+    ],
+    "answer": 2,
+    "explanation": "Small payloads with ids keep the queue light, avoid stale snapshots and work across processes; in-memory references do not survive serialization."
+  }
+]

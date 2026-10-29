@@ -1,0 +1,11 @@
+{
+  "title": "How HTTP Works",
+  "summary": "Methods, safety and idempotency, status codes that drive client behavior, the headers that matter, caching with Cache-Control and ETag, and how CORS really works.",
+  "level": "intermediate",
+  "tags": ["theory", "http"],
+  "resources": [
+    { "label": "MDN: An overview of HTTP", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" },
+    { "label": "MDN: HTTP caching", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" },
+    { "label": "MDN: Cross-Origin Resource Sharing (CORS)", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" }
+  ]
+}

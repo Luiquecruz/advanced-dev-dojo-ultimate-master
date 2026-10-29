@@ -1,0 +1,10 @@
+{
+  "title": "The Event Loop",
+  "summary": "Phases, the nextTick and microtask queues, setImmediate vs setTimeout and blocking the loop: predict the output of five snippets the way real Node prints them.",
+  "level": "intermediate",
+  "tags": ["core", "theory", "performance"],
+  "resources": [
+    { "label": "Node.js guide: The Node.js Event Loop", "url": "https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick" },
+    { "label": "Node.js guide: Don't Block the Event Loop", "url": "https://nodejs.org/en/learn/asynchronous-work/dont-block-the-event-loop" }
+  ]
+}

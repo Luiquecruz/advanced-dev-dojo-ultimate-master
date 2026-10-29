@@ -1,0 +1,10 @@
+{
+  "title": "Async Iterators and Generators",
+  "summary": "Expose a cursor-paginated API as a lazy async iterable with async generators, and consume it with for await, take and chunk without loading everything into memory.",
+  "level": "intermediate",
+  "tags": ["core", "modern", "performance"],
+  "resources": [
+    { "label": "MDN: for await...of", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of" },
+    { "label": "MDN: AsyncGenerator", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncGenerator" }
+  ]
+}

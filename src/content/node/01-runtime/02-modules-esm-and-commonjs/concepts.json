@@ -1,0 +1,9 @@
+[
+  { "term": "ES modules (ESM)", "description": "The standard `import`/`export` syntax. Static, supports top-level `await`, requires file extensions in relative imports in Node." },
+  { "term": "CommonJS (CJS)", "description": "Node's original module system: `require()` and `module.exports`. Dynamic and synchronous; still common in older packages." },
+  { "term": "Default vs named export", "description": "One `export default` per module, imported under any name; many named exports, imported by their exact name with `{ }`." },
+  { "term": "`type: module`", "description": "`package.json` field that makes `.js`/`.ts` files ESM. Without it they are CommonJS (or detected). `.mjs`/`.cjs` force one system." },
+  { "term": "`exports` map", "description": "`package.json` field listing a package's public entry points. Unlisted files cannot be imported (`ERR_PACKAGE_PATH_NOT_EXPORTED`)." },
+  { "term": "`node:` prefix", "description": "`import fs from 'node:fs'` marks a built-in explicitly so an npm package with the same name can never shadow it." },
+  { "term": "Barrel file", "description": "A module that re-exports other modules' exports (`export { x } from './x.ts'`) to define one public surface." }
+]

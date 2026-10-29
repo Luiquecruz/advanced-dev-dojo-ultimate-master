@@ -1,0 +1,12 @@
+{
+  "title": "End-to-End Type Safety",
+  "summary": "Share Zod schemas between server and client and call a chained Hono app through hc<AppType> with an injected fetch and status-narrowed responses.",
+  "level": "advanced",
+  "tags": ["typescript", "hono", "zod", "modern"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "Hono docs: RPC", "url": "https://hono.dev/docs/guides/rpc" },
+    { "label": "Hono docs: Testing Helper", "url": "https://hono.dev/docs/helpers/testing" },
+    { "label": "tRPC documentation", "url": "https://trpc.io/docs" }
+  ]
+}

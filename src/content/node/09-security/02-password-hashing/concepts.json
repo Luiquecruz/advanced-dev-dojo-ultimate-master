@@ -1,0 +1,8 @@
+[
+  { "term": "Salt", "description": "Random bytes stored next to each hash, so equal passwords get different hashes and precomputed (rainbow) tables are useless." },
+  { "term": "Key derivation function", "description": "A deliberately slow, tunable hash for passwords: PBKDF2, bcrypt, scrypt, Argon2id." },
+  { "term": "Work factor", "description": "The cost parameter (iterations, rounds, memory). Raised over time as hardware gets faster." },
+  { "term": "Timing attack", "description": "Learning a secret from how long a comparison takes. `crypto.timingSafeEqual` always compares every byte." },
+  { "term": "Pepper", "description": "An extra secret kept outside the database (an env var or KMS), mixed into every hash; useless to an attacker who only stole the database." },
+  { "term": "Rehash on login", "description": "When a stored hash uses an old algorithm or cost, replace it after a successful login, the only time the plaintext is available." }
+]

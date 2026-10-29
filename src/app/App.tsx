@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import { trackById } from '@/content';
+import { availableTrackById } from '@/content';
 import { isActivityState } from '@/shared/motion/states';
 import { ActivityShell } from './layout/ActivityShell';
 import { useMotionState } from '@/shared/motion/useMotionState';
@@ -55,12 +55,12 @@ function BasePage({ base, onExploreChange, onTrailChange }: BasePageProps) {
   if (base.page === 'home') {
     return <HomePage onExploreChange={onExploreChange} onTrailChange={onTrailChange} />;
   }
-  const track = trackById.get(base.trackId);
+  const track = availableTrackById.get(base.trackId);
   return track ? <TrackPage key={track.id} track={track} /> : <NotFound />;
 }
 
 function ActivityPage({ activity }: { activity: ActivityRoute }) {
-  const track = trackById.get(activity.trackId);
+  const track = availableTrackById.get(activity.trackId);
   const lesson = track?.lessons.find((entry) => entry.id === activity.lessonId);
   return track && lesson ? <LessonPage key={lesson.key} track={track} lesson={lesson} /> : <NotFound />;
 }

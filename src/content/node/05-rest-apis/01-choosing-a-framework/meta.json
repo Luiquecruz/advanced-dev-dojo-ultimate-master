@@ -1,0 +1,11 @@
+{
+  "title": "Choosing a Framework",
+  "summary": "Express, Fastify, Hono, Koa, NestJS and meta-framework route handlers compared by runtime, typing, structure and ecosystem, with a decision guide.",
+  "level": "intermediate",
+  "tags": ["theory", "ecosystem"],
+  "resources": [
+    { "label": "Hono docs: Getting Started", "url": "https://hono.dev/docs/" },
+    { "label": "Fastify documentation", "url": "https://fastify.dev/docs/latest/" },
+    { "label": "Express 5 migration guide", "url": "https://expressjs.com/en/guide/migrating-5.html" }
+  ]
+}

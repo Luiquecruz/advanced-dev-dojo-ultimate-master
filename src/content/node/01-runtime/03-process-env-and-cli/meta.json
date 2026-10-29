@@ -1,0 +1,11 @@
+{
+  "title": "process, Environment and CLI",
+  "summary": "Load and validate configuration from process.env with defaults, parse flags with util.parseArgs, and report success or failure through exit codes.",
+  "level": "beginner",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "Node.js docs: process", "url": "https://nodejs.org/api/process.html" },
+    { "label": "Node.js docs: util.parseArgs", "url": "https://nodejs.org/api/util.html#utilparseargsconfig" },
+    { "label": "Node.js guide: How to read environment variables", "url": "https://nodejs.org/en/learn/command-line/how-to-read-environment-variables-from-nodejs" }
+  ]
+}

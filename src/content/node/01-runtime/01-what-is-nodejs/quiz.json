@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A Node API handles 2 000 concurrent requests that each wait 300 ms for a database. Then a new endpoint hashes a 200 MB upload synchronously, taking 2 s. What happens to the other requests during those 2 s?",
+    "options": [
+      "Nothing changes: Node runs each request on its own thread",
+      "They all wait: the hash keeps the single JavaScript thread busy, so no callback can run",
+      "Only requests to the same endpoint wait",
+      "libuv automatically moves the hash to the thread pool"
+    ],
+    "answer": 1,
+    "explanation": "Waiting for the database is cheap because the thread is free. CPU work runs on the one JavaScript thread, so every other request queues behind it. Move heavy work to worker threads or another service."
+  },
+  {
+    "question": "Which pair correctly describes the two main parts of Node.js?",
+    "options": [
+      "V8 runs the JavaScript; libuv provides the event loop, thread pool and OS I/O",
+      "libuv runs the JavaScript; V8 handles files and sockets",
+      "V8 is the package manager; libuv is the module loader",
+      "Both are browser engines that Node embeds to render HTML"
+    ],
+    "answer": 0,
+    "explanation": "V8 is the engine (parse, compile, execute, garbage collect). libuv is the C library that gives Node its event loop and asynchronous access to the operating system."
+  },
+  {
+    "question": "Your team is choosing a Node version for a new production API in October 2026. Which choice is right?",
+    "options": [
+      "The newest odd-numbered Current release, for the latest features",
+      "Whatever version is installed on the developer's laptop",
+      "An even-numbered LTS release, pinned in `engines`, `.nvmrc`, the Dockerfile and CI",
+      "Node 16, because older versions are more stable"
+    ],
+    "answer": 2,
+    "explanation": "Even majors become LTS and receive fixes for about 30 months. Odd majors are short-lived, and end-of-life versions get no security patches. Pin the version everywhere so environments agree."
+  },
+  {
+    "question": "An AI assistant adds `node-fetch`, `uuid` and `dotenv` to a new Node 24 project. What is the best review comment?",
+    "options": [
+      "Fine: these are the standard way to do HTTP, ids and config in Node",
+      "Replace them with Deno, which has them built in",
+      "Only `uuid` is unnecessary",
+      "Node 24 has `fetch`, `crypto.randomUUID()` and `--env-file` built in, so these dependencies add supply-chain risk for no benefit"
+    ],
+    "answer": 3,
+    "explanation": "Modern Node covers all three natively. Every dependency is code that runs with your permissions, so prefer built-ins when they do the job."
+  },
+  {
+    "question": "Which statement about Node and the browser is true?",
+    "options": [
+      "Node has `window` and `document`, but they are empty",
+      "`fetch`, `URL`, `AbortController` and `structuredClone` work the same in both, while `process` and `Buffer` exist only in Node",
+      "Node code runs in a sandbox like browser code, so installed packages cannot read your files",
+      "Node only supports CommonJS modules"
+    ],
+    "answer": 1,
+    "explanation": "Node adopted many web-standard APIs and adds its own (`process`, `Buffer`, `node:*` modules). It has no DOM, supports both ESM and CommonJS, and runs code with full user permissions."
+  }
+]

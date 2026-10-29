@@ -1,0 +1,8 @@
+[
+  { "term": "Buffer", "description": "Node's byte container, a subclass of `Uint8Array` with `from`, `alloc`, `concat`, `byteLength` and `toString(encoding)`." },
+  { "term": "UTF-8", "description": "The default text encoding on the wire and on disk: 1 to 4 bytes per character, so `text.length` is not the byte size." },
+  { "term": "Base64", "description": "Represents bytes with 64 printable characters (about 4/3 the size). An encoding for text formats, **not** encryption." },
+  { "term": "Hex", "description": "Two characters per byte (`0-9a-f`). Common for hashes and ids." },
+  { "term": "Replacement character", "description": "`�` (U+FFFD) appears when invalid or incomplete UTF-8 is decoded, typically a character split across chunks." },
+  { "term": "Code point iteration", "description": "`for (const char of text)` yields whole characters, including emoji made of two UTF-16 code units." }
+]

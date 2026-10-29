@@ -1,0 +1,8 @@
+[
+  { "term": "Primary key", "description": "The column (or columns) that uniquely identifies a row. Indexed automatically." },
+  { "term": "Foreign key", "description": "`REFERENCES other(id)`: the database guarantees the referenced row exists. Postgres does not index it for you." },
+  { "term": "LEFT JOIN", "description": "Keeps every row of the left table; columns from the right table are `NULL` when there is no match." },
+  { "term": "GROUP BY / HAVING", "description": "`GROUP BY` collapses rows into groups for aggregates; `HAVING` filters the groups after aggregation." },
+  { "term": "Index", "description": "A sorted structure (usually a B-tree) that turns full table scans into fast lookups, at the cost of slower writes." },
+  { "term": "EXPLAIN ANALYZE", "description": "Runs a query and prints the plan and the real timings, showing whether indexes are used." }
+]

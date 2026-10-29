@@ -1,0 +1,35 @@
+[
+  {
+    "question": "A deployment sets `FEATURE_SEARCH=false`. The code checks `if (process.env.FEATURE_SEARCH) enableSearch()`. What happens?",
+    "options": [
+      "Search stays disabled, because Node parses `false` as a boolean",
+      "Node throws because the value is not a boolean",
+      "Search is enabled, because the value is the non-empty string `'false'`, which is truthy",
+      "The variable is ignored because it is not uppercase"
+    ],
+    "answer": 2,
+    "explanation": "Environment values are always strings. Compare explicitly (`env.FEATURE_SEARCH === 'true'`) or parse them with a schema at startup."
+  },
+  {
+    "question": "A CLI script finishes writing a large report to stdout and then calls `process.exit(0)`. Users report truncated output when piping to a file. What is the best fix?",
+    "options": [
+      "Set `process.exitCode = 0` (or nothing) and let the process end on its own once pending writes finish",
+      "Call `process.exit(0)` twice",
+      "Use `console.error` instead of `console.log`",
+      "Wrap the call in `setTimeout(() => process.exit(0), 1000)`"
+    ],
+    "answer": 0,
+    "explanation": "`process.exit()` terminates immediately, even with asynchronous writes pending (stdout to a pipe or file can be asynchronous). Setting `exitCode` lets the event loop drain naturally. A timeout only guesses."
+  },
+  {
+    "question": "An AI-generated config module contains `const secret = process.env.JWT_SECRET || 'dev-secret'`. What is the main problem?",
+    "options": [
+      "`||` is slower than `??`",
+      "A missing variable in production silently falls back to a publicly known secret instead of failing at startup",
+      "Environment variables cannot hold secrets",
+      "It should read the secret from `process.argv` instead"
+    ],
+    "answer": 1,
+    "explanation": "Required secrets must have no default. Fail fast with a clear error so a misconfigured deploy never starts with a guessable key."
+  }
+]

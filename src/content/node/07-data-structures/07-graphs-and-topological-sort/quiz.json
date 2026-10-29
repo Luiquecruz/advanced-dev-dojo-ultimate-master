@@ -1,0 +1,35 @@
+[
+  {
+    "question": "A generated cycle detector marks nodes in one `visited` set and reports a cycle whenever it meets a visited node. It rejects `app → auth → db` plus `app → billing → db`. Why?",
+    "options": [
+      "That graph really has a cycle",
+      "A diamond reaches `db` twice through different paths; cycle detection must only fail on nodes still on the current path (visiting), not on finished ones",
+      "Sets cannot hold strings",
+      "The graph must be sorted alphabetically first"
+    ],
+    "answer": 1,
+    "explanation": "Reaching a finished node again is normal in a DAG. Three states (unvisited, visiting, done) separate a back edge (cycle) from a shared dependency."
+  },
+  {
+    "question": "A CI pipeline has 40 tasks with declared dependencies and runs them one by one in topological order, taking 30 minutes. What does Kahn's algorithm offer?",
+    "options": [
+      "Nothing: topological order is the only correct schedule",
+      "It removes the dependencies",
+      "Waves of tasks with no dependencies between them, which can run in parallel; the total time approaches the longest dependency chain",
+      "It reorders tasks alphabetically"
+    ],
+    "answer": 2,
+    "explanation": "Independent tasks do not need to wait for each other. Turborepo, Nx and CI systems schedule by dependency levels or start each task as soon as its own dependencies finish."
+  },
+  {
+    "question": "Startup fails with \"Cycle detected\" in a plugin system with 120 plugins. What should the error contain to be useful?",
+    "options": [
+      "The cycle path, for example `audit -> users -> permissions -> audit`",
+      "The total number of plugins",
+      "A stack trace of the sort function",
+      "Nothing more: cycles are rare"
+    ],
+    "answer": 0,
+    "explanation": "The DFS already holds the current path when it meets the repeated node; slicing it from that node gives the exact cycle at no extra cost."
+  }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Twelve-Factor App", "description": "A methodology for services that deploy cleanly anywhere: config in the environment, stateless processes, logs to stdout, build once and promote." },
+  { "term": "Config in the environment", "description": "Everything that differs between deploys (URLs, keys, flags) comes from environment variables, not from code or committed files." },
+  { "term": "Fail-fast config validation", "description": "Parse and validate `process.env` once at startup (for example with Zod) and crash with a clear message when something is missing or malformed." },
+  { "term": "Secret manager", "description": "Encrypted storage for credentials (Vault, AWS Secrets Manager, Doppler) that injects them into the environment at runtime." },
+  { "term": "Build, release, run", "description": "Build an immutable artifact once, combine it with an environment's config to release, then run it unchanged." },
+  { "term": ".env.example", "description": "A committed file listing every variable with safe placeholders; the real `.env` stays out of Git." }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "question": "An export endpoint builds a 300 MB CSV string and sends it with `res.end(csv)`. With 3 concurrent exports, the 512 MB container is killed. What is the fix?",
+    "options": ["Increase the container memory", "Stream rows to `res` as they are produced, so memory stays bounded per request", "Use `JSON.stringify` instead of CSV", "Compress the string before sending"],
+    "answer": 1,
+    "explanation": "Buffering the whole export costs its full size per request. Streaming keeps a small, constant buffer and lets the client start downloading immediately."
+  },
+  {
+    "question": "Why is `for await (const chunk of stream)` preferred over `stream.on('data', ...)` in new code?",
+    "options": ["It is faster because it skips buffering", "It reads the whole stream first", "It pauses the source while the loop body runs and turns stream errors into exceptions", "`'data'` events are deprecated"],
+    "answer": 2,
+    "explanation": "Async iteration gives backpressure and error propagation for free. A `'data'` handler keeps flowing and needs separate `'end'` and `'error'` handlers."
+  },
+  {
+    "question": "When is `await readFile(path, 'utf8')` the better choice than a stream?",
+    "options": ["For a small, bounded file like a config read at startup", "For user uploads", "For log files of unknown size", "Never, streams are always better"],
+    "answer": 0,
+    "explanation": "Streams pay off when size is large or unbounded. For small bounded data, reading it whole is simpler and just as fast."
+  }
+]

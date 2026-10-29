@@ -1,0 +1,10 @@
+{
+  "title": "Calling Other Services",
+  "summary": "Server-side fetch done right: timeouts with AbortSignal, status checks, mapping upstream failures to 502/504, parallel calls, and when to retry.",
+  "level": "intermediate",
+  "tags": ["core", "http", "fetch"],
+  "resources": [
+    { "label": "Node.js guide: Fetch API in Node.js", "url": "https://nodejs.org/en/learn/getting-started/fetch" },
+    { "label": "MDN: AbortSignal.timeout()", "url": "https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal/timeout_static" }
+  ]
+}

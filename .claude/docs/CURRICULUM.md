@@ -184,3 +184,43 @@ Short and precise, more quizzes. Every lesson has a quiz (3–5 questions) unles
 
 ### 13-ecosystem — SSR and Ecosystem
 01-ssr-and-hydration **(quiz)** (incremental hydration, event replay) ✓ · 02-angular-cli-and-builders **(quiz)** (esbuild, Vite dev server) · 03-accessibility-and-angular-aria **(quiz)** · 04-performance (trackBy/track, @defer, NgOptimizedImage) **(quiz)**
+
+## Node.js (`src/content/node`, engine `node`)
+
+Backend for frontend developers who build with AI: enough depth to choose an approach, brief an assistant and review what it generates. Lessons are TypeScript. Every theory ends with **"When to choose it"** and **"Working with AI"** sections. Challenges run on the in-browser Node runtime (see CONTENT_GUIDE.md); topics it cannot execute (worker threads, clustering, real databases, deployment) are quizzes.
+
+### 01-runtime — The Node.js Runtime
+01-what-is-nodejs **(quiz)** (V8 + libuv, non-blocking I/O, Node vs browser, LTS releases, Deno and Bun) ✓ · 02-modules-esm-and-commonjs (multi-file: named/default exports, `node:` prefix, `type: module`, `exports` map) ✓ · 03-process-env-and-cli (`process.env` config with defaults, `util.parseArgs`, exit codes) ✓ · 04-event-loop (phases, microtasks, `nextTick`, `setImmediate`, blocking the loop; challenge: predict execution order) ✓ · 05-npm-and-package-management **(quiz)** (semver, lockfiles, dependencies vs devDependencies, scripts, npx, pnpm, supply-chain risks) ✓
+
+### 02-async — Asynchronous Patterns
+01-callbacks-and-promisify (error-first callbacks, writing `promisify`) ✓ · 02-promise-combinators (`all`, `allSettled`, `race`, `any`) ✓ · 03-concurrency-limits (map with a concurrency limit) ✓ · 04-cancellation-and-timeouts (`AbortController`, `AbortSignal.timeout`, `AbortSignal.any`) ✓ · 05-retries-and-backoff (exponential backoff with jitter, retryable errors) ✓ · 06-async-iterators-and-generators (paginated API as an async iterable) ✓
+
+### 03-core-apis — Core Modules
+01-event-emitter (typed emitter, `once`, the `'error'` event) ✓ · 02-buffers-and-encodings (bytes vs characters, utf8, base64, hex) ✓ · 03-file-system (`fs/promises`, JSON files, `ENOENT` handling, atomic writes) ✓ · 04-paths-and-urls (`path`, `URL`, path traversal guard) ✓ · 05-streams (Readable, Writable, async iteration, memory) ✓ · 06-transform-and-pipeline (Transform, `pipeline`, backpressure) ✓ · 07-crypto-basics (hashes, HMAC, random ids, `timingSafeEqual`) ✓
+
+### 04-http — HTTP from Scratch
+01-how-http-works **(quiz)** (methods, status codes, headers, idempotency, caching, CORS) ✓ · 02-node-http-server ✓ · 03-routing-and-request-bodies (route table with params, JSON body parsing, 400/413/415) ✓ · 04-middleware-pipeline (Koa-style `compose`, how Express and Hono work) ✓ · 05-calling-other-services (`fetch` with timeouts, status checks, error mapping) ✓
+
+### 05-rest-apis — REST APIs with Hono
+01-choosing-a-framework **(quiz)** (Express, Fastify, Hono, NestJS, Koa, meta-framework route handlers) ✓ · 02-hono-fundamentals (routes, params, query, context, status codes) ✓ · 03-rest-resource-design (CRUD, 201 + Location, 204, 404, 409) ✓ · 04-validation-with-zod (`zValidator`, error shape) ✓ · 05-error-handling (`HTTPException`, `onError`, `notFound`, domain errors) ✓ · 06-pagination-filtering-sorting (offset vs cursor) ✓ · 07-middleware-in-practice (CORS, request id, logging, timing) ✓ · 08-api-styles **(quiz)** (REST, GraphQL, tRPC, gRPC, WebSockets, SSE, webhooks) ✓ · 09-server-sent-events (`streamSSE`) ✓
+
+### 06-paradigms — Paradigms and Architecture
+01-programming-paradigms **(quiz)** ✓ · 02-functional-core (pure functions, immutability, composition) ✓ · 03-oop-and-solid (strategy pattern) ✓ · 04-dependency-injection (constructor injection, composition root, fakes) ✓ · 05-layered-architecture (multi-file: routes → service → repository) ✓ · 06-errors-as-values (Result type, domain errors to HTTP) ✓ · 07-design-patterns-for-backends (adapter, decorator, factory) ✓ · 08-architecture-styles **(quiz)** (monolith, modular monolith, microservices, serverless, hexagonal, event-driven) ✓
+
+### 07-data-structures — Data Structures and Algorithms
+01-big-o-in-practice **(quiz)** ✓ · 02-maps-and-sets (indexing, grouping, deduplication) ✓ · 03-stacks-and-queues ✓ · 04-linked-lists ✓ · 05-lru-cache ✓ · 06-trees-and-recursion (flat list to tree, traversal) ✓ · 07-graphs-and-topological-sort (dependency order, cycle detection) ✓ · 08-heaps-and-priority-queues ✓ · 09-sorting-and-binary-search ✓
+
+### 08-persistence — Data and Persistence
+01-choosing-a-database **(quiz)** (relational, document, key-value, search, vector) ✓ · 02-sql-essentials **(quiz)** (SELECT, JOIN, GROUP BY, indexes) ✓ · 03-parameterized-queries (query builder, SQL injection) ✓ · 04-repository-pattern ✓ · 05-transactions-and-consistency (unit of work with rollback) ✓ · 06-n-plus-one-and-batching (DataLoader-style batching) ✓ · 07-orms-and-migrations **(quiz)** (Prisma, Drizzle, Kysely, TypeORM, migrations) ✓ · 08-caching-strategies (cache-aside, TTL, in-flight deduplication, invalidation) ✓
+
+### 09-security — Authentication and Security
+01-authentication-concepts **(quiz)** (sessions vs tokens, cookies, OAuth 2 and OIDC, auth providers) ✓ · 02-password-hashing (salted PBKDF2, constant-time comparison) ✓ · 03-jwt-from-scratch (HS256 sign and verify, expiry) ✓ · 04-authorization-middleware (bearer auth and roles in Hono) ✓ · 05-rate-limiting (fixed window and token bucket) ✓ · 06-owasp-api-security **(quiz)** (OWASP API Top 10, secrets, headers, CORS) ✓
+
+### 10-scaling — Performance, Jobs and Scale
+01-keeping-the-event-loop-free (chunking CPU work, measuring lag) ✓ · 02-background-jobs-and-queues (job queue with retries and concurrency) ✓ · 03-worker-threads-and-clustering **(quiz)** ✓ · 04-real-time-transports **(quiz)** (polling, SSE, WebSockets, managed services) ✓ · 05-observability (structured logs, request ids, metrics) ✓ · 06-graceful-shutdown (SIGTERM, draining requests) ✓
+
+### 11-typescript — TypeScript on the Server
+01-running-typescript-in-node **(quiz)** (type stripping, tsx, tsc, `module: nodenext`) ✓ · 02-typed-config-with-zod ✓ · 03-end-to-end-type-safety (shared Zod schemas, Hono RPC client) ✓
+
+### 12-shipping — Testing, Shipping and Building with AI
+01-testing-backend-code **(quiz)** (unit vs integration, test doubles, Vitest, `node:test`, Supertest, Testcontainers) ✓ · 02-configuration-and-twelve-factor **(quiz)** ✓ · 03-deployment-options **(quiz)** (VPS, containers, PaaS, serverless, edge) ✓ · 04-building-backends-with-ai **(quiz)** (briefing, review checklist, decision matrix) ✓ · 05-capstone-api (multi-file Hono API: validation, service, repository, auth, errors) ✓

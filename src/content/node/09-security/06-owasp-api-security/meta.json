@@ -1,0 +1,11 @@
+{
+  "title": "OWASP API Security",
+  "summary": "The OWASP API Security Top 10 as a review checklist: object and property authorization, resource limits, SSRF, secrets, security headers, CORS, errors and dependencies.",
+  "level": "advanced",
+  "tags": ["theory", "security"],
+  "resources": [
+    { "label": "OWASP API Security Top 10 (2023)", "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/" },
+    { "label": "MDN: Cross-Origin Resource Sharing (CORS)", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS" },
+    { "label": "Hono: Secure Headers middleware", "url": "https://hono.dev/docs/middleware/builtin/secure-headers" }
+  ]
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "question": "A startup's Next.js app needs five endpoints to read and write the app's own data, used only by that frontend. What is the most pragmatic choice?",
+    "options": ["A separate NestJS service with its own deployment", "Next.js route handlers (or server actions) in the same project, extracted later if other clients appear", "An Express server inside a Next.js API route", "A Fastify microservice per endpoint"],
+    "answer": 1,
+    "explanation": "When one frontend is the only client, co-located handlers avoid a second deployment and share types. A separate service pays off when other clients, teams or long-running work appear."
+  },
+  {
+    "question": "A new API must run on Cloudflare Workers today and maybe in a Node container later. Which framework fits best?",
+    "options": ["Express 5", "Koa", "Hono", "Fastify"],
+    "answer": 2,
+    "explanation": "Hono is built on Web Standards `Request`/`Response`, so the same app runs on Workers, Node (through an adapter), Bun, Deno and serverless. Express, Koa and Fastify are bound to `node:http`."
+  },
+  {
+    "question": "An engineering organization of 40 developers wants every service to look the same, with dependency injection and generated OpenAPI docs. Which option matches that goal?",
+    "options": ["NestJS", "Plain `node:http`", "Koa", "A different framework per team"],
+    "answer": 0,
+    "explanation": "NestJS trades flexibility for enforced structure (modules, controllers, providers, DI) and ships OpenAPI integration, which suits large teams that value consistency."
+  },
+  {
+    "question": "A teammate wants to migrate a stable Express API to Fastify \"because benchmarks show it is 3× faster\". The API spends 90% of each request waiting for PostgreSQL. What is the best response?",
+    "options": ["Migrate immediately, speed always matters", "Rewrite it in Hono instead", "Move to NestJS for structure", "The framework overhead is a small part of the latency; measure first and optimize queries, indexes or caching before a costly migration"],
+    "answer": 3,
+    "explanation": "Framework benchmarks measure trivial requests. When the database dominates, a migration buys little; profiling and query work pay off more."
+  },
+  {
+    "question": "An AI assistant generates `app.use(bodyParser.json())` and wraps every async route in `try { ... } catch (err) { next(err) }` for a project on Express 5. What does this tell you?",
+    "options": ["The code is the recommended Express 5 style", "It is Express 4-era code: Express 5 has `express.json()` built in and forwards rejected promises to the error handler; tell the assistant the version", "Express 5 does not support JSON bodies", "It means the project should switch to Fastify"],
+    "answer": 1,
+    "explanation": "Assistants are trained on years of older code. Stating the framework version and pasting an existing route keeps generated code idiomatic."
+  }
+]

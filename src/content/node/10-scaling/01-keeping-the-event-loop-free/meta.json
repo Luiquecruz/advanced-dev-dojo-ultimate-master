@@ -1,0 +1,10 @@
+{
+  "title": "Keeping the Event Loop Free",
+  "summary": "Find work that blocks Node's single thread, split it into chunks that yield with setImmediate, measure event loop lag with an unref'd timer and shed load with 503 when the process falls behind.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "Node.js guide: Don't Block the Event Loop", "url": "https://nodejs.org/en/learn/asynchronous-work/dont-block-the-event-loop" },
+    { "label": "Node.js docs: perf_hooks.monitorEventLoopDelay", "url": "https://nodejs.org/api/perf_hooks.html#perf_hooksmonitoreventloopdelayoptions" }
+  ]
+}

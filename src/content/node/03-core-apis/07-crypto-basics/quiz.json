@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A password reset token is generated with `Math.random().toString(36).slice(2)`. What is the risk?",
+    "options": [
+      "Tokens may collide once in a billion",
+      "The token is too long for a URL",
+      "No risk if the token expires in an hour",
+      "`Math.random` is not cryptographically secure: its output can be predicted, so attackers can forge reset tokens"
+    ],
+    "answer": 3,
+    "explanation": "Security tokens must come from a CSPRNG: `randomBytes(32).toString('hex')` or `randomUUID()`."
+  },
+  {
+    "question": "A webhook handler parses JSON, then verifies `hmac(JSON.stringify(req.body)) === header`. Valid webhooks are sometimes rejected. What are the two problems?",
+    "options": [
+      "The signature must be computed over the raw body bytes (re-serializing changes them), and the comparison must use `timingSafeEqual`",
+      "HMAC needs MD5, and the header should be lowercased",
+      "JSON bodies cannot be signed",
+      "The secret should be base64 encoded first"
+    ],
+    "answer": 0,
+    "explanation": "Senders sign the exact bytes they sent. Keep the raw body for the webhook route, then compare in constant time after a length check."
+  },
+  {
+    "question": "Which use of `createHash('sha256')` is appropriate?",
+    "options": [
+      "Storing user passwords",
+      "Signing API requests between two services",
+      "Generating an ETag for a response body",
+      "Encrypting an email address so it can be shown later"
+    ],
+    "answer": 2,
+    "explanation": "Plain hashes are fingerprints: ETags, deduplication, integrity. Passwords need slow salted hashing, signatures need HMAC, and data you read back needs encryption."
+  },
+  {
+    "question": "`timingSafeEqual(Buffer.from(expected), Buffer.from(header))` crashes the endpoint with a 500 when clients send a short header. What should the code do?",
+    "options": [
+      "Pad the shorter buffer with zeros",
+      "Catch the error and return 500 anyway",
+      "Check `expected.length === received.length` first and return `false` (401) when they differ",
+      "Use `===` for short headers"
+    ],
+    "answer": 2,
+    "explanation": "`timingSafeEqual` throws on different lengths. Length is not secret, so an early length check is safe and turns bad input into a normal rejection."
+  }
+]

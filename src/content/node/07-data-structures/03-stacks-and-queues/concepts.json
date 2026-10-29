@@ -1,0 +1,8 @@
+[
+  { "term": "Stack (LIFO)", "description": "Last in, first out. `push` and `pop` on the end of an array are O(1). Used for rollbacks, undo and depth-first traversal." },
+  { "term": "Queue (FIFO)", "description": "First in, first out. Items leave in arrival order. Used for job queues, buffering and breadth-first traversal." },
+  { "term": "Head index", "description": "A pointer to the next item to dequeue, so removing from the front does not move every other element as `shift()` does." },
+  { "term": "Compensating action", "description": "The `down` of a step: what undoes it when a later step fails. Run in reverse order, it forms a saga across services." },
+  { "term": "Backpressure", "description": "Slowing or rejecting producers when consumers fall behind, so a buffer does not grow until memory runs out." },
+  { "term": "Durable queue", "description": "A queue stored outside the process (Redis, Postgres, SQS) that survives restarts and is shared between instances." }
+]

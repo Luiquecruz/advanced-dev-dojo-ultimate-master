@@ -4,6 +4,7 @@ import type { RunReport } from '@/engines/shared/testRunner';
 import { gradeInBrowser, runCode } from '@/engines/typescript/browserGrader';
 import { parseTypeScriptTests } from '@/engines/typescript/testsDsl';
 import type { SandboxRequest, SandboxResponse } from '@/sandbox/protocol';
+import type { ConsoleEntry } from './PreviewFrame';
 
 export interface TestOutcome {
   name: string;
@@ -21,6 +22,8 @@ export interface Report {
 
 const COMPILE_TEST_NAME = 'Your code compiles without type errors';
 const SANDBOX_TIMEOUT_MS = 45000;
+const RUN_TIMEOUT_MS = 15000;
+const RUNNABLE_ENGINES = new Set<EngineId>(['typescript', 'node']);
 
 /**
  * Names of the tests a challenge will run, shown before the first run.
@@ -35,18 +38,23 @@ export function testNamesFor(engine: EngineId, challenge: Challenge): string[] {
 /**
  * URL of the sandbox page for a framework track.
  */
-export function sandboxUrl(engine: EngineId, mode: 'preview' | 'test'): string {
+export function sandboxUrl(engine: EngineId, mode: 'preview' | 'test' | 'run'): string {
   return `${import.meta.env.BASE_URL}sandbox.html?engine=${engine}&mode=${mode}`;
 }
 
 let nextRequestId = 1;
 
+function createHiddenSandbox(engine: EngineId, mode: 'test' | 'run'): HTMLIFrameElement {
+  const iframe = document.createElement('iframe');
+  iframe.className = 'pointer-events-none fixed top-0 -left-[10000px] h-[768px] w-[1024px] border-none opacity-0';
+  iframe.setAttribute('aria-hidden', 'true');
+  iframe.src = sandboxUrl(engine, mode);
+  return iframe;
+}
+
 function runInSandbox(engine: EngineId, files: ProjectFiles, entry: string, tests: string): Promise<RunReport> {
   return new Promise((resolve) => {
-    const iframe = document.createElement('iframe');
-    iframe.className = 'pointer-events-none fixed top-0 -left-[10000px] h-[768px] w-[1024px] border-none opacity-0';
-    iframe.setAttribute('aria-hidden', 'true');
-    iframe.src = sandboxUrl(engine, 'test');
+    const iframe = createHiddenSandbox(engine, 'test');
     const id = nextRequestId++;
 
     const previouslyFocused = document.activeElement as HTMLElement | null;
@@ -104,8 +112,58 @@ export async function gradeChallenge(engine: EngineId, challenge: Challenge, fil
 }
 
 /**
- * Runs TypeScript track code and returns its console output.
+ * Whether the track has a Run button that executes the entry file and prints its console output.
  */
-export function runTypeScript(code: string): Promise<string[]> {
-  return runCode(code);
+export function canRunProgram(engine: EngineId): boolean {
+  return RUNNABLE_ENGINES.has(engine);
+}
+
+function levelOf(text: string): ConsoleEntry['level'] {
+  return text.startsWith('✖') ? 'error' : text.startsWith('⚠') ? 'warn' : 'log';
+}
+
+function runNodeInSandbox(engine: EngineId, files: ProjectFiles, entry: string, onConsole: (entry: ConsoleEntry) => void): Promise<void> {
+  return new Promise((resolve) => {
+    const iframe = createHiddenSandbox(engine, 'run');
+    const id = nextRequestId++;
+    const finish = () => {
+      clearTimeout(timer);
+      window.removeEventListener('message', onMessage);
+      iframe.remove();
+      resolve();
+    };
+    const onMessage = (event: MessageEvent<SandboxResponse>) => {
+      if (event.source !== iframe.contentWindow) {
+        return;
+      }
+      if (event.data.type === 'ready') {
+        const request: SandboxRequest = { type: 'run', id, files, entry };
+        iframe.contentWindow?.postMessage(request, location.origin);
+      }
+      if (event.data.type === 'console') {
+        onConsole({ level: event.data.level, text: event.data.text });
+      }
+      if (event.data.type === 'run-complete' && event.data.id === id) {
+        finish();
+      }
+    };
+    const timer = setTimeout(() => {
+      onConsole({ level: 'error', text: 'The program took too long and was stopped. Check for infinite loops.' });
+      finish();
+    }, RUN_TIMEOUT_MS);
+    window.addEventListener('message', onMessage);
+    document.body.appendChild(iframe);
+  });
+}
+
+/**
+ * Runs the entry file of a challenge and streams its console output.
+ */
+export async function runProgram(engine: EngineId, files: ProjectFiles, entry: string, onConsole: (entry: ConsoleEntry) => void): Promise<void> {
+  if (engine === 'typescript') {
+    const logs = await runCode(files[entry]);
+    logs.forEach((text) => onConsole({ level: levelOf(text), text }));
+    return;
+  }
+  await runNodeInSandbox(engine, files, entry, onConsole);
 }

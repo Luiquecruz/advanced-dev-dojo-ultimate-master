@@ -1,0 +1,8 @@
+[
+  { "term": "Cache-aside", "description": "The application reads the cache, loads from the database on a miss and stores the result. Writes go to the database and invalidate the key." },
+  { "term": "TTL", "description": "Time to live: how long an entry stays fresh. It bounds staleness even when an invalidation is missed." },
+  { "term": "Cache stampede", "description": "Many requests miss the same key at once and all hit the database. Fixed with in-flight deduplication, locks or early refresh." },
+  { "term": "Invalidation", "description": "Removing an entry after the source changes. The hard part is ordering it correctly with concurrent reads." },
+  { "term": "Negative caching", "description": "Caching \"not found\" (`null`) too, so repeated lookups for missing ids do not reach the database." },
+  { "term": "Stale-while-revalidate", "description": "Serve the expired value immediately and refresh it in the background; the same idea as the HTTP header and SWR on the frontend." }
+]

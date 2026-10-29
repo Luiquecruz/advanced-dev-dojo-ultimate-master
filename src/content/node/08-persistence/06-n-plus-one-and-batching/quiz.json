@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A list endpoint is fast locally but takes 900 ms in production for 300 items. Query logs show one `SELECT ... FROM users WHERE id = $1` per item. What is the fix?",
+    "options": ["Add more database replicas", "Fetch the users once with `WHERE id = ANY($1)` (or a JOIN) and match them in memory", "Increase the connection pool to 300", "Run the per-item queries with `Promise.all`"],
+    "answer": 1,
+    "explanation": "It is an N+1 problem. Parallelizing still sends 300 queries and can exhaust the pool; one batched query removes the round trips."
+  },
+  {
+    "question": "A team creates one `DataLoader` for users at module level and shares it across all requests. What goes wrong?",
+    "options": ["Nothing: it is a faster cache", "Batching stops working", "Its cache never expires, so users see stale data and data can leak between requests with different permissions", "DataLoader throws when shared"],
+    "answer": 2,
+    "explanation": "A DataLoader cache is a per-request memo with no TTL or invalidation. Create loaders per request and use a real cache for cross-request reuse."
+  },
+  {
+    "question": "A batch function returns `await db.query('SELECT * FROM users WHERE id = ANY($1)', [ids])` rows directly. Why are some posts shown with the wrong author?",
+    "options": ["Rows come back in any order and missing ids are skipped, so results must be mapped back to key order", "DataLoader requires sorted keys", "`ANY` returns duplicates", "The query needs `LIMIT`"],
+    "answer": 0,
+    "explanation": "The loader matches results to keys by index. Build a `Map` by id and return `keys.map((id) => byId.get(id) ?? null)`."
+  }
+]

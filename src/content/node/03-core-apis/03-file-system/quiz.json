@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A route handler loads a template with `readFileSync` on every request. Under load, latency rises for every endpoint, even ones that do not use the template. Why?",
+    "options": ["`readFileSync` blocks the single JavaScript thread, so no other request runs while it reads", "Sync reads use more memory", "The file is locked for other requests", "Node limits sync calls per second"],
+    "answer": 0,
+    "explanation": "Sync calls stop the event loop. Read the file once at startup, or use `await readFile` inside handlers."
+  },
+  {
+    "question": "Two requests run `addNote` on the same JSON file at the same time with an atomic write helper. What can still go wrong?",
+    "options": ["The file can end up half-written", "Nothing, atomic writes make concurrent updates safe", "Both read the same old array, so one note is lost when the second write replaces the first", "`rename` throws `EEXIST`"],
+    "answer": 2,
+    "explanation": "Atomic writes prevent torn files, not lost updates. Read-modify-write needs serialization (a lock or queue) or, better, a database with transactions."
+  },
+  {
+    "question": "Which `catch` block is right for loading an optional cache file?",
+    "options": ["`catch { return {} }`", "`catch (e) { if (e.code === 'ENOENT') return {}; throw e; }`", "`catch (e) { if (e.message.includes('no such file')) return {}; }`", "Check `existsSync` first and skip the `try`"],
+    "answer": 1,
+    "explanation": "Only the missing-file case is expected. Swallowing everything hides corrupted JSON and permission errors; message checks are fragile; `existsSync` adds a race."
+  }
+]

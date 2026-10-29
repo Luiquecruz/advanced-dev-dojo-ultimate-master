@@ -1,0 +1,9 @@
+[
+  { "term": "Safe method", "description": "Has no side effects (`GET`, `HEAD`, `OPTIONS`). Crawlers, prefetchers and caches may call it at will." },
+  { "term": "Idempotent method", "description": "Repeating it has the same effect as sending it once (`GET`, `PUT`, `DELETE`). Makes automatic retries safe. `POST` is not." },
+  { "term": "Idempotency-Key", "description": "Request header with a client-generated key; the server stores the result per key so a retried `POST` is not executed twice." },
+  { "term": "Cache-Control", "description": "Response header that decides who may store a response and for how long: `public`, `private`, `max-age`, `no-store`, `immutable`." },
+  { "term": "ETag / 304", "description": "A version identifier of a response. The client sends `If-None-Match`; the server answers `304 Not Modified` without a body when unchanged." },
+  { "term": "CORS preflight", "description": "`OPTIONS` request the browser sends before cross-origin requests with JSON bodies, custom headers or non-simple methods." },
+  { "term": "401 vs 403", "description": "`401`: not authenticated (missing or invalid credentials). `403`: authenticated but not allowed." }
+]

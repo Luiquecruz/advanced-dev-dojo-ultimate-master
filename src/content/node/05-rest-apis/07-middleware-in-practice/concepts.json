@@ -1,0 +1,8 @@
+[
+  { "term": "Onion model", "description": "Each middleware runs code before `await next()`, the rest of the chain produces the response, then code after `next()` runs in reverse order." },
+  { "term": "Request id", "description": "A unique id per request (`X-Request-Id`) attached to every log line and forwarded to downstream services, so one request can be traced end to end." },
+  { "term": "Structured logging", "description": "Log entries as JSON objects (`{ requestId, path, status, durationMs }`) that log platforms can index and query, instead of free text." },
+  { "term": "CORS preflight", "description": "An `OPTIONS` request the browser sends before non-simple cross-origin requests. The server answers with allowed origins, methods and headers." },
+  { "term": "exposeHeaders", "description": "CORS option listing response headers frontend JavaScript may read (`X-Request-Id`, `X-Total-Count`); others stay hidden from cross-origin code." },
+  { "term": "Server-Timing", "description": "Response header with named durations (`db;dur=12`) shown in the DevTools Network panel." }
+]

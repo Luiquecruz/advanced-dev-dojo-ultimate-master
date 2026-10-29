@@ -1,0 +1,10 @@
+{
+  "title": "Functional Core",
+  "summary": "Pure functions, immutability and composition: keep business rules deterministic and push I/O to a thin imperative shell.",
+  "level": "intermediate",
+  "tags": ["core", "theory", "testing"],
+  "resources": [
+    { "label": "MDN: Array.prototype.toSorted", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted" },
+    { "label": "MDN: Object.freeze", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze" }
+  ]
+}

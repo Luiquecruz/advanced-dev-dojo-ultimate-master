@@ -1,0 +1,8 @@
+[
+  { "term": "Dependency injection", "description": "A component receives its collaborators (repository, mailer, clock) from outside instead of creating them." },
+  { "term": "Constructor injection", "description": "Dependencies arrive as constructor parameters, usually one typed `deps` object, and are stored as `readonly` fields." },
+  { "term": "Composition root", "description": "The single place near startup where concrete implementations are created and wired together." },
+  { "term": "Fake", "description": "A lightweight working implementation for tests, such as an in-memory repository backed by a `Map`." },
+  { "term": "Service locator", "description": "Anti-pattern: code pulls dependencies from a global container at runtime, hiding what it needs." },
+  { "term": "Seam", "description": "A place where behavior can be swapped without editing code; `createContainer(overrides)` is one." }
+]

@@ -1,4 +1,8 @@
-export type EngineId = 'typescript' | 'react' | 'vue' | 'angular';
+import { isTrackEnabled } from './featureFlags';
+
+export { isTrackEnabled, TRACK_FLAGS } from './featureFlags';
+
+export type EngineId = 'typescript' | 'react' | 'vue' | 'angular' | 'node';
 export type TrackId = string;
 export type Level = 'beginner' | 'intermediate' | 'advanced' | 'expert';
 export type ProjectFiles = Record<string, string>;
@@ -79,7 +83,10 @@ const DEFAULT_ENTRY: Record<EngineId, Record<string, string>> = {
   react: { jsx: 'App.jsx', tsx: 'App.tsx' },
   vue: { vue: 'App.vue', ts: 'main.ts', js: 'main.js' },
   angular: { ts: 'app.ts' },
+  node: { ts: 'main.ts', js: 'main.js' },
 };
+
+const HEADLESS_ENGINES = new Set<EngineId>(['typescript', 'node']);
 
 const textFiles = import.meta.glob<string>(['./*/**/*', '!./*/**/*.json'], { query: '?raw', import: 'default', eager: true });
 const jsonFiles = import.meta.glob<unknown>('./*/**/*.json', { import: 'default', eager: true });
@@ -134,7 +141,7 @@ function buildChallenge(engine: EngineId, directory: string, meta: LessonMeta): 
     tests: testsPath ? textFiles[testsPath] : '',
     hints: splitSections(file('hints.md')),
     approach: file('approach.md') ?? '',
-    preview: meta.preview ?? engine !== 'typescript',
+    preview: meta.preview ?? !HEADLESS_ENGINES.has(engine),
   };
 }
 
@@ -198,5 +205,7 @@ function buildTracks(): Track[] {
 
 export const tracks = buildTracks();
 export const trackById = new Map(tracks.map((track) => [track.id, track]));
+export const availableTracks = tracks.filter((track) => isTrackEnabled(track.id));
+export const availableTrackById = new Map(availableTracks.map((track) => [track.id, track]));
 export const allLessons = tracks.flatMap((track) => track.lessons);
 export const lessonByKey = new Map(allLessons.map((lesson) => [lesson.key, lesson]));

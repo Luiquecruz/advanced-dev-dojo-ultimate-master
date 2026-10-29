@@ -1,0 +1,8 @@
+[
+  { "term": "V8", "description": "Google's JavaScript engine, shared by Chrome and Node.js. Compiles and runs your code and manages the heap." },
+  { "term": "libuv", "description": "C library under Node that provides the event loop, a thread pool and cross-platform access to files, sockets, timers and DNS." },
+  { "term": "Non-blocking I/O", "description": "I/O is handed to the OS or the thread pool; the JavaScript thread keeps running and a callback is queued when the result is ready." },
+  { "term": "I/O-bound vs CPU-bound", "description": "I/O-bound work mostly waits (network, disk) and scales well on Node. CPU-bound work keeps the thread busy and blocks every other request." },
+  { "term": "LTS", "description": "Long Term Support: even-numbered majors (22, 24) get about 30 months of fixes. Production runs an LTS line." },
+  { "term": "Deno and Bun", "description": "Alternative JavaScript runtimes. Deno adds permissions and built-in tooling; Bun focuses on speed with JavaScriptCore. Both aim for Node compatibility." }
+]

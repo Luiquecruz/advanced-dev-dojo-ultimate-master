@@ -1,0 +1,10 @@
+{
+  "title": "Programming Paradigms",
+  "summary": "Imperative, functional, object-oriented, event-driven and declarative styles in Node.js, and how to mix them on purpose.",
+  "level": "intermediate",
+  "tags": ["theory"],
+  "resources": [
+    { "label": "MDN: JavaScript language overview", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Language_overview" },
+    { "label": "Node.js docs: Events", "url": "https://nodejs.org/api/events.html" }
+  ]
+}

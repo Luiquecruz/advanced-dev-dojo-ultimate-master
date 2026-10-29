@@ -1,0 +1,8 @@
+[
+  { "term": "Transform stream", "description": "Writable input, readable output. Implement `transform(chunk, encoding, callback)` and push zero or more outputs per chunk." },
+  { "term": "flush()", "description": "Runs once after the last input chunk, to push anything still buffered (the last line, a footer)." },
+  { "term": "objectMode", "description": "Streams carry arbitrary values instead of bytes. `readableObjectMode` / `writableObjectMode` set one side only." },
+  { "term": "pipeline()", "description": "`await pipeline(a, b, c)` from `node:stream/promises`: wires backpressure, destroys every stream on error and rejects with the first error." },
+  { "term": "Backpressure", "description": "`write()` returns `false` when the buffer is full; producers wait for `'drain'`. `pipeline` does it for you." },
+  { "term": "NDJSON", "description": "Newline-delimited JSON: one JSON value per line. Streams well because each line is parsed independently." }
+]

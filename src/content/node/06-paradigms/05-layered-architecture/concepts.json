@@ -1,0 +1,8 @@
+[
+  { "term": "Route layer", "description": "Translates HTTP to use cases: parses params and body, calls the service, picks the success status. No business rules." },
+  { "term": "Service layer", "description": "Holds the business rules (use cases) and throws domain errors. Knows nothing about HTTP or storage details." },
+  { "term": "Repository", "description": "Loads and stores data behind an interface (`TaskRepository`). No rules; returns plain data." },
+  { "term": "Domain error", "description": "An error that names a business outcome (`NotFoundError`, `ConflictError`) instead of an HTTP status." },
+  { "term": "Error translation", "description": "One place at the edge (`app.onError`) maps domain errors to status codes and hides unknown errors behind a 500." },
+  { "term": "Vertical slice", "description": "Organizing code by feature (`tasks/`, `users/`), each with its own routes, service and repository." }
+]

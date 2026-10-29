@@ -1,0 +1,10 @@
+{
+  "title": "Building Backends with AI",
+  "summary": "Decide, brief, generate in slices, verify and review: a briefing template, a decision matrix across the whole track and a review checklist for generated backend code.",
+  "level": "expert",
+  "tags": ["theory", "modern"],
+  "resources": [
+    { "label": "OWASP API Security Top 10", "url": "https://owasp.org/API-Security/" },
+    { "label": "Anthropic: Claude Code best practices for agentic coding", "url": "https://www.anthropic.com/engineering/claude-code-best-practices" }
+  ]
+}

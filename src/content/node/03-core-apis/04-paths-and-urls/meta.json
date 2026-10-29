@@ -1,0 +1,11 @@
+{
+  "title": "Paths and URLs",
+  "summary": "node:path (join vs resolve), path traversal and the root guard, the WHATWG URL and URLSearchParams, relative URL pitfalls and mapping URLs to static files.",
+  "level": "intermediate",
+  "tags": ["core", "path", "security"],
+  "resources": [
+    { "label": "Node.js docs: Path", "url": "https://nodejs.org/api/path.html" },
+    { "label": "Node.js docs: URL", "url": "https://nodejs.org/api/url.html" },
+    { "label": "OWASP: Path Traversal", "url": "https://owasp.org/www-community/attacks/Path_Traversal" }
+  ]
+}

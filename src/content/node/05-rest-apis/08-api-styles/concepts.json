@@ -1,0 +1,8 @@
+[
+  { "term": "GraphQL", "description": "A query language where the client asks one endpoint for exactly the fields it needs. Flexible for clients, demanding for servers (resolvers, N+1, cost limits)." },
+  { "term": "tRPC / typed RPC", "description": "The client calls server procedures with types inferred from the server code, without a hand-written contract. TypeScript-only, best in a monorepo." },
+  { "term": "gRPC", "description": "Contract-first RPC with Protocol Buffers over HTTP/2 and generated clients in many languages. Common between internal services." },
+  { "term": "Backend-for-frontend (BFF)", "description": "An API layer shaped for one client's screens, aggregating several services so the frontend makes one request." },
+  { "term": "Webhook", "description": "An HTTP request another system sends to your endpoint when an event happens. Requires signature verification, fast acknowledgment and idempotent processing." },
+  { "term": "OpenAPI", "description": "A machine-readable description of a REST API, used to generate docs, clients and tests in any language." }
+]

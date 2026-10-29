@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A service creates an emitter and calls `emitter.emit('error', err)`, but no code ever registered an `'error'` listener. What happens?",
+    "options": ["The error is ignored and `emit` returns `false`", "The error is logged as a warning", "`emit` throws the error, which usually crashes the process", "The error is queued until a listener is added"],
+    "answer": 2,
+    "explanation": "`'error'` is the one event that throws when unhandled. Every emitter you own needs an `'error'` listener or a wrapper that turns errors into rejections."
+  },
+  {
+    "question": "A request handler runs `bus.on('config-changed', () => refresh(req))` on every request. What is the problem?",
+    "options": ["Nothing, listeners are removed when the request ends", "A listener leak: every request adds one that is never removed, so memory grows and Node prints `MaxListenersExceededWarning`", "`on` is asynchronous, so `refresh` runs too late", "It throws because the event name contains a dash"],
+    "answer": 1,
+    "explanation": "Listeners live as long as the emitter. Per-request listeners need `once` or an explicit `off` with the same function reference."
+  },
+  {
+    "question": "Order events must be processed by a billing worker even if the API server restarts in the middle. Which tool fits?",
+    "options": ["A durable queue or an outbox table", "A module-level `EventEmitter` shared by the API and billing code", "`process.emit('order')`", "`setImmediate` with the order payload"],
+    "answer": 0,
+    "explanation": "An in-memory emitter loses every pending event on restart and cannot reach other processes. Durable delivery needs a queue (Redis, SQS, RabbitMQ) or an outbox in the database."
+  }
+]

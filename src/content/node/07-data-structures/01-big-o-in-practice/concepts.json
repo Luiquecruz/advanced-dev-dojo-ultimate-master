@@ -1,0 +1,8 @@
+[
+  { "term": "Big O", "description": "How the cost of an operation grows with the input size `n`, ignoring constants. It predicts what happens when data grows, not how fast code is today." },
+  { "term": "O(n²) hidden loop", "description": "A linear call (`find`, `includes`, `indexOf`, `filter`) inside another loop. The most common performance bug in generated backend code." },
+  { "term": "Amortized O(1)", "description": "An operation that is occasionally expensive (a resize) but constant on average over many calls, like `array.push` or `map.set`." },
+  { "term": "Space complexity", "description": "How memory grows with `n`. Loading a whole file or table is `O(n)` space; streaming or paginating keeps it constant." },
+  { "term": "Bounded n", "description": "A collection whose size has a known small limit (roles, currencies, feature flags). Complexity rarely matters for it." },
+  { "term": "N+1 queries", "description": "One query per item inside a loop. Network round trips cost far more than in-memory work, so they dominate the real cost." }
+]

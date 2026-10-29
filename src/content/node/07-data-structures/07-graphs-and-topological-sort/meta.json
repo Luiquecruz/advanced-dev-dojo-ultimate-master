@@ -1,0 +1,10 @@
+{
+  "title": "Graphs and Topological Sort",
+  "summary": "Order migrations and build tasks by their dependencies with a three-state DFS, report cycles with their path, and group independent work into parallel waves with Kahn's algorithm.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "Wikipedia: Topological sorting", "url": "https://en.wikipedia.org/wiki/Topological_sorting" },
+    { "label": "Wikipedia: Directed acyclic graph", "url": "https://en.wikipedia.org/wiki/Directed_acyclic_graph" }
+  ]
+}

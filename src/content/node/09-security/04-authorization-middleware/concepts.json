@@ -1,0 +1,8 @@
+[
+  { "term": "401 vs 403", "description": "401 Unauthorized means \"I do not know who you are\" (send credentials); 403 Forbidden means \"I know you, and you may not do this\"." },
+  { "term": "Bearer token", "description": "`Authorization: Bearer <token>`: whoever holds the token is authenticated, like a key. Always over HTTPS." },
+  { "term": "RBAC", "description": "Role-based access control: permissions attached to roles (`admin`, `member`), roles attached to users." },
+  { "term": "BOLA / IDOR", "description": "Broken object level authorization: changing `/posts/1` to `/posts/2` reaches someone else's data because ownership is not checked. #1 in the OWASP API Top 10." },
+  { "term": "Fail closed", "description": "When in doubt (missing header, lookup error), deny. Protected by default, opened explicitly." },
+  { "term": "Context variables", "description": "`c.set('user', user)` in a middleware and `c.get('user')` in handlers, typed with `Hono<{ Variables: ... }>`." }
+]

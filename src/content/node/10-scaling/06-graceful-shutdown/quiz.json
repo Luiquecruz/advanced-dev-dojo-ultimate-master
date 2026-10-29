@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Every deploy produces a burst of 502 errors. The app has `process.on('SIGTERM', () => process.exit(0))`. What is wrong?",
+    "options": [
+      "It exits immediately, killing in-flight requests; close the server, wait for in-flight requests (and the load balancer), clean up, then exit",
+      "SIGTERM cannot be handled in Node.js",
+      "It should exit with code 1",
+      "It should listen to SIGKILL instead"
+    ],
+    "answer": 0,
+    "explanation": "Exiting on SIGTERM without draining is the same as crashing. `server.close()` stops accepting connections and calls back when active requests are done."
+  },
+  {
+    "question": "A container starts with `CMD npm start`. On `docker stop` the app's SIGTERM handler never runs and the container is killed after 10 seconds. Why?",
+    "options": [
+      "Docker sends SIGINT, not SIGTERM",
+      "Handlers only run in development",
+      "`npm` is PID 1 and does not forward the signal to the Node process; start Node directly (`CMD [\"node\", \"server.js\"]`) or use an init like tini",
+      "The handler must be registered before imports"
+    ],
+    "answer": 2,
+    "explanation": "Signals go to PID 1. Wrappers such as npm or a shell may swallow them, so the platform's SIGKILL arrives after the grace period."
+  },
+  {
+    "question": "Kubernetes gives pods 30 seconds between SIGTERM and SIGKILL. What timeout should the app's forced shutdown use?",
+    "options": [
+      "60 seconds, to be safe",
+      "No timeout: always wait for every request",
+      "0 seconds",
+      "Less than 30 seconds (for example 20-25), so the app can still exit on its own terms and log why"
+    ],
+    "answer": 3,
+    "explanation": "A timeout longer than the grace period never fires: SIGKILL arrives first, in the middle of cleanup and without logs."
+  },
+  {
+    "question": "Why should the shutdown timeout timer be `unref()`'d?",
+    "options": [
+      "So the timer fires earlier",
+      "So the timer alone cannot keep the process alive once everything else has ended",
+      "Because referenced timers block `server.close()`",
+      "It is required for `process.exit` to work"
+    ],
+    "answer": 1,
+    "explanation": "A referenced timer keeps the event loop alive. Unref'd safety timers fire only if something else is still holding the process open."
+  }
+]

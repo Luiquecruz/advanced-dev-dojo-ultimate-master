@@ -1,0 +1,11 @@
+{
+  "title": "npm and Package Management",
+  "summary": "Semver ranges, lockfiles and npm ci, dependency types, scripts and npx, npm vs pnpm, and how to defend a backend against supply-chain attacks.",
+  "level": "beginner",
+  "tags": ["theory", "ecosystem"],
+  "resources": [
+    { "label": "npm docs: package.json", "url": "https://docs.npmjs.com/cli/configuring-npm/package-json" },
+    { "label": "npm docs: npm ci", "url": "https://docs.npmjs.com/cli/commands/npm-ci" },
+    { "label": "Semantic Versioning", "url": "https://semver.org/" }
+  ]
+}

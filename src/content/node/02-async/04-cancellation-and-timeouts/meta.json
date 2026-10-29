@@ -1,0 +1,10 @@
+{
+  "title": "Cancellation and Timeouts",
+  "summary": "Stop work instead of only ignoring it: AbortController, AbortSignal.timeout and AbortSignal.any, cancellable primitives, robust deadlines and latest-wins calls.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "resources": [
+    { "label": "MDN: AbortSignal", "url": "https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal" },
+    { "label": "Node.js docs: AbortSignal", "url": "https://nodejs.org/api/globals.html#class-abortsignal" }
+  ]
+}

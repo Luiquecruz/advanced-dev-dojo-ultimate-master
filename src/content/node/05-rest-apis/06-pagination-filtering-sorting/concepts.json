@@ -1,0 +1,8 @@
+[
+  { "term": "Offset pagination", "description": "`LIMIT n OFFSET m`: simple and allows page jumps, but slow on deep pages and items shift when rows are inserted or deleted." },
+  { "term": "Cursor (keyset) pagination", "description": "The client sends an opaque cursor for the last item; the server queries `WHERE key > cursor`. Fast at any depth and stable under writes." },
+  { "term": "Opaque cursor", "description": "A token clients pass back unchanged (often base64 JSON). Its contents can change without breaking clients; it must still be validated." },
+  { "term": "Tie-breaker", "description": "A unique column (`id`) added to every sort so equal values always come out in the same order and pages never overlap." },
+  { "term": "Sort whitelist", "description": "Only known field names are accepted for sorting and filtering. Prevents `ORDER BY` injection and slow scans on unindexed columns." },
+  { "term": "Page envelope", "description": "An object around the items (`{ items, total }` or `{ items, nextCursor }`) so metadata can grow without breaking clients." }
+]

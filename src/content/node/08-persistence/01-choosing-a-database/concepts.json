@@ -1,0 +1,8 @@
+[
+  { "term": "Source of truth", "description": "The one store whose data wins when copies disagree. Caches, search indexes and vector stores are rebuilt from it." },
+  { "term": "Normalization", "description": "Storing each fact once and linking rows by keys, so an update touches one place. Denormalization copies data to make reads cheaper." },
+  { "term": "ACID", "description": "Atomicity, Consistency, Isolation, Durability: the guarantees of a database transaction." },
+  { "term": "Aggregate", "description": "A cluster of data read and written as a unit (an order with its lines). Document stores keep one aggregate per document." },
+  { "term": "Eventual consistency", "description": "Replicas converge over time; a read right after a write may return the old value." },
+  { "term": "Embedding", "description": "An array of floats that represents meaning. Vector databases find the nearest embeddings for similarity search and RAG." }
+]

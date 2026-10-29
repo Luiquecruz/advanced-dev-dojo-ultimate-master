@@ -1,0 +1,12 @@
+{
+  "title": "Capstone: Bookmarks API",
+  "summary": "Combine everything: a Hono API with Zod validation, a service with ownership rules, a repository, bearer-token auth and one consistent error envelope.",
+  "level": "expert",
+  "tags": ["core", "http", "testing"],
+  "entry": "main.ts",
+  "resources": [
+    { "label": "Hono docs: Validation", "url": "https://hono.dev/docs/guides/validation" },
+    { "label": "OWASP API1:2023 Broken Object Level Authorization", "url": "https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/" },
+    { "label": "RFC 9457: Problem Details for HTTP APIs", "url": "https://www.rfc-editor.org/rfc/rfc9457" }
+  ]
+}

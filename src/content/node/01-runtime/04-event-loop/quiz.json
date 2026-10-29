@@ -1,0 +1,46 @@
+[
+  {
+    "question": "At the top level of a CommonJS script you call `setTimeout(a, 0)` and then `setImmediate(b)`. Which runs first?",
+    "options": [
+      "Always `a`: timers come first in the loop",
+      "Always `b`: the check phase is faster",
+      "It is not deterministic: it depends on whether 1 ms has elapsed when the first loop iteration starts",
+      "Neither runs until a promise resolves"
+    ],
+    "answer": 2,
+    "explanation": "From the main module the order depends on process performance. Inside an I/O callback it is deterministic: `setImmediate` first."
+  },
+  {
+    "question": "An endpoint calls `JSON.parse` on a 150 MB body, taking 1.5 s. Meanwhile a health check with a 1 s timeout fails. Why?",
+    "options": [
+      "The health check runs on the thread pool, which is full",
+      "Parsing keeps the JavaScript thread busy, so the health check's request callback cannot run until it finishes",
+      "Node limits the number of concurrent requests to one",
+      "`JSON.parse` closes other sockets to save memory"
+    ],
+    "answer": 1,
+    "explanation": "Synchronous CPU work blocks the loop for everyone. Limit body sizes, stream large payloads, or move heavy work off the main thread."
+  },
+  {
+    "question": "A library function calls itself through `process.nextTick` until a queue is empty, and the queue keeps receiving items. What is the risk?",
+    "options": [
+      "I/O starvation: the nextTick queue never empties, so the loop never reaches the poll phase",
+      "None: `nextTick` yields to I/O between calls",
+      "A stack overflow on the first call",
+      "The process exits early because the loop is empty"
+    ],
+    "answer": 0,
+    "explanation": "Node drains the whole nextTick queue (and microtasks) before moving on. Use `setImmediate` to yield to I/O between batches."
+  },
+  {
+    "question": "Which work runs on libuv's thread pool rather than directly on the OS's non-blocking sockets?",
+    "options": [
+      "Incoming HTTP requests",
+      "`fetch` calls to another API",
+      "`fs.readFile`, `crypto.pbkdf2` and `dns.lookup`",
+      "`setTimeout` callbacks"
+    ],
+    "answer": 2,
+    "explanation": "File system, some crypto, zlib and `dns.lookup` use the 4-thread pool by default. Network sockets are non-blocking at the OS level and need no threads."
+  }
+]

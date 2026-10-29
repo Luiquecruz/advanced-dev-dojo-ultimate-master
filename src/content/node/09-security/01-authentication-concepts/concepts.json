@@ -1,0 +1,8 @@
+[
+  { "term": "Authentication vs authorization", "description": "Authentication proves identity (who); authorization decides permissions (what). 401 vs 403 in HTTP." },
+  { "term": "Session", "description": "Server-side state keyed by a random id in a cookie. Revoked by deleting it." },
+  { "term": "HttpOnly cookie", "description": "A cookie JavaScript cannot read, so XSS cannot steal it. Combine with `Secure` and `SameSite`." },
+  { "term": "Refresh token", "description": "A long-lived, revocable credential used only to obtain new short-lived access tokens." },
+  { "term": "OAuth 2.0 / OIDC", "description": "OAuth delegates access to APIs (access token); OpenID Connect adds identity (ID token). Use Authorization Code + PKCE." },
+  { "term": "Passkey", "description": "WebAuthn credential bound to the site: the server stores a public key, so there is no password to phish or leak." }
+]

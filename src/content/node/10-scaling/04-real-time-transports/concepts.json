@@ -1,0 +1,8 @@
+[
+  { "term": "Long polling", "description": "The server holds a request open until there is data or a timeout, then the client immediately asks again. Real-time over plain HTTP." },
+  { "term": "Server-Sent Events", "description": "A long `text/event-stream` response for server-to-client messages, with automatic reconnection and `Last-Event-ID` resume." },
+  { "term": "WebSocket", "description": "A persistent full-duplex connection started with an HTTP upgrade. Low latency in both directions, but stateful." },
+  { "term": "Fan-out", "description": "Delivering one event to every interested connection, across all instances, usually through Redis pub/sub or a broker." },
+  { "term": "Heartbeat", "description": "Periodic ping or comment messages that keep idle connections open through proxies and detect dead clients." },
+  { "term": "Sticky sessions", "description": "Routing a client's requests to the same instance. Needed by long polling fallbacks, not by a single WebSocket or SSE connection." }
+]

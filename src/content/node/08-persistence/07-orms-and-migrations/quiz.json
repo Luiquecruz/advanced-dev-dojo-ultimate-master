@@ -1,0 +1,37 @@
+[
+  {
+    "question": "You rename `users.fullname` to `users.display_name` in the Prisma schema. The generated migration contains `DROP COLUMN fullname` and `ADD COLUMN display_name`. What should happen in review?",
+    "options": ["Merge it: Prisma knows best", "Run it with `db push` instead", "Reject it: it deletes data. Edit the migration to a rename, or use expand and contract if old code still reads the column", "Delete the migrations folder and regenerate"],
+    "answer": 2,
+    "explanation": "Generators cannot always tell a rename from a drop plus add. Always read migration SQL before merging."
+  },
+  {
+    "question": "During a rolling deploy, old and new app versions run at the same time. The new version needs a required `status` column. What is the safe sequence?",
+    "options": [
+      "Add `status` as nullable with a default, deploy code that writes it, backfill, then add `NOT NULL` in a later migration",
+      "Add `status NOT NULL` without a default in the same release",
+      "Drop and recreate the table",
+      "Stop all instances and run the migration manually"
+    ],
+    "answer": 0,
+    "explanation": "Expand and contract keeps both versions working: old code ignores the new nullable column, and the constraint arrives once every row and writer is ready."
+  },
+  {
+    "question": "A team wants SQL-like, fully typed queries, a small runtime that works on edge platforms, and migrations generated from a TypeScript schema. Which tool matches best?",
+    "options": ["Sequelize", "TypeORM with `synchronize: true`", "Raw `pg` with string concatenation", "Drizzle with drizzle-kit"],
+    "answer": 3,
+    "explanation": "Drizzle defines the schema in TypeScript, exposes a SQL-like typed API, has a light runtime with edge drivers and generates SQL migrations."
+  },
+  {
+    "question": "Your app runs migrations at startup, and production runs 8 instances. What is the risk?",
+    "options": ["None, migrations are idempotent by definition", "Several instances may race to apply the same migration, and a slow migration delays every boot; run migrations once as a deploy step", "Migrations only run on the first instance automatically", "Startup migrations are faster"],
+    "answer": 1,
+    "explanation": "Some tools take a lock, many do not, and long migrations block health checks. A dedicated release step makes the order explicit and observable."
+  },
+  {
+    "question": "What is the main reason to choose a query builder like Kysely over an ORM like Prisma?",
+    "options": ["Query builders do not need a database", "You want type safety while writing and predicting the SQL yourself, without the ORM's relation and model abstractions", "Query builders generate migrations automatically", "ORMs cannot run in Node.js"],
+    "answer": 1,
+    "explanation": "Builders map closely to SQL, so the generated query is obvious. ORMs trade that transparency for higher-level model operations."
+  }
+]

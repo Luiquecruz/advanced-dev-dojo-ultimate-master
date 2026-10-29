@@ -1,0 +1,11 @@
+{
+  "title": "Authentication Concepts",
+  "summary": "Sessions vs tokens, where the browser should keep credentials, cookie flags, OAuth 2.0 and OpenID Connect, passkeys, and when to use an auth provider.",
+  "level": "intermediate",
+  "tags": ["theory", "security", "auth"],
+  "resources": [
+    { "label": "OWASP: Session Management Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+    { "label": "MDN: Using HTTP cookies", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies" },
+    { "label": "OAuth 2.0 simplified", "url": "https://oauth.net/2/" }
+  ]
+}

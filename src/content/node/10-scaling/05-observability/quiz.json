@@ -1,0 +1,46 @@
+[
+  {
+    "question": "An endpoint's average latency is 85 ms and looks healthy, but support receives complaints about slow checkouts. Which metric would reveal the problem?",
+    "options": [
+      "The minimum latency",
+      "p99 (or p95) latency, which shows the slow tail that the average hides",
+      "The total number of requests",
+      "The average latency per hour instead of per minute"
+    ],
+    "answer": 1,
+    "explanation": "A few multi-second requests barely move the average. Percentiles describe what the slowest users actually experience."
+  },
+  {
+    "question": "A metric `http_request_duration_seconds` is labelled with `path` taken from `req.url` (for example `/users/48213?tab=orders`). The metrics bill explodes. Why?",
+    "options": [
+      "Durations should be in milliseconds",
+      "Histograms are expensive by nature",
+      "Every distinct path and query creates a new time series (high cardinality); label with the route template such as `/users/:id`",
+      "Labels must be numbers"
+    ],
+    "answer": 2,
+    "explanation": "Each unique label combination is stored as a separate series. Use bounded values: route templates, method, status class."
+  },
+  {
+    "question": "A generated error handler logs `JSON.stringify({ msg: 'failed', error })` and the logs show `\"error\":{}`. What happened?",
+    "options": [
+      "`Error` properties (`message`, `stack`) are not enumerable, so `JSON.stringify` drops them; serialize `name`, `message` and `stack` explicitly (pino does it with its error serializer)",
+      "The error was empty",
+      "JSON cannot contain errors for security reasons",
+      "The log level filtered the error"
+    ],
+    "answer": 0,
+    "explanation": "`JSON.stringify(new Error('x'))` is `{}`. Structured loggers ship serializers for errors; hand-written ones must copy the fields."
+  },
+  {
+    "question": "A user reports a failed payment and sends the `X-Request-Id` from the error page. What does a good setup let you do with it?",
+    "options": [
+      "Nothing; request ids are only for load balancers",
+      "Replay the request automatically",
+      "Decrypt the request body",
+      "Filter logs by that id to see every line of that request (and, with propagation, of downstream services) including the error and its stack"
+    ],
+    "answer": 3,
+    "explanation": "Correlation is the point: one id ties together the access log, the application logs and the downstream calls of a single request."
+  }
+]

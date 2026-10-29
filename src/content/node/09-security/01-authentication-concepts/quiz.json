@@ -1,0 +1,32 @@
+[
+  {
+    "question": "A generated SPA login stores the JWT in `localStorage` and sends it as `Authorization: Bearer`. The app and API share the same site. What is the main concern?",
+    "options": ["JWTs cannot be sent in headers", "Any XSS vulnerability can read the token and take over the account; an `HttpOnly` session cookie is safer here", "`localStorage` is cleared on every request", "Bearer tokens are deprecated"],
+    "answer": 1,
+    "explanation": "JavaScript-readable storage exposes the credential to injected scripts. Same-site apps can use `HttpOnly; Secure; SameSite` cookies that scripts cannot read."
+  },
+  {
+    "question": "An employee leaves the company and must lose access immediately. The API uses stateless JWTs that expire after 7 days. What is the problem?",
+    "options": ["Nothing: JWTs are revoked when the user is deleted", "The token stays valid until it expires unless you add a deny list or keep access tokens short-lived with revocable refresh tokens", "JWTs expire when the browser closes", "The signature changes when the user is deleted"],
+    "answer": 1,
+    "explanation": "Self-contained tokens are checked without a lookup, so they cannot be revoked by default. Short access tokens (minutes) plus revocable refresh tokens limit the window."
+  },
+  {
+    "question": "What does OpenID Connect add on top of OAuth 2.0?",
+    "options": ["Password hashing", "Rate limiting", "An ID token that tells the client who the user is (authentication)", "Encryption of the access token"],
+    "answer": 2,
+    "explanation": "OAuth 2.0 is delegated authorization; OIDC standardizes identity with the ID token and the userinfo endpoint."
+  },
+  {
+    "question": "Which flow should a new web or mobile app use for \"Sign in with Google\"?",
+    "options": ["Authorization Code flow with PKCE", "Implicit flow", "Resource Owner Password Credentials (the app collects the Google password)", "Client credentials flow"],
+    "answer": 0,
+    "explanation": "The implicit and password flows are deprecated. Authorization Code + PKCE keeps tokens out of the URL and binds the code to the client that started the flow."
+  },
+  {
+    "question": "A startup needs email/password, Google login, MFA and enterprise SSO in two months, with no security specialist. What is the most reasonable choice?",
+    "options": ["Write everything from scratch with JWTs", "Skip MFA and SSO", "Store passwords encrypted with AES so they can be recovered", "Use a managed auth provider or a maintained auth library, and own only the authorization rules"],
+    "answer": 3,
+    "explanation": "Sign-up, reset, MFA and SSO are large attack surfaces. Providers and maintained libraries handle them; your code still owns who may do what."
+  }
+]

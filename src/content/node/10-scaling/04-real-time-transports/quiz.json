@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A dashboard must show the progress of a 2-minute import to the user who started it. The client never sends data while it waits. Which transport fits best?",
+    "options": [
+      "WebSockets with a custom message protocol",
+      "WebTransport datagrams",
+      "Server-Sent Events: one-way, plain HTTP, automatic reconnection",
+      "Short polling every 100 ms"
+    ],
+    "answer": 2,
+    "explanation": "Progress is server-to-client only. SSE delivers it with less code and fewer operational concerns than WebSockets; polling every 100 ms wastes requests."
+  },
+  {
+    "question": "A chat app runs on 3 instances behind a load balancer. Messages sent by users on instance 1 are not seen by users connected to instance 2. What is missing?",
+    "options": [
+      "A pub/sub layer (Redis pub/sub, NATS, a broker) so every instance receives each message and forwards it to its local sockets",
+      "Sticky sessions",
+      "HTTP/2",
+      "A bigger instance so everyone connects to the same one"
+    ],
+    "answer": 0,
+    "explanation": "Each instance only knows its own connections. Fan-out through a shared channel is required as soon as there is more than one instance."
+  },
+  {
+    "question": "SSE connections drop exactly every 60 seconds in production but not locally. What is the likely cause and fix?",
+    "options": [
+      "SSE has a 60-second protocol limit; switch to WebSockets",
+      "The load balancer closes idle connections after 60 s; send a heartbeat comment (for example every 15 s) and keep client reconnection enabled",
+      "Node.js closes responses after 60 s by default and it cannot be changed",
+      "The browser limits SSE to one minute"
+    ],
+    "answer": 1,
+    "explanation": "Proxies and load balancers have idle timeouts. Heartbeats keep the connection active; the same applies to WebSockets (ping/pong)."
+  },
+  {
+    "question": "A generated WebSocket client connects to `wss://api.example.com/socket?token=eyJhbGciOi...`. What is the concern?",
+    "options": [
+      "None, query strings are encrypted by TLS so they are safe everywhere",
+      "WebSockets do not support query strings",
+      "Tokens must be sent as a binary frame",
+      "URLs are written to proxy and server access logs and browser history; prefer a cookie or a short-lived token sent in the first message"
+    ],
+    "answer": 3,
+    "explanation": "TLS protects the token on the wire, but URLs are logged in many places. Browsers cannot set an Authorization header on WebSocket, so use cookies or an initial auth message."
+  },
+  {
+    "question": "Your product needs presence and live updates for 200 000 concurrent users worldwide, and real time is not your core business. What deserves serious consideration?",
+    "options": [
+      "A managed real-time service (Ably, Pusher, Supabase Realtime, Firebase) instead of running the connection layer yourself",
+      "Short polling every second from every client",
+      "One very large Node.js instance",
+      "Long polling with sticky sessions"
+    ],
+    "answer": 0,
+    "explanation": "Hundreds of thousands of global connections bring capacity, fan-out and edge concerns. A managed service turns that into a bill instead of a project; compare cost and lock-in."
+  }
+]

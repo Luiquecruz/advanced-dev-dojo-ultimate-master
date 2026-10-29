@@ -1,0 +1,11 @@
+{
+  "title": "Error Handling",
+  "summary": "Throw HTTPException and domain errors, translate them in one onError, customize notFound and never leak internals in a 500.",
+  "level": "advanced",
+  "tags": ["core", "hono", "security"],
+  "resources": [
+    { "label": "Hono docs: Exception", "url": "https://hono.dev/docs/api/exception" },
+    { "label": "Hono docs: App (onError, notFound)", "url": "https://hono.dev/docs/api/hono" },
+    { "label": "RFC 9457: Problem Details for HTTP APIs", "url": "https://www.rfc-editor.org/rfc/rfc9457" }
+  ]
+}

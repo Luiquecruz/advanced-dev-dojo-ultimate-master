@@ -1,0 +1,10 @@
+{
+  "title": "Big O in Practice",
+  "summary": "Read the growth of code instead of its speed: the complexity classes you meet on a backend, hidden quadratic loops in JavaScript, space complexity and when I/O matters more than CPU.",
+  "level": "intermediate",
+  "tags": ["theory", "performance"],
+  "resources": [
+    { "label": "MDN: Map", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" },
+    { "label": "Big-O Cheat Sheet", "url": "https://www.bigocheatsheet.com/" }
+  ]
+}

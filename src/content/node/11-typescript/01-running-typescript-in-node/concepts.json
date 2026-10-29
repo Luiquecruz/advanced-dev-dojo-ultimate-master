@@ -1,0 +1,8 @@
+[
+  { "term": "Type stripping", "description": "Node removes type annotations (replacing them with whitespace) and runs the remaining JavaScript. No type checking, no `tsconfig` reading." },
+  { "term": "Erasable syntax", "description": "TypeScript that disappears without generating code: annotations, interfaces, `import type`, `satisfies`. Enums, runtime namespaces and parameter properties are not erasable." },
+  { "term": "erasableSyntaxOnly", "description": "TypeScript 5.8+ compiler option that reports non-erasable constructs, so code stays runnable with Node's type stripping." },
+  { "term": "tsx", "description": "esbuild-based runner and watcher that executes any TypeScript, including enums and `tsconfig` paths. Does not type-check." },
+  { "term": "tsc --noEmit", "description": "Runs the TypeScript compiler only to type-check. The CI step that catches type errors no runner reports." },
+  { "term": "module: nodenext", "description": "Makes TypeScript follow Node's real ESM/CommonJS rules (extensions, `type` field, `.mts`/`.cts`), so invalid imports fail in the editor instead of at runtime." }
+]

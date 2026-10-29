@@ -1,0 +1,35 @@
+[
+  {
+    "question": "With a limit of 5, items take mostly 50 ms but one in every five takes 2 s. Why is a worker pool faster than batches of 5 with `Promise.all`?",
+    "options": [
+      "Pools use multiple threads",
+      "Each batch waits for its 2 s item while four slots sit idle; a pool keeps the other slots processing new items",
+      "`Promise.all` is slower than a `while` loop",
+      "Batches retry failed items"
+    ],
+    "answer": 1,
+    "explanation": "Batching forces every group to the speed of its slowest member. A pool refills each slot independently."
+  },
+  {
+    "question": "Your service has a database pool of 10 connections shared by all requests. A nightly job processes 30 000 rows with one query each. Which limit is sensible?",
+    "options": [
+      "A small limit such as 2–3, leaving most connections for user traffic",
+      "No limit: the pool queues the extra queries",
+      "30 000, so the job finishes as fast as possible",
+      "Exactly 10, to use the whole pool"
+    ],
+    "answer": 0,
+    "explanation": "The job competes with live requests for the same pool. Size its limit from the bottleneck and the share it may take; better still, batch rows into fewer queries."
+  },
+  {
+    "question": "A partner API allows 60 requests per minute. A teammate sets a concurrency limit of 2 and still gets `429` errors. Why?",
+    "options": [
+      "The limit must be 1",
+      "429 means the server is down",
+      "Concurrency is not rate: two slots with 100 ms requests make about 1 200 requests per minute",
+      "The pool starts too many workers"
+    ],
+    "answer": 2,
+    "explanation": "A concurrency cap bounds simultaneous calls, not calls per time window. Rate limits need a token bucket, an interval cap (`p-queue`) or respecting `Retry-After`."
+  }
+]

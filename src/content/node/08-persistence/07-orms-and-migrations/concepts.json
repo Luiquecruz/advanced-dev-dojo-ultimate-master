@@ -1,0 +1,8 @@
+[
+  { "term": "ORM", "description": "Object-relational mapper: maps tables to models and relations to properties (Prisma, TypeORM, MikroORM)." },
+  { "term": "Query builder", "description": "A typed API that composes SQL step by step (Kysely, Knex, Drizzle core); the SQL stays predictable." },
+  { "term": "Migration", "description": "A versioned, ordered script that changes the schema; applied migrations are recorded in a table." },
+  { "term": "Expand and contract", "description": "Zero-downtime schema change in steps: add the new shape, migrate data and code, then remove the old shape in a later release." },
+  { "term": "Schema drift", "description": "The real database differs from what migrations describe, usually after manual changes or `db push`." },
+  { "term": "CREATE INDEX CONCURRENTLY", "description": "Postgres option that builds an index without blocking writes; required for large production tables." }
+]

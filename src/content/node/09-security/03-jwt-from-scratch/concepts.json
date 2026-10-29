@@ -1,0 +1,8 @@
+[
+  { "term": "JWT", "description": "`header.payload.signature`, each part base64url encoded. The payload is readable by anyone: signed, not encrypted." },
+  { "term": "HS256", "description": "HMAC-SHA256 with a shared secret: the same key signs and verifies. RS256/ES256 use a private key to sign and a public key to verify." },
+  { "term": "base64url", "description": "Base64 with `-` and `_` instead of `+` and `/`, and no `=` padding, so the value is safe in URLs and headers." },
+  { "term": "Registered claims", "description": "`sub` (subject), `iat` (issued at), `exp` (expiry), `nbf`, `iss` (issuer), `aud` (audience); times are seconds since the epoch." },
+  { "term": "alg none attack", "description": "A forged token with `\"alg\": \"none\"` and no signature. Verifiers must pin the expected algorithm instead of trusting the header." },
+  { "term": "decode vs verify", "description": "`decode` only reads the payload; `verify` checks the signature and claims. Authorization must use the result of `verify`." }
+]

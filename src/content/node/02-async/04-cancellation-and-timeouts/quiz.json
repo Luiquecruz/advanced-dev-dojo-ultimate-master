@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A Hono handler calls a slow reporting service. Which signal should it pass so the call stops both after 10 s and when the client disconnects?",
+    "options": [
+      "`AbortSignal.timeout(10_000)` only",
+      "A new `AbortController().signal`",
+      "`AbortSignal.any([c.req.raw.signal, AbortSignal.timeout(10_000)])`",
+      "No signal; wrap the call in `Promise.race` instead"
+    ],
+    "answer": 2,
+    "explanation": "`AbortSignal.any` aborts on whichever happens first and keeps that reason. `Promise.race` would stop waiting but leave the call running."
+  },
+  {
+    "question": "A fetch wrapper catches errors and answers `504` when `error.message.includes('timeout')`. Why is this fragile, and what is better?",
+    "options": [
+      "Messages differ between runtimes and versions; check `error.name === 'TimeoutError'` (from `AbortSignal.timeout`) instead",
+      "It is fine: every runtime uses the same messages",
+      "Use `error.code === 504`",
+      "Timeouts cannot be detected; always answer 500"
+    ],
+    "answer": 0,
+    "explanation": "Messages are for humans and change. `name` is part of the contract: `TimeoutError` for deadlines, `AbortError` for deliberate cancellation."
+  },
+  {
+    "question": "A custom `delay(ms, signal)` adds an `'abort'` listener but never removes it. It is called thousands of times with the same long-lived shutdown signal. What happens?",
+    "options": [
+      "Nothing: listeners are removed automatically when the timer fires",
+      "The signal aborts itself",
+      "Every call leaves a listener (and its closure) attached to the shutdown signal: a memory leak, and Node warns about too many listeners",
+      "The delays become shorter"
+    ],
+    "answer": 2,
+    "explanation": "Remove the listener on the success path (or use `{ once: true }` plus cleanup). Long-lived signals are exactly where leaks accumulate."
+  },
+  {
+    "question": "Which statement about `controller.abort()` is true?",
+    "options": [
+      "It forcibly stops any JavaScript that received the signal",
+      "It only has an effect on code that listens to the signal, such as `fetch`, Node APIs that accept `signal`, or your own checks",
+      "It kills the whole process",
+      "It can be undone with `controller.resume()`"
+    ],
+    "answer": 1,
+    "explanation": "Cancellation is cooperative. A CPU loop that never checks `signal.aborted` keeps running. Aborting is also permanent: create a new controller for new work."
+  }
+]

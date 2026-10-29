@@ -1,0 +1,8 @@
+[
+  { "term": "Async iterable", "description": "Object with `[Symbol.asyncIterator]()` whose `next()` returns a promise of `{ value, done }`. Consumed with `for await...of`." },
+  { "term": "Async generator", "description": "`async function*`: can `await` and `yield`. Pauses at each `yield` until the consumer asks for the next value." },
+  { "term": "Lazy evaluation", "description": "Work happens only when a value is requested. Creating a generator runs nothing; stopping early stops the work." },
+  { "term": "yield*", "description": "Delegates to another iterable: `yield* page.items` yields each element of the array." },
+  { "term": "Cursor pagination", "description": "Each page returns an opaque cursor for the next one; `null` marks the end. Stable under inserts, unlike offsets." },
+  { "term": "return() and finally", "description": "`break` in `for await` calls the iterator's `return()`, so the generator's `finally` blocks run and resources are released." }
+]

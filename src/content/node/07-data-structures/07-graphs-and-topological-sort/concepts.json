@@ -1,0 +1,8 @@
+[
+  { "term": "Directed graph", "description": "Edges have a direction. Here `a → b` means \"a depends on b\"; always state the convention." },
+  { "term": "DAG", "description": "Directed acyclic graph: no path leads back to its start. Only DAGs have a topological order." },
+  { "term": "Adjacency list", "description": "Each node maps to the nodes it points to: `Record<string, string[]>` or `Map<string, string[]>`." },
+  { "term": "Topological order", "description": "A list where every node comes after all of its dependencies. Several valid orders usually exist." },
+  { "term": "Three-state DFS", "description": "Unvisited, visiting (on the current path), done. Reaching a visiting node reveals a cycle and its exact path." },
+  { "term": "Kahn's algorithm", "description": "Repeatedly take the nodes with no unmet dependencies. Taking them level by level yields waves that can run in parallel." }
+]

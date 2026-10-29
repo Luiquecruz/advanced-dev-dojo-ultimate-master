@@ -1,0 +1,26 @@
+[
+  {
+    "question": "A middleware reads the user's role with `jwt.decode(token).role` and allows admin routes when it is `'admin'`. What is wrong?",
+    "options": ["`decode` is slower than `verify`", "`decode` does not check the signature, so anyone can craft a token with `role: 'admin'`", "Roles cannot be stored in JWTs", "Nothing, the token came from the client"],
+    "answer": 1,
+    "explanation": "Decoding only base64-decodes the payload. Authorization must rely on the claims returned by `verify` with the right key and algorithm."
+  },
+  {
+    "question": "Why must a verifier pin the expected algorithm instead of reading `alg` from the token header?",
+    "options": ["Headers are encrypted", "Pinning makes verification faster", "An attacker controls the header and can pick `none` or confuse RS256 with HS256", "The header has no `alg` field"],
+    "answer": 2,
+    "explanation": "The header is attacker-controlled input. `alg: none` and algorithm confusion attacks both exploit verifiers that trust it."
+  },
+  {
+    "question": "A teammate puts the user's email, address and a payment customer id in the JWT payload to avoid database lookups. What should you point out?",
+    "options": ["The payload is only base64url encoded: anyone holding the token can read it, so keep it to identifiers and permissions", "JWTs encrypt the payload with the secret, so it is fine", "Payloads cannot hold strings", "It makes the signature invalid"],
+    "answer": 0,
+    "explanation": "JWS tokens are signed, not encrypted. Keep claims minimal; use JWE or a server-side lookup for sensitive data."
+  },
+  {
+    "question": "An identity provider issues tokens consumed by twelve independent services owned by different teams. Which algorithm fits?",
+    "options": ["HS256 with the same secret copied to every service", "Unsigned tokens over HTTPS", "HS256 with a different secret per service and no key rotation", "RS256 or ES256: the provider signs with a private key and services verify with the public key from a JWKS endpoint"],
+    "answer": 3,
+    "explanation": "With HMAC every verifier could also forge tokens. Asymmetric signatures let many services verify without being able to sign."
+  }
+]

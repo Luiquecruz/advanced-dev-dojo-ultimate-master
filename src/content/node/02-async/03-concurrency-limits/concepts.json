@@ -1,0 +1,8 @@
+[
+  { "term": "Concurrency limit", "description": "Maximum number of operations in flight at once. Protects pools, partner APIs and memory from unbounded fan-out." },
+  { "term": "Worker pool", "description": "N async loops pulling items from a shared cursor; a freed slot immediately takes the next item." },
+  { "term": "Batching", "description": "Running fixed groups with `Promise.all`. Respects the limit but each group waits for its slowest item." },
+  { "term": "Fail fast", "description": "Reject on the first error and start no new work. The alternative is collecting every outcome like `allSettled`." },
+  { "term": "Concurrency vs rate limit", "description": "Concurrency caps simultaneous operations; a rate limit caps operations per time window. Short tasks can exceed a rate limit at low concurrency." },
+  { "term": "p-limit / p-map", "description": "Popular npm helpers: `pLimit(n)` wraps calls, `pMap(items, fn, { concurrency })` maps a list." }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "question": "A mobile client times out while calling `POST /payments` and retries automatically. Sometimes customers are charged twice. What is the standard fix?",
+    "options": ["Switch the endpoint to `GET` so it is idempotent", "Have the client send an `Idempotency-Key` header and make the server store and replay the result for repeated keys", "Disable retries on all requests", "Return `202 Accepted` instead of `201`"],
+    "answer": 1,
+    "explanation": "`POST` is not idempotent, so retries can repeat side effects. An idempotency key lets the server recognize the duplicate and return the first result."
+  },
+  {
+    "question": "A logged-in user requests an order that belongs to another customer. Which status code fits best?",
+    "options": ["`401 Unauthorized`", "`400 Bad Request`", "`500 Internal Server Error`", "`403 Forbidden`, or `404 Not Found` to avoid revealing that the order exists"],
+    "answer": 3,
+    "explanation": "The user is authenticated, so `401` is wrong. `403` says \"not allowed\"; many APIs answer `404` for other users' resources so ids cannot be probed."
+  },
+  {
+    "question": "`GET /me` returns the user's profile with `Cache-Control: public, max-age=300` and the app sits behind a CDN. What can happen?",
+    "options": ["Nothing, `max-age` is short", "The CDN may cache one user's profile and serve it to other users", "The browser ignores the header for JSON", "The response can no longer be revalidated with ETag"],
+    "answer": 1,
+    "explanation": "`public` allows shared caches to store the response. Per-user data needs `private` (browser only) or `no-store`."
+  },
+  {
+    "question": "A teammate says: \"Our API is safe from other sites because CORS only allows `https://app.example.com`.\" What is wrong with that reasoning?",
+    "options": ["CORS is enforced by browsers only; scripts, curl and servers can call the API directly, so authentication and authorization are still required", "CORS also needs `Access-Control-Allow-Origin: *`", "Nothing, CORS blocks every other client", "CORS only works over HTTP/2"],
+    "answer": 0,
+    "explanation": "CORS controls which web pages may read responses in a browser. It is not an access control mechanism for the API itself."
+  },
+  {
+    "question": "An endpoint validates the body and returns `200 { \"success\": false, \"error\": \"email is required\" }`. Why is this a problem?",
+    "options": ["JSON bodies cannot contain booleans", "It should be `500` because something failed", "Clients, monitoring, retries and caches read the status code; a `200` marks the failure as success. Use `400` or `422` with the error body", "It is fine as long as the frontend checks `success`"],
+    "answer": 2,
+    "explanation": "Status codes are the machine-readable part of the contract. Validation failures are client errors (`400`/`422`), never successes or server errors."
+  },
+  {
+    "question": "Which method fits \"replace the whole shipping address of order 42 with this one\", sent again safely if the network drops?",
+    "options": ["`POST /orders/42/address`", "`PATCH /orders/42` with a list of operations", "`PUT /orders/42/address` with the full address", "`GET /orders/42/address?set=...`"],
+    "answer": 2,
+    "explanation": "`PUT` replaces the resource at that URL and is idempotent: sending the same address twice leaves the same state."
+  }
+]

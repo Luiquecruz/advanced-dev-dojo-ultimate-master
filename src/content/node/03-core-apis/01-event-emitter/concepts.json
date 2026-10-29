@@ -1,0 +1,8 @@
+[
+  { "term": "EventEmitter", "description": "Node's publish/subscribe class from `node:events`: `on`, `once`, `off`, `emit`. Listeners run **synchronously** in registration order." },
+  { "term": "'error' event", "description": "Special event: when it is emitted with no listener, the emitter **throws** the error, which usually crashes the process." },
+  { "term": "Typed emitter", "description": "`class X extends EventEmitter<{ paid: [Payment] }>`: the event map types the arguments of `on` and `emit`." },
+  { "term": "events.once()", "description": "`await once(emitter, 'name')` resolves with the array of arguments of the next event and rejects if `'error'` fires first." },
+  { "term": "Listener leak", "description": "Listeners added repeatedly and never removed keep memory alive. Node warns with `MaxListenersExceededWarning` after 10 per event." },
+  { "term": "Unsubscribe function", "description": "Returning `() => emitter.off(name, listener)` from a subscribe helper, like a React effect cleanup." }
+]

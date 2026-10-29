@@ -1,0 +1,8 @@
+[
+  { "term": "Promise.all", "description": "Waits for every promise; rejects on the first rejection. Values keep input order. Use when every part is required." },
+  { "term": "Promise.allSettled", "description": "Waits for every promise and never rejects; returns `{ status, value | reason }` per input. Use for independent jobs." },
+  { "term": "Promise.race", "description": "Settles like the first promise to settle, success or failure. The classic building block for deadlines." },
+  { "term": "Promise.any", "description": "Fulfills with the first success; rejects with an `AggregateError` only when all reject. Use for redundant sources." },
+  { "term": "AggregateError", "description": "Error with an `errors` array holding every rejection reason, thrown by `Promise.any`." },
+  { "term": "Fan-out", "description": "Starting many concurrent operations from one request. Needs a limit when the list size depends on data or users." }
+]

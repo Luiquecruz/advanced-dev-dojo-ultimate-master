@@ -1,0 +1,35 @@
+[
+  {
+    "question": "A comments endpoint renders threads with a recursive `toJSON(node)` that calls itself for each reply. A user script posts a reply chain 50 000 levels deep. What happens, and what is the fix?",
+    "options": [
+      "Nothing, V8 grows the call stack automatically",
+      "The response is slower but correct",
+      "The recursion throws `RangeError: Maximum call stack size exceeded`; cap the nesting depth on write and/or walk the tree with an explicit stack",
+      "Node.js converts deep recursion into a loop"
+    ],
+    "answer": 2,
+    "explanation": "Recursion depth equals tree depth, and the call stack holds only about ten thousand frames. Limit depth for user-controlled data (most sites flatten replies after a few levels) or use an explicit stack."
+  },
+  {
+    "question": "Categories are stored with a `parent_id` column and the product listing must include every product of a category and all its subcategories. The table has 2 million products. Where should the subtree be resolved?",
+    "options": [
+      "Load all categories and products into memory and filter in JavaScript",
+      "In the database: a `WITH RECURSIVE` query on the categories (or a materialized path), joined with an indexed products query",
+      "With one query per category, recursively",
+      "Store every product in every ancestor category"
+    ],
+    "answer": 1,
+    "explanation": "The database can walk a small category tree and filter millions of indexed rows without shipping them to Node. One query per category is the N+1 problem in tree form."
+  },
+  {
+    "question": "Why does building a tree with a `Map` from id to node work even when a reply appears in the rows before its parent?",
+    "options": [
+      "All nodes are created in a first pass, so every parent exists when the second pass links children",
+      "Maps sort their keys by id",
+      "The database always returns parents first",
+      "It does not work; the rows must be sorted by id first"
+    ],
+    "answer": 0,
+    "explanation": "Separating creation from linking removes any dependency on row order. Sorting first would add O(n log n) work for nothing."
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "title": "Server-Sent Events",
+  "summary": "Write the SSE wire format, stream job progress with Hono's streamSSE, resume with Last-Event-ID and know when SSE beats WebSockets.",
+  "level": "advanced",
+  "tags": ["ecosystem", "hono", "real-time"],
+  "resources": [
+    { "label": "MDN: Using server-sent events", "url": "https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events" },
+    { "label": "Hono docs: Streaming Helper", "url": "https://hono.dev/docs/helpers/streaming" }
+  ]
+}

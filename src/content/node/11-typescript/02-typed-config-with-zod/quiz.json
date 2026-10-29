@@ -1,0 +1,20 @@
+[
+  {
+    "question": "The deployment sets `ENABLE_SIGNUP=false`, but signup is still enabled. The code is `if (process.env.ENABLE_SIGNUP) { ... }`. Why?",
+    "options": ["Environment variables are cached", "`process.env` values are strings and `'false'` is truthy; parse it with `z.stringbool()`", "The variable must be lowercase", "Node ignores variables set to false"],
+    "answer": 1,
+    "explanation": "Every environment value is a string. Only an explicit parser turns `'false'` into `false`, and `z.coerce.boolean()` would not (it uses `Boolean()`)."
+  },
+  {
+    "question": "Which error message should `loadConfig` produce for an invalid database URL?",
+    "options": ["`Invalid environment: DATABASE_URL` with details in a structured `issues` list, no values", "`DATABASE_URL=postgres://app:s3cret@db/shop is invalid`", "`Something went wrong`", "No error: fall back to a local database"],
+    "answer": 0,
+    "explanation": "Name the variable and the rule, never the value: connection strings and keys contain secrets, and error output ends up in logs. Silent fallbacks hide misconfiguration."
+  },
+  {
+    "question": "Why does `loadConfig` take `env` as a parameter with `process.env` as the default?",
+    "options": ["`process.env` cannot be read inside functions", "It is required by Zod", "Tests can pass plain objects instead of mutating global state, while production calls `loadConfig()` unchanged", "It makes parsing faster"],
+    "answer": 2,
+    "explanation": "Injecting the dependency keeps the function pure and testable; the default keeps the production call site simple."
+  }
+]

@@ -1,0 +1,4 @@
+{
+  "title": "HTTP from Scratch",
+  "description": "How HTTP works, the node:http server, routing, request bodies, middleware pipelines and calling other services."
+}

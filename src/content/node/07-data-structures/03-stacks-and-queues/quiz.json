@@ -1,0 +1,35 @@
+[
+  {
+    "question": "A webhook receiver pushes every incoming event into a module-level array and a worker loop takes them out with `events.shift()`. Under a traffic spike the process slows down and later crashes. Which two problems does the design have?",
+    "options": [
+      "`push` is O(n) and arrays cannot hold more than 65 536 items",
+      "`shift` is O(n) per dequeue, and the queue is unbounded, so memory grows until the process dies",
+      "Arrays are not thread safe in Node.js",
+      "The worker loop should use `pop` to make it faster"
+    ],
+    "answer": 1,
+    "explanation": "Use a head index (or ring buffer) for O(1) dequeues and a maximum size with a policy for when it is full. `pop` would make it LIFO and process the newest events first."
+  },
+  {
+    "question": "A signup creates a user, then a workspace, then charges a card. The charge fails. In which order should the compensations run?",
+    "options": [
+      "Delete the user, then delete the workspace",
+      "Refund the charge, delete the workspace, delete the user",
+      "Delete the workspace, then delete the user",
+      "No compensation: a database transaction covers the card provider too"
+    ],
+    "answer": 2,
+    "explanation": "Undo only what completed, newest first: the workspace depends on the user. The charge never succeeded, so there is nothing to refund, and external APIs are not covered by your database transaction."
+  },
+  {
+    "question": "Order confirmation emails are queued in an in-memory queue inside the API process. What happens on a deploy?",
+    "options": [
+      "The queued emails are lost when the old process stops; use a durable queue (Redis/BullMQ, pg-boss, SQS) for work users depend on",
+      "Node.js persists module variables between restarts",
+      "The new process receives the queue automatically",
+      "Nothing, because emails are sent synchronously"
+    ],
+    "answer": 0,
+    "explanation": "In-memory structures die with the process. Durable queues keep jobs across restarts, share them between instances and add retries."
+  }
+]

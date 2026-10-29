@@ -1,0 +1,11 @@
+{
+  "title": "What Is Node.js",
+  "summary": "V8 plus libuv: how one JavaScript thread serves thousands of connections, what differs from the browser, LTS releases, and where Deno and Bun fit.",
+  "level": "beginner",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Node.js guide: Introduction to Node.js", "url": "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs" },
+    { "label": "Node.js release schedule", "url": "https://nodejs.org/en/about/previous-releases" },
+    { "label": "Node.js guide: Differences between Node.js and the browser", "url": "https://nodejs.org/en/learn/getting-started/differences-between-nodejs-and-the-browser" }
+  ]
+}

@@ -1,0 +1,9 @@
+[
+  { "term": "Error-first callback", "description": "Node convention: the callback is the last argument and receives `(error, value)`; `error` is `null` on success." },
+  { "term": "Called exactly once", "description": "A callback API must call back once per invocation. Missing `return`s and `try` blocks around the callback cause double calls." },
+  { "term": "Zalgo", "description": "An API that is sometimes synchronous and sometimes asynchronous. Always call callbacks asynchronously to keep ordering predictable." },
+  { "term": "util.promisify", "description": "Turns an error-first callback function into one that returns a promise. Supports `util.promisify.custom`." },
+  { "term": "util.callbackify", "description": "The reverse: wraps an async function so callback-based code can call it." },
+  { "term": "Unhandled rejection", "description": "A rejected promise nobody handles. Node 15+ crashes the process by default." },
+  { "term": "error.code", "description": "Stable string on Node system errors (`ENOENT`, `EACCES`, `EEXIST`). Branch on it, never on the message." }
+]

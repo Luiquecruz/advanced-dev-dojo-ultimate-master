@@ -1,0 +1,7 @@
+[
+  { "term": "N+1 queries", "description": "One query for a list and one more per item. Fast with 3 items in development, slow with 300 in production." },
+  { "term": "Batching", "description": "Collecting many single-key requests and answering them with one query (`WHERE id = ANY($1)`)." },
+  { "term": "DataLoader", "description": "Library (and pattern) from the GraphQL ecosystem: `load(key)` calls made in the same tick become one batch call, deduplicated and cached per request." },
+  { "term": "Eager loading", "description": "Fetching relations up front with a JOIN or a second query (`include` in Prisma, `with` in Drizzle) instead of lazily per item." },
+  { "term": "Request-scoped cache", "description": "A cache created for one request and discarded after it, so it never serves stale or another user's data." }
+]

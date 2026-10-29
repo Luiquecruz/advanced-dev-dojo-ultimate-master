@@ -1,0 +1,8 @@
+[
+  { "term": "Fail fast", "description": "Validate configuration at startup and exit with a clear error, so a bad deploy is stopped before it serves traffic." },
+  { "term": "z.stringbool()", "description": "Zod 4 parser for boolean strings: `'true'`, `'1'`, `'yes'`, `'on'` and their opposites; anything else is an error. Unlike `z.coerce.boolean()`, `'false'` becomes `false`." },
+  { "term": "superRefine", "description": "A refinement on the whole object that can add issues to specific paths, used for cross-field rules such as production-only requirements." },
+  { "term": "Secret leakage", "description": "Printing configuration values in errors or logs. Error messages name the variable, never its value." },
+  { "term": "--env-file", "description": "`node --env-file=.env app.js` (Node 20.6+) loads a `.env` file without `dotenv`. For development only; production secrets come from the platform." },
+  { "term": "Object.freeze", "description": "Makes the configuration object read-only, so no code can change settings at runtime." }
+]

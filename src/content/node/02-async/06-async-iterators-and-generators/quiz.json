@@ -1,0 +1,46 @@
+[
+  {
+    "question": "An export endpoint loads 2 million rows with `const rows = await db.allRows()` and then writes them as CSV. The process runs out of memory. Which change fixes it at the root?",
+    "options": [
+      "Increase the heap size with `--max-old-space-size`",
+      "Iterate a database cursor with `for await` (or an async generator over pages) and write each row as it arrives",
+      "Use `Promise.all` to load the rows faster",
+      "Convert rows to JSON before writing"
+    ],
+    "answer": 1,
+    "explanation": "Pulling rows lazily keeps only one page in memory at a time. A bigger heap only postpones the crash."
+  },
+  {
+    "question": "A generator opens a database cursor and closes it in a `finally` block. The consumer does `for await (const row of rows()) { if (row.id === target) break; }`. Is the cursor closed?",
+    "options": [
+      "No: `finally` only runs when the generator finishes all its items",
+      "Only if the consumer calls `rows().close()`",
+      "No: async generators do not support `finally`",
+      "Yes: `break` calls the generator's `return()`, which runs its `finally` block"
+    ],
+    "answer": 3,
+    "explanation": "Early exit from `for await` (break, return, throw) calls `return()` on the iterator. Put cleanup in `finally` to make early exits safe."
+  },
+  {
+    "question": "`const items = paginate(fetchPage);` runs, but nothing iterates `items` yet. How many requests has `fetchPage` made?",
+    "options": [
+      "Zero: generator bodies start running only on the first `next()` call",
+      "One: the first page is prefetched",
+      "All pages: generators are eager",
+      "It depends on the page size"
+    ],
+    "answer": 0,
+    "explanation": "Calling a generator function only creates the generator object. Its body runs up to the first `yield` when the consumer asks for the first value."
+  },
+  {
+    "question": "A sync job processes 50 000 items from an async generator with `for await` and awaits a 50 ms API call per item, taking about 40 minutes. How do you speed it up without loading everything into memory?",
+    "options": [
+      "Replace `for await` with `forEach`",
+      "Collect all items into an array and use one big `Promise.all`",
+      "Group items with a `chunk` helper and process each chunk with a concurrency limit (or a bulk API call)",
+      "Make the generator yield faster"
+    ],
+    "answer": 2,
+    "explanation": "`for await` is sequential by design. Chunking keeps memory bounded while a concurrency limit or bulk endpoint parallelizes the slow part."
+  }
+]

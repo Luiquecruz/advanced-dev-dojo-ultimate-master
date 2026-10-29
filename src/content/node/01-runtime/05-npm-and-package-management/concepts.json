@@ -1,0 +1,9 @@
+[
+  { "term": "Semantic versioning", "description": "`MAJOR.MINOR.PATCH`: breaking changes, features, fixes. `^1.2.3` accepts any `1.x` from 1.2.3; `~1.2.3` only `1.2.x`." },
+  { "term": "Lockfile", "description": "`package-lock.json`, `pnpm-lock.yaml`: exact versions and integrity hashes of the whole tree. Commit it." },
+  { "term": "npm ci", "description": "Installs exactly what the lockfile lists and fails on a mismatch. The command for CI and Docker builds." },
+  { "term": "dependencies vs devDependencies", "description": "Runtime packages vs tools needed only to build, test or lint. Production installs can omit dev dependencies." },
+  { "term": "peerDependencies", "description": "A library declares it uses the host project's copy of a package (for example `react`) instead of bundling its own." },
+  { "term": "npx", "description": "Runs a package's binary without adding it to the project. `pnpm dlx` and `bunx` are the equivalents." },
+  { "term": "Supply-chain attack", "description": "Malicious code delivered through a dependency: typosquatting, hijacked maintainer accounts, install scripts." }
+]

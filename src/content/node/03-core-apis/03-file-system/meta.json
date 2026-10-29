@@ -1,0 +1,10 @@
+{
+  "title": "The File System",
+  "summary": "fs/promises vs callbacks vs sync, reading and writing JSON, handling ENOENT by error code, atomic writes with rename, and why files are not a database.",
+  "level": "intermediate",
+  "tags": ["core", "fs"],
+  "resources": [
+    { "label": "Node.js docs: File system", "url": "https://nodejs.org/api/fs.html" },
+    { "label": "Node.js docs: Common system errors", "url": "https://nodejs.org/api/errors.html#common-system-errors" }
+  ]
+}

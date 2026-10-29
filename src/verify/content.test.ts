@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { allLessons, tracks } from '../content';
+import { allLessons, availableTracks, isTrackEnabled, tracks } from '../content';
 
 const filter = process.env.LESSON;
 const lessons = allLessons.filter((lesson) => !filter || lesson.id.includes(filter));
@@ -8,7 +8,12 @@ const lessons = allLessons.filter((lesson) => !filter || lesson.id.includes(filt
 describe('content structure', () => {
   it('loads every track with a known engine', () => {
     expect(tracks.length).toBeGreaterThanOrEqual(4);
-    tracks.forEach((track) => expect(['typescript', 'react', 'vue', 'angular']).toContain(track.engine));
+    tracks.forEach((track) => expect(['typescript', 'react', 'vue', 'angular', 'node']).toContain(track.engine));
+  });
+
+  it('shows only enabled tracks and keeps disabled ones loaded', () => {
+    expect(availableTracks).toEqual(tracks.filter((track) => isTrackEnabled(track.id)));
+    expect(availableTracks.length).toBeGreaterThan(0);
   });
 
   it.each(tracks.map((track) => [track.id, track] as const))('%s declares a short monogram', (_, track) => {

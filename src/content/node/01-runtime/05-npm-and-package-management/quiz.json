@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`package.json` lists `\"zod\": \"^4.1.0\"`. Version 4.3.2 and 5.0.0 are published. A fresh `npm install` without a lockfile picks which version?",
+    "options": [
+      "4.1.0 exactly",
+      "5.0.0, the latest",
+      "4.3.2, the highest version below 5.0.0",
+      "It asks interactively"
+    ],
+    "answer": 2,
+    "explanation": "The caret allows minor and patch updates within the same major. A committed lockfile would pin whatever was resolved before, which is why it matters."
+  },
+  {
+    "question": "CI builds the same commit twice, a day apart, and the second build fails because a transitive dependency released a broken patch. Which change prevents this?",
+    "options": [
+      "Commit the lockfile and install with `npm ci` in CI",
+      "Use `*` as the version range so npm always gets the newest",
+      "Delete `node_modules` before every build",
+      "Move every package to `devDependencies`"
+    ],
+    "answer": 0,
+    "explanation": "The lockfile pins every package in the tree, including transitive ones. `npm ci` installs exactly that tree and fails if `package.json` and the lockfile disagree."
+  },
+  {
+    "question": "An AI assistant adds `vitest`, `typescript` and `@types/node` to `dependencies` of an API that is deployed in a Docker image. What is the review comment?",
+    "options": [
+      "Correct: every package must be in `dependencies` to work",
+      "They belong in `peerDependencies`",
+      "Fine, as long as versions are exact",
+      "Move them to `devDependencies`: they are build and test tools, and production installs with `--omit=dev` should not ship them"
+    ],
+    "answer": 3,
+    "explanation": "Runtime code needs `dependencies`; tooling goes to `devDependencies`. Shipping tooling grows the image and its attack surface."
+  },
+  {
+    "question": "An assistant suggests installing `expresss-validator` to validate input. What should you do first?",
+    "options": [
+      "Install it: assistants verify package names",
+      "Check that the exact name exists, is the intended package (here it looks like a typo of `express-validator`) and is maintained; consider a validator you already use, such as Zod",
+      "Install it with `--force`",
+      "Run it with `npx` so it is safer"
+    ],
+    "answer": 1,
+    "explanation": "Typosquatted and hallucinated package names are a real attack vector: attackers register names that assistants or humans mistype. `npx` runs the same untrusted code."
+  },
+  {
+    "question": "Which practice reduces the risk of a freshly hijacked package version reaching your build?",
+    "options": [
+      "Using `^` ranges everywhere",
+      "Running `npm install` in CI instead of `npm ci`",
+      "Requiring a minimum release age before new versions are installed or proposed, and blocking install scripts by default",
+      "Deleting the lockfile on every update"
+    ],
+    "answer": 2,
+    "explanation": "Most malicious releases are detected and removed within hours or days. A minimum release age (pnpm, Renovate) plus blocked install scripts keeps them out of your tree in the meantime."
+  }
+]

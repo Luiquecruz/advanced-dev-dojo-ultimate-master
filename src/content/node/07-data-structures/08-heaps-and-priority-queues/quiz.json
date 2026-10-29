@@ -1,0 +1,35 @@
+[
+  {
+    "question": "A scheduler keeps delayed jobs in an array and, every 100 ms, runs `jobs.sort((a, b) => a.runAt - b.runAt)` and checks `jobs[0]`. With 200 000 scheduled jobs, CPU usage is high even when nothing is due. What is the better structure?",
+    "options": [
+      "A min-heap by `runAt`: `peek` is O(1), and each insert or removal is O(log n)",
+      "A `Set` of jobs",
+      "Sorting only every second instead",
+      "A linked list sorted by insertion time"
+    ],
+    "answer": 0,
+    "explanation": "The scheduler only ever needs the earliest job. A heap keeps it at the root without re-sorting everything; durable schedulers do the same with a Redis sorted set or an indexed column."
+  },
+  {
+    "question": "Two jobs with the same priority are pushed into a binary heap: `A` first, then `B`. Which one is popped first?",
+    "options": [
+      "Always `A`, heaps are FIFO among equals",
+      "Always `B`, heaps are LIFO among equals",
+      "Either one: heaps are not stable; add an increasing sequence number as a tie-breaker if FIFO matters",
+      "The heap throws because priorities must be unique"
+    ],
+    "answer": 2,
+    "explanation": "Sift operations move equal items around without regard to insertion order. A `(priority, sequence)` comparison restores FIFO among equals."
+  },
+  {
+    "question": "You need the 20 slowest requests from a log of 50 million lines streamed from storage. Which approach fits?",
+    "options": [
+      "Load every line into an array and sort it",
+      "Stream the lines into a min-heap capped at 20 items: O(n log 20) time and constant memory",
+      "Use a max-heap containing all 50 million entries",
+      "Binary search the unsorted log"
+    ],
+    "answer": 1,
+    "explanation": "A bounded min-heap holds the current top 20; its root is the weakest of them, so each new line is compared against it and the heap never grows past k."
+  }
+]

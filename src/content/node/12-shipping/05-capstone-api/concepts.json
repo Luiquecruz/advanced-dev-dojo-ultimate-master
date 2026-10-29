@@ -1,0 +1,8 @@
+[
+  { "term": "Error envelope", "description": "One JSON shape for every failure, `{ error: { code, message, details? } }`, so clients handle errors in one place." },
+  { "term": "Typed context variables", "description": "`Hono<{ Variables: { user: User } }>` makes `c.set('user')` / `c.get('user')` type-safe between middleware and handlers." },
+  { "term": "Validator hook", "description": "The third argument of `zValidator`; it receives the parse result and can throw your own `ValidationError` instead of Zod's default response." },
+  { "term": "Owner scoping", "description": "Every lookup filters by the current user; other users' resources answer 404 so their existence never leaks (prevents BOLA)." },
+  { "term": "Location header", "description": "Sent with `201 Created` to point to the new resource's URL." },
+  { "term": "Problem Details", "description": "RFC 9457 standard error format (`application/problem+json`), an alternative to a custom envelope for public APIs." }
+]

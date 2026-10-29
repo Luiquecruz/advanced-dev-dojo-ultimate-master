@@ -1,0 +1,9 @@
+[
+  { "term": "Transient failure", "description": "A failure that may succeed on a later attempt: network errors, `408`, `429`, `502`, `503`, `504`." },
+  { "term": "Exponential backoff", "description": "Wait `base * 2^attempt` between attempts, capped at a maximum, so retries slow down during longer outages." },
+  { "term": "Full jitter", "description": "Random delay between 0 and the backoff value. Spreads retries from many clients and prevents a thundering herd." },
+  { "term": "Idempotency", "description": "Repeating an operation has the same effect as doing it once. Required before retrying writes; idempotency keys make `POST` safe." },
+  { "term": "Retry amplification", "description": "Retries at several layers multiply: 3 retries at 3 layers can turn one call into 64." },
+  { "term": "Circuit breaker", "description": "Stops calling a dependency that keeps failing and fails fast for a cool-down period, then probes again." },
+  { "term": "Retry-After", "description": "Response header on `429` or `503` telling the client how long to wait. Overrides the computed delay." }
+]

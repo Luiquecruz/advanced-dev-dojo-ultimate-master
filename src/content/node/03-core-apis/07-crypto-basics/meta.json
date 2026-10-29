@@ -1,0 +1,10 @@
+{
+  "title": "Crypto Basics",
+  "summary": "SHA-256 hashes, HMAC webhook signatures, constant-time comparison with timingSafeEqual, secure random ids, and choosing the right primitive for each job.",
+  "level": "intermediate",
+  "tags": ["core", "crypto", "security"],
+  "resources": [
+    { "label": "Node.js docs: Crypto", "url": "https://nodejs.org/api/crypto.html" },
+    { "label": "GitHub docs: Validating webhook deliveries", "url": "https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries" }
+  ]
+}

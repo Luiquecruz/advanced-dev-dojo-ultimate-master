@@ -1,0 +1,10 @@
+{
+  "title": "Pagination, Filtering and Sorting",
+  "summary": "Offset pagination with whitelisted sorting and clamped limits, then an opaque cursor feed that stays correct while data changes.",
+  "level": "advanced",
+  "tags": ["core", "hono", "performance"],
+  "resources": [
+    { "label": "Use The Index, Luke: Paging Through Results", "url": "https://use-the-index-luke.com/sql/partial-results/fetch-next-page" },
+    { "label": "TanStack Query: Infinite Queries", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/infinite-queries" }
+  ]
+}

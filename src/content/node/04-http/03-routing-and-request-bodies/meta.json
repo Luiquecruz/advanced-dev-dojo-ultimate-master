@@ -1,0 +1,10 @@
+{
+  "title": "Routing and Request Bodies",
+  "summary": "Build a route table with path parameters, 404 vs 405 with Allow, and a safe JSON body reader with 415, 413 and 400, plus HttpError mapping that never leaks internals.",
+  "level": "intermediate",
+  "tags": ["core", "http"],
+  "resources": [
+    { "label": "Node.js guide: Anatomy of an HTTP Transaction", "url": "https://nodejs.org/en/learn/modules/anatomy-of-an-http-transaction" },
+    { "label": "MDN: HTTP response status codes", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status" }
+  ]
+}

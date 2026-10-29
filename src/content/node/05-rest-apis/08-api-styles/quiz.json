@@ -1,0 +1,32 @@
+[
+  {
+    "question": "One team builds a React app and its Hono API in the same TypeScript monorepo. No other clients exist. Which style removes the most contract work?",
+    "options": ["GraphQL with code generation", "gRPC with gRPC-Web", "A typed RPC client (Hono RPC or tRPC) that imports the server's route types", "REST with a hand-written client"],
+    "answer": 2,
+    "explanation": "With one TypeScript team on both sides, inferred types give autocompletion and compile errors on breaking changes with no schema to maintain."
+  },
+  {
+    "question": "A company exposes its API to partners who write integrations in Java, Python and Go. What should the public API be?",
+    "options": ["REST with a published OpenAPI document", "tRPC", "WebSockets", "Server-Sent Events"],
+    "answer": 0,
+    "explanation": "REST over HTTP with OpenAPI works with every language and tool, and partners can generate clients from the contract. tRPC only serves TypeScript clients."
+  },
+  {
+    "question": "A GraphQL API becomes slow: a query for 50 orders with their customers runs 51 database queries. What is the standard fix?",
+    "options": ["Switch to REST", "Batch the customer lookups per request with a DataLoader so they become one query", "Add more server instances", "Cache the whole GraphQL response for an hour"],
+    "answer": 1,
+    "explanation": "Per-field resolvers cause N+1 queries. A DataLoader collects the ids requested in the same tick and loads them in one batch (the persistence module builds one)."
+  },
+  {
+    "question": "Your Stripe webhook endpoint runs a 20-second fulfilment job before answering. Stripe sometimes calls it twice for the same event. What should change?",
+    "options": ["Nothing, retries are rare", "Ask Stripe to stop retrying", "Process the job before verifying the signature to save time", "Verify the signature, store the event id, answer 2xx immediately, process in a background job and skip event ids already handled"],
+    "answer": 3,
+    "explanation": "Providers retry on slow or failed responses and may deliver duplicates. Fast acknowledgment plus idempotent background processing is the reliable pattern; signature verification always comes first."
+  },
+  {
+    "question": "A dashboard shows order counts that change a few times per hour. Which approach is the simplest that works?",
+    "options": ["WebSockets with a pub/sub broker", "Polling every minute (or refetch on focus) with HTTP caching", "gRPC streaming", "GraphQL subscriptions"],
+    "answer": 1,
+    "explanation": "For infrequent updates, polling is simple, stateless and cache-friendly. Real-time transports pay off when updates are frequent or latency matters."
+  }
+]

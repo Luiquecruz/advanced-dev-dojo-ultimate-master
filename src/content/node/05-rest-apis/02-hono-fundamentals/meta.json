@@ -1,0 +1,11 @@
+{
+  "title": "Hono Fundamentals",
+  "summary": "Routes, path parameters with patterns, query strings, the context object and status codes in a Hono app tested with app.request.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "hono", "http"],
+  "resources": [
+    { "label": "Hono docs: Routing", "url": "https://hono.dev/docs/api/routing" },
+    { "label": "Hono docs: Context", "url": "https://hono.dev/docs/api/context" },
+    { "label": "Hono docs: Node.js", "url": "https://hono.dev/docs/getting-started/nodejs" }
+  ]
+}

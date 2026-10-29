@@ -1,0 +1,10 @@
+{
+  "title": "Validation with Zod",
+  "summary": "Parse bodies and query strings with Zod schemas and zValidator, strip unknown fields and return one clear 400 error shape.",
+  "level": "intermediate",
+  "tags": ["ecosystem", "hono", "zod", "security"],
+  "resources": [
+    { "label": "Zod documentation", "url": "https://zod.dev" },
+    { "label": "Hono docs: Validation", "url": "https://hono.dev/docs/guides/validation" }
+  ]
+}

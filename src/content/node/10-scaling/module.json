@@ -1,0 +1,4 @@
+{
+  "title": "Performance, Jobs and Scale",
+  "description": "Keeping the event loop free, background jobs, worker threads and clustering, real-time transports, observability and graceful shutdown."
+}

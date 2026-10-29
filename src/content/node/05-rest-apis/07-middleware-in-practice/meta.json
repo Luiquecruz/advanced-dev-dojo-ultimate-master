@@ -1,0 +1,11 @@
+{
+  "title": "Middleware in Practice",
+  "summary": "Request ids, structured access logs with an injected logger, CORS preflights and Server-Timing, and why middleware order is behavior.",
+  "level": "advanced",
+  "tags": ["ecosystem", "hono", "observability"],
+  "resources": [
+    { "label": "Hono docs: Middleware", "url": "https://hono.dev/docs/guides/middleware" },
+    { "label": "Hono docs: CORS Middleware", "url": "https://hono.dev/docs/middleware/builtin/cors" },
+    { "label": "MDN: Cross-Origin Resource Sharing (CORS)", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS" }
+  ]
+}

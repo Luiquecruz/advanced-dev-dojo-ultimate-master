@@ -94,6 +94,11 @@
   --accent-rgb: 255 107 129;
 }
 
+[data-trail='node'] {
+  --accent: #9be15d;
+  --accent-rgb: 155 225 93;
+}
+
 @theme {
   --color-void: #0a0f18;
   --color-panel: #121c2a;

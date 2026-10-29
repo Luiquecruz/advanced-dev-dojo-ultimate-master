@@ -1,0 +1,8 @@
+[
+  { "term": "node:fs/promises", "description": "Promise-based file APIs (`readFile`, `writeFile`, `mkdir`, `rename`, `rm`). The default for application code." },
+  { "term": "Sync APIs", "description": "`readFileSync` and friends block the event loop. Fine at startup and in CLIs, never inside request handlers." },
+  { "term": "ENOENT", "description": "Error code for \"no such file or directory\". Branch on `error.code`, never on the message." },
+  { "term": "Atomic write", "description": "Write a temporary file in the same folder, then `rename` it over the target so readers never see a partial file." },
+  { "term": "process.cwd()", "description": "The folder the process started in. Relative paths resolve against it, not against the source file." },
+  { "term": "Check-then-act race", "description": "`existsSync` followed by a read or write can fail because the file changed in between. Try the operation and handle the error code." }
+]

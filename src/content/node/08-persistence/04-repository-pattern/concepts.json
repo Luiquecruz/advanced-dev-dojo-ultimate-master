@@ -1,0 +1,8 @@
+[
+  { "term": "Repository", "description": "An object with a collection-like interface (`findById`, `create`, ...) that hides how an aggregate is stored." },
+  { "term": "Persistence ignorance", "description": "Services and domain code do not know about SQL, ORMs or tables; they depend on the repository interface." },
+  { "term": "Data mapper", "description": "The code that turns rows (`created_at`, joined tables) into domain objects and back. Usually inside the repository." },
+  { "term": "Fake", "description": "A working lightweight implementation (in-memory repository) used in tests instead of the real database." },
+  { "term": "Leaky abstraction", "description": "A repository that exposes query builders or ORM types, so callers depend on the storage technology anyway." },
+  { "term": "Unique constraint", "description": "A rule enforced by storage, not only checked by the service, so concurrent requests cannot both pass the check." }
+]

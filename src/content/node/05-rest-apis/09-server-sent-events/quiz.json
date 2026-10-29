@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Inside `streamSSE`, the handler discovers the job does not exist and calls `return c.json({ error: 'Job not found' }, 404)`. What does the client get?",
+    "options": ["A 404 JSON response", "A 200 event stream: the status was already sent when the stream started, so the check must happen before `streamSSE`", "A 500 error", "The connection is refused"],
+    "answer": 1,
+    "explanation": "A streaming response commits its status and headers immediately. Decide errors first, stream second."
+  },
+  {
+    "question": "The AI chat feature streams tokens over SSE. In production, users see the whole answer appear at once after several seconds, while locally it streams fine. What is the most likely cause?",
+    "options": ["The model is slower in production", "`EventSource` does not work over HTTPS", "A reverse proxy or CDN buffers the response; streaming must be enabled for that route", "SSE needs WebSockets in production"],
+    "answer": 2,
+    "explanation": "Buffering proxies hold the response until it completes. Disabling buffering (for example `X-Accel-Buffering: no` on Nginx) restores streaming."
+  },
+  {
+    "question": "Which feature needs WebSockets rather than SSE?",
+    "options": ["Showing the progress of an export job", "Streaming an LLM answer", "Pushing notification counts", "A collaborative whiteboard where every client sends cursor positions many times per second"],
+    "answer": 3,
+    "explanation": "SSE is one-way, server to client. Frequent client-to-server messages on the same connection are what WebSockets are for."
+  }
+]

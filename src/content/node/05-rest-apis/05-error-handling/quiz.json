@@ -1,0 +1,35 @@
+[
+  {
+    "question": "An `onError` handler ends with `return c.json({ error: err.message }, 500)`. What is wrong with it?",
+    "options": [
+      "Nothing, it keeps the shape consistent",
+      "Unknown errors may carry SQL, hostnames or secrets; the client should get a generic message while the full error is logged",
+      "It should use status 400",
+      "`err.message` is always empty in Hono"
+    ],
+    "answer": 1,
+    "explanation": "Known errors have messages written for clients. Unknown errors were written for developers and can leak internals, so only the logs get them."
+  },
+  {
+    "question": "Why should `withdraw()` throw `InsufficientFundsError` instead of `new HTTPException(422)`?",
+    "options": [
+      "The service can be reused by a queue worker or CLI where HTTP status codes mean nothing; the HTTP layer decides the status",
+      "`HTTPException` cannot be thrown from functions",
+      "Domain errors are faster",
+      "Hono does not catch `HTTPException` outside routes"
+    ],
+    "answer": 0,
+    "explanation": "Keeping HTTP out of the domain lets the same business code run in any context, and the mapping to statuses stays in one place."
+  },
+  {
+    "question": "A handler calls `sendWelcomeEmail(user)` without `await`, and the promise rejects. What happens?",
+    "options": [
+      "`onError` handles it",
+      "The response becomes a 500",
+      "Nothing, Node ignores it",
+      "The rejection escapes the request, becomes an `unhandledRejection` and crashes the process by default"
+    ],
+    "answer": 3,
+    "explanation": "`onError` only sees errors in the awaited chain. Fire-and-forget work needs its own `.catch` (or a job queue)."
+  }
+]

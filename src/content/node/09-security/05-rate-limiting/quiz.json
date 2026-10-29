@@ -1,0 +1,26 @@
+[
+  {
+    "question": "Your API runs on 6 instances, each with the in-memory limiter from this lesson set to 100 requests per minute per key. What limit does a client really get?",
+    "options": ["100 per minute", "Up to 600 per minute, depending on load balancing; use a shared store such as Redis", "16 per minute", "Unlimited"],
+    "answer": 1,
+    "explanation": "Each process counts on its own. Shared counters (Redis, the gateway) are needed for a global limit."
+  },
+  {
+    "question": "A generated limiter keys anonymous requests by `req.headers['x-forwarded-for']`, and the app is reachable directly without a proxy. What can an attacker do?",
+    "options": ["Nothing, the header is set by the browser", "Crash the server", "Send a different fake `X-Forwarded-For` on every request and never be limited", "Read other users' data"],
+    "answer": 2,
+    "explanation": "Clients can set any header. Only trust forwarding headers written by your own proxy, configured as trusted."
+  },
+  {
+    "question": "A public API should allow a burst of 20 requests when an app starts, but an average of only 2 per second. Which algorithm fits?",
+    "options": ["Token bucket with capacity 20 and refill 2 per second", "Fixed window of 20 per 10 seconds", "Fixed window of 2 per second", "No limit, rely on the database"],
+    "answer": 0,
+    "explanation": "The capacity absorbs the burst; the refill rate enforces the long-term average."
+  },
+  {
+    "question": "Credential stuffing hits `/login` from thousands of IPs, each trying a few passwords for many accounts. Which additional limit helps most?",
+    "options": ["A stricter per-IP limit only", "Limits per target account (email) plus slowing down or a CAPTCHA after failures", "Removing the 429 status", "Caching login responses"],
+    "answer": 1,
+    "explanation": "Distributed attacks stay under per-IP limits. Limiting attempts per account catches them, and slowing down or challenging avoids letting attackers lock users out."
+  }
+]

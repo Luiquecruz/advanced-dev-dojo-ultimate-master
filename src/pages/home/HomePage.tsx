@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useEffect, useState, type ReactNode } from 'react';
-import { tracks } from '@/content';
+import { availableTracks } from '@/content';
 import { RotatingWords } from '@/shared/ui/RotatingWords';
 import { PathCarousel } from '@/features/path-carousel';
 import { progress, summarizeTrack, useProgress } from '@/entities/progress';
@@ -17,8 +17,8 @@ const AUTHOR_URL = 'https://www.linkedin.com/in/luique-cruz/';
 const HEADLINE_LABEL = 'Dev Dojo: learn, build and code, from front-end and back-end to architecture, development, software and AI engineering';
 const EXPLORE_AFTER_MS = 1400;
 
-const totalLessons = tracks.reduce((sum, track) => sum + track.lessons.length, 0);
-const totalChallenges = tracks.reduce((sum, track) => sum + track.lessons.filter((lesson) => lesson.challenge).length, 0);
+const totalLessons = availableTracks.reduce((sum, track) => sum + track.lessons.length, 0);
+const totalChallenges = availableTracks.reduce((sum, track) => sum + track.lessons.filter((lesson) => lesson.challenge).length, 0);
 
 /**
  * Full-screen landing: editorial layout around the 3D path carousel, with the active track name as a giant backdrop.
@@ -26,8 +26,8 @@ const totalChallenges = tracks.reduce((sum, track) => sum + track.lessons.filter
  */
 export function HomePage({ onExploreChange, onTrailChange }: HomePageProps) {
   const state = useProgress();
-  const [active, setActive] = useState(() => Math.max(0, tracks.findIndex((track) => summarizeTrack(track, state).status === 'in-progress')));
-  const track = tracks[active];
+  const [active, setActive] = useState(() => Math.max(0, availableTracks.findIndex((track) => summarizeTrack(track, state).status === 'in-progress')));
+  const track = availableTracks[active];
 
   useEffect(() => {
     onTrailChange(track.id);
@@ -49,12 +49,12 @@ export function HomePage({ onExploreChange, onTrailChange }: HomePageProps) {
       className="relative isolate grid h-dvh min-h-150 grid-rows-[auto_minmax(0,1fr)_auto] gap-y-4 overflow-hidden px-28 pt-6 pb-5 max-wide:gap-y-3 max-wide:px-4 max-wide:pt-5 max-wide:pb-3"
     >
       <SideRail>
-        <span className="text-accent">{String(active + 1).padStart(2, '0')}</span> / {String(tracks.length).padStart(2, '0')} · {track.title}
+        <span className="text-accent">{String(active + 1).padStart(2, '0')}</span> / {String(availableTracks.length).padStart(2, '0')} · {track.title}
       </SideRail>
 
       <header className="flex items-center justify-end max-wide:hidden">
         <dl className="enter m-0 flex items-baseline gap-6 font-mono text-[11px] tracking-[0.14em] text-ink-faint uppercase max-wide:hidden" style={{ ['--enter-delay' as string]: '320ms' }}>
-          <Stat value={tracks.length} label="tracks" />
+          <Stat value={availableTracks.length} label="tracks" />
           <Stat value={totalLessons} label="lessons" />
           <Stat value={totalChallenges} label="challenges" />
         </dl>
@@ -72,7 +72,7 @@ export function HomePage({ onExploreChange, onTrailChange }: HomePageProps) {
 
       <div className="relative @container min-h-0">
         <Backdrop active={active} />
-        <PathCarousel tracks={tracks} active={active} onActiveChange={setActive} />
+        <PathCarousel tracks={availableTracks} active={active} onActiveChange={setActive} />
       </div>
 
       <footer
@@ -110,7 +110,7 @@ function Stat({ value, label }: { value: number; label: string }) {
 function Backdrop({ active }: { active: number }) {
   return (
     <div aria-hidden="true" className="enter pointer-events-none absolute inset-0 -z-10 grid items-end justify-items-center overflow-hidden max-wide:hidden" style={{ ['--enter-delay' as string]: '100ms' }}>
-      {tracks.map((track, index) => {
+      {availableTracks.map((track, index) => {
         const label = track.shortTitle ?? track.title;
         return (
           <span

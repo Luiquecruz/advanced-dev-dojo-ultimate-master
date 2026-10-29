@@ -1,0 +1,11 @@
+{
+  "title": "Running TypeScript in Node",
+  "summary": "Native type stripping and its erasable-syntax rules, tsx for development, tsc for type-checking and builds, and module: nodenext.",
+  "level": "intermediate",
+  "tags": ["theory", "typescript", "modern"],
+  "resources": [
+    { "label": "Node.js docs: Modules: TypeScript", "url": "https://nodejs.org/api/typescript.html" },
+    { "label": "Node.js guide: Running TypeScript natively", "url": "https://nodejs.org/en/learn/typescript/run-natively" },
+    { "label": "tsx documentation", "url": "https://tsx.is/" }
+  ]
+}

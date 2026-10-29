@@ -1,0 +1,10 @@
+{
+  "title": "Linked Lists",
+  "summary": "Build a doubly linked list with O(1) removal by handle and use it to expire idle connections, then decide when a Set or an array is the simpler answer.",
+  "level": "intermediate",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "MDN: Iteration protocols", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols" },
+    { "label": "Wikipedia: Doubly linked list", "url": "https://en.wikipedia.org/wiki/Doubly_linked_list" }
+  ]
+}

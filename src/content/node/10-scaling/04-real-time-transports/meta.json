@@ -1,0 +1,11 @@
+{
+  "title": "Real-Time Transports",
+  "summary": "Choose between polling, long polling, Server-Sent Events, WebSockets, WebTransport and managed services, and know what long-lived connections demand: fan-out, heartbeats, reconnection, auth and backpressure.",
+  "level": "advanced",
+  "tags": ["theory", "ecosystem"],
+  "resources": [
+    { "label": "MDN: Server-sent events", "url": "https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events" },
+    { "label": "MDN: The WebSocket API", "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API" },
+    { "label": "MDN: WebTransport API", "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebTransport_API" }
+  ]
+}

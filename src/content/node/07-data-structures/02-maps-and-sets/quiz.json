@@ -1,0 +1,35 @@
+[
+  {
+    "question": "A route counts tags with `const counts = {}; for (const tag of req.body.tags) counts[tag] = (counts[tag] ?? 0) + 1;`. What is the risk, and the fix?",
+    "options": [
+      "No risk: plain objects are the fastest counters",
+      "A tag named `__proto__` or `constructor` hits prototype keys (prototype pollution or wrong counts); use a `Map` or `Object.create(null)`",
+      "Objects cannot hold more than 1 000 keys",
+      "The loop is O(n²)"
+    ],
+    "answer": 1,
+    "explanation": "User-controlled keys on plain objects collide with inherited properties. A `Map` has no prototype keys and also keeps non-string keys intact."
+  },
+  {
+    "question": "`cache.set({ tenantId: 1, userId: 7 }, profile)` and later `cache.get({ tenantId: 1, userId: 7 })` returns `undefined`. Why?",
+    "options": [
+      "Maps compare object keys by reference, and the second object is a different reference; use a string key such as `'1:7'`",
+      "Maps only support string keys",
+      "The entry expired",
+      "`get` needs `has` to be called first"
+    ],
+    "answer": 0,
+    "explanation": "Object keys are compared by identity. Composite keys must be serialized into a primitive (a string) to be found again."
+  },
+  {
+    "question": "You must find which of 50 000 submitted product ids do not exist among 200 000 product ids loaded in memory. Which approach scales?",
+    "options": [
+      "`submitted.filter(id => !existing.includes(id))`",
+      "Sort both arrays and compare them with `JSON.stringify`",
+      "`const known = new Set(existing); submitted.filter(id => !known.has(id))`",
+      "A nested `for` loop with `break`"
+    ],
+    "answer": 2,
+    "explanation": "Building the Set is O(m) and each check is O(1), so the whole job is O(n + m). `includes` inside `filter` is O(n × m): ten billion comparisons here."
+  }
+]

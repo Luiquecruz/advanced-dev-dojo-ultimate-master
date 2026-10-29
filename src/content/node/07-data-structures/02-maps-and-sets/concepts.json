@@ -1,0 +1,8 @@
+[
+  { "term": "Map", "description": "Hash table with keys of any type, insertion order and `size`. `get`, `set`, `has` and `delete` are O(1) on average." },
+  { "term": "Set", "description": "Collection of unique values in insertion order. `has` is O(1), which makes it the tool for membership checks and deduplication." },
+  { "term": "Index", "description": "A lookup structure built once (`new Map(items.map(i => [i.id, i]))`) so later lookups do not scan the list." },
+  { "term": "Map.groupBy", "description": "Built-in grouping (Node 21+): `Map.groupBy(items, item => key)` returns a Map from key to the items with that key." },
+  { "term": "Prototype pollution", "description": "Writing user-controlled keys such as `__proto__` into a plain object alters `Object.prototype`. A `Map` has no such keys." },
+  { "term": "Set algebra", "description": "`union`, `intersection`, `difference` and `isSubsetOf` on `Set` (Node 22+): ideal for computing what was added or removed." }
+]

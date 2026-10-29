@@ -1,0 +1,8 @@
+[
+  { "term": "Background job", "description": "Work recorded during a request and executed later by a worker, so the response does not wait for it." },
+  { "term": "Concurrency slot", "description": "Each worker runs at most N jobs at once. Slots protect databases and third-party rate limits." },
+  { "term": "At-least-once delivery", "description": "Durable queues may run a job more than once (a worker crashed before acknowledging). Handlers must tolerate it." },
+  { "term": "Idempotent handler", "description": "Running it twice has the same effect as once: check stored state first and use idempotency keys with external APIs." },
+  { "term": "Dead-letter queue", "description": "Where jobs go after their last failed attempt, to be inspected, fixed and replayed instead of retried forever." },
+  { "term": "Transactional outbox", "description": "Writing the job into a table in the same transaction as the data change, so the two cannot get out of sync." }
+]

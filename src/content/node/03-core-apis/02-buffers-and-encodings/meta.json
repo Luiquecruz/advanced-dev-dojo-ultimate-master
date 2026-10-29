@@ -1,0 +1,10 @@
+{
+  "title": "Buffers and Encodings",
+  "summary": "Bytes vs characters: Buffer, UTF-8 byte lengths, base64 and hex, Basic auth headers, truncating by bytes and decoding chunked data safely.",
+  "level": "intermediate",
+  "tags": ["core", "buffer"],
+  "resources": [
+    { "label": "Node.js docs: Buffer", "url": "https://nodejs.org/api/buffer.html" },
+    { "label": "MDN: Base64", "url": "https://developer.mozilla.org/en-US/docs/Glossary/Base64" }
+  ]
+}

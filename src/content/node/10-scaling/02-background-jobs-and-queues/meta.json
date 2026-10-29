@@ -1,0 +1,10 @@
+{
+  "title": "Background Jobs and Queues",
+  "summary": "Move slow and unreliable work out of requests: build a job queue with concurrency slots, retries that free their slot, a dead-letter list and onIdle, and learn idempotency, outbox and which durable queue to pick.",
+  "level": "advanced",
+  "tags": ["core", "performance", "ecosystem"],
+  "resources": [
+    { "label": "BullMQ documentation", "url": "https://docs.bullmq.io/" },
+    { "label": "Microservices.io: Transactional outbox", "url": "https://microservices.io/patterns/data/transactional-outbox.html" }
+  ]
+}

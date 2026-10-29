@@ -1,0 +1,11 @@
+{
+  "title": "SQL Essentials",
+  "summary": "Read and review the SQL your tools and assistants generate: SELECT, joins, GROUP BY, NULL, writes, and the indexes that make queries fast.",
+  "level": "intermediate",
+  "tags": ["theory", "database", "sql"],
+  "resources": [
+    { "label": "PostgreSQL tutorial: The SQL Language", "url": "https://www.postgresql.org/docs/current/tutorial-sql.html" },
+    { "label": "PostgreSQL docs: Indexes", "url": "https://www.postgresql.org/docs/current/indexes.html" },
+    { "label": "Use The Index, Luke", "url": "https://use-the-index-luke.com/" }
+  ]
+}

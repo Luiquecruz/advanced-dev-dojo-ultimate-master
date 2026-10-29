@@ -1,0 +1,11 @@
+{
+  "title": "Architecture Styles",
+  "summary": "Monolith, modular monolith, microservices, serverless, hexagonal and event-driven architectures, and how to choose between them.",
+  "level": "advanced",
+  "tags": ["theory"],
+  "resources": [
+    { "label": "Martin Fowler: Monolith First", "url": "https://martinfowler.com/bliki/MonolithFirst.html" },
+    { "label": "microservices.io: Transactional outbox", "url": "https://microservices.io/patterns/data/transactional-outbox.html" },
+    { "label": "Alistair Cockburn: Hexagonal Architecture", "url": "https://alistair.cockburn.us/hexagonal-architecture/" }
+  ]
+}

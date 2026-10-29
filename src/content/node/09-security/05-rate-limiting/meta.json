@@ -1,0 +1,10 @@
+{
+  "title": "Rate Limiting",
+  "summary": "Fixed window and token bucket limiters with an injected clock, a Hono middleware that answers 429 with Retry-After, and how to choose keys and stores in production.",
+  "level": "advanced",
+  "tags": ["security", "hono", "performance"],
+  "resources": [
+    { "label": "MDN: 429 Too Many Requests", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/429" },
+    { "label": "OWASP API4:2023 Unrestricted Resource Consumption", "url": "https://owasp.org/API-Security/editions/2023/en/0xa4-unrestricted-resource-consumption/" }
+  ]
+}

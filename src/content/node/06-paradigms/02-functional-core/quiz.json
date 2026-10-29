@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A pricing helper calls `new Date()` to decide whether a weekend promotion applies. What is the cleanest fix?",
+    "options": ["Mock the global `Date` in every test", "Cache the date in a module variable at startup", "Pass the current date as a parameter from the handler, so the helper stays pure", "Move the helper into the route handler"],
+    "answer": 2,
+    "explanation": "The shell decides 'now' and passes it in. The core becomes deterministic and tests just pass different dates, no global mocks needed."
+  },
+  {
+    "question": "Which line mutates the caller's data even though it looks like a copy?",
+    "options": ["`const next = { ...cart }; next.items.push(item)`", "`const next = { ...cart, items: [...cart.items, item] }`", "`const next = { ...cart, items: cart.items.filter(keep) }`", "`const next = structuredClone(cart); next.items.push(item)`"],
+    "answer": 0,
+    "explanation": "Spread is shallow: `next.items` is the same array as `cart.items`, so `push` changes the original. Copy every level you change."
+  },
+  {
+    "question": "An AI-generated `sortByPrice(products)` returns `products.sort(...)`. Why flag it in review?",
+    "options": ["`sort` is slow for large arrays", "`sort` cannot compare numbers", "Nothing is wrong", "`sort` sorts in place, so it reorders the caller's array; use `toSorted` or copy first"],
+    "answer": 3,
+    "explanation": "`Array.prototype.sort` mutates its receiver. `toSorted()` (ES2023) or `[...products].sort()` keeps the function pure."
+  }
+]

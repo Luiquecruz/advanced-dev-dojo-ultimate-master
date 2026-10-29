@@ -1,0 +1,11 @@
+{
+  "title": "Authorization Middleware",
+  "summary": "Bearer authentication and role middleware in Hono, typed context variables, 401 vs 403, and the object-level ownership checks behind the top OWASP API risk.",
+  "level": "advanced",
+  "tags": ["security", "auth", "hono"],
+  "resources": [
+    { "label": "Hono: Middleware", "url": "https://hono.dev/docs/guides/middleware" },
+    { "label": "OWASP API1:2023 Broken Object Level Authorization", "url": "https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/" },
+    { "label": "OWASP: Authorization Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html" }
+  ]
+}

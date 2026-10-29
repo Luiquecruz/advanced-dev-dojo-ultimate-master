@@ -1,0 +1,35 @@
+[
+  {
+    "question": "An endpoint caches `GET /me` responses in an LRU keyed by the request path. What goes wrong?",
+    "options": [
+      "Nothing, paths are unique",
+      "The cache evicts too often",
+      "LRU caches cannot store JSON",
+      "Every user gets the profile of whoever filled the cache first: the key must include the user id"
+    ],
+    "answer": 3,
+    "explanation": "A cache key must contain every input that changes the answer. Per-user data under a shared key is a data leak, not just a stale read."
+  },
+  {
+    "question": "The API runs on four instances behind a load balancer, each with its own in-process LRU of product prices. An admin changes a price. What happens?",
+    "options": [
+      "All four caches update automatically",
+      "Instances that cached the old price keep serving it until eviction or TTL; use a shared cache (Redis) or a short TTL plus invalidation when consistency matters",
+      "The load balancer clears the caches",
+      "Node.js shares module variables across instances"
+    ],
+    "answer": 1,
+    "explanation": "In-process caches are per instance. That is fine for data that may be slightly stale; prices at checkout need a shared cache or no cache."
+  },
+  {
+    "question": "A teammate's LRU cache uses a single `Map`: hits are deleted and re-inserted, and eviction removes `map.keys().next().value`. It holds 50 000 entries with constant churn. What should the review say?",
+    "options": [
+      "Perfect: every Map operation is O(1), so the cache is O(1)",
+      "It is wrong: a Map does not keep insertion order",
+      "It is correct, but in V8 deleted entries stay as holes that an iterator from the front walks over, so eviction slows down as the cache grows; use a Map plus a doubly linked list, or `lru-cache`",
+      "Replace the Map with an object for speed"
+    ],
+    "answer": 2,
+    "explanation": "The trick is correct and fine for small caches. At tens of thousands of entries with frequent evictions, the hole skipping costs microseconds per eviction; the map plus linked list design stays constant."
+  }
+]

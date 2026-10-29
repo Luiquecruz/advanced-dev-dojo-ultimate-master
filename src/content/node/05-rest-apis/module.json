@@ -1,0 +1,4 @@
+{
+  "title": "REST APIs with Hono",
+  "description": "Choosing a framework, Hono fundamentals, resource design, validation with Zod, errors, pagination, middleware, API styles and SSE."
+}

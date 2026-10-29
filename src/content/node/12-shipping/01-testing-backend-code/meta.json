@@ -1,0 +1,11 @@
+{
+  "title": "Testing Backend Code",
+  "summary": "Unit, integration, end-to-end and contract tests; testing through HTTP, real databases with Testcontainers, test doubles and runners.",
+  "level": "advanced",
+  "tags": ["theory", "testing"],
+  "resources": [
+    { "label": "Node.js docs: Test runner", "url": "https://nodejs.org/api/test.html" },
+    { "label": "Hono docs: Testing", "url": "https://hono.dev/docs/guides/testing" },
+    { "label": "Vitest guide", "url": "https://vitest.dev/guide/" }
+  ]
+}

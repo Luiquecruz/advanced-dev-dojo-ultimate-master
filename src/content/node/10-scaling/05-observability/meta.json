@@ -1,0 +1,10 @@
+{
+  "title": "Observability",
+  "summary": "Make a service explain itself: structured JSON logs with levels, child loggers and redaction, request ids with an access log, error logging, latency percentiles, plus RED metrics, cardinality and OpenTelemetry.",
+  "level": "advanced",
+  "tags": ["core", "ecosystem"],
+  "resources": [
+    { "label": "OpenTelemetry: Node.js", "url": "https://opentelemetry.io/docs/languages/js/" },
+    { "label": "pino logger", "url": "https://getpino.io/" }
+  ]
+}

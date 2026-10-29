@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Requests from the React app fail with a CORS error only for `PATCH` calls with an `Authorization` header. The API registers `bearerAuth` before `cors`. What is the likely cause?",
+    "options": ["`PATCH` is not supported by CORS", "The browser's preflight `OPTIONS` request carries no token, so auth rejects it with 401 before CORS can answer; register CORS first", "The token is too long", "CORS needs `origin: '*'` for PATCH"],
+    "answer": 1,
+    "explanation": "Preflights never include credentials. CORS middleware must answer them before authentication runs."
+  },
+  {
+    "question": "A logging middleware calls `log(c.res.status)` before `await next()`. What does it log?",
+    "options": ["The final status", "Nothing, it throws", "Always 500", "The placeholder response status (200), because the handler has not run yet"],
+    "answer": 3,
+    "explanation": "Before `next()` the response does not exist yet. Status and duration are only known on the way out of the onion."
+  },
+  {
+    "question": "Which statement about CORS is true?",
+    "options": ["CORS is enforced by browsers; it does not stop `curl` or other servers from calling the API", "CORS prevents all unauthorized access to the API", "CORS encrypts cross-origin requests", "`origin: '*'` works with cookies when `credentials: true`"],
+    "answer": 0,
+    "explanation": "CORS only controls what browser JavaScript from other origins may read. Protecting data is the job of authentication and authorization."
+  }
+]

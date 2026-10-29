@@ -1,0 +1,11 @@
+{
+  "title": "Parameterized Queries",
+  "summary": "Stop SQL injection by construction: placeholders, a sql tagged template, identifier whitelists, NULL and array parameters, and the unsafe raw helpers to look for in review.",
+  "level": "intermediate",
+  "tags": ["database", "sql", "security"],
+  "resources": [
+    { "label": "OWASP: SQL Injection Prevention Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" },
+    { "label": "node-postgres: Queries", "url": "https://node-postgres.com/features/queries" },
+    { "label": "MDN: Tagged templates", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates" }
+  ]
+}

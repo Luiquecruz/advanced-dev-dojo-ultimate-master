@@ -1,0 +1,10 @@
+{
+  "title": "Choosing a Database",
+  "summary": "Relational, document, key-value, search and vector stores: what each is good at, why Postgres is the default, and how to judge a proposed data architecture.",
+  "level": "intermediate",
+  "tags": ["theory", "database"],
+  "resources": [
+    { "label": "PostgreSQL documentation", "url": "https://www.postgresql.org/docs/current/" },
+    { "label": "MDN: Server-side website programming", "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side" }
+  ]
+}

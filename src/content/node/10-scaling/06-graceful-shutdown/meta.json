@@ -1,0 +1,11 @@
+{
+  "title": "Graceful Shutdown",
+  "summary": "Handle SIGTERM like production platforms expect: stop accepting connections, let in-flight requests finish with server.close, clean up resources, exit once, and force the exit with an unref'd timeout.",
+  "level": "expert",
+  "tags": ["core", "ecosystem"],
+  "resources": [
+    { "label": "Node.js docs: Signal events", "url": "https://nodejs.org/api/process.html#signal-events" },
+    { "label": "Node.js docs: server.close()", "url": "https://nodejs.org/api/http.html#serverclosecallback" },
+    { "label": "Kubernetes: Pod termination", "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination" }
+  ]
+}

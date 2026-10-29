@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Dev Dojo is a browser-only learning platform (theory, test-validated coding challenges, hints, quizzes) for TypeScript, React, React State Management, Vue and Angular. There is no backend: grading, previews and a fake REST API all run client-side. Everything (code, content, docs) is written in English.
+Dev Dojo is a browser-only learning platform (theory, test-validated coding challenges, hints, quizzes) for TypeScript, React, React State Management, Vue, Angular and Node.js. There is no backend: grading, previews and a fake REST API all run client-side. Everything (code, content, docs) is written in English.
 
 ## Commands
 
@@ -13,7 +13,7 @@ npm run typecheck                                              # tsc --noEmit
 npm run test                                                   # unit + architecture tests (everything except src/verify)
 npm run verify                                                 # lesson verification (src/verify): solution passes, starter fails
 npx vitest run src/shared/motion                               # one folder of unit tests
-npx vitest run src/verify/<track>.test.ts                      # one track (typescript, react, react-state, vue, angular)
+npx vitest run src/verify/<track>.test.ts                      # one track (typescript, react, react-state, vue, angular, node)
 LESSON=use-effect npx vitest run src/verify/react.test.ts      # lessons whose id contains "use-effect"
 LESSON=use-effect npx vitest run src/verify/content.test.ts    # structure checks only
 ```
@@ -55,9 +55,9 @@ The UI follows feature-sliced design. Import with the `@/` alias (`@/shared/ui/i
 
 ## Domain: content, engines, sandbox
 
-- **`src/content/`**: lessons as plain files. `content/index.ts` builds `tracks → modules → lessons` at build time via `import.meta.glob` (eager, `?raw` for text). Numeric folder prefixes set order and are stripped from ids. A lesson folder only exists once it has `meta.json`. Single-file `starter.<ext>`/`solution.<ext>` are renamed to the engine default entry (`DEFAULT_ENTRY`); multi-file challenges use `starter/` + `solution/` folders and need `entry` in `meta.json`. Each `track.json` declares its `engine`, so several tracks share one engine (`react-state` runs on `react`).
-- **`src/engines/`**: two families. *Static* (`typescript/`): TypeScript compiler API in Web Workers; tests are a Markdown DSL (`tests.md`, parsed by `testsDsl.ts`). *Framework* (`react/`, `vue/`, `angular/`): each exports a `FrameworkAdapter`; `shared/` holds `transpile()` with a loop guard, a tiny CommonJS loader, the test runner, Jest-like `expect` and the fake `/api/*` server. Learner code can only import what the engine's `registry.ts` registers.
-- **`src/sandbox/` + `sandbox.html`**: framework code never runs in the app window. `features/lesson/runner.ts` creates a hidden iframe per test run (`mode=test`) and `PreviewFrame` keeps a persistent one (`mode=preview`), talking through `sandbox/protocol.ts`. The TypeScript engine grades in workers instead.
+- **`src/content/`**: lessons as plain files. `content/index.ts` builds `tracks → modules → lessons` at build time via `import.meta.glob` (eager, `?raw` for text). Numeric folder prefixes set order and are stripped from ids. A lesson folder only exists once it has `meta.json`. Single-file `starter.<ext>`/`solution.<ext>` are renamed to the engine default entry (`DEFAULT_ENTRY`); multi-file challenges use `starter/` + `solution/` folders and need `entry` in `meta.json`. Each `track.json` declares its `engine`, so several tracks share one engine (`react-state` runs on `react`). `content/featureFlags.ts` (`TRACK_FLAGS`, code only) hides disabled tracks (`vue`, `angular` today): the UI reads `availableTracks`/`availableTrackById`, verification keeps using `tracks`/`trackById`.
+- **`src/engines/`**: two families. *Static* (`typescript/`): TypeScript compiler API in Web Workers; tests are a Markdown DSL (`tests.md`, parsed by `testsDsl.ts`). *Framework* (`react/`, `vue/`, `angular/`, `node/`): each exports a `FrameworkAdapter`; `node/` has no preview and runs Node built-ins implemented in the browser (`node/runtime/`: in-memory `fs`, `http`, `process`, timers, crypto, util) plus Hono; `shared/` holds `transpile()` with a loop guard, a tiny CommonJS loader, the test runner, Jest-like `expect` and the fake `/api/*` server. Learner code can only import what the engine's `registry.ts` registers.
+- **`src/sandbox/` + `sandbox.html`**: framework code never runs in the app window. `features/lesson/runner.ts` creates a hidden iframe per test run (`mode=test`) or program run (`mode=run`, Node.js **Run** button, console streamed back) and `PreviewFrame` keeps a persistent one (`mode=preview`), talking through `sandbox/protocol.ts`. The TypeScript engine grades and runs in workers instead.
 - `vite.config.ts` defines the `@/` alias, aliases `vue` to the full ESM build and `@vue/compiler-sfc` to its browser build; Vitest runs in jsdom and inlines `@angular`/`@ngrx` deps.
 
 ## State and storage
@@ -114,7 +114,7 @@ Follow `.claude/docs/CONTENT_GUIDE.md` and `.claude/docs/CURRICULUM.md`. The ver
 New tracks are coming; follow the checklist at the end of `.claude/docs/ARCHITECTURE.md`. In short, a track on an existing engine needs no UI code:
 
 1. `src/content/<id>/track.json`: `engine`, `order`, `title`, `monogram` (1–3 characters), `shortTitle` when the title is long (home backdrop word), `description`, `version`; then modules and lessons.
-2. `[data-trail='<id>']` accent rule in `src/shared/design/tokens.css`: AA on void, panel and elevated, AA under dark text, at least 30° of hue from every other accent (the amber to lime band is free). `trackPresentation.test.ts` checks it.
+2. `[data-trail='<id>']` accent rule in `src/shared/design/tokens.css`: AA on void, panel and elevated, AA under dark text, at least 30° of hue from every other accent (the amber to yellow band is free). `trackPresentation.test.ts` checks it.
 3. `src/verify/<id>.test.ts` with `defineChallengeSuite`, the plan in CURRICULUM.md, new libraries registered in the engine `registry.ts` and listed in CONTENT_GUIDE.md.
 4. Name the track in the `index.html` meta description if it should appear there.
 

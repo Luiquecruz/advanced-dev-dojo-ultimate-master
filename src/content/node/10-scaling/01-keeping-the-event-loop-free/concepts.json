@@ -1,0 +1,8 @@
+[
+  { "term": "Blocking the event loop", "description": "Synchronous work that holds the single JavaScript thread. Until it ends, no request, timer or I/O callback runs." },
+  { "term": "Yielding", "description": "Pausing a long job with `await setImmediate()` so pending I/O callbacks run before the next chunk. Microtasks (`await Promise.resolve()`) do not yield." },
+  { "term": "Event loop lag", "description": "How late a timer fires compared to its schedule. A direct measure of how long the loop was blocked." },
+  { "term": "unref()", "description": "Marks a timer as not keeping the process alive. Monitoring timers should be unref'd so they never block shutdown." },
+  { "term": "monitorEventLoopDelay", "description": "`perf_hooks` histogram of loop delay with percentiles (p50, p99): the production way to measure lag." },
+  { "term": "Load shedding", "description": "Rejecting new work with `503` and `Retry-After` while the process is overloaded, so the backlog drains instead of everything timing out." }
+]

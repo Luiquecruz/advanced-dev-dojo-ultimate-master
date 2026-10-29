@@ -1,0 +1,26 @@
+[
+  {
+    "question": "You add a `withRetry` decorator around `PaymentGateway.charge`. What must you make sure of first?",
+    "options": ["That retries happen at least 5 times", "That the decorator is a class", "That charges are idempotent (an idempotency key), otherwise a timeout followed by a retry can charge the customer twice", "Nothing, retries are always safe"],
+    "answer": 2,
+    "explanation": "A timed-out charge may have succeeded upstream. Retrying a non-idempotent operation duplicates it; payment APIs accept an idempotency key for exactly this."
+  },
+  {
+    "question": "An AI-generated adapter returns the SDK's `StripeCharge` object from `charge()`. Why is that a problem?",
+    "options": ["Callers start depending on vendor fields, so the adapter no longer isolates the vendor and a provider switch breaks them", "It is too large to serialize", "TypeScript cannot type it", "It is not a problem as long as the types match"],
+    "answer": 0,
+    "explanation": "The adapter's value is the boundary. Return your own `ChargeResult` and translate vendor errors too."
+  },
+  {
+    "question": "`PAYMENT_PROVIDER=strpe` (typo) in production. Which factory behavior is safest?",
+    "options": ["Fall back to the fake gateway and log a warning", "Pick the first provider in alphabetical order", "Retry reading the variable until it is valid", "Throw at startup with `Unknown payment provider: strpe`"],
+    "answer": 3,
+    "explanation": "A silent fallback to a fake 'succeeds' every payment without charging anyone. Crashing at startup is loud, immediate and caught by the deploy."
+  },
+  {
+    "question": "`withLogging(withLimit(base, 1000), log)`: what is logged for a charge of 5000?",
+    "options": ["Nothing, because the limit rejects before logging", "`charge 5000 USD -> error: Amount exceeds limit of 1000`", "A success line, because the base gateway runs", "Two lines, one per decorator"],
+    "answer": 1,
+    "explanation": "Logging is the outer layer, so it calls the limit, sees the rejection, logs it and rethrows."
+  }
+]

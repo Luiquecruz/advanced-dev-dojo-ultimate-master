@@ -1,0 +1,9 @@
+[
+  { "term": "Transaction", "description": "A group of reads and writes that commits as a whole or not at all (`BEGIN` ... `COMMIT` / `ROLLBACK`)." },
+  { "term": "Unit of work", "description": "Collects the changes of a business operation and writes them in one commit." },
+  { "term": "Lost update", "description": "Two operations read the same value, both write a result based on it, and one write silently overwrites the other." },
+  { "term": "Isolation level", "description": "How much concurrent transactions can see of each other: Read Committed (Postgres default), Repeatable Read, Serializable." },
+  { "term": "SELECT ... FOR UPDATE", "description": "Locks the selected rows until the transaction ends, so concurrent writers wait instead of overwriting." },
+  { "term": "Optimistic concurrency", "description": "A `version` column checked in `UPDATE ... WHERE version = $n`; zero affected rows means someone else changed the row first." },
+  { "term": "Outbox pattern", "description": "Write the event to an `outbox` table in the same transaction, and publish it afterwards, so data and messages never disagree." }
+]

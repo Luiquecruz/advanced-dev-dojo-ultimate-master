@@ -1,0 +1,11 @@
+{
+  "title": "ORMs, Query Builders and Migrations",
+  "summary": "Drivers, query builders and ORMs (Prisma, Drizzle, Kysely, TypeORM) compared, plus migrations that keep production alive: immutability, review and expand and contract.",
+  "level": "intermediate",
+  "tags": ["theory", "database", "ecosystem"],
+  "resources": [
+    { "label": "Prisma Migrate", "url": "https://www.prisma.io/docs/orm/prisma-migrate" },
+    { "label": "Drizzle ORM documentation", "url": "https://orm.drizzle.team/docs/overview" },
+    { "label": "Kysely documentation", "url": "https://kysely.dev/docs/intro" }
+  ]
+}

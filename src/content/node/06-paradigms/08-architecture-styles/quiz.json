@@ -1,0 +1,38 @@
+[
+  {
+    "question": "A four-developer startup is building a B2B SaaS with billing, catalog and reporting. An assistant proposes six microservices on Kubernetes. What do you recommend?",
+    "options": ["Accept: microservices scale better from day one", "A modular monolith with billing, catalog and reporting as modules with public APIs, deployed as one unit", "One serverless function per endpoint", "A monolith with no internal structure, to move fast"],
+    "answer": 1,
+    "explanation": "Microservices solve multi-team independence, which a team of four does not have. A modular monolith keeps deploys simple and leaves clean extraction points."
+  },
+  {
+    "question": "Two services read and write the same `orders` table directly. What is this, and why is it a problem?",
+    "options": ["Database sharding; it improves performance", "Read replicas; nothing is wrong", "A shared database coupling: a schema change in one service can break the other, so they cannot evolve or deploy independently", "Event sourcing; it is the recommended pattern"],
+    "answer": 2,
+    "explanation": "Each service should own its data and expose it through an API or events. Shared tables turn services into a distributed monolith."
+  },
+  {
+    "question": "After an order is placed, the system must send an email, update analytics and reserve stock. The checkout response should stay fast. Which style fits best?",
+    "options": ["Publish an `order.placed` event (via an outbox) and let idempotent consumers react asynchronously", "Call the three services synchronously in sequence before responding", "Have each service poll the orders table every second", "Put all three steps in the HTTP handler inside one try/catch"],
+    "answer": 0,
+    "explanation": "Several independent reactions to one fact, no need to wait: events decouple them. The outbox keeps the database and the event consistent; idempotency handles duplicate deliveries."
+  },
+  {
+    "question": "A serverless API on Lambda starts failing under load with `too many connections` from Postgres. What is the likely cause and fix?",
+    "options": ["Lambda is too slow; move to a bigger instance size", "Every concurrent function opens its own connections; add a connection pooler (or an HTTP-based driver) and cap concurrency", "Postgres cannot run with serverless at all", "Increase the function timeout"],
+    "answer": 1,
+    "explanation": "Serverless scales out to many instances, each with its own pool. A pooler such as PgBouncer or RDS Proxy, or a serverless-friendly driver, is the standard fix."
+  },
+  {
+    "question": "Which situation is a good reason to extract a module from a monolith into its own service?",
+    "options": ["The module's folder has more than 50 files", "The team wants to try a new framework", "Microservices are more modern", "The image-processing module needs different hardware, scales independently and blocks the event loop of the main API"],
+    "answer": 3,
+    "explanation": "Different resource profiles and independent scaling are concrete reasons. File counts and fashion are not."
+  },
+  {
+    "question": "Reviewing an AI-generated design, which element marks a 'distributed monolith'?",
+    "options": ["Each service has its own database", "Services publish events through an outbox", "Every request goes through a synchronous chain of five services, and all services must be deployed together for any release", "One service exposes a public REST API"],
+    "answer": 2,
+    "explanation": "Lockstep deploys and long synchronous chains mean the services are not independent: you pay network costs without gaining autonomy."
+  }
+]

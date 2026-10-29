@@ -277,10 +277,19 @@ const matchers: Record<string, Matcher> = {
     const messageMatches =
       thrown === null ||
       expected === undefined ||
-      (expected instanceof RegExp ? expected.test(thrown.message) : String(thrown.message).includes(expected));
+      (typeof expected === 'function'
+        ? thrown instanceof expected
+        : expected instanceof RegExp
+          ? expected.test(thrown.message)
+          : String(thrown.message).includes(expected instanceof Error ? expected.message : expected));
     return {
       pass: thrown !== null && messageMatches,
-      message: thrown === null ? 'Expected function to throw.' : `Expected error message to match ${String(expected)}, got "${thrown.message}".`,
+      message:
+        thrown === null
+          ? 'Expected function to throw.'
+          : typeof expected === 'function'
+            ? `Expected an instance of ${expected.name}, got ${thrown?.name ?? typeof thrown}: "${thrown.message}".`
+            : `Expected error message to match ${String(expected)}, got "${thrown.message}".`,
       negatedMessage: `Expected function not to throw, but it threw "${thrown?.message}".`,
     };
   },

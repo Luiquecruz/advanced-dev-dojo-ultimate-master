@@ -1,0 +1,8 @@
+[
+  { "term": "path.resolve", "description": "Builds an absolute path right to left; an absolute segment resets the result. Falls back to `process.cwd()`." },
+  { "term": "path.join", "description": "Joins and normalizes segments. Does not make user input safe: `join(root, '../x')` leaves the root." },
+  { "term": "Path traversal", "description": "Using `..` (often encoded as `%2e%2e` or `..%2f`) to reach files outside the intended folder. Guard by resolving, then checking the prefix `root + sep`." },
+  { "term": "WHATWG URL", "description": "`new URL(input, base)`: the browser-compatible parser, global in Node. Prefer it to the legacy `url.parse()`." },
+  { "term": "URLSearchParams", "description": "Reads and writes query strings with correct encoding (`url.searchParams.set('q', value)`)." },
+  { "term": "Relative URL resolution", "description": "`new URL('users', 'https://x.dev/v1')` replaces `v1`; with a trailing slash (`/v1/`) it appends." }
+]

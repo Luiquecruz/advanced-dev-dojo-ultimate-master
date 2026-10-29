@@ -1,0 +1,32 @@
+[
+  {
+    "question": "Your team uses Hono and wants an assistant to add discount rules. Which brief best fits the framework's grain and testability?",
+    "options": ["\"Create a `DiscountManager` abstract class with subclasses per rule\"", "\"Write the rules as pure functions taking the cart and returning a summary; the handler only loads data and saves the result\"", "\"Emit a `discount` event and let listeners mutate the cart\"", "\"Put the rules inline in the route handler\""],
+    "answer": 1,
+    "explanation": "Hono is function-first and pure rules are trivially testable. Events with mutation hide control flow; inline rules mix I/O and decisions."
+  },
+  {
+    "question": "Which of these is a declarative tool you routinely use on the backend?",
+    "options": ["A `for` loop accumulating a total", "A class with private fields", "A `setTimeout` callback", "An SQL `SELECT ... WHERE ... GROUP BY` query"],
+    "answer": 3,
+    "explanation": "SQL describes the result; the database decides the plan (indexes, join order). Zod schemas and route tables are other declarative examples."
+  },
+  {
+    "question": "A Node service registers `emitter.on('order:paid', ...)` inside the request handler. What goes wrong over time?",
+    "options": ["A new listener is added on every request, so reactions run multiple times and memory grows (MaxListenersExceededWarning)", "Nothing, listeners are cleaned up automatically", "Events cannot be emitted inside handlers", "The handler becomes synchronous"],
+    "answer": 0,
+    "explanation": "Listeners persist on the emitter. Register them once at startup; per-request registration leaks and multiplies side effects."
+  },
+  {
+    "question": "A NestJS codebase uses classes, decorators and DI everywhere. An AI suggests rewriting one module as standalone functions with module-level state. Best response?",
+    "options": ["Accept: functions are always better", "Rewrite the whole project in the functional style for consistency", "Keep the framework's class and DI conventions for that module; extract only pure rule functions where they help testing", "Use both styles in the same file to compare"],
+    "answer": 2,
+    "explanation": "Consistency with the framework's grain matters more than paradigm preference. Pure helpers fit inside any style; module-level state does not fit DI."
+  },
+  {
+    "question": "Which frontend-to-backend pairing is the closest match in philosophy?",
+    "options": ["React and NestJS", "Angular and NestJS", "Vue and Express", "Angular and Hono"],
+    "answer": 1,
+    "explanation": "NestJS borrowed Angular's model: modules, injectable classes, decorators and DI. Hono and Express are closer to React's function-first composition."
+  }
+]

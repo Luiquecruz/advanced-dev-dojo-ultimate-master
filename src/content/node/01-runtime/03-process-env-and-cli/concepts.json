@@ -1,0 +1,9 @@
+[
+  { "term": "process.env", "description": "Environment variables of the process. Every value is a string or `undefined`: convert, default with `??` and validate at startup." },
+  { "term": "Fail fast", "description": "Validate configuration when the process starts and exit with a clear error, instead of failing later inside a request." },
+  { "term": "process.argv", "description": "Command-line arguments as strings: `[node binary, script path, ...your arguments]`. Use `process.argv.slice(2)`." },
+  { "term": "util.parseArgs", "description": "Built-in argument parser: typed options, short aliases, defaults, positionals and strict mode that rejects unknown flags." },
+  { "term": "Exit code", "description": "Number the process reports to the shell, CI or orchestrator. `0` is success; `1` is a general error and `2` a usage error by convention." },
+  { "term": "process.exitCode vs process.exit()", "description": "`exitCode` sets the code and lets pending work finish; `exit()` stops immediately and can cut off output and cleanup." },
+  { "term": "--env-file", "description": "`node --env-file=.env main.ts` loads a `.env` file without the `dotenv` package (Node 20.6+)." }
+]

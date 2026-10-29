@@ -1,0 +1,8 @@
+[
+  { "term": "AbortController", "description": "The cancelling side: `controller.abort(reason?)` aborts its `signal`." },
+  { "term": "AbortSignal", "description": "Read-only side passed to work: `aborted`, `reason`, the `'abort'` event and `throwIfAborted()`." },
+  { "term": "AbortSignal.timeout(ms)", "description": "A signal that aborts itself after `ms` with a `TimeoutError`. No timer to manage." },
+  { "term": "AbortSignal.any([...])", "description": "A signal that aborts when any input aborts, carrying that input's reason. Combines deadlines, client disconnects and shutdown." },
+  { "term": "Cooperative cancellation", "description": "A signal only stops code that checks it. Pass it to every call that accepts one and listen to it in your own primitives." },
+  { "term": "TimeoutError vs AbortError", "description": "`error.name` of the rejection: the deadline passed, or someone cancelled on purpose." }
+]

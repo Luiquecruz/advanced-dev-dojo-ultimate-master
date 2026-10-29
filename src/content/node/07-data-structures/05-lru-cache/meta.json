@@ -1,0 +1,10 @@
+{
+  "title": "LRU Cache",
+  "summary": "Bound an in-process cache for API responses with least-recently-used eviction in O(1), using the insertion order of Map, and decide when the cache belongs in Redis instead.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "lru-cache on npm", "url": "https://www.npmjs.com/package/lru-cache" },
+    { "label": "Redis: key eviction", "url": "https://redis.io/docs/latest/develop/reference/eviction/" }
+  ]
+}

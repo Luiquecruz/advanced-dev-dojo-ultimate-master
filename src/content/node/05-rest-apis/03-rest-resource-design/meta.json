@@ -1,0 +1,10 @@
+{
+  "title": "REST Resource Design",
+  "summary": "Design a CRUD resource the way clients expect: nouns and methods, 201 with Location, 204, 404 and 409, PATCH vs PUT and idempotency.",
+  "level": "intermediate",
+  "tags": ["core", "hono", "http"],
+  "resources": [
+    { "label": "MDN: HTTP response status codes", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status" },
+    { "label": "MDN: Idempotent", "url": "https://developer.mozilla.org/en-US/docs/Glossary/Idempotent" }
+  ]
+}

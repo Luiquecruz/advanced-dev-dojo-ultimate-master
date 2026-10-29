@@ -1,0 +1,8 @@
+[
+  { "term": "Node", "description": "An object holding a `value` and pointers to its neighbors (`prev`, `next`). The list is the chain of nodes." },
+  { "term": "Doubly linked list", "description": "Nodes point both ways, so a node you hold can be removed or moved in O(1) without searching." },
+  { "term": "Head and tail", "description": "The first and last node. Every operation must keep them correct, including when the list becomes empty." },
+  { "term": "Handle", "description": "A reference to a node kept elsewhere (in a Map, on a connection object) so the list never has to be searched." },
+  { "term": "Invariant", "description": "A property the structure always keeps, like 'nodes are ordered by last activity', which makes some queries trivial." },
+  { "term": "Cache locality", "description": "Arrays store elements contiguously, which the CPU reads fast. Linked nodes are scattered, so iteration is slower than Big O suggests." }
+]

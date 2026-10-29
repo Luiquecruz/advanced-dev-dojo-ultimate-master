@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A payment call `POST /charges` times out after 10 s. Your retry helper retries it automatically. What can go wrong, and what is the fix?",
+    "options": [
+      "Nothing: a timeout means the charge failed",
+      "The first request may have succeeded on the server, so the retry charges twice. Send an idempotency key so the server deduplicates",
+      "The retry will always get a 409",
+      "Timeouts cannot be retried in Node"
+    ],
+    "answer": 1,
+    "explanation": "A timeout tells you nothing about whether the server processed the request. Retry non-idempotent writes only with an idempotency key the server honors."
+  },
+  {
+    "question": "After an outage, 5 000 clients retry every 500 ms exactly. What is the likely effect on the recovering service?",
+    "options": [
+      "Synchronized waves of requests (a thundering herd) that can knock it over again; jitter spreads them out",
+      "None: fixed delays are the safest",
+      "The service rate-limits automatically, so it is fine",
+      "Clients give up immediately"
+    ],
+    "answer": 0,
+    "explanation": "Identical delays keep clients in lockstep. Exponential backoff plus random jitter desynchronizes them."
+  },
+  {
+    "question": "Which response should a retry policy NOT retry?",
+    "options": [
+      "`503 Service Unavailable`",
+      "`429 Too Many Requests` with `Retry-After: 2`",
+      "A network error (`fetch failed`)",
+      "`422 Unprocessable Content` from validation"
+    ],
+    "answer": 3,
+    "explanation": "Validation errors are deterministic: the same payload fails the same way. Fix the request instead."
+  },
+  {
+    "question": "An AI-generated client wraps an AWS SDK call (which already retries 3 times) in its own retry loop of 5, and the API gateway in front also retries twice. What is the review comment?",
+    "options": [
+      "Good: more retries mean more reliability",
+      "Remove the SDK retries because they are hidden",
+      "Retries multiply across layers (up to 3 × 4 × 6 = 72 calls per request). Keep retries in one layer and give the others a deadline",
+      "Add a fourth layer of retries for safety"
+    ],
+    "answer": 2,
+    "explanation": "Stacked retries turn a slow dependency into a flood. Know which layer owns retries, and bound the total time with a deadline."
+  }
+]

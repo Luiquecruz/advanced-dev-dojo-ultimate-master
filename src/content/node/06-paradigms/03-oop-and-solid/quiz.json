@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Product asks for WhatsApp notifications. With the strategy design from this lesson, what changes?",
+    "options": ["A new `case 'whatsapp'` in `NotificationService.notify`", "A new `WhatsAppNotifier` class registered in the composition root; the service is untouched", "A subclass of `SmsNotifier` that overrides `send`", "A new method `notifyWhatsApp` on the service"],
+    "answer": 1,
+    "explanation": "Open/closed: new behavior is a new implementation of the same interface, registered where the app is wired."
+  },
+  {
+    "question": "A `FakeMailer` used in tests resolves instantly even for an invalid address, while the real one rejects. Which principle does it break, and why does it matter?",
+    "options": ["Single responsibility: the fake does too much", "Interface segregation: the interface is too big", "None: fakes may behave however they want", "Liskov substitution: the fake does not honor the contract, so tests pass on behavior production does not have"],
+    "answer": 3,
+    "explanation": "Substitutes must keep the contract, including errors. A lenient fake hides the error path the real implementation exercises."
+  },
+  {
+    "question": "Reviewing AI code, you see `class SmsNotifier extends EmailNotifier` 'to reuse the logging helper'. What is the better design?",
+    "options": ["Keep it: inheritance is the main way to reuse code", "Make both classes extend an abstract `BaseNotifier` with 10 protected methods", "Extract the helper into a function or an injected logger and have both implement `Notifier` directly", "Merge both classes into one with a `type` flag"],
+    "answer": 2,
+    "explanation": "Inheritance couples unrelated channels; a change to email breaks SMS. Share behavior through composition and keep the interface as the only common contract."
+  }
+]

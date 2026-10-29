@@ -1,0 +1,20 @@
+[
+  {
+    "question": "An activity feed with infinite scroll uses `?page=` with `OFFSET`. Users report seeing the same post twice while scrolling. Why?",
+    "options": ["The browser caches the responses", "New posts were inserted at the top, shifting every row, so the next offset page repeats items; a cursor on the sort key avoids it", "The page size is too small", "The database returns rows in random order"],
+    "answer": 1,
+    "explanation": "Offsets count rows at query time. Inserts or deletes before the offset shift the window; a keyset cursor anchors the next page to the last item seen."
+  },
+  {
+    "question": "A feed is sorted by `createdAt` and the cursor stores only `createdAt`. What can go wrong?",
+    "options": ["Nothing, timestamps are unique", "The cursor gets too long", "Items with the same timestamp at a page boundary can be skipped or repeated; the cursor needs `(createdAt, id)`", "Sorting by dates is not possible in SQL"],
+    "answer": 2,
+    "explanation": "The keyset must be unique. Adding the id as a tie-breaker makes the order total and the cursor exact."
+  },
+  {
+    "question": "Which is the safest way to support `?sort=` on a SQL-backed endpoint?",
+    "options": ["Validate it against a whitelist and map each value to a fixed `ORDER BY` clause with an `id` tie-breaker", "Interpolate it into `ORDER BY` after escaping quotes", "Pass it as a query parameter (`ORDER BY $1`)", "Sort in JavaScript after loading all rows"],
+    "answer": 0,
+    "explanation": "`ORDER BY` columns cannot be bound as parameters, and escaping is fragile. A whitelist also prevents sorting on unindexed columns; loading everything defeats pagination."
+  }
+]

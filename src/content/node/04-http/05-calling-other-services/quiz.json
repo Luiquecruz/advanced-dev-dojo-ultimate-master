@@ -1,0 +1,26 @@
+[
+  {
+    "question": "`const data = await (await fetch(url)).json()` runs against an upstream that returns `500` with an HTML page. What happens?",
+    "options": ["`fetch` rejects with an HTTP error", "`data` is `null`", "`fetch` resolves, then `.json()` throws a `SyntaxError` that probably becomes an unhelpful 500 in your API", "`fetch` retries automatically"],
+    "answer": 2,
+    "explanation": "`fetch` only rejects without a response. Check `response.ok` and map the status before reading the body."
+  },
+  {
+    "question": "A recommendation service sometimes takes 60 s to answer. Your product page calls it without a timeout. Under traffic, the whole site becomes slow. What is the best first fix?",
+    "options": ["Add `AbortSignal.timeout(...)` to the call and render the page without recommendations when it fires", "Increase the server's memory", "Retry the call three times", "Cache the product page HTML for one second"],
+    "answer": 0,
+    "explanation": "Without deadlines, slow dependencies hold connections and memory until your service degrades. Time out and degrade optional data; retries would add load."
+  },
+  {
+    "question": "The payment provider answers `401 Unauthorized` because your API key was rotated. What should your API return to its own client?",
+    "options": ["`401`, forwarding the provider's status", "`502` (or `503`) with a generic message, and alert: it is your configuration problem, not the client's authentication", "`200` with an error message", "`400 Bad Request`"],
+    "answer": 1,
+    "explanation": "Forwarding `401` would tell your client to re-authenticate with you, which would not help. Upstream credential failures are your outage."
+  },
+  {
+    "question": "Which retry policy is reasonable for `GET /exchange-rates` on a third-party API?",
+    "options": ["Retry every error immediately until it succeeds", "Retry `400` and `404` too, the upstream may change its mind", "Never retry anything", "Retry timeouts, network errors, 429 and 5xx a few times with exponential backoff and jitter, within an overall deadline"],
+    "answer": 3,
+    "explanation": "Retries help with transient failures of idempotent requests. Unbounded or immediate retries amplify outages, and client errors will not fix themselves."
+  }
+]

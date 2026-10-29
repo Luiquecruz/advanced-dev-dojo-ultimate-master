@@ -1,0 +1,8 @@
+[
+  { "term": "Adapter", "description": "Implements your interface on top of a foreign API, translating inputs, outputs, units and errors so the vendor never leaks into your code." },
+  { "term": "Decorator", "description": "Wraps an object with the same interface and adds behavior (logging, limits, retries, caching) before or after delegating." },
+  { "term": "Factory", "description": "A function that decides which implementation to build (and how to wrap it) from configuration, usually at startup." },
+  { "term": "Decorator order", "description": "The outermost wrapper runs first. Logging outside a limit sees rejected calls; logging inside sees only allowed ones." },
+  { "term": "Fail fast", "description": "Throw on invalid configuration at startup instead of silently falling back to a default implementation." },
+  { "term": "Ports and adapters", "description": "Hexagonal architecture: the core defines interfaces (ports); infrastructure plugs in through adapters." }
+]

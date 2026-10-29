@@ -1,0 +1,32 @@
+[
+  {
+    "question": "A B2B invoicing app has customers, invoices, invoice lines and payments, plus monthly reports that change every quarter. Which primary database fits best?",
+    "options": ["Redis, because it is the fastest", "A relational database such as PostgreSQL", "A vector database, to future-proof for AI features", "Elasticsearch, because reports need search"],
+    "answer": 1,
+    "explanation": "Related entities, invariants (totals, payments) and ad hoc reporting are exactly what relational databases with constraints, joins and transactions are built for."
+  },
+  {
+    "question": "Your team adds Elasticsearch for product search. A week later the index is corrupted. What should the design already guarantee?",
+    "options": ["The index can be rebuilt from the primary database, its source of truth", "Nothing: the products are lost", "Elasticsearch snapshots are the only way to recover", "Search should be disabled permanently"],
+    "answer": 0,
+    "explanation": "Search and vector stores are secondary indexes. Writes go to the source of truth and the index is fed from it, so it can always be rebuilt."
+  },
+  {
+    "question": "Which job is a typical, safe use of Redis next to Postgres?",
+    "options": ["Storing the only copy of user accounts", "Running monthly financial reports", "Replacing foreign keys between tables", "Counting requests per API key for rate limiting, with keys that expire"],
+    "answer": 3,
+    "explanation": "Counters with TTLs, caches, sessions and queues are ephemeral or derived data, where an in-memory key-value store shines."
+  },
+  {
+    "question": "An assistant proposes MongoDB 'because our API returns JSON'. What is the strongest review comment?",
+    "options": ["Agreed: JSON APIs need JSON databases", "MongoDB cannot store nested objects", "The API format is irrelevant; choose from access patterns, relations and invariants. Postgres also stores `jsonb` when a field is truly flexible", "Only document databases can serve JSON APIs"],
+    "answer": 2,
+    "explanation": "Every database can feed a JSON API. The decision depends on how data is related, read and kept consistent."
+  },
+  {
+    "question": "With DynamoDB you design the table around the queries you will run. What is the main risk for an early-stage product?",
+    "options": ["It cannot store numbers", "New query needs appear often, and adding them later can require new indexes or data migrations", "It does not scale horizontally", "It has no client for Node.js"],
+    "answer": 1,
+    "explanation": "Query-first designs are excellent for stable, massive workloads, but a product that still changes its questions pays for each new access pattern."
+  }
+]

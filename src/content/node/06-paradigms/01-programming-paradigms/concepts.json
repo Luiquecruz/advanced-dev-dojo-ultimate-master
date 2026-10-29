@@ -1,0 +1,8 @@
+[
+  { "term": "Paradigm", "description": "A style of organizing code: how state, control flow and communication between parts are expressed." },
+  { "term": "Imperative", "description": "Step-by-step statements that change state (`for` loops, assignments). Says *how*." },
+  { "term": "Declarative", "description": "Describes the desired result and lets an engine decide how: SQL, array methods, Zod schemas, JSX." },
+  { "term": "Functional programming", "description": "Pure functions, immutable data and composition. Easy to test and reason about." },
+  { "term": "Object-oriented programming", "description": "Objects bundle state and behavior behind interfaces; implementations are swappable (polymorphism)." },
+  { "term": "Event-driven", "description": "Code reacts to events emitted over time (`EventEmitter`, streams, queues). Node's native style." }
+]

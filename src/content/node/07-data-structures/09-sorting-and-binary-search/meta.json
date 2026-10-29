@@ -1,0 +1,10 @@
+{
+  "title": "Sorting and Binary Search",
+  "summary": "Write total, non-mutating comparators for multi-key sorting, then answer existence, count and time-range questions over sorted data with a lower-bound binary search in O(log n).",
+  "level": "advanced",
+  "tags": ["core", "performance", "modern"],
+  "resources": [
+    { "label": "MDN: Array.prototype.sort", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort" },
+    { "label": "MDN: Array.prototype.toSorted", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted" }
+  ]
+}

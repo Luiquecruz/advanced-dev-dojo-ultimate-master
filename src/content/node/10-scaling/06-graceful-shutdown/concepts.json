@@ -1,0 +1,8 @@
+[
+  { "term": "SIGTERM", "description": "The polite stop request sent by orchestrators and `docker stop`. Catchable: the process should drain and exit." },
+  { "term": "SIGKILL", "description": "Sent after the grace period. Cannot be caught: whatever was in progress is lost." },
+  { "term": "Grace period", "description": "Time between SIGTERM and SIGKILL (30 s in Kubernetes by default). The shutdown timeout must be shorter." },
+  { "term": "Draining", "description": "Stop accepting new connections but let in-flight requests finish. `server.close(callback)` does this." },
+  { "term": "Readiness probe", "description": "Health endpoint the load balancer uses to route traffic. Failing it during shutdown stops new requests from arriving." },
+  { "term": "Idempotent shutdown", "description": "A second signal returns the shutdown already in progress instead of closing and cleaning up twice." }
+]

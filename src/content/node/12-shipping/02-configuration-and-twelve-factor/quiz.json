@@ -1,0 +1,32 @@
+[
+  {
+    "question": "The deploy succeeds, but the first login fails because `JWT_SECRET` was not set and tokens were signed with `undefined`. What prevents this class of bug?",
+    "options": ["Default `JWT_SECRET` to `'dev-secret'`", "Check `process.env.JWT_SECRET` inside the login handler", "Validate the whole config with a schema at startup so the process refuses to boot without the secret", "Log a warning when the variable is missing"],
+    "answer": 2,
+    "explanation": "Fail fast: startup validation turns a silent runtime bug into a failed deploy with a clear message. A default secret is a security hole."
+  },
+  {
+    "question": "`if (process.env.ENABLE_CACHE) { ... }` runs even though the variable is set to `false`. Why?",
+    "options": ["Environment variables are always strings, and `'false'` is truthy", "Node caches environment variables", "`process.env` is undefined in production", "Booleans must be uppercase"],
+    "answer": 0,
+    "explanation": "Every env value is a string (or undefined). Parse explicitly, for example with `z.stringbool()` or by comparing with `'true'`."
+  },
+  {
+    "question": "Users lose their uploaded avatars after every deploy. The service writes them to `./uploads` in the container. Which factor is violated and what is the fix?",
+    "options": ["Port binding; expose a second port for uploads", "Stateless processes and backing services; store uploads in object storage (S3, R2) attached via config", "Logs; write uploads to stdout", "Dev/prod parity; use the same folder locally"],
+    "answer": 1,
+    "explanation": "Containers are disposable. Anything that must survive restarts belongs in a backing service referenced by configuration."
+  },
+  {
+    "question": "Which practice follows 'build, release, run'?",
+    "options": ["Rebuild the Docker image separately for staging and production with different env files baked in", "Edit files on the production server and restart", "Run `npm install` on the server at every start", "Build one image, test it in staging, then promote the same image to production with production config"],
+    "answer": 3,
+    "explanation": "The artifact is immutable; only config changes between environments. What you tested is exactly what runs."
+  },
+  {
+    "question": "An AI-generated service reads `process.env.STRIPE_KEY` in five different files and logs the full config at startup. What do you ask it to change?",
+    "options": ["Nothing, this is standard", "Move the value into a constant in each file", "Centralize config in one validated module injected into the composition root, and redact secrets from logs", "Put the key in `.env` and commit it so everyone has it"],
+    "answer": 2,
+    "explanation": "One config module removes scattered parsing and makes secrets auditable. Logging secrets leaks them into every log store and backup."
+  }
+]

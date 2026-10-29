@@ -1,0 +1,57 @@
+[
+  {
+    "question": "An endpoint builds a report with `orders.map(order => ({ ...order, user: users.find(u => u.id === order.userId) }))`. It is fast in staging (200 orders, 50 users) and times out in production (80 000 orders, 30 000 users). What is the right fix?",
+    "options": [
+      "Add more CPU to the server",
+      "Build `new Map(users.map(u => [u.id, u]))` once and use `map.get(order.userId)`: O(orders + users) instead of O(orders × users)",
+      "Replace `find` with a `for` loop, which is faster than array methods",
+      "Sort `users` first so `find` stops earlier"
+    ],
+    "answer": 1,
+    "explanation": "The cost is the hidden quadratic loop. A `for` loop or sorting keeps it O(n × m); an index built once makes each lookup O(1)."
+  },
+  {
+    "question": "Which reducer is O(n²) for n items?",
+    "options": [
+      "`items.reduce((acc, item) => { acc.push(item.id); return acc; }, [])`",
+      "`items.reduce((sum, item) => sum + item.price, 0)`",
+      "`items.reduce((acc, item) => ({ ...acc, [item.id]: item }), {})`",
+      "`items.reduce((map, item) => map.set(item.id, item), new Map())`"
+    ],
+    "answer": 2,
+    "explanation": "Spreading the accumulator copies every key collected so far on each step: 1 + 2 + ... + n copies. Mutating a local accumulator is O(1) per step and perfectly safe inside a reduce."
+  },
+  {
+    "question": "A handler checks whether a user's role is allowed with `['admin', 'editor', 'owner'].includes(role)`. A reviewer asks you to switch to a `Set` for O(1) lookups. What do you answer?",
+    "options": [
+      "Agree: `includes` is always too slow for a backend",
+      "Agree: arrays should never be used for lookups",
+      "Disagree: `includes` on a Set is not supported",
+      "It does not matter: n is 3 and fixed, so O(n) here is effectively constant; keep the readable version"
+    ],
+    "answer": 3,
+    "explanation": "Big O describes growth. A small, bounded collection never grows, so the difference is nanoseconds. Optimize collections that scale with users or data."
+  },
+  {
+    "question": "A job loops over 500 user ids and runs `await db.query('SELECT * FROM orders WHERE user_id = $1', [id])` for each, then joins the results in memory with an O(n log n) sort. Where is the real cost?",
+    "options": [
+      "The 500 database round trips: each costs around a millisecond, far more than the in-memory sort",
+      "The sort, because O(n log n) is worse than O(n)",
+      "The `await`, because promises are slow",
+      "Neither: 500 is a small number"
+    ],
+    "answer": 0,
+    "explanation": "I/O dominates CPU. One query with `WHERE user_id = ANY($1)` (or a JOIN) replaces 500 round trips; the in-memory work over a few thousand rows is negligible."
+  },
+  {
+    "question": "A worker loads a 3 GB CSV export with `readFile`, splits it into lines and sums a column. It crashes with an out-of-memory error. Which statement is correct?",
+    "options": [
+      "The algorithm is O(n²) in time",
+      "The time complexity is fine (O(n)) but the space complexity is O(n); streaming the file line by line makes it O(1) in memory",
+      "Increasing the heap size is the only fix",
+      "Splitting by line is O(log n)"
+    ],
+    "answer": 1,
+    "explanation": "Big O applies to memory too. Streams (`createReadStream` + line splitting) process the file in constant memory regardless of its size."
+  }
+]

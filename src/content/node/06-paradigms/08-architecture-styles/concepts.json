@@ -1,0 +1,9 @@
+[
+  { "term": "Modular monolith", "description": "One deployable split into modules with explicit public APIs and owned data. The recommended default for most teams." },
+  { "term": "Microservices", "description": "Independently deployable services that own their data and talk over the network. Solve team scaling at the cost of distributed-systems complexity." },
+  { "term": "Serverless", "description": "Code runs per request or event on a managed platform that scales to zero; trade-offs are cold starts, limits and vendor coupling." },
+  { "term": "Hexagonal architecture", "description": "Ports and adapters: the domain defines interfaces, infrastructure implements them, dependencies point inward." },
+  { "term": "Eventual consistency", "description": "Data in different parts of the system converges after a delay instead of being updated in one transaction." },
+  { "term": "Outbox pattern", "description": "Save outgoing events in the same database transaction as the change, then publish them, so data and events never diverge." },
+  { "term": "Conway's law", "description": "Systems mirror the communication structure of the organization that builds them." }
+]

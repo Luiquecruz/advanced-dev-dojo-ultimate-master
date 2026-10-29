@@ -1,0 +1,26 @@
+[
+  {
+    "question": "A generated sign-up stores `createHash('sha256').update(password + process.env.SALT).digest('hex')`. What are the two main problems?",
+    "options": ["Nothing, SHA-256 with a salt is secure", "Hex encoding is too long, and env vars are slow", "SHA-256 is fast enough to brute force, and one global salt means equal passwords still share a hash", "SHA-256 cannot hash strings"],
+    "answer": 2,
+    "explanation": "Passwords need a slow KDF (Argon2id, scrypt, bcrypt, PBKDF2 with a high cost) and a random salt per password stored with the hash."
+  },
+  {
+    "question": "Why should a login endpoint use `pbkdf2` (async) instead of `pbkdf2Sync` with 600 000 iterations?",
+    "options": ["The sync version blocks the event loop for every request while it runs, the async one runs on the libuv thread pool", "The sync version is less secure", "The async version uses fewer iterations", "There is no difference in a server"],
+    "answer": 0,
+    "explanation": "A KDF is CPU work by design. Running it synchronously on the main thread stalls all other requests."
+  },
+  {
+    "question": "Your policy moves from 100 000 to 600 000 iterations. How do existing users get stronger hashes?",
+    "options": ["Decrypt all hashes and rehash them", "Force every user to reset their password immediately", "Nothing can be done", "On each successful login, detect the old cost from the stored value and save a new hash"],
+    "answer": 3,
+    "explanation": "The plaintext is only available at login. A self-describing format makes the old cost visible, so you can verify and upgrade in one step."
+  },
+  {
+    "question": "The login route returns \"No account with this email\" or \"Wrong password\" depending on the case. What is the risk?",
+    "options": ["It reveals which emails are registered (account enumeration); return one generic message and similar timing", "None, it is good UX", "It breaks password managers", "It makes hashing slower"],
+    "answer": 0,
+    "explanation": "Distinct messages (or a much faster response for unknown emails) let attackers build lists of valid accounts for credential stuffing and phishing."
+  }
+]

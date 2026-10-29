@@ -1,0 +1,48 @@
+[
+  {
+    "question": "A generated `PATCH /api/users/me` handler runs `db.user.update({ where: { id: me }, data: await c.req.json() })`. Which OWASP API risk is this, and what is the fix?",
+    "options": [
+      "API7 SSRF; block private IP ranges",
+      "API4 resource consumption; add a body size limit",
+      "API3 broken object property level authorization (mass assignment); validate the body with a schema that lists only writable fields",
+      "API9 inventory management; version the endpoint"
+    ],
+    "answer": 2,
+    "explanation": "Clients can send `role` or other protected fields. An explicit input schema (for example Zod with only `name` and `avatarUrl`) keeps them out."
+  },
+  {
+    "question": "A link-preview feature fetches any URL the user posts. What should the review flag first?",
+    "options": [
+      "Server-side request forgery: restrict schemes and hosts, reject private and link-local addresses (such as `169.254.169.254`) and re-check redirects",
+      "The preview should be cached forever",
+      "CORS must allow every origin",
+      "The URL should be hashed before fetching"
+    ],
+    "answer": 0,
+    "explanation": "The server can be used to reach internal services or the cloud metadata endpoint, which may expose credentials."
+  },
+  {
+    "question": "An API sets `Access-Control-Allow-Origin` to whatever `Origin` the request sends, with `Access-Control-Allow-Credentials: true`. What is the consequence?",
+    "options": ["None, CORS is only about performance", "Any website can make authenticated requests with the user's cookies and read the responses", "Only curl requests are affected", "The browser blocks every request"],
+    "answer": 1,
+    "explanation": "Reflecting any origin with credentials disables the browser's protection. Configure an explicit allowlist of trusted origins."
+  },
+  {
+    "question": "`GET /api/products?limit=1000000` makes the database and the Node process run out of memory. Which change addresses the root cause?",
+    "options": ["Add a CDN", "Switch to GraphQL", "Return errors with stack traces to help clients", "Cap `limit` on the server (for example `Math.min(limit, 100)`) and enforce body, timeout and rate limits"],
+    "answer": 3,
+    "explanation": "Unrestricted resource consumption (API4): every value the client controls that drives cost needs a server-side cap."
+  },
+  {
+    "question": "A developer committed a production API key to a public repository and removed it in the next commit. What must happen?",
+    "options": ["Nothing, it is no longer in the latest commit", "Make the repository private", "Rotate (revoke and replace) the key, then move it to environment configuration or a secret manager", "Add the file to `.gitignore`"],
+    "answer": 2,
+    "explanation": "The key remains in Git history and may already be scraped by bots. Only rotation makes the leaked value useless."
+  },
+  {
+    "question": "The new `/v2` API checks ownership, but `/v1` is still deployed for an old mobile app and does not. Which risk does this illustrate?",
+    "options": ["Improper inventory management: forgotten versions keep old vulnerabilities reachable", "Unsafe consumption of APIs", "Security misconfiguration of headers", "Server-side request forgery"],
+    "answer": 0,
+    "explanation": "Attackers look for older or undocumented endpoints. Keep an inventory, apply fixes to every live version and retire old ones."
+  }
+]

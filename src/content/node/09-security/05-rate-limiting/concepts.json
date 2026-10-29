@@ -1,0 +1,8 @@
+[
+  { "term": "429 Too Many Requests", "description": "The status for rate limited requests, ideally with `Retry-After` telling the client when to try again." },
+  { "term": "Fixed window", "description": "Count requests per key in calendar-aligned windows. Simple and cheap, but allows a double burst around each boundary." },
+  { "term": "Sliding window", "description": "Weights the previous window's count by how much of it overlaps the last `windowMs`, removing most of the boundary burst." },
+  { "term": "Token bucket", "description": "A bucket of `capacity` tokens refilled at a steady rate; each request takes one. Allows short bursts and a sustained average rate." },
+  { "term": "Rate limit key", "description": "What is being limited: IP, user id, API key, route, or a combination. The wrong key either blocks shared networks or lets attackers rotate identities." },
+  { "term": "Distributed limiter", "description": "Counters in a shared store (Redis `INCR` with expiry, or a Lua script) so every instance enforces the same limit." }
+]

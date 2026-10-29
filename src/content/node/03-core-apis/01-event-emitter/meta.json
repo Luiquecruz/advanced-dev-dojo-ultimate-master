@@ -1,0 +1,10 @@
+{
+  "title": "The EventEmitter",
+  "summary": "Typed event emitters, synchronous listeners, the special 'error' event, unsubscribing to avoid leaks, and bridging events to promises with events.once.",
+  "level": "intermediate",
+  "tags": ["core", "events"],
+  "resources": [
+    { "label": "Node.js docs: Events", "url": "https://nodejs.org/api/events.html" },
+    { "label": "Node.js guide: The Node.js Event emitter", "url": "https://nodejs.org/en/learn/asynchronous-work/the-nodejs-event-emitter" }
+  ]
+}

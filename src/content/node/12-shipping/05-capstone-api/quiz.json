@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Ada requests `GET /bookmarks/<id of Alan's bookmark>`. Why does the API answer 404 instead of 403?",
+    "options": ["403 is deprecated", "Hono cannot send 403", "A 403 would confirm the id exists; owner-scoped lookups make others' resources indistinguishable from missing ones", "404 responses are cached by browsers"],
+    "answer": 2,
+    "explanation": "Revealing existence helps attackers enumerate ids. Scoping every query by owner is the standard fix for broken object-level authorization."
+  },
+  {
+    "question": "The schema uses `z.url()` instead of `z.httpUrl()`. Which input slips through, and why does it matter?",
+    "options": ["`javascript:alert(1)`, which a frontend may later render as a clickable link: stored XSS", "`https://example.com`, which is fine", "Nothing: both are identical", "Only URLs with ports"],
+    "answer": 0,
+    "explanation": "A generic URL check accepts any scheme. Restricting to http(s) at the edge keeps dangerous links out of the database."
+  },
+  {
+    "question": "A generated `onError` returns `c.json({ error: err.message }, 500)` for every error. What do you ask to change?",
+    "options": ["Nothing, it is concise", "Map known `AppError`s to their status and code, keep framework errors' status, and hide unknown errors behind a fixed message while logging the real one", "Return the stack trace too, for debugging", "Use status 400 for everything"],
+    "answer": 1,
+    "explanation": "Every client-facing failure deserves its own status and stable code; unknown errors must not leak internal messages such as hostnames or SQL."
+  }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Hash (SHA-256)", "description": "One-way fixed-size fingerprint of data. Same input, same digest. For integrity and cache keys, not for passwords." },
+  { "term": "HMAC", "description": "A hash keyed with a secret: only key holders can produce a valid signature. Used to sign webhooks and tokens." },
+  { "term": "timingSafeEqual", "description": "Compares two equal-length buffers in constant time so timing does not leak how much matched. Throws on different lengths." },
+  { "term": "Timing attack", "description": "Guessing a secret by measuring how long comparisons take; `===` returns faster on an early mismatch." },
+  { "term": "randomBytes / randomUUID", "description": "Cryptographically secure random values for tokens and ids. `Math.random()` is predictable." },
+  { "term": "Raw body", "description": "The exact bytes received. Webhook signatures are computed over it, not over re-serialized JSON." }
+]

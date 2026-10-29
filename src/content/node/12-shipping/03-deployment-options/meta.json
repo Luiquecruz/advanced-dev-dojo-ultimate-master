@@ -1,0 +1,11 @@
+{
+  "title": "Deployment Options",
+  "summary": "VPS, PaaS, containers, Kubernetes, serverless and edge: what each runs, what you manage, and how to pick a target for a Node API.",
+  "level": "advanced",
+  "tags": ["theory", "ecosystem"],
+  "resources": [
+    { "label": "Node.js guide: Node.js, the difference between development and production", "url": "https://nodejs.org/en/learn/getting-started/nodejs-the-difference-between-development-and-production" },
+    { "label": "Docker docs: Multi-stage builds", "url": "https://docs.docker.com/build/building/multi-stage/" },
+    { "label": "Hono docs: Getting started", "url": "https://hono.dev/docs/getting-started/basic" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "Parse, don't validate", "description": "Turn untrusted input into a typed value (or an error) at the boundary, so the rest of the code never handles unchecked data." },
+  { "term": "safeParse", "description": "Returns `{ success: true, data }` or `{ success: false, error }` instead of throwing. `error.issues` lists every problem with its `path` and `message`." },
+  { "term": "z.infer", "description": "`z.infer<typeof schema>` derives the TypeScript type from the schema, so the type and the runtime check never drift apart." },
+  { "term": "z.coerce", "description": "Converts before validating (`z.coerce.number()` turns `'2'` into `2`). Right for query strings and params, risky for JSON bodies." },
+  { "term": "zValidator", "description": "`zValidator(target, schema, hook?)` from `@hono/zod-validator`: validates `json`, `query`, `param`, `header`, `form` or `cookie` and exposes the result through `c.req.valid(target)`." },
+  { "term": "Mass assignment", "description": "A client sets fields it should not control (`isAdmin`, `id`) because raw input was spread into a record. Stripping unknown keys prevents it." }
+]

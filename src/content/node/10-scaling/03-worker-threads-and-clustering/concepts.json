@@ -1,0 +1,8 @@
+[
+  { "term": "libuv thread pool", "description": "Background threads (4 by default, `UV_THREADPOOL_SIZE`) that run file system, DNS, async crypto and zlib work for you." },
+  { "term": "Worker thread", "description": "A separate V8 isolate with its own event loop and heap inside the same process. Communicates through `postMessage`." },
+  { "term": "Worker pool", "description": "A fixed set of long-lived workers that receive tasks from a queue (Piscina). Avoids the startup cost of one worker per task." },
+  { "term": "Transferable", "description": "An `ArrayBuffer` moved to another thread without copying through the transfer list of `postMessage`." },
+  { "term": "Cluster", "description": "`node:cluster` forks N processes that share a listening port. Each has its own memory, so state must live outside." },
+  { "term": "Horizontal scaling", "description": "Running more instances (processes, containers, machines) behind a load balancer instead of a bigger single process." }
+]

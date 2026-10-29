@@ -1,0 +1,10 @@
+{
+  "title": "The Repository Pattern",
+  "summary": "Hide storage behind a use-case interface: an in-memory repository that behaves like a table, domain errors instead of database codes, and a service tested with a fake.",
+  "level": "intermediate",
+  "tags": ["database", "architecture", "testing"],
+  "resources": [
+    { "label": "Martin Fowler: Repository", "url": "https://martinfowler.com/eaaCatalog/repository.html" },
+    { "label": "PostgreSQL error codes", "url": "https://www.postgresql.org/docs/current/errcodes-appendix.html" }
+  ]
+}

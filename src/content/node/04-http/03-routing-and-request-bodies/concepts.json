@@ -1,0 +1,8 @@
+[
+  { "term": "Route table", "description": "Routes described as data (`method`, `pattern`, `handler`) and dispatched by one function instead of an `if` chain." },
+  { "term": "Path parameter", "description": "A `:name` segment in a pattern. Captured as a URL-decoded **string**; convert and validate it yourself." },
+  { "term": "405 + Allow", "description": "The path exists but not for this method. The `Allow` header lists the methods that do work." },
+  { "term": "413 Payload Too Large", "description": "The body exceeds the limit. Count bytes while reading; `Content-Length` can be missing or wrong." },
+  { "term": "415 Unsupported Media Type", "description": "The `Content-Type` is not one the endpoint accepts, such as text sent to a JSON endpoint." },
+  { "term": "HttpError", "description": "An error class carrying a status code, so handlers can throw expected failures and one place turns them into responses." }
+]

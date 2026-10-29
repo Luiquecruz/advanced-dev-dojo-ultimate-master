@@ -1,0 +1,8 @@
+[
+  { "term": "SQL injection", "description": "User input changes the structure of a query because it was concatenated into the SQL text." },
+  { "term": "Parameter / placeholder", "description": "`$1`, `?` or `@name` in the SQL text; the driver sends the value separately, so it is always data." },
+  { "term": "Tagged template", "description": "``sql`...${value}` ``: a function receives the literal parts and the values apart, which lets libraries generate placeholders." },
+  { "term": "Identifier", "description": "A table or column name. It cannot be a parameter, so it must come from a whitelist or pass strict validation." },
+  { "term": "`= ANY($1)`", "description": "Postgres idiom that matches a column against an array sent as a single parameter; replaces `IN (...)` lists." },
+  { "term": "Raw escape hatch", "description": "`sql.raw`, `knex.raw`, `$queryRawUnsafe`: APIs that insert text verbatim. Safe only with constants." }
+]

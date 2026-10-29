@@ -1,0 +1,10 @@
+{
+  "title": "Dependency Injection",
+  "summary": "Constructor injection, a single composition root and fakes: make services testable and swap infrastructure without touching business code.",
+  "level": "advanced",
+  "tags": ["core", "theory", "testing"],
+  "resources": [
+    { "label": "NestJS docs: Providers", "url": "https://docs.nestjs.com/providers" },
+    { "label": "Martin Fowler: Inversion of Control Containers and the Dependency Injection pattern", "url": "https://martinfowler.com/articles/injection.html" }
+  ]
+}

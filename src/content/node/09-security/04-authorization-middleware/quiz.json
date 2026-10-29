@@ -1,0 +1,26 @@
+[
+  {
+    "question": "`GET /api/invoices/:id` requires a valid token and returns the invoice by id. A customer changes the id in the URL and downloads another company's invoice. What is the vulnerability?",
+    "options": ["Missing rate limiting", "Broken object level authorization: the handler never checks that the invoice belongs to the caller's tenant", "Weak password hashing", "Missing CORS headers"],
+    "answer": 1,
+    "explanation": "Authentication passed; object-level authorization was missing. Scope the query by tenant (`WHERE id = $1 AND tenant_id = $2`) or check ownership after loading."
+  },
+  {
+    "question": "A request has no `Authorization` header. A second request has a valid token, but the user is a member calling an admin-only route. Which statuses fit?",
+    "options": ["403 and 401", "404 and 404", "401 and 403", "400 and 401"],
+    "answer": 2,
+    "explanation": "401 means the caller is not authenticated (and should include `WWW-Authenticate`); 403 means the caller is known but not allowed."
+  },
+  {
+    "question": "A generated multi-tenant endpoint reads `tenantId` from the JSON body to decide which records to update. What is the problem?",
+    "options": ["The client controls the body, so anyone can act on another tenant; take the tenant from the verified session or token", "JSON bodies cannot contain ids", "Tenant ids must be numbers", "There is no problem if HTTPS is used"],
+    "answer": 0,
+    "explanation": "Authorization inputs must come from verified credentials. Request data only says what the caller wants, not who they are."
+  },
+  {
+    "question": "Where is the most robust place to apply `requireAuth` in a Hono API?",
+    "options": ["Inside each handler, before the business logic", "Only on routes that change data", "In the frontend router", "With `app.use('/api/*', requireAuth(...))`, keeping public routes outside the prefix"],
+    "answer": 3,
+    "explanation": "Mounting on the prefix makes new routes protected by default. Per-route checks fail the day someone forgets one."
+  }
+]

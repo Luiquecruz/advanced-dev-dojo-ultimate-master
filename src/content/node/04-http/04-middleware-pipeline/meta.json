@@ -1,0 +1,10 @@
+{
+  "title": "The Middleware Pipeline",
+  "summary": "Build a Koa-style compose(): the onion model, short-circuits, error handling, timing and API-key middleware, and how Express, Koa, Hono and Fastify differ.",
+  "level": "intermediate",
+  "tags": ["core", "http", "middleware"],
+  "resources": [
+    { "label": "Hono docs: Middleware", "url": "https://hono.dev/docs/guides/middleware" },
+    { "label": "Express docs: Using middleware", "url": "https://expressjs.com/en/guide/using-middleware.html" }
+  ]
+}

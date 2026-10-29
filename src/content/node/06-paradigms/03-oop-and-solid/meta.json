@@ -1,0 +1,10 @@
+{
+  "title": "OOP and SOLID",
+  "summary": "Interfaces, classes and the strategy pattern: replace channel switches with interchangeable implementations and review code against SOLID.",
+  "level": "intermediate",
+  "tags": ["core", "theory", "typescript"],
+  "resources": [
+    { "label": "TypeScript Handbook: Classes", "url": "https://www.typescriptlang.org/docs/handbook/2/classes.html" },
+    { "label": "Refactoring Guru: Strategy", "url": "https://refactoring.guru/design-patterns/strategy" }
+  ]
+}

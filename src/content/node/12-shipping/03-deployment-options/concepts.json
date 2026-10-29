@@ -1,0 +1,8 @@
+[
+  { "term": "PaaS", "description": "Platform as a Service (Render, Railway, Heroku, Fly.io): push code or an image; the platform handles servers, TLS, logs and scaling." },
+  { "term": "Container image", "description": "An immutable package of code, dependencies and runtime, built from a `Dockerfile` and run the same way everywhere." },
+  { "term": "Serverless function", "description": "Code invoked per request or event on managed infrastructure that scales to zero; limited duration and no persistent memory." },
+  { "term": "Edge runtime", "description": "Runs code in many locations close to users with Web-standard APIs only (Cloudflare Workers, Vercel Edge)." },
+  { "term": "Cold start", "description": "Extra latency when a platform boots a new instance to serve a request after scaling from zero." },
+  { "term": "Readiness check", "description": "An endpoint that reports whether the instance can serve traffic (dependencies reachable), used by load balancers during deploys." }
+]

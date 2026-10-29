@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A handler is written as `app.get('/me', (c) => { c.json({ id: 1 }) })`. What does the client receive?",
+    "options": ["`{ \"id\": 1 }` with status 200", "A 500 error because the body is missing", "A 404, because the handler returned nothing and Hono falls through to the not found handler", "The request hangs until timeout"],
+    "answer": 2,
+    "explanation": "In Hono the returned value is the response. Without `return`, the handler returns `undefined` and Hono answers with its not found response."
+  },
+  {
+    "question": "Why does `/books/:id{[0-9]+}` beat checking `Number.isNaN(Number(id))` inside the handler?",
+    "options": ["It is faster at runtime", "Invalid ids never reach the handler, so the handler only deals with real numeric ids and unknown paths keep the default 404", "Hono converts the parameter to a number automatically", "It is required for TypeScript to compile"],
+    "answer": 1,
+    "explanation": "The pattern narrows what the route accepts. The parameter is still a string, but you no longer need defensive checks for non-numeric input."
+  },
+  {
+    "question": "Both `app.get('/books/:id', ...)` and `app.get('/books/featured', ...)` exist, registered in that order. What happens with `GET /books/featured`?",
+    "options": ["The `/books/:id` handler runs with `id = 'featured'`", "Hono always prefers static paths", "Hono throws a duplicate route error at startup", "Both handlers run"],
+    "answer": 0,
+    "explanation": "The first matching route wins. Register specific paths before parameterized ones, or constrain the parameter with a pattern."
+  }
+]

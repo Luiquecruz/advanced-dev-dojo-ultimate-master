@@ -1,0 +1,11 @@
+{
+  "title": "Worker Threads and Clustering",
+  "summary": "Use every core the right way: the libuv thread pool, worker thread pools for CPU-heavy tasks, cluster and PM2 for throughput on one machine, and why containers usually replace clustering.",
+  "level": "advanced",
+  "tags": ["theory", "performance"],
+  "resources": [
+    { "label": "Node.js docs: Worker threads", "url": "https://nodejs.org/api/worker_threads.html" },
+    { "label": "Node.js docs: Cluster", "url": "https://nodejs.org/api/cluster.html" },
+    { "label": "Piscina worker pool", "url": "https://github.com/piscinajs/piscina" }
+  ]
+}

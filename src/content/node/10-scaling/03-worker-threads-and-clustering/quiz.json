@@ -1,0 +1,57 @@
+[
+  {
+    "question": "An endpoint generates a PDF that takes 1.5 s of pure CPU. While it runs, health checks time out. The app runs in Kubernetes with 2 vCPUs per pod. What is the best fix if the user must receive the PDF in the response?",
+    "options": [
+      "Use `cluster` to fork 2 processes inside the pod",
+      "Offload the rendering to a worker thread pool (for example Piscina) sized to the available cores",
+      "Increase `UV_THREADPOOL_SIZE`",
+      "Wrap the rendering in `setTimeout(..., 0)`"
+    ],
+    "answer": 1,
+    "explanation": "A pool keeps the main event loop free for other requests and health checks. The libuv pool only runs Node's own async APIs, and `setTimeout` just delays the block."
+  },
+  {
+    "question": "A team adds worker threads to make a handler that runs three slow SQL queries faster. Latency does not change. Why?",
+    "options": [
+      "Worker threads are disabled in production",
+      "The queries are I/O-bound: the thread was waiting, not computing; run them concurrently with `Promise.all` or optimize them in the database",
+      "They needed more workers",
+      "SQL drivers cannot run inside workers"
+    ],
+    "answer": 1,
+    "explanation": "Waiting on the network does not use the CPU. Concurrency (several requests in flight) helps I/O; threads help CPU-bound work."
+  },
+  {
+    "question": "After switching from 1 process to `cluster` with 8 workers, users report that the login rate limiter sometimes allows 8 times more attempts, and WebSocket broadcasts reach only some users. What is going on?",
+    "options": [
+      "Cluster workers share memory, causing race conditions",
+      "The load balancer is misconfigured",
+      "Each process has its own in-memory rate limiter and socket list; move that state to Redis (counters, pub/sub) or the database",
+      "Rate limiters must run in the primary process"
+    ],
+    "answer": 2,
+    "explanation": "Processes share nothing. Any state that must be global across instances needs an external store; the same applies to multiple containers."
+  },
+  {
+    "question": "Your service runs as containers on a platform that autoscales on CPU. Should you use `node:cluster` inside each container?",
+    "options": [
+      "Usually not: run one Node process per container and let the platform add containers; cluster duplicates the orchestrator's job and skews resource limits and metrics",
+      "Yes, always, to use all cores",
+      "Yes, because containers cannot run Node on more than one core",
+      "Only if the container has exactly one core"
+    ],
+    "answer": 0,
+    "explanation": "Orchestrators handle replication, restarts and load balancing. Cluster or PM2 remain useful on a single VM or bare-metal server."
+  },
+  {
+    "question": "A generated helper creates `new Worker('./hash.js')` for every password hash request. What is the review comment?",
+    "options": [
+      "Fine: workers are cheap",
+      "Worker threads cannot hash passwords",
+      "Use `child_process.exec` instead",
+      "Starting a worker per request costs tens of milliseconds and a new heap; use the async `crypto` API (libuv pool) or a reusable worker pool"
+    ],
+    "answer": 3,
+    "explanation": "For hashing, the async `crypto.pbkdf2`/`scrypt` already run off the main thread. When workers are needed, a pool amortizes their startup cost."
+  }
+]

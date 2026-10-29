@@ -1,0 +1,8 @@
+[
+  { "term": "OWASP API Security Top 10", "description": "The 2023 list of the most critical API risks, led by broken object level authorization." },
+  { "term": "Mass assignment", "description": "Copying the request body straight into a model update, so clients can set fields like `role` or `ownerId`." },
+  { "term": "Excessive data exposure", "description": "Responses that return whole rows (hashes, internal flags) and rely on the frontend to hide fields." },
+  { "term": "SSRF", "description": "Server-side request forgery: the server fetches an attacker-chosen URL, reaching internal services or cloud metadata." },
+  { "term": "CORS", "description": "A browser policy on which origins may read responses. It is not authentication and does not protect against non-browser clients." },
+  { "term": "Least privilege", "description": "Each service, key and database user gets only the permissions it needs, limiting the damage of a leak." }
+]

@@ -1,0 +1,10 @@
+{
+  "title": "Stacks and Queues",
+  "summary": "LIFO and FIFO with backend purpose: a rollback stack for multi-step operations and a job queue with O(1) dequeue, plus bounded buffers and when a durable queue is required.",
+  "level": "intermediate",
+  "tags": ["core", "performance"],
+  "resources": [
+    { "label": "MDN: Array.prototype.shift", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift" },
+    { "label": "Microservices.io: Saga pattern", "url": "https://microservices.io/patterns/data/saga.html" }
+  ]
+}

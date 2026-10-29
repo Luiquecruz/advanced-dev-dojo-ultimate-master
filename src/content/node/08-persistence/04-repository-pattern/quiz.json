@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A service does `if (await users.findByEmail(email)) throw new Conflict(); await users.create(input)`. Two sign-ups with the same email arrive at the same time. What happens without a unique constraint in the database?",
+    "options": ["The second request waits for the first automatically", "Both checks can pass before either insert, so two users get the same email", "Node.js serializes the requests, so it is safe", "The ORM detects the race"],
+    "answer": 1,
+    "explanation": "Check-then-insert is a race across concurrent requests (and across instances). Only a constraint enforced by storage is a real guarantee."
+  },
+  {
+    "question": "Where should Postgres error code `23505` (unique violation) be turned into `DuplicateEmailError`?",
+    "options": ["In the route handler", "In the frontend", "In the repository implementation", "In a global error handler that parses SQL messages"],
+    "answer": 2,
+    "explanation": "The repository is the only layer that knows the storage technology, so it translates storage errors into domain errors. The route maps the domain error to 409."
+  },
+  {
+    "question": "A test passes against the in-memory repository but production ignores an update: the code mutates `user.role = 'admin'` on a returned object and never calls `update`. What was wrong with the fake?",
+    "options": ["It returned its internal objects instead of copies", "It was too slow", "It used a Map instead of an array", "It did not use async methods"],
+    "answer": 0,
+    "explanation": "Returning internal references makes mutations look persisted in tests. Real databases return fresh rows, so the fake must return copies."
+  }
+]

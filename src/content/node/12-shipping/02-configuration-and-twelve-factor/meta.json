@@ -1,0 +1,11 @@
+{
+  "title": "Configuration and Twelve-Factor",
+  "summary": "Environment-based configuration validated at startup, secrets management, stateless processes and the twelve-factor rules that make deploys predictable.",
+  "level": "advanced",
+  "tags": ["theory", "modern"],
+  "resources": [
+    { "label": "The Twelve-Factor App", "url": "https://12factor.net/" },
+    { "label": "Node.js docs: Environment variables", "url": "https://nodejs.org/api/environment_variables.html" },
+    { "label": "OWASP Secrets Management Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html" }
+  ]
+}

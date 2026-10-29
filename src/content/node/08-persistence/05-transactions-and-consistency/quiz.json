@@ -1,0 +1,31 @@
+[
+  {
+    "question": "A generated function runs `await pool.query('BEGIN')`, two updates with `pool.query`, then `await pool.query('COMMIT')`. What is wrong?",
+    "options": ["Nothing, this is the documented pattern", "`BEGIN` must be lowercase", "Each `pool.query` may use a different connection, so the updates are not in the transaction; use one client from `pool.connect()`", "Transactions are not supported by node-postgres"],
+    "answer": 2,
+    "explanation": "A transaction lives on one connection. Check out a client, run every statement on it, and release it in `finally`."
+  },
+  {
+    "question": "An order endpoint charges the card through a payment API inside the database transaction, then inserts the order. The insert fails. What happens?",
+    "options": ["The transaction rolls back the charge too", "The customer is charged but no order exists: external calls cannot be rolled back", "Postgres retries the insert automatically", "The payment API waits for the commit"],
+    "answer": 1,
+    "explanation": "Rollback only covers the database. Call external services after commit, or record an outbox event in the transaction and process it reliably afterwards."
+  },
+  {
+    "question": "Which statement debits an account safely under concurrent requests, without explicit locks?",
+    "options": [
+      "`UPDATE accounts SET balance = balance - $1 WHERE id = $2 AND balance >= $1` and treat `rowCount === 0` as insufficient funds",
+      "Read the balance, check it in JavaScript, then `UPDATE accounts SET balance = $1`",
+      "`SELECT balance FROM accounts` without a transaction, then update",
+      "Cache the balance in Redis and update both"
+    ],
+    "answer": 0,
+    "explanation": "The database evaluates the condition and the new value atomically per row, so two concurrent debits cannot both pass the check on the same stale value."
+  },
+  {
+    "question": "Users edit a long product description in a form; conflicts are rare but must not silently overwrite each other. Which strategy fits best?",
+    "options": ["`SELECT ... FOR UPDATE` held while the form is open", "No strategy: last write wins", "A global mutex in the Node process", "Optimistic concurrency with a `version` column, answering 409 when the version changed"],
+    "answer": 3,
+    "explanation": "Locks cannot be held across user think time, and a process mutex fails with several instances. A version check detects the conflict cheaply and lets the user resolve it."
+  }
+]

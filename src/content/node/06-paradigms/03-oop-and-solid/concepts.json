@@ -1,0 +1,8 @@
+[
+  { "term": "Interface", "description": "A compile-time contract (`interface Notifier`). TypeScript checks shapes structurally, so any object with the right members satisfies it." },
+  { "term": "Strategy pattern", "description": "Interchangeable implementations of one interface, selected at runtime (by channel, provider, country) instead of an `if/else` chain." },
+  { "term": "Open/closed principle", "description": "Add behavior by adding code (a new class), not by editing a working core (another `case` in a switch)." },
+  { "term": "Liskov substitution", "description": "Every implementation must honor the contract: same return types, same error behavior. A fake that behaves differently lies to your tests." },
+  { "term": "Parameter property", "description": "`constructor(private readonly transport: Transport) {}` declares and assigns a field in one step." },
+  { "term": "Composition over inheritance", "description": "Combine objects by passing them in rather than extending classes; avoids fragile base classes." }
+]

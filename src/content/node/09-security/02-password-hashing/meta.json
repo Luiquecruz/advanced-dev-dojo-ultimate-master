@@ -1,0 +1,10 @@
+{
+  "title": "Password Hashing",
+  "summary": "Store passwords with salted PBKDF2 in a self-describing format, verify in constant time, and upgrade weaker hashes on login; plus when to choose Argon2id, scrypt or bcrypt.",
+  "level": "advanced",
+  "tags": ["security", "crypto", "auth"],
+  "resources": [
+    { "label": "OWASP: Password Storage Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" },
+    { "label": "Node.js docs: crypto.pbkdf2", "url": "https://nodejs.org/api/crypto.html#cryptopbkdf2password-salt-iterations-keylen-digest-callback" }
+  ]
+}

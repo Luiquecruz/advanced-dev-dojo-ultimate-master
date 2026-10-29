@@ -1,0 +1,8 @@
+[
+  { "term": "Pure function", "description": "Same input, same output, no side effects: no I/O, clock, randomness, globals or mutation of arguments." },
+  { "term": "Functional core, imperative shell", "description": "Business decisions live in pure functions; a thin outer layer (handler, job) does the I/O and passes values in." },
+  { "term": "Immutability", "description": "Return new objects and arrays instead of changing existing ones, like React state updates. `readonly` and `Object.freeze` help enforce it." },
+  { "term": "Composition", "description": "Building behavior from small functions. `pipe(f, g)(x)` is `g(f(x))`: left to right, in reading order." },
+  { "term": "Higher-order function", "description": "A function that takes or returns functions, such as `percentOff(10)` returning a pricing rule." },
+  { "term": "Integer cents", "description": "Store money as integers in the smallest unit to avoid floating point errors; round once, explicitly." }
+]

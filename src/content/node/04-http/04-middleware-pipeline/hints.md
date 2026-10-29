@@ -1,0 +1,5 @@
+Inside the function returned by `compose`, define `const dispatch = async (index: number) => { ... }` and `await dispatch(0)`. `dispatch` picks `middleware[index]` (or the final `next` when `index === middleware.length`) and calls it with `ctx` and `() => dispatch(index + 1)`.
+---
+Track the highest index dispatched so far in a variable outside `dispatch` (start at `-1`). If `dispatch` is called with an index that is not greater, a middleware called `next()` twice: throw `next() called multiple times`. Because `dispatch` is `async`, every throw becomes a rejection.
+---
+`errorHandler`: `try { await next(); } catch (error) { ... }`, reading `error.status` and checking `typeof status === 'number' && status >= 400 && status < 500`. `responseTime`: `const start = now(); await next(); ctx.responseHeaders['X-Response-Time'] = \`${now() - start}ms\``. In `createListener`, wrap `await run(ctx)` in `try/catch` and then `res.writeHead(ctx.status, { 'Content-Type': 'application/json', ...ctx.responseHeaders })`.

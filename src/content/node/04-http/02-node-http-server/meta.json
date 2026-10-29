@@ -1,0 +1,10 @@
+{
+  "title": "The node:http Server",
+  "summary": "Build a JSON API with createServer: status codes, headers, URL parsing, routing by method and path, and why every branch must end the response.",
+  "level": "intermediate",
+  "tags": ["core", "http"],
+  "resources": [
+    { "label": "Node.js docs: HTTP", "url": "https://nodejs.org/api/http.html" },
+    { "label": "Node.js guide: Anatomy of an HTTP Transaction", "url": "https://nodejs.org/en/learn/modules/anatomy-of-an-http-transaction" }
+  ]
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "question": "A mobile client times out on `POST /payments` and retries automatically. What protects the customer from being charged twice?",
+    "options": ["Switching the route to `PUT /payments`", "Answering `201` instead of `200`", "Requiring an `Idempotency-Key` header and returning the stored result when the same key is sent again", "Returning `409` for every second request from the same user"],
+    "answer": 2,
+    "explanation": "`POST` is not idempotent. An idempotency key lets the server recognize the retry and replay the first result instead of executing the operation again."
+  },
+  {
+    "question": "An AI-generated endpoint answers `200 { \"error\": \"User not found\" }`. What is the main problem?",
+    "options": ["Nothing, the message is clear", "Clients checking `response.ok`, retry policies and monitoring all treat it as a success; it should be `404`", "The body should be plain text", "It should be `500` because something went wrong"],
+    "answer": 1,
+    "explanation": "Status codes are the machine-readable part of the contract. A missing resource is `404`; the body only adds human details."
+  },
+  {
+    "question": "Which design fits REST for cancelling an order?",
+    "options": ["`POST /cancelOrder?id=42`", "`GET /orders/42/cancel`", "`DELETE /orders/42` even though the order must be kept", "`POST /orders/42/cancellation`"],
+    "answer": 3,
+    "explanation": "Actions that do not map to CRUD become sub-resources created with `POST`. `GET` must never change state, and deleting would lose the order."
+  }
+]

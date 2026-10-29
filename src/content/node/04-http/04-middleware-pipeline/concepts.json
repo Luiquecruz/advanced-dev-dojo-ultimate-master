@@ -1,0 +1,8 @@
+[
+  { "term": "Middleware", "description": "A function that runs around the handler with the request context and a `next` function. Handles cross-cutting concerns." },
+  { "term": "Onion model", "description": "Code before `await next()` runs on the way in, code after it on the way out, in reverse order. Used by Koa and Hono." },
+  { "term": "compose()", "description": "Turns an array of middleware into one function: `dispatch(i)` calls middleware `i` with `() => dispatch(i + 1)`." },
+  { "term": "Short-circuit", "description": "A middleware sets the response and does not call `next`, so nothing downstream runs (auth failures, cache hits)." },
+  { "term": "Context", "description": "The per-request object shared by every middleware: request data, response being built, values like `user` or `requestId`." },
+  { "term": "Error middleware", "description": "Wraps `next` in `try/catch` (Koa, Hono `onError`) or takes `(err, req, res, next)` (Express) to turn errors into responses." }
+]

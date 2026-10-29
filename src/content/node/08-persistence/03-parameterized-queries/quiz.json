@@ -1,0 +1,36 @@
+[
+  {
+    "question": "An endpoint accepts `?sort=name&dir=asc`. Which implementation is safe?",
+    "options": [
+      "`db.query('SELECT * FROM users ORDER BY $1 $2', [sort, dir])`",
+      "`` db.query(`SELECT * FROM users ORDER BY ${sort} ${dir}`) `` after removing quotes from both",
+      "Map `sort` through a whitelist of columns, pick `'ASC'` or `'DESC'` in code, and reject anything else",
+      "Escape `sort` with `encodeURIComponent`"
+    ],
+    "answer": 2,
+    "explanation": "Identifiers and keywords cannot be parameters (`ORDER BY $1` sorts by a constant). They must be chosen by code from a known set."
+  },
+  {
+    "question": "Which Prisma call is vulnerable when `email` comes from the request?",
+    "options": [
+      "`` prisma.$queryRaw`SELECT * FROM users WHERE email = ${email}` ``",
+      "`` prisma.$queryRawUnsafe(`SELECT * FROM users WHERE email = '${email}'`) ``",
+      "`prisma.user.findUnique({ where: { email } })`",
+      "`prisma.user.findMany({ where: { email: { equals: email } } })`"
+    ],
+    "answer": 1,
+    "explanation": "`$queryRaw` used as a tag parameterizes values; `$queryRawUnsafe` with a plain template literal concatenates them into the SQL text."
+  },
+  {
+    "question": "You need `WHERE id IN (...)` for a list that may be empty. What is the most robust Postgres approach?",
+    "options": ["`WHERE id = ANY($1)` with the array as one parameter", "Join the ids with commas into the text", "One query per id", "`WHERE id IN ($1)` with the array"],
+    "answer": 0,
+    "explanation": "`= ANY($1)` takes the array as a single value, works with an empty array (matches nothing) and keeps the text constant, which also helps prepared statement caching."
+  },
+  {
+    "question": "Why does `WHERE id = ${id}` stay injectable even if you strip quotes from `id`?",
+    "options": ["It does not: removing quotes is enough", "Numeric contexts have no quotes, so input like `1 OR 1=1` changes the query", "Postgres ignores quotes", "Only strings can be injected"],
+    "answer": 1,
+    "explanation": "Escaping depends on the context. Parameters avoid the problem entirely because the value is never parsed as SQL."
+  }
+]

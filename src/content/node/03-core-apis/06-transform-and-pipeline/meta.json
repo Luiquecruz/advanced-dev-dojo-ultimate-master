@@ -1,0 +1,10 @@
+{
+  "title": "Transform Streams and pipeline()",
+  "summary": "Write Transform streams in byte and object mode, chain them with pipeline() for backpressure and error propagation, and handle partial output on failure.",
+  "level": "intermediate",
+  "tags": ["core", "streams", "performance"],
+  "resources": [
+    { "label": "Node.js docs: stream.pipeline", "url": "https://nodejs.org/api/stream.html#streampipelinesource-transforms-destination-options" },
+    { "label": "Node.js guide: Backpressuring in Streams", "url": "https://nodejs.org/en/learn/modules/backpressuring-in-streams" }
+  ]
+}

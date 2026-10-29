@@ -1,0 +1,11 @@
+{
+  "title": "JWT from Scratch",
+  "summary": "Sign and verify HS256 JSON Web Tokens with HMAC and base64url, pin the algorithm, compare in constant time, enforce expiry and interoperate with hono/jwt.",
+  "level": "advanced",
+  "tags": ["security", "crypto", "auth"],
+  "resources": [
+    { "label": "RFC 7519: JSON Web Token", "url": "https://datatracker.ietf.org/doc/html/rfc7519" },
+    { "label": "OWASP: JSON Web Token Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html" },
+    { "label": "Hono: JWT helper", "url": "https://hono.dev/docs/helpers/jwt" }
+  ]
+}

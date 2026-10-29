@@ -1,0 +1,8 @@
+[
+  { "term": "Comparator", "description": "`(a, b) => number`: negative puts `a` first, positive puts `b` first, `0` ties. Never return a boolean." },
+  { "term": "Stable sort", "description": "Equal items keep their original order. `Array.prototype.sort` is stable since ES2019." },
+  { "term": "Total order", "description": "A comparator that never ties for different items, usually by ending with a unique key such as the id. It makes output deterministic." },
+  { "term": "toSorted", "description": "Non-mutating sort (Node 20+). Use it when the array is shared, cached or received as an argument." },
+  { "term": "Lower bound", "description": "The first index whose value is `>= target` in a sorted array: the building block for existence checks, counts and ranges." },
+  { "term": "Half-open range", "description": "`[from, to)` includes `from` and excludes `to`. Adjacent ranges never overlap, which keeps time windows and pages consistent." }
+]

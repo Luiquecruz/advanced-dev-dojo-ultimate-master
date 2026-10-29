@@ -1,6 +1,6 @@
 # Architecture and Adding a Track
 
-This document describes how Dev Dojo is built and the step-by-step pattern to add a new track (for example Svelte, Solid, Node.js or Python-in-the-browser). For the lesson file format see [CONTENT_GUIDE.md](CONTENT_GUIDE.md); for the lesson plan see [CURRICULUM.md](CURRICULUM.md). All project docs live in `.claude/docs/`.
+This document describes how Dev Dojo is built and the step-by-step pattern to add a new track (for example Svelte, Solid or Python-in-the-browser). For the lesson file format see [CONTENT_GUIDE.md](CONTENT_GUIDE.md); for the lesson plan see [CURRICULUM.md](CURRICULUM.md). All project docs live in `.claude/docs/`.
 
 ## Overview
 
@@ -98,9 +98,20 @@ Stores are plain external stores read through `useSyncExternalStore`: no state l
 | Family | Used by | Runs in | How it grades |
 | --- | --- | --- | --- |
 | **Static engine** | TypeScript | Web Workers (`analysis.worker.ts`, `runtime.worker.ts`) | Type checks with the compiler API, runs plain JS with `assert`, regex pattern tests. Tests written in `tests.md`. |
-| **Framework engine** | React, Vue, Angular | Same-origin iframe (`sandbox.html?engine=<id>`) | Transpiles learner files to CommonJS, evaluates them with a module registry, runs `test()` blocks with Testing Library and a Jest-like `expect`. Tests written as a script. |
+| **Framework engine** | React, Vue, Angular, Node.js | Same-origin iframe (`sandbox.html?engine=<id>`) | Transpiles learner files to CommonJS, evaluates them with a module registry, runs `test()` blocks with Testing Library and a Jest-like `expect`. Tests written as a script. |
 
-Pick the **framework engine** for anything that renders UI or needs a DOM. Pick the **static engine** pattern for languages or topics where type checking or pure functions are the subject.
+Pick the **framework engine** for anything that renders UI or needs a DOM, or that needs a module registry and a runtime (Node.js). Pick the **static engine** pattern for languages or topics where type checking or pure functions are the subject.
+
+### The Node.js engine
+
+`engines/node/` reuses the framework pipeline with a headless adapter:
+
+- `runtime/` implements Node built-ins in the browser: `process` (env, argv, exit, nextTick, signals), `timers` (Node handles with `ref`/`unref`, tracked so a run knows when the event loop is empty), `fs` (in-memory volume rooted at `/`, cwd `/app`), `path` (POSIX), `http` (in-memory servers on virtual ports, `IncomingMessage`/`ServerResponse` as real streams), `crypto` (pure JS SHA-256/SHA-1, HMAC, PBKDF2), `util`, `assert`, `os`, `url`. `events`, `buffer` and `stream` come from the npm packages `events`, `buffer` and `readable-stream`, imported by file path (`events/events.js`, `buffer/index.js`) so Vitest uses the same code as the browser instead of Node's built-ins.
+- `runtime/index.ts`: `installNodeFetch` routes `fetch('http://localhost:<port>')` to listening in-memory servers (other URLs fall through to the fake API), `resetNodeRuntime` clears files, env, listeners, timers and servers, and `modulePrelude` binds `process`, `Buffer`, the timer globals, `__filename` and `__dirname` at the top of every learner module.
+- `registry.ts` exposes each built-in as `name` and `node:name` (`moduleOf` turns namespaces and instances into CommonJS-friendly objects), plus Hono, `@hono/zod-validator` and Zod.
+- `adapter.ts`: `nodeAdapter` (test scope: `request`, `writeFiles`, `captureLogs`, `fs`, `process`, `Buffer`; the runtime is reset before and after every test) and `runNodeProgram`, used by the sandbox `run` mode behind the lesson **Run** button.
+
+`content/index.ts` treats `typescript` and `node` as headless engines (no preview by default); `features/lesson/runner.ts` decides which engines get a **Run** button (`canRunProgram`) and runs them (`runProgram`: TypeScript in a worker, Node.js in a `mode=run` sandbox iframe that streams `console` messages back and answers `run-complete`).
 
 ### Framework engine pipeline
 
@@ -159,16 +170,19 @@ Everything the UI shows about a track comes from two places:
 | `track.json` | `order` | position in the home carousel and the track list |
 | `tokens.css` | `[data-trail='<id>'] { --accent; --accent-rgb }` | every accent: buttons, borders, glow, scene particles, headline highlight |
 
+Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue` and `angular`). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
+
 Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
 
 - At least 4.5:1 contrast against `void` (`#0a0f18`), `panel` (`#121c2a`) and `elevated` (`#1b293a`), and at least 4.5:1 for the dark `on-accent` text drawn on top of it.
 - At least 30° of hue away from every other track accent, so tracks stay distinguishable (also for color-blind users; the monogram and title are the second cue).
 - `--accent-rgb` must be the same color as `--accent` written as `R G B`.
 
-Current accents and their hues, to pick the next one from a free region (the 20°–130° band, amber to lime, is still open):
+Current accents and their hues, to pick the next one from a free region (the 20°–60° band, amber to yellow, is still open):
 
 | Track | Accent | Hue |
 | --- | --- | --- |
+| node | `#9be15d` | 92° |
 | vue | `#6de6b2` | 154° |
 | typescript | `#4dd9ff` | 193° |
 | react | `#8c8cff` | 240° |
@@ -218,7 +232,7 @@ export const svelteRegistry: ModuleRegistry = {
 | File | Change |
 | --- | --- |
 | `src/sandbox/protocol.ts` | Add the id to `FrameworkEngine` |
-| `src/sandbox/sandbox.ts` | Add a lazy loader to `engines` (`() => import('../engines/svelte/adapter')`) so each engine stays in its own chunk |
+| `src/sandbox/sandbox.ts` | Add a lazy loader to `engines` (`() => import('../engines/svelte/adapter')`) so each engine stays in its own chunk; it returns `adapter` plus `preview` (visual engines) or `run` and `format` (headless engines) |
 | `src/content/index.ts` | Add the engine to `EngineId` and `DEFAULT_ENTRY` (e.g. `{ svelte: 'App.svelte', ts: 'main.ts' }`); the track declares `"engine": "svelte"` in `track.json` |
 | `src/engines/shared/project.ts` | Add the file extension to `EXTENSIONS` if learners import it without an extension |
 | `src/features/lesson/monacoSetup.ts` | Map the extension in `languageForFile`; adjust `configureLanguageService` if the track needs different compiler options |
@@ -257,7 +271,7 @@ Write **one reference lesson by hand first** and run `LESSON=<id> npx vitest run
 
 ## Adding a static (non-DOM) track
 
-Follow the TypeScript engine (`src/engines/typescript`): a worker that analyzes code, a worker that runs it with a timeout, a test DSL parsed from `tests.md` (`testsDsl.ts`), and a branch in `src/features/lesson/runner.ts` (`testNamesFor`, `gradeChallenge`) plus `src/verify/typescript.test.ts` for verification. The UI only special-cases the static engine in two places: the extra **Run** button in `src/pages/lesson/LessonPage.tsx` and the strict compiler options in `src/features/lesson/monacoSetup.ts`.
+Follow the TypeScript engine (`src/engines/typescript`): a worker that analyzes code, a worker that runs it with a timeout, a test DSL parsed from `tests.md` (`testsDsl.ts`), and a branch in `src/features/lesson/runner.ts` (`testNamesFor`, `gradeChallenge`) plus `src/verify/typescript.test.ts` for verification. The UI only special-cases the static engine in two places: the **Run** button (`canRunProgram`/`runProgram` in `src/features/lesson/runner.ts`, shared with the Node.js engine) and the strict compiler options in `src/features/lesson/monacoSetup.ts`.
 
 ## Checklist
 

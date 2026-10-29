@@ -1,0 +1,26 @@
+[
+  {
+    "question": "A service imports `db` from `./db` at the top of the file and calls it directly. What is the main cost?",
+    "options": ["Imports are slower than constructor parameters", "TypeScript cannot type module imports", "The dependency is hidden: tests must mock the module system and swapping the database means editing the service", "Nothing: module singletons are the recommended DI style"],
+    "answer": 2,
+    "explanation": "A hard import is hidden coupling. Passing the dependency in makes it visible in the signature and replaceable without module mocking."
+  },
+  {
+    "question": "Where should `process.env.DATABASE_URL` be read in a DI-based app?",
+    "options": ["In the composition root (or a config module it uses), which passes a configured client down", "In each repository method", "In the service constructor", "In the route handler on every request"],
+    "answer": 0,
+    "explanation": "Configuration is a startup concern. Business code receives configured collaborators and never reads the environment."
+  },
+  {
+    "question": "A `SignupService` singleton gets `currentUser` injected through its constructor. What goes wrong?",
+    "options": ["Nothing, as long as the field is readonly", "TypeScript rejects it", "It only fails under HTTP/2", "The service is shared by every request, so one user's identity leaks into other requests; pass request data as method arguments"],
+    "answer": 3,
+    "explanation": "Mismatched lifetimes: long-lived services must not hold per-request data. Request-scoped values travel as arguments or through the request context."
+  },
+  {
+    "question": "Which test double fits a repository best in most service unit tests?",
+    "options": ["A mock that asserts every method call in order", "A fake in-memory implementation", "The real production database", "No double: skip repository code in tests"],
+    "answer": 1,
+    "explanation": "Fakes behave like the real thing, so tests assert outcomes instead of call sequences and survive refactors. Keep the real database for integration tests."
+  }
+]

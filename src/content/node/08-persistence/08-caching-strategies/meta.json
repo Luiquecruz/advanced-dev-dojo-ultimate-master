@@ -1,0 +1,10 @@
+{
+  "title": "Caching Strategies",
+  "summary": "Cache-aside with TTLs, stampede protection through in-flight deduplication, the invalidation race, and where caches live (HTTP, memory, Redis).",
+  "level": "advanced",
+  "tags": ["database", "performance"],
+  "resources": [
+    { "label": "Redis: Caching patterns", "url": "https://redis.io/docs/latest/develop/use/patterns/" },
+    { "label": "MDN: HTTP caching", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching" }
+  ]
+}

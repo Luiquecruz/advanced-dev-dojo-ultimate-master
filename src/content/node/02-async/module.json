@@ -1,0 +1,4 @@
+{
+  "title": "Asynchronous Patterns",
+  "description": "Callbacks to async/await, promise combinators, concurrency limits, cancellation, retries and async iteration."
+}

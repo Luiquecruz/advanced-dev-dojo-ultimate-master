@@ -1,0 +1,10 @@
+{
+  "title": "Streams",
+  "summary": "Readable and Writable streams, async iteration, chunk boundaries, turning chunks into lines with an async generator, and why streaming keeps memory flat.",
+  "level": "intermediate",
+  "tags": ["core", "streams", "performance"],
+  "resources": [
+    { "label": "Node.js docs: Stream", "url": "https://nodejs.org/api/stream.html" },
+    { "label": "Node.js guide: How to use streams", "url": "https://nodejs.org/en/learn/modules/how-to-use-streams" }
+  ]
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "An API rejects bodies over 1 MB and computes the size with `JSON.stringify(body).length`. A customer sends a payload full of Japanese text. What can happen?",
+    "options": [
+      "Nothing, `length` counts bytes",
+      "The check under-counts: Japanese characters take 3 bytes in UTF-8, so a body counted as 0.5 MB can really be 1.5 MB",
+      "The check over-counts and rejects valid bodies",
+      "JSON.stringify fails on non-ASCII text"
+    ],
+    "answer": 1,
+    "explanation": "`length` counts UTF-16 code units. Byte limits must use `Buffer.byteLength(text)` or count the bytes as they arrive."
+  },
+  {
+    "question": "A handler builds the body with `body += chunk.toString()` for each `'data'` chunk. Tests pass. In production some names show `�`. Why?",
+    "options": [
+      "The database does not support UTF-8",
+      "The client sent Latin-1",
+      "A multi-byte character was split between two chunks and each half was decoded alone",
+      "`toString` defaults to base64"
+    ],
+    "answer": 2,
+    "explanation": "Collect the chunks and decode once with `Buffer.concat(chunks).toString('utf8')`, or call `req.setEncoding('utf8')` so the stream keeps incomplete bytes until the next chunk."
+  },
+  {
+    "question": "A teammate stores API keys base64-encoded in the database \"so they are not in plain text\". What is the right review comment?",
+    "options": [
+      "Base64 is reversible by anyone: hash the keys (or encrypt them with a managed key) instead",
+      "Fine, base64 is a one-way encoding",
+      "Use hex instead, it is safer",
+      "Base64 is fine as long as it is base64url"
+    ],
+    "answer": 0,
+    "explanation": "Base64 and hex are encodings, not protection. API keys that only need to be checked should be stored as hashes; secrets that must be read back need real encryption."
+  },
+  {
+    "question": "Which conversion is correct for a value that must travel inside a URL query string or a JWT?",
+    "options": [
+      "`hex`, because it has no special characters but doubles the size",
+      "`base64`, it is URL safe",
+      "`latin1`",
+      "`base64url`, which replaces `+` and `/` and drops `=` padding"
+    ],
+    "answer": 3,
+    "explanation": "Standard base64 uses `+`, `/` and `=`, which have meaning in URLs. `base64url` is the URL-safe alphabet used by JWTs. Hex also works but is larger."
+  }
+]

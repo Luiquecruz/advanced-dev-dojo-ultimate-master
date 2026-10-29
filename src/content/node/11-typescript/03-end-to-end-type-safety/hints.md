@@ -1,0 +1,5 @@
+In `schemas.ts`, chain the rules on the title: `z.string().trim().min(1).max(100)`. In `server.ts`, keep chaining on the existing `new Hono().get(...)` expression: `.post('/todos', zValidator('json', createTodoSchema, hook), handler)` and `.patch(...)`, so `typeof app` keeps every route.
+---
+The hooks answer only on failure: `(result, c) => { if (!result.success) return c.json({ error: 'Invalid todo' }, 400); }`. In the handlers read `c.req.valid('json')` and `c.req.valid('param')` (the param schema already coerces `id` to a number), and pass explicit statuses: `c.json(todo, 201)`, `c.json({ error: 'Todo not found' }, 404)`, `c.json(todo, 200)`.
+---
+In `client.ts`: `const client = hc<AppType>(baseUrl, { fetch: fetchImpl })`. The calls are `client.todos.$get()`, `client.todos.$post({ json })` after `const json = createTodoSchema.parse(input)`, and `client.todos[':id'].toggle.$patch({ param: { id: String(id) } })`. For errors: `const body = await response.json(); throw new ApiError(response.status, body.error)`.

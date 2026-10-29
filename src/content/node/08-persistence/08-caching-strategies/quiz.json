@@ -1,0 +1,20 @@
+[
+  {
+    "question": "An app runs on 4 instances, each with an in-process `Map` cache. An admin updates a product on instance 1, which deletes its own key. What do users see?",
+    "options": ["Every instance updates instantly", "The other 3 instances keep serving the old product until their TTL expires", "The update fails", "Node.js shares memory between instances"],
+    "answer": 1,
+    "explanation": "In-process caches are per instance. Use a shared cache (Redis), broadcast invalidations, or keep TTLs short for data that changes."
+  },
+  {
+    "question": "A generated `getCart(userId)` caches the result under the key `cart`. What is the bug?",
+    "options": ["The key is too short for Redis", "Carts cannot be cached", "The TTL is missing", "The key ignores the user, so every user receives the first user's cart"],
+    "answer": 3,
+    "explanation": "Personal data must be keyed by user or tenant (`cart:user:42`). A shared key leaks data across users."
+  },
+  {
+    "question": "A hot key expires and the database CPU spikes as hundreds of identical queries arrive at once. Which change addresses this directly?",
+    "options": ["Deduplicate in-flight loads (or lock the refresh) so one query refills the key while others wait", "Remove the TTL", "Cache the error when the database is slow", "Add more API instances"],
+    "answer": 0,
+    "explanation": "This is a cache stampede. Single-flight loading, refresh locks or stale-while-revalidate keep one refill per key."
+  }
+]

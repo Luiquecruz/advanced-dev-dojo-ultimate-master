@@ -1,0 +1,4 @@
+{
+  "title": "Authentication and Security",
+  "description": "Sessions, tokens and OAuth, password hashing, JWT, authorization middleware, rate limiting and the OWASP API Top 10."
+}

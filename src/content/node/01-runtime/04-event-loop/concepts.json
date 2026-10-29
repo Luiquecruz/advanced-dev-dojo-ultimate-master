@@ -1,0 +1,9 @@
+[
+  { "term": "Event loop", "description": "libuv's loop that picks the next callback to run on the single JavaScript thread, phase by phase, while work remains." },
+  { "term": "Phases", "description": "timers (`setTimeout`/`setInterval`) → pending callbacks → poll (I/O) → check (`setImmediate`) → close callbacks." },
+  { "term": "Microtask queue", "description": "Promise reactions, code after `await` and `queueMicrotask`. Drained after every callback, before the loop moves on." },
+  { "term": "process.nextTick", "description": "Node-only queue drained before the promise microtasks. Recursive use can starve I/O." },
+  { "term": "setImmediate", "description": "Runs in the check phase, right after poll. Inside an I/O callback it always fires before `setTimeout(fn, 0)`." },
+  { "term": "Blocking the loop", "description": "Synchronous CPU work keeps the thread busy, so timers, I/O callbacks and every other request wait." },
+  { "term": "Thread pool", "description": "libuv's worker threads (4 by default) for file system, DNS lookup, crypto and zlib work. Results return through the poll phase." }
+]

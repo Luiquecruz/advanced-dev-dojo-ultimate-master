@@ -1,0 +1,4 @@
+{
+  "title": "Data and Persistence",
+  "description": "Choosing a database, SQL essentials, parameterized queries, repositories, transactions, N+1 and batching, ORMs and caching."
+}

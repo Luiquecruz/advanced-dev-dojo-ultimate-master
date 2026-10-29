@@ -1,0 +1,26 @@
+[
+  {
+    "question": "A handler calls `sendJson(res, 200, data)` in an `if` branch, but other paths reach the end of the listener without doing anything. What does the client see for those paths?",
+    "options": ["An automatic 404 from Node", "An empty 200 response", "The request hangs until it times out, because `res.end()` was never called", "A 500 error"],
+    "answer": 2,
+    "explanation": "Node never ends a response for you. Returning from the listener does nothing; only `res.end()` sends the response. Always finish with a fallback (usually 404)."
+  },
+  {
+    "question": "Why does `if (req.url === '/todos')` fail for `GET /todos?done=true`?",
+    "options": ["`req.url` contains the query string, so it is `/todos?done=true`", "`req.url` is a full URL with the host", "Node lowercases the URL", "Query strings are only available in `req.headers`"],
+    "answer": 0,
+    "explanation": "`req.url` is the path plus the query string. Parse it with `new URL(req.url, base)` and compare `pathname`; read the query from `searchParams`."
+  },
+  {
+    "question": "Which line throws `ERR_HTTP_HEADERS_SENT`?",
+    "options": ["`res.statusCode = 201` before any write", "`res.write('a'); res.setHeader('X-Id', '1')`", "`res.writeHead(200, { 'Content-Type': 'text/plain' })` as the first call", "`res.end()` with no body"],
+    "answer": 1,
+    "explanation": "Once the body starts, the status line and headers are already on the wire, so they can no longer change."
+  },
+  {
+    "question": "A teammate wants to build the company's main REST API on raw `node:http` to avoid dependencies. What is the best advice?",
+    "options": ["Good idea: frameworks are slower", "Use a framework (Hono, Fastify, Express): routing, parsing, validation and errors are solved problems; keep raw `node:http` for tiny endpoints and learning", "Use raw `node:http` but copy Express source code", "Use a framework only if the API has more than 100 routes"],
+    "answer": 1,
+    "explanation": "Raw `node:http` is the right tool to understand the platform and for tiny zero-dependency endpoints. Applications benefit from a framework's conventions, ecosystem and safety defaults."
+  }
+]

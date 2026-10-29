@@ -1,0 +1,35 @@
+[
+  {
+    "question": "What does this code log when `config.json` does not exist? `try { readFile('config.json', 'utf8', (err, text) => { if (err) throw err; }); } catch { console.log('caught'); }`",
+    "options": [
+      "`caught`",
+      "Nothing is logged; the error is thrown later inside the callback, outside the `try`, and crashes the process as an uncaught exception",
+      "Node retries the read",
+      "`undefined`"
+    ],
+    "answer": 1,
+    "explanation": "`readFile` returns immediately. The callback runs later on a fresh call stack, where the surrounding `try/catch` no longer exists. That is why callback APIs pass errors as an argument."
+  },
+  {
+    "question": "A teammate writes `items.forEach(async (item) => { await save(item); }); console.log('all saved');`. What is wrong?",
+    "options": [
+      "Nothing: `forEach` awaits async callbacks",
+      "`forEach` cannot take arrow functions",
+      "`await` is not allowed inside callbacks",
+      "`forEach` ignores the returned promises: `all saved` prints before the saves finish, and their rejections go unhandled"
+    ],
+    "answer": 3,
+    "explanation": "Use `for...of` with `await` for sequential work or `await Promise.all(items.map(save))` for parallel work."
+  },
+  {
+    "question": "A legacy SDK only exposes `client.query(sql, callback)`. What is the cleanest way to use it in an async codebase?",
+    "options": [
+      "Wrap it once with `util.promisify` (bound to the client) in an adapter module, and use the promise version everywhere else",
+      "Convert the whole codebase back to callbacks",
+      "Call it with `await client.query(sql)`, since `await` works with callbacks",
+      "Use `readFileSync` instead"
+    ],
+    "answer": 0,
+    "explanation": "Adapt at the edge. `await` on a function that returns `undefined` does not wait for anything. Remember `promisify(client.query.bind(client))` when the method uses `this`."
+  }
+]

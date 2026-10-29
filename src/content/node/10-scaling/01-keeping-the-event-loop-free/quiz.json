@@ -1,0 +1,35 @@
+[
+  {
+    "question": "An export endpoint loops over 300 000 rows to build a CSV. A developer adds `await Promise.resolve()` every 1 000 rows to \"let other requests in\", but latency for other endpoints does not improve. Why?",
+    "options": [
+      "Promises are slower than callbacks",
+      "A resolved promise continues in the microtask queue, which drains before the event loop moves on to I/O; use `await setImmediate()` from `node:timers/promises`",
+      "The chunk size must be a power of two",
+      "Node.js runs each request on its own thread already"
+    ],
+    "answer": 1,
+    "explanation": "Microtasks run to completion before timers and I/O callbacks. `setImmediate` schedules the continuation after the poll phase, so pending requests are served between chunks."
+  },
+  {
+    "question": "A login endpoint calls `crypto.pbkdf2Sync` with 600 000 iterations (about 300 ms). Under 20 concurrent logins, every endpoint of the API slows to seconds. What is the first fix?",
+    "options": [
+      "Lower the iterations to 1 000",
+      "Cache the password hashes in memory",
+      "Use the async `crypto.pbkdf2` (or scrypt/argon2 async APIs), which run on libuv's thread pool instead of the main thread",
+      "Wrap the call in `setTimeout(..., 0)`"
+    ],
+    "answer": 2,
+    "explanation": "The `*Sync` variant blocks the only JavaScript thread. The async API moves the CPU work to the thread pool; weakening the hash trades security for speed, and a `setTimeout` only delays the block."
+  },
+  {
+    "question": "Your service exports a p99 event loop delay metric. Which reading signals trouble for an HTTP API?",
+    "options": [
+      "p99 of 2 ms",
+      "p99 of 0 ms",
+      "p99 around the timer interval you configured",
+      "p99 of 400 ms: some callbacks wait almost half a second before running, so some requests stall that long regardless of their own work"
+    ],
+    "answer": 3,
+    "explanation": "Loop delay adds directly to the latency of every request that is waiting. A healthy API stays in single-digit milliseconds; hundreds of milliseconds means something is blocking the thread."
+  }
+]

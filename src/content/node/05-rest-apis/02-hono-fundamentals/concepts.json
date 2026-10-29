@@ -1,0 +1,8 @@
+[
+  { "term": "Context (`c`)", "description": "The object every Hono handler receives: `c.req` reads the request, `c.json`/`c.text`/`c.body` build the response, `c.header` adds headers, `c.set`/`c.get` share values with middleware." },
+  { "term": "app.fetch", "description": "The `(request) => Response` function that is the whole app. Runtime adapters (`@hono/node-server`, Bun, Workers) call it for each request." },
+  { "term": "app.request()", "description": "Calls the app in memory with a path or `Request` and returns the `Response`. The idiomatic way to test Hono routes without a network." },
+  { "term": "Path parameter", "description": "`/books/:id` captures `id` as a string; `/books/:id{[0-9]+}` restricts it with a regular expression." },
+  { "term": "Query string", "description": "`c.req.query('limit')` returns `string | undefined`; `c.req.queries('tag')` returns every value of a repeated key." },
+  { "term": "201 Created", "description": "The status for a request that created a resource. Clients and API tools rely on it instead of a generic 200." }
+]

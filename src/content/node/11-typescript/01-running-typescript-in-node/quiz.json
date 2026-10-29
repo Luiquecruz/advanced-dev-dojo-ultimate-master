@@ -1,0 +1,32 @@
+[
+  {
+    "question": "A service runs with `node src/server.ts` and crashes at startup with a syntax error on `enum Role { Admin, Member }`. What is the fix that keeps native type stripping?",
+    "options": ["Add `\"strict\": true` to tsconfig", "Replace the enum with `const Role = { Admin: 'admin', Member: 'member' } as const` and a union type, and enable `erasableSyntaxOnly`", "Rename the file to `.mts`", "Install `@types/node`"],
+    "answer": 1,
+    "explanation": "Enums generate runtime code, so they cannot be stripped. A const object plus a union type is erasable, and the compiler option flags future non-erasable syntax."
+  },
+  {
+    "question": "A pull request introduces a type error, yet `node src/server.ts` and `tsx watch` both run fine. Why, and what prevents it from shipping?",
+    "options": ["Node checks types lazily; it will fail later", "The error is only a warning in strict mode", "Runners only remove or transform types, they never type-check; a `tsc --noEmit` step in CI catches it", "tsx caches the old version of the file"],
+    "answer": 2,
+    "explanation": "Running and type-checking are separate jobs. Only `tsc` (or the editor) checks types, so CI must run it."
+  },
+  {
+    "question": "Under native type stripping, `import { User } from './types.ts'` fails at runtime with \"does not provide an export named 'User'\", although `types.ts` exports `interface User`. Why?",
+    "options": ["Interfaces are erased, so Node looks for a runtime export that does not exist; it must be `import type { User }`", "The `.ts` extension is not allowed in imports", "Node does not support named imports from TypeScript", "`types.ts` must be compiled first"],
+    "answer": 0,
+    "explanation": "Type stripping is per file: Node cannot know that `User` is only a type unless the import says so. `verbatimModuleSyntax` makes the compiler require `import type`."
+  },
+  {
+    "question": "You are publishing a TypeScript utility library to npm. How should it be built?",
+    "options": ["Publish the `.ts` sources; Node strips types everywhere", "Compile with `tsc` (or tsdown) to JavaScript plus `.d.ts` declaration files and publish those", "Publish a single minified bundle without types", "Ask consumers to install tsx"],
+    "answer": 1,
+    "explanation": "Node never strips types inside `node_modules`, and consumers need declarations for their editors. Libraries ship JavaScript and `.d.ts` files."
+  },
+  {
+    "question": "Which `tsconfig` setting makes TypeScript enforce Node's real ESM and CommonJS import rules for a backend service?",
+    "options": ["`\"moduleResolution\": \"bundler\"`", "`\"module\": \"commonjs\"`", "`\"target\": \"esnext\"`", "`\"module\": \"nodenext\"`"],
+    "answer": 3,
+    "explanation": "`nodenext` mirrors how Node resolves modules (extensions, the `type` field, `.mts`/`.cts`). `bundler` resolution is looser and matches tools like Vite, not Node."
+  }
+]

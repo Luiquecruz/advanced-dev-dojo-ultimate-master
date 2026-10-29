@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A handler does `const input = await c.req.json<CreateUser>()` and stores `{ id, ...input }`. What does the generic `<CreateUser>` guarantee at runtime?",
+    "options": [
+      "That the body matches `CreateUser`",
+      "That unknown fields are removed",
+      "Nothing: it is a type assertion that disappears after compilation",
+      "That the request fails with 400 when the body is wrong"
+    ],
+    "answer": 2,
+    "explanation": "Types are erased. Only a runtime parser such as a Zod schema checks the value, and only `z.object` stripping removes unexpected fields."
+  },
+  {
+    "question": "Why use `z.coerce.number()` for `?page=` but `z.number()` for `age` in a JSON body?",
+    "options": [
+      "Query values are always strings, while JSON already has numbers; coercing a body field would accept `\"12\"` or `\"\"` silently",
+      "`z.number()` does not work with Hono",
+      "Coercion is slower",
+      "There is no difference"
+    ],
+    "answer": 0,
+    "explanation": "Coercion fixes the string-only nature of URLs. In JSON a string where a number is expected is a client bug worth reporting."
+  },
+  {
+    "question": "Where should the rule \"email must not belong to another user\" live?",
+    "options": [
+      "In the Zod schema with an async `refine` that queries the database",
+      "In the frontend form only",
+      "In the service after validation, answered with `409 Conflict`",
+      "In a database trigger only, answered with `500`"
+    ],
+    "answer": 2,
+    "explanation": "Schemas check shape and are reused on the client, where there is no database. Uniqueness is a business rule decided by the service and reported as a conflict."
+  },
+  {
+    "question": "Which validation error body is the most useful for a frontend form?",
+    "options": [
+      "`{ \"error\": \"Bad request\" }`",
+      "`{ \"error\": \"Validation failed\", \"issues\": [{ \"path\": \"email\", \"message\": \"Invalid email address\" }] }` with every issue",
+      "The raw Zod error object serialized with `JSON.stringify`",
+      "Only the first issue, to keep the response small"
+    ],
+    "answer": 1,
+    "explanation": "Every issue with a path the form can map to a field lets the UI show all errors at once, and the shape stays stable even if the validation library changes."
+  }
+]

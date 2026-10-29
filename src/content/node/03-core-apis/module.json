@@ -1,0 +1,4 @@
+{
+  "title": "Core Modules",
+  "description": "Events, buffers, the file system, paths and URLs, streams, pipelines and crypto basics."
+}

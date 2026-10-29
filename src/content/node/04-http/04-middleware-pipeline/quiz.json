@@ -1,0 +1,26 @@
+[
+  {
+    "question": "A Hono app registers `app.use(logger())`, the routes, and then `app.use('/admin/*', auth)`. Admin routes are reachable without credentials. Why?",
+    "options": ["Hono ignores middleware with paths", "Middleware runs in registration order, so the route handlers answer before the auth middleware is ever reached", "`auth` must be async", "The logger swallows the auth error"],
+    "answer": 1,
+    "explanation": "Order is configuration. Register auth before the routes it protects (or attach it to the route group)."
+  },
+  {
+    "question": "In Express 4, an `async` route throws after an `await`. The request hangs and an unhandled rejection is logged. What is the cause?",
+    "options": ["Express 4 does not forward rejected promises to the error middleware; the error must be passed to `next(err)` (or use Express 5)", "The error middleware must be registered first", "Express does not support async functions at all", "The route needs `res.end()` in a `finally`"],
+    "answer": 0,
+    "explanation": "Express 4 only sees synchronous throws and `next(err)`. Express 5, Koa and Hono handle rejected promises natively."
+  },
+  {
+    "question": "Where should the rule \"only the author can edit a draft post\" live?",
+    "options": ["In a global middleware that runs on every request", "In the CORS configuration", "In the handler or service for that action, where the post is loaded and the rule is explicit and testable", "In the error handler"],
+    "answer": 2,
+    "explanation": "Middleware fits generic concerns (authentication, logging, limits). Resource-specific authorization depends on business data and belongs next to it."
+  },
+  {
+    "question": "A timing middleware in Koa or Hono measures the full request duration. Which shape does it have?",
+    "options": ["`const start = now(); next(); log(now() - start)` without awaiting", "Measure in the route handler", "Use `setTimeout` to log after 1 second", "`const start = now(); await next(); log(now() - start)` registered early in the chain"],
+    "answer": 3,
+    "explanation": "Awaiting `next()` waits for everything downstream; registering it early makes it wrap the other middleware too."
+  }
+]

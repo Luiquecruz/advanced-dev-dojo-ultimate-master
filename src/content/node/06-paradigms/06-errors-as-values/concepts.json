@@ -1,0 +1,8 @@
+[
+  { "term": "Result type", "description": "`{ ok: true, value } | { ok: false, error }`: success or failure as an ordinary return value that TypeScript forces callers to check." },
+  { "term": "Expected vs unexpected errors", "description": "Domain outcomes (insufficient funds) are returned as values; bugs and infrastructure failures are thrown and handled globally." },
+  { "term": "Discriminated union", "description": "A union whose members share a literal tag (`type`, `ok`), letting TypeScript narrow on it." },
+  { "term": "Exhaustiveness check", "description": "Assigning the leftover value to `never` in a `switch` default makes the compiler flag unhandled variants." },
+  { "term": "andThen / flatMap", "description": "Runs the next result-returning step only after a success; the first error short-circuits the chain." },
+  { "term": "neverthrow", "description": "Popular TypeScript library providing `Result`, `ResultAsync`, `map` and `andThen`." }
+]

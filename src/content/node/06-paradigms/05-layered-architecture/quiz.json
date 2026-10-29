@@ -1,0 +1,20 @@
+[
+  {
+    "question": "An AI-generated service method does `throw new HTTPException(404)` when an order is missing. What is the better design?",
+    "options": ["Keep it: Hono handles it automatically", "Return `null` and let the route guess", "Return `{ status: 404 }` from the service", "Throw a domain error (`NotFoundError`) and map it to 404 in the error handler, so the service stays usable from jobs and tests"],
+    "answer": 3,
+    "explanation": "Status codes are an HTTP concern. Domain errors keep the service transport-agnostic, and one handler owns the mapping."
+  },
+  {
+    "question": "\"Titles of open tasks must be unique.\" Where does this check belong?",
+    "options": ["In the route, next to the body parsing", "In the service, because every entry point (HTTP, CLI, queue) must enforce it", "In the repository's `create`", "In the frontend form"],
+    "answer": 1,
+    "explanation": "Shape checks live at the edge; business rules live in the service. A unique index in the database is a good safety net on top, not a replacement."
+  },
+  {
+    "question": "A route returns the ORM entity directly: `return c.json(await prisma.user.findUnique(...))`. What is the main risk?",
+    "options": ["Internal columns such as `passwordHash` or `deletedAt` leak to clients; map entities to response DTOs", "JSON serialization is slow", "Hono cannot serialize class instances", "No risk if the API is internal"],
+    "answer": 0,
+    "explanation": "Storage models and API contracts evolve separately. An explicit mapping is the place where sensitive and internal fields are dropped."
+  }
+]

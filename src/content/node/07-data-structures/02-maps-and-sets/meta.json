@@ -1,0 +1,11 @@
+{
+  "title": "Maps and Sets",
+  "summary": "Index, group, deduplicate and diff backend data in linear time with Map and Set, and know when a plain object or an array is the better choice.",
+  "level": "intermediate",
+  "tags": ["core", "performance", "modern"],
+  "resources": [
+    { "label": "MDN: Map", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" },
+    { "label": "MDN: Set", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set" },
+    { "label": "MDN: Map.groupBy", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/groupBy" }
+  ]
+}

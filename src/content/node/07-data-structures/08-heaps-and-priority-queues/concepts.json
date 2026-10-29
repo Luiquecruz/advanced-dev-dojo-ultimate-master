@@ -1,0 +1,8 @@
+[
+  { "term": "Priority queue", "description": "A collection that always hands out the most important item first (earliest `runAt`, highest priority), regardless of insertion order." },
+  { "term": "Binary heap", "description": "A complete binary tree stored in an array where each parent comes before its children. The root is always the minimum (or maximum)." },
+  { "term": "Sift up / sift down", "description": "Restoring the heap rule after a push (move the new item up) or a pop (move the relocated last item down). One swap per level: O(log n)." },
+  { "term": "Comparator", "description": "`compare(a, b)` returns a negative number when `a` comes first, like `Array.prototype.sort`. Swap the operands to turn a min-heap into a max-heap." },
+  { "term": "Top K", "description": "Keep a min-heap of size k while streaming n items: O(n log k) time and O(k) memory instead of sorting everything." },
+  { "term": "Stability", "description": "Heaps do not keep insertion order among equal priorities. Add a sequence number as a tie-breaker when FIFO among equals matters." }
+]
