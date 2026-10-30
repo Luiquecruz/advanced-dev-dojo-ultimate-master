@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team proposes adding Redux Toolkit because \"the orders list, the order filters and the new-order form are needed in several places\". Applying the classification rule, what is the right split?",
+    "options": [
+      "All three in Redux Toolkit: one store is easier to debug",
+      "Orders list in Context, filters in Redux, form in the URL",
+      "Orders list in a server cache, filters in the URL, the new-order form in a form library or local state, and probably no global store at all",
+      "Everything in `localStorage` so it survives reloads"
+    ],
+    "answer": 2,
+    "explanation": "The list is remote, the filters are shareable view state and the form is a transient draft. Each has a better home than a global store, and nothing left over is client-owned and shared."
+  },
+  {
+    "question": "A support agent copies the address bar of a ticket search (`/tickets`) to a colleague, who sees an unfiltered list. Status, assignee and page live in a Zustand store. What is the fix?",
+    "options": [
+      "Persist the Zustand store to `localStorage`",
+      "Move status, assignee and page to URL search params and read them from there",
+      "Send the store state through a WebSocket",
+      "Add a \"Copy filters\" button that serializes the store"
+    ],
+    "answer": 1,
+    "explanation": "Anything that should survive a reload or a shared link is URL state. Reading it from the URL keeps one source of truth; persisting the store only helps the same browser."
+  },
+  {
+    "question": "A checkout has steps cart, address, payment, confirming, done and failed. Bugs: users can press \"Pay\" twice and go back while the payment is confirming. The state is five booleans. What fits best?",
+    "options": [
+      "More booleans, such as `isConfirmingPayment`",
+      "A global store with the five booleans",
+      "Disabling every button with CSS during requests",
+      "A state machine (XState, or a reducer with a `status` union) with explicit transitions, so \"pay\" is only accepted in `payment` and \"back\" is ignored in `confirming`"
+    ],
+    "answer": 3,
+    "explanation": "This is a flow, not a value. A machine makes illegal states unrepresentable and transitions explicit, which removes the whole class of bugs instead of patching each one."
+  },
+  {
+    "question": "An app uses GraphQL. After a mutation changes a product's price, the product appears updated in every list without any invalidation code. What makes that possible?",
+    "options": [
+      "A normalized cache (Apollo Client or Relay) that stores entities by type and id",
+      "TanStack Query's default behavior with any key",
+      "React Server Components",
+      "A Redux middleware that reloads the page"
+    ],
+    "answer": 0,
+    "explanation": "Normalized caches keep one record per entity (`Product:3`). Every query referencing it reads the same record, so updating it updates them all. Key-based caches need invalidation instead."
+  },
+  {
+    "question": "A cart store holds `items` and `total`, and `total` is sometimes wrong after removing an item. Which classification mistake is this?",
+    "options": [
+      "`total` is a derived value; it should be computed from `items`, not stored",
+      "The cart should be remote state",
+      "The cart should live in the URL",
+      "`items` should be local state"
+    ],
+    "answer": 0,
+    "explanation": "Derived values are not state. Storing them creates a second source of truth that some update path forgets to keep in sync."
+  },
+  {
+    "question": "What is the main value of writing a state map (state, kind, home, reason) for a feature?",
+    "options": [
+      "It replaces the need for tests",
+      "It generates the store code automatically",
+      "It makes duplicates and misplaced state visible, gives reviews a reference and records why each tool was chosen",
+      "It is required by React DevTools"
+    ],
+    "answer": 2,
+    "explanation": "A state map is an architecture artifact like an ADR: cheap to write, and it turns \"where should this live?\" into a documented decision."
+  }
+]

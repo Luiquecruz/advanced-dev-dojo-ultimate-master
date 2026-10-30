@@ -1,0 +1,13 @@
+{
+  "title": "A Data Access Layer",
+  "summary": "Stop scattering fetch across components: one API client with typed errors, a query factory per feature built with queryOptions, and components that only consume queries.",
+  "level": "advanced",
+  "tags": ["core", "ecosystem"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "TanStack Query: Query Options", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/query-options" },
+    { "label": "TanStack Query: Query Invalidation", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation" },
+    { "label": "TkDodo: The Query Options API", "url": "https://tkdodo.eu/blog/the-query-options-api" },
+    { "label": "Bulletproof React: API Layer", "url": "https://github.com/alan2207/bulletproof-react/blob/master/docs/api-layer.md" }
+  ]
+}

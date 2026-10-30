@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An internal reporting dashboard is used by 40 employees, behind login, for hours a day. Which attribute ranking fits best?",
+    "options": [
+      "SEO first, then infrastructure cost",
+      "First paint under 500 ms at any cost",
+      "Team autonomy first, so each chart is a micro-frontend",
+      "Maintainability and time to market first; SEO is irrelevant and first-load cost is amortized over long sessions"
+    ],
+    "answer": 3,
+    "explanation": "Rank attributes for the product at hand. Behind login there is nothing to index, and a SPA served from a CDN is cheap and simple."
+  },
+  {
+    "question": "What does a team buy and what does it pay when it moves public product pages from a client-rendered SPA to SSR on every request?",
+    "options": [
+      "Buys lower hosting cost, pays with SEO",
+      "Buys team autonomy, pays with performance",
+      "Buys SEO and faster first content, pays with server compute, operational complexity and hydration work on the client",
+      "Nothing changes, SSR and SPA have the same trade-offs"
+    ],
+    "answer": 2,
+    "explanation": "The HTML now contains real content, but every request runs React on a server that must be operated and paid for."
+  },
+  {
+    "question": "A documentation site with 20,000 pages takes 40 minutes to build with SSG, and typo fixes wait for the full build. Which attribute is being paid?",
+    "options": [
+      "SEO",
+      "Freshness and build time (time to publish) in exchange for the fastest, cheapest delivery",
+      "Team autonomy",
+      "Accessibility"
+    ],
+    "answer": 1,
+    "explanation": "SSG trades freshness and build cost for speed and cheap hosting. ISR or on-demand revalidation can rebalance the trade."
+  },
+  {
+    "question": "Product says the new marketplace must be \"fast, SEO friendly, cheap, infinitely scalable and shippable by any team at any time\". What is the most useful next step?",
+    "options": [
+      "Ask for a ranking of these attributes for the first release, because the options trade them against each other",
+      "Adopt micro-frontends and SSR to cover everything",
+      "Pick the most popular framework",
+      "Ignore the requirements and build a SPA"
+    ],
+    "answer": 0,
+    "explanation": "No option maximizes every attribute. A ranking makes the trade-offs explicit and lets the team pick and document a choice."
+  },
+  {
+    "question": "Moving business rules out of components into a pure domain module behind interfaces mainly improves which attribute, at what cost?",
+    "options": [
+      "SEO, at the cost of performance",
+      "Infrastructure cost, at the cost of SEO",
+      "First-load performance, at the cost of maintainability",
+      "Testability and framework independence, at the cost of more files and indirection"
+    ],
+    "answer": 3,
+    "explanation": "Pure functions and ports are easy to test without React or a network, but the extra layer must earn its place through real business complexity."
+  },
+  {
+    "question": "Two options satisfy the top-ranked attributes equally well. Which tie-breaker does the lesson recommend?",
+    "options": [
+      "The newest technology",
+      "The option with more GitHub stars",
+      "The option that is cheaper to reverse",
+      "The option with the most layers, for future flexibility"
+    ],
+    "answer": 2,
+    "explanation": "Reversible decisions keep options open at low cost. Extra layers \"for the future\" are a cost paid now for a benefit that may never come."
+  }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "Data access layer", "description": "The code that owns network access: a shared API client plus per-feature resource definitions. Components consume it and never call `fetch`." },
+  { "term": "API client", "description": "One module with the base URL, headers, authentication and error mapping. Lives in `shared/api` because it has no business knowledge." },
+  { "term": "ApiError", "description": "A typed error thrown for every non-2xx response, carrying `status`, so the UI can branch on it without seeing a `Response`." },
+  { "term": "Query factory", "description": "An object per feature (`productQueries`) whose functions return `queryOptions` with hierarchical keys built from one root." },
+  { "term": "queryOptions", "description": "TanStack Query helper that returns its argument (typed), so a key, its `queryFn` and its options are defined once and reused by hooks, prefetching and cache reads." }
+]

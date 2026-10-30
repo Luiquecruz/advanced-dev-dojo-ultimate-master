@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What distinguishes a modular monolith from a monolith with tidy folders?",
+    "options": [
+      "It is deployed as several bundles on different servers",
+      "Modules expose public APIs, never import each other's internals, and those rules are enforced automatically in CI",
+      "It uses a different framework per module",
+      "Each module has its own `package.json`"
+    ],
+    "answer": 1,
+    "explanation": "Folders are a convention; a modular monolith has boundaries that are explicit (public API) and checked (lint or architecture tests). It is still one build and one deploy."
+  },
+  {
+    "question": "The catalog module needs the cart to update when a product is added. Which design keeps the modules decoupled?",
+    "options": [
+      "Import `modules/cart/cartStore` in the catalog",
+      "Move the cart store into `shared/` so both can import it",
+      "The catalog emits a `cart:add` event with the product through the shell's bus, and the cart module subscribes in its `register`",
+      "Merge the two modules"
+    ],
+    "answer": 2,
+    "explanation": "An event names a fact without knowing the reactor. Moving domain state into `shared/` only hides the dependency and turns `shared` into a dumping ground."
+  },
+  {
+    "question": "Why should the cart store be created inside `register(shell)` instead of at the top of `cartStore.js`?",
+    "options": [
+      "Module-level code runs slower",
+      "A module-level singleton is shared by every app instance, test and story; creating it per registration keeps instances isolated",
+      "React forbids module-level state",
+      "So that the store can be lazy loaded"
+    ],
+    "answer": 1,
+    "explanation": "Import-time state is global state. Creating it in `register` scopes it to one shell, which also makes the module trivially testable."
+  },
+  {
+    "question": "What does a `CODEOWNERS` entry such as `/src/modules/cart/ @shop/checkout-team` provide?",
+    "options": [
+      "It blocks other teams from reading the code",
+      "It requires a review from the owning team for changes in that path and makes ownership explicit",
+      "It deploys the cart module separately",
+      "It enforces import boundaries"
+    ],
+    "answer": 1,
+    "explanation": "CODEOWNERS is about review routing and ownership. Import boundaries need a separate automated check."
+  },
+  {
+    "question": "Two years later the checkout team needs to deploy independently. Why is extraction easier from a modular monolith?",
+    "options": [
+      "Because the code is already in a separate repository",
+      "Because the module already talks to the rest only through `register(shell)` and events, so it can be wrapped in a package or a `mount` contract without untangling imports",
+      "Because modular monoliths use Module Federation by default",
+      "It is not easier"
+    ],
+    "answer": 1,
+    "explanation": "The expensive part of any split is removing hidden dependencies. Enforced boundaries mean that work is already done."
+  }
+]

@@ -106,6 +106,28 @@ Short and precise, more quizzes. Every lesson has a quiz (3–5 questions) unles
 ### 05-architecture — Architecture and Decision Making
 01-choosing-the-right-tool **(quiz)** (scenario based) ✓ · 02-colocation-and-boundaries (refactor over-globalized state) ✓ · 03-forms-and-transient-state **(quiz)** ✓ · 04-react-19-compiler-and-the-future-of-state **(quiz)** (Actions, useOptimistic, Server Components, React Compiler) ✓ · 05-capstone-state-architecture (multi-file: server state + client store + URL + local state) ✓
 
+## React Architecture (`src/content/architecture`, engine `react`)
+
+From static pages to micro-frontends, following the spec in `.claude/specs/Trilha Arquitetura com React.md`. Every lesson has a quiz (3–5 questions) unless marked **(quiz)** (4–6 questions, no challenge); every theory ends with a **"When to choose it"** section. Server-side models (MVC, SSR, SSG, ISR, BFF) run as plain functions in the sandbox: the "server" is a function that receives a request and returns HTML or JSON. Multi-file challenges use real folder structures (`features/catalog/index.js`). State libraries are covered in depth by `react-state`; module 04 only covers state at the architecture level.
+
+### 01-foundations — Architecture Fundamentals
+01-what-is-frontend-architecture **(quiz)** (React as a library, the four decision layers, architecture vs component design vs folders) ✓ · 02-quality-attributes-and-trade-offs **(quiz)** (performance, SEO, maintainability, testability, team autonomy, cost) ✓ · 03-architecture-decision-records (ADR format and status lifecycle: proposed, accepted, superseded) ✓
+
+### 02-rendering — Rendering Architectures
+01-static-pages (static file server: index files, 404, content types, cache headers) ✓ · 02-model-view-controller (multi-file: model, React views rendered to HTML, controller per request) ✓ · 03-single-page-applications (client router from scratch: History API, link interception, client data fetching) ✓ · 04-server-side-rendering (per-request render, serialized data, hydration) ✓ · 05-static-site-generation (build step with static paths and props, frozen data, 404 for unknown paths) ✓ · 06-incremental-static-regeneration (stale-while-revalidate with injected clock, deduplicated regeneration, on-demand revalidation) ✓ · 07-islands-architecture (hydrating only `data-island` roots) ✓ · 08-react-server-components **(quiz)** (server vs client components, `'use client'`, streaming, Suspense) ✓ · 09-choosing-a-rendering-strategy **(quiz)** (per-route decisions, data freshness vs cost) ✓
+
+### 03-code-organization — Code Organization
+01-by-type-vs-by-feature **(quiz)** (screaming architecture, Bulletproof React, MVC legacy) ✓ · 02-feature-modules-and-public-apis (multi-file: features behind `index.js`, no deep imports) ✓ · 03-layered-dependency-rules (Feature-Sliced Design layers, a dependency rule checker) ✓ · 04-hexagonal-frontend (multi-file: domain use case, port, HTTP and in-memory adapters) ✓ · 05-from-containers-to-hooks (container/presentational refactored into a custom hook) ✓ · 06-atomic-design-and-design-systems **(quiz)** ✓
+
+### 04-state-and-data — State and Data
+01-classifying-state **(quiz)** (remote, URL, form, UI, derived; one home per kind) ✓ · 02-data-access-layer (API client, query key factory and `queryOptions` per feature) ✓ · 03-server-state-across-the-network (prefetch on the server, `dehydrate`, `HydrationBoundary`) ✓
+
+### 05-scale — Architectures at Scale
+01-from-monolith-to-micro-frontends **(quiz)** (monolith, modular monolith, monorepo, micro-frontends; organizational problems) ✓ · 02-modular-front-end-monolith (multi-file: modules register routes and navigation in a shell, communicate through events) ✓ · 03-backend-for-frontend (aggregating services into a view model, partial failures, status mapping) ✓ · 04-micro-frontend-runtime-composition (framework-agnostic `mount`/`unmount` contract, error isolation, custom events) ✓ · 05-micro-frontends-with-web-components (React inside a custom element, attributes to props, events out) ✓ · 06-module-federation-monorepos-and-design-systems **(quiz)** (shared singletons, build-time vs runtime composition, Nx, Turborepo, design system as a platform) ✓
+
+### 06-decisions — Decisions and Capstone
+01-choosing-an-architecture **(quiz)** (scenario based) ✓ · 02-over-engineering-and-anti-patterns **(quiz)** ✓ · 03-capstone-walking-skeleton (multi-file: feature module, BFF, server render and hydration) ✓
+
 ## Vue (`src/content/vue`)
 
 ### 01-foundations — Foundations

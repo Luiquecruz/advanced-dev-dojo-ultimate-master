@@ -1,0 +1,9 @@
+[
+  { "term": "Module Federation", "description": "Runtime loading of modules exposed by another independently deployed build (Webpack 5, Rspack, `@module-federation/enhanced`)." },
+  { "term": "Remote / host", "description": "A remote `exposes` modules through an entry file; a host declares `remotes` and imports them lazily. One build can be both." },
+  { "term": "Shared singleton", "description": "A dependency such as React negotiated at runtime so only one copy loads; required for hooks and context, and it couples version upgrades." },
+  { "term": "single-spa", "description": "A framework-agnostic micro-frontend router: `registerApplication` with `activeWhen`, and apps exporting `bootstrap`, `mount` and `unmount`." },
+  { "term": "Task graph and caching", "description": "Monorepo tools (Nx, Turborepo) order tasks by dependencies, hash their inputs and replay cached outputs locally or from a remote cache." },
+  { "term": "Affected builds", "description": "Running tasks only for projects changed since a base commit and the projects that depend on them." },
+  { "term": "Design system as a platform", "description": "A versioned package of tokens, components and guidelines with an owning team, changelogs, deprecations and codemods (Polaris, Atlassian, Carbon)." }
+]

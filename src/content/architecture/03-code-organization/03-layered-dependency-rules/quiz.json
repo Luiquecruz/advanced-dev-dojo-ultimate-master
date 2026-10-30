@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`entities/order` needs to show product names. A developer adds `import { ProductName } from 'entities/product'` inside `entities/order/ui/OrderLine.jsx`. Which FSD rule does this break, and what is the usual fix?",
+    "options": [
+      "None: entities may import each other through the public API",
+      "Sibling slices: compose order and product in a higher layer (a widget or feature), or expose a narrow cross-import API with the `@x` notation",
+      "Upward import: move `ProductName` to `app`",
+      "Deep import: import `entities/product/ui/ProductName.jsx` instead"
+    ],
+    "answer": 1,
+    "explanation": "Slices of the same layer are independent. The relation is composed above both entities, or made explicit and narrow with `entities/product/@x/order`."
+  },
+  {
+    "question": "Why are `app` and `shared` not divided into slices?",
+    "options": [
+      "`app` is global wiring for the whole application and `shared` has no business domain, so there is nothing to partition by domain; both are split into segments only",
+      "They are too small to have slices",
+      "Slices are only allowed in TypeScript projects",
+      "Because they cannot have an index file"
+    ],
+    "answer": 0,
+    "explanation": "Slices partition business domains. The app layer composes everything and shared is domain-free by definition, so they are organized by segment (`shared/ui`, `shared/api`)."
+  },
+  {
+    "question": "A file in `shared/api` imports `entities/user` to attach the user's token to requests. What is the right refactor?",
+    "options": [
+      "Allow it: authentication is shared",
+      "Move `shared/api` into `entities/user`",
+      "Invert the dependency: `shared/api` exposes a way to set a token provider, and a higher layer (`app` or `entities/user`) plugs the user's token in",
+      "Duplicate the user logic inside `shared`"
+    ],
+    "answer": 2,
+    "explanation": "Shared must not know the domain. Expose a hook point (a `setTokenProvider` or interceptor) and let a higher layer configure it at startup."
+  },
+  {
+    "question": "Which tool fits best for enforcing layer, slice and public API rules with one declarative configuration in an ESLint setup?",
+    "options": [
+      "Prettier",
+      "TypeScript `strict` mode",
+      "React DevTools",
+      "`eslint-plugin-boundaries` (or Steiger for FSD specifically)"
+    ],
+    "answer": 3,
+    "explanation": "`eslint-plugin-boundaries` defines element types and allowed dependencies including entry points; Steiger is the FSD linter. `import/no-restricted-paths` and dependency-cruiser also work but need more manual zones or rules."
+  }
+]

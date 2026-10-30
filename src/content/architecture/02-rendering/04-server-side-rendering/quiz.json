@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Compared with a SPA, how does SSR usually change TTFB and LCP?",
+    "options": [
+      "Both get worse",
+      "TTFB gets worse (the server works before responding) while LCP gets better (content is in the first response)",
+      "TTFB gets better while LCP gets worse",
+      "Neither changes; only SEO improves"
+    ],
+    "answer": 1,
+    "explanation": "The server must load data and render before sending bytes, but the browser can paint real content as soon as the HTML arrives."
+  },
+  {
+    "question": "Why does an SSR page embed the data it rendered with?",
+    "options": [
+      "So search engines can read JSON",
+      "So the client's first render uses the same props, hydrates without a mismatch and does not refetch",
+      "Because `hydrateRoot` cannot call `fetch`",
+      "To make the HTML smaller"
+    ],
+    "answer": 1,
+    "explanation": "Hydration needs an identical first render. Reading the embedded data avoids a second round trip and inconsistent results."
+  },
+  {
+    "question": "A product name contains `</script><script>alert(1)</script>` and is embedded with plain `JSON.stringify`. What happens?",
+    "options": [
+      "Nothing: JSON strings are always safe inside HTML",
+      "`JSON.parse` throws on the client",
+      "The HTML parser ends the data script at `</script>` and executes the injected script (XSS)",
+      "React escapes it during hydration"
+    ],
+    "answer": 2,
+    "explanation": "The HTML parser does not understand JSON. Escaping `<` as `\\u003c` keeps the value intact for `JSON.parse` and invisible to the HTML parser."
+  },
+  {
+    "question": "What is the main problem streaming SSR (`renderToPipeableStream`, `renderToReadableStream`) solves over `renderToString`?",
+    "options": [
+      "It removes the need for hydration",
+      "It sends the shell immediately and streams slow `<Suspense>` sections as their data resolves, instead of waiting for the whole page",
+      "It ships less JavaScript to the client",
+      "It renders on the client instead"
+    ],
+    "answer": 1,
+    "explanation": "`renderToString` is synchronous and all-or-nothing. Streaming improves TTFB and lets React hydrate boundaries independently."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "title": "Islands Architecture",
+  "summary": "A static page with independent interactive islands: render each island to HTML with its props and hydrate only those roots, leaving the rest of the page at zero JavaScript.",
+  "level": "advanced",
+  "tags": ["core", "performance", "ecosystem"],
+  "resources": [
+    { "label": "Jason Miller: Islands Architecture", "url": "https://jasonformat.com/islands-architecture/" },
+    { "label": "Astro: Islands architecture", "url": "https://docs.astro.build/en/concepts/islands/" },
+    { "label": "Astro: @astrojs/react", "url": "https://docs.astro.build/en/guides/integrations-guide/react/" },
+    { "label": "react.dev: hydrateRoot", "url": "https://react.dev/reference/react-dom/client/hydrateRoot" }
+  ]
+}

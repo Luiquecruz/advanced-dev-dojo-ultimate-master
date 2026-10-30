@@ -1,0 +1,8 @@
+[
+  { "term": "Per-route rendering", "description": "Each route picks its own strategy (SSG, ISR, SSR, client rendering) inside one app and one framework." },
+  { "term": "TTFB", "description": "Time to first byte. Lowest from a CDN (static, SSG, ISR hits), higher when the server renders per request." },
+  { "term": "LCP", "description": "Largest Contentful Paint. Good when the main content is in the initial HTML; poor when it waits for a bundle and a client fetch." },
+  { "term": "INP", "description": "Interaction to Next Paint. Hurt by long main-thread work such as hydrating a large tree; improved by shipping less JavaScript." },
+  { "term": "Hydration cost", "description": "CPU and download time to re-run components in the browser so server HTML becomes interactive. Grows with the size of the hydrated tree." },
+  { "term": "Cached shell + dynamic fragments", "description": "A shared, cacheable page with personal or live parts fetched on the client or streamed separately (Partial Prerendering, server islands)." }
+]

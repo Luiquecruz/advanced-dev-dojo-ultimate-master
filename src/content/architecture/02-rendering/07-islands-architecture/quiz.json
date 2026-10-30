@@ -1,0 +1,52 @@
+[
+  {
+    "question": "A documentation page has 3 000 words of text, a search box and a theme toggle. With full SSR hydration, what does the client pay for that islands avoid?",
+    "options": [
+      "Rendering the HTML on the server",
+      "Downloading and re-running the components of the whole page, including the static text, to attach listeners",
+      "Serving images from a CDN",
+      "Parsing CSS"
+    ],
+    "answer": 1,
+    "explanation": "Full hydration re-renders every component in the tree. With islands only the search box and the toggle ship and run JavaScript."
+  },
+  {
+    "question": "Why must island props be serializable?",
+    "options": [
+      "React forbids functions as props",
+      "They are written into the HTML (as JSON) on the server and parsed again by the client loader",
+      "Islands run in Web Workers",
+      "Astro converts them to CSS variables"
+    ],
+    "answer": 1,
+    "explanation": "The only channel between the server render and the island's hydration is the HTML itself, so props must survive JSON."
+  },
+  {
+    "question": "The header cart badge and the 'Add to cart' button are two islands. How should they share the cart count?",
+    "options": [
+      "Wrap the page in a React Context provider",
+      "Through a small store outside React (or custom events) that both islands subscribe to",
+      "Pass the badge as a prop to the button",
+      "They cannot communicate at all"
+    ],
+    "answer": 1,
+    "explanation": "Each island is its own React root, so there is no common ancestor for Context. A framework-agnostic store or events connect them."
+  },
+  {
+    "question": "Which Astro directive delays hydrating a comments widget until the user scrolls to it?",
+    "options": ["`client:load`", "`client:only`", "`client:visible`", "`server:defer`"],
+    "answer": 2,
+    "explanation": "`client:visible` hydrates when the island enters the viewport. `server:defer` is about server rendering, not client hydration."
+  },
+  {
+    "question": "For which product are islands the weakest fit?",
+    "options": [
+      "A marketing site with a pricing calculator",
+      "A blog with a newsletter form",
+      "A collaborative spreadsheet editor",
+      "An e-commerce product page"
+    ],
+    "answer": 2,
+    "explanation": "When almost everything is interactive and shares state, islands save no JavaScript and complicate communication. An SPA fits better."
+  }
+]

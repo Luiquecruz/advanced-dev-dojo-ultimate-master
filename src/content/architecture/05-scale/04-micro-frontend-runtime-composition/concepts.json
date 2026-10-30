@@ -1,0 +1,8 @@
+[
+  { "term": "Shell (container app)", "description": "The host that owns top-level routing, loading, layout and error isolation, and mounts micro-frontends into slots." },
+  { "term": "Lifecycle contract", "description": "A framework-agnostic API such as `mount(element, props)` returning `unmount`, so the shell never depends on a team's framework." },
+  { "term": "Runtime composition", "description": "Loading independently deployed bundles in the browser and mounting them on demand, as single-spa and Module Federation do." },
+  { "term": "Server-side composition", "description": "Assembling HTML fragments from several teams on the server or at the edge (SSI, ESI) before the page reaches the browser." },
+  { "term": "Error isolation", "description": "Catching a micro-frontend's load or mount failure and rendering a fallback in its slot while the rest of the page keeps working." },
+  { "term": "CustomEvent contract", "description": "Named browser events with a documented `detail` payload (`mfe:navigate`) used for loose communication between micro-frontends and the shell." }
+]

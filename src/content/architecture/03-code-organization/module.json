@@ -1,0 +1,1 @@
+{ "title": "Code Organization", "description": "Feature-based structure, public APIs, layered dependency rules, hexagonal frontends, hooks over containers and atomic design." }

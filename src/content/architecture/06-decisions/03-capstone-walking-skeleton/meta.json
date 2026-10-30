@@ -1,0 +1,15 @@
+{
+  "title": "Capstone: Walking Skeleton",
+  "summary": "Tie the track together in one thin slice: a feature behind a public API, a BFF view model, server rendering with safely embedded data, and hydration.",
+  "level": "expert",
+  "tags": ["core", "performance"],
+  "preview": false,
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "C2 Wiki: Walking Skeleton", "url": "https://wiki.c2.com/?WalkingSkeleton" },
+    { "label": "react.dev: renderToString", "url": "https://react.dev/reference/react-dom/server/renderToString" },
+    { "label": "react.dev: hydrateRoot", "url": "https://react.dev/reference/react-dom/client/hydrateRoot" },
+    { "label": "Sam Newman: Backends For Frontends", "url": "https://samnewman.io/patterns/architectural/bff/" },
+    { "label": "Bulletproof React", "url": "https://github.com/alan2207/bulletproof-react" }
+  ]
+}

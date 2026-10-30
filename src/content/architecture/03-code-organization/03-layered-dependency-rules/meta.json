@@ -1,0 +1,14 @@
+{
+  "title": "Layered Dependency Rules",
+  "summary": "Feature-Sliced Design layers, slices and segments, and the three import rules behind them: build the checker an architecture test runs in CI.",
+  "level": "advanced",
+  "tags": ["core", "testing"],
+  "entry": "dependencyRules.js",
+  "preview": false,
+  "resources": [
+    { "label": "Feature-Sliced Design: Overview", "url": "https://feature-sliced.design/docs/get-started/overview" },
+    { "label": "Feature-Sliced Design: Layers", "url": "https://feature-sliced.design/docs/reference/layers" },
+    { "label": "eslint-plugin-boundaries", "url": "https://github.com/javierbrea/eslint-plugin-boundaries" },
+    { "label": "dependency-cruiser", "url": "https://github.com/sverweij/dependency-cruiser" }
+  ]
+}

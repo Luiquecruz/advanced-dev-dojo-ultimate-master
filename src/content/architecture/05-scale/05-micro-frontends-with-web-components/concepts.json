@@ -1,0 +1,8 @@
+[
+  { "term": "Custom element", "description": "A user-defined HTML tag (`customElements.define('cart-summary', Class)`) with lifecycle callbacks; a framework-neutral integration contract." },
+  { "term": "observedAttributes", "description": "Static list of attribute names whose changes trigger `attributeChangedCallback`." },
+  { "term": "connectedCallback / disconnectedCallback", "description": "Called when the element enters or leaves the document; the natural place to create and unmount a React root." },
+  { "term": "CustomEvent with bubbles and composed", "description": "An event carrying `detail`; `bubbles` lets ancestors listen and `composed` lets it cross Shadow DOM boundaries." },
+  { "term": "Shadow DOM", "description": "An encapsulated DOM subtree with isolated styles; strong isolation at the cost of theming, form and ARIA relations across the boundary." },
+  { "term": "React 19 custom element support", "description": "Props become properties when the element defines them, otherwise attributes; `on<event>` props add listeners for custom events." }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "Presentational component", "description": "Renders from props and reports events through callbacks; no data fetching or business state. Easy to preview in every state." },
+  { "term": "Container component", "description": "The 2015 pattern for logic: a component that fetches, holds state and renders a presentational child. Replaced by custom hooks." },
+  { "term": "Custom hook as controller", "description": "A `use*` function that owns state, effects and derived data and returns values and actions, without markup." },
+  { "term": "Higher-order component / render prop", "description": "Pre-hooks ways to share stateful logic by wrapping components; they add tree depth and indirection. Common in legacy code." },
+  { "term": "Event-named callbacks", "description": "Views expose `onQueryChange`, not `setQuery`: the view describes what happened, the owner decides how to store it." }
+]

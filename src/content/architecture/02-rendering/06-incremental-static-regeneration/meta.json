@@ -1,0 +1,13 @@
+{
+  "title": "Incremental Static Regeneration",
+  "summary": "Static pages that refresh themselves: stale-while-revalidate with an injected clock, one deduplicated regeneration per page, failure tolerance and on-demand revalidation.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "Next.js: Incremental Static Regeneration", "url": "https://nextjs.org/docs/app/guides/incremental-static-regeneration" },
+    { "label": "Next.js: revalidatePath", "url": "https://nextjs.org/docs/app/api-reference/functions/revalidatePath" },
+    { "label": "Next.js: revalidateTag", "url": "https://nextjs.org/docs/app/api-reference/functions/revalidateTag" },
+    { "label": "web.dev: Keeping things fresh with stale-while-revalidate", "url": "https://web.dev/articles/stale-while-revalidate" }
+  ]
+}

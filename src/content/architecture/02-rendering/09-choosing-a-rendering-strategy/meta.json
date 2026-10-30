@@ -1,0 +1,12 @@
+{
+  "title": "Choosing a Rendering Strategy",
+  "summary": "Decide per route: data freshness, personalization, SEO and cost, the impact on TTFB, LCP and INP, hydration cost and a side-by-side comparison of every model in the module.",
+  "level": "advanced",
+  "tags": ["theory", "performance", "core"],
+  "resources": [
+    { "label": "web.dev: Rendering on the Web", "url": "https://web.dev/articles/rendering-on-the-web" },
+    { "label": "web.dev: Web Vitals", "url": "https://web.dev/articles/vitals" },
+    { "label": "Next.js: Caching", "url": "https://nextjs.org/docs/app/guides/caching" },
+    { "label": "Astro: Islands architecture", "url": "https://docs.astro.build/en/concepts/islands/" }
+  ]
+}

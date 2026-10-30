@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A product page renders a long description with a 60 kB Markdown library and has one 'Add to cart' button. In the Next.js App Router, how much of that reaches the client bundle when the page is a Server Component and only the button file has `'use client'`?",
+    "options": [
+      "Everything, because SSR always hydrates the whole page",
+      "The button's code and its imports; the Markdown library and the page component ship nothing",
+      "Nothing at all, Server Components make every page static",
+      "Only the Markdown library, since it produces HTML"
+    ],
+    "answer": 1,
+    "explanation": "Server Components and their dependencies run only on the server. Only Client Components (entered through `'use client'`) and what they import join the bundle."
+  },
+  {
+    "question": "A Client Component `Tabs` must show the server-only `ProductReviews` (which queries the database) in one tab. What is the correct pattern?",
+    "options": [
+      "Import `ProductReviews` inside `Tabs.jsx`",
+      "Add `'use client'` to `ProductReviews`",
+      "Render `<Tabs><ProductReviews productId={id} /></Tabs>` from a Server Component, so the reviews arrive as `children`",
+      "Call the database from `Tabs` with `useEffect`"
+    ],
+    "answer": 2,
+    "explanation": "Client files cannot import Server Components, but a Server Component can pass one as children (a slot). The server renders it and the client receives the output."
+  },
+  {
+    "question": "Which prop CANNOT be passed from a Server Component to a Client Component?",
+    "options": [
+      "`{ id: 1, tags: ['new'] }`",
+      "A JSX element",
+      "A promise of data, read with `use()` on the client",
+      "An inline `onSelect={(item) => console.log(item)}` function"
+    ],
+    "answer": 3,
+    "explanation": "Props crossing the `'use client'` boundary are serialized. Plain functions cannot be; only Server Functions marked with `'use server'` can be passed as callable references."
+  },
+  {
+    "question": "What does `'use server'` mark?",
+    "options": [
+      "Server Components",
+      "Functions the client can call over the network (Server Functions / Actions), which must validate input and check authorization",
+      "Files that are excluded from the server build",
+      "Components that should be streamed"
+    ],
+    "answer": 1,
+    "explanation": "Server Components need no directive. `'use server'` exposes functions as endpoints, so treat them like any public API."
+  },
+  {
+    "question": "Which statement about RSC and SSR is correct?",
+    "options": [
+      "RSC is a faster name for SSR",
+      "RSC decides where components run and produces an RSC payload; SSR turns the first payload and the Client Components into HTML",
+      "RSC replaces hydration completely, even for Client Components",
+      "RSC only works with a server on every request"
+    ],
+    "answer": 1,
+    "explanation": "They are complementary. Server Components can even run at build time; Client Components still prerender and hydrate."
+  },
+  {
+    "question": "A page has a fast header and a recommendations section that takes 2 s to query. How do you avoid blocking the whole page?",
+    "options": [
+      "Move the query to `useEffect` in a Client Component",
+      "Wrap the recommendations in `<Suspense fallback={...}>` so the shell streams first and the section streams when its data resolves",
+      "Add `'use client'` to the page",
+      "Increase the server timeout"
+    ],
+    "answer": 1,
+    "explanation": "Suspense boundaries let the server stream HTML and payload in chunks: the shell is sent immediately and slow sections follow."
+  }
+]

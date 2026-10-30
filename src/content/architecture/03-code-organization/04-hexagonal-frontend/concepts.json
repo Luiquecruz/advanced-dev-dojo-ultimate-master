@@ -1,0 +1,8 @@
+[
+  { "term": "Domain", "description": "Business entities and rules as plain code (`createOrder`), independent of React, HTTP and storage." },
+  { "term": "Use case", "description": "One user intention (`placeOrder`) that orchestrates the domain and reaches the outside world only through ports." },
+  { "term": "Port", "description": "An interface the application needs, described in its own terms: `orderGateway.save(order) → { id }`." },
+  { "term": "Adapter", "description": "A technology-specific implementation of a port (HTTP, localStorage, in-memory) or a driver of the application (a React component)." },
+  { "term": "Composition root", "description": "The single place that creates concrete adapters and injects them into use cases and the UI, usually `App.jsx` or `main.jsx`." },
+  { "term": "Dependency rule", "description": "Source dependencies point inward: adapters → application → domain. The domain imports nothing from outer rings." }
+]

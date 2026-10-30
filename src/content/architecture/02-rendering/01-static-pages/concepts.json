@@ -1,0 +1,9 @@
+[
+  { "term": "Static hosting", "description": "A server, object store or CDN maps URL paths to existing files and sends them unchanged. No code runs per request." },
+  { "term": "Index file", "description": "The file served for a folder path: `/docs/` returns `docs/index.html`. Configured in Nginx with `index` and `try_files`." },
+  { "term": "Content-Type", "description": "The response header that tells the browser how to interpret the bytes. Browsers trust it over the file name." },
+  { "term": "Fingerprinting", "description": "Adding a content hash to an asset name (`app.3f9a1c.css`) so it can be cached forever: new content means a new URL." },
+  { "term": "`no-cache` vs `no-store`", "description": "`no-cache` stores the response but revalidates it before every use; `no-store` forbids storing it at all." },
+  { "term": "Path traversal", "description": "An attack that uses `..` segments (often encoded as `%2e%2e`) to read files outside the web root." },
+  { "term": "Soft 404", "description": "An error page served with status 200. Crawlers index it as real content; serve status 404 instead." }
+]

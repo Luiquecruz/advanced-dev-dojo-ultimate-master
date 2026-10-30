@@ -1,0 +1,7 @@
+[
+  { "term": "Over-engineering", "description": "Paying for complexity (layers, services, deploy units) before the problem it solves exists." },
+  { "term": "Distributed monolith", "description": "Separately deployed parts that must still change and release together. Distribution costs without independence." },
+  { "term": "Premature abstraction", "description": "A generic solution built before enough concrete cases exist. Often harder to change than duplication." },
+  { "term": "Resume-driven development", "description": "Choosing technology for its appeal to the people choosing it, not for the product's ranked quality attributes." },
+  { "term": "Simplicity criteria", "description": "Named problem, ranked attribute, written cost, reversibility and smallest step: checks before adding architecture." }
+]

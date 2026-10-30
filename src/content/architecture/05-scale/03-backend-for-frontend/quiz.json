@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What is the main difference between a BFF and a generic API gateway?",
+    "options": [
+      "A gateway is written in Node.js and a BFF in Go",
+      "A BFF is product code owned by one frontend team and shaped for its screens; a gateway is shared infrastructure for routing, auth and rate limiting",
+      "A gateway aggregates services; a BFF only proxies them",
+      "There is no difference"
+    ],
+    "answer": 1,
+    "explanation": "Gateways are generic and shared; BFFs are client-specific and evolve with the UI. They are often combined, with the gateway in front of the BFFs."
+  },
+  {
+    "question": "The profile BFF awaits the users request, then starts the posts request. Each takes 200 ms. What is the fix and its effect?",
+    "options": [
+      "Cache the users response; total stays 400 ms",
+      "Start both requests together (`Promise.all`); total drops to about 200 ms",
+      "Move the requests to the browser",
+      "Use GraphQL; total drops to 0 ms"
+    ],
+    "answer": 1,
+    "explanation": "The calls are independent, so sequential awaits add latencies for nothing. Parallel fan-out makes the response as slow as the slowest call."
+  },
+  {
+    "question": "The recommendations service is down. How should the product page BFF respond?",
+    "options": [
+      "500 for the whole page",
+      "Retry until it comes back",
+      "Return the page data with an empty recommendations list and an explicit flag so the UI can hide or explain the section",
+      "Return the last error message from the service to the browser"
+    ],
+    "answer": 2,
+    "explanation": "Secondary data should degrade gracefully. Critical data (the product itself) is what decides whether the page fails."
+  },
+  {
+    "question": "The web BFF and the mobile BFF both implement the discount rules, and they now disagree. What is the underlying mistake?",
+    "options": [
+      "Having two BFFs",
+      "Business logic living in the BFFs instead of a domain service; BFFs should orchestrate and shape, not own rules",
+      "Not using TypeScript",
+      "Not using an API gateway"
+    ],
+    "answer": 1,
+    "explanation": "Duplicated business logic is the classic BFF risk. Keep rules in one domain service that every BFF calls."
+  },
+  {
+    "question": "In a Next.js App Router project, which of these can play the role of a BFF?",
+    "options": [
+      "Only a separate Express server",
+      "Route Handlers, Server Actions and Server Components fetching and shaping upstream data on the server",
+      "Client components using `useEffect`",
+      "The CDN cache"
+    ],
+    "answer": 1,
+    "explanation": "Meta-frameworks run server code next to the UI, which makes the server half of the app a natural BFF owned by the same team."
+  }
+]

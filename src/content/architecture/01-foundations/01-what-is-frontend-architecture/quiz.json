@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which statement best describes React's role in an application's architecture?",
+    "options": [
+      "React is a full framework that decides routing, rendering and data fetching",
+      "React only works as a single page application",
+      "React is a UI library: it renders state into UI, and the rendering location, code organization, data ownership and deploy model are decided elsewhere",
+      "React decides the folder structure through its conventions"
+    ],
+    "answer": 2,
+    "explanation": "React is the view layer. Frameworks (Next.js, React Router, TanStack Start) or your own decisions fill in the rest."
+  },
+  {
+    "question": "A team says: \"Our product pages are slow to show content on mobile, so we should split the app into micro-frontends.\" What is wrong with the reasoning?",
+    "options": [
+      "Nothing, micro-frontends always make pages faster",
+      "It mixes layers: slow first content is a rendering problem (layer 1), micro-frontends answer team and deploy scale (layer 4)",
+      "Micro-frontends cannot be used with React",
+      "The problem is the folder structure"
+    ],
+    "answer": 1,
+    "explanation": "The four layers are independent. Fix a rendering problem with a rendering decision (SSR, SSG, streaming), not with a scale decision."
+  },
+  {
+    "question": "Which of these is an architectural decision rather than component design?",
+    "options": [
+      "Whether features may import each other's internal files or only their public `index.js`",
+      "Whether a `Modal` receives `isOpen` as a prop or manages it internally",
+      "Naming the click handler `handleClick` or `onSave`",
+      "Splitting a large component into two smaller ones"
+    ],
+    "answer": 0,
+    "explanation": "Dependency rules between features affect the whole codebase and are expensive to reverse. The other options have a local blast radius."
+  },
+  {
+    "question": "A project moves every file from `components/` into `features/<name>/`, but any file can still import any other file. What changed architecturally?",
+    "options": [
+      "Everything: the app is now feature-based",
+      "The rendering model changed from CSR to SSR",
+      "The app became a modular monolith",
+      "Very little: the folder structure changed, but without boundaries (public APIs, dependency rules) the coupling is the same"
+    ],
+    "answer": 3,
+    "explanation": "Folder structure is a consequence of a code organization decision. The decision is the boundary and its enforcement, not the folder names."
+  },
+  {
+    "question": "Running a starter template that produces a client-rendered single bundle is best described as:",
+    "options": [
+      "Not an architectural decision, because nobody chose it",
+      "A mistake that must be replaced by SSR",
+      "An implicit decision in the rendering and scale layers: valid, but worth naming so it can be revisited",
+      "A code organization decision"
+    ],
+    "answer": 2,
+    "explanation": "Defaults are decisions. They are often right, but naming them lets the team notice when a requirement (SEO, many teams) invalidates them."
+  },
+  {
+    "question": "Which pair of choices can coexist in the same application?",
+    "options": [
+      "Feature-based organization and a by-type organization in the same module",
+      "SSG for the marketing routes and a SPA for the logged-in dashboard",
+      "Only one rendering model for the whole product",
+      "A modular monolith and SSR are mutually exclusive"
+    ],
+    "answer": 1,
+    "explanation": "Rendering is usually decided per route, and it is independent from organization and scale decisions."
+  }
+]

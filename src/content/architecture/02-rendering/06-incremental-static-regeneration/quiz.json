@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A product page uses `revalidate: 300`. It was generated at 10:00. The price changes at 10:01 and the next visit happens at 10:07. What does that visitor see?",
+    "options": [
+      "The new price, because the page is older than 5 minutes",
+      "The old price, and the visit triggers a background regeneration; later visitors see the new price",
+      "A loading state while the page regenerates",
+      "The old price until the next deploy"
+    ],
+    "answer": 1,
+    "explanation": "Stale-while-revalidate: the first request after expiry receives the cached (stale) HTML instantly and starts the regeneration."
+  },
+  {
+    "question": "Why must a regeneration be deduplicated per path?",
+    "options": [
+      "React cannot render the same page twice",
+      "So a popular page that expires does not start one render per concurrent request and overload the CMS or database",
+      "Because CDNs reject duplicate HTML",
+      "To keep the hydration bundle small"
+    ],
+    "answer": 1,
+    "explanation": "Hundreds of requests can hit an expired page in the same second. One shared regeneration avoids a thundering herd on the data source."
+  },
+  {
+    "question": "The CMS is down when a page tries to regenerate. What should an ISR server do?",
+    "options": [
+      "Serve a 500 error until the CMS is back",
+      "Delete the page from the cache",
+      "Keep serving the last good HTML and try again on a later request",
+      "Fall back to client-side rendering for every visitor"
+    ],
+    "answer": 2,
+    "explanation": "A failed regeneration must not replace a working page. Visitors keep getting the last successful version."
+  },
+  {
+    "question": "Editors want published changes live within seconds, but renders are expensive and most pages change once a month. Which setup fits?",
+    "options": [
+      "`revalidate: 1` on every page",
+      "SSR on every request",
+      "A long (or no) time window plus on-demand `revalidatePath`/`revalidateTag` from a CMS publish webhook",
+      "A full rebuild on every publish"
+    ],
+    "answer": 2,
+    "explanation": "On-demand revalidation refreshes exactly the affected pages when data changes, so the timer can be long and renders stay rare."
+  },
+  {
+    "question": "Which data should NOT rely on ISR alone?",
+    "options": [
+      "A blog post body",
+      "The stock count shown on the checkout step",
+      "A product description",
+      "A category landing page"
+    ],
+    "answer": 1,
+    "explanation": "ISR pages can be stale for a whole window and are shared by every visitor. Data that must be exact at the moment of the decision is fetched per request."
+  }
+]

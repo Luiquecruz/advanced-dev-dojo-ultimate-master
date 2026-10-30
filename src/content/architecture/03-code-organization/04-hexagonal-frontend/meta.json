@@ -1,0 +1,13 @@
+{
+  "title": "Hexagonal Frontend",
+  "summary": "Ports and adapters in React: pure domain rules, a use case behind a port, HTTP and in-memory adapters, and a composition root that injects them through Context.",
+  "level": "advanced",
+  "tags": ["core", "testing"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "Alistair Cockburn: Hexagonal Architecture", "url": "https://alistair.cockburn.us/hexagonal-architecture/" },
+    { "label": "Robert C. Martin: The Clean Architecture", "url": "https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html" },
+    { "label": "Mark Seemann: Composition Root", "url": "https://blog.ploeh.dk/2011/07/28/CompositionRoot/" },
+    { "label": "react.dev: Passing Data Deeply with Context", "url": "https://react.dev/learn/passing-data-deeply-with-context" }
+  ]
+}

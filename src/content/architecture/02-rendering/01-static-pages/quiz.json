@@ -1,0 +1,46 @@
+[
+  {
+    "question": "For hand-written static pages, where and when is the HTML generated?",
+    "options": [
+      "On the server, on every request",
+      "In the browser, after the JavaScript bundle loads",
+      "By the author, before deployment; the server only sends existing files",
+      "At build time, by a static site generator"
+    ],
+    "answer": 2,
+    "explanation": "Nothing is computed per request or per build: the file on disk is the response. That is why static pages are the baseline for cost, speed and security."
+  },
+  {
+    "question": "Why is `index.html` usually served with `Cache-Control: no-cache` while `app.3f9a1c.css` gets `max-age=31536000, immutable`?",
+    "options": [
+      "HTML files are larger than CSS files",
+      "The HTML URL never changes between deploys, so it must be revalidated; the fingerprinted CSS gets a new URL whenever its content changes",
+      "Browsers cannot cache HTML",
+      "`immutable` only works for stylesheets"
+    ],
+    "answer": 1,
+    "explanation": "Fingerprinting moves versioning into the URL. The HTML is the entry point that references the new asset names, so it has to stay fresh."
+  },
+  {
+    "question": "What does `Cache-Control: no-cache` mean?",
+    "options": [
+      "The response must never be stored",
+      "The response may be stored but must be revalidated with the server before each use",
+      "The response expires after one hour",
+      "Only CDNs may cache the response"
+    ],
+    "answer": 1,
+    "explanation": "`no-store` is the directive that forbids storing. `no-cache` allows a cheap `304 Not Modified` revalidation."
+  },
+  {
+    "question": "Which cost of static pages pushed the web toward server-side frameworks such as MVC?",
+    "options": [
+      "Slow time to first byte",
+      "A large JavaScript bundle",
+      "Shared layout duplicated in every file and no per-request or per-user data",
+      "Hydration mismatches"
+    ],
+    "answer": 2,
+    "explanation": "Static pages are the fastest and cheapest model, but every header, menu and price lives in hand-edited files and nothing can depend on the request."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Server-side rendering (SSR)", "description": "The server renders the React tree to HTML on every request; the client then hydrates it." },
+  { "term": "Hydration", "description": "`hydrateRoot` renders the same tree on the client, adopts the existing DOM nodes and attaches event listeners. Requires an identical first render." },
+  { "term": "Serialized data", "description": "The data the server rendered with, embedded in the HTML (for example a `type=\"application/json\"` script) so the client hydrates without refetching." },
+  { "term": "Script injection via JSON", "description": "`JSON.stringify` leaves `</script>` intact; embedding it in HTML closes the tag early. Escape `<` as `\\u003c`." },
+  { "term": "TTFB", "description": "Time to first byte. SSR raises it because data loading and rendering happen before the response starts." },
+  { "term": "FCP / LCP", "description": "First and Largest Contentful Paint. SSR improves them over a SPA because content arrives in the first response." },
+  { "term": "Streaming SSR", "description": "`renderToPipeableStream` / `renderToReadableStream` send the shell first and stream `<Suspense>` boundaries as their data resolves." }
+]

@@ -1,0 +1,12 @@
+{
+  "title": "From Monolith to Micro-Frontends",
+  "summary": "The spectrum of deploy coupling (monolith, modular monolith, monorepo, micro-frontends), Conway's law, what each step costs and the signals that justify moving right.",
+  "level": "advanced",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Martin Fowler: Micro Frontends (Cam Jackson)", "url": "https://martinfowler.com/articles/micro-frontends.html" },
+    { "label": "Martin Fowler: Conway's Law", "url": "https://martinfowler.com/bliki/ConwaysLaw.html" },
+    { "label": "Martin Fowler: Monolith First", "url": "https://martinfowler.com/bliki/MonolithFirst.html" },
+    { "label": "micro-frontends.org", "url": "https://micro-frontends.org/" }
+  ]
+}

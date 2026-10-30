@@ -1,0 +1,13 @@
+{
+  "title": "Module Federation, Monorepos and Design Systems",
+  "summary": "The tooling of frontends at scale: Module Federation remotes and shared singletons, single-spa and iframes, Nx and Turborepo task graphs and caching, and the design system as a versioned platform.",
+  "level": "advanced",
+  "tags": ["theory", "ecosystem"],
+  "resources": [
+    { "label": "Module Federation documentation", "url": "https://module-federation.io/" },
+    { "label": "webpack: Module Federation", "url": "https://webpack.js.org/concepts/module-federation/" },
+    { "label": "single-spa: Getting started", "url": "https://single-spa.js.org/docs/getting-started-overview" },
+    { "label": "Turborepo documentation", "url": "https://turborepo.com/docs" },
+    { "label": "IBM Carbon Design System", "url": "https://carbondesignsystem.com/" }
+  ]
+}

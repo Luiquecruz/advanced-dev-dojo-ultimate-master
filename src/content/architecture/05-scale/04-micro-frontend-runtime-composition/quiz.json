@@ -1,0 +1,52 @@
+[
+  {
+    "question": "Why does the shell agree on `mount(element, props)` returning `unmount` instead of rendering each micro-frontend as a React component?",
+    "options": [
+      "Because React components cannot be loaded at runtime",
+      "It keeps the shell framework-agnostic: each team can use React, Vue or plain DOM and upgrade independently",
+      "It is faster than React rendering",
+      "Because `createRoot` is deprecated"
+    ],
+    "answer": 1,
+    "explanation": "A plain function contract is the smallest shared surface. Rendering components directly would force one framework and often one version on every team."
+  },
+  {
+    "question": "Navigating from the React profile to the checkout removes the profile's DOM, but memory keeps growing and old listeners still fire. What was skipped?",
+    "options": [
+      "Calling the `unmount` returned by `mount`, so the React root, effects and listeners were never cleaned up",
+      "Clearing the browser cache",
+      "Using `key` on the container",
+      "Calling `load()` again"
+    ],
+    "answer": 0,
+    "explanation": "Removing nodes does not unmount a React root. Only `root.unmount()` runs effect cleanups and releases the tree."
+  },
+  {
+    "question": "Which composition type does NOT allow a team to deploy without the host being rebuilt?",
+    "options": ["Client-side runtime composition", "Server-side composition with ESI", "Build-time composition through npm packages", "Edge composition"],
+    "answer": 2,
+    "explanation": "With build-time packages, a new version only reaches users when the host bumps the dependency, rebuilds and redeploys."
+  },
+  {
+    "question": "How should the checkout micro-frontend ask the shell to go to the profile?",
+    "options": [
+      "Import the profile micro-frontend and call its `mount`",
+      "Write to a global Redux store shared by every micro-frontend",
+      "Dispatch a documented `CustomEvent` (or change the URL) that the shell listens to",
+      "Reload the page with `location.reload()`"
+    ],
+    "answer": 2,
+    "explanation": "Events and URLs are loose, platform-level contracts. Direct imports and shared stores couple deploys again."
+  },
+  {
+    "question": "The shell caches the promise returned by `load()` per micro-frontend. What should happen when that promise rejects?",
+    "options": [
+      "Keep the rejected promise forever",
+      "Show a fallback for that slot and evict the cache entry so a later navigation can retry",
+      "Reload the entire page",
+      "Throw from `navigate` so the shell stops"
+    ],
+    "answer": 1,
+    "explanation": "A transient network error should not poison the cache, and one failing micro-frontend must not break the shell."
+  }
+]

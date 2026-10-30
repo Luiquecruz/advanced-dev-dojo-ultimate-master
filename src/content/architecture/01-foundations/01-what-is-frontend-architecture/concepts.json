@@ -1,0 +1,7 @@
+[
+  { "term": "UI library", "description": "React renders state into UI and reconciles the DOM. Routing, data loading, rendering location and project structure are left to you or to a framework." },
+  { "term": "Frontend architecture", "description": "The set of decisions that affect the whole application and are expensive to reverse: rendering model, code organization, data ownership and how teams and deploys scale." },
+  { "term": "The four decision layers", "description": "1. where and when it renders, 2. how code is organized, 3. how state and data are managed, 4. how it scales across teams and deploys. Each layer is decided independently." },
+  { "term": "Component design", "description": "Decisions inside a component or a small family (props, composition, local state). Cheap to change, limited blast radius." },
+  { "term": "Implicit decision", "description": "A choice made by a template, a default or a habit without anyone naming it, such as client-side rendering from a starter template." }
+]

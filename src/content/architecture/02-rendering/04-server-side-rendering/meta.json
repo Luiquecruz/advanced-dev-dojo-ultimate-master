@@ -1,0 +1,13 @@
+{
+  "title": "Server-Side Rendering",
+  "summary": "Render per request on the server, embed the data safely in the HTML and hydrate it on the client without refetching; then weigh TTFB, LCP and hydration cost.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "react.dev: renderToString", "url": "https://react.dev/reference/react-dom/server/renderToString" },
+    { "label": "react.dev: hydrateRoot", "url": "https://react.dev/reference/react-dom/client/hydrateRoot" },
+    { "label": "react.dev: renderToPipeableStream", "url": "https://react.dev/reference/react-dom/server/renderToPipeableStream" },
+    { "label": "web.dev: Time to First Byte", "url": "https://web.dev/articles/ttfb" }
+  ]
+}

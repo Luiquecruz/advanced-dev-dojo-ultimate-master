@@ -1,0 +1,7 @@
+[
+  { "term": "Classification rule", "description": "Before adding a global library, ask whether the state is remote, URL, form or really UI state. Each kind has its own home." },
+  { "term": "Source of truth", "description": "The single owner of a value. Remote data is owned by the server; the client only caches it. A second copy needs syncing and drifts." },
+  { "term": "State machine", "description": "Explicit states and allowed transitions for a multi-step flow (checkout, upload, wizard), so impossible combinations cannot be represented." },
+  { "term": "Normalized cache", "description": "GraphQL clients (Apollo, Relay) store entities by type and id, so an updated entity refreshes every query that includes it without invalidation." },
+  { "term": "State map", "description": "An architecture artifact listing every piece of state with its kind, its home and the reason. Exposes duplicates and guides promotion decisions." }
+]

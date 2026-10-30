@@ -1,0 +1,13 @@
+{
+  "title": "Feature Modules and Public APIs",
+  "summary": "Turn feature folders into modules: an explicit index.js per feature, no deep imports across features, and duplicated helpers moved down to shared.",
+  "level": "intermediate",
+  "tags": ["core", "modern"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "Bulletproof React: Project Structure", "url": "https://github.com/alan2207/bulletproof-react/blob/master/docs/project-structure.md" },
+    { "label": "Feature-Sliced Design: Public API", "url": "https://feature-sliced.design/docs/reference/public-api" },
+    { "label": "eslint-plugin-import: no-restricted-paths", "url": "https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-restricted-paths.md" },
+    { "label": "MDN: export", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export" }
+  ]
+}

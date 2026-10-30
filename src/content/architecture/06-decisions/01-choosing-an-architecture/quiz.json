@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An electronics store has 80,000 product pages. Prices and stock change several times a day from the ERP, and pages must rank on search engines. Which rendering fits the product pages?",
+    "options": [
+      "ISR with on-demand revalidation triggered by ERP price and stock events",
+      "Client-side rendering with a loading spinner",
+      "SSG rebuilt every night",
+      "Micro-frontends per category"
+    ],
+    "answer": 0,
+    "explanation": "Pages stay static and cheap to serve, while a price event regenerates the affected page immediately. A nightly build would be stale for hours."
+  },
+  {
+    "question": "A 12-year-old server-rendered MVC application needs a richer product configurator. What is the recommended path?",
+    "options": [
+      "Rewrite everything as a SPA before shipping the configurator",
+      "Split it into micro-frontends first",
+      "Move the configurator to an iframe served by another company",
+      "Keep the MVC app, mount the configurator as a React island, and migrate route by route when there is value"
+    ],
+    "answer": 3,
+    "explanation": "Big-bang rewrites delay value and carry high risk. Islands add interactivity where needed while the rest keeps working."
+  },
+  {
+    "question": "A web app, an iOS app and a smart-TV app consume the same 15 microservices, and each client needs different payload shapes. What fits?",
+    "options": [
+      "One generic API gateway that returns every field to every client",
+      "Each client calls the 15 services directly",
+      "A Backend for Frontend per client, owned by each client team, aggregating and shaping data",
+      "Server Components in the iOS app"
+    ],
+    "answer": 2,
+    "explanation": "A BFF per client tailors aggregation and payloads to each experience, without forcing one compromise API on all of them."
+  },
+  {
+    "question": "Five teams work on one React product. Merge conflicts and unclear ownership slow them down, but they still release together every week without complaints. What is the best next step?",
+    "options": [
+      "Adopt micro-frontends with Module Federation immediately",
+      "Modular monolith with explicit module boundaries and ownership, in a monorepo with a shared design system; evaluate micro-frontends later if independent deploys become necessary",
+      "Move everything into a global Redux store",
+      "Split the product into five separate websites"
+    ],
+    "answer": 1,
+    "explanation": "The pain is code ownership, not deploy coupling. Boundaries and ownership solve it at a fraction of the operational cost of micro-frontends."
+  },
+  {
+    "question": "A B2B portal behind login has complex contract pricing rules that change often and must be heavily tested. Which choice addresses the pricing rules specifically?",
+    "options": [
+      "A domain layer separated from React (hexagonal), with pricing use cases tested without UI or network",
+      "SSR for every page",
+      "Putting the rules in `useEffect` hooks",
+      "ISR with a short revalidation window"
+    ],
+    "answer": 0,
+    "explanation": "Business complexity is an organization concern. A pure domain behind ports keeps rules testable and independent of the UI framework."
+  },
+  {
+    "question": "Which statement about choosing an architecture is correct?",
+    "options": [
+      "The whole product must use one rendering model",
+      "The most scalable option should always be chosen upfront",
+      "The framework's defaults are the architecture, so no decision is needed",
+      "Rendering is decided per route, organization per module, state per kind of state, and scale per organization"
+    ],
+    "answer": 3,
+    "explanation": "The four layers are independent, and within a layer the decision is usually more granular than the whole product."
+  }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "Per-route rendering", "description": "Each route picks its rendering model (SSG, ISR, SSR, SPA) according to data freshness and indexing needs." },
+  { "term": "Dominant quality attribute", "description": "The attribute that ranks first for a context (SEO, freshness, autonomy, testability). The architecture is chosen to satisfy it with the least complexity." },
+  { "term": "Briefing", "description": "A short description of users, SEO needs, data freshness, team count, deploy cadence and business complexity: the input of an architecture decision." },
+  { "term": "On-demand revalidation", "description": "ISR variant where a backend event (price change, CMS publish) regenerates a page immediately instead of waiting for a timer." },
+  { "term": "Islands migration", "description": "Keeping a legacy server-rendered app and adding interactive React islands, then migrating route by route." }
+]

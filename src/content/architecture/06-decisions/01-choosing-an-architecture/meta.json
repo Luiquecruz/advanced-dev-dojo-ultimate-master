@@ -1,0 +1,12 @@
+{
+  "title": "Choosing an Architecture",
+  "summary": "A context-driven decision guide: pick the simplest option per layer and per route for the product, the data freshness and the teams you actually have.",
+  "level": "advanced",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "patterns.dev: Rendering Patterns", "url": "https://www.patterns.dev/vanilla/rendering-patterns" },
+    { "label": "Sam Newman: Backends For Frontends", "url": "https://samnewman.io/patterns/architectural/bff/" },
+    { "label": "Cam Jackson: Micro Frontends", "url": "https://martinfowler.com/articles/micro-frontends.html" },
+    { "label": "Next.js: Incremental Static Regeneration", "url": "https://nextjs.org/docs/app/guides/incremental-static-regeneration" }
+  ]
+}

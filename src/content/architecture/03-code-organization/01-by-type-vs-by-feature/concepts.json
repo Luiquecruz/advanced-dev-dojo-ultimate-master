@@ -1,0 +1,8 @@
+[
+  { "term": "By-type structure", "description": "Top-level folders named after technical kinds (`components/`, `hooks/`, `services/`). Simple at first; scatters each feature across the tree as the app grows." },
+  { "term": "By-feature structure", "description": "Top-level folders named after domain areas (`features/cart`, `features/catalog`), each holding its own components, hooks and API calls." },
+  { "term": "Screaming architecture", "description": "Robert C. Martin's idea that the folder structure should announce the business domain, not the framework." },
+  { "term": "Bulletproof React", "description": "A reference React project: feature folders, no cross-feature imports, unidirectional `shared → features → app` flow enforced by ESLint." },
+  { "term": "Colocation", "description": "Keep code next to where it is used; promote it outward only when a second real consumer appears." },
+  { "term": "Shared layer", "description": "Domain-free building blocks: UI primitives, generic hooks, the API client, formatting, config. Never imports features." }
+]

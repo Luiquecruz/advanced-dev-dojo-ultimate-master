@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A screen shows an empty list instead of an error when the backend returns 500. The component does `fetch(url).then((response) => response.json())`. Where does the fix belong?",
+    "options": [
+      "In every component: wrap the call in `try/catch`",
+      "In the shared API client: check `response.ok` and throw a typed `ApiError` with the status",
+      "In the backend: never return 500",
+      "In TanStack Query: set `retry: 10`"
+    ],
+    "answer": 1,
+    "explanation": "`fetch` only rejects on network failures. Mapping non-2xx responses to a typed error once, in the client, gives every query a real error state with a status."
+  },
+  {
+    "question": "After creating a product, every product list and detail must refresh. Which design makes that one line?",
+    "options": [
+      "Keys like `['products-list-' + term]` and `['product-' + id]`",
+      "Hierarchical keys built from `productQueries.all().queryKey`, then `invalidateQueries({ queryKey: productQueries.all().queryKey })`",
+      "Calling `window.location.reload()`",
+      "Storing products in a global store and clearing it"
+    ],
+    "answer": 1,
+    "explanation": "Query filters match by prefix. When every product key starts with `['products']`, one invalidation reaches lists, searches and details."
+  },
+  {
+    "question": "Where should `features/orders` find the URL of the products endpoint?",
+    "options": [
+      "Nowhere: it imports `productQueries` from the products feature's public API (`features/products/index.js`)",
+      "It copies the URL into its own `api.js`",
+      "From a global `URLS` constant used by every feature",
+      "From `features/products/api.js` directly with a deep import"
+    ],
+    "answer": 0,
+    "explanation": "The feature that owns a resource owns its definition. Others reuse the query factory through the public API, so URLs and keys are never duplicated."
+  },
+  {
+    "question": "What does wrapping a definition in `queryOptions` buy you?",
+    "options": [
+      "It fetches the data immediately",
+      "It makes the query global",
+      "The key, `queryFn` and options are defined once (and typed together), and the same object works with `useQuery`, `prefetchQuery`, `fetchQuery` and `getQueryData`",
+      "It disables caching for that query"
+    ],
+    "answer": 2,
+    "explanation": "`queryOptions` returns its argument; its value is co-location and type inference, so every consumer, including server prefetching, uses exactly the same definition."
+  }
+]

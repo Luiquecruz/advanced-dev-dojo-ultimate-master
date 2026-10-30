@@ -1,6 +1,6 @@
 {
   "engine": "node",
-  "order": 6,
+  "order": 7,
   "title": "Node.js",
   "monogram": "N",
   "description": "Backend for frontend developers: the runtime and event loop, async patterns, streams and files, HTTP from scratch, REST APIs with Hono and Zod, paradigms, architecture, data structures, persistence, security, scaling and TypeScript on the server, with when-to-choose guidance for every approach.",

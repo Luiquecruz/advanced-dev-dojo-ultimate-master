@@ -1,0 +1,8 @@
+[
+  { "term": "Islands architecture", "description": "A static HTML page with independent interactive widgets (islands) that ship JavaScript and hydrate on their own." },
+  { "term": "Partial hydration", "description": "Hydrating only some parts of the page instead of the whole document. Static parts ship zero JavaScript." },
+  { "term": "Island marker", "description": "The element that wraps an island's server HTML and records the component and its serialized props (`data-island`, Astro's `<astro-island>`)." },
+  { "term": "Client directive", "description": "Astro's `client:load`, `client:idle`, `client:visible`, `client:media` and `client:only` decide whether and when a component hydrates." },
+  { "term": "Serializable props", "description": "Props that survive JSON: strings, numbers, booleans, arrays and plain objects. Functions and class instances cannot cross into an island." },
+  { "term": "Server island", "description": "Astro's `server:defer`: a personalized fragment rendered separately on the server and inserted into an otherwise cached page." }
+]

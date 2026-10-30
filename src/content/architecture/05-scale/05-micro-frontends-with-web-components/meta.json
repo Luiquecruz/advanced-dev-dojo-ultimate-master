@@ -1,0 +1,13 @@
+{
+  "title": "Micro-Frontends with Web Components",
+  "summary": "Wrap a React widget in a custom element: lifecycle callbacks drive the React root, attributes go in, bubbling CustomEvents come out, and a React 19 host consumes it.",
+  "level": "expert",
+  "tags": ["core", "new"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "MDN: Using custom elements", "url": "https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements" },
+    { "label": "MDN: Using shadow DOM", "url": "https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM" },
+    { "label": "React 19 release: custom elements support", "url": "https://react.dev/blog/2024/12/05/react-19#support-for-custom-elements" },
+    { "label": "Custom Elements Everywhere", "url": "https://custom-elements-everywhere.com/" }
+  ]
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "question": "In a server-rendered MVC app, which part decides that `/products/99` answers with status 404?",
+    "options": ["The model", "The view", "The controller", "The browser"],
+    "answer": 2,
+    "explanation": "The model reports that the record does not exist; the controller owns the request flow, so it chooses the status and the view to render."
+  },
+  {
+    "question": "What problem of static pages did server-rendered MVC solve, and what new cost did it introduce?",
+    "options": [
+      "It removed JavaScript; it introduced hydration",
+      "It added dynamic data and shared layouts; every request now runs code on a server and every navigation reloads the full page",
+      "It made pages cacheable; it broke SEO",
+      "It reduced bundle size; it introduced a blank screen before JS loads"
+    ],
+    "answer": 1,
+    "explanation": "A program per request brings data and reuse, at the price of server cost per request and full page reloads."
+  },
+  {
+    "question": "Why should a view never call `fetch` or query the database itself?",
+    "options": [
+      "Views cannot be async in any framework",
+      "It hides data access (and N+1 queries) inside markup and makes the view impossible to render with plain test data",
+      "Fetching is slower inside templates",
+      "Browsers block requests from templates"
+    ],
+    "answer": 1,
+    "explanation": "A view that only receives data is a pure function: easy to test, reuse and reason about. Data access belongs to the model, orchestrated by the controller."
+  },
+  {
+    "question": "Which modern construct plays the controller role?",
+    "options": [
+      "A `useEffect` that fetches data",
+      "A CSS module",
+      "A React Router 7 / Remix route `loader` (or a Next.js route handler)",
+      "A Zustand store"
+    ],
+    "answer": 2,
+    "explanation": "A loader reads the request, calls the data layer and hands data to the route component, exactly what an MVC controller does."
+  }
+]

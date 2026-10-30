@@ -1,6 +1,6 @@
 {
   "engine": "angular",
-  "order": 5,
+  "order": 6,
   "title": "Angular",
   "monogram": "A",
   "description": "Standalone components, signals, zoneless change detection, DI, RxJS, Router, Signal Forms and NgRx, plus NgModules and decorator-era APIs.",

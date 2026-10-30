@@ -1,0 +1,46 @@
+[
+  {
+    "question": "The team moves from REST to GraphQL for orders. In a hexagonal frontend, what changes?",
+    "options": [
+      "The domain and every component that places orders",
+      "The use case, because it must build the GraphQL query",
+      "Nothing can change without rewriting the app",
+      "A new adapter implementing `orderGateway` with GraphQL, and one line in the composition root"
+    ],
+    "answer": 3,
+    "explanation": "Only adapters know the transport. The port stays the same, so domain, use case and UI are untouched."
+  },
+  {
+    "question": "Where should `createHttpOrderGateway('/api/orders')` be called?",
+    "options": [
+      "Inside `placeOrder`, so each call gets a fresh gateway",
+      "Inside the `Checkout` component",
+      "In the composition root (`App.jsx` / `main.jsx`), which then injects the use case into the UI",
+      "In `domain/order.js`"
+    ],
+    "answer": 2,
+    "explanation": "Choosing concrete implementations is the composition root's single job. Everything else receives its dependencies."
+  },
+  {
+    "question": "How do you test the free-shipping rule in this architecture?",
+    "options": [
+      "Call `createOrder(items)` with plain objects and assert on the result: no DOM, no network",
+      "Render the checkout, mock `fetch`, click the button and inspect the request",
+      "Only with end-to-end tests",
+      "Through the HTTP adapter with a mocked server"
+    ],
+    "answer": 0,
+    "explanation": "Rules live in the domain as pure functions, so the most important logic gets the cheapest, fastest tests."
+  },
+  {
+    "question": "A screen only lists users from `GET /api/users` and shows them. Should you add a domain, a `UserGateway` port and adapters?",
+    "options": [
+      "Yes, every screen must follow hexagonal architecture",
+      "No: there are no rules to protect; a query hook over an API client is the adapter and is enough",
+      "Yes, but only the in-memory adapter",
+      "No, because hexagonal architecture is only for backends"
+    ],
+    "answer": 1,
+    "explanation": "Ports and adapters pay off where the frontend owns business rules. For read-only CRUD they are ceremony; mixing both styles in one app is normal."
+  }
+]

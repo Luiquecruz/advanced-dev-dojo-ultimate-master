@@ -1,0 +1,8 @@
+[
+  { "term": "Server Component", "description": "The default in RSC frameworks. Runs only on the server (build or request), may be `async` and read data directly, ships no JavaScript, has no state or event handlers." },
+  { "term": "Client Component", "description": "A component in the client module graph, entered through a `'use client'` file. Prerendered to HTML, then hydrated; may use state, effects and browser APIs." },
+  { "term": "`'use client'`", "description": "Directive at the top of a file that marks the boundary from the server graph to the client graph. The file and everything it imports join the bundle." },
+  { "term": "`'use server'`", "description": "Marks Server Functions the client can call over the network (Server Actions for forms and mutations). Every one is a public endpoint." },
+  { "term": "RSC payload", "description": "Serialized description of the rendered tree: Server Component output plus references to Client Components and their props. Used for hydration and client navigation." },
+  { "term": "Children as slots", "description": "A Server Component passed as `children` or a JSX prop into a Client Component stays server-only; the client receives its rendered output." }
+]

@@ -1,0 +1,14 @@
+{
+  "title": "Static Pages",
+  "summary": "Hand-written HTML served as-is: index files, content types, cache headers, 404 pages and path traversal, the baseline for every other rendering model.",
+  "level": "beginner",
+  "tags": ["core", "theory", "performance"],
+  "preview": false,
+  "entry": "server.js",
+  "resources": [
+    { "label": "MDN: HTTP caching", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" },
+    { "label": "MDN: Cache-Control", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control" },
+    { "label": "OWASP: Path Traversal", "url": "https://owasp.org/www-community/attacks/Path_Traversal" },
+    { "label": "web.dev: Rendering on the Web", "url": "https://web.dev/articles/rendering-on-the-web" }
+  ]
+}

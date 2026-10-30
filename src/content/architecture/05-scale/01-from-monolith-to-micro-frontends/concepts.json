@@ -1,0 +1,8 @@
+[
+  { "term": "Conway's law", "description": "Systems mirror the communication structure of the organization that builds them. Team boundaries and code boundaries tend to converge." },
+  { "term": "Inverse Conway maneuver", "description": "Shaping teams around the architecture you want, so the organization reinforces the boundaries instead of eroding them." },
+  { "term": "Modular monolith", "description": "One build and one deploy split into domain modules with public APIs, enforced boundaries and clear ownership." },
+  { "term": "Monorepo", "description": "One repository holding several apps and internal packages, with tooling (Nx, Turborepo) that builds and tests only what changed." },
+  { "term": "Micro-frontends", "description": "Independently built and deployed frontend applications composed into one product at build time, on the server, at the edge or in the browser." },
+  { "term": "Distributed monolith", "description": "Separately deployed parts that still must ship together or share internals: the costs of distribution without its independence." }
+]

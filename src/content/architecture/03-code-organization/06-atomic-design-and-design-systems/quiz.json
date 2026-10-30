@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Classify: (1) `Icon`, (2) a search field made of a label, an input and a button, (3) the site header with logo, navigation, search and cart, (4) a checkout layout with placeholder blocks.",
+    "options": [
+      "(1) molecule · (2) atom · (3) template · (4) organism",
+      "(1) atom · (2) molecule · (3) organism · (4) template",
+      "(1) atom · (2) organism · (3) page · (4) molecule",
+      "(1) token · (2) atom · (3) molecule · (4) page"
+    ],
+    "answer": 1,
+    "explanation": "Atoms are indivisible elements, molecules small groups with one job, organisms complex sections, templates layouts without real content; pages are templates with real data."
+  },
+  {
+    "question": "A team proposes reorganizing the whole app into `atoms/`, `molecules/`, `organisms/`, `templates/`, `pages/`. What is the main problem?",
+    "options": [
+      "It is a by-type layout: domain code (cart, checkout) gets scattered across levels, far from its hooks and API, with no domain boundaries",
+      "React cannot import from folders with those names",
+      "Atomic Design forbids folders",
+      "Organisms cannot contain state"
+    ],
+    "answer": 0,
+    "explanation": "Atomic Design classifies generic UI. Applied to the whole app it separates code by granularity instead of by domain. Keep it for `shared/ui` or the design system; organize the app by feature."
+  },
+  {
+    "question": "Your product must support dark mode and a white-label customer with different brand colors. Which setup makes this cheapest?",
+    "options": [
+      "Hex colors inside each component, changed with find and replace",
+      "A `theme` prop on every component",
+      "Components that use only semantic tokens (`color-action-primary`) mapped to primitives, so each theme just remaps token values",
+      "Separate copies of the component library per customer"
+    ],
+    "answer": 2,
+    "explanation": "Semantic tokens decouple intent from value. A theme is a new mapping of tokens, usually as CSS custom properties, and components do not change."
+  },
+  {
+    "question": "Which `Button` API is best for a design system?",
+    "options": [
+      "`<Button isPrimary isLarge hasLeftIcon isCartButton onAddToCart />`",
+      "A different component for every screen: `CheckoutButton`, `HeaderButton`, `CartButton`",
+      "A button that reads the cart store to decide its label",
+      "`<Button variant=\"primary\" size=\"lg\" {...rest}>` that forwards native props, refs and `aria-*`, with icons passed as children or a slot"
+    ],
+    "answer": 3,
+    "explanation": "Consistent, small variant props plus native passthrough keep the component flexible and accessible. Domain knowledge (the cart) belongs in features that compose the button."
+  },
+  {
+    "question": "How do a design system and feature folders relate in a well-structured React app?",
+    "options": [
+      "They are alternatives: choose one",
+      "The design system lives inside one feature, and other features import it from there",
+      "The design system (atoms, molecules) is the shared UI layer or a package; features build domain organisms from it; pages compose features",
+      "Features must not use design system components"
+    ],
+    "answer": 2,
+    "explanation": "The design system is domain-free, so it sits at the bottom (`shared/ui` or an npm package). Features and pages above it compose it with domain logic."
+  },
+  {
+    "question": "When is it worth building a separately versioned design system package instead of a `shared/ui` folder?",
+    "options": [
+      "When several apps or teams must share consistent UI and need versioning, documentation and ownership of the components",
+      "Always, from the first component",
+      "Only when using TypeScript",
+      "Never: design systems are a designers' concern"
+    ],
+    "answer": 0,
+    "explanation": "A package adds release, documentation and governance cost. It pays off when consistency across multiple products or teams matters; a single app is served by a disciplined `shared/ui`."
+  }
+]

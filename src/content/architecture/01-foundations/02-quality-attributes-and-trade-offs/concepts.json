@@ -1,0 +1,7 @@
+[
+  { "term": "Quality attribute", "description": "A property the system must have beyond its features: performance, SEO, maintainability, testability, team autonomy, cost, accessibility, availability." },
+  { "term": "Trade-off", "description": "Improving one attribute by paying with another. SSR buys SEO and first paint with server cost; a SPA buys cheap hosting with first-load performance." },
+  { "term": "Core Web Vitals", "description": "Google's user-centric performance metrics: LCP (loading), INP (responsiveness) and CLS (visual stability)." },
+  { "term": "Blast radius", "description": "How much of the system a change can affect. Low coupling keeps it small and maintainability high." },
+  { "term": "Attribute ranking", "description": "An ordered list of the quality attributes that matter for a product. It turns opinion debates into explicit choices." }
+]

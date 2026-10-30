@@ -1,0 +1,12 @@
+{
+  "title": "Atomic Design and Design Systems",
+  "summary": "Atoms to pages, why the hierarchy fits a design system better than app structure, design tokens, component APIs and how a UI kit sits under feature folders.",
+  "level": "intermediate",
+  "tags": ["theory", "ecosystem"],
+  "resources": [
+    { "label": "Brad Frost: Atomic Design (book)", "url": "https://atomicdesign.bradfrost.com/" },
+    { "label": "Design Tokens Community Group", "url": "https://www.designtokens.org/" },
+    { "label": "Shopify Polaris", "url": "https://polaris.shopify.com/" },
+    { "label": "IBM Carbon Design System", "url": "https://carbondesignsystem.com/" }
+  ]
+}

@@ -84,6 +84,11 @@
   --accent-rgb: 210 156 255;
 }
 
+[data-trail='architecture'] {
+  --accent: #ffb547;
+  --accent-rgb: 255 181 71;
+}
+
 [data-trail='vue'] {
   --accent: #6de6b2;
   --accent-rgb: 109 230 178;

@@ -1,0 +1,8 @@
+[
+  { "term": "Domain module", "description": "A folder owned by one team that implements one business capability and exposes a small public API through its `index` file." },
+  { "term": "Composition root", "description": "The single place that knows which modules exist and wires them into the shell (`createApp()`)." },
+  { "term": "Registration API", "description": "`register(shell)`: a module adds its routes, navigation entries and subscriptions to extension points offered by the shell." },
+  { "term": "Event bus", "description": "A publish/subscribe channel (`emit`, `on`) that lets modules react to each other's facts without importing each other." },
+  { "term": "CODEOWNERS", "description": "A file mapping paths to teams so changes in a module require that team's review." },
+  { "term": "Architecture test", "description": "An automated check (lint rule, dependency-cruiser, Nx tags or a custom test) that fails the build when an import crosses a forbidden boundary." }
+]

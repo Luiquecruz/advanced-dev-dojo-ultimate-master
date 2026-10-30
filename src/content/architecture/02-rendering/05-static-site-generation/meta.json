@@ -1,0 +1,14 @@
+{
+  "title": "Static Site Generation",
+  "summary": "Prerender every known route at build time from static params, serve the result as a pure lookup with a real 404, and see why the data freezes until the next build.",
+  "level": "intermediate",
+  "tags": ["core", "performance"],
+  "preview": false,
+  "entry": "build.jsx",
+  "resources": [
+    { "label": "Next.js: generateStaticParams", "url": "https://nextjs.org/docs/app/api-reference/functions/generate-static-params" },
+    { "label": "react.dev: prerender", "url": "https://react.dev/reference/react-dom/static/prerender" },
+    { "label": "react.dev: renderToStaticMarkup", "url": "https://react.dev/reference/react-dom/server/renderToStaticMarkup" },
+    { "label": "web.dev: Rendering on the Web", "url": "https://web.dev/articles/rendering-on-the-web" }
+  ]
+}

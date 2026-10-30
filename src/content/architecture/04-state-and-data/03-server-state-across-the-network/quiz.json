@@ -1,0 +1,46 @@
+[
+  {
+    "question": "An SSR page hydrates correctly, the products are visible immediately, but the network panel still shows a second `/api/products` request right after load. What is the most likely cause?",
+    "options": [
+      "`dehydrate` was not called",
+      "The query has the default `staleTime` of 0, so the hydrated data is stale on arrival and refetched on mount",
+      "`renderToString` does not support TanStack Query",
+      "The client used `hydrateRoot` instead of `createRoot`"
+    ],
+    "answer": 1,
+    "explanation": "The data arrived (no spinner), so hydration worked. It keeps the server timestamp and is immediately stale with `staleTime: 0`; a non-zero `staleTime` prevents the refetch."
+  },
+  {
+    "question": "A developer moves `const queryClient = new QueryClient()` to the top of the server module \"for performance\". What goes wrong?",
+    "options": [
+      "Nothing, it is the recommended setup",
+      "Hydration mismatches on every page",
+      "All requests share one cache: users can see each other's data, memory grows and fresh data is never fetched while it counts as fresh",
+      "`dehydrate` stops working"
+    ],
+    "answer": 2,
+    "explanation": "A server handles many users concurrently. The query cache is request-scoped state on the server and must be created per request; only the browser keeps one client for the app's lifetime."
+  },
+  {
+    "question": "Where should the server get the options it passes to `prefetchQuery`?",
+    "options": [
+      "From the same `queryOptions` factory the components use",
+      "From a separate server-only file with its own keys",
+      "From hard-coded strings in the request handler",
+      "It does not matter as long as the URL is the same"
+    ],
+    "answer": 0,
+    "explanation": "Hydration matches by query key. Reusing the feature's `queryOptions` guarantees that the server fills exactly the entries the client reads."
+  },
+  {
+    "question": "A product page in the Next.js App Router only displays a description that never changes on the client. Which approach is simplest?",
+    "options": [
+      "Prefetch in a Server Component, dehydrate, and read it with `useQuery` in a client component",
+      "Render it in a Server Component and send no cache at all",
+      "Fetch it in `useEffect` on the client",
+      "Store it in a global client store"
+    ],
+    "answer": 1,
+    "explanation": "Server Components render display-only data without shipping it to a client cache. Prefetch plus `HydrationBoundary` pays off when the client keeps working with the data (refetching, mutations, pagination)."
+  }
+]

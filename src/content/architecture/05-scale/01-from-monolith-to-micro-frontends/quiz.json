@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A product has two frontend teams, a single React app, and frequent merge conflicts because features import each other's internals. What is the best next step?",
+    "options": [
+      "Split the app into micro-frontends so each team deploys alone",
+      "Turn it into a modular monolith: domain modules with public APIs, boundary checks in CI and ownership per module",
+      "Move to a monorepo with one package per component",
+      "Rewrite the app in a framework with better isolation"
+    ],
+    "answer": 1,
+    "explanation": "The pain is missing boundaries, not a shared deploy. A modular monolith adds explicit module APIs and automated rules at almost no runtime cost. Micro-frontends would turn the same tangled imports into tangled runtime contracts."
+  },
+  {
+    "question": "What does Conway's law predict for an organization of four teams working in one undivided frontend codebase?",
+    "options": [
+      "The code will naturally split into four clean modules",
+      "Performance will degrade linearly with the number of teams",
+      "The code structure will reflect how the teams actually communicate, so without deliberate boundaries it becomes one tangled system",
+      "Each team will end up choosing a different framework"
+    ],
+    "answer": 2,
+    "explanation": "Systems mirror communication structures. If nothing in the code defines ownership and boundaries, everyone touches everything and the codebase mirrors that. The inverse Conway maneuver designs the boundaries first."
+  },
+  {
+    "question": "Which situation is the strongest signal that micro-frontends are justified?",
+    "options": [
+      "The bundle is too large",
+      "The team wants to try a new framework on one page",
+      "Several autonomous teams own decoupled domains and are repeatedly blocked by a shared release train",
+      "The app has more than 200 components"
+    ],
+    "answer": 2,
+    "explanation": "Micro-frontends buy independent deploys for independent teams. Bundle size is solved with code splitting, component count with modules, and framework experiments rarely justify the permanent cost of distributed composition."
+  },
+  {
+    "question": "Three micro-frontends must always be released together because they share a global Redux store and import each other's components from the build output. What is this?",
+    "options": [
+      "A healthy modular monolith",
+      "A distributed monolith: all the operational cost of separate deploys with none of the independence",
+      "Build-time composition, which is the recommended approach",
+      "A monorepo"
+    ],
+    "answer": 1,
+    "explanation": "Independent deployables that cannot be deployed independently are a distributed monolith. Shared mutable state and internal imports across apps are the classic causes."
+  },
+  {
+    "question": "What does adopting a monorepo with Nx or Turborepo give you on its own?",
+    "options": [
+      "Independent runtime deploys for every team",
+      "Shared tooling, internal packages and affected-only, cached builds in one repository; boundaries and independent deploys still have to be designed",
+      "Automatic module boundaries",
+      "Isolation of runtime errors between apps"
+    ],
+    "answer": 1,
+    "explanation": "A monorepo is about code sharing and build orchestration. Without package boundaries it is a bigger monolith, and deploys are only independent if you build separate deployables."
+  },
+  {
+    "question": "A company splits its frontend into a 'header app', a 'forms app' and a 'tables app'. Every new feature now needs changes in all three. What went wrong?",
+    "options": [
+      "They should have used iframes",
+      "They split along technical layers instead of business domains, so features cross every boundary",
+      "They needed more micro-frontends",
+      "Nothing; cross-app changes are normal"
+    ],
+    "answer": 1,
+    "explanation": "Boundaries should follow domains (catalog, checkout, account) so most features stay inside one team's app. Technical-layer splits maximize coordination, the opposite of the goal."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Single-page application (SPA)", "description": "One HTML shell plus a JavaScript bundle; routing, rendering and data fetching happen in the browser and navigation never reloads the document." },
+  { "term": "Client-side rendering (CSR)", "description": "The HTML is produced by JavaScript in the browser, so nothing meaningful is visible until the bundle runs." },
+  { "term": "`history.pushState`", "description": "Changes the URL and adds a history entry without loading a new document. Fires no event." },
+  { "term": "`popstate`", "description": "Fired on `window` when the user moves through history (back/forward) after the URL has changed." },
+  { "term": "Link interception", "description": "A router calls `preventDefault()` on plain left clicks of its `<a>` elements and navigates itself; modified clicks are left to the browser." },
+  { "term": "Request waterfall", "description": "Sequential loading: HTML, then the bundle, then a render, then a fetch, then another render. Each step waits for the previous one." },
+  { "term": "SPA fallback", "description": "The host answers every unknown path with `index.html` (status 200) so the client router can render the page, including its own not-found screen." }
+]

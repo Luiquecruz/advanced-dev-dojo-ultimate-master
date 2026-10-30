@@ -1,0 +1,12 @@
+{
+  "title": "Server State Across the Network",
+  "summary": "Prefetch on the server, dehydrate the cache, hydrate it on the client with HydrationBoundary and avoid the double fetch, with one QueryClient per request.",
+  "level": "expert",
+  "tags": ["ecosystem", "performance"],
+  "resources": [
+    { "label": "TanStack Query: Server Rendering & Hydration", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/ssr" },
+    { "label": "TanStack Query: Advanced Server Rendering", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr" },
+    { "label": "TanStack Query: hydration reference", "url": "https://tanstack.com/query/latest/docs/framework/react/reference/hydration" },
+    { "label": "react.dev: hydrateRoot", "url": "https://react.dev/reference/react-dom/client/hydrateRoot" }
+  ]
+}

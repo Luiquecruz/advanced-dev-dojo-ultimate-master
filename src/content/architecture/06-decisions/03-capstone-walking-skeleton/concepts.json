@@ -1,0 +1,7 @@
+[
+  { "term": "Walking skeleton", "description": "A tiny end-to-end implementation that exercises every architectural layer. It proves the decisions fit together before features are added." },
+  { "term": "View model", "description": "The data shaped for one screen: only the fields the UI renders, already formatted. Produced by the BFF." },
+  { "term": "Embedded data", "description": "Server data serialized into the HTML (`<script type=\"application/json\">`) so the client hydrates without fetching it again." },
+  { "term": "Script-safe JSON", "description": "JSON with `<` escaped as `\\u003c`, so data cannot close the surrounding `<script>` tag while `JSON.parse` still returns the original value." },
+  { "term": "502 Bad Gateway", "description": "The server, acting as a gateway, received an invalid response from an upstream service. The right status when the BFF's backend fails." }
+]

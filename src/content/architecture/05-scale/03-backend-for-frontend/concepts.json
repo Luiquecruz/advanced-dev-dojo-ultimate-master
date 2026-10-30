@@ -1,0 +1,8 @@
+[
+  { "term": "Backend for Frontend (BFF)", "description": "A server-side layer built for one client experience that aggregates upstream services and returns exactly what its screens need." },
+  { "term": "View model", "description": "The data shape a screen renders, including derived fields (`initials`) and excluding internal ones (`email`, post `body`)." },
+  { "term": "Fan-out in parallel", "description": "Starting independent upstream requests together with `Promise.all`/`Promise.allSettled`, so latency is the slowest call instead of the sum." },
+  { "term": "Partial failure", "description": "Degrading secondary data with an explicit flag (`postsUnavailable`) instead of failing the whole response." },
+  { "term": "Status mapping", "description": "Translating upstream outcomes into meaningful client statuses: an upstream 404 stays 404, an upstream crash becomes 502 Bad Gateway." },
+  { "term": "API gateway", "description": "Generic, shared edge infrastructure (routing, auth, rate limits). Unlike a BFF it holds no per-screen logic." }
+]

@@ -1,0 +1,13 @@
+{
+  "title": "The Modular Front-End Monolith",
+  "summary": "One app, one deploy, many owners: domain modules that register into a shell, talk through events and never import each other, with boundaries checked by a test.",
+  "level": "advanced",
+  "tags": ["core", "testing"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "GitHub Docs: About code owners", "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners" },
+    { "label": "Nx: Enforce module boundaries", "url": "https://nx.dev/docs/features/enforce-module-boundaries" },
+    { "label": "dependency-cruiser", "url": "https://github.com/sverweij/dependency-cruiser" },
+    { "label": "react.dev: lazy", "url": "https://react.dev/reference/react/lazy" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "Feature-Sliced Design", "description": "A frontend methodology with standard layers (`app`, `pages`, `widgets`, `features`, `entities`, `shared`), slices by domain and segments by purpose." },
+  { "term": "Layer", "description": "A level of the codebase ordered by responsibility. Files import only layers below their own." },
+  { "term": "Slice", "description": "A domain partition inside `pages`, `widgets`, `features` or `entities` (`entities/product`). Slices of one layer do not import each other." },
+  { "term": "Segment", "description": "A purpose folder inside a slice or an unsliced layer: `ui`, `model`, `api`, `lib`, `config`." },
+  { "term": "Public API rule", "description": "Code outside a slice imports only the slice's `index` file; inside the slice, files import each other freely." },
+  { "term": "Architecture test", "description": "A test that reads the module graph and fails on forbidden imports, turning architecture rules into CI checks. Tools: eslint-plugin-boundaries, import/no-restricted-paths, dependency-cruiser, Steiger." }
+]

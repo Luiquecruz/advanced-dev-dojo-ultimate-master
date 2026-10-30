@@ -1,6 +1,6 @@
 {
   "engine": "vue",
-  "order": 4,
+  "order": 5,
   "title": "Vue",
   "monogram": "V",
   "description": "Single File Components, the Composition API, reactivity in depth, Vue Router, Pinia and the Vue ecosystem, plus the Options API legacy.",

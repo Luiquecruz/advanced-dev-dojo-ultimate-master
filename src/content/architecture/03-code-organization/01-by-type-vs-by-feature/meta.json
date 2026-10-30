@@ -1,0 +1,12 @@
+{
+  "title": "By Type vs By Feature",
+  "summary": "Folders by technical type versus by domain: screaming architecture, Bulletproof React rules, the MVC legacy, colocation and what belongs in shared.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Robert C. Martin: Screaming Architecture", "url": "https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html" },
+    { "label": "Bulletproof React: Project Structure", "url": "https://github.com/alan2207/bulletproof-react/blob/master/docs/project-structure.md" },
+    { "label": "Kent C. Dodds: Colocation", "url": "https://kentcdodds.com/blog/colocation" },
+    { "label": "Martin Fowler: GUI Architectures", "url": "https://martinfowler.com/eaaDev/uiArchs.html" }
+  ]
+}

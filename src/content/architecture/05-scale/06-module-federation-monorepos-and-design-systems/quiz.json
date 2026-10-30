@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A federated checkout remote and the shell both bundle React. Users report 'Invalid hook call' errors on the checkout page. What is the most likely fix?",
+    "options": [
+      "Convert the checkout to class components",
+      "Declare `react` and `react-dom` as `shared` with `singleton: true` in both builds, so one React instance is used",
+      "Load the remote in an iframe",
+      "Downgrade to Webpack 4"
+    ],
+    "answer": 1,
+    "explanation": "Two React copies mean hooks run against a different dispatcher than the renderer. Shared singletons make the runtime load a single instance."
+  },
+  {
+    "question": "What is the hidden cost of making React a shared singleton across micro-frontends?",
+    "options": [
+      "Bundles become larger",
+      "Teams are coupled on React's version again: a major upgrade must be coordinated across every remote",
+      "Server rendering stops working",
+      "Remotes can no longer be lazy loaded"
+    ],
+    "answer": 1,
+    "explanation": "Sharing a singleton trades duplicated bytes for version coupling. Mismatches produce warnings, or errors with `strictVersion`."
+  },
+  {
+    "question": "In a Turborepo or Nx monorepo, why does CI often finish in seconds after a change to `apps/docs` only?",
+    "options": [
+      "CI skips tests on documentation changes by convention",
+      "Affected detection limits work to changed projects and their dependents, and cached results replay for everything else",
+      "Monorepos compile faster than single repos",
+      "Docs apps have no tests"
+    ],
+    "answer": 1,
+    "explanation": "The task graph plus content hashing means unchanged packages restore outputs from the (remote) cache and unaffected projects are not run at all."
+  },
+  {
+    "question": "Which statement about monorepos and micro-frontends is correct?",
+    "options": [
+      "A monorepo always contains micro-frontends",
+      "Micro-frontends require separate repositories",
+      "They are independent decisions: a monorepo organizes code and builds; micro-frontends are about independent deploys and runtime composition",
+      "Turborepo provides runtime composition"
+    ],
+    "answer": 2,
+    "explanation": "Many monorepos ship one app plus packages, and micro-frontends can live in one monorepo or many repositories."
+  },
+  {
+    "question": "Five products use the company design system. A button API must change. What does treating the design system as a platform imply?",
+    "options": [
+      "Change it in place; products will notice",
+      "Fork the button into each product",
+      "Release a new major version with a changelog, a deprecation period for the old API and ideally a codemod, owned by the design system team",
+      "Freeze the design system forever"
+    ],
+    "answer": 2,
+    "explanation": "A platform has consumers. Semantic versioning, deprecations and migration tooling let teams upgrade on their own schedule."
+  },
+  {
+    "question": "What lesson does Zalando's move from Project Mosaic fragments to a unified React rendering framework illustrate?",
+    "options": [
+      "Micro-frontends never work",
+      "Server-side composition is obsolete",
+      "Autonomy has costs (inconsistency, duplicated effort); organizations rebalance autonomy and shared platforms as they learn",
+      "React cannot be used for micro-frontends"
+    ],
+    "answer": 2,
+    "explanation": "Architecture follows the organization's needs over time. Moving towards shared renderers traded some team independence for consistency and less duplication."
+  }
+]

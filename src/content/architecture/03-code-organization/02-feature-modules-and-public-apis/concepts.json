@@ -1,0 +1,7 @@
+[
+  { "term": "Feature module", "description": "A feature folder with a public API: other code imports only its `index.js`; every other file is private." },
+  { "term": "Public API (index file)", "description": "The `index.js` that re-exports, by name, the components, hooks and functions a feature offers to the rest of the app." },
+  { "term": "Deep import", "description": "An import that reaches past a module's index into its internals (`features/cart/model/CartContext`), coupling the consumer to the feature's file layout." },
+  { "term": "Explicit re-export", "description": "`export { Name } from './file'` lists every public name; `export *` leaks whatever the internal files happen to export." },
+  { "term": "Move down, not sideways", "description": "Code needed by two features goes to a lower layer (`shared`, or an entity), never into one of the features for the other to import." }
+]

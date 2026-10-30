@@ -1,0 +1,11 @@
+{
+  "title": "Over-engineering and Anti-patterns",
+  "summary": "Micro-frontends, monorepos and BFFs solve organizational problems: recognize distributed monoliths, global stores for everything, premature abstractions and resume-driven choices.",
+  "level": "advanced",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Martin Fowler: Monolith First", "url": "https://martinfowler.com/bliki/MonolithFirst.html" },
+    { "label": "Martin Fowler: Yagni", "url": "https://martinfowler.com/bliki/Yagni.html" },
+    { "label": "Kent C. Dodds: AHA Programming", "url": "https://kentcdodds.com/blog/aha-programming" }
+  ]
+}

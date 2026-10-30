@@ -1,0 +1,14 @@
+{
+  "title": "Model-View-Controller",
+  "summary": "Render a multi-page catalog on the server per request: a model for data, React components as pure views, and a controller that routes, picks the status and renders HTML.",
+  "level": "intermediate",
+  "tags": ["core", "legacy", "theory"],
+  "preview": false,
+  "entry": "controller.jsx",
+  "resources": [
+    { "label": "Martin Fowler: GUI Architectures", "url": "https://martinfowler.com/eaaDev/uiArchs.html" },
+    { "label": "MDN: MVC", "url": "https://developer.mozilla.org/en-US/docs/Glossary/MVC" },
+    { "label": "react.dev: renderToStaticMarkup", "url": "https://react.dev/reference/react-dom/server/renderToStaticMarkup" },
+    { "label": "React Router: Data Loading", "url": "https://reactrouter.com/start/framework/data-loading" }
+  ]
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Why prefer `export { CartProvider, useCart } from './model/CartContext'` over `export * from './model/CartContext'` in a feature's index?",
+    "options": [
+      "`export *` is not valid in ES modules",
+      "Explicit names keep the API intentional; `export *` also publishes helpers like `cartReducer` that were exported only for the feature's own files",
+      "Named re-exports are faster at runtime",
+      "`export *` breaks React hooks"
+    ],
+    "answer": 1,
+    "explanation": "Files inside a feature export things to each other. A wildcard index turns all of them into public API, and soon other features depend on them."
+  },
+  {
+    "question": "The catalog and the cart both format prices with the same helper. Where should it go?",
+    "options": [
+      "Keep it in the catalog and let the cart import `features/catalog/lib/formatPrice`",
+      "Export it from the catalog's index so the cart can use it",
+      "Move it down to `shared/lib` and import it from both features",
+      "Keep both copies: duplication is always better than coupling"
+    ],
+    "answer": 2,
+    "explanation": "A domain-free helper with two consumers belongs to the lowest layer. Making one feature serve the other a utility creates a sideways dependency for no domain reason."
+  },
+  {
+    "question": "Inside `features/cart/components/CartBadge.jsx`, how should it import `useCart`?",
+    "options": [
+      "From `'../model/CartContext'`: files inside a feature import each other directly",
+      "From `'..'`, the feature's own index",
+      "From `'../../cart'`",
+      "Only through the app layer"
+    ],
+    "answer": 0,
+    "explanation": "The public API is for outsiders. A feature importing its own index invites circular imports (the index also re-exports `CartBadge`)."
+  },
+  {
+    "question": "Deep imports keep reappearing after the refactor. What stops them for good?",
+    "options": [
+      "A comment at the top of each index file",
+      "Code review alone",
+      "Renaming internal folders to `_private`",
+      "An automated check: ESLint `import/no-restricted-paths` or `eslint-plugin-boundaries`, dependency-cruiser, or an architecture test in CI"
+    ],
+    "answer": 3,
+    "explanation": "Editors auto-import from the defining file, so deep imports appear by accident. Only a check that fails the build keeps a boundary in place."
+  }
+]

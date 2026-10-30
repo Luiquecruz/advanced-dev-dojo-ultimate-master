@@ -1,6 +1,6 @@
 # Content Guide
 
-Each track is a folder in `src/content/<track>/`; the current tracks and their plans are listed in [CURRICULUM.md](CURRICULUM.md). A track declares its engine in `track.json` (`"engine": "react"`), so several tracks can share one engine (`react-state` runs on the React engine). Every lesson is a folder:
+Each track is a folder in `src/content/<track>/`; the current tracks and their plans are listed in [CURRICULUM.md](CURRICULUM.md). A track declares its engine in `track.json` (`"engine": "react"`), so several tracks can share one engine (`react-state` and `architecture` run on the React engine). Every lesson is a folder:
 
 ```
 src/content/<track>/<NN-module>/<NN-lesson-id>/
@@ -30,7 +30,7 @@ All content is written in **English**.
 - `level`: `beginner`, `intermediate`, `advanced` or `expert`.
 - `tags`: free list. Conventions: `core`, `legacy`, `modern`, `new` (latest-version feature), `ecosystem`, `theory`, `typescript`, `performance`, `testing`.
 - `preview`: `false` hides the live preview for non-visual work (composables, services, utilities). The TypeScript and Node.js tracks never show a preview; they have a **Run** button that prints the console output instead.
-- `entry`: required for multi-file challenges (`starter/` + `solution/` folders). Single-file defaults: TypeScript `main.ts`; React `App.jsx`/`App.tsx`; Vue `App.vue` (or `main.ts` when the starter is `.ts`); Angular `app.ts`; Node.js `main.ts`.
+- `entry`: required for multi-file challenges (`starter/` + `solution/` folders). Files may sit in subfolders (`features/cart/index.js`); imports resolve relative to the importing file (`./model`, `../../shared/ui/Button`), try the extensions `.ts`, `.tsx`, `.js`, `.jsx`, `.vue` and then a folder `index` file, and a leading `/` resolves from the project root. Tests reach nested files with `modules['features/cart/index.js']` and `sources['features/cart/index.js']`. Single-file defaults: TypeScript `main.ts`; React `App.jsx`/`App.tsx`; Vue `App.vue` (or `main.ts` when the starter is `.ts`); Angular `app.ts`; Node.js `main.ts`.
 - A lesson needs a challenge, a quiz, or both. Theory-only topics (tooling, frameworks, architecture, history) use a 4–6 question quiz.
 - **Write `meta.json` last**, after every other file of the lesson exists. The loader only picks up folders that have `meta.json`, so half-written lessons stay invisible to other authors running the verifier.
 
@@ -44,7 +44,7 @@ All content is written in **English**.
 
 ## Installed versions
 
-React engine (tracks `react`, `react-state`): React 19.3 · react-dom 19.3 · react-router 7 · @tanstack/react-query 5 · zustand 5 (`zustand/middleware`, `zustand/middleware/immer`, `zustand/shallow`, `zustand/react/shallow`, `zustand/vanilla`) · jotai 3 (`jotai/utils`) · @reduxjs/toolkit 2 · react-redux 9 · react-hook-form 7 · @hookform/resolvers 5 · zod 4 · clsx 2 · `@reduxjs/toolkit/query(/react)` · mobx 7 · mobx-react-lite 5 · valtio 2 (`valtio/utils`) · xstate 5 · @xstate/react 6 · immer 11 · use-immer
+React engine (tracks `react`, `react-state`, `architecture`): React 19.3 · react-dom 19.3 · react-router 7 · @tanstack/react-query 5 · zustand 5 (`zustand/middleware`, `zustand/middleware/immer`, `zustand/shallow`, `zustand/react/shallow`, `zustand/vanilla`) · jotai 3 (`jotai/utils`) · @reduxjs/toolkit 2 · react-redux 9 · react-hook-form 7 · @hookform/resolvers 5 · zod 4 · clsx 2 · `@reduxjs/toolkit/query(/react)` · mobx 7 · mobx-react-lite 5 · valtio 2 (`valtio/utils`) · xstate 5 · @xstate/react 6 · immer 11 · use-immer
 Vue 3.5 (full build with runtime template compiler) · vue-router 5 · pinia 4 · @vueuse/core 15 · @tanstack/vue-query 5 · vee-validate 4.15 · zod 4
 Angular 22 (zoneless by default, Signal Forms in `@angular/forms/signals`, `FetchBackend` default for HttpClient) · @ngrx/signals 22 · @ngrx/store 22 · rxjs 7.8 · zod 4
 TypeScript engine: TypeScript 6.0 compiler API (theory may cover TypeScript 7 native compiler)
@@ -58,7 +58,7 @@ Data: users 1 Ada Lovelace, 2 Alan Turing, 3 Grace Hopper, 4 Linus Torvalds, 5 M
 
 ## Framework tests (React, Vue, Angular)
 
-Test file: React engine tracks (`react`, `react-state`) `tests.jsx`, Vue `tests.ts`, Angular `tests.ts`, Node.js `tests.ts`. Plain script, **no imports**, TypeScript syntax allowed (Angular tests may declare host components with decorators). React tests may use JSX.
+Test file: React engine tracks (`react`, `react-state`, `architecture`) `tests.jsx`, Vue `tests.ts`, Angular `tests.ts`, Node.js `tests.ts`. Plain script, **no imports**, TypeScript syntax allowed (Angular tests may declare host components with decorators). React tests may use JSX.
 
 Each `test(name, fn)` runs against a **fresh evaluation** of the learner project and a clean DOM. Test names are listed to the learner before running. Each test times out after 4 s. Keep `test()` calls at the top level.
 
@@ -68,7 +68,7 @@ Globals available in every framework track:
 - `require(name)` — any module available to learner code (e.g. `require('pinia')`, `require('@angular/common/http/testing')`)
 - `source` — entry file with comments stripped (for API-usage checks); `sources['file.ts']` for other files; `rawSource` keeps comments
 - `expect` — Jest-like: `toBe`, `toEqual`, `toStrictEqual`, `toBeTruthy`, `toBeFalsy`, `toBeNull`, `toBeUndefined`, `toBeDefined`, `toBeTypeOf`, `toBeInstanceOf`, `toContain`, `toContainEqual`, `toMatch`, `toHaveLength`, `toHaveProperty`, `toBeGreaterThan(OrEqual)`, `toBeLessThan(OrEqual)`, `toThrow` (message substring, RegExp or error class), `toHaveBeenCalled`, `toHaveBeenCalledTimes`, `toHaveBeenCalledWith`, `toHaveBeenLastCalledWith`, `toBeInTheDocument`, `toHaveTextContent`, `toHaveAttribute`, `toHaveValue`, `toBeChecked`, `toBeDisabled`, `toBeEnabled`, `toHaveClass`, `toHaveStyle`, `toHaveFocus`, with `.not`, `.resolves`, `.rejects`, plus asymmetric matchers `expect.anything()`, `expect.any(Ctor)`, `expect.objectContaining()`, `expect.arrayContaining()`, `expect.stringContaining()`, `expect.stringMatching()`
-- `fn(impl?)` — mock function (`mock.calls`, `mockReturnValue`, `mockReturnValueOnce`, `mockResolvedValue`, `mockRejectedValue`, `mockImplementation`, `mockClear`)
+- `fn(impl?)` — mock function (`mock.calls`, `mockReturnValue`, `mockResolvedValue`, `mockRejectedValue`, `mockImplementation`, their `*Once` variants queued before the default, `mockClear`)
 - `screen`, `within`, `waitFor`, `fireEvent` — Testing Library; `user` — `userEvent.setup()` instance; `userEvent`
 - `sleep(ms)`, `mockApi(match, handlerOrValue)` (override a fake API route for this test), `jsonResponse(data, status)`
 
@@ -84,7 +84,7 @@ Routers in tests: React `MemoryRouter`/`createMemoryRouter`; Vue `createMemoryHi
 
 ## Node.js track (`node`)
 
-The Node.js engine is a framework-family engine without a preview: learner files (`.ts`, `.js`) are transpiled to CommonJS and evaluated in the sandbox iframe (tests) or in Vitest (`npm run verify`). Node built-ins are in-browser implementations in `src/engines/node/runtime/`, importable with or without the `node:` prefix. Write lessons in TypeScript with ES module syntax (`import { readFile } from 'node:fs/promises'`). Multi-file challenges keep every file at the top level of `starter/` and `solution/` (relative imports are `./file`, no subfolders or `../`) and use no `.json` files (the loader does not read JSON from lesson folders; seed data with `writeFiles` or a `.ts` module). Each test evaluates the entry again, so a demo `main()` in the entry must work on its own instances, never on exported state the tests use.
+The Node.js engine is a framework-family engine without a preview: learner files (`.ts`, `.js`) are transpiled to CommonJS and evaluated in the sandbox iframe (tests) or in Vitest (`npm run verify`). Node built-ins are in-browser implementations in `src/engines/node/runtime/`, importable with or without the `node:` prefix. Write lessons in TypeScript with ES module syntax (`import { readFile } from 'node:fs/promises'`). Multi-file challenges use no `.json` files (the loader does not read JSON from lesson folders; seed data with `writeFiles` or a `.ts` module). Each test evaluates the entry again, so a demo `main()` in the entry must work on its own instances, never on exported state the tests use.
 
 Available built-ins and their limits:
 

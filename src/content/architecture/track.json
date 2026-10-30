@@ -1,0 +1,9 @@
+{
+  "engine": "react",
+  "order": 4,
+  "title": "React Architecture",
+  "shortTitle": "Architecture",
+  "monogram": "RA",
+  "description": "From static pages to micro-frontends: MVC, SPA, SSR, SSG, ISR, islands and Server Components, feature-based and hexagonal code organization, data flow, the modular monolith, BFF and micro-frontends, and how to choose for each product and team.",
+  "version": "React 19.3 · React Router 7 · TanStack Query 5"
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A startup with one team of four developers proposes micro-frontends \"so we can scale later\". What is the strongest objection?",
+    "options": [
+      "Micro-frontends do not work with React",
+      "Micro-frontends solve team and deploy independence, a problem this team does not have; they would pay the operational cost now for a hypothetical benefit",
+      "Micro-frontends are always slower than SPAs",
+      "Four developers cannot learn Module Federation"
+    ],
+    "answer": 1,
+    "explanation": "Organizational architectures need an organizational problem. A modular monolith with boundaries keeps the option to split later."
+  },
+  {
+    "question": "Three micro-frontends share a global Redux store and must be deployed in a fixed order for any change to work. What is this called?",
+    "options": [
+      "A distributed monolith",
+      "A modular monolith",
+      "A walking skeleton",
+      "Islands architecture"
+    ],
+    "answer": 0,
+    "explanation": "They pay the costs of distribution (pipelines, versions, runtime composition) while keeping monolith coupling."
+  },
+  {
+    "question": "A Zustand store holds `products`, `isProductsLoading`, `searchInput`, `isFilterDrawerOpen` and `hoveredRowId`. Which refactor follows the lesson?",
+    "options": [
+      "Split it into five Zustand stores",
+      "Move everything to Redux Toolkit for better devtools",
+      "Persist the whole store to localStorage",
+      "Move products to TanStack Query, the search to the URL or local form state, and the drawer and hover flags to component state"
+    ],
+    "answer": 3,
+    "explanation": "Each kind of state has a natural home. A global store should keep only shared client state."
+  },
+  {
+    "question": "A developer builds a generic `DataTable` with 40 configuration props while the app has a single table. Which anti-pattern is this?",
+    "options": [
+      "Resume-driven development",
+      "Distributed monolith",
+      "Premature abstraction",
+      "Under-engineering"
+    ],
+    "answer": 2,
+    "explanation": "Abstractions should come from repeated concrete cases. Duplication is cheaper than the wrong abstraction."
+  },
+  {
+    "question": "Which question is NOT one of the simplicity criteria before adding a piece of architecture?",
+    "options": [
+      "Can we point to a current, measurable problem?",
+      "Will it look impressive in the next conference talk?",
+      "Does it improve an attribute we ranked high?",
+      "How expensive is it to undo if it turns out wrong?"
+    ],
+    "answer": 1,
+    "explanation": "Appeal to the team is resume-driven development. The criteria are problem, ranked attribute, written cost, reversibility and smallest step."
+  },
+  {
+    "question": "Two teams that owned separate micro-frontends were merged into one, and the two apps now always release together. What does the lesson suggest?",
+    "options": [
+      "Revisit the decision: the reason for independent deploys is gone, so merging back into a modular monolith may remove ongoing cost",
+      "Keep the micro-frontends forever, since they already exist",
+      "Split them further into four micro-frontends",
+      "Move both to a monorepo without changing anything else"
+    ],
+    "answer": 0,
+    "explanation": "Architecture should follow its justification. When the trigger disappears, the cost remains; supersede the ADR and simplify."
+  }
+]

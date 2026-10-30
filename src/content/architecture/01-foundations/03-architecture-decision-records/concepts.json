@@ -1,0 +1,7 @@
+[
+  { "term": "ADR", "description": "Architecture Decision Record: a short, numbered document describing one significant decision, its context and its consequences." },
+  { "term": "Nygard format", "description": "Title, Status, Context, Decision, Consequences. Proposed by Michael Nygard in 2011." },
+  { "term": "Status lifecycle", "description": "`proposed` → `accepted` → `superseded` (some teams add `rejected` and `deprecated`)." },
+  { "term": "Supersede", "description": "Replace an accepted decision with a new ADR. The old record keeps its text and only changes status to \"Superseded by ADR N\"." },
+  { "term": "Architecturally significant", "description": "A decision that affects structure, quality attributes, dependencies or interfaces and would need a migration to reverse." }
+]

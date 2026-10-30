@@ -1,0 +1,14 @@
+{
+  "title": "Backend for Frontend",
+  "summary": "Aggregate services into a view model for one screen: parallel fan-out, whitelisted fields, status mapping and graceful degradation when a secondary service fails.",
+  "level": "advanced",
+  "tags": ["core", "ecosystem"],
+  "preview": false,
+  "entry": "bff.js",
+  "resources": [
+    { "label": "Sam Newman: Backends For Frontends", "url": "https://samnewman.io/patterns/architectural/bff/" },
+    { "label": "Microsoft Azure: Backends for Frontends pattern", "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/backends-for-frontends" },
+    { "label": "Next.js: Route Handlers", "url": "https://nextjs.org/docs/app/getting-started/route-handlers" },
+    { "label": "MDN: Promise.allSettled()", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled" }
+  ]
+}

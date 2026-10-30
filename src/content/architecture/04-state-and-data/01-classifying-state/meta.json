@@ -1,0 +1,12 @@
+{
+  "title": "Classifying State",
+  "summary": "Ask whether state is remote, URL, form or UI before adding a library: one home per kind, state machines for flows, normalized GraphQL caches and a state map as an architecture artifact.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "react.dev: Choosing the State Structure", "url": "https://react.dev/learn/choosing-the-state-structure" },
+    { "label": "TanStack Query: Does this replace client state?", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/does-this-replace-client-state" },
+    { "label": "Apollo Client: Caching overview", "url": "https://www.apollographql.com/docs/react/caching/overview" },
+    { "label": "Stately: XState documentation", "url": "https://stately.ai/docs/xstate" }
+  ]
+}

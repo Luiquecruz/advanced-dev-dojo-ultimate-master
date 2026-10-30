@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What did Dan Abramov's later note on 'Presentational and Container Components' say?",
+    "options": [
+      "That he no longer recommends splitting components this way by default, because hooks let you reuse stateful logic without a container component",
+      "That containers should be used for every component",
+      "That presentational components must be class components",
+      "That Redux `connect()` is required for containers"
+    ],
+    "answer": 0,
+    "explanation": "The separation of concerns is still useful, but hooks made the extra container component unnecessary and the strict split had become dogma."
+  },
+  {
+    "question": "A teammate writes `useUserList()` that returns a `<ul>` element. What is wrong?",
+    "options": [
+      "Hooks cannot return objects",
+      "Nothing, it is the recommended pattern",
+      "It mixes controller and view again: hooks should return data and actions, and a component should render them",
+      "Hooks must start with `get` instead of `use`"
+    ],
+    "answer": 2,
+    "explanation": "Returning JSX from a hook couples the logic to one rendering and hides the view from the component tree. Return values and callbacks instead."
+  },
+  {
+    "question": "Why does the presentational `UserDirectory` take `onQueryChange` instead of `setQuery`?",
+    "options": [
+      "React forbids passing setters as props",
+      "The event name describes what happened in the view; the owner can back it with local state, the URL, a store or a test spy without the view knowing",
+      "Setters cannot be called inside event handlers",
+      "It makes the component render faster"
+    ],
+    "answer": 1,
+    "explanation": "Event-named callbacks keep the view independent of how state is stored. Swapping `useState` for URL params changes only the composition."
+  },
+  {
+    "question": "In a codebase with TanStack Query, what does the 'container' usually become?",
+    "options": [
+      "A class component wrapping the query",
+      "A higher-order component `withQuery(Component)`",
+      "A Redux store",
+      "A custom hook (or a page component) that calls `useQuery(...)` and passes data to presentational components"
+    ],
+    "answer": 3,
+    "explanation": "`useQuery` is already a hook-based data container with caching. A thin custom hook or the page composes it with the views."
+  }
+]

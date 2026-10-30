@@ -1,0 +1,12 @@
+{
+  "title": "React Server Components",
+  "summary": "Server and Client Components in one tree: the 'use client' boundary and what crosses it, zero-bundle server code, async data, Server Functions, streaming and how RSC differs from SSR.",
+  "level": "advanced",
+  "tags": ["theory", "modern", "core"],
+  "resources": [
+    { "label": "react.dev: Server Components", "url": "https://react.dev/reference/rsc/server-components" },
+    { "label": "react.dev: 'use client'", "url": "https://react.dev/reference/rsc/use-client" },
+    { "label": "react.dev: 'use server'", "url": "https://react.dev/reference/rsc/use-server" },
+    { "label": "Next.js: Server and Client Components", "url": "https://nextjs.org/docs/app/getting-started/server-and-client-components" }
+  ]
+}

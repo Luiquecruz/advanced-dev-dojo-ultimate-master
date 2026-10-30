@@ -1,0 +1,41 @@
+[
+  {
+    "question": "A product price changes in the database. When does an SSG page show the new price?",
+    "options": [
+      "Immediately, on the next request",
+      "After the cache entry expires",
+      "Only after the next build and deploy",
+      "When the client hydrates"
+    ],
+    "answer": 2,
+    "explanation": "The HTML was produced at build time and is served as a file. Nothing re-reads the data until the site is rebuilt."
+  },
+  {
+    "question": "What is `generateStaticParams` (or `getStaticPaths`) for?",
+    "options": [
+      "Reading query string parameters on each request",
+      "Telling the build which values of a dynamic route (`/posts/[id]`) to prerender",
+      "Validating form input",
+      "Generating the client bundle"
+    ],
+    "answer": 1,
+    "explanation": "A dynamic route has infinitely many possible URLs. The build needs the concrete list of params to render one file per page."
+  },
+  {
+    "question": "With `fallback: false` (`dynamicParams = false`), a visitor requests `/posts/99`, which was created after the last build. What happens?",
+    "options": [
+      "The server renders it on demand and caches it",
+      "The client fetches the post and renders it",
+      "The visitor gets the 404 page",
+      "The build starts automatically"
+    ],
+    "answer": 2,
+    "explanation": "The set of pages is closed at build time. On-demand rendering of new paths needs a server, which is what fallback modes and ISR add."
+  },
+  {
+    "question": "Which cost grows with the number of pages in pure SSG?",
+    "options": ["TTFB", "Build time (and the API load during each build)", "Hydration time per page", "The size of each HTML file"],
+    "answer": 1,
+    "explanation": "Every page is fetched and rendered on every build, so 10 000 pages make every content change wait for a long build. ISR addresses this."
+  }
+]

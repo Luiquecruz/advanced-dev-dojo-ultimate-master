@@ -1,0 +1,5 @@
+1. Write down the contract of the page first: which fields it renders and which states it has (loaded, not found, broken, posts missing). The BFF exists to produce exactly that.
+2. Identify dependencies between upstream calls. The posts request only needs the `userId` the page already has, so both calls can start together and the latency is the slowest call, not the sum.
+3. Normalize every upstream call into a result that never throws (`ok`, `status`, `data`). Transport errors and HTTP errors then follow the same path, and one failing service cannot reject the whole aggregation.
+4. Classify failures by importance: the user is critical (no user, no page), the posts are secondary (the page is still useful without them). Map critical failures to meaningful statuses (404 stays 404, other upstream errors become 502) and degrade on secondary ones with an explicit flag the UI can show.
+5. Shape the view model last: derive `initials`, count posts, sort newest first without mutating the upstream array, keep three, and whitelist fields so internal data never reaches the browser.

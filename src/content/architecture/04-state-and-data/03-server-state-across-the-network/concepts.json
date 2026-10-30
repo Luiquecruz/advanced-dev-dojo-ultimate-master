@@ -1,0 +1,7 @@
+[
+  { "term": "prefetchQuery", "description": "Runs a query and stores the result in the cache without returning it or throwing. Used on the server before rendering." },
+  { "term": "dehydrate", "description": "Turns a `QueryClient` cache into a plain serializable object (keys, data, timestamps) that travels with the HTML." },
+  { "term": "HydrationBoundary", "description": "Component that writes a dehydrated state into the nearest `QueryClient` during render, so the first client render has the server data. `hydrate(client, state)` is the non-React equivalent." },
+  { "term": "Per-request QueryClient", "description": "On the server a new client is created for every request; a shared one leaks data between users and grows forever." },
+  { "term": "staleTime after hydration", "description": "Hydrated data keeps the server timestamp. With `staleTime: 0` it is stale on arrival and refetched on mount; a non-zero `staleTime` avoids the double fetch." }
+]

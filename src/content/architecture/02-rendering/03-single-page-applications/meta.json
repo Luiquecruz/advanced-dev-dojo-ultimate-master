@@ -1,0 +1,13 @@
+{
+  "title": "Single-Page Applications",
+  "summary": "Build a client router from scratch with the History API, intercept link clicks and fetch data in the browser, then weigh instant navigation against the blank first load.",
+  "level": "intermediate",
+  "tags": ["core", "theory", "performance"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "MDN: History API", "url": "https://developer.mozilla.org/en-US/docs/Web/API/History_API" },
+    { "label": "MDN: popstate event", "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event" },
+    { "label": "react.dev: useSyncExternalStore", "url": "https://react.dev/reference/react/useSyncExternalStore" },
+    { "label": "web.dev: Rendering on the Web", "url": "https://web.dev/articles/rendering-on-the-web" }
+  ]
+}

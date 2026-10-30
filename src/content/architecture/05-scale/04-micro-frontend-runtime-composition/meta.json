@@ -1,0 +1,13 @@
+{
+  "title": "Micro-Frontend Runtime Composition",
+  "summary": "Build a shell that loads and mounts independently deployed apps through a framework-agnostic mount/unmount contract, with route matching, caching, error isolation and event-based navigation.",
+  "level": "expert",
+  "tags": ["core", "ecosystem"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "Martin Fowler: Micro Frontends (Cam Jackson)", "url": "https://martinfowler.com/articles/micro-frontends.html" },
+    { "label": "single-spa: Building applications", "url": "https://single-spa.js.org/docs/building-applications" },
+    { "label": "MDN: CustomEvent", "url": "https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent" },
+    { "label": "react.dev: createRoot", "url": "https://react.dev/reference/react-dom/client/createRoot" }
+  ]
+}

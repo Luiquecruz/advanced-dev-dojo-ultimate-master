@@ -1,0 +1,11 @@
+{
+  "title": "Quality Attributes and Trade-offs",
+  "summary": "Performance, SEO, maintainability, testability, team autonomy and cost: rank them per product, because every architectural decision buys one with another.",
+  "level": "beginner",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "web.dev: Web Vitals", "url": "https://web.dev/articles/vitals" },
+    { "label": "Martin Fowler: Is High Quality Software Worth the Cost?", "url": "https://martinfowler.com/articles/is-quality-worth-cost.html" },
+    { "label": "Wikipedia: List of system quality attributes", "url": "https://en.wikipedia.org/wiki/List_of_system_quality_attributes" }
+  ]
+}

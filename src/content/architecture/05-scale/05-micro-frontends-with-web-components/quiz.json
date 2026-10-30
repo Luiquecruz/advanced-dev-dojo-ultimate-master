@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Why are Web Components a good integration contract between micro-frontends built with different frameworks?",
+    "options": [
+      "They are faster than any framework",
+      "The contract (tag name, attributes and properties in, DOM events out) is part of the browser, so hosts and widgets do not share a framework or its version",
+      "They automatically share state between apps",
+      "They remove the need for JavaScript"
+    ],
+    "answer": 1,
+    "explanation": "Any stack can create an element, set attributes and listen to events. The framework inside the element stays private."
+  },
+  {
+    "question": "`<cart-summary count=\"2\">` never re-renders when the host changes `count`. What is the most likely cause?",
+    "options": [
+      "`count` is missing from `static observedAttributes`, so `attributeChangedCallback` never fires",
+      "Custom elements cannot change after creation",
+      "The element needs Shadow DOM",
+      "The host must call `forceUpdate`"
+    ],
+    "answer": 0,
+    "explanation": "The browser only reports changes for attributes listed in `observedAttributes`."
+  },
+  {
+    "question": "Why does the element defer `root.unmount()` with `queueMicrotask` in `disconnectedCallback`?",
+    "options": [
+      "To make the unmount faster",
+      "A React host removes the element during its commit, where unmounting another root synchronously is an error; the deferral also lets a DOM move keep the root",
+      "Microtasks are required by the custom elements spec",
+      "To avoid memory leaks in Shadow DOM"
+    ],
+    "answer": 1,
+    "explanation": "React reports synchronous unmounts during rendering. Checking `isConnected` in the microtask distinguishes a removal from a move."
+  },
+  {
+    "question": "A host passes `items={[{ id: 1 }]}` to a custom element in React 19. The element defines an `items` setter. What happens?",
+    "options": [
+      "React sets the attribute `items=\"[object Object]\"`",
+      "React assigns the array to the `items` property, because the element has a property with that name",
+      "React throws",
+      "The prop is ignored"
+    ],
+    "answer": 1,
+    "explanation": "React 19 uses properties for custom elements when `name in element`, and attributes otherwise. React 18 always used attributes, which is why rich data needed refs."
+  },
+  {
+    "question": "What is a real cost of rendering a widget inside Shadow DOM?",
+    "options": [
+      "Events can no longer be dispatched",
+      "Global styles do not apply inside, and ARIA or label relations cannot reference elements across the boundary",
+      "The element cannot be used by React hosts",
+      "It doubles the bundle size"
+    ],
+    "answer": 1,
+    "explanation": "Style isolation is the point of Shadow DOM, but theming must use inheritable custom properties, and ID-based relations do not cross the boundary."
+  }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Atomic Design", "description": "Brad Frost's hierarchy for interfaces: atoms, molecules, organisms, templates and pages." },
+  { "term": "Design system", "description": "A product-agnostic library of tokens, components, patterns and guidelines shared across products (Polaris, Carbon, Primer)." },
+  { "term": "Design tokens", "description": "Named design decisions (color, spacing, type, radius, motion), layered as primitive → semantic → component and shipped as CSS variables." },
+  { "term": "Semantic token", "description": "A token that encodes intent (`color-action-primary`) and points to a primitive value; components use these so themes only change values." },
+  { "term": "Composition API", "description": "Components built from parts and `children` (`Card.Header`) instead of growing boolean props for every variation." },
+  { "term": "Headless components", "description": "Libraries such as Radix, React Aria and Base UI that provide behavior and accessibility without styles, for a design system to skin." }
+]

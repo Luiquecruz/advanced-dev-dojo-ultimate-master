@@ -1,0 +1,41 @@
+[
+  {
+    "question": "Two years ago ADR 4 chose a global store for server data. The team now wants TanStack Query instead. What is the correct way to record it?",
+    "options": [
+      "Edit ADR 4 so it describes TanStack Query",
+      "Delete ADR 4 and write a new one",
+      "Write ADR 12 for TanStack Query that references ADR 4, and change only ADR 4's status to \"Superseded by ADR 12\"",
+      "Add a comment in the code and leave the ADRs alone"
+    ],
+    "answer": 2,
+    "explanation": "Accepted ADRs are historical records. The reasoning of ADR 4 was valid in its context; superseding keeps both decisions and the link between them."
+  },
+  {
+    "question": "Which section is most often missing from weak ADRs?",
+    "options": ["Title", "The negative consequences of the decision", "The date", "The author's name"],
+    "answer": 1,
+    "explanation": "Consequences must include what the team pays. Without costs an ADR is a sales pitch, and the trade-off cannot be revisited honestly."
+  },
+  {
+    "question": "Which decision deserves an ADR?",
+    "options": [
+      "Naming event handlers `handleX`",
+      "Using two-space indentation",
+      "Rendering the public catalog with ISR and the account area as a SPA",
+      "Choosing the color of a button"
+    ],
+    "answer": 2,
+    "explanation": "Rendering per route touches a decision layer and several quality attributes (SEO, cost, freshness). Style conventions belong in lint rules."
+  },
+  {
+    "question": "Where should ADRs usually live?",
+    "options": [
+      "In the repository, next to the code, reviewed in pull requests",
+      "In a private notebook of the tech lead",
+      "Only in meeting recordings",
+      "In the issue tracker, closed after the sprint"
+    ],
+    "answer": 0,
+    "explanation": "Versioned with the code, ADRs are found by the people changing that code and reviewed like any other change."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Model", "description": "Data and business rules: loading, validating and saving records. Knows nothing about HTML or HTTP." },
+  { "term": "View", "description": "Turns data into markup (ERB, Blade, Django templates, or a React component rendered on the server). Receives data; never fetches it." },
+  { "term": "Controller", "description": "Handles the request: reads the URL and parameters, calls the model, picks the view and the HTTP status." },
+  { "term": "Multi-page application (MPA)", "description": "Every navigation and form submission loads a new HTML document from the server." },
+  { "term": "`renderToStaticMarkup`", "description": "Renders React elements to an HTML string without hydration markers, for pages that will never hydrate (emails, server templates)." },
+  { "term": "Client-side MVC", "description": "Backbone, AngularJS and Ember moved models, views and controllers into the browser, with the server returning JSON. The step toward SPAs." },
+  { "term": "Loader", "description": "A route-level function in React Router 7 / Remix that reads params and returns data for the route component: the modern controller." }
+]

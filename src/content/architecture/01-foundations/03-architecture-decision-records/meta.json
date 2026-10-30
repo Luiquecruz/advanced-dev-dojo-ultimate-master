@@ -1,0 +1,14 @@
+{
+  "title": "Architecture Decision Records",
+  "summary": "Record significant decisions in Nygard's format and model the proposed, accepted and superseded lifecycle as immutable updates.",
+  "level": "beginner",
+  "tags": ["core"],
+  "preview": false,
+  "entry": "adr.js",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "adr.github.io: Architectural Decision Records", "url": "https://adr.github.io/" },
+    { "label": "Martin Fowler: Architecture Decision Record", "url": "https://martinfowler.com/bliki/ArchitectureDecisionRecord.html" },
+    { "label": "Thoughtworks Radar: Lightweight ADRs", "url": "https://www.thoughtworks.com/radar/techniques/lightweight-architecture-decision-records" }
+  ]
+}

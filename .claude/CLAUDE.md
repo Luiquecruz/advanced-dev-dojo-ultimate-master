@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Dev Dojo is a browser-only learning platform (theory, test-validated coding challenges, hints, quizzes) for TypeScript, React, React State Management, Vue, Angular and Node.js. There is no backend: grading, previews and a fake REST API all run client-side. Everything (code, content, docs) is written in English.
+Dev Dojo is a browser-only learning platform (theory, test-validated coding challenges, hints, quizzes) for TypeScript, React, React State Management, React Architecture, Vue, Angular and Node.js. There is no backend: grading, previews and a fake REST API all run client-side. Everything (code, content, docs) is written in English.
 
 ## Commands
 
@@ -13,7 +13,7 @@ npm run typecheck                                              # tsc --noEmit
 npm run test                                                   # unit + architecture tests (everything except src/verify)
 npm run verify                                                 # lesson verification (src/verify): solution passes, starter fails
 npx vitest run src/shared/motion                               # one folder of unit tests
-npx vitest run src/verify/<track>.test.ts                      # one track (typescript, react, react-state, vue, angular, node)
+npx vitest run src/verify/<track>.test.ts                      # one track (typescript, react, react-state, architecture, vue, angular, node)
 LESSON=use-effect npx vitest run src/verify/react.test.ts      # lessons whose id contains "use-effect"
 LESSON=use-effect npx vitest run src/verify/content.test.ts    # structure checks only
 ```
@@ -114,7 +114,7 @@ Follow `.claude/docs/CONTENT_GUIDE.md` and `.claude/docs/CURRICULUM.md`. The ver
 New tracks are coming; follow the checklist at the end of `.claude/docs/ARCHITECTURE.md`. In short, a track on an existing engine needs no UI code:
 
 1. `src/content/<id>/track.json`: `engine`, `order`, `title`, `monogram` (1–3 characters), `shortTitle` when the title is long (home backdrop word), `description`, `version`; then modules and lessons.
-2. `[data-trail='<id>']` accent rule in `src/shared/design/tokens.css`: AA on void, panel and elevated, AA under dark text, at least 30° of hue from every other accent (the amber to yellow band is free). `trackPresentation.test.ts` checks it.
+2. `[data-trail='<id>']` accent rule in `src/shared/design/tokens.css`: AA on void, panel and elevated, AA under dark text, at least 30° of hue from every other accent (only the 303°–321° magenta band is free). `trackPresentation.test.ts` checks it.
 3. `src/verify/<id>.test.ts` with `defineChallengeSuite`, the plan in CURRICULUM.md, new libraries registered in the engine `registry.ts` and listed in CONTENT_GUIDE.md.
 4. Name the track in the `index.html` meta description if it should appear there.
 

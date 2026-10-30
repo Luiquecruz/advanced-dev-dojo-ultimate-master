@@ -1,0 +1,8 @@
+[
+  { "term": "Static site generation (SSG)", "description": "Rendering every known route to HTML at build time and serving the files from a CDN. Nothing runs per request." },
+  { "term": "Static params / paths", "description": "The list of dynamic route values to prebuild: `generateStaticParams` in the Next.js App Router, `getStaticPaths` in the Pages Router." },
+  { "term": "Build-time props", "description": "Data loaded during the build for each page (`getStaticProps` in the Pages Router, `fetch` in a Server Component at build). Frozen until the next build." },
+  { "term": "`fallback: false` / `dynamicParams = false`", "description": "Paths not generated at build time return 404 instead of being rendered on demand." },
+  { "term": "`renderToStaticMarkup`", "description": "Renders HTML without hydration markers: ideal for pages that ship no JavaScript." },
+  { "term": "Frozen data", "description": "Static HTML shows the data as it was at build time; updates require a rebuild (or ISR)." }
+]

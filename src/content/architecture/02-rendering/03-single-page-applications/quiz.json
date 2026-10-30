@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Why does a client router need its own notification after calling `history.pushState`?",
+    "options": [
+      "`pushState` reloads the page, so the router must restore state",
+      "`pushState` fires no event; only back/forward navigation fires `popstate`",
+      "`pushState` is asynchronous",
+      "Browsers block `popstate` in SPAs"
+    ],
+    "answer": 1,
+    "explanation": "The browser announces history traversal with `popstate`, but programmatic `pushState` changes the URL silently, so the router informs its subscribers itself."
+  },
+  {
+    "question": "A user Ctrl+clicks (Cmd+clicks) a router `Link`. What should happen?",
+    "options": [
+      "The router calls `preventDefault()` and navigates in the same tab",
+      "Nothing: the click is ignored",
+      "The router does not intercept it, and the browser opens the URL in a new tab",
+      "The router reloads the whole app"
+    ],
+    "answer": 2,
+    "explanation": "Modified clicks express a browser intent (new tab, new window). Routers only intercept unmodified primary-button clicks."
+  },
+  {
+    "question": "Which cost is specific to client-side rendering compared with server-rendered MVC?",
+    "options": [
+      "A full page reload on every navigation",
+      "A blank screen until the JavaScript bundle downloads and runs, plus HTML that crawlers without JS see as empty",
+      "The server renders HTML on every request",
+      "Links do not work without a router"
+    ],
+    "answer": 1,
+    "explanation": "The SPA trades first-load speed and crawlability for instant navigation after the bundle has loaded."
+  },
+  {
+    "question": "For which product is a pure SPA usually the best fit?",
+    "options": [
+      "A public marketing site that depends on search traffic",
+      "A news site where articles must appear in link previews",
+      "An analytics dashboard behind a login, used for hours at a time",
+      "A documentation site that changes once a month"
+    ],
+    "answer": 2,
+    "explanation": "Behind a login SEO does not matter, and long sessions amortize the first load while benefiting from instant navigation."
+  }
+]

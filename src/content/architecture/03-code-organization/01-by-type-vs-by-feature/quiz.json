@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team works on an app organized as `components/`, `hooks/`, `services/`, `utils/`. Adding a coupon field to the cart touched 7 files in all 4 folders, and nobody is sure which `utils` are still used. What is the main structural problem?",
+    "options": [
+      "Files are grouped by technical type, so one feature is scattered across the tree and its boundaries are invisible",
+      "The project uses too many custom hooks",
+      "The `utils` folder should be renamed to `helpers`",
+      "React apps should keep every component in one folder"
+    ],
+    "answer": 0,
+    "explanation": "By-type grouping has low cohesion: changes cut across folders and nothing marks what belongs together. Grouping by feature keeps a change inside one folder and makes dead code easy to spot."
+  },
+  {
+    "question": "Which rule set matches Bulletproof React?",
+    "options": [
+      "Features may import any file of any other feature, but never shared code",
+      "Features do not import each other; they are composed in the app layer, and code flows one way: shared → features → app",
+      "Every component must live in a global `components/` folder",
+      "The app layer may not import features directly"
+    ],
+    "answer": 1,
+    "explanation": "Bulletproof React forbids cross-feature imports, composes features at the app level (routes, layouts) and enforces the `shared → features → app` direction with ESLint `import/no-restricted-paths`."
+  },
+  {
+    "question": "Which file belongs in `shared/`?",
+    "options": [
+      "`applyCouponToCart.js`, used by the cart and the checkout",
+      "`ProductCard.jsx`, which shows a product and an Add to cart button",
+      "`premiumPricing.js`, which checks the user's subscription before formatting a price",
+      "`useDebounce.js`, a generic hook with no domain knowledge"
+    ],
+    "answer": 3,
+    "explanation": "Shared code must be domain-free: it could be an npm package. Cart rules, product widgets and subscription logic carry business knowledge and belong to a feature (or an entity layer, as later lessons show)."
+  },
+  {
+    "question": "How did MVC's separation survive in modern React?",
+    "options": [
+      "It did not: components mix everything and there is no separation",
+      "As separate `models/`, `views/` and `controllers/` folders at the root of every React app",
+      "First as container/presentational components, then as custom hooks that own data and actions while components render, with domain rules in plain modules",
+      "Only in class components"
+    ],
+    "answer": 2,
+    "explanation": "React colocates markup and behavior per component, but the separation of concerns moved inside features: containers (later hooks) act as controllers, presentational components as views, plain modules as the model."
+  },
+  {
+    "question": "A date formatter is used by one component in `features/orders`. Where should it live, following colocation?",
+    "options": [
+      "`shared/lib/`, because helpers are always shared",
+      "In a new `features/date` feature",
+      "Next to that component (or in the orders feature); it moves to `shared/` only if a second, unrelated consumer appears",
+      "In `app/`, so every feature can reach it"
+    ],
+    "answer": 2,
+    "explanation": "Colocation keeps code where it is used. Promoting it early creates shared code with one consumer and hides who depends on it."
+  },
+  {
+    "question": "Your folders are `features/cart` and `features/catalog`, but files throughout the app import `features/cart/hooks/internal/useCartReducer`. What is missing?",
+    "options": [
+      "A public API per feature (an `index.js` with explicit exports) and an enforced rule that other code only imports it",
+      "More folders inside each feature",
+      "Moving everything back to `hooks/`",
+      "Nothing: deep imports are the point of feature folders"
+    ],
+    "answer": 0,
+    "explanation": "Feature folders without boundaries are a rename. A public API defines what other code may use, so internals can change freely; a lint rule or architecture test keeps it that way."
+  }
+]

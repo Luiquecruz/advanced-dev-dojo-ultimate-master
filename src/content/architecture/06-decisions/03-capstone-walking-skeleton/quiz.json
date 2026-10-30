@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What distinguishes a walking skeleton from a prototype?",
+    "options": [
+      "A walking skeleton has more features",
+      "A walking skeleton has no tests",
+      "A walking skeleton is a thin, production-quality slice through every architectural layer that grows into the product; a prototype explores an idea and is usually thrown away",
+      "There is no difference"
+    ],
+    "answer": 2,
+    "explanation": "The skeleton validates that the chosen layers integrate end to end, and later features follow its shape."
+  },
+  {
+    "question": "The server embeds `JSON.stringify(viewModel)` directly inside `<script type=\"application/json\">`. A product is named `</script><img src=x onerror=alert(1)>`. What happens?",
+    "options": [
+      "Nothing, `type=\"application/json\"` prevents any parsing",
+      "The HTML parser ends the script at the first `</script>` and the rest becomes live markup, an XSS vulnerability",
+      "`JSON.parse` throws on the client and nothing else happens",
+      "React escapes it automatically during hydration"
+    ],
+    "answer": 1,
+    "explanation": "HTML tokenization happens before JSON parsing. Escaping `<` as `\\u003c` keeps the JSON valid and the HTML inert."
+  },
+  {
+    "question": "The products service returns HTTP 500. Which response should the server entry give for `/`?",
+    "options": [
+      "502 Bad Gateway with an error page",
+      "200 with an empty list",
+      "404 Not Found",
+      "301 redirect to the home page"
+    ],
+    "answer": 0,
+    "explanation": "The page exists, but an upstream dependency failed. 502 tells caches, monitors and crawlers the truth; an empty 200 hides the outage."
+  },
+  {
+    "question": "Why does `hydrate` read the embedded JSON instead of fetching `/api/products` again?",
+    "options": [
+      "Fetching is not allowed in the browser",
+      "`hydrateRoot` cannot render props",
+      "JSON in the HTML is always smaller than the API response",
+      "The first client render must match the server HTML; reusing the exact data the server used avoids mismatches and a duplicate request"
+    ],
+    "answer": 3,
+    "explanation": "Same component plus same props gives the same first render. A second fetch could return different data and wastes a round trip."
+  },
+  {
+    "question": "The skeleton has no router library, no TanStack Query and no global store. How should that be documented?",
+    "options": [
+      "It should not: missing libraries are obvious",
+      "Add the libraries now to be safe",
+      "Record in ADRs that they were left out on purpose and which trigger would justify adding each one",
+      "Add TODO comments in every file"
+    ],
+    "answer": 2,
+    "explanation": "What was deliberately left out is part of the architecture. Writing the trigger down prevents both premature adoption and accidental reinvention."
+  }
+]

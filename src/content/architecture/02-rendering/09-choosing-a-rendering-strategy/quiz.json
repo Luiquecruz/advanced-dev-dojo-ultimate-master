@@ -1,0 +1,63 @@
+[
+  {
+    "question": "An online store has: (A) the home and pricing pages, (B) 50 000 product pages whose prices change a few times a day, (C) the order history of the signed-in user, (D) a seller analytics dashboard behind login. Which mapping fits best?",
+    "options": [
+      "A: SSR · B: SSR · C: SSR · D: SSR",
+      "A: SSG · B: ISR with on-demand revalidation · C: SSR · D: SPA",
+      "A: SPA · B: SSG rebuilt nightly · C: ISR · D: SSG",
+      "A: ISR · B: SPA · C: SSG · D: SSR"
+    ],
+    "answer": 1,
+    "explanation": "Shared static content → SSG; many shared pages with changing data → ISR; personal and current → SSR; interactive, no SEO, behind login → SPA."
+  },
+  {
+    "question": "A team moves its marketing site from a client-rendered SPA to SSG. Which metric should improve the most?",
+    "options": [
+      "LCP, because the main content is already in the HTML served from a CDN",
+      "Server CPU per request, which goes up",
+      "INP only, because no JavaScript is needed",
+      "Nothing, SPAs and SSG have the same loading profile"
+    ],
+    "answer": 0,
+    "explanation": "The SPA must download, run and fetch before painting the content. Prebuilt HTML from a CDN gives a low TTFB and an early LCP."
+  },
+  {
+    "question": "An SSR news page has good LCP but taps on the menu feel ignored for a second on mid-range phones. What is the most likely cause and direction?",
+    "options": [
+      "TTFB is too high; switch to a faster database",
+      "Hydrating the whole page blocks the main thread (poor INP); ship less JavaScript with islands or Server Components",
+      "The CDN is too far; add more regions",
+      "The HTML is too small; inline more CSS"
+    ],
+    "answer": 1,
+    "explanation": "SSR paints early but the page is not interactive until hydration finishes. Reducing the hydrated tree is what improves INP."
+  },
+  {
+    "question": "A developer reads the session cookie inside a product page that is statically generated and cached for every visitor, to show 'Hello, Ana'. What is the risk?",
+    "options": [
+      "None, cookies are always read in the browser",
+      "The greeting of one user may be baked into the cached HTML served to everyone, or the route silently becomes dynamic",
+      "The page will not compile",
+      "The CDN will refuse to cache any page of the site"
+    ],
+    "answer": 1,
+    "explanation": "Shared caches and personal data do not mix. Keep the cached shell generic and load the greeting as a client or streamed fragment."
+  },
+  {
+    "question": "Which model ships JavaScript only for the interactive parts of a page while keeping one React tree?",
+    "options": ["SSG", "Islands", "React Server Components", "MVC"],
+    "answer": 2,
+    "explanation": "Islands also limit JavaScript to interactive parts, but as separate roots. RSC keeps one tree and ships only Client Components."
+  },
+  {
+    "question": "When does a price change become visible in each model? Match: SSR, ISR (`revalidate: 300`), SSG, client-fetched SPA data.",
+    "options": [
+      "SSR: next build · ISR: next request · SSG: immediately · SPA: never",
+      "SSR: next request · ISR: up to 5 minutes plus one request · SSG: next build · SPA: next fetch",
+      "All of them: immediately",
+      "SSR: after 5 minutes · ISR: next build · SSG: next request · SPA: next build"
+    ],
+    "answer": 1,
+    "explanation": "SSR renders per request, ISR serves stale until a request after expiry regenerates, SSG waits for a rebuild and the SPA shows whatever its next fetch returns."
+  }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Incremental Static Regeneration (ISR)", "description": "Static pages regenerated one at a time after they are generated, on a timer or on demand, without rebuilding the whole site. Name from Next.js." },
+  { "term": "Stale-while-revalidate", "description": "Serve the cached copy immediately even if it is expired, and refresh it in the background for the next visitors. Also an HTTP `Cache-Control` directive." },
+  { "term": "Revalidation window", "description": "How long a generated page counts as fresh (`revalidate` in seconds). A product decision: acceptable staleness vs render cost." },
+  { "term": "On-demand revalidation", "description": "`revalidatePath` or `revalidateTag` called from a webhook or a mutation, so a page refreshes when its data changes instead of on a timer." },
+  { "term": "Request deduplication", "description": "Only one regeneration per page runs at a time; concurrent requests share it instead of stampeding the data source." },
+  { "term": "Cache tag", "description": "A label attached to fetched data (`next: { tags: ['products'] }`) so every page that used it can be invalidated together." }
+]
