@@ -265,3 +265,63 @@ Dado um briefing de produto fictício (contexto, número de times, requisitos de
 - Checkpoint ao final de cada módulo (quiz curto ou revisão de código).
 - ADRs acumulados ao longo da trilha formam o portfólio final.
 - Carga estimada: 1 a 2 semanas por módulo em ritmo de estudo paralelo ao trabalho.
+
+---
+
+## 10. Adaptação para o Dev Dojo
+
+A trilha roda em `src/content/architecture` (track `architecture`, engine `react`) e o plano de lições fica em `.claude/docs/CURRICULUM.md`. O Dev Dojo roda só no browser, sem backend, então cada item da spec virou um destes formatos:
+
+- **Desafio:** código validado por testes no sandbox. Modelos de servidor (MVC, SSR, streaming, SSG, ISR, RSC, BFF) são funções que recebem a request e devolvem HTML, stream ou JSON. Ferramentas de build (Turborepo, Module Federation) viram desafios sobre o mecanismo por baixo delas.
+- **Quiz:** temas de decisão ou de ferramenta que não executam no browser.
+- **ADR (checkpoint):** fim de cada módulo. O aluno escreve o ADR do módulo como objeto de dados a partir de um briefing; os testes checam estrutura e coerência com o briefing. Os ADRs formam o portfólio usado no projeto final.
+
+### Mapa spec → lições
+
+| Módulo | Item da spec | Lição | Formato |
+| --- | --- | --- | --- |
+| 1 | React como biblioteca, quatro camadas, arquitetura vs componentes vs pastas | `01-what-is-frontend-architecture` | quiz |
+| 1 | Atributos de qualidade, trade-offs | `02-quality-attributes-and-trade-offs` | quiz |
+| 1 | ADR (entregável do módulo) | `03-architecture-decision-records` | desafio |
+| 2 | Static Pages | `01-static-pages` | desafio |
+| 2 | MVC | `02-model-view-controller` | desafio |
+| 2 | SPA / CSR | `03-single-page-applications` | desafio |
+| 2 | SSR, hidratação | `04-server-side-rendering` | desafio |
+| 2 | Streaming e Suspense | `05-streaming-ssr-and-suspense` | desafio |
+| 2 | SSG | `06-static-site-generation` | desafio |
+| 2 | ISR | `07-incremental-static-regeneration` | desafio |
+| 2 | Islands | `08-islands-architecture` | desafio |
+| 2 | RSC, fronteira Server/Client Components | `09-react-server-components` | desafio (modelo didático, não o protocolo Flight real) |
+| 2 | Medir LCP, TTFB e bundle por modelo | `10-measuring-rendering-models` | desafio sobre traces simulados |
+| 2 | Recomendação por tipo de produto | `11-choosing-a-rendering-strategy` | quiz |
+| 2 | Checkpoint | `12-rendering-adr` | ADR |
+| 3 | Por tipo vs por feature, Bulletproof React, MVC como organização | `01-by-type-vs-by-feature` | quiz |
+| 3 | Feature-based com public API (refatoração da prática) | `02-feature-modules-and-public-apis` | desafio |
+| 3 | FSD e regras de lint de fronteira | `03-layered-dependency-rules` | desafio (checador de dependências) |
+| 3 | Clean / Hexagonal | `04-hexagonal-frontend` | desafio |
+| 3 | Container/Presentational → hooks | `05-from-containers-to-hooks` | desafio |
+| 3 | Atomic Design | `06-atomic-design-and-design-systems` | quiz |
+| 3 | Checkpoint | `07-code-organization-adr` | ADR |
+| 4 | Server vs client state, regra prática, GraphQL, Redux, Jotai/Recoil | `01-classifying-state` | quiz |
+| 4 | Estado na URL | `02-url-as-source-of-truth` | desafio |
+| 4 | TanStack Query como camada de dados | `03-data-access-layer` | desafio |
+| 4 | Server state entre servidor e cliente | `04-server-state-across-the-network` | desafio |
+| 4 | Checkout em três versões (local, Query + Context, XState) | `05-checkout-three-ways` | desafio |
+| 4 | Mapa de estado (entregável) | `06-state-and-data-adr` | ADR |
+| 5 | Espectro monólito → micro frontends, ponto crítico | `01-from-monolith-to-micro-frontends` | quiz |
+| 5 | Monólito frontend modular | `02-modular-front-end-monolith` | desafio |
+| 5 | BFF | `03-backend-for-frontend` | desafio |
+| 5 | Micro frontends: composição em runtime, single-spa | `04-micro-frontend-runtime-composition` | desafio |
+| 5 | Micro frontends com Web Components | `05-micro-frontends-with-web-components` | desafio |
+| 5 | Monorepo com Nx/Turborepo | `06-monorepo-task-graph` | desafio (grafo, affected, cache) |
+| 5 | Module Federation | `07-module-federation-shared-dependencies` | desafio (share scope, singletons) |
+| 5 | Design system como plataforma, composable commerce, cases | `08-module-federation-monorepos-and-design-systems` | quiz |
+| 5 | Quando micro frontends se justificam (entregável) | `09-scale-adr` | ADR |
+| 6 | Guia de escolha por contexto | `01-choosing-an-architecture` | quiz |
+| 6 | Over-engineering, adoção antes do problema | `02-over-engineering-and-anti-patterns` | quiz |
+| 6 | Briefing → arquitetura nas quatro camadas | `03-architecture-from-a-briefing` | desafio |
+| 6 | Projeto final: ADR por camada, walking skeleton, trade-offs | `04-capstone-walking-skeleton` | desafio |
+
+### Fora do escopo executável
+
+Ficam em teoria e quiz porque o browser não roda: medir métricas em produção (Lighthouse, CrUX), montar um monorepo real com Turborepo, carregar remotes via Module Federation e configurar lint no CI. Os desafios cobrem o mecanismo de cada um (traces simulados, grafo de tarefas e cache, share scope, checador de dependências).
