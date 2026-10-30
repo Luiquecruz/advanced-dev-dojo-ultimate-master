@@ -2,6 +2,20 @@
 
 A freeCodeCamp-style learning platform for front-end development: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend.
 
+## Tracks
+
+| Track | Engine | Lessons | Covers |
+| --- | --- | --- | --- |
+| TypeScript | TypeScript compiler in Web Workers | 82 | types, narrowing, generics, type-level programming, tooling |
+| React | React | 100 | hooks, performance, React 19, routing, data fetching, forms, testing |
+| React State Management | React | 26 | Context, Zustand, Redux Toolkit, Jotai, XState, TanStack Query, state architecture |
+| React Architecture | React | 30 | static pages, MVC, SPA, SSR, SSG, ISR, islands, RSC, feature-based and hexagonal code, modular monolith, BFF, micro-frontends |
+| Node.js | in-browser Node runtime + Hono | 77 | runtime, async, core modules, HTTP, REST APIs, persistence, security, scaling |
+| Vue | Vue | 44 | hidden while in progress |
+| Angular | Angular | 53 | hidden while in progress |
+
+Hidden tracks are toggled in `src/content/featureFlags.ts`. Module and lesson plans live in [CURRICULUM.md](.claude/docs/CURRICULUM.md).
+
 ## Run
 
 ```bash
