@@ -52,9 +52,9 @@ Node.js engine (track `node`): in-browser Node 24 runtime (see below) · hono 4.
 
 ## Fake REST API (React, Vue, Angular, Node.js)
 
-Available in previews and tests through `fetch` (and Angular `HttpClient`): `GET /api/users`, `/api/users/:id`, `/api/posts`, `/api/posts/:id`, `/api/posts?userId=`, `/api/products?q=`, `/api/search?q=`, `GET|POST /api/todos`, `GET|PATCH|PUT|DELETE /api/todos/:id`, `/api/error` (500). Also reachable as `https://api.example.com/...`.
+Available in previews and tests through `fetch` (and Angular `HttpClient`): `GET /api/users`, `/api/users/:id`, `/api/posts`, `/api/posts/:id`, `/api/posts?userId=`, `/api/products?q=`, `/api/products/:id`, `/api/search?q=`, `GET|POST /api/todos`, `GET|PATCH|PUT|DELETE /api/todos/:id`, `GET|POST /api/orders` (POST answers 201 with the body plus `id` and `status: 'confirmed'`), `GET /api/orders/:id`, `/api/error` (500). Also reachable as `https://api.example.com/...`.
 
-Data: users 1 Ada Lovelace, 2 Alan Turing, 3 Grace Hopper, 4 Linus Torvalds, 5 Margaret Hamilton (`id, name, email, role`); todos 1 "Learn JSX" (completed), 2 "Master hooks", 3 "Ship a React app" (`id, title, completed`); products Keyboard 120, Mouse 45, IDE License 199, Monitor 340, Cloud Credits 50 (`id, name, price, category`); posts `id, userId, title, body` (4 posts). Data resets before each test.
+Data: users 1 Ada Lovelace, 2 Alan Turing, 3 Grace Hopper, 4 Linus Torvalds, 5 Margaret Hamilton (`id, name, email, role`); todos 1 "Learn JSX" (completed), 2 "Master hooks", 3 "Ship a React app" (`id, title, completed`); products Keyboard 120, Mouse 45, IDE License 199, Monitor 340, Cloud Credits 50 (`id, name, price, category`); posts `id, userId, title, body` (4 posts). Orders start empty. Data resets before each test.
 
 ## Framework tests (React, Vue, Angular)
 

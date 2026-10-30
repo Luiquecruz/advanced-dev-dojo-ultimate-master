@@ -30,6 +30,7 @@ const products = [
 ];
 
 let todos = initialTodos();
+let orders: Array<Record<string, unknown>> = [];
 let delay = 250;
 let overrides: Array<{ match: RegExp | string; handler: Handler }> = [];
 
@@ -59,6 +60,10 @@ function route(url: URL, method: string, body: any): Response {
     return post ? json(post) : notFound();
   }
   if (resource === 'products') {
+    if (id) {
+      const product = products.find((entry) => entry.id === Number(id));
+      return product ? json(product) : notFound();
+    }
     const query = (url.searchParams.get('q') ?? '').toLowerCase();
     return json(products.filter((product) => product.name.toLowerCase().includes(query)));
   }
@@ -81,6 +86,16 @@ function route(url: URL, method: string, body: any): Response {
       todos = todos.filter((todo) => todo.id !== Number(id));
       return json({ ok: true });
     }
+  }
+  if (resource === 'orders') {
+    if (method === 'POST') {
+      const order = { ...body, id: orders.length + 1, status: 'confirmed' };
+      orders = [...orders, order];
+      return json(order, 201);
+    }
+    if (!id) return json(orders);
+    const order = orders.find((entry) => entry.id === Number(id));
+    return order ? json(order) : notFound();
   }
   if (resource === 'error') {
     return json({ error: 'Something went wrong' }, 500);
@@ -148,6 +163,7 @@ export function mockApi(match: RegExp | string, handler: Handler | unknown): voi
 export function resetFakeApi(): void {
   overrides = [];
   todos = initialTodos();
+  orders = [];
 }
 
 export { json as jsonResponse };
