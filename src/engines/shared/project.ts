@@ -9,6 +9,7 @@ export interface EvaluatedProject {
 }
 
 const EXTENSIONS = ['', '.ts', '.tsx', '.js', '.jsx', '.vue'];
+const INDEX_FILES = ['/index.ts', '/index.tsx', '/index.js', '/index.jsx'];
 
 /**
  * Marks an ES module namespace so CommonJS interop keeps named and default exports intact.
@@ -17,13 +18,28 @@ export function esModule(namespace: object): Record<string, unknown> {
   return { __esModule: true, ...namespace };
 }
 
-function normalize(specifier: string): string {
-  return specifier.replace(/^\.\//, '').replace(/^\//, '');
+function directoryOf(fileName: string): string {
+  return fileName.includes('/') ? fileName.slice(0, fileName.lastIndexOf('/')) : '';
 }
 
-function resolveFile(compiled: CompiledProject, specifier: string): string | undefined {
-  const base = normalize(specifier);
-  return EXTENSIONS.map((extension) => `${base}${extension}`).find((candidate) => candidate in compiled);
+function joinPath(directory: string, specifier: string): string {
+  const segments = specifier.startsWith('/') ? [] : directory.split('/').filter(Boolean);
+  for (const segment of specifier.split('/')) {
+    if (segment === '..') {
+      segments.pop();
+    } else if (segment && segment !== '.') {
+      segments.push(segment);
+    }
+  }
+  return segments.join('/');
+}
+
+/**
+ * Resolves a relative or root-absolute import to a project file name, trying extensions and folder index files.
+ */
+export function resolveFile(compiled: CompiledProject, specifier: string, directory = ''): string | undefined {
+  const base = joinPath(directory, specifier);
+  return [...EXTENSIONS, ...INDEX_FILES].map((suffix) => `${base}${suffix}`).find((candidate) => candidate in compiled);
 }
 
 /**
@@ -39,9 +55,9 @@ export function compileProject(files: ProjectFiles, compileFile: (name: string, 
 export function evaluateProject(compiled: CompiledProject, entryName: string, registry: ModuleRegistry): EvaluatedProject {
   const cache: Record<string, { exports: Record<string, any> }> = {};
 
-  const requireModule = (specifier: string): unknown => {
+  const requireFrom = (directory: string) => (specifier: string): unknown => {
     if (specifier.startsWith('.') || specifier.startsWith('/')) {
-      const fileName = resolveFile(compiled, specifier);
+      const fileName = resolveFile(compiled, specifier, directory);
       if (!fileName) {
         throw new Error(`Cannot find file "${specifier}". Project files: ${Object.keys(compiled).join(', ')}`);
       }
@@ -63,11 +79,11 @@ export function evaluateProject(compiled: CompiledProject, entryName: string, re
     const module = { exports: {} as Record<string, any> };
     cache[fileName] = module;
     const factory = new Function('require', 'module', 'exports', compiled[fileName]);
-    factory(requireModule, module, module.exports);
+    factory(requireFrom(directoryOf(fileName)), module, module.exports);
     return module.exports;
   };
 
   const entry = load(entryName);
   const modules = Object.fromEntries(Object.keys(compiled).map((name) => [name, load(name)]));
-  return { entry, modules, require: requireModule };
+  return { entry, modules, require: requireFrom('') };
 }

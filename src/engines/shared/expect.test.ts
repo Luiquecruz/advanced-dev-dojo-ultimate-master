@@ -1,5 +1,5 @@
 import { describe, expect as vitestExpect, it } from 'vitest';
-import { expect } from './expect';
+import { expect, fn } from './expect';
 
 class NotFoundError extends Error {}
 
@@ -18,5 +18,15 @@ describe('expect().toThrow', () => {
 
   it('fails when the error is not an instance of the expected class', () => {
     vitestExpect(() => expect(throwNotFound).toThrow(TypeError)).toThrow('Expected an instance of TypeError');
+  });
+});
+
+describe('fn once variants', () => {
+  it('consumes queued values before the default implementation', async () => {
+    const mock = fn(() => 'default').mockResolvedValueOnce('first').mockRejectedValueOnce(new Error('second')).mockImplementationOnce(() => 'third');
+    await vitestExpect(mock()).resolves.toBe('first');
+    await vitestExpect(mock()).rejects.toThrow('second');
+    vitestExpect(mock()).toBe('third');
+    vitestExpect(mock()).toBe('default');
   });
 });

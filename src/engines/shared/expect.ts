@@ -12,6 +12,9 @@ export interface MockFunction {
   mockResolvedValue(value: any): MockFunction;
   mockRejectedValue(value: any): MockFunction;
   mockReturnValueOnce(value: any): MockFunction;
+  mockResolvedValueOnce(value: any): MockFunction;
+  mockRejectedValueOnce(value: any): MockFunction;
+  mockImplementationOnce(implementation: (...args: any[]) => any): MockFunction;
   mockImplementation(implementation: (...args: any[]) => any): MockFunction;
   mockClear(): MockFunction;
   _isMockFunction: true;
@@ -48,6 +51,18 @@ export function fn(implementation?: (...args: any[]) => any): MockFunction {
   const base = () => current;
   mock.mockReturnValueOnce = (value) => {
     queued.push(() => value);
+    return mock;
+  };
+  mock.mockResolvedValueOnce = (value) => {
+    queued.push(() => Promise.resolve(value));
+    return mock;
+  };
+  mock.mockRejectedValueOnce = (value) => {
+    queued.push(() => Promise.reject(value));
+    return mock;
+  };
+  mock.mockImplementationOnce = (next) => {
+    queued.push(next);
     return mock;
   };
   mock.mockImplementation = (next) => {
