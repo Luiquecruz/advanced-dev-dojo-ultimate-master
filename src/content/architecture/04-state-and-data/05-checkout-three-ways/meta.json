@@ -1,0 +1,14 @@
+{
+  "title": "Checkout Three Ways",
+  "summary": "One checkout flow behind one contract, built with useReducer, TanStack Query + Context and an XState machine, tested by the same suite to compare complexity, impossible states and double submits.",
+  "level": "expert",
+  "tags": ["core", "ecosystem", "testing"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "react.dev: useReducer", "url": "https://react.dev/reference/react/useReducer" },
+    { "label": "TanStack Query: Mutations", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/mutations" },
+    { "label": "Stately: Invoke", "url": "https://stately.ai/docs/invoke" },
+    { "label": "Stately: Promise actors", "url": "https://stately.ai/docs/promise-actors" },
+    { "label": "Kent C. Dodds: Stop using isLoading booleans", "url": "https://kentcdodds.com/blog/stop-using-isloading-booleans" }
+  ]
+}

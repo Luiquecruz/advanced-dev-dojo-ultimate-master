@@ -1,0 +1,7 @@
+[
+  { "term": "State and data ADR", "description": "The record of the state layer: which kind of state lives where, with a state map listing every piece, its home and the reason." },
+  { "term": "State map", "description": "A table of every piece of state with its kind, home and reason. It exposes duplicates and makes reviews concrete." },
+  { "term": "Source of truth", "description": "The single owner of a value. Server data is owned by the server; the client holds a cache, never a second copy in a store." },
+  { "term": "Global by default", "description": "The anti-pattern of putting state in a store before a distant consumer exists. The client store should hold only client-owned state read far apart." },
+  { "term": "Guarded flow", "description": "A process whose steps have rules (no double payment, no going back while confirming). A state machine encodes the rules as allowed transitions." }
+]

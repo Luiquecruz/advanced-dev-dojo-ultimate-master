@@ -1,0 +1,41 @@
+[
+  {
+    "question": "Which context paragraph is best for a rendering ADR?",
+    "options": [
+      "We chose ISR because it is the modern approach recommended by our framework.",
+      "Search brings 70% of visitors. Product data changes twice a day; account pages are per user. Rendering is billed per request.",
+      "The team likes Next.js and wants to try the App Router.",
+      "Rendering is important for performance."
+    ],
+    "answer": 1,
+    "explanation": "The context lists forces (SEO share, freshness, personalization, cost) neutrally, so a reader can check the decision against them. The others argue for a tool or say nothing."
+  },
+  {
+    "question": "A route shows each user's saved searches, is not indexed and changes on every visit. Which model contradicts the briefing?",
+    "options": ["SPA", "SSR", "ISR", "SSR with streaming"],
+    "answer": 2,
+    "explanation": "ISR serves one shared, cached HTML to everyone. Per-user data must be rendered per request on the server or fetched on the client."
+  },
+  {
+    "question": "Your ADR chose ISR with a 5-minute revalidate for product pages. Which line belongs in the negative consequences?",
+    "options": [
+      "Pages are served from the CDN.",
+      "Search engines see the full content.",
+      "The build no longer grows with the number of products.",
+      "A price can be up to 5 minutes old, so the cart re-checks prices on the server."
+    ],
+    "answer": 3,
+    "explanation": "The stale window is the price paid for ISR. Recording it, and what compensates for it, is what makes the trade-off visible."
+  },
+  {
+    "question": "Why list \"SSR for every route\" as an alternative when the team never planned it?",
+    "options": [
+      "Because \"one model everywhere\" is what someone will propose later, and the record should already say which fact rules it out",
+      "To make the ADR longer",
+      "Because every ADR must reject SSR",
+      "It should not be listed; only seriously planned options belong in an ADR"
+    ],
+    "answer": 0,
+    "explanation": "The uniform option is the most common challenge to a per-route map. Writing down why it lost (cost on deploy-only pages, for example) saves the debate later."
+  }
+]

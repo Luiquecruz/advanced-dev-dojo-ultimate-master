@@ -9,7 +9,7 @@ A freeCodeCamp-style learning platform for front-end development: theory, hands-
 | TypeScript | TypeScript compiler in Web Workers | 82 | types, narrowing, generics, type-level programming, tooling |
 | React | React | 100 | hooks, performance, React 19, routing, data fetching, forms, testing |
 | React State Management | React | 26 | Context, Zustand, Redux Toolkit, Jotai, XState, TanStack Query, state architecture |
-| React Architecture | React | 30 | static pages, MVC, SPA, SSR, SSG, ISR, islands, RSC, feature-based and hexagonal code, modular monolith, BFF, micro-frontends |
+| React Architecture | React | 41 | static pages, MVC, SPA, SSR, streaming, SSG, ISR, islands, RSC, web vitals, feature-based and hexagonal code, URL state, modular monolith, BFF, micro-frontends, monorepos, Module Federation, ADRs |
 | Node.js | in-browser Node runtime + Hono | 77 | runtime, async, core modules, HTTP, REST APIs, persistence, security, scaling |
 | Vue | Vue | 44 | hidden while in progress |
 | Angular | Angular | 53 | hidden while in progress |

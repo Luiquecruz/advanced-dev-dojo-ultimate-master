@@ -1,0 +1,7 @@
+[
+  { "term": "Code organization ADR", "description": "The record of the organization layer: the units of code, the dependency direction between them and the public API each exposes, enforceable in CI." },
+  { "term": "Dependency direction", "description": "Layers import only layers below them; slices of the same layer never import each other. A shared concept therefore lives below every slice that uses it." },
+  { "term": "Public API", "description": "The single `index.js` of a slice. Other slices import only this file; anything else is a deep import and a violation." },
+  { "term": "Enforcement", "description": "A rule that fails a pull request: `eslint-plugin-boundaries`, `import/no-restricted-paths` or an architecture test. A rule only written in the ADR is a wish." },
+  { "term": "Unit of change", "description": "What a typical ticket touches. When it is a business capability, organize by feature instead of by technical type." }
+]

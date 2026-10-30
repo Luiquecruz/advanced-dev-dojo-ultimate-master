@@ -1,0 +1,7 @@
+[
+  { "term": "Scale ADR", "description": "The record of the scale layer: the deploy topology, module ownership and the triggers that would justify moving along the spectrum." },
+  { "term": "Organizational forces", "description": "Team count, domain ownership, deploy cadence and coupling of changes. Micro-frontends and monorepos answer these, not technical problems." },
+  { "term": "Revisit trigger", "description": "A measurable signal written in the ADR (a new autonomous team, a domain that must release alone) that turns \"not now\" into \"not until X\"." },
+  { "term": "Ownership", "description": "Each module has one owning team, usually encoded in `CODEOWNERS`, so reviews and incidents have a clear address." },
+  { "term": "Distributed monolith", "description": "Separate deployables that must still be released together. The result of splitting before the organizational forces require it." }
+]

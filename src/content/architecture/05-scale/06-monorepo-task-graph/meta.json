@@ -1,0 +1,15 @@
+{
+  "title": "Monorepo Task Graph",
+  "summary": "How Nx and Turborepo work underneath: the package graph, task pipelines with ^build, affected detection, topological levels that build in parallel and content-hash caching.",
+  "level": "advanced",
+  "tags": ["core", "ecosystem", "performance"],
+  "preview": false,
+  "entry": "workspace.js",
+  "resources": [
+    { "label": "Turborepo: Configuring tasks", "url": "https://turborepo.dev/docs/crafting-your-repository/configuring-tasks" },
+    { "label": "Turborepo: Caching", "url": "https://turborepo.dev/docs/crafting-your-repository/caching" },
+    { "label": "Nx: Run only tasks affected by a PR", "url": "https://nx.dev/docs/features/ci-features/affected" },
+    { "label": "Nx: Cache task results", "url": "https://nx.dev/docs/features/cache-task-results" },
+    { "label": "pnpm: Workspaces", "url": "https://pnpm.io/workspaces" }
+  ]
+}

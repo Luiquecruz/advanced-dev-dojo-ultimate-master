@@ -1,0 +1,14 @@
+{
+  "title": "Checkpoint: Code Organization ADR",
+  "summary": "Close the organization module with a portfolio ADR: layers, a downward dependency rule and a public API per slice for a veterinary clinic SaaS, ready to enforce in CI.",
+  "level": "intermediate",
+  "tags": ["core", "theory", "practice"],
+  "preview": false,
+  "entry": "adr.js",
+  "resources": [
+    { "label": "Feature-Sliced Design: Layers", "url": "https://feature-sliced.design/docs/reference/layers" },
+    { "label": "Bulletproof React: Project Structure", "url": "https://github.com/alan2207/bulletproof-react/blob/master/docs/project-structure.md" },
+    { "label": "eslint-plugin-boundaries", "url": "https://github.com/javierbrea/eslint-plugin-boundaries" },
+    { "label": "Robert C. Martin: Screaming Architecture", "url": "https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html" }
+  ]
+}

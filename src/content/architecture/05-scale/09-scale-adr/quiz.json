@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Which reason for rejecting micro-frontends belongs in a scale ADR?",
+    "options": [
+      "Micro-frontends are a trend that will pass.",
+      "Module Federation is hard to configure.",
+      "Two teams own distinct domains, deploy daily without blocking each other, and 90% of changes stay in one module.",
+      "Our framework does not support micro-frontends."
+    ],
+    "answer": 2,
+    "explanation": "The reason cites organizational facts (team count, cadence, coupling), which are exactly the forces micro-frontends respond to."
+  },
+  {
+    "question": "A shared weekly release train is held back by one team's bug. What should be tried before independent deploys?",
+    "options": [
+      "Trunk-based development with frequent deploys and feature flags, so unfinished or broken work ships dark",
+      "Micro-frontends for every team",
+      "A second repository per team",
+      "Rewriting the app in another framework"
+    ],
+    "answer": 0,
+    "explanation": "The pain is the release process. Frequent deploys and flags decouple releases without distributed runtime contracts."
+  },
+  {
+    "question": "Why does a scale ADR list revisit triggers?",
+    "options": [
+      "To schedule the micro-frontend migration",
+      "Because ADRs expire after a year",
+      "So the team can edit the accepted ADR when a trigger fires",
+      "To state the measurable signals that would justify the next step, so the decision is not re-debated without new facts"
+    ],
+    "answer": 3,
+    "explanation": "Triggers turn \"not now\" into \"not until X\". When one fires, a new ADR supersedes this one; the accepted record is never edited."
+  },
+  {
+    "question": "Which negative consequence is honest for choosing a modular monolith over micro-frontends?",
+    "options": [
+      "Teams own their modules through CODEOWNERS.",
+      "All teams still share one build, one framework upgrade and one deploy pipeline.",
+      "Module public APIs ease a later extraction.",
+      "Users download one copy of React."
+    ],
+    "answer": 1,
+    "explanation": "The shared build and upgrade are the price of a single deployable. The other options are benefits."
+  }
+]

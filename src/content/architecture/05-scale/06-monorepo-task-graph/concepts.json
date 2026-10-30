@@ -1,0 +1,9 @@
+[
+  { "term": "Package graph", "description": "Workspace packages as nodes and internal dependencies (`\"utils\": \"workspace:*\"`) as edges. It must be acyclic." },
+  { "term": "Task pipeline", "description": "Rules relating tasks: `\"dependsOn\": [\"^build\"]` runs the `build` of every dependency first; `\"build\"` without the caret runs the package's own `build` first." },
+  { "term": "Topological levels", "description": "Level 0 holds packages without dependencies; every other package sits one level above its deepest dependency. A level can run in parallel." },
+  { "term": "Affected", "description": "The packages owning a changed file plus every package that depends on them, transitively (`nx affected`, `turbo run --affected`)." },
+  { "term": "Content hash", "description": "A cache key computed from a task's inputs: source files, dependency hashes, task configuration, declared environment variables and global files." },
+  { "term": "Cache hit replay", "description": "Skipping a task whose hash was seen before and restoring its declared `outputs` and logs, locally or from a remote cache." },
+  { "term": "Global inputs", "description": "Files outside every package (root lockfile, base `tsconfig`) that invalidate every task when they change." }
+]

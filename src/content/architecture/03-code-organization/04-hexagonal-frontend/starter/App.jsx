@@ -7,7 +7,7 @@ const DEMO_ITEMS = [
   { productId: 2, name: 'Mouse', price: 45, quantity: 1 },
 ];
 
-// TODO: composition root: create the HTTP adapter with createHttpOrderGateway('/api/todos') and pass it to createPlaceOrder
+// TODO: composition root: create the HTTP adapter with createHttpOrderGateway('/api/orders') and pass it to createPlaceOrder
 const placeOrder = createPlaceOrder();
 
 export default function App() {

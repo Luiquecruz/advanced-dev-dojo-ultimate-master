@@ -20,6 +20,6 @@ Items look like `{ productId, name, price, quantity }`.
 
 **`App.jsx`**: the composition root
 
-- Create the HTTP adapter with `createHttpOrderGateway('/api/todos')` (the fake API has no orders endpoint; `POST /api/todos` stores any JSON and returns a new id), pass it to `createPlaceOrder`, and provide the use case with `<PlaceOrderProvider placeOrder={...}>`.
+- Create the HTTP adapter with `createHttpOrderGateway('/api/orders')` (the fake API answers `POST /api/orders` with `201` and the stored order with a new `id`), pass it to `createPlaceOrder`, and provide the use case with `<PlaceOrderProvider placeOrder={...}>`.
 
 The checkout shows `Order #{id} placed: {total}` (`role="status"`) on success and the error message (`role="alert"`) on failure.

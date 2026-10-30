@@ -1,0 +1,7 @@
+Read `local/useCheckout.js` first: the transition table (`NEXT_STEPS`, `PREVIOUS_STEPS`) and the guards are the same in every version, only where they live changes. In the XState version each row of the table in the challenge becomes one entry in an `on` object.
+---
+For the Query version: `const orderMutation = useMutation({ mutationFn: placeOrder, onSettled: () => { requestInFlight.current = false; } })`. Derive `step` with `orderMutation.isPending`, `isError` and `isSuccess` before falling back to `formStep`. Expose `orderMutation.error?.message` and `orderMutation.data` as `error` and `order` (both `null` otherwise).
+---
+In `submit`, check `requestInFlight.current` **before** anything else and set it to `true` right before `orderMutation.mutate(order)`: two calls in the same tick share one render, so `isPending` is still `false` for the second one. `retry` mutates again with `data`; `back` from `'error'` calls `orderMutation.reset()`.
+---
+For the machine: `actors: { placeOrder: fromPromise(({ input }) => placeOrder(input)) }`, then `submitting: { entry: 'clearError', invoke: { src: 'placeOrder', input: ({ context }) => context.data, onDone: { target: 'done', actions: assign({ order: ({ event }) => event.output }) }, onError: { target: 'error', actions: assign({ error: ({ event }) => event.error.message }) } } }`. `payment` handles `submit` and `back`, `error` handles `retry` and `back` (with `clearError`).

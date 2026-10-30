@@ -1,0 +1,7 @@
+[
+  { "term": "Rendering ADR", "description": "The record of the rendering layer: a per-route map of models plus the forces, alternatives and consequences behind it." },
+  { "term": "Per-route decision", "description": "One application can mix static, SSG, ISR, SSR and SPA routes; each route gets the cheapest model that meets its SEO, personalization and freshness needs." },
+  { "term": "Forces", "description": "The facts that push a decision: share of traffic from search, data freshness, personalization, traffic spikes, budget and team size. They belong in the context." },
+  { "term": "Stale window", "description": "How long shared HTML may lag behind the data (the `revalidate` time of ISR). A negative consequence that other parts of the system must compensate for." },
+  { "term": "Alternatives considered", "description": "The real options weighed and the fact from the context that ruled each out. Without them, an ADR cannot be revisited honestly." }
+]

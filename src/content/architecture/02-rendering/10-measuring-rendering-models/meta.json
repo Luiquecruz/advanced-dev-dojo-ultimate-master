@@ -1,0 +1,16 @@
+{
+  "title": "Measuring Rendering Models",
+  "summary": "Core Web Vitals and lab metrics for each rendering model: compute TTFB, FCP, LCP, TBT and JavaScript bytes from traces, compare SPA, SSR, SSG and islands, and measure in the field and the lab.",
+  "level": "advanced",
+  "tags": ["core", "performance"],
+  "preview": false,
+  "entry": "metrics.js",
+  "resources": [
+    { "label": "web.dev: Web Vitals", "url": "https://web.dev/articles/vitals" },
+    { "label": "web.dev: Total Blocking Time", "url": "https://web.dev/articles/tbt" },
+    { "label": "web.dev: Lab and field data differences", "url": "https://web.dev/articles/lab-and-field-data-differences" },
+    { "label": "GoogleChrome/web-vitals", "url": "https://github.com/GoogleChrome/web-vitals" },
+    { "label": "Chrome UX Report (CrUX)", "url": "https://developer.chrome.com/docs/crux" },
+    { "label": "MDN: PerformanceObserver", "url": "https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver" }
+  ]
+}

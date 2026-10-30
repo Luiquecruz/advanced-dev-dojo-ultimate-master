@@ -1,0 +1,15 @@
+{
+  "title": "Architecture from a Briefing",
+  "summary": "Turn a product briefing into facts and encode the decision guide as explicit rules: rendering per route, organization, domain, state homes and BFF, each with its reason.",
+  "level": "advanced",
+  "tags": ["core"],
+  "preview": false,
+  "entry": "recommendArchitecture.js",
+  "resources": [
+    { "label": "web.dev: Rendering on the Web", "url": "https://web.dev/articles/rendering-on-the-web" },
+    { "label": "Martin Fowler: Monolith First", "url": "https://martinfowler.com/bliki/MonolithFirst.html" },
+    { "label": "Cam Jackson: Micro Frontends", "url": "https://martinfowler.com/articles/micro-frontends.html" },
+    { "label": "Sam Newman: Backends For Frontends", "url": "https://samnewman.io/patterns/architectural/bff/" },
+    { "label": "Alistair Cockburn: Hexagonal Architecture", "url": "https://alistair.cockburn.us/hexagonal-architecture/" }
+  ]
+}

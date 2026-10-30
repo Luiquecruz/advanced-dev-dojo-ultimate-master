@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Both `features/booking` and `features/billing` need the customer record. Where should `customer` live?",
+    "options": [
+      "Inside `features/booking`, imported by billing through its index",
+      "Duplicated in both features",
+      "In a lower layer such as `entities/customer`, reached through its public API",
+      "In `app`, so every layer can see it"
+    ],
+    "answer": 2,
+    "explanation": "Slices of the same layer never import each other, and `app` is the top layer that nothing imports. A concept shared by two features moves below them."
+  },
+  {
+    "question": "Which decision sentence can be enforced by a tool?",
+    "options": [
+      "We will import only downward between app, pages, features, entities and shared, and only through each slice's index.js, checked by an architecture test in CI.",
+      "We will keep the code clean and well organized.",
+      "We will try to avoid unnecessary imports between features.",
+      "We will follow best practices for React folder structure."
+    ],
+    "answer": 0,
+    "explanation": "It names the units, the direction and the public API, which is exactly what a lint rule or an architecture test can check."
+  },
+  {
+    "question": "Which item belongs in the negative consequences of moving from type folders to feature slices?",
+    "options": [
+      "Changes stay inside one feature.",
+      "New developers find code faster.",
+      "Slices can later become modules of a modular monolith.",
+      "Hundreds of files must be moved and imports rewritten, freezing other refactors for a few sprints."
+    ],
+    "answer": 3,
+    "explanation": "The migration and the friction of new rules are the price. Recording them lets the team plan for them instead of being surprised."
+  },
+  {
+    "question": "A team proposes atomic design (atoms, molecules, organisms) as the folder structure of the whole application. What is the main objection?",
+    "options": [
+      "Atomic design is deprecated",
+      "It classifies components by visual size, not by business capability, so it says nothing about which feature may import which",
+      "It only works with TypeScript",
+      "It forbids custom hooks"
+    ],
+    "answer": 1,
+    "explanation": "Atomic design is a useful taxonomy for a design system, but it does not create business boundaries or a dependency rule."
+  }
+]

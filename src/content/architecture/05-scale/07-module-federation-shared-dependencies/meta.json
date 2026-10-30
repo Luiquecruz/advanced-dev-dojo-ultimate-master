@@ -1,0 +1,16 @@
+{
+  "title": "Module Federation Shared Dependencies",
+  "summary": "How the share scope negotiates versions between a host and its remotes: requiredVersion ranges, singletons, strictVersion errors, duplicated copies, eager modules and why two Reacts break hooks.",
+  "level": "advanced",
+  "tags": ["core", "ecosystem", "new"],
+  "preview": false,
+  "entry": "sharedScope.js",
+  "resources": [
+    { "label": "Module Federation: shared", "url": "https://module-federation.io/configure/shared" },
+    { "label": "Module Federation: shareStrategy", "url": "https://module-federation.io/configure/shareStrategy" },
+    { "label": "Module Federation: Runtime API", "url": "https://module-federation.io/guide/runtime/runtime-api" },
+    { "label": "webpack: ModuleFederationPlugin", "url": "https://webpack.js.org/plugins/module-federation-plugin/" },
+    { "label": "React: Invalid Hook Call Warning", "url": "https://react.dev/warnings/invalid-hook-call-warning" },
+    { "label": "node-semver: ranges", "url": "https://github.com/npm/node-semver" }
+  ]
+}

@@ -1,8 +1,9 @@
 {
   "title": "React Server Components",
-  "summary": "Server and Client Components in one tree: the 'use client' boundary and what crosses it, zero-bundle server code, async data, Server Functions, streaming and how RSC differs from SSR.",
+  "summary": "Server and Client Components in one tree: build a toy payload renderer that runs server components, sends client references and rejects what cannot cross the 'use client' boundary; then Server Functions, streaming and RSC versus SSR.",
   "level": "advanced",
-  "tags": ["theory", "modern", "core"],
+  "tags": ["core", "modern"],
+  "preview": false,
   "resources": [
     { "label": "react.dev: Server Components", "url": "https://react.dev/reference/rsc/server-components" },
     { "label": "react.dev: 'use client'", "url": "https://react.dev/reference/rsc/use-client" },

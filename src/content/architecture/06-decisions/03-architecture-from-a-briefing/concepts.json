@@ -1,0 +1,7 @@
+[
+  { "term": "Product briefing", "description": "The context of a product written as facts: SEO, personalization, data freshness, teams, deploy needs, clients and business complexity." },
+  { "term": "Decision rule", "description": "An explicit condition that maps a fact of the briefing to an option in one layer, ordered from the most demanding requirement to the simplest default." },
+  { "term": "Simplest sufficient option", "description": "The cheapest option that satisfies every requirement of the briefing. Anything stronger must be justified by a fact, not by fashion." },
+  { "term": "Route resolution", "description": "Filling each route's missing fields from the briefing so every route answers the same questions before its rendering is chosen." },
+  { "term": "Justified decision", "description": "A choice paired with its reason, written as `<subject>: <choice> because <why>`. It is the seed of an ADR." }
+]

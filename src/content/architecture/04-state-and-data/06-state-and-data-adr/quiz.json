@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A reviewer finds `notifications` (from `GET /notifications`) stored in Zustand and refreshed with `useEffect`. Which row should the state map have instead?",
+    "options": [
+      "notifications · server cache · owned by the API, refetched and invalidated by query key",
+      "notifications · URL · must survive reload",
+      "notifications · derived · computed from the user",
+      "notifications · client store · read by the header"
+    ],
+    "answer": 0,
+    "explanation": "The server owns notifications. A server cache gives refetching and staleness for free; a client store creates a second source of truth."
+  },
+  {
+    "question": "Which state belongs in the URL?",
+    "options": [
+      "Whether a tooltip is visible",
+      "A password being typed",
+      "The sort order of a results list that users share by link",
+      "The cart total"
+    ],
+    "answer": 2,
+    "explanation": "State that must survive a reload or a shared link lives in the URL. The others are local, form and derived state."
+  },
+  {
+    "question": "Which context sentence helps this ADR the most?",
+    "options": [
+      "Redux is outdated, so we need something modern.",
+      "State management is hard.",
+      "We want to use XState because it looks interesting.",
+      "Product lists copied into the store go stale, and filters are lost on reload because they are not in the URL."
+    ],
+    "answer": 3,
+    "explanation": "The context names concrete forces and incidents, each of which a home in the state map must answer."
+  },
+  {
+    "question": "Your ADR introduces a state machine for checkout. What is an honest negative consequence?",
+    "options": [
+      "Double submissions become impossible",
+      "The team must learn and maintain machine definitions, which is extra code for a flow that used to be three booleans",
+      "Impossible states disappear",
+      "Transitions are documented by the code"
+    ],
+    "answer": 1,
+    "explanation": "The other options are benefits. The cost of a machine is the extra concepts and code, worth paying only for flows with guarded steps."
+  }
+]

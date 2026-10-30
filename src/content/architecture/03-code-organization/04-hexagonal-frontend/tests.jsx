@@ -79,7 +79,7 @@ test('boundaries: domain and application import neither React nor adapters and n
 
 test('composition root: App wires the HTTP adapter, so the domain order reaches the API', async () => {
   const requests = [];
-  mockApi('/api/todos', ({ method, body }) => {
+  mockApi('/api/orders', ({ method, body }) => {
     requests.push({ method, body });
     return jsonResponse({ id: 4 }, 201);
   });

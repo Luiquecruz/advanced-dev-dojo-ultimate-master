@@ -4,6 +4,6 @@ export async function findProducts(query) {
 }
 
 export async function findProductById(id) {
-  // TODO: the API has no detail endpoint: load every product and return the one with this id, or null
+  // TODO: reuse findProducts('') and return the product with this id, or null
   return null;
 }

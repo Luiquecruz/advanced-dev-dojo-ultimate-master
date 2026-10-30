@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A product list keeps `category` in a Zustand store initialized from the URL and written back in an effect. Users report that the back button changes the URL but not the list. What is the architectural fix?",
+    "options": [
+      "Add a second effect that copies the URL into the store on every location change",
+      "Remove the store copy: derive `category` from the parsed search params during render and write it through navigation",
+      "Persist the store to `localStorage` so it survives navigation",
+      "Disable the back button on that screen"
+    ],
+    "answer": 1,
+    "explanation": "Two copies need syncing in both directions, and every missed path is a bug. With the URL as the only copy, back/forward, reload and deep links all read the same source."
+  },
+  {
+    "question": "`?sort=price&page=1` and `?page=1&sort=price` and `?sort=price` render the same results. Why serialize all of them as `?sort=price`?",
+    "options": [
+      "Browsers reject query strings with default values",
+      "React Router cannot parse keys in a different order",
+      "Equal views then share one cache entry (CDN, browser, query keys) and one indexed URL instead of several duplicates",
+      "Shorter URLs make the JavaScript bundle smaller"
+    ],
+    "answer": 2,
+    "explanation": "Caches and search engines key on the exact string. Omitting defaults and sorting keys gives one canonical URL per view, which raises cache hits and avoids duplicate content."
+  },
+  {
+    "question": "Which history mode fits each write: typing in a search box, choosing a sort order, correcting an invalid `page=-3` link to the canonical URL?",
+    "options": [
+      "Replace, push, replace",
+      "Push, push, push",
+      "Replace, replace, push",
+      "Push, replace, push"
+    ],
+    "answer": 0,
+    "explanation": "Continuous input and corrections the user did not ask for replace the entry; deliberate, discrete choices push so the back button can undo them."
+  },
+  {
+    "question": "An old marketing email links to `?sort=popularity`, a value removed last year. What should the screen's search schema do?",
+    "options": [
+      "Throw so the error boundary shows a 404",
+      "Keep the unknown value and let the sort function ignore it",
+      "Redirect to the home page",
+      "Fall back to the default sort, so the link still opens a valid view (optionally replacing it with the canonical URL)"
+    ],
+    "answer": 3,
+    "explanation": "Links outlive releases. Validation with a fallback per field keeps old and hand-edited links working while the rest of the screen only sees valid, typed values."
+  },
+  {
+    "question": "Where should the rule \"changing a filter resets the page to 1\" live?",
+    "options": [
+      "In every filter control's change handler",
+      "In the shared search-state hook (or schema), so every screen with pagination gets it",
+      "In the backend, which should ignore `page` when filters change",
+      "Nowhere: users can click Previous until results appear"
+    ],
+    "answer": 1,
+    "explanation": "It is a cross-cutting policy. Encoding it once next to the URL read/write logic prevents each screen from forgetting it and landing users on empty pages."
+  }
+]

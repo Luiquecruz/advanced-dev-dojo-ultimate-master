@@ -3,7 +3,7 @@ Build a server-rendered product catalog with Model-View-Controller. Each request
 **`models/product.js`** (model: the only file that talks to the API)
 
 - `findProducts(query)` (done) fetches `/api/products?q=<query>` and returns the array.
-- `findProductById(id)`: the API has no detail endpoint, so load every product through `findProducts('')` and return the one whose `id` equals `Number(id)`, or `null`.
+- `findProductById(id)`: reuse `findProducts('')` so the model keeps one data source, and return the one whose `id` equals `Number(id)`, or `null`.
 
 **`views/ProductListView.jsx`**: `ProductListView({ products, query })`
 

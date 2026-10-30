@@ -1,0 +1,14 @@
+{
+  "title": "Streaming SSR and Suspense",
+  "summary": "Send the shell at once and stream slow Suspense boundaries into the same response with renderToReadableStream: out-of-order streaming, contained errors, allReady and selective hydration.",
+  "level": "advanced",
+  "tags": ["core", "modern", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "react.dev: renderToReadableStream", "url": "https://react.dev/reference/react-dom/server/renderToReadableStream" },
+    { "label": "react.dev: renderToPipeableStream", "url": "https://react.dev/reference/react-dom/server/renderToPipeableStream" },
+    { "label": "react.dev: Suspense", "url": "https://react.dev/reference/react/Suspense" },
+    { "label": "react.dev: use", "url": "https://react.dev/reference/react/use" },
+    { "label": "React 18 Working Group: New Suspense SSR Architecture", "url": "https://github.com/reactwg/react-18/discussions/37" }
+  ]
+}

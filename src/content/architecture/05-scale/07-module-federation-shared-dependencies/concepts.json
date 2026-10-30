@@ -1,0 +1,9 @@
+[
+  { "term": "Share scope", "description": "The runtime registry where every container registers the shared modules and versions it provides, and from which consumers pick one." },
+  { "term": "requiredVersion", "description": "The semver range a container accepts for a shared module. Defaults to the range in its `package.json`." },
+  { "term": "Singleton", "description": "`singleton: true` loads one version for the whole page, the highest provided by default. Ranges only produce warnings." },
+  { "term": "strictVersion", "description": "Turns an unsatisfied range from a warning into a thrown error, so a remote fails fast instead of running on an untested version." },
+  { "term": "Fallback copy", "description": "The version a container bundles itself. A non-singleton consumer uses it when no version in the scope satisfies its range, which loads a duplicate." },
+  { "term": "eager", "description": "Ships a shared module in the initial chunk. Without it, synchronous imports from the entry need an async boundary (`import('./bootstrap')`)." },
+  { "term": "shareStrategy", "description": "Module Federation 2.0 option: `'version-first'` negotiates the highest version at startup, `'loaded-first'` reuses what is already loaded." }
+]

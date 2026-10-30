@@ -1,0 +1,5 @@
+One question decides every element on the server: who runs it? Host elements are data, client components are references the browser will run later, and server components run right now and disappear, leaving only their output.
+---
+Use `isValidElement(node)` to recognize elements and read `{ type, key, props }`. Check `type === Fragment`, then `typeof type === 'string'`, then `type.$$client`, and only then call `await type(props)` and render its result. For props, map `Object.entries(props)` through `renderToPayload` and rebuild the object with `Object.fromEntries` (use `Promise.all`, since rendering is async).
+---
+On the client, rebuild `props` first, then pull out `children`: `const { children, ...otherProps } = rebuiltProps`. Add `key` only when it is not `null` (a `key: null` prop becomes the string `"null"`), and call `createElement(type, props, ...children)` when `children` is an array, `createElement(type, props, children)` when it is a single node, and `createElement(type, props)` when it is `undefined`.

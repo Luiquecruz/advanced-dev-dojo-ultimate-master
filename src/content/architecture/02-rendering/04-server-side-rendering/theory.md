@@ -37,7 +37,7 @@ hydrateRoot(container, <App products={products} />);
 
 Frameworks do the same thing under other names (`__NEXT_DATA__`, the React Router loader data, TanStack Query's `dehydrate`).
 
-**Security pitfall.** `JSON.stringify` does not escape HTML. If any value contains `</script>`, the HTML parser closes the script element there and runs whatever follows: a stored XSS from a product name. Replace `<` with `<`; JSON still parses it as `<`, but the HTML parser never sees a tag. Libraries such as `serialize-javascript` or `devalue` also handle ` ` and non-JSON values.
+**Security pitfall.** `JSON.stringify` does not escape HTML. If any value contains `</script>`, the HTML parser closes the script element there and runs whatever follows: a stored XSS from a product name. Replace `<` with `\u003c`; JSON still parses it as `<`, but the HTML parser never sees a tag. Libraries such as `serialize-javascript` or `devalue` also handle `\u2028` and non-JSON values.
 
 ## The metrics
 

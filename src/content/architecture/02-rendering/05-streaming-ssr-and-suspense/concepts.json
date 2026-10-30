@@ -1,0 +1,9 @@
+[
+  { "term": "Streaming SSR", "description": "The server sends the HTML in chunks over one response: the shell first, then each `<Suspense>` boundary as its data resolves." },
+  { "term": "Shell", "description": "Everything outside every `<Suspense>` boundary, plus the fallbacks. The stream starts when it is ready; an error in it fails the whole response." },
+  { "term": "`use(promise)`", "description": "Reads a promise during render. While it is pending the component suspends and the nearest `<Suspense>` fallback is shown." },
+  { "term": "`renderToReadableStream`", "description": "Web Streams renderer (edge runtimes, Deno, Bun, browsers). Resolves with the stream when the shell is ready; `stream.allReady` resolves when every boundary is done." },
+  { "term": "`renderToPipeableStream`", "description": "Node streams renderer with `onShellReady`, `onShellError`, `onAllReady` and `onError` callbacks; call `pipe(response)` when the shell is ready." },
+  { "term": "Out-of-order streaming", "description": "Late boundaries arrive as hidden HTML plus a tiny inline script that replaces the fallback, in the order their data resolves." },
+  { "term": "Selective hydration", "description": "Each boundary hydrates on its own as soon as it can; a boundary the user interacts with is hydrated first." }
+]

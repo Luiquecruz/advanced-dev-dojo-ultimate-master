@@ -1,0 +1,7 @@
+1. Start from the contract, not the tool: list the steps, the data, and for every step which calls are allowed. That table is the specification all three versions share, and it is what makes one test suite possible.
+2. Study the reducer version: transitions are pure and guarded by the current step, but the request is a side effect outside the reducer, so it needs its own guard (a ref) against double submits.
+3. For TanStack Query, split the state by owner: the wizard position and the collected data are client state (provider state shared through Context), the request lifecycle is server interaction (the mutation). Derive the visible step from both instead of storing it twice.
+4. Apply the same guards in the provider. Remember that the mutation status reaches React only after a render, so a ref is the only synchronous signal that a request has started.
+5. For XState, translate each row of the table into a transition. Model the request as an invoked promise actor in the `submitting` state: entering the state starts it, leaving it cancels it, and the result arrives as `onDone`/`onError`.
+6. Notice what you did not write in the machine: no guards for impossible calls and no in-flight ref. Events without a transition in the current state are ignored by construction.
+7. Run the suite and compare the three files: lines of code, number of guards you had to remember, and how easily you could draw the flow from the code.

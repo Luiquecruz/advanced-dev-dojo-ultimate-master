@@ -1,0 +1,8 @@
+[
+  { "term": "Flow contract", "description": "The shape a flow hook returns (`step`, `data`, `error`, `order`, `next`, `back`, `submit`, `retry`). The UI and the tests depend on it, so the implementation behind it can be swapped." },
+  { "term": "Discriminated status", "description": "One `step` field with a union of values instead of several booleans, so combinations like \"submitting and failed\" cannot be represented." },
+  { "term": "Impossible transition", "description": "An event that makes no sense in the current state, such as paying from the cart or going back while the order is being placed. It must be ignored, not half-applied." },
+  { "term": "Derived step", "description": "In the Query version, the visible step computed from the mutation status and the wizard position instead of being stored a second time." },
+  { "term": "Invoked actor", "description": "In XState, async work started by entering a state (`invoke` with `fromPromise`) and stopped when the state is left; its result arrives as `onDone`/`onError` of that state." },
+  { "term": "In-flight guard", "description": "A ref set synchronously when a request starts. Hook-based versions need it because state from the last render cannot see a call made in the same tick." }
+]

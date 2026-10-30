@@ -8,7 +8,7 @@ const DEMO_ITEMS = [
   { productId: 2, name: 'Mouse', price: 45, quantity: 1 },
 ];
 
-const orderGateway = createHttpOrderGateway('/api/todos');
+const orderGateway = createHttpOrderGateway('/api/orders');
 const placeOrder = createPlaceOrder(orderGateway);
 
 export default function App() {

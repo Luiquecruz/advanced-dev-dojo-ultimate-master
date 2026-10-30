@@ -22,36 +22,36 @@
     "explanation": "HTML tokenization happens before JSON parsing. Escaping `<` as `\\u003c` keeps the JSON valid and the HTML inert."
   },
   {
-    "question": "The products service returns HTTP 500. Which response should the server entry give for `/`?",
-    "options": [
-      "502 Bad Gateway with an error page",
-      "200 with an empty list",
-      "404 Not Found",
-      "301 redirect to the home page"
-    ],
-    "answer": 0,
-    "explanation": "The page exists, but an upstream dependency failed. 502 tells caches, monitors and crawlers the truth; an empty 200 hides the outage."
-  },
-  {
-    "question": "Why does `hydrate` read the embedded JSON instead of fetching `/api/products` again?",
-    "options": [
-      "Fetching is not allowed in the browser",
-      "`hydrateRoot` cannot render props",
-      "JSON in the HTML is always smaller than the API response",
-      "The first client render must match the server HTML; reusing the exact data the server used avoids mismatches and a duplicate request"
-    ],
-    "answer": 3,
-    "explanation": "Same component plus same props gives the same first render. A second fetch could return different data and wastes a round trip."
-  },
-  {
     "question": "The skeleton has no router library, no TanStack Query and no global store. How should that be documented?",
     "options": [
       "It should not: missing libraries are obvious",
       "Add the libraries now to be safe",
-      "Record in ADRs that they were left out on purpose and which trigger would justify adding each one",
-      "Add TODO comments in every file"
+      "Add TODO comments in every file",
+      "List them in the trade-offs as out of scope, each with the trigger that would justify adding it"
     ],
-    "answer": 2,
+    "answer": 3,
     "explanation": "What was deliberately left out is part of the architecture. Writing the trigger down prevents both premature adoption and accidental reinvention."
+  },
+  {
+    "question": "The state ADR says \"UI state stays local, no global store\". Six months later someone adds a Zustand store for the cart. How does a checked ADR help?",
+    "options": [
+      "It does not; ADRs are documentation only",
+      "A test that compares the ADR with the code fails, forcing the team to either revert the change or write a new ADR that supersedes the old one",
+      "It deletes the store automatically",
+      "It hides the store from the bundle"
+    ],
+    "answer": 1,
+    "explanation": "Checking ADRs against the code turns a decision into a rule. Changing it is still allowed, but it must be an explicit, recorded decision instead of drift."
+  },
+  {
+    "question": "Which consequence makes an ADR honest?",
+    "options": [
+      "\"Every request costs a server render and an upstream call, so TTFB is higher than a CDN hit\"",
+      "\"This is the modern best practice\"",
+      "\"Everything will be faster\"",
+      "\"No downsides were found\""
+    ],
+    "answer": 0,
+    "explanation": "Consequences list what the team pays. A named cost can be measured and revisited; claims without costs cannot be reviewed."
   }
 ]

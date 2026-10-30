@@ -1,7 +1,10 @@
 [
-  { "term": "Walking skeleton", "description": "A tiny end-to-end implementation that exercises every architectural layer. It proves the decisions fit together before features are added." },
-  { "term": "View model", "description": "The data shaped for one screen: only the fields the UI renders, already formatted. Produced by the BFF." },
-  { "term": "Embedded data", "description": "Server data serialized into the HTML (`<script type=\"application/json\">`) so the client hydrates without fetching it again." },
-  { "term": "Script-safe JSON", "description": "JSON with `<` escaped as `\\u003c`, so data cannot close the surrounding `<script>` tag while `JSON.parse` still returns the original value." },
-  { "term": "502 Bad Gateway", "description": "The server, acting as a gateway, received an invalid response from an upstream service. The right status when the BFF's backend fails." }
+  {"term": "Final project", "description": "Brief → one decision per layer → an ADR per decision → a walking skeleton through all of them → the trade-offs and what was left out on purpose."},
+  {"term": "Walking skeleton", "description": "A tiny end-to-end implementation that exercises every architectural layer. It proves the decisions fit together before features are added."},
+  {"term": "View model", "description": "The data shaped for one screen: only the fields the UI renders, already formatted. Produced by the BFF."},
+  {"term": "Embedded data", "description": "Server data serialized into the HTML (`<script type=\"application/json\">`) so the client hydrates without fetching it again."},
+  {"term": "Script-safe JSON", "description": "JSON with `<` escaped as `\\u003c`, so data cannot close the surrounding `<script>` tag while `JSON.parse` still returns the original value."},
+  {"term": "502 Bad Gateway", "description": "The server, acting as a gateway, received an invalid response from an upstream service. The right status when the BFF's backend fails."},
+  {"term": "Checked ADR", "description": "An ADR whose claims are verified against the code by a test (the rendering API used, the import boundaries, the state libraries), so the record cannot silently drift from reality."},
+  {"term": "Out of scope", "description": "What was deliberately left out, ideally with the trigger that would justify adding it (\"TanStack Query with the first client-side mutation\")."}
 ]

@@ -4,5 +4,6 @@
   { "term": "`'use client'`", "description": "Directive at the top of a file that marks the boundary from the server graph to the client graph. The file and everything it imports join the bundle." },
   { "term": "`'use server'`", "description": "Marks Server Functions the client can call over the network (Server Actions for forms and mutations). Every one is a public endpoint." },
   { "term": "RSC payload", "description": "Serialized description of the rendered tree: Server Component output plus references to Client Components and their props. Used for hydration and client navigation." },
-  { "term": "Children as slots", "description": "A Server Component passed as `children` or a JSX prop into a Client Component stays server-only; the client receives its rendered output." }
+  { "term": "Children as slots", "description": "A Server Component passed as `children` or a JSX prop into a Client Component stays server-only; the client receives its rendered output." },
+  { "term": "Client reference", "description": "What a Client Component becomes in the payload: a module id plus serialized props. The client resolves it through the bundler manifest and runs the component; the server never calls it." }
 ]

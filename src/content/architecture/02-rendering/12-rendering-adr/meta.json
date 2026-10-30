@@ -1,0 +1,14 @@
+{
+  "title": "Checkpoint: Rendering ADR",
+  "summary": "Close the rendering module with a portfolio ADR: map every route of a ticketing site to a rendering model and record the forces, alternatives and consequences.",
+  "level": "intermediate",
+  "tags": ["core", "theory", "practice"],
+  "preview": false,
+  "entry": "adr.js",
+  "resources": [
+    { "label": "web.dev: Rendering on the Web", "url": "https://web.dev/articles/rendering-on-the-web" },
+    { "label": "Next.js: Incremental Static Regeneration", "url": "https://nextjs.org/docs/app/guides/incremental-static-regeneration" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" }
+  ]
+}

@@ -1,0 +1,9 @@
+[
+  { "term": "Core Web Vitals", "description": "LCP, INP and CLS, judged at the 75th percentile of real visits. Good: LCP ≤ 2.5 s, INP ≤ 200 ms, CLS ≤ 0.1." },
+  { "term": "LCP", "description": "Largest Contentful Paint: the time the largest visible text block or image is painted. The last candidate before the first user input counts." },
+  { "term": "INP", "description": "Interaction to Next Paint: the slowest interaction of the visit, from input to the next frame. Field only; TBT is its lab proxy." },
+  { "term": "TBT", "description": "Total Blocking Time: the sum of the time over 50 ms of every long task between FCP and Time to Interactive." },
+  { "term": "TTFB / FCP", "description": "Time to First Byte (server, network, CDN) and First Contentful Paint (first text or image). Diagnostic metrics that explain LCP." },
+  { "term": "Field data (RUM)", "description": "Metrics from real users, collected with `PerformanceObserver` or the `web-vitals` library, or read from the Chrome UX Report (CrUX)." },
+  { "term": "Lab data", "description": "Repeatable runs in a controlled environment: Lighthouse, WebPageTest, the DevTools Performance panel. Explains causes, cannot measure INP." }
+]

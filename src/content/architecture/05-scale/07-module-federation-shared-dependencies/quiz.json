@@ -1,0 +1,57 @@
+[
+  {
+    "question": "The shell provides `react@19.1.0` as a singleton. A remote declares `requiredVersion: '^18.2.0'` without `strictVersion`. What happens?",
+    "options": [
+      "The remote loads its own React 18 next to React 19",
+      "The page fails to start",
+      "The remote runs on React 19.1.0 and the runtime logs an unsatisfied version warning",
+      "The runtime downgrades the whole page to React 18"
+    ],
+    "answer": 2,
+    "explanation": "A singleton never loads a second copy. An unsatisfied range only warns, unless the consumer sets `strictVersion: true`, which turns it into an error."
+  },
+  {
+    "question": "Why do two copies of React on one page break hooks?",
+    "options": [
+      "Each copy has its own internal dispatcher; a component calling hooks from copy B while copy A's renderer renders finds no dispatcher and throws *Invalid hook call*",
+      "Browsers cannot load two modules with the same name",
+      "JSX compiles differently for each copy",
+      "Two copies double the number of re-renders"
+    ],
+    "answer": 0,
+    "explanation": "Hooks read state set by the renderer on its own `react` module. The same identity problem breaks context: two `createContext()` calls produce two different context objects."
+  },
+  {
+    "question": "`date-fns` is shared without `singleton`. The shell provides 3.6.0 (`^3.0.0`) and a remote provides 4.1.0 (`^4.0.0`). What loads?",
+    "options": [
+      "Only 4.1.0, the highest version",
+      "Only 3.6.0, the host's version",
+      "Nothing; the runtime throws a version conflict",
+      "Both: each container gets the highest version its range accepts, so the shell uses 3.6.0 and the remote 4.1.0"
+    ],
+    "answer": 3,
+    "explanation": "Non-singletons respect ranges. When no single version satisfies everyone, the page pays with a duplicate download, which is safe for a stateless library."
+  },
+  {
+    "question": "A host's entry imports React synchronously and fails with *Shared module is not available for eager consumption*. Which fix keeps React negotiable?",
+    "options": [
+      "Remove React from `shared`",
+      "Move the app into `bootstrap.js` and make the entry only `import('./bootstrap')`, creating an async boundary for negotiation",
+      "Set `strictVersion: true`",
+      "Switch the remote to `shareStrategy: 'loaded-first'`"
+    ],
+    "answer": 1,
+    "explanation": "The async boundary gives the runtime time to initialize the share scope before any shared module is used. `eager: true` also works but puts the module into the initial chunk."
+  },
+  {
+    "question": "Does `^0.2.1` accept `0.3.0`?",
+    "options": [
+      "Yes, the caret allows any newer minor version",
+      "Yes, because the major version is the same",
+      "No: for `0.x` versions the caret keeps the minor fixed, so only `0.2.x` from `0.2.1` up is accepted",
+      "No: the caret only accepts patch `0.2.1` exactly"
+    ],
+    "answer": 2,
+    "explanation": "The caret freezes the leftmost non-zero number. Before 1.0 the minor is treated as breaking."
+  }
+]

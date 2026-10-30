@@ -1,0 +1,8 @@
+1. Start from the constraint: the payload must survive `JSON.stringify`. Anything that cannot (functions, component types) has to be executed, replaced by a name, or rejected before it leaves the server.
+2. Reject functions first. A function in props is a closure over server memory; the only callable things that may cross the real boundary are Server Functions, which travel as references to endpoints.
+3. Classify each element by its `type`. Strings are host elements: keep the tag and render the props. `Fragment` contributes only its children.
+4. For a type marked with `$$client`, emit a reference with its name and its rendered props and do not call it. The browser owns its state and effects; calling it on the server would also fail as soon as it uses a hook.
+5. For any other function, call it with its props and `await` the result. This is where server components read data directly; their code, the `database` object and fields like `costPrice` never enter the payload, only the JSX they return.
+6. Render props recursively with the same function. That single choice gives you the slot pattern for free: a server component passed as `children` to a client component is rendered while its props are serialized.
+7. On the client, walk the payload back: rebuild props, resolve `$client` names through the manifest you were given (and fail loudly with the name when one is missing), and create elements with spread children so React sees the same structure JSX would produce.
+8. Compare with the real thing: Flight emits rows as they resolve (with Suspense, a slow server component streams later), and references point to bundler chunks instead of a hand-written map.

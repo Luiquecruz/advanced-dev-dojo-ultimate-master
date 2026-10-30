@@ -1,0 +1,57 @@
+[
+  {
+    "question": "In `turbo.json`, `build` has `\"dependsOn\": [\"^build\"]`. What does the caret mean?",
+    "options": [
+      "Run the package's own `build` twice",
+      "Run the `build` task of every workspace dependency of the package before its own `build`",
+      "Run `build` only when the package changed",
+      "Run `build` in every package of the repository, regardless of dependencies"
+    ],
+    "answer": 1,
+    "explanation": "`^task` points to the same task in the package's dependencies. Without the caret, `dependsOn: [\"build\"]` points to a task of the same package (for example `test` waiting for its own `build`)."
+  },
+  {
+    "question": "`web` depends on `design-system` and `utils`; `admin` depends on `design-system`. A pull request changes only `packages/utils`. Which packages are affected?",
+    "options": [
+      "`utils` only",
+      "Every package in the repository",
+      "`utils` and `web`",
+      "`utils`, `web` and `admin`"
+    ],
+    "answer": 2,
+    "explanation": "Affected detection walks the graph backwards from the changed package: `web` depends on `utils`, `admin` does not."
+  },
+  {
+    "question": "Why does a task's hash include the hashes of its dependencies, not only its own files?",
+    "options": [
+      "So that a change in a dependency invalidates every task built on top of it, even when the dependent's own files are unchanged",
+      "To make hashes longer and avoid collisions",
+      "Because remote caches require it for authentication",
+      "So that dependencies build in parallel"
+    ],
+    "answer": 0,
+    "explanation": "The output of `web` depends on the code it bundles from `utils`. Folding dependency hashes into the input makes invalidation propagate along the graph while untouched branches keep hitting the cache."
+  },
+  {
+    "question": "A cached build ships to production with yesterday's API URL, although `API_URL` changed in CI. What is the most likely cause?",
+    "options": [
+      "The remote cache was corrupted",
+      "The build reads `API_URL` but it is not declared as an input (`env` in Turborepo, inputs in Nx), so the hash did not change",
+      "Topological levels were computed in the wrong order",
+      "The package graph has a cycle"
+    ],
+    "answer": 1,
+    "explanation": "Caching is only as correct as the declared inputs. An undeclared environment variable yields the same hash for different outputs, a stale hit."
+  },
+  {
+    "question": "With levels `[config] → [design-system, utils] → [admin, web]` and every task taking 1 minute, how long does a full build take with unlimited parallelism?",
+    "options": [
+      "5 minutes",
+      "1 minute",
+      "2 minutes",
+      "3 minutes"
+    ],
+    "answer": 3,
+    "explanation": "Tasks in a level run in parallel, so the time is the length of the longest dependency chain: three levels, three minutes."
+  }
+]

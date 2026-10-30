@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Two `submit()` calls in the same tick (a click handler and a form `onSubmit` both firing) create two orders in a `useReducer` version without a ref, even though the reducer ignores `submit` outside `payment`. Why?",
+    "options": [
+      "The reducer runs twice in Strict Mode",
+      "`dispatch` is asynchronous and drops the second action",
+      "The request is sent from the event handler, which reads `state` from the last render; both calls see `payment`, so a synchronous in-flight guard (a ref) is needed",
+      "`fetch` retries POST requests automatically"
+    ],
+    "answer": 2,
+    "explanation": "The reducer protects the state, but the side effect lives outside it. Both handler calls share the same render, so only a ref (or a machine that owns the request) can stop the second one."
+  },
+  {
+    "question": "Why does the XState version need no code to ignore `submit` while `submitting`?",
+    "options": [
+      "An event without a transition in the current state is simply not handled",
+      "XState debounces events by default",
+      "`useMachine` disables the Pay button",
+      "The `fromPromise` actor rejects duplicate inputs"
+    ],
+    "answer": 0,
+    "explanation": "Transitions are declared per state. `submitting` only reacts to the invoked actor's `onDone`/`onError`, so every other event is ignored by construction."
+  },
+  {
+    "question": "In the TanStack Query + Context version, what is the role of each part?",
+    "options": [
+      "Context stores the server response; the mutation stores the form fields",
+      "Context holds client state (wizard position and collected data); the mutation owns the request lifecycle; the visible step is derived from both",
+      "The mutation replaces Context, so no provider is needed",
+      "Context caches the order so `useQuery` can read it"
+    ],
+    "answer": 1,
+    "explanation": "Splitting by owner keeps one source of truth per kind of state. Storing the step a second time next to the mutation status would create a sync problem."
+  },
+  {
+    "question": "What does keeping all three versions behind the same `useCheckout()` contract buy the team?",
+    "options": [
+      "Smaller bundles, because only one version is shipped",
+      "Faster rendering of `CheckoutView`",
+      "Nothing; it only matters for this exercise",
+      "The UI and one test suite stay unchanged, so the flow implementation can be compared, replaced or migrated with the tests proving identical behavior"
+    ],
+    "answer": 3,
+    "explanation": "The contract is the seam. Behavior is specified once by tests, and the tool behind the hook becomes a decision you can revisit."
+  },
+  {
+    "question": "A team has a two-step newsletter sign-up with one POST. Which version fits best?",
+    "options": [
+      "XState, because every flow should be a machine",
+      "Redux Toolkit with a saga",
+      "`useReducer` (or even `useState`) with a status union and a disabled button while submitting",
+      "A micro frontend for the form"
+    ],
+    "answer": 2,
+    "explanation": "Machines pay off with many states, guarded or timed transitions and cancellation. For a short flow with one request, plain React with a discriminated status is enough."
+  }
+]

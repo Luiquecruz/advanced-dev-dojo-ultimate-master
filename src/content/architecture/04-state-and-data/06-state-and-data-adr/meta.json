@@ -1,0 +1,14 @@
+{
+  "title": "Checkpoint: State and Data ADR",
+  "summary": "Close the state module with a portfolio ADR and a state map for a grocery app: one home per piece of state, server data in a cache and a client store kept small.",
+  "level": "advanced",
+  "tags": ["core", "theory", "practice"],
+  "preview": false,
+  "entry": "adr.js",
+  "resources": [
+    { "label": "React: Choosing the State Structure", "url": "https://react.dev/learn/choosing-the-state-structure" },
+    { "label": "TkDodo: React Query as a State Manager", "url": "https://tkdodo.eu/blog/react-query-as-a-state-manager" },
+    { "label": "TanStack Query: Important Defaults", "url": "https://tanstack.com/query/latest/docs/framework/react/guides/important-defaults" },
+    { "label": "Stately: XState", "url": "https://stately.ai/docs/xstate" }
+  ]
+}

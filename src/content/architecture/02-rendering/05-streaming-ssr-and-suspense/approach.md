@@ -1,0 +1,6 @@
+1. Run the starter in your head: `Reviews` never reads the promise, so the server renders an empty list and the reviews never appear. Reading it is the first step, and reading a promise during render means suspending with `use`.
+2. Once `Reviews` suspends, something must catch it. Without a boundary the suspension reaches the shell, so the whole response waits for the slowest query (or fails with it). Add a `<Suspense>` boundary around `Reviews` only, so the header stays in the shell.
+3. Notice what `renderToString` does now: it writes the fallback and stops. It is synchronous, so the reviews never complete on the server. Replace it with `renderToReadableStream`, which keeps the response open.
+4. Return the promise that `renderToReadableStream` gives you. It resolves when the shell is ready; awaiting `allReady` inside `renderPage` would turn streaming back into buffering.
+5. Pass `onError` in the options. A rejection inside a boundary is not fatal: React reports it, keeps the fallback in the HTML and lets the client retry, while the shell still arrives.
+6. Read the output the way the tests do: the first chunks hold the header and the fallback; a later chunk holds a hidden `<div>` with the reviews and an inline `<script>` that moves it into place. That is out-of-order streaming in one response.

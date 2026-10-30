@@ -1,0 +1,14 @@
+{
+  "title": "The URL as Source of Truth",
+  "summary": "Treat the query string as a contract: a typed schema per screen with defaults, validation and coercion, canonical URLs for caches and SEO, no copies in stores, and push vs replace.",
+  "level": "advanced",
+  "tags": ["core", "ecosystem"],
+  "entry": "App.jsx",
+  "resources": [
+    { "label": "React Router: useSearchParams", "url": "https://reactrouter.com/api/hooks/useSearchParams" },
+    { "label": "TanStack Router: Search Params", "url": "https://tanstack.com/router/latest/docs/framework/react/guide/search-params" },
+    { "label": "nuqs: Parsers", "url": "https://nuqs.dev/docs/parsers" },
+    { "label": "Google Search Central: Consolidate duplicate URLs", "url": "https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls" },
+    { "label": "MDN: History.replaceState()", "url": "https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState" }
+  ]
+}

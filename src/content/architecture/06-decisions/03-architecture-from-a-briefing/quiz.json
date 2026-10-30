@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A briefing says: \"three teams, they release together every Thursday and like it that way\". Which organization follows from the facts?",
+    "options": [
+      "Micro-frontends, because there is more than one team",
+      "A modular monolith with clear module ownership, released as one deploy",
+      "Feature folders with no ownership rules",
+      "One repository per team with copies of the shared code"
+    ],
+    "answer": 1,
+    "explanation": "Several teams justify module boundaries and ownership. Micro-frontends need a second fact, independent deploys, which this briefing explicitly does not have."
+  },
+  {
+    "question": "A public news site shows the same front page to every visitor, must rank, and its content changes every hour. Which rendering fits the front page?",
+    "options": [
+      "SPA, because the content changes",
+      "Static HTML edited by hand",
+      "SSR for every request",
+      "ISR, regenerating the cached page in the background"
+    ],
+    "answer": 3,
+    "explanation": "Indexed and shared HTML can be cached; hourly freshness fits a revalidation window. SSR would pay a render per request for HTML that is identical for everyone."
+  },
+  {
+    "question": "Why does the state decision depend on the rendering decisions instead of being chosen on its own?",
+    "options": [
+      "Where a route renders decides where its server data is fetched: in the browser (a server cache) or on the server (embedded data for hydration)",
+      "State libraries only work with one rendering model",
+      "It does not depend on rendering; every product needs a global store",
+      "Rendering is decided after state"
+    ],
+    "answer": 0,
+    "explanation": "Client-rendered routes need a client cache for server data; server-rendered routes embed it in the HTML. UI state stays local in both cases."
+  },
+  {
+    "question": "Which reason is good enough to justify a decision in a briefing review?",
+    "options": [
+      "\"Micro-frontends are the industry standard\"",
+      "\"SSR is better for performance\"",
+      "\"/account is a SPA because it is behind login, needs no indexing and is highly interactive\"",
+      "\"We used Redux in the previous project\""
+    ],
+    "answer": 2,
+    "explanation": "A reason must point at facts of this briefing. Generic claims fit any product and cannot be checked or revisited when the context changes."
+  }
+]

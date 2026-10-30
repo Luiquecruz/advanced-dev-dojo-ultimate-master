@@ -1,12 +1,13 @@
 {
-  "title": "Capstone: Walking Skeleton",
-  "summary": "Tie the track together in one thin slice: a feature behind a public API, a BFF view model, server rendering with safely embedded data, and hydration.",
+  "title": "Capstone: Decisions and Walking Skeleton",
+  "summary": "The final project: decide each layer from a briefing, record checked ADRs, build a walking skeleton (feature public API, BFF view model, SSR with safely embedded data, hydration) and list the trade-offs.",
   "level": "expert",
   "tags": ["core", "performance"],
   "preview": false,
   "entry": "App.jsx",
   "resources": [
     { "label": "C2 Wiki: Walking Skeleton", "url": "https://wiki.c2.com/?WalkingSkeleton" },
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
     { "label": "react.dev: renderToString", "url": "https://react.dev/reference/react-dom/server/renderToString" },
     { "label": "react.dev: hydrateRoot", "url": "https://react.dev/reference/react-dom/client/hydrateRoot" },
     { "label": "Sam Newman: Backends For Frontends", "url": "https://samnewman.io/patterns/architectural/bff/" },

@@ -1,0 +1,8 @@
+[
+  { "term": "URL as source of truth", "description": "The URL is the only copy of view state such as filters, sort, page and tab. Components derive it during render and write it back through navigation, never through a store." },
+  { "term": "Search schema", "description": "One definition per screen of its query keys with type, default and validation. `parse` turns untrusted params into a typed object; `serialize` turns the object back into params." },
+  { "term": "Coercion", "description": "Turning the raw strings of a query string into numbers, enum values and arrays, with a default when the value is missing or invalid." },
+  { "term": "Canonical URL", "description": "The single string chosen for a view: defaults omitted, keys and list items in a stable order. Equal views get equal URLs, so caches, query keys and search engines see one entry." },
+  { "term": "Push vs replace", "description": "`push` adds a history entry that back can undo (sort, tab, page). `replace` rewrites the current entry (typing, normalizing a link)." },
+  { "term": "Page reset", "description": "Policy that sends pagination back to the first page whenever a filter changes, so a narrower result set never lands on an empty page." }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A SPA has the lowest TTFB of four rendering models on the same page. What does that tell you about its user experience?",
+    "options": [
+      "It is the fastest model for users",
+      "Very little: TTFB only measures the first byte of the HTML; the SPA can still paint its main content last",
+      "Its LCP is also the lowest",
+      "It will have the best INP"
+    ],
+    "answer": 1,
+    "explanation": "A SPA's empty shell comes straight from a CDN, so TTFB is excellent, but the content waits for the bundle and the data. LCP tells the real story."
+  },
+  {
+    "question": "Which metric can only be measured in the field, with real users?",
+    "options": [
+      "LCP",
+      "TBT",
+      "INP",
+      "TTFB"
+    ],
+    "answer": 2,
+    "explanation": "INP needs real interactions. Lab tools report TBT as a proxy for main-thread blocking."
+  },
+  {
+    "question": "A page has long tasks of 400 ms (before FCP), 120 ms and 40 ms (after FCP). What is its TBT?",
+    "options": [
+      "560 ms",
+      "160 ms",
+      "420 ms",
+      "70 ms"
+    ],
+    "answer": 3,
+    "explanation": "Only tasks after FCP count, and only the part above 50 ms: 120 − 50 = 70; the 40 ms task is not a long task."
+  },
+  {
+    "question": "A page paints its heading at 600 ms, the user clicks at 1000 ms, and a carousel image paints at 2200 ms. What is the LCP?",
+    "options": [
+      "600 ms, because candidates after the first input are ignored",
+      "2200 ms, the largest element",
+      "1000 ms, the time of the input",
+      "It cannot be measured"
+    ],
+    "answer": 0,
+    "explanation": "The browser stops reporting LCP candidates after the first user input, so the last candidate before it counts."
+  },
+  {
+    "question": "Lighthouse on your laptop shows great scores, but CrUX reports a poor LCP at p75. What should you trust for the decision?",
+    "options": [
+      "Lighthouse, because it is repeatable",
+      "The field data: it reflects real devices and networks; use the lab, throttled, to find the cause",
+      "Neither; use bundle size only",
+      "The average of both"
+    ],
+    "answer": 1,
+    "explanation": "Lab runs explain why; field data tells whether users feel it. A fast, unthrottled lab run hides what slow phones experience."
+  }
+]

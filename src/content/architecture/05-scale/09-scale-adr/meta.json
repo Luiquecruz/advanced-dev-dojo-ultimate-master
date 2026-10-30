@@ -1,0 +1,14 @@
+{
+  "title": "Checkpoint: Scale ADR",
+  "summary": "Close the scale module with a portfolio ADR for a three-team travel product: choose a deploy topology, assign module ownership, answer micro-frontends with the briefing numbers and set revisit triggers.",
+  "level": "advanced",
+  "tags": ["core", "theory", "practice"],
+  "preview": false,
+  "entry": "adr.js",
+  "resources": [
+    { "label": "Cam Jackson: Micro Frontends", "url": "https://martinfowler.com/articles/micro-frontends.html" },
+    { "label": "Martin Fowler: Monolith First", "url": "https://martinfowler.com/bliki/MonolithFirst.html" },
+    { "label": "Shopify Engineering: Deconstructing the Monolith", "url": "https://shopify.engineering/deconstructing-monolith-designing-software-maximizes-developer-productivity" },
+    { "label": "GitHub Docs: About code owners", "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners" }
+  ]
+}

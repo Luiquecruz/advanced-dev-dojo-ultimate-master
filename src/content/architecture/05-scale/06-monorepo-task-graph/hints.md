@@ -1,0 +1,5 @@
+The graph you are given points from a package to its dependencies. Affected detection walks the other way, from a package to the packages that use it, so build a reverse map (`dependentsByName`) once in `createWorkspace` and walk it with a queue and a `Set`.
+---
+`buildOrder` is a depth-first search. Keep a `Map` of finished packages to their level and an array with the path you are currently visiting. Meeting a package that is already in that path means a cycle: slice the path from that package and append it again to print `a -> b -> c -> a`. A package's level is `0` without dependencies, otherwise `1 + Math.max(...dependencyLevels)`.
+---
+In `run`, hash a package only after its dependencies, which `buildOrder` guarantees. Join the name, every `path + content` (sorted by path) and every `dependencyName@dependencyHash` into one string and hash it (FNV-1a with `Math.imul` is a few lines). Because the dependency hashes are part of the input, a change in `utils` changes the hash of `web` too, while `admin` keeps its old hash and hits the cache.

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A page renders `<Suspense fallback={<Spinner />}><Reviews /></Suspense>` where `Reviews` suspends on a 900 ms request. What does `renderToString` send?",
+    "options": [
+      "The full page after 900 ms",
+      "An error, because `renderToString` does not support Suspense",
+      "The shell with the spinner immediately; the reviews are never rendered on the server and are left to the client",
+      "Nothing until the client hydrates"
+    ],
+    "answer": 2,
+    "explanation": "`renderToString` is synchronous: it cannot wait, so it writes the fallback and gives up on that boundary. Only the streaming renderers wait and stream the content later."
+  },
+  {
+    "question": "When does the promise returned by `renderToReadableStream` resolve?",
+    "options": [
+      "When the shell (everything outside the boundaries, plus fallbacks) is ready",
+      "When every Suspense boundary has finished",
+      "When the client has hydrated",
+      "Immediately, before rendering starts"
+    ],
+    "answer": 0,
+    "explanation": "It resolves with the stream as soon as the shell can be sent. `stream.allReady` is the separate promise for \"everything is done\"."
+  },
+  {
+    "question": "The reviews service throws while the reviews boundary renders on the server. What happens to the response?",
+    "options": [
+      "The whole response becomes a 500 error",
+      "The shell and other boundaries are sent; `onError` is called, the fallback stays and the client retries that boundary",
+      "React silently renders an empty list",
+      "The stream hangs until the request times out"
+    ],
+    "answer": 1,
+    "explanation": "Errors inside a boundary are contained. Only an error in the shell rejects `renderToReadableStream` (or calls `onShellError` with `renderToPipeableStream`)."
+  },
+  {
+    "question": "A search engine crawler requests the page. Which option gives it complete HTML while keeping one rendering path?",
+    "options": [
+      "Switch the crawler to `renderToString`",
+      "Remove every Suspense boundary",
+      "Render to the stream as usual and `await stream.allReady` before responding",
+      "Render on the client only"
+    ],
+    "answer": 2,
+    "explanation": "`allReady` (or `onAllReady`) waits for every boundary, so the response contains the final HTML. Real users still get the streamed version."
+  },
+  {
+    "question": "What does selective hydration change for the user?",
+    "options": [
+      "Boundaries hydrate independently, and the one the user interacts with is hydrated first",
+      "The server sends less HTML",
+      "Hydration is skipped for Server Components",
+      "Fallbacks are hydrated before the shell"
+    ],
+    "answer": 0,
+    "explanation": "A slow or heavy boundary no longer blocks the interactivity of the rest of the page, and user input raises the priority of its boundary."
+  }
+]
