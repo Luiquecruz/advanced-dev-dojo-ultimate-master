@@ -1,10 +1,12 @@
 import { useSyncExternalStore } from 'react';
-import type { ProjectFiles, TrackId } from '@/content';
+import type { LanguageId, ProjectFiles, TrackId } from '@/content';
 
 const STORAGE_KEY = 'dev-dojo:progress:v1';
 
 export interface ProgressState {
   challenges: Record<string, true>;
+  challengeLanguages: Record<string, Record<LanguageId, true>>;
+  language: Partial<Record<TrackId, LanguageId>>;
   quizzes: Record<string, true>;
   visited: Record<string, true>;
   code: Record<string, ProjectFiles>;
@@ -12,7 +14,7 @@ export interface ProgressState {
   lastLesson: Partial<Record<TrackId, string>>;
 }
 
-const empty: ProgressState = { challenges: {}, quizzes: {}, visited: {}, code: {}, quizAnswers: {}, lastLesson: {} };
+const empty: ProgressState = { challenges: {}, challengeLanguages: {}, language: {}, quizzes: {}, visited: {}, code: {}, quizAnswers: {}, lastLesson: {} };
 
 function load(): ProgressState {
   try {
@@ -57,8 +59,15 @@ export const progress = {
       return { ...current, code };
     });
   },
-  markChallenge(lessonKey: string) {
-    update((current) => ({ ...current, challenges: { ...current.challenges, [lessonKey]: true } }));
+  markChallenge(lessonKey: string, language?: LanguageId) {
+    update((current) => ({
+      ...current,
+      challenges: { ...current.challenges, [lessonKey]: true },
+      challengeLanguages: language ? { ...current.challengeLanguages, [lessonKey]: { ...current.challengeLanguages[lessonKey], [language]: true } } : current.challengeLanguages,
+    }));
+  },
+  chooseLanguage(trackId: TrackId, language: LanguageId) {
+    update((current) => ({ ...current, language: { ...current.language, [trackId]: language } }));
   },
   markQuiz(lessonKey: string) {
     update((current) => ({ ...current, quizzes: { ...current.quizzes, [lessonKey]: true } }));
@@ -87,6 +96,13 @@ export const progress = {
   },
 };
 
+/**
+ * Storage key of the learner code for a lesson, one per language in multi-language tracks.
+ */
+export function codeKeyFor(lessonKey: string, language?: LanguageId): string {
+  return language ? `${lessonKey}#${language}` : lessonKey;
+}
+
 function subscribe(listener: () => void) {
   listeners.add(listener);
   return () => listeners.delete(listener);
@@ -100,7 +116,7 @@ export function useProgress(): ProgressState {
 }
 
 /**
- * A lesson is complete when its challenge passed (if any) and its quiz was answered correctly (if any).
+ * A lesson is complete when its challenge passed in any language (if any) and its quiz was answered correctly (if any).
  */
 export function isLessonComplete(state: ProgressState, lesson: { key: string; challenge?: unknown; quiz: unknown[] }): boolean {
   const challengeDone = !lesson.challenge || Boolean(state.challenges[lesson.key]);

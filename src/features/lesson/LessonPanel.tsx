@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useState } from 'react';
-import type { Lesson, Track } from '@/content';
+import type { Challenge, Lesson, Track } from '@/content';
 import { InlineMarkdown, Markdown } from '@/shared/ui/Markdown';
 import { TestName } from './TestName';
 import { Quiz } from './Quiz';
@@ -15,6 +15,7 @@ export type LessonTab = 'learn' | 'challenge' | 'quiz';
 interface LessonPanelProps {
   track: Track;
   lesson: Lesson;
+  challenge?: Challenge;
   tab: LessonTab;
   onTabChange(tab: LessonTab): void;
   testNames: string[];
@@ -43,7 +44,7 @@ const TEST_ITEM_CLASS: Record<TestStatus, string> = {
 /**
  * Left side of the lesson: theory, challenge description with tests and progressive help, quiz.
  */
-export function LessonPanel({ track, lesson, tab, onTabChange, testNames, report, running, onRevealSolution, nextLesson }: LessonPanelProps) {
+export function LessonPanel({ track, lesson, challenge, tab, onTabChange, testNames, report, running, onRevealSolution, nextLesson }: LessonPanelProps) {
   const state = useProgress();
   const complete = isLessonComplete(state, lesson);
   const module = track.modules.find((entry) => entry.id === lesson.moduleId)!;
@@ -96,8 +97,8 @@ export function LessonPanel({ track, lesson, tab, onTabChange, testNames, report
       <div className="flex-1 overflow-y-auto px-6.5 pt-4.5 pb-10 max-wide:px-4 max-wide:pt-3.5 max-wide:pb-8">
         <div key={tab} className="enter" style={{ ['--enter-delay' as string]: '60ms' }}>
           {tab === 'learn' && <LearnTab lesson={lesson} onStart={() => onTabChange(lesson.challenge ? 'challenge' : 'quiz')} />}
-          {tab === 'challenge' && lesson.challenge && (
-            <ChallengeTab lesson={lesson} testNames={testNames} report={report} running={running} onRevealSolution={onRevealSolution} />
+          {tab === 'challenge' && challenge && (
+            <ChallengeTab key={challenge.language} challenge={challenge} testNames={testNames} report={report} running={running} onRevealSolution={onRevealSolution} />
           )}
           {tab === 'quiz' && <Quiz lesson={lesson} />}
         </div>
@@ -161,8 +162,7 @@ function LearnTab({ lesson, onStart }: { lesson: Lesson; onStart(): void }) {
   );
 }
 
-function ChallengeTab({ lesson, testNames, report, running, onRevealSolution }: Omit<LessonPanelProps, 'track' | 'tab' | 'onTabChange' | 'nextLesson'>) {
-  const challenge = lesson.challenge!;
+function ChallengeTab({ challenge, testNames, report, running, onRevealSolution }: Pick<LessonPanelProps, 'testNames' | 'report' | 'running' | 'onRevealSolution'> & { challenge: Challenge }) {
   const [hintsShown, setHintsShown] = useState(0);
   const [approachShown, setApproachShown] = useState(false);
   const outcomes = new Map(report?.tests.map((test) => [test.name, test]));

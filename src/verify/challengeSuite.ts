@@ -1,15 +1,17 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { trackById } from '../content';
+import { trackById, type LanguageId } from '../content';
 import { installLoopGuard } from '../engines/shared/compile';
 import { installFakeApi } from '../engines/shared/fakeApi';
 import { listTestNames, runTests, type FrameworkAdapter } from '../engines/shared/testRunner';
 
 /**
- * Verifies that every challenge of a framework track passes with its solution and fails with its starter.
+ * Verifies that every challenge of a framework track passes with its solution and fails with its starter. Multi-language tracks call it once per language.
  */
-export function defineChallengeSuite(trackId: string, adapter: FrameworkAdapter): void {
+export function defineChallengeSuite(trackId: string, adapter: FrameworkAdapter, language?: LanguageId): void {
   const filter = process.env.LESSON;
-  const lessons = (trackById.get(trackId)?.lessons ?? []).filter((lesson) => lesson.challenge && (!filter || lesson.id.includes(filter)));
+  const challenges = (trackById.get(trackId)?.lessons ?? [])
+    .filter((lesson) => !filter || lesson.id.includes(filter))
+    .flatMap((lesson) => lesson.variants.filter((variant) => variant.language === language).map((challenge) => ({ lesson, challenge })));
 
   beforeAll(() => {
     installLoopGuard(globalThis);
@@ -18,13 +20,13 @@ export function defineChallengeSuite(trackId: string, adapter: FrameworkAdapter)
       ({ matches: false, media: query, onchange: null, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, dispatchEvent: () => false }) as MediaQueryList;
   });
 
-  if (lessons.length === 0) {
+  if (challenges.length === 0) {
     it.skip(`no ${trackId} challenges match`, () => undefined);
     return;
   }
 
-  describe.each(lessons.map((lesson) => [lesson.id, lesson] as const))(`${trackId}/%s`, (_, lesson) => {
-    const challenge = lesson.challenge!;
+  const suiteName = language ? `${trackId}/%s [${language}]` : `${trackId}/%s`;
+  describe.each(challenges.map(({ lesson, challenge }) => [lesson.id, challenge] as const))(suiteName, (_, challenge) => {
     const names = listTestNames(challenge.tests);
 
     it('declares tests', () => {

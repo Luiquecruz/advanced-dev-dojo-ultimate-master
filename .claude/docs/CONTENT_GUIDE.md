@@ -14,7 +14,7 @@ All content is written in **English**.
 
 | File | Required | Purpose |
 | --- | --- | --- |
-| `meta.json` | yes | `{ "title", "summary", "level", "tags"?, "preview"?, "entry"?, "resources"? }` |
+| `meta.json` | yes | `{ "title", "summary", "level", "tags"?, "preview"?, "entry"?, "resources"? }`; in multi-language tracks `entry` may be `{ "<language>": "<file>" }` |
 | `theory.md` | yes | The lesson. GitHub flavored Markdown with fenced code (`ts`, `tsx`, `jsx`, `vue`, `html`, `bash`, `css`, `json`, `sql`) |
 | `concepts.json` | recommended | Glossary cards `[{ "term", "description" }]` (Markdown allowed) |
 | `challenge.md` | for practice | The task: exact names, signatures, texts and behaviors the tests check |
@@ -23,15 +23,17 @@ All content is written in **English**.
 | `tests.<ext>` | with challenge | Validation (format per track below) |
 | `hints.md` | with challenge | 2–4 progressive hints separated by a line containing only `---`, from gentle nudge to almost-the-answer |
 | `approach.md` | with challenge | "Solution path": numbered reasoning steps, without pasting the full solution |
+| `variants/<language>/` | multi-language tracks | One challenge per language: `starter`, `solution`, `tests` and optional `challenge.md`/`hints.md`/`approach.md` overrides (see below) |
 | `quiz.json` | optional | `[{ "question", "options": [...], "answer": <index>, "explanation" }]` (Markdown allowed) |
 | `module.json` | per module | `{ "title", "description" }` |
-| `track.json` | per track | `{ "engine", "order", "title", "monogram", "shortTitle"?, "description", "version" }`; the accent color lives in `src/shared/design/tokens.css` (rules in [ARCHITECTURE.md](ARCHITECTURE.md#track-presentation)) |
+| `track.json` | per track | `{ "engine", "order", "title", "monogram", "shortTitle"?, "description", "version" }`, or `"languages": [...]` instead of `"engine"` for a multi-language track; the accent color lives in `src/shared/design/tokens.css` (rules in [ARCHITECTURE.md](ARCHITECTURE.md#track-presentation)) |
 
 - `level`: `beginner`, `intermediate`, `advanced` or `expert`.
 - `tags`: free list. Conventions: `core`, `legacy`, `modern`, `new` (latest-version feature), `ecosystem`, `theory`, `typescript`, `performance`, `testing`.
 - `preview`: `false` hides the live preview for non-visual work (composables, services, utilities). The TypeScript and Node.js tracks never show a preview; they have a **Run** button that prints the console output instead.
 - `entry`: required for multi-file challenges (`starter/` + `solution/` folders). Files may sit in subfolders (`features/cart/index.js`); imports resolve relative to the importing file (`./model`, `../../shared/ui/Button`), try the extensions `.ts`, `.tsx`, `.js`, `.jsx`, `.vue` and then a folder `index` file, and a leading `/` resolves from the project root. Tests reach nested files with `modules['features/cart/index.js']` and `sources['features/cart/index.js']`. Single-file defaults: TypeScript `main.ts`; React `App.jsx`/`App.tsx`; Vue `App.vue` (or `main.ts` when the starter is `.ts`); Angular `app.ts`; Node.js `main.ts`.
 - A lesson needs a challenge, a quiz, or both. Theory-only topics (tooling, frameworks, architecture, history) use a 4–6 question quiz.
+- **Multi-language tracks** (`"languages"` in `track.json`, ids from `src/content/languages.ts`): the learner picks the challenge language in the editor toolbar. Theory, concepts and quiz are shared; `challenge.md`, `hints.md` and `approach.md` at the lesson root are shared defaults, and a variant overrides them only when names or steps differ per language (`summarizeTrace` vs `summarize_trace`). Each language's code lives in `variants/<language>/` (`starter`, `solution`, `tests` in that engine's format); files outside `variants/` are ignored for the challenge. A lesson offers only the languages it ships, and every shipped variant must pass verification. Write the challenge contract so it reads naturally in every language the lesson ships. Mechanism and progress rules: [ARCHITECTURE.md](ARCHITECTURE.md#multi-language-challenges).
 - **Write `meta.json` last**, after every other file of the lesson exists. The loader only picks up folders that have `meta.json`, so half-written lessons stay invisible to other authors running the verifier.
 
 ## Writing good lessons
@@ -160,7 +162,7 @@ flags: i
 ## Verification
 
 ```bash
-npx vitest run src/verify/<track>.test.ts                      # whole track
+npx vitest run src/verify/<track>.test.ts                      # whole track (every language of a multi-language track)
 LESSON=use-effect npx vitest run src/verify/react.test.ts      # lessons whose id contains "use-effect"
 LESSON=use-effect npx vitest run src/verify/content.test.ts    # structure checks
 npx vitest run src/verify/curriculum.test.ts                    # CURRICULUM.md matches the written lessons

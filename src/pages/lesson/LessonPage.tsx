@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
-import type { Lesson, ProjectFiles, Track } from '@/content';
-import { canRunProgram, CodeEditor, configureLanguageService, type ConsoleEntry, gradeChallenge, LessonPanel, type LessonTab, PreviewFrame, type Report, runProgram, TestName, testNamesFor } from '@/features/lesson';
+import { LANGUAGES, type LanguageId, type Lesson, type ProjectFiles, type Track } from '@/content';
+import { canRunProgram, CodeEditor, configureLanguageService, type ConsoleEntry, gradeChallenge, LanguageSwitch, LessonPanel, type LessonTab, PreviewFrame, type Report, runProgram, TestName, testNamesFor } from '@/features/lesson';
 import { CurriculumDrawer } from '@/features/curriculum';
 import { Markdown } from '@/shared/ui/Markdown';
-import { isLessonComplete, progress, useProgress } from '@/entities/progress';
+import { codeKeyFor, isLessonComplete, progress, useProgress } from '@/entities/progress';
 import { hrefTo } from '@/shared/routing/route';
 import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, CrossIcon, MenuIcon, PlayIcon, RefreshIcon, ResetIcon, TerminalIcon } from '@/shared/ui/icons';
 import { useMediaQuery } from '@/shared/lib/useMediaQuery';
@@ -21,14 +21,17 @@ const MAX_CONSOLE_ENTRIES = 200;
  */
 export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) {
   const state = useProgress();
-  const challenge = lesson.challenge;
+  const [language, setLanguage] = useState(() => initialLanguage(lesson, state.language[track.id]));
+  const challenge = lesson.variants.find((variant) => variant.language === language) ?? lesson.challenge;
+  const engine = challenge?.engine ?? track.engine;
+  const codeKey = codeKeyFor(lesson.key, challenge?.language);
   const narrow = useMediaQuery('(width < 56.25rem)');
   const index = track.lessons.indexOf(lesson);
   const previous = track.lessons[index - 1];
   const next = track.lessons[index + 1];
 
   const [tab, setTab] = useState<LessonTab>(state.visited[lesson.key] && challenge ? 'challenge' : 'learn');
-  const [files, setFiles] = useState<ProjectFiles>(() => state.code[lesson.key] ?? challenge?.starter ?? {});
+  const [files, setFiles] = useState<ProjectFiles>(() => state.code[codeKey] ?? challenge?.starter ?? {});
   const [activeFile, setActiveFile] = useState(challenge?.entry ?? '');
   const [report, setReport] = useState<Report | null>(null);
   const [running, setRunning] = useState(false);
@@ -39,23 +42,26 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [solutionOpen, setSolutionOpen] = useState(false);
 
-  const testNames = useMemo(() => (challenge ? testNamesFor(track.engine, challenge) : []), [track.engine, challenge]);
+  const testNames = useMemo(() => (challenge ? testNamesFor(engine, challenge) : []), [engine, challenge]);
   const fileNames = Object.keys(files).sort((a, b) => (a === challenge?.entry ? -1 : b === challenge?.entry ? 1 : a.localeCompare(b)));
 
   useEffect(() => {
-    configureLanguageService(track.engine);
+    configureLanguageService(engine);
+  }, [engine]);
+
+  useEffect(() => {
     progress.visit(track.id, lesson.key);
-  }, [track.id, track.engine, lesson.key]);
+  }, [track.id, lesson.key]);
 
   const updateFile = useCallback(
     (name: string, value: string) => {
       setFiles((current) => {
         const nextFiles = { ...current, [name]: value };
-        progress.saveCode(lesson.key, nextFiles);
+        progress.saveCode(codeKey, nextFiles);
         return nextFiles;
       });
     },
-    [lesson.key],
+    [codeKey],
   );
 
   const appendConsole = useCallback((entry: ConsoleEntry) => {
@@ -72,21 +78,21 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
       setBottomTab('tests');
     }
     try {
-      const result = await gradeChallenge(track.engine, challenge, files);
+      const result = await gradeChallenge(engine, challenge, files);
       setReport(result);
       if (result.logs.length > 0) {
         setConsoleEntries(result.logs.map((text) => ({ level: text.startsWith('✖') ? 'error' : text.startsWith('⚠') ? 'warn' : 'log', text })));
       }
       if (result.passed) {
-        progress.markChallenge(lesson.key);
+        progress.markChallenge(lesson.key, challenge.language);
       }
     } finally {
       setRunning(false);
     }
-  }, [challenge, running, track.engine, files, lesson.key]);
+  }, [challenge, running, engine, files, lesson.key]);
 
   const runCode = useCallback(async () => {
-    if (!canRunProgram(track.engine) || !challenge || programRunning) {
+    if (!canRunProgram(engine) || !challenge || programRunning) {
       return;
     }
     setBottomTab('console');
@@ -94,7 +100,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
     const entries: ConsoleEntry[] = [];
     setConsoleEntries([]);
     try {
-      await runProgram(track.engine, files, challenge.entry, (entry) => {
+      await runProgram(engine, files, challenge.entry, (entry) => {
         entries.push(entry);
         appendConsole(entry);
       });
@@ -104,13 +110,13 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
     if (entries.length === 0) {
       setConsoleEntries([{ level: 'info', text: 'No output. Use console.log() to print values.' }]);
     }
-  }, [track.engine, challenge, programRunning, files, appendConsole]);
+  }, [engine, challenge, programRunning, files, appendConsole]);
 
   const resetCode = () => {
     if (!challenge || !confirm('Reset the editor to the starter code? Your changes for this lesson will be lost.')) {
       return;
     }
-    progress.clearCode(lesson.key);
+    progress.clearCode(codeKey);
     setFiles(challenge.starter);
     setReport(null);
     setReloadKey((key) => key + 1);
@@ -121,9 +127,27 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
       return;
     }
     setFiles(challenge.solution);
-    progress.saveCode(lesson.key, challenge.solution);
+    progress.saveCode(codeKey, challenge.solution);
     setSolutionOpen(false);
   };
+
+  const switchLanguage = (next: LanguageId) => {
+    const variant = lesson.variants.find((entry) => entry.language === next);
+    if (!variant || next === language) {
+      return;
+    }
+    setLanguage(next);
+    progress.chooseLanguage(track.id, next);
+    setFiles(state.code[codeKeyFor(lesson.key, next)] ?? variant.starter);
+    setActiveFile(variant.entry);
+    setReport(null);
+    setConsoleEntries([]);
+    setReloadKey((key) => key + 1);
+  };
+
+  const languageOptions = lesson.variants.flatMap((variant) =>
+    variant.language ? [{ id: variant.language, label: LANGUAGES[variant.language].label, passed: Boolean(state.challengeLanguages[lesson.key]?.[variant.language]) }] : [],
+  );
 
 
   const workspace = challenge ? (
@@ -146,10 +170,11 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
               ))}
             </div>
             <div className="flex items-center gap-1.5">
+              {languageOptions.length > 1 && language && <LanguageSwitch options={languageOptions} value={language} onChange={switchLanguage} />}
               <button className={iconButtonClass()} title="Reset to starter code" onClick={resetCode}>
                 <ResetIcon />
               </button>
-              {canRunProgram(track.engine) && (
+              {canRunProgram(engine) && (
                 <button className={buttonClass('ghost', 'regular', 'max-wide:hidden')} onClick={runCode} disabled={programRunning}>
                   <TerminalIcon /> {programRunning ? 'Running…' : 'Run'}
                 </button>
@@ -160,7 +185,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
             </div>
           </div>
           <CodeEditor
-            modelPath={lesson.key}
+            modelPath={codeKey}
             fileName={activeFile}
             value={files[activeFile] ?? ''}
             onChange={(value) => updateFile(activeFile, value)}
@@ -204,7 +229,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
           <div className="relative min-h-0 flex-1 overflow-auto">
             {challenge.preview && (
               <div className={clsx('absolute inset-0', bottomTab !== 'preview' && 'invisible pointer-events-none')} aria-hidden={bottomTab !== 'preview'}>
-                <PreviewFrame engine={track.engine} files={files} entry={challenge.entry} reloadKey={reloadKey} onConsole={appendConsole} />
+                <PreviewFrame engine={engine} files={files} entry={challenge.entry} reloadKey={reloadKey} onConsole={appendConsole} />
               </div>
             )}
             {bottomTab === 'tests' && <TestOutput report={report} running={running} testNames={testNames} />}
@@ -274,6 +299,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
               key={lesson.key}
               track={track}
               lesson={lesson}
+              challenge={challenge}
               tab={tab}
               onTabChange={setTab}
               testNames={testNames}
@@ -328,6 +354,10 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
       )}
     </div>
   );
+}
+
+function initialLanguage(lesson: Lesson, preferred: LanguageId | undefined): LanguageId | undefined {
+  return lesson.variants.some((variant) => variant.language === preferred) ? preferred : lesson.challenge?.language;
 }
 
 const SEPARATOR_CLASS = {

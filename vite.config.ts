@@ -31,7 +31,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     include: ['src/**/*.test.ts'],
-    exclude: ['src/content/**', 'node_modules/**'],
+    exclude: ['src/content/*/**', 'node_modules/**'],
     testTimeout: 60000,
     fsModuleCache: false,
     dangerouslyIgnoreUnhandledErrors: true,

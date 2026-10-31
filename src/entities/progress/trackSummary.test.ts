@@ -4,7 +4,7 @@ import type { ProgressState } from './progressStore';
 import { modulesAroundStage, summarizeTrack } from './trackSummary';
 
 function lesson(id: string, moduleId: string): Lesson {
-  return { key: `demo/${id}`, id, folder: `demo/${moduleId}/${id}`, trackId: 'demo', moduleId, title: id, summary: '', level: 'beginner', tags: [], theory: '', concepts: [], quiz: [], resources: [], challenge: {} as Lesson['challenge'] };
+  return { key: `demo/${id}`, id, folder: `demo/${moduleId}/${id}`, trackId: 'demo', moduleId, title: id, summary: '', level: 'beginner', tags: [], theory: '', concepts: [], quiz: [], resources: [], challenge: {} as Lesson['challenge'], variants: [] };
 }
 
 function buildTrack(moduleCount: number, lessonsPerModule: number): Track {
@@ -12,12 +12,14 @@ function buildTrack(moduleCount: number, lessonsPerModule: number): Track {
     const id = `module-${moduleIndex + 1}`;
     return { id, trackId: 'demo', title: id, description: '', lessons: Array.from({ length: lessonsPerModule }, (__, lessonIndex) => lesson(`${id}-lesson-${lessonIndex + 1}`, id)) };
   });
-  return { id: 'demo', engine: 'typescript', order: 1, title: 'Demo', monogram: 'D', description: '', version: '1', modules, lessons: modules.flatMap((module) => module.lessons) };
+  return { id: 'demo', engine: 'typescript', languages: [], order: 1, title: 'Demo', monogram: 'D', description: '', version: '1', modules, lessons: modules.flatMap((module) => module.lessons) };
 }
 
 function progressWith(completed: string[], lastLesson?: string): ProgressState {
   return {
     challenges: Object.fromEntries(completed.map((id) => [`demo/${id}`, true as const])),
+    challengeLanguages: {},
+    language: {},
     quizzes: {},
     visited: {},
     code: {},

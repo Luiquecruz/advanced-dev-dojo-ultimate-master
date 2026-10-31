@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { allLessons, availableTracks, isTrackEnabled, tracks } from '../content';
+import { allLessons, availableTracks, isTrackEnabled, LANGUAGES, tracks } from '../content';
 
 const filter = process.env.LESSON;
 const lessons = allLessons.filter((lesson) => !filter || lesson.id.includes(filter));
@@ -14,6 +14,22 @@ describe('content structure', () => {
   it('shows only enabled tracks and keeps disabled ones loaded', () => {
     expect(availableTracks).toEqual(tracks.filter((track) => isTrackEnabled(track.id)));
     expect(availableTracks.length).toBeGreaterThan(0);
+  });
+
+  it.each(tracks.map((track) => [track.id, track] as const))('%s grades each challenge with the engine of its language', (_, track) => {
+    track.languages.forEach((language) => expect(Object.keys(LANGUAGES)).toContain(language));
+    track.lessons.forEach((lesson) => {
+      expect(lesson.challenge).toBe(lesson.variants[0]);
+      lesson.variants.forEach((variant) => {
+        if (track.languages.length === 0) {
+          expect(variant.language).toBeUndefined();
+          expect(variant.engine).toBe(track.engine);
+        } else {
+          expect(track.languages).toContain(variant.language);
+          expect(variant.engine).toBe(LANGUAGES[variant.language!].engine);
+        }
+      });
+    });
   });
 
   it.each(tracks.map((track) => [track.id, track] as const))('%s declares a short monogram', (_, track) => {

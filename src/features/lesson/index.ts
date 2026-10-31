@@ -1,4 +1,5 @@
 export { CodeEditor } from './CodeEditor';
+export { LanguageSwitch, type LanguageOption } from './LanguageSwitch';
 export { LessonPanel, type LessonTab } from './LessonPanel';
 export { PreviewFrame, type ConsoleEntry } from './PreviewFrame';
 export { TestName } from './TestName';

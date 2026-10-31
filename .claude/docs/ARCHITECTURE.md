@@ -26,8 +26,11 @@ src/
 │   ├── routing/         hash route parsing and links
 │   └── lib/             small React hooks (useMediaQuery)
 ├── content/
-│   ├── index.ts         Content loader: builds tracks → modules → lessons from the folders below
-│   └── <track>/         track.json (declares its engine) + <NN-module>/module.json + <NN-lesson>/...
+│   ├── index.ts         Public API: globs the lesson files and exposes tracks, lessons, LANGUAGES
+│   ├── loader.ts        buildTracks: tracks → modules → lessons → challenge variants (unit tested in loader.test.ts)
+│   ├── languages.ts     LANGUAGES registry for multi-language tracks (language → label, engine)
+│   ├── types.ts         Track, Lesson, Challenge, EngineId, LanguageId...
+│   └── <track>/         track.json (declares its engine or languages) + <NN-module>/module.json + <NN-lesson>/...
 ├── engines/
 │   ├── shared/          Engine-agnostic runtime: compiler, module loader, test runner, expect, fake API
 │   ├── typescript/      Static engine: TypeScript compiler API in Web Workers (type/runtime/pattern tests)
@@ -80,7 +83,7 @@ learner actions ─► progress.* (entities/progress) ─► localStorage + useP
 | --- | --- | --- | --- |
 | Route | `shared/routing/route.ts` (hash) | `useRoute()` | URL |
 | Motion state | `shared/motion/coordinator.ts` | `useMotionState()` | no |
-| Learner progress and code | `entities/progress/progressStore.ts` | `useProgress()`, `progress.getState()` | `localStorage` `dev-dojo:progress:v1`, debounced 300ms |
+| Learner progress and code (passed challenges and the languages they passed in, quizzes, chosen language per track, code per lesson and language) | `entities/progress/progressStore.ts` | `useProgress()`, `progress.getState()` | `localStorage` `dev-dojo:progress:v1`, debounced 300ms |
 | Screen state (tabs, report, console, carousel index) | the page component | React state | no |
 | Ambient scene | `shared/scene/scene.ts` | imperative `SceneAPI` | no |
 
@@ -111,7 +114,7 @@ Pick the **framework engine** for anything that renders UI or needs a DOM, or th
 - `registry.ts` exposes each built-in as `name` and `node:name` (`moduleOf` turns namespaces and instances into CommonJS-friendly objects), plus Hono, `@hono/zod-validator` and Zod.
 - `adapter.ts`: `nodeAdapter` (test scope: `request`, `writeFiles`, `captureLogs`, `fs`, `process`, `Buffer`; the runtime is reset before and after every test) and `runNodeProgram`, used by the sandbox `run` mode behind the lesson **Run** button.
 
-`content/index.ts` treats `typescript` and `node` as headless engines (no preview by default); `features/lesson/runner.ts` decides which engines get a **Run** button (`canRunProgram`) and runs them (`runProgram`: TypeScript in a worker, Node.js in a `mode=run` sandbox iframe that streams `console` messages back and answers `run-complete`).
+`content/loader.ts` treats `typescript` and `node` as headless engines (no preview by default); `features/lesson/runner.ts` decides which engines get a **Run** button (`canRunProgram`) and runs them (`runProgram`: TypeScript in a worker, Node.js in a `mode=run` sandbox iframe that streams `console` messages back and answers `run-complete`).
 
 ### Framework engine pipeline
 
@@ -156,7 +159,58 @@ Most new tracks do not need a new engine. `react-state` (React State Management)
 5. **Plan and guide**: add the module and lesson plan to [CURRICULUM.md](CURRICULUM.md) (written lessons get `✓`) and list new libraries in [CONTENT_GUIDE.md](CONTENT_GUIDE.md).
 6. **Copy that names the tracks**: update the `<meta name="description">` in `index.html` when the new track should be named there.
 
-No change is needed in the runner, sandbox, loader, pages or features: they read `track.engine`, and the home carousel, curriculum, progress, stats, logo and ambient scene pick the track up from `track.json` and its accent rule.
+No change is needed in the runner, sandbox, loader, pages or features: they read the engine of each challenge (`challenge.engine`, the track engine for single-language tracks), and the home carousel, curriculum, progress, stats, logo and ambient scene pick the track up from `track.json` and its accent rule.
+
+## Multi-language challenges
+
+Generic tracks (AI Engineering today, more later) are not tied to one language: the learner picks the language of each challenge, and the same lesson ships one challenge per language. Node.js is the only registered language today; Python joins when its engine exists.
+
+### Content
+
+```
+src/content/<track>/track.json                      { "languages": ["node", "python"], ... } instead of "engine"
+src/content/<track>/<NN-module>/<NN-lesson>/
+├── meta.json                                       "entry" may be a string or { "<language>": "<file>" }
+├── theory.md, concepts.json, quiz.json             shared by every language
+├── challenge.md, hints.md, approach.md             shared defaults
+└── variants/<language>/
+    ├── starter.<ext> or starter/                   required: a variant exists only when it has a starter
+    ├── solution.<ext> or solution/
+    ├── tests.<ext>                                  the test format of that language's engine
+    └── challenge.md, hints.md, approach.md          optional overrides (names that differ per language)
+```
+
+- A track declares either `engine` (single language, unchanged) or `languages` (ids from `LANGUAGES` in `src/content/languages.ts`). The track engine becomes the engine of its first language; an unknown language id fails the build.
+- In a multi-language track, challenge files outside `variants/` are ignored. A lesson offers only the languages it ships, so a Python variant can be added lesson by lesson.
+
+### Model
+
+- `buildTracks` (`src/content/loader.ts`) gives every lesson `variants: Challenge[]`: one per language in track order, or the single lesson-level challenge for single-language tracks (`language` undefined). `lesson.challenge` is `variants[0]`, the default.
+- Each `Challenge` carries its `engine` (and `language`). Everything that grades, runs, previews or configures Monaco uses `challenge.engine`, never `track.engine` directly.
+
+### Progress
+
+- A lesson counts as complete when its challenge passed in **any** language (`challenges[lessonKey]`), so switching languages never loses completion.
+- `challengeLanguages[lessonKey][language]` records every language that passed (per-language check marks).
+- `language[trackId]` remembers the language chosen in that track.
+- Learner code is stored per lesson and language: `codeKeyFor(lessonKey, language)` returns `<lessonKey>#<language>` (or `lessonKey` for single-language lessons).
+- The fields are additive: older saved progress loads with empty defaults, so the storage key stays `dev-dojo:progress:v1` without a migration.
+
+### UI
+
+`LessonPage` keeps the selected language in state (initialised from the track's remembered language when the lesson ships it, otherwise the first variant). `LanguageSwitch` (`features/lesson/LanguageSwitch.tsx`) appears in the editor toolbar only when the lesson has more than one variant; each option shows a check when that language passed. Switching loads that language's saved code or starter, opens its entry file, clears the report and console, and reloads the preview. `LessonPanel` receives the active `challenge`, so instructions, tests, hints and the solution path follow the language.
+
+### Verification
+
+`defineChallengeSuite(trackId, adapter, language?)` verifies the variants of one language; a multi-language track calls it once per language (`defineChallengeSuite('ai-engineering', nodeAdapter, 'node')`). `src/verify/content.test.ts` checks that every declared language is registered and that each variant uses its language's engine.
+
+### Adding a language (for example Python)
+
+1. Build the engine (see [Adding a framework track](#adding-a-framework-track-step-by-step) or [Adding a static track](#adding-a-static-non-dom-track)): for Python, Pyodide in the sandbox iframe or a worker, a test runner and the fake API exposed to Python.
+2. Register the engine (`EngineId`, `DEFAULT_ENTRY` such as `{ py: 'main.py' }`, sandbox, runner, `monacoSetup.ts` language for the file extension).
+3. Add the language to `LANGUAGES` (`python: { label: 'Python', engine: 'python' }`).
+4. List it in the `languages` of the tracks that will offer it and add `variants/python/` to their lessons.
+5. Add `defineChallengeSuite('<track>', pythonAdapter, 'python')` to the track's verify suite.
 
 ## Track presentation
 
@@ -234,7 +288,7 @@ export const svelteRegistry: ModuleRegistry = {
 | --- | --- |
 | `src/sandbox/protocol.ts` | Add the id to `FrameworkEngine` |
 | `src/sandbox/sandbox.ts` | Add a lazy loader to `engines` (`() => import('../engines/svelte/adapter')`) so each engine stays in its own chunk; it returns `adapter` plus `preview` (visual engines) or `run` and `format` (headless engines) |
-| `src/content/index.ts` | Add the engine to `EngineId` and `DEFAULT_ENTRY` (e.g. `{ svelte: 'App.svelte', ts: 'main.ts' }`); the track declares `"engine": "svelte"` in `track.json` |
+| `src/content/types.ts`, `src/content/loader.ts` | Add the engine to `EngineId` (types) and `DEFAULT_ENTRY` (loader) (e.g. `{ svelte: 'App.svelte', ts: 'main.ts' }`); the track declares `"engine": "svelte"` in `track.json` |
 | `src/engines/shared/project.ts` | Add the file extension to `EXTENSIONS` if learners import it without an extension |
 | `src/features/lesson/monacoSetup.ts` | Map the extension in `languageForFile`; adjust `configureLanguageService` if the track needs different compiler options |
 | `src/content/<id>/track.json` + `src/shared/design/tokens.css` | `monogram` (and `shortTitle` when needed) plus a `[data-trail='<id>']` accent rule, see [Track presentation](#track-presentation) |
@@ -279,7 +333,7 @@ Follow the TypeScript engine (`src/engines/typescript`): a worker that analyzes 
 For a track on an existing engine, only the items marked *(track)* apply.
 
 - [ ] Engine folder with `registry.ts`, `adapter.ts` (and compiler/transform if needed)
-- [ ] Engine registered in `protocol.ts`, `sandbox.ts`, `content/index.ts`, `monacoSetup.ts`, and listed in `src/verify/content.test.ts`
+- [ ] Engine registered in `protocol.ts`, `sandbox.ts`, `content/types.ts` + `content/loader.ts`, `monacoSetup.ts`, and listed in `src/verify/content.test.ts`
 - [ ] *(track)* `track.json` with `monogram` (and `shortTitle` if the title is long), first module and one hand-written reference lesson passing verification
 - [ ] *(track)* `[data-trail]` accent rule in `tokens.css` passing `src/verify/trackPresentation.test.ts`
 - [ ] *(track)* `src/verify/<track>.test.ts`
