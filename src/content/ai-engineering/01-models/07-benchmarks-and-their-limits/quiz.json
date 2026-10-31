@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A new model scores 92% on a well-known math benchmark but only 61% on a freshly written set of problems of the same difficulty. What is the most likely explanation?",
+    "options": [
+      "The fresh set is badly written",
+      "The model is better at new problems than old ones",
+      "Contamination: the original test items likely appeared in training data, so part of the score is memorization",
+      "Math benchmarks are always saturated"
+    ],
+    "answer": 2,
+    "explanation": "A large gap between public items and fresh items of equal difficulty is the classic sign of contamination. Fresh or private test sets measure solving instead of recall."
+  },
+  {
+    "question": "Two models score 91.2% and 90.7% on a benchmark where frontier models have clustered above 90% for a year. What should you conclude?",
+    "options": [
+      "Very little: the benchmark is saturated and the difference is within noise and label errors",
+      "The first model is clearly better for every task",
+      "The second model is cheaper",
+      "The benchmark has become harder"
+    ],
+    "answer": 0,
+    "explanation": "Saturated benchmarks stop separating models. Half a point near the ceiling says nothing about your use case."
+  },
+  {
+    "question": "A model leads an arena-style leaderboard built from human votes. Your task is extracting exact amounts from contracts. How should you weigh the rank?",
+    "options": [
+      "As proof it is the most accurate extractor available",
+      "As irrelevant, because human votes are random",
+      "As a reason to skip evaluation",
+      "As evidence people prefer chatting with it; votes reward style, length and confidence, so test extraction accuracy on your own contracts"
+    ],
+    "answer": 3,
+    "explanation": "Arenas measure preference on the arena's prompts. Correctness on your specific task needs your own eval."
+  },
+  {
+    "question": "A launch table reports a model's coding score as \"best of 8 attempts with a custom agent scaffold\". Your product will call it once through the public API. What is the review comment?",
+    "options": [
+      "The score applies directly to our setup",
+      "The reported setup differs from ours (attempts, scaffold); expect lower results and measure with our own single-call setup",
+      "Best-of-8 always lowers scores, so ours will be higher",
+      "Scaffolds are irrelevant to coding benchmarks"
+    ],
+    "answer": 1,
+    "explanation": "Number of attempts, prompting and tooling change scores a lot. Compare only numbers measured under the conditions you will run."
+  },
+  {
+    "question": "Which is the strongest basis for choosing between two shortlisted models for a ticket-classification feature?",
+    "options": [
+      "Their average rank across five public leaderboards",
+      "The vendor's launch blog post",
+      "200 real tickets with known categories, run through both models with your prompt, measuring accuracy, cost and p95 latency",
+      "Which model is newer"
+    ],
+    "answer": 2,
+    "explanation": "A product eval uses your distribution and your scoring, cannot be contaminated by public data, and measures quality together with cost and latency. Module 10 builds it properly."
+  }
+]

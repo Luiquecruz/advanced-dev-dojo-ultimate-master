@@ -1,0 +1,7 @@
+[
+  { "term": "Model ADR", "description": "The record of the model layer: primary model, escalation rule, fallback, pinned versions and cost projection, with the forces, alternatives and consequences behind them." },
+  { "term": "Hard constraint", "description": "A requirement that removes candidates outright (data residency, latency budget), as opposed to soft criteria that rank what is left." },
+  { "term": "Model plan", "description": "The implementable part of the decision: which model answers first, when to escalate and to what, which model takes over in an outage, and the projected monthly cost." },
+  { "term": "Cost projection", "description": "Volume × per-call cost of the primary, plus escalation rate × per-call cost of the escalation model, plus fixed hosting costs." },
+  { "term": "Snapshot pinning", "description": "Using dated model ids instead of `-latest` aliases, so behavior changes only with a deliberate, evaluated deploy." }
+]

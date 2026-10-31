@@ -1,0 +1,13 @@
+{
+  "title": "Benchmarks and Their Limits",
+  "summary": "What public benchmarks measure, contamination, saturation, leaderboard gaming and arena-style rankings, and why a small eval set built from your own product beats any leaderboard.",
+  "level": "beginner",
+  "tags": ["established", "theory"],
+  "resources": [
+    { "label": "The Leaderboard Illusion (paper)", "url": "https://arxiv.org/abs/2504.20879" },
+    { "label": "Investigating Data Contamination in Modern Benchmarks for LLMs (paper)", "url": "https://arxiv.org/abs/2311.09783" },
+    { "label": "Stanford CRFM: HELM", "url": "https://crfm.stanford.edu/helm/" },
+    { "label": "Anthropic: A statistical approach to model evaluations", "url": "https://www.anthropic.com/research/statistical-approach-to-model-evals" },
+    { "label": "Hamel Husain: Your AI Product Needs Evals", "url": "https://hamel.dev/blog/posts/evals/" }
+  ]
+}

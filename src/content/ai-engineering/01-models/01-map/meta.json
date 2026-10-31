@@ -1,0 +1,12 @@
+{
+  "title": "Map: How This Track Works",
+  "summary": "The six layers of AI engineering plus agentic engineering, how modules flow from map to ADR, the fake model and why it is a feature, multi-language challenges, maturity tags and status boxes.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "swyx: The Rise of the AI Engineer", "url": "https://www.latent.space/p/ai-engineer" },
+    { "label": "Chip Huyen: AI Engineering (O'Reilly)", "url": "https://www.oreilly.com/library/view/ai-engineering/9781098166298/" },
+    { "label": "Anthropic: Building effective agents", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" }
+  ]
+}

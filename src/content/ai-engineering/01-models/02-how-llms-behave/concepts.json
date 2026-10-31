@@ -1,0 +1,11 @@
+[
+  { "term": "Token", "description": "A sub-word piece the model reads and writes. Roughly four characters of English; code, numbers and other languages use more tokens for the same content." },
+  { "term": "Context window", "description": "The maximum tokens one call can hold, input and output together: the model's entire working memory for that call." },
+  { "term": "Temperature", "description": "Reshapes the next-token distribution: low is focused and repetitive, high is varied and riskier. Zero approximates always picking the most likely token." },
+  { "term": "Top-p", "description": "Nucleus sampling: sample only from the smallest set of tokens whose probabilities add up to p." },
+  { "term": "Non-determinism", "description": "Identical requests can return different outputs even at temperature 0, because of batching, floating-point order, expert routing and serving updates." },
+  { "term": "Hallucination", "description": "Fluent, confident output that is false or unsupported, including invented citations." },
+  { "term": "Knowledge cutoff", "description": "The date the training data ends. Later facts must come from the context (retrieval, tools)." },
+  { "term": "Sycophancy", "description": "The tendency to agree with the user or abandon a correct answer under pushback." },
+  { "term": "Position bias", "description": "Uneven use of the context: the middle of long inputs is used less, and judges tend to favor the first option shown." }
+]

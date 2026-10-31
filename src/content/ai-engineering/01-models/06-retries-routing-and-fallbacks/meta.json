@@ -1,0 +1,15 @@
+{
+  "title": "Retries, Routing and Fallbacks",
+  "summary": "Retry only transient model errors with jittered backoff that honors retry-after, route cheap-first and escalate on failed validation, and fall back to a second provider when retries run out.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "AWS Architecture Blog: Exponential Backoff and Jitter", "url": "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/" },
+    { "label": "Anthropic: API errors", "url": "https://docs.claude.com/en/api/errors" },
+    { "label": "OpenAI: Rate limits", "url": "https://platform.openai.com/docs/guides/rate-limits" },
+    { "label": "FrugalGPT: cascading models to cut cost (paper)", "url": "https://arxiv.org/abs/2305.05176" },
+    { "label": "LiteLLM: Retries and fallbacks", "url": "https://docs.litellm.ai/docs/proxy/reliability" }
+  ]
+}

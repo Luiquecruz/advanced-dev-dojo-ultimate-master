@@ -1,0 +1,5 @@
+`estimateCost` is arithmetic: `countTokens(messages)` times `1 + safetyMargin`, rounded up with `Math.ceil`, for the input; `maxTokens` as the worst-case output; then the price formula from the theory. The client is a closure over one `totals` object that only changes after a call that was actually sent.
+---
+In `send`, compute the estimate with the client's margin first and run both checks before calling the model: `estimate.maxCost > maxRequestCost` fails with scope `'request'`; `totals.cost + estimate.maxCost > maxSessionCost` fails with scope `'session'`. A `throw` inside an `async` function becomes a rejected promise, which is what the caller awaits.
+---
+Read `now()` right before `await model.generate(...)` and again right after; the difference is the latency. Then add `usage.inputTokens`, `usage.outputTokens` and `usage.cost` (the provider's numbers, not the estimate) to the totals, increment `requests`, push the latency, and return `{ text, usage, estimatedCost: estimate.maxCost, latencyMs }`.

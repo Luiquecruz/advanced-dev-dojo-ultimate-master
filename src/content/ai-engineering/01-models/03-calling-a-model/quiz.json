@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A summarization endpoint returns `finishReason: 'length'`. What should the wrapper do with the text?",
+    "options": [
+      "Return it as the summary: the model chose to stop there",
+      "Throw it away and return an empty string",
+      "Return it marked as truncated, so the caller can raise `maxTokens`, ask the model to continue or show a fallback",
+      "Retry the same request until the finish reason is `stop`"
+    ],
+    "answer": 2,
+    "explanation": "`length` means the output was cut off, not finished. The partial text is still useful, but only if the caller knows it is partial. Retrying the identical request usually hits the same limit."
+  },
+  {
+    "question": "Which statement about `maxTokens` is correct?",
+    "options": [
+      "It caps the output; the model does not plan to fit inside it, it is simply stopped when it reaches the cap",
+      "It tells the model how long its answer should be, so it writes a complete answer of that length",
+      "It limits the input tokens the model reads",
+      "It only affects the price, never the text"
+    ],
+    "answer": 0,
+    "explanation": "The cap is enforced by the API, not understood by the model. To get shorter answers, ask for them in the prompt; use `maxTokens` as a cost and latency guard."
+  },
+  {
+    "question": "Your chat UI streams answers. A user reports the answer \"feels faster\" but the server logs show the same total generation time. Why?",
+    "options": [
+      "Streaming uses a smaller model",
+      "Streaming lowers time to first token: the user reads while the rest is generated",
+      "Streaming skips the system prompt",
+      "The logs are wrong: streaming always halves generation time"
+    ],
+    "answer": 1,
+    "explanation": "Streaming changes when the user sees output, not how long generation takes. Time to first token is the latency humans perceive in a chat."
+  },
+  {
+    "question": "A teammate's wrapper catches every error from the model and returns `{ status: 'complete', text: '' }`. What is the main problem?",
+    "options": [
+      "Nothing, as long as the UI hides empty answers",
+      "It is slower than rethrowing",
+      "Empty strings cost more tokens",
+      "Outages and rate limits become silent wrong answers, and no retry or fallback layer can see them"
+    ],
+    "answer": 3,
+    "explanation": "Errors carry the information a retry layer needs (status code, retry-after). Swallowing them turns an infrastructure problem into a quality problem nobody notices."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Message roles", "description": "`system` (standing instructions), `user` (the request), `assistant` (earlier model turns) and `tool` (tool results). The model is stateless: each call resends the conversation." },
+  { "term": "Finish reason", "description": "Why the output ended: `stop` (finished), `length` (cut at `maxTokens` or the context limit), `tool_calls`, `refusal` or `content_filter`." },
+  { "term": "maxTokens", "description": "A hard cap on output tokens. It bounds cost and latency; it does not make the model plan a shorter answer, it cuts it off." },
+  { "term": "Usage", "description": "The provider's count of input and output tokens (and cost) for one call. The number you bill, budget and alert on." },
+  { "term": "Provider-agnostic layer", "description": "A thin function of your own between the code and the provider SDK: one place for message building, result mapping, retries, logging and test doubles." },
+  { "term": "Streaming", "description": "The answer delivered as text deltas followed by a final event with finish reason and usage. Lowers time to first token, not total time." },
+  { "term": "Time to first token (TTFT)", "description": "Latency until the first output token arrives. What users perceive in a chat UI; streaming improves it." }
+]

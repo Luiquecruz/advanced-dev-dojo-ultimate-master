@@ -1,0 +1,8 @@
+[
+  { "term": "Benchmark", "description": "A fixed dataset plus a scoring rule, used to compare models on one capability." },
+  { "term": "Contamination", "description": "Test questions or answers leaking into training data, so the model memorizes instead of solving and scores inflate." },
+  { "term": "Saturation", "description": "When top models score near the ceiling, a benchmark stops separating them; small differences are noise or label errors." },
+  { "term": "Goodhart's law", "description": "A measure that becomes a target stops being a good measure. Explains leaderboard gaming without assuming bad faith." },
+  { "term": "Arena ranking", "description": "A leaderboard built from human votes between two anonymous answers. Captures preference, including biases toward length, confidence and formatting." },
+  { "term": "Product eval", "description": "Your own benchmark: real representative inputs, expected outcomes and scorers that match your product, run with your prompts while measuring cost and latency." }
+]

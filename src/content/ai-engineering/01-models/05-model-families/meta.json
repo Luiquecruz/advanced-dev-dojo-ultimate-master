@@ -1,0 +1,13 @@
+{
+  "title": "Model Families",
+  "summary": "Frontier API models, open-weight and small models, reasoning models and test-time compute, multimodal, embedding and rerank models, open weights vs open source, the cognitive core idea, and how to shortlist by quality, latency, cost and privacy.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Open Source Initiative: The Open Source AI Definition", "url": "https://opensource.org/ai/open-source-ai-definition" },
+    { "label": "Dwarkesh Patel: interview with Andrej Karpathy (cognitive core)", "url": "https://www.dwarkesh.com/p/andrej-karpathy" },
+    { "label": "Anthropic: Choosing a model", "url": "https://docs.claude.com/en/docs/about-claude/models/choosing-a-model" },
+    { "label": "Hugging Face Hub: model catalog", "url": "https://huggingface.co/models" },
+    { "label": "MTEB: embedding model leaderboard", "url": "https://huggingface.co/spaces/mteb/leaderboard" }
+  ]
+}

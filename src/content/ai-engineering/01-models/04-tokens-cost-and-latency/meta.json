@@ -1,0 +1,14 @@
+{
+  "title": "Tokens, Cost and Latency",
+  "summary": "Estimate the worst-case cost of a call with a safety margin for tokenizer drift, enforce per-request and per-session budgets before sending, record the provider's usage and measure latency with an injected clock.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice", "performance"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Anthropic: Token counting", "url": "https://docs.claude.com/en/docs/build-with-claude/token-counting" },
+    { "label": "Google Gemini API: Understand and count tokens", "url": "https://ai.google.dev/gemini-api/docs/tokens" },
+    { "label": "OpenAI: Latency optimization", "url": "https://platform.openai.com/docs/guides/latency-optimization" },
+    { "label": "tiktoken: OpenAI's open-source tokenizer", "url": "https://github.com/openai/tiktoken" }
+  ]
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A hospital wants to summarize clinical notes. Contracts forbid sending patient data outside its data center. Which family fits first?",
+    "options": [
+      "A frontier API model with a strong privacy policy",
+      "An embedding model, because it does not generate text",
+      "A reasoning model, because medical text is hard",
+      "An open-weight model self-hosted in the hospital's data center, checked against the task with evals"
+    ],
+    "answer": 3,
+    "explanation": "Data residency is a hard constraint that rules out sending data to a provider API. Open weights let you run the model where the data lives; evals then decide which one is good enough."
+  },
+  {
+    "question": "A model card says \"open model\" and the weights are downloadable under a custom license that forbids use by companies above a user threshold. Which statement is accurate?",
+    "options": [
+      "It is open source, because the weights are public",
+      "It is open weights, not open source: the license restricts use and the training data and code may not be published",
+      "It is a frontier API model",
+      "Licenses do not apply to model weights"
+    ],
+    "answer": 1,
+    "explanation": "Open source requires freedom to use for any purpose and the materials to rebuild the system. Weights under a restrictive license are a dependency whose terms you must check."
+  },
+  {
+    "question": "An endpoint extracts invoice numbers from emails, 2 million times a day, and must answer within 300 ms. Which choice is the best starting point?",
+    "options": [
+      "A small (possibly fine-tuned) model, or a cheap-first cascade, validated with evals on real emails",
+      "The strongest reasoning model, for maximum accuracy",
+      "A multimodal realtime voice model",
+      "A reranker"
+    ],
+    "answer": 0,
+    "explanation": "High volume, a narrow task and a strict latency budget point to small models. Reasoning models would blow both the latency and the budget."
+  },
+  {
+    "question": "When does a reasoning model justify its extra cost and latency?",
+    "options": [
+      "For every request, because more thinking is always better",
+      "For short classification labels in an inline UI",
+      "For hard multi-step problems (math, code, planning) where correctness matters more than speed",
+      "Only for image inputs"
+    ],
+    "answer": 2,
+    "explanation": "Reasoning tokens are billed as output and can take seconds to minutes. They pay off on problems that need several steps, not on simple extraction."
+  },
+  {
+    "question": "Which design follows the cognitive core idea?",
+    "options": [
+      "Fine-tune the largest model on the entire company wiki every week so it memorizes everything",
+      "Use a model with good reasoning that looks up facts through search and tools, keeping knowledge in sources you control and update",
+      "Use an embedding model to generate answers",
+      "Avoid tools so the model relies on what it already knows"
+    ],
+    "answer": 1,
+    "explanation": "Keep knowledge outside (current, auditable, replaceable) and reasoning inside. The system stays up to date without retraining and survives a model swap."
+  },
+  {
+    "question": "A product search needs to find \"waterproof jacket\" when the catalog says \"rain shell\". Which model family does the core of this job?",
+    "options": [
+      "A frontier chat model generating product names",
+      "A realtime voice model",
+      "A reasoning model with a large thinking budget",
+      "An embedding model (optionally followed by a reranker)"
+    ],
+    "answer": 3,
+    "explanation": "Embeddings place texts with similar meaning close together, so semantic search finds matches without shared words. A reranker can then sharpen the top results."
+  }
+]

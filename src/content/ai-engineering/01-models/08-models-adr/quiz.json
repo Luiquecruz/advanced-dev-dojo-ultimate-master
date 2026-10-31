@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A candidate model is the most accurate and the cheapest, but the provider processes data only in the US. The contract requires EU processing. Where does it belong in the ADR?",
+    "options": [
+      "In the decision, with a note to ask legal later",
+      "In the rejected alternatives, with the data residency rule as the reason",
+      "Nowhere: only chosen models are recorded",
+      "In the positive consequences"
+    ],
+    "answer": 1,
+    "explanation": "Hard constraints remove candidates regardless of quality or price. Recording why the tempting option was rejected saves the debate when someone proposes it again."
+  },
+  {
+    "question": "The primary has a 600 ms p95 and the escalation model a 1 100 ms p95. The latency budget is 1 500 ms p95. What is the problem?",
+    "options": [
+      "None: each model is within budget on its own",
+      "The escalation model should be called first",
+      "p95 values cannot be compared across models",
+      "Escalated requests wait for both calls, so their latency approaches 1 700 ms and breaks the budget"
+    ],
+    "answer": 3,
+    "explanation": "A cascade runs the escalation after the primary has answered and failed validation. The user waits for both calls."
+  },
+  {
+    "question": "A self-hosted model costs $0 per call and $1 500 a month for its GPU. It is only the fallback and serves traffic a few hours a year. How should the projection treat it?",
+    "options": [
+      "Ignore it, because fallback traffic is rare",
+      "Count only the hours it serves traffic",
+      "Count the $1 500 a month, because the GPU is paid whether it is used or not",
+      "Count it as negative cost because it saves API calls"
+    ],
+    "answer": 2,
+    "explanation": "Fixed costs accrue regardless of traffic. An idle fallback can be the right call, but its price belongs in the budget."
+  },
+  {
+    "question": "Why should `modelPlan` name `atlas-mini-2026-07-15` instead of `atlas-mini-latest`?",
+    "options": [
+      "A pinned snapshot changes behavior only when you deploy a change you evaluated; an alias can move to a new snapshot without notice",
+      "Aliases are more expensive",
+      "Snapshots are faster than aliases",
+      "Aliases do not support streaming"
+    ],
+    "answer": 0,
+    "explanation": "Unpinned versions cause silent behavior changes. Pin, evaluate the new snapshot, then promote it on purpose."
+  }
+]

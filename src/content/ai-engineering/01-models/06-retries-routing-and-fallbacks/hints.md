@@ -1,0 +1,5 @@
+Build bottom-up. `isRetryable` is one line: an `instanceof ModelError` check plus a set of statuses. `retryDelay` returns `error.retryAfterMs` when it is defined, else the full-jitter formula. `generateWithRetry` is the retry loop from the Node.js track with `retryDelay` as the delay.
+---
+In `generateWithRetry`, loop over attempts with `try { return await model.generate(request); } catch (error) { ... }`. In the `catch`, rethrow when `attempt >= retries` or the error is not retryable; otherwise `await sleep(retryDelay(attempt, error, options))`. `generateWithFallback` wraps one `generateWithRetry` call in a `try`, rethrows non-retryable errors and calls `generateWithRetry` on the backup for the rest.
+---
+For `answer`, put the cheap attempt in a helper that returns the text when the call succeeded and `validate` accepted it, and "nothing" in every other case (a caught error included). If you got text, return it with `escalated: false`. Otherwise call `generateWithFallback(strong, backup, ...)`, validate its text, and either return it with `escalated: true` and the answering model's name or throw `InvalidAnswerError`.

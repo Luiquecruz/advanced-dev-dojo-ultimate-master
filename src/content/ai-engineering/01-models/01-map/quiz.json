@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team swaps its small model for the largest frontier model to fix wrong answers, but the answers stay wrong. Retrieval returns outdated documents. Which idea from the track explains this?",
+    "options": [
+      "Bigger models are always worse at retrieval",
+      "The six layers combine independently: a context problem (layer 2) is not fixed by a model change (layer 1)",
+      "Frontier models cannot read documents",
+      "The team should have added a second model to vote"
+    ],
+    "answer": 1,
+    "explanation": "Quality, cost and risk come from all layers. A better model reading stale context still answers from stale context; the fix lives in retrieval."
+  },
+  {
+    "question": "Why do this track's challenges use a fake model instead of a real one?",
+    "options": [
+      "Real models are too slow for the browser",
+      "The fake model is a smaller copy of a real model, trained for Dev Dojo",
+      "Grading must be free, deterministic and stable over time: tests check how your code handles classes of behavior, which every model generation shares",
+      "Real models never produce errors, so they cannot test error handling"
+    ],
+    "answer": 2,
+    "explanation": "The fake model imitates no specific model. It scripts behaviors (refusals, malformed JSON, rate limits, varying phrasing) so the same tests stay valid when providers and models change."
+  },
+  {
+    "question": "A test uses `forEachSeed(20, ...)` around your JSON-parsing function. What is it checking?",
+    "options": [
+      "That your code survives every seeded variation (different malformed shapes, phrasings, failure orders), not just one lucky transcript",
+      "That your code runs 20 times faster",
+      "That the model returns the same text 20 times",
+      "That you called the model exactly 20 times"
+    ],
+    "answer": 0,
+    "explanation": "Each seed picks different variants of the scripted behaviors. Passing every seed is a property-style guarantee; each run is still reproducible."
+  },
+  {
+    "question": "A theory says \"The largest context windows reach about 1M tokens\" inside a box titled \"Status as of October 2026\". How should you read it?",
+    "options": [
+      "As a permanent rule of the field",
+      "As wrong, because status boxes are only examples",
+      "As a quiz trick to ignore",
+      "As a dated, volatile fact: likely to change, so verify it against current sources before relying on it"
+    ],
+    "answer": 3,
+    "explanation": "The track separates the stable core (outside the boxes) from the volatile edge (inside them). Model names, prices and limits move every few months."
+  },
+  {
+    "question": "What does each module's ADR checkpoint ask you to produce, and how is it graded?",
+    "options": [
+      "An essay graded by a model for style",
+      "A decision record for a product briefing (context, decision, alternatives, consequences and a module plan), checked for structure and coherence with the briefing",
+      "A copy of the module's code challenges",
+      "A list of the model names mentioned in the module"
+    ],
+    "answer": 1,
+    "explanation": "ADRs turn knowledge into decisions you can defend. Tests check required fields and rules such as \"this latency budget rules out that model tier\", never your wording."
+  },
+  {
+    "question": "A lesson is tagged `hype-watch`. What does that tell you?",
+    "options": [
+      "The technique is deprecated and should not be learned",
+      "The technique is stable and safe to adopt without evaluation",
+      "Popular claims about it outrun the evidence: learn it so you can evaluate those claims critically",
+      "It is only available in Python"
+    ],
+    "answer": 2,
+    "explanation": "`established` means stable definitions and tooling, `emerging` means still settling, and `hype-watch` flags claims to question with evidence before adopting."
+  }
+]

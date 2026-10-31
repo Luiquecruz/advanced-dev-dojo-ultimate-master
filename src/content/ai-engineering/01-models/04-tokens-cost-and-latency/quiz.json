@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A support chatbot costs four times more than forecast. The forecast priced only the user's message. What did it most likely miss?",
+    "options": [
+      "Nothing: providers bill only the latest user message",
+      "Every turn resends the system prompt, the conversation history and tool definitions, all billed as input",
+      "Output tokens are free, so the forecast should have been lower",
+      "The provider bills per HTTP request, not per token"
+    ],
+    "answer": 1,
+    "explanation": "The model is stateless, so each call carries the whole context. Long histories and large system prompts are paid again on every turn."
+  },
+  {
+    "question": "A session has $0.10 left. The next request's input costs $0.02 and `maxTokens` allows up to $0.12 of output. The average reply costs $0.03 of output. What should a budget guard do?",
+    "options": [
+      "Send it: the average total is $0.05, well under $0.10",
+      "Send it and subtract $0.14 afterwards",
+      "Refuse or trim it: the worst case ($0.14) exceeds what is left, and once sent the money is spent",
+      "Send it twice and keep the cheaper answer"
+    ],
+    "answer": 2,
+    "explanation": "Budgets hold only when checked against the worst case before sending. Lowering `maxTokens` or trimming context are ways to make the request fit."
+  },
+  {
+    "question": "Which change usually reduces the latency of a model call the most?",
+    "options": [
+      "Asking for a short label or a JSON field instead of a paragraph",
+      "Moving the system prompt to the end of the messages",
+      "Using a faster laptop for the client",
+      "Raising `maxTokens`"
+    ],
+    "answer": 0,
+    "explanation": "Output is generated one token at a time, so decode time grows with output length. Fewer output tokens is the cheapest latency win."
+  },
+  {
+    "question": "Why record the provider's `usage` after the call instead of your own pre-call estimate?",
+    "options": [
+      "The estimate is always lower than the real cost",
+      "Recording the estimate is forbidden by provider terms",
+      "Usage is only available for streaming calls",
+      "The estimate is a worst case for the decision to send; the usage is what was actually billed, including the real output length"
+    ],
+    "answer": 3,
+    "explanation": "Estimate and usage answer different questions. Recording the worst case as spend would exhaust budgets early; recording guesses would make the books disagree with the invoice."
+  },
+  {
+    "question": "Your local token counter reports 1 000 input tokens; on real traffic the provider's `usage` averages 12% more and peaks at 18% more. Which pre-call estimate keeps a hard per-request budget safe?",
+    "options": [
+      "1 000 tokens: the local count is close enough",
+      "1 000 × 1.12 = 1 120 tokens, the average drift",
+      "About 1 200 tokens: a margin above the worst measured drift, rounded up",
+      "No estimate: read the usage after the call and refund the difference"
+    ],
+    "answer": 2,
+    "explanation": "A budget is only safe if the estimate bounds the real count. The average drift still undercounts a fifth of the time; a margin above the measured peak (rounded up) holds, at the cost of refusing a few requests that would have fit."
+  }
+]

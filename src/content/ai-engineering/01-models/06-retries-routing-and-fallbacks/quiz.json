@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A call fails with `400 context_length`. Your retry helper retries it three times with backoff. What is wrong?",
+    "options": [
+      "Nothing: three retries is a reasonable default",
+      "The same input will fail the same way every time; trim the input or route to a model with a larger window instead",
+      "It should retry ten times because 400 errors are rare",
+      "It should fall back to another provider immediately"
+    ],
+    "answer": 1,
+    "explanation": "Retries help only transient failures. A context-length error is deterministic: every retry adds cost and latency for a guaranteed failure."
+  },
+  {
+    "question": "A `429` response says `retry-after: 20` seconds. Your backoff formula would wait 0.4 s. What should the client do?",
+    "options": [
+      "Wait 0.4 s: your formula already includes jitter",
+      "Retry immediately to keep latency low",
+      "Fall back to the strong model of the same provider",
+      "Wait the 20 s the provider asked for (or fail fast to a fallback if the user cannot wait that long)"
+    ],
+    "answer": 3,
+    "explanation": "The provider knows when your quota refills. Retrying earlier only hits the limit again. If 20 s is too long for the user, that is a fallback decision, not a reason to ignore the hint."
+  },
+  {
+    "question": "Which escalation rule is a good fit for a cheap-first cascade that classifies tickets into 12 categories?",
+    "options": [
+      "Escalate when the output does not parse as JSON or its category is not one of the 12",
+      "Escalate when the answer seems less confident than usual",
+      "Escalate every tenth request to keep the strong model warm",
+      "Escalate when the user is a paying customer"
+    ],
+    "answer": 0,
+    "explanation": "A cascade needs a mechanical, testable check. Vague judgments cannot be measured or tuned, and routing by plan is a business rule, not a quality check."
+  },
+  {
+    "question": "Your primary model is `vendor-a/large` and your fallback is `vendor-a/small` in the same region. During vendor A's outage, what happens?",
+    "options": [
+      "The fallback absorbs the traffic because it is a different model",
+      "The fallback is faster, so users notice nothing",
+      "Both fail together: they share a failure domain, so the fallback must be another provider or region",
+      "The outage cannot affect smaller models"
+    ],
+    "answer": 2,
+    "explanation": "A fallback protects only against failures it does not share. Different models behind the same provider, quota or region usually go down together."
+  },
+  {
+    "question": "Why run your evals on the fallback model too?",
+    "options": [
+      "Providers require it before enabling fallbacks",
+      "Prompts are not perfectly portable: the fallback may answer differently, and you need to know the quality you accept during an outage",
+      "Evals make the fallback model faster",
+      "It is unnecessary: any model that passes public benchmarks behaves the same on your prompts"
+    ],
+    "answer": 1,
+    "explanation": "A fallback that silently produces worse or differently formatted answers can break downstream code. Measure it like the primary and decide the acceptable degradation up front."
+  }
+]

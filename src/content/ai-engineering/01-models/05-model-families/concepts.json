@@ -1,0 +1,11 @@
+[
+  { "term": "Frontier model", "description": "The largest closed models, served only through a provider API. Best quality on hard tasks; highest price; data leaves your network; deprecation on the provider's schedule." },
+  { "term": "Open-weight model", "description": "A model whose weights you can download and run yourself, under a model license that may or may not be permissive." },
+  { "term": "Open weights vs open source", "description": "Open source AI (per the OSI definition) needs weights, code and training-data information under terms allowing any use. Most open models publish weights only, under custom licenses." },
+  { "term": "Small language model (SLM)", "description": "Roughly one to a few dozen billion parameters: fast, cheap, runs on one GPU or a device, strong on narrow tasks, weaker on knowledge and long reasoning." },
+  { "term": "Reasoning model", "description": "Generates hidden reasoning tokens before answering. Better at math, code and planning; slower and more expensive, since reasoning tokens bill as output." },
+  { "term": "Test-time compute", "description": "Spending more computation at inference (longer reasoning, sampling several answers) to improve quality, instead of training a bigger model." },
+  { "term": "Embedding model", "description": "Maps text or images to vectors so similar meanings are close. Powers semantic search and RAG; does not generate text." },
+  { "term": "Reranker", "description": "Scores each query-document pair and reorders retrieved candidates for precision." },
+  { "term": "Cognitive core", "description": "Karpathy's idea (emerging): a small model with strong reasoning and little memorized knowledge, which looks facts up through tools and retrieval." }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "term": "Input and output tokens",
+    "description": "Input is everything sent (system prompt, history, tools, documents); output is everything generated, including hidden reasoning tokens. Output usually costs several times more."
+  },
+  {
+    "term": "Worst-case cost",
+    "description": "Input tokens plus `maxTokens` of output, priced before the call. The only estimate that can guarantee a budget."
+  },
+  {
+    "term": "Safety margin",
+    "description": "A fraction added to a local token estimate (rounded up) so it still bounds the provider's count when the model's tokenizer differs from yours. Pick it from measured drift."
+  },
+  {
+    "term": "Tokenizer drift",
+    "description": "The gap between your local token count and the provider's reported usage. Measure it on real traffic by comparing estimates with `usage`."
+  },
+  {
+    "term": "Usage",
+    "description": "The provider's own token and cost counts after the call. What you record, bill and alert on; the estimate is only for the decision to send."
+  },
+  {
+    "term": "Budget scopes",
+    "description": "Limits per request, per session or task, per user and per feature. Each is checked before the request leaves the process."
+  },
+  {
+    "term": "Prefill and decode",
+    "description": "Prefill reads the input and sets time to first token; decode generates output one token at a time and usually dominates total latency."
+  },
+  {
+    "term": "p95 latency",
+    "description": "The latency 95% of calls stay under. Users remember slow calls, so set targets on percentiles, not averages."
+  },
+  {
+    "term": "Injected clock",
+    "description": "A `now()` function passed in instead of reading the system time directly, so latency logic can be tested without waiting."
+  }
+]

@@ -1,0 +1,6 @@
+1. Separate the two numbers the lesson is about: the estimate is known before the call and decides whether to send; the usage is known after and is what you record. Never mix them in the totals.
+2. Make the estimate a worst case. The input is countable before the call, but only approximately: your tokenizer is not the provider's, so pad the count with a safety margin and round up. The output is unknown but bounded by `maxTokens`, which the provider enforces exactly, so price every allowed output token.
+3. Order the checks from the narrowest scope to the widest: the per-request limit first (the request is too big on its own), then the session limit (the request no longer fits in what is left). Both run before any network call, so a refusal costs nothing.
+4. Signal refusals with a dedicated error type that carries the scope, so callers can react differently: shrink this request, or stop the session.
+5. Wrap only the model call between two clock readings, using the injected clock, so the latency excludes your own bookkeeping and tests can control time.
+6. Update the totals only after a successful call, and return copies from the report so callers cannot change the session state by accident.

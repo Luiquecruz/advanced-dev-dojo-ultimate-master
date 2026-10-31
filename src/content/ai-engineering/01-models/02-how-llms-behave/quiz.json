@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A test calls the model at temperature 0 with a fixed seed and asserts the exact reply string. It passes locally and fails in CI a week later. What is the most likely explanation?",
+    "options": [
+      "The CI machine has a different tokenizer",
+      "Temperature 0 and seeds are best-effort: batching, floating-point order and provider updates can change outputs, so tests should assert properties, not exact text",
+      "The seed expires after a week",
+      "Temperature 0 is ignored in CI environments"
+    ],
+    "answer": 1,
+    "explanation": "Determinism is not guaranteed by most providers even with temperature 0. Check what matters (valid JSON, correct label), not the wording."
+  },
+  {
+    "question": "A chatbot forgets what the user said ten turns ago, although the model's context window is large. What is the first thing to check?",
+    "options": [
+      "Whether the code actually resends the earlier turns: the model is stateless and only sees what each call contains",
+      "Whether the model has a short-term memory setting turned off",
+      "Whether the temperature is too high",
+      "Whether the model's knowledge cutoff is older than the conversation"
+    ],
+    "answer": 0,
+    "explanation": "Models keep no state between calls. A conversation exists only because the application sends the history (or a summary of it) every time."
+  },
+  {
+    "question": "You ask a model about a library version released after its knowledge cutoff. It answers confidently with plausible API names. What is happening, and what is the fix?",
+    "options": [
+      "The model browsed the web; trust the answer",
+      "The model is refusing in disguise; rephrase the question",
+      "The model is producing plausible continuations without the facts (hallucination); put the current documentation in the context through retrieval or a tool",
+      "Raise the temperature so the model explores more options"
+    ],
+    "answer": 2,
+    "explanation": "Fluency is not evidence. Facts newer than the training data must be supplied in the context, and outputs should be checked against them."
+  },
+  {
+    "question": "A reviewer bot says your pull request is correct. You reply \"Are you sure? I think there is a bug in the loop\" and it immediately agrees and invents a bug. Which behavior is this?",
+    "options": [
+      "Position bias",
+      "Knowledge cutoff",
+      "Over-refusal",
+      "Sycophancy: the model shifts toward what the user appears to believe"
+    ],
+    "answer": 3,
+    "explanation": "Models trained on human feedback tend to agree with the user. Avoid leading questions and judge answers with evidence (tests, evals), not with the model's agreement."
+  },
+  {
+    "question": "Your RAG prompt puts 40 retrieved passages in the context, with the most relevant one in the middle. Answers often ignore it. What does the theory suggest?",
+    "options": [
+      "Models use long contexts unevenly; place the most relevant evidence near the start or end and send fewer, better passages",
+      "Increase the temperature so the model reads more carefully",
+      "Repeat the user question 40 times",
+      "Nothing: models use every token of the context equally"
+    ],
+    "answer": 0,
+    "explanation": "Position bias (\"lost in the middle\") means placement and selection matter. Module 04 turns this into retrieval and reranking practice."
+  },
+  {
+    "question": "Which task is better solved with plain code than with a model?",
+    "options": [
+      "Classifying free-text support tickets into categories",
+      "Summarizing a long customer call transcript",
+      "Computing the number of business days between two dates",
+      "Drafting a polite reply to a complaint"
+    ],
+    "answer": 2,
+    "explanation": "Date arithmetic has one exact answer and a deterministic algorithm. A model would add cost, latency and a chance of being wrong for no benefit."
+  }
+]

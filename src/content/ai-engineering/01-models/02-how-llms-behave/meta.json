@@ -1,0 +1,13 @@
+{
+  "title": "How LLMs Behave",
+  "summary": "Next-token prediction, tokens, the context window, input vs output tokens, sampling and why temperature 0 is not deterministic, plus hallucination, knowledge cutoff, sycophancy, position bias and refusals.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Andrej Karpathy: Intro to Large Language Models (talk)", "url": "https://www.youtube.com/watch?v=zjkBMFhNj_g" },
+    { "label": "Hugging Face LLM Course: Tokenizers", "url": "https://huggingface.co/learn/llm-course/chapter2/4" },
+    { "label": "Thinking Machines: Defeating Nondeterminism in LLM Inference", "url": "https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/" },
+    { "label": "Lost in the Middle: How Language Models Use Long Contexts (paper)", "url": "https://arxiv.org/abs/2307.03172" },
+    { "label": "Anthropic: Towards Understanding Sycophancy in Language Models", "url": "https://www.anthropic.com/research/towards-understanding-sycophancy-in-language-models" }
+  ]
+}

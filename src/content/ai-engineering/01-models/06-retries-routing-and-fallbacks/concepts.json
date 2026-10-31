@@ -1,0 +1,10 @@
+[
+  { "term": "Retryable error", "description": "A failure that may succeed later: `429` rate limit, `500` server error, `503` or `529` overloaded, `504` timeout. A `400` such as `context_length` fails the same way every time." },
+  { "term": "Retry-after", "description": "The provider's hint (a header on `429` and `503`) for how long to wait. It overrides your computed backoff." },
+  { "term": "Full jitter", "description": "A random delay between zero and the capped exponential backoff, so clients that failed together do not retry together." },
+  { "term": "Cascade routing", "description": "Send every request to a cheap model first and escalate to a stronger one only when a mechanical check rejects the answer." },
+  { "term": "Escalation rate", "description": "The share of requests the cheap tier could not handle. When it climbs, the cascade stops saving money." },
+  { "term": "Fallback", "description": "A second provider or self-hosted model used after the primary exhausts its retries on availability errors." },
+  { "term": "Failure domain", "description": "The set of components that fail together. A fallback must sit in a different one: another provider or region, not another model behind the same outage." },
+  { "term": "Pinned model version", "description": "A dated snapshot id instead of an alias such as `-latest`, so behavior changes only when you deploy a change." }
+]

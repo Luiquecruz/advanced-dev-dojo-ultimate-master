@@ -1,0 +1,13 @@
+{
+  "title": "Checkpoint: Model ADR",
+  "summary": "Close the models module with a portfolio ADR: choose a primary model, an escalation rule, a cross-provider fallback and a cost projection for a ticket triage feature under latency, quality, budget and EU data constraints.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "adr.ts" },
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Anthropic: Choosing a model", "url": "https://docs.claude.com/en/docs/about-claude/models/choosing-a-model" },
+    { "label": "FrugalGPT: cascading models to cut cost (paper)", "url": "https://arxiv.org/abs/2305.05176" }
+  ]
+}

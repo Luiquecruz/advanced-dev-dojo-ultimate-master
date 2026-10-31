@@ -1,0 +1,14 @@
+{
+  "title": "Calling a Model",
+  "summary": "Write a provider-agnostic complete() over messages, finish reasons and usage: truncated and refused answers as outcomes the caller must see, plus a streaming variant.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Anthropic: Messages API", "url": "https://docs.claude.com/en/api/messages" },
+    { "label": "OpenAI: Streaming API responses", "url": "https://platform.openai.com/docs/guides/streaming-responses" },
+    { "label": "Google Gemini API: Text generation", "url": "https://ai.google.dev/gemini-api/docs/text-generation" },
+    { "label": "AI SDK: Generating and streaming text", "url": "https://ai-sdk.dev/docs/ai-sdk-core/generating-text" }
+  ]
+}
