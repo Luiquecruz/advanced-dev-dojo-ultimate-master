@@ -50,7 +50,7 @@ export function compileProject(files: ProjectFiles, compileFile: (name: string, 
 }
 
 /**
- * Evaluates compiled files with a CommonJS loader that resolves relative imports between project files.
+ * Evaluates the entry file with a CommonJS loader that resolves relative imports between project files. Other files are evaluated on first access through `modules`, so a file nobody imports (a Run demo) never executes during tests.
  */
 export function evaluateProject(compiled: CompiledProject, entryName: string, registry: ModuleRegistry): EvaluatedProject {
   const cache: Record<string, { exports: Record<string, any> }> = {};
@@ -84,6 +84,7 @@ export function evaluateProject(compiled: CompiledProject, entryName: string, re
   };
 
   const entry = load(entryName);
-  const modules = Object.fromEntries(Object.keys(compiled).map((name) => [name, load(name)]));
+  const modules: Record<string, Record<string, any>> = {};
+  Object.keys(compiled).forEach((name) => Object.defineProperty(modules, name, { enumerable: true, get: () => load(name) }));
   return { entry, modules, require: requireFrom('') };
 }

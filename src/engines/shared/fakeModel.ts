@@ -1,6 +1,6 @@
 export type Role = 'system' | 'user' | 'assistant' | 'tool';
 export type FinishReason = 'stop' | 'length' | 'tool_calls' | 'refusal' | 'content_filter';
-export type ModelErrorCode = 'rate_limit' | 'server_error' | 'overloaded' | 'timeout' | 'context_length' | 'invalid_request';
+export type ModelErrorCode = 'rate_limit' | 'server_error' | 'overloaded' | 'timeout' | 'context_length' | 'invalid_request' | 'authentication';
 
 export interface ToolCall {
   id: string;
@@ -55,6 +55,7 @@ export interface ModelReply {
   finishReason?: FinishReason;
   delayMs?: number;
   error?: { status: number; code: ModelErrorCode; message?: string; retryAfterMs?: number };
+  failAfterChunks?: number;
 }
 
 export interface BehaviorContext {
@@ -77,6 +78,7 @@ export interface FakeModelConfig {
   contextWindow: number;
   latencyMs: number;
   pricing: Pricing;
+  tokenizerDrift: number;
 }
 
 export interface Cassette {
@@ -92,6 +94,17 @@ const DEFAULT_CONFIG: FakeModelConfig = {
   contextWindow: 32000,
   latencyMs: 0,
   pricing: { inputPerMillion: 1, outputPerMillion: 4 },
+  tokenizerDrift: 0,
+};
+
+const ERROR_CODES: Record<number, ModelErrorCode> = {
+  400: 'invalid_request',
+  401: 'authentication',
+  429: 'rate_limit',
+  500: 'server_error',
+  503: 'overloaded',
+  504: 'timeout',
+  529: 'overloaded',
 };
 
 const CHARACTERS_PER_TOKEN = 4;
@@ -224,12 +237,21 @@ export const respond = {
   refusal(text = "I can't help with that request."): Behavior {
     return { text, finishReason: 'refusal' };
   },
+  contentFilter(text = ''): Behavior {
+    return { text, finishReason: 'content_filter' };
+  },
   truncated(text: string, keepRatio = 0.5): Behavior {
     return { text: text.slice(0, Math.max(1, Math.floor(text.length * keepRatio))), finishReason: 'length' };
   },
-  error(status: 429 | 500 | 503 | 504, options: { retryAfterMs?: number; message?: string } = {}): Behavior {
-    const code: ModelErrorCode = status === 429 ? 'rate_limit' : status === 503 ? 'overloaded' : status === 504 ? 'timeout' : 'server_error';
-    return { error: { status, code, message: options.message ?? `Model request failed with status ${status}`, retryAfterMs: options.retryAfterMs } };
+  error(status: 400 | 401 | 429 | 500 | 503 | 504 | 529, options: { retryAfterMs?: number; message?: string } = {}): Behavior {
+    return { error: { status, code: ERROR_CODES[status], message: options.message ?? `Model request failed with status ${status}`, retryAfterMs: options.retryAfterMs } };
+  },
+  contextLength(): Behavior {
+    return { error: { status: 400, code: 'context_length', message: 'Input exceeds the context window' } };
+  },
+  failMidStream(text: string, options: { status?: 429 | 500 | 503 | 529; afterChunks?: number } = {}): Behavior {
+    const status = options.status ?? 500;
+    return { text, failAfterChunks: options.afterChunks ?? 3, error: { status, code: ERROR_CODES[status], message: `Stream interrupted with status ${status}` } };
   },
   slow(delayMs: number, behavior: Behavior): Behavior {
     return (context) => ({ ...resolveBehavior(behavior, context), delayMs });
@@ -261,7 +283,9 @@ function defaultReply(request: GenerateRequest): ModelReply {
 export function createFakeModelProvider({ wait }: { wait: Wait }) {
   let config: FakeModelConfig = { ...DEFAULT_CONFIG };
   let queue: Behavior[] = [];
+  let modelQueues = new Map<string, Behavior[]>();
   let handler: Handler | undefined;
+  let responses: GenerateResponse[] = [];
   let random = seededRandom(1);
   let requests: GenerateRequest[] = [];
   let responseCount = 0;
@@ -274,14 +298,16 @@ export function createFakeModelProvider({ wait }: { wait: Wait }) {
     pick: (items) => items[Math.floor(random() * items.length)],
   });
 
-  const respondTo = async (request: GenerateRequest): Promise<GenerateResponse> => {
+  const providerTokens = (input: string | Message[]) => Math.ceil(countTokens(input) * (1 + config.tokenizerDrift));
+
+  const produce = async (request: GenerateRequest): Promise<{ response: GenerateResponse; failure?: { error: ModelError; afterChunks: number } }> => {
     requests.push({ ...request, messages: request.messages.map((message) => ({ ...message })) });
-    const inputTokens = countTokens(request.messages);
+    const inputTokens = providerTokens(request.messages);
     if (inputTokens > config.contextWindow) {
       throw new ModelError(400, 'context_length', `Input has ${inputTokens} tokens, above the ${config.contextWindow}-token context window`);
     }
     const behaviorContext = context(request);
-    const behavior = queue.shift() ?? handler?.(request, behaviorContext) ?? defaultReply(request);
+    const behavior = modelQueues.get(request.model ?? config.model)?.shift() ?? queue.shift() ?? handler?.(request, behaviorContext) ?? defaultReply(request);
     const reply = resolveBehavior(behavior, behaviorContext);
     const delayMs = reply.delayMs ?? config.latencyMs;
     if (delayMs > 0) {
@@ -290,7 +316,7 @@ export function createFakeModelProvider({ wait }: { wait: Wait }) {
     if (request.signal?.aborted) {
       throw request.signal.reason ?? new DOMException('The operation was aborted', 'AbortError');
     }
-    if (reply.error) {
+    if (reply.error && reply.failAfterChunks === undefined) {
       throw new ModelError(reply.error.status, reply.error.code, reply.error.message ?? `Model request failed with status ${reply.error.status}`, reply.error.retryAfterMs);
     }
     let text = reply.text ?? '';
@@ -300,7 +326,7 @@ export function createFakeModelProvider({ wait }: { wait: Wait }) {
       arguments: typeof call.arguments === 'string' ? call.arguments : JSON.stringify(call.arguments),
     }));
     let finishReason: FinishReason = reply.finishReason ?? (toolCalls.length > 0 ? 'tool_calls' : 'stop');
-    let outputTokens = countTokens(text) + countTokens(toolCalls.map((call) => call.name + call.arguments).join(''));
+    let outputTokens = providerTokens(text) + providerTokens(toolCalls.map((call) => call.name + call.arguments).join(''));
     if (request.maxTokens !== undefined && outputTokens > request.maxTokens) {
       text = text.slice(0, request.maxTokens * CHARACTERS_PER_TOKEN);
       toolCalls = [];
@@ -308,7 +334,7 @@ export function createFakeModelProvider({ wait }: { wait: Wait }) {
       outputTokens = request.maxTokens;
     }
     const cost = (inputTokens * config.pricing.inputPerMillion + outputTokens * config.pricing.outputPerMillion) / 1_000_000;
-    return {
+    const response: GenerateResponse = {
       id: `resp_${++responseCount}`,
       model: request.model ?? config.model,
       text,
@@ -316,6 +342,12 @@ export function createFakeModelProvider({ wait }: { wait: Wait }) {
       finishReason,
       usage: { inputTokens, outputTokens, totalTokens: inputTokens + outputTokens, cost: Math.round(cost * 1e9) / 1e9 },
     };
+    if (reply.error && reply.failAfterChunks !== undefined) {
+      const error = new ModelError(reply.error.status, reply.error.code, reply.error.message ?? `Stream interrupted with status ${reply.error.status}`, reply.error.retryAfterMs);
+      return { response, failure: { error, afterChunks: reply.failAfterChunks } };
+    }
+    responses.push(response);
+    return { response };
   };
 
   const createModel = (options: { model?: string } = {}) => ({
@@ -325,13 +357,24 @@ export function createFakeModelProvider({ wait }: { wait: Wait }) {
     get contextWindow() {
       return config.contextWindow;
     },
-    generate(request: GenerateRequest): Promise<GenerateResponse> {
-      return respondTo({ ...request, model: request.model ?? options.model });
+    async generate(request: GenerateRequest): Promise<GenerateResponse> {
+      const { response, failure } = await produce({ ...request, model: request.model ?? options.model });
+      if (failure) {
+        throw failure.error;
+      }
+      return response;
     },
     async *stream(request: GenerateRequest): AsyncGenerator<StreamChunk> {
-      const response = await respondTo({ ...request, model: request.model ?? options.model });
-      for (const delta of response.text.match(/\S+\s*|\s+/g) ?? []) {
+      const { response, failure } = await produce({ ...request, model: request.model ?? options.model });
+      const deltas = response.text.match(/\S+\s*|\s+/g) ?? [];
+      for (const [index, delta] of deltas.entries()) {
+        if (failure && index === failure.afterChunks) {
+          throw failure.error;
+        }
         yield { type: 'text', delta };
+      }
+      if (failure) {
+        throw failure.error;
       }
       for (const toolCall of response.toolCalls) {
         yield { type: 'tool-call', toolCall };
@@ -344,6 +387,14 @@ export function createFakeModelProvider({ wait }: { wait: Wait }) {
     reply(...behaviors: Behavior[]) {
       queue.push(...behaviors);
       return fakeModel;
+    },
+    forModel(name: string) {
+      return {
+        reply(...behaviors: Behavior[]) {
+          modelQueues.set(name, [...(modelQueues.get(name) ?? []), ...behaviors]);
+          return fakeModel;
+        },
+      };
     },
     handle(next: Handler) {
       handler = next;
@@ -365,13 +416,18 @@ export function createFakeModelProvider({ wait }: { wait: Wait }) {
     get requests(): readonly GenerateRequest[] {
       return requests;
     },
+    get responses(): readonly GenerateResponse[] {
+      return responses;
+    },
     get pending(): number {
-      return queue.length;
+      return [...modelQueues.values()].reduce((total, modelQueue) => total + modelQueue.length, queue.length);
     },
     reset() {
       config = { ...DEFAULT_CONFIG };
       queue = [];
+      modelQueues = new Map();
       handler = undefined;
+      responses = [];
       random = seededRandom(1);
       requests = [];
       responseCount = 0;

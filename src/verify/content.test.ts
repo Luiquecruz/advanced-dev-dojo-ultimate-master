@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { allLessons, availableTracks, isTrackEnabled, LANGUAGES, tracks } from '../content';
 
 const filter = process.env.LESSON;
-const lessons = allLessons.filter((lesson) => !filter || lesson.id.includes(filter));
+const lessons = allLessons.filter((lesson) => !filter || (filter.includes('/') ? lesson.key === filter : lesson.id.includes(filter)));
 
 describe('content structure', () => {
   it('loads every track with a known engine', () => {

@@ -78,6 +78,18 @@ export function fn(implementation?: (...args: any[]) => any): MockFunction {
 }
 
 /**
+ * Runs an action that must fail and returns what it threw or rejected with, so tests can assert on error fields.
+ */
+export async function captureError(action: Promise<unknown> | (() => unknown)): Promise<unknown> {
+  try {
+    await (typeof action === 'function' ? action() : action);
+  } catch (error) {
+    return error;
+  }
+  throw new AssertionError('Expected an error, but nothing was thrown or rejected.');
+}
+
+/**
  * Formats any value for assertion messages.
  */
 export function format(value: unknown): string {
@@ -266,6 +278,11 @@ const matchers: Record<string, Matcher> = {
     pass: received > expected,
     message: `Expected ${format(received)} to be greater than ${format(expected)}.`,
     negatedMessage: `Expected ${format(received)} not to be greater than ${format(expected)}.`,
+  }),
+  toBeCloseTo: (received, expected, digits = 2) => ({
+    pass: Math.abs(received - expected) < 10 ** -digits / 2,
+    message: `Expected ${format(received)} to be close to ${format(expected)} (${digits} digits).`,
+    negatedMessage: `Expected ${format(received)} not to be close to ${format(expected)} (${digits} digits).`,
   }),
   toBeGreaterThanOrEqual: (received, expected) => ({
     pass: received >= expected,

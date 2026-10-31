@@ -53,7 +53,7 @@ describe('buildTracks', () => {
         {
           './ai/track.json': { languages: ['node', 'python'], title: 'AI', monogram: 'AI', description: 'd', version: 'v' },
           './ai/01-agents/module.json': { title: 'Agents', description: 'd' },
-          [`${lessonDirectory}/meta.json`]: { ...lessonMeta, entry: { python: 'agent.py' } },
+          [`${lessonDirectory}/meta.json`]: { ...lessonMeta, entry: { python: 'agent.py' }, run: { node: 'demo.ts' } },
         },
       ),
       languages,
@@ -61,7 +61,8 @@ describe('buildTracks', () => {
     const [node, python] = track.lessons[0].variants;
     expect(track.engine).toBe('node');
     expect(track.languages).toEqual(['node', 'python']);
-    expect(node).toMatchObject({ language: 'node', instructions: 'Shared task', entry: 'main.ts', starter: { 'main.ts': 'ts start' }, tests: 'ts tests', hints: ['First', 'Second'], approach: 'Shared approach', preview: false });
+    expect(node).toMatchObject({ language: 'node', instructions: 'Shared task', entry: 'main.ts', run: 'demo.ts', starter: { 'main.ts': 'ts start' }, tests: 'ts tests', hints: ['First', 'Second'], approach: 'Shared approach', preview: false });
+    expect(python.run).toBeUndefined();
     expect(python).toMatchObject({ language: 'python', instructions: 'Python task', entry: 'agent.py', starter: { 'agent.py': 'py start' }, tests: 'py tests', hints: ['First', 'Second'] });
     expect(track.lessons[0].challenge).toBe(node);
   });

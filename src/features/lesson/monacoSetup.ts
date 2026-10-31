@@ -6,6 +6,7 @@ import CssWorker from 'monaco-editor/language/css/css.worker?worker';
 import JsonWorker from 'monaco-editor/language/json/json.worker?worker';
 import type { EngineId } from '@/content';
 import { GLOBALS_DECLARATION, GLOBALS_FILE_NAME, TEST_HELPERS_DECLARATION, TEST_HELPERS_FILE_NAME } from '@/engines/typescript/environment';
+import { FAKE_MODEL_DECLARATION } from '@/engines/shared/fakeModelDeclaration';
 
 export const EDITOR_THEME = 'dev-dojo';
 
@@ -32,6 +33,8 @@ const javascriptDefaults = monaco.typescript.javascriptDefaults;
 
 typescriptDefaults.addExtraLib(GLOBALS_DECLARATION, `file:///${GLOBALS_FILE_NAME}`);
 typescriptDefaults.addExtraLib(TEST_HELPERS_DECLARATION, `file:///${TEST_HELPERS_FILE_NAME}`);
+typescriptDefaults.addExtraLib(FAKE_MODEL_DECLARATION, 'file:///dojo-ai.d.ts');
+javascriptDefaults.addExtraLib(FAKE_MODEL_DECLARATION, 'file:///dojo-ai.d.ts');
 typescriptDefaults.setEagerModelSync(true);
 
 /**

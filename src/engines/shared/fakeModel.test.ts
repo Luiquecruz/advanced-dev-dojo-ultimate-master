@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { cosineSimilarity, countTokens, createFakeModelProvider, embed, ModelError, respond } from './fakeModel';
+import { FAKE_MODEL_DECLARATION } from './fakeModelDeclaration';
 
 function provider() {
   const waits: number[] = [];
@@ -77,6 +78,48 @@ describe('fake model', () => {
   });
 });
 
+describe('fake model calibration additions', () => {
+  it('scripts content filtering, every error status and context length errors', async () => {
+    const { model, fakeModel } = provider();
+    fakeModel.reply(respond.contentFilter(), respond.error(400), respond.error(401), respond.error(529), respond.contextLength());
+    expect((await model.generate(ask('a'))).finishReason).toBe('content_filter');
+    await expect(model.generate(ask('a'))).rejects.toMatchObject({ status: 400, code: 'invalid_request' });
+    await expect(model.generate(ask('a'))).rejects.toMatchObject({ status: 401, code: 'authentication' });
+    await expect(model.generate(ask('a'))).rejects.toMatchObject({ status: 529, code: 'overloaded' });
+    await expect(model.generate(ask('a'))).rejects.toMatchObject({ status: 400, code: 'context_length' });
+  });
+
+  it('fails a stream after some chunks and fails the same reply outright without streaming', async () => {
+    const { model, fakeModel } = provider();
+    fakeModel.reply(respond.failMidStream('one two three four five', { afterChunks: 2, status: 503 }), respond.failMidStream('one two'));
+    const deltas: string[] = [];
+    const error = await (async () => {
+      try {
+        for await (const chunk of model.stream(ask('a'))) if (chunk.type === 'text') deltas.push(chunk.delta);
+      } catch (caught) {
+        return caught;
+      }
+    })();
+    expect(deltas).toEqual(['one ', 'two ']);
+    expect(error).toMatchObject({ status: 503, code: 'overloaded' });
+    await expect(model.generate(ask('a'))).rejects.toMatchObject({ status: 500 });
+    expect(fakeModel.responses).toHaveLength(0);
+  });
+
+  it('keeps a queue per model, logs successful responses and lets provider counts drift from the estimate', async () => {
+    const { module, fakeModel } = provider();
+    fakeModel.forModel('cheap').reply(respond.text('cheap answer')).forModel('strong').reply(respond.text('strong answer')).reply(respond.text('shared'));
+    expect(fakeModel.pending).toBe(3);
+    expect((await module.createModel({ model: 'strong' }).generate(ask('a'))).text).toBe('strong answer');
+    expect((await module.createModel({ model: 'cheap' }).generate(ask('a'))).text).toBe('cheap answer');
+    expect((await module.createModel({ model: 'cheap' }).generate(ask('a'))).text).toBe('shared');
+    expect(fakeModel.responses.map((response) => response.model)).toEqual(['strong', 'cheap', 'cheap']);
+    fakeModel.configure({ tokenizerDrift: 0.5 });
+    const drifted = await module.createModel().generate(ask('abcdefghijklmnop'));
+    expect(drifted.usage.inputTokens).toBe(Math.ceil(countTokens(ask('abcdefghijklmnop').messages) * 1.5));
+  });
+});
+
 describe('embeddings', () => {
   it('are deterministic unit vectors where shared words mean higher similarity', () => {
     const [refund, refunds, shipping] = embed(['How do I get a refund?', 'Refund policy for orders', 'Shipping times to Brazil']);
@@ -89,5 +132,25 @@ describe('embeddings', () => {
   it('count tokens at about four characters each, plus overhead per message', () => {
     expect(countTokens('abcdefgh')).toBe(2);
     expect(countTokens([{ role: 'user', content: 'abcd' }])).toBe(5);
+  });
+});
+
+describe('editor declarations', () => {
+  const block = (name: string) => FAKE_MODEL_DECLARATION.split(`declare module '${name}' {`)[1].split(/\ndeclare module|\n}\n*$/)[0];
+  const valueExports = (source: string) => [...new Set([...source.matchAll(/export (?:function|class|const) (\w+)/g)].map((match) => match[1]))].sort();
+
+  it('declare every runtime export of @dojo/ai and @dojo/ai/testing', () => {
+    const { module, testing } = createFakeModelProvider({ wait: async () => undefined });
+    expect(valueExports(block('@dojo/ai'))).toEqual(Object.keys(module).sort());
+    expect(valueExports(block('@dojo/ai/testing'))).toEqual(Object.keys(testing).sort());
+  });
+
+  it('declare every respond builder and fakeModel member', () => {
+    const { testing } = createFakeModelProvider({ wait: async () => undefined });
+    const testingBlock = block('@dojo/ai/testing');
+    const respondBlock = testingBlock.split('export const respond: {')[1].split('};')[0];
+    const fakeModelBlock = testingBlock.split('export interface FakeModel {')[1].split('\n  }')[0];
+    expect([...respondBlock.matchAll(/^\s+(\w+)\(/gm)].map((match) => match[1]).sort()).toEqual(Object.keys(testing.respond).sort());
+    expect([...fakeModelBlock.matchAll(/^\s+(?:readonly )?(\w+)[(:]/gm)].map((match) => match[1]).sort()).toEqual(Object.keys(testing.fakeModel).sort());
   });
 });

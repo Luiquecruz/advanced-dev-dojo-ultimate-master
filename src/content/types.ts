@@ -30,6 +30,7 @@ export interface Challenge {
   starter: ProjectFiles;
   solution: ProjectFiles;
   entry: string;
+  run?: string;
   tests: string;
   hints: string[];
   approach: string;

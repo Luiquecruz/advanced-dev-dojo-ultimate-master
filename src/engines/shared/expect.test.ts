@@ -1,5 +1,5 @@
 import { describe, expect as vitestExpect, it } from 'vitest';
-import { expect, fn } from './expect';
+import { captureError, expect, fn } from './expect';
 
 class NotFoundError extends Error {}
 
@@ -28,5 +28,17 @@ describe('fn once variants', () => {
     await vitestExpect(mock()).rejects.toThrow('second');
     vitestExpect(mock()).toBe('third');
     vitestExpect(mock()).toBe('default');
+  });
+});
+
+describe('toBeCloseTo and captureError', () => {
+  it('compares floats with a precision and returns the error an action threw', async () => {
+    expect(0.1 + 0.2).toBeCloseTo(0.3);
+    expect(0.001234).toBeCloseTo(0.0012, 4);
+    vitestExpect(() => expect(0.31).toBeCloseTo(0.3)).toThrow('close to');
+    const error = await captureError(Promise.reject(Object.assign(new Error('Rate limited'), { status: 429 })));
+    vitestExpect(error).toMatchObject({ message: 'Rate limited', status: 429 });
+    vitestExpect(await captureError(() => { throw new TypeError('bad'); })).toBeInstanceOf(TypeError);
+    await vitestExpect(captureError(Promise.resolve(1))).rejects.toThrow('Expected an error');
   });
 });

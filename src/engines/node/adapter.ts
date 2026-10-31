@@ -103,6 +103,7 @@ export const nodeAdapter: FrameworkAdapter = {
   afterEach() {
     cleanUp();
   },
+  runProgram: (files, entry) => runNodeProgram(files, entry),
 };
 
 /**

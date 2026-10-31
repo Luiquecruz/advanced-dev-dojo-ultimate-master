@@ -14,7 +14,7 @@ All content is written in **English**.
 
 | File | Required | Purpose |
 | --- | --- | --- |
-| `meta.json` | yes | `{ "title", "summary", "level", "tags"?, "preview"?, "entry"?, "resources"? }`; in multi-language tracks `entry` may be `{ "<language>": "<file>" }` |
+| `meta.json` | yes | `{ "title", "summary", "level", "tags"?, "preview"?, "entry"?, "resources"? }`; `run` names the file the **Run** button executes instead of the entry (a demo that scripts the fake model); in multi-language tracks `entry` and `run` may be `{ "<language>": "<file>" }` |
 | `theory.md` | yes | The lesson. GitHub flavored Markdown with fenced code (`ts`, `tsx`, `jsx`, `vue`, `html`, `bash`, `css`, `json`, `sql`) |
 | `concepts.json` | recommended | Glossary cards `[{ "term", "description" }]` (Markdown allowed) |
 | `challenge.md` | for practice | The task: exact names, signatures, texts and behaviors the tests check |
@@ -66,10 +66,11 @@ Each `test(name, fn)` runs against a **fresh evaluation** of the learner project
 
 Globals available in every framework track:
 
-- `mod` — exports of the entry file; `modules['store.ts']` — exports of any project file
+- `mod` — exports of the entry file; `modules['store.ts']` — exports of any project file (files the entry does not import are evaluated only when a test reads them through `modules`, so a Run demo never executes during tests)
 - `require(name)` — any module available to learner code (e.g. `require('pinia')`, `require('@angular/common/http/testing')`)
 - `source` — entry file with comments stripped (for API-usage checks); `sources['file.ts']` for other files; `rawSource` keeps comments
-- `expect` — Jest-like: `toBe`, `toEqual`, `toStrictEqual`, `toBeTruthy`, `toBeFalsy`, `toBeNull`, `toBeUndefined`, `toBeDefined`, `toBeTypeOf`, `toBeInstanceOf`, `toContain`, `toContainEqual`, `toMatch`, `toHaveLength`, `toHaveProperty`, `toBeGreaterThan(OrEqual)`, `toBeLessThan(OrEqual)`, `toThrow` (message substring, RegExp or error class), `toHaveBeenCalled`, `toHaveBeenCalledTimes`, `toHaveBeenCalledWith`, `toHaveBeenLastCalledWith`, `toBeInTheDocument`, `toHaveTextContent`, `toHaveAttribute`, `toHaveValue`, `toBeChecked`, `toBeDisabled`, `toBeEnabled`, `toHaveClass`, `toHaveStyle`, `toHaveFocus`, with `.not`, `.resolves`, `.rejects`, plus asymmetric matchers `expect.anything()`, `expect.any(Ctor)`, `expect.objectContaining()`, `expect.arrayContaining()`, `expect.stringContaining()`, `expect.stringMatching()`
+- `expect` — Jest-like: `toBe`, `toEqual`, `toStrictEqual`, `toBeTruthy`, `toBeFalsy`, `toBeNull`, `toBeUndefined`, `toBeDefined`, `toBeTypeOf`, `toBeInstanceOf`, `toContain`, `toContainEqual`, `toMatch`, `toHaveLength`, `toHaveProperty`, `toBeGreaterThan(OrEqual)`, `toBeLessThan(OrEqual)`, `toBeCloseTo(number, digits = 2)`, `toThrow` (message substring, RegExp or error class), `toHaveBeenCalled`, `toHaveBeenCalledTimes`, `toHaveBeenCalledWith`, `toHaveBeenLastCalledWith`, `toBeInTheDocument`, `toHaveTextContent`, `toHaveAttribute`, `toHaveValue`, `toBeChecked`, `toBeDisabled`, `toBeEnabled`, `toHaveClass`, `toHaveStyle`, `toHaveFocus`, with `.not`, `.resolves`, `.rejects`, plus asymmetric matchers `expect.anything()`, `expect.any(Ctor)`, `expect.objectContaining()`, `expect.arrayContaining()`, `expect.stringContaining()`, `expect.stringMatching()`
+- `captureError(promiseOrFunction)` — awaits an action that must fail and returns what it threw or rejected with (`const error = await captureError(mod.load())`), failing the test when nothing was thrown
 - `fn(impl?)` — mock function (`mock.calls`, `mockReturnValue`, `mockResolvedValue`, `mockRejectedValue`, `mockImplementation`, their `*Once` variants queued before the default, `mockClear`)
 - `screen`, `within`, `waitFor`, `fireEvent` — Testing Library; `user` — `userEvent.setup()` instance; `userEvent`
 - `sleep(ms)`, `mockApi(match, handlerOrValue)` (override a fake API route for this test), `jsonResponse(data, status)`
@@ -145,6 +146,7 @@ for await (const chunk of model.stream(request)) {} // { type: 'text', delta } |
 - Errors are `ModelError` with `status`, `code` (`rate_limit` 429, `server_error` 500, `overloaded` 503, `timeout` 504, `context_length` 400 when the input exceeds the context window) and `retryAfterMs` when given.
 - `countTokens(textOrMessages)` approximates one token per four characters plus 4 per message; cost uses `$1` per million input tokens and `$4` per million output tokens unless a test configures other prices.
 - `embed(text | texts, { dimensions = 64 })` is a deterministic bag-of-words embedding (lowercase words, stopwords removed, light stemming, hashed into a unit vector): texts that share words are more similar. `cosineSimilarity(a, b)` compares two vectors. Lessons may ask learners to write their own similarity instead.
+- Types (`Message`, `ToolCall`, `ToolDefinition`, `GenerateRequest`, `GenerateResponse`, `StreamChunk`, `Usage`, `FinishReason`, `ModelErrorCode`) are exported for `import type { ... } from '@dojo/ai'`; type-only imports are erased at runtime, so lessons never redeclare them. The editor knows both modules (`engines/shared/fakeModelDeclaration.ts`, kept in sync with the runtime by `fakeModel.test.ts`), so learners get autocomplete. When the provider gains a behavior or field, update the declaration in the same change.
 - With nothing scripted, the model answers `(dojo-fake-1) No scripted reply for this request. Last user message: "..."` (or `{}` when `responseFormat` is JSON).
 
 Tests script the model through the `fakeModel`, `respond` and `forEachSeed` globals (also importable from `@dojo/ai/testing`, so a lesson's demo `main.ts` can script a scenario for the **Run** button). The model resets before every test.
@@ -167,11 +169,14 @@ test('handles every malformed JSON shape', async () => {
 | `fakeModel.` | Effect |
 | --- | --- |
 | `reply(...behaviors)` | queue replies, consumed in order |
+| `forModel(name).reply(...behaviors)` | queue replies for one model name (routing and fallback tests); checked before the shared queue |
 | `handle((request, context) => behavior)` | dynamic replies when the queue is empty (agent loops: answer by the last message or tool result) |
 | `seed(n)` | seed the generator used by varying behaviors |
-| `configure({ model, contextWindow, latencyMs, pricing: { inputPerMillion, outputPerMillion } })` | change limits, default latency and prices |
+| `configure({ model, contextWindow, latencyMs, pricing: { inputPerMillion, outputPerMillion }, tokenizerDrift })` | change limits, default latency, prices, and how far the provider's reported token counts drift above `countTokens` (`0.15` = 15% more, like a real tokenizer differing from an estimate) |
 | `replay({ model, recordedAt, replies })` | queue replies recorded from a real model (cassette); assert structure and handling, never exact wording |
 | `requests` | every request received, for asserting prompts, tools and message history |
+| `responses` | every successful response returned, in order |
+| `reset()` | clears queues, handler, logs, seed and configuration (to run several scenarios in one test) |
 | `pending` | replies still queued |
 
 | `respond.` | Behavior |
@@ -181,12 +186,28 @@ test('handles every malformed JSON shape', async () => {
 | `malformedJson(value)` | broken JSON, shape picked by seed: truncated, trailing comma, wrapped in prose and a fence, single quotes |
 | `toolCall(name, args)`, `toolCalls([...])` | tool calls with generated ids |
 | `invalidToolArguments(name)`, `unknownTool(name?)` | arguments that are not JSON, a tool that was never offered |
-| `refusal(text?)`, `truncated(text, keepRatio?)` | `finishReason` `refusal` / `length` |
-| `error(429 \| 500 \| 503 \| 504, { retryAfterMs?, message? })` | throws `ModelError` |
+| `refusal(text?)`, `contentFilter(text?)`, `truncated(text, keepRatio?)` | `finishReason` `refusal` / `content_filter` / `length` |
+| `error(400 \| 401 \| 429 \| 500 \| 503 \| 504 \| 529, { retryAfterMs?, message? })` | throws `ModelError` with codes `invalid_request`, `authentication`, `rate_limit`, `server_error`, `overloaded`, `timeout`, `overloaded` |
+| `contextLength()` | throws the 400 `context_length` error a provider returns for an oversized input |
+| `failMidStream(text, { afterChunks = 3, status = 500 })` | `stream` yields some deltas then throws; `generate` throws |
 | `slow(ms, behavior)` | delays a reply (abortable with the request `signal`) |
 | `oneOf([...])`, `sometimes(probability, behavior, otherwise)` | seeded choice between behaviors |
 
 `forEachSeed(count, run)` resets the model, seeds it and runs the body once per seed (1..count), naming the failing seed; script the model inside the body. Use it to prove the learner's code survives every variation, not one lucky script. Keep model-specific facts (names, prices, limits of real models) in theory "Status as of" boxes and quizzes, never in assertions.
+
+## AI Engineering track (`ai-engineering`)
+
+Conventions settled by the pilot module (`01-models`). The plan and module rules are in [CURRICULUM.md](CURRICULUM.md); the content source is `.claude/specs/AI Engineering Track.md`.
+
+- **Layout:** multi-language (`variants/node/` now). Write `challenge.md` as a language-neutral contract: behavior and data shapes, export names in camelCase. Python variants will use snake_case function names but keep camelCase keys in data that mirrors `@dojo/ai` and JSON contracts (`finishReason`, `inputTokens`).
+- **Fake model only:** learner code imports `@dojo/ai`; tests use `fakeModel`, `respond`, `forEachSeed`. Assert handling and properties, never exact wording; use `forEachSeed` wherever a behavior varies.
+- **Run demo:** verification runs every declared `run` file with the solution and fails on console errors, empty output or a non-zero exit. Each challenge ships a `demo.ts` in starter and solution and sets `"run": { "node": "demo.ts" }` in `meta.json`. The demo imports the learner's functions, scripts a realistic scenario with `fakeModel`/`respond` from `@dojo/ai/testing` and prints results. It never executes during tests (it is outside the entry's import graph), so it cannot consume scripted replies.
+- **Theory:** 300–1000 words, provider-agnostic, ending with `## When to choose it`; no `## Working with AI` section (the whole track is about it). Volatile facts (model names, prices, context sizes, benchmark scores, laws, framework versions) go in one blockquote that starts with `**Status as of <Month YYYY>:**`.
+- **Tags:** maturity first (`established`, `emerging` or `hype-watch`), then `core`, then `theory` (quiz lessons) or `practice` (challenges).
+- **Map lessons:** `01-map` of module 01 maps the whole track; every other module's `01-map` maps only its module (question it answers, layer, prerequisites, path, ADR at the end).
+- **ADR checkpoints:** the last lesson of each module, following the React Architecture pattern: a briefing, an exported `adr` plus a module-specific plan object, tests for structure and coherence with the briefing.
+- **Tests:** use `captureError` to inspect errors and `toBeCloseTo` for costs instead of local helpers. Verify one lesson exactly with `LESSON=ai-engineering/<lesson-id>`.
+- **Resources:** canonical URLs that return 200 to `curl`; a few canonical domains block bots with 403 (openai.com, platform.openai.com, lmarena.ai): open those in a browser before citing them.
 
 ## TypeScript track tests (`tests.md`)
 
@@ -232,6 +253,7 @@ flags: i
 ```bash
 npx vitest run src/verify/<track>.test.ts                      # whole track (every language of a multi-language track)
 LESSON=use-effect npx vitest run src/verify/react.test.ts      # lessons whose id contains "use-effect"
+LESSON=react/use-effect npx vitest run src/verify/react.test.ts # exactly one lesson (track/id)
 LESSON=use-effect npx vitest run src/verify/content.test.ts    # structure checks
 npx vitest run src/verify/curriculum.test.ts                    # CURRICULUM.md matches the written lessons
 npm run verify                                                  # everything

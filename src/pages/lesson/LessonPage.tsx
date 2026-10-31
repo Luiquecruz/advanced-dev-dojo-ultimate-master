@@ -100,7 +100,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
     const entries: ConsoleEntry[] = [];
     setConsoleEntries([]);
     try {
-      await runProgram(engine, files, challenge.entry, (entry) => {
+      await runProgram(engine, files, challenge.run ?? challenge.entry, (entry) => {
         entries.push(entry);
         appendConsole(entry);
       });

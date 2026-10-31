@@ -10,7 +10,7 @@ import { listTestNames, runTests, type FrameworkAdapter } from '../engines/share
 export function defineChallengeSuite(trackId: string, adapter: FrameworkAdapter, language?: LanguageId): void {
   const filter = process.env.LESSON;
   const challenges = (trackById.get(trackId)?.lessons ?? [])
-    .filter((lesson) => !filter || lesson.id.includes(filter))
+    .filter((lesson) => !filter || (filter.includes('/') ? lesson.key === filter : lesson.id.includes(filter)))
     .flatMap((lesson) => lesson.variants.filter((variant) => variant.language === language).map((challenge) => ({ lesson, challenge })));
 
   beforeAll(() => {
@@ -41,6 +41,24 @@ export function defineChallengeSuite(trackId: string, adapter: FrameworkAdapter,
       expect(report.results.filter((result) => !result.passed)).toEqual([]);
       expect(report.results.length).toBe(names.length);
     });
+
+    if (challenge.run && adapter.runProgram) {
+      it('Run demo prints output without errors', async () => {
+        const output: string[] = [];
+        const errors: string[] = [];
+        const original = { log: console.log, info: console.info, warn: console.warn, error: console.error };
+        console.log = console.info = console.warn = (...args: unknown[]) => void output.push(args.map(String).join(' '));
+        console.error = (...args: unknown[]) => void errors.push(args.map(String).join(' '));
+        try {
+          await adapter.runProgram!(challenge.solution, challenge.run!);
+        } finally {
+          Object.assign(console, original);
+        }
+        expect(errors).toEqual([]);
+        expect(output.filter((line) => !line.startsWith('Process exited')).length).toBeGreaterThan(0);
+        expect(output.at(-1)).toBe('Process exited with code 0');
+      });
+    }
 
     it('starter fails at least one test', async () => {
       const report = await runTests(adapter, { files: challenge.starter, entry: challenge.entry, tests: challenge.tests });

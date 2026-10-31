@@ -140,9 +140,10 @@ describe('@dojo/ai in node challenges', () => {
   it('lets learner code call the fake model while tests script it, and resets between tests', async () => {
     const files = {
       'main.ts': `import { createModel } from '@dojo/ai';
+import type { GenerateResponse } from '@dojo/ai';
 const model = createModel();
 export async function answer(question: string) {
-  const response = await model.generate({ messages: [{ role: 'user', content: question }] });
+  const response: GenerateResponse = await model.generate({ messages: [{ role: 'user', content: question }] });
   return response.text;
 }`,
     };

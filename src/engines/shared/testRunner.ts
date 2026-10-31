@@ -1,6 +1,6 @@
 import type ts from 'typescript';
 import { stripComments, transpile } from './compile';
-import { AssertionError, expect, fn } from './expect';
+import { AssertionError, captureError, expect, fn } from './expect';
 import { jsonResponse, mockApi, resetFakeApi } from './fakeApi';
 import { listTestNames } from './testNames';
 import { compileProject, evaluateProject, type EvaluatedProject, type ModuleRegistry, type ProjectFiles } from './project';
@@ -34,6 +34,7 @@ export interface FrameworkAdapter {
   createScope(project: EvaluatedProject): Record<string, unknown>;
   beforeEach?(): void | Promise<void>;
   afterEach?(): void | Promise<void>;
+  runProgram?(files: ProjectFiles, entry: string): Promise<void>;
 }
 
 const TEST_TIMEOUT_MS = 4000;
@@ -108,6 +109,7 @@ export async function runTests(adapter: FrameworkAdapter, { files, entry, tests 
         it: register,
         expect,
         fn,
+        captureError,
         sleep,
         mockApi,
         jsonResponse,

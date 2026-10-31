@@ -27,6 +27,15 @@ describe('resolveFile', () => {
 });
 
 describe('evaluateProject', () => {
+  it('evaluates files outside the import graph only when accessed through modules', () => {
+    const project = evaluateProject({ 'main.ts': 'module.exports = { value: 1 };', 'demo.ts': 'globalThis.demoRan = true; module.exports = { demo: true };' }, 'main.ts', {});
+    expect((globalThis as { demoRan?: boolean }).demoRan).toBeUndefined();
+    expect(Object.keys(project.modules)).toEqual(['main.ts', 'demo.ts']);
+    expect(project.modules['demo.ts']).toEqual({ demo: true });
+    expect((globalThis as { demoRan?: boolean }).demoRan).toBe(true);
+    delete (globalThis as { demoRan?: boolean }).demoRan;
+  });
+
   it('loads nested files through relative imports', () => {
     const project = evaluateProject(compiled, 'App.jsx', {});
     expect(project.entry).toEqual({ total: 3, label: 'Cart' });

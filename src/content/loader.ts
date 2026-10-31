@@ -12,6 +12,7 @@ interface LessonMeta {
   tags?: string[];
   preview?: boolean;
   entry?: string | Record<LanguageId, string>;
+  run?: string | Record<LanguageId, string>;
   resources?: Array<{ label: string; url: string }>;
 }
 
@@ -80,7 +81,8 @@ export function buildTracks({ textFiles, jsonFiles }: ContentSources, languages:
       return undefined;
     }
     const solution = collectFiles(sourceDirectory, 'solution');
-    const declaredEntry = typeof meta.entry === 'string' ? meta.entry : language ? meta.entry?.[language] : undefined;
+    const forLanguage = (value: string | Record<LanguageId, string> | undefined) => (typeof value === 'string' ? value : language ? value?.[language] : undefined);
+    const declaredEntry = forLanguage(meta.entry);
     const entry = declaredEntry ?? DEFAULT_ENTRY[engine][starter.extension ?? 'ts'] ?? `main.${starter.extension}`;
     const testsPath = Object.keys(textFiles).find((path) => path.startsWith(`${sourceDirectory}/tests.`));
     return {
@@ -90,6 +92,7 @@ export function buildTracks({ textFiles, jsonFiles }: ContentSources, languages:
       starter: renameSingle(starter.files, entry),
       solution: renameSingle(solution.files, entry),
       entry,
+      run: forLanguage(meta.run),
       tests: testsPath ? textFiles[testsPath] : '',
       hints: splitSections(file(`${sourceDirectory}/hints.md`) ?? file(`${lessonDirectory}/hints.md`)),
       approach: file(`${sourceDirectory}/approach.md`) ?? file(`${lessonDirectory}/approach.md`) ?? '',

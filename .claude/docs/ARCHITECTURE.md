@@ -203,7 +203,7 @@ src/content/<track>/<NN-module>/<NN-lesson>/
 
 ### Verification
 
-`defineChallengeSuite(trackId, adapter, language?)` verifies the variants of one language; a multi-language track calls it once per language (`defineChallengeSuite('ai-engineering', nodeAdapter, 'node')`). `src/verify/content.test.ts` checks that every declared language is registered and that each variant uses its language's engine.
+`defineChallengeSuite(trackId, adapter, language?)` verifies the variants of one language (and, when a challenge declares a `run` file and the adapter implements `runProgram`, that the solution's demo runs cleanly); a multi-language track calls it once per language (`defineChallengeSuite('ai-engineering', nodeAdapter, 'node')`). `src/verify/content.test.ts` checks that every declared language is registered and that each variant uses its language's engine.
 
 ### Adding a language (for example Python)
 
