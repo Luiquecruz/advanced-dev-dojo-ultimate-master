@@ -32,7 +32,7 @@ src/
 │   ├── types.ts         Track, Lesson, Challenge, EngineId, LanguageId...
 │   └── <track>/         track.json (declares its engine or languages) + <NN-module>/module.json + <NN-lesson>/...
 ├── engines/
-│   ├── shared/          Engine-agnostic runtime: compiler, module loader, test runner, expect, fake API
+│   ├── shared/          Engine-agnostic runtime: compiler, module loader, test runner, expect, fake API, fake model
 │   ├── typescript/      Static engine: TypeScript compiler API in Web Workers (type/runtime/pattern tests)
 │   ├── react/           Framework adapter: module registry, Testing Library scope, preview renderer
 │   ├── vue/             Framework adapter + SFC compiler
@@ -111,8 +111,9 @@ Pick the **framework engine** for anything that renders UI or needs a DOM, or th
 
 - `runtime/` implements Node built-ins in the browser: `process` (env, argv, exit, nextTick, signals), `timers` (Node handles with `ref`/`unref`, tracked so a run knows when the event loop is empty), `fs` (in-memory volume rooted at `/`, cwd `/app`), `path` (POSIX), `http` (in-memory servers on virtual ports, `IncomingMessage`/`ServerResponse` as real streams), `crypto` (pure JS SHA-256/SHA-1, HMAC, PBKDF2), `util`, `assert`, `os`, `url`. `events`, `buffer` and `stream` come from the npm packages `events`, `buffer` and `readable-stream`, imported by file path (`events/events.js`, `buffer/index.js`) so Vitest uses the same code as the browser instead of Node's built-ins.
 - `runtime/index.ts`: `installNodeFetch` routes `fetch('http://localhost:<port>')` to listening in-memory servers (other URLs fall through to the fake API), `resetNodeRuntime` clears files, env, listeners, timers and servers, and `modulePrelude` binds `process`, `Buffer`, the timer globals, `__filename` and `__dirname` at the top of every learner module.
-- `registry.ts` exposes each built-in as `name` and `node:name` (`moduleOf` turns namespaces and instances into CommonJS-friendly objects), plus Hono, `@hono/zod-validator` and Zod.
-- `adapter.ts`: `nodeAdapter` (test scope: `request`, `writeFiles`, `captureLogs`, `fs`, `process`, `Buffer`; the runtime is reset before and after every test) and `runNodeProgram`, used by the sandbox `run` mode behind the lesson **Run** button.
+- `registry.ts` exposes each built-in as `name` and `node:name` (`moduleOf` turns namespaces and instances into CommonJS-friendly objects), plus Hono, `@hono/zod-validator`, Zod and the fake model (`@dojo/ai`, `@dojo/ai/testing`).
+- `ai.ts`: the engine's instance of the fake model provider (`engines/shared/fakeModel.ts`, `createFakeModelProvider`). Its delays run on runtime timers, so a program waiting for a reply keeps the **Run** alive. The provider core is engine-agnostic so a future Python engine can expose the same model.
+- `adapter.ts`: `nodeAdapter` (test scope: `request`, `writeFiles`, `captureLogs`, `fs`, `process`, `Buffer`, `fakeModel`, `respond`, `forEachSeed`; the runtime and the fake model are reset before and after every test) and `runNodeProgram`, used by the sandbox `run` mode behind the lesson **Run** button.
 
 `content/loader.ts` treats `typescript` and `node` as headless engines (no preview by default); `features/lesson/runner.ts` decides which engines get a **Run** button (`canRunProgram`) and runs them (`runProgram`: TypeScript in a worker, Node.js in a `mode=run` sandbox iframe that streams `console` messages back and answers `run-complete`).
 

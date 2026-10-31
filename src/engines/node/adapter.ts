@@ -9,6 +9,7 @@ import { dirname, resolve } from './runtime/path';
 import { process, ProcessExit } from './runtime/process';
 import { format } from './runtime/util';
 import { nodeRegistry } from './registry';
+import { nodeAi } from './ai';
 
 const { Buffer } = BufferModule;
 const RUN_LIMIT_MS = 5000;
@@ -76,6 +77,7 @@ function cleanUp(): void {
   process.stdout.flush();
   process.stderr.flush();
   resetNodeRuntime();
+  nodeAi.reset();
 }
 
 export const nodeAdapter: FrameworkAdapter = {
@@ -89,6 +91,9 @@ export const nodeAdapter: FrameworkAdapter = {
     fs: Fs,
     process,
     Buffer,
+    fakeModel: nodeAi.testing.fakeModel,
+    respond: nodeAi.testing.respond,
+    forEachSeed: nodeAi.testing.forEachSeed,
   }),
   async beforeEach() {
     await sleep(0);
@@ -106,6 +111,7 @@ export const nodeAdapter: FrameworkAdapter = {
 export async function runNodeProgram(files: ProjectFiles, entry: string): Promise<void> {
   installNodeFetch(globalThis);
   resetNodeRuntime();
+  nodeAi.reset();
   process.argv[1] = `/app/${entry}`;
   const startedAt = Date.now();
   try {

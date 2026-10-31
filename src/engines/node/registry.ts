@@ -31,6 +31,7 @@ import { process } from './runtime/process';
 import { os, querystring, url } from './runtime/system';
 import * as Timers from './runtime/timers';
 import * as Util from './runtime/util';
+import { nodeAi } from './ai';
 import { esModule, type ModuleRegistry } from '../shared/project';
 
 const StreamExtras = Stream as typeof Stream & { compose: unknown; addAbortSignal: unknown; promises: { pipeline: unknown; finished: unknown } };
@@ -124,4 +125,6 @@ export const nodeRegistry: ModuleRegistry = {
   'hono/timeout': esModule(HonoTimeout),
   '@hono/zod-validator': esModule(HonoZodValidator),
   zod: esModule(Zod),
+  '@dojo/ai': esModule(nodeAi.module),
+  '@dojo/ai/testing': esModule(nodeAi.testing),
 };

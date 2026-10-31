@@ -6,7 +6,7 @@ import { installNodeFetch, resetNodeRuntime } from './index';
 import * as path from './path';
 import { process } from './process';
 import { format, inspect, parseArgs, promisify } from './util';
-import { nodeAdapter, compileNodeFile } from '../adapter';
+import { nodeAdapter, compileNodeFile, runNodeProgram } from '../adapter';
 import { runTests } from '../../shared/testRunner';
 
 beforeEach(() => resetNodeRuntime());
@@ -133,5 +133,53 @@ describe('node adapter', () => {
     ].join('\n');
     const report = await runTests(nodeAdapter, { files, entry: 'main.ts', tests });
     expect(report.results.filter((result) => !result.passed)).toEqual([]);
+  });
+});
+
+describe('@dojo/ai in node challenges', () => {
+  it('lets learner code call the fake model while tests script it, and resets between tests', async () => {
+    const files = {
+      'main.ts': `import { createModel } from '@dojo/ai';
+const model = createModel();
+export async function answer(question: string) {
+  const response = await model.generate({ messages: [{ role: 'user', content: question }] });
+  return response.text;
+}`,
+    };
+    const tests = `test('uses the scripted reply', async () => {
+  fakeModel.reply(respond.text('Paris'));
+  expect(await mod.answer('Capital of France?')).toBe('Paris');
+  expect(fakeModel.requests[0].messages[0].content).toBe('Capital of France?');
+});
+test('starts clean', async () => {
+  expect(fakeModel.requests.length).toBe(0);
+  expect(await mod.answer('x')).toContain('No scripted reply');
+});`;
+    const report = await runTests(nodeAdapter, { files, entry: 'main.ts', tests });
+    expect(report.results).toEqual([{ name: 'uses the scripted reply', passed: true }, { name: 'starts clean', passed: true }]);
+  });
+});
+
+describe('@dojo/ai in the Run button', () => {
+  it('keeps the program alive while a scripted reply is delayed', async () => {
+    const files = {
+      'main.ts': `import { createModel } from '@dojo/ai';
+import { fakeModel, respond } from '@dojo/ai/testing';
+fakeModel.reply(respond.slow(60, respond.text('Delayed answer')));
+async function main() {
+  const response = await createModel().generate({ messages: [{ role: 'user', content: 'Hi' }] });
+  console.log(response.text, response.usage.totalTokens);
+}
+main();`,
+    };
+    const lines: string[] = [];
+    const original = console.log;
+    console.log = (...args: unknown[]) => void lines.push(args.map(String).join(' '));
+    try {
+      await runNodeProgram(files, 'main.ts');
+    } finally {
+      console.log = original;
+    }
+    expect(lines).toContain('Delayed answer 9');
   });
 });

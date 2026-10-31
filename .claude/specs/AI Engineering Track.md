@@ -554,8 +554,8 @@ Generic tracks such as AI Engineering are not tied to one language. The learner 
 ### Engine support for AI lessons
 
 - **Engine:** the `node` engine first (TypeScript, Hono, in-browser Node runtime); Python variants later through the multi-language feature.
-- **Fake model provider:** a `fakeModel` global (like the fake REST API), described in the next section.
-- **Deterministic embeddings:** a small built-in embedding function (hashed bag-of-words or a tiny fixed vocabulary) so RAG lessons compute real cosine similarity, BM25 and RRF without a model.
+- **Fake model provider:** implemented as `@dojo/ai` (learner client) and `@dojo/ai/testing` plus the `fakeModel`, `respond` and `forEachSeed` test globals; reference in `.claude/docs/CONTENT_GUIDE.md` ("Fake model").
+- **Deterministic embeddings:** implemented as `embed()` (hashed bag-of-words unit vectors) and `cosineSimilarity()` in `@dojo/ai`, so RAG lessons compute real similarity, BM25 and RRF without a model.
 - **Libraries to evaluate for the registry** (check browser compatibility and versions in `node_modules` before adopting): `@modelcontextprotocol/sdk` (in-memory transport for MCP lessons), the Vercel AI SDK `ai` package and its test mock models, LangChain.js with its fake chat models, `zod`.
 - **Real model mode:** none for now. Possible later for the **Run** button only (never grading): bring your own key, local Ollama, or an in-browser WebGPU model.
 - **Formats:** challenges for everything that is code (agent loop, harness permissions, loop with verifier, RAG pipeline, graph memory, ontology validation, eval runner, policy engine, MCP server); quizzes for regulation, model training, Hugging Face ecosystem and frameworks comparisons; ADR checkpoints per module as in the React Architecture track.
@@ -583,8 +583,8 @@ Decided:
 5. The track is long and complete, built for navigation and freshness (section 19).
 6. No real model mode for now; grading and **Run** use the fake model, built from behavior profiles, seeded variability and dated recorded transcripts.
 7. A lesson passed in one language is complete in every language, with a check mark per language.
-8. Order of work: the multi-language feature first (done), then the fake model, then the lessons in module order.
+8. Order of work: the multi-language feature (done), the fake model (done), then the lessons in module order.
 
 Open:
 
-None. Next steps: the fake model provider, then the lessons in module order.
+None. Next steps: the track scaffold (`track.json` with `languages`, accent, verify suite, curriculum plan), then the lessons in module order.

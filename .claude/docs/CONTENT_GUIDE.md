@@ -50,7 +50,7 @@ React engine (tracks `react`, `react-state`, `architecture`): React 19.3 · reac
 Vue 3.5 (full build with runtime template compiler) · vue-router 5 · pinia 4 · @vueuse/core 15 · @tanstack/vue-query 5 · vee-validate 4.15 · zod 4
 Angular 22 (zoneless by default, Signal Forms in `@angular/forms/signals`, `FetchBackend` default for HttpClient) · @ngrx/signals 22 · @ngrx/store 22 · rxjs 7.8 · zod 4
 TypeScript engine: TypeScript 6.0 compiler API (theory may cover TypeScript 7 native compiler)
-Node.js engine (track `node`): in-browser Node 24 runtime (see below) · hono 4.13 (`hono/http-exception`, `hono/validator`, `hono/cors`, `hono/logger`, `hono/request-id`, `hono/secure-headers`, `hono/bearer-auth`, `hono/basic-auth`, `hono/jwt`, `hono/factory`, `hono/streaming`, `hono/client`, `hono/timing`, `hono/body-limit`, `hono/etag`, `hono/cookie`, `hono/testing`, `hono/timeout`) · @hono/zod-validator 0.9 · zod 4
+Node.js engine (track `node`): in-browser Node 24 runtime (see below) · hono 4.13 (`hono/http-exception`, `hono/validator`, `hono/cors`, `hono/logger`, `hono/request-id`, `hono/secure-headers`, `hono/bearer-auth`, `hono/basic-auth`, `hono/jwt`, `hono/factory`, `hono/streaming`, `hono/client`, `hono/timing`, `hono/body-limit`, `hono/etag`, `hono/cookie`, `hono/testing`, `hono/timeout`) · @hono/zod-validator 0.9 · zod 4 · `@dojo/ai` and `@dojo/ai/testing` (the built-in fake model, see below)
 
 ## Fake REST API (React, Vue, Angular, Node.js)
 
@@ -119,6 +119,74 @@ Every test starts with an empty file system, a fresh `process.env`, no listeners
 The **Run** button executes the entry file like `node main.ts`, prints the console output (objects formatted like `util.inspect`) and ends when no timers, fetches or busy servers remain, after 1 s with only an idle listening server, or after 5 s.
 
 Every Node.js theory ends with two sections: **`## When to choose it`** (the decision, with the alternatives and their trade-offs) and **`## Working with AI`** (what to ask an assistant for and the checklist to review what it generates). The track teaches a frontend developer to direct and review backend code, so decisions and review criteria matter as much as syntax.
+
+## Fake model (`@dojo/ai`, Node.js engine)
+
+Dev Dojo never calls a real model: no keys, no cost, no flaky grading. Lessons about models, agents, RAG or evals use a fake provider that runs in the browser. It does **not** imitate any real model. It reproduces the classes of behavior every model generation shows (text, JSON, tool calls, malformed output, refusals, truncation, latency, rate limits and server errors, varying wording), so challenges grade how the learner's code handles models in general and keep passing when the market moves.
+
+Learner code imports the provider-agnostic client:
+
+```ts
+import { createModel, embed, cosineSimilarity, countTokens, ModelError } from '@dojo/ai';
+
+const model = createModel(); // name 'dojo-fake-1', contextWindow 32000
+const response = await model.generate({
+  messages: [{ role: 'system', content: '...' }, { role: 'user', content: '...' }],
+  tools: [{ name: 'search', description: '...', parameters: { type: 'object', properties: { query: { type: 'string' } } } }],
+  responseFormat: { type: 'json' }, // optional
+  maxTokens: 200, // optional: longer replies are cut with finishReason 'length'
+  signal, // optional AbortSignal
+});
+// response: { id, model, text, toolCalls: [{ id, name, arguments /* raw JSON string */ }], finishReason: 'stop' | 'length' | 'tool_calls' | 'refusal' | 'content_filter', usage: { inputTokens, outputTokens, totalTokens, cost } }
+for await (const chunk of model.stream(request)) {} // { type: 'text', delta } | { type: 'tool-call', toolCall } | { type: 'finish', finishReason, usage }
+```
+
+- Messages have `role` (`system`, `user`, `assistant`, `tool`), `content`, and `toolCalls` (assistant) or `toolCallId` (tool results).
+- Errors are `ModelError` with `status`, `code` (`rate_limit` 429, `server_error` 500, `overloaded` 503, `timeout` 504, `context_length` 400 when the input exceeds the context window) and `retryAfterMs` when given.
+- `countTokens(textOrMessages)` approximates one token per four characters plus 4 per message; cost uses `$1` per million input tokens and `$4` per million output tokens unless a test configures other prices.
+- `embed(text | texts, { dimensions = 64 })` is a deterministic bag-of-words embedding (lowercase words, stopwords removed, light stemming, hashed into a unit vector): texts that share words are more similar. `cosineSimilarity(a, b)` compares two vectors. Lessons may ask learners to write their own similarity instead.
+- With nothing scripted, the model answers `(dojo-fake-1) No scripted reply for this request. Last user message: "..."` (or `{}` when `responseFormat` is JSON).
+
+Tests script the model through the `fakeModel`, `respond` and `forEachSeed` globals (also importable from `@dojo/ai/testing`, so a lesson's demo `main.ts` can script a scenario for the **Run** button). The model resets before every test.
+
+```ts
+test('retries after a rate limit and returns the answer', async () => {
+  fakeModel.reply(respond.error(429, { retryAfterMs: 10 }), respond.text('Paris'));
+  expect(await mod.answerWithRetry('Capital of France?')).toBe('Paris');
+  expect(fakeModel.requests).toHaveLength(2);
+});
+
+test('handles every malformed JSON shape', async () => {
+  await forEachSeed(20, async () => {
+    fakeModel.reply(respond.malformedJson({ total: 3 }), respond.json({ total: 3 }));
+    expect(await mod.extractTotal('...')).toBe(3);
+  });
+});
+```
+
+| `fakeModel.` | Effect |
+| --- | --- |
+| `reply(...behaviors)` | queue replies, consumed in order |
+| `handle((request, context) => behavior)` | dynamic replies when the queue is empty (agent loops: answer by the last message or tool result) |
+| `seed(n)` | seed the generator used by varying behaviors |
+| `configure({ model, contextWindow, latencyMs, pricing: { inputPerMillion, outputPerMillion } })` | change limits, default latency and prices |
+| `replay({ model, recordedAt, replies })` | queue replies recorded from a real model (cassette); assert structure and handling, never exact wording |
+| `requests` | every request received, for asserting prompts, tools and message history |
+| `pending` | replies still queued |
+
+| `respond.` | Behavior |
+| --- | --- |
+| `text(text \| variants[])` | a text reply (a variant picked by seed) |
+| `json(value)` | valid JSON text |
+| `malformedJson(value)` | broken JSON, shape picked by seed: truncated, trailing comma, wrapped in prose and a fence, single quotes |
+| `toolCall(name, args)`, `toolCalls([...])` | tool calls with generated ids |
+| `invalidToolArguments(name)`, `unknownTool(name?)` | arguments that are not JSON, a tool that was never offered |
+| `refusal(text?)`, `truncated(text, keepRatio?)` | `finishReason` `refusal` / `length` |
+| `error(429 \| 500 \| 503 \| 504, { retryAfterMs?, message? })` | throws `ModelError` |
+| `slow(ms, behavior)` | delays a reply (abortable with the request `signal`) |
+| `oneOf([...])`, `sometimes(probability, behavior, otherwise)` | seeded choice between behaviors |
+
+`forEachSeed(count, run)` resets the model, seeds it and runs the body once per seed (1..count), naming the failing seed; script the model inside the body. Use it to prove the learner's code survives every variation, not one lucky script. Keep model-specific facts (names, prices, limits of real models) in theory "Status as of" boxes and quizzes, never in assertions.
 
 ## TypeScript track tests (`tests.md`)
 
