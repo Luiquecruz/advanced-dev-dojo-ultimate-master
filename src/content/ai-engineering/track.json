@@ -1,0 +1,9 @@
+{
+  "languages": ["node"],
+  "order": 8,
+  "title": "AI Engineering",
+  "shortTitle": "AI",
+  "monogram": "AI",
+  "description": "Build, evaluate, secure and govern software around models: prompts and context, tools and MCP, RAG, knowledge graphs, memory, agents, harness and loop engineering, multi-agent systems, evals, security, governance in layers and agentic engineering.",
+  "version": "Provider-agnostic · fake model · Node.js (Python soon)"
+}

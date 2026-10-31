@@ -4,6 +4,7 @@
 export const TRACK_FLAGS: Readonly<Record<string, boolean>> = {
   vue: false,
   angular: false,
+  'ai-engineering': false,
 };
 
 /**

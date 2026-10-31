@@ -128,6 +128,52 @@ From static pages to micro-frontends, following the spec in `.claude/specs/Trilh
 ### 06-decisions — Decisions and Capstone
 01-choosing-an-architecture **(quiz)** (scenario based) ✓ · 02-over-engineering-and-anti-patterns **(quiz)** ✓ · 03-architecture-from-a-briefing (decision rules per layer from a product briefing) ✓ · 04-capstone-walking-skeleton (multi-file: four-layer ADRs, trade-offs, feature module, BFF, server render and hydration) ✓
 
+## AI Engineering (`src/content/ai-engineering`, languages `node`; Python later)
+
+Spec: `.claude/specs/AI Engineering Track.md`. Hidden by `TRACK_FLAGS` until enough modules are written. Six decision layers (model, context, harness, loop, evaluation, governance) plus agentic engineering. Every module opens with a **map** lesson (what the module answers, its layer, prerequisites, the path) and ends with an **(adr)** checkpoint, as in React Architecture. Challenges are multi-language (`variants/node/` now, `variants/python/` later) and run against the fake model (`@dojo/ai`, see CONTENT_GUIDE.md "Fake model"): assert handling and properties with `forEachSeed`, never exact model wording. Every theory ends with **"When to choose it"**; volatile facts (tools, versions, laws, prices) go in a "Status as of <date>" box. Every lesson has a quiz (3–5 questions) unless marked **(quiz)** (4–6 questions, no challenge).
+
+### 01-models — Models for Engineers
+01-map **(quiz)** (how the track works: six layers, fake model, languages, maturity tags) · 02-how-llms-behave **(quiz)** (tokens, context window, sampling, non-determinism, hallucination, sycophancy) · 03-calling-a-model (provider-agnostic `complete()` wrapper: text, finish reasons, usage) · 04-tokens-cost-and-latency (cost estimator and budget guard) · 05-model-families **(quiz)** (frontier, open weights, small models, reasoning, multimodal, cognitive core) · 06-retries-routing-and-fallbacks (backoff honoring `retryAfterMs`, cheap-first routing, provider fallback) · 07-benchmarks-and-their-limits **(quiz)** · 08-models-adr **(adr)**
+
+### 02-prompts-and-context — Prompt and Context Engineering
+01-map **(quiz)** · 02-prompt-anatomy (system, role, task, constraints, examples, output format as a message builder) · 03-structured-outputs (schema validation with Zod, repair and retry across every malformed shape) · 04-choosing-examples (few-shot examples selected by similarity) · 05-context-engineering (context builder under a token budget: select, compress, order, drop; context rot) · 06-prompts-as-code (versioned prompt registry, render, rollback, tests per prompt) · 07-caching-and-batching **(quiz)** · 08-prompts-adr **(adr)**
+
+### 03-tools-and-protocols — Tools and Protocols
+01-map **(quiz)** · 02-function-calling (execute tool calls, return tool messages, invalid arguments and unknown tools) · 03-designing-tools-for-models (schemas, model-friendly errors, minimal outputs) · 04-mcp-concepts **(quiz)** (hosts, clients, servers, tools, resources, prompts, transports, auth) · 05-building-an-mcp-server (JSON-RPC: initialize, tools/list, tools/call, resources/read over an in-memory transport) · 06-mcp-clients-and-tool-overload (discover tools across servers, namespace them, load on demand) · 07-a2a-skills-and-context-files **(quiz)** (A2A, Agent Skills, AGENTS.md, the Agentic AI Foundation) · 08-tools-adr **(adr)**
+
+### 04-retrieval-and-rag — Retrieval and RAG
+01-map **(quiz)** · 02-chunking (fixed, recursive and structure-aware chunkers with overlap and metadata) · 03-vector-search (in-memory index, cosine top-k, metadata filters) · 04-bm25-and-hybrid-search (BM25 plus Reciprocal Rank Fusion) · 05-query-rewriting-and-reranking (multi-query, HyDE, model-scored reranking) · 06-grounded-answers-and-citations (sources in context, citation validation, refusing without evidence) · 07-evaluating-retrieval (recall@k, MRR, nDCG on a golden set) · 08-permission-aware-retrieval (tenants, ACL filtering, updates and deletions) · 09-agentic-rag-and-long-context **(quiz)** · 10-rag-adr **(adr)**
+
+### 05-knowledge-graphs — Knowledge Graphs and Ontologies
+01-map **(quiz)** · 02-graphs-as-data-structures (property graph, traversal, multi-hop questions) · 03-ontologies (classes, properties, domain/range and cardinality validation) · 04-extracting-a-knowledge-graph (model extraction as JSON, validation against the ontology, entity resolution) · 05-graphrag (communities, summaries, local vs global questions) · 06-semantic-layer-and-rdf **(quiz)** (RDF vs property graphs, SPARQL vs Cypher, semantic layer) · 07-knowledge-adr **(adr)**
+
+### 06-memory — Memory
+01-map **(quiz)** · 02-memory-types **(quiz)** (working, episodic, semantic, procedural; CoALA) · 03-conversation-memory (sliding window plus summary under a token budget) · 04-long-term-memory (write policy, deduplication, retrieval by relevance, recency and importance) · 05-temporal-graph-memory (bi-temporal facts, invalidation on contradiction, as-of queries) · 06-memory-poisoning-and-privacy (isolation per user, provenance, retention and erasure) · 07-memory-adr **(adr)**
+
+### 07-agents — Agents and Workflows
+01-map **(quiz)** · 02-workflows-vs-agents **(quiz)** · 03-workflow-patterns (chaining, routing, parallelization, evaluator-optimizer) · 04-the-agent-loop (observe, act with tools, stop on a final answer) · 05-budgets-and-stop-conditions (steps, tokens, cost, time, stuck detection) · 06-human-in-the-loop (approval gates, interrupt and resume with serialized state) · 07-durable-execution (checkpoints, resume after a crash, idempotent tools) · 08-computer-use-and-code-agents **(quiz)** · 09-agents-adr **(adr)**
+
+### 08-harness-and-loops — Harness and Loop Engineering
+01-map **(quiz)** · 02-what-is-a-harness **(quiz)** (same model, different harness; components; context files) · 03-permission-policies (allow, ask, deny rules with patterns and precedence) · 04-sandboxing-tools (path jail on the virtual file system, network egress allowlist) · 05-hooks (pre and post tool hooks: block, rewrite, audit) · 06-verifiers (checks the agent must pass, feedback into the next step) · 07-loop-engineering (trigger, act, verify, stop rule, persistent state, escalation) · 08-long-running-agents (progress files, task lists, resuming across sessions) · 09-harness-adr **(adr)**
+
+### 09-multi-agent — Multi-Agent Systems
+01-map **(quiz)** · 02-why-multiple-agents **(quiz)** · 03-orchestrator-workers (planner, parallel workers, synthesis, cost accounting) · 04-handoffs-and-swarms (control passing between peer agents, loop and depth limits) · 05-shared-state (blackboard with ownership and conflict rules) · 06-multi-agent-failure-modes (cascading errors, agreement bias, delegation limits) · 07-agent-to-agent-protocols **(quiz)** (A2A agent cards and tasks, MCP vs A2A) · 08-multi-agent-adr **(adr)**
+
+### 10-evals-and-observability — Evaluation and Observability
+01-map **(quiz)** · 02-evals-as-tests (golden dataset, exact, schema and semantic scorers, report) · 03-llm-as-judge (rubric judge, calibration against human labels, position bias) · 04-regression-gates (compare prompt or model versions, block regressions) · 05-agent-trajectory-evals (right tools, order, forbidden calls, step and cost limits) · 06-tracing (spans per model and tool call, GenAI attributes, token and cost rollups) · 07-production-feedback-and-drift **(quiz)** · 08-evals-adr **(adr)**
+
+### 11-model-adaptation — Model Adaptation and Open Models (concepts only for now)
+01-map **(quiz)** · 02-the-adaptation-ladder **(quiz)** · 03-fine-tuning-and-lora **(quiz)** · 04-preference-and-reinforcement-tuning **(quiz)** (RLHF, DPO, GRPO, verifiable rewards, distillation) · 05-synthetic-data **(quiz)** · 06-hugging-face-ecosystem **(quiz)** (Hub, cards, transformers, datasets, PEFT, TRL, smolagents, licenses) · 07-local-inference-and-quantization **(quiz)** (Ollama, llama.cpp, vLLM, SGLang, GGUF, memory math) · 08-model-supply-chain **(quiz)** (safetensors vs pickle, provenance, AI-BOM) · 09-adaptation-adr **(adr)**
+
+### 12-security — Security
+01-map **(quiz)** · 02-prompt-injection **(quiz)** (direct and indirect, why prompts cannot fix it) · 03-lethal-trifecta (analyze an agent's tools for private data, untrusted input and exfiltration; remove a leg) · 04-exfiltration-and-output-handling (markdown images and links, allowlists, encoding) · 05-least-privilege-and-secrets (scoped short-lived credentials, secrets out of context) · 06-tool-poisoning-and-supply-chain (hidden instructions in tool descriptions, pinned tool hashes, rug pulls) · 07-guardrails (input and output checks, PII redaction, limits) · 08-red-teaming (adversarial eval suite with injected documents) · 09-owasp-top-10s **(quiz)** (LLM Applications 2025, Agentic Applications 2026) · 10-threat-model-adr **(adr)**
+
+### 13-governance — Governance in Layers
+01-map **(quiz)** · 02-governance-layers **(quiz)** · 03-inventory-and-sprawl (registry with owners, orphaned agents, expiring credentials, shadow AI signals) · 04-agent-identity-and-runtime-policy (identity per agent, policy decision per tool call, audit log) · 05-data-governance-for-ai (classification, purpose and consent checks before a model call, retention) · 06-model-governance (registry, promotion gated by evals, pinned versions, deprecation) · 07-cost-governance (budgets per team and feature, alerts, rate limits) · 08-regulation-principles **(quiz)** · 09-eu-ai-act **(quiz)** · 10-brazil-lgpd-and-pl-2338 **(quiz)** · 11-global-regulatory-map (obligations per jurisdiction for a product's features) · 12-governance-adr **(adr)**
+
+### 14-agentic-engineering — Agentic Engineering and Capstone
+01-map **(quiz)** · 02-vibe-coding-vs-agentic-engineering **(quiz)** · 03-spec-driven-development (spec to tasks to tests traceability) · 04-context-files-and-skills (skill index loaded on demand by relevance) · 05-working-with-coding-agents **(quiz)** (small verifiable steps, TDD, worktrees, review depth, comprehension debt) · 06-ai-feature-ux **(quiz)** (streaming, uncertainty, sources, feedback, fallbacks) · 07-measuring-impact **(quiz)** · 08-what-changed **(quiz)** (changelog updated each quarterly review) · 09-capstone (multi-file: RAG plus tools over MCP, an agent with budgets and a verifier inside a permission harness, evals, threat model and governance map)
+
 ## Vue (`src/content/vue`)
 
 ### 01-foundations — Foundations
