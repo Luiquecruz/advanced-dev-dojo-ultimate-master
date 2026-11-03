@@ -1,0 +1,14 @@
+{
+  "title": "Regression Gates",
+  "summary": "Compare a candidate prompt or model with the baseline on the same dataset: repeated runs per case for non-determinism, a per-case diff, flaky cases, and a gate that blocks aggregate drops beyond the noise and any critical regression.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Evan Miller: Adding Error Bars to Evals (paper)", "url": "https://arxiv.org/abs/2411.00640" },
+    { "label": "Anthropic: A statistical approach to model evaluations", "url": "https://www.anthropic.com/research/statistical-approach-to-model-evals" },
+    { "label": "promptfoo: CI/CD integration", "url": "https://www.promptfoo.dev/docs/integrations/ci-cd/" },
+    { "label": "Hamel Husain: Your AI Product Needs Evals", "url": "https://hamel.dev/blog/posts/evals/" }
+  ]
+}

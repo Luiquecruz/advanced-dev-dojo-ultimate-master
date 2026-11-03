@@ -1,0 +1,5 @@
+In `createTracer`, keep one `spans` array in a closure and build each span as an object literal whose `end` checks `span.endMs !== null` first. Take `traceId` and `parentSpanId` from `parent` when it exists. Push the span in `end`, not in `startSpan`, so `tracer.spans` holds finished spans in the order they ended.
+---
+Both wrappers follow one shape: start the span with the attributes known up front, add optional ones with `setAttribute`, then `try { const result = await ...; set result attributes; span.end('ok'); return result; } catch (error) { span.setAttribute('error.type', ...); span.end('error'); throw error; }`. Guard every content attribute with `if (tracer.captureContent)`.
+---
+In `summarizeTrace`, filter by `traceId` first. Select model spans by `attributes['gen_ai.operation.name'] === 'chat'`, read token attributes as numbers (0 when missing), look the model up in `pricing` and collect misses in a `Set`. Cost per span is `(input × inputPerMillion + output × outputPerMillion) / 1 000 000`.

@@ -1,0 +1,13 @@
+{
+  "title": "Production Feedback and Drift",
+  "summary": "Keep evals honest after release: online scorers and judges on sampled traffic, shadow and A/B tests, explicit and implicit user feedback tied to traces, the kinds of drift and how to detect them, and sampling for human review that feeds the dataset.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Chen, Zaharia, Zou: How is ChatGPT's behavior changing over time? (paper)", "url": "https://arxiv.org/abs/2307.09009" },
+    { "label": "Hamel Husain: A Field Guide to Rapidly Improving AI Products", "url": "https://hamel.dev/blog/posts/field-guide/" },
+    { "label": "Langfuse: Annotation queues", "url": "https://langfuse.com/docs/evaluation/evaluation-methods/annotation-queues" },
+    { "label": "Evidently AI: What is data drift", "url": "https://www.evidentlyai.com/ml-in-production/data-drift" },
+    { "label": "Applied LLMs: What We Learned from a Year of Building with LLMs", "url": "https://applied-llms.org/" }
+  ]
+}

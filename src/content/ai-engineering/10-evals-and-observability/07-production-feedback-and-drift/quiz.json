@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Your offline suite passes, nothing was deployed, and the refusal rate doubled overnight. What is the most likely cause to check first?",
+    "options": [
+      "Users suddenly asked more harmful questions",
+      "Model drift: the provider changed what runs behind your model name; check the response model in traces and re-run the suite against production settings",
+      "The eval dataset is too small",
+      "A bug in the thumbs-down button"
+    ],
+    "answer": 1,
+    "explanation": "With no deploy on your side, an overnight shift in output statistics usually comes from the provider. Pinned snapshots and the response model attribute make it visible."
+  },
+  {
+    "question": "2% of users click thumbs down on the new assistant. What can you conclude about its quality?",
+    "options": [
+      "98% of answers are good",
+      "Quality improved compared with last month's 3%",
+      "Little on its own: explicit feedback is sparse and self-selected; use it to pick traces to review, and measure quality on a random sample",
+      "The assistant should be rolled back"
+    ],
+    "answer": 2,
+    "explanation": "Most users never click. Thumbs are a sampling trigger, not a quality rate."
+  },
+  {
+    "question": "You review 200 traces flagged by low judge scores and 60% are real failures. Why must you not report \"60% failure rate\"?",
+    "options": [
+      "Because judges are always wrong",
+      "Because the sample was triggered by likely failures; only a random sample estimates the rate across all traffic",
+      "Because 200 traces is too many",
+      "Because failures should be reported as counts, never rates"
+    ],
+    "answer": 1,
+    "explanation": "Triggered samples are excellent for finding failures and terrible for estimating how common they are. Keep a separate uniform sample for rates."
+  },
+  {
+    "question": "Which implicit signal most directly indicates the assistant failed the user's task?",
+    "options": [
+      "The user copied the answer",
+      "The response was long",
+      "The conversation was escalated to a human agent or the ticket was reopened",
+      "The user said \"thanks\""
+    ],
+    "answer": 2,
+    "explanation": "Escalations and reopened tickets are task failures with business cost. Copying usually signals value; length says nothing on its own."
+  },
+  {
+    "question": "Before production conversations become new golden cases, what must happen?",
+    "options": [
+      "Nothing: real data is the best data",
+      "They must be translated to English",
+      "They must be shortened to fit the prompt",
+      "Privacy filtering (redaction, consent and retention checks) and human review with written guidelines"
+    ],
+    "answer": 3,
+    "explanation": "Datasets live for years and are copied widely. Personal data must be removed first, and labels must follow guidelines so the dataset stays consistent."
+  },
+  {
+    "question": "The company shortens the refund window from 30 to 14 days. Which kind of drift is this, and what does it require?",
+    "options": [
+      "Concept drift: what counts as correct changed, so expected answers in the dataset must be re-labeled and the knowledge base updated",
+      "Input drift: users will ask different questions",
+      "Model drift: the provider must retrain",
+      "No drift: the model already knows the new policy"
+    ],
+    "answer": 0,
+    "explanation": "The same answer that was right yesterday is wrong today. Old labels would now reward the wrong behavior."
+  }
+]

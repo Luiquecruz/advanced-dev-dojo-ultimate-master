@@ -1,0 +1,16 @@
+{
+  "title": "LLM as Judge",
+  "summary": "Score open qualities with a rubric judge that survives malformed output, calibrate it against human labels with agreement and Cohen's kappa, and catch position bias by swapping the order of pairwise comparisons.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Zheng et al.: Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena", "url": "https://arxiv.org/abs/2306.05685" },
+    { "label": "Wang et al.: Large Language Models are not Fair Evaluators (position bias)", "url": "https://arxiv.org/abs/2305.17926" },
+    { "label": "Shankar et al.: Who Validates the Validators?", "url": "https://arxiv.org/abs/2404.12272" },
+    { "label": "Hamel Husain: Creating an LLM-as-a-Judge That Drives Business Results", "url": "https://hamel.dev/blog/posts/llm-judge/" },
+    { "label": "Eugene Yan: Evaluating the Effectiveness of LLM-Evaluators", "url": "https://eugeneyan.com/writing/llm-evaluators/" },
+    { "label": "Wikipedia: Cohen's kappa", "url": "https://en.wikipedia.org/wiki/Cohen%27s_kappa" }
+  ]
+}

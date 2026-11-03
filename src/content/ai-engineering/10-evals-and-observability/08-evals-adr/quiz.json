@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A/A runs move the pass rate by 2.5 points and the product accepts a 5-point drop. Which gate tolerance is coherent?",
+    "options": [
+      "1 point, to be safe",
+      "4 points: above the noise, within the product rule",
+      "8 points, to avoid false alarms",
+      "0 points: any drop blocks"
+    ],
+    "answer": 1,
+    "explanation": "Below the noise floor the gate blocks random pull requests; above the accepted drop it lets real regressions through."
+  },
+  {
+    "question": "The judge with the best kappa comes from the same provider family as the generator. Why might the ADR reject it?",
+    "options": [
+      "Judges must always be the cheapest model",
+      "Kappa above 0.8 is suspicious",
+      "Same-family judges tend to prefer their family's outputs (self-preference), inflating scores of the drafts under test",
+      "Providers forbid using their models as judges"
+    ],
+    "answer": 2,
+    "explanation": "Calibration on a fixed label set does not remove the bias that appears when comparing your generator against alternatives. A second, well-calibrated family is the safer judge."
+  },
+  {
+    "question": "Reviewers can label 300 traces a week from 40 000 drafts. Which sampling plan fits?",
+    "options": [
+      "A 1% random sample (400 traces) plus every thumbs-down",
+      "Only traces with thumbs down, because they contain the failures",
+      "A 0.25% random sample (100 traces) plus up to 200 triggered traces (forbidden calls, rewritten drafts, low judge scores)",
+      "No sampling: the judge reviews everything"
+    ],
+    "answer": 2,
+    "explanation": "The random share gives unbiased rates, the triggered share finds failures, and the total respects capacity. A queue larger than capacity is never emptied."
+  },
+  {
+    "question": "Last quarter a provider update behind an alias doubled refusals for three days. Which plan elements address that history?",
+    "options": [
+      "A larger golden dataset",
+      "A stricter gate tolerance",
+      "More human reviewers",
+      "A scheduled offline suite against production settings plus alerts on the response model and the refusal rate"
+    ],
+    "answer": 3,
+    "explanation": "Provider-side changes happen without a deploy, so the pull request gate never sees them. Scheduled runs and drift alerts do."
+  }
+]

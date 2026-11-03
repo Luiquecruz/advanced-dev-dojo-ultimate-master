@@ -1,0 +1,9 @@
+[
+  { "term": "Trace", "description": "One request end to end, identified by a trace id shared by all its spans." },
+  { "term": "Span", "description": "One operation inside a trace: a model call, a tool call, an agent run. Has ids, timing, status and attributes." },
+  { "term": "Parent span id", "description": "The span that started this one. Parent links turn a flat list of spans into the tree of a run." },
+  { "term": "W3C Trace Context", "description": "The standard `traceparent` header that carries trace and parent span ids between services." },
+  { "term": "GenAI semantic conventions", "description": "OpenTelemetry's standard span names and attributes for model, tool and agent operations, such as `gen_ai.operation.name` and `gen_ai.usage.input_tokens`." },
+  { "term": "Content capture", "description": "Recording prompts, outputs, tool arguments and results on telemetry. Off by default; opt in only where storage and access meet your data rules." },
+  { "term": "Cost rollup", "description": "Tokens from spans multiplied by a price table you own, summed per trace, feature or customer at query time." }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Eval", "description": "A test suite for non-deterministic code: a dataset of inputs, scorers that check properties of each output, and a report of how often the feature behaves." },
+  { "term": "Golden dataset", "description": "Curated cases with stable ids and expected answers or required facts, taken from real usage and grown from production failures." },
+  { "term": "Scorer", "description": "A function `(output, case) → { pass, score, detail }`. Code-based scorers (exact, regex, schema) are cheap and deterministic; model-based scorers need calibration." },
+  { "term": "Normalization", "description": "Removing noise such as case, edge whitespace and punctuation before an exact comparison, never meaning." },
+  { "term": "Semantic scorer", "description": "Compares an output to a reference answer by embedding similarity. Rewards shared vocabulary, so its threshold must be calibrated on labeled outputs." },
+  { "term": "Vibes-based evaluation", "description": "Judging a change from a few hand-picked tries. The bad practice evals replace." },
+  { "term": "Eval-driven development", "description": "Writing eval cases before changing a prompt, model or tool, then comparing the new run with a baseline." }
+]

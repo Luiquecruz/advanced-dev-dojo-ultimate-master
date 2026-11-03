@@ -1,0 +1,38 @@
+{
+  "title": "Evals as Tests",
+  "summary": "Replace vibes with an eval runner: a golden dataset, exact, schema and semantic scorers, a per-case and aggregate report, and model or scorer failures recorded as failed results instead of crashed runs.",
+  "level": "intermediate",
+  "tags": [
+    "established",
+    "core",
+    "practice"
+  ],
+  "entry": {
+    "node": "main.ts"
+  },
+  "run": {
+    "node": "demo.ts"
+  },
+  "resources": [
+    {
+      "label": "Hamel Husain: Your AI Product Needs Evals",
+      "url": "https://hamel.dev/blog/posts/evals/"
+    },
+    {
+      "label": "Eugene Yan: Task-specific LLM evals that do and don't work",
+      "url": "https://eugeneyan.com/writing/evals/"
+    },
+    {
+      "label": "Anthropic: Define success criteria and build evaluations",
+      "url": "https://docs.claude.com/en/docs/test-and-evaluate/develop-tests"
+    },
+    {
+      "label": "promptfoo: Intro",
+      "url": "https://www.promptfoo.dev/docs/intro/"
+    },
+    {
+      "label": "Inspect AI (UK AI Security Institute)",
+      "url": "https://inspect.aisi.org.uk/"
+    }
+  ]
+}

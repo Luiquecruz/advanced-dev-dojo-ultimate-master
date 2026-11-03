@@ -1,0 +1,9 @@
+[
+  { "term": "LLM-as-judge", "description": "A model scoring another model's output against a rubric. Useful for qualities code cannot check; biased and noisy, so it must be calibrated." },
+  { "term": "Rubric", "description": "Named criteria with a description and a small scale. Specific criteria and few levels give more consistent scores." },
+  { "term": "Pairwise judgment", "description": "Asking which of two answers is better. More reliable than absolute scores for choosing between variants; must run in both orders." },
+  { "term": "Position bias", "description": "A judge preferring the first or second answer regardless of content. Detected by swapping the order." },
+  { "term": "Self-preference bias", "description": "A judge rating outputs from its own model family higher. Use a judge from another family." },
+  { "term": "Cohen's kappa", "description": "Agreement corrected for chance: `(observed − expected) / (1 − expected)`. 1 is perfect, 0 is chance level, negative is systematic disagreement." },
+  { "term": "Calibration", "description": "Comparing a judge's labels with human labels on the same outputs, and reading the disagreements, before trusting it." }
+]

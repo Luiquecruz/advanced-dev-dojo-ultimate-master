@@ -1,0 +1,8 @@
+[
+  { "term": "Evaluation layer", "description": "Layer 5 of the track: evals, traces, regression suites and online metrics. It turns every other layer's decisions into measured evidence." },
+  { "term": "Eval", "description": "A test suite for non-deterministic code: a dataset, scorers that check properties of each output, and a report." },
+  { "term": "Observability", "description": "Seeing what a request did after the fact: traces with spans per model and tool call, tokens, cost, errors and timings." },
+  { "term": "Offline vs online evaluation", "description": "Offline runs curated datasets before release; online scores live traffic after release with proxies, judges and feedback." },
+  { "term": "Vibes-based evaluation", "description": "Shipping because a few tries looked good. The bad practice this module replaces with numbers and reasons." },
+  { "term": "Evaluation ADR", "description": "The module's checkpoint: a decision record and an eval plan (critical cases, scorers, judge, gate, tracing, review sampling, drift alerts) for a briefing." }
+]

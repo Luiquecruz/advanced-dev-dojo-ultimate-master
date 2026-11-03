@@ -1,0 +1,7 @@
+[
+  { "term": "Evaluation ADR", "description": "The record of layer 5 for a feature: what is measured, by which scorers and judge, how changes are gated, what traces contain and how production feeds back." },
+  { "term": "Eval plan", "description": "The implementable part: dataset and critical cases, scorers, judge, gate thresholds and cost, tracing settings, review sampling and drift alerts." },
+  { "term": "Noise floor", "description": "The pass-rate movement between runs of the same version; the gate's tolerance must sit above it." },
+  { "term": "Accepted drop", "description": "The largest quality decrease the product tolerates; the gate's tolerance must sit at or below it." },
+  { "term": "Review capacity", "description": "How many traces people can label per period. Random and triggered samples together must fit within it." }
+]

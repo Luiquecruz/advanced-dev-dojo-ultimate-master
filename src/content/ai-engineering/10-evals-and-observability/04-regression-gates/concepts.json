@@ -1,0 +1,9 @@
+[
+  { "term": "Regression gate", "description": "A CI step that runs baseline and candidate on the same dataset and blocks the change when the candidate is worse beyond noise." },
+  { "term": "Baseline", "description": "The results of the version running today, stored with its settings, against which every candidate is compared." },
+  { "term": "Noise floor", "description": "How much the pass rate moves between runs of the same version (an A/A comparison). The gate's tolerance must exceed it." },
+  { "term": "Standard error", "description": "The expected spread of a measured pass rate: about `√(p(1 − p) / n)` for `n` runs. Four times the runs halve it." },
+  { "term": "Flaky case", "description": "A case that passes in some repeated runs and fails in others. Users meet both outcomes, so it is a finding, not noise to hide." },
+  { "term": "Critical case", "description": "A case that must not regress even when the average improves: a policy rule, a safety refusal, a key customer workflow." },
+  { "term": "Per-case diff", "description": "Each case's pass rate in baseline and candidate, so a report says what got better and what broke instead of one delta." }
+]

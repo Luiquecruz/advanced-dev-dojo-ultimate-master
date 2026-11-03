@@ -1,0 +1,5 @@
+Build the request from the rubric: map each criterion to a line `- name: description`, mention `scale.min` and `scale.max`, and describe the JSON shape. Keep the answer out of the system message; wrap it in tags inside the user message. `parseJudgment` is `parseModelJson(text)` plus a loop over `rubric.criteria` that returns `null` at the first missing, non-integer (`Number.isInteger`) or out-of-range score.
+---
+`judgeAnswer` is a bounded loop: `for (let attempt = 1; attempt <= maxAttempts; attempt++)`, return as soon as `parseJudgment` gives scores, and after the loop return `{ valid: false, attempts: maxAttempts, reason }`. For kappa, count each label's share in both lists (a `Map` per list), sum `shareFirst × shareSecond` over the labels of `first`, and apply the formula, with the special case `expected === 1`.
+---
+For `comparePairwise`, read `winner` from each reply with `parseModelJson`. In the first call `"first"` means A; in the swapped call `"first"` means B. Anything other than `"first"`, `"second"` or `"tie"` is a `null` vote. Only equal, non-null votes produce a winner; every other combination is an inconsistent tie.

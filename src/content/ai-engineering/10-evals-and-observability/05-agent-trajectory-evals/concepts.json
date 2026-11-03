@@ -1,0 +1,9 @@
+[
+  { "term": "Trajectory", "description": "The ordered record of an agent run: every model response with its usage and every tool call with its arguments and outcome." },
+  { "term": "Outcome eval", "description": "Checks the result of an agent run: the final answer or, better, the final state of the environment." },
+  { "term": "Trajectory eval", "description": "Checks the path: required and forbidden tools, order constraints, argument policies, step and cost limits." },
+  { "term": "Golden trajectory", "description": "One exact expected sequence of calls. Brittle, because agents take many valid paths; prefer properties." },
+  { "term": "Partial order constraint", "description": "\"A before B\" without requiring B immediately after A, such as a successful lookup before any refund." },
+  { "term": "Forbidden call", "description": "A call to an allowed tool with arguments outside policy, such as a refund above the approval threshold." },
+  { "term": "pass^k", "description": "The probability that all k attempts at a task succeed. It measures reliability, and falls fast for agents that only usually behave." }
+]

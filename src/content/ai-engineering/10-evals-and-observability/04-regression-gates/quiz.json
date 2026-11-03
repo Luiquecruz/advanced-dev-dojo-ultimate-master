@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A prompt change moves the pass rate from 91% to 89% on 100 cases, one run each. The gate's tolerance is 1 point. What is the problem?",
+    "options": [
+      "None: any drop should block",
+      "A 2-point move is within the noise of a single 100-case run (standard error about 3 points); without repeats and a measured noise floor the gate blocks at random",
+      "The tolerance should be 0",
+      "Pass rates cannot be compared between prompts"
+    ],
+    "answer": 1,
+    "explanation": "Measure the noise floor with A/A runs, repeat cases, and set the tolerance above that noise. Otherwise the gate turns red for random pull requests and gets ignored."
+  },
+  {
+    "question": "The candidate raises the average from 82% to 88% but the critical `double-charge` case drops from 5/5 to 2/5. What should the gate do?",
+    "options": [
+      "Pass: the average improved",
+      "Pass with a note in the changelog",
+      "Block, naming `double-charge`: critical cases must not regress, whatever the average does",
+      "Re-run until the case passes once"
+    ],
+    "answer": 2,
+    "explanation": "Averages hide trade-offs. Critical cases encode rules that matter more than the mean; the per-case diff makes the trade-off visible."
+  },
+  {
+    "question": "The baseline was measured on 100 cases last month; the candidate runs on today's 120 cases. Why should the gate refuse the comparison?",
+    "options": [
+      "Because 120 is too many cases",
+      "Because the difference mixes the prompt change with the dataset change; compare runs on the same case ids and settings",
+      "Because baselines expire after a week",
+      "It should not: more cases are always better"
+    ],
+    "answer": 1,
+    "explanation": "Twenty new cases, possibly harder ones, can move the pass rate on their own. Re-run the baseline on the new dataset, then compare."
+  },
+  {
+    "question": "A case passes 2 of 5 repeated runs with the candidate. How should you read it?",
+    "options": [
+      "As a flaky case: users will see both outcomes, so investigate it even if the gate passes",
+      "As a pass, because it passed at least once",
+      "As noise to drop from the dataset",
+      "As proof that temperature should be raised"
+    ],
+    "answer": 0,
+    "explanation": "Repeats exist to reveal this. A case that fails 60% of the time is a quality problem, not a measurement problem."
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Every challenge so far passed against the fake model. What does that prove, and what does this module add?",
+    "options": [
+      "It proves the feature gives good answers; this module only adds dashboards",
+      "It proves your code handles model behavior (errors, malformed output, tool calls); this module measures whether a real model with your prompt gives good answers on your users' inputs, and lets you see what each request did",
+      "It proves nothing; the fake model should be replaced by a real one in every test",
+      "It proves the model is calibrated"
+    ],
+    "answer": 1,
+    "explanation": "Handling and quality are different questions. The fake model grades engineering properties deterministically; evals and traces measure quality and behavior with real models."
+  },
+  {
+    "question": "Which layer does this module cover, and how does it relate to the others?",
+    "options": [
+      "Layer 5, evaluation: it measures the decisions made in every other layer and produces the evidence governance relies on",
+      "Layer 1, model: it chooses the best model",
+      "Layer 3, harness: it adds permission rules",
+      "Layer 6, governance: it writes policies"
+    ],
+    "answer": 0,
+    "explanation": "Model choice, prompts, retrieval, agents and harness controls are hypotheses until evaluated. Governance (module 13) gates promotions on this evidence."
+  },
+  {
+    "question": "A team wants to replace its prompt and asks \"is the new one better?\". Which lesson builds the mechanism that answers it?",
+    "options": [
+      "Lesson 06, tracing",
+      "Lesson 07, production feedback and drift",
+      "Lesson 04, regression gates: baseline and candidate on the same dataset, repeated runs, per-case diff and blocking rules",
+      "Lesson 03, LLM as judge, alone"
+    ],
+    "answer": 2,
+    "explanation": "A judge or scorer measures one version; the gate compares two versions fairly and decides, accounting for noise and critical cases."
+  },
+  {
+    "question": "An agent's final answers look right, but support finds it occasionally tries to delete accounts. Which lessons address this?",
+    "options": [
+      "Lesson 02 only: add more exact-match cases",
+      "Lesson 03 only: ask a judge about tone",
+      "None: the harness already blocks it",
+      "Lesson 05 (trajectory evals flag forbidden calls, even blocked ones) and lesson 06 (traces show each tool call in production)"
+    ],
+    "answer": 3,
+    "explanation": "Outcome scorers miss what happened on the way. Trajectories in tests and traces in production make the attempted calls visible."
+  },
+  {
+    "question": "What does the ADR at the end of the module ask you to produce?",
+    "options": [
+      "A ranking of eval platforms",
+      "An eval plan for an agentic reply assistant: critical cases, scorers, a calibrated judge, a gate within noise, product rule and CI budget, content-free tracing, review sampling and drift alerts, checked against a briefing",
+      "A benchmark score for the assistant",
+      "A copy of the tracing challenge"
+    ],
+    "answer": 1,
+    "explanation": "Like every module, it ends with a decision record whose plan is tested for coherence with the briefing's numbers."
+  }
+]

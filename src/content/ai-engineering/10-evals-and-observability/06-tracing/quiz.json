@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Why does the tracer copy the parent's trace id into every child span?",
+    "options": [
+      "To save memory",
+      "So every operation of one request can be found and arranged into one tree, even across services",
+      "Because span ids must be unique",
+      "To make spans sortable by time"
+    ],
+    "answer": 1,
+    "explanation": "The trace id groups the spans of a request; parent span ids give the tree its shape. Across services the `traceparent` header carries both."
+  },
+  {
+    "question": "Why record both `gen_ai.request.model` and `gen_ai.response.model`?",
+    "options": [
+      "The conventions forbid recording only one",
+      "One is for cost, the other for latency",
+      "They are always identical; recording both is redundant",
+      "An alias or router can answer with a different snapshot than the name requested; only the response says what actually ran"
+    ],
+    "answer": 3,
+    "explanation": "When behavior changes overnight, the response model shows whether a new snapshot answered. Pricing should also use the model that actually ran."
+  },
+  {
+    "question": "A teammate wants to log every prompt and reply on spans in production \"for debugging\". The prompts contain customer data. What does this lesson recommend?",
+    "options": [
+      "Keep content capture off by default; capture structure only, and store content separately with access control and retention (or sample and redact it) where your data rules allow",
+      "Log everything: observability backends are secure",
+      "Log everything but in base64",
+      "Never trace model calls at all"
+    ],
+    "answer": 0,
+    "explanation": "The GenAI conventions make content opt-in for this reason. Structure (models, tokens, timings, errors) answers most operational questions without copying personal data into telemetry."
+  },
+  {
+    "question": "Why compute cost from token attributes and a price table instead of storing a cost attribute on each span?",
+    "options": [
+      "Spans cannot hold numbers",
+      "Providers send costs in a different currency",
+      "Prices change and differ per contract and cache hit; tokens are the stable fact, and cost can be recomputed when a price is corrected",
+      "Cost is not useful for model features"
+    ],
+    "answer": 2,
+    "explanation": "The conventions record usage, not price. Rolling cost up at query time keeps history correct after a price change and lets you answer what-if questions."
+  }
+]

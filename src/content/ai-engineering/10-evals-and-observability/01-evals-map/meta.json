@@ -1,0 +1,12 @@
+{
+  "title": "Map: Evaluation and Observability",
+  "summary": "What this module answers (how we know a model feature works and how we see what it did), its place in the evaluation layer, the prerequisites from earlier modules, the path from eval runners to tracing and drift, and the evaluation ADR at the end.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Hamel Husain: Your AI Product Needs Evals", "url": "https://hamel.dev/blog/posts/evals/" },
+    { "label": "Anthropic: Demystifying evals for AI agents", "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" },
+    { "label": "Eugene Yan: Task-specific LLM evals that do and don't work", "url": "https://eugeneyan.com/writing/evals/" },
+    { "label": "OpenTelemetry: GenAI semantic conventions (repository)", "url": "https://github.com/open-telemetry/semantic-conventions-genai" }
+  ]
+}

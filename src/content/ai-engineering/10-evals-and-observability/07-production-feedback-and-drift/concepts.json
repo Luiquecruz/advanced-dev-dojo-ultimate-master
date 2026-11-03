@@ -1,0 +1,9 @@
+[
+  { "term": "Online evaluation", "description": "Scoring live traffic after release: code-based checks on every response, judges on a sample, scores written onto traces." },
+  { "term": "Shadow traffic", "description": "Running a candidate on copies of real requests and scoring its outputs without showing them to users." },
+  { "term": "Implicit feedback", "description": "Signals from behavior (regenerate, heavy edits, copy, escalation, abandonment), more plentiful and often more honest than ratings." },
+  { "term": "Drift", "description": "Change under a shipped feature: inputs, the provider's model, prompts and configuration, knowledge, or the definition of correct." },
+  { "term": "Triggered sample", "description": "Traces selected because something looked wrong (negative feedback, low score, guardrail hit). Rich in failures, biased for rates." },
+  { "term": "Annotation queue", "description": "The list of sampled traces waiting for human review, sized to reviewer capacity and governed by labeling guidelines." },
+  { "term": "Data flywheel", "description": "Production failures become reviewed golden cases and judge calibration data, so evals keep matching real traffic." }
+]

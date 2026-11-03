@@ -1,0 +1,14 @@
+{
+  "title": "Agent Trajectory Evals",
+  "summary": "Evaluate how an agent worked: record every model and tool step, check required and forbidden tools, order constraints, argument policies, step and cost limits, report each violation, and aggregate runs into a suite report.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Anthropic: Demystifying evals for AI agents", "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" },
+    { "label": "Yao et al.: τ-bench, tool-agent-user interaction benchmark (paper)", "url": "https://arxiv.org/abs/2406.12045" },
+    { "label": "LangChain: agentevals (trajectory evaluators)", "url": "https://github.com/langchain-ai/agentevals" },
+    { "label": "Inspect AI (UK AI Security Institute)", "url": "https://inspect.aisi.org.uk/" }
+  ]
+}

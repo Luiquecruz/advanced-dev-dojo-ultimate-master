@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A refund agent's final reply is correct, but its trajectory shows `issue_refund` before any `get_order`. How should the eval treat the run?",
+    "options": [
+      "Pass: the answer was right",
+      "Fail with an order violation: the agent skipped a prerequisite and got lucky",
+      "Ignore it: order only matters for workflows",
+      "Pass, but lower the temperature"
+    ],
+    "answer": 1,
+    "explanation": "Outcome and trajectory are separate views. A refund without a lookup is a policy violation even when the amount happened to be right."
+  },
+  {
+    "question": "The harness blocked the agent's call to `delete_account`. Should the trajectory eval still report it?",
+    "options": [
+      "Yes: the attempt shows the model or prompt is unsafe; the harness only saved you this time",
+      "No: blocked calls have no effect",
+      "No: only successful calls appear in trajectories",
+      "Only when the user complains"
+    ],
+    "answer": 0,
+    "explanation": "Defense in depth needs both layers. The eval measures the agent's intent so you can fix it before the next harness gap."
+  },
+  {
+    "question": "Why are trajectory specs usually written as constraints instead of one golden sequence of calls?",
+    "options": [
+      "Golden sequences are slower to compare",
+      "Constraints are required by the OpenTelemetry conventions",
+      "Agents take many valid paths (an extra lookup, a different order of independent calls); exact matching fails them and gets ignored",
+      "Golden sequences cannot include tool arguments"
+    ],
+    "answer": 2,
+    "explanation": "Required and forbidden sets, partial orders, argument predicates and limits describe every acceptable path. Keep strict matching for flows where the exact sequence is the requirement."
+  },
+  {
+    "question": "An agent succeeds on a task 75% of the time, independently per run. What is its pass^3, and why does it matter?",
+    "options": [
+      "75%, because each run is independent",
+      "98%, because three tries give three chances",
+      "About 42% (0.75³): the chance all three runs succeed, which is what repeat users experience",
+      "25%, the failure rate"
+    ],
+    "answer": 2,
+    "explanation": "pass@k (at least one success) rises with k; pass^k (every attempt succeeds) falls. Customer-facing agents need the second."
+  }
+]

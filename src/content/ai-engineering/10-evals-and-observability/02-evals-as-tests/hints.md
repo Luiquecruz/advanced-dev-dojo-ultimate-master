@@ -1,0 +1,5 @@
+Start with the scorers; each is a small pure function returning `{ pass, score, detail }`. For `normalizeAnswer`, one regex anchored at both ends (`^[\s.,!?"']+|[\s.,!?"']+$`) strips the edges, and `/\s+/g` collapses the inside. Throw from `exactScorer` and `semanticScorer` when `evalCase.expected` is `undefined`; the runner will turn that into a failed score.
+---
+In `schemaScorer`, wrap `JSON.parse` in its own `try`, so a JSON error and a schema error produce different details. `schema.safeParse(value)` returns `{ success, error }`; build the detail from `error.issues`, joining `issue.path` with dots and adding `issue.message`.
+---
+Split `runEval` in two helpers. `runCase` puts only the model call inside `try`/`catch` (a failure returns `{ output: null, error: message, scores: {}, pass: false }`) and then calls a `scoreSafely` helper per scorer, which awaits `scorer.score(...)` inside its own `try`/`catch`. `summarize` counts over the case list; for `byScorer`, read `result.scores[name]`, treating a missing score as a failure worth 0.
