@@ -1,0 +1,15 @@
+{
+  "title": "Local Inference and Quantization",
+  "summary": "Ollama, llama.cpp, vLLM and SGLang and when each fits, quantization levels (8-bit, 4-bit, GGUF k-quants, AWQ, GPTQ) and their quality cost, and the memory math (parameters × bytes per weight plus the KV cache) with a worked laptop and server example.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "llama.cpp", "url": "https://github.com/ggml-org/llama.cpp" },
+    { "label": "Ollama documentation", "url": "https://docs.ollama.com/" },
+    { "label": "vLLM documentation", "url": "https://docs.vllm.ai/en/latest/" },
+    { "label": "SGLang documentation", "url": "https://docs.sglang.io/" },
+    { "label": "Hugging Face: GGUF and its quantization types", "url": "https://huggingface.co/docs/hub/gguf" },
+    { "label": "Efficient Memory Management for LLM Serving with PagedAttention (paper)", "url": "https://arxiv.org/abs/2309.06180" },
+    { "label": "AWQ: Activation-aware Weight Quantization (paper)", "url": "https://arxiv.org/abs/2306.00978" }
+  ]
+}

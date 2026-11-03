@@ -1,0 +1,14 @@
+{
+  "title": "Synthetic Data",
+  "summary": "Why teams generate training data, how (seeded variation, Self-Instruct, evolution, grounded generation, personas), the filters that make it usable, and the risks: model collapse, bias amplification, homogenization, baked-in errors and eval contamination.",
+  "level": "advanced",
+  "tags": ["emerging", "theory"],
+  "resources": [
+    { "label": "AI models collapse when trained on recursively generated data (Nature, 2024)", "url": "https://www.nature.com/articles/s41586-024-07566-y" },
+    { "label": "Is Model Collapse Inevitable? Accumulating real and synthetic data (paper)", "url": "https://arxiv.org/abs/2404.01413" },
+    { "label": "Self-Instruct: Aligning Language Models with Self-Generated Instructions (paper)", "url": "https://arxiv.org/abs/2212.10560" },
+    { "label": "Textbooks Are All You Need (phi-1 paper)", "url": "https://arxiv.org/abs/2306.11644" },
+    { "label": "Hugging Face: Cosmopedia, a large synthetic dataset", "url": "https://huggingface.co/blog/cosmopedia" },
+    { "label": "distilabel: synthetic data and AI feedback framework", "url": "https://distilabel.argilla.io/" }
+  ]
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team has 6 000 labeled delivery notes, but one exception type has only 40 examples. What is the sound use of synthetic data?",
+    "options": [
+      "Replace all real notes with synthetic ones so the classes are balanced",
+      "Generate variations seeded from the 40 real examples, check their labels with a validator and spot checks, mark them as synthetic and add them to the real data",
+      "Generate a new eval set for the rare type with the same model and train on it too",
+      "Skip the rare type: models learn rare cases on their own"
+    ],
+    "answer": 1,
+    "explanation": "Fill a measured gap, seed from real data, filter for correctness, record provenance, and keep real data as the anchor."
+  },
+  {
+    "question": "What did research on model collapse find?",
+    "options": [
+      "Synthetic data always improves models",
+      "Models collapse only when trained on images",
+      "Training recursively on generated data loses the tails of the distribution; accumulating synthetic data alongside real data avoids collapse, while replacing real data causes it",
+      "Collapse happens only with models below one billion parameters"
+    ],
+    "answer": 2,
+    "explanation": "Shumailov et al. (Nature, 2024) showed the loss of rare cases; Gerstgrasser et al. (2024) showed that keeping the real data in the mix prevents it."
+  },
+  {
+    "question": "The same model generated both the training set and the eval set for a fine-tune. Eval scores jumped from 84% to 97%. What is the main concern?",
+    "options": [
+      "Eval contamination: shared phrasing and near-duplicates make the eval measure similarity to the generator, not real quality",
+      "The fine-tune is too small",
+      "97% is not high enough",
+      "The eval set has too many examples"
+    ],
+    "answer": 0,
+    "explanation": "Keep the eval set real, frozen and deduplicated against every training example, including synthetic ones."
+  },
+  {
+    "question": "Which filter is strongest for synthetic SQL examples (question plus query)?",
+    "options": [
+      "Asking the generator whether it is confident",
+      "Keeping the longest queries",
+      "Removing examples with typos",
+      "Running each query against a test database and keeping only those that execute and return the expected rows"
+    ],
+    "answer": 3,
+    "explanation": "Where a verifier exists, use it: a program that checks correctness is cheaper and more reliable than a judge."
+  },
+  {
+    "question": "A fine-tune trained mostly on synthetic customer messages performs well on the eval but poorly on real messages full of typos and slang. Which risk is this?",
+    "options": [
+      "Model collapse",
+      "Homogenization: synthetic text is cleaner and more uniform than real input, so the model never learned the mess",
+      "Reward hacking",
+      "Quantization error"
+    ],
+    "answer": 1,
+    "explanation": "Synthetic data tends to share phrasing and polish. Seed from real examples, vary style explicitly and always test on real data."
+  },
+  {
+    "question": "Why should each synthetic example carry provenance (generator model, prompt version, date)?",
+    "options": [
+      "Training libraries refuse unlabeled data",
+      "It makes the dataset larger",
+      "So the team can find, reweight or remove synthetic examples later, for example when a generator bug or a license problem is discovered",
+      "Provenance improves accuracy directly"
+    ],
+    "answer": 2,
+    "explanation": "Datasets outlive the decisions that built them. Provenance makes them auditable and fixable, which governance (module 13) also requires."
+  }
+]

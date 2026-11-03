@@ -1,0 +1,10 @@
+[
+  { "term": "RLHF", "description": "Reinforcement learning from human feedback: SFT, a reward model trained on human comparisons, then RL toward higher reward with a penalty for drifting from the SFT model." },
+  { "term": "Reward model", "description": "A model trained to predict which of two answers people prefer; its score is the reward in RLHF. Its blind spots become the policy's exploits." },
+  { "term": "RLAIF", "description": "Reinforcement learning from AI feedback: an AI judge, often guided by written principles (Constitutional AI), replaces some human labels." },
+  { "term": "DPO", "description": "Direct Preference Optimization (Rafailov et al., 2023): learn from (prompt, chosen, rejected) pairs with a classification-style loss, without a reward model or RL loop." },
+  { "term": "RLVR", "description": "Reinforcement learning with verifiable rewards: the reward comes from a program that checks correctness (answer matches, tests pass, constraint satisfied). Named in the Tülu 3 report." },
+  { "term": "GRPO", "description": "Group Relative Policy Optimization (DeepSeekMath, 2024): sample a group of answers per prompt and reward those that beat the group average; no separate value model." },
+  { "term": "Knowledge distillation", "description": "Training a small student to imitate a large teacher, today mostly by fine-tuning on the teacher's generated answers." },
+  { "term": "Reward hacking", "description": "The model maximizing the reward in a way its designers did not intend, by exploiting gaps in the reward model or verifier." }
+]

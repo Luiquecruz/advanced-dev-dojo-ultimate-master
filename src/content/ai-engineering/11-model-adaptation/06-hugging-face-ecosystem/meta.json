@@ -1,0 +1,15 @@
+{
+  "title": "The Hugging Face Ecosystem",
+  "summary": "The Hub (models, datasets, Spaces, revisions, gating), reading model and dataset cards critically, the libraries (transformers, datasets, tokenizers, PEFT, TRL, smolagents), hosted inference, and licenses: open weights vs open source and the OSI definition.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Hugging Face Hub documentation", "url": "https://huggingface.co/docs/hub/index" },
+    { "label": "Hugging Face: Model cards", "url": "https://huggingface.co/docs/hub/model-cards" },
+    { "label": "Hugging Face: Licenses on the Hub", "url": "https://huggingface.co/docs/hub/repositories-licenses" },
+    { "label": "Model Cards for Model Reporting (paper)", "url": "https://arxiv.org/abs/1810.03993" },
+    { "label": "smolagents documentation", "url": "https://huggingface.co/docs/smolagents/index" },
+    { "label": "Open Source Initiative: The Open Source AI Definition", "url": "https://opensource.org/ai/open-source-ai-definition" },
+    { "label": "Hugging Face: Transformers v5", "url": "https://huggingface.co/blog/transformers-v5" }
+  ]
+}

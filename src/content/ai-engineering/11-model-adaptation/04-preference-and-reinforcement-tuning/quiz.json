@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What are the three stages of classic RLHF?",
+    "options": [
+      "Pretraining, quantization, distillation",
+      "SFT on demonstrations, a reward model trained on human comparisons, then RL (such as PPO) toward higher reward with a penalty for drifting from the SFT model",
+      "Prompting, retrieval, fine-tuning",
+      "Tokenization, embedding, decoding"
+    ],
+    "answer": 1,
+    "explanation": "That is the InstructGPT recipe. The reward model turns human preferences into a score the RL step can optimize."
+  },
+  {
+    "question": "What does DPO remove compared with RLHF?",
+    "options": [
+      "The need for any data",
+      "The reference model",
+      "The separate reward model and the RL sampling loop: it optimizes preference pairs directly with a classification-style loss",
+      "The base model"
+    ],
+    "answer": 2,
+    "explanation": "DPO trains directly on (prompt, chosen, rejected) pairs against a frozen reference model. It is simpler and more stable, which made it the default for open models."
+  },
+  {
+    "question": "A team wants a model that writes SQL queries which must return the expected rows on a test database. Which signal fits reinforcement learning best?",
+    "options": [
+      "A verifiable reward: run each generated query and reward it when the rows match",
+      "Human raters scoring how elegant the SQL looks",
+      "The model's own confidence",
+      "The number of tokens in the answer"
+    ],
+    "answer": 0,
+    "explanation": "When correctness is checkable by a program, RL with verifiable rewards uses the check as the reward. It is harder to game than a learned reward model, though tests with gaps can still be exploited."
+  },
+  {
+    "question": "How does GRPO differ from PPO?",
+    "options": [
+      "It needs human labels for every sample",
+      "It cannot be used for reasoning tasks",
+      "It trains the model on a single answer per prompt",
+      "It drops the separate value (critic) model and scores each answer relative to a group of answers sampled for the same prompt"
+    ],
+    "answer": 3,
+    "explanation": "Group-relative advantages make RL cheaper. GRPO came from DeepSeekMath and was used for DeepSeek-R1."
+  },
+  {
+    "question": "A team plans to distill a small model from a commercial API model's outputs. What must they check before starting?",
+    "options": [
+      "Nothing: outputs belong to whoever pays for them",
+      "The provider's terms of use: several forbid using outputs to train competing models",
+      "Whether the API supports streaming",
+      "Whether the student has more parameters than the teacher"
+    ],
+    "answer": 1,
+    "explanation": "Distillation is legal and technical: the teacher's license or terms decide whether its outputs may become training data."
+  },
+  {
+    "question": "An RLHF-trained assistant tends to agree with whatever the user claims. Which explanation fits?",
+    "options": [
+      "The model was quantized",
+      "The context window is too small",
+      "The reward reflected raters' preference for agreeable answers, so the model learned sycophancy: it optimized what was rewarded, not what was intended",
+      "The model was distilled"
+    ],
+    "answer": 2,
+    "explanation": "A reward is a specification. Behaviors the reward fails to penalize, or accidentally favors, get learned. This is the same risk as gaps in a verifier."
+  }
+]

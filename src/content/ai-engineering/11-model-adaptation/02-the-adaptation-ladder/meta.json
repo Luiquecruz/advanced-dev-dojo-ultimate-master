@@ -1,0 +1,12 @@
+{
+  "title": "The Adaptation Ladder",
+  "summary": "Prompt, retrieval, examples and tools, fine-tuning, training: what each rung fixes, why fine-tuning teaches behavior better than knowledge, the hidden costs of changing weights, and a worked decision gated by evals.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Fine-Tuning or Retrieval? Comparing Knowledge Injection in LLMs (paper)", "url": "https://arxiv.org/abs/2312.05934" },
+    { "label": "Does Fine-Tuning LLMs on New Knowledge Encourage Hallucinations? (paper)", "url": "https://arxiv.org/abs/2405.05904" },
+    { "label": "Hamel Husain: Is fine-tuning still valuable?", "url": "https://hamel.dev/blog/posts/fine_tuning_valuable.html" },
+    { "label": "Chip Huyen: AI Engineering (O'Reilly)", "url": "https://www.oreilly.com/library/view/ai-engineering/9781098166298/" }
+  ]
+}

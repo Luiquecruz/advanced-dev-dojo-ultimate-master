@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Your team evaluated a model from the Hub last month and wants to deploy exactly that artifact. What should the deployment reference?",
+    "options": [
+      "The repository name only, so it picks up improvements",
+      "The model's name on a leaderboard",
+      "The repository name plus a pinned revision (commit hash) that matches the evaluated files",
+      "The download count"
+    ],
+    "answer": 2,
+    "explanation": "Hub repositories are git repositories and can change. Pinning a revision makes the evaluated model and the deployed model the same artifact."
+  },
+  {
+    "question": "A popular fine-tune declares `license: apache-2.0`, but its `base_model` is released under a community license with an acceptable use policy. Which terms apply to you?",
+    "options": [
+      "Only Apache 2.0, because that is what the card says",
+      "The base model's license terms still apply to the derivative; check both",
+      "None: fine-tunes are new works",
+      "Only the terms of the dataset used for fine-tuning"
+    ],
+    "answer": 1,
+    "explanation": "The license field is self-declared. A fine-tune or quantization inherits its base's terms, so follow the `base_model` link and read that license too."
+  },
+  {
+    "question": "Which library would a team use to run DPO or GRPO post-training on an open model?",
+    "options": [
+      "TRL",
+      "tokenizers",
+      "datasets",
+      "safetensors"
+    ],
+    "answer": 0,
+    "explanation": "TRL provides post-training trainers (SFT, DPO, GRPO, reward modeling); it uses PEFT for LoRA and datasets for data loading."
+  },
+  {
+    "question": "A model card has no license, no training data description and only a screenshot of benchmark scores. How should you treat the model?",
+    "options": [
+      "As MIT licensed by default",
+      "As safe to ship if the benchmark scores are high",
+      "As open source, because the weights are public",
+      "As unusable for a product until the license and provenance are clarified; the scores are claims to verify with your own evals"
+    ],
+    "answer": 3,
+    "explanation": "Missing license means no permission. Cards are written by the publisher, so evaluation claims are hypotheses."
+  },
+  {
+    "question": "According to the OSI's Open Source AI Definition, why are most popular \"open\" models described as open weights rather than open source?",
+    "options": [
+      "Because their weights are too large to download",
+      "Because they are hosted on the Hub",
+      "Because open source requires the freedoms to use, study, modify and share, with weights, code and detailed training-data information, and most releases give weights only under restrictive terms",
+      "Because they are written in Python"
+    ],
+    "answer": 2,
+    "explanation": "OSAID 1.0 (October 2024) asks for the materials to rebuild and modify the system. Weights under a custom license are a dependency with conditions."
+  },
+  {
+    "question": "What distinguishes smolagents' `CodeAgent`?",
+    "options": [
+      "It writes its actions as Python code that calls tools and computes, executed in a sandbox when configured",
+      "It only generates code for the user to review",
+      "It cannot use tools",
+      "It only runs Hugging Face models"
+    ],
+    "answer": 0,
+    "explanation": "Code as the action format allows loops and composition. The library also has a JSON `ToolCallingAgent`, MCP tool support and any model provider. Running model-written code requires a sandbox (module 08)."
+  }
+]

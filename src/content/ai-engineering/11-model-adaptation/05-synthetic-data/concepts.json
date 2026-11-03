@@ -1,0 +1,9 @@
+[
+  { "term": "Synthetic data", "description": "Training or evaluation data written by a model instead of collected from real use." },
+  { "term": "Seeded generation", "description": "Generating variations from real examples (rewording, new names, other languages) so the synthetic data stays close to the real distribution." },
+  { "term": "Self-Instruct", "description": "A method (Wang et al., 2022) where a model expands a few seed tasks into many new instructions and answers, which are then filtered." },
+  { "term": "Model collapse", "description": "Degradation when models train recursively on generated data: rare cases vanish first, then outputs narrow. Avoided by keeping real data in the mix." },
+  { "term": "Bias amplification", "description": "The generator's preferences (topics, names, dialects, viewpoints) dominating the dataset and growing stronger in the trained model." },
+  { "term": "Eval contamination", "description": "Training data overlapping the eval set (exact or near duplicates, or shared generator phrasing), inflating scores without real gains." },
+  { "term": "Data provenance", "description": "Recording where each example came from (real or synthetic, generator, prompt version, date) so it can be audited, reweighted or removed." }
+]

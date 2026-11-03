@@ -1,0 +1,9 @@
+[
+  { "term": "Pickle", "description": "Python's serialization format, used by traditional PyTorch checkpoints. Loading it can call any Python function, so an untrusted file can execute code." },
+  { "term": "Safetensors", "description": "A tensor file format with a JSON header and raw bytes: nothing to execute, fast to load. The default format on the Hugging Face Hub." },
+  { "term": "trust_remote_code", "description": "A loading option that runs Python files from the model repository. Equivalent to executing a third-party script." },
+  { "term": "Namespace reuse", "description": "Re-registering a deleted author's name to serve a malicious model to pipelines that load by name. Defeated by pinned hashes and mirrors." },
+  { "term": "Model signing", "description": "Cryptographic signatures over model files proving who produced them; the OpenSSF model-signing project uses Sigstore." },
+  { "term": "Behavioral backdoor", "description": "Hidden behavior trained into the weights that activates on a trigger. Invisible to file scanners; addressed with provenance and evals." },
+  { "term": "AI-BOM", "description": "AI bill of materials: models, adapters and datasets with publisher, revision, hashes, base model, license and training data (CycloneDX ML-BOM, SPDX 3.0 AI profile)." }
+]

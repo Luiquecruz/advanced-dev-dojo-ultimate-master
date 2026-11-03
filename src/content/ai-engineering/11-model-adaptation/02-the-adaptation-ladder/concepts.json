@@ -1,0 +1,8 @@
+[
+  { "term": "Adaptation ladder", "description": "Prompt, retrieval, examples and tools, fine-tuning, training: options from cheapest to most expensive. Climb only when evals show the lower rung fails." },
+  { "term": "Context-layer adaptation", "description": "Changing what the model sees (prompt, retrieved documents, examples, tools). Versioned like code, instant to roll back, survives a model swap." },
+  { "term": "Weight-layer adaptation", "description": "Changing the model itself (fine-tuning, preference tuning, training). Creates a new artifact that needs data, compute, hosting and retraining when the base moves." },
+  { "term": "Supervised fine-tuning (SFT)", "description": "Training a pretrained model further on input-output examples of the behavior you want." },
+  { "term": "Continued pretraining", "description": "Training a model further on a large unlabeled corpus (a domain or a language) before any task tuning. Rarely needed by product teams." },
+  { "term": "Knowledge vs behavior", "description": "Fine-tuning teaches behavior (format, style, narrow skills) well and knowledge poorly; changing facts belong in retrieval." }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A legal assistant must answer questions about regulations that are amended every few weeks, with citations. Accuracy is low because the model does not know recent amendments. Which rung addresses the cause?",
+    "options": [
+      "Fine-tuning on the current regulations",
+      "Retrieval: fetch the current text at request time and cite it",
+      "A longer system prompt asking the model to be careful",
+      "Continued pretraining on legal text"
+    ],
+    "answer": 1,
+    "explanation": "The failure is missing, changing knowledge that must be cited. Retrieval updates with the documents and supports citations; facts in weights go stale and cannot be cited."
+  },
+  {
+    "question": "What is the rule for climbing from one rung of the ladder to the next?",
+    "options": [
+      "Always fine-tune once the product has users",
+      "Climb when a competitor announces a fine-tuned model",
+      "Climb only when evals show the lower rung fails on cases that matter, and the next rung addresses the cause of that failure",
+      "Skip straight to fine-tuning if the budget allows"
+    ],
+    "answer": 2,
+    "explanation": "Each rung is costlier to build, change and maintain. Evidence from a frozen eval set, run against every rung you try, is what justifies the climb."
+  },
+  {
+    "question": "Which of these is a strong reason to fine-tune?",
+    "options": [
+      "A stable, narrow extraction task at very high volume still misses its target with good prompts and examples, and a small fine-tuned model could serve it cheaply and fast",
+      "The product needs to know this week's prices",
+      "The team wants the model to cite its sources",
+      "Nobody has written an eval set yet, so fine-tuning will reveal quality"
+    ],
+    "answer": 0,
+    "explanation": "Fine-tuning is good at behavior on narrow, stable tasks and at letting small models match large ones. It is poor at fresh knowledge and citations, and it needs evals to judge."
+  },
+  {
+    "question": "Rungs 1 to 3 (prompt, retrieval, examples and tools) share an advantage over fine-tuning. Which one?",
+    "options": [
+      "They always reach higher accuracy",
+      "They change what the model sees, so they deploy in minutes, roll back instantly and survive a base model swap",
+      "They require no tokens",
+      "They work only with open-weight models"
+    ],
+    "answer": 1,
+    "explanation": "Context changes are code: versioned, reviewed and reverted. Weight changes create an artifact that must be retrained when the base model moves."
+  },
+  {
+    "question": "A team fine-tuned a model six months ago. The provider now ships a much better base model. What does the ladder lesson warn about?",
+    "options": [
+      "Nothing: the fine-tune upgrades itself",
+      "Fine-tunes transfer automatically to newer base models",
+      "The fine-tune stays on the old base: to benefit, the team must re-run the training pipeline, re-evaluate and redeploy, or fall behind",
+      "Newer base models cannot be fine-tuned"
+    ],
+    "answer": 2,
+    "explanation": "Maintenance is a hidden cost of climbing: the adaptation is tied to the weights it was trained on."
+  },
+  {
+    "question": "Fine-tuning reached the target on a ticket classifier, but category names change monthly. What is the sound design?",
+    "options": [
+      "Retrain every month with the new names in the labels",
+      "Drop fine-tuning and accept the lower accuracy",
+      "Train a model from scratch every quarter",
+      "Fine-tune for the skill and the format, and keep the changing category names in the prompt or retrieved context"
+    ],
+    "answer": 3,
+    "explanation": "Combine rungs: weights for stable behavior, context for facts that change. A rename then becomes a prompt change instead of a training run."
+  }
+]

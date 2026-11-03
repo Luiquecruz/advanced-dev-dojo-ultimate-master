@@ -1,0 +1,15 @@
+{
+  "title": "Preference and Reinforcement Tuning",
+  "summary": "RLHF and reward models, RLAIF, DPO, reinforcement learning with verifiable rewards and GRPO, distillation from large to small models, reward hacking and sycophancy, and what a team can realistically use.",
+  "level": "advanced",
+  "tags": ["emerging", "theory"],
+  "resources": [
+    { "label": "Training language models to follow instructions with human feedback (InstructGPT paper)", "url": "https://arxiv.org/abs/2203.02155" },
+    { "label": "Direct Preference Optimization (paper)", "url": "https://arxiv.org/abs/2305.18290" },
+    { "label": "DeepSeekMath: introduces GRPO (paper)", "url": "https://arxiv.org/abs/2402.03300" },
+    { "label": "Tülu 3: open post-training and RLVR (paper)", "url": "https://arxiv.org/abs/2411.15124" },
+    { "label": "DeepSeek-R1: reasoning through reinforcement learning (paper)", "url": "https://arxiv.org/abs/2501.12948" },
+    { "label": "Distilling the Knowledge in a Neural Network (paper)", "url": "https://arxiv.org/abs/1503.02531" },
+    { "label": "Nathan Lambert: RLHF Book", "url": "https://rlhfbook.com/" }
+  ]
+}

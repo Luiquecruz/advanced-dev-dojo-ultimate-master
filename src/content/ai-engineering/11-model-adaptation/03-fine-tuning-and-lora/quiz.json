@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What does LoRA train?",
+    "options": [
+      "Every weight of the model, in lower precision",
+      "Only the embedding layer",
+      "Small low-rank matrices A and B whose product is added to frozen weight matrices; the base model stays unchanged",
+      "A separate small model that rewrites the base model's answers"
+    ],
+    "answer": 2,
+    "explanation": "LoRA learns ΔW = B × A with a small rank r. The base is frozen, so the trainable parameters are a tiny fraction and the output is a small adapter."
+  },
+  {
+    "question": "Roughly how much GPU memory does full fine-tuning of an 8-billion-parameter model need with Adam in mixed precision, before activations?",
+    "options": [
+      "About 128 GB: roughly 16 bytes per parameter for weights, gradients, a master copy and optimizer states",
+      "About 4 GB",
+      "About 16 GB, the size of the 16-bit weights",
+      "It needs no GPU memory beyond inference"
+    ],
+    "answer": 0,
+    "explanation": "2 bytes of weights, 2 of gradients, 4 for a 32-bit master copy and 8 for Adam's two states make about 16 bytes per parameter. LoRA avoids most of it by freezing the base."
+  },
+  {
+    "question": "A team has one 24 GB GPU and wants to fine-tune a 32B model. Which method makes this plausible?",
+    "options": [
+      "Full fine-tuning in 16-bit",
+      "QLoRA: load the frozen base in 4-bit (about half a byte per parameter) and train 16-bit LoRA adapters on top",
+      "LoRA with a 16-bit base, which needs about 64 GB for the base alone",
+      "It is impossible to fine-tune any model larger than 7B"
+    ],
+    "answer": 1,
+    "explanation": "32B at 0.5 bytes is about 16 GB for the base, leaving room for adapters and activations. QLoRA's paper fine-tuned a 65B model on a single 48 GB GPU."
+  },
+  {
+    "question": "After fine-tuning on support tickets, the model classifies tickets well but its answers in Spanish and its refusals of unsafe requests got worse. What happened, and what should the eval plan include?",
+    "options": [
+      "Overfitting to Spanish; remove Spanish from the eval",
+      "Nothing: fine-tuning cannot affect other abilities",
+      "The adapter was not merged",
+      "Catastrophic forgetting; evaluate fine-tunes on the task and on a sample of general, language and safety cases"
+    ],
+    "answer": 3,
+    "explanation": "Narrow training can degrade prior abilities. LoRA forgets less than full fine-tuning, but a regression suite beyond the task is still needed."
+  },
+  {
+    "question": "A product needs answers that reflect a price list updated every week. Is fine-tuning the right tool?",
+    "options": [
+      "Yes, retrain weekly with the new prices",
+      "Yes, with QLoRA it is cheap enough",
+      "No: facts injected by fine-tuning are learned unreliably, cannot be cited and go stale; put the price list in retrieval or the prompt",
+      "No, because fine-tuning only works on images"
+    ],
+    "answer": 2,
+    "explanation": "Fine-tuning teaches behavior better than knowledge. Changing facts belong in the context layer."
+  },
+  {
+    "question": "Why do teams often keep LoRA adapters separate instead of merging them into the base?",
+    "options": [
+      "One base model in memory can serve many adapters (per customer or per task), swapping them per request",
+      "Merged adapters cannot be loaded by any runtime",
+      "Separate adapters make the model larger and therefore smarter",
+      "Merging is illegal under most licenses"
+    ],
+    "answer": 0,
+    "explanation": "Adapters are megabytes, the base is gigabytes. Multi-adapter serving shares the base; merging is useful when one fine-tune serves all traffic and you want zero adapter overhead."
+  }
+]

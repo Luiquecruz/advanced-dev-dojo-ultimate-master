@@ -1,0 +1,10 @@
+[
+  { "term": "Quantization", "description": "Storing weights (and sometimes the KV cache) with fewer bits, using per-block scales: 8-bit, 4-bit or less. Less memory and faster decoding, some quality loss." },
+  { "term": "GGUF", "description": "The single-file model format of ggml/llama.cpp: quantized weights plus tokenizer, chat template and metadata." },
+  { "term": "AWQ / GPTQ", "description": "4-bit weight quantization methods for GPUs that use calibration data to decide how to round with minimal error." },
+  { "term": "KV cache", "description": "Keys and values stored per token, per layer, for every active sequence. Per token: 2 × layers × KV heads × head dimension × bytes. Grows with context × concurrency." },
+  { "term": "Memory math", "description": "Weights (parameters × bytes per weight) + KV cache + runtime overhead. Decides which GPU, how many users and how long a context." },
+  { "term": "Ollama / llama.cpp", "description": "Local runtimes for laptops, CPUs and edge devices, built around GGUF, with OpenAI-compatible APIs." },
+  { "term": "vLLM / SGLang", "description": "High-throughput GPU servers: continuous batching, PagedAttention (vLLM), RadixAttention prefix reuse (SGLang), multi-LoRA serving." },
+  { "term": "Memory-bandwidth bound", "description": "Single-stream decoding reads every weight once per token, so tokens per second ≈ bandwidth ÷ weight bytes." }
+]

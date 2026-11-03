@@ -1,0 +1,8 @@
+[
+  { "term": "Model adaptation", "description": "Changing a model's behavior beyond the prompt: fine-tuning, preference tuning, distillation or training. It changes the weights, so it creates a new artifact to evaluate, host and govern." },
+  { "term": "Adaptation ladder", "description": "The order of options from cheapest to most expensive: prompt, retrieval, examples and tools, fine-tuning, training. Climb a rung only when evals show the one below fails." },
+  { "term": "Open-weight model", "description": "A model whose weights you can download, run and fine-tune yourself, under a license that may restrict use." },
+  { "term": "Self-hosted inference", "description": "Running a model on infrastructure you control (a laptop, a GPU server, a private cloud) instead of calling a provider API." },
+  { "term": "Model supply chain", "description": "Everything between a model's training and your production load: who published the weights, in which format, under which license, and whether you can verify and record them." },
+  { "term": "Adaptation ADR", "description": "The module's checkpoint: a decision record and an adaptation plan (rung, data, eval gate, serving, supply-chain checks) for a briefing." }
+]

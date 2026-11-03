@@ -1,0 +1,6 @@
+1. Turn the briefing into constraints and sort them: the privacy contract and the supply-chain policy are hard filters, the eval targets decide the rung and the quantization, the GPUs are budgets you compute against.
+2. Walk the ladder from the cheapest rung and stop at the first one that meets every target. Record the best rung below it as the baseline, and keep each failed rung's numbers for the alternatives.
+3. Filter the base models by policy first (license, publisher, file format, remote code), then by serving memory with the formula from the briefing. Note why each rejected model failed.
+4. For the surviving model, pick the smallest quantization that still meets the targets in the quantization pilot and fits 24 GB; write the computed memory into the plan.
+5. Choose a training method whose memory per parameter fits the 48 GB GPU, size the training set between the learning-curve plateau and the notes left after the eval set, and keep the weekly depot codes outside the weights.
+6. Write the eval gate (targets, baseline, rerun triggers) and the supply-chain checks that mirror the policy, then the record: forces with numbers, one "We will" sentence, alternatives tied to the fact that removed them, and the costs of owning a fine-tuned model.

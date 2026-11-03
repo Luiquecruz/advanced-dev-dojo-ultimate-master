@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which layer does this module cover, and what question does it add to module 01?",
+    "options": [
+      "Layer 2 (context): what the model sees on each call",
+      "Layer 1 (model): beyond choosing a model, whether to change its weights and whether to run it yourself",
+      "Layer 4 (loop): how work repeats until done",
+      "Layer 6 (governance): regulation only"
+    ],
+    "answer": 1,
+    "explanation": "Module 01 chose models as a buyer. This module stays in the model layer and looks inside: adapting weights, hosting open models and securing the artifacts."
+  },
+  {
+    "question": "Why are all lessons before the ADR quiz lessons, with no fine-tuning challenge?",
+    "options": [
+      "Fine-tuning is no longer used in industry",
+      "The fake model can be fine-tuned only in Python",
+      "Training even a tiny model needs real compute, model downloads and a Python environment that a browser-only platform does not have yet; hands-on adaptation is planned for a later version",
+      "Adaptation decisions do not need evals"
+    ],
+    "answer": 2,
+    "explanation": "The module teaches the engineer's half of the job now (when to adapt, what it costs, how to review a plan). Hands-on training needs a separate architecture decision first."
+  },
+  {
+    "question": "A teammate proposes fine-tuning because answers \"feel off\". There is no eval set yet. What does this module say should happen first?",
+    "options": [
+      "Fine-tune on all available data and compare by reading a few answers",
+      "Switch to the largest model available",
+      "Train a model from scratch",
+      "Build an eval set (module 10), measure the cheaper rungs (prompt, retrieval, examples), and climb only if they fail on cases that matter"
+    ],
+    "answer": 3,
+    "explanation": "Every decision in the module is gated by an eval. Without one, you cannot show that the lower rungs failed, nor that the fine-tuned model is better."
+  },
+  {
+    "question": "Which lesson answers \"will this 8-billion-parameter model fit on our 24 GB GPU with 64 concurrent users?\"",
+    "options": [
+      "Lesson 07, local inference and quantization: weights plus KV cache memory math",
+      "Lesson 04, preference and reinforcement tuning",
+      "Lesson 05, synthetic data",
+      "Lesson 02, the adaptation ladder"
+    ],
+    "answer": 0,
+    "explanation": "Memory is parameters times bytes per weight, plus the KV cache that grows with context length and concurrency. Lesson 07 works through an example."
+  },
+  {
+    "question": "Why does the path include a lesson on the model supply chain?",
+    "options": [
+      "Downloaded models cannot be fine-tuned",
+      "A model file is an artifact you load into your systems: some formats execute code on load, and you must know where it came from, under which license, and record it",
+      "Supply chains only matter for hardware",
+      "Open models are always malicious"
+    ],
+    "answer": 1,
+    "explanation": "Pickle-based checkpoints can run arbitrary code when loaded. Safetensors, pinned revisions, signatures and an AI-BOM make the artifact verifiable."
+  },
+  {
+    "question": "What does the ADR at the end of the module ask you to produce?",
+    "options": [
+      "A fine-tuned model",
+      "A list of the most popular models on the Hub",
+      "An adaptation decision for a briefing: the rung, the data, the eval gate, the serving setup and the supply-chain checks, checked for coherence",
+      "A benchmark leaderboard"
+    ],
+    "answer": 2,
+    "explanation": "Like every module, it ends with a decision record. Tests check that the plan follows the briefing's eval results, memory limits, license and data rules."
+  }
+]

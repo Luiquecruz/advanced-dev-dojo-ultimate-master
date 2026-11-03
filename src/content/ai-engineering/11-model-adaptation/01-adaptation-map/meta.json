@@ -1,0 +1,12 @@
+{
+  "title": "Map: Model Adaptation and Open Models",
+  "summary": "What this module answers (when to change the model itself and when to run it yourself), its place in the model layer, the prerequisites, the path from the adaptation ladder to the model supply chain, why it is concepts only for now, and the adaptation ADR at the end.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Chip Huyen: AI Engineering (O'Reilly), chapters on finetuning and dataset engineering", "url": "https://www.oreilly.com/library/view/ai-engineering/9781098166298/" },
+    { "label": "Hugging Face LLM Course", "url": "https://huggingface.co/learn/llm-course/chapter1/1" },
+    { "label": "Hugging Face Hub documentation", "url": "https://huggingface.co/docs/hub/index" },
+    { "label": "Hamel Husain: Is fine-tuning still valuable?", "url": "https://hamel.dev/blog/posts/fine_tuning_valuable.html" }
+  ]
+}

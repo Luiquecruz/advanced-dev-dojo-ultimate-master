@@ -1,0 +1,14 @@
+{
+  "title": "Fine-Tuning and LoRA",
+  "summary": "Supervised fine-tuning and its data, full fine-tuning vs LoRA and QLoRA, what changes in the weights, memory math at a high level, adapters, catastrophic forgetting and overfitting, and when prompts or retrieval are enough.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "LoRA: Low-Rank Adaptation of Large Language Models (paper)", "url": "https://arxiv.org/abs/2106.09685" },
+    { "label": "QLoRA: Efficient Finetuning of Quantized LLMs (paper)", "url": "https://arxiv.org/abs/2305.14314" },
+    { "label": "LoRA Learns Less and Forgets Less (paper)", "url": "https://arxiv.org/abs/2405.09673" },
+    { "label": "LIMA: Less Is More for Alignment (paper)", "url": "https://arxiv.org/abs/2305.11206" },
+    { "label": "Hugging Face PEFT: LoRA conceptual guide", "url": "https://huggingface.co/docs/peft/conceptual_guides/lora" },
+    { "label": "vLLM: serving LoRA adapters", "url": "https://docs.vllm.ai/en/latest/features/lora.html" }
+  ]
+}

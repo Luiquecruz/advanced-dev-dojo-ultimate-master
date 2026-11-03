@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Why can loading a `.bin` PyTorch checkpoint from an unknown uploader compromise a machine?",
+    "options": [
+      "The weights are too large and crash the server",
+      "Pickle files store instructions to rebuild objects that can call any Python function, so loading the file can execute attacker code",
+      "Binary files always contain viruses",
+      "The tokenizer runs shell commands"
+    ],
+    "answer": 1,
+    "explanation": "Code runs during deserialization, before any weight is used. Safetensors avoids it by storing only a header and raw tensor bytes."
+  },
+  {
+    "question": "The Hub's scanner marked a model as safe. Why is that not enough on its own?",
+    "options": [
+      "Scanners are heuristics: the nullifAI models used a deliberately broken, 7z-compressed pickle that the scanner failed to parse while PyTorch still executed the payload",
+      "Scanners only check the README",
+      "Scanned models cannot be fine-tuned",
+      "Scanning makes the model slower"
+    ],
+    "answer": 0,
+    "explanation": "Scanning catches known patterns. Combine it with safe formats, verified publishers, pinned hashes and an internal mirror."
+  },
+  {
+    "question": "A pipeline loads `some-author/classifier` by name. The author deletes the account, and an attacker registers the same name and uploads a malicious model. Which control would have prevented the pipeline from loading it?",
+    "options": [
+      "A larger GPU",
+      "Using the latest revision",
+      "Pinning the revision (commit hash) and verifying file hashes, or pulling from an internal mirror of the reviewed artifact",
+      "Increasing the context window"
+    ],
+    "answer": 2,
+    "explanation": "This is the namespace reuse attack. Mutable names are not a trust anchor; hashes, signatures or a reviewed copy are."
+  },
+  {
+    "question": "A model is published in safetensors by a verified organization. Which risk remains?",
+    "options": [
+      "Code execution on load",
+      "None",
+      "The file format may change",
+      "A behavioral backdoor trained into the weights, which no scanner can read; only provenance and behavioral evals (including trigger probes) address it"
+    ],
+    "answer": 3,
+    "explanation": "Safe formats prove the file cannot run code. They say nothing about how the weights behave; evaluate every new artifact."
+  },
+  {
+    "question": "What does an AI-BOM add to a regular software bill of materials?",
+    "options": [
+      "The list of npm packages",
+      "Models, adapters and datasets with publisher, revision and hashes, base model, quantization, license and training data, recorded in a standard such as CycloneDX or SPDX 3.0",
+      "Only the GPU models used",
+      "The prompts of every request"
+    ],
+    "answer": 1,
+    "explanation": "It answers incident and audit questions: which products use this model, under which license, trained on which data."
+  },
+  {
+    "question": "A vendor's model repository requires `trust_remote_code=True` to load. What is the sound policy?",
+    "options": [
+      "Review the repository's Python code at a pinned revision before enabling it, or prefer a version supported natively by the library",
+      "Enable it everywhere: the vendor is well known",
+      "Enable it only on developer laptops, where it cannot cause harm",
+      "It is safe because the weights are in safetensors"
+    ],
+    "answer": 0,
+    "explanation": "The flag runs Python files from the repository by design. Treat it like executing a third-party script: review it at a fixed revision."
+  }
+]

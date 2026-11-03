@@ -1,0 +1,16 @@
+{
+  "title": "The Model Supply Chain",
+  "summary": "Code execution on load with pickle, safetensors, malicious model incidents, impersonation and namespace reuse, behavioral backdoors, and the controls: verified publishers, pinned revisions and hashes, signing, internal mirrors, evals and the AI bill of materials.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "theory"],
+  "resources": [
+    { "label": "Hugging Face: Pickle scanning and its risks", "url": "https://huggingface.co/docs/hub/security-pickle" },
+    { "label": "Safetensors documentation", "url": "https://huggingface.co/docs/safetensors/index" },
+    { "label": "ReversingLabs: malicious ML models on Hugging Face (nullifAI)", "url": "https://www.reversinglabs.com/blog/rl-identifies-malware-ml-model-hosted-on-hugging-face" },
+    { "label": "Unit 42: Model Namespace Reuse", "url": "https://unit42.paloaltonetworks.com/model-namespace-reuse/" },
+    { "label": "Sleeper Agents: deceptive LLMs that persist through safety training (paper)", "url": "https://arxiv.org/abs/2401.05566" },
+    { "label": "Sigstore: model signing v1.0", "url": "https://blog.sigstore.dev/model-transparency-v1.0" },
+    { "label": "CycloneDX: Machine Learning Bill of Materials", "url": "https://cyclonedx.org/capabilities/mlbom/" },
+    { "label": "OWASP Top 10 for LLM Applications 2025: LLM03 Supply Chain", "url": "https://genai.owasp.org/llmrisk/llm032025-supply-chain/" }
+  ]
+}

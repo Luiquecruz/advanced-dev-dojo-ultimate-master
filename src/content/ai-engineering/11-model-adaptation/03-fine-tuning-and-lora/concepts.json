@@ -1,0 +1,10 @@
+[
+  { "term": "Supervised fine-tuning (SFT)", "description": "Training a pretrained model further on input-output examples (conversations in its chat format) of the behavior you want." },
+  { "term": "Full fine-tuning", "description": "Updating every weight. Most expressive, about 16 bytes per parameter of GPU memory with Adam in mixed precision, and a full model copy per fine-tune." },
+  { "term": "PEFT", "description": "Parameter-efficient fine-tuning: freeze the base model and train a small number of new parameters (LoRA, adapters, prompt tuning). Also the name of Hugging Face's library." },
+  { "term": "LoRA", "description": "Low-Rank Adaptation (Hu et al., 2021): learn ΔW = B × A with small rank r for chosen weight matrices; the frozen base plus a small adapter." },
+  { "term": "QLoRA", "description": "LoRA on top of a base loaded in 4-bit NF4, with double quantization and paged optimizers (Dettmers et al., 2023). Fits large models on one GPU." },
+  { "term": "Adapter", "description": "The small set of trained parameters a PEFT method produces. Merged into the base for zero overhead, or kept separate and swapped per request." },
+  { "term": "Catastrophic forgetting", "description": "Losing prior abilities (general reasoning, languages, safety behavior) after training on a narrow task. Measured with a regression suite beyond the task." },
+  { "term": "Overfitting", "description": "Memorizing the training set: training loss keeps falling while the eval score gets worse. Watch the eval, not the loss." }
+]

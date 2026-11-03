@@ -1,0 +1,14 @@
+{
+  "title": "Checkpoint: Adaptation ADR",
+  "summary": "Close the adaptation module with a portfolio ADR for a self-hosted delivery-exception parser: choose the rung from pilot evals, a training method that fits the GPU, the data rules, an eval gate with rerun triggers, a serving setup that fits by the memory math, and a base model that passes the supply-chain policy.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "adr.ts" },
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Hugging Face PEFT documentation", "url": "https://huggingface.co/docs/peft/index" },
+    { "label": "vLLM: serving LoRA adapters", "url": "https://docs.vllm.ai/en/latest/features/lora.html" },
+    { "label": "EU AI Act: overview of the guidelines for general-purpose AI models", "url": "https://artificialintelligenceact.eu/gpai-guidelines-overview/" }
+  ]
+}

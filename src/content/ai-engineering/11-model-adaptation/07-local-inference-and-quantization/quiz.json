@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Roughly how much memory do the weights of a 14-billion-parameter model need in 16-bit, 8-bit and 4-bit (at about half a byte per weight)?",
+    "options": [
+      "14 GB, 7 GB, 3.5 GB",
+      "28 GB, 14 GB, 7 GB",
+      "56 GB, 28 GB, 14 GB",
+      "The same in every precision"
+    ],
+    "answer": 1,
+    "explanation": "Weights = parameters × bytes per weight: 14B × 2 = 28 GB, × 1 = 14 GB, × 0.5 = 7 GB. Then add the KV cache and overhead."
+  },
+  {
+    "question": "A model fits comfortably on a 24 GB GPU for one user, but runs out of memory with 40 concurrent users and long prompts. What grew?",
+    "options": [
+      "The weights, which are copied per user",
+      "The tokenizer",
+      "The KV cache, which grows with context length times the number of concurrent sequences",
+      "The quantization level"
+    ],
+    "answer": 2,
+    "explanation": "Weights are shared by all sequences; the KV cache stores keys and values for every token of every active sequence."
+  },
+  {
+    "question": "An 8B model has 32 layers, 8 KV heads and a head dimension of 128, with a 16-bit KV cache (0.125 MB per token). How large is the KV cache for 16 concurrent sequences of 4 096 tokens?",
+    "options": [
+      "0.5 GB",
+      "2 GB",
+      "16 GB",
+      "8 GB"
+    ],
+    "answer": 3,
+    "explanation": "16 × 4 096 = 65 536 tokens × 0.125 MB = 8 192 MB = 8 GB, on top of the weights."
+  },
+  {
+    "question": "A team needs to serve an open model to hundreds of internal users from one GPU server with high throughput. Which runtime family fits?",
+    "options": [
+      "vLLM or SGLang: continuous batching, paged or prefix-shared KV cache, built for many concurrent requests",
+      "Ollama on each user's laptop",
+      "A browser tab per user",
+      "llama.cpp compiled for a phone"
+    ],
+    "answer": 0,
+    "explanation": "Ollama and llama.cpp shine for single-user and edge use; vLLM and SGLang are built for multi-user GPU serving."
+  },
+  {
+    "question": "A 4-bit version of a model scores within one point of the 16-bit version on a public benchmark. What should the team do before shipping it?",
+    "options": [
+      "Ship it: one point is negligible",
+      "Quantize further to 2-bit to save more memory",
+      "Evaluate the 4-bit model on their own eval set, because quantization loss is task-dependent",
+      "Switch to GGUF, which has no quantization loss"
+    ],
+    "answer": 2,
+    "explanation": "Losses vary by task, language and model size. Gate every quantization change with your evals, as you would a model change."
+  },
+  {
+    "question": "Why does a 4-bit model generate tokens faster than its 16-bit version on a laptop?",
+    "options": [
+      "4-bit models skip layers",
+      "Single-stream decoding is limited by memory bandwidth: each token reads all weights, so fewer bytes per weight means more tokens per second",
+      "4-bit models have shorter answers",
+      "Laptops cannot run 16-bit math"
+    ],
+    "answer": 1,
+    "explanation": "Tokens per second ≈ bandwidth ÷ bytes of weights. Halving the bytes roughly doubles the ceiling for one stream."
+  }
+]

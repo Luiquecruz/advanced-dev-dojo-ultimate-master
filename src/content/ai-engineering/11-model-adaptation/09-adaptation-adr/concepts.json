@@ -1,0 +1,7 @@
+[
+  { "term": "Adaptation ADR", "description": "The record of an adaptation decision: the rung chosen (including \"do not adapt\"), the method, data, eval gate, serving and artifact, with forces, alternatives and consequences." },
+  { "term": "Adaptation plan", "description": "The executable part: rung and method, data sizes and rules, eval thresholds, baseline and rerun triggers, runtime, quantization and memory, base model, revision and supply-chain checks." },
+  { "term": "Baseline rung", "description": "The best setup below the chosen rung. A fine-tune must beat it on the frozen eval set to justify the climb." },
+  { "term": "Rerun trigger", "description": "An event that produces a new artifact (new data, new base revision, new quantization, runtime upgrade) and therefore reruns the eval gate." },
+  { "term": "Policy filter", "description": "A hard rule (license, publisher, file format, remote code, data contract) applied before comparing scores." }
+]

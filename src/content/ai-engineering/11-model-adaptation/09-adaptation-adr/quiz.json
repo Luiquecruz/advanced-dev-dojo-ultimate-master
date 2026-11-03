@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Retrieval with good examples reaches every target on the eval set. A teammate still wants to fine-tune \"to be safe\". What should the ADR record?",
+    "options": [
+      "A fine-tune anyway, since higher rungs are always better",
+      "The decision not to fine-tune, with the eval results and the condition that would reopen it",
+      "Nothing, since no model changes",
+      "A plan to train a model from scratch"
+    ],
+    "answer": 1,
+    "explanation": "The lowest rung that meets the targets wins. Recording why the context rungs were enough saves the next debate and names the trigger to revisit."
+  },
+  {
+    "question": "The base model with the highest pilot accuracy has no license, ships pickle files and needs `trust_remote_code`. Where does it belong in the ADR?",
+    "options": [
+      "In the decision, with a security review planned later",
+      "In the positive consequences",
+      "In the rejected alternatives, with the supply-chain policy as the reason",
+      "Nowhere: only the chosen model is recorded"
+    ],
+    "answer": 2,
+    "explanation": "Policy filters come before scores. A missing license and code execution on load rule the model out, however well it scores."
+  },
+  {
+    "question": "Why does the eval gate list events such as a new base model revision or a quantization change?",
+    "options": [
+      "Each of those events produces a different artifact whose quality must be shown again; without rerun triggers the gate guards only the first deploy",
+      "Rerunning evals makes the model more accurate",
+      "Regulators require exactly these events",
+      "To keep the GPUs busy"
+    ],
+    "answer": 0,
+    "explanation": "Fine-tuned and quantized models are new artifacts. The gate must run whenever the artifact changes, as in module 10's regression gates."
+  },
+  {
+    "question": "An 8B model in 16-bit needs 16 GB for its weights, and 64 sequences of 1 024 tokens need 8 GB of KV cache. With 2 GB overhead, what does the plan conclude for a 24 GB GPU?",
+    "options": [
+      "It fits: 16 GB is less than 24 GB",
+      "The KV cache can be ignored for planning",
+      "Buy a GPU with more memory before evaluating anything",
+      "26 GB does not fit; an 8-bit model (about 18 GB) fits if its eval results still meet the targets"
+    ],
+    "answer": 3,
+    "explanation": "Memory is weights plus KV cache plus overhead. Quantization buys the room, and the eval gate decides whether the quality loss is acceptable."
+  }
+]
