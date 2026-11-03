@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A worker cites a source id that was never given to it, and the synthesizer quotes that claim in the final report. Which failure is this, and where should it be stopped?",
+    "options": [
+      "A rate limit; retry the synthesizer",
+      "Agreement bias; add more voters",
+      "A cycle; lower the delegation depth",
+      "A cascading error; validate the worker's output (including that every citation is an allowed source) before the synthesizer sees it"
+    ],
+    "answer": 3,
+    "explanation": "Errors launder as they pass between agents. A mechanical check at the boundary stops them where they are cheapest to fix."
+  },
+  {
+    "question": "Three reviewer agents assess a contract. Reviewer 2 sees reviewer 1's verdict before answering, reviewer 3 sees both. What is the risk?",
+    "options": [
+      "Higher latency only",
+      "The reviewers will always disagree",
+      "Agreement bias: the first verdict anchors the others, so three reviews add little independent evidence",
+      "Prompt injection through the contract"
+    ],
+    "answer": 2,
+    "explanation": "Independent first answers are what make several reviewers worth paying for. Vote in parallel first; discuss only on disagreement."
+  },
+  {
+    "question": "According to the MAST taxonomy (\"Why Do Multi-Agent LLM Systems Fail?\"), which three categories group the failure modes?",
+    "options": [
+      "System design issues, inter-agent misalignment, and task verification",
+      "Latency, cost and accuracy",
+      "Prompt injection, data leakage and jailbreaks",
+      "Model, context and harness"
+    ],
+    "answer": 0,
+    "explanation": "The 14 modes cluster into specification and design problems, coordination problems between agents, and missing or wrong verification. Most are design issues engineers can fix."
+  },
+  {
+    "question": "Five voters, quorum 0.6. Two answer \"yes\", one \"no\", two abstain (an error and a refusal). What should the vote return after round 1?",
+    "options": [
+      "Consensus \"yes\", because yes has 2 of the 3 usable ballots",
+      "Consensus \"no\"",
+      "Fail with an error",
+      "No consensus yet: 2 of 5 voters is below 0.6, so run a discussion round and escalate if still short"
+    ],
+    "answer": 3,
+    "explanation": "Counting against all voters keeps abstentions from inflating confidence. Two of five is 0.4."
+  },
+  {
+    "question": "A delegation guard has maxDepth 1. The lead (`['lead']`) delegates to a worker, and the worker (`['lead', 'worker']`) asks to delegate to a helper. What happens?",
+    "options": [
+      "Allowed, because the helper is a new agent",
+      "Blocked for depth: the helper would sit at depth 2, deeper than allowed",
+      "Blocked as a cycle",
+      "Allowed until the total limit is reached"
+    ],
+    "answer": 1,
+    "explanation": "Depth limits stop workers from spawning workers. The check runs before any model call, so the denial is free."
+  }
+]

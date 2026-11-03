@@ -1,0 +1,8 @@
+[
+  { "term": "Context isolation", "description": "Giving each subagent its own clean context window for noisy work, so only a condensed result reaches the lead." },
+  { "term": "Token multiplier", "description": "How many times more tokens a design spends than a single chat call. Anthropic reported about 4× for agents and 15× for its multi-agent research system." },
+  { "term": "Breadth-first task", "description": "A task that splits into many independent directions explored at once, such as comparing many vendors. The best fit for parallel workers." },
+  { "term": "Implicit decision", "description": "An assumption carried by an action (style, interpretation, scope). Parallel agents that cannot see each other's work make conflicting ones." },
+  { "term": "Swarm", "description": "Peer agents coordinating through handoffs or shared state without a central planner. `emerging`." },
+  { "term": "Debate and voting", "description": "Several agents answer the same question, then compare arguments or vote. Useful for high-stakes judgments, costly, and prone to agreement bias." }
+]

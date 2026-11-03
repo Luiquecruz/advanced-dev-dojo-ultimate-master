@@ -1,0 +1,8 @@
+[
+  { "term": "A2A", "description": "Agent2Agent protocol: an open standard for delegating work to independently deployed, opaque agents through tasks, messages and artifacts. `emerging`." },
+  { "term": "Agent Card", "description": "A JSON document (usually at `/.well-known/agent-card.json`) declaring an agent's interfaces, capabilities, skills and security schemes; it can be signed." },
+  { "term": "Task", "description": "A2A's stateful unit of work, with states submitted, working, input-required, auth-required, and the terminal completed, failed, canceled and rejected." },
+  { "term": "contextId", "description": "Groups related tasks and messages into one conversation; follow-ups to a finished task are new tasks in the same context." },
+  { "term": "Push notifications", "description": "A webhook the client registers so the remote agent can report task updates for work that outlives any connection." },
+  { "term": "MCP vs A2A", "description": "MCP connects an agent to its tools and data (vertical); A2A connects agents to peer agents across deployments and organizations (horizontal)." }
+]

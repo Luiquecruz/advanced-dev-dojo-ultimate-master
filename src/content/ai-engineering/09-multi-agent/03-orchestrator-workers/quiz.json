@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What separates orchestrator-workers from the parallel sectioning workflow of module 07?",
+    "options": [
+      "Orchestrator-workers never runs in parallel",
+      "In orchestrator-workers the model decides the subtasks at runtime from the input; in sectioning, your code fixes them in advance",
+      "Sectioning needs several models; orchestrator-workers uses one",
+      "There is no difference"
+    ],
+    "answer": 1,
+    "explanation": "Who decides the split is the difference. A runtime split is flexible, which is why the plan must be validated, capped and given a fallback."
+  },
+  {
+    "question": "The orchestrator starts 40 workers with `Promise.all` and most fail with `429`. What is the fix?",
+    "options": [
+      "Retry all 40 at once until they succeed",
+      "Switch to a larger model",
+      "Remove the synthesis step",
+      "Run workers under a concurrency limit (and cap the number of subtasks), so in-flight calls stay within the provider's rate limit"
+    ],
+    "answer": 3,
+    "explanation": "Unbounded fan-out turns into a burst of rate-limit errors. A small number of lanes keeps throughput high without tripping the limit."
+  },
+  {
+    "question": "One of five workers refuses its subtask. What should the orchestrator do?",
+    "options": [
+      "Fail the whole run",
+      "Drop the failed worker silently",
+      "Record the worker as failed, synthesize the other four findings, and tell the synthesizer which subtask failed so the answer can mention the gap",
+      "Ask the synthesizer to invent the missing findings"
+    ],
+    "answer": 2,
+    "explanation": "Failures are data. Containing them keeps the run useful, and surfacing them keeps the answer honest."
+  },
+  {
+    "question": "Which calls belong in a run's cost total?",
+    "options": [
+      "Every response the provider returned: discarded plans, every worker including refusals and truncations, and the synthesis",
+      "Only the synthesis call, since it produces the answer",
+      "Only the worker calls",
+      "Only calls that succeeded with finish reason `stop`"
+    ],
+    "answer": 0,
+    "explanation": "The provider bills every response, useful or not. Summing all of them is the only number you can compare with a single-agent design."
+  }
+]

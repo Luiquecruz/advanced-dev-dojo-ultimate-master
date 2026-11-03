@@ -1,0 +1,8 @@
+[
+  { "term": "Orchestrator (supervisor)", "description": "The lead agent that plans subtasks at runtime, delegates them to workers and synthesizes the results." },
+  { "term": "Worker (subagent)", "description": "An agent with a clean context that handles one subtask and returns a condensed result." },
+  { "term": "Fallback plan", "description": "A plan used when the planner's output is unusable after retries, typically one subtask with the whole question, so the run degrades instead of failing." },
+  { "term": "Concurrency limit", "description": "The maximum number of calls in flight at once. Keeps a fan-out within provider rate limits." },
+  { "term": "Synthesis", "description": "The final step that combines worker findings into one answer and states which subtasks failed." },
+  { "term": "Cost accounting", "description": "Summing the provider-reported usage of every response in a run, including discarded and failed ones." }
+]

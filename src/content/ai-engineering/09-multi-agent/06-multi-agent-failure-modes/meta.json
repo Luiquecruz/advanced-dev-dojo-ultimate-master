@@ -1,0 +1,14 @@
+{
+  "title": "Multi-Agent Failure Modes",
+  "summary": "The MAST taxonomy of multi-agent failures and three defenses in code: validate worker outputs and quarantine what fails before errors cascade, vote independently before any discussion, and bound delegation by cycles, depth, fan-out and total.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Cemri et al.: Why Do Multi-Agent LLM Systems Fail? (MAST)", "url": "https://arxiv.org/abs/2503.13657" },
+    { "label": "Du et al.: Improving Factuality and Reasoning through Multiagent Debate", "url": "https://arxiv.org/abs/2305.14325" },
+    { "label": "Anthropic: How we built our multi-agent research system", "url": "https://www.anthropic.com/engineering/multi-agent-research-system" },
+    { "label": "Cognition: Don't Build Multi-Agents", "url": "https://cognition.com/blog/dont-build-multi-agents" }
+  ]
+}

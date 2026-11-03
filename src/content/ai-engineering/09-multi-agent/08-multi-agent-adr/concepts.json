@@ -1,0 +1,7 @@
+[
+  { "term": "Multi-agent ADR", "description": "The record of whether each feature uses one agent or several, justified by measured quality, cost and latency, with the limits that keep it in budget." },
+  { "term": "Pilot table", "description": "The same golden tasks run through each candidate architecture, with pass rate, cost per task and latency side by side." },
+  { "term": "Worst-case cost", "description": "Planner attempts plus synthesis plus the maximum number of workers; it must fit the per-task budget." },
+  { "term": "Failure policy", "description": "What a failed worker means for the run (continue with a listed gap or abort) and the minimum share of successful workers for a usable result." },
+  { "term": "Protocol per boundary", "description": "In-process for your own co-deployed agents, MCP for quick capabilities with schemas, A2A for long-running work by independently deployed agents." }
+]

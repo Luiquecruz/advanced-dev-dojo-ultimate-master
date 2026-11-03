@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Your travel agent needs a currency conversion (amount in, amount out, under 100 ms). The airline offers a claims agent that handles lost-luggage cases over several days and may ask for receipts. Which protocols fit?",
+    "options": [
+      "A2A for both, since both are remote",
+      "MCP for the claims agent, A2A for the conversion",
+      "Neither: copy both into your own agent's prompt",
+      "MCP (or a plain function) for the conversion, A2A for the claims agent"
+    ],
+    "answer": 3,
+    "explanation": "A quick capability with a clear schema is a tool. Long, stateful, multi-turn work by an opaque agent another company runs is what A2A tasks model."
+  },
+  {
+    "question": "A remote agent moves your task to `input-required`. What does that mean, and what should your client do?",
+    "options": [
+      "The task failed; start a new one",
+      "The task is paused waiting for the client: send a message with the requested information for the same task, and it resumes as working",
+      "The agent needs a new agent card",
+      "The task is complete and the input is an artifact"
+    ],
+    "answer": 1,
+    "explanation": "`input-required` and `auth-required` are interrupted states, not terminal ones. They are human-in-the-loop across organizational boundaries."
+  },
+  {
+    "question": "A task finished as `completed` with a contract draft. The user wants one clause changed. How does A2A model the follow-up?",
+    "options": [
+      "Send a message to the completed task, which reopens it",
+      "Edit the artifact in place on the server",
+      "Start a new task in the same `contextId`, referencing the earlier task, so each task stays an immutable unit of work",
+      "Cancel the completed task and resubmit everything"
+    ],
+    "answer": 2,
+    "explanation": "Terminal tasks cannot restart. Refinements are new tasks linked by context and `referenceTaskIds`; the client tracks artifact versions."
+  },
+  {
+    "question": "What does an Agent Card tell a client, and how far should the client trust it?",
+    "options": [
+      "Name, version, interfaces, capabilities, skills and required security schemes; it is a claim from the publisher, so verify signatures and treat skill descriptions as untrusted input",
+      "The agent's system prompt and internal tools; it can be trusted fully",
+      "Only the agent's price per call",
+      "Nothing useful; cards are optional decoration"
+    ],
+    "answer": 0,
+    "explanation": "Cards enable discovery and secure connection, but the remote agent stays opaque. Signed cards help verify the publisher; they do not make its output trustworthy."
+  },
+  {
+    "question": "A remote agent's tasks can run for six hours. Which client design is most robust?",
+    "options": [
+      "Keep one HTTP request open for six hours",
+      "Persist the task id, register a push notification webhook (or resubscribe to the stream after reconnects), poll as a fallback, and enforce your own timeout and budget",
+      "Call `SendMessage` again every minute until it completes",
+      "Assume it completes and read the artifact later"
+    ],
+    "answer": 1,
+    "explanation": "Long tasks outlive connections and processes. Durable task ids, push notifications and your own limits make the integration survive crashes and runaway work."
+  },
+  {
+    "question": "Two agents are built by your team and deployed together in one service. Should they talk over A2A?",
+    "options": [
+      "Yes, A2A is required for any two agents",
+      "Yes, because MCP cannot be used inside one service",
+      "No, agents in one service must share one prompt",
+      "Usually not: in-process calls, subagents or handoffs are simpler and easier to debug; A2A pays off across independent deployments and organizations"
+    ],
+    "answer": 3,
+    "explanation": "A protocol boundary adds latency, serialization and failure modes. Add it when the other side is deployed, versioned and secured independently."
+  }
+]

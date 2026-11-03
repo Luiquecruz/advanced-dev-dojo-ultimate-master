@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What happens when the triage agent calls `transfer_to_billing`?",
+    "options": [
+      "Control passes to billing: the next model call uses billing's system prompt and handoff tools over the same conversation",
+      "The loop runs a function called transfer_to_billing and returns its result to triage",
+      "Billing runs in parallel with triage and both answer",
+      "The conversation restarts from scratch with billing"
+    ],
+    "answer": 0,
+    "explanation": "A handoff switches the active agent. The receiving agent continues the conversation and answers the user itself."
+  },
+  {
+    "question": "Billing hands to tech, tech hands back to billing, and billing is about to hand to tech again. What should the swarm do, and what does it reveal?",
+    "options": [
+      "Keep going until the turn limit; one of them will answer eventually",
+      "Pick one agent at random to answer",
+      "Merge the two agents into one call",
+      "Stop with a ping-pong status and escalate; it reveals overlapping or missing ownership in the two agents' instructions"
+    ],
+    "answer": 3,
+    "explanation": "Ping-pong is cheap to detect from the path. Raising the limit only buys more bounces; the fix is clearer ownership."
+  },
+  {
+    "question": "The triage agent calls `transfer_to_refunds`, but refunds is not in its handoff list. What should happen?",
+    "options": [
+      "Transfer anyway, since refunds exists",
+      "Reject the call with a tool result that names it, and let triage continue",
+      "Crash the run",
+      "Silently ignore the call and return an empty answer"
+    ],
+    "answer": 1,
+    "explanation": "The handoff graph is a permission boundary. Rejecting with feedback keeps the loop going, exactly like an unknown tool in the agent loop."
+  },
+  {
+    "question": "When is a handoff swarm a better fit than orchestrator-workers?",
+    "options": [
+      "When twelve independent vendors must be researched in parallel",
+      "When cost must be minimized at any price",
+      "When a single conversation must move between specialists with different instructions, tools or permissions, and the specialist should answer the user",
+      "When the work needs no tools at all"
+    ],
+    "answer": 2,
+    "explanation": "Handoffs route one conversation through specialists; they do not parallelize. Breadth-first research fits orchestrator-workers."
+  }
+]

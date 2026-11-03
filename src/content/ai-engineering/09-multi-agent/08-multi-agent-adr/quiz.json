@@ -1,0 +1,46 @@
+[
+  {
+    "question": "The pilot shows orchestrator-workers best for market scans but a single agent best for report editing. What should the ADR decide?",
+    "options": [
+      "Choose per feature: orchestrator-workers for scans and a single agent for editing, each justified by its measurements",
+      "Orchestrator-workers everywhere, for consistency",
+      "A single agent everywhere, because it is cheaper",
+      "Postpone the decision until a framework supports both"
+    ],
+    "answer": 0,
+    "explanation": "Architectures follow the shape of the work. Independent breadth favors workers; coupled edits favor one context."
+  },
+  {
+    "question": "Planner attempts cost $0.20, the synthesis $0.40 and each worker $0.50; the budget is $5 and the plan allows two planner attempts. What is the largest coherent `maxWorkers`?",
+    "options": [
+      "10",
+      "8",
+      "9",
+      "12"
+    ],
+    "answer": 1,
+    "explanation": "2 × 0.20 + 0.40 + 8 × 0.50 = $4.80 fits; 9 workers would cost $5.30 in the worst case."
+  },
+  {
+    "question": "A pilot worker cited a page it was never given, and the invented price reached the report. Which plan field addresses it?",
+    "options": [
+      "A higher concurrency",
+      "A larger budget",
+      "A deeper delegation limit",
+      "Validation of worker outputs, including a citations check, before synthesis"
+    ],
+    "answer": 3,
+    "explanation": "Cascading errors are stopped at the boundary between agents. A citation outside the worker's sources is mechanically detectable."
+  },
+  {
+    "question": "Why is the partner's compliance agent reached over A2A while the vendor database uses MCP?",
+    "options": [
+      "A2A is faster than MCP",
+      "MCP cannot reach external services",
+      "The compliance agent is an opaque partner agent whose checks take days and may ask for documents; the database is a quick structured capability",
+      "A2A is required for anything that stores data"
+    ],
+    "answer": 2,
+    "explanation": "Long, stateful, multi-turn work by an independently deployed agent is what A2A tasks model; a fast lookup with a schema is a tool."
+  }
+]

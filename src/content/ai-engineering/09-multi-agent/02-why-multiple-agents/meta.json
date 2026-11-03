@@ -1,0 +1,12 @@
+{
+  "title": "Why Multiple Agents",
+  "summary": "The multi-agent patterns, what splitting buys (breadth, parallel independent subtasks, context isolation, separated responsibilities), what it costs (a token multiplier, coordination, conflicting implicit decisions), and how to read the published evidence.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "theory"],
+  "resources": [
+    { "label": "Anthropic: How we built our multi-agent research system", "url": "https://www.anthropic.com/engineering/multi-agent-research-system" },
+    { "label": "Cognition: Don't Build Multi-Agents", "url": "https://cognition.com/blog/dont-build-multi-agents" },
+    { "label": "Anthropic: Effective context engineering for AI agents", "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" },
+    { "label": "Claude Code: Agent teams", "url": "https://code.claude.com/docs/en/agent-teams" }
+  ]
+}

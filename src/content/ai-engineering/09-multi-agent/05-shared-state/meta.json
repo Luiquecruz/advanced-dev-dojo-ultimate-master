@@ -1,0 +1,14 @@
+{
+  "title": "Shared State",
+  "summary": "A blackboard for cooperating agents: an owner per key with prefix patterns, compare-and-set versions that turn lost updates into conflicts, an append-only log that rebuilds state, and an agent step that retries conflicts on fresh values.",
+  "level": "advanced",
+  "tags": ["emerging", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Wikipedia: Blackboard system", "url": "https://en.wikipedia.org/wiki/Blackboard_system" },
+    { "label": "Martin Fowler: Optimistic Offline Lock", "url": "https://martinfowler.com/eaaCatalog/optimisticOfflineLock.html" },
+    { "label": "Claude Code: Agent teams (shared task list)", "url": "https://code.claude.com/docs/en/agent-teams" },
+    { "label": "Cognition: Don't Build Multi-Agents", "url": "https://cognition.com/blog/dont-build-multi-agents" }
+  ]
+}

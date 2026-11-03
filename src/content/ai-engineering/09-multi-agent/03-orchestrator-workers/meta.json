@@ -1,0 +1,14 @@
+{
+  "title": "Orchestrator-Workers",
+  "summary": "A planner that returns subtasks as JSON and survives malformed plans, parallel workers under a concurrency limit, a synthesis step that names failed subtasks, and cost accounting summed from every response.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Anthropic: How we built our multi-agent research system", "url": "https://www.anthropic.com/engineering/multi-agent-research-system" },
+    { "label": "Anthropic: Building effective agents (orchestrator-workers)", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
+    { "label": "OpenAI Agents SDK: Agent orchestration", "url": "https://openai.github.io/openai-agents-python/multi_agent/" },
+    { "label": "Claude Code: Subagents", "url": "https://code.claude.com/docs/en/sub-agents" }
+  ]
+}

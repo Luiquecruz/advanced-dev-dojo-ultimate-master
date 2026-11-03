@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which task is the best fit for a multi-agent design?",
+    "options": [
+      "Refactoring one 400-line module so its style stays consistent",
+      "Answering \"compare these twelve vendors on pricing, compliance and integrations\", where each vendor can be researched independently",
+      "Classifying a support ticket into one of five categories",
+      "Writing a single paragraph summary of one article"
+    ],
+    "answer": 1,
+    "explanation": "Breadth-first research with independent directions is where parallel workers with isolated contexts pay off. The refactoring couples every decision, the classification is one call, and the summary fits in one context."
+  },
+  {
+    "question": "Anthropic reported that, on BrowseComp, token usage alone explained about 80% of the performance variance. What is the most careful reading for an engineer?",
+    "options": [
+      "Multi-agent systems are smarter than single agents",
+      "Token usage should always be maximized",
+      "A large part of the gain comes from spending more tokens in parallel, so compare designs on quality per dollar, not quality alone",
+      "The benchmark is broken and the result can be ignored"
+    ],
+    "answer": 2,
+    "explanation": "If spending explains most of the variance, a multi-agent win may be bought with a several-fold bill. The decision is whether the task's value justifies that cost."
+  },
+  {
+    "question": "Two parallel subagents build parts of a game: one draws the background, the other the player sprite. The results do not fit together. What failure is this?",
+    "options": [
+      "Conflicting implicit decisions: each action carries assumptions (style, scale) that the other agent could not see",
+      "A rate limit",
+      "Prompt injection",
+      "A context-length error"
+    ],
+    "answer": 0,
+    "explanation": "This is Cognition's example. Splitting coupled work across agents that do not share context produces incompatible choices that a merge step cannot fully repair."
+  },
+  {
+    "question": "What is context isolation, and why is it often the main benefit of subagents?",
+    "options": [
+      "Encrypting each agent's messages",
+      "Each worker uses its own clean context window for noisy exploration (search results, logs) and returns a condensed result, so the lead's context stays focused",
+      "Running each agent on a different model provider",
+      "Preventing agents from calling tools"
+    ],
+    "answer": 1,
+    "explanation": "Subagents act as context filters. The lead pays for a summary instead of for every page the worker read."
+  },
+  {
+    "question": "A single agent passes 92% of your eval cases. A five-agent prototype passes 93% at 6× the cost per case. What should you do?",
+    "options": [
+      "Ship the multi-agent version: higher quality always wins",
+      "Add more agents until quality reaches 100%",
+      "Average the two systems' answers",
+      "Keep the single agent unless the extra point of quality is worth six times the cost for this product; measure cost per successful task"
+    ],
+    "answer": 3,
+    "explanation": "Multi-agent designs are justified by measured benefit per dollar. A one-point gain rarely pays for a 6× bill."
+  },
+  {
+    "question": "Which situation does Anthropic's own article list as a poor fit for multi-agent systems?",
+    "options": [
+      "Open-ended research with many independent directions",
+      "Questions that need many web searches",
+      "Tasks where all agents need the same context or have many dependencies between them, such as most coding tasks",
+      "Tasks whose information exceeds one context window"
+    ],
+    "answer": 2,
+    "explanation": "Shared context and dependencies turn parallel agents into coordination problems. Research parallelizes well; most code changes do not split into truly independent parts."
+  }
+]

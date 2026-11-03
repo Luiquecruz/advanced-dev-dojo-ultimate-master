@@ -1,0 +1,8 @@
+[
+  { "term": "Cascading error", "description": "One agent's mistake consumed by the next and the next, gaining apparent credibility at each hop." },
+  { "term": "Quarantine", "description": "Keeping an output that failed validation out of downstream context, with the reason recorded." },
+  { "term": "Agreement bias", "description": "Agents converging on an answer because they saw each other's opinions, not because they checked independently." },
+  { "term": "Quorum", "description": "The share of all voters an answer needs to win. Abstentions count against it." },
+  { "term": "MAST", "description": "Multi-Agent System failure Taxonomy: 14 failure modes in three categories (system design, inter-agent misalignment, task verification), from 1,600+ annotated traces." },
+  { "term": "Delegation guard", "description": "A check before each delegation: no cycles, maximum depth, maximum fan-out per delegator and a maximum total per run." }
+]

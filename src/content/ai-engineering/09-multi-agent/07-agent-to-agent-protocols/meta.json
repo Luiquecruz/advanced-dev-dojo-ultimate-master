@@ -1,0 +1,13 @@
+{
+  "title": "Agent-to-Agent Protocols",
+  "summary": "In-process calls, MCP tools or A2A tasks: the A2A task lifecycle in depth (interrupted and terminal states, contexts, follow-ups, artifacts, streaming and push notifications), agent cards and their trust limits, and when to use which.",
+  "level": "advanced",
+  "tags": ["emerging", "theory"],
+  "resources": [
+    { "label": "A2A Protocol specification", "url": "https://a2a-protocol.org/latest/specification/" },
+    { "label": "A2A: Life of a task", "url": "https://a2a-protocol.org/latest/topics/life-of-a-task/" },
+    { "label": "A2A: A2A and MCP", "url": "https://a2a-protocol.org/latest/topics/a2a-and-mcp/" },
+    { "label": "A2A: Agent discovery", "url": "https://a2a-protocol.org/latest/topics/agent-discovery/" },
+    { "label": "Model Context Protocol specification (2026-07-28)", "url": "https://modelcontextprotocol.io/specification/2026-07-28" }
+  ]
+}

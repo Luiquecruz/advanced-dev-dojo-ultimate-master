@@ -1,0 +1,8 @@
+[
+  { "term": "Blackboard", "description": "Shared state that agents read and write to cooperate without knowing about each other; from 1970s AI systems." },
+  { "term": "Ownership per key", "description": "Each key or key pattern has one owner role allowed to write it. A permission boundary and an audit aid." },
+  { "term": "Compare-and-set", "description": "A write that succeeds only if the version it was based on is still current; otherwise it is rejected as a conflict." },
+  { "term": "Lost update", "description": "A write built on stale data silently replacing a newer one. Long model calls make the window large." },
+  { "term": "Append-only log", "description": "An immutable, sequenced record of every write attempt. State is a replay of its accepted entries." },
+  { "term": "Optimistic concurrency", "description": "Detecting conflicts at write time instead of holding locks during the work; suited to slow writers such as agents." }
+]

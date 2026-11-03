@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Two editor agents read the draft at version 3, both call a model for 20 seconds, and both write. With compare-and-set, what happens?",
+    "options": [
+      "Both writes succeed and the second silently replaces the first",
+      "Both writes are rejected",
+      "The first write succeeds as version 4; the second is rejected as a conflict, so that editor re-reads version 4 and redoes its edit on it",
+      "The board merges the two texts automatically"
+    ],
+    "answer": 2,
+    "explanation": "Optimistic versioning turns a lost update into a visible conflict. No lock is held during the slow model call."
+  },
+  {
+    "question": "A researcher agent read a web page with injected instructions and tries to rewrite the `plan` key, owned by the lead. What protects the plan?",
+    "options": [
+      "Ownership per key: the write is rejected as `not_owner`, and retrying cannot change that",
+      "The version check",
+      "The append-only log, which undoes the write later",
+      "Nothing; any agent may write any key"
+    ],
+    "answer": 0,
+    "explanation": "Ownership is a permission boundary. The log records the attempt, which is useful evidence, but the rejection is what keeps the plan intact."
+  },
+  {
+    "question": "Why keep an append-only log of every write attempt?",
+    "options": [
+      "It makes writes faster",
+      "State can be rebuilt by replaying accepted entries, and the log answers which agent wrote which value and which attempts were rejected",
+      "It replaces the need for versions",
+      "Models read logs better than state"
+    ],
+    "answer": 1,
+    "explanation": "Auditing, debugging across agents and recovery after a crash all come from an immutable sequence of writes."
+  },
+  {
+    "question": "Five researcher agents each contribute findings about a different vendor. How should the keys be designed?",
+    "options": [
+      "One shared `findings` key that every researcher rewrites with compare-and-set",
+      "No keys: researchers should keep findings in their own context",
+      "Last writer wins on a single `findings` key",
+      "One key per vendor (or an append-only list), so contributions never conflict and readers merge them"
+    ],
+    "answer": 3,
+    "explanation": "Independent contributions should not compete for one key. Splitting by writer removes conflicts instead of retrying them."
+  }
+]

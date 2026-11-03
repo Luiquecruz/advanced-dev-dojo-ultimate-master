@@ -1,0 +1,12 @@
+{
+  "title": "Map: Multi-Agent Systems",
+  "summary": "What this module answers (when to split work across agents and how to keep the split from multiplying cost and errors), its place in the loop layer, the prerequisites from earlier modules, the path from orchestrator-workers to A2A, and the multi-agent ADR at the end.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "theory"],
+  "resources": [
+    { "label": "Anthropic: How we built our multi-agent research system", "url": "https://www.anthropic.com/engineering/multi-agent-research-system" },
+    { "label": "Cognition: Don't Build Multi-Agents", "url": "https://cognition.com/blog/dont-build-multi-agents" },
+    { "label": "Anthropic: Building effective agents", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
+    { "label": "LangChain: Multi-agent", "url": "https://docs.langchain.com/oss/javascript/langchain/multi-agent" }
+  ]
+}

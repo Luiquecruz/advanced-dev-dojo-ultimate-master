@@ -1,0 +1,8 @@
+[
+  { "term": "Handoff", "description": "A tool call (such as `transfer_to_billing`) that switches the active agent; the receiving agent continues the conversation and answers the user." },
+  { "term": "Swarm", "description": "Peer agents coordinating through handoffs or shared state without a central planner. Flexible but hard to predict. `emerging`." },
+  { "term": "Handoff graph", "description": "Which agent may transfer to which. A design decision and a permission boundary: forbidden transfers are rejected." },
+  { "term": "Ping-pong", "description": "Two agents handing control back and forth (A, B, A, B). A sign of overlapping or missing ownership; stop and escalate." },
+  { "term": "Handoff limit", "description": "The maximum number of transfers in one conversation, bounding the length of the chain." },
+  { "term": "Input filter", "description": "A rule that decides how much of the conversation the next agent sees: everything, a summary, or the history without tool calls." }
+]

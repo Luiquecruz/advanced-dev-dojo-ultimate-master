@@ -1,0 +1,8 @@
+[
+  { "term": "Multi-agent system", "description": "Several model loops, each with its own prompt, tools and history, that pass work, control or state between them." },
+  { "term": "Orchestrator-workers", "description": "A planner splits a task into subtasks at runtime, workers handle them (often in parallel) and the orchestrator synthesizes the results." },
+  { "term": "Handoff", "description": "A tool call that transfers control of the conversation from one agent to another peer agent." },
+  { "term": "Swarm", "description": "Peer agents that coordinate through handoffs or shared state without a central planner. More flexible, less predictable. `emerging`." },
+  { "term": "Blackboard", "description": "Shared state that several agents read and write, with rules for who may write what and how conflicts resolve." },
+  { "term": "Multi-agent ADR", "description": "The module's checkpoint: single agent or multi-agent per feature from measured numbers, plus limits, budgets, validation and protocols." }
+]

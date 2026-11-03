@@ -1,0 +1,14 @@
+{
+  "title": "Handoffs and Swarms",
+  "summary": "Peer agents that pass control with handoff tool calls over a designed handoff graph, carry the conversation along, reject forbidden transfers, and stop on ping-pong, a handoff limit or a turn limit.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "OpenAI Agents SDK: Handoffs", "url": "https://openai.github.io/openai-agents-python/handoffs/" },
+    { "label": "OpenAI Swarm (experimental, replaced by the Agents SDK)", "url": "https://github.com/openai/swarm" },
+    { "label": "LangChain: Handoffs", "url": "https://docs.langchain.com/oss/python/langchain/multi-agent/handoffs" },
+    { "label": "Google ADK: Multi-agent systems", "url": "https://google.github.io/adk-docs/agents/multi-agents/" }
+  ]
+}

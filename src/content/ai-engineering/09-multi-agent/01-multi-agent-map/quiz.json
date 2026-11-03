@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Which layer does this module belong to, and why?",
+    "options": [
+      "Layer 1 (model): multi-agent systems need bigger models",
+      "Layer 6 (governance): multi-agent systems are a compliance topic",
+      "Layer 4 (loop): several agent loops that pass work, control or state between them are still about how work repeats until done",
+      "Layer 2 (context) only: agents just share prompts"
+    ],
+    "answer": 2,
+    "explanation": "A multi-agent system is a composition of loops. It leans on the harness for each agent's tools and on evaluation to prove the extra agents pay off, but the design question is how the work flows."
+  },
+  {
+    "question": "A team proposes five agents for a support bot that one agent with three tools already handles well in evals. What does this module suggest first?",
+    "options": [
+      "Measure what a split would buy: multi-agent pays off for breadth, parallel subtasks, context limits or separated responsibilities, and costs tokens and coordination otherwise",
+      "Build the five agents; more agents always improve quality",
+      "Replace the tools with agents, since agents are more flexible",
+      "Use A2A between the five agents to make it production-ready"
+    ],
+    "answer": 0,
+    "explanation": "Lesson 02 weighs the gains against a token multiplier and coordination failures. When one agent already passes the evals, \"not yet\" is the usual answer."
+  },
+  {
+    "question": "What is the difference between the orchestrator-workers lesson (03) and the handoffs lesson (04)?",
+    "options": [
+      "They are the same pattern with different names",
+      "Orchestrator-workers runs in Python, handoffs in TypeScript",
+      "Handoffs need A2A; orchestrator-workers cannot use tools",
+      "In orchestrator-workers a planner keeps control and collects results from workers; with handoffs, control itself passes from one peer agent to another"
+    ],
+    "answer": 3,
+    "explanation": "Who holds control is the axis. A manager delegates and synthesizes; a handoff transfers the conversation, so the receiving agent answers the user."
+  },
+  {
+    "question": "Which lesson answers \"how do two agents avoid silently overwriting each other's work?\"",
+    "options": [
+      "Lesson 07, agent-to-agent protocols",
+      "Lesson 05, shared state: owners per key, compare-and-set versions and an append-only log",
+      "Lesson 02, why multiple agents",
+      "Lesson 04, handoffs"
+    ],
+    "answer": 1,
+    "explanation": "A blackboard without ownership and versions loses updates. Optimistic versioning turns a silent overwrite into a visible conflict the agent can retry."
+  },
+  {
+    "question": "What does the ADR at the end of the module ask you to decide?",
+    "options": [
+      "Which multi-agent framework is the most popular",
+      "How many agents the largest swarm can run",
+      "Single agent or multi-agent for two features of one product, from measured pilot numbers, with a plan for workers, concurrency, budgets, limits, validation and protocols",
+      "The wording of each agent's system prompt"
+    ],
+    "answer": 2,
+    "explanation": "Like every module, it ends with a decision record. Tests check that the architecture fits the measured quality, cost and latency, and that the limits agree with the budget."
+  }
+]
