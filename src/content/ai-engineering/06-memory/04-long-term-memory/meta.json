@@ -1,0 +1,15 @@
+{
+  "title": "Long-Term Memory",
+  "summary": "Remember across sessions: extract candidate memories with the model, filter them with a write policy, merge near-duplicates by embedding similarity, and retrieve by weighted relevance, recency and importance.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Generative Agents: Interactive Simulacra of Human Behavior (paper)", "url": "https://arxiv.org/abs/2304.03442" },
+    { "label": "Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory (paper)", "url": "https://arxiv.org/abs/2504.19413" },
+    { "label": "LangChain docs: Memory overview", "url": "https://docs.langchain.com/oss/python/concepts/memory" },
+    { "label": "Letta: Benchmarking AI Agent Memory, Is a Filesystem All You Need?", "url": "https://www.letta.com/blog/benchmarking-ai-agent-memory" },
+    { "label": "LongMemEval: Benchmarking Chat Assistants on Long-Term Interactive Memory (paper)", "url": "https://arxiv.org/abs/2410.10813" }
+  ]
+}

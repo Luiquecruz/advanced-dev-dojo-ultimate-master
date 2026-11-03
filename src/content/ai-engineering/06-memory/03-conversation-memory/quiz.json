@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A chat keeps \"the last 20 messages\". Most calls cost about 600 tokens, but some cost 25 000 and fail. What is the fix?",
+    "options": [
+      "Keep the last 10 messages instead",
+      "Budget the window in tokens with a token counter: a single pasted log can be larger than 20 short messages together",
+      "Switch to a model with a larger context window and keep the rule",
+      "Remove the system prompt to make room"
+    ],
+    "answer": 1,
+    "explanation": "Message counts say nothing about size. A token budget keeps every call within cost and window limits whatever users paste. A smaller count only makes the spikes rarer, a larger window only makes them more expensive, and dropping the system prompt changes the product's behavior."
+  },
+  {
+    "question": "The summarizer call returns `finishReason: 'length'` with half a summary. What should the memory do?",
+    "options": [
+      "Store the half summary: something is better than nothing",
+      "Delete the overflow messages anyway to keep the history short",
+      "Treat it as a failed update: keep the previous summary and the full stored history, and try again on a later turn",
+      "Throw an error to the user so they can retry the chat"
+    ],
+    "answer": 2,
+    "explanation": "A truncated summary looks valid but silently drops facts. The safe move is to commit nothing. The window still trims what is sent, so the chat continues within budget while the history waits for a successful summary."
+  },
+  {
+    "question": "Why does the window always keep the latest messages, even when they alone exceed the budget?",
+    "options": [
+      "Because providers reject requests without a user message at the end",
+      "Because the latest messages are always the shortest",
+      "Because the budget only applies to the summary",
+      "Because answering without the user's last turn produces a wrong answer, which is worse than one expensive call; a truly oversized input should be handled as an explicit error"
+    ],
+    "answer": 3,
+    "explanation": "The budget is a cost and quality target, not a reason to answer a question the model never saw. Some rules (the system prompt, the latest turn) are never negotiable. Providers do not require this, the latest messages are not always short, and the budget covers everything that is sent."
+  },
+  {
+    "question": "A teammate proposes summarizing the whole conversation from scratch on every turn \"so the summary is always fresh\". What is the main problem?",
+    "options": [
+      "Cost grows with the conversation again, and rewriting the summary over and over makes details drift; fold each message into the summary once",
+      "Models cannot summarize more than ten messages",
+      "It makes the summary too short",
+      "There is no problem; it is the recommended approach"
+    ],
+    "answer": 0,
+    "explanation": "Incremental folding keeps each summary call small and touches each message once. Re-summarizing everything brings back the growing cost the summary was meant to remove, and each rewrite can lose or distort details."
+  }
+]

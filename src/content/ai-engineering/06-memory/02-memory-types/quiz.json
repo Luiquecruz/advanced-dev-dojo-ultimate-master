@@ -1,0 +1,57 @@
+[
+  {
+    "question": "In CoALA's terms, which memory holds \"the customer is allergic to peanuts\"?",
+    "options": [
+      "Working memory",
+      "Episodic memory",
+      "Semantic memory: a fact about the world or the user",
+      "Procedural memory"
+    ],
+    "answer": 2,
+    "explanation": "Semantic memory stores knowledge. Working memory is the current call's context, episodic memory records what happened (for example the conversation where it was said), and procedural memory holds how to do things."
+  },
+  {
+    "question": "A coding agent keeps a log of past tasks: what it tried, which tests failed and how it fixed them. When a similar bug appears, it retrieves the closest past task. Which memory type is this?",
+    "options": [
+      "Episodic memory: experience from earlier decision cycles, retrieved to inform a new one",
+      "Semantic memory",
+      "Working memory",
+      "It is not memory, only logging"
+    ],
+    "answer": 0,
+    "explanation": "Episodic memory is about what happened. It becomes memory, not just logging, when it is retrieved to shape new behavior."
+  },
+  {
+    "question": "An agent may rewrite its own rules file whenever it thinks a rule is wrong. Why do many teams put a review or test gate on this?",
+    "options": [
+      "Rules files cannot be edited by programs",
+      "It is procedural memory: a change alters behavior in every future session, so a bad or injected edit spreads everywhere",
+      "Rules files are too large for the context window",
+      "Editing files is slower than editing a database"
+    ],
+    "answer": 1,
+    "explanation": "Procedural memory is the most powerful type to learn and the most dangerous. Programs can edit files, size is a separate concern, and speed is not the issue."
+  },
+  {
+    "question": "Your app writes memories with a background job after each conversation instead of a \"save memory\" tool during the reply. What do you gain and what do you give up?",
+    "options": [
+      "You gain accuracy and lose all privacy controls",
+      "You gain nothing: both approaches are identical",
+      "You gain lower reply latency and room for careful extraction; other sessions see new memories only after the job runs",
+      "You gain real-time updates and pay with added latency"
+    ],
+    "answer": 2,
+    "explanation": "Background writes keep extraction out of the user's wait. The trade-off is freshness. Real-time updates with added latency describe hot-path writing, and neither approach removes privacy controls."
+  },
+  {
+    "question": "What is CoALA, and how should you use it?",
+    "options": [
+      "A memory database you install with npm",
+      "A benchmark that ranks memory products",
+      "A provider API for long-term memory",
+      "A conceptual framework (TMLR, 2024) that names memory types and the actions between them; use it to decide which memories a design needs, not as a library"
+    ],
+    "answer": 3,
+    "explanation": "CoALA, by Sumers, Yao, Narasimhan and Griffiths, is a vocabulary for language agents: working, episodic, semantic and procedural memory, and retrieval, learning, reasoning and grounding actions."
+  }
+]

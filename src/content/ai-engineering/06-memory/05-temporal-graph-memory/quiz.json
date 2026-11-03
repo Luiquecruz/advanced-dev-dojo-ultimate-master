@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A customer changed plans on June 1 and told the assistant on June 9. On June 5 the assistant quoted the old plan's price. Which query shows the quote was consistent with what the system knew?",
+    "options": [
+      "`current('customer', 'plan')`",
+      "`asOf('customer', 'plan', June 5)` with transaction time defaulting to today",
+      "`asOf('customer', 'plan', June 5, June 5)`: valid time June 5, as known on June 5",
+      "A similarity search for \"plan\" in the vector store"
+    ],
+    "answer": 2,
+    "explanation": "Today's knowledge says the new plan was valid on June 5. Only the transaction-time query reconstructs what the system believed then, which is the audit question. The current query and similarity search have no notion of past belief."
+  },
+  {
+    "question": "Why does the memory expire the old `works_at Acme` record and add a closed copy, instead of updating `validTo` in place?",
+    "options": [
+      "Updating in place would erase the fact that, before the correction, the system believed Acme was still current; append-only records keep past answers reproducible",
+      "Databases cannot update rows",
+      "Copies make queries faster",
+      "It saves storage"
+    ],
+    "answer": 0,
+    "explanation": "An in-place update rewrites history: a query about a past transaction time would return today's knowledge. Expiring plus copying preserves both beliefs. It costs storage and speed rather than saving them."
+  },
+  {
+    "question": "The memory knows `ana lives_in Porto` from June 1. Today it learns `ana lives_in Lisbon` valid from January 1. What should happen?",
+    "options": [
+      "Porto is invalidated because the newest statement always wins",
+      "Lisbon is rejected because it contradicts Porto",
+      "Both stay open, overlapping",
+      "Lisbon is recorded as valid from January 1 until June 1, and Porto stays untouched"
+    ],
+    "answer": 3,
+    "explanation": "New knowledge can be about the past. Ordering by valid time keeps both facts correct without overlap. Invalidating Porto would lose a true fact, rejecting Lisbon would lose another, and overlapping facts would answer two cities for one date."
+  },
+  {
+    "question": "A team stores support notes about customers. Questions are mostly \"what does this customer prefer?\" and nobody asks about past states. What is the better first choice?",
+    "options": [
+      "A temporal knowledge graph, because it is the most advanced option",
+      "A flat store with extraction, deduplication and scoring, measured on real questions; move to a temporal graph if stale or time-dependent answers show up",
+      "No memory at all, ever",
+      "Fine-tuning the model on every customer's notes"
+    ],
+    "answer": 1,
+    "explanation": "A temporal graph adds extraction to a schema, entity resolution and contradiction checks. Pay for that complexity when time or relations matter. Skipping memory ignores a real need, and fine-tuning per customer is costly and cannot forget."
+  }
+]

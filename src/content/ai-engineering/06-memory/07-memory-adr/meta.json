@@ -1,0 +1,13 @@
+{
+  "title": "Checkpoint: Memory ADR",
+  "summary": "Close the memory module with a portfolio ADR: memory types, a conversation budget and strategy, a long-term store chosen from eval results, ranking weights, per-user isolation, untrusted-write policy, retention and erasure for an EU support assistant.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "adr.ts" },
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Zep: A Temporal Knowledge Graph Architecture for Agent Memory (paper)", "url": "https://arxiv.org/abs/2501.13956" },
+    { "label": "GDPR Article 17: Right to erasure", "url": "https://gdpr-info.eu/art-17-gdpr/" }
+  ]
+}

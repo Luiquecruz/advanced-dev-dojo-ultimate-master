@@ -1,0 +1,10 @@
+[
+  { "term": "Conversation memory", "description": "The policy that decides which part of a conversation each model call sees: full buffer, sliding window, running summary or a hybrid." },
+  { "term": "Sliding window", "description": "Send only the most recent messages that fit a budget. Flat cost, but everything older is forgotten." },
+  { "term": "Running summary", "description": "A model-written summary of the older part of a conversation, updated incrementally and sent instead of the messages it replaces." },
+  { "term": "Token budget", "description": "The maximum tokens a call may spend on conversation context, measured with a token counter rather than a message count." },
+  { "term": "Overflow", "description": "The messages that no longer fit the window. They are folded into the summary, and only after that succeeds are they dropped from the stored history." },
+  { "term": "Context rot", "description": "Answer quality degrading as the context grows long and noisy, well before the context window is full." },
+  { "term": "Summary drift", "description": "Details lost or distorted when a summary is rewritten many times. Folding each message exactly once limits it." },
+  { "term": "Compaction", "description": "Replacing older context with a shorter representation (usually a summary). Some providers and frameworks now do it automatically." }
+]

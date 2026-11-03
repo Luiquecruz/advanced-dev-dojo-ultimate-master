@@ -1,0 +1,6 @@
+1. Separate the decision from the effect: a pure function decides which messages fit the budget, and the memory object decides what to store. The pure part is easy to test across many budgets.
+2. Decide what is never negotiable before you optimize: the system prompt and the latest messages are always sent, even over budget. Everything else competes for the remaining tokens.
+3. Fill the window from the newest message backwards and stop at the first one that does not fit, so the kept messages are one contiguous run; a gap in the middle of a conversation confuses the model more than a clean cut.
+4. Count the summary message in the budget. It is part of the request like any other message, and it grows as the conversation grows.
+5. Treat the summary call as an unreliable model call: every failure mode (error, refusal, filter, truncation, empty text) collapses into "no summary", which the caller can handle with one check.
+6. Commit only after success: replace the summary and drop the folded prefix in one step, after the new summary exists. On failure nothing changes, the window still trims what is sent, and the next turn retries with a larger overflow. Each message is summarized exactly once.

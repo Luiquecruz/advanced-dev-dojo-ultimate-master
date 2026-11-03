@@ -1,0 +1,11 @@
+[
+  { "term": "Temporal knowledge graph", "description": "A graph whose facts (edges) carry validity time, used as agent memory so changes over time are explicit." },
+  { "term": "Bi-temporal model", "description": "Two independent timelines per fact: valid time (when it was true) and transaction time (when the system believed it)." },
+  { "term": "Valid time", "description": "`validFrom`/`validTo`: the period in which a fact held in the world." },
+  { "term": "Transaction time", "description": "`recordedAt`/`expiredAt`: the period in which the memory believed a record. It makes past beliefs auditable." },
+  { "term": "Invalidation", "description": "Closing a contradicted fact (expiring it and recording its end) instead of deleting or overwriting it." },
+  { "term": "Exclusive predicate", "description": "A relation a subject can have only one value for at a time, such as `works_at`. A new value contradicts the old one." },
+  { "term": "As-of query", "description": "\"What was true at T, as known at K?\": filter by valid time and transaction time." },
+  { "term": "Graphiti", "description": "Zep's open-source temporal knowledge graph engine for agent memory: episodes, entities and facts with valid, invalid, created and expired timestamps." },
+  { "term": "Entity resolution", "description": "Deciding that different mentions (\"Ana\", \"Ana Souza\", \"she\") refer to one node. Errors here corrupt a graph memory." }
+]

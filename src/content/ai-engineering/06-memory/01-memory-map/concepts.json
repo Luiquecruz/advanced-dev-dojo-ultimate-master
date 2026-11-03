@@ -1,0 +1,8 @@
+[
+  { "term": "Memory", "description": "Information an AI feature keeps outside the model and loads back into the context: within a conversation or across sessions." },
+  { "term": "Write policy", "description": "What gets stored, when, and in which form: extraction, filters, deduplication and conflict handling." },
+  { "term": "Read policy", "description": "What gets loaded for a call: scoring by relevance, recency and importance, top-k and a token budget." },
+  { "term": "Temporal knowledge graph", "description": "A graph of facts that carry validity time, so changes are explicit and past states can be queried." },
+  { "term": "Memory poisoning", "description": "Injected content that is stored and steers future sessions." },
+  { "term": "Memory ADR", "description": "This module's checkpoint: the memory design for a product briefing, checked for structure and coherence." }
+]

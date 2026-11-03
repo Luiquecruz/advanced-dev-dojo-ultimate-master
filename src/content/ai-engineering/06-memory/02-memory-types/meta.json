@@ -1,0 +1,13 @@
+{
+  "title": "Memory Types",
+  "summary": "The context window as working memory versus persistent memory, CoALA's working, episodic, semantic and procedural memory, hot path versus background writes, and how memory layers such as Letta, Mem0 and Zep map onto them.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Cognitive Architectures for Language Agents (CoALA, paper)", "url": "https://arxiv.org/abs/2309.02427" },
+    { "label": "MemGPT: Towards LLMs as Operating Systems (paper)", "url": "https://arxiv.org/abs/2310.08560" },
+    { "label": "LangChain docs: Memory overview", "url": "https://docs.langchain.com/oss/python/concepts/memory" },
+    { "label": "Letta docs: Memory blocks", "url": "https://docs.letta.com/guides/agents/memory-blocks" },
+    { "label": "Claude docs: Memory tool", "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool" }
+  ]
+}

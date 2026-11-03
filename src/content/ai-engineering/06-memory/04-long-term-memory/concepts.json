@@ -1,0 +1,11 @@
+[
+  { "term": "Long-term memory", "description": "Information an assistant keeps across sessions, written to and read from a store around model calls." },
+  { "term": "Write policy", "description": "The rules for what is worth storing: importance threshold, shape rules, exclusions. Mechanical rules are testable." },
+  { "term": "Memory extraction", "description": "Turning a conversation into short, self-contained statements with a model, validated like any structured output." },
+  { "term": "Deduplication", "description": "Merging a new memory into the most similar existing one when their embedding similarity is above a threshold." },
+  { "term": "Read policy", "description": "How memories are chosen for a call: scoring, top-k and the token budget they may use." },
+  { "term": "Recency decay", "description": "An exponential score, `decay ** hoursSinceLastAccess`, so memories fade unless they keep being used." },
+  { "term": "Importance score", "description": "A rating given at write time (1–10 in Generative Agents) so critical facts outrank trivia." },
+  { "term": "Generative Agents", "description": "Park et al., 2023: agents with a memory stream retrieved by a weighted sum of relevance, recency and importance, plus reflection." },
+  { "term": "Hot path vs background writes", "description": "Writing memories during the reply (visible, adds latency) or after the session (no latency, visible to other sessions later)." }
+]

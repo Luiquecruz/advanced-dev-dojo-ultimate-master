@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A travel assistant ranks memories by similarity only. For \"plan my dinner tonight\", it returns \"likes Italian food\" (mentioned once, two years ago) but not \"is allergic to peanuts\" (importance 9). What does three-part scoring add?",
+    "options": [
+      "Nothing: similarity is the only signal that matters",
+      "Importance lifts critical facts and recency favors what is current, so the allergy competes even when its wording is only loosely related",
+      "It removes old memories from the store automatically",
+      "It makes embeddings more accurate"
+    ],
+    "answer": 1,
+    "explanation": "Relevance alone ignores how much a memory matters and how current it is. The weighted sum lets product-critical facts surface. Scoring does not delete anything and does not change the embeddings."
+  },
+  {
+    "question": "After a month, a user's memory store has twelve near-identical entries saying they prefer aisle seats, and the top-5 results are mostly copies. Which part of the write path is missing?",
+    "options": [
+      "Deduplication: merge a new memory into the most similar existing one above a similarity threshold",
+      "A higher importance threshold",
+      "A larger embedding dimension",
+      "Recency decay"
+    ],
+    "answer": 0,
+    "explanation": "Without deduplication every repetition becomes a new row and crowds out other facts. A higher importance threshold would drop the fact altogether, a larger embedding does not merge rows, and decay only changes ranking."
+  },
+  {
+    "question": "You lower the duplicate threshold to 0.6 to merge more aggressively. Soon \"lives in Lisbon\" is overwritten by \"lives in Porto\" for users who mention both cities. Why?",
+    "options": [
+      "Embeddings cannot represent city names",
+      "Merging always keeps the oldest text",
+      "Texts that share most words are similar even when they state different facts; similarity measures wording, not meaning or truth, so a low threshold merges distinct facts",
+      "The importance scores were too low"
+    ],
+    "answer": 2,
+    "explanation": "A bag-of-words or embedding similarity cannot tell an update from a different fact. Keep the threshold high, and model changes over time explicitly (the temporal graph in the next lesson)."
+  },
+  {
+    "question": "Why measure recency from the last access instead of the creation time?",
+    "options": [
+      "Creation times are not stored in vector databases",
+      "Memories that keep being useful stay easy to retrieve, while unused ones fade without being deleted",
+      "It makes the decay factor unnecessary",
+      "It guarantees every memory is retrieved at least once"
+    ],
+    "answer": 1,
+    "explanation": "Refreshing on access turns usage into a signal, as in Generative Agents. Creation time would make a fact used every week fade like one never used again. The decay factor is still needed, and nothing guarantees retrieval."
+  },
+  {
+    "question": "The extraction call returns a refusal for one conversation. What should `extractCandidates` do?",
+    "options": [
+      "Throw, so the chat shows an error",
+      "Store the refusal text as a memory",
+      "Retry with a higher temperature until it complies",
+      "Return no candidates: a refusal or malformed reply means nothing to remember from this conversation, and the chat continues"
+    ],
+    "answer": 3,
+    "explanation": "Memory writing is a side job. Model-side failures should degrade to \"remember nothing\" rather than break the user's session. Infrastructure errors are different and can be retried by the job that runs extraction."
+  }
+]

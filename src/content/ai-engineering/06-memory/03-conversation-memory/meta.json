@@ -1,0 +1,15 @@
+{
+  "title": "Conversation Memory",
+  "summary": "Keep long chats within a token budget: a sliding window that always keeps the system prompt and the latest turns, a running summary written by the model, and summary failures that never lose history.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Anthropic: Effective context engineering for AI agents", "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" },
+    { "label": "Chroma: Context Rot (research report)", "url": "https://research.trychroma.com/context-rot" },
+    { "label": "Recursively Summarizing Enables Long-Term Dialogue Memory (paper)", "url": "https://arxiv.org/abs/2308.15022" },
+    { "label": "LangChain docs: Short-term memory", "url": "https://docs.langchain.com/oss/python/langchain/short-term-memory" },
+    { "label": "Claude docs: Compaction", "url": "https://platform.claude.com/docs/en/build-with-claude/compaction" }
+  ]
+}

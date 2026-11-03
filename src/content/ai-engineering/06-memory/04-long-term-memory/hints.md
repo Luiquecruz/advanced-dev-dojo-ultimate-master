@@ -1,0 +1,5 @@
+Do the pure functions first. `isWorthStoring` is three checks on the trimmed text and the importance. `recencyScore` is `decayPerHour ** (Math.max(0, now - lastAccessedAt) / 3_600_000)`. For `extractCandidates`, check `finishReason`, then wrap `JSON.parse(response.text).memories` in `try/catch` and filter the array with a type guard (`Number.isInteger` handles both `2.5` and `'7'`).
+---
+In `write`, return early when the policy says no. Then loop over the stored memories keeping the best similarity and the memory it belongs to. Compare that best value with `duplicateThreshold` to choose between mutating the existing memory (merge) and pushing a new one (add). A counter makes unique ids such as `memory-1`.
+---
+In `retrieve`, map every memory to `{ memory, relevance, recency, importance, score }`, sort by `score` descending and `slice(0, limit)`. Build the result to return first (copies of the memories as they were scored), then loop over the selected entries and set `lastAccessedAt = now()` on the stored memories.

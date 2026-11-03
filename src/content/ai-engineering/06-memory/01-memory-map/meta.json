@@ -1,0 +1,12 @@
+{
+  "title": "Map: Memory",
+  "summary": "What this module answers (what an AI feature remembers and how it stores, retrieves, updates and forgets safely), its place in the context layer, the prerequisites, the path from memory types to privacy, and the memory ADR at the end.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Cognitive Architectures for Language Agents (CoALA, paper)", "url": "https://arxiv.org/abs/2309.02427" },
+    { "label": "Anthropic: Effective context engineering for AI agents", "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" },
+    { "label": "LangChain docs: Memory overview", "url": "https://docs.langchain.com/oss/python/concepts/memory" },
+    { "label": "Letta: Benchmarking AI Agent Memory, Is a Filesystem All You Need?", "url": "https://www.letta.com/blog/benchmarking-ai-agent-memory" }
+  ]
+}

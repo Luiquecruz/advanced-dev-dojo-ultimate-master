@@ -1,0 +1,10 @@
+[
+  { "term": "CoALA", "description": "Cognitive Architectures for Language Agents (Sumers, Yao, Narasimhan, Griffiths; TMLR 2024): a framework that names memory types, actions and the decision cycle of language agents." },
+  { "term": "Working memory", "description": "The active information for the current decision cycle. For a model call, the context window." },
+  { "term": "Episodic memory", "description": "Experience from earlier cycles: what happened, such as conversation logs, past tickets and agent trajectories." },
+  { "term": "Semantic memory", "description": "Knowledge about the world and the agent itself: facts such as user preferences or a knowledge base." },
+  { "term": "Procedural memory", "description": "How to do things: implicit in model weights, explicit in code, prompts, tools, skills and rules files." },
+  { "term": "Retrieval and learning actions", "description": "In CoALA, retrieval reads long-term memory into working memory, and learning writes to long-term memory." },
+  { "term": "MemGPT / Letta", "description": "OS-inspired memory: labeled memory blocks stay in context and the agent edits them with tools, while older material is paged to searchable storage." },
+  { "term": "Hot path writes", "description": "Saving memories during the reply. Immediate and visible, but it adds latency and work for the agent." }
+]

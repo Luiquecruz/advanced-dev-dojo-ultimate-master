@@ -1,0 +1,7 @@
+[
+  { "term": "Memory ADR", "description": "The record of a feature's memory design: types kept, conversation budget and strategy, long-term store and ranking, isolation, untrusted-write policy, retention and erasure, with forces, alternatives and consequences." },
+  { "term": "Memory plan", "description": "The implementable part of the decision, with numbers a teammate can build and a privacy reviewer can check." },
+  { "term": "Memory budget", "description": "The tokens a call may spend on memory, split between the conversation context and retrieved long-term memories." },
+  { "term": "Question kinds", "description": "The categories of questions users ask (preferences, past events, time-dependent facts). Measure stores per kind, not on one blended score." },
+  { "term": "Erasure scope", "description": "Everything a deletion request must reach: memories, summaries, extracted facts, embeddings, caches, and backups by a documented process." }
+]

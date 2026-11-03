@@ -1,0 +1,10 @@
+[
+  { "term": "Memory poisoning", "description": "Injected content that is written to memory and steers future sessions. OWASP lists it as Memory and Context Poisoning (ASI06) in its Top 10 for Agentic Applications." },
+  { "term": "Provenance", "description": "Who or what produced a memory and through which channel (user, tool, document, assistant), with a reference to the source." },
+  { "term": "Trusted source", "description": "A channel allowed to give the assistant instructions, typically the user about their own preferences. Tools, documents and web content are untrusted." },
+  { "term": "Per-user isolation", "description": "Every memory and everything derived from it belongs to one owner, and every read is scoped to that owner." },
+  { "term": "Derived data", "description": "Summaries, extracted facts, embeddings and caches built from memories. They inherit the owner, retention and erasure duties of their sources." },
+  { "term": "Retention", "description": "How long a memory may be kept. Expired memories stop being read immediately and are purged on a schedule." },
+  { "term": "Right to erasure", "description": "The right to have personal data deleted (GDPR Article 17, the \"right to be forgotten\"), including copies and derived data." },
+  { "term": "Erasure receipt", "description": "A record of what was deleted (counts, ids, time) kept for audit, without the deleted content." }
+]

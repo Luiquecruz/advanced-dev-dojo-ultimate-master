@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Which layer of the track does memory mainly belong to, and why does it also touch governance?",
+    "options": [
+      "Layer 1, model: memory is stored inside the model's weights",
+      "Layer 4, loop: memory only matters for agents",
+      "Layer 2, context: memory decides part of what the model sees on each call; it touches governance because stored memories are data with owners, retention and deletion duties",
+      "Layer 5, evaluation: memory is a kind of test"
+    ],
+    "answer": 2,
+    "explanation": "Memory feeds the context like prompts and retrieval do. Weights do not change when an application remembers, plain chat features need memory too, and evaluation measures memory rather than being it."
+  },
+  {
+    "question": "A team wants to add a temporal knowledge graph on day one because it is the most advanced option. What does this module recommend?",
+    "options": [
+      "Start with the simplest memory that answers real questions, measure it, and upgrade when stale or time-dependent answers appear",
+      "Always start with a temporal graph",
+      "Avoid memory entirely in every product",
+      "Fine-tune the model with each user's data instead"
+    ],
+    "answer": 0,
+    "explanation": "Simple memories are often competitive. A temporal graph pays off when facts change and questions depend on time. Avoiding memory ignores real needs, and fine-tuning per user cannot forget on request."
+  },
+  {
+    "question": "Which earlier modules does this one rely on most directly?",
+    "options": [
+      "Only module 01",
+      "Module 01 (stateless models, tokens), 02 (context under a budget), 04 (embeddings and retrieval) and 05 (facts as graph edges)",
+      "Modules 11 and 13",
+      "None: memory is independent of the rest of the track"
+    ],
+    "answer": 1,
+    "explanation": "Conversation memory is context engineering under a budget, long-term memory reuses retrieval, and the temporal graph extends the triples of module 05."
+  },
+  {
+    "question": "What does the memory ADR at the end of the module ask you to decide?",
+    "options": [
+      "Which vendor's memory product to buy",
+      "The exact wording of the summarizer prompt",
+      "Only the vector database",
+      "The memory types kept, the conversation budget and strategy, the long-term store and retrieval weights, isolation, the policy for untrusted writes, retention and erasure, each justified by the briefing"
+    ],
+    "answer": 3,
+    "explanation": "The ADR is a design, not a purchase: every choice must follow from the briefing's constraints, such as token budgets, time-dependent questions and data protection rules."
+  }
+]

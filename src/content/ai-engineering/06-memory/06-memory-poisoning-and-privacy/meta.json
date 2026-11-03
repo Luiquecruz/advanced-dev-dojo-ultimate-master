@@ -1,0 +1,16 @@
+{
+  "title": "Memory Poisoning and Privacy",
+  "summary": "Keep memory safe and lawful: per-user isolation, provenance on every memory, refusing instruction-like writes from untrusted sources, retention expiry, and erasure that reaches derived summaries.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "OWASP: Top 10 for Agentic Applications for 2026", "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" },
+    { "label": "Embrace The Red: Spyware Injection Into ChatGPT's Long-Term Memory (SpAIware)", "url": "https://embracethered.com/blog/posts/2024/chatgpt-macos-app-persistent-data-exfiltration/" },
+    { "label": "Embrace The Red: Hacking Gemini's Memory with Prompt Injection and Delayed Tool Invocation", "url": "https://embracethered.com/blog/posts/2025/gemini-memory-persistence-prompt-injection/" },
+    { "label": "AgentPoison: Red-teaming LLM Agents via Poisoning Memory or Knowledge Bases (paper)", "url": "https://arxiv.org/abs/2407.12784" },
+    { "label": "Memory Injection Attacks on LLM Agents via Query-Only Interaction (paper)", "url": "https://arxiv.org/abs/2503.03704" },
+    { "label": "GDPR Article 17: Right to erasure", "url": "https://gdpr-info.eu/art-17-gdpr/" }
+  ]
+}
