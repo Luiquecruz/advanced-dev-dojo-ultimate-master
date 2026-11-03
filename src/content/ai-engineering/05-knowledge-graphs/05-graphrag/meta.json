@@ -1,0 +1,16 @@
+{
+  "title": "GraphRAG",
+  "summary": "Detect communities with deterministic weighted label propagation, summarize each community with a model and a fallback, route questions to local or global search, and answer global questions with map-reduce over rated points.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Edge et al.: From Local to Global: A Graph RAG Approach to Query-Focused Summarization (paper)", "url": "https://arxiv.org/abs/2404.16130" },
+    { "label": "Microsoft GraphRAG documentation", "url": "https://microsoft.github.io/graphrag/" },
+    { "label": "GraphRAG: global search (map-reduce)", "url": "https://microsoft.github.io/graphrag/query/global_search/" },
+    { "label": "GraphRAG: local search", "url": "https://microsoft.github.io/graphrag/query/local_search/" },
+    { "label": "Traag et al.: From Louvain to Leiden (paper)", "url": "https://www.nature.com/articles/s41598-019-41695-z" },
+    { "label": "Raghavan et al.: Near linear time algorithm to detect community structures (label propagation, paper)", "url": "https://arxiv.org/abs/0709.2938" }
+  ]
+}

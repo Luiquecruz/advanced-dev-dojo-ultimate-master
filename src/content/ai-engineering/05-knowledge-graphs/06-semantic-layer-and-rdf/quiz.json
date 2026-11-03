@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Two partner organizations publish product data as RDF using the same schema.org IRIs. What happens when you load both datasets into one triple store?",
+    "options": [
+      "You must write a custom mapping for every property first",
+      "The graphs merge as a union of triples, and shared IRIs line up automatically",
+      "RDF cannot hold data from two sources",
+      "Only the first dataset is kept"
+    ],
+    "answer": 1,
+    "explanation": "Global identifiers are RDF's core strength: the same IRI means the same thing everywhere, so integration is a union of triples."
+  },
+  {
+    "question": "You need to reject RDF records that lack a required `schema:name` or have a negative price. Which standard fits?",
+    "options": [
+      "OWL, because domain and range reject invalid data",
+      "SKOS",
+      "SHACL, which validates data against shapes and produces a validation report",
+      "JSON-LD"
+    ],
+    "answer": 2,
+    "explanation": "SHACL is the closed-world validation language of the RDF stack. OWL infers new facts under the open-world assumption instead of rejecting data."
+  },
+  {
+    "question": "Which statement about GQL is accurate?",
+    "options": [
+      "It is a W3C recommendation for querying RDF",
+      "It is the ISO standard query language for property graphs (ISO/IEC 39075, 2024), drawing on Cypher and other graph languages",
+      "It is a GraphQL extension for graph databases",
+      "It replaces SQL for relational databases"
+    ],
+    "answer": 1,
+    "explanation": "GQL is ISO/IEC 39075:2024. SPARQL is the W3C query language for RDF; GraphQL is an unrelated API query language."
+  },
+  {
+    "question": "Your graph must store `since` and `confidence` on every `worksFor` edge, and queries traverse up to four hops inside one application. Which representation is the most natural fit?",
+    "options": [
+      "A property graph, where edges carry properties natively and traversal is the core operation",
+      "RDF without reification, because triples hold edge properties natively",
+      "A semantic layer",
+      "A taxonomy in SKOS"
+    ],
+    "answer": 0,
+    "explanation": "Plain RDF triples cannot hold properties on a statement; it needs reification or RDF 1.2 triple terms. Property graphs make edge properties first-class."
+  },
+  {
+    "question": "An analytics agent writes SQL against raw warehouse tables and reports a revenue figure different from finance's dashboard. What is the structural fix?",
+    "options": [
+      "Use a larger model for SQL generation",
+      "Add more examples of SQL to the prompt",
+      "Have the agent query governed metrics from a semantic layer, where revenue is defined once with its formula, filters and owner",
+      "Ask finance to change their dashboard"
+    ],
+    "answer": 2,
+    "explanation": "The disagreement is about definitions, not SQL skill. A semantic layer gives every consumer, agents included, the same metric definitions."
+  },
+  {
+    "question": "Which pair of SPARQL and Cypher features expresses \"anything this service depends on, directly or indirectly\"?",
+    "options": [
+      "`OPTIONAL` and `MERGE`",
+      "`GROUP BY` and `ORDER BY`",
+      "`FILTER` and `WHERE`",
+      "A property path such as `ex:dependsOn+` and a variable-length pattern such as `-[:DEPENDS_ON*1..]->`"
+    ],
+    "answer": 3,
+    "explanation": "Both languages support transitive, variable-length paths: property paths in SPARQL 1.1, variable-length relationships in Cypher and quantified paths in GQL."
+  }
+]

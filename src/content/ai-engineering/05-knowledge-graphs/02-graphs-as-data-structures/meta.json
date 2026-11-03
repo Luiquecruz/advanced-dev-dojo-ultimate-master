@@ -1,0 +1,15 @@
+{
+  "title": "Graphs as Data Structures",
+  "summary": "Model knowledge as a property graph with typed directed edges, index adjacency, traverse breadth first with depth limits, reconstruct shortest paths and answer a multi-hop dependency question.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Neo4j: What is a graph database", "url": "https://neo4j.com/docs/getting-started/graph-database/" },
+    { "label": "Neo4j: Graph data modeling", "url": "https://neo4j.com/docs/getting-started/data-modeling/" },
+    { "label": "Neo4j Cypher Manual: introduction", "url": "https://neo4j.com/docs/cypher-manual/current/introduction/" },
+    { "label": "Wikipedia: Breadth-first search", "url": "https://en.wikipedia.org/wiki/Breadth-first_search" },
+    { "label": "Wikipedia: Graph Query Language (ISO GQL)", "url": "https://en.wikipedia.org/wiki/Graph_Query_Language" }
+  ]
+}

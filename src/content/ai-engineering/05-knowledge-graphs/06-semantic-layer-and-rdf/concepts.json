@@ -1,0 +1,10 @@
+[
+  { "term": "RDF", "description": "Resource Description Framework (W3C): knowledge as subject-predicate-object triples with global IRIs. Graphs from different sources merge by union." },
+  { "term": "IRI", "description": "Internationalized Resource Identifier: a global identifier such as `https://schema.org/worksFor`, so the same term means the same thing across datasets." },
+  { "term": "Turtle and JSON-LD", "description": "Common RDF serializations: Turtle is compact and readable; JSON-LD embeds linked data in JSON, widely used on web pages." },
+  { "term": "OWL", "description": "Web Ontology Language (W3C): rich class and property logic for reasoners that infer new facts under the open-world assumption." },
+  { "term": "SHACL", "description": "Shapes Constraint Language (W3C): validates RDF data against shapes and reports violations. The closed-world validator of the RDF stack." },
+  { "term": "SPARQL", "description": "The W3C query language for RDF: triple patterns with variables, property paths for transitive queries." },
+  { "term": "GQL", "description": "ISO/IEC 39075:2024, the ISO standard query language for property graphs, drawing on Cypher and other graph languages." },
+  { "term": "Semantic layer", "description": "Business entities, metrics and dimensions defined once (formula, filters, grain, owner) and served to BI tools, APIs and AI agents." }
+]

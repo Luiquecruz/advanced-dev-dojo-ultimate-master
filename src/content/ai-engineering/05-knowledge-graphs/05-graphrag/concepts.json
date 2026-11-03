@@ -1,0 +1,11 @@
+[
+  { "term": "GraphRAG", "description": "Retrieval over an entity graph and its community summaries, introduced by Microsoft Research in 2024, so both entity questions and whole-corpus questions can be answered." },
+  { "term": "Global question", "description": "A question about the whole corpus (themes, risks, trends). No single chunk holds the answer, so top-k retrieval fails." },
+  { "term": "Community", "description": "A group of entities more densely connected to each other than to the rest of the graph." },
+  { "term": "Label propagation", "description": "Community detection where each node repeatedly adopts the label most common (or heaviest) among its neighbors until labels stop changing." },
+  { "term": "Leiden algorithm", "description": "A modularity-optimizing community detection method that guarantees connected communities and builds a hierarchy. GraphRAG uses its hierarchical form." },
+  { "term": "Community report", "description": "A model-written title and summary of one community, generated from its own entities and relations at indexing time." },
+  { "term": "Local search", "description": "Answers questions about specific entities by fanning out to their neighborhood, related chunks and reports within a context budget." },
+  { "term": "Global search (map-reduce)", "description": "Map batches of community reports to points rated 0-100, keep the best, and reduce them into one answer." },
+  { "term": "DRIFT search", "description": "A GraphRAG mode that starts from community-level context and drills down into local search with follow-up questions." }
+]

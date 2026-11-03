@@ -1,0 +1,14 @@
+{
+  "title": "RDF, Property Graphs and the Semantic Layer",
+  "summary": "RDF triples and global identifiers, RDFS, OWL, SHACL and SKOS, SPARQL vs Cypher and ISO GQL, when to choose RDF or a property graph, and the semantic layer that gives agents governed metrics.",
+  "level": "intermediate",
+  "tags": ["established", "theory"],
+  "resources": [
+    { "label": "W3C: RDF 1.1 Primer", "url": "https://www.w3.org/TR/rdf11-primer/" },
+    { "label": "W3C: SPARQL 1.1 Query Language", "url": "https://www.w3.org/TR/sparql11-query/" },
+    { "label": "W3C: Shapes Constraint Language (SHACL)", "url": "https://www.w3.org/TR/shacl/" },
+    { "label": "Neo4j Cypher Manual: GQL conformance", "url": "https://neo4j.com/docs/cypher-manual/25/appendix/gql-conformance/" },
+    { "label": "dbt Semantic Layer", "url": "https://docs.getdbt.com/docs/use-dbt-semantic-layer/dbt-sl" },
+    { "label": "Open Semantic Interchange (OSI) specification", "url": "https://github.com/open-semantic-interchange/OSI" }
+  ]
+}

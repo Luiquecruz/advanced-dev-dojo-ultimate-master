@@ -1,0 +1,7 @@
+Write one `adjacency(graph)` helper that returns a `Map` from id to a `Set` of neighbor ids (both directions, no self-loops, only known ids). Communities, fallback degrees and local neighborhoods all use it. For the edge weight, count the ids of one neighbor set that the other set `has`, plus one.
+---
+In `detectCommunities`, keep `labels` as a `Map` from id to label. Per entity, build a `Map` from label to total weight, sort its entries by total descending and then by label ascending, and take the first. Track a `changed` flag per pass. At the end group ids by label (ids are already sorted, so members come out sorted) and sort the groups.
+---
+For `summarizeCommunities`, a small `parseObject(text)` that slices between the braces and returns `null` on failure keeps the loop short: up to two attempts, `break` on refusal, accept when `title` and `summary` are non-empty strings, else fall back. Filter entities and relations by membership in a `Set` of member ids to keep the prompt isolated.
+---
+`answerGlobal` is a `for` loop over `start += batchSize` with `reports.slice(start, start + batchSize)`, a `continue` for unusable replies, then `points.sort((left, right) => right.score - left.score).slice(0, maxPoints)` and either an early return with `answer: null` or one reduce call. `routeQuestion` can build a regular expression per entity name with `(^|[^a-z0-9])` and `($|[^a-z0-9])` around the escaped, lowercased name.

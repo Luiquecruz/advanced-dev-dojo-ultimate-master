@@ -1,0 +1,7 @@
+[
+  { "term": "Knowledge ADR", "description": "The record of the knowledge layer: representation, ontology, extraction safeguards, retrieval modes, refresh policy and governed metrics, with the forces, alternatives and consequences behind them." },
+  { "term": "Competency question", "description": "A question the knowledge system must answer. Each one names classes and relations, so together they define the minimal ontology and the traversal depth." },
+  { "term": "Knowledge plan", "description": "The implementable part of the decision: ontology, extraction safeguards, local and global retrieval, rebuild schedule, projected cost and semantic layer metrics." },
+  { "term": "Indexing budget", "description": "The monthly cost of keeping the graph and its summaries current: extraction per changed document plus summary rebuilds." },
+  { "term": "Governed metric", "description": "A metric defined once in the semantic layer with an owner, formula and filters, so dashboards and agents report the same number." }
+]

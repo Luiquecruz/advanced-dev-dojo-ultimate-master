@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Extraction returns `employer`, `works at` and `is employed by` for the same kind of fact across documents. What is the most direct fix?",
+    "options": [
+      "Use a larger model",
+      "Put the ontology in the prompt (allowed types and relations with their source and target types) and reject anything outside it",
+      "Lower the temperature to zero",
+      "Merge the three relations later by hand"
+    ],
+    "answer": 1,
+    "explanation": "Schema-guided extraction gives the model your vocabulary, and validation enforces it. A bigger model still invents names when it is not told which ones to use."
+  },
+  {
+    "question": "A document's extraction has 12 valid relations and one relation with an unknown type. What should the pipeline do?",
+    "options": [
+      "Discard the whole document and retry until every relation is valid",
+      "Accept all 13 relations, since the model saw the text",
+      "Accept the 12 valid relations and log the invalid one with its document and reason",
+      "Stop the pipeline so a human can look"
+    ],
+    "answer": 2,
+    "explanation": "Validate per item. Throwing away good facts wastes the call, accepting bad ones corrupts the graph, and the rejection log shows patterns worth fixing."
+  },
+  {
+    "question": "Your graph has nodes \"Acme Corp.\", \"ACME Corporation\" and \"Acme\" (the company) and a product also called \"Acme\". What should entity resolution produce?",
+    "options": [
+      "One node for all four",
+      "Four nodes, since the strings differ",
+      "Two nodes: one Organization with the three spellings as aliases, and one separate Product",
+      "Three nodes, one per distinct normalized string"
+    ],
+    "answer": 2,
+    "explanation": "Normalization and aliases merge spelling variants; the type guard keeps a product and a company apart even when their names match."
+  },
+  {
+    "question": "A source document is retracted for containing false claims. Which design lets you remove its facts cleanly?",
+    "options": [
+      "Re-extracting the whole corpus from scratch",
+      "Provenance: every entity and relation lists the documents that asserted it, so you remove that source and delete facts left with no source",
+      "Asking the model which facts came from that document",
+      "Lowering the confidence of every fact"
+    ],
+    "answer": 1,
+    "explanation": "Provenance makes facts traceable and reversible. It also supports citations and counts of supporting evidence."
+  }
+]

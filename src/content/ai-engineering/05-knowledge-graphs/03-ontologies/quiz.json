@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What does an ontology add to a taxonomy?",
+    "options": [
+      "Nothing: the two words are synonyms",
+      "Relationships between classes and constraints on them (domain, range, cardinality), so data can be validated and reasoned over",
+      "A larger number of categories",
+      "A user interface for browsing terms"
+    ],
+    "answer": 1,
+    "explanation": "A taxonomy is a hierarchy of terms. An ontology also says which properties connect which classes and what every fact must satisfy."
+  },
+  {
+    "question": "`reportsTo` has domain `Employee` and range `Manager`. `Manager` is a subclass of `Employee`. Which edge is valid?",
+    "options": [
+      "A `Project` reportsTo a `Manager`",
+      "An `Employee` reportsTo an `Employee` who is not a manager",
+      "A `Manager` reportsTo another `Manager`",
+      "A `Company` reportsTo a `Manager`"
+    ],
+    "answer": 2,
+    "explanation": "A Manager is an Employee, so it satisfies the domain, and the target is a Manager, so it satisfies the range. Domain and range are checked through the subclass relation."
+  },
+  {
+    "question": "In an OWL ontology, `worksFor` has range `Organization`. Someone asserts `ana worksFor berlin`, where `berlin` is not typed. What does an OWL reasoner do?",
+    "options": [
+      "It infers that `berlin` is an Organization, because OWL domain and range are inference rules under the open-world assumption",
+      "It rejects the triple as invalid",
+      "It deletes `berlin`",
+      "It asks the user for the type"
+    ],
+    "answer": 0,
+    "explanation": "OWL does not validate; it infers. To reject data that breaks the rules you need closed-world validation, such as SHACL shapes or application code."
+  },
+  {
+    "question": "A model extracted 400 facts and your validator stops at the first violation. Why is returning every violation better?",
+    "options": [
+      "It makes the validator faster",
+      "It lets you accept the valid facts, log each rejected one with its reason and spot systematic errors (one property always wrong) instead of retrying blindly",
+      "The model requires the full list",
+      "It is not better: the first violation is enough"
+    ],
+    "answer": 1,
+    "explanation": "Per-fact violations turn bad extractions into data: counts per rule show whether the prompt, the ontology or the source text needs fixing."
+  }
+]

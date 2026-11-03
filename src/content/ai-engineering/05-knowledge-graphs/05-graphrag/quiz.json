@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Users ask \"What are the main themes in 20 000 customer interviews?\". Plain top-10 vector RAG gives shallow answers. Why does GraphRAG's global search do better?",
+    "options": [
+      "It retrieves the 10 most similar chunks with a better embedding model",
+      "It answers from community summaries prepared at indexing time, mapping over all of them and reducing the best-rated points, so the answer covers the whole corpus instead of ten passages",
+      "It uses a larger context window",
+      "It skips the model and returns the communities directly"
+    ],
+    "answer": 1,
+    "explanation": "A global question has no single relevant chunk. Pre-computed community reports cover the corpus, and map-reduce aggregates them within the context budget."
+  },
+  {
+    "question": "Two dense clusters of entities are joined by one edge. Which community detection approach keeps them apart?",
+    "options": [
+      "Connected components",
+      "Sorting entities alphabetically",
+      "Modularity-based or weighted label propagation methods (Leiden, Louvain, label propagation), which favor dense groups over single bridges",
+      "Grouping entities by type"
+    ],
+    "answer": 2,
+    "explanation": "Connected components merge anything with a path between them. Community detection looks for groups that are dense inside and sparse between; GraphRAG uses hierarchical Leiden."
+  },
+  {
+    "question": "In global search, one map batch returns malformed JSON and another rates all its points 0. What should the reduce step receive?",
+    "options": [
+      "Nothing from those two batches: skip the unusable batch, drop points rated 0, and reduce only the remaining best-rated points",
+      "The raw malformed text, so no information is lost",
+      "Every point including the zeros, to be safe",
+      "The pipeline should fail the whole question"
+    ],
+    "answer": 0,
+    "explanation": "Ratings exist to filter. Unusable batches are skipped; if nothing useful remains, the honest answer is that there is not enough evidence."
+  },
+  {
+    "question": "Which question should be routed to local search rather than global search?",
+    "options": [
+      "What are the recurring complaints across all support tickets?",
+      "Which suppliers does the Kettle depend on, directly or through its parts?",
+      "Summarize the main risks in our portfolio",
+      "What themes appear across all board minutes?"
+    ],
+    "answer": 1,
+    "explanation": "It names a specific entity and asks about its neighborhood, which local search answers with a bounded fan-out. The others ask about the whole corpus."
+  },
+  {
+    "question": "A team proposes GraphRAG for an FAQ bot whose users only ask lookups such as \"what is the refund window?\". What is the main concern?",
+    "options": [
+      "GraphRAG cannot answer lookups",
+      "Community detection would fail on FAQ text",
+      "Map-reduce answers are always wrong",
+      "Indexing cost (extraction and community summaries) buys nothing when no question is global; plain RAG is cheaper and simpler"
+    ],
+    "answer": 3,
+    "explanation": "GraphRAG pays off on global sensemaking questions. For lookups, its expensive indexing and summary refreshes add cost without improving answers."
+  }
+]

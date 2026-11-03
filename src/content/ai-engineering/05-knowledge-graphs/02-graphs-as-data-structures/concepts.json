@@ -1,0 +1,10 @@
+[
+  { "term": "Property graph", "description": "Nodes with a label and properties, connected by directed, typed edges that can carry properties too. The model behind Neo4j, Cypher and ISO GQL." },
+  { "term": "Adjacency index", "description": "For each node, the list of its outgoing and incoming edges, so finding neighbors is a lookup instead of a scan over every edge." },
+  { "term": "Breadth-first search (BFS)", "description": "Visits nodes ring by ring from the start. Each node is reached first at its smallest depth, so the first path to the target has the fewest hops." },
+  { "term": "Depth limit", "description": "A maximum number of hops for a traversal. The frontier grows roughly as degree^depth, so most useful questions stay within two to four hops." },
+  { "term": "Supernode", "description": "A node with a huge number of edges (a country, a popular tag). Traversals through it explode unless filtered by edge type and direction." },
+  { "term": "Path reconstruction", "description": "Remember how each node was first reached (previous node and edge), then walk back from the target. The path's edges become the evidence for an answer." },
+  { "term": "Multi-hop question", "description": "A question whose answer needs several connected facts, such as \"teams owning services that depend on X\". Expressed as a pattern of edge types and directions." },
+  { "term": "Graph expansion", "description": "Retrieve entry entities with search, then add their neighbors from the graph, so connected facts reach the context even when no single passage mentions them together." }
+]

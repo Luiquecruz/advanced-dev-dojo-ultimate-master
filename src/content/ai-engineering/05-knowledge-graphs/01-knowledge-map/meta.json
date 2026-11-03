@@ -1,0 +1,12 @@
+{
+  "title": "Map: Knowledge Graphs and Ontologies",
+  "summary": "What this module answers (representing knowledge for questions that span many facts), its place in the context layer, prerequisites, the path from property graphs to GraphRAG and the semantic layer, and the knowledge ADR at the end.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Neo4j: What is a graph database", "url": "https://neo4j.com/docs/getting-started/graph-database/" },
+    { "label": "Noy and McGuinness: Ontology Development 101 (Stanford)", "url": "https://protege.stanford.edu/publications/ontology_development/ontology101.pdf" },
+    { "label": "Microsoft GraphRAG documentation", "url": "https://microsoft.github.io/graphrag/" },
+    { "label": "Unifying Large Language Models and Knowledge Graphs: A Roadmap (paper)", "url": "https://arxiv.org/abs/2306.08302" }
+  ]
+}

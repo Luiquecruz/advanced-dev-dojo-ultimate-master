@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A briefing's questions are all lookups such as \"what is the refund window?\" and the corpus is 300 help articles maintained by one team. What should the knowledge ADR decide?",
+    "options": [
+      "A full ontology with OWL reasoning",
+      "GraphRAG with weekly community summaries",
+      "Plain RAG over the articles, recording graphs and ontologies as rejected alternatives because no question needs connections or a shared vocabulary",
+      "A semantic layer for the articles"
+    ],
+    "answer": 2,
+    "explanation": "Graphs and ontologies pay off for multi-hop questions, many writers and regulated data. For a small single-team lookup corpus they are over-engineering."
+  },
+  {
+    "question": "How should the ontology in a knowledge ADR be scoped?",
+    "options": [
+      "Model every concept in the company before building anything",
+      "Start from the competency questions: each question's path of relations defines the classes and relations needed now",
+      "Copy the largest public ontology available",
+      "Let the extraction model decide the classes"
+    ],
+    "answer": 1,
+    "explanation": "Competency questions keep the ontology small and testable: if every question has a path in the ontology, it does its job."
+  },
+  {
+    "question": "The plan rebuilds community summaries 30 times a month at $45 each, with an indexing budget of $250. What is the right fix?",
+    "options": [
+      "Rebuild only as often as the freshness requirement demands (for example weekly) and record daily rebuilds as a rejected alternative",
+      "Drop global questions from the product without telling anyone",
+      "Increase the budget silently",
+      "Rebuild once a year"
+    ],
+    "answer": 0,
+    "explanation": "Freshness sets the minimum rebuild rate, the budget the maximum. The ADR records the trade-off, including the negative consequence that summaries can be days old."
+  },
+  {
+    "question": "Why does the knowledge plan route \"revenue at risk\" to the semantic layer instead of letting the assistant compute it from the graph?",
+    "options": [
+      "Graphs cannot store numbers",
+      "Semantic layers are faster than graphs",
+      "Finance owns the definition; reading the governed metric keeps the assistant's number identical to the finance dashboard",
+      "Models cannot do arithmetic"
+    ],
+    "answer": 2,
+    "explanation": "Metrics need one definition with an owner. An assistant that recomputes them produces a second, drifting definition."
+  }
+]

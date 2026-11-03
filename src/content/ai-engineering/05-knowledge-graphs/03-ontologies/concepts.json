@@ -1,0 +1,10 @@
+[
+  { "term": "Ontology", "description": "A formal vocabulary for a domain: classes, properties connecting them, and constraints every fact must satisfy. The schema of a knowledge graph, plus meaning." },
+  { "term": "Taxonomy", "description": "A hierarchy of terms (`Manager` is a kind of `Employee`). Useful for navigation; it has no relationships or constraints beyond the hierarchy." },
+  { "term": "subClassOf", "description": "The inheritance link between classes. Instances of a subclass are instances of the parent, and properties of the parent apply to the subclass." },
+  { "term": "Domain and range", "description": "A property's domain is the class of its subject; its range is the datatype of its value or the class of its target." },
+  { "term": "Cardinality", "description": "How many values each instance has for a property: `min 1` makes it required, `max 1` makes it single-valued." },
+  { "term": "Open-world assumption", "description": "Missing facts are unknown, not false. OWL reasoners use domain and range to infer types, not to reject data." },
+  { "term": "Closed-world validation", "description": "Data that breaks the rules is reported as a violation. SHACL does this for RDF; schema constraints and code do it for property graphs." },
+  { "term": "Competency questions", "description": "The questions an ontology must answer. They decide which classes and relations to model first." }
+]

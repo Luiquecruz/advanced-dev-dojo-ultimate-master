@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Which of the six layers does this module belong to, and why?",
+    "options": [
+      "Layer 1, model: knowledge graphs change the model's weights",
+      "Layer 2, context: graphs, ontologies and summaries decide which structured facts the model sees on each call",
+      "Layer 4, loop: graphs replace agent loops",
+      "Layer 5, evaluation: graphs score model answers"
+    ],
+    "answer": 1,
+    "explanation": "Like retrieval, a knowledge graph is a source of context. It adds structure (entities, typed relations, paths, community summaries) on top of passages."
+  },
+  {
+    "question": "Which question is the clearest signal that plain vector RAG is not enough?",
+    "options": [
+      "What is our refund window?",
+      "How do I reset my password?",
+      "Which products contain a part from a supplier that just failed its audit, and which regulations apply to them?",
+      "Where is the office located?"
+    ],
+    "answer": 2,
+    "explanation": "It chains several facts from different sources (supplier, part, product, regulation). Lookups are answered by a single passage; multi-hop questions need joins."
+  },
+  {
+    "question": "A startup has one app, one team writing data and only lookup questions. A consultant proposes a formal OWL ontology. What does this module recommend?",
+    "options": [
+      "Adopt it: every app needs an ontology",
+      "Record it as a rejected alternative: ontologies pay off for regulated domains, multi-team data and agent interoperability, and are over-engineering here",
+      "Adopt it, but only for the user table",
+      "Replace the database with a triple store"
+    ],
+    "answer": 1,
+    "explanation": "The module teaches when the cost is justified. With one writer and lookup questions, typed code and plain retrieval are simpler and enough."
+  },
+  {
+    "question": "Why does extraction (lesson 04) come after ontologies (lesson 03) in the path?",
+    "options": [
+      "Because extraction does not need a model",
+      "Because the ontology is both the vocabulary given to the model and the validator that rejects what it invents",
+      "Because ontologies are generated from the extracted graph",
+      "There is no reason; the order is alphabetical"
+    ],
+    "answer": 1,
+    "explanation": "Schema-guided extraction puts the ontology in the prompt, and validation against the same ontology decides which facts enter the graph."
+  },
+  {
+    "question": "What does the module's ADR checkpoint ask you to decide?",
+    "options": [
+      "Which graph database vendor has the best benchmark",
+      "The knowledge layer of a product: representation, an ontology derived from competency questions, extraction safeguards, local and global retrieval, a rebuild schedule within budget and governed metrics",
+      "The model that writes community summaries",
+      "The colors of a graph visualization"
+    ],
+    "answer": 1,
+    "explanation": "Like every module ADR, it is checked for structure and coherence with a briefing: each choice must follow from a stated question, rule or budget."
+  }
+]

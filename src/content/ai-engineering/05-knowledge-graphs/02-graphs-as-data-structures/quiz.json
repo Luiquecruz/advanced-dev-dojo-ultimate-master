@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A support bot uses vector search over runbooks. Asked \"payments-db is down, which teams are affected?\", it finds the payments-db runbook but misses teams two dependencies away. Why does a graph help here?",
+    "options": [
+      "Graphs store longer documents than vector indexes",
+      "The answer is a chain of facts spread across sources (depends on, owns); a graph lets code follow that chain hop by hop instead of hoping one passage contains it",
+      "Graphs make embeddings more accurate",
+      "Vector search cannot find the word \"payments\""
+    ],
+    "answer": 1,
+    "explanation": "Similarity search returns passages that resemble the question. A multi-hop question needs joins across facts; traversal performs them explicitly and can show the path as evidence."
+  },
+  {
+    "question": "Why does breadth-first search return the shortest path in an unweighted graph, while depth-first search may not?",
+    "options": [
+      "BFS visits nodes ring by ring, so the first time it reaches the target it has used the fewest hops; DFS follows one branch as deep as it goes first",
+      "BFS uses less memory than DFS",
+      "DFS cannot handle directed edges",
+      "BFS sorts the nodes by id before visiting them"
+    ],
+    "answer": 0,
+    "explanation": "Level-order expansion is what guarantees minimal depth. DFS finds a path, often a long one, and needs extra work to find the shortest."
+  },
+  {
+    "question": "A traversal over a social graph starts at a person and expands 4 hops with no type filter. It never finishes. Which two causes are most likely?",
+    "options": [
+      "The graph uses directed edges and the database uses SSDs",
+      "Too many labels and too few properties",
+      "Missing visited set (cycles) and frontier explosion through supernodes (degree^depth), fixed with a visited set, a depth limit and type/direction filters",
+      "Node ids are strings instead of numbers"
+    ],
+    "answer": 2,
+    "explanation": "Cycles make an unguarded traversal loop forever, and a node with millions of edges multiplies the frontier at every hop. Filter each step and keep depths small."
+  },
+  {
+    "question": "Your `neighbors(id)` filters the full edge list on every call. The graph has 2 million edges and a query makes 5 000 neighbor lookups. What is the fix?",
+    "options": [
+      "Cache the final answers of every question",
+      "Keep an adjacency index: outgoing and incoming edge lists per node id, so each lookup touches only that node's edges",
+      "Sort the edge list alphabetically",
+      "Lower the depth limit to 1"
+    ],
+    "answer": 1,
+    "explanation": "Scanning costs O(E) per hop (10 billion edge checks here). An adjacency index makes a hop proportional to the node's degree, which is what native graph databases optimize for."
+  }
+]

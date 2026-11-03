@@ -1,0 +1,10 @@
+[
+  { "term": "LLM extraction", "description": "Asking a model to read a document and return entities and relations as structured data, usually JSON, to build a knowledge graph." },
+  { "term": "Schema-guided extraction", "description": "The ontology's types and relations go into the prompt, so the model uses your vocabulary; a validator rejects whatever falls outside it." },
+  { "term": "Re-ask", "description": "When a reply does not parse, call again with the bad reply and a short correction in the history. Capped, and never used for refusals." },
+  { "term": "Entity resolution", "description": "Deciding which mentions refer to the same real-world thing (\"Acme Corp.\" and \"ACME Corporation\") and merging them, within the same type." },
+  { "term": "Name normalization", "description": "Lowercasing, stripping accents and punctuation, and dropping legal suffixes, so spelling variants share one key." },
+  { "term": "Blocking", "description": "Comparing only candidates that share a cheap key (first letters, postcode) before expensive fuzzy or semantic matching, to avoid comparing everything with everything." },
+  { "term": "Provenance", "description": "The sources that asserted each fact (document, chunk, run, model version). Enables citations, audits, deletion and re-extraction." },
+  { "term": "Rejected log", "description": "Every extracted item that failed validation, with its document and reason. A dataset for improving the prompt or the ontology." }
+]

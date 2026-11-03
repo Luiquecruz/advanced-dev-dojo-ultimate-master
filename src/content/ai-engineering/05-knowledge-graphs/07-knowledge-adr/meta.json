@@ -1,0 +1,13 @@
+{
+  "title": "Checkpoint: Knowledge ADR",
+  "summary": "Close the knowledge graphs module with a portfolio ADR: derive an ontology from competency questions, choose extraction safeguards, local and global retrieval, a rebuild schedule within budget and a governed metric for a supply-chain assistant.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "adr.ts" },
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Noy and McGuinness: Ontology Development 101 (competency questions)", "url": "https://protege.stanford.edu/publications/ontology_development/ontology101.pdf" },
+    { "label": "Microsoft GraphRAG documentation", "url": "https://microsoft.github.io/graphrag/" }
+  ]
+}

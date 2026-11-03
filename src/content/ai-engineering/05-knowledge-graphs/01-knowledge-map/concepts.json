@@ -1,0 +1,9 @@
+[
+  { "term": "Knowledge graph", "description": "Entities and typed relations between them, usually with a schema (ontology) and the sources of each fact, queried by traversal or pattern matching." },
+  { "term": "Multi-hop question", "description": "A question whose answer chains several facts, often from different sources, such as supplier to part to product." },
+  { "term": "Ontology", "description": "A formal vocabulary of classes, relations and constraints that every writer of a graph shares." },
+  { "term": "Entity resolution", "description": "Merging mentions of the same real-world thing (\"Acme Corp.\", \"ACME Corporation\") into one node." },
+  { "term": "GraphRAG", "description": "Retrieval over an entity graph and pre-computed community summaries, so whole-corpus questions can be answered." },
+  { "term": "Semantic layer", "description": "Shared business definitions (metrics, entities, dimensions) served to BI tools, APIs and agents so one word means one thing." },
+  { "term": "Competency questions", "description": "The questions a knowledge system must answer; they scope the ontology and the retrieval design." }
+]

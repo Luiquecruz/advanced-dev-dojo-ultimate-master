@@ -1,0 +1,15 @@
+{
+  "title": "Ontologies",
+  "summary": "Define classes with inheritance and properties with domain, range and cardinality, validate the ontology itself, and report every violation in a graph with a clear message, closed-world.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Noy and McGuinness: Ontology Development 101 (Stanford)", "url": "https://protege.stanford.edu/publications/ontology_development/ontology101.pdf" },
+    { "label": "W3C: OWL 2 Web Ontology Language Primer", "url": "https://www.w3.org/TR/owl2-primer/" },
+    { "label": "W3C: RDF Schema 1.1", "url": "https://www.w3.org/TR/rdf-schema/" },
+    { "label": "W3C: Shapes Constraint Language (SHACL)", "url": "https://www.w3.org/TR/shacl/" },
+    { "label": "schema.org: data model", "url": "https://schema.org/docs/datamodel.html" }
+  ]
+}
