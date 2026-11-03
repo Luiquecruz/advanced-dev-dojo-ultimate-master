@@ -1,0 +1,46 @@
+[
+  {
+    "question": "The plan allows `Bash(git push origin agent/*)` and denies `Bash(git push origin main*)`. Why does `git push origin main` end up denied?",
+    "options": [
+      "Because the allow rule is longer",
+      "Because deny rules are checked first and the first match decides; the allow rule does not match `main` anyway",
+      "Because `main` is a reserved word in shell commands",
+      "Because the default decision is deny"
+    ],
+    "answer": 1,
+    "explanation": "Deny, then ask, then allow. Even if an allow rule were broad enough to match, the deny rule would win."
+  },
+  {
+    "question": "The briefing offers `github-token:admin` and `github-token:agent-branches`. Why give the agent only the second?",
+    "options": [
+      "The admin token is slower",
+      "Least privilege: the task only pushes to `agent/*`, so a stolen or misused token should not be able to do more, even if a permission rule has a gap",
+      "Admin tokens cannot push branches",
+      "GitHub forbids admin tokens in CI"
+    ],
+    "answer": 1,
+    "explanation": "Credentials are the last layer of the harness. Scope them to the task so the blast radius stays small when other layers fail."
+  },
+  {
+    "question": "Why must `redact-secrets` run before `audit-log` in the post-tool hooks?",
+    "options": [
+      "Because audit logs are shipped to an external vendor: auditing first would send the secret out before it is redacted",
+      "Because redaction makes the audit faster",
+      "Because hooks always run in alphabetical order",
+      "It does not matter as long as both run"
+    ],
+    "answer": 0,
+    "explanation": "In an ordered pipeline each post-tool hook sees the output left by the previous one. Logs travel further and live longer than transcripts."
+  },
+  {
+    "question": "With a budget of $8 per run and about $0.40 per iteration, which loop limits are coherent?",
+    "options": [
+      "`maxIterations: 50`, because the failure limit stops the loop earlier anyway",
+      "`maxIterations: 15`, `maxFailures: 3`: the iteration cap costs at most $6, within the budget",
+      "`maxIterations: 1`, so the budget is never at risk",
+      "No limits: the budget check is enough"
+    ],
+    "answer": 1,
+    "explanation": "Limits should agree with each other. An iteration cap the budget cannot cover means the budget, not the plan, decides when the loop stops."
+  }
+]

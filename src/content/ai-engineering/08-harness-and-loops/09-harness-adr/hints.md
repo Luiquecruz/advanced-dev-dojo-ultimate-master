@@ -1,0 +1,7 @@
+Start with the deny list, straight from the "Must never" paragraph: one rule per forbidden action, written so it matches every spelling the tests try. A force push can put `--force` or `-f` before or after the branch, so you need patterns such as `Bash(git push --force*)` and `Bash(git push * --force*)`. For `.env` files at any depth, use `**/` in a path rule.
+---
+Then write the allow list from the "What it needs" paragraph, as narrowly as the tests allow: exact commands for the checks (`Bash(npm test)`), `packages/**` for reads and edits, and pushes only to `origin agent/*`. Because deny is checked first, `git push origin main` stays denied even though it starts like an allowed push. `npm install <package>` goes in `ask`.
+---
+For the sandbox, take the root and the two hosts from the briefing, and only the credentials the task needs: the agent-branch token (and, if you like, the read-only npm token). For hooks, the incident points to `protect-test-files` before tools run, and the compliance rule to `redact-secrets` followed by `audit-log` after them; enforcement fails closed.
+---
+For the loop, $8 at $0.40 per iteration allows at most 20 iterations; pick a number at or below that, `maxFailures: 3`, both triggers, and `'package-owner'`. Write the ADR last: the context restates the forces with numbers, the decision names the boundaries, and each alternative ("full shell access", "let it merge", "model review only") cites the fact that rules it out.

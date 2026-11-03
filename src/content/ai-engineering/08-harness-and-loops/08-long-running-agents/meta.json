@@ -1,0 +1,14 @@
+{
+  "title": "Long-Running Agents",
+  "summary": "Work that outlives a session: an idempotent initializer, a JSON task list and an append-only progress file on disk, sessions that resume at the next unfinished task, verification before done, blocked tasks, atomic saves, and never redoing completed work.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Anthropic: Effective harnesses for long-running agents", "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" },
+    { "label": "Anthropic: Effective context engineering for AI agents", "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" },
+    { "label": "Geoffrey Huntley: Ralph Wiggum as a software engineer", "url": "https://ghuntley.com/ralph/" },
+    { "label": "Temporal: durable execution documentation", "url": "https://docs.temporal.io/" }
+  ]
+}

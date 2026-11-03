@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A nightly loop asks an agent to \"fix flaky tests and stop when everything looks good\". It ran all night and cost $300. What is missing?",
+    "options": [
+      "A larger model that finishes faster",
+      "A verifier that defines success (the suite passes N times in a row) and stop rules: attempt limit, budget and stuck detection, with escalation",
+      "More detailed instructions in the prompt",
+      "Running it during the day instead"
+    ],
+    "answer": 1,
+    "explanation": "\"Looks good\" is not a stop rule. Loops end on verified success or on a limit, and every limit ends in a useful escalation."
+  },
+  {
+    "question": "The CI webhook for build 4812 is delivered twice, a minute apart. What should a well-engineered loop do with the second delivery?",
+    "options": [
+      "Start a fresh run with a fresh budget",
+      "Run both in parallel and keep the better patch",
+      "Load the state keyed by the build: continue a running task, or return a finished one without calling the model",
+      "Ignore every webhook that arrives within an hour"
+    ],
+    "answer": 2,
+    "explanation": "Keying runs by what they are about and persisting state makes triggers idempotent. A second delivery must never reset spending or redo finished work."
+  },
+  {
+    "question": "Iteration 3 produces exactly the same patch that failed verification in iteration 2. What should happen?",
+    "options": [
+      "Stop and escalate as stuck: more iterations are likely to spend money on the same answer",
+      "Retry with a higher temperature until the budget runs out",
+      "Mark the task done, since the model is confident",
+      "Delete the failing test"
+    ],
+    "answer": 0,
+    "explanation": "Repeated identical failures signal that the feedback is not helping. Detecting it early is one of the cheapest savings a loop can make."
+  },
+  {
+    "question": "What does the \"Ralph\" loop (`while :; do cat PROMPT.md | agent; done`) illustrate, and what does it lack for production use?",
+    "options": [
+      "It shows that loops need no tests; it lacks only a faster model",
+      "It is a multi-agent protocol; it lacks a registry",
+      "It shows that fresh sessions plus a plan file and tests can drive steady progress; it lacks a stop rule, a budget and escalation",
+      "It shows that prompts must be very long; it lacks a context file"
+    ],
+    "answer": 2,
+    "explanation": "Fresh context per iteration and tests as back-pressure are the useful ideas. An infinite loop without limits or a path to a human is not something to leave running unattended."
+  },
+  {
+    "question": "Which metric best tells you a production loop is getting worse?",
+    "options": [
+      "The number of tokens per prompt",
+      "A rising escalation rate and cost per verified success",
+      "The number of loops the team has created",
+      "How often the model says it is confident"
+    ],
+    "answer": 1,
+    "explanation": "Loops are judged by verified outcomes per dollar. When more runs end in escalation, the task, the harness or the verifier has changed."
+  }
+]

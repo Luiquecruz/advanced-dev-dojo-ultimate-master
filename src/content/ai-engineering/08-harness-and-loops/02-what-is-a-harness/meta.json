@@ -1,0 +1,13 @@
+{
+  "title": "What Is a Harness",
+  "summary": "Agent = model + harness: why the same model performs differently in different harnesses, the components (loop, tools, context, permissions, sandbox, hooks, verifiers, state), guides and sensors, and context files such as AGENTS.md and CLAUDE.md.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "theory"],
+  "resources": [
+    { "label": "Martin Fowler (Birgitta Böckeler): Harness engineering for coding agent users", "url": "https://martinfowler.com/articles/harness-engineering.html" },
+    { "label": "AGENTS.md: an open format for guiding coding agents", "url": "https://agents.md/" },
+    { "label": "Claude Code: How Claude remembers your project", "url": "https://code.claude.com/docs/en/memory" },
+    { "label": "InfoQ: OpenAI on harness engineering with Codex", "url": "https://www.infoq.com/news/2026/02/openai-harness-engineering-codex" },
+    { "label": "Terminal-Bench: agent and model leaderboard", "url": "https://www.tbench.ai/" }
+  ]
+}

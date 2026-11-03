@@ -1,0 +1,7 @@
+[
+  { "term": "Harness ADR", "description": "The record of an agent's boundaries: permissions, sandbox, credentials, hooks, verifiers and loop limits, each tied to a fact in the briefing." },
+  { "term": "Blast radius", "description": "The worst outcome an agent's harness makes possible. Deny rules, scoped credentials and the sandbox shrink it." },
+  { "term": "Least privilege", "description": "Allow only the calls, paths, hosts and credentials the task needs; everything else asks or is denied." },
+  { "term": "Harness plan", "description": "The implementable part of the decision: rules, sandbox, hooks, verifiers and loop limits, precise enough to configure and test." },
+  { "term": "Coherent limits", "description": "Iteration caps, failure limits and budgets that agree with each other, so the plan, not an accident, decides when a run stops." }
+]

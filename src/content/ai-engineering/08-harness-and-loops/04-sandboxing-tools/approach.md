@@ -1,0 +1,6 @@
+1. Decide what the boundary is before writing checks: for files, an absolute root; for the network, a list of hosts and schemes. Everything else is refused, so the code enumerates what is allowed, never what is forbidden.
+2. Canonicalize first, compare second. Resolve and normalize paths against the root; parse URLs with the platform parser. Every bypass in this lesson (`..`, `0x7f000001`, `localhost.`) is a second spelling of something the canonical form makes obvious.
+3. Compare with boundaries, not prefixes: the root plus `/`, and a subdomain with its leading dot. Prefix checks are the bug behind most jail and allowlist escapes.
+4. Order the URL checks from cheap and structural (scheme, credentials, port) to semantic (IP literal, localhost, allowlist) and return the first reason, so logs say exactly why a request was refused.
+5. Treat redirects as new requests. Fetch with manual redirects and run the full check on every hop, with a hop limit.
+6. Return refusals to the model as tool messages instead of throwing out of the loop. The agent can recover with a legitimate call, and the harness keeps a record of what was attempted.

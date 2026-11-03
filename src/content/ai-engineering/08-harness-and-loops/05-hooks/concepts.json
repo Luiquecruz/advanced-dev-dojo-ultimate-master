@@ -1,0 +1,9 @@
+[
+  { "term": "Hook", "description": "Code the harness runs at a fixed lifecycle event (session start, prompt submit, before or after a tool, stop), every time, regardless of what the model decided." },
+  { "term": "Pre-tool hook", "description": "Runs after the model proposes a call and before it executes; it can continue, block with a reason, or rewrite the arguments." },
+  { "term": "Post-tool hook", "description": "Runs after the tool and before the model sees the result; it can pass, replace (redact, truncate) or record the output." },
+  { "term": "Matcher", "description": "Selects which tools a hook applies to: one name, a list such as `Edit|Write`, or `*`." },
+  { "term": "Fail closed", "description": "A hook that throws, times out or returns an invalid result counts as a block, and its output is withheld." },
+  { "term": "Redaction", "description": "Replacing secrets (API keys, tokens, private keys) in tool output with a placeholder before they reach the context, logs or traces." },
+  { "term": "Audit hook", "description": "A post-tool hook that records which tool ran with which arguments, for later review; it should run after redaction." }
+]

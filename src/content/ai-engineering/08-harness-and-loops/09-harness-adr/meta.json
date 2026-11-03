@@ -1,0 +1,13 @@
+{
+  "title": "Checkpoint: Harness ADR",
+  "summary": "Close the module with a harness design for an unattended maintenance agent: deny-first permission rules, a sandbox with scoped credentials, fail-closed hooks, ordered verifiers and loop limits that fit the budget, checked against the briefing.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "adr.ts" },
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Claude Code: Configure permissions", "url": "https://code.claude.com/docs/en/permissions" },
+    { "label": "Martin Fowler (Birgitta Böckeler): Harness engineering for coding agent users", "url": "https://martinfowler.com/articles/harness-engineering.html" }
+  ]
+}

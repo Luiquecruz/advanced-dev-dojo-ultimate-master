@@ -1,0 +1,10 @@
+[
+  { "term": "Permission policy", "description": "Deterministic rules that decide, for each tool call a model proposes, whether it runs (`allow`), waits for a human (`ask`) or is refused (`deny`)." },
+  { "term": "Deny-ask-allow precedence", "description": "Rules are checked deny first, then ask, then allow, and the first match wins regardless of specificity. An allow rule cannot override a matching deny rule." },
+  { "term": "Default ask", "description": "A call no rule covers becomes a question for a human, never a silent allow." },
+  { "term": "Glob pattern", "description": "Path wildcards where `*` stays inside one path segment and `**` crosses directories: `src/*` matches `src/a.ts` but not `src/lib/a.ts`." },
+  { "term": "Path normalization", "description": "Resolving `.` and `..` segments before matching, so `src/../.env` is checked as `.env`." },
+  { "term": "Compound command", "description": "Several shell commands joined by `&&`, `||`, `;`, `|` or newlines. Each part is evaluated and the strictest decision wins." },
+  { "term": "Fail closed", "description": "When the harness cannot classify a call (unparseable arguments, an unknown tool), it denies or asks instead of allowing." },
+  { "term": "Approval fatigue", "description": "Humans approving prompts without reading because they arrive too often; fixed by moving frequent safe calls to `allow`." }
+]

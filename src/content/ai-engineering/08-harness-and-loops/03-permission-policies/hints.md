@@ -1,0 +1,7 @@
+Start with the two matchers, because everything else is built on them. Both become a regular expression anchored with `^...$`: escape every literal character, then translate the wildcards. For commands, `*` is `.*`. For paths, translate `**/` to `(?:.*/)?`, `**` to `.*`, `*` to `[^/]*` and `?` to `[^/]`, and normalize the path with `normalize` from `node:path` before testing it.
+---
+A path is outside the project when its normalized form starts with `/`, equals `..` or starts with `../`. Check that in `matchesPath` (return `false`) and again at the top of `evaluate` for `Read`, `Edit` and `Write` (return `deny` with no rule). `splitCommand` is one `split` with the regular expression `/&&|\|\||;|\||\n/` followed by `trim` and a filter.
+---
+In `evaluate`, write a helper that handles one call: loop over `['deny', 'ask', 'allow']`, use `find` on that list with a `ruleMatches(rule, call)` function, and return the first hit. `ruleMatches` parses `Tool(pattern)`, matches the tool name with the command matcher (so `*` works), returns `true` for bare rules and otherwise picks `matchesPath` or `matchesCommand` from the tool.
+---
+For `Bash`, map every part of `splitCommand` to the helper (copying the call with `command: part`) and reduce to the result with the highest severity, keeping the earlier result on ties. In `reviewToolCalls`, parse the arguments inside `try`/`catch` and accept only a non-null object that is not an array; unknown tools and anything else become `deny` with `rule: null`.

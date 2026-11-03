@@ -1,0 +1,10 @@
+[
+  { "term": "Sandbox", "description": "A boundary that limits what a tool call can do, independently of what the policy or the model decided." },
+  { "term": "Path jail", "description": "A file tool check that resolves every path against a root and refuses anything that is not the root or inside `root/`." },
+  { "term": "Path traversal", "description": "Escaping a folder with `..` segments or absolute paths, such as `notes/../../etc/passwd`." },
+  { "term": "Egress allowlist", "description": "The list of hosts (and schemes) an agent's network requests may reach; everything else is refused." },
+  { "term": "SSRF", "description": "Server-side request forgery: making a server-side tool request internal addresses such as `localhost` or the cloud metadata endpoint `169.254.169.254`." },
+  { "term": "IP literal", "description": "A URL whose host is an address instead of a name. Parsers normalize spellings like `0x7f000001` and `2130706433` to `127.0.0.1`." },
+  { "term": "DNS rebinding", "description": "An allowed hostname that resolves to a private address. Only checks on the resolved IP, usually in an egress proxy, catch it." },
+  { "term": "Open redirect", "description": "An allowed URL that redirects anywhere. Fetch tools must check every redirect target." }
+]

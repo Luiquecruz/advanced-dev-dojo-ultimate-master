@@ -1,0 +1,9 @@
+[
+  { "term": "Long-running agent", "description": "Work that spans many sessions, each a fresh agent with no memory of the others, coordinated through artifacts the harness persists." },
+  { "term": "Task list", "description": "A structured file (JSON) with every unit of work and its status and attempts; the single source of truth for what is left." },
+  { "term": "Progress file", "description": "An append-only log of what each session did and what failed, read by the next session to get up to speed." },
+  { "term": "Initializer", "description": "The first session or script that writes the plan; idempotent, so running it again never resets progress." },
+  { "term": "Resume", "description": "Starting a session from the files: read the task list and the progress tail, then pick the next pending task." },
+  { "term": "Atomic write", "description": "Writing a new version to a temporary file and renaming it over the old one, so a crash never leaves a half-written state file." },
+  { "term": "Blocked task", "description": "A task that failed verification too many times; set aside with its feedback for a human instead of being retried forever." }
+]

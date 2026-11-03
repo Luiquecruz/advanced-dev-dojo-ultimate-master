@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Which layers does this module cover, and what questions do they answer?",
+    "options": [
+      "Layer 1 (model) and layer 2 (context): which model to call and what it sees",
+      "Layer 3 (harness) and layer 4 (loop): what surrounds the model, and how work repeats until it is verified",
+      "Layer 5 (evaluation) only: how to score outputs",
+      "Layer 6 (governance) only: regulation and audits"
+    ],
+    "answer": 1,
+    "explanation": "Permissions, sandboxes, hooks and verifiers form the harness; triggers, stop rules, persistent state and escalation form the loop. Evaluation and governance build on them in later modules."
+  },
+  {
+    "question": "An agent from module 07 works well in demos. The team wants it to fix failing CI builds every night without anyone watching. What does this module add that the agent loop alone lacks?",
+    "options": [
+      "A bigger model",
+      "Controls around the loop: what calls may run, what any call can reach, rules enforced on every call, checks that define done, stop rules with escalation, and state that survives sessions",
+      "A better system prompt",
+      "A chat interface for the night shift"
+    ],
+    "answer": 1,
+    "explanation": "Unattended work needs controls that do not depend on the model behaving well. Each lesson adds one of them."
+  },
+  {
+    "question": "The permission policy (lesson 03) and the sandbox (lesson 04) both limit what the agent does. Why does the path have both?",
+    "options": [
+      "They are two names for the same mechanism",
+      "The policy decides which calls the agent may make; the sandbox limits what any call can reach, so it still holds when the policy has a gap or an approved command does more than its text says",
+      "The sandbox is only needed for Python agents",
+      "The policy replaces the sandbox once it has enough rules"
+    ],
+    "answer": 1,
+    "explanation": "Defense in depth: policies are readable and auditable but match text; the sandbox enforces boundaries below the tools."
+  },
+  {
+    "question": "Which lesson answers \"how does the harness know a task is really finished?\"",
+    "options": [
+      "Lesson 05, hooks",
+      "Lesson 03, permission policies",
+      "Lesson 06, verifiers: checks the output must pass, with feedback into the next attempt",
+      "Lesson 02, what is a harness"
+    ],
+    "answer": 2,
+    "explanation": "\"The model says it is done\" is a claim. Verifiers turn it into evidence, and loops (lesson 07) stop on verified success."
+  },
+  {
+    "question": "What does the ADR at the end of the module ask you to produce?",
+    "options": [
+      "A list of the best coding agents on the market",
+      "A harness design for a nightly maintenance agent: permission rules, sandbox, hooks, verifiers and loop limits, checked for coherence with a briefing",
+      "A benchmark score for your agent",
+      "A copy of the challenge solutions"
+    ],
+    "answer": 1,
+    "explanation": "Like every module, it ends with a decision record. Tests check that the harness plan matches the briefing, for example that pushes are denied and the budget fits."
+  }
+]

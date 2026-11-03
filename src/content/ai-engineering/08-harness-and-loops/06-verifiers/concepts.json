@@ -1,0 +1,9 @@
+[
+  { "term": "Verifier", "description": "A check an agent's output must pass before the harness accepts it: tests, type checks, schemas, linters, screenshots or a separate model judge." },
+  { "term": "Guides and sensors", "description": "Guides steer the agent before it acts (context files, examples); sensors observe after it acts so it can self-correct (verifiers)." },
+  { "term": "Computational check", "description": "A deterministic, cheap verifier run by code: parse, schema, lint, type check, tests." },
+  { "term": "Inferential check", "description": "A verifier that uses a model's judgment; slower, costly and fallible, so it runs later and is calibrated against people." },
+  { "term": "Actionable feedback", "description": "A failure message that names the check, the failing input or field, and the expectation, written for the model that must fix it." },
+  { "term": "Attempt budget", "description": "The maximum number of model calls the verify loop may spend before returning a failed result for escalation." },
+  { "term": "Verifier gaming", "description": "An agent satisfying a check without solving the task (deleting tests, hard-coding values); prevented by protecting verifiers and reviewing diffs." }
+]

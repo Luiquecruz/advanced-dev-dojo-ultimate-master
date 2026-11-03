@@ -1,0 +1,12 @@
+{
+  "title": "Map: Harness and Loop Engineering",
+  "summary": "What this module answers (what surrounds the model and how work repeats until verified), its place in the harness and loop layers, the prerequisites from earlier modules, the path from permissions to long-running agents, and the harness ADR at the end.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "theory"],
+  "resources": [
+    { "label": "Martin Fowler (Birgitta Böckeler): Harness engineering for coding agent users", "url": "https://martinfowler.com/articles/harness-engineering.html" },
+    { "label": "Anthropic: Effective harnesses for long-running agents", "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" },
+    { "label": "Addy Osmani: Loop Engineering", "url": "https://addyosmani.com/blog/loop-engineering/" },
+    { "label": "InfoQ: OpenAI on harness engineering with Codex", "url": "https://www.infoq.com/news/2026/02/openai-harness-engineering-codex" }
+  ]
+}

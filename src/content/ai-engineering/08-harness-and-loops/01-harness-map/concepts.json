@@ -1,0 +1,8 @@
+[
+  { "term": "Harness", "description": "Everything around the model that makes an agent work: the loop, tools, context files, permissions, sandbox, hooks, verifiers and persistent state." },
+  { "term": "Harness engineering", "description": "Designing and tuning the harness so agents work reliably with little supervision. An `emerging` term since early 2026." },
+  { "term": "Loop engineering", "description": "Designing systems that start, verify and re-run agents with triggers, stop rules, persistent state and escalation. An `emerging` term since mid-2026." },
+  { "term": "Defense in depth", "description": "Stacking independent controls (policy, sandbox, hooks, verifiers) so one gap does not become an incident." },
+  { "term": "Unattended run", "description": "An agent run with no human approving each step, such as a nightly or CI-triggered job; the case this module prepares for." },
+  { "term": "Harness ADR", "description": "The module's checkpoint: a decision record and a harness plan (permissions, sandbox, hooks, verifiers, loop) for a briefing." }
+]

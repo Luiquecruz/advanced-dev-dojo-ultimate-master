@@ -1,0 +1,7 @@
+Write two small helpers first. `matchesTool(matcher, name)` is `matcher === '*'` or a `split('|')` that contains the name. `withTimeout(work, ms)` races `Promise.resolve().then(work)` against a promise rejected by `setTimeout`, and clears the timer in `finally`. Running the hook inside `.then` turns a synchronous `throw` into a rejection, so one `try`/`catch` around `await withTimeout(...)` handles throws, rejections and timeouts alike.
+---
+For pre-tool hooks, keep a `current` call and loop over the matching hooks. Validate each result: `continue`, `block` with a string `reason`, or `rewrite` with an object `arguments`; anything else (including `undefined`) is a failure. Return `{ status: 'blocked', hook: hook.name, reason }` from inside the loop on a block or a failure, and replace `current` on a rewrite.
+---
+Call `execute(current)` outside any `try`, so tool errors reach the caller unchanged. Then loop over the matching post-tool hooks with the same timeout and validation (`continue`, or `replace` with a string `output`); a failure returns `blocked` and the output is never returned.
+---
+The built-ins are a few lines each: `DANGEROUS_COMMANDS.some((pattern) => pattern.test(command))`; `typeof timeoutMs === 'number' ? Math.min(timeoutMs, maxMs) : maxMs`; and a `reduce` over `SECRET_PATTERNS` with `text.replace(pattern, '[REDACTED]')`. In `runToolCalls`, parse the arguments in a `try`/`catch`, accept only plain objects, look the tool up, then map the runner's result to the output or `Blocked by <hook>: <reason>`.

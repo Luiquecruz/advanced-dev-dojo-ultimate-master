@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A jail checks `target.startsWith('/srv/workspace')`. Which request escapes it?",
+    "options": [
+      "`notes/todo.md`",
+      "`/srv/workspace-backup/.env`, because the prefix matches although the folder is a sibling of the root",
+      "`./src/index.ts`",
+      "`/srv/workspace`"
+    ],
+    "answer": 1,
+    "explanation": "Compare against the root followed by a separator (`/srv/workspace/`), or accept the root itself. A bare prefix check accepts every sibling whose name starts the same way."
+  },
+  {
+    "question": "Your fetch tool blocks URLs whose text contains `127.0.0.1` or `localhost`. Why is that not enough?",
+    "options": [
+      "Because those addresses are allowed by every operating system",
+      "Because the model never writes those strings",
+      "Because the same address has many spellings (`0x7f000001`, `2130706433`, `127.1`, `localhost.`); parse the URL and check the normalized hostname instead",
+      "Because URL checks should be done with regular expressions on the raw string"
+    ],
+    "answer": 2,
+    "explanation": "URL parsers normalize numeric and dotted forms to one canonical address. Check what the parser produced, which is also what the HTTP client will connect to."
+  },
+  {
+    "question": "`https://docs.example.com/page` is allowlisted and answers `302 Location: http://169.254.169.254/latest/meta-data/`. What should the fetch tool do?",
+    "options": [
+      "Follow it: the original URL was allowed",
+      "Fetch with manual redirects, check the redirect target against the same policy, and refuse it",
+      "Follow it but hide the response from the model",
+      "Retry the original URL until it stops redirecting"
+    ],
+    "answer": 1,
+    "explanation": "Each redirect is a new request. An open redirect on an allowed host is a classic way to reach cloud metadata or internal services."
+  },
+  {
+    "question": "The agent has a shell tool, and your `read_file` tool enforces a perfect path jail. Is the workspace protected?",
+    "options": [
+      "Yes: the jail covers every file access",
+      "Yes, as long as the permission policy denies `cat`",
+      "No: a shell command can open any file the process can reach; the boundary must be an OS sandbox or a container",
+      "No, because path jails never work on Linux"
+    ],
+    "answer": 2,
+    "explanation": "Tool-level checks only cover the tools you wrote. Once arbitrary processes run, isolation has to come from below: OS sandboxing, containers or microVMs."
+  },
+  {
+    "question": "Why does the dispatcher return `Error: path_escape: ...` as a tool message instead of throwing?",
+    "options": [
+      "So the loop keeps running, the model learns the boundary and can try a legitimate call, and the harness logs the attempt",
+      "Because tool messages are cheaper than exceptions",
+      "Because the model can override the error if it insists",
+      "Because thrown errors are invisible to the harness"
+    ],
+    "answer": 0,
+    "explanation": "A crash ends the task; a clear refusal lets the agent recover. Repeated escape attempts are also a useful signal of prompt injection."
+  }
+]

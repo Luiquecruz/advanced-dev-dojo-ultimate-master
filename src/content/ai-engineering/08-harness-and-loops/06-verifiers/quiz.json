@@ -1,0 +1,46 @@
+[
+  {
+    "question": "An agent fixing a bug runs the full 6-minute integration suite after every attempt, even when its patch does not compile. What should change?",
+    "options": [
+      "Run the checks from cheapest to most expensive (compile, type check, unit tests, integration) and stop at the first failure",
+      "Skip the integration suite entirely",
+      "Run all checks in parallel and report all failures",
+      "Let the model decide which checks to run"
+    ],
+    "answer": 0,
+    "explanation": "A failing cheap check makes the expensive ones pointless and produces the most focused feedback. Expensive checks run only on candidates that passed the cheap ones."
+  },
+  {
+    "question": "Which feedback message helps the next attempt most?",
+    "options": [
+      "\"Wrong, try again.\"",
+      "\"The answer is not good enough.\"",
+      "\"Verifier `schema` failed: `price`: expected a positive number, received -3; `tags`: expected at least one item.\"",
+      "\"Please be more careful this time.\""
+    ],
+    "answer": 2,
+    "explanation": "Feedback written for a model reader names the check, the failing field or input, and the expectation. Vague feedback burns an attempt."
+  },
+  {
+    "question": "After a few iterations, the agent's patch makes the test suite pass by deleting the two failing tests. Which harness change addresses the root cause?",
+    "options": [
+      "Ask the model in the prompt not to delete tests",
+      "Raise the attempt limit so it finds a real fix",
+      "Use a model judge instead of tests",
+      "Keep test files out of the agent's write permissions (or block edits to them with a hook) and review the diff"
+    ],
+    "answer": 3,
+    "explanation": "Agents optimize the check they are given. Protect verifiers from the agent the same way you protect production credentials: with permissions and hooks, not requests."
+  },
+  {
+    "question": "Why use a separate model call, with its own instructions, as the judge instead of asking the writer to grade its own answer in the same conversation?",
+    "options": [
+      "Separate calls are always cheaper",
+      "A model grading its own output in the same context tends to approve it; a separate judge with a rubric is more independent (and should still be calibrated against people)",
+      "The writer model cannot read its own output",
+      "Judges must always be larger models"
+    ],
+    "answer": 1,
+    "explanation": "Self-grading shares the writer's context and blind spots. Separate, rubric-driven judges are better, and module 10 shows how to measure how often they agree with humans."
+  }
+]

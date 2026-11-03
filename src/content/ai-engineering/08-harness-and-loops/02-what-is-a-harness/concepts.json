@@ -1,0 +1,9 @@
+[
+  { "term": "Harness", "description": "Everything around the model that turns predictions into actions: loop, tools, context management, permissions, sandbox, hooks, verifiers and state." },
+  { "term": "Agent = model + harness", "description": "The same model behaves very differently in different harnesses; agent leaderboards rank model and harness pairs." },
+  { "term": "Guides and sensors", "description": "Guides steer the agent before it acts (context files, examples); sensors observe afterwards so it can self-correct (tests, linters, review)." },
+  { "term": "Vendor harness and user harness", "description": "The harness built into the product you use, versus the context files, rules, hooks and tests your team configures on top." },
+  { "term": "Context file", "description": "A Markdown file in the repository loaded into every agent session: commands, conventions, an architecture map, pointers to docs." },
+  { "term": "AGENTS.md", "description": "An open, tool-neutral context file format read by many coding agents; the nearest file to the edited code applies." },
+  { "term": "CLAUDE.md", "description": "Claude Code's context file, at project, user and organization levels; treated as guidance, not enforced configuration." }
+]

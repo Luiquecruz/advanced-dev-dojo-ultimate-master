@@ -1,0 +1,14 @@
+{
+  "title": "Verifiers",
+  "summary": "Checks the agent must pass, ordered from cheap to expensive, with precise failure feedback fed into the next model step, completeness checks, bounded attempts, and schema and example-based verifiers.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Martin Fowler (Birgitta Böckeler): Harness engineering for coding agent users", "url": "https://martinfowler.com/articles/harness-engineering.html" },
+    { "label": "Anthropic: Building effective agents (evaluator-optimizer)", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
+    { "label": "Claude Code: Keep Claude working toward a goal", "url": "https://code.claude.com/docs/en/goal" },
+    { "label": "Zod: documentation", "url": "https://zod.dev/" }
+  ]
+}

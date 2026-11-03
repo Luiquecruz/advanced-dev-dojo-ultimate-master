@@ -1,0 +1,13 @@
+{
+  "title": "Hooks",
+  "summary": "Pre-tool hooks that block or rewrite calls and post-tool hooks that redact and audit outputs, run in a documented order with timeouts, failing closed when a hook breaks, and wired between the model's tool calls and the tools.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Claude Code: Hooks reference", "url": "https://code.claude.com/docs/en/hooks" },
+    { "label": "Martin Fowler (Birgitta Böckeler): Harness engineering for coding agent users", "url": "https://martinfowler.com/articles/harness-engineering.html" },
+    { "label": "Simon Willison: The lethal trifecta for AI agents", "url": "https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/" }
+  ]
+}

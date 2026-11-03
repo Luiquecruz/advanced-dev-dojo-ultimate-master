@@ -1,0 +1,10 @@
+[
+  { "term": "Loop engineering", "description": "Designing systems that start, check and re-run agents toward a goal with little human prompting: trigger, action, verifier, stop rule, persistent state and escalation." },
+  { "term": "Trigger", "description": "What starts an iteration: a schedule, an event (CI failure, new issue) or the previous iteration's result." },
+  { "term": "Stop rule", "description": "The conditions that end a loop: verified success, stuck output, a failure limit or an exhausted budget." },
+  { "term": "Stuck detection", "description": "Stopping when the agent repeats an output that already failed, instead of paying for the same answer again." },
+  { "term": "Escalation", "description": "Handing an unfinished task to a human with the reason and the full state: attempts, feedback and money spent." },
+  { "term": "Idempotent trigger", "description": "A trigger keyed by its subject, so repeated deliveries continue or return the existing run instead of starting a new one." },
+  { "term": "Ralph loop", "description": "Running the same prompt in a fresh agent session in an endless loop, with a plan file and tests as memory and feedback; a minimal loop without stop rules." },
+  { "term": "Inner and outer loop", "description": "Agents run the inner loop (attempt, verify, retry); humans own the outer loop: which loops exist, what done means, the limits and the review." }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Your context file says \"Never print API keys.\" After a long session, the agent runs `cat .env` and the key lands in the transcript. Which harness change prevents this reliably?",
+    "options": [
+      "Repeat the instruction in capital letters at the top of the file",
+      "A post-tool hook that redacts secret patterns from every tool output before the model or any log sees it",
+      "A larger context window so the instruction is not forgotten",
+      "Asking the model to double-check its outputs"
+    ],
+    "answer": 1,
+    "explanation": "Instructions are context the model usually follows; hooks are code that always runs. Rules that must hold belong in hooks (or permissions and the sandbox)."
+  },
+  {
+    "question": "A redaction hook throws on an unusual output. What should a policy-enforcing runner do?",
+    "options": [
+      "Pass the raw output through so the agent can keep working",
+      "Retry the tool call",
+      "Fail closed: withhold the output and report the call as blocked by that hook",
+      "Ignore the hook and disable it for the rest of the session"
+    ],
+    "answer": 2,
+    "explanation": "A broken enforcement hook that fails open leaks exactly what it was meant to protect. Convenience hooks may fail open by explicit choice; enforcement hooks may not."
+  },
+  {
+    "question": "An audit hook and a redaction hook both run after every tool. In which order should they run in an ordered pipeline?",
+    "options": [
+      "Audit first, so the log has the original output",
+      "Order does not matter",
+      "Redaction first, so the audit log never stores the secret",
+      "In parallel, to save time"
+    ],
+    "answer": 2,
+    "explanation": "Each post-tool hook sees the output left by the previous one. Logs live longer and travel further than transcripts, so they must receive the redacted version."
+  },
+  {
+    "question": "Which job fits a pre-tool hook better than a permission rule?",
+    "options": [
+      "Rewriting every shell call so its timeout is at most 60 seconds",
+      "Denying all reads of `.env` files",
+      "Allowing `npm test` without asking",
+      "Limiting which hosts the network can reach"
+    ],
+    "answer": 0,
+    "explanation": "Permission rules decide allow, ask or deny. Hooks can also transform inputs. Network limits belong in the sandbox."
+  },
+  {
+    "question": "A repository you just cloned ships a hooks configuration that runs a script on every tool call. Why be careful?",
+    "options": [
+      "Hooks slow down the model's reasoning",
+      "Hooks run as your user, outside the agent's sandbox, on every call: a malicious hook is arbitrary code execution",
+      "Hooks are ignored for cloned repositories",
+      "Hooks can only run in CI"
+    ],
+    "answer": 1,
+    "explanation": "Treat hook configuration like CI configuration or a postinstall script: review it before trusting the repository."
+  }
+]

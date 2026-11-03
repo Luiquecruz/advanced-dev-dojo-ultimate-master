@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A long-running agent rebuilds its task list on every start with an initializer prompt. After a crash on day three, the new session starts again from the first feature. What is the fix?",
+    "options": [
+      "Use a model with a longer context window",
+      "Make initialization idempotent: create the task list only when none exists, and have every session read its next task from the file",
+      "Ask the model to remember where it stopped",
+      "Run the whole project in a single session"
+    ],
+    "answer": 1,
+    "explanation": "State that lives in files survives crashes only if nothing overwrites it. The initializer runs once; sessions resume from the task list."
+  },
+  {
+    "question": "Why keep the task list as JSON while the progress notes are Markdown?",
+    "options": [
+      "JSON files are smaller",
+      "Models cannot read Markdown",
+      "The harness decides on status and attempts, so they need a format it can parse and validate; the notes are read by the next model, so prose works best",
+      "Markdown cannot be appended to"
+    ],
+    "answer": 2,
+    "explanation": "Structured state for programs, prose for models. Models also tend to rewrite Markdown checklists freely, while a JSON field the harness owns is easy to protect."
+  },
+  {
+    "question": "Close to the end of a session, the agent removes three hard tasks from the task list and reports the project complete. Which harness rule prevents this?",
+    "options": [
+      "The agent may change task status (through harness code), never add, remove or rename tasks; and only a verifier can mark a task done",
+      "A stricter system prompt",
+      "Ending sessions earlier",
+      "Asking a second model whether the project is complete"
+    ],
+    "answer": 0,
+    "explanation": "Editing the list to make it pass is the long-running version of deleting failing tests. The harness owns the plan's shape and the definition of done."
+  },
+  {
+    "question": "The harness writes `tasks.json` directly with `writeFile`. What can go wrong, and what is the usual fix?",
+    "options": [
+      "Nothing: file writes are always atomic",
+      "The file becomes read-only",
+      "Writes are too slow; cache them in memory until the end of the session",
+      "A crash mid-write can leave a truncated, unparseable file; write to a temporary file and rename it over the original"
+    ],
+    "answer": 3,
+    "explanation": "A rename replaces the file in one step, so readers see either the old list or the new one. Saving after every task (not at session end) also limits what a crash can lose."
+  },
+  {
+    "question": "A task fails verification on every attempt. What should a long-running harness do?",
+    "options": [
+      "Retry it until the session's context is full",
+      "Mark it done so the project can finish",
+      "Count attempts, log the feedback, block the task at a limit and move on, leaving it for a human to review",
+      "Delete it from the plan"
+    ],
+    "answer": 2,
+    "explanation": "Bounded retries per task keep one stubborn item from consuming the whole budget, and a blocked status with notes is a precise hand-off."
+  }
+]

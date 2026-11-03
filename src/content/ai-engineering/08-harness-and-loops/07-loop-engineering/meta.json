@@ -1,0 +1,14 @@
+{
+  "title": "Loop Engineering",
+  "summary": "Run agents from triggers until verified: act, verify, feed back, save state after every iteration, stop on success, stuck output, failure limits or budget, escalate to a human once, and make repeated triggers harmless.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Addy Osmani: Loop Engineering", "url": "https://addyosmani.com/blog/loop-engineering/" },
+    { "label": "Geoffrey Huntley: Ralph Wiggum as a software engineer", "url": "https://ghuntley.com/ralph/" },
+    { "label": "Claude Code: Keep Claude working toward a goal", "url": "https://code.claude.com/docs/en/goal" },
+    { "label": "Claude Code: Run prompts on a schedule", "url": "https://code.claude.com/docs/en/scheduled-tasks" }
+  ]
+}

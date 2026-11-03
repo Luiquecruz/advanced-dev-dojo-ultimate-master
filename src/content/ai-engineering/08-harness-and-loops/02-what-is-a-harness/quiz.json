@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Two teams use the same model. Team A's coding agent fixes most bugs; team B's often edits the wrong files and never notices failing tests. What is the most likely difference?",
+    "options": [
+      "Team A uses a higher temperature",
+      "The harness: team A's agent has precise tools, project context and test feedback; team B's lacks some of them",
+      "Team A pays for a premium version of the same model",
+      "Random variation: the same model always performs the same"
+    ],
+    "answer": 1,
+    "explanation": "Agent = model + harness. Tools, context, feedback and limits change outcomes as much as the model does, which is why agent leaderboards rank model and harness pairs."
+  },
+  {
+    "question": "Which of these is a sensor rather than a guide?",
+    "options": [
+      "An `AGENTS.md` that lists the project conventions",
+      "Examples of good commits in the system prompt",
+      "The test suite and linter run after each change, with their output returned to the agent",
+      "A task description with acceptance criteria"
+    ],
+    "answer": 2,
+    "explanation": "Guides steer before the agent acts; sensors observe after it acts so it can self-correct. Tests and linters are the classic sensors."
+  },
+  {
+    "question": "A monorepo has an `AGENTS.md` at the root and another in `packages/billing/`. The agent edits `packages/billing/src/invoice.ts`. Which instructions take precedence?",
+    "options": [
+      "The root file, because it is the oldest",
+      "The closest file, `packages/billing/AGENTS.md`; an explicit instruction from the user in the chat overrides both",
+      "Neither: nested files are not supported",
+      "Whichever file is longer"
+    ],
+    "answer": 1,
+    "explanation": "The format is designed for nesting: the agent reads the nearest file to the code it works on, so packages can carry their own commands and rules."
+  },
+  {
+    "question": "A team's context file has grown to 1 500 lines covering every architectural decision. The agent now follows it less reliably. What is the better structure?",
+    "options": [
+      "Split it into ten files and load all of them every session",
+      "Move the rules into the system prompt in capital letters",
+      "Keep a short file with commands, key conventions and pointers to deeper docs the agent reads when a task needs them",
+      "Delete it and rely on the model's training"
+    ],
+    "answer": 2,
+    "explanation": "Every line of a context file costs context on every call and dilutes the rest. A short map to indexed docs scales better than an encyclopedia."
+  },
+  {
+    "question": "The context file says \"Never commit `.env` files\". Last week the agent committed one anyway. Where should that rule live?",
+    "options": [
+      "In a permission deny rule or a pre-tool hook that blocks the commit, because context files are guidance the model usually follows, not enforcement",
+      "Repeated three times in the context file",
+      "In the commit message template",
+      "Nowhere: the model will learn from the mistake"
+    ],
+    "answer": 0,
+    "explanation": "Rules that must always hold are harness controls (permissions, sandbox, hooks). Context files guide; they do not guarantee."
+  },
+  {
+    "question": "Which statement about the vendor harness and the user harness is accurate?",
+    "options": [
+      "The user harness is the model's weights",
+      "The vendor harness is everything a team writes in its repository",
+      "The vendor harness is built into the product (its loop, tools and prompts); the user harness is what the team configures on top (context files, rules, hooks, tests), and it is the part the team owns",
+      "They are the same thing"
+    ],
+    "answer": 2,
+    "explanation": "You rarely control the product's internals, but you fully control your context files, permission rules, hooks and test suites, which is where most of a team's leverage lies."
+  }
+]
