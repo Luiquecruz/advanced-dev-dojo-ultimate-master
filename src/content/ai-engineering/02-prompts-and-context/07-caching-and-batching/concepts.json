@@ -1,0 +1,8 @@
+[
+  { "term": "Prompt caching", "description": "The provider reuses the processed state of an exact prompt prefix seen recently, billing cached input tokens at a discount and lowering time to first token." },
+  { "term": "Stable prefix", "description": "The part of a prompt identical across requests (tools, system prompt, static examples). Put it first and varying content last." },
+  { "term": "Cache hit rate", "description": "The share of input tokens served from the cache, read from usage data. The only proof caching works." },
+  { "term": "Batch API", "description": "Asynchronous processing of many requests within a window (commonly 24 hours) at a large discount, with separate throughput limits." },
+  { "term": "Semantic caching", "description": "Returning a stored answer when a new question is similar enough to a past one, skipping the model. Risks: false hits, staleness, cross-user leaks." },
+  { "term": "Exact-match caching", "description": "Caching the response of a deterministic call keyed by the exact prompt version and inputs. No similarity threshold to tune." }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Few-shot prompting", "description": "Showing a handful of input/output pairs before the real input so the model copies their format and decisions." },
+  { "term": "Many-shot prompting", "description": "Dozens to hundreds of examples in a long context. Can approach fine-tuning quality on narrow tasks, paid on every call unless cached." },
+  { "term": "Dynamic example selection", "description": "Picking examples per request from a labeled pool, usually by similarity to the input, instead of sending a fixed set." },
+  { "term": "Embedding", "description": "A vector representation of text where similar meanings point in similar directions. The fake model's `embed` is a deterministic bag-of-words stand-in." },
+  { "term": "Cosine similarity", "description": "The cosine of the angle between two vectors: 1 for the same direction, 0 for unrelated. The usual score for embedding similarity." },
+  { "term": "Near-duplicate", "description": "An example so similar to one already chosen that it adds tokens without adding information. Skipped above a similarity threshold." },
+  { "term": "Label balance", "description": "The distribution of outputs among the selected examples. A one-sided selection pushes the model toward that label." }
+]

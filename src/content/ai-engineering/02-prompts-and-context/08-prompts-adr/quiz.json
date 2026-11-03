@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Validity is 99.6% after 2 attempts and 99.8% after 3. Each call takes up to 1 100 ms p95 and the budget is 3 000 ms p95. What should the plan set?",
+    "options": [
+      "3 attempts, because higher validity is always better",
+      "1 attempt, to be fast",
+      "2 attempts: it meets the 99.5% target and stays at 2 200 ms; 3 attempts could reach 3 300 ms",
+      "Unlimited attempts until the record validates"
+    ],
+    "answer": 2,
+    "explanation": "The attempt limit sits where both constraints hold. Residual failures go to the human queue, which belongs in the negative consequences."
+  },
+  {
+    "question": "The layout is `instructions, examples (selected per claim), output-schema, attachment, claim` with the cache breakpoint after `output-schema`. What is wrong?",
+    "options": [
+      "Nothing: the breakpoint is after the schema",
+      "The varying examples sit inside the cached prefix, so it changes on every claim and never hits; move the stable schema before the examples",
+      "The claim should be first",
+      "Instructions cannot be cached"
+    ],
+    "answer": 1,
+    "explanation": "A cache matches exact prefixes. Every part before the breakpoint must be identical across requests."
+  },
+  {
+    "question": "The backfill costs $10 080 at interactive prices; the budget is $6 000 and the deadline is two weeks. What does the ADR record?",
+    "options": [
+      "Ask for more budget, since batch processing is unreliable",
+      "Shorten the prompt until the interactive cost fits",
+      "Run the backfill on the live endpoint at night",
+      "Use the batch API at about half the price ($5 040), and list the interactive backfill as a rejected alternative with its cost"
+    ],
+    "answer": 3,
+    "explanation": "Nobody waits for individual backfill results, the 24-hour batch window fits a two-week deadline, and the discount is what makes the budget hold."
+  },
+  {
+    "question": "Carrier reports reach 20 000 tokens, the window is 32 000, and accuracy fell sharply above 4 000 tokens of report. How should attachments be capped?",
+    "options": [
+      "At 4 000 tokens (selected or compressed), because more context made answers worse",
+      "At 31 000 tokens, to use the whole window",
+      "Not at all: larger windows remove the need for caps",
+      "At 700 tokens, the size of a record"
+    ],
+    "answer": 0,
+    "explanation": "Context rot means the useful limit is set by your evals, not by the window. The window only bounds what is possible."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Structured output", "description": "A model reply with a known, machine-checkable shape (usually JSON matching a schema) instead of free text." },
+  { "term": "JSON mode", "description": "A request option that makes the output syntactically valid JSON. It does not guarantee the fields or types you expect." },
+  { "term": "Constrained decoding", "description": "The provider restricts generation to tokens that keep the output valid against a JSON Schema. Refusals and truncation can still break the shape." },
+  { "term": "Schema validation", "description": "Checking the parsed reply against a schema (Zod, Pydantic) in your code and using the validated, typed value." },
+  { "term": "Local repair", "description": "Fixing mechanical, meaning-preserving defects without a model call: surrounding prose, code fences, trailing commas, quote style." },
+  { "term": "Re-ask", "description": "Sending the bad reply back with the specific validation error so the model can correct it. Bounded by a maximum number of attempts." },
+  { "term": "z.prettifyError", "description": "Zod 4 helper that turns a validation error into readable lines, each naming the path of the invalid field." }
+]

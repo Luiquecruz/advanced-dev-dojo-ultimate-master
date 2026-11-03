@@ -1,0 +1,12 @@
+{
+  "title": "Caching and Batching",
+  "summary": "Cut cost and latency without changing prompts: stable prefixes for prompt caching, batch APIs for work nobody waits for, and why semantic caching of answers needs scoped keys, conservative thresholds and evals.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory", "performance"],
+  "resources": [
+    { "label": "Anthropic: Prompt caching", "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching" },
+    { "label": "Anthropic: Batch processing", "url": "https://platform.claude.com/docs/en/build-with-claude/batch-processing" },
+    { "label": "Google Gemini API: Context caching", "url": "https://ai.google.dev/gemini-api/docs/caching" },
+    { "label": "Google AI Studio: Batch API", "url": "https://aistudio.google.com/docs/batch-api" }
+  ]
+}

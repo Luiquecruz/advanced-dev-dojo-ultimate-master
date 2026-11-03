@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Your provider supports schema-constrained decoding and you enabled it. Can you remove the Zod validation from your code?",
+    "options": [
+      "Yes: constrained decoding guarantees every reply matches the schema",
+      "No: refusals and replies cut at the token limit can still break the shape, some constraints are not supported by the provider, and validation also gives you a typed value",
+      "Yes, but only for small schemas",
+      "No, because constrained decoding only works with streaming"
+    ],
+    "answer": 1,
+    "explanation": "Constrained decoding removes most format failures, not all. Validation is the contract your code relies on, whatever the provider promises."
+  },
+  {
+    "question": "A reply is `{\"category\":\"billing\",\"priority\":\"hi` with finish reason `length`. What should the loop do?",
+    "options": [
+      "Close the string and the object locally and accept `priority: \"hi\"`",
+      "Return the category and drop the priority",
+      "Treat it as a failed attempt and re-ask (perhaps with a higher token limit or a shorter output), never guessing the missing tail",
+      "Throw a refusal error"
+    ],
+    "answer": 2,
+    "explanation": "Repairing truncated output invents data that looks valid. Only meaning-preserving fixes belong in local repair; truncation needs a new answer."
+  },
+  {
+    "question": "Validation fails with \"`priority`: expected one of low, normal, high\". Which re-ask is most likely to fix it?",
+    "options": [
+      "Send the same request again unchanged",
+      "Append \"Try again, carefully.\"",
+      "Raise the temperature and resend",
+      "Append the bad reply as an assistant turn and a user turn quoting the located error, asking for the corrected JSON only"
+    ],
+    "answer": 3,
+    "explanation": "Specific, located feedback gives the model something to fix. Blind retries mostly reproduce the same mistake and spend the attempt budget."
+  },
+  {
+    "question": "The model refuses to extract data from a ticket. What should the structured output loop do?",
+    "options": [
+      "Stop and report a refusal: it is a decision, not a format error, and re-asking about JSON validity is pointless",
+      "Re-ask up to the attempt limit with the parse error",
+      "Return an empty object that passes the schema",
+      "Switch the response format to text and parse the refusal"
+    ],
+    "answer": 0,
+    "explanation": "Refusals have their own handling path: show a fallback, route to a human, or review the prompt. Treating them as malformed JSON wastes calls and hides the real outcome."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Prompt registry", "description": "The single place prompts live, by name and immutable version, with rendering, tests, activation per environment and rollback." },
+  { "term": "Prompt template", "description": "Fixed wording with named placeholders such as `{{ ticket }}`; only declared variables change per request." },
+  { "term": "Strict rendering", "description": "Rendering fails when a template variable is missing or an unknown variable is passed, instead of sending a broken prompt." },
+  { "term": "Prompt test", "description": "A rendered prompt sent to a model with a check on a property of the reply (allowed label, valid JSON). A small eval that gates promotion." },
+  { "term": "Promotion", "description": "Making a tested version active in an environment such as staging or production. New versions ship dark until promoted." },
+  { "term": "Rollback", "description": "Reactivating the previously active version of an environment, without a code deploy." },
+  { "term": "Prompt optimization", "description": "Searching instructions and examples automatically against a metric on a dataset, as DSPy does. Needs versions, tests and metrics first." }
+]

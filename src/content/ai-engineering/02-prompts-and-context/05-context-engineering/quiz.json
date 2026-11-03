@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A model has a 1M-token window, so a teammate proposes sending the whole 300-page handbook with every question. What is the strongest objection?",
+    "options": [
+      "The provider will reject any request over 100 000 tokens",
+      "Every call pays for and waits on the whole handbook, and answers often get worse with long, mostly irrelevant context (context rot); select the relevant sections instead",
+      "Models cannot read handbooks",
+      "Long requests are always cached, so there is no objection"
+    ],
+    "answer": 1,
+    "explanation": "A large window is a limit, not a target. Selection improves cost, latency and usually quality; measure the difference with evals."
+  },
+  {
+    "question": "The context builder runs out of budget. Which item must never be dropped or truncated?",
+    "options": [
+      "The latest user question (and the system prompt)",
+      "The most relevant document",
+      "The oldest turn of the conversation",
+      "The examples"
+    ],
+    "answer": 0,
+    "explanation": "Without the question the model answers something else; without the system prompt it loses its rules. If they alone do not fit, fail loudly instead of guessing."
+  },
+  {
+    "question": "Budget is short. The newest turn fits, the middle turn is huge, and the oldest turn is small and would fit. What should the builder keep?",
+    "options": [
+      "The newest and the oldest turns, skipping the middle one",
+      "Only the oldest turn, because it sets the topic",
+      "Only the newest turn: kept history must be contiguous, so the builder stops at the first turn that does not fit",
+      "Half of the middle turn"
+    ],
+    "answer": 2,
+    "explanation": "A gap produces a conversation that never happened, and half a turn is worse. If older facts matter, summarize them (module 06) instead of keeping fragments."
+  },
+  {
+    "question": "Your input budget is computed as the full context window. What goes wrong in long conversations?",
+    "options": [
+      "Nothing: providers automatically shrink the input",
+      "The model answers faster",
+      "The output tokens get cheaper",
+      "There is no room left for the reply, so requests fail with a context-length error or replies are cut short: reserve `maxTokens` for the output"
+    ],
+    "answer": 3,
+    "explanation": "Input and output share the window. The input budget is the window minus the output reserve, plus a margin for tokenizer differences."
+  },
+  {
+    "question": "Which pair matches the strategy with an example?",
+    "options": [
+      "Isolate: putting the most relevant document last",
+      "Compress: summarizing old turns or trimming long documents to their key sentences",
+      "Select: writing notes to a file for later",
+      "Write: sending all tools on every call"
+    ],
+    "answer": 1,
+    "explanation": "Write stores outside the window, select pulls in what is relevant, compress shrinks it, isolate splits work across separate contexts such as sub-agents."
+  }
+]

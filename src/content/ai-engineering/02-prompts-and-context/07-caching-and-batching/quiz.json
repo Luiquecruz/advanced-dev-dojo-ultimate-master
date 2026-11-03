@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Your system prompt starts with `Current time: 2026-10-31T14:03:22Z` followed by 3 000 tokens of instructions. The cache hit rate is zero. Why?",
+    "options": [
+      "System prompts are never cached",
+      "3 000 tokens is too short to cache",
+      "The cache matches exact prefixes, and the timestamp makes every prefix unique; move per-request values after the stable content",
+      "Caching only works at temperature 0"
+    ],
+    "answer": 2,
+    "explanation": "One changed token at the start invalidates everything after it. Stable content first, varying content last."
+  },
+  {
+    "question": "Which workload is the best fit for a batch API?",
+    "options": [
+      "Re-classifying last month's 400 000 tickets with a new prompt version overnight",
+      "Autocomplete suggestions while a user types",
+      "A support chat where the customer waits for the reply",
+      "A voice assistant answering in real time"
+    ],
+    "answer": 0,
+    "explanation": "Batch APIs trade latency (minutes to hours) for a large discount and separate throughput limits. Anything with a waiting user stays interactive."
+  },
+  {
+    "question": "A semantic cache returns the stored answer to \"How do I cancel my order?\" for the question \"How do I cancel my subscription?\". What went wrong, and what is the main lesson?",
+    "options": [
+      "The embedding model is broken and must be replaced",
+      "Nothing: similar questions should share answers",
+      "The cache expired too early",
+      "A false hit: questions close in embedding space can need different answers, so semantic caches need conservative thresholds, scoped keys and evals for false hits"
+    ],
+    "answer": 3,
+    "explanation": "Similarity is not equivalence. Semantic caching skips the model, so its errors are confident, fast and repeated for everyone who asks a similar question."
+  },
+  {
+    "question": "An assistant answers from each customer's own orders. Why is a semantic cache keyed only by the question dangerous here?",
+    "options": [
+      "Questions about orders are too long to embed",
+      "One customer's cached answer, built from their private data, could be served to another customer who asks a similar question",
+      "Caches cannot store numbers",
+      "It makes the model slower"
+    ],
+    "answer": 1,
+    "explanation": "The cache key must include everything that shaped the answer: user or tenant, permissions, prompt and model version, sources. Personalized answers usually should not be semantically cached at all."
+  },
+  {
+    "question": "Where should dynamically selected few-shot examples go to keep prompt caching effective?",
+    "options": [
+      "Before the system prompt, so the model sees them first",
+      "Inside the tool definitions",
+      "After the stable part (system prompt, tools, static examples), because they vary per request and would break the cached prefix",
+      "Nowhere: dynamic examples and caching cannot be combined"
+    ],
+    "answer": 2,
+    "explanation": "Anything that varies per request belongs after the stable prefix. The static part is still cached; only the varying tail is billed at the full input price."
+  },
+  {
+    "question": "How do you know prompt caching is actually saving money?",
+    "options": [
+      "Read the cached-token counts the provider reports in each response's usage and track the cache hit rate and cost per request",
+      "Assume it works once caching is enabled",
+      "Compare response wording before and after",
+      "Check that responses are faster on the first request of the day"
+    ],
+    "answer": 0,
+    "explanation": "Caching fails silently: a changed prefix or an expired entry just bills full price. Usage data is the only evidence."
+  }
+]

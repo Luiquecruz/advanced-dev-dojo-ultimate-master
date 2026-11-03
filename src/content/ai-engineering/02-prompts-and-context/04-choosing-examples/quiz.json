@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Your similarity selector returns three examples that are rewordings of the same refund ticket. What is the problem and the fix?",
+    "options": [
+      "No problem: more similar examples always help more",
+      "They spend tokens on one pattern and over-weight it; skip candidates too similar to an example already chosen",
+      "The embedding model is broken; switch providers",
+      "Lower k to one so there can be no duplicates"
+    ],
+    "answer": 1,
+    "explanation": "Deduplication against what is already selected keeps the budget for examples that add information and gives some diversity."
+  },
+  {
+    "question": "During an eval, accuracy is suspiciously high. Each eval item also exists in the example pool. What is happening?",
+    "options": [
+      "The selector retrieves the item itself with its label, so the model copies the answer: exclude eval items from the pool",
+      "The model memorized the eval set during training",
+      "Dynamic selection always inflates accuracy by a fixed amount",
+      "Nothing: high accuracy proves the prompt is good"
+    ],
+    "answer": 0,
+    "explanation": "This is answer leakage. Keep eval items out of the pool (or exclude exact matches at selection time) so the score measures generalization."
+  },
+  {
+    "question": "Why place the most similar example last, right before the real input?",
+    "options": [
+      "Providers only read the last example",
+      "It makes the prompt cacheable",
+      "Models tend to weigh content closest to the question more, so the most relevant pattern should be nearest",
+      "Examples must be sorted alphabetically"
+    ],
+    "answer": 2,
+    "explanation": "Position matters in prompts. Ordering is cheap to control and worth testing in your evals."
+  },
+  {
+    "question": "A long example scores second but does not fit the remaining token budget. A shorter example scores fifth. What should the selector do?",
+    "options": [
+      "Stop selecting: the budget is exhausted",
+      "Exceed the budget for the high-scoring example",
+      "Truncate the long example to fit",
+      "Skip the long example and keep walking the ranking, taking the shorter one if it fits and passes the other filters"
+    ],
+    "answer": 3,
+    "explanation": "Skipping keeps the budget useful. Truncating an example corrupts the pattern you are showing, and exceeding the budget defeats its purpose."
+  }
+]

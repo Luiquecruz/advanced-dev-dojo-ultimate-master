@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Which question does this module answer?",
+    "options": [
+      "Which model family to choose and how to route between models",
+      "What the model sees on each call, in what shape, and how its output becomes trustworthy data",
+      "How to fine-tune a model on company data",
+      "How to secure an agent against prompt injection"
+    ],
+    "answer": 1,
+    "explanation": "Module 02 is layer 2, context: prompt structure, structured outputs, examples, the context budget, prompt releases, caching and batching. Model choice is module 01, adaptation module 11, security module 12."
+  },
+  {
+    "question": "Answers from a support assistant are wrong. The prompt sends whole policy documents, the full chat history and twelve examples on every call. Which idea from this module applies first?",
+    "options": [
+      "Switch to a model with a larger context window",
+      "Raise the temperature",
+      "Context is a budget: select, compress and order what goes in, because irrelevant material costs money and can make answers worse",
+      "Add more examples so the model sees more patterns"
+    ],
+    "answer": 2,
+    "explanation": "Context stuffing and context rot are the classic failure here. A larger window only allows more of the same; lesson 05 builds a context builder under a token budget."
+  },
+  {
+    "question": "A feature asks the model to compute the number of business days between two dates. What does the module recommend?",
+    "options": [
+      "Do the date arithmetic in plain code and give the model only the work that needs language understanding",
+      "Add three few-shot examples of date arithmetic",
+      "Use a reasoning model with high effort",
+      "Validate the model's answer with Zod"
+    ],
+    "answer": 0,
+    "explanation": "Deterministic work (dates, sorting, arithmetic, validation) is cheaper, faster and always correct in code. Using a model for it is a listed bad practice."
+  },
+  {
+    "question": "Which modules feed the same layer as this one?",
+    "options": [
+      "Agents (07) and multi-agent systems (09)",
+      "Evals (10) and governance (13)",
+      "Model adaptation (11) only",
+      "Retrieval and RAG (04), knowledge graphs (05) and memory (06)"
+    ],
+    "answer": 3,
+    "explanation": "Layer 2 is everything the model sees. Retrieval, graphs and memory are more sources for the context builder of lesson 05."
+  },
+  {
+    "question": "What do the tests of the module's ADR checkpoint verify?",
+    "options": [
+      "That the ADR uses specific wording from the lessons",
+      "That the plan is coherent with the briefing's numbers, such as an attempt limit that fits the latency budget and a cached prefix with only stable parts, plus the ADR's structure",
+      "That the prompt produces the best possible answers on a real model",
+      "That every lesson of the module was completed"
+    ],
+    "answer": 1,
+    "explanation": "Checkpoints grade decisions against facts, never prose. The same briefing can be answered with different wording, as long as the numbers hold."
+  }
+]

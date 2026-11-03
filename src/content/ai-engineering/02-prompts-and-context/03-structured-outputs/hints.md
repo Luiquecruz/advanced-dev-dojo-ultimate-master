@@ -1,0 +1,5 @@
+Write a tiny `tryParse(text)` helper that wraps `JSON.parse` in `try`/`catch` and returns the `ParseResult` shape. `parseModelJson` then becomes a sequence: direct parse, `indexOf('{')`/`lastIndexOf('}')` slice, `.replace(/,(\s*[}\]])/g, '$1')`, `.replace(/'/g, '"')`.
+---
+In `generateStructured`, keep a local `conversation` copy (`[...messages]`) and a `lastError` string. Loop `for (let attempt = 1; attempt <= maxAttempts; attempt++)`. Check the finish reason before parsing: refusals throw, `length` only sets `lastError`.
+---
+After `parseModelJson` succeeds, `schema.safeParse(parsed.value)` returns `{ success, data }` or `{ success: false, error }`; return `validated.data`, and on failure set `lastError = z.prettifyError(validated.error)`. At the end of a failed attempt, replace the conversation with `[...conversation, { role: 'assistant', content: response.text }, { role: 'user', content: ... lastError ... }]`. After the loop, throw `new StructuredOutputError('exhausted', maxAttempts, lastError)`.

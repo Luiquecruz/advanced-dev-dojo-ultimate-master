@@ -1,0 +1,9 @@
+[
+  { "term": "Context engineering", "description": "Deciding everything the model sees on each call (prompt, examples, history, documents, memory, tools, tool results), not only the instruction wording." },
+  { "term": "Context rot", "description": "Quality degrading as the input grows, especially with irrelevant or distracting material, even well within the context window." },
+  { "term": "Lost in the middle", "description": "Models use information at the start and end of a long context more reliably than information in the middle." },
+  { "term": "Context budget", "description": "The input tokens available for a call: the context window minus the reserved output tokens and a safety margin." },
+  { "term": "Write, select, compress, isolate", "description": "The four context strategies: store information outside the window, pull in only what is relevant, shrink it, and split work across separate contexts." },
+  { "term": "Compaction", "description": "Summarizing a long conversation or agent session into a fresh, shorter context when it nears the limit." },
+  { "term": "Context stuffing", "description": "Sending whole documents and full histories just in case: more cost, more latency and often worse answers." }
+]

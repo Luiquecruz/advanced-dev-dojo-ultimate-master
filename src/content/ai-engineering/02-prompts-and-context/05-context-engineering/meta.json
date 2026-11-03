@@ -1,0 +1,14 @@
+{
+  "title": "Context Engineering",
+  "summary": "Build the context of a call under a token budget: reserve the output, pin the system prompt and the question, select and compress documents, fill by priority, drop old turns without gaps, and report what the model saw.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Anthropic: Effective context engineering for AI agents", "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" },
+    { "label": "LangChain: Context engineering for agents", "url": "https://blog.langchain.com/context-engineering-for-agents/" },
+    { "label": "Chroma Research: Context Rot", "url": "https://www.trychroma.com/research/context-rot" },
+    { "label": "Lost in the Middle: How Language Models Use Long Contexts (paper)", "url": "https://arxiv.org/abs/2307.03172" }
+  ]
+}

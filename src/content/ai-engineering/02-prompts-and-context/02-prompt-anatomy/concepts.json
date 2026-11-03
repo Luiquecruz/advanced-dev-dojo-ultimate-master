@@ -1,0 +1,9 @@
+[
+  { "term": "System message", "description": "Standing instructions that hold for every request: role, constraints, output format. Stable across calls, so it can be versioned and cached." },
+  { "term": "Role", "description": "Who the model acts as and for whom: domain, audience and tone, stated in the system message." },
+  { "term": "Constraints", "description": "Rules that hold for every request, such as allowed labels or things never to do. Positive and specific rules work better than vague prohibitions." },
+  { "term": "Few-shot examples", "description": "Input/output pairs placed before the real request, usually as user and assistant turns. The model copies their format, length and tone." },
+  { "term": "Delimiters", "description": "Markers such as `<input>` tags that separate data from instructions. They only work when the data cannot close them, so the same tag inside the data is neutralized." },
+  { "term": "Chain of thought", "description": "Asking the model to reason step by step before answering. Reasoning models do it on their own with hidden reasoning tokens." },
+  { "term": "Prompt spaghetti", "description": "Prompts assembled by string concatenation across the codebase, with no single builder, no validation and no versioning." }
+]

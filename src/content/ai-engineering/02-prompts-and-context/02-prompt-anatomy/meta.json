@@ -1,0 +1,14 @@
+{
+  "title": "Prompt Anatomy",
+  "summary": "Build prompts from a structured spec: role, constraints and output format in the system message, examples as conversation turns, context, task and input in the final message, and delimiters untrusted input cannot close.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Anthropic: Prompt engineering overview", "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview" },
+    { "label": "Google Gemini API: Prompt design strategies", "url": "https://ai.google.dev/gemini-api/docs/prompting-strategies" },
+    { "label": "Lilian Weng: Prompt Engineering", "url": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/" },
+    { "label": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models (paper)", "url": "https://arxiv.org/abs/2201.11903" }
+  ]
+}

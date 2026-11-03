@@ -1,0 +1,5 @@
+1. Turn the briefing into constraints: a consumer that rejects off-schema records (output mode), a latency budget and a validity target (attempt limit), an accuracy target (example strategy), a context window and a quality cliff (context caps), a backfill budget (processing mode), and an incident (release path).
+2. Decide each numeric choice where two constraints meet: attempts where validity and latency both hold, examples where accuracy holds within the measured range and the token budget, attachments where accuracy held.
+3. Classify every prompt part as stable or varying, order stable parts first and the user's input last, and place the cache breakpoint at the end of the stable run.
+4. Compute the backfill at interactive price first; the gap to the budget is what justifies the batch API, and the projection goes into the plan.
+5. Write the record from the plan: forces with numbers, one "We will" sentence, each rejected alternative tied to the number that removed it, and honest negative consequences such as the human queue and the example pool to curate.

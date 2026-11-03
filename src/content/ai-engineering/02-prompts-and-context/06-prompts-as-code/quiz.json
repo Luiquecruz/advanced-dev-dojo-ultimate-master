@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A teammate fixes a typo directly in `triage@1.2.0`, which is live. Why is that a problem even if the fix is correct?",
+    "options": [
+      "Typos improve model accuracy",
+      "Traces and eval results labeled 1.2.0 now refer to two different texts, so nobody can compare or reproduce them; publish 1.2.1 instead",
+      "Registries cannot store edited prompts",
+      "The model caches prompts by version and will ignore the change"
+    ],
+    "answer": 1,
+    "explanation": "Immutability is what makes a version label meaningful. Every change, however small, is a new version that goes through the same tests and promotion."
+  },
+  {
+    "question": "A render call passes `{ tiket: '...' }` instead of `{ ticket: '...' }`. What should the registry do?",
+    "options": [
+      "Fail, naming `ticket` as missing and `tiket` as unexpected",
+      "Replace the placeholder with an empty string",
+      "Leave `{{ticket}}` in the prompt for the model to interpret",
+      "Guess the closest variable name"
+    ],
+    "answer": 0,
+    "explanation": "Silent fallbacks send broken prompts to production. A strict error with every offending name is caught by the first test run."
+  },
+  {
+    "question": "A new prompt version has no tests. The registry blocks its promotion. Is that right?",
+    "options": [
+      "No: a version without tests cannot fail, so it should pass",
+      "No: tests only matter for production, not staging",
+      "Yes: without tests there is no evidence the version works, so the gate stays closed",
+      "Yes, but only for versions with more than 100 tokens"
+    ],
+    "answer": 2,
+    "explanation": "\"No failures\" is not \"passed\". Requiring at least one property check per version keeps the gate honest."
+  },
+  {
+    "question": "Production metrics drop right after promoting `triage@1.3.0`. What does the registry let you do immediately?",
+    "options": [
+      "Edit 1.3.0 in place until metrics recover",
+      "Delete every version and start over",
+      "Raise the temperature in production",
+      "Roll production back to the previously active version without a deploy, while staging keeps 1.3.0 for investigation"
+    ],
+    "answer": 3,
+    "explanation": "Per-environment activation history makes rollback a one-call operation, and immutable versions guarantee you return to exactly what ran before."
+  }
+]

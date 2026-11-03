@@ -1,0 +1,5 @@
+Write one `assemble(turns, documents)` helper that returns the full message list (system, flattened turns, final message), and check every decision with `countTokens(assemble(...)) <= budget`. The mandatory check is `assemble([], [])`. `compressText` splits with `text.split(/(?<=[.!?])\s+/)` and grows a `kept` string sentence by sentence.
+---
+For documents: filter by `minScore` (remember the dropped ids), sort by score descending with the input index as tie-breaker, map each through `compressText`, then loop and push into `chosen` only when `assemble([], [...chosen, document])` fits. Pass the chosen documents to the final message reversed, so the highest score comes last.
+---
+Group history into turns with a loop of step 2 (`history.slice(index, index + 2)`). Walk `[...turns].reverse()`, and for each turn test `assemble([turn, ...keptTurns], chosen)`: `break` on the first that does not fit, otherwise `keptTurns.unshift(turn)`. `answerWithContext` only computes the budget from `model.contextWindow` and passes `maxTokens`.

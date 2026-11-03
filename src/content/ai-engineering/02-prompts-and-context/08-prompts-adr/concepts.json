@@ -1,0 +1,7 @@
+[
+  { "term": "Context ADR", "description": "The record of the context layer: output contract, attempts, examples, context caps, prompt layout and caching, processing mode and release path, with the forces, alternatives and consequences behind them." },
+  { "term": "Prompt plan", "description": "The implementable part of the decision: prompt version, environments, output mode and attempts, example strategy, layout and cache breakpoint, context budget, processing mode and cost projection." },
+  { "term": "Attempt limit", "description": "The maximum number of model calls per request, chosen where the validity target and the latency budget both hold." },
+  { "term": "Cache breakpoint", "description": "The end of the prompt prefix that is identical across requests and can be cached. Everything after it may vary." },
+  { "term": "Output reserve", "description": "Tokens kept free in the context window for the reply. Input budget = window − reserve." }
+]

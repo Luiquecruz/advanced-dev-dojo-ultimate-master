@@ -1,0 +1,8 @@
+[
+  { "term": "Context layer", "description": "Layer 2 of the track: everything the model sees on each call (prompt, examples, history, documents, memory, tool results)." },
+  { "term": "Prompt engineering", "description": "Structuring the instructions of a call: role, task, constraints, examples, output format and delimiters." },
+  { "term": "Context engineering", "description": "Deciding everything the model sees per call under a budget: write, select, compress and isolate." },
+  { "term": "Structured output", "description": "Model output with a schema your code validates before using it, with repair and bounded retries." },
+  { "term": "Prompts as code", "description": "Versioned, reviewed and tested prompts, released per environment with rollback." },
+  { "term": "Context rot", "description": "Quality degrading as context grows with irrelevant material, well within the context window." }
+]

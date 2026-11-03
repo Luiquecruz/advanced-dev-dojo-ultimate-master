@@ -1,0 +1,12 @@
+{
+  "title": "Map: Prompt and Context Engineering",
+  "summary": "What this module answers (what the model sees on each call and how its output becomes data), its place in layer 2, prerequisites, the path from prompt anatomy to prompts as code, and the context ADR at the end.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Anthropic: Effective context engineering for AI agents", "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" },
+    { "label": "Anthropic: Prompt engineering overview", "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview" },
+    { "label": "Simon Willison: Context engineering", "url": "https://simonwillison.net/2025/Jun/27/context-engineering/" },
+    { "label": "Chip Huyen: AI Engineering (O'Reilly)", "url": "https://www.oreilly.com/library/view/ai-engineering/9781098166298/" }
+  ]
+}
