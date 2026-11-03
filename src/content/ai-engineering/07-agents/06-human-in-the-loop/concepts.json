@@ -1,0 +1,8 @@
+[
+  { "term": "Approval gate", "description": "A check before a risky tool call runs; the call waits for a human decision instead of executing." },
+  { "term": "Interrupt", "description": "A run that returns early with its pending calls and serializable state, instead of blocking while a human decides." },
+  { "term": "Serializable state", "description": "Everything needed to resume a run (conversation, step count, pending calls) as plain JSON, without functions, class instances or secrets." },
+  { "term": "Approve, deny, edit", "description": "The three decisions on a pending call: run it as proposed, refuse it with a reason, or run it with corrected arguments." },
+  { "term": "Argument-based gate", "description": "Approval that depends on the call's arguments, such as refunds above a threshold, instead of on the tool alone." },
+  { "term": "Approval fatigue", "description": "When reviewers see too many requests and approve without reading, so the gate stops protecting anything." }
+]

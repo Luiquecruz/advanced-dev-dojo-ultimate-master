@@ -1,0 +1,5 @@
+Move the loop into a private `continueRun(model, options, state)` that both `startAgent` and `resumeAgent` call. `startAgent` only builds the initial state `{ messages: [user task], steps: 0, pending: [] }`; `resumeAgent` applies decisions and then calls the same function.
+---
+Write `needsApproval(tool, args)`: `typeof tool.requiresApproval === 'function' ? tool.requiresApproval(args) : tool.requiresApproval === true`. In the tool loop, check unknown tool and unparsable arguments first, then approval (push `{ toolCallId: call.id, name: call.name, arguments: args }` to `state.pending`), then execute. Return `interrupted` after the `for` loop when `state.pending.length > 0`.
+---
+In `resumeAgent`, copy the state first (`JSON.parse(JSON.stringify(savedState))`), then collect the pending calls that have no decision and throw if there are any. Loop over `state.pending`, look the tool up by name in the new `tools`, build the content for approve / deny / edit, push a tool message with that `toolCallId`, then set `state.pending = []` and call `continueRun`.

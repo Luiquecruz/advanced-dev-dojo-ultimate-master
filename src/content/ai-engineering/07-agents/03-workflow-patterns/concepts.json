@@ -1,0 +1,10 @@
+[
+  { "term": "Prompt chaining", "description": "A fixed sequence of calls where each works on the previous output, with gates between steps." },
+  { "term": "Gate", "description": "A mechanical check between chain steps (finish reason, format, content rule) that stops the chain before a bad output flows on." },
+  { "term": "Routing", "description": "Classify the input into a closed set of routes, then send it to a specialized prompt or model; unusable classifications go to a fallback." },
+  { "term": "Sectioning", "description": "Parallel calls for different, independent subtasks of one input, aggregated in code." },
+  { "term": "Voting", "description": "The same request sent several times in parallel; answers are aggregated by majority or by an any-flag rule. Self-consistency is the research form." },
+  { "term": "Abstention", "description": "A voter whose answer is unusable or whose call failed; it is counted apart instead of failing the vote." },
+  { "term": "Evaluator-optimizer", "description": "A writer call and an evaluator call in a bounded loop: the evaluator returns pass and feedback, the writer revises." },
+  { "term": "Orchestrator-workers", "description": "An orchestrator model decides subtasks at runtime and delegates them to workers; covered with multi-agent systems." }
+]

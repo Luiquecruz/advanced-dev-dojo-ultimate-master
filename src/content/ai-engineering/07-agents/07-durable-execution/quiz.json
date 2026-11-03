@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A worker charges a card, then is killed before it saves the result. On restart, the run executes the charge again. What prevents a double charge?",
+    "options": [
+      "Retrying the model call with backoff",
+      "Saving the checkpoint more often",
+      "An idempotency key derived from the run id and the tool call id, so the payment provider ignores the repeated request",
+      "A larger step budget"
+    ],
+    "answer": 2,
+    "explanation": "Checkpoints cannot close the window between a side effect and its record. An idempotency key makes the repeated call harmless."
+  },
+  {
+    "question": "Which idempotency key is correct for a charge requested in tool call `call_7` of run `order-1042`?",
+    "options": [
+      "`order-1042:call_7`",
+      "`order-1042:${Date.now()}`",
+      "A new random UUID on every attempt",
+      "`charge` for every charge"
+    ],
+    "answer": 0,
+    "explanation": "The key must be the same on every attempt of this operation and different for any other operation. Time or random values change on retry; a constant key would block legitimate second charges."
+  },
+  {
+    "question": "Why save the assistant turn with its tool calls before executing them?",
+    "options": [
+      "It makes the tools run faster",
+      "So a resumed run can see which requested calls have no result yet and finish them, instead of losing them or asking the model again",
+      "Providers require it",
+      "To reduce token usage"
+    ],
+    "answer": 1,
+    "explanation": "Persisting intent first means every crash point leaves a readable trail: requested calls without results are the unfinished work."
+  },
+  {
+    "question": "A checkpoint is written with a plain `writeFile` over the existing file. What can go wrong?",
+    "options": [
+      "Nothing: `writeFile` is always atomic",
+      "The file grows without limit",
+      "The run id changes",
+      "A crash mid-write can leave a truncated file, destroying the last good checkpoint; write to a temporary file and rename it"
+    ],
+    "answer": 3,
+    "explanation": "Renaming a fully written file is atomic on common file systems, so readers see either the old or the new checkpoint, never half of one."
+  }
+]

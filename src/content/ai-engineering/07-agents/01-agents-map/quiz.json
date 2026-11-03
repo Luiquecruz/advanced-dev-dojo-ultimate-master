@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Which of the six layers does this module belong to, and what question does that layer answer?",
+    "options": [
+      "Layer 1, the model: which model to call",
+      "Layer 4, the loop: how work repeats until it is done",
+      "Layer 2, the context: what the model sees on each call",
+      "Layer 6, governance: who may do what"
+    ],
+    "answer": 1,
+    "explanation": "Workflows, agent loops, stop rules, approvals and durable execution all decide how work repeats. The model, context and governance layers are covered by other modules."
+  },
+  {
+    "question": "A teammate wants to start the module at the agent loop because \"workflows are old-fashioned\". Why does the path put workflow patterns first?",
+    "options": [
+      "Workflows are required by every agent framework",
+      "Agents cannot call tools without a workflow",
+      "The recommended practice is the simplest design that works: many tasks fit a fixed sequence of calls, which is cheaper, faster and easier to test than an agent",
+      "The order is arbitrary"
+    ],
+    "answer": 2,
+    "explanation": "Over-agentification is a named bad practice. Learn the fixed patterns first, so you add an agent only when the number of steps cannot be predicted."
+  },
+  {
+    "question": "Which earlier lesson is the direct prerequisite of the agent loop in lesson 04?",
+    "options": [
+      "Function calling from module 03: the model proposes a tool call, your code executes it and returns the result",
+      "Benchmarks and their limits from module 01",
+      "Choosing few-shot examples from module 02",
+      "The model ADR from module 01"
+    ],
+    "answer": 0,
+    "explanation": "An agent loop is function calling repeated: call the model, run its tool calls, append the results, call again until it answers without tools."
+  },
+  {
+    "question": "Match the failure to the lesson that fixes it: \"the agent paid the same refund twice after the server restarted\".",
+    "options": [
+      "Lesson 05, budgets: the loop ran too long",
+      "Lesson 03, workflow patterns: the task needed routing",
+      "Lesson 06, human-in-the-loop: nobody approved the refund",
+      "Lesson 07, durable execution: checkpoints and idempotency keys prevent repeating a completed side effect after a crash"
+    ],
+    "answer": 3,
+    "explanation": "A restart is a durability problem. Checkpoints record completed steps, and an idempotency key lets the payment service ignore a repeated request for the same tool call."
+  },
+  {
+    "question": "What does the module's ADR checkpoint ask you to produce?",
+    "options": [
+      "A benchmark comparison of agent frameworks",
+      "An agent spec for a briefing: pattern, tools, approval points, budgets, stop rules, durability and failure modes, checked for coherence with the briefing",
+      "A working production agent connected to real APIs",
+      "A list of every agent framework released in 2026"
+    ],
+    "answer": 1,
+    "explanation": "The ADR turns the module into decisions you can defend: which tools need a human, which limits stop the loop, what survives a crash, and which failures you expect."
+  }
+]

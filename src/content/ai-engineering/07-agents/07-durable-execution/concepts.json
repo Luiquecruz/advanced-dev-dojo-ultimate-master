@@ -1,0 +1,8 @@
+[
+  { "term": "Durable execution", "description": "Running a long task so it survives crashes and restarts: progress is recorded and the run continues where it stopped without redoing completed work." },
+  { "term": "Checkpoint", "description": "The saved state of a run (conversation, step count, status, answer) under a run id, written after every step." },
+  { "term": "Atomic write", "description": "A save that either fully replaces the old checkpoint or leaves it untouched, for example a temporary file renamed over the original." },
+  { "term": "Idempotency key", "description": "A stable identifier sent with a side-effecting request so the receiving service performs it at most once, even when it is retried." },
+  { "term": "Persist intent before acting", "description": "Saving the tool calls a model requested before executing them, so a resumed run can see which calls are unfinished." },
+  { "term": "Replay", "description": "How workflow engines resume: the code runs again from the start, and recorded results replace the steps that already completed." }
+]

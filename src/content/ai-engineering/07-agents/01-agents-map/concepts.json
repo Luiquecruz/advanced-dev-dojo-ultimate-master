@@ -1,0 +1,8 @@
+[
+  { "term": "Loop layer", "description": "Layer 4 of the track: how work repeats until done. Workflows, agent loops, stop rules, schedules and multi-agent systems." },
+  { "term": "Workflow", "description": "Model calls and tools orchestrated through code paths you define in advance. The model fills in steps; your code decides the order." },
+  { "term": "Agent", "description": "A system where the model directs its own steps and tool use in a loop until it reaches a goal or a stop condition." },
+  { "term": "Agentic system", "description": "Umbrella term for both workflows and agents: any system where models and tools work together over several steps." },
+  { "term": "Stop condition", "description": "A rule that ends a loop: a final answer, a step, token, cost or time budget, a stuck detector or a human interrupt." },
+  { "term": "Agent spec", "description": "The module's deliverable: goal, pattern, tools, approval points, budgets, stop rules, durability and failure modes for one product." }
+]

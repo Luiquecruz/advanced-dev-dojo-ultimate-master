@@ -1,0 +1,57 @@
+[
+  {
+    "question": "An agent has a 20-step limit but no cost limit. A run reads three 30 000-token documents early and then takes 12 more steps. Why is the step limit not enough?",
+    "options": [
+      "Each step resends the whole growing conversation, so late steps cost far more than early ones; a cost budget limits what you actually pay",
+      "Step limits only work for workflows",
+      "Twelve steps is always too many",
+      "The documents are not counted as tokens"
+    ],
+    "answer": 0,
+    "explanation": "Cost grows with context, not with the step count. Budget the resource that matters, using reported usage."
+  },
+  {
+    "question": "A response pushes the run over its cost budget and contains a `send_invoice` tool call. What should the loop do?",
+    "options": [
+      "Execute the call, then stop",
+      "Stop with `max_cost` without executing the call",
+      "Ignore the budget because a tool call is pending",
+      "Execute the call and raise the budget"
+    ],
+    "answer": 1,
+    "explanation": "Once the budget is gone, the loop cannot follow up on the tool's result. Starting a side effect you cannot finish leaves the system half-changed."
+  },
+  {
+    "question": "The model calls `search({\"q\":\"refunds\",\"page\":1})`, then `search({\"page\":1,\"q\":\"refunds\"})`, then the same again. How should stuck detection treat these calls?",
+    "options": [
+      "As three different calls, because the strings differ",
+      "As a valid paging pattern",
+      "As the same call repeated three times, after normalizing key order",
+      "As an error in the model's JSON"
+    ],
+    "answer": 2,
+    "explanation": "Compare parsed arguments with sorted keys. Raw string comparison would let the agent repeat itself forever by reordering keys."
+  },
+  {
+    "question": "The call that crosses the token budget returns a final answer with no tool calls. What should the run return?",
+    "options": [
+      "`max_tokens` with no answer, because the budget was exceeded",
+      "An exception",
+      "Nothing until a human reviews it",
+      "`done` with the answer: the work is paid for and complete, so discarding it would waste the budget"
+    ],
+    "answer": 3,
+    "explanation": "Budgets prevent waste and runaway loops. A completed answer is the outcome they protect, so it wins."
+  },
+  {
+    "question": "How should you choose the step limit for a new agent?",
+    "options": [
+      "From traces: set it somewhat above the p95 of successful runs on representative tasks, and revisit it when the model, prompt or tools change",
+      "Use the framework default",
+      "Use 1 000 so no run is ever cut short",
+      "Use 1 so costs stay minimal"
+    ],
+    "answer": 0,
+    "explanation": "Limits based on measured runs let normal tasks finish and stop abnormal ones. Defaults differ across frameworks and know nothing about your task."
+  }
+]

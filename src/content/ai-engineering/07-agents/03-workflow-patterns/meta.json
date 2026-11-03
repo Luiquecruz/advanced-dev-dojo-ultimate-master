@@ -1,0 +1,14 @@
+{
+  "title": "Workflow Patterns",
+  "summary": "Build prompt chaining with gates, routing over a closed set with a fallback, parallel sectioning and voting with abstentions, and an evaluator-optimizer with a bounded number of rounds.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Anthropic: Building effective agents", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
+    { "label": "LangGraph: Workflows and agents", "url": "https://docs.langchain.com/oss/javascript/langgraph/workflows-agents" },
+    { "label": "Self-Consistency Improves Chain of Thought Reasoning (paper)", "url": "https://arxiv.org/abs/2203.11171" },
+    { "label": "Self-Refine: Iterative Refinement with Self-Feedback (paper)", "url": "https://arxiv.org/abs/2303.17651" }
+  ]
+}

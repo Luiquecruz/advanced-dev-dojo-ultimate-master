@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A router asks the model for `{\"route\": ...}` and the reply names `\"legal\"`, which is not one of your routes. What should the code do?",
+    "options": [
+      "Create a new legal route on the fly",
+      "Treat it as an unusable classification and send the input to the fallback route",
+      "Throw an error and show it to the user",
+      "Retry the classification until it names a known route, with no limit"
+    ],
+    "answer": 1,
+    "explanation": "The route set is closed and owned by your code. Anything outside it is \"unknown\", which has a defined path: the fallback. Unbounded retries waste calls and may never converge."
+  },
+  {
+    "question": "A five-voter safety check uses `Promise.all`. One voter's call fails with a `503`. What happens, and what is the fix?",
+    "options": [
+      "Nothing: `Promise.all` ignores failures",
+      "The vote waits until the provider recovers",
+      "The other four votes are counted twice",
+      "The whole vote rejects; use `Promise.allSettled` and count the failed call as an abstention"
+    ],
+    "answer": 3,
+    "explanation": "`Promise.all` rejects as soon as one promise rejects. Voting exists to tolerate individual bad answers, so a failed voter should abstain, not sink the result."
+  },
+  {
+    "question": "Why does the evaluator-optimizer return `accepted: false` after its last round instead of just the last draft?",
+    "options": [
+      "So the caller can escalate or flag a draft that never passed, instead of shipping it silently",
+      "Because the evaluator always rejects the last round",
+      "To make the function slower",
+      "Because drafts cannot be returned without a flag"
+    ],
+    "answer": 0,
+    "explanation": "A bounded loop can end without success. Reporting that outcome lets the caller choose: show it with a warning, send it to a human, or try a stronger model."
+  },
+  {
+    "question": "A prompt chain outlines a report and then writes it. The outline step's reply is cut off with `finishReason: 'length'`. What should the chain do?",
+    "options": [
+      "Pass the partial outline to the writer, which can usually fill the gaps",
+      "Stop at the outline step: a reply that did not finish normally fails the step like a rejected gate",
+      "Skip the outline step and write from the original input",
+      "Concatenate the partial outline with the next reply"
+    ],
+    "answer": 1,
+    "explanation": "Truncated, refused or filtered output is not a valid stage result. Letting it flow on produces a plausible report built on an incomplete plan."
+  },
+  {
+    "question": "A contract review needs a summary, a list of risky clauses and a list of deadlines. Each is independent of the others. Which pattern fits best?",
+    "options": [
+      "Voting: ask for all three five times",
+      "An agent that decides which part to do first",
+      "Sectioning: three parallel calls with different instructions, aggregated in code",
+      "A chain: summary, then risks from the summary, then deadlines from the risks"
+    ],
+    "answer": 2,
+    "explanation": "Independent subtasks of one input run in parallel: latency stays close to one call and each prompt stays focused. A chain would add latency and pass lossy summaries forward."
+  }
+]

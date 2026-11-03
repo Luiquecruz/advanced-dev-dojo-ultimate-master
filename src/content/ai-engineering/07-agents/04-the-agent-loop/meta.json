@@ -1,0 +1,14 @@
+{
+  "title": "The Agent Loop",
+  "summary": "Build the loop every agent runs: call the model with tools, execute its tool calls, append results by call id, stop on a final answer, a refusal or the step limit, and survive unknown tools, broken arguments and failing tools.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "ReAct: Synergizing Reasoning and Acting in Language Models (paper)", "url": "https://arxiv.org/abs/2210.03629" },
+    { "label": "Anthropic: Building effective agents", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
+    { "label": "Anthropic: Writing effective tools for agents", "url": "https://www.anthropic.com/engineering/writing-tools-for-agents" },
+    { "label": "OpenAI Agents SDK (JS): Running agents", "url": "https://openai.github.io/openai-agents-js/guides/running-agents/" }
+  ]
+}

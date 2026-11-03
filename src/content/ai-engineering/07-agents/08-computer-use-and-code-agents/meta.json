@@ -1,0 +1,15 @@
+{
+  "title": "Computer Use and Code Agents",
+  "summary": "Agents that act through screens, browsers and generated code: the screenshot-action loop, DOM versus pixels, prompt injection from pages, when an API is better, code as the action, and the sandboxes that contain them.",
+  "level": "advanced",
+  "tags": ["emerging", "theory"],
+  "resources": [
+    { "label": "Anthropic: Computer use tool", "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool" },
+    { "label": "OSWorld 2.0 benchmark", "url": "https://osworld-v2.xlang.ai/" },
+    { "label": "Executable Code Actions Elicit Better LLM Agents (CodeAct paper)", "url": "https://arxiv.org/abs/2402.01030" },
+    { "label": "Anthropic: Code execution with MCP", "url": "https://www.anthropic.com/engineering/code-execution-with-mcp" },
+    { "label": "Brave: Agentic browser security and indirect prompt injection in Comet", "url": "https://brave.com/blog/comet-prompt-injection/" },
+    { "label": "gVisor", "url": "https://gvisor.dev/" },
+    { "label": "Firecracker microVMs", "url": "https://firecracker-microvm.github.io/" }
+  ]
+}

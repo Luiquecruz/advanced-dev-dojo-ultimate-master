@@ -1,0 +1,10 @@
+[
+  { "term": "Computer use", "description": "An agent that operates a graphical interface through screenshots and mouse and keyboard actions, reaching software that has no API." },
+  { "term": "Browser agent", "description": "An agent that acts on web pages, observing them through screenshots, the DOM or the accessibility tree." },
+  { "term": "Accessibility tree", "description": "A structured list of a page's interactive elements with roles and labels; cheaper and more precise for an agent than pixels." },
+  { "term": "Code agent", "description": "An agent whose main action is writing and running code, combining several operations per step and keeping intermediate data out of the model's context." },
+  { "term": "CodeAct", "description": "Research showing that executable code as the action space lets agents solve more tasks in fewer steps than JSON tool calls." },
+  { "term": "Sandbox", "description": "An isolated environment for untrusted code: no secrets, limited network egress, resource and time limits, ephemeral per task." },
+  { "term": "MicroVM", "description": "A lightweight virtual machine with its own kernel (Firecracker, for example) that isolates code more strongly than a container." },
+  { "term": "Egress allowlist", "description": "A rule that lets a sandbox reach only named destinations, so injected instructions cannot send data anywhere else." }
+]

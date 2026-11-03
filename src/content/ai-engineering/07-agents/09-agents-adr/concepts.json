@@ -1,0 +1,7 @@
+[
+  { "term": "Agent ADR", "description": "The record of a loop-layer decision: pattern, tools, approvals, budgets, durability and failure modes, with the forces, alternatives and consequences behind them." },
+  { "term": "Agent spec", "description": "The implementable part of the decision: goal, tools, approval rules, budgets, stuck limit, what happens when a budget ends, durability and expected failures." },
+  { "term": "Least privilege", "description": "Granting an agent only the tools its task needs, so mistakes and injected instructions have the smallest possible reach." },
+  { "term": "Binding constraint", "description": "The budget that fires first for a given run; coherent budgets make the intended limit (usually steps) the binding one." },
+  { "term": "Human handoff", "description": "The defined outcome for a run that cannot finish: the task returns to a person with the conversation attached." }
+]

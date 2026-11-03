@@ -1,0 +1,6 @@
+1. Notice what every pattern shares: your code owns the control flow. The model never decides what runs next; it produces text that your code checks before acting on it.
+2. Make every model output safe to inspect. JSON answers go through a parser that returns "nothing" on failure, and every field is type-checked, so a malformed classification or evaluation takes a defined path (fallback, abstention, rejection) instead of throwing.
+3. Put gates between chain steps. A step whose reply did not finish normally, or whose content fails a mechanical check, stops the chain before its output contaminates the next prompt.
+4. Route with a closed set. The classifier can only choose from names your code listed; anything outside the set is treated as "I do not know" and goes to the fallback.
+5. Parallelize independent calls by starting them together. Sectioning splits a task into different questions; voting asks the same question several times and aggregates, so one failed or odd voter does not decide the outcome, and a tie stays undecided instead of being guessed.
+6. Bound every loop. The evaluator-optimizer stops on a pass or after a fixed number of rounds, and returns whether the result was accepted so the caller can decide what to do with an unaccepted draft.

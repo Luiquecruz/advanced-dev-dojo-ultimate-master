@@ -1,0 +1,6 @@
+1. Decide what "risky" means per tool and per call: some tools always need a human (closing an account, sending an email), others only above a threshold (a refund over $50). Express it as data on the tool so the loop stays generic.
+2. Pause before acting, never after. The approval check sits between parsing the call and executing it; a pending call has produced no side effect.
+3. Let safe work proceed. Calls in the same response that need no approval run immediately; only the risky ones wait.
+4. Make the pause a value, not a blocked thread. The run returns everything needed to continue (conversation, step count, pending calls) as plain JSON, so it can be stored, shown in a review UI, and resumed hours later by another process.
+5. Resume from data alone. Tools are functions and are supplied again on resume; the saved state never contains them. Copy the state before changing it so the caller's saved version stays intact.
+6. Require a decision for every pending call, and turn each decision into a tool result the model can read: the real result for approve, the result of the edited call for edit, an explicit denial with the reason for deny. Then continue the same loop, which may pause again.

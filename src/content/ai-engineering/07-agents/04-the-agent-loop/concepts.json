@@ -1,0 +1,8 @@
+[
+  { "term": "Agent loop", "description": "Call the model with the conversation and tools, run its tool calls, append the results, repeat until a final answer or another stop condition." },
+  { "term": "ReAct", "description": "Reason + act: the model alternates reasoning and tool actions, treating each tool result as a new observation. The research origin of the agent loop." },
+  { "term": "Tool call id", "description": "The identifier that ties a tool result message to the call that requested it; one result per id is sent before the next model turn." },
+  { "term": "Error result", "description": "A tool result that describes a failure (unknown tool, invalid arguments, exception) in words the model can act on, instead of crashing the loop." },
+  { "term": "Final answer", "description": "A model reply with no tool calls; the normal way an agent loop ends." },
+  { "term": "Step limit", "description": "The maximum number of model calls in one run; the minimum budget every loop needs." }
+]

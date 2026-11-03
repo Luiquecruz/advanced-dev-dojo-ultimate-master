@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Resolve's catalog includes `run_sql`, which can read and write any table. An engineer argues it would help the agent with rare cases. Where does it belong in the ADR?",
+    "options": [
+      "In `tools`, because more tools mean more resolved tickets",
+      "In `approvals`, gated by a human",
+      "In the rejected alternatives: the task does not need it, and least privilege keeps a tool that can touch everything out of the agent's reach",
+      "Nowhere: unused tools are not worth recording"
+    ],
+    "answer": 2,
+    "explanation": "Recording why a tempting capability was refused saves the debate when someone proposes it again, and keeps the agent's blast radius small."
+  },
+  {
+    "question": "The plan sets `maxSteps: 16` and `maxCostUsd: 0.06`, with steps costing about $0.006 each. What is wrong?",
+    "options": [
+      "Nothing: both limits are below the targets",
+      "The cost cap fires after about 10 steps, before the p95 run of 11 steps can finish, so the step limit is decoration and normal tickets fail",
+      "The step limit is too low",
+      "Cost caps should always be ten times the step limit"
+    ],
+    "answer": 1,
+    "explanation": "Budgets must agree. A cost cap below `maxSteps × cost per step` silently becomes the binding limit and cuts off successful runs."
+  },
+  {
+    "question": "Why does the briefing make `checkpointEveryStep: true` mandatory for Resolve?",
+    "options": [
+      "Approvals can take 24 hours while workers are redeployed several times a day, so in-memory runs would be lost or repeat refunds",
+      "Checkpoints make the model more accurate",
+      "Checkpoints reduce token usage",
+      "The payment API requires checkpoints"
+    ],
+    "answer": 0,
+    "explanation": "A run that waits for a human outlives the process that started it. Checkpoints plus idempotency keys let it resume without losing or repeating work."
+  },
+  {
+    "question": "A teammate proposes approval for every tool call, including `get_order` and `read_policy`, \"to be safe\". What is the best review comment?",
+    "options": [
+      "Agreed: more approvals are always safer",
+      "Approve only reads, since writes are already idempotent",
+      "Remove approvals entirely and rely on budgets",
+      "Gate only risky writes (refunds above $50); gating read-only calls creates approval fatigue and makes reviewers stop reading the approvals that matter"
+    ],
+    "answer": 3,
+    "explanation": "Approval is a scarce resource: human attention. Spend it on irreversible, high-value actions, where it actually prevents damage."
+  }
+]

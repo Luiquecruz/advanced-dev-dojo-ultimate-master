@@ -1,0 +1,68 @@
+[
+  {
+    "question": "By Anthropic's definition in \"Building effective agents\", what separates a workflow from an agent?",
+    "options": [
+      "Workflows use small models and agents use frontier models",
+      "Workflows follow predefined code paths; agents let the model dynamically direct its own process and tool use",
+      "Workflows never call tools; agents always do",
+      "Agents run in the cloud and workflows run locally"
+    ],
+    "answer": 1,
+    "explanation": "The line is who decides the next step. Model size, tool use and hosting are independent of it: a workflow can call tools, and an agent can run on a small model."
+  },
+  {
+    "question": "An invoice pipeline always does the same three things: extract fields, validate them against the purchase order, and draft an approval note. Which design fits best?",
+    "options": [
+      "An agent with the three steps as tools, so it can choose their order",
+      "A swarm of three agents that negotiate",
+      "A prompt chain (workflow) with a validation check between stages",
+      "One call that does everything with no checks"
+    ],
+    "answer": 2,
+    "explanation": "The steps are known and identical for every input, and each stage has a mechanical check. A workflow is cheaper, faster, testable stage by stage and auditable; an agent adds unpredictability for nothing."
+  },
+  {
+    "question": "Each step of an agent succeeds 95% of the time, independently. Roughly how often is a 10-step run fully correct?",
+    "options": [
+      "About 60%",
+      "About 95%",
+      "About 50% exactly",
+      "About 99%, because later steps fix earlier ones"
+    ],
+    "answer": 0,
+    "explanation": "0.95^10 is about 0.60. Long runs compound errors unless something checks the intermediate results, which is why workflows put mechanical gates between stages."
+  },
+  {
+    "question": "Which task most justifies an agent instead of a workflow?",
+    "options": [
+      "Translating product descriptions into three languages",
+      "Classifying tickets into 12 categories",
+      "Summarizing a fixed weekly report",
+      "Fixing a failing test in an unfamiliar repository, where the number of files to read and commands to run depends on what each step reveals"
+    ],
+    "answer": 3,
+    "explanation": "Agents pay off when the number of steps cannot be predicted and the environment gives feedback (test output, file contents) after each action. The other tasks have a fixed shape."
+  },
+  {
+    "question": "A team's support assistant is an agent with 25 tools. Answers are slow and costs vary tenfold between similar tickets. Traces show 80% of tickets follow the same path: look up the order, check the policy, reply. What is the best next step?",
+    "options": [
+      "Add more tools so the agent has more options",
+      "Move to a larger model so it plans better",
+      "Turn the common path into a fixed workflow and route only the unusual tickets to the agent",
+      "Remove the budget so the agent can finish more tickets"
+    ],
+    "answer": 2,
+    "explanation": "This is over-agentification. A hybrid keeps the predictable path cheap and testable and spends agent autonomy only where it is needed."
+  },
+  {
+    "question": "What does \"Building effective agents\" recommend about frameworks?",
+    "options": [
+      "Always start with the most popular framework",
+      "Start with model APIs directly, since many patterns take a few lines of code, and if you adopt a framework, understand the code underneath it",
+      "Never use frameworks in production",
+      "Frameworks are required for agents but not for workflows"
+    ],
+    "answer": 1,
+    "explanation": "Frameworks can hide prompts and responses behind abstractions, which makes debugging harder. Knowing the plain loop lets you choose a framework where it earns its place."
+  }
+]

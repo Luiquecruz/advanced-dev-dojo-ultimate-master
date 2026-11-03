@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A refund agent waits for a manager's approval, which can take hours. Which design survives a server restart in the meantime?",
+    "options": [
+      "Keep the promise for the model call open until the manager clicks",
+      "Return an interrupt with the run's state as plain JSON, store it, and resume from it when the decision arrives",
+      "Execute the refund and ask for approval afterwards",
+      "Poll the manager's inbox inside the loop"
+    ],
+    "answer": 1,
+    "explanation": "A paused run must be data, not a blocked thread. Serializable state can be stored, reviewed and resumed by any process."
+  },
+  {
+    "question": "Why should the saved state not contain the tool objects with their `execute` functions?",
+    "options": [
+      "Functions do not survive JSON serialization; tools are supplied again on resume, and credentials stay in the environment instead of a stored conversation",
+      "Functions make the state too large",
+      "The model cannot read functions",
+      "Tools change every time the agent resumes"
+    ],
+    "answer": 0,
+    "explanation": "JSON drops functions silently, and storing live clients or secrets with a conversation is a security risk. Keep state as plain data."
+  },
+  {
+    "question": "A reviewer denies a transfer with the reason \"recipient not on the allowlist\". What should the model receive?",
+    "options": [
+      "Nothing, so it does not try again",
+      "A fake success result",
+      "A tool result for that call id saying it was denied, with the reason, so it can choose another path or explain it to the user",
+      "The reviewer's name only"
+    ],
+    "answer": 2,
+    "explanation": "Every call needs a result, and the reason steers the next step. Silence leaves the conversation malformed; a fake success makes the final answer lie."
+  },
+  {
+    "question": "Every tool of an agent, including read-only lookups, requires approval. After a month, reviewers approve 99.8% of requests in under two seconds. What is happening?",
+    "options": [
+      "The agent has become perfectly safe",
+      "Reviewers are too slow",
+      "The gate should also cover the model's text answers",
+      "Approval fatigue: the gate is too wide, so reviewers rubber-stamp; gate only risky calls, by tool and by arguments"
+    ],
+    "answer": 3,
+    "explanation": "A gate that fires on everything trains people to stop reading. Narrow gates on risky actions get real attention."
+  }
+]

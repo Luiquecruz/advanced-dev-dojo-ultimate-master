@@ -1,0 +1,5 @@
+1. Separate the two responsibilities: the loop decides when to call the model and when to stop; tool execution turns one proposed call into one result string. Keeping execution in its own function makes the loop short and lets you test failure handling alone.
+2. Treat every tool call as untrusted input. The model may name a tool you never offered or write arguments that are not JSON. Validate the name and the argument shape before running anything, and turn every problem, including an exception inside the tool, into an error result.
+3. Write error results for the model, not for a log: say what went wrong and what is available, so the next step can correct itself instead of repeating the mistake.
+4. Keep the conversation as the single source of state. Append the assistant turn with its tool calls, then one tool message per call id, in order, and send the whole history on the next step.
+5. Define every way the loop ends and return it explicitly: a final answer, a refusal, or the step limit. A loop whose only exit is "the model decided to stop" is not finished.

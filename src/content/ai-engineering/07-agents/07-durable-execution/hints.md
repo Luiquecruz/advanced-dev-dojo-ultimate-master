@@ -1,0 +1,5 @@
+In the file store, build the path in one helper that first checks the run id with `/^[A-Za-z0-9_-]+$/` and throws otherwise. `save` is `mkdir(directory, { recursive: true })`, `writeFile(path + '.tmp', JSON.stringify(checkpoint))`, `rename(path + '.tmp', path)`. `load` wraps `readFile` in `try`/`catch` and returns `undefined` only when `error.code === 'ENOENT'`.
+---
+Write `unansweredCalls(messages)`: find the index of the last `assistant` message, collect the `toolCallId`s of the messages after it, and return that assistant's `toolCalls` whose ids are not in the set. On a fresh run it returns nothing; after a crash it returns exactly the calls whose results were not checkpointed.
+---
+Shape the loop so the same code serves a fresh run and a resumed one: at the top of `while (true)`, run `unansweredCalls` and save after each result; then check the step limit; then call the model, append the turn, mark done when there are no tool calls, and save once before returning or looping. Saving the assistant turn before executing its tools is what lets a resumed run find them.

@@ -1,0 +1,8 @@
+[
+  { "term": "Budget", "description": "A limit the code enforces on a run: steps, tokens, cost, wall time or repetition." },
+  { "term": "Stop reason", "description": "A structured value (`done`, `max_cost`, `stuck`...) plus a readable detail that says why a run ended, so callers can react and dashboards can count." },
+  { "term": "Reported usage", "description": "The token counts and cost the provider returns with each response; the numbers that match the invoice." },
+  { "term": "Stuck detection", "description": "Stopping a run when the same tool call (same name, same normalized arguments) repeats several times in a row." },
+  { "term": "Call signature", "description": "A normalized identity for a tool call: its name plus its arguments serialized with sorted keys." },
+  { "term": "Injected clock", "description": "A `now()` function passed in instead of reading the system time, so time limits are deterministic in tests." }
+]

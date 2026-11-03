@@ -1,0 +1,15 @@
+{
+  "title": "Durable Execution",
+  "summary": "Checkpoint an agent run atomically after every step, resume it after a crash from the same run id, and use stable idempotency keys so a side effect interrupted before its checkpoint never happens twice.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Temporal: Workflows", "url": "https://docs.temporal.io/workflows" },
+    { "label": "LangGraph: Durable execution", "url": "https://docs.langchain.com/oss/javascript/langgraph/durable-execution" },
+    { "label": "Stripe: Idempotent requests", "url": "https://docs.stripe.com/api/idempotent_requests" },
+    { "label": "Brandur Leach: Implementing Stripe-like idempotency keys in Postgres", "url": "https://brandur.org/idempotency-keys" },
+    { "label": "DBOS documentation", "url": "https://docs.dbos.dev" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Budgets and Stop Conditions",
+  "summary": "Bound the agent loop with step, token, cost and wall-time budgets read from reported usage and an injected clock, detect a stuck agent repeating the same call, and return a structured stop reason with usage totals.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Anthropic: Building effective agents (stopping conditions)", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
+    { "label": "Anthropic: How we built our multi-agent research system", "url": "https://www.anthropic.com/engineering/multi-agent-research-system" },
+    { "label": "Pydantic AI: Agents (usage limits)", "url": "https://ai.pydantic.dev/agents/" },
+    { "label": "OpenAI Agents SDK (JS): Running agents", "url": "https://openai.github.io/openai-agents-js/guides/running-agents/" }
+  ]
+}

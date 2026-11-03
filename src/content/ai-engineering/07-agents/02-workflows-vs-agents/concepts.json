@@ -1,0 +1,9 @@
+[
+  { "term": "Workflow", "description": "Models and tools orchestrated through predefined code paths. Your code decides the order of steps; the model fills each one in." },
+  { "term": "Agent", "description": "A system where the model dynamically directs its own process and tool use, inside limits your code enforces." },
+  { "term": "Agentic system", "description": "Umbrella term for workflows and agents alike, as used in Anthropic's \"Building effective agents\"." },
+  { "term": "Augmented LLM", "description": "The building block of both shapes: a model call enhanced with retrieval, tools and memory." },
+  { "term": "Compounding errors", "description": "Per-step error rates multiply over a run: 95% per step gives about 60% over 10 independent steps." },
+  { "term": "Over-agentification", "description": "Using an agent where a fixed workflow would do, paying cost, latency and unpredictability for no gain." },
+  { "term": "Hybrid", "description": "A workflow with one agentic stage, or an agent whose risky actions run through fixed steps such as approvals." }
+]

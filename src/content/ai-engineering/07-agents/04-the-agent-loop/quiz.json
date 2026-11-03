@@ -1,0 +1,46 @@
+[
+  {
+    "question": "The model calls `refund_order`, a tool you never offered. What should the loop do?",
+    "options": [
+      "Throw an error and end the run",
+      "Find the closest tool name and run it",
+      "Send back a tool result for that call id saying the tool does not exist and listing the available tools, then continue",
+      "Ignore the call and send the same request again"
+    ],
+    "answer": 2,
+    "explanation": "Unknown tools are a normal model failure. An error result written for the model lets it correct course; guessing a different tool would act on something it did not ask for."
+  },
+  {
+    "question": "A tool call's `arguments` is `{\"city\": ` (cut off). Why not run the tool with default arguments?",
+    "options": [
+      "Defaults are slower",
+      "You would perform an action the model did not request; return an error result so it can call again with valid JSON",
+      "Tools cannot have defaults",
+      "The provider forbids it"
+    ],
+    "answer": 1,
+    "explanation": "Broken arguments mean the intent is unknown. Executing anyway can do the wrong thing, possibly with side effects. Report the problem and let the next step fix it."
+  },
+  {
+    "question": "One response contains two tool calls. What must the next request contain?",
+    "options": [
+      "The assistant turn with both tool calls, followed by one tool result per call id",
+      "Only the result of the first call",
+      "Both results merged into one user message",
+      "Nothing: the model remembers its calls"
+    ],
+    "answer": 0,
+    "explanation": "The model is stateless between calls. It needs its own turn and a result matched to each call id; most providers reject a request with unanswered tool calls."
+  },
+  {
+    "question": "Why does `runAgent` return a status instead of only the final text?",
+    "options": [
+      "Statuses make responses smaller",
+      "The model requires it",
+      "Text is never available at the end of a run",
+      "Callers must tell a real answer from a refusal or a run cut off by the step limit, and handle each differently"
+    ],
+    "answer": 3,
+    "explanation": "A loop has several exits. Returning which one happened lets the caller retry, escalate or show the answer, instead of treating every ending as success."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "title": "Map: Agents and Workflows",
+  "summary": "What this module answers (how work repeats until done), its place in the loop layer, the prerequisites from earlier modules, the path from workflows to durable agents, and the agent spec ADR at the end.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Anthropic: Building effective agents", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
+    { "label": "Simon Willison: a working definition of \"agent\"", "url": "https://simonwillison.net/2025/Sep/18/agents/" },
+    { "label": "Chip Huyen: Agents", "url": "https://huyenchip.com/2025/01/07/agents.html" },
+    { "label": "LangGraph: Workflows and agents", "url": "https://docs.langchain.com/oss/javascript/langgraph/workflows-agents" }
+  ]
+}

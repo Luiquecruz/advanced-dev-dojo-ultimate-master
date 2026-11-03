@@ -1,0 +1,12 @@
+{
+  "title": "Workflows vs Agents",
+  "summary": "Predefined code paths versus a model that directs its own steps, the spectrum between them, what autonomy costs (latency, compounding errors, testing, risk), and when a fixed workflow beats an agent.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Anthropic: Building effective agents", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
+    { "label": "LangGraph: Workflows and agents", "url": "https://docs.langchain.com/oss/javascript/langgraph/workflows-agents" },
+    { "label": "Hugging Face smolagents: Introduction to agents", "url": "https://huggingface.co/docs/smolagents/conceptual_guides/intro_agents" },
+    { "label": "Chip Huyen: Agents", "url": "https://huyenchip.com/2025/01/07/agents.html" }
+  ]
+}
