@@ -1,0 +1,10 @@
+[
+  { "term": "BM25", "description": "The standard keyword ranking function: idf-weighted, saturated term frequency with document length normalization. Default in Lucene, Elasticsearch and OpenSearch." },
+  { "term": "idf", "description": "Inverse document frequency: terms found in few documents weigh more. BM25 uses `ln(1 + (N - n + 0.5) / (n + 0.5))`." },
+  { "term": "k1", "description": "BM25 parameter for term frequency saturation, usually 1.2 to 2.0. Larger values let repeated terms keep adding score longer." },
+  { "term": "b", "description": "BM25 parameter for length normalization from 0 (ignore length) to 1 (full normalization); default 0.75." },
+  { "term": "Hybrid search", "description": "Running keyword and vector retrieval and fusing their rankings, so exact identifiers and paraphrases are both found." },
+  { "term": "Reciprocal Rank Fusion", "description": "Fuses rankings with the sum of `1 / (k + rank)`, k = 60. Uses ranks only, so retrievers with incomparable scores combine safely, and agreement is rewarded." },
+  { "term": "Candidates", "description": "How many results each retriever contributes before fusion or reranking. Fusion can only reorder what was retrieved, so candidates exceed the final topK." },
+  { "term": "Learned sparse retrieval", "description": "Models such as SPLADE that produce weighted term vectors for an inverted index, between BM25 and dense embeddings." }
+]

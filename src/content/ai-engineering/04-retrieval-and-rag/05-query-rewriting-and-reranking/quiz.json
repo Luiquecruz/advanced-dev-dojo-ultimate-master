@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Why do vector databases not use a cross-encoder for the whole search instead of embeddings?",
+    "options": [
+      "Cross-encoders are less accurate than embeddings",
+      "A cross-encoder must read the query together with every document at query time, which is far too slow for a whole corpus; embeddings are computed once per document",
+      "Cross-encoders only work with BM25",
+      "Cross-encoders cannot output scores"
+    ],
+    "answer": 1,
+    "explanation": "Bi-encoders (embeddings) trade accuracy for precomputation. The usual design retrieves candidates fast, then reranks a few dozen with the slower, more accurate model."
+  },
+  {
+    "question": "The reranker returns `Sure! Here are the scores: {\"scores\": [{\"id\": \"doc-9\", \"score\": 10}]}`, but doc-9 was not among the candidates. What should the pipeline do?",
+    "options": [
+      "Ignore the invented id and keep the candidates in retrieval order (or by any valid scores)",
+      "Fetch doc-9 and put it first",
+      "Throw an error so the user retries",
+      "Retry until the model stops inventing ids"
+    ],
+    "answer": 0,
+    "explanation": "Only candidates you sent can be ranked. Invented ids and invalid scores are ignored; missing scores fall back to retrieval order, so the worst case is no reranking, not an error."
+  },
+  {
+    "question": "In a chat, a user asks \"What does the Scale plan include?\" and then \"And can I get a refund on it?\". Which query-side technique matters most for the second message?",
+    "options": [
+      "HyDE",
+      "A larger topK",
+      "Rewriting the follow-up into a standalone question using the conversation (\"Can I get a refund on the Scale plan?\")",
+      "Removing stopwords"
+    ],
+    "answer": 2,
+    "explanation": "\"it\" means nothing to a retriever. Conversational query rewriting resolves references before the search."
+  },
+  {
+    "question": "A team adds multi-query (one extra model call) and HyDE (another call) to every search. What must they check before shipping?",
+    "options": [
+      "Nothing: more model calls always improve quality",
+      "That the model never returns malformed JSON",
+      "That HyDE passages are shown to users as answers",
+      "That recall on the golden set improves enough to justify the added latency and cost of two calls per request, and that failures fall back to the original question"
+    ],
+    "answer": 3,
+    "explanation": "Query-side steps run before the search on every request. Measure the gain, budget the latency, and make every failure degrade to plain retrieval."
+  }
+]

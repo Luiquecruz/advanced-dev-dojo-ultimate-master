@@ -1,0 +1,14 @@
+{
+  "title": "Chunking",
+  "summary": "Build fixed, recursive and Markdown-aware chunkers with overlap, exact offsets and heading paths: the ingestion step every later retrieval decision inherits.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Pinecone: Chunking strategies for LLM applications", "url": "https://www.pinecone.io/learn/chunking-strategies/" },
+    { "label": "LangChain: Text splitters", "url": "https://python.langchain.com/docs/concepts/text_splitters/" },
+    { "label": "Anthropic: Introducing Contextual Retrieval", "url": "https://www.anthropic.com/engineering/contextual-retrieval" },
+    { "label": "Lewis et al.: Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks (paper)", "url": "https://arxiv.org/abs/2005.11401" }
+  ]
+}

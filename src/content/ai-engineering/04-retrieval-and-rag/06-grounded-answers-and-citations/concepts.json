@@ -1,0 +1,8 @@
+[
+  { "term": "Grounded answer", "description": "An answer whose every claim is supported by a source the system provided in this request." },
+  { "term": "Citation", "description": "A reference from a claim to a provided source, such as `[2]`, mapped back to a document id and location for the reader." },
+  { "term": "Citation validation", "description": "Checking in code that a reply cites at least one source and that every cited source was actually provided, instead of trusting the prompt." },
+  { "term": "Evidence threshold", "description": "The minimum retrieval score for a passage to enter the context. When nothing passes, the system refuses without calling the model." },
+  { "term": "Repair attempt", "description": "One extra model call with the rejected reply and specific feedback. Bounded so a stubborn model cannot run up cost." },
+  { "term": "Faithfulness", "description": "Whether the cited sources actually support the answer's claims. Measured offline with judges or entailment models (module 10)." }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Retrieval returns no passage above the threshold for \"Who won the 1998 World Cup?\" in the Brightdesk assistant. What should happen?",
+    "options": [
+      "Call the model without context; it probably knows",
+      "Return a fixed \"not found in the handbook\" response without calling the model",
+      "Lower the threshold until something passes",
+      "Call the model with the top passages anyway"
+    ],
+    "answer": 1,
+    "explanation": "With no evidence there is nothing to ground an answer in. Refusing in code is cheaper, faster and avoids a fluent answer from training data presented as if it came from your documents."
+  },
+  {
+    "question": "Four sources were provided. The answer cites [2] and [6]. Document 6 exists in the corpus. Is the answer valid?",
+    "options": [
+      "Yes, because document 6 exists",
+      "Yes, because at least one citation is valid",
+      "No: [6] was not provided in this request, so the claim it supports is not grounded in this context; repair once or withhold",
+      "No, because answers may cite only one source"
+    ],
+    "answer": 2,
+    "explanation": "Citations must point at sources the model actually saw for this answer. Anything else is invented, even when the number happens to match something elsewhere."
+  },
+  {
+    "question": "Why does the pipeline allow exactly one repair attempt instead of retrying until the citations are valid?",
+    "options": [
+      "Models cannot read feedback",
+      "The second reply is always valid",
+      "Repairs are free",
+      "One specific retry fixes most slips; an unbounded loop multiplies cost and latency when the model keeps failing, and withholding is a safe outcome"
+    ],
+    "answer": 3,
+    "explanation": "Bounded retries are a recurring pattern: budget the attempts, then degrade gracefully."
+  },
+  {
+    "question": "Which check belongs in offline evaluation rather than in every request?",
+    "options": [
+      "Faithfulness: whether each cited passage actually supports the sentence, judged by a model or an entailment classifier on samples",
+      "Whether the cited numbers were provided",
+      "Whether the reply finished with `stop`",
+      "Whether any passage passed the threshold"
+    ],
+    "answer": 0,
+    "explanation": "The structural checks are cheap code and run on every request. Judging support needs another model call, so it is usually sampled and measured in evals (module 10)."
+  }
+]

@@ -1,0 +1,6 @@
+1. Separate indexing from querying. Everything that depends only on the corpus (term counts, document lengths, average length, document frequencies) is computed once when the index is built; a query only looks values up.
+2. Implement idf first and check its property: a token in one document must weigh more than a token in most of them, and the Lucene variant stays positive even for a token in every document.
+3. Write the term contribution literally from the formula, then sum it over the unique query tokens. Check the two knobs by reasoning: with `b = 0` the length term disappears; as `tf` grows, the fraction approaches `k1 + 1`.
+4. Search scores every document, keeps only positive scores (documents that share no token are not results), sorts and cuts to topK.
+5. RRF works on ranks only, which is what makes it safe to combine retrievers whose scores are not comparable. Count each id once per ranking, sum `1 / (k + rank)`, and rely on insertion order for deterministic ties.
+6. Hybrid search asks each retriever for more candidates than you will return, runs them in parallel, treats a failed retriever as an empty vote rather than a fatal error, and fails only when no retriever answered.

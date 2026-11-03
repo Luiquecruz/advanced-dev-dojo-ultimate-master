@@ -1,0 +1,7 @@
+Build `parseJsonLoosely` as a list of candidate strings (the trimmed text, the fenced block from `text.match(/```(?:json)?\s*([\s\S]*?)```/)`, and `text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1)`) and a small `tryParse` that returns `undefined` instead of throwing. For each candidate try it raw, then repaired with `.replace(/'/g, '"').replace(/,\s*([}\]])/g, '$1')`.
+---
+All three model steps share one shape: wrap `model.generate` in `try`/`catch`, treat a `finishReason` other than `'stop'` or `'length'` like an error, and return the fallback in both cases. A helper `askJson(model, system, user)` that returns the parsed value or `undefined` keeps `generateQueries` and `rerank` short.
+---
+In `generateQueries`, start with `queries = [question]` and a `Set` holding `question.trim().toLowerCase()`; push each string rewrite whose normalized form is new, then `slice(0, count + 1)`. In `rerank`, fill a `Map` from id to score only when the id is a known candidate, not yet in the map and the score passes `typeof score === 'number' && Number.isFinite(score) && score >= 0 && score <= 10`.
+---
+Order the rerank results in two groups: `candidates.filter(has score).sort(by score descending)` (sort is stable, so ties keep retrieval order) followed by `candidates.filter(no score)`. Map each to `{ ...candidate, score: scores.get(id) ?? null }`, slice to `topK`, and set `reranked` to `scores.size > 0`.

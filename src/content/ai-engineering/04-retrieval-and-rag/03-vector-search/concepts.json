@@ -1,0 +1,10 @@
+[
+  { "term": "Embedding", "description": "A fixed-length vector produced by an embedding model so that texts with similar meaning point in similar directions. Only vectors from the same model and version are comparable." },
+  { "term": "Dimension", "description": "The length of an embedding vector. Fixed per model (or per truncation setting); an index must hold vectors of one dimension only." },
+  { "term": "Cosine similarity", "description": "Dot product divided by the product of the vector lengths, from -1 to 1. Equals the dot product for unit vectors." },
+  { "term": "Top-k", "description": "The k highest-scoring candidates. Vector search always finds k neighbors, relevant or not." },
+  { "term": "Similarity threshold", "description": "A minimum score below which results are dropped, so a query the corpus cannot answer returns nothing. Calibrated per embedding model." },
+  { "term": "Pre-filtering", "description": "Applying metadata filters before ranking, so results are always eligible and topK fills up. Post-filtering the top results can leave too few or none." },
+  { "term": "ANN index", "description": "Approximate nearest neighbor structures such as HNSW (graph) and IVF (clusters) that search millions of vectors fast, trading a little recall for speed." },
+  { "term": "Vector store", "description": "A database for embeddings with filtered similarity search, such as pgvector, Qdrant, Weaviate, Milvus, Pinecone or LanceDB." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "RAG", "description": "Retrieval-Augmented Generation: retrieve relevant passages, put them in context, generate a grounded answer with citations." },
+  { "term": "Ingestion pipeline", "description": "Load, clean, chunk, attach metadata, embed and index documents, and keep the index in sync with updates and deletions." },
+  { "term": "Retriever", "description": "The component that turns a query into a ranked list of passages: keyword (BM25), vector, or hybrid." },
+  { "term": "Grounding", "description": "Answering only from provided sources, with citations that can be validated." },
+  { "term": "Golden set", "description": "Queries with known relevant passages, used to measure retrieval with recall@k, MRR and nDCG." },
+  { "term": "Permission-aware retrieval", "description": "Never retrieving what the user cannot see: tenant and ACL filters applied inside the search." }
+]

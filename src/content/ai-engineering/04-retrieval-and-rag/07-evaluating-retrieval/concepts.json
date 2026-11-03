@@ -1,0 +1,9 @@
+[
+  { "term": "Golden set", "description": "Real or realistic queries with the passages that should be retrieved, graded by relevance. The fixed test every retrieval change runs against." },
+  { "term": "recall@k", "description": "Share of the relevant passages found in the top k. Answers \"did the right material reach the prompt?\"" },
+  { "term": "MRR", "description": "Mean reciprocal rank: the average of 1 / position of the first relevant result. Rewards putting one good answer near the top." },
+  { "term": "nDCG@k", "description": "Normalized discounted cumulative gain: graded relevance discounted by position and divided by the ideal ordering, from 0 to 1." },
+  { "term": "precision@k", "description": "Share of the top k that is relevant. Matters when irrelevant context is costly or misleading." },
+  { "term": "Graded relevance", "description": "Relevance on a scale (for example 0 to 3) instead of yes or no, so a passage that fully answers counts more than a related one." },
+  { "term": "Retrieval vs generation evals", "description": "Retrieval metrics check what reached the prompt; generation metrics (faithfulness, answer relevance, citation accuracy) check what the model did with it. Measure both." }
+]

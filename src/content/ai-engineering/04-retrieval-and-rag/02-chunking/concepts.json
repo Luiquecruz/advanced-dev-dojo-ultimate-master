@@ -1,0 +1,10 @@
+[
+  { "term": "Chunk", "description": "The unit of retrieval: a piece of a document small enough to embed, rank and quote, stored with its source, offsets and metadata." },
+  { "term": "Fixed-size chunking", "description": "Windows of a fixed number of characters or tokens, stepping by size minus overlap. Simple and predictable, blind to sentences and structure." },
+  { "term": "Recursive splitting", "description": "Split on the coarsest separator (paragraphs) first and recurse with finer ones (lines, sentences, words) only where a piece is still too big, then merge pieces back up to the size." },
+  { "term": "Structure-aware chunking", "description": "Chunking along the document's own structure (Markdown or HTML headings, code symbols, clauses), so no chunk crosses a section and each keeps its heading path." },
+  { "term": "Overlap", "description": "Text repeated at the start of the next chunk so content near a boundary appears whole in at least one chunk. Typically 10 to 20% of the size." },
+  { "term": "Heading path", "description": "The titles of a chunk's section and its ancestors, such as `Billing > Refunds`. Context for display, filtering and contextual embeddings." },
+  { "term": "Contextual retrieval", "description": "Prepending chunk-level context (heading path or a generated summary) to the text that is embedded and indexed, keeping the original text for display." },
+  { "term": "Semantic chunking", "description": "Starting a new chunk where the embedding similarity between neighboring sentences drops. Costs an embedding per sentence and does not always beat structure-aware splitting." }
+]

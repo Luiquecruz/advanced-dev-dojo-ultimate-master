@@ -1,0 +1,5 @@
+`buildContext` is a pipeline: `filter` by `score >= minScore`, `sort` by score descending, `slice(0, maxPassages)`, then `map((passage, index) => ({ number: index + 1, ... }))`. The context is the sources mapped to `` `[${number}] (${source}) ${text}` `` and joined with `'\n\n'`. `extractCitations` is `[...text.matchAll(/\[(\d+)\]/g)]` mapped to numbers and deduplicated with a `Set`.
+---
+Return `no_evidence` before building any message when `sources` is empty. Otherwise keep a `messages` array you can grow, and loop at most two times: call `model.generate({ messages })`, extract the citations, and compute the cited numbers that are not in `sources.map((source) => source.number)`.
+---
+A reply is accepted when `finishReason === 'stop'`, at least one number was cited and no cited number is invalid; source `n` is `sources[n - 1]`. When it is rejected, push `{ role: 'assistant', content: response.text }` and a `user` message that lists the valid numbers in brackets, then loop. After the loop, return `ungrounded` with `attempts: 2`.

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Users search the Brightdesk handbook for \"E-4012\" and vector search returns generic troubleshooting passages. Why does adding BM25 help?",
+    "options": [
+      "BM25 understands synonyms better than embeddings",
+      "BM25 is always more accurate than vectors",
+      "The token \"4012\" appears in one passage, so its idf is high and BM25 ranks that passage first; embeddings blur rare exact strings",
+      "BM25 uses a larger embedding dimension"
+    ],
+    "answer": 2,
+    "explanation": "Rare exact terms are BM25's strength: idf gives them most of the weight. Embeddings capture meaning and often treat codes as noise."
+  },
+  {
+    "question": "One retriever returns BM25 scores like 14.2 and 9.8; another returns cosine scores like 0.71 and 0.69. A teammate proposes to rank by the sum of the two scores. What is the problem?",
+    "options": [
+      "None: summing scores is the standard fusion",
+      "The scales are unrelated, so the BM25 scores dominate; Reciprocal Rank Fusion uses ranks only and avoids normalization",
+      "Cosine scores must be squared first",
+      "Fusion only works with three or more retrievers"
+    ],
+    "answer": 1,
+    "explanation": "Raw scores from different retrievers are not comparable. RRF sidesteps the problem; weighted fusion needs normalization and tuning."
+  },
+  {
+    "question": "With k = 60, document X is ranked 1st by BM25 and absent from the vector list. Document Y is ranked 3rd in both lists. Which ranks higher after RRF?",
+    "options": [
+      "Y, because 2/63 (about 0.032) is larger than 1/61 (about 0.016)",
+      "X, because a first place always wins",
+      "They tie",
+      "It depends on the raw scores"
+    ],
+    "answer": 0,
+    "explanation": "RRF rewards agreement between retrievers: two moderate votes outweigh one strong vote."
+  },
+  {
+    "question": "What does setting BM25's `b` parameter to 0 do?",
+    "options": [
+      "Disables idf",
+      "Makes every term frequency count linearly",
+      "Removes stopwords",
+      "Ignores document length, so a match in a long document scores the same as in a short one"
+    ],
+    "answer": 3,
+    "explanation": "`b` scales length normalization. At 0 the length term disappears; at 1 long documents are fully penalized; the default 0.75 is a compromise."
+  }
+]

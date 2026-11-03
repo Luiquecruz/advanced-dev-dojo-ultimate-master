@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A team retrieves the top 5 passages from all documents and tells the model in the system prompt: \"Never reveal HR documents to non-HR users.\" What is wrong?",
+    "options": [
+      "Nothing, if the instruction is in capital letters",
+      "The prompt should list every HR document by name",
+      "The forbidden text is already in the context; instructions are not access control, and injection or a slip leaks it. Filter by permission inside the retriever",
+      "The model should be fine-tuned on the HR policy"
+    ],
+    "answer": 2,
+    "explanation": "Security by prompt fails. If a passage is not retrieved for a user who cannot read it, nothing downstream can disclose it."
+  },
+  {
+    "question": "Two tenants both have a group called `hr`. What must the access check do?",
+    "options": [
+      "Compare the tenant first, so `hr` in one tenant never grants access to the other tenant's documents",
+      "Treat equal group names as the same group",
+      "Rename one of the groups",
+      "Ask the model which tenant the user belongs to"
+    ],
+    "answer": 0,
+    "explanation": "Group names are only meaningful inside a tenant. Tenant isolation is a separate check that runs before any group or user grant."
+  },
+  {
+    "question": "An employee's access to a document is revoked at 10:00. When should the assistant stop retrieving it for them?",
+    "options": [
+      "At the next nightly re-embedding job",
+      "When the document's text changes",
+      "Never: indexes are append-only",
+      "On the next search: the ACL stored with the document is updated in place, which needs no re-embedding"
+    ],
+    "answer": 3,
+    "explanation": "Permission changes are cheap metadata updates and must apply immediately. Re-embedding is only needed when the text changes."
+  },
+  {
+    "question": "A customer deletes a document in your product, but the assistant keeps citing it a week later. What failed?",
+    "options": [
+      "The embedding model",
+      "The deletion did not reach the index (or a cache): its chunks are ghosts, which is both a correctness bug and a privacy problem",
+      "The similarity threshold",
+      "The reranker"
+    ],
+    "answer": 1,
+    "explanation": "Ignoring updates and deletes is a classic RAG bad practice. Deletions must remove every chunk, cached answer and derived copy, with a measured lag."
+  }
+]

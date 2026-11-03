@@ -1,0 +1,9 @@
+[
+  { "term": "Query rewriting", "description": "Turning the user's words into better search queries: expanding abbreviations, adding domain vocabulary, making follow-up questions standalone." },
+  { "term": "Multi-query", "description": "Searching with several model-generated rewrites plus the original question and pooling or fusing the results to raise recall." },
+  { "term": "HyDE", "description": "Hypothetical Document Embeddings: search with a model-written plausible answer, whose embedding sits closer to real answer passages than the question does. Never shown as evidence." },
+  { "term": "Query decomposition", "description": "Splitting a compound question into sub-questions that are retrieved separately." },
+  { "term": "Reranker", "description": "A second-stage model that scores query and candidate together; accurate but slow, so it runs on the top 20 to 100 candidates of a fast retriever." },
+  { "term": "Cross-encoder", "description": "A transformer that reads query and passage in one input and outputs a relevance score. The classic reranker; bi-encoders (embeddings) encode them separately." },
+  { "term": "Graceful degradation", "description": "An optional step that fails returns the result you had without it (retrieval order, the original query) instead of an error." }
+]

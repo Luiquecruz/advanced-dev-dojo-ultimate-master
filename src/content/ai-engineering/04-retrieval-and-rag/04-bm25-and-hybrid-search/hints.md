@@ -1,0 +1,5 @@
+Precompute once in `createBm25Index`: for every document a `Map` from token to count, its token count, the average token count, and a `Map` from token to the number of documents that contain it. With those, `idf` is one line of `Math.log` and a document's score is a `reduce` over the unique query tokens (`[...new Set(tokenize(query))]`).
+---
+Write the per-term contribution exactly as the formula reads: `idf * tf * (k1 + 1) / (tf + k1 * (1 - b + b * length / averageLength))`. A token that is absent from the document has `tf = 0`, so it adds 0. `search` maps every document to `{ id, score }`, filters `score > 0`, sorts by score descending (the sort is stable, so ties keep document order) and slices.
+---
+For RRF, keep a `Map` of id to score; a `Map` remembers insertion order, which gives the tie rule for free. Inside each ranking, track a `Set` of ids already seen and add `1 / (k + position + 1)` only the first time. For `hybridSearch`, `Promise.allSettled(retrievers.map(async (retriever) => retriever(query, candidates)))` turns both thrown errors and rejections into `'rejected'` outcomes you can skip.

@@ -1,0 +1,15 @@
+{
+  "title": "Vector Search",
+  "summary": "Build an in-memory vector index: cosine similarity, batch embedding at ingestion, top-k with a similarity threshold, metadata filters applied before ranking, upserts, deletions and dimension checks.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "pgvector: vector similarity search for Postgres", "url": "https://github.com/pgvector/pgvector" },
+    { "label": "Qdrant: Filtering", "url": "https://qdrant.tech/documentation/concepts/filtering/" },
+    { "label": "Malkov and Yashunin: HNSW (paper)", "url": "https://arxiv.org/abs/1603.09320" },
+    { "label": "MTEB: Massive Text Embedding Benchmark leaderboard", "url": "https://huggingface.co/spaces/mteb/leaderboard" },
+    { "label": "Hugging Face: Introduction to Matryoshka embedding models", "url": "https://huggingface.co/blog/matryoshka" }
+  ]
+}

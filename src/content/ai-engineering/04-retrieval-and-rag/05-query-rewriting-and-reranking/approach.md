@@ -1,0 +1,6 @@
+1. Decide the failure policy before writing any call: rewriting and reranking only improve retrieval, so every failure (thrown error, refusal, filtered output, unparsable text, wrong shape) returns the result you would have had without the model.
+2. Write a tolerant JSON reader once. Models wrap JSON in prose and fences, leave trailing commas or use single quotes; those are recoverable. Truncated JSON is not, and the reader says so with `undefined` instead of throwing.
+3. For multi-query, treat the model's list as untrusted input: keep only non-empty strings, dedupe against the original question and each other, cap the length, and always put the user's own question first so a bad rewrite can only add recall.
+4. For HyDE, the hypothetical passage is a search aid, not an answer: combine it with the question, accept a truncated passage (it still helps the search), and use the question alone when there is no passage.
+5. For reranking, send all candidates in one request, then validate every score entry: known id, number in range, first one wins. Unscored candidates are not dropped; they follow the scored ones in retrieval order.
+6. Report whether reranking happened (`reranked`), so production metrics can show how often the fallback runs.

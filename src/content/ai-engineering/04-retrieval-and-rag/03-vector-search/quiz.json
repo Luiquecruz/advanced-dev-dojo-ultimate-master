@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A team upgrades its embedding model and embeds new documents with it, keeping the old vectors for existing documents. Search quality collapses. Why?",
+    "options": [
+      "The new model has a lower context window",
+      "Vectors from different models live in different spaces, so scores between a new query vector and old document vectors are meaningless; the corpus must be re-embedded",
+      "Cosine similarity only works with one document per query",
+      "The index needs a larger topK"
+    ],
+    "answer": 1,
+    "explanation": "An embedding is only comparable with embeddings from the same model and version. A model change is a full re-index, which is why the challenge rejects vectors of a different dimension."
+  },
+  {
+    "question": "A filtered search for `plan = Scale` returns only one passage, although the corpus has twenty Scale passages. The code fetches the top 10 by similarity and then removes non-Scale results. What is the fix?",
+    "options": [
+      "Raise topK to 1 000",
+      "Use a smaller embedding model",
+      "Filter before ranking, so only Scale passages are scored and topK fills with them",
+      "Lower the similarity threshold"
+    ],
+    "answer": 2,
+    "explanation": "Post-filtering lets non-matching passages occupy the top k and then discards them. Pre-filtering (or a store's filtered search) guarantees k eligible results whenever they exist."
+  },
+  {
+    "question": "A user asks \"What is the capital of Mongolia?\" in the Brightdesk help assistant. Vector search returns three handbook passages. What should the pipeline do?",
+    "options": [
+      "Apply a calibrated similarity threshold: if no passage passes, retrieve nothing and let the answer step say the handbook does not cover it",
+      "Always send the top three passages; the model will ignore them",
+      "Increase topK until a relevant passage appears",
+      "Switch to a larger model"
+    ],
+    "answer": 0,
+    "explanation": "Nearest neighbors always exist. Without a threshold, irrelevant context reaches the model and invites a confident wrong answer."
+  },
+  {
+    "question": "Why does the index embed passages in `add` instead of in `search`?",
+    "options": [
+      "Embedding models cannot embed queries",
+      "Search must not call the embedder at all",
+      "Vectors change every time they are computed",
+      "Documents change rarely and queries are frequent: embedding the corpus per query would multiply cost and latency by the corpus size"
+    ],
+    "answer": 3,
+    "explanation": "Ingestion is the place for expensive, repeatable work. At query time only the query is new, so only the query is embedded."
+  }
+]

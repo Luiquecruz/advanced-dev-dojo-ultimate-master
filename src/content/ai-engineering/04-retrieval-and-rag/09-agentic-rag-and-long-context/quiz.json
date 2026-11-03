@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A help center answers 50 000 simple factual questions a day from a 3 000-page knowledge base with per-customer documents. Which design fits best?",
+    "options": [
+      "Send the whole knowledge base in every request",
+      "An agent that searches up to ten times per question",
+      "A fixed RAG pipeline with permission-aware hybrid search, a threshold and citations",
+      "Fine-tune a model on the knowledge base every night"
+    ],
+    "answer": 2,
+    "explanation": "High volume, simple questions, a corpus too big for the window and per-customer access all point to a cheap, predictable, permission-aware RAG pipeline."
+  },
+  {
+    "question": "An internal tool must answer \"Which of our vendors renewed in 2025 and had a security incident afterwards?\" across contracts and incident reports. What does agentic RAG add here?",
+    "options": [
+      "Nothing: one search is always enough",
+      "The ability to decompose the question, search several sources, read the results and search again before answering",
+      "A larger embedding dimension",
+      "Automatic fine-tuning"
+    ],
+    "answer": 1,
+    "explanation": "Multi-hop, multi-source questions are where letting the model drive retrieval pays off, within budgets and stop rules."
+  },
+  {
+    "question": "A model accepts 1 million tokens. A team plans to put 900 000 tokens of policies in every request and drop retrieval. Which risk does \"context rot\" describe?",
+    "options": [
+      "Performance on facts buried in very long inputs is less reliable than on short inputs, even within the window",
+      "The policies expire after a month",
+      "The model refuses long inputs",
+      "Long inputs are cheaper per token, which hides costs"
+    ],
+    "answer": 0,
+    "explanation": "A window that accepts the input does not use it uniformly. Studies show accuracy falling as input grows, especially for facts in the middle or with little lexical overlap; cost and latency also scale with input."
+  },
+  {
+    "question": "A small team has a 120-page product manual that changes twice a year and is visible to every user. What is a reasonable first design?",
+    "options": [
+      "A vector database cluster with agentic retrieval",
+      "A knowledge graph",
+      "A custom-trained model",
+      "Include the whole manual in the prompt with prompt caching, and measure cost, latency and accuracy before adding retrieval"
+    ],
+    "answer": 3,
+    "explanation": "Small, stable, single-audience corpora are the case where long context is simplest. Retrieval can come later if the corpus or the costs grow."
+  },
+  {
+    "question": "Which control is essential before shipping agentic RAG?",
+    "options": [
+      "A system prompt asking the agent to be efficient",
+      "A step and cost budget, a stop rule that allows \"not found\", and traces of every search",
+      "Removing the similarity threshold so the agent sees more",
+      "Letting the agent choose which users' documents to search"
+    ],
+    "answer": 1,
+    "explanation": "An agent loop can search forever on an unanswerable question. Budgets, stop rules and traces bound cost and make behavior inspectable; permissions stay inside the search tool."
+  },
+  {
+    "question": "Research comparing long-context models with RAG found long context can win on average quality when given enough compute. Why do production systems still use RAG?",
+    "options": [
+      "Long-context models cannot cite sources",
+      "RAG is always more accurate",
+      "RAG is far cheaper and faster per request, supports per-user permissions and scales past any window; routing to long context only when needed captures much of the quality",
+      "Long context is not available through APIs"
+    ],
+    "answer": 2,
+    "explanation": "Quality is one axis. Cost, latency, access control and corpus growth usually decide, and hybrids such as routing combine both."
+  }
+]

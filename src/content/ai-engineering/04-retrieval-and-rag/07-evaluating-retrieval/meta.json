@@ -1,0 +1,14 @@
+{
+  "title": "Evaluating Retrieval",
+  "summary": "Measure retrieval separately from generation: recall@k, MRR and graded nDCG@k on a golden set, per-query results, and a report comparing BM25-only, vector-only and hybrid retrieval.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice", "testing"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Wikipedia: Evaluation measures (information retrieval)", "url": "https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)" },
+    { "label": "Wikipedia: Discounted cumulative gain", "url": "https://en.wikipedia.org/wiki/Discounted_cumulative_gain" },
+    { "label": "BEIR: a heterogeneous benchmark for zero-shot retrieval (paper)", "url": "https://arxiv.org/abs/2104.08663" },
+    { "label": "Ragas documentation", "url": "https://docs.ragas.io/" }
+  ]
+}

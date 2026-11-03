@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A support assistant answers from a handbook that changes weekly. Which approach fits best?",
+    "options": [
+      "Fine-tune the model every week on the handbook",
+      "Retrieve the relevant handbook passages at question time and answer with citations (RAG)",
+      "Rely on the model's training data",
+      "Ask users to paste the handbook into the chat"
+    ],
+    "answer": 1,
+    "explanation": "Facts that change often belong in retrieval, not in weights. RAG reads the current version on every request and can cite it."
+  },
+  {
+    "question": "Which of the six layers does RAG primarily belong to?",
+    "options": [
+      "Layer 1, model",
+      "Layer 3, harness",
+      "Layer 2, context: it decides what the model sees on each call",
+      "Layer 6, governance"
+    ],
+    "answer": 2,
+    "explanation": "RAG is context engineering with a search engine. It touches evaluation (retrieval metrics) and governance (permission filters), but its job is choosing the context."
+  },
+  {
+    "question": "Answers are wrong and the team wants to switch to a bigger model. What should they check first?",
+    "options": [
+      "Retrieval metrics on a golden set: if the right passage never reaches the prompt, a bigger model will not fix it",
+      "The model's leaderboard rank",
+      "The temperature setting",
+      "The length of the system prompt"
+    ],
+    "answer": 0,
+    "explanation": "Most RAG failures are retrieval failures. Measure recall@k before changing the model; lesson 07 builds the measurement."
+  },
+  {
+    "question": "Where does this module enforce \"never retrieve what the user cannot see\"?",
+    "options": [
+      "In the system prompt",
+      "In a filter applied to the model's answer",
+      "In the user interface",
+      "Inside the search, before ranking, using the authenticated user's tenant and groups"
+    ],
+    "answer": 3,
+    "explanation": "Text that never enters the context cannot leak. Prompts and output filters act too late; lesson 08 implements the filter."
+  },
+  {
+    "question": "What does the module's ADR checkpoint ask you to decide?",
+    "options": [
+      "Which vector database vendor has the best marketing",
+      "A retrieval plan for a briefing (chunking, retrieval mode, reranking, permission filtering, index freshness, evaluation targets), checked for coherence with measured numbers",
+      "The exact wording of the system prompt",
+      "Which model has the largest context window"
+    ],
+    "answer": 1,
+    "explanation": "Like every module, it ends with a decision record. The tests check that the plan follows the briefing's constraints and eval results, not your wording."
+  }
+]

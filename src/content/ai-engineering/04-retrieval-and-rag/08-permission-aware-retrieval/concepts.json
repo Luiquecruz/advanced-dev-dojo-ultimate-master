@@ -1,0 +1,9 @@
+[
+  { "term": "Permission-aware retrieval", "description": "Search that only considers documents the asking user may read, enforced inside the retriever before ranking." },
+  { "term": "Principal", "description": "The authenticated identity a request runs as (user, tenant, groups), taken from a verified token, never from the prompt or the model." },
+  { "term": "Tenant isolation", "description": "Documents of one customer organization are never visible to another, whatever the groups or query. Enforced by filter, namespace or a separate index." },
+  { "term": "ACL", "description": "Access control list: the users and groups allowed to read a document, synced from the source system and stored with each chunk." },
+  { "term": "Deny by default", "description": "A document with no matching grant is invisible. Missing or empty ACLs never mean public." },
+  { "term": "Ghost document", "description": "A deleted or outdated document whose chunks remain in the index and keep answering questions." },
+  { "term": "Embedding inversion", "description": "Reconstructing text from its embedding vector. Why vector stores need the same protection as the documents." }
+]

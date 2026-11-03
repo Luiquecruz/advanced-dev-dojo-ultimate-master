@@ -1,0 +1,10 @@
+[
+  { "term": "Agentic RAG", "description": "Retrieval as a tool in an agent loop: the model decides whether, where and how often to search, reformulates queries and checks whether the evidence is sufficient." },
+  { "term": "Multi-hop question", "description": "A question that needs facts from several passages combined in steps, such as finding a plan and then its refund rule." },
+  { "term": "Sufficiency check", "description": "Deciding whether retrieved evidence answers the question before generating, and searching again or saying \"not found\" when it does not." },
+  { "term": "Long context", "description": "Sending whole documents or a whole corpus in a large context window instead of retrieving passages." },
+  { "term": "Context rot", "description": "Degrading model performance as input length grows, even when the window accepts the input; worse for facts in the middle and with little lexical overlap." },
+  { "term": "Lost in the middle", "description": "The finding that models use information at the start and end of a long context better than information in the middle." },
+  { "term": "Self-RAG and Corrective RAG", "description": "Research approaches where the model decides when to retrieve and critiques passages (Self-RAG) or grades retrieval and falls back to other sources (CRAG)." },
+  { "term": "Routing between RAG and long context", "description": "Answering with retrieval first and escalating to long context when the model judges the passages insufficient, trading cost for quality only when needed." }
+]

@@ -1,0 +1,7 @@
+Work with ranges (`[start, end]` pairs into the original text) instead of strings, and slice only when you build the chunk objects. Offsets then stay exact for free. `chunkFixed` is a `for` loop whose step is `size - overlap`, with a `break` once a window's end reaches `text.length`.
+---
+For `chunkRecursive`, write a recursive `splitRange(text, start, end, size, separators)`: return `[[start, end]]` when it fits; otherwise find each occurrence of `separators[0]` with `indexOf` between `start` and `end`, cut right after it, and call `splitRange` again on every piece with `separators.slice(1)`. With no separators left, cut windows of `size`.
+---
+Merging keeps a list `current` of pieces. Before adding a piece, check `piece[1] - current[0][0] > size`; if so, push `[current[0][0], lastEnd]` as a chunk, then rebuild `current` from its own tail: walk backwards while `lastEnd - candidate[0] <= overlap` and `piece[1] - candidate[0] <= size`. Trim each merged range with two `while` loops over `/\s/`.
+---
+For `chunkMarkdown`, collect headings with `text.matchAll(/^(#{1,6})[ \t]+(.+?)[ \t]*$/gm)`: `match.index` is the section start, `match[1].length` the level, `match[2]` the title. Keep a stack of `{ level, title }`, pop while the top's level is `>=` the new level, push, and run the recursive range logic between this heading and the next one. Skip a section when the text after its heading line is blank.

@@ -1,0 +1,13 @@
+{
+  "title": "Checkpoint: RAG ADR",
+  "summary": "Close the retrieval module with a portfolio ADR: choose chunking, hybrid retrieval and reranking from a measured eval table, enforce tenant and audience permissions before ranking, commit to a freshness lag and set the recall@5 eval gate for a multi-tenant help center assistant.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "adr.ts" },
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Anthropic: Introducing Contextual Retrieval", "url": "https://www.anthropic.com/engineering/contextual-retrieval" },
+    { "label": "OWASP GenAI: LLM08:2025 Vector and Embedding Weaknesses", "url": "https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/" }
+  ]
+}

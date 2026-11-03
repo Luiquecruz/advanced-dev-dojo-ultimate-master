@@ -1,0 +1,5 @@
+`canRead` is one tenant comparison followed by an `||` of two checks: `(document.allowedUsers ?? []).includes(principal.userId)` and `document.allowedGroups.some((group) => principal.groups.includes(group))`. Return `false` when the tenants differ before looking at grants; an empty grant list then denies by itself.
+---
+In `upsert`, read the stored document first: `const existing = documents.get(document.id)`. If `existing && existing.text === document.text`, keep `existing.vector`; otherwise call `embedder([document.text])[0]`. Then `documents.set(document.id, { ...document, vector })`, so the new tenant and grants replace the old ones even when the vector is reused.
+---
+In `search`, the first step is `[...documents.values()].filter((document) => canRead(principal, document))`; only then embed the query, score, threshold, sort and slice. `answerQuestion` calls `index.search(principal, question, { topK, minScore })`, returns early when it is empty, and builds the context with `` `[${position + 1}] ${passage.text}` `` blocks.

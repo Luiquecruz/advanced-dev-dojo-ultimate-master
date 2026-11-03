@@ -1,0 +1,5 @@
+Start with a tiny `unique(ids)` helper (`[...new Set(ids)]` keeps first occurrences in order) and use it at the top of every metric. Recall is then `relevant.filter((id) => top.has(id)).length / relevant.length` with `top = new Set(unique(retrieved).slice(0, k))`, and reciprocal rank is one `findIndex`.
+---
+Write one `discountedGain(grades)` that sums `(2 ** grade - 1) / Math.log2(index + 2)` with a 0-based `index` (position 1 has discount `log2(2) = 1`). nDCG calls it twice: once with the grades of the first k unique retrieved ids (`relevance[id] ?? 0`), once with `Object.values(relevance)` filtered above 0, sorted descending and cut to k.
+---
+`evaluateRetriever` loops over the golden set with `await retrieve(item.query, k)` (awaiting a plain array is fine), builds one `perQuery` entry per item with the relevant ids from `Object.keys(relevance).filter((id) => relevance[id] > 0)`, and then averages each metric. `compareRetrievers` evaluates each `Object.entries(retrievers)` pair and sorts the rows by `ndcgAtK` descending.

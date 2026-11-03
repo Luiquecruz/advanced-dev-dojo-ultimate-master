@@ -1,0 +1,15 @@
+{
+  "title": "BM25 and Hybrid Search",
+  "summary": "Implement BM25 with k1 and b, fuse keyword and vector rankings with Reciprocal Rank Fusion (k = 60) and build a hybrid search that runs retrievers in parallel and survives one failing.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Robertson and Zaragoza: The Probabilistic Relevance Framework: BM25 and Beyond", "url": "https://www.staff.city.ac.uk/~sbrp622/papers/foundations_bm25_review.pdf" },
+    { "label": "Cormack, Clarke and Büttcher: Reciprocal Rank Fusion (paper)", "url": "https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf" },
+    { "label": "Elasticsearch: Reciprocal rank fusion", "url": "https://www.elastic.co/docs/reference/elasticsearch/rest-apis/reciprocal-rank-fusion" },
+    { "label": "Weaviate: Hybrid search", "url": "https://weaviate.io/developers/weaviate/search/hybrid" },
+    { "label": "BEIR: a heterogeneous benchmark for retrieval (paper)", "url": "https://arxiv.org/abs/2104.08663" }
+  ]
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Answer quality dropped after a release. The team only evaluates final answers. What is the main limitation?",
+    "options": [
+      "Answer evals are always wrong",
+      "They cannot tell whether retrieval stopped finding the right passages or the model stopped using them well; separate retrieval metrics locate the failure",
+      "Retrieval cannot be measured",
+      "They are too fast"
+    ],
+    "answer": 1,
+    "explanation": "Evaluating only final answers is a classic RAG bad practice. Retrieval metrics on a golden set show whether the evidence reached the prompt."
+  },
+  {
+    "question": "The prompt holds 5 passages. Which metric best answers \"does the passage that answers the question reach the model?\"",
+    "options": [
+      "recall@5",
+      "MRR over the whole ranking",
+      "The number of documents in the index",
+      "Average cosine similarity"
+    ],
+    "answer": 0,
+    "explanation": "Recall@k with k equal to what you put in context measures exactly whether the relevant passages made the cut."
+  },
+  {
+    "question": "Two retrievers both find the fully relevant passage in the top 3. Retriever A puts it first, B third. Which metrics distinguish them?",
+    "options": [
+      "recall@3 only",
+      "None: they are equivalent",
+      "MRR and nDCG@3, because both discount lower positions",
+      "Only the number of retrieved ids"
+    ],
+    "answer": 2,
+    "explanation": "Recall@3 is 1 for both. Rank-aware metrics reward A for putting the answer where the model (and the user) look first."
+  },
+  {
+    "question": "A golden set has 8 queries, all written by the engineer who built the retriever. Hybrid beats vector-only by 2 points of nDCG. How confident should the team be?",
+    "options": [
+      "Fully confident: any improvement is real",
+      "Not confident at all: golden sets are useless",
+      "Confident, because nDCG cannot be noisy",
+      "Cautious: 8 hand-picked queries are a small, biased sample; add real user queries (dozens to hundreds) and look at per-query differences before deciding"
+    ],
+    "answer": 3,
+    "explanation": "Small golden sets are a good start but noisy. Grow them from production queries and failures, and check which queries changed, not only the mean."
+  }
+]

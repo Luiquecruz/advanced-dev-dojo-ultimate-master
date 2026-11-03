@@ -1,0 +1,7 @@
+[
+  { "term": "RAG ADR", "description": "The record of the context layer: chunking, retrieval, reranking, permissions, freshness, grounding and the eval gate, with the forces, alternatives and consequences behind them." },
+  { "term": "Retrieval plan", "description": "The implementable part of the decision: the measured retrieval variant, candidates and topK, where permissions are enforced, how fast the index follows the source, and the eval gate." },
+  { "term": "Eval table", "description": "Retrieval variants measured on the same golden set with quality, latency and cost. The evidence that turns a preference into a decision." },
+  { "term": "Freshness promise", "description": "The maximum delay before an edited, unpublished or deleted document stops being served, backed by an update mechanism that can meet it." },
+  { "term": "Eval gate", "description": "A metric and target, measured on a fixed golden set, that a retrieval change must meet before it ships." }
+]

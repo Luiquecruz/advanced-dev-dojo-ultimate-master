@@ -1,0 +1,12 @@
+{
+  "title": "Map: Retrieval and RAG",
+  "summary": "What RAG is for, where it sits in the six layers, the ingestion, query, answer and evaluation pipeline built in this module, the lesson path and the retrieval ADR at the end.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Lewis et al.: Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks (paper)", "url": "https://arxiv.org/abs/2005.11401" },
+    { "label": "Gao et al.: Retrieval-Augmented Generation for Large Language Models: A Survey", "url": "https://arxiv.org/abs/2312.10997" },
+    { "label": "Anthropic: Introducing Contextual Retrieval", "url": "https://www.anthropic.com/engineering/contextual-retrieval" },
+    { "label": "Anthropic: Effective context engineering for AI agents", "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" }
+  ]
+}

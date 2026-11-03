@@ -1,0 +1,46 @@
+[
+  {
+    "question": "The LLM reranker has the best recall@5 (0.96) but a 1 900 ms p95. The retrieval budget is 400 ms p95. Where does it belong in the ADR?",
+    "options": [
+      "In the decision, with a plan to make it faster later",
+      "In the rejected alternatives, with the latency budget as the reason",
+      "Nowhere: only the chosen variant is recorded",
+      "In the positive consequences"
+    ],
+    "answer": 1,
+    "explanation": "Hard limits remove candidates regardless of quality. Recording the tempting option with the number that ruled it out saves the debate next quarter."
+  },
+  {
+    "question": "Contracts promise that deleted articles stop being served within 5 minutes. Which freshness design is coherent?",
+    "options": [
+      "Nightly re-indexing of every tenant",
+      "Weekly full rebuilds with a cache",
+      "Re-embedding only when the embedding model changes",
+      "Index updates driven by publish, edit and delete events, plus a periodic reconciliation to catch missed events"
+    ],
+    "answer": 3,
+    "explanation": "A batch job cannot keep a minutes-level promise. Events give the speed; reconciliation catches the events that were lost."
+  },
+  {
+    "question": "The prompt holds 5 passages. Which evaluation gate matches the pipeline?",
+    "options": [
+      "recall@5 on the golden set",
+      "recall@50, because rerankers see 50 candidates",
+      "The model's benchmark score",
+      "Average answer length"
+    ],
+    "answer": 0,
+    "explanation": "What matters is whether the relevant passages are among the 5 the model reads. Recall@50 only says they were somewhere in the candidate pool."
+  },
+  {
+    "question": "Why does the plan record `permissionFilter: 'before-ranking'` even though the system prompt also tells the model not to reveal internal articles?",
+    "options": [
+      "The system prompt is enough; the field is documentation only",
+      "Ranking is faster with fewer documents, which is the main reason",
+      "Instructions are not access control: only filtering inside the search guarantees internal and other tenants' articles never reach the model",
+      "Regulations require the word 'before' in the plan"
+    ],
+    "answer": 2,
+    "explanation": "Text that is never retrieved cannot leak. The prompt instruction is at best a second layer, never the control."
+  }
+]

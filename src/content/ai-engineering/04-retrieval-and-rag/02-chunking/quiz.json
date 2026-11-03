@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A user asks about the refund deadline. The retrieved chunk ends with \"Annual plans can be refunded in full within\" and the next chunk starts with \"30 days of purchase.\" Which change fixes this class of problem most directly?",
+    "options": [
+      "A larger embedding model",
+      "Splitting on sentence and paragraph boundaries (recursive or structure-aware chunking), with some overlap",
+      "Retrieving only one chunk",
+      "Lowering the model temperature"
+    ],
+    "answer": 1,
+    "explanation": "Fixed windows cut wherever the character count lands. Boundary-aware splitting keeps sentences whole, and overlap protects what still falls near a boundary. No downstream model can recover a sentence that was never retrieved."
+  },
+  {
+    "question": "Why does `chunkMarkdown` store `headingPath` on every chunk?",
+    "options": [
+      "Embedding models require it",
+      "It makes chunks longer, which always improves recall",
+      "A chunk such as \"Requests are answered within 2 business days\" is ambiguous on its own; the path (Billing > Refunds > Refund requests) gives context for display, filtering and contextual embedding",
+      "It replaces the need for a source field"
+    ],
+    "answer": 2,
+    "explanation": "Sections often rely on their heading for meaning. Keeping the path lets you show where an answer came from, filter by section, and prepend it before embedding (contextual retrieval)."
+  },
+  {
+    "question": "A knowledge base mixes 2-line FAQ entries, 40-page contracts and an API reference. What is the best chunking plan?",
+    "options": [
+      "One chunk size for everything, tuned on the contracts",
+      "No chunking: embed every document whole",
+      "Fixed 1 000-character windows everywhere, because they are predictable",
+      "Per-type rules: each FAQ entry is one chunk, contracts split by clause, the API reference by endpoint, each checked with retrieval evals"
+    ],
+    "answer": 3,
+    "explanation": "One chunk size for every document type is a classic RAG bad practice. The right unit depends on the document; evals on a golden set confirm the settings."
+  },
+  {
+    "question": "A policy document changes. Which chunk field lets the pipeline remove every outdated chunk before indexing the new version?",
+    "options": [
+      "The `source` (document identity) stored on every chunk",
+      "The chunk text",
+      "The embedding vector",
+      "The overlap setting"
+    ],
+    "answer": 0,
+    "explanation": "Without the source on each chunk, old chunks cannot be found and deleted, and stale \"ghost\" passages keep being retrieved next to the new ones."
+  }
+]
