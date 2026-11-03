@@ -42,3 +42,13 @@ describe('toBeCloseTo and captureError', () => {
     await vitestExpect(captureError(Promise.resolve(1))).rejects.toThrow('Expected an error');
   });
 });
+
+describe('toMatchObject', () => {
+  it('matches a recursive subset, with arrays of the same length and asymmetric matchers', () => {
+    const received = { id: 'run-1', stop: { reason: 'budget', steps: 3 }, calls: [{ name: 'search', ms: 12 }], extra: true };
+    expect(received).toMatchObject({ stop: { reason: 'budget' }, calls: [{ name: 'search' }] });
+    expect(received).toMatchObject({ id: expect.stringMatching(/^run-/) });
+    expect(received).not.toMatchObject({ calls: [] });
+    vitestExpect(() => expect(received).toMatchObject({ stop: { reason: 'steps' } })).toThrow('to match object');
+  });
+});

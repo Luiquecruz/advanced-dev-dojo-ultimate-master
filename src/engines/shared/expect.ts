@@ -147,6 +147,25 @@ export function isEqual(a: any, b: any): boolean {
   return keysA.every((key) => isEqual(a[key], b[key]));
 }
 
+/**
+ * Checks that every property of the expected object exists in the received value with a matching value, recursively (arrays must have the same length).
+ */
+export function matchesObject(received: any, expected: any): boolean {
+  if (isAsymmetric(expected)) {
+    return expected.asymmetricMatch(received);
+  }
+  if (Array.isArray(expected)) {
+    return Array.isArray(received) && received.length === expected.length && expected.every((item, index) => matchesObject(received[index], item));
+  }
+  if (expected === null || typeof expected !== 'object' || expected instanceof Date || expected instanceof Map || expected instanceof Set) {
+    return isEqual(received, expected);
+  }
+  if (received === null || typeof received !== 'object') {
+    return false;
+  }
+  return Object.keys(expected).every((key) => matchesObject(received[key], expected[key]));
+}
+
 interface AsymmetricMatcher {
   asymmetricMatch(actual: unknown): boolean;
   toJSON(): string;
@@ -210,6 +229,11 @@ const matchers: Record<string, Matcher> = {
     negatedMessage: `Expected value not to equal ${format(expected)}.`,
   }),
   toStrictEqual: (received, expected) => matchers.toEqual(received, expected),
+  toMatchObject: (received, expected) => ({
+    pass: matchesObject(received, expected),
+    message: `Expected ${format(received)} to match object ${format(expected)}.`,
+    negatedMessage: `Expected value not to match object ${format(expected)}.`,
+  }),
   toBeTruthy: (received) => ({
     pass: Boolean(received),
     message: `Expected ${format(received)} to be truthy.`,
