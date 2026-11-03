@@ -1,0 +1,46 @@
+[
+  {
+    "question": "In function calling, who executes the tool?",
+    "options": [
+      "The model provider, on its servers",
+      "The model itself, inside its context window",
+      "Your application: the model only proposes a call with arguments, and your code decides whether and how to run it",
+      "The user's browser, automatically"
+    ],
+    "answer": 2,
+    "explanation": "The model emits a structured request. Execution, permission checks and side effects all happen in your code, which is also why your code must validate every call."
+  },
+  {
+    "question": "The model calls `cancel_order`, a tool you never offered. What should the loop do?",
+    "options": [
+      "Throw an exception and end the conversation",
+      "Reply to that call with a tool message explaining the tool does not exist and listing the available tools, then let the model continue",
+      "Silently ignore the call and ask the model again without telling it",
+      "Implement `cancel_order` on the fly"
+    ],
+    "answer": 1,
+    "explanation": "A model-readable error usually costs one extra round and lets the model pick a valid tool. Ignoring the call leaves the transcript inconsistent; throwing turns a fixable slip into an outage."
+  },
+  {
+    "question": "A response contains two tool calls. Which transcript does the next request need?",
+    "options": [
+      "Only the two tool results, as user messages",
+      "The assistant message with both tool calls, followed by one tool message per call carrying the matching `toolCallId`",
+      "One combined tool message with both results and no id",
+      "Nothing: the provider remembers the previous response"
+    ],
+    "answer": 1,
+    "explanation": "Providers pair results with calls by id and expect the assistant turn that requested them. Model APIs are stateless unless you use a server-side conversation feature."
+  },
+  {
+    "question": "Why does every tool loop need a maximum number of rounds?",
+    "options": [
+      "Providers reject conversations longer than five messages",
+      "Tools can only be called five times per day",
+      "A model can keep calling tools indefinitely, and every round costs tokens, money and latency; reaching the limit should be an explicit error the caller handles",
+      "It makes the model's answers more accurate"
+    ],
+    "answer": 2,
+    "explanation": "Unbounded loops are a classic runaway-cost failure. A round limit is the simplest stop rule; module 07 adds budgets for tokens, cost and time."
+  }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "Tools ADR", "description": "The record of the harness's tool layer: the integration mechanism per system, the tool catalog, the loading strategy and the loop limits, with forces, alternatives and consequences." },
+  { "term": "Integration map", "description": "For each external system, the mechanism that reaches it (function calling, MCP or A2A) and why." },
+  { "term": "Tool catalog", "description": "Every tool the model can call, with its owner system, description, read-only flag, approval rule, output limit and error contract." },
+  { "term": "Error contract", "description": "How a tool's failures reach the model: an `isError` result or an `error` text that names the problem and a next step." },
+  { "term": "Loading plan", "description": "Whether tools are sent up front or loaded on demand, the token budget for definitions and the tools that are always loaded." }
+]

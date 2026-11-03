@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A model calls your MCP tool `book_flight` with a departure date in the past. How should the server report it?",
+    "options": [
+      "As a JSON-RPC error `-32603` (internal error)",
+      "As a normal `tools/call` result with `isError: true` and a text such as \"Departure date must be in the future; today is 2026-10-31\"",
+      "By closing the connection",
+      "By returning an empty `content` array"
+    ],
+    "answer": 1,
+    "explanation": "Invalid values and business-rule failures are tool execution errors: the client passes them to the model, which can retry with a valid date. JSON-RPC errors are for problems the model rarely fixes, such as an unknown tool."
+  },
+  {
+    "question": "Under the 2026-07-28 revision, how does a server learn which protocol version a client speaks?",
+    "options": [
+      "From the `initialize` request at the start of the session",
+      "From the HTTP `User-Agent` header",
+      "From `_meta[\"io.modelcontextprotocol/protocolVersion\"]`, which every request carries; an unsupported version gets error `-32022` listing the supported ones",
+      "It assumes the newest version"
+    ],
+    "answer": 2,
+    "explanation": "The revision removed the handshake: each request is self-contained. Over Streamable HTTP the version is also mirrored in the `MCP-Protocol-Version` header, but the body stays the source of truth."
+  },
+  {
+    "question": "A client sends `{ \"jsonrpc\": \"2.0\", \"method\": \"notifications/cancelled\", \"params\": { \"requestId\": 3 } }`. What does the server send back?",
+    "options": [
+      "Nothing: it is a notification (no `id`), and notifications never get a response",
+      "An empty result",
+      "Error `-32600`, because the `id` is missing",
+      "Error `-32601`, unless the server implements cancellation"
+    ],
+    "answer": 0,
+    "explanation": "In JSON-RPC 2.0 a message without an `id` is a notification. The receiver may act on it but must not reply, whatever the method."
+  },
+  {
+    "question": "Why does `tools/list` return tools in a deterministic order?",
+    "options": [
+      "JSON objects cannot hold unordered lists",
+      "Models only read the first tool",
+      "Alphabetical order is required by JSON Schema",
+      "Clients can cache the list, and the tool definitions in the prompt stay identical across requests, which keeps prompt caching effective"
+    ],
+    "answer": 3,
+    "explanation": "The 2026-07-28 revision recommends a stable order. A reordered tool list changes the prompt prefix and invalidates provider-side prompt caches."
+  }
+]

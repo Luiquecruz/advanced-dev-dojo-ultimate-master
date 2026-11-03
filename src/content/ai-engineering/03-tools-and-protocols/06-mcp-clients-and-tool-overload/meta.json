@@ -1,0 +1,15 @@
+{
+  "title": "MCP Clients and Tool Overload",
+  "summary": "Discover tools across several MCP servers with pagination, namespace colliding names, route calls back to their server, and load tool definitions on demand through a search tool under a token budget.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "MCP: Client concepts", "url": "https://modelcontextprotocol.io/docs/learn/client-concepts" },
+    { "label": "MCP specification: Pagination", "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/pagination" },
+    { "label": "Anthropic: Introducing advanced tool use (tool search, programmatic tool calling)", "url": "https://www.anthropic.com/engineering/advanced-tool-use" },
+    { "label": "Anthropic: Code execution with MCP", "url": "https://www.anthropic.com/engineering/code-execution-with-mcp" },
+    { "label": "RAG-MCP: Mitigating Prompt Bloat in LLM Tool Selection (paper)", "url": "https://arxiv.org/abs/2505.03275" }
+  ]
+}

@@ -1,0 +1,5 @@
+Start with `parseToolArguments`: wrap `JSON.parse` in `try`/`catch`, then reject any value where `typeof value !== 'object'`, `value === null` or `Array.isArray(value)`. Every later function relies on it never throwing.
+---
+In `executeToolCall`, handle the three failures in order before running anything: find the tool (unknown → error listing `tools.map((tool) => tool.name)`), parse the arguments (invalid → error naming the tool), then `await tool.execute(...)` inside a `try`/`catch`. Build every error with `JSON.stringify({ error: message })` so the content is always valid JSON.
+---
+In `runWithTools`, copy the incoming messages into a `transcript` array and loop `for (let round = 1; round <= maxRounds; round++)`. Map the tools to `{ name, description, parameters }` once. After each `generate`, return when `toolCalls` is empty; throw `new ToolLoopLimitError(round)` when `round === maxRounds`; otherwise push the assistant message with its `toolCalls`, then `await executeToolCall` for each call and push the results.

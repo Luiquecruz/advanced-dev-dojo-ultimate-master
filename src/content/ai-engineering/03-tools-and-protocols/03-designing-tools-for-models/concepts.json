@@ -1,0 +1,9 @@
+[
+  { "term": "Agent-computer interface (ACI)", "description": "The tools, schemas, descriptions and outputs an agent works through. It deserves the same design care as a human user interface." },
+  { "term": "Tool description", "description": "The text the model reads to decide whether and how to call a tool: what it does, what it returns, when to use it and when not to." },
+  { "term": "Schema as single source of truth", "description": "One schema (here Zod) both validates arguments at runtime and generates the JSON Schema shown to the model." },
+  { "term": "Model-friendly error", "description": "An error returned as tool output, naming the invalid field or missing entity and suggesting the next step, so the model can retry correctly." },
+  { "term": "Minimal output", "description": "Returning only the fields the next decision needs. Extra fields cost tokens, distract the model and can leak internal data." },
+  { "term": "Truncation signal", "description": "An explicit `truncated` flag, total count and hint when results were cut, so the model knows it is not seeing everything." },
+  { "term": "Idempotent tool", "description": "A tool that can be called twice with the same arguments without a second effect. Models retry, so write tools should accept an idempotency key." }
+]

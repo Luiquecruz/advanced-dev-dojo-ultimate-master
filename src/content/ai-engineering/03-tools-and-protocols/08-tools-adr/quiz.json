@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Only your support copilot uses the order database, and the same team owns both. Which integration is the simplest defensible choice?",
+    "options": [
+      "A2A, because the database is critical",
+      "An MCP server, because every integration should use MCP",
+      "In-process function calling: no other host needs it, so a protocol hop adds latency and operations for nothing",
+      "A context file describing the database schema"
+    ],
+    "answer": 2,
+    "explanation": "MCP pays off when several hosts share a system or another team owns it. A single-use tool in the same codebase is simplest as a plain function."
+  },
+  {
+    "question": "A carrier's claims agent takes days to resolve a claim and may ask for photos. Why not wrap it as a synchronous tool?",
+    "options": [
+      "Tools cannot return text",
+      "A tool call must finish within the conversation turn; A2A tasks model long-running work, input requests and later updates",
+      "A2A is faster than function calling",
+      "Synchronous tools are forbidden by MCP"
+    ],
+    "answer": 1,
+    "explanation": "A2A tasks have states such as working and input-required, and push notifications for results that arrive days later. A tool would time out or block the conversation."
+  },
+  {
+    "question": "Your agent reaches 64 tools of about 350 tokens each, and a request may spend 6 000 tokens on tool definitions. What does the ADR decide?",
+    "options": [
+      "Send all tools; the context window is large enough",
+      "Load tools on demand (with a small always-loaded set), because 22 400 tokens of definitions is far above the budget",
+      "Remove every tool except one",
+      "Ask the model to ignore tools it does not need"
+    ],
+    "answer": 1,
+    "explanation": "The arithmetic decides: the full catalog is almost four times the budget. On-demand loading keeps each request within budget at the cost of an extra round when a tool is missing."
+  },
+  {
+    "question": "Where should the rule \"every refund needs human approval\" be enforced?",
+    "options": [
+      "In the tool description only",
+      "In the system prompt only",
+      "In the application code that executes the refund tool, so the model cannot skip it; the description can still mention it",
+      "In the AGENTS.md of the repository"
+    ],
+    "answer": 2,
+    "explanation": "Prompts express intent but cannot enforce it. The tool loop or harness must block the call until approval is recorded (module 08 builds that gate)."
+  }
+]

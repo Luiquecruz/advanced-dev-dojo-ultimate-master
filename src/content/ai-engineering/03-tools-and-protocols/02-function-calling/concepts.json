@@ -1,0 +1,9 @@
+[
+  { "term": "Function calling", "description": "Also called tool use. The model answers with a structured request to call a described tool; the application executes it and returns the result as context." },
+  { "term": "Tool definition", "description": "What the model sees about a tool: a `name`, a `description` and JSON Schema `parameters`. The implementation stays in your code." },
+  { "term": "Tool call", "description": "`{ id, name, arguments }` in a model response. `arguments` is a raw JSON string written by the model, so it must be parsed and validated." },
+  { "term": "Tool message", "description": "A `tool` role message carrying the result (or error) of one call, linked to it by `toolCallId`." },
+  { "term": "Parallel tool calls", "description": "Several independent calls in one response. Execute all of them and return every result before calling the model again." },
+  { "term": "Tool choice", "description": "A request setting that lets the model decide (`auto`), forces a tool (`required` or a named tool) or forbids tools (`none`)." },
+  { "term": "Round limit", "description": "The maximum number of model calls in a tool loop. Reaching it raises an explicit error instead of looping forever." }
+]

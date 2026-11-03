@@ -1,0 +1,5 @@
+Write `defineTool` first and test it on a tiny schema. Destructure the `$schema` key away from `z.toJSONSchema(input, { io: 'input' })` to build `parameters`. In `call`, the order of checks is the contract: parse JSON, then `input.safeParse`, then run.
+---
+`safeParse` returns `{ success: false, error }` with `error.issues`, each having a `path` array and a `message`. Map them to ``- ${issue.path.join('.') || '(root)'}: ${issue.message}`` and join with newlines. Wrap `await run(parsed.data)` in `try`/`catch`: `error instanceof ToolError` gets its message and hint, every other error gets a fixed sentence with the tool name.
+---
+For the schema, chain `.describe('...')` on each field and call `.strict()` on the object; `z.number().int().min(1).max(20).default(5)` covers `limit`. In `run`, filter `ORDERS` by the lowercased email first (empty means unknown customer: throw a `ToolError`), then by status, sort with `right.placedAt.localeCompare(left.placedAt)`, `slice(0, limit)` and map each order to `{ id, status, total, placedAt }`.

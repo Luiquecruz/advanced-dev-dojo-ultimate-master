@@ -1,0 +1,8 @@
+[
+  { "term": "Tool", "description": "A capability your application executes on the model's behalf: the model proposes a call with arguments, your code runs it and returns the result as context." },
+  { "term": "Harness (layer 3)", "description": "Everything around the model: tools, permissions, sandboxes, hooks, verification and context files." },
+  { "term": "MCP", "description": "Model Context Protocol: an open standard so any AI application can use tools, resources and prompts exposed by any server." },
+  { "term": "A2A", "description": "Agent2Agent protocol: an open standard for delegating tasks to other agents, which may be long-running and opaque." },
+  { "term": "Agent Skills", "description": "Packaged instructions and scripts an agent loads only when a task needs them." },
+  { "term": "Tools ADR", "description": "This module's checkpoint: the integration mechanism per system, the tool catalog and the loading strategy for a product." }
+]

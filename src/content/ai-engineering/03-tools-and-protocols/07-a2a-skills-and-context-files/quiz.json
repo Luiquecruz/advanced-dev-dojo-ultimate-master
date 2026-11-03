@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Your travel assistant must hand a lost-luggage claim to the airline's own claims agent, which may take days and may ask for receipts. Which protocol fits?",
+    "options": [
+      "MCP, exposing the airline's database as a resource",
+      "A2A: send a message to the airline's agent, track the task through states such as input-required, and receive the result as an artifact",
+      "AGENTS.md in the airline's repository",
+      "Plain function calling with a 30-second timeout"
+    ],
+    "answer": 1,
+    "explanation": "A2A is built for delegating long-running, stateful work to an opaque agent you do not control. MCP fits when you call a capability with a clear input and output."
+  },
+  {
+    "question": "Where does an A2A client usually find out what a remote agent can do and how to authenticate?",
+    "options": [
+      "In the agent's Agent Card, typically served at `/.well-known/agent-card.json`",
+      "In the agent's `SKILL.md`",
+      "In the remote agent's AGENTS.md",
+      "By asking the remote model in plain text"
+    ],
+    "answer": 0,
+    "explanation": "The Agent Card lists the agent's skills, endpoints, protocol bindings, capabilities and security schemes, and can be signed."
+  },
+  {
+    "question": "An agent has 300 Agent Skills installed. Why does that not fill its context window?",
+    "options": [
+      "Skills are compressed into embeddings",
+      "Only one skill can be installed at a time",
+      "Progressive disclosure: only each skill's name and description are loaded up front; the full `SKILL.md` and its files load when a task matches",
+      "Skills run on a separate model"
+    ],
+    "answer": 2,
+    "explanation": "Metadata costs about 100 tokens per skill; instructions and bundled files enter the context only when used. It is the same idea as loading tools on demand."
+  },
+  {
+    "question": "A monorepo has AGENTS.md at the root and another in `packages/billing/`. A coding agent edits `packages/billing/src/invoice.ts`. Which instructions take precedence?",
+    "options": [
+      "Only the root file is read",
+      "The nearest file, `packages/billing/AGENTS.md`, wins where they conflict; explicit instructions from the user in the chat override both",
+      "The longer file wins",
+      "The agent asks the user to merge them first"
+    ],
+    "answer": 1,
+    "explanation": "AGENTS.md is hierarchical: subprojects add or override rules for their subtree, and direct user instructions come first."
+  },
+  {
+    "question": "Which statement about the Agentic AI Foundation is accurate as of October 2026?",
+    "options": [
+      "It is a company owned by one model provider",
+      "It only hosts MCP",
+      "It was created by the W3C to replace JSON-RPC",
+      "It is a foundation under the Linux Foundation, announced in December 2025, with MCP, goose and AGENTS.md, and it has since added projects such as A2A and Agent Skills"
+    ],
+    "answer": 3,
+    "explanation": "AAIF gives open agent standards vendor-neutral governance. A2A joined in August 2026 and Agent Skills in October 2026; check the foundation's site for the current list."
+  },
+  {
+    "question": "A teammate writes a 4 000-line AGENTS.md that copies the whole architecture wiki. What is the main risk?",
+    "options": [
+      "Coding agents refuse files longer than 1 000 lines",
+      "Every session spends context on mostly irrelevant text and the important rules get lost; keep it short with real commands and conventions, and link to deeper docs",
+      "AGENTS.md files must be written in YAML",
+      "There is no risk: more context always helps"
+    ],
+    "answer": 1,
+    "explanation": "Context files are loaded on every session. Short, specific, verifiable instructions work better than long generic ones, which also go stale quickly."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Host, client, server", "description": "The host is the application (IDE agent, chat app); it runs one MCP client per connected server; each server exposes tools, resources and prompts." },
+  { "term": "Tool overload", "description": "So many tool definitions that they cost significant tokens on every call and degrade the model's tool selection." },
+  { "term": "Namespacing", "description": "Prefixing tool names with a server identifier (`billing__search`) so tools from different servers cannot collide, and keeping a map to route calls back." },
+  { "term": "Pagination", "description": "List methods may return `nextCursor`; the client sends it back as `cursor` until no cursor is returned." },
+  { "term": "On-demand tool loading", "description": "Offering a search meta-tool and adding only the matching tool definitions to the next request, instead of all of them up front." },
+  { "term": "Tool budget", "description": "A token limit for the tool definitions in one request, enforced when tools are loaded." },
+  { "term": "MCP gateway", "description": "A proxy that aggregates several MCP servers behind one endpoint, adding namespacing, filtering, authentication and audit logs." }
+]

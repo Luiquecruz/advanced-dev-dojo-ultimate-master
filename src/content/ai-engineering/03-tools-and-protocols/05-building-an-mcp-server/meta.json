@@ -1,0 +1,16 @@
+{
+  "title": "Building an MCP Server",
+  "summary": "Implement a stateless MCP 2026-07-28 server over an in-memory transport: JSON-RPC envelope and error codes, per-request protocol version, server/discover, tools/list, tools/call with content and isError, resources/list and resources/read.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "MCP specification 2026-07-28", "url": "https://modelcontextprotocol.io/specification/2026-07-28" },
+    { "label": "MCP 2026-07-28: key changes", "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog" },
+    { "label": "MCP specification: Versioning and compatibility", "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/versioning" },
+    { "label": "JSON-RPC 2.0 specification", "url": "https://www.jsonrpc.org/specification" },
+    { "label": "MCP TypeScript SDK", "url": "https://github.com/modelcontextprotocol/typescript-sdk" },
+    { "label": "MCP Inspector", "url": "https://modelcontextprotocol.io/docs/tools/inspector" }
+  ]
+}

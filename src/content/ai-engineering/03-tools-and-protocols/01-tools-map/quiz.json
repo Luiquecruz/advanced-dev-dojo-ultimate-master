@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Which question does this module answer?",
+    "options": [
+      "Which model should a feature use?",
+      "How a model acts on the world through tools, and how those tools reach it reliably, reusably and safely",
+      "How to measure answer quality",
+      "How to train a model to use tools"
+    ],
+    "answer": 1,
+    "explanation": "Model choice is module 01 and evaluation module 10. This module covers function calling, tool design, MCP, A2A, skills and context files."
+  },
+  {
+    "question": "Which of the six layers do tools belong to?",
+    "options": [
+      "Layer 1, the model",
+      "Layer 5, evaluation",
+      "Layer 3, the harness: what surrounds the model and lets it act",
+      "Layer 6, governance"
+    ],
+    "answer": 2,
+    "explanation": "The harness holds tools, permissions, sandboxes, hooks and context files. Modules 08 and 12 return to the same tools from the permission and security angles."
+  },
+  {
+    "question": "In function calling, what does the model actually produce?",
+    "options": [
+      "A structured request (tool name and JSON arguments) that your application decides whether and how to execute",
+      "The tool's result, computed inside the model",
+      "Executable code that the provider runs",
+      "A network request to your API"
+    ],
+    "answer": 0,
+    "explanation": "The model only proposes. Execution, validation, permissions and side effects stay in your code, which is why lesson 02 starts with the loop you write."
+  },
+  {
+    "question": "A team must give its IDE agents, its chat assistant and a partner's agent platform access to the same ticketing tools. Which lesson's topic addresses that first?",
+    "options": [
+      "Designing tools for models, by writing longer descriptions",
+      "MCP: one server for the ticketing system that every host can connect to, instead of one adapter per application",
+      "Agent Skills, by copying the API docs into a skill",
+      "A2A, by turning the ticketing database into an agent"
+    ],
+    "answer": 1,
+    "explanation": "Reuse across hosts is MCP's purpose. A2A is for delegating to agents, skills for procedures, and tool design improves any tool but does not share it."
+  },
+  {
+    "question": "What do this module's challenges assert?",
+    "options": [
+      "The exact wording of the model's final answer",
+      "That a real MCP server on the internet responds",
+      "How your code handles tool calls and protocol messages: errors returned to the model, routing, budgets and limits, using the fake model and in-memory servers",
+      "The latency of real providers"
+    ],
+    "answer": 2,
+    "explanation": "As in the whole track, tests check engineering properties that stay true when models and vendors change."
+  }
+]

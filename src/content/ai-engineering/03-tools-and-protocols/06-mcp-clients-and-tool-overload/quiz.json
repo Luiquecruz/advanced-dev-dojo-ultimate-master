@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Your agent connects to a CRM server and a docs server, and both expose a tool called `search`. What should the client do?",
+    "options": [
+      "Keep only the first `search` and drop the other",
+      "Expose both under qualified names such as `crm__search` and `docs__search`, and map each back to its server and original name when routing calls",
+      "Ask the server owners to rename their tools",
+      "Send both definitions with the same name and let the model choose"
+    ],
+    "answer": 1,
+    "explanation": "Tool names are unique only per server. Namespacing with an identifier you control keeps them distinct; the reverse map makes routing a lookup."
+  },
+  {
+    "question": "A team connects eight MCP servers (90 tools) to its support agent. Answers get slower and the agent often picks the wrong tool. What is the most direct first fix?",
+    "options": [
+      "Switch to a model with a larger context window",
+      "Add more detail to every tool description",
+      "Reduce what the model sees: disconnect servers the task does not need, give the agent a static subset, or load tools on demand through a search tool",
+      "Retry every wrong tool call three times"
+    ],
+    "answer": 2,
+    "explanation": "This is tool overload: every definition costs tokens on each call and similar tools confuse selection. A bigger window keeps paying the cost and does not fix the confusion."
+  },
+  {
+    "question": "`tools/list` returns 50 tools and a `nextCursor`. Your client ignores the cursor. What happens?",
+    "options": [
+      "Nothing: servers never return more than 50 tools",
+      "The server sends the rest as notifications",
+      "The client throws a protocol error",
+      "The client silently misses every tool on later pages, so the model can never use them"
+    ],
+    "answer": 3,
+    "explanation": "List methods are paginated. The client must send the cursor back until no `nextCursor` is returned."
+  },
+  {
+    "question": "With on-demand loading, the model calls `billing__refund_invoice`, which was never loaded into its tool list. What should the loop do?",
+    "options": [
+      "Call it anyway, since the index knows the tool",
+      "Answer with a tool error saying the tool is not loaded and that `search_tools` loads tools, without executing it",
+      "End the conversation",
+      "Load every tool and retry"
+    ],
+    "answer": 1,
+    "explanation": "Only offered tools may run: it keeps the budget, the permissions and the audit trail meaningful. A model-readable error lets the model load the tool properly."
+  }
+]

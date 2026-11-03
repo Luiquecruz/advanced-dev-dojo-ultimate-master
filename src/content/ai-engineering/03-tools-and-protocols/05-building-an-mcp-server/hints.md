@@ -1,0 +1,5 @@
+Write `handle` as a pipeline of early returns, in the order of the contract: `JSON.parse` in a `try`, the envelope check (`jsonrpc`, `method`), `if (!('id' in request)) return undefined`, the `initialize` refusal, then the `_meta` check. Only after all of that, dispatch on `method`.
+---
+Throw from deep inside and catch once. A small error class with `code`, `message` and `data` lets `checkMeta`, `tools/call` and `resources/read` throw protocol errors; the single `catch` in `handle` turns them into `failure(id, code, message, data)`. Any other exception becomes `-32603`.
+---
+Build results without the common fields and add them in one place: `{ resultType: 'complete', ...result, _meta: { [SERVER_INFO_KEY]: { name, version } } }`. For `tools/call`, use `tool.input.safeParse(args)`; a failure returns `{ content: [{ type: 'text', text }], isError: true }` listing ``${issue.path.join('.')}: ${issue.message}``, and the handler call goes in its own `try`/`catch` that also returns `isError: true`.

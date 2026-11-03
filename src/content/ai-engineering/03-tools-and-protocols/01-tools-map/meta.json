@@ -1,0 +1,12 @@
+{
+  "title": "Map: Tools and Protocols",
+  "summary": "What this module answers, where tools sit among the six layers, the prerequisites, and the path from function calling and tool design through MCP servers and clients, A2A, skills and context files to the tools ADR.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Anthropic: Building effective agents", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
+    { "label": "Model Context Protocol: Introduction", "url": "https://modelcontextprotocol.io/docs/getting-started/intro" },
+    { "label": "A2A Protocol", "url": "https://a2a-protocol.org/latest/" },
+    { "label": "Agentic AI Foundation: projects", "url": "https://aaif.io/projects/" }
+  ]
+}

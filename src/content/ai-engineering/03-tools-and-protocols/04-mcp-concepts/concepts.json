@@ -1,0 +1,11 @@
+[
+  { "term": "MCP", "description": "Model Context Protocol: an open protocol, based on JSON-RPC 2.0, for exposing tools, resources and prompts to any AI application." },
+  { "term": "Host", "description": "The AI application the user works in. It owns the model, the UI and security policy, and runs one MCP client per server." },
+  { "term": "Tools (MCP)", "description": "Model-controlled capabilities: actions and live queries the model decides to call through `tools/call`." },
+  { "term": "Resources", "description": "Application-controlled, read-only context identified by URIs, read with `resources/read`." },
+  { "term": "Prompts (MCP)", "description": "User-controlled templates a server offers, typically surfaced as slash commands." },
+  { "term": "Elicitation", "description": "A server asking the host to collect input from the user, such as a confirmation or a missing value." },
+  { "term": "stdio and Streamable HTTP", "description": "The two standard transports: a local subprocess talking over stdin/stdout, or HTTP POST to one remote endpoint." },
+  { "term": "Protected Resource Metadata", "description": "RFC 9728 document an HTTP MCP server publishes to tell clients which authorization server issues its tokens." },
+  { "term": "Token passthrough", "description": "Forwarding a client's token to upstream APIs. Forbidden in MCP: servers accept only tokens issued for them and use their own credentials upstream." }
+]

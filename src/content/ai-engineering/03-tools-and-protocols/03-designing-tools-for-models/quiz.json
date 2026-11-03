@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Your tool `search_orders` returns full order records (40 fields each, including payment tokens) for every match. What is the main problem?",
+    "options": [
+      "None: more data always helps the model",
+      "The output wastes tokens, buries the relevant fields and puts sensitive data into the context; return only what the next decision needs",
+      "JSON outputs are not allowed in tool results",
+      "The model can only read one field per tool call"
+    ],
+    "answer": 1,
+    "explanation": "Tool output becomes context on every following call. Minimal outputs are cheaper, easier for the model to use and safer: anything in the context can end up in an answer or a log."
+  },
+  {
+    "question": "A tool fails because the database driver threw `connect ECONNREFUSED 10.0.0.5:5432`. What should the tool return to the model?",
+    "options": [
+      "The full exception with its stack trace, so the model can debug it",
+      "Nothing: drop the tool call",
+      "A short error naming the tool and what to do next (retry later, tell the user), without hosts, credentials or stack traces",
+      "A made-up result so the conversation continues"
+    ],
+    "answer": 2,
+    "explanation": "The model cannot fix your network, and internal details in the context can leak to users or attackers. Log the real error for engineers; give the model an actionable sentence."
+  },
+  {
+    "question": "Which pair of tool names and descriptions is best for a model choosing between them?",
+    "options": [
+      "`tool1`: \"Does stuff\" and `tool2`: \"Does other stuff\"",
+      "`search`: \"Search\" and `find`: \"Find\"",
+      "`search_orders`: \"Find a customer's orders by checkout email; returns id, status, total, date\" and `get_order`: \"Fetch one order by id (A-1234) with its items and tracking\"",
+      "`orders`: a 2 000-word description covering every edge case of both operations"
+    ],
+    "answer": 2,
+    "explanation": "Clear, distinct names with descriptions that say what each tool returns and when to use it make selection reliable. Vague or overlapping tools are the most common cause of wrong tool choices."
+  },
+  {
+    "question": "The model calls `search_orders` with `{ \"status\": \"in transit\" }`. Which reply helps it recover in one step?",
+    "options": [
+      "`Error: invalid input`",
+      "`Error: invalid arguments for search_orders.` followed by `- customerEmail: required` and `- status: expected one of \"pending\"|\"shipped\"|\"delivered\"|\"cancelled\"`",
+      "An empty list of orders",
+      "A thrown exception that ends the conversation"
+    ],
+    "answer": 1,
+    "explanation": "Naming every invalid field and the allowed values lets the model fix all mistakes in one retry. An empty list would be read as \"no orders\", which is a wrong answer, not an error."
+  }
+]

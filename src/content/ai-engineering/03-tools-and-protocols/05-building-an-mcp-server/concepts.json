@@ -1,0 +1,10 @@
+[
+  { "term": "JSON-RPC 2.0", "description": "The message format MCP uses: requests with an `id` and `method`, responses with `result` or `error`, notifications without `id` that get no response." },
+  { "term": "Per-request `_meta`", "description": "Since MCP 2026-07-28, every request carries `io.modelcontextprotocol/protocolVersion` and `io.modelcontextprotocol/clientCapabilities`, so servers keep no session." },
+  { "term": "server/discover", "description": "The method every 2026-07-28 server implements: supported protocol versions, capabilities, identity and optional instructions in one call." },
+  { "term": "Protocol error", "description": "A JSON-RPC error response (unknown tool, malformed request, unsupported version). Models can rarely fix these." },
+  { "term": "Tool execution error", "description": "A normal `tools/call` result with `isError: true` and a text explanation (invalid values, failing API) that the model can use to retry." },
+  { "term": "structuredContent", "description": "Machine-readable tool output returned next to the text `content`, optionally described by the tool's `outputSchema`." },
+  { "term": "Resource", "description": "Read-only context identified by a URI and read with `resources/read`. The host application decides when it enters the context." },
+  { "term": "Legacy handshake", "description": "`initialize` followed by `notifications/initialized`, used by MCP revisions up to 2025-11-25 to negotiate a session." }
+]

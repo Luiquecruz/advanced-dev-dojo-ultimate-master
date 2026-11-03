@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Your company has 4 AI applications and 6 internal systems. Without a shared protocol, each application integrates each system itself. What does MCP change?",
+    "options": [
+      "Nothing: each pair still needs its own adapter",
+      "Each system ships one MCP server and each application one MCP client, so the work grows like 4 + 6 instead of 4 × 6",
+      "All applications must move to one model provider",
+      "The systems no longer need APIs"
+    ],
+    "answer": 1,
+    "explanation": "Like the Language Server Protocol for editors, a shared protocol turns an M × N integration problem into M + N."
+  },
+  {
+    "question": "A server exposes the database schema so the user can attach it to the conversation when they want. Which primitive fits best?",
+    "options": [
+      "A tool, because everything in MCP is a tool",
+      "A prompt, because it is text",
+      "A resource: read-only context the application or user selects, rather than the model deciding to call it",
+      "Elicitation"
+    ],
+    "answer": 2,
+    "explanation": "Tools are model-controlled, resources application-controlled, prompts user-controlled. A schema the user attaches as context is a resource; if the model should fetch it on its own, expose a tool too."
+  },
+  {
+    "question": "Which statement about the current MCP revision (2026-07-28) is true?",
+    "options": [
+      "Every session starts with `initialize` and `notifications/initialized`",
+      "Requests are stateless: each one carries the protocol version and client capabilities in `_meta`, and servers implement `server/discover`",
+      "It only supports the stdio transport",
+      "Servers must keep a session id per client"
+    ],
+    "answer": 1,
+    "explanation": "The 2026-07-28 revision removed the handshake and protocol-level sessions. The `initialize` handshake belongs to revisions up to 2025-11-25, which are still common in deployed servers."
+  },
+  {
+    "question": "A remote MCP server receives a user's OAuth token and forwards it to the GitHub API to act on the user's behalf. What is wrong?",
+    "options": [
+      "Nothing: forwarding tokens is the recommended pattern",
+      "Tokens must be sent in the URL query string instead",
+      "The server should ask the model for the token",
+      "It is token passthrough: the server must accept only tokens issued for itself and use its own credentials (or a token exchange) for upstream APIs"
+    ],
+    "answer": 3,
+    "explanation": "Passing tokens through breaks audience binding and audit trails and enables confused-deputy attacks. The spec forbids servers from accepting or transiting tokens not issued for them."
+  },
+  {
+    "question": "You plan to install a community MCP server that can read and write your production database. What is the right attitude?",
+    "options": [
+      "Treat it like a third-party dependency: check its source, pin a version, review the tools and descriptions it exposes, grant the narrowest scope and require approval for destructive tools",
+      "Trust it, because the protocol validates every server",
+      "Trust it if it has many stars",
+      "Install it, but only on Fridays"
+    ],
+    "answer": 0,
+    "explanation": "The protocol standardizes the wire format, not trustworthiness. Tool descriptions and results enter the model's context, so a malicious server can inject instructions or abuse write access."
+  }
+]

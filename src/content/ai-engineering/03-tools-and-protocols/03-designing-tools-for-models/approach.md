@@ -1,0 +1,6 @@
+1. Keep one source of truth for the arguments: the Zod schema validates at runtime and generates the JSON Schema the model reads, so the two can never drift apart.
+2. Treat the definition as a prompt. The name, the description and every field description are all the model knows about the tool; say what it returns, when to use it and what each value means.
+3. Make `call` total: every input string produces a string. Broken JSON and schema violations are answered before the tool runs, with one line per invalid field so the model can fix all of them in one retry.
+4. Separate expected failures from bugs. A `ToolError` carries words written for the model, including a hint about the next step; anything else is replaced by a generic sentence, because raw exceptions leak hosts, credentials and stack traces into the context.
+5. Shape the output for the decision the model makes next: only the fields it needs, the most relevant items first, a count of what matched and an explicit signal (and hint) when results were cut.
+6. Distinguish "nothing matched" (an empty, successful result) from "you asked about something that does not exist" (an actionable error).

@@ -1,0 +1,14 @@
+{
+  "title": "A2A, Agent Skills and Context Files",
+  "summary": "The open formats around MCP: A2A agent cards, tasks and artifacts for delegating to other agents, Agent Skills with progressive disclosure, AGENTS.md context files for coding agents, and the Agentic AI Foundation that governs them.",
+  "level": "intermediate",
+  "tags": ["emerging", "theory"],
+  "resources": [
+    { "label": "A2A Protocol specification", "url": "https://a2a-protocol.org/latest/specification/" },
+    { "label": "Agent Skills specification", "url": "https://agentskills.io/specification" },
+    { "label": "Anthropic: Equipping agents for the real world with Agent Skills", "url": "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills" },
+    { "label": "AGENTS.md", "url": "https://agents.md/" },
+    { "label": "Agentic AI Foundation: projects", "url": "https://aaif.io/projects/" },
+    { "label": "AAIF: A2A joins the Agentic AI Foundation", "url": "https://aaif.io/blog/a2a-joins-aaif" }
+  ]
+}

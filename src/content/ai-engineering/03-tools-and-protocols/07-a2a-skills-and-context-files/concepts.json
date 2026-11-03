@@ -1,0 +1,10 @@
+[
+  { "term": "A2A (Agent2Agent)", "description": "Open protocol for an agent to discover and delegate work to another, opaque agent through messages, tasks and artifacts." },
+  { "term": "Agent Card", "description": "JSON document (usually at `/.well-known/agent-card.json`) describing an A2A agent: skills, endpoints, capabilities and required security schemes." },
+  { "term": "A2A task", "description": "A unit of delegated work with a lifecycle: submitted, working, input-required or auth-required, then completed, failed, canceled or rejected." },
+  { "term": "Artifact", "description": "The output of an A2A task, made of parts (text, files, structured data)." },
+  { "term": "Agent Skill", "description": "A folder with a `SKILL.md` (name, description, instructions) and optional scripts, references and assets, loaded by an agent only when relevant." },
+  { "term": "Progressive disclosure", "description": "Showing an agent only names and descriptions up front and loading full instructions and files when a task needs them." },
+  { "term": "AGENTS.md", "description": "A vendor-neutral context file for coding agents: build and test commands, conventions and rules. The nearest file to the edited code wins." },
+  { "term": "Agentic AI Foundation (AAIF)", "description": "Foundation under the Linux Foundation, announced in December 2025, that hosts open agent standards such as MCP, AGENTS.md, goose, A2A and Agent Skills." }
+]
