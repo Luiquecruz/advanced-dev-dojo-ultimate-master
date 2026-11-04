@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`await asyncio.gather(a(), b(), c())` and `b()` raises `ValueError` while `a` and `c` are still waiting. What happens to `a` and `c`?",
+    "options": [
+      "They are cancelled automatically",
+      "They keep running; the `ValueError` reaches the caller at once",
+      "They finish, then `gather` raises an `ExceptionGroup`",
+      "`gather` waits for them and returns `[result_a, None, result_c]`"
+    ],
+    "answer": 1,
+    "explanation": "`gather` without `return_exceptions` propagates the first exception immediately and does not cancel the other awaitables. `TaskGroup` is the API that cancels siblings."
+  },
+  {
+    "question": "Sources finish in the order c, a, b. What does `await asyncio.gather(a(), b(), c(), return_exceptions=True)` return when `b` raises `KeyError`?",
+    "options": [
+      "`[result_c, result_a]`",
+      "`[result_c, result_a, KeyError(...)]`",
+      "It raises `KeyError`",
+      "`[result_a, KeyError(...), result_c]`"
+    ],
+    "answer": 3,
+    "explanation": "Results always follow argument order, and with `return_exceptions=True` the exception object takes the failed awaitable's place in the list."
+  },
+  {
+    "question": "After `done, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)`, the code calls `task.cancel()` on each pending task and returns at once. What is still true right after the return?",
+    "options": [
+      "The pending tasks may not have run their cleanup yet: cancellation is delivered at their next `await`",
+      "The pending tasks are already finished",
+      "The pending tasks were never started",
+      "`wait` already cancelled them, so `cancel()` raises"
+    ],
+    "answer": 0,
+    "explanation": "`cancel()` only schedules a `CancelledError` inside the task. Awaiting the cancelled tasks (for example with `gather(*pending, return_exceptions=True)`) waits until their `finally` blocks have run."
+  },
+  {
+    "question": "A request handler calls `asyncio.create_task(audit_log(event))` and keeps no reference to the task. What can go wrong?",
+    "options": [
+      "Nothing: the event loop keeps the task alive until it finishes",
+      "The task runs synchronously before the handler returns",
+      "The loop holds only a weak reference, so the task may be garbage collected before it finishes",
+      "`create_task` raises unless the result is awaited"
+    ],
+    "answer": 2,
+    "explanation": "Unlike a pending JavaScript promise, an unreferenced asyncio task can disappear. Keep tasks in a set with `add_done_callback(set.discard)`, or start them in a `TaskGroup`."
+  }
+]

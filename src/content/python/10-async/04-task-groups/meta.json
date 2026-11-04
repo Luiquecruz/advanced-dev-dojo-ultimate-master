@@ -1,0 +1,14 @@
+{
+  "title": "Task Groups and except*",
+  "summary": "Promise.all and gather walk away from a failure while the other work keeps running; a TaskGroup cancels it and raises an ExceptionGroup. Process a batch with structured concurrency and count its failures by kind with except*.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Coroutines and Tasks: Task Groups", "url": "https://docs.python.org/3/library/asyncio-task.html#task-groups" },
+    { "label": "Tutorial: Raising and Handling Multiple Unrelated Exceptions", "url": "https://docs.python.org/3/tutorial/errors.html#raising-and-handling-multiple-unrelated-exceptions" },
+    { "label": "PEP 654: Exception Groups and except*", "url": "https://peps.python.org/pep-0654/" },
+    { "label": "What's New in Python 3.15: asyncio", "url": "https://docs.python.org/3/whatsnew/3.15.html#asyncio" }
+  ]
+}

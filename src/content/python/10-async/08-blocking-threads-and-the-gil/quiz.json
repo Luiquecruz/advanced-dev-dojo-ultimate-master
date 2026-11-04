@@ -1,0 +1,57 @@
+[
+  {
+    "question": "An asyncio web service calls `requests.get(url)` (a synchronous HTTP client) inside a handler, and the remote server takes 2 s. What happens to the other requests the service is handling?",
+    "options": [
+      "Nothing: the event loop switches to them while `requests` waits",
+      "They all wait: the call blocks the loop's only thread for 2 s, so no other task runs",
+      "Only requests to the same host wait",
+      "They fail with `TimeoutError`"
+    ],
+    "answer": 1,
+    "explanation": "The loop switches tasks only at an `await`. A synchronous call never yields, so every task, timer and timeout freezes. Use an async client or `await asyncio.to_thread(requests.get, url)`."
+  },
+  {
+    "question": "On the default (GIL) CPython build, a pure-Python function takes 1 s of CPU per call. Four calls run with `asyncio.to_thread` at the same time on an 8-core machine. Roughly how long do they take together?",
+    "options": [
+      "About 0.25 s",
+      "About 1 s: four threads, four cores",
+      "About 4 s: only one thread executes Python bytecode at a time",
+      "They never finish, because threads deadlock on the GIL"
+    ],
+    "answer": 2,
+    "explanation": "The GIL serializes Python bytecode. Threads help when they wait on I/O (which releases the GIL), not for CPU-bound Python. Use processes, interpreters or a free-threaded build for parallel CPU work."
+  },
+  {
+    "question": "In this sandbox (Pyodide), `await asyncio.to_thread(time.sleep, 0.2)` runs in a coroutine while another task should keep ticking. What actually happens?",
+    "options": [
+      "The function runs synchronously on the loop: nothing else runs for 0.2 s, although the call returns normally",
+      "A worker thread sleeps while the loop keeps running, as in CPython",
+      "It raises `RuntimeError: can't start new thread`",
+      "It returns immediately without sleeping"
+    ],
+    "answer": 0,
+    "explanation": "Pyodide has no threads. Its event loop implements `run_in_executor` by calling the function directly, so `to_thread` gives the right result but no concurrency. `ThreadPoolExecutor.submit` is what raises the thread error."
+  },
+  {
+    "question": "Which statement about free-threaded CPython is accurate as of Python 3.14 and 3.15?",
+    "options": [
+      "It is the default build since 3.14",
+      "It was removed in 3.15 after the JIT made it unnecessary",
+      "It makes `async` code run its tasks on several cores automatically",
+      "It is an officially supported but optional build (`python3.14t`), and a C extension that does not declare support re-enables the GIL when imported"
+    ],
+    "answer": 3,
+    "explanation": "PEP 779 moved free threading to supported, still optional, status in 3.14. The event loop stays single-threaded either way; free threading lets *threads* run Python in parallel."
+  },
+  {
+    "question": "A service must verify a pure-Python signature (1 ms of CPU) for 1 200 events per second while serving I/O on the event loop. Where should the verification run?",
+    "options": [
+      "On the event loop, since 1 ms is short",
+      "In a process pool (or interpreter pool) sized from 1.2 CPU-seconds per second of work",
+      "In `asyncio.to_thread`, which runs it in parallel on the GIL build",
+      "In an async generator"
+    ],
+    "answer": 1,
+    "explanation": "1 200 × 1 ms = 1.2 s of CPU every second, more than one loop thread can give while also doing I/O, and the GIL keeps threads from helping. Separate processes or interpreters run it in parallel."
+  }
+]

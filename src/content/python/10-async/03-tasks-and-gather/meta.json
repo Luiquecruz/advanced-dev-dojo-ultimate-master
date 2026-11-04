@@ -1,0 +1,13 @@
+{
+  "title": "Tasks, gather and wait",
+  "summary": "gather is Promise.all and, with return_exceptions, Promise.allSettled; wait is the building block for races. Load several sources at once, keep partial results, and race coroutines while cancelling the losers, which JavaScript promises cannot do.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Coroutines and Tasks: Running tasks concurrently", "url": "https://docs.python.org/3/library/asyncio-task.html#running-tasks-concurrently" },
+    { "label": "Coroutines and Tasks: Waiting primitives", "url": "https://docs.python.org/3/library/asyncio-task.html#waiting-primitives" },
+    { "label": "asyncio.create_task: keep a reference", "url": "https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task" }
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  { "term": "Event loop", "description": "Runs ready tasks one step at a time on a single thread and wakes waiting tasks when their timers or I/O complete." },
+  { "term": "Coroutine", "description": "The object returned by calling an `async def` function: a paused computation that runs only when awaited or scheduled." },
+  { "term": "Task", "description": "A coroutine scheduled on the loop; it runs concurrently with other tasks and can be awaited or cancelled." },
+  { "term": "Cooperative concurrency", "description": "Tasks switch only at an `await` that waits; code between two awaits is never interrupted by another task." },
+  { "term": "Blocking call", "description": "A call that does not yield, such as `time.sleep` or a synchronous HTTP client; it freezes every task on the loop." }
+]

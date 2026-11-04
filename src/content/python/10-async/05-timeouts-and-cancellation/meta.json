@@ -1,0 +1,14 @@
+{
+  "title": "Timeouts and Cancellation",
+  "summary": "Cancellation is an exception thrown in at an await, and a timeout is a cancellation with a deadline. Write a deadline helper that really stops the work, a worker that never swallows CancelledError, and a shielded commit that outlives its caller.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Coroutines and Tasks: Timeouts", "url": "https://docs.python.org/3/library/asyncio-task.html#timeouts" },
+    { "label": "Coroutines and Tasks: Task Cancellation", "url": "https://docs.python.org/3/library/asyncio-task.html#task-cancellation" },
+    { "label": "Coroutines and Tasks: Shielding From Cancellation", "url": "https://docs.python.org/3/library/asyncio-task.html#shielding-from-cancellation" },
+    { "label": "asyncio Exceptions: CancelledError", "url": "https://docs.python.org/3/library/asyncio-exceptions.html#asyncio.CancelledError" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Queues, Locks and Semaphores",
+  "summary": "An array used as a queue has no backpressure, and single-threaded code still loses updates across an await. Build a bounded producer-consumer pipeline, a concurrency-limited gather and a counter whose read-modify-write is protected by a lock.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "asyncio Queues", "url": "https://docs.python.org/3/library/asyncio-queue.html" },
+    { "label": "asyncio Synchronization Primitives", "url": "https://docs.python.org/3/library/asyncio-sync.html" },
+    { "label": "asyncio.Queue.shutdown", "url": "https://docs.python.org/3/library/asyncio-queue.html#asyncio.Queue.shutdown" }
+  ]
+}

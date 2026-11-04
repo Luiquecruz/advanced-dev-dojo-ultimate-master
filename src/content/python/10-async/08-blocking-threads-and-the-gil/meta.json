@@ -1,0 +1,15 @@
+{
+  "title": "Blocking Calls, Threads and the GIL",
+  "summary": "A synchronous call freezes every task on the loop, and the GIL keeps threads from running Python in parallel. Decide between the loop, to_thread, process and interpreter pools and free-threaded builds, and see why none of them run in this browser sandbox.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Developing with asyncio: running blocking code", "url": "https://docs.python.org/3/library/asyncio-dev.html#running-blocking-code" },
+    { "label": "asyncio.to_thread", "url": "https://docs.python.org/3/library/asyncio-task.html#asyncio.to_thread" },
+    { "label": "concurrent.futures: ProcessPoolExecutor and InterpreterPoolExecutor", "url": "https://docs.python.org/3/library/concurrent.futures.html" },
+    { "label": "Python support for free threading", "url": "https://docs.python.org/3/howto/free-threading-python.html" },
+    { "label": "PEP 779: Criteria for supported status for free-threaded Python", "url": "https://peps.python.org/pep-0779/" },
+    { "label": "PEP 734: Multiple Interpreters in the Stdlib", "url": "https://peps.python.org/pep-0734/" },
+    { "label": "PEP 744: JIT Compilation", "url": "https://peps.python.org/pep-0744/" }
+  ]
+}

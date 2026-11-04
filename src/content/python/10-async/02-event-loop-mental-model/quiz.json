@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`async def load(): print(\"loading\")`. What does `job = load()` print, inside a running program?",
+    "options": [
+      "`loading`, immediately",
+      "`loading`, on the next tick of the event loop",
+      "Nothing: `job` is a coroutine that runs only when awaited or wrapped in a task",
+      "A `SyntaxError`, because `load()` must be awaited"
+    ],
+    "answer": 2,
+    "explanation": "Calling a coroutine function only creates the coroutine object. Unlike a JavaScript async function, no part of the body runs until something drives it."
+  },
+  {
+    "question": "Each `fetch` takes 100 ms of waiting. How long does `results = [await fetch(n) for n in [1, 2, 3]]` take?",
+    "options": [
+      "About 300 ms: each coroutine starts only when the previous `await` finished",
+      "About 100 ms, because the coroutines overlap",
+      "About 100 ms in Python 3.12 and later",
+      "It never finishes without `asyncio.gather`"
+    ],
+    "answer": 0,
+    "explanation": "`await` runs one coroutine to completion before the comprehension creates the next one. Overlap needs tasks (`create_task`, a `TaskGroup` or `gather`)."
+  },
+  {
+    "question": "A coroutine does `task = asyncio.create_task(work())` and then runs a loop of plain computations with no `await`. When does `work` start?",
+    "options": [
+      "Immediately, in parallel on another thread",
+      "Only when the coroutine reaches an `await` that suspends it, or finishes",
+      "When `task` is garbage collected",
+      "Never, unless `task` is awaited"
+    ],
+    "answer": 1,
+    "explanation": "The event loop runs one task at a time. A newly created task waits in the ready queue until the current task gives up control."
+  },
+  {
+    "question": "In CPython, what does `asyncio.run(main())` do when it is called from code that already runs inside an event loop (for example, inside another coroutine)?",
+    "options": [
+      "Runs `main` on a nested loop",
+      "Schedules `main` as a task and returns immediately",
+      "Returns the coroutine unchanged",
+      "Raises `RuntimeError`: `asyncio.run` cannot be called from a running event loop"
+    ],
+    "answer": 3,
+    "explanation": "`asyncio.run` creates and closes its own loop, so it is the program's entry point only. Inside a running loop, `await` the coroutine or create a task."
+  }
+]
