@@ -1,0 +1,7 @@
+Keep one `messages` list for the whole run and one loop `for attempt in range(1, max_attempts + 1)`. Each iteration makes exactly one `generate` call. Return from inside the loop as soon as an attempt passes; after the loop, return the failed result.
+---
+Write a helper `first_failure(verifiers, output)` that loops over the verifiers, calls each `check` (awaiting the result when `inspect.isawaitable` says so), and returns `{"verifier": name, "feedback": feedback or ""}` for the first one that did not pass, or `None`. Do not catch exceptions there: a crashing verifier must end the run. Check `response["finishReason"] != "stop"` before calling the helper and build the `completion` failure yourself.
+---
+After a failure, record `{"attempt": attempt, **failure}`, and only when `attempt < max_attempts` append two messages: the assistant's output, then a user message such as `Verifier "<name>" failed:\n<feedback>\nFix the problem and answer again.`
+---
+For `schema_verifier`, call `json.loads` inside `try`/`except ValueError`, then `schema.safe_parse(value)`; map `result["issues"]` to `".".join(str(part) for part in issue["path"])` (or `"(root)"`) plus `": "` plus the message. For `examples_verifier`, compile `re.compile(output.strip())` inside `try`/`except re.error`, then use `pattern.fullmatch(example)` so the pattern must match whole strings, and collect `should match: "..."` and `should not match: "..."` lines.

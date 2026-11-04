@@ -3,8 +3,8 @@
   "summary": "Sanitize model output before rendering: exact host allowlists, images, reference-style definitions, links, autolinks, bare URLs and raw HTML handled in one pass, data stripped from allowed image URLs, and encoding for HTML text, attributes and URLs.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "OWASP LLM05:2025 Improper Output Handling", "url": "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/" },
     { "label": "EchoLeak: zero-click prompt injection in a production LLM system (paper)", "url": "https://arxiv.org/abs/2509.10540" },

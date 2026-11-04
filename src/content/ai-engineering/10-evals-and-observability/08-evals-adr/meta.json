@@ -3,7 +3,7 @@
   "summary": "Close the module with an evaluation decision for an agentic reply assistant: critical cases, scorers, a calibrated judge from another family, a gate between the noise floor and the product rule within the CI budget, content-free tracing, review sampling within capacity and drift alerts.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "adr.ts" },
+  "entry": { "node": "adr.ts", "python": "adr.py" },
   "resources": [
     { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
     { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },

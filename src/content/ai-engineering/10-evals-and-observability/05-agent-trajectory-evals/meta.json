@@ -3,8 +3,8 @@
   "summary": "Evaluate how an agent worked: record every model and tool step, check required and forbidden tools, order constraints, argument policies, step and cost limits, report each violation, and aggregate runs into a suite report.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Anthropic: Demystifying evals for AI agents", "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" },
     { "label": "Yao et al.: τ-bench, tool-agent-user interaction benchmark (paper)", "url": "https://arxiv.org/abs/2406.12045" },

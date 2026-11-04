@@ -1,0 +1,5 @@
+Start with `find_references`: everything else uses it. A regular expression with a negative lookbehind and lookahead keeps ids whole: `re.compile(r"(?<![\w-])REQ-\d+(?![\w-])", re.ASCII)` (`re.ASCII` keeps `\w` and `\d` to ASCII, like JavaScript). `list(dict.fromkeys(pattern.findall(text)))` removes duplicates and keeps the first appearance order.
+---
+Both parsers read the text line by line with one anchored pattern each, for example `r"^\s*[-*]\s+(REQ-\d+):\s*(.*)$"` and `r"^\s*[-*]\s+\[([ xX])\]\s+(TASK-\d+):\s*(.*)$"` with `pattern.match(line)`. Before appending a match, check whether the id is already in the result and raise `SpecError` if it is.
+---
+In `build_traceability`, first compute, for every test, the set of known requirements it verifies: its direct requirement references plus the requirements of each known task it references. Record unknown ids on the way. Rows then filter tasks and tests per requirement, and the status follows from the two lengths. For `plan_tasks`, write a `read_plan(text)` that returns either the tasks or a problem description (a string), and loop up to `max_attempts`.

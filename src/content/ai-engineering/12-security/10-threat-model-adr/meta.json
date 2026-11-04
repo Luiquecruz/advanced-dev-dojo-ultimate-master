@@ -3,7 +3,7 @@
   "summary": "Close the security module with a threat model for a support agent: assets and trust boundaries, a trifecta-free tool plan with approved refunds, least-privilege credentials, threats mapped to OWASP ids and mitigations the plan implements, residual risk and a red-team gate.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "adr.ts" },
+  "entry": { "node": "adr.ts", "python": "adr.py" },
   "resources": [
     { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
     { "label": "OWASP: Threat Modeling", "url": "https://owasp.org/www-community/Threat_Modeling" },

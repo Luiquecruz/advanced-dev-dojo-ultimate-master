@@ -3,8 +3,8 @@
   "summary": "Always-on AGENTS.md files resolved from the root to the edited folder, Agent Skills parsed and validated, a metadata-only skill index, relevance-scored skills loaded under a token budget, and a load_skill tool for skills the model asks for during the run.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Agent Skills specification", "url": "https://agentskills.io/specification" },
     { "label": "AGENTS.md", "url": "https://agents.md/" },

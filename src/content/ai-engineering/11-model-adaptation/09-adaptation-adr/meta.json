@@ -3,7 +3,7 @@
   "summary": "Close the adaptation module with a portfolio ADR for a self-hosted delivery-exception parser: choose the rung from pilot evals, a training method that fits the GPU, the data rules, an eval gate with rerun triggers, a serving setup that fits by the memory math, and a base model that passes the supply-chain policy.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "adr.ts" },
+  "entry": { "node": "adr.ts", "python": "adr.py" },
   "resources": [
     { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
     { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },

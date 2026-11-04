@@ -3,8 +3,8 @@
   "summary": "Score open qualities with a rubric judge that survives malformed output, calibrate it against human labels with agreement and Cohen's kappa, and catch position bias by swapping the order of pairwise comparisons.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Zheng et al.: Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena", "url": "https://arxiv.org/abs/2306.05685" },
     { "label": "Wang et al.: Large Language Models are not Fair Evaluators (position bias)", "url": "https://arxiv.org/abs/2305.17926" },
