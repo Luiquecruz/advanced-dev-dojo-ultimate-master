@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Dev Dojo is a browser-only learning platform (theory, test-validated coding challenges, hints, quizzes) for TypeScript, React, React State Management, React Architecture, Vue, Angular, Node.js, AI Engineering and Python. There is no backend: grading, previews and a fake REST API all run client-side. Everything (code, content, docs) is written in English.
+Dev Dojo is a browser-only learning platform (theory, test-validated coding challenges, hints, quizzes) for TypeScript, React, React State Management, React Architecture, AI Engineering (Node.js and Python variants), Node.js, Python, Vue and Angular. There is no backend: grading, previews, a fake REST API and a fake model provider all run client-side. Everything (code, content, docs, commit messages) is written in English. The project has more than one contributor: workflow, commit format and the documentation upkeep rule are in `.claude/docs/CONTRIBUTING.md`.
 
 ## Commands
 
@@ -13,7 +13,10 @@ npm run typecheck                                              # tsc --noEmit
 npm run test                                                   # unit + architecture tests (everything except src/verify)
 npm run verify                                                 # lesson verification (src/verify): solution passes, starter fails
 npx vitest run src/shared/motion                               # one folder of unit tests
-npx vitest run src/verify/<track>.test.ts                      # one track (typescript, react, react-state, architecture, vue, angular, node)
+npm run docs:check                                             # changed areas whose documents were not updated (.claude/hooks/docs-sync.mjs)
+npx vitest run src/verify/<track>.test.ts                      # one track (typescript, react, react-state, architecture, ai-engineering, node, python, vue, angular)
+npm run python:new -- <NN-module> <NN-lesson-id>               # scaffold a Python track lesson (writes meta.json.draft)
+npm run python:curriculum                                      # regenerate the Python section of CURRICULUM.md (-- --check to verify)
 LESSON=use-effect npx vitest run src/verify/react.test.ts      # lessons whose id contains "use-effect"
 LESSON=use-effect npx vitest run src/verify/content.test.ts    # structure checks only
 LESSON=react/use-effect npx vitest run src/verify/react.test.ts # one exact lesson (track/id)
@@ -26,10 +29,13 @@ No linter is configured. `tsconfig.json` excludes lesson folders (`src/content/*
 
 ## Documentation
 
-All project documentation lives in `.claude/docs/` (the root `README.md` only links to it). Read the relevant file before working in its area, and update it in the same change when you alter what it describes.
+All project documentation lives in `.claude/docs/` (the root `README.md` is the entry point: tracks, requirements, commands, layout, links). Read the relevant file before working in its area.
+
+**Documentation is incremental and part of every change.** Each implementation or improvement that alters behavior, structure, commands, conventions or the curriculum updates the documents that describe it in the same change, before reporting the task as done: `README.md` and this file included. Write the current state, not a changelog. The code area → document map is in CONTRIBUTING.md "Documentation upkeep". The shared `Stop` hook (`.claude/settings.json` → `.claude/hooks/docs-sync.mjs`) lists changed areas whose documents were not touched; when it fires, update those documents, or state in one line that nothing they describe changed.
 
 | Document | Covers | Read before |
 | --- | --- | --- |
+| `.claude/docs/CONTRIBUTING.md` | setup, branches, commit format, checks before a pull request, documentation upkeep map, shared harness (`.claude/settings.json`, hooks) | any change; editing `.claude/settings.json` or `.claude/hooks/` |
 | `.claude/docs/ARCHITECTURE.md` | frontend layers and rules, data flow, state and storage, engines, sandbox, adding a track, an engine or a UI feature, track presentation rules | touching engines, adding a track, adding or moving a slice |
 | `.claude/docs/CONTENT_GUIDE.md` | lesson file format, `track.json` fields, test globals per engine, fake REST API data, installed library versions, verification commands | writing or fixing a lesson |
 | `.claude/docs/CURRICULUM.md` | every track, its modules and lessons; `✓` marks written lessons and the rest is the backlog | adding lessons or planning a track |
