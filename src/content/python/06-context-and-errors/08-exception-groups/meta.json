@@ -1,0 +1,15 @@
+{
+  "title": "Exception Groups and except*",
+  "summary": "An ExceptionGroup carries several independent failures, and except* handles them by type while re-raising the rest. Validate every field of a request at once, count failures per type through nested groups, and extract a subgroup.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Built-in exceptions: Exception groups", "url": "https://docs.python.org/3/library/exceptions.html#exception-groups" },
+    { "label": "Language reference: except* clause", "url": "https://docs.python.org/3/reference/compound_stmts.html#except-star" },
+    { "label": "Python Tutorial: Raising and Handling Multiple Unrelated Exceptions", "url": "https://docs.python.org/3/tutorial/errors.html#raising-and-handling-multiple-unrelated-exceptions" },
+    { "label": "PEP 654: Exception Groups and except*", "url": "https://peps.python.org/pep-0654/" },
+    { "label": "MDN: AggregateError", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AggregateError" }
+  ]
+}

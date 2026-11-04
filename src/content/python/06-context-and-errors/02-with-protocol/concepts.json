@@ -1,0 +1,7 @@
+[
+  { "term": "`__enter__`", "description": "Runs when the `with` block starts; its return value is bound to the `as` target." },
+  { "term": "`__exit__(exc_type, exc, traceback)`", "description": "Runs on every way out of the block; the three arguments describe the exception, or are all `None` on success." },
+  { "term": "Suppression", "description": "A true return value from `__exit__` swallows the exception; a false one lets `with` re-raise it." },
+  { "term": "Multiple items", "description": "`with A() as a, B() as b:` behaves like two nested `with` blocks: `B` exits before `A`." },
+  { "term": "Special method lookup", "description": "`with` looks `__enter__` and `__exit__` up on the type, so methods attached to an instance are ignored." }
+]

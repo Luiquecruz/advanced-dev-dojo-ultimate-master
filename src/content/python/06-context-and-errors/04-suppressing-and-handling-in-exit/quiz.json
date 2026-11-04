@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What is printed?\n\n```py\nfrom contextlib import suppress\n\nwith suppress(KeyError):\n    print(\"a\")\n    {}[\"missing\"]\n    print(\"b\")\nprint(\"c\")\n```",
+    "options": [
+      "`a b c`",
+      "`a` and then a `KeyError`",
+      "`a c`",
+      "`c`"
+    ],
+    "answer": 2,
+    "explanation": "The block stops at the line that raised. `suppress` swallows the `KeyError` in `__exit__`, and execution resumes after the `with` statement, so `b` never prints."
+  },
+  {
+    "question": "A worker loop wraps each job in `with suppress(BaseException):`. The operator presses Ctrl+C. What happens?",
+    "options": [
+      "The `KeyboardInterrupt` is swallowed and the loop starts the next job",
+      "The program exits as usual",
+      "Python ignores `suppress` for signals",
+      "A `RuntimeError` is raised"
+    ],
+    "answer": 0,
+    "explanation": "`KeyboardInterrupt` derives from `BaseException`, so the manager suppresses it like any other match. Broad suppression also breaks `sys.exit()` and task cancellation."
+  },
+  {
+    "question": "Why does `return issubclass(exc_type, self.types)` in `__exit__` fail on blocks that succeed?",
+    "options": [
+      "`issubclass` does not accept tuples",
+      "It suppresses every exception",
+      "It returns a non-bool value",
+      "On success `exc_type` is `None`, and `issubclass(None, ...)` raises `TypeError`"
+    ],
+    "answer": 3,
+    "explanation": "All three `__exit__` arguments are `None` when nothing was raised. Check `exc is not None` first, or use `isinstance(exc, self.types)`, which is simply false for `None`."
+  },
+  {
+    "question": "An import of 500 rows must try every row and report all failures. Which design fits best?",
+    "options": [
+      "`try/except Exception: pass` around each row",
+      "One reusable error collector for `Exception` subclasses, entered once per row, then a report built from `collector.errors`",
+      "`suppress(Exception)` around the whole loop",
+      "Stop at the first failure and ask the user to retry"
+    ],
+    "answer": 1,
+    "explanation": "The collector keeps every failure in order without hiding it, and still lets `BaseException`-only signals through. `suppress` around the loop would stop at the first error and lose it."
+  }
+]

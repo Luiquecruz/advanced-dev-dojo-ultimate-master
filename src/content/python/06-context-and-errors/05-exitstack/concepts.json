@@ -1,0 +1,7 @@
+[
+  { "term": "`ExitStack`", "description": "A context manager that collects other managers and callbacks at run time and unwinds them in reverse order." },
+  { "term": "`enter_context`", "description": "Enters a context manager, registers its `__exit__` on the stack, and returns what `__enter__` returned." },
+  { "term": "`callback` and `push`", "description": "`callback(f, *args)` registers a plain cleanup that cannot see the exception; `push(exit)` registers an `__exit__`-shaped function." },
+  { "term": "`pop_all`", "description": "Moves every registered callback to a new `ExitStack` without running them: ownership transfer out of a `with` block." },
+  { "term": "LIFO unwinding", "description": "Last registered, first closed, and every callback still runs when one of them raises." }
+]

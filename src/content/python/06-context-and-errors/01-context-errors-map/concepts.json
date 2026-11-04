@@ -1,0 +1,7 @@
+[
+  { "term": "Context manager", "description": "An object with `__enter__` and `__exit__`; `with` calls `__exit__` on every way out of the block." },
+  { "term": "`finally`", "description": "A block that runs whether the `try` body succeeded, raised, returned or broke out of a loop." },
+  { "term": "`BaseException` vs `Exception`", "description": "Every exception derives from `BaseException`; application errors derive from `Exception`, so `except Exception` leaves `KeyboardInterrupt` and `SystemExit` alone." },
+  { "term": "Chaining", "description": "`__context__` links an exception to the one being handled when it was raised; `raise ... from` sets `__cause__` explicitly." },
+  { "term": "`ExceptionGroup`", "description": "One exception that carries several unrelated ones; `except*` handles its members by type." }
+]

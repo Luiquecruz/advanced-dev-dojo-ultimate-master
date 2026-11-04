@@ -1,0 +1,7 @@
+[
+  { "term": "`ExceptionGroup`", "description": "An `Exception` that wraps a non-empty sequence of `Exception` instances, possibly including other groups." },
+  { "term": "`BaseExceptionGroup`", "description": "The `BaseException` counterpart that may hold any exception; it becomes an `ExceptionGroup` when every member is an `Exception`." },
+  { "term": "`except*`", "description": "Handles the members of a group by type: each clause gets a subgroup once, and unmatched members are re-raised as a group." },
+  { "term": "`subgroup` / `split`", "description": "Select members by type, tuple of types or predicate, keeping message and nesting; `subgroup` returns `None` when nothing matches." },
+  { "term": "Leaf exception", "description": "A member that is not itself a group; counting failures means walking nested groups down to the leaves." }
+]

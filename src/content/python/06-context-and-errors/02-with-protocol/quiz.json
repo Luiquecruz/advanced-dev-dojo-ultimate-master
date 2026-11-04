@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`Lock.__enter__` acquires the lock but has no `return` statement. What is `held` inside `with Lock() as held:`?",
+    "options": [
+      "The `Lock` instance, like `using held = new Lock()`",
+      "`None`",
+      "`True`, because the lock was acquired",
+      "A `TypeError` is raised"
+    ],
+    "answer": 1,
+    "explanation": "The `as` target receives the return value of `__enter__`, and a function without `return` returns `None`. Return `self` when the caller should use the manager."
+  },
+  {
+    "question": "`__enter__` opens a connection and then raises while opening a cursor. Which cleanup runs?",
+    "options": [
+      "`__exit__` with the exception",
+      "`__exit__` with `None, None, None`",
+      "None of the manager's code: `__exit__` only runs once `__enter__` has returned, so the connection stays open unless `__enter__` closes it",
+      "The garbage collector closes it immediately"
+    ],
+    "answer": 2,
+    "explanation": "In the `with` expansion, the `try` that guarantees `__exit__` starts after `__enter__` returns. A partial `__enter__` must clean up itself, for example with an `ExitStack`."
+  },
+  {
+    "question": "`__exit__` ends with `return True`, and the block raises `ValueError`. What happens?",
+    "options": [
+      "The `ValueError` is swallowed and execution continues after the `with` statement",
+      "The `ValueError` propagates as usual",
+      "A `RuntimeError` replaces it",
+      "`True` is returned to the caller of the function"
+    ],
+    "answer": 0,
+    "explanation": "A true return value from `__exit__` tells `with` the exception was handled. On a normal exit the return value is ignored, so returning `True` only matters, and hurts, when something failed."
+  },
+  {
+    "question": "In `with A() as a, B() as b:` the block raises. In what order do the exits run?",
+    "options": [
+      "`A.__exit__` then `B.__exit__`",
+      "Only `B.__exit__`, because it was entered last",
+      "In parallel",
+      "`B.__exit__` then `A.__exit__`, as with nested `with` statements"
+    ],
+    "answer": 3,
+    "explanation": "Several items are processed as nested `with` blocks, so the last one entered exits first and the first one sees the state left by the second."
+  }
+]

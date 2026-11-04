@@ -1,0 +1,7 @@
+[
+  { "term": "Resource count", "description": "The resources one operation holds open at the same time; when it changes between runs, it decides between nested `with` and an `ExitStack`." },
+  { "term": "Deterministic release", "description": "Releasing at a known point and in a known order, as `__exit__` and `ExitStack` do; garbage collection gives neither." },
+  { "term": "Error model", "description": "How failures are represented: a class hierarchy callers can catch by type, error codes, or plain strings." },
+  { "term": "Root cause and context", "description": "The original exception linked with `raise ... from`, plus identifiers added with `add_note` while the message stays stable." },
+  { "term": "ADR", "description": "Architecture Decision Record: context, decision, alternatives considered and consequences." }
+]
