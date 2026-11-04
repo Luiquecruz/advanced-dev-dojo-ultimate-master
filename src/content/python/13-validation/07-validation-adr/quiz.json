@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A public API receives 4 320 000 events per day. What is the average rate per second?",
+    "options": [
+      "180 000",
+      "3 000",
+      "50",
+      "72 000"
+    ],
+    "answer": 2,
+    "explanation": "A day has 86 400 seconds: 4 320 000 / 86 400 = 50. Dividing by 24 or by 1 440 gives per-hour or per-minute figures instead."
+  },
+  {
+    "question": "Five event types each get a new schema version every 3 months, and every version is accepted for 9 months after release. How many schema documents are published at any time?",
+    "options": [
+      "15",
+      "5",
+      "45",
+      "3"
+    ],
+    "answer": 0,
+    "explanation": "9 / 3 = 3 versions of each type are accepted at once, so 5 × 3 = 15 documents."
+  },
+  {
+    "question": "Internal services exchange messages with exact JSON types, but two teams drift between contract versions. Which mode fits the hops between them?",
+    "options": [
+      "Lax, so old and new versions both pass",
+      "Strict: a type mismatch is a contract bug and should fail loudly at the receiving service",
+      "No validation, because the senders are internal",
+      "`model_construct`, because the data is internal"
+    ],
+    "answer": 1,
+    "explanation": "Lax conversions would hide drift (`\"3\"` silently becoming `3`). Strict validation at each service boundary surfaces it where it happens."
+  },
+  {
+    "question": "A partner-facing gateway returns `error.errors()` unchanged in its 422 responses. Which change does the briefing of this checkpoint require?",
+    "options": [
+      "Return `str(error)` instead",
+      "Return only the first error",
+      "Return HTML instead of JSON",
+      "Keep `type` and `loc` per error and drop the rejected `input` values"
+    ],
+    "answer": 3,
+    "explanation": "Partner software needs stable, located error codes; the input may hold emails or card tokens, and `str(error)` both loses structure and includes `input_value`."
+  }
+]

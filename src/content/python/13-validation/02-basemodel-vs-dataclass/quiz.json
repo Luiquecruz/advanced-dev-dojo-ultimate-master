@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`@dataclass class Point: x: int` and then `Point(x=\"3\")`. What does `point.x` hold?",
+    "options": [
+      "`3`: the dataclass converts to the annotated type",
+      "Nothing: `TypeError` is raised",
+      "`\"3\"`: a dataclass stores the argument as given",
+      "`None`, with a warning"
+    ],
+    "answer": 2,
+    "explanation": "The generated `__init__` assigns the arguments. Annotations are only metadata for checkers; a `BaseModel` is what reads them to parse and coerce."
+  },
+  {
+    "question": "A model has `id: int` and `email: str`. `User.model_validate({\"id\": \"x\"})` fails. What does the exception report?",
+    "options": [
+      "Only the first problem, `id`, because validation stops there",
+      "Two errors in one `ValidationError`: `int_parsing` at `('id',)` and `missing` at `('email',)`",
+      "A `TypeError` for the missing argument",
+      "A `ValueError` whose message must be parsed to find the field"
+    ],
+    "answer": 1,
+    "explanation": "Pydantic validates every field and collects all failures. Each entry of `errors()` has a stable `type` and a `loc` path, which is what code should inspect."
+  },
+  {
+    "question": "A client sends `{\"id\": 1, \"email\": \"a@b.c\", \"is_admin\": true}` to a model without any config. What happens to `is_admin`?",
+    "options": [
+      "It is silently ignored: the default `extra` behavior drops unknown keys",
+      "It raises `extra_forbidden`",
+      "It is stored as an attribute `user.is_admin`",
+      "It overrides a class attribute of the same name"
+    ],
+    "answer": 0,
+    "explanation": "The default is `extra=\"ignore\"`, like Zod's `z.object()` stripping keys. `ConfigDict(extra=\"forbid\")` turns each unknown key into an error; `\"allow\"` keeps them."
+  },
+  {
+    "question": "Why is `User.model_construct(**request_json)` dangerous in a request handler?",
+    "options": [
+      "It is slower than `model_validate`",
+      "It mutates the class",
+      "It only works with JSON strings",
+      "It skips validation, so the object holds whatever the client sent while looking like a validated `User`"
+    ],
+    "answer": 3,
+    "explanation": "`model_construct` trusts its input: no coercion, no type checks, no required-field checks. It is meant for rebuilding data you validated earlier."
+  }
+]

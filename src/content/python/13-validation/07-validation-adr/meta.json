@@ -1,0 +1,14 @@
+{
+  "title": "Checkpoint: Validation Strategy ADR",
+  "summary": "Close the validation module with an ADR and a plan for three services that exchange order events: which model parses partner webhooks, where coercion is allowed and where it is strict, how unknown fields and errors are handled, how many schema documents are published and how large a body may be.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Pydantic 2.12: Strict Mode", "url": "https://pydantic.dev/docs/validation/2.12/concepts/strict_mode/" },
+    { "label": "Pydantic 2.12: JSON Schema", "url": "https://pydantic.dev/docs/validation/2.12/concepts/json_schema/" },
+    { "label": "OWASP API Security: Broken Object Property Level Authorization", "url": "https://owasp.org/API-Security/editions/2023/en/0xa3-broken-object-property-level-authorization/" }
+  ]
+}

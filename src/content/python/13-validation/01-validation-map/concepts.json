@@ -1,0 +1,6 @@
+[
+  { "term": "Trust boundary", "description": "A place where data enters from outside your control: HTTP bodies, webhooks, queue messages, files, environment variables." },
+  { "term": "Parse, don't validate", "description": "Convert untrusted input into a typed value once at the boundary, so later code cannot receive an unchecked shape." },
+  { "term": "Pydantic", "description": "A Python library whose `BaseModel` classes build validators from annotations; validation runs in the Rust extension `pydantic-core`." },
+  { "term": "Zod", "description": "A TypeScript library of runtime schemas (`schema.parse`) that infer static types; the closest JavaScript equivalent of Pydantic." }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "Lax mode", "description": "Pydantic's default: inputs with an unambiguous conversion are converted (`\"42\"` to `42`, `\"yes\"` to `True`, `3` to `3.0`)." },
+  { "term": "Strict mode", "description": "Only the exact type is accepted, except `int` for `float`; enabled per call, per model (`ConfigDict(strict=True)`) or per field." },
+  { "term": "`StrictBool` / `StrictInt`", "description": "Field types that stay strict inside a lax model; shorthand for `Annotated[bool, Strict()]`." },
+  { "term": "`int_parsing` vs `int_type`", "description": "Lax reports text it could not parse as a number; strict reports an input that is not an `int` at all." },
+  { "term": "Config inheritance", "description": "A subclass's `model_config` is merged with its parent's, so `strict=True` can be added while keeping `extra=\"forbid\"`." }
+]
