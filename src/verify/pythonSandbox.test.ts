@@ -158,7 +158,7 @@ function inspectorListening(): Promise<boolean> {
 }
 
 describe('code generators reachable from Python', () => {
-  it('finds no original Function, eval or async/generator constructor among the objects reachable from js and pyodide_js', async () => {
+  it('finds no original Function, eval, async/generator constructor or Node fs module among the objects reachable from js and pyodide_js (string and symbol keys)', async () => {
     const scanner = new PythonSandbox({ testTimeoutMs: 60000 });
     try {
       const report = await scanner.runTests({
@@ -166,15 +166,15 @@ describe('code generators reachable from Python', () => {
         entry: 'main.py',
         tests: `${escapeScanSource}
 
-@test("no code generator is reachable")
+@test("no code generator or Node fs is reachable")
 def _():
     found, visited = scan()
-    assert visited > 1000
+    assert visited > 20000
     assert found == []
 `,
       });
       expect(report.compileError).toBeUndefined();
-      expect(report.results).toEqual([{ name: 'no code generator is reachable', passed: true }]);
+      expect(report.results).toEqual([{ name: 'no code generator or Node fs is reachable', passed: true }]);
     } finally {
       scanner.stop();
     }
@@ -187,6 +187,14 @@ describe('process allow-list', () => {
     expect(flags).toContain('--permission');
     expect(flags).toContain('--disable-sigusr1');
     expect(flags.some((flag) => /^--allow-(fs-write|child-process|worker|net|addons|wasi|inspector|ffi)/.test(flag))).toBe(false);
+  });
+
+  it('grants read access to Pyodide, the vendored packages and the child script only', () => {
+    const reads = childExecArgv().filter((flag) => flag.startsWith('--allow-fs-read='));
+    expect(reads).toHaveLength(3);
+    expect(reads[0]).toMatch(/node_modules\/pyodide\/$/);
+    expect(reads[1]).toMatch(/vendor\/pyodide-packages\/$/);
+    expect(reads[2]).toMatch(/dojo-python-sandbox\/python-sandbox-child-[0-9a-f]{16}\.mjs$/);
   });
 
   it.each(REMOVED_PROCESS_MEMBERS)('the process seen after lock-down has no %s', (name) => {
@@ -235,6 +243,34 @@ def _():
       expect(await inspectorListening()).toBe(false);
     }
   });
+});
+
+describe('interpreter crashes', () => {
+  it('fails only the test that crashed Pyodide and runs the rest in a fresh interpreter', async () => {
+    const report = await grade(`
+import js
+import pyodide_js
+
+@test("before")
+def _():
+    assert True
+
+@test("crashes Pyodide")
+def _():
+    pyodide_js._api.fatal_error(js.Error.new("crash on purpose"))
+
+@test("after")
+def _():
+    assert sum([1, 2]) == 3
+`);
+    expect(report.compileError).toBeUndefined();
+    expect(report.results.map((result) => [result.name, result.passed])).toEqual([
+      ['before', true],
+      ['crashes Pyodide', false],
+      ['after', true],
+    ]);
+    expect(report.results[1].error).toContain('Python crashed while running this test');
+  }, 60000);
 });
 
 describe('vendored packages', () => {

@@ -61,7 +61,7 @@ function lockDown(pyodide: PyodideAPI): void {
  */
 async function makeSnapshot(): Promise<Uint8Array> {
   shimConstantsBinding();
-  const pyodide = await loadPyodide({ indexURL: host.argv[2], env: { ...PYTHON_ENV }, _makeSnapshot: true, stdout: () => undefined, stderr: () => undefined });
+  const pyodide = await loadPyodide({ indexURL: host.argv[2], env: { ...PYTHON_ENV }, _makeSnapshot: true, stdin: () => null, stdout: () => undefined, stderr: () => undefined });
   pyodide.runPython(snapshotImports());
   return pyodide.makeMemorySnapshot();
 }
@@ -75,6 +75,7 @@ async function start(snapshot: Uint8Array | undefined, packages: string[]): Prom
     packageBaseUrl: host.argv[3],
     env: { ...PYTHON_ENV },
     jsglobals: globals,
+    stdin: () => null,
     stdout: () => undefined,
     stderr: () => undefined,
     ...(snapshot ? { _loadSnapshot: snapshot } : {}),

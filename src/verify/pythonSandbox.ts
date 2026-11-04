@@ -98,7 +98,7 @@ function bundleChild(): Promise<string> {
 
 type Outcome =
   | { kind: 'report'; report: RunReport }
-  | { kind: 'timeout'; index: number; name: string; collected: TestResult[] }
+  | { kind: 'stopped'; index: number; name: string; error: string; collected: TestResult[] }
   | { kind: 'failed'; message: string; collected: TestResult[] };
 
 interface Pending {
@@ -172,11 +172,7 @@ export class PythonSandbox {
         if (outcome.kind === 'failed') {
           return { results, compileError: outcome.message, durationMs: durationMs() };
         }
-        results.push({
-          name: outcome.name,
-          passed: false,
-          error: `Test "${outcome.name}" did not finish within ${this.testTimeoutMs}ms and was stopped. Check for infinite loops and blocking calls such as time.sleep().`,
-        });
+        results.push({ name: outcome.name, passed: false, error: outcome.error });
         startAt = outcome.index + 1;
         if (startAt >= names.length) {
           return { results, durationMs: durationMs() };
@@ -348,6 +344,11 @@ export class PythonSandbox {
     return new Promise<Outcome>((resolve) => {
       const collected: TestResult[] = [];
       let current = { index: startAt, name: names[startAt] ?? `test ${startAt + 1}` };
+    let running = false;
+    const crashed = (reason: string): Outcome =>
+      running
+        ? { kind: 'stopped', ...current, error: `Python crashed while running this test and was restarted for the next one: ${reason}`, collected }
+        : { kind: 'failed', message: reason, collected };
       let timer: ReturnType<typeof setTimeout> | undefined;
       const finish = (outcome: Outcome) => {
         clearTimeout(timer);
@@ -358,7 +359,7 @@ export class PythonSandbox {
         clearTimeout(timer);
         timer = setTimeout(() => {
           this.retire();
-          finish({ kind: 'timeout', ...current, collected });
+          finish({ kind: 'stopped', ...current, error: `Test "${current.name}" did not finish within ${this.testTimeoutMs}ms and was stopped. Check for infinite loops and blocking calls such as time.sleep().`, collected });
         }, this.testTimeoutMs);
       };
       this.pending = {
@@ -366,8 +367,10 @@ export class PythonSandbox {
           if (message.type === 'test-event') {
             if (message.event.type === 'start') {
               current = { index: message.event.index, name: message.event.name };
+              running = true;
             } else {
               collected.push(message.event.result);
+              running = false;
             }
             arm();
           }
@@ -376,10 +379,10 @@ export class PythonSandbox {
           }
           if (message.type === 'failed') {
             this.retire();
-            finish({ kind: 'failed', message: message.message, collected });
+            finish(crashed(message.message));
           }
         },
-        onExit: (reason) => finish({ kind: 'failed', message: reason, collected }),
+        onExit: (reason) => finish(crashed(reason)),
       };
       arm();
       this.send(interpreter, { type: 'run-tests', files: request.files, entry: request.entry, tests: request.tests, startAt });
