@@ -1,0 +1,5 @@
+Start with the numbers. Registered exporters are the concrete ones only: the core's subclasses minus its abstract bases, plus the partners' exporters. Eager loading imports every plugin module of both, at the measured cost per module; the plugin budget is what the 150 ms leave after the core. A lazy `dx export` pays the metadata scan plus one module.
+---
+Compare eager loading with the budget, then ask how a lazy host lists names for `--help` and finds code that lives in 5 other repositories. A package scan and a central list both stop at the core repository's borders; only one mechanism reads what installed distributions declare without importing them.
+---
+For the hook, check each candidate against the briefing: does it run for a variant that subclasses a partner exporter when nobody remembered a step? Does it survive a base class whose metaclass is pydantic's `ModelMetaclass`? Then count the distributions that are allowed to provide exporters, because loading an entry point runs its distribution's code.

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A linting tool has 30 rule modules in its own package and 10 more in 3 plugin distributions from other teams. Each module costs 6 ms to import, and 70 ms of the startup budget are left after the core. Which design fits?",
+    "options": [
+      "Import all 40 modules at startup: 240 ms is acceptable for a CLI",
+      "Lazy loading with discovery through entry points: 40 × 6 = 240 ms does not fit in 70 ms, and a package scan cannot see the 10 plugin modules",
+      "A package scan of the tool's own package, imported lazily",
+      "A central list in the core repository that the other teams edit"
+    ],
+    "answer": 1,
+    "explanation": "Eager loading costs 240 ms against 70 ms. Code from other distributions is visible only through packaging metadata, which also gives the names without importing anything."
+  },
+  {
+    "question": "`class Exporter(metaclass=RegistryMeta)` registers subclasses. A partner writes `class ParquetExporter(Exporter, pydantic.BaseModel)`. What happens?",
+    "options": [
+      "It registers normally",
+      "pydantic's metaclass wins and the class is silently not registered",
+      "The class statement raises `TypeError: metaclass conflict`, because neither `RegistryMeta` nor pydantic's metaclass derives from the other",
+      "It raises only when the exporter is first used"
+    ],
+    "answer": 2,
+    "explanation": "Python needs one most-derived metaclass among the bases. `__init_subclass__` avoids the problem: `type.__new__` calls it under any metaclass."
+  },
+  {
+    "question": "A framework registers plugins with a `@register` class decorator that also validates their attributes. A team writes `class GzipParquet(ParquetExporter)` without the decorator. What happens?",
+    "options": [
+      "`GzipParquet` is neither validated nor registered: decorators run only on the class they decorate",
+      "It is registered, because decorators are inherited",
+      "Python raises `TypeError` at class creation",
+      "It is registered twice"
+    ],
+    "answer": 0,
+    "explanation": "A decorator is a call on one class object. An `__init_subclass__` defined on the base runs for every subclass, so validation does not depend on authors remembering a step."
+  },
+  {
+    "question": "A host loads every entry point in its `myapp.plugins` group at startup. What does that trust?",
+    "options": [
+      "Only distributions signed by the host's maintainers",
+      "Nothing: entry points are metadata, so loading them runs no code",
+      "Only packages from the same repository",
+      "Every installed distribution that declares the group, since `EntryPoint.load()` imports and runs its module: allow-list `ep.dist.name` before loading"
+    ],
+    "answer": 3,
+    "explanation": "Reading entry points runs nothing, but loading one imports the declaring distribution's code. Any dependency installed in the environment can declare any group."
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "title": "Checkpoint: Plugin Framework Metaprogramming ADR",
+  "summary": "Close the metaprogramming module with an ADR and a plan for an exporter plugin framework: how plugin code from other repositories is discovered within a startup budget, which hook validates every subclass at class creation without colliding with existing metaclasses, and which distributions may run code as plugins.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Data model: customizing class creation", "url": "https://docs.python.org/3/reference/datamodel.html#customizing-class-creation" },
+    { "label": "importlib.metadata: entry points", "url": "https://docs.python.org/3/library/importlib.metadata.html#entry-points" },
+    { "label": "Packaging guide: creating and discovering plugins", "url": "https://packaging.python.org/en/latest/guides/creating-and-discovering-plugins/" },
+    { "label": "Entry points specification", "url": "https://packaging.python.org/en/latest/specifications/entry-points/" },
+    { "label": "PEP 810: Explicit lazy imports", "url": "https://peps.python.org/pep-0810/" }
+  ]
+}
