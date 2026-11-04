@@ -33,9 +33,10 @@ const DEFAULT_ENTRY: Record<EngineId, Record<string, string>> = {
   vue: { vue: 'App.vue', ts: 'main.ts', js: 'main.js' },
   angular: { ts: 'app.ts' },
   node: { ts: 'main.ts', js: 'main.js' },
+  python: { py: 'main.py' },
 };
 
-const HEADLESS_ENGINES = new Set<EngineId>(['typescript', 'node']);
+const HEADLESS_ENGINES = new Set<EngineId>(['typescript', 'node', 'python']);
 
 function stripPrefix(segment: string): string {
   return segment.replace(/^\d+-/, '');

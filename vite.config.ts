@@ -3,9 +3,10 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 import { contentPlugin } from './plugins/contentPlugin.ts';
+import { pyodidePlugin } from './plugins/pyodidePlugin.ts';
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), contentPlugin()],
+  plugins: [react(), tailwindcss(), contentPlugin(), pyodidePlugin()],
   resolve: {
     alias: [
       { find: /^@\//, replacement: `${resolve(import.meta.dirname, 'src')}/` },

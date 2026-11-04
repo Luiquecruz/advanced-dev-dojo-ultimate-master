@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
 import { LANGUAGES, type LanguageId, type Lesson, type ProjectFiles, type Track } from '@/content';
-import { canRunProgram, CodeEditor, configureLanguageService, type ConsoleEntry, gradeChallenge, LanguageSwitch, LessonPanel, type LessonTab, PreviewFrame, type Report, runProgram, TestName, testNamesFor } from '@/features/lesson';
+import { canRunProgram, CodeEditor, configureLanguageService, type ConsoleEntry, gradeChallenge, LanguageSwitch, LessonPanel, type LessonTab, prepareEngine, PreviewFrame, type Report, runProgram, TestName, testNamesFor } from '@/features/lesson';
 import { CurriculumDrawer } from '@/features/curriculum';
 import { Markdown } from '@/shared/ui/Markdown';
 import { codeKeyFor, isLessonComplete, progress, useProgress } from '@/entities/progress';
@@ -47,6 +47,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
 
   useEffect(() => {
     configureLanguageService(engine);
+    prepareEngine(engine);
   }, [engine]);
 
   useEffect(() => {

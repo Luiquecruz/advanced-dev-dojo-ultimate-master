@@ -1,4 +1,4 @@
-export type EngineId = 'typescript' | 'react' | 'vue' | 'angular' | 'node';
+export type EngineId = 'typescript' | 'react' | 'vue' | 'angular' | 'node' | 'python';
 export type LanguageId = string;
 export type TrackId = string;
 export type Level = 'beginner' | 'intermediate' | 'advanced' | 'expert';

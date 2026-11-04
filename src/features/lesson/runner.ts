@@ -1,4 +1,6 @@
 import type { Challenge, EngineId, ProjectFiles } from '@/content';
+import { gradePython, runPython, warmUpPython } from '@/engines/python/browserClient';
+import { listPythonTestNames } from '@/engines/python/testNames';
 import { listTestNames } from '@/engines/shared/testNames';
 import type { RunReport } from '@/engines/shared/testRunner';
 import { gradeInBrowser, runCode } from '@/engines/typescript/browserGrader';
@@ -23,7 +25,7 @@ export interface Report {
 const COMPILE_TEST_NAME = 'Your code compiles without type errors';
 const SANDBOX_TIMEOUT_MS = 45000;
 const RUN_TIMEOUT_MS = 15000;
-const RUNNABLE_ENGINES = new Set<EngineId>(['typescript', 'node']);
+const RUNNABLE_ENGINES = new Set<EngineId>(['typescript', 'node', 'python']);
 
 /**
  * Names of the tests a challenge will run, shown before the first run.
@@ -32,7 +34,19 @@ export function testNamesFor(engine: EngineId, challenge: Challenge): string[] {
   if (engine === 'typescript') {
     return [COMPILE_TEST_NAME, ...parseTypeScriptTests(challenge.tests).map((test) => test.name)];
   }
+  if (engine === 'python') {
+    return listPythonTestNames(challenge.tests);
+  }
   return listTestNames(challenge.tests);
+}
+
+/**
+ * Starts the engine of a challenge ahead of the first run when it needs a slow download (Python).
+ */
+export function prepareEngine(engine: EngineId): void {
+  if (engine === 'python') {
+    warmUpPython();
+  }
 }
 
 /**
@@ -100,7 +114,7 @@ export async function gradeChallenge(engine: EngineId, challenge: Challenge, fil
       logs: result.logs,
     };
   }
-  const report = await runInSandbox(engine, files, challenge.entry, challenge.tests);
+  const report = engine === 'python' ? await gradePython(files, challenge.entry, challenge.tests) : await runInSandbox(engine, files, challenge.entry, challenge.tests);
   const tests = report.results.map((result) => ({ name: result.name, passed: result.passed, message: result.error }));
   return {
     passed: !report.compileError && tests.length > 0 && tests.every((test) => test.passed),
@@ -163,6 +177,10 @@ export async function runProgram(engine: EngineId, files: ProjectFiles, entry: s
   if (engine === 'typescript') {
     const logs = await runCode(files[entry]);
     logs.forEach((text) => onConsole({ level: levelOf(text), text }));
+    return;
+  }
+  if (engine === 'python') {
+    await runPython(files, entry, (level, text) => onConsole({ level, text }));
     return;
   }
   await runNodeInSandbox(engine, files, entry, onConsole);

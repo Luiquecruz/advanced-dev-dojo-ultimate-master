@@ -5,4 +5,5 @@ import type { LanguageRegistry } from './types.ts';
  */
 export const LANGUAGES: LanguageRegistry = {
   node: { label: 'Node.js', engine: 'node' },
+  python: { label: 'Python', engine: 'python' },
 };
