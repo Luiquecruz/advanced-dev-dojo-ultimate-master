@@ -1,0 +1,4 @@
+{
+  "title": "Metaprogramming and Internals",
+  "description": "When it is worth intercepting class creation, attribute access or imports, and the lightest hook that works: __init_subclass__ registries, classes built at runtime, __getattr__ and __setattr__, metaclasses, signatures with inspect, and finders and loaders behind import."
+}

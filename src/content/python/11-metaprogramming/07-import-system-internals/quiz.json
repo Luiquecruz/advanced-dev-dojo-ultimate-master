@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A test does `sys.modules[\"shop\"] = fake` with a `types.ModuleType` it filled itself. Later code calls `importlib.reload(shop)`. What happens?",
+    "options": [
+      "The fake module is executed again",
+      "`ModuleNotFoundError: spec not found`: no finder serves `shop`, so reload cannot find a spec",
+      "The real `shop` package replaces the fake",
+      "Nothing: reload is a no-op for modules created at runtime"
+    ],
+    "answer": 1,
+    "explanation": "`reload` asks the finders for a spec under the module's name and re-executes it through the spec's loader. A module pushed into the cache by hand has neither."
+  },
+  {
+    "question": "A meta path finder's `find_spec` does `source = self.sources[fullname]` without checking the key. It is inserted at position 0. What happens to `import colorsys`, which is not in the dict and not yet imported?",
+    "options": [
+      "It works: Python skips finders that raise",
+      "It works, because stdlib modules bypass `sys.meta_path`",
+      "The `KeyError` escapes from the import statement: a finder must return `None` for names it does not serve",
+      "`colorsys` is imported as an empty module"
+    ],
+    "answer": 2,
+    "explanation": "The import system calls each finder in order and only moves on when one returns `None`. An exception aborts the whole import."
+  },
+  {
+    "question": "Module `config` defines `LEVEL = \"info\"` and `RETRIES = 3`. Its source is changed to only `LEVEL = \"debug\"`, then `importlib.reload(config)` runs. What is `config.RETRIES`?",
+    "options": [
+      "`3`: reload executes the new code in the same module namespace, and names it does not redefine survive",
+      "`AttributeError`, because the namespace is cleared first",
+      "`None`",
+      "`3`, but only if the module was imported with `from config import *`"
+    ],
+    "answer": 0,
+    "explanation": "The module object and its `__dict__` are reused. New code rebinds the names it assigns; everything else stays."
+  },
+  {
+    "question": "Why does `from .orders import total` inside `shop/api` work only when `shop`'s spec was built with `is_package=True`?",
+    "options": [
+      "Relative imports are only allowed inside files on disk",
+      "`is_package=True` makes the import system execute submodules eagerly",
+      "Relative imports read `sys.path`",
+      "A package spec gets `submodule_search_locations`, so `shop` has a `__path__`, is a package, and `shop.api` gets the parent `shop` to resolve `.orders` against"
+    ],
+    "answer": 3,
+    "explanation": "Python only imports `shop.orders` when `shop` is a package (has `__path__`), and the dot in `.orders` is resolved from the importing module's `__spec__.parent`."
+  },
+  {
+    "question": "When is a module placed in `sys.modules` during its first import?",
+    "options": [
+      "After its code finished running successfully",
+      "Before its code runs, so a circular import gets the partially initialized module; it is removed again if execution fails",
+      "Only when the import statement binds a name",
+      "Never for packages"
+    ],
+    "answer": 1,
+    "explanation": "The loader protocol requires the module to be in `sys.modules` before `exec_module`, which is what makes cycles return a partial module instead of recursing forever."
+  }
+]

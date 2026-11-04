@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A class body holds `delimiter = Field()`, its base defines `__init_subclass__`, and a decorator sits above the class. With the default metaclass, in which order do the hooks run?",
+    "options": [
+      "The decorator, then `__init_subclass__`, then `Field.__set_name__`",
+      "`__init_subclass__`, then `Field.__set_name__`, then the decorator",
+      "`Field.__set_name__`, then `__init_subclass__`, then the decorator",
+      "`Field.__set_name__` runs later, on the first attribute access"
+    ],
+    "answer": 2,
+    "explanation": "`type.__new__` builds the class, calls `__set_name__` on every namespace value that defines it, then calls the parent's `__init_subclass__`. Decorators receive the finished class afterwards."
+  },
+  {
+    "question": "A plugin base must register every subclass, including subclasses of subclasses, under a name given as a class keyword (`class Csv(Plugin, name=\"csv\")`). What is the lightest hook that does it?",
+    "options": [
+      "A metaclass whose `__new__` reads the keyword",
+      "`__init_subclass__(cls, name=None, **kwargs)` on the base",
+      "A class decorator that each plugin author must remember to apply",
+      "`__getattribute__` on the base class"
+    ],
+    "answer": 1,
+    "explanation": "`__init_subclass__` runs for every future subclass and receives the class keywords. A decorator only affects the class it decorates, and a metaclass adds a conflict risk with other bases for no gain here."
+  },
+  {
+    "question": "`class Model(Base, abc.ABC)`, where `Base` uses a custom metaclass `BaseMeta(type)`. What happens when the class statement runs?",
+    "options": [
+      "`Model` uses `BaseMeta`, the first base wins",
+      "`Model` uses `ABCMeta`, the last base wins",
+      "Both metaclasses run, one after the other",
+      "`TypeError: metaclass conflict`, because neither metaclass derives from the other"
+    ],
+    "answer": 3,
+    "explanation": "Python needs one metaclass that is a subclass of every base's metaclass. `BaseMeta` and `ABCMeta` are unrelated, so the class cannot be created until someone writes `class CombinedMeta(BaseMeta, ABCMeta)`."
+  },
+  {
+    "question": "Which requirement actually needs a metaclass instead of `__init_subclass__` or a decorator?",
+    "options": [
+      "Changing what calling the class does, for example returning a cached instance from `Config()` without running `__init__` again",
+      "Adding a `registry` dict that lists subclasses",
+      "Checking that every subclass defines a `name` attribute",
+      "Giving a descriptor its attribute name"
+    ],
+    "answer": 0,
+    "explanation": "`Config()` calls `type(Config).__call__`, which only a metaclass can override. Registries and subclass checks fit `__init_subclass__`, and descriptors get their names from `__set_name__`."
+  }
+]

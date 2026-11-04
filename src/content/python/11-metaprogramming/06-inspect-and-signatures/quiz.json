@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`audit` is decorated with a `functools.wraps` decorator whose wrapper is `def wrapper(*args, **kwargs)`. What does `inspect.signature(audit)` report, and what does `audit.__code__.co_varnames` hold?",
+    "options": [
+      "`(*args, **kwargs)` for both",
+      "The original parameters for both",
+      "An error for both",
+      "The original parameters from the signature, because it follows `__wrapped__`, but `('args', 'kwargs')` in the code object"
+    ],
+    "answer": 3,
+    "explanation": "`audit` is the wrapper, so its code object is the wrapper's. `functools.wraps` sets `__wrapped__`, and `inspect.signature` follows it to the original function."
+  },
+  {
+    "question": "`def connect(db, /, *, user)`. An injector calls `connect(**{\"db\": d, \"user\": u})`. What happens?",
+    "options": [
+      "`TypeError`: `db` is positional-only and cannot be passed by keyword",
+      "It works: keywords match every parameter",
+      "`user` is ignored",
+      "`db` receives `None`"
+    ],
+    "answer": 0,
+    "explanation": "Parameters before `/` are `POSITIONAL_ONLY`. An injector must read `parameter.kind` and pass those positionally."
+  },
+  {
+    "question": "Under Python 3.14, `def handler(request: Request)` is defined before `class Request`. What does `inspect.signature(handler)` do at that point?",
+    "options": [
+      "Returns `(request)` with no annotation",
+      "Raises `NameError`: the default `Format.VALUE` evaluates the lazy annotation, and `Request` does not exist yet",
+      "Returns the annotation as the string `'Request'`",
+      "Raises `SyntaxError` when the function is defined"
+    ],
+    "answer": 1,
+    "explanation": "Annotations are stored lazily and only evaluated on request. Pass `annotation_format=Format.FORWARDREF` (or `STRING`) when you only need names."
+  },
+  {
+    "question": "`class Service` has `@classmethod def build(cls)` and `@staticmethod def version()`. What does `inspect.getmembers(Service, inspect.isfunction)` return?",
+    "options": [
+      "Both, each with its kind",
+      "Neither",
+      "`version` only: `getattr` turns the staticmethod into a plain function and the classmethod into a bound method",
+      "`build` only"
+    ],
+    "answer": 2,
+    "explanation": "`getmembers` reads attributes with `getattr`, which runs the descriptor protocol. `inspect.getattr_static` returns the raw `classmethod` and `staticmethod` objects."
+  },
+  {
+    "question": "Which way to decide whether a handler is async is safe?",
+    "options": [
+      "Call it and check `inspect.isawaitable(result)`",
+      "`inspect.iscoroutinefunction(handler)`, plus a check of `type(handler).__call__` for callable objects",
+      "`asyncio.iscoroutinefunction(handler)`, the recommended API since 3.14",
+      "Check whether `handler.__name__` starts with `async_`"
+    ],
+    "answer": 1,
+    "explanation": "Calling runs side effects and leaves a coroutine that is never awaited. `asyncio.iscoroutinefunction` is deprecated in 3.14 and scheduled for removal in 3.16."
+  }
+]

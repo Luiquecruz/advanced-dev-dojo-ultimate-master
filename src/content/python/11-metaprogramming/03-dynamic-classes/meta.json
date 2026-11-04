@@ -1,0 +1,14 @@
+{
+  "title": "Dynamic Classes with type()",
+  "summary": "A class statement is a call to type(name, bases, namespace). Build record classes from a list of field names at runtime, with binding errors, repr, equality, __slots__ and match support, and compare them with namedtuple, make_dataclass and types.new_class.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Built-in functions: type", "url": "https://docs.python.org/3/library/functions.html#type" },
+    { "label": "types: Dynamic type creation", "url": "https://docs.python.org/3/library/types.html#dynamic-type-creation" },
+    { "label": "collections.namedtuple", "url": "https://docs.python.org/3/library/collections.html#collections.namedtuple" },
+    { "label": "dataclasses.make_dataclass", "url": "https://docs.python.org/3/library/dataclasses.html#dataclasses.make_dataclass" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Metaclasses",
+  "summary": "A metaclass is the type of a class: it prepares the namespace, builds the class and decides what calling it does. Write metaclasses that reject a class at definition time, keep one instance per class without re-running __init__ and forbid subclassing, then resolve a metaclass conflict.",
+  "level": "expert",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Data Model: Metaclasses", "url": "https://docs.python.org/3/reference/datamodel.html#metaclasses" },
+    { "label": "Python Data Model: Determining the appropriate metaclass", "url": "https://docs.python.org/3/reference/datamodel.html#determining-the-appropriate-metaclass" },
+    { "label": "PEP 3115: Metaclasses in Python 3000", "url": "https://peps.python.org/pep-3115/" },
+    { "label": "annotationlib: Using annotations in a metaclass", "url": "https://docs.python.org/3/library/annotationlib.html#using-annotations-in-a-metaclass" }
+  ]
+}

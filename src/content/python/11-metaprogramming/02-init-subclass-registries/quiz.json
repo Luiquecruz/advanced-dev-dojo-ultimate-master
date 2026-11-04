@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`Base.__init_subclass__` prints `cls.__name__`. What is printed by `class Base: ...`, then `class A(Base): pass`, then `class B(A): pass`?",
+    "options": [
+      "`Base`, `A`, `B`",
+      "`A` only",
+      "`B`, then `A`",
+      "`A`, then `B`"
+    ],
+    "answer": 3,
+    "explanation": "The hook runs on the parent for every new subclass at any depth, in definition order. It never runs for the class that defines it."
+  },
+  {
+    "question": "`Plugin.__init_subclass__(cls, name=None, **kwargs)` calls `super().__init_subclass__()` with no arguments. What happens to `class Csv(Plugin, Tagged, name=\"csv\", tags=[\"text\"])`, where `Tagged.__init_subclass__(cls, tags=(), **kwargs)` stores `cls.tags`?",
+    "options": [
+      "`TypeError`, because `tags` is an unknown keyword",
+      "The class is created, but `Tagged` receives the default and `Csv.tags` is `()`",
+      "`Csv.tags` is `(\"text\",)`, because Python routes each keyword to the class that declares it",
+      "`Tagged.__init_subclass__` is never called"
+    ],
+    "answer": 1,
+    "explanation": "Keywords travel down the MRO only through the `super()` calls. `Plugin` swallowed `tags`, so `Tagged` ran with its default. Forward `**kwargs`."
+  },
+  {
+    "question": "`class Exporter(Plugin, abstract=True)` and then `class Csv(Exporter): pass`. Is `Csv` registered?",
+    "options": [
+      "Yes: class keywords apply only to the class that writes them, so `Csv` arrives with `abstract=False`",
+      "No: `abstract=True` is inherited by every subclass",
+      "Only if `Csv` also passes `name=`",
+      "No: `__init_subclass__` only runs for direct subclasses of `Plugin`"
+    ],
+    "answer": 0,
+    "explanation": "Class keywords are arguments of one call, not class attributes. `Exporter.__init_subclass__` (inherited from `Plugin`) runs for `Csv` with the defaults."
+  },
+  {
+    "question": "Plugins live in `exports/pdf.py`, which nothing imports. What does `Plugin.registry` contain at startup?",
+    "options": [
+      "A `\"pdf\"` entry, because Python scans subclasses of `Plugin` on startup",
+      "A `\"pdf\"` entry after the first `Plugin()` call",
+      "No `\"pdf\"` entry: the class statement in `pdf.py` never ran",
+      "An `ImportError` is raised when the registry is read"
+    ],
+    "answer": 2,
+    "explanation": "Registration happens when the class statement runs, which happens when its module is imported. Discovery must import the plugin modules or read entry points."
+  },
+  {
+    "question": "Why can a metaclass-based registry break `class Exporter(Plugin, abc.ABC)` while an `__init_subclass__` registry does not?",
+    "options": [
+      "Metaclasses cannot read class keywords",
+      "`abc.ABC` uses `ABCMeta`; with a custom `PluginMeta(type)` in the other base there is no single most derived metaclass, so the class statement raises `TypeError`",
+      "`__init_subclass__` disables abstract method checks",
+      "Metaclasses only run for the first base"
+    ],
+    "answer": 1,
+    "explanation": "Every class has exactly one metaclass, which must derive from the metaclasses of all bases. `__init_subclass__` is an ordinary method, so the metaclass stays `ABCMeta`."
+  }
+]
