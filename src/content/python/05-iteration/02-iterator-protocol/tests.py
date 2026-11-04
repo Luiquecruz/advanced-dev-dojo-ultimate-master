@@ -8,6 +8,15 @@ def drain(iterable):
     return list(islice(iterable, LIMIT))
 
 
+class OldStyleSequence:
+    """Iterable only through the sequence protocol: __getitem__ until IndexError, no __iter__."""
+
+    def __getitem__(self, index):
+        if index >= 2:
+            raise IndexError(index)
+        return index
+
+
 @test("a Paginator yields every item in page order and a second loop starts again")
 def _():
     paginator = mod.Paginator([["a", "b"], [], ["c"], ["d"]])
@@ -70,6 +79,7 @@ def _():
         "str": "abc",
         "range": range(3),
         "Paginator": mod.Paginator([["a"]]),
+        "__getitem__ only": OldStyleSequence(),
         "list iterator": iter([1, 2]),
         "generator": (number for number in range(3)),
         "map": map(str, [1]),
@@ -84,6 +94,7 @@ def _():
         "str": (False, True),
         "range": (False, True),
         "Paginator": (False, True),
+        "__getitem__ only": (False, True),
         "list iterator": (True, False),
         "generator": (True, False),
         "map": (True, False),

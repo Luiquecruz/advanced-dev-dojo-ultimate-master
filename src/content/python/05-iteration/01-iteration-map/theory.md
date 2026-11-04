@@ -8,7 +8,7 @@ Module 02 (the sequence protocol and comprehensions), module 03 (closures and `n
 
 | Piece | What to know |
 | --- | --- |
-| Iterable | Anything `iter()` accepts: `list`, `dict`, `str`, `range`, files. A container hands out a **fresh** iterator each time, so it can be looped again |
+| Iterable | Anything `iter()` accepts: `list`, `dict`, `str`, `range`, files. A container hands out a **fresh** iterator each time, so it can be looped again; a file is its own iterator and reads once |
 | Iterator | The cursor: `__next__` returns the next item or raises `StopIteration`, and `__iter__` returns itself. One pass only |
 | Generator | An iterator written as a function with `yield`; its frame pauses between items |
 | Generator expression | `(x for x in items)`: a one-shot generator in one line |

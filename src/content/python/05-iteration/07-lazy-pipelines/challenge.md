@@ -16,7 +16,7 @@ A one-shot iterator over `lines`: `iter(source) is source`, `next()` returns the
 
 ## `pipeline(source, size=100)`
 
-A **generator** yielding the chunks of `chunked(only_errors(parse(source)), size)`.
+A **generator** yielding the chunks of `chunked(only_errors(parse(source)), size)`; `size` defaults to `100`.
 
 - Calling `pipeline` reads nothing. Getting a chunk reads only the lines needed to fill it: with the tests' log, the first chunk of 2 errors reads exactly 4 lines.
 - The source is closed when the pipeline ends, in every case: exhausted, closed early with `.close()`, or stopped by a `ValueError` from `parse` (which still reaches the consumer). Use `try`/`finally`.

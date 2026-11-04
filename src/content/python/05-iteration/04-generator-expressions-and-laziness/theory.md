@@ -29,7 +29,7 @@ Swap the brackets for parentheses and the same expressions become lazy: `next((o
 
 ## How it works
 
-- Creating a generator expression evaluates only the iterable of its first `for` clause: `(x for x in None)` raises `TypeError` at once, while `(missing_name for x in range(3))` fails only when iterated.
+- Creating a generator expression evaluates only the iterable of its first `for` clause: `(x for x in None)` raises `TypeError` at once, while `(missing_name for x in range(3))` fails only when iterated. Every other name is read late, when items are pulled: after `big = (n for n in values if n > limit)`, rebinding `limit` before the first `next()` changes what `big` yields.
 - It is **one-shot**. `sum(squares)` followed by `sum(squares)` returns `0` the second time, and two functions given the same generator share one position: the second continues where the first stopped.
 - `next(generator, default)` returns the first item or `default`. Without `default` it raises `StopIteration`, which inside another generator becomes `RuntimeError`.
 - **Short-circuit consumers**: `any` stops at the first truthy item, `all` at the first falsy one, `next` after one item, and `in` on an iterator consumes up to the match. With a generator, the items after that point are never computed. `sum`, `min`, `max` and `sorted` read everything, but a generator still keeps only one item in memory at a time.

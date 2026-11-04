@@ -13,7 +13,7 @@ A generator yielding the leaves of `nested` in order, at any depth.
 A generator driven with `send()`.
 
 - The first `next()` primes it and yields `None`.
-- Each `send(value)` yields the mean of **every** value sent so far, as a number: `10`, then `20`, then `0` give `10`, `15`, `10`.
+- Each `send(value)` yields the mean of **every** value sent so far, as a number: `10`, then `20`, then `0` give `10`, `15`, `10`. Use true division: `4` then `5` give `4`, then `4.5`.
 - Each call to `running_average()` starts a new, independent average.
 
 ## `collect(generator)`

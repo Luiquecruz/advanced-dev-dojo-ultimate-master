@@ -1,6 +1,6 @@
 A log tool for a billing service sends events in chunks, reports how long the service stayed in each state, keeps running totals of charges and lists every state change. The starter was ported from JavaScript with slicing and an `Object.groupBy`-style counter. Rewrite the four functions in `main.py` with `itertools`.
 
-Events are dicts with a `"status"` key (and other keys the functions ignore). Every function accepts any iterable, including a generator.
+Events are dicts with a `"status"` key and other keys the functions ignore, such as a timestamp that differs on every event. Every function accepts any iterable, including a generator.
 
 ## `batches(records, size)`
 
@@ -10,7 +10,7 @@ Events are dicts with a `"status"` key (and other keys the functions ignore). Ev
 
 ## `runs(events)`
 
-Return a list of `(status, count)` tuples, one per **run** of consecutive events with the same status, in order (`itertools.groupby`). A status that comes back later starts a new run: statuses `ok, ok, error, ok` give `[("ok", 2), ("error", 1), ("ok", 1)]`.
+Return a list of `(status, count)` tuples, one per **run** of consecutive events with the same status, in order (`itertools.groupby` with a key on the status, since events with the same status differ in their other keys). A status that comes back later starts a new run: statuses `ok, ok, error, ok` give `[("ok", 2), ("error", 1), ("ok", 1)]`.
 
 ## `running_totals(amounts)`
 

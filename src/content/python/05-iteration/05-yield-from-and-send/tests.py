@@ -50,11 +50,13 @@ def _():
     other = mod.running_average()
     next(other)
     independent = other.send(4)
+    fractional = other.send(5)
     assert primed is None
     assert first == 10
     assert second == 15
     assert third == 10
     assert independent == 4
+    assert fractional == 4.5
 
 
 @test("collect returns the yielded items and the generator's return value")

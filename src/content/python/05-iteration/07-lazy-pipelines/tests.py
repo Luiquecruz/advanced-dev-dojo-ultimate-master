@@ -66,11 +66,13 @@ def _():
     reads = source.reads
     full_source = mod.Source(LINES)
     sizes = [len(chunk) for chunk in mod.pipeline(full_source, size=3)]
+    default_sizes = [len(chunk) for chunk in mod.pipeline(mod.Source(["ERROR disk full"] * 150))]
     assert open_while_paused is False
     assert closed_after_close is True
     assert reads == 4
     assert sizes == [3, 1]
     assert full_source.closed is True
+    assert default_sizes == [100, 50]
 
 
 @test("a malformed line raises ValueError naming the line, stops reading and still closes the source")

@@ -17,7 +17,7 @@ tracker.send(8)        # 8
 
 ## Coming from TypeScript and JavaScript
 
-JavaScript generators have the same channel: `gen.next(value)` is `send(value)`, `yield*` is `yield from`, and `return()`/`throw()` exist on both sides. Two habits break in translation.
+JavaScript generators have the same channel: `gen.next(value)` is `send(value)`, `yield*` is `yield from`, `gen.throw(error)` is `throw()`, and `gen.return()` is closest to `close()`. Two habits break in translation.
 
 **Priming.** The argument of the first `next(value)` in JavaScript is silently discarded. Python refuses it: `send(5)` on a just-started generator raises `TypeError: can't send non-None value to a just-started generator`. Call `next(gen)` (or `gen.send(None)`) first, to run the body to its first `yield`.
 
@@ -42,7 +42,7 @@ Treat `str` and `bytes` as leaves explicitly.
 
 ## How it works
 
-- **`yield from sub`** ([PEP 380](https://peps.python.org/pep-0380/)) runs `sub` to completion. Every value it yields goes straight to our caller, every `send()` and `throw()` is forwarded to it, and the expression evaluates to `sub`'s **return value**. A hand-written `for x in sub: yield x` forwards neither `send()` nor `throw()` and loses the return value.
+- **`yield from sub`** ([PEP 380](https://peps.python.org/pep-0380/)) runs `sub` to completion. Every value it yields goes straight to our caller, every `send()` and `throw()` is forwarded to it, `close()` on the delegating generator closes `sub` too, and the expression evaluates to `sub`'s **return value**. A hand-written `for x in sub: yield x` forwards neither `send()` nor `throw()` and loses the return value.
 - **`return value`** in a generator raises `StopIteration` with `.value` set. Only `yield from` or a manual `next()` loop that catches `StopIteration` sees it; `for` and `list()` drop it.
 - **`send(value)`** resumes the generator, makes the paused `yield` evaluate to `value`, and returns the next yielded value. `next(gen)` is `gen.send(None)`.
 - **`close()`** raises `GeneratorExit` at the paused `yield`, so `finally` blocks run and the generator ends. Closing a generator that never started, or one that already finished, does nothing: a `finally` that was never entered does not run. A generator that yields while handling `GeneratorExit` makes `close()` raise `RuntimeError: generator ignored GeneratorExit`.

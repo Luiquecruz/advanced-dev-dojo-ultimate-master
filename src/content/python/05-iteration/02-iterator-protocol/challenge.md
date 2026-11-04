@@ -22,5 +22,6 @@ Both decide with `iter(obj) is obj`, and both return `False`, without raising, w
 | Object | `is_iterator` | `is_reiterable` |
 | --- | --- | --- |
 | `list`, `dict`, `str`, `range`, `Paginator` | `False` | `True` |
+| a class with only `__getitem__` (the sequence protocol, no `__iter__`) | `False` | `True` |
 | `iter([...])`, a generator, `map(...)`, `LineReader` | `True` | `False` |
 | `42`, `None` | `False` | `False` |

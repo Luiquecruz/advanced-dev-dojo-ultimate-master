@@ -11,8 +11,8 @@ class CountingSource:
             yield item
 
 
-def event(status):
-    return {"status": status, "service": "billing"}
+def event(status, at):
+    return {"status": status, "service": "billing", "at": at}
 
 
 @test("batches yields tuples of size records and a shorter last batch")
@@ -44,7 +44,7 @@ def _():
 @test("runs counts consecutive statuses and starts a new run when a status comes back")
 def _():
     statuses = ["ok", "ok", "error", "ok", "ok", "ok", "timeout", "timeout"]
-    result = mod.runs(event(status) for status in statuses)
+    result = mod.runs(event(status, at) for at, status in enumerate(statuses))
     empty = mod.runs([])
     assert result == [("ok", 2), ("error", 1), ("ok", 3), ("timeout", 2)]
     assert empty == []
