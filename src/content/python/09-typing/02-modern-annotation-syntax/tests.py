@@ -6,13 +6,18 @@ LEGACY_ALIASES = {"List", "Dict", "Set", "Tuple", "Optional", "Union", "Callable
 
 
 def legacy_uses(text):
+    tree = ast.parse(text)
+    module_names = {"typing"}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            module_names |= {alias.asname or alias.name for alias in node.names if alias.name == "typing"}
     found = []
-    for node in ast.walk(ast.parse(text)):
+    for node in ast.walk(tree):
         if isinstance(node, ast.ImportFrom) and node.module == "typing":
             found += [alias.name for alias in node.names if alias.name in LEGACY_ALIASES]
-        elif isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name) and node.value.id == "typing":
+        elif isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name) and node.value.id in module_names:
             if node.attr in LEGACY_ALIASES:
-                found.append(f"typing.{node.attr}")
+                found.append(f"{node.value.id}.{node.attr}")
     return sorted(found)
 
 

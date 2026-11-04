@@ -1,6 +1,6 @@
 The functions in `main.py` already work. Annotate them so that `typing.get_type_hints` returns exactly the types below. No checker runs here: the tests read the annotation objects, the same way `dataclasses` or a web framework would.
 
-Use modern syntax only: builtin generics (`list[str]`, `dict[str, int]`), `X | None`, `Callable` from `collections.abc` and `Self` from `typing`. The module must not use `typing.List`, `Dict`, `Set`, `Tuple`, `Optional`, `Union` or `typing.Callable` (checked on the syntax tree, so comments are fine).
+Use modern syntax only: builtin generics (`list[str]`, `dict[str, int]`), `X | None`, `Callable` from `collections.abc` and `Self` from `typing`. The module must not use `typing.List`, `Dict`, `Set`, `Tuple`, `Optional`, `Union` or `typing.Callable` (checked on the syntax tree, also through an alias such as `import typing as t`, so comments are fine).
 
 ## `count_words(items, limit=None)`
 

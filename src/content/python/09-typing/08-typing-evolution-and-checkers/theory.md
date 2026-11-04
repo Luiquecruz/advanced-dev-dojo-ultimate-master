@@ -45,7 +45,7 @@ The big difference: `tsc` is usually part of the build and blocks it. A Python p
 - **pyright**: Microsoft's checker written in TypeScript; it powers Pylance in VS Code and is known for fast, precise inference.
 - **ty** (Astral, the makers of uv and ruff) and **pyrefly** (Meta): newer checkers written in Rust, aimed at very large codebases and editor speed.
 
-> **Status as of November 2026:** mypy 2.4.1 (released 2026-10-28, PyPI), pyright 1.1.414 (2026-09-09, npm), pyrefly 1.4.0 (2026-10-15; 1.0, the first stable release, shipped on 2026-05-12 per its GitHub release notes) and ty 0.0.97 (2026-11-04, still classified Beta on PyPI). Versions move monthly or faster; check each project's changelog before pinning.
+> **Status as of November 2026:** mypy 2.4.1 (released 2026-10-28, [PyPI](https://pypi.org/project/mypy/)), pyright 1.1.414 (2026-09-09, [npm](https://www.npmjs.com/package/pyright)), pyrefly 1.4.0 (2026-10-15, [PyPI](https://pypi.org/project/pyrefly/); 1.0, the first stable release, shipped on 2026-05-12) and ty 0.0.97 (2026-11-04, [PyPI](https://pypi.org/project/ty/), still classified Beta). Versions move monthly or faster; check each project's changelog before pinning.
 
 Each checker infers a little differently, and new releases find new errors in unchanged code. Pin the checker version in your lock file and upgrade it on purpose, in its own change.
 

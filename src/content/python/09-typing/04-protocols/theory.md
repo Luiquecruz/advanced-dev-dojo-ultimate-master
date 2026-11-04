@@ -54,7 +54,7 @@ Python flips both defaults, and two habits break:
 Pitfalls:
 
 - `isinstance` against a runtime protocol is slower than against a class: it checks every member on every call. Avoid it in hot loops.
-- A member set to `None` on the class counts as missing; a member that is a non-callable value counts as present.
+- A **method** member set to `None` on the class (the `__hash__ = None` idiom) counts as missing; a **data** member whose value is `None` counts as present.
 
 ## When to choose it
 
