@@ -28,11 +28,15 @@ async function makeSnapshot(): Promise<Uint8Array> {
 }
 
 /**
- * Loads Pyodide (from a snapshot when one is given), installs the harness, then removes network access and code generation before any lesson code runs.
+ * Loads Pyodide (from a snapshot when one is given) and the vendored packages the lesson imports (by name, integrity-checked against the lock file, from the app's origin),
+ * installs the harness, then removes network access and code generation before any lesson code runs.
  */
-async function boot(snapshot: Uint8Array | undefined): Promise<PythonEngine> {
+async function boot(snapshot: Uint8Array | undefined, packages: string[]): Promise<PythonEngine> {
   refuseStringTimers(scope);
   const pyodide = await loadPyodide({ indexURL: PYODIDE_URL, env: { ...PYTHON_ENV }, jsglobals: pythonJsGlobals(scope), ...(snapshot ? { _loadSnapshot: snapshot } : {}) });
+  if (packages.length > 0) {
+    await pyodide.loadPackage(packages, { checkIntegrity: true, messageCallback: () => undefined });
+  }
   const python = createPythonEngine(pyodide);
   lockDownPython(scope, pyodide);
   return python;
@@ -46,7 +50,7 @@ self.onmessage = async (event: MessageEvent<PythonWorkerRequest>) => {
       post({ type: 'snapshot', bytes }, [bytes.buffer]);
     }
     if (message.type === 'boot') {
-      engine = await boot(message.snapshot);
+      engine = await boot(message.snapshot, message.packages ?? []);
       post({ type: 'ready' });
     }
     if (message.type === 'run-tests' && engine) {
