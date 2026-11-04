@@ -1,0 +1,13 @@
+{
+  "title": "Sequence and Mapping Patterns",
+  "summary": "Match the whole value, not its first field: sequence patterns check length and literals, star patterns collect the rest, mapping patterns require keys and ignore extras. Rewrite a switch-style command parser and a JSON event decoder so bad shapes raise ValueError.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "The match statement: sequence and mapping patterns", "url": "https://docs.python.org/3/reference/compound_stmts.html#the-match-statement" },
+    { "label": "PEP 636: Structural Pattern Matching: Tutorial", "url": "https://peps.python.org/pep-0636/" },
+    { "label": "PEP 634: Structural Pattern Matching: Specification", "url": "https://peps.python.org/pep-0634/" }
+  ]
+}

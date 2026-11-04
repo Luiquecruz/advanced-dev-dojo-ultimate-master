@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`LIMIT = 10` at module level. A function has `match (\"size\", 99):` with `case (\"size\", LIMIT):` returning `\"at limit\"`, then `case _:`. What does it return?",
+    "options": [
+      "The `case _` result, because 99 != 10",
+      "A `SyntaxError` at import",
+      "`\"at limit\"`: `LIMIT` is a capture inside the tuple pattern and binds 99",
+      "A `NameError`, because `LIMIT` is read before assignment"
+    ],
+    "answer": 2,
+    "explanation": "Bare names in patterns always capture. Nested in a sequence pattern the case is not irrefutable, so it compiles and matches every second item. Compare with a dotted name, a literal or a guard."
+  },
+  {
+    "question": "`case [x, y] if x > y:` fails its guard for the subject `[1, 2]`. What happens next?",
+    "options": [
+      "Matching continues with the next case",
+      "The block runs anyway, because the pattern matched",
+      "The match statement ends without running any block",
+      "`ValueError` is raised"
+    ],
+    "answer": 0,
+    "explanation": "A false guard makes the case fail, and Python tries the following cases in order. This is the only way to fall through to a later case."
+  },
+  {
+    "question": "Which case header is valid?",
+    "options": [
+      "`case [\"move\", x] | [\"stop\"]:`",
+      "`case [x, x]:`",
+      "`case \"GET\" or \"HEAD\":`",
+      "`case [\"move\", x] | [\"go\", x]:`"
+    ],
+    "answer": 3,
+    "explanation": "Every alternative of an or-pattern must bind the same names, a name can be bound only once per pattern, and patterns use `|`, not the `or` operator."
+  },
+  {
+    "question": "A block does `if role is Role.ADMIN: return \"delete\"` and nothing else. A guest request matches that case's pattern. Where does control go?",
+    "options": [
+      "To the next case, like a `switch` without `break`",
+      "Past the end of the match statement: once a block runs, no other case is tried",
+      "Back to the first case",
+      "It raises `MatchError`"
+    ],
+    "answer": 1,
+    "explanation": "A match runs at most one block. To try later cases when a condition fails, the condition must be a guard on the case, not an `if` inside its block."
+  },
+  {
+    "question": "`class Role(StrEnum): ADMIN = \"admin\"`. Does `case Role.ADMIN:` match the plain string `\"admin\"`?",
+    "options": [
+      "No, value patterns compare with `is`",
+      "No, value patterns check the type first",
+      "Yes: value patterns compare with `==`, and a `StrEnum` member equals its string value",
+      "Only with `case str(Role.ADMIN):`"
+    ],
+    "answer": 2,
+    "explanation": "A dotted name is looked up and compared with `==`. Only the literals `None`, `True` and `False` are compared with `is`."
+  }
+]

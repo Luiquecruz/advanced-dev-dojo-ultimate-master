@@ -1,0 +1,7 @@
+[
+  { "term": "Subject", "description": "The expression after `match`, evaluated once and compared with each `case` pattern from top to bottom." },
+  { "term": "Sequence pattern", "description": "`[a, b]` or `(a, b)`: matches a list, tuple or other sequence of that exact length, never a `str`, `bytes` or `bytearray`." },
+  { "term": "Star pattern", "description": "`*rest` inside a sequence pattern: binds the remaining items as a list, possibly empty. At most one per pattern." },
+  { "term": "Mapping pattern", "description": "`{\"type\": \"click\", \"pos\": p}`: matches a mapping that has those keys with matching values; extra keys are ignored." },
+  { "term": "Wildcard", "description": "`_` matches anything and binds nothing; `case _:` is the default branch." }
+]

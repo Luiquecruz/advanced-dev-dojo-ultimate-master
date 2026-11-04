@@ -1,0 +1,14 @@
+{
+  "title": "Guards, Or-Patterns and Captures",
+  "summary": "Guards add conditions and fall through when false, or-patterns share a block, as binds what matched, and only dotted names compare. Build a request router and fix a bare-name case that lets every role delete users.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "The match statement: guards", "url": "https://docs.python.org/3/reference/compound_stmts.html#guards" },
+    { "label": "The match statement: value patterns", "url": "https://docs.python.org/3/reference/compound_stmts.html#value-patterns" },
+    { "label": "The match statement: or-patterns", "url": "https://docs.python.org/3/reference/compound_stmts.html#or-patterns" },
+    { "label": "PEP 635: Structural Pattern Matching: Motivation and Rationale", "url": "https://peps.python.org/pep-0635/" }
+  ]
+}

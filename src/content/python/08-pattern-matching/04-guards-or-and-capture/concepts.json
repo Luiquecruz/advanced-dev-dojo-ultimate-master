@@ -1,0 +1,7 @@
+[
+  { "term": "Guard", "description": "`case pattern if condition:`: evaluated after the pattern matched and bound its names; if false, matching continues with the next case." },
+  { "term": "Or-pattern", "description": "`p1 | p2`: tries the alternatives left to right. Every alternative must bind the same names." },
+  { "term": "As-pattern", "description": "`pattern as name`: binds the value that the pattern on the left matched, for example which alternative of an or-pattern." },
+  { "term": "Value pattern", "description": "A dotted name such as `Role.ADMIN`, looked up when the case runs and compared with `==`." },
+  { "term": "Capture pattern", "description": "A bare name such as `ADMIN`: matches anything and binds it. It never compares with an existing variable." }
+]
