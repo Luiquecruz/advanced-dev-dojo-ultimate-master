@@ -37,7 +37,7 @@ Modules 03 (modules and imports) and 11 (the import system): an environment is m
 
 1. This map: who owns which step.
 2. `pyproject.toml`, environments, lockfiles, wheels and safe publishing (quiz).
-3. Virtual environments: how `PATH`, `sys.prefix` and `pyvenv.cfg` make one interpreter see one set of packages.
+3. Virtual environments: `PATH`, `sys.prefix` and `pyvenv.cfg`.
 4. Testing with `unittest` and `unittest.mock`, proven against broken copies of the code.
 5. The capstone: an async rules engine plus the ADR that sizes its deployment.
 
