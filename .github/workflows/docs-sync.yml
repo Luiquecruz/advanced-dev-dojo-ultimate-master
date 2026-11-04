@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: docs-sync-${{ github.ref }}
-  cancel-in-progress: true
+  group: docs-sync-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   docs:
@@ -26,18 +26,29 @@ jobs:
       - name: Check documents of changed areas
         env:
           DOCS_SYNC_BASE: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
-          DOCS_WAIVED: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'docs:none') }}
+          # The waiver applies only to the run started by adding the label (or by opening the pull request with it).
+          # A new push (synchronize) is not covered: the check fails again until a reviewer re-applies docs:none.
+          DOCS_WAIVED: ${{ github.event_name == 'pull_request' && contains(fromJSON('["labeled","opened","reopened"]'), github.event.action) && contains(github.event.pull_request.labels.*.name, 'docs:none') }}
         run: |
           if [ -z "$DOCS_SYNC_BASE" ] || [ "$DOCS_SYNC_BASE" = "0000000000000000000000000000000000000000" ]; then
             echo "No base commit to compare against."
             exit 0
           fi
-          if node .claude/hooks/docs-sync.mjs --check; then
+          set +e
+          node .claude/hooks/docs-sync.mjs --check > docs-sync.log 2>&1
+          status=$?
+          set -e
+          cat docs-sync.log
+          if [ "$status" -eq 0 ]; then
             exit 0
+          fi
+          if ! grep -q "^Docs sync: these changes touch documented areas" docs-sync.log; then
+            echo "::error title=Docs sync::The docs sync checker failed (exit $status) before listing files."
+            exit "$status"
           fi
           if [ "$DOCS_WAIVED" = "true" ]; then
             echo "::notice title=Docs sync::Uncovered files above were reviewed: the pull request is labeled docs:none (nothing a document describes changed)."
             exit 0
           fi
-          echo "::warning title=Docs sync::Changed areas without document updates, see the job log. If nothing a document describes changed, add the docs:none label."
+          echo "::warning title=Docs sync::Changed areas without document updates, see the job log. If nothing a document describes changed, a reviewer adds the docs:none label (re-apply it after each new push)."
           exit 1
