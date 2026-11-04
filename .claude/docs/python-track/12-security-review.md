@@ -451,3 +451,50 @@ Date: 2026-11-04. Scope: `git diff 17c5b05 06c9ffc`. The commit makes two change
 **Addendum, `abef8f8`.** I re-ran the same review for `git diff 17c5b05 abef8f8`. The extra commit only strengthens the entropy test: `os.urandom(16)` differs between calls, `secrets.token_hex(8)` has length 16, and `tempfile.mkdtemp()` lands under `/tmp/`. It also updates the spike doc table (`13-sre-pyodide-spike.md`). No runtime, lock-down or permission code changed after `06c9ffc`, so the findings above hold. `pythonSandbox.test.ts` at `abef8f8`: 54/54.
 
 **Open Critical/High: none.**
+
+---
+
+## Content review: module 11
+
+Date: 2026-11-04. Scope: `src/content/python/11-metaprogramming/` at commit `73c1e86` (branch `worktree-agent-af104219bf7f94b43`), read-only. The focus was lesson `07-import-system-internals`, with lessons 02–06 skimmed. I judged them as teaching content: does the lesson model an unsafe habit, and what must it say?
+
+### 07-import-system-internals
+
+What is already right:
+- `find_spec` returns `None` for names it does not serve, and a quiz question covers why a raising finder breaks every import.
+- `uninstall` removes the finder and only the modules whose `__spec__.loader` is that finder.
+- Every test restores `sys.meta_path` and `sys.modules` in `finally`, and the demo wraps its use in `try/finally`.
+- Test module names are namespaced (`dojo_virtual_`).
+- `theory.md` already has one bullet: "Executing source is running code … Serve only trusted sources."
+
+Required changes:
+
+| # | Severity | File / section | Change |
+| --- | --- | --- | --- |
+| C11-1 | **Medium** | `theory.md`, new section `## Security note` before `## When to choose it`, replacing the "Executing source is running code" bullet | See the text below |
+| C11-2 | **Medium** | `challenge.md` (`install`), `solution/main.py`, `tests.py` | **Refuse names that would shadow the standard library.** With the finder at position 0, a key such as `"secrets"` or even `"ssl.helpers"` (which makes `ssl` an implicit package) hijacks `import ssl` or `import secrets` for the whole process, if that module is not imported yet. Spec text for `install`: "raise `ValueError` naming the module when the top-level name of any key is in `sys.stdlib_module_names` or `sys.builtin_module_names`; nothing is installed in that case". Solution: in `install`, check `{name.partition(".")[0] for name in sources}` before `insert(0, …)`. New test: `@test("install refuses names that would shadow the standard library")`, which checks that `capture_error(lambda: mod.install({"secrets": "X = 1"}))` and `mod.install({"hmac.extra": ""})` both raise `ValueError` and that `sys.meta_path` is unchanged. The starter keeps no check, so it fails this test. |
+| C11-3 | **Medium** | `challenge.md`, first paragraph ("A plugin host keeps plugin source code in a database") | Add: "Treat that database as part of your code base: anyone who can write a row can run code in every process that imports it. Real plugin systems ship plugins as packages (wheels discovered through entry points, installed from a pinned, hashed lockfile) instead of executing stored source." |
+| C11-4 | Low | `quiz.json`, one new question | "Plugin sources come from a table that support staff can edit through an admin page. The finder runs them with `exec(code, module.__dict__)`. Which statement is true?" Correct: "Anyone who can edit the table runs arbitrary code with the application's privileges; an import hook is not a sandbox." Distractors: "`exec` in a fresh module namespace isolates the code"; "Removing `__builtins__` from the namespace makes it safe"; "It is safe as long as the finder is uninstalled after the import". Explanation: in-process Python has no sandbox. `__builtins__` can be recovered through object dunders (`().__class__.__base__.__subclasses__()`), and the module stays loaded after `uninstall`. |
+| C11-5 | Low | `theory.md`, "When to choose it" | Add: "`importlib.resources.files(package)` to read data files shipped inside a package (data, never code to `exec`); `spec_from_file_location` only for paths your program controls, never for a path taken from user input." |
+| C11-6 | Low (optional) | `solution/demo.py` / `approach.md` | Mention a context manager (`with installed(sources) as finder:`) as the production shape of `install`/`uninstall`, so a finder never outlives its use after an exception. |
+
+**C11-1 text (Security note):**
+
+> ## Security note
+>
+> An import hook decides what code runs when any part of the process writes `import x`. Three consequences:
+>
+> - **It executes with full privileges.** `exec_module` runs the source as ordinary Python: it can open files, read environment variables and open sockets. Removing `__builtins__` or passing a restricted globals dict is not a sandbox; there is no safe way to run untrusted Python in-process. Serve only source you would commit to your repository, never user input, request data or rows that others can edit.
+> - **A finder at the front shadows everything.** At position 0 of `sys.meta_path` it answers before the standard library and installed packages, for every module not yet in `sys.modules`. A served name like `json` or `ssl`, or a dotted key that turns `ssl` into an implicit package, replaces the real module for the whole process. This is the same failure as dependency confusion (a public package that shadows an internal name) and as a stray `json.py` next to your script. Namespace your names, refuse standard library names, and append the finder when it only needs to be a fallback.
+> - **Clean up.** Remove the finder and the modules it loaded when you are done (`uninstall`, or a context manager), so later imports in the same process are not answered by code that is no longer meant to run.
+
+### Lessons 02–06 (skim)
+
+| Lesson | Finding | Severity |
+| --- | --- | --- |
+| 02-init-subclass-registries | Import-time registration only; no `exec`/`eval`. The map already says to prefer decorators and `__init_subclass__` | None |
+| 03-dynamic-classes | Builds classes with `type(name, bases, namespace)` and validates field names with `str.isidentifier()` and `keyword.iskeyword()` (`solution/main.py:10`); no templated `exec` (the planned A.2 point is covered). Optional: also reject names starting with `_`, so a field cannot collide with dunders such as `__class__` | Low (optional) |
+| 04-attribute-hooks | `Proxy` forwards every name, including `_private` ones, and writes every assignment to the target. That is fine as an auditing wrapper, but `theory.md` line 60 lists "access control" as a use of `__getattribute__`. **Change** that bullet to "(tracing, auditing). Attribute hooks are never a security boundary: `object.__getattribute__`, `object.__setattr__` and `vars()` bypass them, which is also how `Frozen` can be unfrozen." | Low |
+| 05-metaclasses, 06-inspect-and-signatures | No `exec`/`eval`; `public_api` skips names starting with `_` | None |
+
+No Critical or High findings in module 11. C11-1 to C11-3 should land before the module is marked written.
