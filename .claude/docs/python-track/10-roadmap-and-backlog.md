@@ -2,7 +2,7 @@
 
 Product view of the track: why it exists, how we know it works, in what order the remaining modules ship, who can write what in parallel, and where the MVP cut line sits. Lesson contracts live in [03-curriculum.md](03-curriculum.md) and the per-module specs (04–08); this file never restates them.
 
-Status as of November 2026: module 1 (`01-object-model`, 8 lessons) is written and verified; module 2 (`02-collections`) has lessons 01–08 on disk and `09-collections-adr` pending. Superseded scope: the approved plan is 94 lessons in 12 modules (see [03-curriculum.md](03-curriculum.md) and [09-governance.md](09-governance.md)); module 2 is complete and the Pydantic module moved to the v2 backlog.
+Status as of November 2026: milestones M0–M5 are complete. All 94 lessons of modules 01–12 (including the capstone) are written, cross-reviewed, verified and browser-checked on `feat/python-track`; the track stays behind `TRACK_FLAGS.python = false` until the product owner enables it (G4). M6 (Pydantic) and the v2 backlog are not started.
 
 ## Learner value
 

@@ -62,6 +62,19 @@ Each phase ends at a gate defined in [09-governance.md](09-governance.md) "Appro
 
 Write `meta.json` last in every lesson. Update `CURRICULUM.md` in the same change as each lesson.
 
+### Status (November 2026)
+
+| Phase | State |
+| --- | --- |
+| Platform, Pilot, Standards lock | Done: track registered, verify sandbox and browser worker hardened (Security: open Critical/High none), conventions and bytecode-cache guards |
+| MVP (modules 01–04, 36 lessons) | Written, cross-reviewed, verified, browser-checked |
+| Core (modules 05–08, 29 lessons) | Written, cross-reviewed, verified, browser-checked |
+| Advanced (modules 09–12, 29 lessons, capstone) | Written, cross-reviewed, verified, browser-checked |
+| Release | Pending the product owner: `TRACK_FLAGS.python` is still `false`; G4 asks for one learner session outside the team before enabling it |
+| v2 backlog | Not started (deferred lessons and module 13 Pydantic, see 03-curriculum.md) |
+
+All 94 planned lessons are on `feat/python-track`; `npm run verify` passes with every Python lesson's solution green and every starter failing at least one test.
+
 ## Departures from the NotebookLM draft
 
 | Draft | This spec | Why |
