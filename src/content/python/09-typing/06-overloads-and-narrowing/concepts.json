@@ -1,0 +1,7 @@
+[
+  { "term": "`@overload`", "description": "Declares one call signature for checkers; the stubs are registered for `typing.get_overloads`, and only the final undecorated function runs." },
+  { "term": "Narrowing", "description": "A checker refining a value's type inside a branch after `isinstance`, `is None`, a `match` case or a type guard." },
+  { "term": "`TypeIs[T]`", "description": "Return type of a predicate that narrows to `T` when true and to not-`T` when false (PEP 742, Python 3.13)." },
+  { "term": "`assert_never`", "description": "Marks code that is unreachable when every variant is handled; a checker errors on a missing branch and the call raises `AssertionError` at runtime." },
+  { "term": "`cast`", "description": "Returns its argument unchanged; it only tells the checker to trust a type, like TypeScript's `as`." }
+]

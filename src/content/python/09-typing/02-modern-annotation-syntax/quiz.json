@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`def page(size: int = None): ...`. What does `typing.get_type_hints(page)[\"size\"]` return on Python 3.14?",
+    "options": [
+      "`int | None`, because the default is `None`",
+      "`int`: the default does not change the annotation",
+      "`None`",
+      "It raises `TypeError`"
+    ],
+    "answer": 1,
+    "explanation": "Since Python 3.11 `get_type_hints` returns annotations unchanged; before, it added `Optional` for a `None` default. A checker reports `size: int = None` as an error, so write `int | None = None`."
+  },
+  {
+    "question": "`def log(*parts: str): ...` is called as `log(\"a\", \"b\")`. What is the annotation describing?",
+    "options": [
+      "The tuple `parts`, so it should be `tuple[str, ...]`",
+      "A list of strings",
+      "Each extra positional argument: every element of `parts` is a `str`",
+      "Only the first extra argument"
+    ],
+    "answer": 2,
+    "explanation": "Annotations on `*args` and `**kwargs` describe one element. Inside the function `parts` is a `tuple[str, ...]`."
+  },
+  {
+    "question": "Which pair is **not** equal at runtime?",
+    "options": [
+      "`typing.List[str]` and `list[str]`",
+      "`typing.Optional[int]` and `int | None`",
+      "`list[str]` and `list[str]`",
+      "`int | str` and `str | int`"
+    ],
+    "answer": 0,
+    "explanation": "`typing.List[str]` is a `typing._GenericAlias` and `list[str]` a `types.GenericAlias`; they compare unequal. Unions compare as sets of members, and `Optional[int]` builds the same union as `int | None`."
+  },
+  {
+    "question": "A method returns `self` so calls chain, and subclasses should keep their own type. What is the best return annotation?",
+    "options": [
+      "`-> object`",
+      "`-> \"Node\"`",
+      "No annotation",
+      "`-> Self`"
+    ],
+    "answer": 3,
+    "explanation": "`Self` means the class of the receiver, so `SubNode().add(...)` is typed as `SubNode`. `\"Node\"` pins the base class, and `object` loses every attribute."
+  }
+]

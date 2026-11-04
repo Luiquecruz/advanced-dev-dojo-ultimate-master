@@ -1,0 +1,7 @@
+[
+  { "term": "Deferred evaluation", "description": "Since Python 3.14 (PEP 649/749) annotations are compiled into `__annotate__` and evaluated on first access, so forward references need no quotes." },
+  { "term": "`annotationlib.Format`", "description": "`VALUE` evaluates (and raises on undefined names), `FORWARDREF` substitutes `ForwardRef` placeholders, `STRING` returns source text." },
+  { "term": "`ForwardRef`", "description": "A placeholder for a name that could not be resolved yet; `@dataclass` in 3.14 can keep one in `field.type`." },
+  { "term": "`from __future__ import annotations`", "description": "PEP 563: stores every annotation as a string. Still supported in 3.14; deprecation planned after 3.13 reaches end of life." },
+  { "term": "Required vs nullable", "description": "A schema field is required when it has no default; it may still accept `null` when its type is `T | None`." }
+]

@@ -1,0 +1,14 @@
+{
+  "title": "Checkpoint: SDK Typing Strategy ADR",
+  "summary": "Close the typing module with an ADR and a plan for a public SDK: a plugin interface outside authors can satisfy without inheriting, payload types for JSON that stays a dict, where runtime validation happens, the generics syntax the baseline allows, the CI checker, and a payload definition count computed from three services.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "typing: Support for type hints", "url": "https://docs.python.org/3/library/typing.html" },
+    { "label": "Typing spec: Protocols", "url": "https://typing.python.org/en/latest/spec/protocol.html" },
+    { "label": "Typing spec: TypedDict", "url": "https://typing.python.org/en/latest/spec/typeddict.html" }
+  ]
+}

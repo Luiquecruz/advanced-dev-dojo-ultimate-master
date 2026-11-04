@@ -322,7 +322,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-matching-map **(quiz)** · 02-sequence-and-mapping-patterns · 03-class-patterns · 04-guards-or-and-capture · 05-walrus-and-loop-else
 
 ### 09-typing — Type Hints and Static Typing
-01-typing-map **(quiz)** · 02-modern-annotation-syntax · 03-generics-pep-695 · 04-protocols · 05-typeddict-and-literals · 06-overloads-and-narrowing · 07-runtime-annotations · 08-typing-evolution-and-checkers **(quiz)** · 09-typing-adr
+01-typing-map **(quiz)** ✓ · 02-modern-annotation-syntax ✓ · 03-generics-pep-695 ✓ · 04-protocols ✓ · 05-typeddict-and-literals ✓ · 06-overloads-and-narrowing ✓ · 07-runtime-annotations ✓ · 08-typing-evolution-and-checkers **(quiz)** ✓ · 09-typing-adr ✓
 
 ### 10-async — Async and Concurrency
 01-async-map **(quiz)** · 02-event-loop-mental-model · 03-tasks-and-gather · 04-task-groups · 05-timeouts-and-cancellation · 06-queues-locks-semaphores · 07-async-iterators-and-context · 08-blocking-threads-and-the-gil **(quiz)** · 09-async-adr

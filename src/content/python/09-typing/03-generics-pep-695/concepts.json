@@ -1,0 +1,7 @@
+[
+  { "term": "Type parameter list", "description": "`[T]` after a function, class or alias name (PEP 695, Python 3.12); its `TypeVar`s are stored in `__type_params__`." },
+  { "term": "Bound", "description": "`T: Base` accepts `Base` or any subtype of it, including a union when the bound is a union; stored in `__bound__`." },
+  { "term": "Constraints", "description": "`T: (int, str)` means exactly one of the listed types; stored in `__constraints__`." },
+  { "term": "`type` statement", "description": "`type Pair[T] = tuple[T, T]` creates a lazy `TypeAliasType`; its `__value__` is evaluated on first access." },
+  { "term": "Type parameter default", "description": "`class Page[T, Cursor = int]` (PEP 696, Python 3.13): `Page[str]` means `Page[str, int]`." }
+]

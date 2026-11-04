@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A module defines two `@overload` stubs for `area` with real bodies and no undecorated implementation after them. What happens when `area(3)` runs?",
+    "options": [
+      "The stub whose annotations match `3` runs",
+      "The last stub runs",
+      "`NotImplementedError`: an overloaded function was called without an implementation",
+      "`SyntaxError` at import"
+    ],
+    "answer": 2,
+    "explanation": "`@overload` replaces each stub with a placeholder that raises when called. Overloads never dispatch at runtime; the single real implementation must follow them."
+  },
+  {
+    "question": "`def is_str_list(value: object) -> bool: return all(isinstance(x, str) for x in value)`. What does `is_str_list(\"abc\")` return?",
+    "options": [
+      "`True`: iterating a string yields one-character strings",
+      "`False`",
+      "`TypeError`, strings are not iterable",
+      "`None`"
+    ],
+    "answer": 0,
+    "explanation": "A `str` is an iterable of `str`. Check `isinstance(value, list)` first, the way TypeScript code checks `Array.isArray`."
+  },
+  {
+    "question": "`if is_str_list(value): ... else: ...` where `is_str_list` returns `TypeIs[list[str]]` and `value: list[str] | int`. What does a checker know in the `else` branch?",
+    "options": [
+      "Nothing new: `value` is still `list[str] | int`",
+      "`value` is `list[str]`",
+      "`value` is `object`",
+      "`value` is `int`: `TypeIs` also narrows the false branch"
+    ],
+    "answer": 3,
+    "explanation": "`TypeIs` narrows both ways. With `TypeGuard` the `else` branch would not be narrowed at all."
+  },
+  {
+    "question": "A `match` over `Created | Deleted` ends with `case _: assert_never(event)`. A third event class arrives from another service at runtime. What happens?",
+    "options": [
+      "`describe` returns `None`",
+      "`AssertionError`, even under `python -O`, because `assert_never` is a function that raises",
+      "Nothing: `assert_never` only matters to the checker",
+      "`TypeError` from `match`"
+    ],
+    "answer": 1,
+    "explanation": "`assert_never` raises `AssertionError(\"Expected code to be unreachable, but got: ...\")` when called. Unlike an `assert` statement, `-O` does not remove it."
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`class User(TypedDict): id: int` and then `user = User(id=\"seven\", extra=True)`. What happens at runtime?",
+    "options": [
+      "`TypeError`: `id` must be an `int`",
+      "`TypeError`: unknown key `extra`",
+      "`user` is an instance of `User` with validated fields",
+      "`user` is the plain dict `{'id': 'seven', 'extra': True}`"
+    ],
+    "answer": 3,
+    "explanation": "Calling a TypedDict class is calling `dict`. The keys and types exist only for checkers and for code that reads `__required_keys__` and the annotations."
+  },
+  {
+    "question": "A validator checks an `int` field with `isinstance(value, int)`. The JSON payload has `\"id\": true`. What does the check say?",
+    "options": [
+      "It accepts it: `bool` is a subclass of `int`, so `isinstance(True, int)` is `True`",
+      "It rejects it, as JavaScript's `typeof` would",
+      "It raises `TypeError`",
+      "`json.loads` already turned `true` into `1`"
+    ],
+    "answer": 0,
+    "explanation": "In Python `True` and `False` are `int` instances with values 1 and 0. A validator for integer fields must exclude `bool` explicitly."
+  },
+  {
+    "question": "`class Event(TypedDict, total=False): kind: Required[str]; count: int`. What is `Event.__required_keys__`?",
+    "options": [
+      "`frozenset()`, because `total=False`",
+      "`frozenset({'kind'})`",
+      "`frozenset({'kind', 'count'})`",
+      "`frozenset({'count'})`"
+    ],
+    "answer": 1,
+    "explanation": "`total=False` makes keys optional by default, and `Required[...]` overrides it for `kind`. `count` lands in `__optional_keys__`."
+  },
+  {
+    "question": "What does `isinstance(value, list[str])` do?",
+    "options": [
+      "Checks that `value` is a list of strings",
+      "Checks only that `value` is a list",
+      "Raises `TypeError`: a parameterized generic cannot be used with `isinstance`",
+      "Returns `False` for every value"
+    ],
+    "answer": 2,
+    "explanation": "`list[str]` is a `types.GenericAlias`, not a class. Use `get_origin` to get `list` and `get_args` to get `(str,)`, then check the container and its items."
+  },
+  {
+    "question": "`id: ReadOnly[int]` in a TypedDict, and code later runs `payload[\"id\"] = 9`. Who reports it?",
+    "options": [
+      "The interpreter, with `TypeError`",
+      "`get_type_hints` when the module is imported",
+      "Nobody can: `ReadOnly` is documentation only",
+      "A static checker; at runtime the dict accepts the assignment, and the key is only listed in `__readonly_keys__`"
+    ],
+    "answer": 3,
+    "explanation": "`ReadOnly` (PEP 705) is a checker rule. The runtime keeps a plain mutable dict and exposes the marker through `__readonly_keys__` for tools that want it."
+  }
+]

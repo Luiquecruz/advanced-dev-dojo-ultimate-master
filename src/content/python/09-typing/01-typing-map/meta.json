@@ -1,0 +1,11 @@
+{
+  "title": "Map: Type Hints and Static Typing",
+  "summary": "A guide to what annotations are in Python: metadata the interpreter stores but never enforces, read by static checkers before the program runs and by runtime code while it runs, plus the path through this module and the decision it ends with.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "typing: Support for type hints", "url": "https://docs.python.org/3/library/typing.html" },
+    { "label": "Specification for the Python type system", "url": "https://typing.python.org/en/latest/spec/" },
+    { "label": "PEP 484: Type Hints", "url": "https://peps.python.org/pep-0484/" }
+  ]
+}
