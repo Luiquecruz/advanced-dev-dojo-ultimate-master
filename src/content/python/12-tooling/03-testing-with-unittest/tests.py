@@ -1,6 +1,4 @@
 import ast
-import sys
-import types
 import unittest
 
 MUTANTS = {
@@ -11,29 +9,24 @@ MUTANTS = {
 }
 
 
-def mutant(kind):
-    """A copy of pricing.py with one planted bug, sharing the real InvalidQuote class."""
+def run_mutant(kind):
+    """Runs the learner's suite after planting one bug inside the real pricing module, then restores it.
+
+    The bug is planted in place, so every reference the suite holds (`pricing`, `mock.patch.object(pricing, ...)`
+    evaluated when the class was defined, the "pricing.fetch_rate" target string) reaches the broken code.
+    """
     original, replacement = MUTANTS[kind]
     text = sources["pricing.py"]
     assert original in text, "pricing.py was edited: the tests plant bugs in the original file, so restore it"
     real = modules["pricing.py"]
-    copy = types.ModuleType("pricing")
-    copy.__file__ = real.__file__
-    exec(compile(text.replace(original, replacement), real.__file__, "exec"), copy.__dict__)
-    copy.InvalidQuote = real.InvalidQuote
-    return copy
-
-
-def run_against(module):
-    """Runs the learner's suite with `module` standing in for pricing everywhere."""
-    saved_module, saved_name = sys.modules["pricing"], mod.pricing
-    sys.modules["pricing"] = module
-    mod.pricing = module
+    saved = dict(real.__dict__)
+    exec(compile(text.replace(original, replacement), real.__file__, "exec"), real.__dict__)
+    real.InvalidQuote = saved["InvalidQuote"]
     try:
         return mod.run_suite()
     finally:
-        sys.modules["pricing"] = saved_module
-        mod.pricing = saved_name
+        real.__dict__.clear()
+        real.__dict__.update(saved)
 
 
 def problems(result):
@@ -80,24 +73,24 @@ def _():
 
 @test("the suite fails against a copy of pricing whose bulk discount starts one unit late")
 def _():
-    result = run_against(mutant("threshold"))
+    result = run_mutant("threshold")
     caught = not result.wasSuccessful()
     assert caught, "no test noticed that 100 units no longer get the discount"
 
 
 @test("the suite fails against a copy of pricing that accepts a zero quantity")
 def _():
-    result = run_against(mutant("zero quantity"))
+    result = run_mutant("zero quantity")
     caught = not result.wasSuccessful()
     assert caught, "no test noticed that quote(250, 0) no longer raises InvalidQuote"
 
 
 @test("the suite fails when the conversion ignores the rate or asks for the wrong currency, and never calls the real fetch_rate")
 def _():
-    ignored = run_against(mutant("ignored rate"))
+    ignored = run_mutant("ignored rate")
     ignored_caught = not ignored.wasSuccessful()
     assert ignored_caught, "no test noticed that a EUR quote no longer applies the rate"
-    wrong = run_against(mutant("wrong currency"))
+    wrong = run_mutant("wrong currency")
     wrong_caught = not wrong.wasSuccessful()
     assert wrong_caught, "no test noticed that fetch_rate received 'eur' instead of 'EUR'"
     mod.run_suite()

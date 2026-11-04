@@ -55,7 +55,7 @@ Three habits break in Python:
 
 **Two limits, two reasons.** The per-event semaphore bounds the waves of one event (latency); the global semaphore bounds the calls of the whole worker (the feature-store connection cap). Acquire the per-event slot first, so an event never holds global slots while it waits for its own.
 
-**Little's law sizes everything.** Items in a system = arrival rate × time each spends there. Calls in flight = events/s × calls per event × mean call time; queue length = drain rate × allowed wait; CPU processes = events/s × CPU-seconds per event. A capacity measured per worker is the input; the fleet size comes last.
+**Little's law sizes everything.** Items in a system = arrival rate × time each spends there. Calls in flight = events/s × calls per event × mean call time; queue length = drain rate × allowed wait; CPU processes = events/s × CPU-seconds per event. A capacity measured per worker is the input; the fleet size comes last. Little's law gives an **average**: a limit set exactly at it (216 calls) runs at full utilization and makes bursts wait, so in production you keep headroom up to the hard cap (300 connections) and watch the semaphore's wait time.
 
 **Sandbox notes.** The dojo runs your engine on Pyodide's event loop. The tests await your coroutines, order events with `asyncio.sleep(0)` ticks and never wait more than 50 ms of real time for a deadline; `offload` stands in for `loop.run_in_executor(process_pool, ...)`, which cannot run in the browser.
 

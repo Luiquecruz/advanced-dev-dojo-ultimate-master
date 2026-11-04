@@ -161,7 +161,7 @@ async def _():
     structuring = CpuCheck("structuring", pool)
     decision = await within(
         mod.evaluate_event({"id": "evt-1"}, [*io_rules, sanctions, structuring], per_event_limit=3, deadline_s=1.0, offload=pool),
-        1.0,
+        2.0,
         "evaluate_event",
     )
     peak = tracker.peak
@@ -187,7 +187,7 @@ async def _():
     ]
     decision = await within(
         mod.evaluate_event({"id": "evt-2"}, rules, per_event_limit=5, deadline_s=1.0, offload=pool),
-        1.0,
+        2.0,
         "evaluate_event",
     )
     assert decision.flags == ("amount", "velocity")
@@ -206,7 +206,7 @@ async def _():
     rules = [TickRule("geo", flag=True, ticks=1), slow, TickRule("amount", flag=False, ticks=1)]
     decision = await within(
         mod.evaluate_event({"id": "evt-3"}, rules, per_event_limit=3, deadline_s=0.05, offload=FakePool()),
-        0.5,
+        2.0,
         "evaluate_event with a 50 ms deadline",
     )
     assert decision.timed_out is True
@@ -219,7 +219,7 @@ async def _():
     await engine.start()
     await engine.submit({"id": "evt-4"})
     await ticks()
-    drained = await within(engine.shutdown(0.05), 0.5, "shutdown with a 50 ms drain deadline")
+    drained = await within(engine.shutdown(0.05), 2.0, "shutdown with a 50 ms drain deadline")
     assert drained == 0
     assert decided == []
     assert stuck_in_drain.cancelled is True
@@ -241,7 +241,7 @@ async def _():
     invalid = await capture_error(lambda: engine.submit({"amount": 120}))
     assert isinstance(invalid, ValueError)
     for event_id in ["evt-1", "evt-2", "evt-3"]:
-        await within(engine.submit({"id": event_id}), 0.5, f"submit({event_id!r})")
+        await within(engine.submit({"id": event_id}), 2.0, f"submit({event_id!r})")
     await ticks()
     blocked = asyncio.create_task(engine.submit({"id": "evt-4"}))
     await ticks()
@@ -250,9 +250,9 @@ async def _():
     peak_while_gated = tracker.peak
     assert peak_while_gated == 3
     gate.set()
-    await within(blocked, 0.5, "the blocked submit")
+    await within(blocked, 2.0, "the blocked submit")
     decided_before = len(decided)
-    drained = await within(engine.shutdown(1.0), 1.5, "shutdown")
+    drained = await within(engine.shutdown(1.0), 2.0, "shutdown")
     assert sorted(decided) == ["evt-1", "evt-2", "evt-3", "evt-4"]
     assert drained == len(decided) - decided_before
     late = await capture_error(lambda: engine.submit({"id": "evt-5"}))

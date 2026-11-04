@@ -6,7 +6,7 @@ All numbers describe the production system. Capacity is stated **per worker proc
 
 - A payments platform evaluates fraud and compliance rules on a fleet peak of **2 000 events/s**.
 - **40 rules** written by 6 teams: **36 I/O-bound** rules (one feature-store call each, mean **15 ms**, p95 **40 ms**) and **4 CPU-bound** rules (**2 ms** each). Budget **8 ms** per event for the four CPU checks, since they can queue behind each other in the pool.
-- A load test measured that **one worker sustains 400 events/s** when the CPU rules run in a process pool, and **90 events/s** when they run on the event loop. Size every per-worker limit for a worker running at its measured capacity.
+- A load test of this asyncio engine measured that **one worker sustains 400 events/s** when the CPU rules run in a process pool, and **90 events/s** when they run on the event loop. The workers run the default CPython build, with the GIL, so threads (`asyncio.to_thread`) execute the CPU rules' Python code one at a time: at most one CPU-second per second. Size every per-worker limit for a worker running at its measured capacity.
 - The feature store allows **300 concurrent connections per worker**.
 - Each event has a **250 ms** decision deadline, of which at most **100 ms** may be spent waiting in the worker's queue. The engine's own deadline starts when a worker takes the event from the queue.
 - The fleet must survive the loss of **one worker** at peak.
