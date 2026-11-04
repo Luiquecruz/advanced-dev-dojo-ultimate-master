@@ -1,0 +1,14 @@
+{
+  "title": "The with Protocol",
+  "summary": "with binds what __enter__ returns and calls __exit__ with the exception on every way out. Build a Timer with an injected clock and a Transaction that commits on success, rolls back on failure and lets the error propagate.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Language reference: the with statement", "url": "https://docs.python.org/3/reference/compound_stmts.html#the-with-statement" },
+    { "label": "Data model: With Statement Context Managers", "url": "https://docs.python.org/3/reference/datamodel.html#with-statement-context-managers" },
+    { "label": "PEP 343: The with Statement", "url": "https://peps.python.org/pep-0343/" },
+    { "label": "TC39: Explicit Resource Management", "url": "https://github.com/tc39/proposal-explicit-resource-management" }
+  ]
+}

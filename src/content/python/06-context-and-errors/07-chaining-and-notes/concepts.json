@@ -1,0 +1,7 @@
+[
+  { "term": "`__context__`", "description": "Set automatically when an exception is raised while another is being handled; printed as \"During handling of the above exception\"." },
+  { "term": "`__cause__`", "description": "Set by `raise new from original`; printed as \"The above exception was the direct cause\"." },
+  { "term": "`from None`", "description": "Sets `__suppress_context__` so the traceback hides the context; the original stays in `__context__`." },
+  { "term": "`add_note` / `__notes__`", "description": "Since 3.11, strings attached to an exception after it was created and printed after its message." },
+  { "term": "Bare `raise`", "description": "Re-raises the exception being handled, unchanged, from inside an `except` block." }
+]

@@ -1,0 +1,14 @@
+{
+  "title": "The @contextmanager Decorator",
+  "summary": "A generator with one yield becomes a context manager, and the block's exception is thrown in at that yield. Write temporary_env, captured_output and section with try/finally teardown, and use a section as a decorator.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "contextlib.contextmanager", "url": "https://docs.python.org/3/library/contextlib.html#contextlib.contextmanager" },
+    { "label": "contextlib.ContextDecorator", "url": "https://docs.python.org/3/library/contextlib.html#contextlib.ContextDecorator" },
+    { "label": "contextlib.redirect_stdout", "url": "https://docs.python.org/3/library/contextlib.html#contextlib.redirect_stdout" },
+    { "label": "What's New in Python 3.15: contextlib", "url": "https://docs.python.org/3.15/whatsnew/3.15.html#contextlib" }
+  ]
+}

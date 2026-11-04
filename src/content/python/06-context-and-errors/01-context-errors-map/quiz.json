@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`Box.__enter__` prints `enter` and `Box.__exit__` prints `exit` (and returns `None`). What does this print?\n\n```py\ntry:\n    with Box():\n        print(\"body\")\n        raise ValueError\nexcept ValueError:\n    print(\"except\")\nfinally:\n    print(\"finally\")\n```",
+    "options": [
+      "`enter body except exit finally`",
+      "`enter body except finally exit`",
+      "`enter body exit except finally`",
+      "`enter body exit finally`"
+    ],
+    "answer": 2,
+    "explanation": "The exception leaves the `with` block first, so `__exit__` runs before any outer handler. It returns a false value, so the `ValueError` propagates to the `except` clause, and `finally` runs last."
+  },
+  {
+    "question": "What does `f()` return, and what does Python 3.14 say when it compiles this?\n\n```py\ndef f():\n    try:\n        raise KeyError(\"lost\")\n    finally:\n        return \"done\"\n```",
+    "options": [
+      "It raises `KeyError`; no warning",
+      "It raises `SyntaxError`",
+      "It returns `None` and logs the `KeyError`",
+      "It returns `\"done\"` and the `KeyError` disappears; the compiler emits a `SyntaxWarning`"
+    ],
+    "answer": 3,
+    "explanation": "A `return` inside `finally` replaces whatever was in flight, including an exception. Since 3.14 (PEP 765) the compiler warns about `return`, `break` or `continue` leaving a `finally` block."
+  },
+  {
+    "question": "Which exception does `except Exception:` **not** catch?",
+    "options": [
+      "`KeyError`",
+      "`KeyboardInterrupt`",
+      "`ExceptionGroup`",
+      "`json.JSONDecodeError`"
+    ],
+    "answer": 1,
+    "explanation": "`KeyboardInterrupt`, `SystemExit`, `GeneratorExit` and `asyncio.CancelledError` derive from `BaseException` directly so that broad `except Exception` handlers do not stop a shutdown or a cancellation. `ExceptionGroup` is an `Exception`; `BaseExceptionGroup` is not."
+  },
+  {
+    "question": "Inside `except ValueError:` the code runs `raise RuntimeError(\"bad config\")` (no `from`). What links the two exceptions?",
+    "options": [
+      "`__context__` is set automatically; the traceback says \"During handling of the above exception, another exception occurred\"",
+      "Nothing: the `ValueError` is discarded",
+      "`__cause__` is set; the traceback says \"The above exception was the direct cause\"",
+      "A `SyntaxError`: re-raising needs `from`"
+    ],
+    "answer": 0,
+    "explanation": "Raising while handling sets `__context__` implicitly. `raise RuntimeError(...) from error` sets `__cause__` and changes the wording to \"direct cause\"; `from None` hides the context from the traceback."
+  }
+]

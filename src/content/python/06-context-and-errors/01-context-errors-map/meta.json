@@ -1,0 +1,12 @@
+{
+  "title": "Map: Context Managers and Exceptions",
+  "summary": "A guide to cleanup that cannot be skipped and to what an exception carries: with and finally, the exception hierarchy, chaining and exception groups, plus the path through this module and the decision it ends with.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Python Tutorial: Errors and Exceptions", "url": "https://docs.python.org/3/tutorial/errors.html" },
+    { "label": "Language reference: the with statement", "url": "https://docs.python.org/3/reference/compound_stmts.html#the-with-statement" },
+    { "label": "Built-in exceptions: hierarchy", "url": "https://docs.python.org/3/library/exceptions.html#exception-hierarchy" },
+    { "label": "PEP 765: Disallow return/break/continue that exit a finally block", "url": "https://peps.python.org/pep-0765/" }
+  ]
+}

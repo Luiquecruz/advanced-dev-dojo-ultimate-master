@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Inside `with ExitStack() as stack:` the code enters `a`, `b` and `c` with `enter_context`, then the block raises. In what order are they closed?",
+    "options": [
+      "`a`, `b`, `c`",
+      "Only `c`",
+      "In an unspecified order",
+      "`c`, `b`, `a`"
+    ],
+    "answer": 3,
+    "explanation": "An `ExitStack` unwinds last-in, first-out, the same order nested `with` statements would use."
+  },
+  {
+    "question": "While unwinding, `b.__exit__` raises `OSError`. What happens to `a`?",
+    "options": [
+      "`a.__exit__` still runs and receives the `OSError` as the current exception; the stack then raises it",
+      "`a` is never closed",
+      "`a.__exit__` runs with `None, None, None`",
+      "The `OSError` is discarded"
+    ],
+    "answer": 0,
+    "explanation": "The stack keeps going after a failing callback, passes the new exception to the remaining ones (as nested `with` blocks would), and re-raises the last error with earlier ones chained as `__context__`."
+  },
+  {
+    "question": "A constructor opens resources inside `with ExitStack() as stack:` and ends that block with `self._stack = stack.pop_all()`. What is open after the constructor returns successfully?",
+    "options": [
+      "Nothing: the `with` block closed them",
+      "Every resource, until `self._stack.close()` is called",
+      "Only the last resource",
+      "It depends on garbage collection"
+    ],
+    "answer": 1,
+    "explanation": "`pop_all()` moves the callbacks to a new stack without running them. The original stack is empty when its `with` ends, so nothing is closed until the new stack is closed."
+  },
+  {
+    "question": "Which registration can **not** suppress an exception?",
+    "options": [
+      "`stack.enter_context(manager)`",
+      "`stack.push(exit_function)`",
+      "`stack.callback(function, *args)`",
+      "`stack.push(manager)`"
+    ],
+    "answer": 2,
+    "explanation": "`callback` wraps a plain function that is never given the exception details, so it cannot return a suppressing value. Registered `__exit__` methods and `push`ed exit functions can."
+  }
+]

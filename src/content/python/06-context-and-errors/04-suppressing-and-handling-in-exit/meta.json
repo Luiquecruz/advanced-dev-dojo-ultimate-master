@@ -1,0 +1,14 @@
+{
+  "title": "Suppressing and Handling in __exit__",
+  "summary": "A true return value from __exit__ swallows the exception, so suppression must name its types. Build Suppress, a reusable ErrorCollector and a batch runner that records failures but never swallows KeyboardInterrupt-like signals.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "contextlib.suppress", "url": "https://docs.python.org/3/library/contextlib.html#contextlib.suppress" },
+    { "label": "Data model: object.__exit__", "url": "https://docs.python.org/3/reference/datamodel.html#object.__exit__" },
+    { "label": "Built-in exceptions: BaseException", "url": "https://docs.python.org/3/library/exceptions.html#BaseException" },
+    { "label": "Python Tutorial: Handling Exceptions", "url": "https://docs.python.org/3/tutorial/errors.html#handling-exceptions" }
+  ]
+}

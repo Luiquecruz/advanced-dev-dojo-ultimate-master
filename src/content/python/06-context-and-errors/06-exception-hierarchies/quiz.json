@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`except AppError:` comes before `except NotFoundError:` in the same `try`, and `NotFoundError` derives from `AppError`. Which clause handles a `NotFoundError`?",
+    "options": [
+      "`except NotFoundError`, because it is more specific",
+      "Both, in order",
+      "`except AppError`: the first matching clause wins, so the `NotFoundError` clause is dead code",
+      "Python raises a `SyntaxError` for the wrong order"
+    ],
+    "answer": 2,
+    "explanation": "Clauses are tested top to bottom with `isinstance`, and the first match runs. Python does not reorder or warn, so list specific classes first."
+  },
+  {
+    "question": "`class ValidationError(AppError, ValueError)`. Old code wraps a call in `except ValueError:`. The call now raises `ValidationError`. What happens?",
+    "options": [
+      "The old handler catches it, because a `ValidationError` is also a `ValueError`",
+      "It propagates: the old handler only knows the built-in class",
+      "A `TypeError`: an exception cannot have two bases",
+      "Only `except AppError` can catch it"
+    ],
+    "answer": 0,
+    "explanation": "Matching is `isinstance`, and the MRO of `ValidationError` contains `ValueError`. Joining a built-in family keeps existing handlers working."
+  },
+  {
+    "question": "A handler does `except Exception as error: return 500, str(error)`. A typo in the handler raises `KeyError: 'custmer_id'`. What does the client get, and what does the team see?",
+    "options": [
+      "A crash page, and the traceback in the logs",
+      "A 404, because `KeyError` is a lookup error",
+      "Nothing: `KeyError` is a `BaseException`",
+      "A normal-looking `(500, \"'custmer_id'\")` response, and no traceback anywhere unless the handler logs it"
+    ],
+    "answer": 3,
+    "explanation": "The broad clause turns a bug into an ordinary response and can leak internal names to the client. Catch the domain base class and let unexpected errors reach a top-level handler that logs them."
+  },
+  {
+    "question": "What happens on `raise \"card declined\"`?",
+    "options": [
+      "A `RuntimeError` with that message",
+      "`TypeError: exceptions must derive from BaseException`",
+      "The string is raised, like `throw \"card declined\"` in JavaScript",
+      "A `SyntaxError`"
+    ],
+    "answer": 1,
+    "explanation": "Python only raises instances (or classes) derived from `BaseException`, which is what lets `except` match by class."
+  }
+]

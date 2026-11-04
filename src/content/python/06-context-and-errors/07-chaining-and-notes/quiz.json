@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Inside `except KeyError as error:` the code runs `raise LookupFailed(\"no price\") from error`. What are `__cause__` and `__context__` of the new exception?",
+    "options": [
+      "`__cause__` is the `KeyError`, `__context__` is `None`",
+      "Both are `None`",
+      "Both are the same `KeyError`",
+      "`__context__` is the `KeyError`, `__cause__` is `None`"
+    ],
+    "answer": 2,
+    "explanation": "Raising while handling always sets `__context__`; `from error` additionally sets `__cause__` (and `__suppress_context__`), so both point to the original."
+  },
+  {
+    "question": "After `raise ConfigError(\"missing setting\") from None`, where is the original `KeyError`?",
+    "options": [
+      "Gone: `from None` deletes it",
+      "Still in `__context__`, but the default traceback does not print it",
+      "In `__cause__`",
+      "In `__notes__`"
+    ],
+    "answer": 1,
+    "explanation": "`from None` sets `__suppress_context__ = True` and `__cause__ = None`. The context is still recorded, so `from None` is about readable tracebacks, not about hiding data."
+  },
+  {
+    "question": "A retry layer must add the attempt number to an error it re-raises. Which option keeps monitoring that groups errors by message working?",
+    "options": [
+      "`error.add_note(\"attempt=3\")` and a bare `raise`",
+      "`raise type(error)(f\"{error} (attempt 3)\")`",
+      "`error.args = (f\"{error.args[0]} attempt=3\",)`",
+      "`print(\"attempt 3\")` before re-raising"
+    ],
+    "answer": 0,
+    "explanation": "Notes are stored beside the message and printed by the traceback, so the message and `args` stay stable. Rebuilding the exception or its args changes what every consumer sees."
+  },
+  {
+    "question": "A handler logs and then writes `raise` with no argument inside `except OSError:`. What propagates?",
+    "options": [
+      "A new `OSError` with an empty message",
+      "A `RuntimeError: No active exception`",
+      "Nothing: a bare `raise` only works at module level",
+      "The same `OSError` object, with its original traceback"
+    ],
+    "answer": 3,
+    "explanation": "A bare `raise` re-raises the exception currently being handled. It is the right choice when the handler only observes or cleans up."
+  }
+]

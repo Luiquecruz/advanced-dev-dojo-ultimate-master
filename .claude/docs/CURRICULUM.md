@@ -313,7 +313,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-iteration-map **(quiz)** · 02-iterator-protocol · 03-generators · 04-generator-expressions-and-laziness · 05-yield-from-and-send · 06-itertools · 07-lazy-pipelines
 
 ### 06-context-and-errors — Context Managers and Exceptions
-01-context-errors-map **(quiz)** · 02-with-protocol · 03-contextmanager-decorator · 04-suppressing-and-handling-in-exit · 05-exitstack · 06-exception-hierarchies · 07-chaining-and-notes · 08-exception-groups · 09-context-errors-adr
+01-context-errors-map **(quiz)** ✓ · 02-with-protocol ✓ · 03-contextmanager-decorator ✓ · 04-suppressing-and-handling-in-exit ✓ · 05-exitstack ✓ · 06-exception-hierarchies ✓ · 07-chaining-and-notes ✓ · 08-exception-groups ✓ · 09-context-errors-adr ✓
 
 ### 07-stdlib — Standard Library in Practice
 01-stdlib-map **(quiz)** · 02-json-and-serialization · 03-regular-expressions · 04-pathlib-and-io · 05-numbers-decimal-and-fractions · 06-dates-and-times · 07-enums · 08-logging

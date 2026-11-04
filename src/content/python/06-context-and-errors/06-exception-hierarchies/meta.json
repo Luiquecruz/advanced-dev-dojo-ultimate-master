@@ -1,0 +1,14 @@
+{
+  "title": "Exception Hierarchies",
+  "summary": "except matches by class with inheritance, so a domain base class lets callers catch exactly what a library raises on purpose. Build AppError and its subclasses, resolve their status through the MRO, and map only domain errors to responses.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Built-in exceptions: hierarchy", "url": "https://docs.python.org/3/library/exceptions.html#exception-hierarchy" },
+    { "label": "Python Tutorial: User-defined Exceptions", "url": "https://docs.python.org/3/tutorial/errors.html#user-defined-exceptions" },
+    { "label": "Language reference: the try statement", "url": "https://docs.python.org/3/reference/compound_stmts.html#the-try-statement" },
+    { "label": "PEP 758: Allow except and except* expressions without parentheses", "url": "https://peps.python.org/pep-0758/" }
+  ]
+}
