@@ -1,0 +1,8 @@
+[
+  { "term": "Frame", "description": "The object of one running call: `f_code` (what runs), `f_locals`, `f_lineno` and `f_back`, the frame of the caller." },
+  { "term": "`sys._getframe(depth)`", "description": "Returns the frame `depth` calls up the stack and raises `ValueError` past its bottom; a CPython implementation detail, like `inspect.currentframe()`." },
+  { "term": "Traceback", "description": "A linked list of frame and line entries built while an exception unwinds: `__traceback__` starts at the catching frame and `tb_next` leads to the raising one." },
+  { "term": "`__cause__`, `__context__`, `__suppress_context__`", "description": "Explicit (`raise ... from`) and implicit (raised inside `except`) exception links; `from None` suppresses the context." },
+  { "term": "`traceback.TracebackException`", "description": "A snapshot of an exception, its stack and its chain that holds no frames, stops at repeated exceptions and formats later; `exc_type_str` is the printed type name." },
+  { "term": "Frame reference cycle", "description": "A frame stored in its own locals (directly or through a traceback) keeps every local alive until the cycle collector runs; break it with `del`, `frame.clear()` or `traceback.clear_frames()`." }
+]

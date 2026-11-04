@@ -1,0 +1,8 @@
+[
+  { "term": "Code object", "description": "The immutable result of compiling a module, class body or function: instructions, constants, names, exception table and source positions." },
+  { "term": "`.pyc` cache", "description": "A marshalled code object in `__pycache__`, named with the interpreter's cache tag (`cpython-314`) and validated by a magic number plus the source's mtime and size or hash (PEP 552)." },
+  { "term": "Constant folding", "description": "The compiler evaluates constant expressions such as `24 * 60 * 60` once and stores the result in `co_consts`." },
+  { "term": "Specializing adaptive interpreter", "description": "PEP 659 (3.11): warm instructions rewrite themselves into guarded, type-specialized forms with inline caches, and fall back when a guard fails." },
+  { "term": "JIT (PEP 744)", "description": "Experimental: hot specialized code is traced into micro-ops and compiled with copy-and-patch templates; off by default, unsupported on free-threaded builds in 3.14." },
+  { "term": "Bytecode stability", "description": "None: opcodes change every minor release, so tools use `ast`, `inspect` and `sys.monitoring` instead of `dis`." }
+]

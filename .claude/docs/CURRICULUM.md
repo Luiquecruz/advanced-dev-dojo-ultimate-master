@@ -328,7 +328,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-async-map **(quiz)** ✓ · 02-event-loop-mental-model ✓ · 03-tasks-and-gather ✓ · 04-task-groups ✓ · 05-timeouts-and-cancellation ✓ · 06-queues-locks-semaphores ✓ · 07-async-iterators-and-context ✓ · 08-blocking-threads-and-the-gil **(quiz)** ✓ · 09-async-adr ✓
 
 ### 11-metaprogramming — Metaprogramming and Internals
-01-metaprogramming-map **(quiz)** ✓ · 02-init-subclass-registries ✓ · 03-dynamic-classes ✓ · 04-attribute-hooks ✓ · 05-metaclasses ✓ · 06-inspect-and-signatures ✓ · 07-import-system-internals ✓ · 08-frames-and-tracebacks · 09-bytecode-and-the-interpreter **(quiz)** · 10-metaprogramming-adr
+01-metaprogramming-map **(quiz)** ✓ · 02-init-subclass-registries ✓ · 03-dynamic-classes ✓ · 04-attribute-hooks ✓ · 05-metaclasses ✓ · 06-inspect-and-signatures ✓ · 07-import-system-internals ✓ · 08-frames-and-tracebacks ✓ · 09-bytecode-and-the-interpreter **(quiz)** ✓ · 10-metaprogramming-adr
 
 ### 12-tooling — Packaging, Testing and Capstone
 01-tooling-map **(quiz)** ✓ · 02-packaging-and-environments **(quiz)** ✓ · 03-environments-and-venv · 04-testing-with-unittest ✓ · 05-capstone-async-rules-engine ✓
