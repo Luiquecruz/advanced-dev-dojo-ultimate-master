@@ -3,8 +3,8 @@
   "summary": "Send numbered sources filtered by an evidence threshold, validate that every citation exists and was provided, repair once with feedback, withhold ungrounded answers and refuse without calling the model when there is no evidence.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Liu et al.: Lost in the Middle: How Language Models Use Long Contexts (paper)", "url": "https://arxiv.org/abs/2307.03172" },
     { "label": "Ragas documentation (faithfulness and RAG metrics)", "url": "https://docs.ragas.io/" },

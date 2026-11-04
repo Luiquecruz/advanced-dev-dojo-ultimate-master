@@ -1,0 +1,7 @@
+1. Choose the representation first: a chunk is a range of the original text plus metadata. Computing ranges and slicing once at the end makes `chunk["text"] == document["text"][start:end]` hold by construction, which is what citations and re-indexing depend on.
+2. Validate the options up front. An overlap that is not smaller than the size would make the fixed window never advance and the recursive merge never close a chunk.
+3. Fixed windows are a loop: start at 0, step by `size - overlap`, clamp the end to the text length and stop when a window reaches it.
+4. Recursive splitting is two passes. The split pass descends the separator hierarchy only where needed, so a short paragraph stays whole while a long one is broken into sentences and, only if a sentence is still too long, into words. The merge pass packs consecutive pieces back up to the size.
+5. Overlap is carried at piece granularity: when a chunk closes, reuse its trailing pieces as long as they fit in the overlap budget and leave room for the next piece. Whole pieces mean the overlap never starts mid-word.
+6. Trim each range by moving its offsets, not by stripping the string, so offsets stay exact; drop ranges that become empty.
+7. For Markdown, find heading positions, derive each section's heading path with a stack that pops same-level and deeper headings, skip heading-only sections, and reuse the recursive range logic inside each section so no chunk crosses a boundary.

@@ -1,0 +1,5 @@
+`can_read` is one tenant comparison followed by an `or` of two checks: `principal["userId"] in document.get("allowedUsers", [])` and `any(group in principal["groups"] for group in document["allowedGroups"])`. Return `False` when the tenants differ before looking at grants; an empty grant list then denies by itself.
+---
+In `upsert`, read the stored document first: `existing = self._documents.get(document["id"])`. If it exists and `existing["text"] == document["text"]`, keep `existing["vector"]`; otherwise call `self._embedder([document["text"]])[0]`. Then store `{**document, "vector": vector}`, so the new tenant and grants replace the old ones even when the vector is reused.
+---
+In `search`, the first step is `[document for document in self._documents.values() if can_read(principal, document)]`; only then embed the query, score, threshold, sort and slice. `answer_question` calls `index.search(principal, question, top_k=top_k, min_score=min_score)`, returns early when it is empty, and builds the context with `f"[{position + 1}] {passage['text']}"` blocks.

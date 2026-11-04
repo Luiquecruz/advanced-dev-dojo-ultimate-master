@@ -1,0 +1,5 @@
+Start with a tiny `unique(ids)` helper (`list(dict.fromkeys(ids))` keeps first occurrences in order) and use it at the top of every metric. Recall is then the count of relevant ids in `top = set(unique(retrieved)[:k])` divided by `len(relevant)`, and reciprocal rank is one `for position, document_id in enumerate(...)` loop that returns early.
+---
+Write one `discounted_gain(grades)` that sums `(2 ** grade - 1) / math.log2(index + 2)` with a 0-based `index` from `enumerate` (position 1 has discount `log2(2) = 1`). nDCG calls it twice: once with the grades of the first k unique retrieved ids (`relevance.get(document_id, 0)`), once with `relevance.values()` filtered above 0, sorted with `reverse=True` and cut to k.
+---
+`evaluate_retriever` loops over the golden set, calls `retrieve(item["query"], k)` and awaits the result when `inspect.isawaitable(result)`, builds one `"perQuery"` entry per item with the relevant ids from the grades above 0, and then averages each metric. `compare_retrievers` evaluates each `retrievers.items()` pair and sorts the rows by `"ndcgAtK"` with `reverse=True`.

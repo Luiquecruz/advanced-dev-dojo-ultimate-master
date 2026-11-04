@@ -3,8 +3,8 @@
   "summary": "Build an in-memory vector index: cosine similarity, batch embedding at ingestion, top-k with a similarity threshold, metadata filters applied before ranking, upserts, deletions and dimension checks.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "pgvector: vector similarity search for Postgres", "url": "https://github.com/pgvector/pgvector" },
     { "label": "Qdrant: Filtering", "url": "https://qdrant.tech/documentation/concepts/filtering/" },

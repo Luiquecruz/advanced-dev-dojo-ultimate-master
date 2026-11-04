@@ -1,0 +1,5 @@
+1. Start with the math: cosine similarity is the dot product normalized by both lengths. Guard the two cases that really happen: vectors of different dimensions (a bug upstream: raise) and a zero vector (a text made only of stopwords: score 0).
+2. Write the filter as a pure predicate over metadata. Every key must be present and equal, and a list means "any of these"; a missing key never matches, so an unexpected filter returns nothing instead of everything.
+3. Store records by id so an update replaces the old version instead of leaving a stale vector next to the new one.
+4. Embed at ingestion, in batches: one embedder call per `add`, never per record and never at query time for documents. Validate the batch's dimension against the index before storing anything, so a model change cannot corrupt half the index.
+5. At query time, embed only the query, then filter, score, threshold, sort and cut, in that order. Filtering before scoring keeps `top_k` full of eligible records; thresholding after scoring lets an irrelevant query return nothing.

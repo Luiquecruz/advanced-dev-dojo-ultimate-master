@@ -1,0 +1,7 @@
+Build `parse_json_loosely` as a list of candidate strings (the stripped text, the fenced block from `re.search(r"```(?:json)?\s*([\s\S]*?)```", text)`, and `text[text.find("{"):text.rfind("}") + 1]`) and a small `try_parse` that returns `None` instead of raising (`json.loads` raises a `ValueError`). For each candidate try it raw, then repaired with `re.sub(r",\s*([}\]])", r"\1", candidate.replace("'", '"'))`.
+---
+All three model steps share one shape: wrap `await model.generate(...)` in `try`/`except Exception`, treat a `"finishReason"` other than `"stop"` or `"length"` like an error, and return the fallback in both cases. A helper `ask_json(model, system, user)` that returns the parsed value or `None` keeps `generate_queries` and `rerank` short.
+---
+In `generate_queries`, start with `queries = [question]` and a `set` holding `question.strip().lower()`; append each string rewrite whose normalized form is new, then slice `[:count + 1]`. In `rerank`, fill a dict from id to score only when the id is a known candidate, not yet in the dict and the score passes `isinstance(score, (int, float)) and not isinstance(score, bool) and math.isfinite(score) and 0 <= score <= 10`.
+---
+Order the rerank results in two groups: the scored candidates through `sorted(..., key=..., reverse=True)` (the sort is stable, so ties keep retrieval order) followed by the unscored ones in their order. Build each result as `{**candidate, "score": scores.get(candidate["id"])}`, slice `[:top_k]` (a `None` slice keeps everything), and set `"reranked"` to `len(scores) > 0`.

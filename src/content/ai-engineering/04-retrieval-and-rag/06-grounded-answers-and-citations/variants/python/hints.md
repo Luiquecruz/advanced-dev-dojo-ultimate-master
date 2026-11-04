@@ -1,0 +1,5 @@
+`build_context` is a pipeline: keep passages with `passage["score"] >= min_score`, `sorted(..., key=lambda passage: passage["score"], reverse=True)`, slice `[:max_passages]`, then `enumerate` to add `"number": position + 1`. The context is each source as `f"[{number}] ({source}) {text}"`, joined with `"\n\n"`. `extract_citations` is `re.findall(r"\[(\d+)\]", text)` converted with `int` and deduplicated in order with `list(dict.fromkeys(...))`.
+---
+Return `no_evidence` before building any message when `sources` is empty. Otherwise keep a `messages` list you can grow, and loop at most two times (`for attempt in range(1, 3)`): `await model.generate({"messages": messages})`, extract the citations, and compute the cited numbers that are not among the source numbers.
+---
+A reply is accepted when `response["finishReason"] == "stop"`, at least one number was cited and no cited number is invalid; source `n` is `sources[n - 1]`. When it is rejected, append `{"role": "assistant", "content": response["text"]}` and a `user` message that lists the valid numbers in brackets, then loop. After the loop, return `ungrounded` with `"attempts": 2`.

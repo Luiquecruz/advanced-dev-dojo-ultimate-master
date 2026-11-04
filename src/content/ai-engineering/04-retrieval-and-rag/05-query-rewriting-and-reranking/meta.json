@@ -3,8 +3,8 @@
   "summary": "Use a model on both sides of the search: multi-query rewrites and HyDE before it, model-scored reranking after it, with a tolerant JSON reader and fallbacks that survive malformed replies, missing scores, refusals and errors.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Gao et al.: Precise Zero-Shot Dense Retrieval without Relevance Labels (HyDE paper)", "url": "https://arxiv.org/abs/2212.10496" },
     { "label": "Sentence Transformers: Retrieve and re-rank", "url": "https://www.sbert.net/examples/applications/retrieve_rerank/README.html" },

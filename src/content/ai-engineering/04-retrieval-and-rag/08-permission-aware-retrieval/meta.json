@@ -3,8 +3,8 @@
   "summary": "Enforce tenant isolation and ACLs inside the retriever, before ranking, deny by default, apply permission changes without re-embedding, remove deleted documents and keep forbidden text out of every prompt.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "OWASP GenAI: LLM08:2025 Vector and Embedding Weaknesses", "url": "https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/" },
     { "label": "Pinecone: Implement multitenancy", "url": "https://docs.pinecone.io/guides/index-data/implement-multitenancy" },

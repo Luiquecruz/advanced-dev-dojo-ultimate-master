@@ -1,0 +1,5 @@
+`similarity` is one loop over `zip(left, right)` that accumulates three sums: `left_value * right_value`, `left_value ** 2` and `right_value ** 2`. The result is the first sum divided by the product of the square roots of the other two (`math.sqrt`), or `0` when that product is `0`. Check the lengths before the loop.
+---
+Keep the records in a dict keyed by id, each with its vector: assigning `records[record["id"]]` on an existing id replaces it, which is the upsert you need. In `add`, call `self._embedder([record["text"] for record in batch])` once, compare every vector's length with the stored dimension (or the first vector's length on the first batch) and raise before touching the dict.
+---
+`search` is a pipeline over `self._records.values()`: keep records where `matches_filter` holds, build `{"id", "text", "metadata", "score"}` dicts (leave the vector out), keep scores `>= min_score` when it is given, `sorted(..., key=lambda result: result["score"], reverse=True)` and slice `[:top_k]`. Filtering first is what makes `top_k` fill with matching records.
