@@ -22,6 +22,7 @@ const IGNORED_PATTERN = /(\.test\.tsx?$|^src\/content\/[^/]+\/\d+-[^/]+\/)/;
 const RULES = [
   { pattern: /^src\/content\/[^/]+\/track\.json$/, docs: [README, CURRICULUM, CONTENT_GUIDE] },
   { pattern: /^src\/content\/[^/]+\.ts$/, docs: [ARCHITECTURE, AGENT_GUIDE] },
+  { pattern: /^plugins\/pythonWorkerCspPlugin\.ts$/, docs: [CONTRIBUTING, PYTHON_TRACK] },
   { pattern: /^src\/engines\/python\//, docs: [PYTHON_TRACK, CONTENT_GUIDE, ARCHITECTURE] },
   { pattern: /^scripts\/python-track\//, docs: [PYTHON_TRACK, README, AGENT_GUIDE] },
   { pattern: /^src\/engines\/[^/]+\/registry\.ts$/, docs: [CONTENT_GUIDE] },
@@ -33,6 +34,7 @@ const RULES = [
   { pattern: /^src\/[^/]+\.tsx?$/, docs: [ARCHITECTURE, AGENT_GUIDE] },
   { pattern: /^(package\.json|vite\.config\.ts|tsconfig\.json|index\.html|plugins\/|scripts\/)/, docs: [README, AGENT_GUIDE, CONTENT_GUIDE] },
   { pattern: /^\.claude\/(settings\.json|hooks\/)/, docs: [CONTRIBUTING] },
+  { pattern: /^(\.github\/|netlify\.toml$|\.nvmrc$)/, docs: [CONTRIBUTING, README] },
 ];
 
 /**
@@ -61,9 +63,10 @@ function readPayload() {
 }
 
 /**
- * Commit the branch is compared against: its upstream, else the merge base with main.
+ * Commit the branch is compared against: `DOCS_SYNC_BASE` when set (CI), else its upstream, else the merge base with main.
  */
 function baseRef(root) {
+  if (process.env.DOCS_SYNC_BASE) return process.env.DOCS_SYNC_BASE;
   const upstream = git(root, ['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}']);
   if (upstream) return upstream;
   const branch = git(root, ['rev-parse', '--abbrev-ref', 'HEAD']);

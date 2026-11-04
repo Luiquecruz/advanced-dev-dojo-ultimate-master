@@ -20,7 +20,9 @@ Hidden tracks are toggled in `src/content/featureFlags.ts`. Module and lesson pl
 
 ## Requirements
 
-Node.js `^22.12.0`, `^24` or `>=26`, and npm. No environment variables or API keys.
+Node.js 26 (`.nvmrc`, the version CI and Netlify use) and npm. No environment variables or API keys.
+
+CI runs on GitHub Actions (`.github/workflows/ci.yml`) and `main` deploys to Netlify (`netlify.toml`); details in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy).
 
 ## Run
 
@@ -51,6 +53,7 @@ One track or lesson: `npx vitest run src/verify/<track>.test.ts`, `LESSON=<track
 | `plugins/` | Vite plugins: lesson content as virtual modules, Pyodide runtime |
 | `scripts/` | authoring scripts (Python track scaffolding and curriculum sync) |
 | `.claude/` | documentation, specs and the shared Claude Code harness |
+| `.github/`, `netlify.toml` | CI workflow, Dependabot, pull request template, Netlify build, headers and SPA fallback |
 
 ## Contributing
 

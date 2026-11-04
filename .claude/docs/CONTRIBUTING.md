@@ -4,7 +4,7 @@ How to set up the project, ship a change and keep the documentation in step with
 
 ## Setup
 
-- Node.js `^22.12.0`, `^24` or `>=26` (Vitest 5 and Vite 8 requirement) and npm.
+- Node.js 26 (pinned in `.nvmrc`, used by CI and Netlify; `nvm use` picks it up) and npm. Older versions may build the app but fail the Python verify suites: the sandboxed child process (`src/verify/pythonSandbox.ts`) passes `--disable-sigusr1`, which Node 22.13 rejects.
 - `npm install`, then `npm run dev` (http://localhost:5173).
 - No backend, no environment variables, no API keys: grading, previews, the fake REST API and the fake model all run in the browser. The Python engine loads Pyodide from `node_modules/pyodide`, served by `plugins/pyodidePlugin.ts`.
 
@@ -45,6 +45,30 @@ Python track lessons follow their own process (scaffold, Definition of Ready and
 
 UI, motion and scene changes are also checked in a real browser (jsdom has no layout); see `.claude/CLAUDE.md` "Tests".
 
+## CI and deploy
+
+### GitHub Actions (`.github/workflows/ci.yml`)
+
+Runs on every pull request, on every push to `main` and by hand (`workflow_dispatch`). Node comes from `.nvmrc`, npm downloads are cached.
+
+| Job | Runs | Fails the run |
+| --- | --- | --- |
+| `checks` | `npm run typecheck`, `npm run test`, `vite build` | yes |
+| `verify` (matrix) | one job per track suite (`src/verify/<track>.test.ts`) plus `structure` (every other `src/verify/*.test.ts`: content, curriculum, track presentation, Python conventions and sandbox) and `npm run python:curriculum -- --check` | yes, each suite reports on its own (`fail-fast: false`) |
+| `docs` | `docs-sync.mjs --check` against the PR base or the previous `main` commit | no, shows a warning |
+
+A new track needs its id in the `verify` matrix and in the `structure` exclusion list of the workflow. A pushed commit on a pull request cancels the run still going for the previous one. `.github/dependabot.yml` opens a monthly grouped PR for action versions; npm dependencies are updated by hand, because lessons and `CONTENT_GUIDE.md` "Installed versions" depend on exact library versions (Pyodide is pinned on purpose). `npm audit` must stay clean: a vulnerable transitive dependency whose parent has no fixed release yet is pinned in `overrides` in `package.json`, scoped to that parent (`monaco-editor` → `dompurify`, `js-beautify`/`editorconfig` → `glob`, `minimatch`); remove the entry once the parent ships a fixed range. Never run `npm audit fix --force`: it downgrades direct dependencies (it moved `@vue/test-utils` back to 2.4).
+
+### Netlify (`netlify.toml`)
+
+Netlify builds `main` on every push (Git integration) with `npm run build` and publishes `dist/`. `netlify.toml` holds what the host must provide:
+
+- SPA fallback: every path without a file rewrites to `/index.html` (routing uses `BrowserRouter`).
+- `Content-Security-Policy` on `/assets/python.worker-*`, the same value as `PYTHON_WORKER_CSP` in `plugins/pythonWorkerCspPlugin.ts`; keep both in sync.
+- Long-lived cache on `/assets/*` (hashed file names).
+
+Netlify does not wait for GitHub Actions: a push to `main` deploys even when CI fails. To deploy only tested code, protect `main` on GitHub (require pull requests and the `checks` and `verify` jobs) so changes reach `main` only through a green pull request; Netlify deploy previews then show each pull request before merge.
+
 ## Documentation upkeep
 
 Documentation is incremental: every change that alters behavior, structure, commands, conventions or the curriculum updates the matching document in the same change, not in a later pass. Describe the current state (what exists and how to use it), not a changelog.
@@ -63,6 +87,7 @@ Documentation is incremental: every change that alters behavior, structure, comm
 | `src/verify/` | `CONTENT_GUIDE.md` "Verification", `.claude/CLAUDE.md` commands |
 | `package.json` scripts, `vite.config.ts`, `plugins/`, `scripts/`, `index.html` | `README.md` "Run", `.claude/CLAUDE.md` "Commands" |
 | `.claude/settings.json`, `.claude/hooks/` | this file, "Harness" |
+| `.github/`, `netlify.toml`, `.nvmrc` | this file, "CI and deploy"; `README.md` "Requirements" for the Node version |
 | a convention or workflow rule | this file |
 
 Tests keep part of this honest: `curriculum.test.ts` (lessons ↔ `CURRICULUM.md`), `trackPresentation.test.ts` (accents), `architecture.test.ts` (layer rules).
