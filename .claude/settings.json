@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/docs-sync.mjs\"",
+            "timeout": 30,
+            "statusMessage": "Checking docs sync"
+          }
+        ]
+      }
+    ]
+  }
+}

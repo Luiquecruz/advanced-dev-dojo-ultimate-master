@@ -11,7 +11,8 @@
     "test": "vitest run --exclude 'src/verify/**'",
     "verify": "vitest run src/verify",
     "python:new": "node scripts/python-track/new-lesson.mjs",
-    "python:curriculum": "node scripts/python-track/sync-curriculum.mjs"
+    "python:curriculum": "node scripts/python-track/sync-curriculum.mjs",
+    "docs:check": "node .claude/hooks/docs-sync.mjs --check"
   },
   "dependencies": {
     "@angular/common": "^22.2.3",
