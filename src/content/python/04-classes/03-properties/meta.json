@@ -1,0 +1,12 @@
+{
+  "title": "Properties",
+  "summary": "Getters, setters and deleters behind attribute syntax, read-only and computed attributes, and why validation must cover every write path. Build a Temperature with three scales.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Built-in functions: property", "url": "https://docs.python.org/3/library/functions.html#property" },
+    { "label": "Descriptor Guide: Properties", "url": "https://docs.python.org/3/howto/descriptor.html#properties" }
+  ]
+}

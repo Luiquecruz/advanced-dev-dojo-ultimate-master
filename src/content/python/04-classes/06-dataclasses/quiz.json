@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What happens at import time with `@dataclass class Cart: items: list = []`?",
+    "options": [
+      "Every Cart shares one list",
+      "Each Cart gets a new list",
+      "ValueError: mutable default for field items is not allowed",
+      "The field is ignored"
+    ],
+    "answer": 2,
+    "explanation": "The decorator rejects unhashable defaults such as lists to prevent the shared-default bug. Use `field(default_factory=list)`."
+  },
+  {
+    "question": "`@dataclass(frozen=True) class P: tags: list`. Can `p.tags.append('x')` change `p`?",
+    "options": [
+      "No, frozen makes everything immutable",
+      "Yes: frozen blocks assignment to fields, not mutation of the objects they hold",
+      "It raises FrozenInstanceError",
+      "Only inside `__post_init__`"
+    ],
+    "answer": 1,
+    "explanation": "`frozen` replaces `__setattr__` and `__delattr__`. A list stored in a field is still a list. Use a tuple when the value itself must not change."
+  },
+  {
+    "question": "How do you normalize a field inside `__post_init__` of a frozen dataclass?",
+    "options": [
+      "`self.name = self.name.strip()`",
+      "`replace(self, name=...)`",
+      "Normalization is impossible",
+      "`object.__setattr__(self, 'name', self.name.strip())`"
+    ],
+    "answer": 3,
+    "explanation": "The generated `__setattr__` raises; `object.__setattr__` bypasses it, which is exactly what the generated `__init__` does."
+  },
+  {
+    "question": "A mutable dataclass with the default `eq=True` is added to a set. What happens?",
+    "options": [
+      "TypeError: unhashable type",
+      "It is hashed by identity",
+      "It is hashed by its fields",
+      "It is converted to a tuple"
+    ],
+    "answer": 0,
+    "explanation": "Defining `__eq__` without `frozen=True` sets `__hash__` to `None`, because a hash of mutable fields could change while the object is in the set."
+  },
+  {
+    "question": "Why prefer `replace(product, price_cents=700)` to copying the object and setting the attribute?",
+    "options": [
+      "It is faster",
+      "It also deep-copies every field",
+      "It builds the new object through `__init__`, so `__post_init__` validation runs and frozen classes are respected",
+      "It mutates the original in place"
+    ],
+    "answer": 2,
+    "explanation": "`replace` passes the current fields plus your changes to the class, so the copy is created like any other instance."
+  }
+]

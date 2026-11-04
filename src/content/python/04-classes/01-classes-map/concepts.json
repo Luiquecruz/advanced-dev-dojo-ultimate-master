@@ -1,0 +1,7 @@
+[
+  { "term": "Instance namespace", "description": "`obj.__dict__`, the per-object dictionary that assignment writes to by default." },
+  { "term": "Class attribute", "description": "A name stored in the class `__dict__`, shared by every instance until an instance shadows it." },
+  { "term": "Descriptor", "description": "An object on a class that defines `__get__`, `__set__` or `__delete__` and so takes over attribute access. `property`, functions and `classmethod` are descriptors." },
+  { "term": "Data descriptor", "description": "A descriptor with `__set__` or `__delete__`. It wins over the instance `__dict__`; a non-data descriptor loses to it." },
+  { "term": "MRO", "description": "Method Resolution Order: the list of classes (`Cls.__mro__`) searched for an attribute, computed with C3 linearization." }
+]

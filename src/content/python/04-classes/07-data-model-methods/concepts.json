@@ -1,0 +1,7 @@
+[
+  { "term": "Special method", "description": "A double-underscore method (`__eq__`, `__add__`, `__repr__`) that built-in syntax and functions call on your object." },
+  { "term": "`NotImplemented`", "description": "A value returned by a binary method to let Python try the reflected method of the other operand, and finally raise `TypeError`." },
+  { "term": "Hash/eq contract", "description": "Objects that compare equal must have equal hashes. Defining `__eq__` alone sets `__hash__` to `None`." },
+  { "term": "`functools.total_ordering`", "description": "A class decorator that fills in the missing comparison methods from `__eq__` and one ordering method." },
+  { "term": "Reflected operator", "description": "`__radd__` and friends, called for `a + b` when `a` cannot handle `b`, as in `sum`'s `0 + first`." }
+]

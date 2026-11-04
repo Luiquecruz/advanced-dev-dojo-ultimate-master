@@ -1,0 +1,41 @@
+[
+  {
+    "question": "`class P: __slots__ = ('x', 'y'); x = 0`. What happens?",
+    "options": [
+      "`x` defaults to 0 for every instance",
+      "The class statement raises ValueError: 'x' in __slots__ conflicts with class variable",
+      "The slot is ignored",
+      "Instances get a `__dict__`"
+    ],
+    "answer": 1,
+    "explanation": "The slot needs a member descriptor stored under the name `x` on the class, and the class attribute takes that place. Defaults go in `__init__`."
+  },
+  {
+    "question": "`class Base: __slots__ = ('x',)` and `class Child(Base): pass`. Does `Child()` have a `__dict__`?",
+    "options": ["No, slots are inherited", "Only after the first assignment", "It raises TypeError", "Yes, because `Child` declares no `__slots__`"],
+    "answer": 3,
+    "explanation": "Every class in the chain must declare `__slots__` (possibly empty) for instances to stay dict-free."
+  },
+  {
+    "question": "Why should a mixin meant for slotted classes declare `__slots__ = ()`?",
+    "options": [
+      "So it adds no `__dict__` and no slots, and never causes a layout conflict",
+      "Empty slots make methods faster",
+      "It is required for `super()`",
+      "It makes the mixin abstract"
+    ],
+    "answer": 0,
+    "explanation": "Without it the mixin brings back `__dict__`; with non-empty slots it conflicts with other slotted bases."
+  },
+  {
+    "question": "A slotted class has 1 million instances. What does `__slots__` save, and how should you know how much?",
+    "options": [
+      "Nothing, Python always uses a dict",
+      "Exactly 50%, always",
+      "The per-instance dictionary; measure with `tracemalloc` or `sys.getsizeof` on your own objects",
+      "Only CPU time, not memory"
+    ],
+    "answer": 2,
+    "explanation": "The saving depends on the attribute count and the interpreter version, so measure your real objects instead of assuming a fixed ratio."
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "title": "Checkpoint: Order Domain Model ADR",
+  "summary": "Close the classes module with an ADR and a plan for an order system's domain model: where 15 reused validation rules live, how value objects and entities differ, how shared behaviors combine, and a memory estimate for one million line items.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Descriptor Guide", "url": "https://docs.python.org/3/howto/descriptor.html" },
+    { "label": "dataclasses: Data Classes", "url": "https://docs.python.org/3/library/dataclasses.html" },
+    { "label": "Python Data Model: __slots__", "url": "https://docs.python.org/3/reference/datamodel.html#slots" }
+  ]
+}

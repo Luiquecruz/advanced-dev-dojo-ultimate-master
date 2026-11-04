@@ -1,0 +1,13 @@
+{
+  "title": "Data Model Methods",
+  "summary": "Make a class work with repr, f-strings, ==, sets, sorted and + through special methods: the hash/eq contract, total_ordering, NotImplemented and reflected operators. Build a Money value object that refuses to mix currencies.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Data Model: Basic customization", "url": "https://docs.python.org/3/reference/datamodel.html#basic-customization" },
+    { "label": "Python Data Model: Emulating numeric types", "url": "https://docs.python.org/3/reference/datamodel.html#emulating-numeric-types" },
+    { "label": "functools.total_ordering", "url": "https://docs.python.org/3/library/functools.html#functools.total_ordering" }
+  ]
+}

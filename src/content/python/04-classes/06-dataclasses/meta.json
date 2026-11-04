@@ -1,0 +1,13 @@
+{
+  "title": "Dataclasses",
+  "summary": "What @dataclass generates and when: frozen, order, slots and kw_only, field options, validation in __post_init__ and copies with replace. Build an immutable, ordered Product value object.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "dataclasses: Data Classes", "url": "https://docs.python.org/3/library/dataclasses.html" },
+    { "label": "PEP 557: Data Classes", "url": "https://peps.python.org/pep-0557/" },
+    { "label": "PEP 649: Deferred Evaluation Of Annotations", "url": "https://peps.python.org/pep-0649/" }
+  ]
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "question": "A class validates `balance` in a property setter, but `__init__` does `self._balance = balance`. What does `Account(-5)` do?",
+    "options": [
+      "Raises ValueError",
+      "Creates an account with balance -5: the setter never ran",
+      "Raises AttributeError",
+      "Creates an account with balance 0"
+    ],
+    "answer": 1,
+    "explanation": "Writing the backing attribute bypasses the property. Assign the public name in `__init__` so construction is validated like any other write."
+  },
+  {
+    "question": "Inside the setter, the code writes `self.balance = value` instead of `self._balance = value`. What happens?",
+    "options": ["It works the same", "The value is stored in the instance dict", "The setter calls itself until RecursionError", "AttributeError"],
+    "answer": 2,
+    "explanation": "`self.balance = ...` goes through the property again, which calls the same setter."
+  },
+  {
+    "question": "Why can't `obj.__dict__['kelvin'] = 0` change what `obj.kelvin` returns when `kelvin` is a property?",
+    "options": [
+      "Instance dicts are read-only",
+      "`kelvin` is not a valid key",
+      "Properties copy themselves into every instance",
+      "A property is a data descriptor, which takes priority over the instance `__dict__`"
+    ],
+    "answer": 3,
+    "explanation": "Lookup checks data descriptors on the class before the instance namespace, so the stored key is ignored."
+  },
+  {
+    "question": "A public attribute `rate` must start rejecting negative values. Which change keeps every caller working?",
+    "options": [
+      "Replace it with a property named `rate` that validates in its setter",
+      "Rename it to `_rate` and add `get_rate()`/`set_rate()`",
+      "Validate in every caller",
+      "Make `rate` a class attribute"
+    ],
+    "answer": 0,
+    "explanation": "Properties keep the attribute syntax, so `obj.rate` and `obj.rate = x` still work and now run your code."
+  }
+]
