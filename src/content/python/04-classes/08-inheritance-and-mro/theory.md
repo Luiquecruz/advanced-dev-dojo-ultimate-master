@@ -39,7 +39,7 @@ class Order extends Audited(Timestamped(Entity)) {}
 
 JavaScript has single inheritance; mixins are functions that build a chain, and `super` is fixed lexically to the class the mixin was applied to. Two habits break in Python:
 
-- **Calling the parent by name**: `Entity.save(self, log)` is the translation of `Parent.prototype.save.call(this, log)`. In a diamond it skips every class between the mixin and `Entity`, and when several mixins do it, `Entity.save` runs several times. Always use `super().save(log)`.
+- **Calling the parent by name**: `Entity.save(self, log)` is the translation of `Parent.prototype.save.call(this, log)`. In a chain of mixins it jumps straight to `Entity` and skips every mixin after the first one. The opposite mistake, a class that calls each of its bases by name (`Audited.save(self, log)` then `Timestamped.save(self, log)`), runs the shared `Entity.save` twice. Always use `super().save(log)`.
 - **Reading `super()` as "my base class"**. The target depends on the final class, so the same mixin can call a different method in each composition. Every `save` in the chain must accept the same arguments and call `super()`, or the chain breaks for everyone after it.
 
 ## How it works

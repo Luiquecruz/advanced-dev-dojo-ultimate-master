@@ -24,7 +24,7 @@ async def _():
     assert isinstance(error, ValueError)
 
 
-@test("LazyAttribute computes once per instance and assignment replaces the cached value")
+@test("LazyAttribute is a non-data descriptor that computes once per instance and lets assignment replace the value")
 def _():
     calls = []
 
@@ -48,6 +48,8 @@ def _():
     assert second.total == 10
     assert len(calls) == 2
     assert isinstance(Report.total, mod.LazyAttribute)
+    data_hooks = [name for name in ["__set__", "__delete__"] if hasattr(mod.LazyAttribute, name)]
+    assert data_hooks == []
 
 
 @test("Field error messages name the attribute that failed")

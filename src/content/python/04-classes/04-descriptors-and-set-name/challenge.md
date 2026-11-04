@@ -14,7 +14,7 @@ The starter stores the value on the descriptor. Fix it.
 
 ### `class LazyAttribute(function)`
 
-A **non-data descriptor** (only `__get__`) used as a decorator on a method without arguments.
+A **non-data descriptor** (only `__get__`; the tests check that it defines neither `__set__` nor `__delete__`) used as a decorator on a method without arguments.
 
 - The first read on an instance calls `function(instance)` and caches the result in that instance's `__dict__` under the attribute name; later reads do not call the function again.
 - Assigning to the attribute replaces the cached value.

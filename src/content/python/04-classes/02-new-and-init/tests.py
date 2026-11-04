@@ -8,13 +8,15 @@ def _():
     assert first.code == "EUR"
 
 
-@test("different codes give different Currency objects with their own code")
+@test("different codes give different Currency objects with their own normalized code")
 def _():
+    dollar = mod.Currency("usd")
     euro = mod.Currency("EUR")
-    dollar = mod.Currency("USD")
     assert euro is not dollar
     assert dollar.code == "USD"
     assert euro.code == "EUR"
+    upper = mod.Currency("USD")
+    assert upper is dollar
 
 
 @test("__init__ runs on every call but keeps the state of a cached Currency")

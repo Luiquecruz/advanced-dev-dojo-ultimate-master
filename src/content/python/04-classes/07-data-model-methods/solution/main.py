@@ -49,7 +49,7 @@ class Money:
         return Money(self.cents + other.cents, self.currency)
 
     def __radd__(self, other: object) -> Money:
-        if other == 0 and not isinstance(other, bool):
+        if other == 0:
             return self
         return NotImplemented
 

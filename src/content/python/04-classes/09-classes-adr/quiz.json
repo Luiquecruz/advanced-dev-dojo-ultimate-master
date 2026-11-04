@@ -30,7 +30,7 @@
       "The generated class gets a slot named `quantity`, whose member descriptor replaces `Positive`, so validation never runs"
     ],
     "answer": 3,
-    "explanation": "The slot and the descriptor need the same name on the class. The rebuilt class keeps the slot, and the default only feeds `__init__`."
+    "explanation": "The slot and the descriptor need the same name on the class, and the rebuilt class keeps the slot's member descriptor. `Item(-5)` is accepted, and because `Positive.__get__(None, cls)` returns the descriptor, even the default value of `quantity` becomes the `Positive` object itself (checked on Python 3.14)."
   },
   {
     "question": "Ten entity types each need a different combination of audit, timestamps and soft delete. What is the weakest choice?",

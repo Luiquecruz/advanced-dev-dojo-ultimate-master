@@ -4,7 +4,7 @@ Repair two classes in `main.py` so that object creation happens in the right hoo
 
 `Currency(code)` returns **one interned instance per code**. Codes are normalized to upper case.
 
-- `Currency("EUR") is Currency("EUR")` and `Currency("eur") is Currency("EUR")`.
+- `Currency("EUR") is Currency("EUR")` and `Currency("eur") is Currency("EUR")`, whichever spelling is used first: `Currency("usd").code` is `"USD"`.
 - Each instance has `code` (the upper-case code), `rates` (a dict, initially empty, that callers fill) and `init_calls`.
 - `init_calls` counts how many times `__init__` ran on that object: after two `Currency("EUR")` calls it is `2`.
 - Calling `Currency("EUR")` again **never resets** the state of the cached instance: rates added earlier are still there.
