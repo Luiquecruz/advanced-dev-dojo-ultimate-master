@@ -53,7 +53,7 @@ Hold an `asyncio.Lock` from the read to the write. Concurrency limits, which Jav
 
 - **`Queue.task_done()` and `Queue.join()`**: every `get` followed by `task_done()` lets `join()` return once every item put has been processed. The classic shutdown is `await queue.join()`, then cancel the consumers *and wait for them*.
 - **`Queue.shutdown(immediate=False)`** (3.13): further `put` calls raise `QueueShutDown`; `get` keeps returning queued items and raises `QueueShutDown` once the queue is empty, so consumers end on their own. `immediate=True` drops the remaining items.
-- **`Semaphore`** keeps a counter: `acquire` decrements it or waits at zero, `release` increments it. Acquire it **inside** each task, around the work. Acquiring it around `create_task` only limits how fast tasks are created, not how many run.
+- **`Semaphore`** keeps a counter: `acquire` decrements it or waits at zero, `release` increments it. Acquire it **inside** each task, around the work. Acquiring it around `create_task` only limits how fast tasks are created, not how many run. `asyncio.BoundedSemaphore` behaves the same but raises `ValueError` when it is released more times than it was acquired, which turns a stray `release()` into an error instead of a silently higher limit.
 - **`Lock`** is not reentrant. Keep the critical section short; everything waiting for it is serialized.
 - **None of these primitives are thread-safe**, and `threading.Lock` must never be held across an `await`: a second task trying to acquire it blocks the only thread, and with it the event loop.
 

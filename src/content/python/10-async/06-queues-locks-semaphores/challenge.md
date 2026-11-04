@@ -7,11 +7,11 @@ Build three coordination helpers in `main.py`. A **handler** is an async functio
 - a producer task pulls items from `items` **one at a time** and puts them in the queue, so it pulls the next item only when the previous one fit in the queue (backpressure);
 - `workers` consumer tasks take items from the queue and await `handler(item)`, so at most `workers` handlers run at once, and with enough items exactly `workers`.
 
-Return the list of results **in the order of `items`**. When `run_pipeline` returns, every item has been handled exactly once and no producer or consumer task is still running. `queue_size` is at least 1. Stop the consumers with `Queue.shutdown()` (Python 3.13) or with `join()` followed by cancelling and awaiting them.
+Return the list of results **in the order of `items`**, even when later items finish first. When `run_pipeline` returns, every item has been handled exactly once and no producer or consumer task is still running. `queue_size` is at least 1. Stop the consumers with `Queue.shutdown()` (Python 3.13) or with `join()` followed by cancelling and awaiting them.
 
 ## `limited_gather(factories, limit)`
 
-Run every factory concurrently, with **at most `limit` running at the same time** (and exactly `limit` while enough are waiting), using an `asyncio.Semaphore`. Return the results in the order of `factories`.
+Run every factory concurrently, with **at most `limit` running at the same time** (and exactly `limit` while enough are waiting), using an `asyncio.Semaphore`. Return the results in the order of `factories`, not in the order they finish.
 
 ## `SafeCounter(store)`
 

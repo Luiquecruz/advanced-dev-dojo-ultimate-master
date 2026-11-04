@@ -16,6 +16,8 @@ class Probe:
         self.seen = []
 
     def wrap(self, steps, gate=None):
+        """`steps` is a number of ticks, or a function of the item so that items finish out of order."""
+
         async def handle(item):
             self.active += 1
             self.peak = max(self.peak, self.active)
@@ -23,7 +25,7 @@ class Probe:
             try:
                 if gate is not None:
                     await gate.wait()
-                for _ in range(steps):
+                for _ in range(steps(item) if callable(steps) else steps):
                     await asyncio.sleep(0)
                 return item * 10
             finally:
@@ -36,7 +38,7 @@ class Probe:
 async def _():
     probe = Probe()
     before = len(asyncio.all_tasks())
-    results = await mod.run_pipeline(range(12), probe.wrap(2), workers=3, queue_size=2)
+    results = await mod.run_pipeline(range(12), probe.wrap(lambda item: (12 - item) % 5), workers=3, queue_size=2)
     after = len(asyncio.all_tasks())
     counts = Counter(probe.seen)
     assert results == [index * 10 for index in range(12)]
@@ -75,7 +77,7 @@ async def _():
 @test("limited_gather never runs more than limit factories at once and keeps the input order")
 async def _():
     probe = Probe()
-    handle = probe.wrap(2)
+    handle = probe.wrap(lambda item: 2 + (9 - item) % 4)
     factories = [lambda item=item: handle(item) for item in range(9)]
     results = await mod.limited_gather(factories, 4)
     peak = probe.peak
