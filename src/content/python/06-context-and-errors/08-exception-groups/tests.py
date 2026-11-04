@@ -2,6 +2,10 @@ class OutOfRange(ValueError):
     pass
 
 
+class Shutdown(BaseException):
+    """Stands in for KeyboardInterrupt or SystemExit without stopping the test run."""
+
+
 def flatten(group):
     found = []
     for error in group.exceptions:
@@ -96,3 +100,21 @@ def _():
     assert names == ["amount", "zip", "country"]
     assert nested == [False, True]
     assert missing is None
+
+
+@test("validate_all lets an exception that is not an Exception subclass stop the run unchanged")
+def _():
+    calls = []
+    stop = Shutdown()
+    rules = [
+        rule_raising(calls, "amount", ValueError("amount must be positive")),
+        rule_raising(calls, "cancel", stop),
+        rule_raising(calls, "card"),
+    ]
+    escaped = None
+    try:
+        mod.validate_all({"amount": -5}, rules)
+    except BaseException as error:
+        escaped = error
+    assert escaped is stop
+    assert calls == ["amount", "cancel"]

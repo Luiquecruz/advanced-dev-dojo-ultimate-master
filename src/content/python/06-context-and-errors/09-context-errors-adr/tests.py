@@ -73,7 +73,7 @@ def _():
     assert distinct([entry["pattern"] for entry in rejected])
 
 
-@test("the resource count is computed from the briefing and the release strategy fits a count that varies per run")
+@test("the resource count is computed from the briefing and the release strategy is coherent with it")
 def _():
     plan = mod.PLAN
     peak = plan["peak_resources"]

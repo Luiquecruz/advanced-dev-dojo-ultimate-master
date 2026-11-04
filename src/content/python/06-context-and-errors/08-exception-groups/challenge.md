@@ -7,7 +7,7 @@ Support wants every validation error of a payment capture request at once, not o
 - Call **every** rule, in order, even after some have failed.
 - If any rule failed, raise `ExceptionGroup("validation failed", errors)` where `errors` holds the exceptions the failing rules raised, in rule order (the same objects).
 - If every rule passed, or there are no rules, return `None` and raise nothing.
-- Collect `Exception` subclasses only.
+- Collect `Exception` subclasses only. An exception that is not an `Exception` subclass (a stand-in for `KeyboardInterrupt` or `SystemExit`) is never collected: it stops `validate_all` at that rule and propagates unchanged.
 
 ## `handle(group)`
 
