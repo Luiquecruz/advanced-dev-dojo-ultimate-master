@@ -66,18 +66,22 @@ async function makeSnapshot(): Promise<Uint8Array> {
   return pyodide.makeMemorySnapshot();
 }
 
-async function start(snapshot: Uint8Array | undefined): Promise<PythonEngine> {
+async function start(snapshot: Uint8Array | undefined, packages: string[]): Promise<PythonEngine> {
   shimConstantsBinding();
   refuseStringTimers(globalThis as unknown as Record<string, unknown>);
   const globals = pythonJsGlobals(globalThis as unknown as Record<string, unknown>);
   const pyodide = await loadPyodide({
     indexURL: host.argv[2],
+    packageBaseUrl: host.argv[3],
     env: { ...PYTHON_ENV },
     jsglobals: globals,
     stdout: () => undefined,
     stderr: () => undefined,
     ...(snapshot ? { _loadSnapshot: snapshot } : {}),
   });
+  if (packages.length > 0) {
+    await pyodide.loadPackage(packages, { checkIntegrity: true, messageCallback: () => undefined });
+  }
   const engine = createPythonEngine(pyodide);
   pyodide.runPython('import os\nos.urandom(1)');
   lockDown(pyodide);
@@ -95,7 +99,7 @@ host.on('message', async (request: SandboxRequest) => {
     }
     if (request.type === 'boot') {
       try {
-        engine = await start(request.snapshot);
+        engine = await start(request.snapshot, request.packages ?? []);
         post({ type: 'ready' });
       } catch (error) {
         post({ type: 'failed', message: `Python could not start: ${describe(error)}` });

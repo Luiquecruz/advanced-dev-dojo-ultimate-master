@@ -237,6 +237,84 @@ def _():
   });
 });
 
+describe('vendored packages', () => {
+  it('loads Pydantic from the vendored wheels only when a lesson imports it', async () => {
+    const report = await grade(`
+import json
+import sys
+import js
+import pyodide_js
+from pydantic import BaseModel, ConfigDict, TypeAdapter, ValidationError, field_validator, model_validator
+
+class User(BaseModel):
+    id: int
+    email: str
+    tags: list[str] = []
+
+    @field_validator("email")
+    @classmethod
+    def lower(cls, value):
+        return value.lower()
+
+class StrictOrder(BaseModel):
+    model_config = ConfigDict(strict=True)
+    quantity: int
+
+class Window(BaseModel):
+    start: int
+    end: int
+
+    @model_validator(mode="after")
+    def ordered(self):
+        if self.start > self.end:
+            raise ValueError("start after end")
+        return self
+
+@test("pydantic 2.12.5 is loaded from the vendored wheels, with no network")
+def _():
+    import pydantic
+    assert pydantic.VERSION == "2.12.5"
+    assert "pydantic-core" in pyodide_js.loadedPackages.to_py() or "pydantic_core" in pyodide_js.loadedPackages.to_py()
+    assert getattr(js, "fetch", None) is None
+
+@test("BaseModel, model_validate and field_validator")
+def _():
+    user = User.model_validate({"id": "42", "email": "Ada@Example.COM"})
+    assert (user.id, user.email, user.tags) == (42, "ada@example.com", [])
+
+@test("strict mode and model_validator")
+def _():
+    error = None
+    try:
+        StrictOrder.model_validate({"quantity": "3"})
+    except ValidationError as caught:
+        error = caught
+    assert error is not None and error.errors()[0]["type"] == "int_type"
+    try:
+        Window(start=3, end=1)
+    except ValidationError as caught:
+        assert caught.error_count() == 1
+    else:
+        raise AssertionError("model_validator did not run")
+
+@test("model_dump(mode='json'), model_json_schema and TypeAdapter")
+def _():
+    user = User(id=1, email="a@b.c")
+    assert json.loads(json.dumps(user.model_dump(mode="json"))) == {"id": 1, "email": "a@b.c", "tags": []}
+    assert sorted(User.model_json_schema()["required"]) == ["email", "id"]
+    assert TypeAdapter(list[int]).validate_python(["1", 2]) == [1, 2]
+`);
+    expect(report.compileError).toBeUndefined();
+    expect(report.results.filter((result) => !result.passed)).toEqual([]);
+    expect(report.results).toHaveLength(4);
+  }, 60000);
+
+  it('does not load Pydantic for a lesson that does not import it', async () => {
+    const report = await grade('import sys\nimport pyodide_js\n\n@test("standard library only")\ndef _():\n    assert "pydantic" not in sys.modules\n    assert "pydantic" not in pyodide_js.loadedPackages.to_py()\n');
+    expect(report.results).toEqual([{ name: 'standard library only', passed: true }]);
+  });
+});
+
 describe('standard library that needs host entropy', () => {
   it('runs os.urandom, secrets, uuid4, tempfile and an unseeded Random after lock-down', async () => {
     const report = await grade(`

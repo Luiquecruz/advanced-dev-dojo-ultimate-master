@@ -6,13 +6,14 @@ import { availableParallelism } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import type { OutputLevel, PythonTestEvent } from '../engines/python/engine';
+import { requiredPackages } from '../engines/python/packages';
 import { listPythonTestNames } from '../engines/python/testNames';
 import type { ProjectFiles } from '../engines/shared/project';
 import type { RunReport, TestResult } from '../engines/shared/testRunner';
 
 export type SandboxRequest =
   | { type: 'make-snapshot' }
-  | { type: 'boot'; snapshot?: Uint8Array }
+  | { type: 'boot'; snapshot?: Uint8Array; packages?: string[] }
   | { type: 'run-tests'; files: ProjectFiles; entry: string; tests: string; startAt: number }
   | { type: 'run'; files: ProjectFiles; entry: string };
 
@@ -51,6 +52,8 @@ const CHILD_ENTRY = join(VERIFY_DIRECTORY, 'pythonSandbox.child.ts');
 const PROJECT_ROOT = resolve(VERIFY_DIRECTORY, '..', '..');
 const CACHE_DIRECTORY = join(realpathSync(join(PROJECT_ROOT, 'node_modules')), '.cache', 'dojo-python-sandbox');
 const PYODIDE_DIRECTORY = realpathSync(dirname(createRequire(import.meta.url).resolve('pyodide/package.json')));
+/** Vendored Pyodide packages (`npm run python:vendor`); the child may read them, never write. */
+export const VENDORED_PACKAGES_DIRECTORY = realpathSync(join(PROJECT_ROOT, 'vendor', 'pyodide-packages'));
 
 let childScript: Promise<string> | undefined;
 let childScriptPath: string | undefined;
@@ -185,7 +188,7 @@ export class PythonSandbox {
   runProgram(files: ProjectFiles, entry: string, onOutput: (level: OutputLevel, text: string) => void): Promise<number> {
     return this.serial(async () => {
       this.retire();
-      const interpreter = await this.ready();
+      const interpreter = await this.ready(requiredPackages(files));
       if (typeof interpreter === 'string') {
         onOutput('error', interpreter);
         return 1;
@@ -257,10 +260,10 @@ export class PythonSandbox {
     return interpreter;
   }
 
-  private async ready(): Promise<Interpreter | string> {
+  private async ready(packages: string[] = []): Promise<Interpreter | string> {
     try {
       await bundleChild();
-      this.current ??= this.take();
+      this.current ??= packages.length > 0 ? this.spawn(packages) : this.take();
       await this.current.ready;
       return this.current;
     } catch (error) {
@@ -269,10 +272,10 @@ export class PythonSandbox {
     }
   }
 
-  private spawn(): Interpreter {
+  private spawn(packages: string[] = []): Interpreter {
     let stderrTail = '';
     const child = forkChild();
-    void this.snapshot().then((bytes) => child.connected && child.send({ type: 'boot', snapshot: bytes } satisfies SandboxRequest));
+    void this.snapshot().then((bytes) => child.connected && child.send({ type: 'boot', snapshot: bytes, packages } satisfies SandboxRequest));
     child.stderr?.on('data', (chunk: Buffer) => {
       stderrTail = (stderrTail + chunk.toString()).slice(-STDERR_TAIL_CHARACTERS);
     });
@@ -338,7 +341,7 @@ export class PythonSandbox {
   }
 
   private async attempt(request: { files: ProjectFiles; entry: string; tests: string }, startAt: number, names: string[]): Promise<Outcome> {
-    const interpreter = await this.ready();
+    const interpreter = await this.ready(requiredPackages(request.files, request.tests));
     if (typeof interpreter === 'string') {
       return { kind: 'failed', message: interpreter, collected: [] };
     }
@@ -392,12 +395,13 @@ function readyScriptPath(): string {
 }
 
 /**
- * Node flags of every sandbox child: the permission model with read access to Pyodide and the child script only, no inspector activation by signal, and memory caps.
+ * Node flags of every sandbox child: the permission model with read access to Pyodide, the vendored packages and the child script only, no inspector activation by signal, and memory caps.
  */
 export function childExecArgv(): string[] {
   return [
     '--permission',
     `--allow-fs-read=${PYODIDE_DIRECTORY}/`,
+    `--allow-fs-read=${VENDORED_PACKAGES_DIRECTORY}/`,
     `--allow-fs-read=${readyScriptPath()}`,
     '--disable-sigusr1',
     `--max-old-space-size=${CHILD_HEAP_LIMIT_MB}`,
@@ -406,10 +410,10 @@ export function childExecArgv(): string[] {
 }
 
 /**
- * Forks the bundled child under the permission model: read access to Pyodide and the child script only, nothing else.
+ * Forks the bundled child under the permission model: read access to Pyodide, the vendored packages and the child script only, nothing else.
  */
 function forkChild(): ChildProcess {
-  const child = fork(readyScriptPath(), [`${PYODIDE_DIRECTORY}/`], {
+  const child = fork(readyScriptPath(), [`${PYODIDE_DIRECTORY}/`, `${VENDORED_PACKAGES_DIRECTORY}/`], {
     env: {},
     execArgv: childExecArgv(),
     serialization: 'advanced',

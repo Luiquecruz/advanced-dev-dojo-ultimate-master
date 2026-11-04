@@ -4,7 +4,7 @@ import type { OutputLevel, PythonTestEvent } from './engine';
 
 export type PythonWorkerRequest =
   | { type: 'make-snapshot' }
-  | { type: 'boot'; snapshot?: Uint8Array }
+  | { type: 'boot'; snapshot?: Uint8Array; packages?: string[] }
   | { type: 'run-tests'; id: number; files: ProjectFiles; entry: string; tests: string; startAt: number }
   | { type: 'run'; id: number; files: ProjectFiles; entry: string };
 
