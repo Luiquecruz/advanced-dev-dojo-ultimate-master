@@ -4,6 +4,8 @@ This module answered one question from several sides: where should behavior that
 
 Lesson 10 built such a stack in code. This checkpoint records the **decision** behind one for an SDK that many teams share: an **Architecture Decision Record** plus a **plan** whose numbers come from the briefing.
 
+The order you will derive here is **not** lesson 10's, on purpose. Lesson 10's contract kept cache hits out of the metrics and let every attempt refresh its token, so it read `cached → measured → retried → authenticated`. This briefing states the opposite two facts: the dashboard counts hits, so metrics goes **outside** the cache, and the token service allows one refresh per client call, so auth goes **outside** the retry layer. Same decorators, different facts, different stack: that is why the order belongs in an ADR.
+
 ## The decision checklist
 
 1. **Which mechanism?** Decorator factories compose per call site, in any combination, and one builder function fixes the order. Subclasses that override `send` need one class per combination, and the MRO decides their order. Interceptors registered at import time and monkey patching make the order depend on which module was imported first.

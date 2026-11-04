@@ -30,7 +30,7 @@ In `adr.py`, define two constants.
 **`PLAN`**, the design:
 
 - `mechanism`: `"decorators"` (decorator factories composed by one builder), `"subclassing"` (team subclasses overriding `send`), `"global_interceptors"` (registered on a shared client at import time) or `"monkey_patching"` (teams replace `Client.send` at import time).
-- `order`: a list of the five concern names, **outermost first**.
+- `order`: a list of the five concern names, **outermost first**. Derive it from this briefing: its dashboard and token facts differ from lesson 10's contract, so its stack differs too.
 - `metadata_preserved`: `True` or `False`, whether every layer copies the wrapped function's metadata.
 - `time_source`: `"injected_clock"`, `"system_clock"` or `"patched_time_module"`.
 - `state_location`: `"closure"`, `"class_attribute"` or `"module_global"`.
