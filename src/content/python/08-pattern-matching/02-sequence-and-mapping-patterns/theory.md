@@ -47,7 +47,7 @@ The habit that breaks is translating that line by line: `match tokens[0]:` with 
 
 **Sequence patterns.** `[a, b]` and `(a, b)` mean the same thing. They match any `collections.abc.Sequence` (lists, tuples, `range`, `deque`) but **never `str`, `bytes` or `bytearray`**, so a string is not split into characters. Iterators and generators are not sequences and never match. Without a star the length must be exact. One starred name per pattern, in any position, collects the rest into a **list** that may be empty; `*_` accepts any rest without binding it. Careful with parentheses: `(x,)` is a one-item sequence, `(x)` is just `x`.
 
-**Mapping patterns.** They match any `collections.abc.Mapping`. Every key written in the pattern must be present and its value must match the sub-pattern. **Extra keys are ignored**, which suits JSON payloads that gain new fields. `**rest` binds the remaining items as a new dict. Keys must be literals or dotted names, never capture names. Values are read with the mapping's two-argument `get()`, so matching a `defaultdict` never creates the keys it looks for.
+**Mapping patterns.** They match any `collections.abc.Mapping`. Every key written in the pattern must be present and its value must match the sub-pattern. **Extra keys are ignored**, which suits JSON payloads that gain new fields. `**rest` binds the remaining items as a new dict; `**_` is a `SyntaxError`, because ignoring extra keys is already the default. Keys must be literals or dotted names, never capture names. Values are read with the mapping's two-argument `get()`, so matching a `defaultdict` never creates the keys it looks for.
 
 **Literals.** Strings and numbers compare with `==`. `None`, `True` and `False` compare with `is`, so `case True:` does not match `1`.
 
@@ -55,6 +55,7 @@ Pitfalls:
 
 - `case {}:` matches **every** mapping and `case [*_]:` every sequence. Put general cases after specific ones.
 - A bare name never compares: `case [command, x]:` binds `command` to whatever comes first. Literal words need quotes.
+- Capturing a whole value and unpacking it in the block (`case {"pos": pos}:` then `x, y = pos`) gives up the shape check: a string `"xy"` unpacks into two characters. Put the shape in the pattern (`"pos": (x, y)`), which never matches a `str`.
 - Names bound by a pattern that failed halfway may or may not be set. Use the names only in the block whose pattern matched.
 
 ## When to choose it

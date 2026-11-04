@@ -68,6 +68,8 @@ def _():
         {"type": "click"},
         {"pos": (1, 2)},
         {"type": "click", "pos": (1, 2, 3)},
+        {"type": "click", "pos": "xy"},
+        {"type": "key"},
         {"type": "resize", "size": {"width": 800}},
         {"type": "resize", "size": (800, 600)},
         {"type": "scroll", "delta": 3},

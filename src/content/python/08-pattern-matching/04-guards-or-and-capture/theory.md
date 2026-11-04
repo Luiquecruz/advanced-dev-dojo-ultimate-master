@@ -63,7 +63,7 @@ Once a block runs, the `match` is over. Only a false **guard** sends control on 
 
 **Order.** Cases are tried from top to bottom, and the first one whose pattern matches and whose guard is true wins. Put specific cases before general ones. Python only rejects an unreachable case when it follows an irrefutable one, such as `case _:` or a bare capture without a guard.
 
-**Guards** are evaluated in case order, only for cases whose pattern matched, after the pattern's names are bound. A guard can use those names, any other variable in scope and any expression; an exception raised in a guard propagates.
+**Guards** are evaluated in case order, only for cases whose pattern matched, after the pattern's names are bound. A guard can use those names, any other variable in scope and any expression; an exception raised in a guard propagates. The names stay bound even when the guard is false, so a later case or the code after the `match` can see stale values. Since several guards may run for one subject, keep them free of side effects.
 
 **Or-patterns** try their alternatives left to right and stop at the first match. Every alternative must bind the same names: `case ["move", x] | ["go", x]:` is valid, `case ["move", x] | ["stop"]:` is a `SyntaxError` ("alternative patterns bind different names"). Only the last alternative may be irrefutable.
 

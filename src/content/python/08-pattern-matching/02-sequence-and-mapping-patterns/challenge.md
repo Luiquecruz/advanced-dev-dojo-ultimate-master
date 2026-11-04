@@ -24,4 +24,4 @@ The starter switches on `tokens[0]` like a JavaScript `switch`. It accepts extra
 | `{"type": "key", "key": key}` | `("key", key)` |
 | `{"type": "resize", "size": {"width": w, "height": h}}` | `("resize", w, h)` |
 
-Extra keys, at the top level or inside `size`, are ignored. Anything else raises `ValueError`: a missing key, a `pos` with three items, a `size` that is not a mapping or lacks `height`, an unknown `type`, or a value that is not a mapping at all.
+Extra keys, at the top level or inside `size`, are ignored. Anything else raises `ValueError`: a missing key (a `key` event without `"key"` included), a `pos` with three items or given as a string such as `"xy"`, a `size` that is not a mapping or lacks `height`, an unknown `type`, or a value that is not a mapping at all.
