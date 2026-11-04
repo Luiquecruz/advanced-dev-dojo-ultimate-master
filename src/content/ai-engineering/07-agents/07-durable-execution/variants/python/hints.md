@@ -1,0 +1,5 @@
+In the store, check every run id in one helper that uses `re.fullmatch(r"[A-Za-z0-9_-]+", run_id)` and raises otherwise. `save` is `document = json.dumps(checkpoint)` followed by `self.documents[run_id] = document`: if serialization fails, the old document is untouched. `load` returns `json.loads(...)` of the stored text, or `None` when `self.documents.get(run_id)` finds nothing.
+---
+Write `unanswered_calls(messages)`: find the index of the last `assistant` message, collect the `"toolCallId"`s of the messages after it, and return that assistant's `"toolCalls"` whose ids are not in the set. On a fresh run it returns nothing; after a crash it returns exactly the calls whose results were not checkpointed.
+---
+Shape the loop so the same code serves a fresh run and a resumed one: at the top of `while True`, run `unanswered_calls` and save after each result; then check the step limit; then call the model, append the turn, mark done when there are no tool calls, and save once before returning or looping. Saving the assistant turn before executing its tools is what lets a resumed run find them.

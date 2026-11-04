@@ -1,0 +1,5 @@
+Start with `execute_tool_call`, because the loop is easy once a tool call can never raise. Three early returns in order: find the tool by name (or return an `Error:` listing every `tool["name"]`), parse the arguments with `json.loads` inside a `try`/`except ValueError` and check the result is a `dict`, then call `tool["execute"](arguments)` inside another `try`/`except Exception`, awaiting the result when `inspect.isawaitable(result)`.
+---
+The loop is `for step in range(1, max_steps + 1)`. Append the assistant message right after the call, before deciding anything, so the returned conversation is complete. Check the refusal finish reasons first, then `not response["toolCalls"]` for the final answer.
+---
+For each tool call, append `{"role": "tool", "toolCallId": call["id"], "content": await execute_tool_call(tools, call)}`. The id is what ties a result to its call; the model needs one result per call id before its next turn. When the `for` loop ends without returning, return `{"status": "max_steps", "answer": None, "steps": max_steps, "messages": messages}`.

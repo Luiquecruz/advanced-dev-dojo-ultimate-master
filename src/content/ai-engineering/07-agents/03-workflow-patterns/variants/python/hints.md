@@ -1,0 +1,7 @@
+Write one helper first: `parse_json(text)` that returns `json.loads(text)` or `None` inside a `try`/`except ValueError`, and read keys from the result only after checking `isinstance(value, dict)`. Every pattern that reads JSON (route, vote, evaluator) reuses it, and every unusable answer becomes `None` instead of an exception.
+---
+The chain is a `for` loop that carries `previous` forward; check `response["finishReason"] != "stop"` and the optional gate (`step.get("gate")`) before appending the output. Routing is two calls: build the route list into the system message of the JSON request, pick the name only if `isinstance(chosen, str) and chosen in routes`, and fall back otherwise.
+---
+Parallel means creating every coroutine before awaiting any: `await asyncio.gather(*(model.generate(...) for section in sections))`. Voting is the same with `return_exceptions=True`, so a failed call comes back as an exception object that you count as an abstention. To find the verdict, sort the `(label, count)` items by count and accept the first only if it is alone or beats the second.
+---
+For the evaluator-optimizer, keep `draft` and the `feedback` list outside a `for round_number in range(1, max_rounds + 1)` loop. Build the writer messages from the task (round 1) or task + previous draft + last feedback (later rounds), then send the evaluator a JSON request whose user message contains the draft. Return as soon as `"pass"` is `True`; after the loop, return the last draft with `"accepted": False`.
