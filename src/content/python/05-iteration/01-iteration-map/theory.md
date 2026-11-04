@@ -35,8 +35,9 @@ print(sum(big), sum(big))          # 65 0: the generator is exhausted after one 
 3. Generator expressions and short-circuiting with `next`, `any` and `sum`.
 4. `yield from`, `send`, `close` and the generator's return value.
 5. `itertools` for batching, runs, running totals and transitions.
-6. Lazy pipelines, the closing challenge.
+6. Lazy pipelines, the closing code challenge.
+7. An ADR: batch size and passes for a large export, computed from a memory budget and a time window.
 
 ## When to choose it
 
-The module ends with a code challenge instead of an ADR: a log pipeline of generator stages that reads only what its consumer pulls and closes its source when it stops. The decision it trains: stay lazy when data is large, unbounded or only partly consumed; materialize into a list when you need a second pass, `len()` or indexing.
+The last practice lesson is a code challenge, and an ADR follows it: a log pipeline of generator stages that reads only what its consumer pulls and closes its source when it stops. The decision it trains: stay lazy when data is large, unbounded or only partly consumed; materialize into a list when you need a second pass, `len()` or indexing.

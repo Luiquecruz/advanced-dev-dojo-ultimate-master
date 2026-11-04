@@ -39,8 +39,8 @@ JavaScript customizes objects with `Proxy` and `Reflect`, `Object.defineProperty
 
 ## The path
 
-`__init_subclass__` registries, classes built at runtime with `type()`, attribute hooks, metaclasses, `inspect` and signatures, and the finders and loaders behind `import`.
+`__init_subclass__` registries, classes built at runtime with `type()`, attribute hooks, metaclasses, `inspect` and signatures, the finders and loaders behind `import`, frames and tracebacks, a quiz on bytecode and the interpreter, and an ADR for a plugin framework.
 
 ## When to choose it
 
-The module ends with the import system challenge, not an ADR. The decision it trains: start with a decorator or `__init_subclass__`, use descriptors for per-attribute rules, and keep metaclasses and import hooks for frameworks that must change how classes are called or where modules come from.
+The module ends with an ADR that chooses the lightest hook for a plugin framework, with numbers you compute. The decision it trains: start with a decorator or `__init_subclass__`, use descriptors for per-attribute rules, and keep metaclasses and import hooks for frameworks that must change how classes are called or where modules come from.

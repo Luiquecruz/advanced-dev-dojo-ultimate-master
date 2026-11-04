@@ -37,8 +37,9 @@ Modules 03 (modules and imports) and 11 (the import system): an environment is m
 
 1. This map: who owns which step.
 2. `pyproject.toml`, environments, lockfiles, wheels and safe publishing (quiz).
-3. Testing with `unittest` and `unittest.mock`, proven against broken copies of the code.
-4. The capstone: an async rules engine plus the ADR that sizes its deployment.
+3. Virtual environments: how `PATH`, `sys.prefix` and `pyvenv.cfg` make one interpreter see one set of packages.
+4. Testing with `unittest` and `unittest.mock`, proven against broken copies of the code.
+5. The capstone: an async rules engine plus the ADR that sizes its deployment.
 
 > **Status as of November 2026:** Ruff 0.17 lints and formats (its formatter is a drop-in replacement for Black and does not sort imports; the `I` rules do). Black 26.10, isort 9.0 and pre-commit 4.7 are current. Type checkers: mypy 2.4, pyright 1.1.414, and Astral's ty 0.0.x, still marked Beta on PyPI. Python 3.15.0 was released on 9 October 2026 (PEP 790); this dojo runs 3.14. Sources: pypi.org, docs.astral.sh/ruff, peps.python.org/pep-0790.
 
