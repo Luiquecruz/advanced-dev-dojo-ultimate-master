@@ -182,7 +182,8 @@ Date: 2026-11-04. Scope: the working-tree changes to `src/verify/graders.ts`, `s
 | B2 | **Partially fixed** (Medium) | Bindings are restored. In-place mutation of stdlib objects still leaks (R5) |
 | B3 | Fixed in verify, **open in the browser** | `python.worker.ts` does not lock anything down; `js.fetch`/`pyfetch` still work there [inferred, unchanged code] |
 | B4 | **Fixed** | `python.worker.ts:28-43` wraps the handlers and posts `failed`, and `browserClient.ts` terminates the worker on `failed` |
-| B5–B8, C1, C2, A1 | Open | Not in scope of this change |
+| B5–B8, C1, C2 | Open | Not in scope of this change |
+| A1 | Fixed | Theory section "Matching is not security" (NFKC, UTS #39, UTS #46) and challenge wording "case- and composition-insensitive" |
 
 ### New findings
 
@@ -238,3 +239,105 @@ There is no regression in verify: `src/verify/ai-engineering.test.ts` passes ins
 2. R6 before the module 13 spike.
 3. R5: a fresh interpreter per lesson in verify and in the browser.
 4. B3 in the browser worker, R7.
+
+---
+
+## Re-review 2
+
+Date: 2026-11-04. Scope: `git diff HEAD -- src/verify/graders.ts src/engines/python/` plus `src/verify/pythonSandbox.ts`, `pythonSandbox.child.ts` and `pythonSandbox.test.ts`. The design is now:
+- `child_process.fork` children (`pythonSandbox.ts:388-398`) with `env: {}` and `--permission`, with `--allow-fs-read` for `node_modules/pyodide/` and the bundled child script only;
+- `lockDown()` (`pythonSandbox.child.ts:454-472`) removes NODEFS/NODERAWFS, `mountNodeFS`, the network globals and a list of `process` members;
+- a fresh interpreter whenever the `tests` source changes (`pythonSandbox.ts:151-154`), booted from a Pyodide memory snapshot;
+- extension modules kept in `sys.modules`.
+
+All probes were re-run from the scratchpad against this version (Node 26.10), and the probe files were deleted afterwards. Repo suites pass: `pythonSandbox.test.ts`, `src/verify/python.test.ts`, `src/verify/ai-engineering.test.ts` and `src/engines/python` (4 files, 528 tests).
+
+### Probe results
+
+| Probe | Result | Status |
+| --- | --- | --- |
+| `pyodide_js.mountNodeFS`, `FS.filesystems.NODEFS`, `_module.NODEFS` | absent; only `MEMFS, IDBFS, WORKERFS, PROXYFS, NATIVEFS_ASYNC` remain | R1 **fixed** |
+| `process.report`, `loadEnvFile`, `binding`, `_linkedBinding`, `getBuiltinModule`, `dlopen` (own and prototype) | `undefined` | R2, R3 **fixed** |
+| `process.env` | empty | fixed |
+| `process.permission.has(...)` for `fs.read` (generic and `src/content`), `fs.write`, `child`, `worker`, `net`, `inspector`, `addon`, `wasi` | all `false` | fixed: the permission model is active |
+| `import("node:fs")` from `Function` | blocked by the `registerHooks` resolve hook | fixed |
+| `require`, `globalThis.require`, `module` | `undefined` | fixed |
+| `pyodide_js.loadPackage("/etc/hostname")` | rejected as an invalid package name | fixed |
+| Python `socket.create_connection(("1.1.1.1", 80))` | `OSError: Host is unreachable` | fixed |
+| `process._debugProcess(process.ppid)` | **works**: the parent Vitest process printed `Debugger listening on ws://127.0.0.1:9229/…` and `ss` showed `node-MainThread` listening on 9229 | **R9, open (High)** |
+| `process._kill(process.ppid, 0)` | **works** (signal delivered) | **R10, open (High)** |
+| `process.send`, `process.channel` | present (IPC to the parent) | R8, accepted (Low) |
+| Reading `node_modules/pyodide` | allowed by the flag, but the child has no JS file API left (`fs`, `require`, `import()`, `getBuiltinModule`, NODEFS all gone). The directory holds only the Pyodide distribution; lesson sources are not on the allow-list (`has('fs.read', '<repo>/src/content')` is `false`) and reach the child only as in-memory `files` | Not exploitable |
+| Memory snapshot | made once per host process by a child that runs no lesson code (`pythonSandbox.ts:318-332`), kept in parent memory, and sent to each child by IPC as a copy (`serialization: 'advanced'`). Children cannot write to disk, so the snapshot can be neither shared nor modified across lessons | Not exploitable |
+
+### Open findings
+
+**R9 — High — Lesson code can open the Node inspector in the unrestricted parent.** [verified] `process._debugProcess(pid)` sends `SIGUSR1` to any process of the same user, and the permission model does not gate it. Pointed at `process.ppid`, the Vitest process (no permission model) started its inspector on `127.0.0.1:9229`. The child cannot connect to it (network is denied), but any other local process can, without credentials, and run code in Vitest with full host access. On a shared runner or a developer machine, that is a boundary escape that needs only one cooperating local process. **Fix:** add `_debugProcess`, `_debugEnd`, `_kill`, `abort` and `reallyExit` to `PROCESS_CAPABILITIES` (`pythonSandbox.child.ts:415-418`). Better still, replace that list with an allow-list: keep only the `process` members Pyodide uses after boot (to be determined) and set every other own and prototype member to `undefined`. Add a test that asserts `typeof process._debugProcess === "undefined"`.
+
+**R10 — High — Lesson code can signal any process of the user.** [verified with signal 0] `process.kill` is removed, but the underlying `process._kill(pid, signal)` is still available, and the permission model does not cover signals. `process._kill(-1, 9)` would kill every process of the CI or developer user, and `process._kill(process.ppid, 9)` kills the test runner. (Neither destructive variant was run.) **Fix:** the same change as R9.
+
+**R5 — Medium → Low, partially fixed — In-place mutation leaks.** [verified]
+- **Between lessons: fixed.** Each new `tests` source got a new pid, and every polluted value was clean.
+- **Between tests of one lesson:** `json.JSONEncoder`, `gc`, `copy`/`copyreg` tables and `functools` attributes are now restored (`dojo_harness.py:32-37,166-168,219-220`). Still leaking: ABC registrations (`collections.abc.Mapping.register(list)` makes `isinstance([], Mapping)` true), properties written on the JS global (`js.dojoProbe`), and attributes set on classes outside `RESTORED_CLASSES` (`enum.Enum.dojo`).
+- **Between solution and starter of one lesson:** `challengeSuite.ts:33,47,61` runs the solution tests, the solution demo and the starter tests with the same `tests` source, so they share one interpreter (same pid in the probe). A solution that registers an ABC or writes a JS global at import can make the starter's result wrong.
+
+**Fix:** retire the interpreter per `runTests` call rather than per `tests` source, which costs about 0.1 s with the snapshot. That removes the solution→starter path. Test-to-test leakage within one run is then limited to the learner's own code, which is acceptable.
+
+**R6 — fixed in code, untested with a real extension.** `_is_extension` keeps extension modules (`dojo_harness.py:127,155`). No Pyodide-native package is loaded yet, so the PyO3 re-initialization case stays a check for the module 13 spike.
+
+**R11 — Low — Reliance on an experimental API.** `_makeSnapshot`/`_loadSnapshot`/`makeMemorySnapshot` (`pythonSandbox.child.ts:479-481,493`) are underscore-prefixed Pyodide internals and can change in any Pyodide release. `snapshot()` resolves `undefined` when snapshot creation fails, so boot falls back to a cold start, but a snapshot that is created and then rejected at load would fail every boot. **Fix:** on a `failed` boot that used a snapshot, retry without it once. Pin a test to the current Pyodide version so a bump that breaks snapshots is noticed.
+
+**R8 — Low, accepted.** `process.send` lets lesson code forge `test-event`/`test-report` messages to the parent, or flood the IPC channel. Only lesson authors control that code, and `tests.py` review covers it.
+
+### Browser path (unchanged since the last review)
+
+- B4: fixed (`python.worker.ts` posts `failed` on error).
+- B3: still **open, Medium**. The browser worker removes no network globals and has no CSP. Learner code there is the learner's own, which is why this stays Medium.
+- R7: still open (Low). There is no per-test kill in the browser.
+- The harness changes run in the browser too. They are exercised by `src/engines/python` and the verify suites, but not in a real browser.
+
+### Summary of severities still open
+
+- **High:** R9 (inspector on the parent through `process._debugProcess`), R10 (`process._kill` on any user process). Both are closed by extending `PROCESS_CAPABILITIES`, ideally as an allow-list.
+- **Critical:** none open. R1–R3 are fixed and the permission model blocks fs, child processes, workers, network and addons.
+- **Medium:** B3 (browser network), and C1 (Pydantic vendoring), which are outside this change. A1 (identifier normalization) is fixed in `02-collections/08-text-and-bytes`.
+- **Low:** R5 (solution→starter sharing), R7, R8, R11, and the earlier B5–B8 and C2.
+
+---
+
+## Re-review 3
+
+Date: 2026-11-04. Scope: the same files as Re-review 2. SRE changes since then:
+- the child's `globalThis.process` is a frozen allow-list (`pythonSandbox.child.ts:31-41,72`);
+- IPC uses a `send` captured before the swap (`:21-22`);
+- children start with `--disable-sigusr1` (`pythonSandbox.ts:386`);
+- every `runTests`/`runProgram` gets a fresh interpreter.
+
+I re-ran every probe from the scratchpad, including a breadth-first crawl of about 32,000 objects reachable from `globalThis`, `pyodide_js`, `pyodide_js._module` and `pyodide_js._api`. All probe files were deleted. Repo suites pass: `pythonSandbox.test.ts`, `src/verify/python.test.ts`, `src/verify/ai-engineering.test.ts` and `src/engines/python` (4 files, 532 tests).
+
+### Results
+
+| Finding / probe | Result | Status |
+| --- | --- | --- |
+| R9 `_debugProcess` on the parent | No `_debugProcess` reachable (own, prototype, crawl). Port 9229 was not listening before or after the run | **Fixed** |
+| R10 `_kill` / `kill` / signals | `process.kill`, `_kill`, `send` are `undefined` on the frozen object, and `Object.defineProperty(globalThis, "process", …)` throws `Cannot redefine property`. The crawl found `pyodide_js._module._kill` and `LDSO…exports.kill`, but these are Emscripten's emulated libc: `_module._kill(1, 0)` returned `-1` and touched no host process | **Fixed** |
+| R5 starter inheriting solution mutations | A solution `main.py` that registered `list` as a `Mapping` and set `js.dojoProbe` reported `[True, 7]`. The next run with the same `tests` source reported `[False, None]` | **Fixed** |
+| Original `process` via `global`, `globalThis.global`, `Function`, `pyodide.code.run_js`, `internalBinding`, `primordials` | `global === globalThis` and sees only the allow-list. `internalBinding` and `primordials` are `undefined`. `Error.prepareStackTrace` callsites expose only the Pyodide file path and wasm frames, with no Node-internal `this` or function | **Fixed** |
+| Captured IPC reference | `send` lives in a module-scope closure of the ESM child. The crawl did not reach it, and the replaced `process` has no `send` or `channel` | **Fixed** (R8 forging via IPC no longer possible; frame-walking to the harness `notify` remains, Low, accepted) |
+| NODEFS / `mountNodeFS` / `_module.NODEFS` | Still absent | Fixed |
+| **R12** Node `fs` reachable through Pyodide internals | The crawl found the real Node `fs` module at `pyodide_js.FS.streams[0].devops.stream[Symbol(kFs)]` (the stdin stream's `ReadStream`). It is contained by `--permission`: `readFileSync('/etc/hostname')` and `readdirSync('<repo>/src/content/python')` were denied (`ERR_ACCESS_DENIED`). `writeFileSync` to the scratchpad and `appendFileSync` to the cached child script were denied, and `symlinkSync` was denied. Only `node_modules/pyodide/package.json` was readable, which is in scope | **Low, open (defence in depth)** |
+| Network through Node handles | `console._stderr[kHandle]` exposes the libuv `Pipe` constructor; `new Pipe(0).connect(req, "/run/user/1000/bus")` returned `Access to this API has been restricted. Use --allow-net`. The `undici.globalDispatcher` symbols exist on `globalThis` but hold no dispatcher. Python sockets are unreachable | Fixed (permission model) |
+| `WebAssembly` / `SharedArrayBuffer` / `Atomics` | Shared wasm memory can be created. The only effect is blocking the thread with `Atomics.wait`, which the per-test kill already covers (R4) | Info |
+| Crashing the child | Invoking arbitrary getters during the crawl killed the child (`ERR_INVALID_THIS` on a `WritableStreamDefaultWriter` getter). The parent reported `Python exited unexpectedly` and the next run got a fresh interpreter | Info (availability only, contained) |
+| `console._stderr.write` | Works; it writes to the child's stderr, which the parent keeps as a 2,000-character tail | Info |
+
+**R12 fix (optional hardening):** after `lockDown`, replace `pyodide_js.FS.streams[0..2].devops` stream references, or set the `kFs` slot of those Node streams to `undefined`. Better still, configure Pyodide `stdin` with a callback so it never opens a Node `ReadStream`. The permission model remains the real boundary either way. Add a test asserting `fs.readFileSync("/etc/hostname")` is denied, so a future change to `--allow-fs-read` is caught.
+
+### Still open outside the verify sandbox
+
+- B3 (Medium): there are no network restrictions in the browser worker.
+- C1 (Medium): Pydantic vendoring needs a hash-checked step.
+- A1 (Medium): the identifier-normalization caveat in `08-text-and-bytes`.
+- Lows: B5–B8, R7, R11, R12, C2.
+
+**Open Critical/High: none.**

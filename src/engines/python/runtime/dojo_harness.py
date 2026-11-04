@@ -2,13 +2,20 @@
 
 import ast
 import asyncio
+import builtins
+import decimal
+import gc
 import importlib
 import inspect
+import json
+import logging
 import os
+import random
 import shutil
 import sys
 import traceback
 import types
+import warnings
 
 import _dojo_ai_bridge
 from dojo_ai.testing import fake_model, for_each_seed, respond
@@ -16,6 +23,19 @@ from dojo_ai.testing import fake_model, for_each_seed, respond
 APP_DIRECTORY = "/app"
 TESTS_FILE = "tests.py"
 TEST_TIMEOUT_SECONDS = 4
+SCRATCH_DIRECTORIES = ("/tmp", os.path.expanduser("~"))
+PRELOADED_MODULES = (
+    "abc", "bisect", "collections", "contextlib", "copy", "dataclasses", "datetime", "decimal", "enum", "fractions",
+    "functools", "heapq", "io", "itertools", "math", "operator", "pathlib", "re", "statistics", "string", "tempfile",
+    "textwrap", "typing", "unicodedata", "weakref",
+)
+RESTORED_NAMESPACES = ("asyncio", "os", "time", "random", "json", "logging", "copyreg", "importlib", "inspect", "traceback", "types", "dojo_ai", "dojo_ai.testing", *PRELOADED_MODULES)
+RESTORED_CLASSES = (
+    ("json", "JSONEncoder"), ("json", "JSONDecoder"), ("logging", "Formatter"), ("logging", "Handler"), ("logging", "Logger"),
+    ("logging", "LogRecord"), ("dataclasses", "Field"), ("decimal", "Context"),
+)
+RESTORED_TABLES = (("copy", "_deepcopy_dispatch"), ("copyreg", "dispatch_table"), ("copyreg", "_extension_registry"), ("copyreg", "_inverted_registry"))
+UNAWAITED_MESSAGE = r"coroutine .* was never awaited"
 SAFE_CALLS = {"len", "sorted", "list", "tuple", "set", "dict", "str", "int", "float", "round", "abs", "min", "max", "sum", "any", "all", "type", "repr", "bool"}
 UNSAFE_NODES = (ast.Await, ast.NamedExpr, ast.Lambda, ast.Yield, ast.YieldFrom)
 
@@ -79,6 +99,169 @@ class _Session:
         sys.stdout = self.original_stdout
 
 
+_MISSING = object()
+
+
+def _restore_namespace(namespace, saved):
+    for key in [key for key in namespace if key not in saved]:
+        del namespace[key]
+    for key, value in saved.items():
+        if namespace.get(key, _MISSING) is not value:
+            namespace[key] = value
+
+
+def _restore_class(cls, saved):
+    for key in [key for key in cls.__dict__ if key not in saved]:
+        try:
+            delattr(cls, key)
+        except (AttributeError, TypeError):
+            pass
+    for key, value in saved.items():
+        if cls.__dict__.get(key, _MISSING) is not value:
+            try:
+                setattr(cls, key, value)
+            except (AttributeError, TypeError):
+                pass
+
+
+def _is_extension(module):
+    origin = getattr(getattr(module, "__spec__", None), "origin", None) or ""
+    return origin.endswith(".so") or origin == "built-in"
+
+
+def _logger_state(logger):
+    return list(logger.handlers), list(logger.filters), logger.level, logger.propagate, logger.disabled
+
+
+def _apply_logger_state(logger, state):
+    handlers, filters, level, propagate, disabled = state
+    logger.handlers[:] = handlers
+    logger.filters[:] = filters
+    logger.level = level
+    logger.propagate = propagate
+    logger.disabled = disabled
+
+
+def _remove_path(path):
+    if os.path.isdir(path) and not os.path.islink(path):
+        shutil.rmtree(path, ignore_errors=True)
+    else:
+        try:
+            os.remove(path)
+        except OSError:
+            pass
+
+
+class InterpreterState:
+    """Interpreter-wide state captured once, before any learner code runs, and put back after every test and program run."""
+
+    def __init__(self):
+        for name in PRELOADED_MODULES:
+            importlib.import_module(name)
+        if APP_DIRECTORY not in sys.path:
+            sys.path.insert(0, APP_DIRECTORY)
+        self.modules = dict(sys.modules)
+        self.builtins = dict(builtins.__dict__)
+        self.namespaces = {name: dict(sys.modules[name].__dict__) for name in RESTORED_NAMESPACES if name in sys.modules}
+        self.classes = {cls: dict(cls.__dict__) for cls in (getattr(sys.modules[module], name) for module, name in RESTORED_CLASSES)}
+        self.tables = {id(table): (table, dict(table)) for table in (getattr(sys.modules[module], name) for module, name in RESTORED_TABLES)}
+        self.gc_enabled = gc.isenabled()
+        self.path = list(sys.path)
+        self.meta_path = list(sys.meta_path)
+        self.path_hooks = list(sys.path_hooks)
+        self.path_importer_cache = dict(sys.path_importer_cache)
+        self.hooks = {name: getattr(sys, name) for name in ("stdout", "stderr", "stdin", "excepthook", "displayhook", "unraisablehook", "breakpointhook")}
+        self.recursion_limit = sys.getrecursionlimit()
+        self.int_max_str_digits = sys.get_int_max_str_digits()
+        self.decimal_context = decimal.getcontext().copy()
+        self.monitoring_tools = {tool for tool in range(6) if sys.monitoring.get_tool(tool) is not None}
+        self.environ = dict(os.environ)
+        self.cwd = os.getcwd()
+        self.random_state = random.getstate()
+        manager = logging.Logger.manager
+        self.logger_names = set(manager.loggerDict)
+        self.loggers = {name: _logger_state(logger) for name, logger in manager.loggerDict.items() if isinstance(logger, logging.Logger)}
+        self.root_logger = _logger_state(logging.root)
+        self.logging_disable = manager.disable
+        self.scratch = {directory: set(os.listdir(directory)) for directory in SCRATCH_DIRECTORIES if os.path.isdir(directory)}
+
+    def restore(self):
+        sys.settrace(None)
+        sys.setprofile(None)
+        for tool in range(6):
+            if tool not in self.monitoring_tools and sys.monitoring.get_tool(tool) is not None:
+                try:
+                    sys.monitoring.set_events(tool, 0)
+                    sys.monitoring.free_tool_id(tool)
+                except ValueError:
+                    pass
+        for name, value in self.hooks.items():
+            setattr(sys, name, value)
+        sys.setrecursionlimit(self.recursion_limit)
+        sys.set_int_max_str_digits(self.int_max_str_digits)
+        decimal.setcontext(self.decimal_context.copy())
+        sys.path[:] = self.path
+        sys.meta_path[:] = self.meta_path
+        sys.path_hooks[:] = self.path_hooks
+        _restore_namespace(sys.path_importer_cache, self.path_importer_cache)
+        for name in [name for name, module in sys.modules.items() if name not in self.modules and not _is_extension(module)]:
+            del sys.modules[name]
+        for name, module in self.modules.items():
+            if sys.modules.get(name, _MISSING) is not module:
+                sys.modules[name] = module
+        _restore_namespace(builtins.__dict__, self.builtins)
+        for name, saved in self.namespaces.items():
+            _restore_namespace(sys.modules[name].__dict__, saved)
+        for cls, saved in self.classes.items():
+            _restore_class(cls, saved)
+        for table, saved in self.tables.values():
+            _restore_namespace(table, saved)
+        if self.gc_enabled:
+            gc.enable()
+        os.environ.clear()
+        os.environ.update(self.environ)
+        try:
+            os.chdir(self.cwd)
+        except OSError:
+            os.makedirs(self.cwd, exist_ok=True)
+            os.chdir(self.cwd)
+        random.setstate(self.random_state)
+        self._restore_logging()
+        for directory, names in self.scratch.items():
+            os.makedirs(directory, exist_ok=True)
+            for name in set(os.listdir(directory)) - names:
+                _remove_path(os.path.join(directory, name))
+
+    def _restore_logging(self):
+        manager = logging.Logger.manager
+        for name in [name for name in manager.loggerDict if name not in self.logger_names]:
+            del manager.loggerDict[name]
+        for name, state in self.loggers.items():
+            logger = manager.loggerDict.get(name)
+            if isinstance(logger, logging.Logger):
+                _apply_logger_state(logger, state)
+        _apply_logger_state(logging.root, self.root_logger)
+        manager.disable = self.logging_disable
+        manager._clear_cache()
+
+
+def unawaited_coroutines(caught):
+    """Describes the `coroutine … was never awaited` warnings recorded while a test ran."""
+    messages = []
+    for warning in caught:
+        if not (issubclass(warning.category, RuntimeWarning) and "was never awaited" in str(warning.message)):
+            continue
+        where = ""
+        if warning.filename == TESTS_FILE:
+            where = f"\n  at {TESTS_FILE}, line {warning.lineno}"
+        elif warning.filename.startswith(f"{APP_DIRECTORY}/"):
+            where = f"\n  at {os.path.relpath(warning.filename, APP_DIRECTORY)}, line {warning.lineno}"
+        messages.append(f"RuntimeWarning: {warning.message}{where}")
+    if not messages:
+        return None
+    return "\n".join([*messages, "Every coroutine must be awaited: tests that call async code are `async def` and use `await`."])
+
+
 def module_name(file_name):
     path = file_name[:-3] if file_name.endswith(".py") else file_name
     parts = path.split("/")
@@ -103,7 +286,8 @@ def unload_project(files):
     for loaded in list(sys.modules):
         if loaded in names or any(loaded.startswith(f"{name}.") for name in names):
             del sys.modules[loaded]
-    importlib.invalidate_caches()
+    for path in [path for path in sys.path_importer_cache if path == APP_DIRECTORY or path.startswith(f"{APP_DIRECTORY}/")]:
+        del sys.path_importer_cache[path]
 
 
 def syntax_error(files):
@@ -194,10 +378,77 @@ def describe_error(error, tests_source):
     return "\n".join([*notes, message]) if notes else message
 
 
-async def run_tests(files, entry, tests_source, test_names):
-    """Runs each test against a fresh import of the learner project and returns `{name, passed, error}` dicts."""
+async def _run_test(files, entry, compiled_tests, tests_source, index, listed_name):
+    _dojo_ai_bridge.reset()
+    unload_project(files)
+    session = _Session()
+    registered = []
+    tasks_before = asyncio.all_tasks()
+
+    def test(name):
+        def register(function):
+            registered.append((name, function))
+            return function
+
+        return register
+
+    name = listed_name
+    try:
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.filterwarnings("always", message=UNAWAITED_MESSAGE, category=RuntimeWarning)
+            try:
+                entry_module = importlib.import_module(module_name(entry))
+                scope = {
+                    "__name__": "tests",
+                    "test": test,
+                    "mod": entry_module,
+                    "modules": LazyModules({entry: entry_module}),
+                    "source": files[entry],
+                    "sources": dict(files),
+                    "capture_error": capture_error,
+                    "capture_output": session.capture_output,
+                    "approx": approx,
+                    "fake_model": fake_model,
+                    "respond": respond,
+                    "for_each_seed": for_each_seed,
+                }
+                exec(compiled_tests, scope)
+                if index >= len(registered):
+                    raise RuntimeError("Test was not registered. Keep @test functions at the top level of tests.py.")
+                name, function = registered[index]
+                outcome = function()
+                if inspect.isawaitable(outcome):
+                    try:
+                        await asyncio.wait_for(outcome, TEST_TIMEOUT_SECONDS)
+                    except TimeoutError:
+                        raise TimeoutError(f'Test "{name}" timed out after {TEST_TIMEOUT_SECONDS * 1000}ms.') from None
+                del outcome, scope, entry_module
+                gc.collect()
+            except BaseException as error:
+                try:
+                    message = describe_error(error, tests_source)
+                except BaseException:
+                    message = f"{type(error).__name__}: {error}"
+                return {"name": name, "passed": False, "error": message}
+        unawaited = unawaited_coroutines(caught)
+        if unawaited:
+            return {"name": name, "passed": False, "error": unawaited}
+        return {"name": name, "passed": True}
+    finally:
+        session.close()
+        for task in asyncio.all_tasks() - tasks_before:
+            task.cancel()
+        STATE.restore()
+
+
+async def run_tests(files, entry, tests_source, test_names, start_index=0, on_event=None):
+    """Runs each test against a fresh import of the learner project and returns `{name, passed, error}` dicts.
+
+    `on_event`, when given, receives a JSON string before (`start`) and after (`result`) each test, so a host can stop a test that never returns.
+    """
     files = files.to_py() if hasattr(files, "to_py") else files
     test_names = list(test_names)
+    notify = (lambda payload: on_event(json.dumps(payload))) if on_event is not None else (lambda payload: None)
     problem = syntax_error(files)
     if problem:
         return {"results": [], "compileError": problem}
@@ -207,52 +458,14 @@ async def run_tests(files, entry, tests_source, test_names):
         return {"results": [], "compileError": f"Test file error: SyntaxError, line {error.lineno}: {error.msg}"}
     write_project(files)
     results = []
-    for index, listed_name in enumerate(test_names):
+    try:
+        for index in range(start_index, len(test_names)):
+            notify({"type": "start", "index": index, "name": test_names[index]})
+            result = await _run_test(files, entry, compiled_tests, tests_source, index, test_names[index])
+            results.append(result)
+            notify({"type": "result", "index": index, "result": result})
+    finally:
         _dojo_ai_bridge.reset()
-        unload_project(files)
-        session = _Session()
-        registered = []
-
-        def test(name):
-            def register(function):
-                registered.append((name, function))
-                return function
-
-            return register
-
-        name = listed_name
-        try:
-            entry_module = importlib.import_module(module_name(entry))
-            scope = {
-                "__name__": "tests",
-                "test": test,
-                "mod": entry_module,
-                "modules": LazyModules({entry: entry_module}),
-                "source": files[entry],
-                "sources": dict(files),
-                "capture_error": capture_error,
-                "capture_output": session.capture_output,
-                "approx": approx,
-                "fake_model": fake_model,
-                "respond": respond,
-                "for_each_seed": for_each_seed,
-            }
-            exec(compiled_tests, scope)
-            if index >= len(registered):
-                raise RuntimeError("Test was not registered. Keep @test functions at the top level of tests.py.")
-            name, function = registered[index]
-            outcome = function()
-            if inspect.isawaitable(outcome):
-                try:
-                    await asyncio.wait_for(outcome, TEST_TIMEOUT_SECONDS)
-                except TimeoutError:
-                    raise TimeoutError(f'Test "{name}" timed out after {TEST_TIMEOUT_SECONDS * 1000}ms.') from None
-            results.append({"name": name, "passed": True})
-        except BaseException as error:
-            results.append({"name": name, "passed": False, "error": describe_error(error, tests_source)})
-        finally:
-            session.close()
-    _dojo_ai_bridge.reset()
     return {"results": results}
 
 
@@ -291,3 +504,8 @@ async def run_program(files, entry):
     finally:
         asyncio.run = original_run
         _dojo_ai_bridge.reset()
+        STATE.restore()
+
+
+STATE = InterpreterState()
+STATE.namespaces[__name__] = dict(globals())
