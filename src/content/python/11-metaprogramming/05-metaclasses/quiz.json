@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A class caches its instance in `__new__` and sets `self.values = {}` in `__init__`. Code calls `Settings()`, stores `values[\"a\"] = 1`, then calls `Settings()` again. What is `Settings().values`?",
+    "options": [
+      "`{\"a\": 1}`, because the same object is returned",
+      "A `TypeError`, because `__new__` returned an existing object",
+      "`{}`: the same object comes back, but `type.__call__` runs `__init__` on it again",
+      "A new object with `{}`"
+    ],
+    "answer": 2,
+    "explanation": "`type.__call__` runs `__init__` whenever `__new__` returns an instance of the class. To skip both after the first call, override `__call__` in a metaclass, or use a module-level instance."
+  },
+  {
+    "question": "In what order does Python run these for `class Report(Base, metaclass=Meta): ...`?",
+    "options": [
+      "`Meta.__new__`, the class body, `Meta.__prepare__`, `Meta.__init__`",
+      "`Meta.__prepare__`, the class body, `Meta.__new__` (with `__set_name__` and `__init_subclass__` inside `type.__new__`), `Meta.__init__`",
+      "The class body, `Meta.__init__`, `Meta.__new__`",
+      "`Meta.__call__`, then `Meta.__new__`"
+    ],
+    "answer": 1,
+    "explanation": "The namespace must exist before the body runs, so `__prepare__` comes first. `Meta.__call__` is only used later, when `Report(...)` is called."
+  },
+  {
+    "question": "A metaclass defines a method `describe(cls)`. `Job` uses that metaclass and `job = Job()`. Which call works?",
+    "options": [
+      "Only `job.describe()`",
+      "Both `Job.describe()` and `job.describe()`",
+      "Neither, metaclass methods are private",
+      "Only `Job.describe()`: attribute lookup on an instance searches its class and bases, never the metaclass"
+    ],
+    "answer": 3,
+    "explanation": "The metaclass is the class's type, so its methods behave like methods of the class object. Instances look in `type(job).__mro__`, which does not include the metaclass."
+  },
+  {
+    "question": "A metaclass `__new__` copies the namespace into a fresh dict without `__classcell__` before calling `type.__new__`. A method in the class uses `super()`. What happens?",
+    "options": [
+      "`RuntimeError` when the class is created: the `__class__` cell zero-argument `super()` relies on was never set",
+      "Nothing; `__classcell__` is optional",
+      "`super()` silently skips one class in the MRO",
+      "A `SyntaxError`"
+    ],
+    "answer": 0,
+    "explanation": "The compiler passes the `__class__` cell through the namespace as `__classcell__`, and `type.__new__` must receive it. Pass the namespace you received to `super().__new__`."
+  },
+  {
+    "question": "A team wants every subclass of `Command` to define its own `name`. Which hook should it use first?",
+    "options": [
+      "A metaclass, because only metaclasses run at class creation",
+      "`__getattr__` on `Command`",
+      "`__init_subclass__` on `Command`, which runs for every subclass and keeps the metaclass free for libraries such as `abc`",
+      "A check in `Command.__init__`"
+    ],
+    "answer": 2,
+    "explanation": "`__init_subclass__` also runs at class creation, needs no metaclass and cannot conflict with one. `__init__` runs too late, at instantiation."
+  }
+]

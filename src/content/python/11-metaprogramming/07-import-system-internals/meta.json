@@ -1,0 +1,15 @@
+{
+  "title": "Import System Internals: Finders and Loaders",
+  "summary": "What import really does: the sys.modules cache, finders on sys.meta_path, specs, loaders, packages and relative imports, and reload. Build a finder that serves modules and packages from a dict, installs and uninstalls cleanly, and supports reload, instead of pushing fake modules into sys.modules.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "The import system", "url": "https://docs.python.org/3/reference/import.html" },
+    { "label": "importlib.abc.MetaPathFinder", "url": "https://docs.python.org/3/library/importlib.html#importlib.abc.MetaPathFinder" },
+    { "label": "importlib.util.spec_from_loader", "url": "https://docs.python.org/3/library/importlib.html#importlib.util.spec_from_loader" },
+    { "label": "PEP 451: A ModuleSpec Type for the Import System", "url": "https://peps.python.org/pep-0451/" },
+    { "label": "Node.js: Module customization hooks", "url": "https://nodejs.org/api/module.html#customization-hooks" }
+  ]
+}

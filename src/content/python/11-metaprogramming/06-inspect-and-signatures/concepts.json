@@ -1,0 +1,7 @@
+[
+  { "term": "`inspect.signature`", "description": "Returns the parameters a callable accepts, following `__wrapped__`, `functools.partial`, bound methods and `__call__`." },
+  { "term": "Parameter kinds", "description": "`POSITIONAL_ONLY`, `POSITIONAL_OR_KEYWORD`, `VAR_POSITIONAL`, `KEYWORD_ONLY` and `VAR_KEYWORD` decide how a value must be passed." },
+  { "term": "`Signature.bind`", "description": "Maps arguments to parameters exactly as a call would, raising `TypeError` for the same mistakes, without calling the function." },
+  { "term": "`inspect.getattr_static`", "description": "Reads an attribute without running descriptors or `__getattr__`, so `classmethod` and `staticmethod` objects stay visible." },
+  { "term": "`inspect.iscoroutinefunction`", "description": "True for `async def` functions, partials and bound methods over them, and functions marked with `markcoroutinefunction`." }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A factory defines `class Record:` inside the function and returns it. What is `make(\"Invoice\").__name__`?",
+    "options": [
+      "`\"Invoice\"`, taken from the argument",
+      "`\"Record\"`, the name written in the class statement",
+      "The name of the variable the result is assigned to",
+      "An empty string"
+    ],
+    "answer": 1,
+    "explanation": "A class statement always names the class after the identifier it uses. To choose the name at runtime, pass it to `type(name, bases, namespace)` or set `__name__` and `__qualname__`."
+  },
+  {
+    "question": "`Point = namedtuple(\"Point\", [\"x\", \"y\"])`. What is `Point(1, 2) == (1, 2)`?",
+    "options": [
+      "`False`, because the classes differ",
+      "A `TypeError`",
+      "`True`, because a namedtuple is a tuple and compares item by item",
+      "`NotImplemented`"
+    ],
+    "answer": 2,
+    "explanation": "`namedtuple` builds a tuple subclass, so tuple equality applies. A record class with its own `__eq__` that checks `type(other) is type(self)` avoids that."
+  },
+  {
+    "question": "Which call can build a subclass of `enum.Enum` with a member `RED = 1`?",
+    "options": [
+      "`types.new_class(\"Color\", (Enum,), exec_body=lambda ns: ns.update({\"RED\": 1}))`",
+      "`type(\"Color\", (Enum,), {\"RED\": 1})`",
+      "Both work the same way",
+      "Neither: enums cannot be created at runtime"
+    ],
+    "answer": 0,
+    "explanation": "`Enum`'s metaclass needs the namespace returned by its `__prepare__`. `types.new_class` calls `__prepare__` like a class statement; `type()` passes a plain dict and the metaclass fails."
+  },
+  {
+    "question": "A namespace passed to `type()` defines `__eq__` but not `__hash__`. What does `hash(instance)` do?",
+    "options": [
+      "Uses the identity hash inherited from `object`",
+      "Hashes the field values",
+      "Returns 0",
+      "Raises `TypeError: unhashable type`"
+    ],
+    "answer": 3,
+    "explanation": "Defining `__eq__` without `__hash__` sets `__hash__ = None`, with `type()` exactly as with a class statement, because equal objects must have equal hashes."
+  },
+  {
+    "question": "Why do type checkers handle `namedtuple(\"Point\", [\"x\", \"y\"])` but not `make_record_class(\"Point\", header)`?",
+    "options": [
+      "Checkers run the factory to see the result",
+      "Checkers special-case the `namedtuple` call with literal fields; your factory returns `type` built from data they cannot read",
+      "`make_record_class` is missing a return annotation",
+      "Checkers ignore every class created at runtime, including namedtuples"
+    ],
+    "answer": 1,
+    "explanation": "Static analysis reads source, not runtime values. Fields known only at runtime cannot be checked; use a class statement or `NamedTuple` when the fields are fixed."
+  }
+]

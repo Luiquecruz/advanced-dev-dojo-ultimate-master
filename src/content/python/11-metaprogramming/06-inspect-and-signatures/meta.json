@@ -1,0 +1,14 @@
+{
+  "title": "inspect and Signatures",
+  "summary": "Read what a callable accepts with inspect.signature instead of its code object: parameter kinds, decorators, partials, callable objects and 3.14's lazy annotations. Build dependency injection by parameter name, list a class's methods by kind with getattr_static, and detect coroutine functions without calling them.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "inspect: Introspecting callables with the Signature object", "url": "https://docs.python.org/3/library/inspect.html#introspecting-callables-with-the-signature-object" },
+    { "label": "inspect.getattr_static", "url": "https://docs.python.org/3/library/inspect.html#inspect.getattr_static" },
+    { "label": "PEP 362: Function Signature Object", "url": "https://peps.python.org/pep-0362/" },
+    { "label": "What's New in Python 3.14: Deprecated", "url": "https://docs.python.org/3.14/whatsnew/3.14.html#deprecated" }
+  ]
+}

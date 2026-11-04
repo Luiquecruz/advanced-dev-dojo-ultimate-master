@@ -1,0 +1,7 @@
+[
+  { "term": "`__init_subclass__`", "description": "Implicit classmethod called on the parent each time a subclass is created, after `__set_name__` and before class decorators (PEP 487)." },
+  { "term": "Class keyword", "description": "A keyword in the class header, such as `name=\"csv\"`; every keyword except `metaclass` is passed to `__init_subclass__` and is not inherited." },
+  { "term": "Cooperative `__init_subclass__`", "description": "Consume your own keywords and forward the rest with `super().__init_subclass__(**kwargs)`, so mixins later in the MRO receive theirs." },
+  { "term": "Registry", "description": "A dict on the base class mapping names to classes, filled when each class statement runs, so code can pick a class by name." },
+  { "term": "Import-time registration", "description": "A plugin registers only when its module is imported; plugin discovery must import the modules or read entry points." }
+]

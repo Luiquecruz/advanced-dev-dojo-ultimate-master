@@ -1,0 +1,7 @@
+[
+  { "term": "`sys.modules`", "description": "The cache of imported modules by name; `import` checks it first, and a module is stored there before its code runs." },
+  { "term": "Meta path finder", "description": "An object on `sys.meta_path` whose `find_spec(name, path, target)` returns a `ModuleSpec` for names it serves and `None` otherwise." },
+  { "term": "Loader", "description": "Creates and executes a module: `create_module(spec)` (or `None` for the default) and `exec_module(module)`." },
+  { "term": "`ModuleSpec`", "description": "Describes how to load a module: `name`, `loader`, `origin`, `parent` and `submodule_search_locations` (a package's `__path__`)." },
+  { "term": "`importlib.reload`", "description": "Finds the module's spec again and re-executes its code in the same module object, keeping old globals that are not redefined." }
+]

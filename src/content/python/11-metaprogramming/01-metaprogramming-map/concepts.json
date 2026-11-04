@@ -1,0 +1,7 @@
+[
+  { "term": "Metaprogramming", "description": "Code that inspects or changes how classes, attributes and modules are built and looked up, while the program runs." },
+  { "term": "Hook ladder", "description": "Decorator, then `__init_subclass__`, then descriptors, then metaclasses: pick the lowest rung that solves the problem." },
+  { "term": "Metaclass", "description": "The class of a class. `type` by default; a subclass of `type` customizes how classes are prepared, created, initialized and called." },
+  { "term": "Class creation", "description": "Resolve the metaclass, `__prepare__` the namespace, run the body, call the metaclass (`__set_name__`, then `__init_subclass__`), apply decorators, bind the name." },
+  { "term": "Import hook", "description": "A finder on `sys.meta_path` that tells `import` where a module comes from and which loader runs it." }
+]

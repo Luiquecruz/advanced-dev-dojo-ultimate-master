@@ -1,0 +1,13 @@
+{
+  "title": "__init_subclass__ Registries",
+  "summary": "How a base class reacts to every subclass when its class statement runs: class keywords, cooperative forwarding through the MRO and validation at definition time. Build a plugin registry with names, abstract bases and duplicate checks that still combines with abc.ABC.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Data Model: __init_subclass__", "url": "https://docs.python.org/3/reference/datamodel.html#object.__init_subclass__" },
+    { "label": "PEP 487: Simpler customisation of class creation", "url": "https://peps.python.org/pep-0487/" },
+    { "label": "importlib.metadata: Entry points", "url": "https://docs.python.org/3/library/importlib.metadata.html#entry-points" }
+  ]
+}

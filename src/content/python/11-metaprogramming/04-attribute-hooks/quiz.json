@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A class defines `__getattr__` that returns `\"default\"` for any name. An instance has `self.debug = True`. What is `obj.debug`?",
+    "options": [
+      "`\"default\"`, because `__getattr__` intercepts every read",
+      "`True`, because `__getattr__` only runs when normal lookup fails",
+      "A `RecursionError`",
+      "It depends on the order in which the attributes were defined"
+    ],
+    "answer": 1,
+    "explanation": "`__getattr__` is a fallback. `object.__getattribute__` finds `debug` in the instance dict first, so the hook never runs. `__getattribute__` is the hook that sees every read."
+  },
+  {
+    "question": "`__getattribute__(self, name)` starts with `self.calls += 1`. What happens on the first attribute read?",
+    "options": [
+      "It counts one call",
+      "`AttributeError: calls`",
+      "It counts the call twice",
+      "`RecursionError`: reading `self.calls` calls `__getattribute__` again"
+    ],
+    "answer": 3,
+    "explanation": "Every attribute read on the instance goes through the hook, including the ones inside it. Use `object.__getattribute__(self, \"calls\")` and `object.__setattr__` for your own state."
+  },
+  {
+    "question": "`__getattr__` does `return self._options[name]`. Why does `copy.copy(obj)` fail with `RecursionError`?",
+    "options": [
+      "The copy has no `_options` yet: `copy` builds it without `__init__`, probes `__setstate__`, and the hook's own `self._options` read calls the hook again",
+      "`copy` does not support classes with `__getattr__`",
+      "`_options` is a private name and `copy` cannot see it",
+      "`copy.copy` calls `__init__` twice"
+    ],
+    "answer": 0,
+    "explanation": "`copy` and `pickle` create the instance with `__new__` and look up hooks on it before restoring its `__dict__`. Read your state with `vars(self).get(...)` and raise `AttributeError` for unknown names."
+  },
+  {
+    "question": "A `Proxy` forwards attributes with `__getattr__` to a list. What does `len(proxy)` do?",
+    "options": [
+      "Returns the list length through `__getattr__(\"__len__\")`",
+      "Returns 0",
+      "Raises `TypeError`: implicit special method lookup goes to the type and skips `__getattr__`",
+      "Raises `RecursionError`"
+    ],
+    "answer": 2,
+    "explanation": "Syntax and built-ins look dunders up on the class, not the instance, and bypass the attribute hooks. A proxy must define `__len__` (and every other dunder it forwards) explicitly. `proxy.__len__()` would work."
+  },
+  {
+    "question": "A class defines `__setattr__` that validates and then calls `object.__setattr__`. Its `__init__` does `self.port = 8080`. What runs?",
+    "options": [
+      "`__setattr__` runs for that assignment too, so the validation applies in `__init__`",
+      "Assignments in `__init__` skip `__setattr__`",
+      "A `RecursionError`",
+      "`__setattr__` runs only for attributes created after `__init__`"
+    ],
+    "answer": 0,
+    "explanation": "Every assignment, including those in `__init__`, calls `type(self).__setattr__`. That is why a class whose hook forwards or blocks writes stores its own state with `object.__setattr__`."
+  }
+]
