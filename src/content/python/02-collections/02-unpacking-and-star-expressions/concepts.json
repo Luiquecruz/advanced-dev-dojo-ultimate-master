@@ -1,0 +1,7 @@
+[
+  { "term": "Unpacking", "description": "Assigning the items of an iterable to several names: `a, b = pair`." },
+  { "term": "Starred target", "description": "`first, *middle, last = items` collects the remaining items into a list, possibly empty." },
+  { "term": "`*` in calls and displays", "description": "`f(*args)` passes items positionally; `[*a, *b]` and `{*a, *b}` build new list and set." },
+  { "term": "`**` mapping unpacking", "description": "`f(**options)` passes keyword arguments; `{**a, **b}` builds a new dict where later keys win." },
+  { "term": "Swap", "description": "`a, b = b, a` evaluates the right side first, so no temporary variable is needed." }
+]

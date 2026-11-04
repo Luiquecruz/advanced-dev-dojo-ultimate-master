@@ -2,7 +2,7 @@ import type { PyodideAPI } from 'pyodide';
 import type { PyProxy } from 'pyodide/ffi';
 import { createFakeModelProvider } from '../shared/fakeModel';
 import type { ProjectFiles } from '../shared/project';
-import type { RunReport } from '../shared/testRunner';
+import type { RunReport, TestResult } from '../shared/testRunner';
 import harnessSource from './runtime/dojo_harness.py?raw';
 import dojoAiSource from './runtime/dojo_ai/__init__.py?raw';
 import dojoAiTestingSource from './runtime/dojo_ai/testing.py?raw';
@@ -10,10 +10,29 @@ import { listPythonTestNames } from './testNames';
 
 export type OutputLevel = 'log' | 'error';
 
+/**
+ * Progress of a test run, reported before and after each test so a host can stop a test that never returns.
+ */
+export type PythonTestEvent = { type: 'start'; index: number; name: string } | { type: 'result'; index: number; result: TestResult };
+
+export interface PythonTestRequest {
+  files: ProjectFiles;
+  entry: string;
+  tests: string;
+  /** Index of the first test to run; earlier tests are skipped (used to resume after a stopped test). */
+  startAt?: number;
+  onEvent?: (event: PythonTestEvent) => void;
+}
+
 export interface PythonEngine {
-  runTests(request: { files: ProjectFiles; entry: string; tests: string }): Promise<RunReport>;
+  runTests(request: PythonTestRequest): Promise<RunReport>;
   runProgram(files: ProjectFiles, entry: string, onOutput: (level: OutputLevel, text: string) => void): Promise<number>;
 }
+
+/**
+ * Environment every Pyodide instance starts with: a fixed string hash seed, so set iteration order is the same in the browser and in verification.
+ */
+export const PYTHON_ENV: Readonly<Record<string, string>> = { PYTHONHASHSEED: '0' };
 
 const RUNTIME_DIRECTORY = '/dojo';
 const RUNTIME_FILES: Record<string, string> = {
@@ -51,10 +70,11 @@ export function createPythonEngine(pyodide: PyodideAPI): PythonEngine {
   pyodide.setStderr({ batched: (text) => output('error', text) });
 
   return {
-    async runTests({ files, entry, tests }) {
+    async runTests({ files, entry, tests, startAt = 0, onEvent }) {
       const startedAt = performance.now();
       output = () => undefined;
-      const outcome: PyProxy = await harness.run_tests(pyodide.toPy(files), entry, tests, pyodide.toPy(listPythonTestNames(tests)));
+      const notify = onEvent && ((payload: string) => onEvent(JSON.parse(payload) as PythonTestEvent));
+      const outcome: PyProxy = await harness.run_tests(pyodide.toPy(files), entry, tests, pyodide.toPy(listPythonTestNames(tests)), startAt, notify);
       const report = outcome.toJs({ dict_converter: Object.fromEntries }) as Omit<RunReport, 'durationMs'>;
       outcome.destroy();
       return { ...report, durationMs: Math.round(performance.now() - startedAt) };

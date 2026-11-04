@@ -1,0 +1,13 @@
+{
+  "title": "__slots__",
+  "summary": "Replace the per-instance __dict__ with fixed slots to save memory and catch attribute typos, and see why a subclass without __slots__ silently gets its __dict__ back. Build slotted points and a slotted dataclass.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Data Model: __slots__", "url": "https://docs.python.org/3/reference/datamodel.html#slots" },
+    { "label": "Descriptor Guide: Member objects and __slots__", "url": "https://docs.python.org/3/howto/descriptor.html#member-objects-and-slots" },
+    { "label": "dataclasses: slots parameter", "url": "https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass" }
+  ]
+}

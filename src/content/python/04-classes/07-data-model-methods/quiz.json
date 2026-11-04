@@ -1,0 +1,41 @@
+[
+  {
+    "question": "A class defines `__eq__` but not `__hash__`. What does `{obj}` do?",
+    "options": [
+      "Hashes by identity",
+      "Raises TypeError: unhashable type",
+      "Hashes by the fields used in `__eq__`",
+      "Works only for the first object"
+    ],
+    "answer": 1,
+    "explanation": "Overriding `__eq__` sets `__hash__ = None` so equal objects can never end up with different hashes."
+  },
+  {
+    "question": "`Money.__add__` returns `NotImplemented` for an `int`. What happens on `Money(1, 'EUR') + 1`?",
+    "options": [
+      "The result is `NotImplemented`",
+      "The int is converted",
+      "Python tries `int.__radd__`, which also declines, and raises TypeError",
+      "Python returns `None`"
+    ],
+    "answer": 2,
+    "explanation": "The interpreter handles `NotImplemented`: it tries the reflected method and raises `TypeError` when both sides decline."
+  },
+  {
+    "question": "Why does `sum([Money(1, 'EUR'), Money(2, 'EUR')])` need `__radd__`?",
+    "options": [
+      "`sum` starts from `0`, so its first step is `0 + Money`, which only `Money.__radd__` can handle",
+      "`sum` always calls `__radd__`",
+      "Because `sum` sorts the items",
+      "It does not; `__add__` is enough"
+    ],
+    "answer": 0,
+    "explanation": "`int.__add__(money)` returns `NotImplemented`, so Python calls `money.__radd__(0)`. Pass `start=` to avoid relying on it."
+  },
+  {
+    "question": "What does `f\"{price:.2f}\"` call on a `price` object?",
+    "options": ["`price.__str__()`", "`price.__repr__()`", "`float(price)`", "`price.__format__('.2f')`"],
+    "answer": 3,
+    "explanation": "The text after the colon is the format spec passed to `__format__`; the default implementation only accepts an empty spec."
+  }
+]

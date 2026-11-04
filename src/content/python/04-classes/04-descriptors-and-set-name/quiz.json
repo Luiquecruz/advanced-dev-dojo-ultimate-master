@@ -1,0 +1,47 @@
+[
+  {
+    "question": "A descriptor's `__set__` does `self.value = value`. Two instances set 3 and 50. What does the first instance read?",
+    "options": ["3", "50", "AttributeError", "`None`"],
+    "answer": 1,
+    "explanation": "The descriptor object is shared by the whole class, so `self.value` is one slot for every instance. The last write wins."
+  },
+  {
+    "question": "A descriptor defines only `__get__`, and the instance dict holds the same name. Which value does attribute access return?",
+    "options": [
+      "The instance dict value: non-data descriptors lose to the instance namespace",
+      "The descriptor's `__get__` result",
+      "An error for the ambiguous name",
+      "The class attribute"
+    ],
+    "answer": 0,
+    "explanation": "Only data descriptors (with `__set__` or `__delete__`) win over the instance dict. That is how lazy caching works."
+  },
+  {
+    "question": "When is `__set_name__` called?",
+    "options": [
+      "On every attribute assignment",
+      "When the first instance is created",
+      "Never automatically; you call it",
+      "Once per descriptor, when the class statement that contains it finishes"
+    ],
+    "answer": 3,
+    "explanation": "`type.__new__` calls `__set_name__(owner, name)` on every namespace value that defines it, right after the class object is built."
+  },
+  {
+    "question": "`Model` keeps a class-level list `_fields` that every `Field.__set_name__` appends to. What does `Customer.fields()` return after `Invoice` is defined?",
+    "options": [
+      "Only the Customer fields",
+      "The Customer and Invoice fields mixed, because the list lives on the base and is shared",
+      "An empty list",
+      "A TypeError"
+    ],
+    "answer": 1,
+    "explanation": "Mutating a list inherited from the base class mutates the base's list. Discover fields from each class namespace instead."
+  },
+  {
+    "question": "What does `Product.price` return when `price = Positive()` and `__get__` starts with `if instance is None: return self`?",
+    "options": ["The last price set", "`None`", "The `Positive` descriptor object", "AttributeError"],
+    "answer": 2,
+    "explanation": "Class access calls `__get__(None, Product)`. Returning the descriptor lets tools and `fields()` introspect it."
+  }
+]

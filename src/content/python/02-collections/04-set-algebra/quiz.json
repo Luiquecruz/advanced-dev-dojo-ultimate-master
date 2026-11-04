@@ -1,0 +1,32 @@
+[
+  {
+    "question": "What is the value of `{}`?",
+    "options": ["An empty set", "An empty dict", "An empty tuple", "A SyntaxError"],
+    "answer": 1,
+    "explanation": "`{}` is an empty dict. Create an empty set with `set()`."
+  },
+  {
+    "question": "Which expression removes duplicates and keeps the first occurrence order?",
+    "options": ["`list(set(items))`", "`sorted(set(items))`", "`list(dict.fromkeys(items))`", "`set(items)`"],
+    "answer": 2,
+    "explanation": "A set has no guaranteed order. A dict keeps insertion order and its keys are unique."
+  },
+  {
+    "question": "What happens with `{1, 2} | [3]`?",
+    "options": ["`{1, 2, 3}`", "TypeError: the operator needs sets on both sides", "`[1, 2, 3]`", "`{1, 2}`"],
+    "answer": 1,
+    "explanation": "Operators require sets. The method form `{1, 2}.union([3])` accepts any iterable."
+  },
+  {
+    "question": "What is `{'a', 'b'} ^ {'b', 'c'}`?",
+    "options": ["`{'b'}`", "`{'a', 'c'}`", "`{'a', 'b', 'c'}`", "`{'a'}`"],
+    "answer": 1,
+    "explanation": "`^` is the symmetric difference: items in exactly one of the two sets."
+  },
+  {
+    "question": "Why does `{[1, 2], [3]}` fail?",
+    "options": ["Sets cannot hold more than one item", "Lists are unhashable, and set members must be hashable", "Lists are too long", "It works and gives two members"],
+    "answer": 1,
+    "explanation": "Sets locate items by hash. Mutable lists have none, so use tuples or frozensets."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "title": "Map: Metaprogramming and Internals",
+  "summary": "A guide to the hooks Python calls while it builds classes, looks up attributes and imports modules: what a class statement runs, the ladder from decorators to metaclasses, and the path through this module.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Python Data Model: Customizing class creation", "url": "https://docs.python.org/3/reference/datamodel.html#customizing-class-creation" },
+    { "label": "PEP 487: Simpler customisation of class creation", "url": "https://peps.python.org/pep-0487/" },
+    { "label": "PEP 3115: Metaclasses in Python 3000", "url": "https://peps.python.org/pep-3115/" },
+    { "label": "annotationlib: Using annotations in a metaclass", "url": "https://docs.python.org/3/library/annotationlib.html#using-annotations-in-a-metaclass" }
+  ]
+}

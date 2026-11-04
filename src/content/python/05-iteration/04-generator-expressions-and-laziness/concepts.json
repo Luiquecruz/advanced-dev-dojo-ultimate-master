@@ -1,0 +1,7 @@
+[
+  { "term": "Generator expression", "description": "`(expression for item in items if condition)`: a comprehension that produces a lazy, one-shot generator instead of a list." },
+  { "term": "`next(iterator, default)`", "description": "Returns the first remaining item, or `default` when the iterator is exhausted; the idiom for \"first match or default\"." },
+  { "term": "Short-circuit", "description": "`any`, `all`, `next` and `in` stop pulling as soon as the answer is known, so later items are never computed." },
+  { "term": "Materialization", "description": "Turning a lazy iterable into a list with `list(...)` or a list comprehension, paying for every item at once." },
+  { "term": "One-shot iteration", "description": "A generator can be consumed once; two consumers of the same generator share its position." }
+]

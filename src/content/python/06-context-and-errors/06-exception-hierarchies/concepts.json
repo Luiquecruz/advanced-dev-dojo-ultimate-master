@@ -1,0 +1,7 @@
+[
+  { "term": "Exception hierarchy", "description": "Exceptions are classes; `except X` matches instances of `X` and of every subclass." },
+  { "term": "Domain base class", "description": "One class (here `AppError`) that every error a library raises on purpose derives from, so callers can catch them all in one clause." },
+  { "term": "Clause order", "description": "The first matching `except` wins, so specific classes are listed before their bases." },
+  { "term": "`else` and `finally`", "description": "`else` runs only when the `try` body raised nothing; `finally` runs in every case." },
+  { "term": "Built-in families", "description": "`LookupError`, `OSError`, `ValueError` and `ArithmeticError` group related built-in errors; domain errors can join a family through multiple inheritance." }
+]

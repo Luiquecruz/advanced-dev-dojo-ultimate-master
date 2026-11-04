@@ -1,0 +1,7 @@
+[
+  { "term": "Structured concurrency", "description": "Tasks are started inside a block and cannot outlive it: the block ends only when all of them are done." },
+  { "term": "`asyncio.TaskGroup`", "description": "An async context manager that starts tasks with `create_task`, waits for them on exit and cancels the rest on the first failure." },
+  { "term": "`ExceptionGroup`", "description": "One exception holding several (`.exceptions`). A task group raises one even for a single failure." },
+  { "term": "`except*`", "description": "Matches exceptions inside a group; each clause receives the matching subgroup and the rest is re-raised." },
+  { "term": "Sibling cancellation", "description": "When a task in a group fails, the other tasks receive `CancelledError`, which is what `Promise.all` and `gather` never do." }
+]

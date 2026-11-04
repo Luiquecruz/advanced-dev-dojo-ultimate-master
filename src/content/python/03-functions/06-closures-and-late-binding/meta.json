@@ -1,0 +1,13 @@
+{
+  "title": "Closures and Late Binding",
+  "summary": "Closures capture variables, not values, so callbacks built in a Python loop all see the last value, unlike let in JavaScript. Fix loop-built handlers and keep private state in a run-once wrapper.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Programming FAQ: lambdas defined in a loop return the same result", "url": "https://docs.python.org/3/faq/programming.html#why-do-lambdas-defined-in-a-loop-with-different-values-all-return-the-same-result" },
+    { "label": "Execution model: Naming and binding", "url": "https://docs.python.org/3/reference/executionmodel.html#naming-and-binding" },
+    { "label": "The nonlocal statement", "url": "https://docs.python.org/3/reference/simple_stmts.html#the-nonlocal-statement" }
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  { "term": "Sequence protocol", "description": "`__len__` plus `__getitem__` give a class `len()`, indexing, slicing, iteration, `in` and `reversed()`." },
+  { "term": "`slice` object", "description": "What `__getitem__` receives for `x[1:3]`: `slice(1, 3, None)`." },
+  { "term": "`collections.abc.Sequence`", "description": "An abstract base class that adds `__contains__`, `__iter__`, `__reversed__`, `index` and `count` once you implement the two methods." },
+  { "term": "`IndexError`", "description": "Raised for an out-of-range integer index. The iteration fallback uses it to know when to stop." },
+  { "term": "Iteration fallback", "description": "Without `__iter__`, Python iterates by calling `__getitem__` with 0, 1, 2... until `IndexError`." }
+]

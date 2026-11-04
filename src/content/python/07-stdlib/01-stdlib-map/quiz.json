@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Which of these is safe to call on the bytes of an HTTP request body?",
+    "options": [
+      "`pickle.loads(body)`",
+      "`json.loads(body)`, after checking the size",
+      "`eval(body.decode())`",
+      "`marshal.loads(body)`"
+    ],
+    "answer": 1,
+    "explanation": "Decoding JSON only builds dicts, lists, strings, numbers, booleans and `None`. Loading a pickle can call any importable function the sender chooses, `eval` runs any expression, and `marshal` is an internal format that is not secure against malicious data."
+  },
+  {
+    "question": "A CLI declares `parser.add_argument(\"--port\", type=int)` and wraps `parser.parse_args(argv)` in `try/except Exception`. The user passes `--port abc`. What happens?",
+    "options": [
+      "`args.port` is `None`",
+      "The `except Exception` block handles a `ValueError`",
+      "`args.port` is the string `\"abc\"`",
+      "argparse prints usage to stderr and raises `SystemExit(2)`, which `except Exception` does not catch"
+    ],
+    "answer": 3,
+    "explanation": "`ArgumentParser.error` exits with status 2. `SystemExit` derives from `BaseException`, not `Exception`. Pass `exit_on_error=False` to get `argparse.ArgumentError` instead."
+  },
+  {
+    "question": "Which of these loses information without raising any error?",
+    "options": [
+      "`json.loads(json.dumps({\"point\": (1, 2)}))`, which returns a list for the tuple",
+      "Comparing a naive `datetime` with an aware one using `<`",
+      "`Decimal(\"0.1\") + Decimal(\"0.2\")`",
+      "`json.dumps({(1, 2): \"x\"})`"
+    ],
+    "answer": 0,
+    "explanation": "JSON has one array type, so the tuple silently becomes a list. The naive/aware comparison and the tuple key both raise `TypeError`, and the `Decimal` sum is exactly `0.3`."
+  },
+  {
+    "question": "A JavaScript service used decimal.js for prices. What is the standard-library replacement?",
+    "options": [
+      "`float` with `round(value, 2)` after each operation",
+      "`fractions.Fraction` for every price, printed with `float()`",
+      "`decimal.Decimal` built from strings, rounded with `quantize`",
+      "`int` cents divided with `/`"
+    ],
+    "answer": 2,
+    "explanation": "`Decimal(\"19.90\")` keeps base-10 digits and `quantize` rounds with an explicit mode. Floats keep binary approximations, and `/` on ints returns a float. Integer cents work too, but only with `//` and `divmod`."
+  }
+]

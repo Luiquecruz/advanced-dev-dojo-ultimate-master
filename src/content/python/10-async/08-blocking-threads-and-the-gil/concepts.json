@@ -1,0 +1,8 @@
+[
+  { "term": "Blocking call", "description": "A call that does not yield to the event loop (`time.sleep`, a sync HTTP client, heavy computation); every task waits until it returns." },
+  { "term": "`asyncio.to_thread`", "description": "Runs a blocking function in a worker thread and awaits its result (3.9); in Pyodide it runs synchronously because there are no threads." },
+  { "term": "GIL", "description": "The global interpreter lock of the default CPython build: one thread executes Python bytecode at a time, released during blocking I/O." },
+  { "term": "Free-threaded build", "description": "A CPython build without the GIL (PEP 703, `python3.14t`): officially supported but optional since 3.14 (PEP 779)." },
+  { "term": "Process pool", "description": "`ProcessPoolExecutor` runs functions in separate processes for CPU parallelism; arguments and results are pickled." },
+  { "term": "Multiple interpreters", "description": "Isolated interpreters in one process, each with its own GIL: `concurrent.interpreters` and `InterpreterPoolExecutor` (3.14, PEP 734)." }
+]

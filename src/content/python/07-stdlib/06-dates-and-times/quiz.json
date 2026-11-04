@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What does `datetime(2026, 1, 1) < datetime(2026, 1, 1, tzinfo=timezone.utc)` do?",
+    "options": [
+      "Returns `False`",
+      "Returns `True`",
+      "Treats the naive value as local time",
+      "Raises `TypeError`: naive and aware datetimes cannot be ordered"
+    ],
+    "answer": 3,
+    "explanation": "A naive value has no instant to compare. Ordering raises `TypeError`, and `==` between them is always `False`, so mixing them is a bug to fix at the input boundary."
+  },
+  {
+    "question": "`moment = datetime.fromisoformat(\"2026-11-04T10:15:00-03:00\")`. Which expression gives the same instant in UTC?",
+    "options": [
+      "`moment.replace(tzinfo=timezone.utc)`",
+      "`moment.astimezone(timezone.utc)`, which is 13:15 UTC",
+      "`moment - timedelta(hours=3)`",
+      "`datetime.utcnow()`"
+    ],
+    "answer": 1,
+    "explanation": "`astimezone` converts the instant. `replace(tzinfo=...)` keeps 10:15 and changes the instant by three hours, and subtracting hours keeps the old offset."
+  },
+  {
+    "question": "Which code returns February 28, 2026 for `date(2026, 1, 31)` plus one month?",
+    "options": [
+      "Calendar arithmetic that clamps the day with `calendar.monthrange`",
+      "`value + timedelta(days=30)`",
+      "`value.replace(month=value.month + 1)`",
+      "`value + timedelta(days=31)`"
+    ],
+    "answer": 0,
+    "explanation": "Thirty or thirty-one days land in March, and `replace(month=2)` raises `ValueError` because February 31 does not exist. Only shifting the month and clamping the day to the month's length gives February 28."
+  },
+  {
+    "question": "A function computes `expires = datetime.now(timezone.utc) + timedelta(days=30)` inside its body. Why is that hard to test?",
+    "options": [
+      "`timedelta` cannot hold 30 days",
+      "`datetime.now` returns a naive value",
+      "The result depends on the moment the test runs, so edge cases such as month ends cannot be reproduced; pass `now` in instead",
+      "Aware datetimes cannot be added to timedeltas"
+    ],
+    "answer": 2,
+    "explanation": "Reading the clock inside the function hides an input. Taking `now` (or a clock callable) as a parameter lets tests fix the moment and check the rules deterministically."
+  }
+]

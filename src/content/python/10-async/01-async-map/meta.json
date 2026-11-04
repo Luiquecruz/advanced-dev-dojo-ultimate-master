@@ -1,0 +1,11 @@
+{
+  "title": "Map: Async and Concurrency",
+  "summary": "A guide to asyncio for JavaScript developers: one thread, cooperative switching at await, coroutines that start only when awaited, tasks that can be cancelled, and calls that block everyone. The path through this module and the concurrency decision it ends with.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "asyncio: Asynchronous I/O", "url": "https://docs.python.org/3/library/asyncio.html" },
+    { "label": "Coroutines and Tasks", "url": "https://docs.python.org/3/library/asyncio-task.html" },
+    { "label": "PEP 3156: Asynchronous IO Support Rebooted: the asyncio Module", "url": "https://peps.python.org/pep-3156/" }
+  ]
+}

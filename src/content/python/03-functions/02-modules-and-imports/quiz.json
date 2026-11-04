@@ -1,0 +1,52 @@
+[
+  {
+    "question": "`counter.py` prints `\"loaded\"` at its top level. A program runs `import counter` three times in different modules. How many times is `\"loaded\"` printed?",
+    "options": ["Three times", "Once", "Zero times until a function is called", "Once per module that imports it"],
+    "answer": 1,
+    "explanation": "The first import runs the body and stores the module in `sys.modules`; every other import returns the cached module."
+  },
+  {
+    "question": "`flags.py` has `DARK = False`. A test does `import flags; flags.DARK = True`. Which code in `ui.py` sees `True`?",
+    "options": [
+      "`from flags import DARK` at the top, then `DARK` inside a function",
+      "Both forms, because modules are cached",
+      "`import flags` at the top, then `flags.DARK` inside a function",
+      "Neither form"
+    ],
+    "answer": 2,
+    "explanation": "`flags.DARK` is looked up on the shared module object at call time. `from flags import DARK` copied the reference to `False` when `ui.py` was imported."
+  },
+  {
+    "question": "`a.py` runs `from b import helper` and `b.py` runs `from a import VALUE`, defined at the end of `a.py`. What happens on `import a`?",
+    "options": [
+      "Python resolves the cycle and both imports succeed",
+      "`VALUE` is `None` in `b`",
+      "`b` gets `VALUE` once `a` finishes",
+      "`ImportError: cannot import name 'VALUE' from partially initialized module 'a'`"
+    ],
+    "answer": 3,
+    "explanation": "While `a` is still running its first line, `b` asks the partially initialized `a` for a name that does not exist yet, and the import fails."
+  },
+  {
+    "question": "Why is `if __name__ == \"__main__\":` used in `main.py`?",
+    "options": [
+      "To keep script-only code from running when another module imports `main`",
+      "To make the module load faster",
+      "To make the module private",
+      "It is required for every module"
+    ],
+    "answer": 0,
+    "explanation": "`__name__` is `\"__main__\"` only for the file Python was started with. When the file is imported, `__name__` is `\"main\"` and the block is skipped."
+  },
+  {
+    "question": "Which fix removes a cycle between an application module and its plugins most cleanly?",
+    "options": [
+      "Import the plugins at the bottom of the application module",
+      "Move the decorator and registry the plugins need into a module that does not import the application",
+      "Use `importlib.reload` after both imports",
+      "Catch `ImportError` and retry"
+    ],
+    "answer": 1,
+    "explanation": "Moving the shared piece down makes every dependency point one way. Bottom imports only hide the cycle until another module imports the plugins first."
+  }
+]

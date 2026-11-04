@@ -1,0 +1,12 @@
+{
+  "title": "Mutable, Immutable and Hashable",
+  "summary": "Why lists cannot be dict keys, how tuples and frozensets fix that, and how to freeze nested data into a hashable cache key.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Data Model: __hash__", "url": "https://docs.python.org/3/reference/datamodel.html#object.__hash__" },
+    { "label": "Python Glossary: hashable", "url": "https://docs.python.org/3/glossary.html#term-hashable" }
+  ]
+}

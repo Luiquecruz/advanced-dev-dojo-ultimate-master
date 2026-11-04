@@ -1,0 +1,7 @@
+[
+  { "term": "`@contextmanager`", "description": "Turns a generator function with one `yield` into a context manager factory: setup before the `yield`, teardown after it." },
+  { "term": "Throw-in at `yield`", "description": "An exception raised in the `with` block is re-raised inside the generator at the `yield` line, so teardown belongs in `finally`." },
+  { "term": "Accidental suppression", "description": "A generator that catches the thrown-in exception and finishes tells `with` the error was handled." },
+  { "term": "Sentinel", "description": "A private `object()` that marks \"no value\", distinct from `None`, used to tell an absent key from a key holding `None`." },
+  { "term": "`ContextDecorator`", "description": "Base class that lets a context manager wrap every call of a function when used with `@`; `@contextmanager` managers have it." }
+]

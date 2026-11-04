@@ -1,0 +1,14 @@
+{
+  "title": "Checkpoint: Ingestion Service Concurrency ADR",
+  "summary": "Close the async module with an ADR and a plan for one ingestion instance: what stays on the event loop, how far enrichment fans out under a quota, how big the queue may grow before events go stale, how many processes the CPU work needs and how shutdown drains.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Coroutines and Tasks", "url": "https://docs.python.org/3/library/asyncio-task.html" },
+    { "label": "asyncio Queues", "url": "https://docs.python.org/3/library/asyncio-queue.html" },
+    { "label": "concurrent.futures: ProcessPoolExecutor", "url": "https://docs.python.org/3/library/concurrent.futures.html#processpoolexecutor" }
+  ]
+}

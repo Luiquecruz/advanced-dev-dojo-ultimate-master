@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A loop does `try: await job() except Exception: log()` and its task is cancelled while `job()` waits. What happens?",
+    "options": [
+      "The `except` clause logs the cancellation and the loop continues",
+      "`CancelledError` passes through, because it is a `BaseException`, and the task ends as cancelled",
+      "The job finishes first, then the task is cancelled",
+      "A `RuntimeError` is raised"
+    ],
+    "answer": 1,
+    "explanation": "Since Python 3.8, `CancelledError` derives from `BaseException`. `except Exception` handles job failures and lets cancellation unwind the task."
+  },
+  {
+    "question": "What is the difference between `asyncio.wait({work}, timeout=1)` and `async with asyncio.timeout(1): await work` when `work` takes 5 seconds?",
+    "options": [
+      "None: both cancel `work` after 1 second",
+      "`wait` raises `TimeoutError`; `timeout` returns `None`",
+      "`wait` returns `(set(), {work})` and leaves `work` running; `timeout` cancels it and raises `TimeoutError`",
+      "`timeout` only works with tasks, `wait` only with coroutines"
+    ],
+    "answer": 2,
+    "explanation": "`asyncio.wait` never raises or cancels; it reports what is done. `asyncio.timeout` cancels the block at the deadline and converts the cancellation into `TimeoutError`."
+  },
+  {
+    "question": "A worker catches `asyncio.CancelledError`, logs it and returns normally. Shutdown code calls `task.cancel()` and then `await task`. What does the shutdown code see?",
+    "options": [
+      "The `await` returns normally and `task.cancelled()` is `False`: the cancellation was swallowed",
+      "`CancelledError` from the `await`",
+      "The `await` hangs forever",
+      "`task.cancelled()` is `True`"
+    ],
+    "answer": 0,
+    "explanation": "Returning from the handler turns a cancellation into a normal finish. Here it returns, so the await completes; in a loop that keeps running, the same mistake makes shutdown hang."
+  },
+  {
+    "question": "`await asyncio.shield(commit_task)` is running when the caller is cancelled. What happens?",
+    "options": [
+      "Both the caller and `commit_task` are cancelled",
+      "Neither is cancelled",
+      "`commit_task` is cancelled and the caller continues",
+      "The caller gets `CancelledError`; `commit_task` keeps running and must stay referenced until it finishes"
+    ],
+    "answer": 3,
+    "explanation": "`shield` only blocks cancellation from reaching the inner task. The awaiting side is still cancelled, and the inner task now has no awaiter, so keep a strong reference to it."
+  }
+]

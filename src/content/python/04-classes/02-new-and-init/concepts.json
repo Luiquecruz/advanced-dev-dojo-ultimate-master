@@ -1,0 +1,7 @@
+[
+  { "term": "`__new__`", "description": "The static method that creates and returns the object for a class call. It receives the class as `cls`." },
+  { "term": "`__init__`", "description": "The method that initializes the object `__new__` returned. It must return `None`." },
+  { "term": "Interning", "description": "Returning one shared instance per value (`Currency('EUR') is Currency('EUR')`) instead of building equal copies." },
+  { "term": "Immutable subclass", "description": "A subclass of `int`, `float`, `str` or `tuple`. Its value is fixed by `__new__`, so conversion and validation must happen there." },
+  { "term": "Idempotent `__init__`", "description": "An `__init__` that is safe to run again on an existing object, which happens whenever `__new__` returns a cached instance." }
+]

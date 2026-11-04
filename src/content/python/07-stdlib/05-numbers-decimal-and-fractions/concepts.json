@@ -1,0 +1,8 @@
+[
+  { "term": "Binary floating point", "description": "`float` stores the nearest base-2 fraction, so `0.1 + 0.2 != 0.3` and `2.675` is stored slightly below itself." },
+  { "term": "`Decimal`", "description": "Base-10 digits with a context (28 significant digits, `ROUND_HALF_EVEN` by default); build it from strings, never from floats." },
+  { "term": "`quantize`", "description": "Rounds a `Decimal` to a fixed exponent with an explicit mode, such as `Decimal(\"0.01\")` and `ROUND_HALF_UP` for cents." },
+  { "term": "Banker's rounding", "description": "`round()` sends ties to the even neighbor: `round(2.5) == 2`, `round(3.5) == 4`." },
+  { "term": "Floor division", "description": "`//` rounds toward negative infinity and `%` takes the sign of the divisor: `-7 // 2 == -4`, `-7 % 2 == 1`." },
+  { "term": "Integer string conversion limit", "description": "`int(text)` and `str(number)` raise `ValueError` above 4,300 decimal digits to prevent quadratic-time denial of service." }
+]

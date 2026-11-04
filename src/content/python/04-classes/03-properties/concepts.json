@@ -1,0 +1,7 @@
+[
+  { "term": "`property`", "description": "A built-in data descriptor that routes attribute reads, writes and deletes to getter, setter and deleter functions." },
+  { "term": "Backing attribute", "description": "The private instance attribute (`_celsius`) where a property stores its value." },
+  { "term": "Read-only property", "description": "A property with only a getter. Assigning to it raises `AttributeError`." },
+  { "term": "Computed attribute", "description": "A property whose value is derived on each read instead of stored, such as `kelvin` from `celsius`." },
+  { "term": "Uniform access", "description": "Callers use attribute syntax whether the value is stored or computed, so a plain attribute can become a property without changing callers." }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "Decorator factory", "description": "A function that takes settings and returns a decorator: `@retry(times=2)` means `f = retry(times=2)(f)`." },
+  { "term": "Bare-or-called decorator", "description": "A decorator that accepts the function as an optional first argument, so `@retry` and `@retry(...)` both work." },
+  { "term": "Per-function state", "description": "State created inside the decorator body exists once per decorated function and is shared by all its calls." },
+  { "term": "Injected clock", "description": "A time source passed as a parameter so tests control time instead of sleeping." },
+  { "term": "Sliding window", "description": "A rate limit that counts the calls made during the last `period` seconds, forgetting older ones." }
+]

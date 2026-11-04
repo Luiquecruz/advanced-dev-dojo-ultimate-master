@@ -1,0 +1,7 @@
+[
+  { "term": "Deprecated aliases", "description": "`typing.List`, `Dict`, `Optional` and friends: deprecated since 3.9, still working, no removal planned and no runtime warning." },
+  { "term": "`Any` vs `object`", "description": "`Any` disables checking like TypeScript's `any`; `object` accepts every value but allows only universal operations, like `unknown`." },
+  { "term": "Stub file", "description": "A `.pyi` file with signatures only, used for untyped or compiled code; typeshed collects stubs for the standard library and popular packages." },
+  { "term": "`py.typed`", "description": "Marker file (PEP 561) telling checkers that an installed package ships inline annotations." },
+  { "term": "Strict mode", "description": "Checker settings (`mypy --strict`, pyright `strict`) that require annotations everywhere and reject implicit `Any`." }
+]

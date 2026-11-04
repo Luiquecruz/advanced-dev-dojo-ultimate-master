@@ -1,0 +1,36 @@
+[
+  {
+    "question": "`class A: ...`, `class B(A): ...`, `class C(A): ...`, `class D(B, C): ...`. What is `D.__mro__` by name?",
+    "options": ["D, B, A, C, A, object", "D, C, B, A, object", "D, B, C, A, object", "D, A, B, C, object"],
+    "answer": 2,
+    "explanation": "C3 keeps B before C (base order) and puts A after both of its subclasses, once."
+  },
+  {
+    "question": "In `D(B, C)` from the diamond, `B.save` calls `super().save()`. Which method runs next?",
+    "options": ["`A.save`, B's parent", "`C.save`, the next class in D's MRO", "`object.save`", "Nothing, super() needs arguments"],
+    "answer": 1,
+    "explanation": "`super()` follows the MRO of the instance's class. For a `D`, the class after `B` is `C`."
+  },
+  {
+    "question": "Each of three mixins ends its `save` with `Entity.save(self, log)`. What does the combined class's `save` do?",
+    "options": [
+      "Runs only the first mixin and then Entity, skipping the others",
+      "Runs every mixin once and Entity once",
+      "Raises TypeError",
+      "Runs Entity three times"
+    ],
+    "answer": 0,
+    "explanation": "The first mixin's direct call jumps to `Entity`, so the chain never reaches the mixins after it."
+  },
+  {
+    "question": "`class Broken(Entity, Audited)` where `Audited` subclasses `Entity`. What happens?",
+    "options": [
+      "Python reorders the bases",
+      "Audited is ignored",
+      "It works; Entity's methods win",
+      "TypeError: Cannot create a consistent method resolution order (MRO)"
+    ],
+    "answer": 3,
+    "explanation": "The base list says Entity before Audited, but Audited must come before its own base. C3 cannot satisfy both."
+  }
+]

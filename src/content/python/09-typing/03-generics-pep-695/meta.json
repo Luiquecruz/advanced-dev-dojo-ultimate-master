@@ -1,0 +1,14 @@
+{
+  "title": "Generics with PEP 695",
+  "summary": "Type parameters in brackets: def first[T], class Stack[T], type Pair[T] and a constrained Box[T: (int, str)]. Migrate TypeVar code to the 3.12 syntax, tell a bound from a constraint list, and inspect __type_params__, __value__ and __constraints__ at runtime.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "PEP 695: Type Parameter Syntax", "url": "https://peps.python.org/pep-0695/" },
+    { "label": "PEP 696: Type Defaults for Type Parameters", "url": "https://peps.python.org/pep-0696/" },
+    { "label": "Language reference: Type parameter lists", "url": "https://docs.python.org/3/reference/compound_stmts.html#type-params" },
+    { "label": "typing.TypeVar", "url": "https://docs.python.org/3/library/typing.html#typing.TypeVar" }
+  ]
+}

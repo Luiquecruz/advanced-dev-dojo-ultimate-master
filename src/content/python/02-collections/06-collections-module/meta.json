@@ -1,0 +1,11 @@
+{
+  "title": "The collections Module",
+  "summary": "Choose deque, Counter, defaultdict and ChainMap for bounded history, counting, grouping and layered configuration, and avoid the pitfalls of each.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "collections: Container datatypes", "url": "https://docs.python.org/3/library/collections.html" }
+  ]
+}

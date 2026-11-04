@@ -1,0 +1,4 @@
+{
+  "title": "Packaging, Testing and Capstone",
+  "description": "How a Python project becomes reproducible, installable and verifiable: pyproject.toml, virtual environments, lockfiles and supply-chain hygiene, linters and checkers, unittest and mocks, then the track capstone: an async rules engine and its deployment ADR."
+}

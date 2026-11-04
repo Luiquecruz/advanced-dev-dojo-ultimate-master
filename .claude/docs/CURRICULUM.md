@@ -292,3 +292,43 @@ Backend for frontend developers who build with AI: enough depth to choose an app
 
 ### 12-shipping — Testing, Shipping and Building with AI
 01-testing-backend-code **(quiz)** (unit vs integration, test doubles, Vitest, `node:test`, Supertest, Testcontainers) ✓ · 02-configuration-and-twelve-factor **(quiz)** ✓ · 03-deployment-options **(quiz)** (VPS, containers, PaaS, serverless, edge) ✓ · 04-building-backends-with-ai **(quiz)** (briefing, review checklist, decision matrix) ✓ · 05-capstone-api (multi-file Hono API: validation, service, repository, auth, errors) ✓
+
+## Python (`src/content/python`)
+
+Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (Pyodide). v1 has 12 modules and 94 lessons. Every module opens with a map; modules 01, 02, 04, 06, 09 and 10 close with an ADR checkpoint, modules 03 and 05 with a code integration challenge, and module 12 ends with the capstone. Deferred lessons are listed in the v2 backlog of `03-curriculum.md`.
+
+### 01-object-model — Names, Objects and Scope
+01-python-map **(quiz)** ✓ · 02-names-and-references ✓ · 03-mutability-and-hashing ✓ · 04-scope-and-nonlocal ✓ · 05-shallow-vs-deep-copy ✓ · 06-identity-equality-and-interning ✓ · 07-truthiness-and-bool ✓ · 08-object-model-adr ✓
+
+### 02-collections — Collections and Data Protocols
+01-collections-map **(quiz)** ✓ · 02-unpacking-and-star-expressions ✓ · 03-comprehensions-and-dict-views ✓ · 04-set-algebra ✓ · 05-sequence-protocol ✓ · 06-collections-module ✓ · 07-custom-mapping ✓ · 08-text-and-bytes ✓ · 09-collections-adr ✓
+
+### 03-functions — Functions, Modules and Callables
+01-functions-map **(quiz)** ✓ · 02-modules-and-imports ✓ · 03-args-and-kwargs ✓ · 04-positional-and-keyword-only ✓ · 05-mutable-default-arguments ✓ · 06-closures-and-late-binding ✓ · 07-decorators-and-wraps ✓ · 08-parameterized-decorators ✓ · 09-callables-partial-and-cache ✓ · 10-client-middleware-stack ✓
+
+### 04-classes — Classes, Attributes and Descriptors
+01-classes-map **(quiz)** ✓ · 02-new-and-init ✓ · 03-properties ✓ · 04-descriptors-and-set-name ✓ · 05-slots ✓ · 06-dataclasses ✓ · 07-data-model-methods ✓ · 08-inheritance-and-mro ✓ · 09-classes-adr ✓
+
+### 05-iteration — Iterators and Generators
+01-iteration-map **(quiz)** ✓ · 02-iterator-protocol ✓ · 03-generators ✓ · 04-generator-expressions-and-laziness ✓ · 05-yield-from-and-send ✓ · 06-itertools ✓ · 07-lazy-pipelines ✓
+
+### 06-context-and-errors — Context Managers and Exceptions
+01-context-errors-map **(quiz)** ✓ · 02-with-protocol ✓ · 03-contextmanager-decorator ✓ · 04-suppressing-and-handling-in-exit ✓ · 05-exitstack ✓ · 06-exception-hierarchies ✓ · 07-chaining-and-notes ✓ · 08-exception-groups ✓ · 09-context-errors-adr ✓
+
+### 07-stdlib — Standard Library in Practice
+01-stdlib-map **(quiz)** ✓ · 02-json-and-serialization ✓ · 03-regular-expressions ✓ · 04-pathlib-and-io ✓ · 05-numbers-decimal-and-fractions ✓ · 06-dates-and-times ✓ · 07-enums ✓ · 08-logging ✓
+
+### 08-pattern-matching — Pattern Matching and Control Flow
+01-matching-map **(quiz)** ✓ · 02-sequence-and-mapping-patterns ✓ · 03-class-patterns ✓ · 04-guards-or-and-capture ✓ · 05-walrus-and-loop-else ✓
+
+### 09-typing — Type Hints and Static Typing
+01-typing-map **(quiz)** ✓ · 02-modern-annotation-syntax ✓ · 03-generics-pep-695 ✓ · 04-protocols ✓ · 05-typeddict-and-literals ✓ · 06-overloads-and-narrowing ✓ · 07-runtime-annotations ✓ · 08-typing-evolution-and-checkers **(quiz)** ✓ · 09-typing-adr ✓
+
+### 10-async — Async and Concurrency
+01-async-map **(quiz)** ✓ · 02-event-loop-mental-model ✓ · 03-tasks-and-gather ✓ · 04-task-groups ✓ · 05-timeouts-and-cancellation ✓ · 06-queues-locks-semaphores ✓ · 07-async-iterators-and-context ✓ · 08-blocking-threads-and-the-gil **(quiz)** ✓ · 09-async-adr ✓
+
+### 11-metaprogramming — Metaprogramming and Internals
+01-metaprogramming-map **(quiz)** ✓ · 02-init-subclass-registries ✓ · 03-dynamic-classes ✓ · 04-attribute-hooks ✓ · 05-metaclasses ✓ · 06-inspect-and-signatures ✓ · 07-import-system-internals ✓
+
+### 12-tooling — Packaging, Testing and Capstone
+01-tooling-map **(quiz)** ✓ · 02-packaging-and-environments **(quiz)** ✓ · 03-testing-with-unittest ✓ · 04-capstone-async-rules-engine ✓

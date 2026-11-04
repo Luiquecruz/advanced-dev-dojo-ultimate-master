@@ -1,0 +1,46 @@
+[
+  {
+    "question": "An async generator holds a database cursor and closes it in `finally`. A consumer does `async for row in rows(): break` after the first row. When does the cursor close?",
+    "options": [
+      "Immediately, as in a JavaScript `for await` loop",
+      "Never",
+      "When the garbage collector finalizes the generator and the event loop runs its `aclose()`, at some later point",
+      "Before the first row is produced"
+    ],
+    "answer": 2,
+    "explanation": "`break` only stops iterating. The suspended generator is closed later through the loop's finalizer hook; `contextlib.aclosing` makes it happen on exit of the block."
+  },
+  {
+    "question": "`__aexit__` ends with `return True` after closing the connection. The block raises `KeyError`. What does the caller see?",
+    "options": [
+      "Nothing: the `KeyError` is suppressed",
+      "The `KeyError`",
+      "A `RuntimeError` about the return value",
+      "The `KeyError` wrapped in an `ExceptionGroup`"
+    ],
+    "answer": 0,
+    "explanation": "A truthy return value from `__exit__` or `__aexit__` means \"exception handled\". Return `None` to let it propagate."
+  },
+  {
+    "question": "`async def pages(): for n in range(3): print(\"fetch\", n); yield n`. The consumer prints each item as it arrives. What is the output order?",
+    "options": [
+      "`fetch 0`, `fetch 1`, `fetch 2`, then `0`, `1`, `2`",
+      "`0`, `1`, `2`, then the fetches",
+      "Undefined: the generator runs on its own task",
+      "`fetch 0`, `0`, `fetch 1`, `1`, `fetch 2`, `2`"
+    ],
+    "answer": 3,
+    "explanation": "An async generator runs only while the consumer awaits the next item, and pauses at each `yield`. Production and consumption interleave."
+  },
+  {
+    "question": "Which tool turns `async def lifespan(): setup; yield resource; teardown` into something usable with `async with`?",
+    "options": [
+      "`contextlib.aclosing`",
+      "`contextlib.asynccontextmanager`",
+      "`asyncio.shield`",
+      "`contextlib.contextmanager`"
+    ],
+    "answer": 1,
+    "explanation": "`@asynccontextmanager` wraps an async generator with a single `yield` into an async context manager. `aclosing` closes an existing async generator; `contextmanager` is the synchronous version."
+  }
+]

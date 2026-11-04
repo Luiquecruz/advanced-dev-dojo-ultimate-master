@@ -1,0 +1,7 @@
+[
+  { "term": "Async generator", "description": "An `async def` with `yield` (PEP 525): it can `await` between items and produces them only when the consumer asks." },
+  { "term": "`async for`", "description": "Awaits `__anext__()` for each item until `StopAsyncIteration`; also usable in comprehensions (`[x async for x in gen]`)." },
+  { "term": "`aclose()`", "description": "Throws `GeneratorExit` into a suspended async generator so its `finally` blocks run; `break` alone does not call it." },
+  { "term": "`contextlib.aclosing`", "description": "An async context manager (3.10) that awaits `aclose()` on exit, for deterministic cleanup of async generators." },
+  { "term": "`__aenter__` / `__aexit__`", "description": "The async context manager protocol; a truthy return value from `__aexit__` suppresses the block's exception." }
+]

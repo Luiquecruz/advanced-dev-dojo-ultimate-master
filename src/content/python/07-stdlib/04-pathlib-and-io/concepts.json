@@ -1,0 +1,8 @@
+[
+  { "term": "Pure path", "description": "`PurePosixPath`/`PureWindowsPath`: path arithmetic on text with fixed separator rules and no file-system access." },
+  { "term": "`/` operator", "description": "Joins path segments like `os.path.join`: an absolute segment discards everything before it." },
+  { "term": "`resolve()`", "description": "Returns the absolute path with `..` removed and symbolic links followed." },
+  { "term": "`is_relative_to()`", "description": "True when a path lies under another one, compared by parts; meaningful only on resolved paths." },
+  { "term": "Path traversal", "description": "Untrusted names such as `../x` or absolute paths that escape the directory they were meant to stay in." },
+  { "term": "`io.BytesIO`", "description": "An in-memory binary file object; `read(n)` returns at most `n` bytes and `b\"\"` at the end." }
+]

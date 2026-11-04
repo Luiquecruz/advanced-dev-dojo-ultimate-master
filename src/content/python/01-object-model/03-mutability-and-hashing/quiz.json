@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What happens with `cache = {}; cache[(1, [2])] = 'x'`?",
+    "options": [
+      "TypeError: the tuple contains a list, so it is unhashable",
+      "It works because a tuple is immutable",
+      "The list is converted to a tuple automatically",
+      "It works, but only the first element is hashed"
+    ],
+    "answer": 0,
+    "explanation": "A tuple's hash combines the hashes of its items. A list item is unhashable, so the whole tuple is unhashable."
+  },
+  {
+    "question": "Why are `list` and `dict` unhashable?",
+    "options": [
+      "They are too large to hash",
+      "They are mutable: a stored key whose contents change would hash differently and become unfindable",
+      "Because they have no `__eq__`",
+      "Hashing is only defined for numbers and strings"
+    ],
+    "answer": 1,
+    "explanation": "Equal objects must keep equal hashes while stored. Mutable containers could change and break dict and set lookups, so Python refuses to hash them."
+  },
+  {
+    "question": "What is `frozenset([1, 2]) == frozenset([2, 1])`?",
+    "options": [
+      "False, order matters",
+      "A TypeError",
+      "True, sets ignore order",
+      "True only for sorted input"
+    ],
+    "answer": 2,
+    "explanation": "A set has no order. Two frozensets are equal when they contain the same elements."
+  },
+  {
+    "question": "A JavaScript developer writes `lookup[[1, 2]] = 'x'` in Python. What is the closest working form?",
+    "options": [
+      "`lookup[list(1, 2)] = 'x'`",
+      "`lookup['[1, 2]'] = 'x'` only",
+      "`lookup[{1, 2}] = 'x'`",
+      "`lookup[(1, 2)] = 'x'`"
+    ],
+    "answer": 3,
+    "explanation": "Use a tuple. A set literal is also unhashable and also unordered, so it would change the meaning of the key."
+  },
+  {
+    "question": "Which is the preferred way to build one string from many lines?",
+    "options": [
+      "`\"\\n\".join(lines)`",
+      "`result += line` in a loop",
+      "`result = result + line + line`",
+      "Appending to a tuple"
+    ],
+    "answer": 0,
+    "explanation": "Strings are immutable, so repeated `+=` may create a new string each time. `str.join` collects the pieces in one pass."
+  }
+]

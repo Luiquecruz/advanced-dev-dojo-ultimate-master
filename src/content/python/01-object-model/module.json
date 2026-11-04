@@ -1,0 +1,4 @@
+{
+  "title": "Names, Objects and Scope",
+  "description": "How Python binds names to objects: references, mutability and hashing, scope, copying, identity versus equality, and truthiness. The mental model every other module relies on."
+}

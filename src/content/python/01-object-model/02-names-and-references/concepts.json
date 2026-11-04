@@ -1,0 +1,7 @@
+[
+  { "term": "Name binding", "description": "`x = value` attaches the name `x` to an object. It does not copy the object." },
+  { "term": "Aliasing", "description": "Two or more names bound to the same object. A change through one name is visible through the others." },
+  { "term": "Mutate vs rebind", "description": "`items += [x]` and `items.append(x)` change the object; `items = items + [x]` binds the name to a new object." },
+  { "term": "`is`", "description": "Identity operator: true when both sides are the same object. Use it for `None`, `True`, `False` and sentinels." },
+  { "term": "Shallow copy", "description": "`list(x)`, `x.copy()` or `x[:]` build a new container but reuse the same element objects." }
+]

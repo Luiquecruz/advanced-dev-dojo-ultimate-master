@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`match \"go\":` has `case [first, second]:` followed by `case str():`. Which case runs?",
+    "options": [
+      "`case [first, second]`, binding `\"g\"` and `\"o\"`",
+      "Neither, a `TypeError` is raised",
+      "`case str()`: sequence patterns never match `str`, `bytes` or `bytearray`",
+      "The first one, but `second` stays unbound"
+    ],
+    "answer": 2,
+    "explanation": "Strings are sequences in general, but the match statement excludes `str`, `bytes` and `bytearray` from sequence patterns so text is not split into characters."
+  },
+  {
+    "question": "What does `case {\"type\": \"click\"}:` do with the subject `{\"type\": \"click\", \"pos\": (1, 2), \"button\": \"left\"}`?",
+    "options": [
+      "It matches: a mapping pattern only requires the keys it names",
+      "It fails because the subject has extra keys",
+      "It matches only if `**rest` is added",
+      "It raises `KeyError`"
+    ],
+    "answer": 0,
+    "explanation": "Mapping patterns check the listed keys with `get()` and ignore the others. `**rest` is only needed to capture the extra items."
+  },
+  {
+    "question": "`match [\"say\"]:` with `case [\"say\", *words]:`. What happens?",
+    "options": [
+      "No match: the star needs at least one item",
+      "It matches with `words == ()`",
+      "A `SyntaxError`",
+      "It matches with `words == []`"
+    ],
+    "answer": 3,
+    "explanation": "A star sub-pattern matches zero or more items and always binds a list, whatever the type of the subject sequence."
+  },
+  {
+    "question": "Why does `match tokens[0]:` with `case \"move\":` and `int(tokens[1])` in the block accept `[\"move\", \"1\", \"2\", \"3\"]`?",
+    "options": [
+      "Python ignores extra list items in every comparison",
+      "Only the first token is the subject, so the pattern never sees the length; matching `tokens` against `[\"move\", x, y]` would reject it",
+      "Because `case` falls through to the next block",
+      "It does not; `match` raises `IndexError` for long lists"
+    ],
+    "answer": 1,
+    "explanation": "A pattern can only check what the subject contains. Making the whole sequence the subject puts the exact length into the pattern."
+  },
+  {
+    "question": "A handler table ends with `case {}:` placed before `case {\"type\": \"key\", \"key\": k}:`. What happens to key events?",
+    "options": [
+      "They reach the key case, because more specific patterns win",
+      "A `SyntaxError` for an unreachable case",
+      "They are caught by `case {}`, which matches every mapping",
+      "`case {}` matches only empty dicts, so nothing changes"
+    ],
+    "answer": 2,
+    "explanation": "An empty mapping pattern requires no keys, so any mapping fits. Cases are tried in order and the first match wins; Python only rejects unreachable cases after irrefutable patterns like `_` or a bare name."
+  }
+]

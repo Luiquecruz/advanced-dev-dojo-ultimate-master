@@ -1,0 +1,13 @@
+{
+  "title": "__new__ and __init__",
+  "summary": "Creation versus initialization: why immutable subclasses validate in __new__, how to intern instances, and why __init__ runs again on a cached object. Build an interned Currency and a validated Percent float.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Data Model: object.__new__", "url": "https://docs.python.org/3/reference/datamodel.html#object.__new__" },
+    { "label": "Python Data Model: object.__init__", "url": "https://docs.python.org/3/reference/datamodel.html#object.__init__" },
+    { "label": "weakref.WeakValueDictionary", "url": "https://docs.python.org/3/library/weakref.html#weakref.WeakValueDictionary" }
+  ]
+}

@@ -1,11 +1,9 @@
-import { createRequire } from 'node:module';
-import { dirname } from 'node:path';
 import { installLoopGuard } from '../engines/shared/compile';
 import { installFakeApi } from '../engines/shared/fakeApi';
 import { listTestNames, runTests, type FrameworkAdapter, type RunReport, type RunRequest } from '../engines/shared/testRunner';
 import type { ProjectFiles } from '../engines/shared/project';
-import { createPythonEngine, type PythonEngine } from '../engines/python/engine';
 import { listPythonTestNames } from '../engines/python/testNames';
+import { PythonSandbox, type PythonSandboxOptions } from './pythonSandbox';
 
 /**
  * How lesson verification grades and runs challenges of one engine.
@@ -35,20 +33,16 @@ export function frameworkGrader(adapter: FrameworkAdapter): ChallengeGrader {
 }
 
 /**
- * Grades Python challenges with Pyodide running in Node, loaded once per suite.
+ * Grades Python challenges with Pyodide in an isolated Node worker (see `pythonSandbox.ts`), started once per suite and restarted after a stopped test.
  */
-export function pythonGrader(): ChallengeGrader {
-  let engine: PythonEngine;
+export function pythonGrader(options: PythonSandboxOptions = {}): ChallengeGrader {
+  const sandbox = new PythonSandbox(options);
   return {
-    async setup() {
-      const { loadPyodide } = await import('pyodide');
-      const indexURL = `${dirname(createRequire(import.meta.url).resolve('pyodide/package.json'))}/`;
-      engine = createPythonEngine(await loadPyodide({ indexURL }));
-    },
+    setup: () => sandbox.start(),
     listTestNames: listPythonTestNames,
-    runTests: (request) => engine.runTests(request),
+    runTests: (request) => sandbox.runTests(request),
     async runProgram(files, entry) {
-      await engine.runProgram(files, entry, (level, text) => (level === 'error' ? console.error(text) : console.log(text)));
+      await sandbox.runProgram(files, entry, (level, text) => (level === 'error' ? console.error(text) : console.log(text)));
     },
   };
 }

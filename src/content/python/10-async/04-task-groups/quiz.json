@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Three tasks run in an `asyncio.TaskGroup`. The second raises `KeyError` while the others are waiting on network calls. What does the code after the `async with` block see?",
+    "options": [
+      "A bare `KeyError`, raised as soon as it happens",
+      "An `ExceptionGroup` containing the `KeyError`, raised after the other two tasks were cancelled and finished",
+      "Nothing: the other two results are returned and the error is logged",
+      "A `CancelledError`"
+    ],
+    "answer": 1,
+    "explanation": "The group cancels the remaining tasks, waits for them, then raises every non-cancellation failure together in an `ExceptionGroup`."
+  },
+  {
+    "question": "The group raises `ExceptionGroup('...', [ValueError(), ConnectionError()])`. The handler has `except* ValueError:` then `except* ConnectionError:`. Which clauses run?",
+    "options": [
+      "Only the first matching clause, like plain `except`",
+      "Neither, because the group itself is not a `ValueError`",
+      "Both, each with the subgroup of matching exceptions",
+      "Only the last one"
+    ],
+    "answer": 2,
+    "explanation": "`except*` splits the group: every clause with a match runs once with its subgroup, and unmatched exceptions are re-raised."
+  },
+  {
+    "question": "Code ported from JavaScript wraps a task group in `try: ... except ValueError:`. One task raises `ValueError`. What happens?",
+    "options": [
+      "The `except` clause runs normally",
+      "A `SyntaxError`: task groups require `except*`",
+      "The `ValueError` is silently dropped",
+      "The `except` clause does not run: the error arrives wrapped in an `ExceptionGroup`, which propagates"
+    ],
+    "answer": 3,
+    "explanation": "A task group always raises an exception group. Plain `except ValueError` only matches a bare `ValueError`; `except* ValueError` matches inside the group."
+  },
+  {
+    "question": "Which situation calls for `gather(..., return_exceptions=True)` rather than a `TaskGroup`?",
+    "options": [
+      "Sending 50 independent notifications where each failure should be reported but must not stop the others",
+      "Fetching the user and the cart for one page, where the page is useless if either fails",
+      "Running the workers of a pipeline that must stop together",
+      "Making sure no task outlives the function that started it"
+    ],
+    "answer": 0,
+    "explanation": "A task group cancels everything on the first failure. When every outcome matters independently, `gather` with `return_exceptions=True` collects all of them."
+  }
+]

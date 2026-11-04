@@ -1,0 +1,14 @@
+{
+  "title": "The Iterator Protocol",
+  "summary": "How for loops call iter() and next(), why the end of iteration is the StopIteration exception, and why a container must hand out a fresh iterator instead of being its own cursor. Build a re-iterable Paginator, a one-shot LineReader and helpers that tell them apart.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Iterator Types", "url": "https://docs.python.org/3/builtins/stdtypes.html#iterator-types" },
+    { "label": "Built-in functions: iter()", "url": "https://docs.python.org/3/builtins/functions.html#iter" },
+    { "label": "collections.abc.Iterator", "url": "https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterator" },
+    { "label": "PEP 234: Iterators", "url": "https://peps.python.org/pep-0234/" }
+  ]
+}

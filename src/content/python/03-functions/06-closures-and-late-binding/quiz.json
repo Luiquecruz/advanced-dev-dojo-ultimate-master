@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What does `[f() for f in [lambda: i * 10 for i in range(3)]]` return?",
+    "options": [
+      "`[0, 10, 20]`",
+      "`[0, 0, 0]`",
+      "A `NameError`",
+      "`[20, 20, 20]`"
+    ],
+    "answer": 3,
+    "explanation": "All three lambdas close over the same `i` of the comprehension scope and read it when called, when it is already `2`."
+  },
+  {
+    "question": "Which version gives each callback its own `i`?",
+    "options": [
+      "`[lambda i=i: i for i in range(3)]`",
+      "`[lambda: i for i in range(3)]`",
+      "`[(lambda: i)() for i in range(3)]` stored for later",
+      "Declaring `global i` first"
+    ],
+    "answer": 0,
+    "explanation": "A default argument is evaluated when the lambda is created, so each lambda stores the current value. (Calling each lambda immediately stores results, not callbacks.)"
+  },
+  {
+    "question": "Why does `once` keep a separate `called` flag instead of testing `if result is None`?",
+    "options": [
+      "`None` cannot be stored in a closure",
+      "A function that returns `None` would be called again on every call",
+      "`nonlocal` only works with booleans",
+      "`is None` is slower than a boolean"
+    ],
+    "answer": 1,
+    "explanation": "`None` is a valid result. Encoding \"not called yet\" as `None` confuses the two states."
+  },
+  {
+    "question": "Inside a nested function, `total += 1` raises `UnboundLocalError`. What fixes it?",
+    "options": [
+      "Use `total = total + 1` instead",
+      "Rename the variable",
+      "Declare `nonlocal total` in the inner function",
+      "Move the inner function to module level"
+    ],
+    "answer": 2,
+    "explanation": "Any assignment makes `total` local to the inner function. `nonlocal` tells Python to rebind the enclosing function's variable instead."
+  }
+]

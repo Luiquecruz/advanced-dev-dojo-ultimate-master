@@ -1,0 +1,46 @@
+[
+  {
+    "question": "You write `b = a` where `a` is a list. What does Python do?",
+    "options": [
+      "Copies the list so `b` is independent",
+      "Binds the name `b` to the same list object that `a` points to",
+      "Copies the list lazily the first time it changes",
+      "Raises an error because lists cannot be assigned"
+    ],
+    "answer": 1,
+    "explanation": "Assignment binds a name to an object. No copy is made, so changes through `b` are visible through `a`."
+  },
+  {
+    "question": "Why do some topics of this track (threads, `venv`, network sockets) appear as theory and quizzes instead of coding challenges?",
+    "options": [
+      "They are too advanced to test",
+      "Python cannot do them",
+      "Challenges run in a browser sandbox (Pyodide) that has no threads, sockets or real virtual environments",
+      "They are deprecated"
+    ],
+    "answer": 2,
+    "explanation": "Pyodide runs CPython in WebAssembly inside the browser. Features that need operating-system threads, sockets or an installable environment are explained instead of executed."
+  },
+  {
+    "question": "What does `len(items)` do for an object of your own class?",
+    "options": [
+      "It reads a `length` attribute",
+      "It calls the object's `__len__` method, so implementing `__len__` makes `len()` work",
+      "It iterates and counts the items",
+      "It is only defined for lists and strings"
+    ],
+    "answer": 1,
+    "explanation": "Built-in functions and syntax call special methods. `len(x)` calls `type(x).__len__(x)`. That is what protocols mean in Python."
+  },
+  {
+    "question": "What is the purpose of an ADR checkpoint at the end of a module?",
+    "options": [
+      "A timed exam of the module vocabulary",
+      "Recording a design decision for a briefing, with alternatives and consequences, checked for structure and coherence",
+      "A summary of the module written by the platform",
+      "A deployment step for your solutions"
+    ],
+    "answer": 1,
+    "explanation": "ADRs train decision-making: you choose among alternatives for concrete numbers and constraints, and the tests check that the choices are coherent with the briefing."
+  }
+]

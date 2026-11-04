@@ -1,0 +1,4 @@
+{
+  "title": "Context Managers and Exceptions",
+  "description": "Who releases the resource when something fails, and what an exception carries: the with protocol, @contextmanager, suppression in __exit__, ExitStack, exception hierarchies, chaining and notes, and exception groups with except*."
+}

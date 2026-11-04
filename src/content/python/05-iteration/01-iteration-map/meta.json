@@ -1,0 +1,11 @@
+{
+  "title": "Map: Iterators and Generators",
+  "summary": "A guide to iterables, iterators and generators: who holds the position, when an iterator is exhausted and why Python's built-in pipelines are lazy, plus the path through this module and the decision it ends with.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Glossary: iterator", "url": "https://docs.python.org/3/glossary.html#term-iterator" },
+    { "label": "Iterator Types", "url": "https://docs.python.org/3/builtins/stdtypes.html#iterator-types" },
+    { "label": "Functional Programming HOWTO: iterators and generators", "url": "https://docs.python.org/3/howto/functional.html" }
+  ]
+}

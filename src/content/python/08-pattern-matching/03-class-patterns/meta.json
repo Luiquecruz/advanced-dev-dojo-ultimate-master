@@ -1,0 +1,14 @@
+{
+  "title": "Class Patterns and __match_args__",
+  "summary": "Class patterns check isinstance and read attributes; positional sub-patterns need __match_args__, which dataclasses generate and plain classes declare. Dispatch shapes and UI events by type, and see why a bare case Square: captures instead of checking the type.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "The match statement: class patterns", "url": "https://docs.python.org/3/reference/compound_stmts.html#class-patterns" },
+    { "label": "Data model: object.__match_args__", "url": "https://docs.python.org/3/reference/datamodel.html#object.__match_args__" },
+    { "label": "dataclasses: the match_args parameter", "url": "https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass" },
+    { "label": "PEP 636: Structural Pattern Matching: Tutorial", "url": "https://peps.python.org/pep-0636/" }
+  ]
+}

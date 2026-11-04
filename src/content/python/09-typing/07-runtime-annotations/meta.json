@@ -1,0 +1,15 @@
+{
+  "title": "Runtime Annotations and Deferred Evaluation",
+  "summary": "Python 3.14 evaluates annotations lazily, so forward references need no quotes, and annotationlib reads them as values, forward references or source text. Build a JSON-Schema-like generator from dataclass annotations that resolves forward references and quoted strings, which field.type does not.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice", "new"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "annotationlib: Functionality for introspecting annotations", "url": "https://docs.python.org/3/library/annotationlib.html" },
+    { "label": "Annotations Best Practices", "url": "https://docs.python.org/3/howto/annotations.html" },
+    { "label": "PEP 649: Deferred Evaluation Of Annotations Using Descriptors", "url": "https://peps.python.org/pep-0649/" },
+    { "label": "PEP 749: Implementing PEP 649", "url": "https://peps.python.org/pep-0749/" },
+    { "label": "typing.get_type_hints", "url": "https://docs.python.org/3/library/typing.html#typing.get_type_hints" }
+  ]
+}

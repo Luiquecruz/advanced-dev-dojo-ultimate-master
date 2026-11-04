@@ -1,0 +1,14 @@
+{
+  "title": "The Event Loop Mental Model",
+  "summary": "Calling an async function runs nothing: a coroutine starts only when awaited or wrapped in a task. Record the order of events to see sequential awaits, concurrent tasks and a coroutine that never starts on its own.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Coroutines and Tasks", "url": "https://docs.python.org/3/library/asyncio-task.html" },
+    { "label": "Runners: asyncio.run", "url": "https://docs.python.org/3/library/asyncio-runner.html" },
+    { "label": "Developing with asyncio: never-awaited coroutines", "url": "https://docs.python.org/3/library/asyncio-dev.html#detect-never-awaited-coroutines" },
+    { "label": "PEP 492: Coroutines with async and await syntax", "url": "https://peps.python.org/pep-0492/" }
+  ]
+}

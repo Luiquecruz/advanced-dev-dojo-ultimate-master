@@ -1,0 +1,5 @@
+`function.__code__` is the Python version of parsing `fn.toString()`: a decorated function's code is the wrapper's `(*args, **kwargs)`, a partial or a callable object has no `__code__` at all, and `co_argcount` leaves out keyword-only parameters. `inspect.signature(function)` handles all of these, because it follows `__wrapped__`, partials and `__call__`.
+---
+Loop over `signature.parameters.values()` and branch on `parameter.kind`: skip `VAR_POSITIONAL` and `VAR_KEYWORD`, append `POSITIONAL_ONLY` values to a list, put the rest in a dict. `parameter.default is inspect.Parameter.empty` means the parameter is required. Pass `annotation_format=annotationlib.Format.FORWARDREF` so the signature never evaluates annotations.
+---
+`getattr(cls, name)` turns a classmethod into a bound method and a staticmethod into a plain function, so their kinds are lost. `inspect.getattr_static(cls, name)` returns the raw `classmethod`/`staticmethod` object for each name in `dir(cls)`. For `is_async`, start with `inspect.iscoroutinefunction`, refuse classes with `inspect.isclass`, then check `type(function).__call__`.

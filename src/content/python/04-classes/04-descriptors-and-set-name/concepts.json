@@ -1,0 +1,7 @@
+[
+  { "term": "Descriptor protocol", "description": "`__get__(instance, owner)`, `__set__(instance, value)` and `__delete__(instance)` on an object stored in a class." },
+  { "term": "Data descriptor", "description": "Defines `__set__` or `__delete__` and takes priority over the instance `__dict__`." },
+  { "term": "Non-data descriptor", "description": "Defines only `__get__`; an instance attribute with the same name shadows it. Functions and `cached_property` work this way." },
+  { "term": "`__set_name__`", "description": "Hook called when the class is created, giving a descriptor its owner class and attribute name (PEP 487)." },
+  { "term": "Per-instance storage", "description": "Keeping values in `instance.__dict__` (or a weak dictionary keyed by the instance) because one descriptor serves every instance." }
+]

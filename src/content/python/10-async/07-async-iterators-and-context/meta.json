@@ -1,0 +1,14 @@
+{
+  "title": "Async Iterators and Context Managers",
+  "summary": "async for and async with await inside loops and cleanup, but break does not close an async generator the way it does in JavaScript. Build a lazy paginator, close generators deterministically with aclosing, and write a connection that always closes.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Language Reference: Asynchronous generator functions", "url": "https://docs.python.org/3/reference/expressions.html#asynchronous-generator-functions" },
+    { "label": "contextlib.aclosing", "url": "https://docs.python.org/3/library/contextlib.html#contextlib.aclosing" },
+    { "label": "Language Reference: The async with statement", "url": "https://docs.python.org/3/reference/compound_stmts.html#the-async-with-statement" },
+    { "label": "PEP 525: Asynchronous Generators", "url": "https://peps.python.org/pep-0525/" }
+  ]
+}

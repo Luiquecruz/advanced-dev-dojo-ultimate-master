@@ -1,0 +1,26 @@
+[
+  {
+    "question": "What is `[] or 'default'`?",
+    "options": ["`[]`", "`'default'`", "`True`", "A TypeError"],
+    "answer": 1,
+    "explanation": "An empty list is falsy, so `or` returns its second operand."
+  },
+  {
+    "question": "What does `0 or None` return?",
+    "options": ["`0`", "`False`", "`None`", "An error"],
+    "answer": 2,
+    "explanation": "`or` returns the first truthy operand, or the last operand when none is truthy. Both are falsy, so the result is the last one: `None`."
+  },
+  {
+    "question": "Which expression is the Python equivalent of JavaScript's `value ?? 0`?",
+    "options": ["`value or 0`", "`0 if value is None else value`", "`value and 0`", "`value || 0`"],
+    "answer": 1,
+    "explanation": "`??` replaces only `null` and `undefined`. `value or 0` would also replace `0`, `''` and `[]`, so test `is None` explicitly."
+  },
+  {
+    "question": "A class defines neither `__bool__` nor `__len__`. What is `bool(instance)`?",
+    "options": ["False", "True", "None", "It raises TypeError"],
+    "answer": 1,
+    "explanation": "Without either method, every instance is truthy."
+  }
+]

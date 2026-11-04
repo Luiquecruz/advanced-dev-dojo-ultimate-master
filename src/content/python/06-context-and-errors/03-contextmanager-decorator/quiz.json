@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A `@contextmanager` generator does `lock.acquire(); yield; lock.release()` with no `try`. The `with` block raises. What happens to the lock?",
+    "options": [
+      "It is released, because `__exit__` always runs",
+      "It stays held: the exception is thrown in at `yield`, so `release()` never runs",
+      "The generator is restarted and releases it",
+      "A `RuntimeError` is raised instead"
+    ],
+    "answer": 1,
+    "explanation": "`__exit__` does run, but all it does is throw the exception into the generator at the `yield`. Only code in a `finally` (or `except`) block after that point executes."
+  },
+  {
+    "question": "The generator wraps its `yield` in `try: yield except Exception as error: log(error)` and nothing else. The block raises `KeyError`. What does the caller see?",
+    "options": [
+      "The `KeyError`, after it was logged",
+      "A `RuntimeError: generator didn't stop`",
+      "A `GeneratorExit`",
+      "Nothing: the generator caught the error and finished, so the exception is suppressed"
+    ],
+    "answer": 3,
+    "explanation": "When the thrown-in exception does not escape the generator, `@contextmanager` reports it as handled. Logging and re-raising needs a bare `raise` in the `except` clause."
+  },
+  {
+    "question": "A `@contextmanager` generator contains two `yield` statements on its success path. What happens at the end of a `with` block that succeeds?",
+    "options": [
+      "`RuntimeError: generator didn't stop`",
+      "The second value is ignored",
+      "The block runs twice",
+      "The second `yield` becomes the return value of `with`"
+    ],
+    "answer": 0,
+    "explanation": "On success, `__exit__` resumes the generator and expects it to finish. Reaching another `yield` means it did not stop, which `contextlib` reports as a `RuntimeError`."
+  },
+  {
+    "question": "`timed = section(log, \"job\")` is created once and used with `@timed` on a function that is called three times. How often do the enter and exit lines appear?",
+    "options": [
+      "Once, then the generator is exhausted",
+      "Never: decorators run only at definition time",
+      "Three times each: `ContextDecorator` builds a fresh generator for every call",
+      "A `RuntimeError` on the second call"
+    ],
+    "answer": 2,
+    "explanation": "Used as a decorator, a `@contextmanager` manager re-creates its generator on each call, so the one-shot limit applies only to reusing the same object in two `with` statements."
+  }
+]

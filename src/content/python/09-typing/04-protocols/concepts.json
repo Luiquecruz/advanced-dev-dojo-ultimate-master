@@ -1,0 +1,7 @@
+[
+  { "term": "`Protocol`", "description": "A class describing a shape (PEP 544); any class with those members matches it without inheriting." },
+  { "term": "Structural vs nominal", "description": "Structural types match by members, nominal types by inheritance. Python classes and ABCs are nominal; protocols are structural." },
+  { "term": "`@runtime_checkable`", "description": "Lets `isinstance` and `issubclass` test a protocol; it checks that the members exist, never their signatures or types." },
+  { "term": "`typing.get_protocol_members`", "description": "Returns the frozenset of member names a protocol requires (Python 3.13)." },
+  { "term": "`ABC`", "description": "A nominal base class whose abstract methods must be overridden before instantiation; good for shared implementation you own." }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A job holds one database connection plus one file per shard. Shards vary from 3 to 12 per run. How many resources are open at peak, and which mechanism fits?",
+    "options": [
+      "12, nested `with` statements",
+      "13, nested `with` statements",
+      "13, an `ExitStack`, because the count is only known at run time",
+      "4, one `try/finally` per resource"
+    ],
+    "answer": 2,
+    "explanation": "1 + 12 = 13 at the same time. A count that changes between runs cannot be written as a fixed nesting, so the resources are entered on an `ExitStack`."
+  },
+  {
+    "question": "Why is \"let the garbage collector close it\" rejected for a lock-holding connection in a long-lived worker?",
+    "options": [
+      "Python has no garbage collector for connections",
+      "Collection gives no timing or order guarantee, and any lingering reference (a cache, a traceback) keeps the lock held",
+      "`__del__` methods are forbidden",
+      "The garbage collector closes resources too early"
+    ],
+    "answer": 1,
+    "explanation": "Release must happen at a known point. `with` and `ExitStack` give that point; reference counting and the cycle collector do not, and `ExitStack` callbacks never run on collection."
+  },
+  {
+    "question": "Alerting groups incidents by exception message, and operators need the order ID of every failure. What is the coherent design?",
+    "options": [
+      "Put the order ID at the end of every message",
+      "Log the order ID separately and drop it from the exception",
+      "Use a different exception class per order",
+      "Keep the message fixed and attach the order ID with `add_note`"
+    ],
+    "answer": 3,
+    "explanation": "Notes travel with the exception and appear in every traceback, while the message stays identical for grouping."
+  },
+  {
+    "question": "A form has 9 validated fields and support wants every error in one response. Which plan values are coherent?",
+    "options": [
+      "`validation_errors = \"exception_group\"`, `max_errors_reported = 9`",
+      "`validation_errors = \"first_error\"`, `max_errors_reported = 9`",
+      "`validation_errors = \"exception_group\"`, `max_errors_reported = 1`",
+      "`validation_errors = \"first_error\"`, `max_errors_reported = 1`"
+    ],
+    "answer": 0,
+    "explanation": "Every field can fail in one request, so up to 9 errors must travel together. A first-error design can report only one."
+  }
+]

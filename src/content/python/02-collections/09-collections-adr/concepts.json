@@ -1,0 +1,7 @@
+[
+  { "term": "Composite key", "description": "A key made of several parts, such as `(tenant, event_id)`. A `tuple` keeps the parts and their positions and is hashable when the parts are." },
+  { "term": "Access pattern", "description": "How the data is read (by key, by position, in order, by membership). It decides the container before anything else." },
+  { "term": "Order-preserving de-duplication", "description": "`dict.fromkeys(items)` keeps the first arrival of each item; `set(items)` loses the order." },
+  { "term": "Coherence", "description": "The plan's decisions agree with each other and with the briefing: keyed lookups at volume rule out a list, arrival order rules out set de-duplication." },
+  { "term": "ADR", "description": "Architecture Decision Record: context, decision, alternatives considered and consequences." }
+]

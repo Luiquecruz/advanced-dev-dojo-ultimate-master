@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Two services expose 11 and 8 payload shapes; 4 shapes are exposed by both and must be defined once. How many payload types does the SDK define?",
+    "options": [
+      "19",
+      "11",
+      "15",
+      "23"
+    ],
+    "answer": 2,
+    "explanation": "11 + 8 = 19 counts each shared shape twice. Removing one copy of each of the 4 shared shapes gives 15; subtracting 8 would delete them entirely."
+  },
+  {
+    "question": "Plugin authors outside the company already subclass their own framework classes. Which interface lets the SDK accept their objects and still reject incomplete ones in `register()`?",
+    "options": [
+      "A `@runtime_checkable` `Protocol` checked with `isinstance`",
+      "An `ABC` with abstract methods",
+      "A concrete base class with default methods",
+      "A `TypedDict` describing the plugin"
+    ],
+    "answer": 0,
+    "explanation": "A protocol matches by shape, so no inheritance is needed, and `@runtime_checkable` lets `isinstance` reject objects missing a member. ABCs and base classes are nominal."
+  },
+  {
+    "question": "Payloads are typed as `TypedDict` and the plan sets `edge_validation` to `\"none\"` because \"the types already describe them\". What is wrong?",
+    "options": [
+      "Nothing: TypedDict validates on construction",
+      "TypedDict cannot type JSON",
+      "Only dataclasses can be validated",
+      "TypedDict checks nothing at runtime, so untrusted JSON would enter unchecked"
+    ],
+    "answer": 3,
+    "explanation": "TypedDict is a checker-only description. Untrusted data needs a runtime validator at the boundary, for example one driven by `__required_keys__` and `get_type_hints`."
+  },
+  {
+    "question": "A library must still support Python 3.11. Which generics spelling does its typing plan choose?",
+    "options": [
+      "PEP 695 brackets, because they are newer",
+      "`TypeVar` and `Generic`, because `def f[T]` is a syntax error before 3.12",
+      "No generics at all",
+      "PEP 695 with `from __future__ import annotations`"
+    ],
+    "answer": 1,
+    "explanation": "PEP 695 is new syntax, and no `__future__` import enables it on older versions. Libraries keep `TypeVar` until their minimum version is 3.12."
+  }
+]

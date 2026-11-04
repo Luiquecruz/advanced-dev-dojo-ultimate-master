@@ -1,0 +1,7 @@
+[
+  { "term": "Class pattern", "description": "`Cls(...)` in a `case`: checks `isinstance(subject, Cls)`, then matches attributes. It never constructs an object." },
+  { "term": "`__match_args__`", "description": "A class attribute tuple of attribute names that gives meaning to positional sub-patterns: position 1 reads the first name, and so on." },
+  { "term": "Keyword sub-pattern", "description": "`Cls(attr=pattern)`: reads `subject.attr` by name; works on any class, with or without `__match_args__`." },
+  { "term": "Generated `__match_args__`", "description": "`@dataclass` creates it from the non-keyword-only `__init__` parameters, in field order, unless the class defines its own." },
+  { "term": "Self-matching built-ins", "description": "`int(n)`, `str(s)`, `float(f)` and the other listed built-ins match their single positional sub-pattern against the whole subject." }
+]

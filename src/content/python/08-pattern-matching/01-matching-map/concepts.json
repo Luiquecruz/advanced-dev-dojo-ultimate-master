@@ -1,0 +1,7 @@
+[
+  { "term": "Structural pattern matching", "description": "The `match` statement: compares a subject with `case` patterns that check its shape and bind its parts." },
+  { "term": "Pattern", "description": "Not an expression: a description of a shape (literal, capture, wildcard, value, sequence, mapping or class) tried against the subject." },
+  { "term": "Capture pattern", "description": "A bare name in a pattern. It matches anything and binds it; it never compares with an existing variable." },
+  { "term": "Irrefutable case", "description": "A case that always matches (`case _:` or a bare capture without a guard). It must be the last case." },
+  { "term": "Soft keyword", "description": "`match` and `case` are keywords only in a match statement, so they stay valid names elsewhere." }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A `try` raises `ExceptionGroup(\"eg\", [ValueError(1), ValueError(2), KeyError(3)])` and has only `except* ValueError as group:`. What happens?",
+    "options": [
+      "The clause runs twice, once per `ValueError`, and the `KeyError` is dropped",
+      "The clause runs once with a group of both `ValueError`s; then `ExceptionGroup(\"eg\", [KeyError(3)])` propagates",
+      "Nothing matches because the group itself is not a `ValueError`",
+      "The whole group is handled"
+    ],
+    "answer": 1,
+    "explanation": "`except*` splits the group: the matching part goes to the clause once, as a group, and the unmatched remainder is re-raised with the same message."
+  },
+  {
+    "question": "What does `ExceptionGroup(\"validation failed\", [])` do?",
+    "options": [
+      "Creates a group that is falsy",
+      "Creates a group that is never raised",
+      "Returns `None`",
+      "Raises `ValueError`: the exceptions sequence must be non-empty"
+    ],
+    "answer": 3,
+    "explanation": "A group must carry at least one exception, so code that collects errors raises the group only when the list is not empty."
+  },
+  {
+    "question": "`group.subgroup(OSError)` is called on a group that contains no `OSError` anywhere. What is the result?",
+    "options": [
+      "`None`",
+      "An empty `ExceptionGroup`",
+      "The original group",
+      "`ValueError`"
+    ],
+    "answer": 0,
+    "explanation": "`subgroup` returns `None` when no member matches; when some do, it returns a new group with the same message and nesting."
+  },
+  {
+    "question": "A plain `raise ValueError(\"x\")` (not a group) meets `except* ValueError as group:`. What is `group`?",
+    "options": [
+      "The `ValueError` itself",
+      "Nothing: `except*` only matches groups",
+      "`ExceptionGroup('', (ValueError('x'),))`: a matching plain exception is wrapped in a group with an empty message",
+      "A `TypeError` is raised"
+    ],
+    "answer": 2,
+    "explanation": "The target of `except*` is always an exception group, so handlers can treat every case the same way."
+  }
+]

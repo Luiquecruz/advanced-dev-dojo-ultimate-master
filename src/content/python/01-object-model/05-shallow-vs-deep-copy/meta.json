@@ -1,0 +1,12 @@
+{
+  "title": "Shallow and Deep Copies",
+  "summary": "Which copy operations share inner objects and which do not, how deepcopy handles cycles, and how to clone configuration without leaking mutable defaults.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "copy: Shallow and deep copy operations", "url": "https://docs.python.org/3/library/copy.html" },
+    { "label": "MDN: structuredClone()", "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone" }
+  ]
+}

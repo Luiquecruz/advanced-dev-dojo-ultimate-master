@@ -1,0 +1,7 @@
+[
+  { "term": "`type(name, bases, namespace)`", "description": "The three-argument form of `type` creates a class; a class statement does the same after running its body." },
+  { "term": "Class namespace", "description": "The dict of attributes and functions that becomes the class `__dict__`; functions in it become methods." },
+  { "term": "`types.new_class`", "description": "Creates a class like a class statement would: resolves the metaclass, calls `__prepare__` and passes class keywords." },
+  { "term": "`namedtuple`", "description": "A factory for tuple subclasses with named fields: immutable, indexable, and equal to plain tuples with the same items." },
+  { "term": "`make_dataclass`", "description": "Builds a dataclass from a list of field names or `(name, type, field)` tuples at runtime." }
+]

@@ -1,0 +1,8 @@
+{
+  "engine": "python",
+  "order": 9,
+  "title": "Python",
+  "monogram": "PY",
+  "description": "Python for TypeScript and JavaScript developers: the object model, functions and closures, classes and descriptors, iterators, context managers, the standard library, pattern matching, type hints, asyncio, metaprogramming and modern tooling, with when-to-choose guidance for every feature.",
+  "version": "Python 3.14"
+}

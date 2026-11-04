@@ -1,0 +1,16 @@
+{
+  "title": "Map: Packaging, Testing and Capstone",
+  "summary": "A guide to the Python project lifecycle compared with npm: pyproject.toml, environments, lockfiles, Ruff and type checkers, tests, builds and publishing, plus the path through this module and the capstone it ends with.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Python Packaging User Guide: Writing your pyproject.toml", "url": "https://packaging.python.org/en/latest/guides/writing-pyproject-toml/" },
+    { "label": "Python Packaging User Guide: src layout vs flat layout", "url": "https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/" },
+    { "label": "uv: Project structure and files", "url": "https://docs.astral.sh/uv/concepts/projects/layout/" },
+    { "label": "Ruff documentation", "url": "https://docs.astral.sh/ruff/" },
+    { "label": "Ruff: the formatter", "url": "https://docs.astral.sh/ruff/formatter/" },
+    { "label": "pre-commit", "url": "https://pre-commit.com/" },
+    { "label": "ty on PyPI", "url": "https://pypi.org/project/ty/" },
+    { "label": "PEP 790: Python 3.15 Release Schedule", "url": "https://peps.python.org/pep-0790/" }
+  ]
+}

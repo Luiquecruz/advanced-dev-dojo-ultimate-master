@@ -1,0 +1,46 @@
+[
+  {
+    "question": "An API handler calls `int(request_text)` on a field that a client filled with 100,000 digits. What happens in Python 3.14?",
+    "options": [
+      "It converts the number; Python ints have no size limit",
+      "It raises `OverflowError`",
+      "It raises `ValueError`: decimal conversions above 4,300 digits are refused by default",
+      "It returns `float('inf')`"
+    ],
+    "answer": 2,
+    "explanation": "Base-10 conversion of huge ints takes more than linear time, so since 3.11 CPython limits `int(str)` and `str(int)` to 4,300 digits (CVE-2020-10735). `Decimal(text)` has no such limit, so check lengths yourself."
+  },
+  {
+    "question": "What is `(round(0.5), round(1.5), round(2.5))`?",
+    "options": [
+      "`(0, 2, 2)`",
+      "`(1, 2, 3)`",
+      "`(0, 1, 2)`",
+      "`(1, 1, 3)`"
+    ],
+    "answer": 0,
+    "explanation": "`round` sends exact ties to the even neighbor. JavaScript's `Math.round` rounds ties toward positive infinity instead. For money, pick the mode explicitly with `Decimal.quantize`."
+  },
+  {
+    "question": "What is `(-7 // 2, -7 % 2)`?",
+    "options": [
+      "`(-3, -1)`, as in JavaScript",
+      "`(-3, 1)`",
+      "`(-4, -1)`",
+      "`(-4, 1)`"
+    ],
+    "answer": 3,
+    "explanation": "`//` floors toward negative infinity, and `%` is defined so that `(a // b) * b + a % b == a`, which gives the remainder the sign of the divisor. JavaScript truncates toward zero."
+  },
+  {
+    "question": "Which expression is exactly `Decimal(\"0.1\")`?",
+    "options": [
+      "`Decimal(0.1)`",
+      "`Decimal(\"0.1\")`, while `Decimal(0.1)` is `0.1000000000000000055511151231257827021181583404541015625`",
+      "`Decimal(1 / 10)`",
+      "`Decimal(round(0.1, 1))`"
+    ],
+    "answer": 1,
+    "explanation": "`Decimal` converts a float exactly, binary error included. Only text (or ints) carries the decimal value you meant, which is why money is parsed from strings."
+  }
+]

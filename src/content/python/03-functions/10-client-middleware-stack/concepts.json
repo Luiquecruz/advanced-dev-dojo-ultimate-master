@@ -1,0 +1,7 @@
+[
+  { "term": "Cross-cutting behavior", "description": "Logic that applies to many calls but is not part of any one of them: caching, metrics, retries, authentication." },
+  { "term": "Stack order", "description": "The nesting of wrappers; the outermost runs first on each call and decides what the inner layers ever see." },
+  { "term": "Injected dependency", "description": "A store, sink, token source or clock passed into a factory instead of created at module level." },
+  { "term": "Wrapped chain", "description": "Each `functools.wraps` layer sets `__wrapped__`, so `inspect.unwrap` follows the stack back to the original function." },
+  { "term": "Single refresh", "description": "Refreshing an expired credential once per call and retrying once, so a broken token source cannot cause a refresh storm." }
+]

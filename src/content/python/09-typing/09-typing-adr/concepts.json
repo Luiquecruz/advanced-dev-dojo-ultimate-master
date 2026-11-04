@@ -1,0 +1,7 @@
+[
+  { "term": "Typing strategy", "description": "The set of decisions that make annotations useful in a package: interface style, data types, validation points, syntax baseline and the checker that enforces them." },
+  { "term": "Structural plugin interface", "description": "A `Protocol` that outside code satisfies by having the right members, without inheriting from the package." },
+  { "term": "Edge validation", "description": "One runtime check where untrusted data enters; everything behind it relies on the types." },
+  { "term": "Definition count", "description": "The number of types the package maintains, computed from the inventory with shared shapes counted once." },
+  { "term": "ADR", "description": "Architecture Decision Record: context, decision, alternatives considered and consequences." }
+]

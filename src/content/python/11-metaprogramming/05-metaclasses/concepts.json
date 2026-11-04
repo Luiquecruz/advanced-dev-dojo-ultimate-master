@@ -1,0 +1,7 @@
+[
+  { "term": "Metaclass", "description": "The type of a class. `type` is the default; a subclass of `type` customizes how classes are prepared, created, initialized and called." },
+  { "term": "`__prepare__`", "description": "Metaclass classmethod that returns the mapping the class body runs in, called before the body executes (PEP 3115)." },
+  { "term": "Metaclass `__new__` and `__init__`", "description": "Build and then initialize the class object from its name, bases and namespace when the class statement runs." },
+  { "term": "Metaclass `__call__`", "description": "Runs when the class is called; `type.__call__` creates the instance with `__new__` and then runs `__init__`." },
+  { "term": "Metaclass conflict", "description": "`TypeError` raised when no candidate metaclass is a subclass of the metaclasses of all bases; fixed by a metaclass that inherits from both." }
+]

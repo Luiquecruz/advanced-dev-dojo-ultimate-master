@@ -1,0 +1,7 @@
+[
+  { "term": "Identity", "description": "Which object a name points to. Compared with `is`; `id(obj)` is its CPython address-like number and should not be asserted." },
+  { "term": "Equality", "description": "Whether two objects have equivalent value. Compared with `==`, which calls `__eq__`." },
+  { "term": "Sentinel", "description": "A unique `object()` used as a marker value (for example 'no default given') so that `None` stays usable as real data." },
+  { "term": "`NotImplemented`", "description": "The value `__eq__` and operator methods return to say 'I do not know this type'; Python then tries the other operand or falls back." },
+  { "term": "Interning", "description": "CPython reuses some small integers and strings. It is an implementation detail: never compare numbers or strings with `is`." }
+]

@@ -1,0 +1,17 @@
+{
+  "title": "Testing with unittest and Mocks",
+  "summary": "Write a unittest suite with subTest tables, assertRaises and mock.patch on the name where it is looked up, run it programmatically, and prove it catches real bugs: it must fail against planted broken copies of the code.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "unittest: Unit testing framework", "url": "https://docs.python.org/3/library/unittest.html" },
+    { "label": "unittest.mock: mock object library", "url": "https://docs.python.org/3/library/unittest.mock.html" },
+    { "label": "unittest.mock: Where to patch", "url": "https://docs.python.org/3/library/unittest.mock.html#where-to-patch" },
+    { "label": "pytest: How to use fixtures", "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html" },
+    { "label": "pytest: How to parametrize tests", "url": "https://docs.pytest.org/en/stable/how-to/parametrize.html" },
+    { "label": "Vitest: vi.mock", "url": "https://vitest.dev/api/vi.html#vi-mock" },
+    { "label": "pip-audit on PyPI", "url": "https://pypi.org/project/pip-audit/" }
+  ]
+}

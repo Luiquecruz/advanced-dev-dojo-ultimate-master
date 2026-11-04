@@ -1,0 +1,31 @@
+[
+  {
+    "question": "After `a = [1]; b = a; b += [2]`, what is `a`?",
+    "options": ["[1]", "[1, 2]", "[2]", "It raises an error"],
+    "answer": 1,
+    "explanation": "`+=` on a list extends it in place. Both names point to the same list object, so `a` shows the change."
+  },
+  {
+    "question": "After `a = [1]; b = a; b = b + [2]`, what is `a`?",
+    "options": ["[1, 2]", "[2]", "[1]", "It is the same object as `b`"],
+    "answer": 2,
+    "explanation": "`b + [2]` builds a new list and rebinds the name `b`. The list that `a` points to is unchanged."
+  },
+  {
+    "question": "What does `grid = [[0] * 2] * 2; grid[0][0] = 1` leave in `grid`?",
+    "options": ["[[1, 0], [0, 0]]", "[[1, 0], [1, 0]]", "[[0, 0], [0, 0]]", "[[1, 1], [1, 1]]"],
+    "answer": 1,
+    "explanation": "The outer `* 2` repeats one inner list twice, so both rows are the same object and the assignment shows in both."
+  },
+  {
+    "question": "A function receives a list argument and does `items = sorted(items)`. What does the caller see?",
+    "options": [
+      "The caller's list is sorted in place",
+      "Nothing changes: `sorted` builds a new list and rebinds only the local name",
+      "A TypeError, because arguments cannot be rebound",
+      "The caller's list is emptied"
+    ],
+    "answer": 1,
+    "explanation": "Rebinding a parameter affects only the local name. To change the caller's list you must mutate it (`items.sort()`) or return the new list."
+  }
+]

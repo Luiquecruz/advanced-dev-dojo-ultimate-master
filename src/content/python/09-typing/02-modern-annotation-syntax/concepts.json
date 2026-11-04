@@ -1,0 +1,7 @@
+[
+  { "term": "Builtin generics", "description": "`list[str]`, `dict[str, int]`, `tuple[int, ...]`: subscripting the builtin classes (PEP 585, Python 3.9) instead of `typing.List` and friends." },
+  { "term": "Union with `|`", "description": "`int | None` (PEP 604, Python 3.10) replaces `Optional[int]` and `Union[int, None]`." },
+  { "term": "`typing.get_type_hints`", "description": "Returns the resolved annotations of a function, class or module: strings evaluated, `None` turned into `NoneType`, base classes merged." },
+  { "term": "Variadic annotation", "description": "`*args: T` and `**kwargs: T` annotate each element, not the tuple or dict that collects them." },
+  { "term": "`Self`", "description": "The type of the receiver (PEP 673, Python 3.11), used for methods that return `self` or take another instance of the same class." }
+]

@@ -1,0 +1,7 @@
+[
+  { "term": "`yield from`", "description": "Delegates to a sub-iterator: forwards its values, `send()` and `throw()`, and evaluates to its return value (PEP 380)." },
+  { "term": "`send(value)`", "description": "Resumes a generator and makes the paused `yield` evaluate to `value`; the generator must be primed with `next()` first." },
+  { "term": "`StopIteration.value`", "description": "Where a generator's `return value` ends up; `for` loops and `list()` discard it." },
+  { "term": "`close()`", "description": "Raises `GeneratorExit` at the paused `yield` so `finally` blocks run; it does nothing on a generator that never started." },
+  { "term": "Generator cleanup", "description": "A `try`/`finally` around the yields runs on exhaustion, on errors, on `close()` and when the generator is garbage collected." }
+]

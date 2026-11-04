@@ -1,0 +1,7 @@
+[
+  { "term": "Set operators", "description": "`|` union, `&` intersection, `-` difference, `^` symmetric difference, `<=` subset. Both sides must be sets." },
+  { "term": "Set methods", "description": "`union`, `intersection`, `difference`... accept any iterable, not only sets." },
+  { "term": "`frozenset`", "description": "An immutable, hashable set. Usable as a dict key or set member." },
+  { "term": "`dict.fromkeys`", "description": "Builds a dict from keys. `list(dict.fromkeys(items))` removes duplicates and keeps first-seen order." },
+  { "term": "Empty set", "description": "`set()`. The literal `{}` is an empty dict." }
+]

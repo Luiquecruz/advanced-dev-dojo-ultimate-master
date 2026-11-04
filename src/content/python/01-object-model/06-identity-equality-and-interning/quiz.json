@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Which check is the idiomatic test for an absent value?",
+    "options": [
+      "`x is None`",
+      "`x == None`",
+      "`not x`",
+      "`x == null`"
+    ],
+    "answer": 0,
+    "explanation": "`None` is a singleton, so `is None` is exact and cannot be affected by a custom `__eq__`. `not x` would also match `0`, `''` and `[]`."
+  },
+  {
+    "question": "What does `[] is []` evaluate to?",
+    "options": [
+      "True, empty lists are shared",
+      "False, each literal builds a new list",
+      "A TypeError",
+      "It depends on the interpreter flags"
+    ],
+    "answer": 1,
+    "explanation": "Every `[]` expression creates a new list object, so the two sides are different objects even though they are equal."
+  },
+  {
+    "question": "A teammate writes `if count is 1000:`. What is the right response?",
+    "options": [
+      "It is fine, `is` is faster",
+      "Use `===`",
+      "Use `==`: whether two equal integers are the same object is a CPython implementation detail",
+      "Convert `count` to a string first"
+    ],
+    "answer": 2,
+    "explanation": "Small integers may be cached and others not. Identity of numbers is not part of the language contract, and the compiler warns about `is` with a literal."
+  },
+  {
+    "question": "What happens to hashing if a class defines `__eq__` but not `__hash__`?",
+    "options": [
+      "Python generates a hash from all attributes",
+      "Nothing, the old hash keeps working",
+      "Hashing falls back to `id(obj)`",
+      "`__hash__` is set to None: instances become unhashable"
+    ],
+    "answer": 3,
+    "explanation": "Equal objects must hash equal. Since Python cannot guess the new rule, it removes hashing until you define `__hash__`."
+  },
+  {
+    "question": "What is `float('nan') == float('nan')`?",
+    "options": [
+      "False",
+      "True",
+      "None",
+      "It raises ValueError"
+    ],
+    "answer": 0,
+    "explanation": "NaN is not equal to anything, including itself. `x != x` is a classic NaN test, and `math.isnan` is clearer."
+  }
+]

@@ -258,13 +258,14 @@ Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
 - At least 30° of hue away from every other track accent, so tracks stay distinguishable (also for color-blind users; the monogram and title are the second cue).
 - `--accent-rgb` must be the same color as `--accent` written as `R G B`.
 
-Current accents and their hues, to pick the next one from a free region (no band 30° away from every accent is left; the next track needs this rule revisited, for example by allowing tracks that never share a screen to reuse a hue):
+Current accents and their hues. No band 30° away from every accent is left (Python took the last one, around 123°): the next track needs this rule revisited, for example by allowing tracks that never share a screen to reuse a hue.
 
 | Track | Accent | Hue |
 | --- | --- | --- |
 | architecture | `#ffb547` | 36° |
 | ai-engineering | `#f07ad9` | 312° |
 | node | `#9be15d` | 92° |
+| python | `#62e869` | 123° |
 | vue | `#6de6b2` | 154° |
 | typescript | `#4dd9ff` | 193° |
 | react | `#8c8cff` | 240° |

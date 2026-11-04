@@ -1,0 +1,22 @@
+{
+  "title": "Names Are Labels, Not Boxes",
+  "summary": "Assignment binds a name to an object and never copies. Learn which operations mutate and which rebind, and fix four aliasing bugs in a cart module.",
+  "level": "beginner",
+  "tags": [
+    "established",
+    "core",
+    "practice"
+  ],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    {
+      "label": "Python Data Model: Objects, values and types",
+      "url": "https://docs.python.org/3/reference/datamodel.html#objects-values-and-types"
+    },
+    {
+      "label": "Python FAQ: How do I write a function with output parameters?",
+      "url": "https://docs.python.org/3/faq/programming.html#how-do-i-write-a-function-with-output-parameters-call-by-reference"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  { "term": "LEGB", "description": "Name lookup order: Local, Enclosing, Global, Built-in." },
+  { "term": "`UnboundLocalError`", "description": "Raised when a function assigns to a name (making it local) and reads it before the assignment." },
+  { "term": "`nonlocal`", "description": "Declares that an assignment targets a variable of an enclosing function instead of creating a local." },
+  { "term": "`global`", "description": "Declares that an assignment targets a module-level name. Avoid it for mutable state." },
+  { "term": "Function scope", "description": "Python creates scopes for functions, classes, comprehensions and modules, not for `if`, `for` or `while` blocks." }
+]

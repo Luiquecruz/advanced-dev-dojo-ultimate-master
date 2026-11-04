@@ -1,0 +1,42 @@
+[
+  {
+    "question": "What does this code do?\n\n```py\ntotal = 0\n\ndef add(n):\n    total += n\n\nadd(1)\n```",
+    "options": [
+      "Sets `total` to 1",
+      "Raises UnboundLocalError",
+      "Raises NameError because `total` is undefined",
+      "Does nothing"
+    ],
+    "answer": 1,
+    "explanation": "The assignment `total += n` makes `total` local to `add` for the whole function, and it is read before it has a value."
+  },
+  {
+    "question": "After `[i for i in range(3)]`, what does `print(i)` do at module level (assuming `i` was not defined before)?",
+    "options": ["Prints 2", "Prints 3", "Raises NameError", "Prints None"],
+    "answer": 2,
+    "explanation": "A comprehension has its own scope in Python 3, so its variable does not leak."
+  },
+  {
+    "question": "What does this print?\n\n```py\nif True:\n    label = 'a'\nprint(label)\n```",
+    "options": ["Nothing, `label` is block scoped", "`a`", "NameError", "None"],
+    "answer": 1,
+    "explanation": "`if` does not create a scope. A name assigned inside it is visible in the rest of the function or module."
+  },
+  {
+    "question": "Which declaration lets an inner function rebind a variable of its enclosing function?",
+    "options": ["`global`", "`nonlocal`", "`static`", "None is needed; closures assign freely"],
+    "answer": 1,
+    "explanation": "`nonlocal name` makes assignments in the inner function target the enclosing variable. Without it the assignment creates a new local."
+  },
+  {
+    "question": "Why does `x` fail inside the method?\n\n```py\nclass Box:\n    x = 1\n    def get(self):\n        return x\n```",
+    "options": [
+      "Methods cannot read attributes",
+      "A class body is not an enclosing scope for its methods; use `self.x` or `Box.x`",
+      "`x` must be declared `global`",
+      "Python resolves `x` only at import time"
+    ],
+    "answer": 1,
+    "explanation": "Names defined in a class body are class attributes. Methods reach them through the instance or the class, not as bare names."
+  }
+]

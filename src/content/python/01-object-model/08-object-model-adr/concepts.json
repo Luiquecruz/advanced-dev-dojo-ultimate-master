@@ -1,0 +1,7 @@
+[
+  { "term": "Value object", "description": "An object defined by its values, not its identity: equal fields mean equal objects. Best kept immutable and hashable." },
+  { "term": "Copy on write", "description": "Instead of copying on every read, build a new object when the data changes and let readers keep sharing the old one safely." },
+  { "term": "Sentinel", "description": "A unique `object()` marking 'not provided' so that `None`, `0` and `\"\"` remain valid data. Compare it with `is`." },
+  { "term": "Coherence", "description": "The plan's decisions agree with each other and with the numbers in the briefing (hashable implies immutable, read volume rules out copying on read)." },
+  { "term": "ADR", "description": "Architecture Decision Record: context, decision, alternatives considered and consequences." }
+]

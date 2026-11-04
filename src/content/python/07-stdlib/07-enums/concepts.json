@@ -1,0 +1,8 @@
+[
+  { "term": "Enum member", "description": "A singleton created with the class, with a `name` and a `value`; compare members with `is`." },
+  { "term": "`_missing_`", "description": "Classmethod called when a value lookup fails; return a member to accept the value or `None` to raise `ValueError`." },
+  { "term": "`StrEnum`", "description": "Members are also strings (Python 3.11+); `auto()` uses the lowercase member name as the value." },
+  { "term": "`Flag`", "description": "Members are bits combined with `|`, `&`, `^`, `~`; `in` tests containment and iteration yields single-bit members." },
+  { "term": "Alias", "description": "A name bound to the value of an existing member or combination, such as `ADMIN`; iteration over the class skips it." },
+  { "term": "`IntEnum` pitfall", "description": "Members are ints, so they equal plain ints and members of other int enums with the same value." }
+]

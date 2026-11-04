@@ -1,0 +1,4 @@
+{
+  "title": "Classes, Attributes and Descriptors",
+  "description": "Where an attribute really lives and which hook runs when you read, write or create one: __new__ and __init__, properties, descriptors and __set_name__, slots, dataclasses, data model methods, and cooperative inheritance."
+}

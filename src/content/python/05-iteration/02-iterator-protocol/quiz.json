@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A container's `__iter__` returns `self`, and its `__next__` walks `self.items` (3 items) with an index stored on the container. How many pairs does `[(a, b) for a in box for b in box]` produce on a fresh box?",
+    "options": [
+      "9",
+      "0",
+      "2: `(first, second)` and `(first, third)`, then the outer loop finds the box exhausted",
+      "A `RuntimeError` for iterating the same object twice"
+    ],
+    "answer": 2,
+    "explanation": "Both loops call `iter(box)` and get the same object, so they share one index. The outer loop takes the first item, the inner loop drains the other two, and the outer loop's next `next()` raises `StopIteration`."
+  },
+  {
+    "question": "An iterator's `__next__` returns `None` when it has no item left instead of raising. What does `for item in it: print(item)` do after the last real item?",
+    "options": [
+      "It prints `None` forever: only `StopIteration` ends a `for` loop",
+      "It stops, because `None` means done",
+      "It raises a `TypeError`",
+      "It prints `None` once and stops"
+    ],
+    "answer": 0,
+    "explanation": "The loop treats every returned value as an item, `None` included. Only a raised `StopIteration` tells `for` to stop."
+  },
+  {
+    "question": "Which of these objects is not an iterator?",
+    "options": [
+      "`open(\"app.log\")`",
+      "`map(str, items)`",
+      "`enumerate(items)`",
+      "`range(10)`"
+    ],
+    "answer": 3,
+    "explanation": "`range` is a lazy sequence: it supports `len()` and indexing, and `iter(range(10))` returns a separate `range_iterator`. Files, `map` and `enumerate` objects return themselves from `iter()`."
+  },
+  {
+    "question": "An iterator has raised `StopIteration`. Later, code calls `next()` on it again. What should happen?",
+    "options": [
+      "It starts again from the first item",
+      "It raises `StopIteration` again",
+      "It returns `None`",
+      "Python forbids calling `next()` after `StopIteration`"
+    ],
+    "answer": 1,
+    "explanation": "Once exhausted, an iterator must keep raising `StopIteration`. The documentation calls iterators that start yielding again broken; restarting is the job of the iterable that creates a new iterator."
+  }
+]

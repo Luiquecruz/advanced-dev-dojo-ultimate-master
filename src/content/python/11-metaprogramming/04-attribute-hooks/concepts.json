@@ -1,0 +1,7 @@
+[
+  { "term": "`__getattr__`", "description": "Fallback called only when normal attribute lookup raises `AttributeError`; it must return a value or raise `AttributeError`." },
+  { "term": "`__getattribute__`", "description": "Called for every attribute read on the instance; it reaches its own state through `object.__getattribute__` to avoid infinite recursion." },
+  { "term": "`__setattr__` and `__delattr__`", "description": "Called for every assignment and deletion, including those in `__init__`; `object.__setattr__` performs the normal store." },
+  { "term": "`__dir__`", "description": "Returns the names `dir()` lists; proxies extend it with the target's names for introspection and autocompletion." },
+  { "term": "Special method lookup", "description": "Implicit calls such as `len(obj)` or `obj + 1` look the dunder up on the type and bypass both attribute hooks." }
+]

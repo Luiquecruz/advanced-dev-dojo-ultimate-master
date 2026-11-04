@@ -1,0 +1,14 @@
+{
+  "title": "Checkpoint: Payment Capture Resources and Errors ADR",
+  "summary": "Close the module with an ADR and a plan for a payment-capture workflow: how 6 to 9 resources per run are released, the peak resource count, how errors carry their type, cause and order ID, and how many validation errors one request reports.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "contextlib.ExitStack", "url": "https://docs.python.org/3/library/contextlib.html#contextlib.ExitStack" },
+    { "label": "Built-in exceptions: exception context", "url": "https://docs.python.org/3/library/exceptions.html#exception-context" },
+    { "label": "Built-in exceptions: Exception groups", "url": "https://docs.python.org/3/library/exceptions.html#exception-groups" }
+  ]
+}

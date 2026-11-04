@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What is `[key for key, _ in groupby(\"aabaa\")]`?",
+    "options": [
+      "`['a', 'b']`",
+      "`['a', 'b', 'a']`",
+      "`['a', 'a', 'b', 'a', 'a']`",
+      "`['b', 'a']`"
+    ],
+    "answer": 1,
+    "explanation": "`groupby` starts a new group whenever the key changes, so the `a`s after the `b` form a second `a` group. Sort first, or use a dict, to merge them."
+  },
+  {
+    "question": "What is `[list(group) for key, group in list(groupby(\"aabb\"))]`?",
+    "options": [
+      "`[[], []]`",
+      "`[['a', 'a'], ['b', 'b']]`",
+      "`[['a', 'a', 'b', 'b']]`",
+      "A `TypeError`"
+    ],
+    "answer": 0,
+    "explanation": "Each group shares the underlying iterator with `groupby`. `list(groupby(...))` advances past every group before any is read, so each one is already empty."
+  },
+  {
+    "question": "What does `list(batched(\"abcde\", 2, strict=True))` do?",
+    "options": [
+      "Returns `[('a', 'b'), ('c', 'd'), ('e',)]`",
+      "Returns `[('a', 'b'), ('c', 'd')]`, dropping the short batch",
+      "Raises `ValueError` for the incomplete last batch",
+      "Pads the last batch with `None`"
+    ],
+    "answer": 2,
+    "explanation": "Without `strict` the last batch may be shorter. With `strict=True` (Python 3.13+) a short last batch is an error: `ValueError: batched(): incomplete batch`."
+  },
+  {
+    "question": "`source = iter(range(4))`, then `first, second = tee(source)`, then `next(source)`. What is `list(first)`?",
+    "options": [
+      "`[0, 1, 2, 3]`",
+      "`[]`",
+      "A `RuntimeError` for using the original iterator",
+      "`[1, 2, 3]`"
+    ],
+    "answer": 3,
+    "explanation": "`tee` reads from `source` only when one of its iterators needs a new item. Advancing `source` directly consumes `0` behind `tee`'s back, so neither copy ever sees it."
+  }
+]

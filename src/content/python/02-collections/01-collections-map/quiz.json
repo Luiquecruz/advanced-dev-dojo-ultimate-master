@@ -1,0 +1,31 @@
+[
+  {
+    "question": "You need a collection of unique permission names with fast membership tests. Which type fits?",
+    "options": ["`list`", "`tuple`", "`set`", "`dict` with `None` values only"],
+    "answer": 2,
+    "explanation": "A `set` guarantees uniqueness and tests membership by hashing, in constant time on average."
+  },
+  {
+    "question": "Which two methods make a class support `len(x)`, `x[0]`, slicing and `for item in x`?",
+    "options": ["`__iter__` and `__next__`", "`__len__` and `__getitem__`", "`__init__` and `__repr__`", "`__add__` and `__eq__`"],
+    "answer": 1,
+    "explanation": "`__len__` provides `len`. `__getitem__` provides indexing and slicing, and Python falls back to it for iteration."
+  },
+  {
+    "question": "Why is a `tuple` usable as a dict key but a `list` is not?",
+    "options": [
+      "Tuples are faster",
+      "Tuples are immutable, so their hash stays stable (when their items are hashable)",
+      "Lists have no `__eq__`",
+      "Dict keys must be sequences of numbers"
+    ],
+    "answer": 1,
+    "explanation": "A key must keep the same hash while stored. Lists can change, so Python refuses to hash them."
+  },
+  {
+    "question": "What does a `dict` guarantee about order in modern Python?",
+    "options": ["Keys are sorted", "Keys keep insertion order", "No order, like a set", "Order of last access"],
+    "answer": 1,
+    "explanation": "Insertion order is part of the language since Python 3.7."
+  }
+]

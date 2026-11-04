@@ -1,0 +1,12 @@
+{
+  "title": "Set Algebra",
+  "summary": "Use sets for uniqueness and fast membership, combine them with |, &, - and ^, freeze them when they must be keys, and de-duplicate while keeping order.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: Sets", "url": "https://docs.python.org/3/tutorial/datastructures.html#sets" },
+    { "label": "Python Library: Set Types", "url": "https://docs.python.org/3/library/stdtypes.html#set-types-set-frozenset" }
+  ]
+}

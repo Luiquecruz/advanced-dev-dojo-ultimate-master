@@ -1,0 +1,8 @@
+[
+  { "term": "`JSONEncoder.default`", "description": "The hook `json.dumps` calls for objects it cannot encode; return an encodable value or call `super().default(o)` to raise `TypeError`." },
+  { "term": "`parse_float`", "description": "A `json.loads` hook called with the original text of every number that has a fraction or exponent; `Decimal` keeps every digit." },
+  { "term": "`parse_constant`", "description": "Called with `NaN`, `Infinity` or `-Infinity`, which Python accepts by default although they are not valid JSON." },
+  { "term": "Stable serialization", "description": "`sort_keys=True` plus compact `separators` so equal values always produce identical text." },
+  { "term": "Lossy round trip", "description": "Tuples come back as lists and non-string keys as strings: `loads(dumps(x)) != x`." },
+  { "term": "Unpickling", "description": "Loading a pickle can call any importable function chosen by whoever wrote the bytes; never unpickle untrusted data." }
+]

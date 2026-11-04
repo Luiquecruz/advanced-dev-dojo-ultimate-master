@@ -1,0 +1,13 @@
+{
+  "title": "ExitStack",
+  "summary": "ExitStack holds a number of context managers known only at run time and unwinds them last-in, first-out, even when a close fails. Write open_all and a ResourcePool that keeps its resources open with pop_all() until close().",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "contextlib.ExitStack", "url": "https://docs.python.org/3/library/contextlib.html#contextlib.ExitStack" },
+    { "label": "contextlib: Examples and Recipes", "url": "https://docs.python.org/3/library/contextlib.html#examples-and-recipes" },
+    { "label": "MDN: DisposableStack", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DisposableStack" }
+  ]
+}

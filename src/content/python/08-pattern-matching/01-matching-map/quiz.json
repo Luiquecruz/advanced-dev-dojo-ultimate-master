@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A module defines `QUIT = \"quit\"`, then a function with `match command:`, `case QUIT:` and `case _:`. What happens?",
+    "options": [
+      "`case QUIT` runs only when `command == \"quit\"`",
+      "The module fails to compile: `QUIT` is a capture that makes the remaining cases unreachable",
+      "`case QUIT` runs for every command and rebinds the module constant",
+      "`case _` always runs, because constants cannot appear in patterns"
+    ],
+    "answer": 1,
+    "explanation": "A bare name is an irrefutable capture pattern. Python rejects any case after an irrefutable one with a `SyntaxError` (\"name capture 'QUIT' makes remaining patterns unreachable\")."
+  },
+  {
+    "question": "`STAGING = \"staging\"`. What does this print?\n\n```py\nmatch (\"deploy\", \"prod\"):\n    case (\"deploy\", STAGING):\n        print(\"deploying to\", STAGING)\n    case _:\n        print(\"no match\")\n```",
+    "options": [
+      "`no match`",
+      "`deploying to staging`",
+      "A `SyntaxError`",
+      "`deploying to prod`"
+    ],
+    "answer": 3,
+    "explanation": "Inside a sequence pattern the case is not irrefutable, so it compiles, and `STAGING` captures the second item, `\"prod\"`. A value pattern needs a dot (`Env.STAGING`)."
+  },
+  {
+    "question": "Which case runs for `{\"type\": \"click\", \"pos\": (1, 2), \"button\": \"left\"}`?\n\n```py\nmatch event:\n    case {\"type\": \"click\", \"pos\": (x, y)}: ...\n    case {\"type\": \"click\", \"pos\": (x, y), \"button\": \"right\"}: ...\n    case _: ...\n```",
+    "options": [
+      "The first: mapping patterns ignore keys they do not name",
+      "The second, because it names more keys",
+      "`case _`, because the subject has a key the first pattern does not list",
+      "Both of the first two"
+    ],
+    "answer": 0,
+    "explanation": "A mapping pattern only requires the keys it lists, and the first matching case wins. More specific cases must come first."
+  },
+  {
+    "question": "`class Command(StrEnum): QUIT = \"quit\"`. Which case compares the subject with the constant instead of capturing it?",
+    "options": [
+      "`case QUIT:` after `from commands import QUIT`",
+      "`case (QUIT):`",
+      "`case Command.QUIT:`",
+      "`case [QUIT]:`"
+    ],
+    "answer": 2,
+    "explanation": "Only a dotted name is a value pattern, looked up and compared with `==`. Parentheses only group, and `[QUIT]` is a one-item sequence pattern whose item is still a capture."
+  }
+]

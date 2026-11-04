@@ -1,0 +1,7 @@
+[
+  { "term": "`deque`", "description": "A double-ended queue with constant-time appends and pops at both ends and an optional `maxlen`." },
+  { "term": "`Counter`", "description": "A dict subclass for counting. Missing keys read as 0; supports `most_common`, `update` and arithmetic." },
+  { "term": "`defaultdict`", "description": "A dict that creates a value with a factory when a missing key is read, and stores it." },
+  { "term": "`ChainMap`", "description": "A view over several mappings searched in order. Writes go to the first mapping." },
+  { "term": "Bounded buffer", "description": "`deque(maxlen=n)` drops the oldest item when a new one arrives past the limit." }
+]

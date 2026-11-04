@@ -1,0 +1,26 @@
+[
+  {
+    "question": "A class defines only `__len__` and `__getitem__`. Which of these works?",
+    "options": ["`len(x)` only", "`len(x)`, `x[0]` and `for item in x`", "`x.append(1)`", "`sorted(x)` is the only extra"],
+    "answer": 1,
+    "explanation": "`__getitem__` also gives iteration (by trying 0, 1, 2... until IndexError), `in` and `reversed`."
+  },
+  {
+    "question": "What does `__getitem__` receive for `x[1:3]`?",
+    "options": ["A tuple `(1, 3)`", "A `slice(1, 3, None)` object", "Two separate arguments", "A list `[1, 2]`"],
+    "answer": 1,
+    "explanation": "Slice syntax builds a `slice` object and passes it to `__getitem__`. Passing it to an inner list reuses its semantics."
+  },
+  {
+    "question": "How does the fallback iteration know when to stop?",
+    "options": ["`__len__`", "`StopIteration` from `__next__`", "`__getitem__` raises `IndexError`", "A `None` return value"],
+    "answer": 2,
+    "explanation": "The fallback calls `__getitem__(0)`, `__getitem__(1)`... and stops at the first `IndexError`."
+  },
+  {
+    "question": "What extra do you get from inheriting `collections.abc.Sequence`?",
+    "options": ["Automatic sorting", "`index`, `count`, `__contains__`, `__iter__` and `__reversed__` as mixins", "Thread safety", "Mutability"],
+    "answer": 1,
+    "explanation": "The ABC supplies those methods built on `__len__` and `__getitem__`."
+  }
+]

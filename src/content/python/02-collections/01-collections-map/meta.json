@@ -1,0 +1,11 @@
+{
+  "title": "Map: Collections and Data Protocols",
+  "summary": "A guide to Python containers and the protocols behind them: which type to choose, how sequences and mappings are defined by special methods, and what this module covers.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Python Tutorial: Data Structures", "url": "https://docs.python.org/3/tutorial/datastructures.html" },
+    { "label": "collections.abc: Abstract Base Classes for Containers", "url": "https://docs.python.org/3/library/collections.abc.html" },
+    { "label": "Python Data Model: Emulating container types", "url": "https://docs.python.org/3/reference/datamodel.html#emulating-container-types" }
+  ]
+}
