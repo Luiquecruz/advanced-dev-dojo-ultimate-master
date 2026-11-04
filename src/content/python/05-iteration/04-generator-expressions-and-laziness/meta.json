@@ -1,0 +1,14 @@
+{
+  "title": "Generator Expressions and Laziness",
+  "summary": "Parentheses instead of brackets turn a comprehension into a lazy, one-shot generator that any, all, next and sum consume one item at a time. Port filter(...)[0] and map(...).some(...) habits to helpers that stop at the first match and never build throwaway lists.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Generator expressions", "url": "https://docs.python.org/3/reference/expressions.html#generator-expressions" },
+    { "label": "Built-in functions: next()", "url": "https://docs.python.org/3/builtins/functions.html#next" },
+    { "label": "Built-in functions: any()", "url": "https://docs.python.org/3/builtins/functions.html#any" },
+    { "label": "PEP 289: Generator Expressions", "url": "https://peps.python.org/pep-0289/" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "yield from, send and close",
+  "summary": "Generators talk both ways: send() feeds values in, return hands a summary out through StopIteration.value, yield from delegates all of it, and close() runs the finally block. Build a string-safe flatten, a primed running average, a collector for return values and a stream that always cleans up.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Generator-iterator methods", "url": "https://docs.python.org/3/builtins/stdtypes.html#generator-methods" },
+    { "label": "PEP 380: Syntax for Delegating to a Subgenerator", "url": "https://peps.python.org/pep-0380/" },
+    { "label": "PEP 342: Coroutines via Enhanced Generators", "url": "https://peps.python.org/pep-0342/" },
+    { "label": "StopIteration.value", "url": "https://docs.python.org/3/builtins/exceptions.html#StopIteration" }
+  ]
+}

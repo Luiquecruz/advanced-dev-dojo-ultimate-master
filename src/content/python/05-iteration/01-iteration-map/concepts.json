@@ -1,0 +1,7 @@
+[
+  { "term": "Iterable", "description": "An object `iter()` accepts; a container returns a new iterator on every call, so it can be looped again." },
+  { "term": "Iterator", "description": "An object with `__next__` and an `__iter__` that returns itself; it remembers a position and supports one pass." },
+  { "term": "`StopIteration`", "description": "The exception `__next__` raises when an iterator is exhausted; `for` loops and `list()` catch it as the end." },
+  { "term": "Generator", "description": "The iterator returned by calling a function that contains `yield`; its frame pauses at each `yield`." },
+  { "term": "Laziness", "description": "Producing each item only when the consumer asks for it, so unused items are never computed or read." }
+]

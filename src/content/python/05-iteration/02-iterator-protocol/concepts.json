@@ -1,0 +1,7 @@
+[
+  { "term": "Iterator protocol", "description": "`__next__` returns the next item or raises `StopIteration`, and `__iter__` returns the iterator itself." },
+  { "term": "Iterable", "description": "An object whose `__iter__` returns an iterator; a container returns a new one on every call." },
+  { "term": "`StopIteration`", "description": "The signal for \"no more items\"; once raised, an iterator must raise it on every later call." },
+  { "term": "`next(iterator, default)`", "description": "Returns the next item, or `default` instead of raising when the iterator is exhausted." },
+  { "term": "One-shot iterator", "description": "An object for which `iter(obj) is obj`: files, generators, `map` and `zip` objects. It supports a single pass." }
+]

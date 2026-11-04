@@ -1,0 +1,7 @@
+[
+  { "term": "`itertools.batched`", "description": "Yields tuples of `n` items and a shorter last tuple, reading only enough input to fill each batch (Python 3.12)." },
+  { "term": "`itertools.groupby`", "description": "Starts a new group each time the key changes, so unsorted input gives runs rather than totals per key." },
+  { "term": "`itertools.accumulate`", "description": "Yields running results of a binary function, addition by default; `initial` adds a leading value." },
+  { "term": "`itertools.pairwise`", "description": "Yields overlapping pairs of adjacent items from any iterable (Python 3.10)." },
+  { "term": "`itertools.tee`", "description": "Splits one iterator into independent ones by buffering items, at a memory cost when consumers drift apart." }
+]

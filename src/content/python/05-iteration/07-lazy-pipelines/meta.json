@@ -1,0 +1,14 @@
+{
+  "title": "Lazy Pipelines",
+  "summary": "The module's closing challenge: compose parse, filter and chunk stages as generators so a consumer that stops after one chunk reads only what that chunk needed, errors name the bad line, and the source is closed however the pipeline ends. Ends with when to stay lazy and where to materialize.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Functional Programming HOWTO: generators", "url": "https://docs.python.org/3/howto/functional.html#generators" },
+    { "label": "generator.close()", "url": "https://docs.python.org/3/builtins/stdtypes.html#generator.close" },
+    { "label": "contextlib.closing", "url": "https://docs.python.org/3/library/contextlib.html#contextlib.closing" },
+    { "label": "itertools.batched", "url": "https://docs.python.org/3/library/itertools.html#itertools.batched" }
+  ]
+}

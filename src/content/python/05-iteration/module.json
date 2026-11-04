@@ -1,0 +1,4 @@
+{
+  "title": "Iterators and Generators",
+  "description": "When work happens, who owns the iteration state and when a pipeline should be lazy: the iterator protocol, generators, generator expressions, yield from and send, itertools, and lazy pipelines that release their resources."
+}

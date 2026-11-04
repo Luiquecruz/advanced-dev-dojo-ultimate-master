@@ -310,7 +310,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-classes-map **(quiz)** ✓ · 02-new-and-init ✓ · 03-properties ✓ · 04-descriptors-and-set-name ✓ · 05-slots ✓ · 06-dataclasses ✓ · 07-data-model-methods ✓ · 08-inheritance-and-mro ✓ · 09-classes-adr ✓
 
 ### 05-iteration — Iterators and Generators
-01-iteration-map **(quiz)** · 02-iterator-protocol · 03-generators · 04-generator-expressions-and-laziness · 05-yield-from-and-send · 06-itertools · 07-lazy-pipelines
+01-iteration-map **(quiz)** ✓ · 02-iterator-protocol ✓ · 03-generators ✓ · 04-generator-expressions-and-laziness ✓ · 05-yield-from-and-send ✓ · 06-itertools ✓ · 07-lazy-pipelines ✓
 
 ### 06-context-and-errors — Context Managers and Exceptions
 01-context-errors-map **(quiz)** · 02-with-protocol · 03-contextmanager-decorator · 04-suppressing-and-handling-in-exit · 05-exitstack · 06-exception-hierarchies · 07-chaining-and-notes · 08-exception-groups · 09-context-errors-adr

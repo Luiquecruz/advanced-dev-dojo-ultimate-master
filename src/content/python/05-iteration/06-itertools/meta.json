@@ -1,0 +1,14 @@
+{
+  "title": "itertools",
+  "summary": "Lazy building blocks for the loop shapes you keep rewriting: batched for chunks, groupby for runs (not SQL-style groups), accumulate for running totals and pairwise for neighbors, all working on any iterable. Rebuild a log tool ported from array slicing and Object.groupBy.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "itertools: Functions creating iterators for efficient looping", "url": "https://docs.python.org/3/library/itertools.html" },
+    { "label": "itertools.groupby", "url": "https://docs.python.org/3/library/itertools.html#itertools.groupby" },
+    { "label": "itertools.batched", "url": "https://docs.python.org/3/library/itertools.html#itertools.batched" },
+    { "label": "Functional Programming HOWTO: the itertools module", "url": "https://docs.python.org/3/howto/functional.html#the-itertools-module" }
+  ]
+}
