@@ -16,7 +16,7 @@ json.loads("0.1", parse_float=Decimal)                      # Decimal('0.1')
 
 ## Coming from TypeScript and JavaScript
 
-`JSON.stringify` never refuses a value: a `Date` becomes ISO text through `toJSON`, `undefined` and functions disappear, and `NaN` turns into `null`. `JSON.parse` turns every number into a double. Two habits follow, and both lose data in Python:
+`JSON.stringify` almost never refuses a value (only `BigInt` and circular structures throw): a `Date` becomes ISO text through `toJSON`, `undefined` and functions disappear, and `NaN` turns into `null`. `JSON.parse` turns every number into a double. Two habits follow, and both lose data in Python:
 
 ```ts
 JSON.stringify({ at: new Date(), skip: undefined });   // '{"at":"2026-11-04T12:30:00.000Z"}'

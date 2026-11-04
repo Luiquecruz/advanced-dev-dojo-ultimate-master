@@ -39,16 +39,23 @@ def _():
     assert message == "retry [2/5] for card"
 
 
-@test("parse_log_line and mask_emails stay fast on long text without structure")
+@test("parse_log_line and mask_emails stay fast on long hostile text")
 def _():
-    noise = "a" * 20_000
+    # A linear pattern needs a few hundredths of a second here. The generous bound only catches
+    # quadratic patterns (several seconds at this size); exponential ones never finish and are
+    # stopped by the per-test time limit.
+    noise = "a" * 50_000
     started = time.perf_counter()
-    parsed = mod.parse_log_line(noise + "!")
+    unstructured = mod.parse_log_line(noise + "!")
+    unterminated = mod.parse_log_line("2026-11-04T10:15:00Z ERROR [api] " + noise + "\n")
+    unclosed = mod.parse_log_line("2026-11-04T10:15:00Z ERROR [" + noise)
     masked = mod.mask_emails(noise)
     elapsed = time.perf_counter() - started
-    assert parsed is None
+    assert unstructured is None
+    assert unterminated is None
+    assert unclosed is None
     assert masked == noise
-    assert elapsed < 1.0
+    assert elapsed < 2.0
 
 
 @test("mask_emails keeps the first character and the domain of every address")
