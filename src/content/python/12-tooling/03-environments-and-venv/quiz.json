@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`/srv/api/.venv` has `fastapi` installed. Without activating anything, a cron job runs `cd /srv/api && python server.py`, and `server.py` imports `fastapi`. What happens?",
+    "options": [
+      "It works: Python finds `.venv` in the working directory like `node_modules`",
+      "`ModuleNotFoundError`, unless the first `python` on `PATH` is the environment's",
+      "It works only if `server.py` sits next to `.venv`",
+      "Python asks which environment to use"
+    ],
+    "answer": 1,
+    "explanation": "The shell runs the first `python` on `PATH`; its `sys.path` comes from its own prefix, not from the folder. Use `.venv/bin/python server.py` or `uv run server.py`."
+  },
+  {
+    "question": "A library must report whether it runs inside a virtual environment, including when the environment's `python` is called by its full path. Which check is reliable?",
+    "options": [
+      "`'VIRTUAL_ENV' in os.environ`",
+      "`'.venv' in sys.executable`",
+      "`sys.prefix != sys.base_prefix`",
+      "`os.path.exists('pyvenv.cfg')`"
+    ],
+    "answer": 2,
+    "explanation": "`VIRTUAL_ENV` is set only by activation, folder names are arbitrary and the working directory is unrelated. The interpreter sets `sys.prefix` to the environment when it finds `pyvenv.cfg` next to or above its executable."
+  },
+  {
+    "question": "`PATH` is `/home/dev/.local/bin:/srv/api/.venv/bin:/usr/bin`, and all three directories contain `pytest`. Which one does `pytest` run?",
+    "options": [
+      "`/srv/api/.venv/bin/pytest`, because an environment is on `PATH`",
+      "`/usr/bin/pytest`, the system one",
+      "The newest of the three",
+      "`/home/dev/.local/bin/pytest`, the first directory that holds it"
+    ],
+    "answer": 3,
+    "explanation": "The shell searches `PATH` left to right and stops at the first match; later directories are shadowed. Activation works only because it puts `bin/` first."
+  },
+  {
+    "question": "A `pyvenv.cfg` contains `include-system-site-packages = False`. Which packages can the environment's interpreter import?",
+    "options": [
+      "Only the standard library and the environment's own site-packages",
+      "Also the base installation's site-packages, because `False` is not `false`",
+      "Also the user site directory",
+      "Nothing until the environment is activated"
+    ],
+    "answer": 0,
+    "explanation": "`site` lowercases the value and adds the base site-packages only for `true`. Any other value excludes them and disables the user site directory as well."
+  }
+]

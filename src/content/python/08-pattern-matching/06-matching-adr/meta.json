@@ -1,0 +1,15 @@
+{
+  "title": "Checkpoint: Message Dispatch ADR",
+  "summary": "Close the pattern matching module with an ADR and a plan for a growing message gateway: how many types it will route, what a linear match costs at that size, which of match, a dict registry, singledispatch or polymorphism fits the payloads and the teams, and where match still belongs.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "The match statement", "url": "https://docs.python.org/3/reference/compound_stmts.html#the-match-statement" },
+    { "label": "functools.singledispatch", "url": "https://docs.python.org/3/library/functools.html#functools.singledispatch" },
+    { "label": "PEP 634: Structural Pattern Matching: Specification", "url": "https://peps.python.org/pep-0634/" },
+    { "label": "PEP 443: Single-dispatch generic functions", "url": "https://peps.python.org/pep-0443/" }
+  ]
+}

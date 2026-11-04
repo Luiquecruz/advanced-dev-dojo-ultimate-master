@@ -319,7 +319,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-stdlib-map **(quiz)** ✓ · 02-json-and-serialization ✓ · 03-regular-expressions ✓ · 04-pathlib-and-io ✓ · 05-numbers-decimal-and-fractions ✓ · 06-dates-and-times ✓ · 07-enums ✓ · 08-logging ✓ · 09-argparse-and-cli · 10-stdlib-adr
 
 ### 08-pattern-matching — Pattern Matching and Control Flow
-01-matching-map **(quiz)** ✓ · 02-sequence-and-mapping-patterns ✓ · 03-class-patterns ✓ · 04-guards-or-and-capture ✓ · 05-walrus-and-loop-else ✓ · 06-matching-adr
+01-matching-map **(quiz)** ✓ · 02-sequence-and-mapping-patterns ✓ · 03-class-patterns ✓ · 04-guards-or-and-capture ✓ · 05-walrus-and-loop-else ✓ · 06-matching-adr ✓
 
 ### 09-typing — Type Hints and Static Typing
 01-typing-map **(quiz)** ✓ · 02-modern-annotation-syntax ✓ · 03-generics-pep-695 ✓ · 04-protocols ✓ · 05-typeddict-and-literals ✓ · 06-overloads-and-narrowing ✓ · 07-runtime-annotations ✓ · 08-typing-evolution-and-checkers **(quiz)** ✓ · 09-typing-adr ✓
@@ -331,4 +331,4 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-metaprogramming-map **(quiz)** ✓ · 02-init-subclass-registries ✓ · 03-dynamic-classes ✓ · 04-attribute-hooks ✓ · 05-metaclasses ✓ · 06-inspect-and-signatures ✓ · 07-import-system-internals ✓ · 08-frames-and-tracebacks · 09-bytecode-and-the-interpreter **(quiz)** · 10-metaprogramming-adr
 
 ### 12-tooling — Packaging, Testing and Capstone
-01-tooling-map **(quiz)** ✓ · 02-packaging-and-environments **(quiz)** ✓ · 03-environments-and-venv · 04-testing-with-unittest ✓ · 05-capstone-async-rules-engine ✓
+01-tooling-map **(quiz)** ✓ · 02-packaging-and-environments **(quiz)** ✓ · 03-environments-and-venv ✓ · 04-testing-with-unittest ✓ · 05-capstone-async-rules-engine ✓
