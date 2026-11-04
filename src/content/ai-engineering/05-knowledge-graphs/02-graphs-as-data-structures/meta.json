@@ -3,8 +3,8 @@
   "summary": "Model knowledge as a property graph with typed directed edges, index adjacency, traverse breadth first with depth limits, reconstruct shortest paths and answer a multi-hop dependency question.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Neo4j: What is a graph database", "url": "https://neo4j.com/docs/getting-started/graph-database/" },
     { "label": "Neo4j: Graph data modeling", "url": "https://neo4j.com/docs/getting-started/data-modeling/" },

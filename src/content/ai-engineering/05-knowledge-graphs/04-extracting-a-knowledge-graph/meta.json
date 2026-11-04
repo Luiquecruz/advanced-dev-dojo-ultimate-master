@@ -3,8 +3,8 @@
   "summary": "Extract entities and relations with a model as JSON guided by the ontology, re-ask on broken output, validate item by item with a rejected log, resolve duplicate entities and merge with provenance.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Microsoft GraphRAG: indexing dataflow (extraction and merging)", "url": "https://microsoft.github.io/graphrag/index/default_dataflow/" },
     { "label": "LangChain: How to construct knowledge graphs", "url": "https://python.langchain.com/docs/how_to/graph_constructing/" },

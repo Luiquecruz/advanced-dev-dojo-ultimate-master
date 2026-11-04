@@ -3,8 +3,8 @@
   "summary": "Define classes with inheritance and properties with domain, range and cardinality, validate the ontology itself, and report every violation in a graph with a clear message, closed-world.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Noy and McGuinness: Ontology Development 101 (Stanford)", "url": "https://protege.stanford.edu/publications/ontology_development/ontology101.pdf" },
     { "label": "W3C: OWL 2 Web Ontology Language Primer", "url": "https://www.w3.org/TR/owl2-primer/" },

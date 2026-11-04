@@ -1,0 +1,7 @@
+Start with the pure parts. `normalize_name` is a chain: `unicodedata.normalize("NFD", name)`, `re.sub("[̀-ͯ]", "", ...)`, `.lower()`, `re.sub("[^a-z0-9]+", " ", ...)`, `.split()`, then two small loops over the word list. `parse_extraction` slices with `text.find("{")` and `text.rfind("}")`, wraps `json.loads` in a `try`/`except json.JSONDecodeError`, and checks `isinstance(..., list)` on both fields.
+---
+`extract_graph` is a loop of `max_attempts` calls. Keep the original request and a `messages` variable. Check `"finishReason"` first (refusals raise). In the `except ExtractionError` of `parse_extraction`, rebuild `messages` as the original messages plus the assistant reply plus a correction, and loop. After the loop, raise.
+---
+In `validate_extraction`, build a dict from normalized name (and alias) to type while accepting entities (`setdefault` keeps the first). A relation then needs one `next(...)` over the ontology relations and two dict lookups; compare the looked-up types with `"domain"` and `"range"`.
+---
+In `merge_extraction`, for each entity compute `names = [entity["name"], *(entity.get("aliases") or [])]`, resolve with the first name that matches, or create. Record each name in a local dict from normalized name to stored id (only when not set yet), which the relation loop uses to turn names into ids. `build_knowledge_graph` wraps `extract_graph` in a `try`/`except Exception` that appends to `"failed"` and `continue`s.
