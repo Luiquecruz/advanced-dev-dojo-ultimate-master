@@ -12,7 +12,7 @@ ADR = {
     "decision": (
         "We will decode every webhook dict into its generated dataclass with a small match over that type's payload "
         "versions, dispatch through a dict registry keyed by the TYPE tag that each team fills from its own package "
-        "with a registration decorator, and raise unknown tags to the dead-letter topic."
+        "with a registration decorator that refuses a tag registered twice, and raise unknown tags to the dead-letter topic."
     ),
     "alternatives": [
         {

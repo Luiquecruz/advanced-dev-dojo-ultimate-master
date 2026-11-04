@@ -25,10 +25,9 @@ def parse_pyvenv_cfg(text: str) -> dict[str, str | bool]:
     """Read a pyvenv.cfg file with the rules of the site module."""
     config: dict[str, str | bool] = {}
     for line in text.splitlines():
-        stripped = line.strip()
-        if not stripped or stripped.startswith("#") or "=" not in stripped:
+        if "=" not in line:
             continue
-        key, _, value = stripped.partition("=")
+        key, _, value = line.partition("=")
         key = key.strip().lower()
         value = value.strip()
         config[key] = value.lower() == "true" if key == SYSTEM_SITE_KEY else value

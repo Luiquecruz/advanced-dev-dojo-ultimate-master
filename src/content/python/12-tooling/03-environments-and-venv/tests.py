@@ -65,7 +65,7 @@ def _():
     assert missing_path is None
 
 
-@test("parse_pyvenv_cfg splits at the first equals sign and skips comments and other lines")
+@test("parse_pyvenv_cfg reads the lines that hold an equals sign, split at the first one")
 def _():
     written = mod.parse_pyvenv_cfg(VENV_CFG)
     edited = mod.parse_pyvenv_cfg(EDITED_CFG)
@@ -74,8 +74,9 @@ def _():
     assert written["version"] == "3.14.7"
     assert written["executable"] == "/usr/bin/python3.14"
     assert written["command"] == '/usr/bin/python3 -m venv --prompt="api" /srv/api/.venv'
-    assert keys == ["home", "include-system-site-packages", "version"]
+    assert keys == ["# home", "home", "include-system-site-packages", "version"]
     assert edited["home"] == "/opt/python/3.14/bin"
+    assert edited["# home"] == "/usr/bin   (before the upgrade)"
     assert edited["version"] == "3.14.7"
 
 

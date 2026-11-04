@@ -20,7 +20,7 @@ def resolve_command(name: str, path_dirs: list[str], files: set[str]) -> str | N
 def parse_pyvenv_cfg(text: str) -> dict[str, str | bool]:
     """Read a pyvenv.cfg file with the rules of the site module."""
     config: dict[str, str | bool] = {}
-    # TODO: skip blank, comment and malformed lines, split at the first "=", strip and lowercase keys
+    # TODO: read only lines that contain "=", split at the first "=", strip and lowercase keys, strip values
     # TODO: turn include-system-site-packages into a bool
     return config
 

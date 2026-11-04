@@ -18,8 +18,9 @@ Model how a POSIX shell finds a command.
 
 Parse the text of a `pyvenv.cfg` file into a `dict`, the way `site` reads it:
 
-- Skip blank lines, lines whose first non-space character is `#`, and lines without `=`.
-- Split every other line at the **first** `=`. Keys are stripped and lowercased; values are stripped and otherwise kept as written (a value may contain `=`).
+- Read only the lines that contain `=`; ignore every other line, blank lines included.
+- Split each of those lines at the **first** `=`. Keys are stripped and lowercased; values are stripped and otherwise kept as written (a value may contain `=`).
+- `pyvenv.cfg` has no comment syntax. `site` does not treat `#` specially, so a line such as `# home = /usr/bin` is read as the key `# home`, which it never looks up. Keep such keys as they come: do not skip `#` lines.
 - The value of `include-system-site-packages` becomes a `bool`: `True` only when it is `true` in any letter case, `False` for anything else. Every other value stays a `str`.
 
 A file written by `python3 -m venv --prompt api /srv/api/.venv` looks like this:
