@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { type ChildProcess, fork } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, realpathSync, renameSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -39,6 +40,11 @@ const DEFAULT_RUN_TIMEOUT_MS = 15000;
 const DEFAULT_STARTUP_TIMEOUT_MS = 60000;
 const DEFAULT_PREWARM = Number(process.env.DOJO_PYTHON_PREWARM) || Math.max(1, Math.min(3, Math.floor(availableParallelism() / 4)));
 const STDERR_TAIL_CHARACTERS = 2000;
+/** JavaScript heap of a sandbox child; Pyodide itself needs well under 100 MB of it. */
+export const CHILD_HEAP_LIMIT_MB = 256;
+/** Maximum size of the wasm memory (the Python heap) of a sandbox child. */
+export const CHILD_WASM_MEMORY_LIMIT_MB = 1024;
+const WASM_PAGE_BYTES = 64 * 1024;
 
 const VERIFY_DIRECTORY = dirname(fileURLToPath(import.meta.url));
 const CHILD_ENTRY = join(VERIFY_DIRECTORY, 'pythonSandbox.child.ts');
@@ -47,11 +53,13 @@ const CACHE_DIRECTORY = join(realpathSync(join(PROJECT_ROOT, 'node_modules')), '
 const PYODIDE_DIRECTORY = realpathSync(dirname(createRequire(import.meta.url).resolve('pyodide/package.json')));
 
 let childScript: Promise<string> | undefined;
+let childScriptPath: string | undefined;
 let snapshot: Promise<Uint8Array | undefined> | undefined;
 
 /**
  * Bundles the child entry (TypeScript, `?raw` runtime files) into one ES module that imports Pyodide by absolute path,
- * so the child needs read access to nothing but that file and `node_modules/pyodide`.
+ * so the child needs read access to nothing but that file and `node_modules/pyodide`. The file is named by content hash, because
+ * worktrees that share one `node_modules` would otherwise run each other's child.
  */
 function bundleChild(): Promise<string> {
   childScript ??= (async () => {
@@ -73,12 +81,13 @@ function bundleChild(): Promise<string> {
       throw new Error('The Python sandbox child bundle does not import pyodide as expected.');
     }
     mkdirSync(CACHE_DIRECTORY, { recursive: true });
-    const path = join(CACHE_DIRECTORY, 'python-sandbox-child.mjs');
+    const path = join(CACHE_DIRECTORY, `python-sandbox-child-${createHash('sha256').update(code).digest('hex').slice(0, 16)}.mjs`);
     if (!existsSync(path) || readFileSync(path, 'utf8') !== code) {
       const temporary = `${path}.${process.pid}.tmp`;
       writeFileSync(temporary, code);
       renameSync(temporary, path);
     }
+    childScriptPath = path;
     return path;
   })();
   return childScript;
@@ -376,14 +385,24 @@ export class PythonSandbox {
 }
 
 function readyScriptPath(): string {
-  return join(CACHE_DIRECTORY, 'python-sandbox-child.mjs');
+  if (!childScriptPath) {
+    throw new Error('The Python sandbox child has not been bundled yet.');
+  }
+  return childScriptPath;
 }
 
 /**
- * Node flags of every sandbox child: the permission model with read access to Pyodide and the child script only, and no inspector activation by signal.
+ * Node flags of every sandbox child: the permission model with read access to Pyodide and the child script only, no inspector activation by signal, and memory caps.
  */
 export function childExecArgv(): string[] {
-  return ['--permission', `--allow-fs-read=${PYODIDE_DIRECTORY}/`, `--allow-fs-read=${readyScriptPath()}`, '--disable-sigusr1'];
+  return [
+    '--permission',
+    `--allow-fs-read=${PYODIDE_DIRECTORY}/`,
+    `--allow-fs-read=${readyScriptPath()}`,
+    '--disable-sigusr1',
+    `--max-old-space-size=${CHILD_HEAP_LIMIT_MB}`,
+    `--wasm-max-mem-pages=${(CHILD_WASM_MEMORY_LIMIT_MB * 1024 * 1024) / WASM_PAGE_BYTES}`,
+  ];
 }
 
 /**
