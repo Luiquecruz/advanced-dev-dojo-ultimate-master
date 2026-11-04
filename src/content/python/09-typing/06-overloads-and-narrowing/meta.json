@@ -1,0 +1,15 @@
+{
+  "title": "Overloads and Narrowing",
+  "summary": "Overloads describe per-argument return types for the checker while one implementation runs; TypeIs and assert_never narrow and close unions. Write a two-overload parse, a list-of-strings guard and an exhaustive describe that fails loudly at runtime, unlike TypeScript's never.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "typing.overload and get_overloads", "url": "https://docs.python.org/3/library/typing.html#typing.overload" },
+    { "label": "typing.TypeIs", "url": "https://docs.python.org/3/library/typing.html#typing.TypeIs" },
+    { "label": "typing.assert_never", "url": "https://docs.python.org/3/library/typing.html#typing.assert_never" },
+    { "label": "PEP 742: Narrowing types with TypeIs", "url": "https://peps.python.org/pep-0742/" },
+    { "label": "Typing spec: Overloads", "url": "https://typing.python.org/en/latest/spec/overload.html" }
+  ]
+}

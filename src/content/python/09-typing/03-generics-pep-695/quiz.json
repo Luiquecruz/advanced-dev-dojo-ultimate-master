@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`class Stack[T]: ...` and then `s = Stack[int](); s.push(\"x\")` (with a normal `push`). What happens at runtime?",
+    "options": [
+      "`TypeError`: `\"x\"` is not an `int`",
+      "`Stack[int]` raises because classes cannot be subscripted",
+      "The push succeeds: `Stack[int]()` creates an ordinary `Stack`, and only a checker would object",
+      "`s` is a `list[int]`"
+    ],
+    "answer": 2,
+    "explanation": "Subscripting a generic class builds an alias that, when called, creates a normal instance and sets `__orig_class__`. No element check happens; the parameter is information for checkers and introspection."
+  },
+  {
+    "question": "TypeScript has `function f<T extends number | string>(value: T): T`. Which Python declaration makes `T` exactly `int` or exactly `str`, never the union?",
+    "options": [
+      "`def f[T: (int, str)](value: T) -> T`",
+      "`def f[T: int | str](value: T) -> T`",
+      "`def f[T](value: int | str) -> T`",
+      "`def f[T = int | str](value: T) -> T`"
+    ],
+    "answer": 0,
+    "explanation": "A parenthesised tuple is a constraint list (`__constraints__ == (int, str)`). `T: int | str` is a bound, which also admits `int | str` itself; `= ...` is a default (PEP 696)."
+  },
+  {
+    "question": "Old code has `T = TypeVar(\"T\")` and `class Box(Generic[T]): ...`. What is `Box.__type_params__`?",
+    "options": [
+      "`(T,)`",
+      "An `AttributeError`",
+      "`(~T,)` in `__type_params__` and nothing in `__parameters__`",
+      "`()`: only the PEP 695 syntax fills `__type_params__`; the old style shows up in `__parameters__`"
+    ],
+    "answer": 3,
+    "explanation": "`__type_params__` records the bracket syntax. A class built with `Generic[T]` has `__parameters__ == (~T,)` and an empty `__type_params__`."
+  },
+  {
+    "question": "`type Tree = dict[str, Tree | int]` refers to itself. What happens when the module is imported?",
+    "options": [
+      "`NameError`, because `Tree` is not defined yet",
+      "Nothing fails: the alias value is evaluated lazily, when `Tree.__value__` is first read",
+      "`RecursionError`",
+      "It works only with `from __future__ import annotations`"
+    ],
+    "answer": 1,
+    "explanation": "A `type` statement stores a lazily evaluated value. By the time `__value__` is read, the name `Tree` exists, so recursive aliases work without quotes."
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "title": "Typing Evolution and Type Checkers",
+  "summary": "Which typing spelling belongs to which Python version, and what a checker in CI buys you: mypy, pyright, ty and pyrefly, Any versus object, stubs and py.typed, pinned versions, and why this sandbox tested introspection rather than type checking.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "typing: Deprecated aliases", "url": "https://docs.python.org/3/library/typing.html#deprecated-aliases" },
+    { "label": "PEP 561: Distributing and Packaging Type Information", "url": "https://peps.python.org/pep-0561/" },
+    { "label": "mypy documentation", "url": "https://mypy.readthedocs.io/en/stable/" },
+    { "label": "Pyright documentation", "url": "https://microsoft.github.io/pyright/" },
+    { "label": "ty documentation", "url": "https://docs.astral.sh/ty/" },
+    { "label": "Pyrefly", "url": "https://pyrefly.org/" }
+  ]
+}

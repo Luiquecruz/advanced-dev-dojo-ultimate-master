@@ -1,0 +1,15 @@
+{
+  "title": "TypedDict and Literal Types",
+  "summary": "TypedDict types JSON-shaped dicts and Literal lists allowed values, but neither checks anything at runtime. Declare required, optional and read-only keys, then write a validator driven by get_type_hints and __required_keys__ that catches the bool-is-int trap.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "typing.TypedDict", "url": "https://docs.python.org/3/library/typing.html#typing.TypedDict" },
+    { "label": "typing.Literal", "url": "https://docs.python.org/3/library/typing.html#typing.Literal" },
+    { "label": "PEP 655: Required and NotRequired", "url": "https://peps.python.org/pep-0655/" },
+    { "label": "PEP 705: TypedDict: Read-only items", "url": "https://peps.python.org/pep-0705/" },
+    { "label": "PEP 728: TypedDict with typed extra items", "url": "https://peps.python.org/pep-0728/" }
+  ]
+}

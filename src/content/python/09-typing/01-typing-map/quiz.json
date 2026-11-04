@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`def double(width: float) -> float: return width * 2`. What does `double(\"ab\")` do when the program runs?",
+    "options": [
+      "Raises `TypeError` because `\"ab\"` is not a `float`",
+      "Returns `\"abab\"`: the annotation is not checked and `str * int` repeats the string",
+      "Fails at import time with a `SyntaxError`",
+      "Converts `\"ab\"` to a float first and raises `ValueError`"
+    ],
+    "answer": 1,
+    "explanation": "The interpreter stores annotations but never enforces them. The body runs with whatever was passed, and `\"ab\" * 2` is valid Python."
+  },
+  {
+    "question": "Which tool reports `double(\"ab\")` as an error before the program runs?",
+    "options": [
+      "The interpreter when it imports the module",
+      "`typing.get_type_hints(double)`",
+      "A static type checker such as mypy or pyright, run in the editor or in CI",
+      "Running Python with `-O`"
+    ],
+    "answer": 2,
+    "explanation": "Only a static checker analyses calls against signatures. `get_type_hints` just returns the annotation objects, and `-O` only removes `assert` statements."
+  },
+  {
+    "question": "TypeScript accepts any object with a `name: string` for `interface Named`. A Python class `Named` declares `name: str`, and `User` has a `name` attribute but does not inherit from `Named`. What is `isinstance(User(), Named)`?",
+    "options": [
+      "`False`: plain classes are nominal, so `isinstance` follows inheritance; structural checks need a `Protocol`",
+      "`True`: Python compares attributes like TypeScript",
+      "It raises `TypeError`",
+      "`True` only if both declare the same annotation"
+    ],
+    "answer": 0,
+    "explanation": "A plain class is a nominal type. Structural typing is opt-in in Python through `typing.Protocol`, and `isinstance` against a protocol also needs `@runtime_checkable`."
+  },
+  {
+    "question": "Why do the challenges of this module assert `get_type_hints`, `__type_params__` or protocol `isinstance` results instead of type errors?",
+    "options": [
+      "Type errors are printed to stderr, which tests cannot read",
+      "Python has no type checker at all",
+      "Annotations are only valid inside tests",
+      "No type checker runs in the browser sandbox, so only what runtime code can see is testable"
+    ],
+    "answer": 3,
+    "explanation": "Checkers such as mypy and pyright exist but run as separate tools. In this sandbox the tests can only observe runtime artifacts: annotation objects, type parameters, key sets and registered overloads."
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`class Sender(Protocol): def send(self, message: str) -> None: ...` without any decorator. What does `isinstance(client, Sender)` do?",
+    "options": [
+      "Returns `True` when `client` has a `send` method",
+      "Returns `False` unless `client` inherits from `Sender`",
+      "Raises `TypeError`: only `@runtime_checkable` protocols support `isinstance`",
+      "Checks the full signature of `send`"
+    ],
+    "answer": 2,
+    "explanation": "Runtime checks are opt-in. Without `@runtime_checkable` the protocol only informs a static checker, and `isinstance` refuses to guess."
+  },
+  {
+    "question": "With `@runtime_checkable`, a class defines `def send(self): ...` (no `message` parameter). What is `isinstance(obj, Sender)`?",
+    "options": [
+      "`True`: the runtime check only looks for a member named `send`",
+      "`False`: the signature does not match",
+      "`TypeError`",
+      "`True` only when the annotations match"
+    ],
+    "answer": 0,
+    "explanation": "Runtime-checkable protocols check presence, not signatures or types. A type checker reports the mismatch; the runtime check cannot."
+  },
+  {
+    "question": "A plugin system expects objects with `close()`. Which design accepts a third-party class that defines `close()` but cannot change its base classes?",
+    "options": [
+      "`class Closeable(ABC)` with an abstract `close`, checked with `isinstance`",
+      "A concrete base class `Closeable` with a default `close`",
+      "Checking `type(obj).__name__ == \"Closeable\"`",
+      "A runtime-checkable `Protocol` with `close`"
+    ],
+    "answer": 3,
+    "explanation": "ABCs and base classes are nominal: the plugin would have to inherit or be registered. A protocol matches by shape."
+  },
+  {
+    "question": "Why does `issubclass(User, Named)` raise `TypeError` when `Named(Protocol)` declares only `name: str`?",
+    "options": [
+      "Protocols never support `issubclass`",
+      "Data members are usually set on instances in `__init__`, so a class alone cannot show them; `issubclass` is only supported for method-only protocols",
+      "`User` must inherit from `Named` first",
+      "Annotations are erased at runtime"
+    ],
+    "answer": 1,
+    "explanation": "For non-method members, presence can only be checked on an instance, so `isinstance` works and `issubclass` raises `TypeError` naming the non-method members."
+  }
+]

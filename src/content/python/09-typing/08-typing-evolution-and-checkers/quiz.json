@@ -1,0 +1,68 @@
+[
+  {
+    "question": "`def shout(value: object) -> str: return value.upper()` and the same function with `value: Any`. What does a checker report?",
+    "options": [
+      "An error for both",
+      "No error for either: annotations are not checked",
+      "An error only for `Any`",
+      "An error only for `object`: it allows just what every object supports, while `Any` switches checking off"
+    ],
+    "answer": 3,
+    "explanation": "`object` is TypeScript's `unknown`: narrow it first (`isinstance(value, str)`). `Any` is TypeScript's `any`: every operation is accepted, so mistakes pass silently."
+  },
+  {
+    "question": "Your library has inline annotations, but users' checkers treat every import from it as untyped. What is the most likely cause?",
+    "options": [
+      "The annotations use `list[str]` instead of `typing.List`",
+      "The package does not ship a `py.typed` marker file (PEP 561)",
+      "The library was not compiled with `tsc`",
+      "Checkers never read installed packages"
+    ],
+    "answer": 1,
+    "explanation": "A checker uses a package's inline types only when the package contains `py.typed`. Without it, the checker falls back to stubs (typeshed or `types-*` packages) or treats the package as untyped."
+  },
+  {
+    "question": "Which spelling is the modern equivalent of `Optional[List[Dict[str, int]]]` on Python 3.10+?",
+    "options": [
+      "`list[dict[str, int]] | None`",
+      "`List[Dict[str, int]] | None`",
+      "`Optional[list[dict]]`",
+      "`list[dict[str, int]]?`"
+    ],
+    "answer": 0,
+    "explanation": "PEP 585 (3.9) made builtins subscriptable and PEP 604 (3.10) added `|` for unions. The `typing` aliases still work but are deprecated."
+  },
+  {
+    "question": "CI fails after the checker was upgraded, though no application code changed. What is the sound practice?",
+    "options": [
+      "Disable the checker in CI",
+      "Add `# type: ignore` to every new error",
+      "Pin the checker version and upgrade it in a dedicated change that fixes or justifies the new findings",
+      "Switch to another checker that reports nothing"
+    ],
+    "answer": 2,
+    "explanation": "New checker releases infer more and find new errors. Pinning keeps CI reproducible; a deliberate upgrade keeps the findings reviewable."
+  },
+  {
+    "question": "No type checker runs in this sandbox. What did the module's challenges assert instead?",
+    "options": [
+      "That calls with wrong argument types raise `TypeError`",
+      "Runtime artifacts such as `get_type_hints`, `__type_params__`, TypedDict key sets, registered overloads and protocol `isinstance`, plus code that consumes annotations",
+      "The exact text of mypy error messages",
+      "Nothing related to types"
+    ],
+    "answer": 1,
+    "explanation": "Wrong argument types do not raise by themselves, and checker output is not available here. What runtime code can observe is the annotation objects and the metadata typing constructs attach to classes and functions."
+  },
+  {
+    "question": "A project calls an untyped HTTP library everywhere, so most values are `Any`. What limits the damage best?",
+    "options": [
+      "Annotate the callers with `Any` explicitly",
+      "Turn off the checker for the whole project",
+      "Wrap every call in `typing.cast(object, ...)`",
+      "Install stubs (for example a `types-*` package) or wrap the library behind a small typed module at the boundary"
+    ],
+    "answer": 3,
+    "explanation": "`Any` spreads to every value computed from it. Stubs or one typed adapter give the checker real types at the boundary, so the rest of the code is checked again."
+  }
+]

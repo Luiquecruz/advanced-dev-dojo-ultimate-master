@@ -1,0 +1,7 @@
+[
+  { "term": "`TypedDict`", "description": "A type for dicts with fixed string keys (PEP 589). Calling the class builds a plain `dict`; nothing is validated at runtime." },
+  { "term": "`Required` / `NotRequired`", "description": "Per-key overrides of `total` (PEP 655), reflected in `__required_keys__` and `__optional_keys__`." },
+  { "term": "`ReadOnly`", "description": "Marks a key that must not be assigned after creation (PEP 705, Python 3.13); listed in `__readonly_keys__`, enforced only by checkers." },
+  { "term": "`Literal`", "description": "A type whose values are exactly the listed constants (PEP 586); `get_args` returns them." },
+  { "term": "`get_origin` / `get_args`", "description": "Split a parameterized annotation: `get_origin(list[str])` is `list`, `get_args(list[str])` is `(str,)`." }
+]
