@@ -23,7 +23,7 @@ object-model → collections → functions → classes → iteration → context
 
 Every module depends only on earlier ones. Typing sits after classes and iteration because `Protocol`, descriptors and generics assume the data model. Annotations still appear in solutions from module 03 on, and `01-functions-map` states that they are not enforced at runtime. Async comes after typing and context managers (`async with`, `ExceptionGroup`). Metaprogramming comes after everything it hooks into.
 
-ADR checkpoints close modules 01, 02, 04, 06, 09 and 10 only. Modules 03 and 05 close with a code integration challenge, and the other modules end after their last practice lesson.
+ADR checkpoints close every module except 12, which closes the track with the capstone. In v1 only modules 01, 02, 04, 06, 09 and 10 had one; v2 adds the ADRs of modules 03, 05, 07, 08, 11 and 13, each placed after the module's code integration challenge when there is one.
 
 ## 01-object-model — Names, Objects and Scope (8)
 

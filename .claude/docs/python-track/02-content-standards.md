@@ -116,7 +116,7 @@ Verify in Pyodide before writing any lesson whose challenge touches `asyncio`, `
 
 ## ADR checkpoint format
 
-The last lesson of modules 01, 02, 04, 06, 09 and 10 only. `entry` is `adr.py`; starter and solution are `adr.py` with the same shape:
+The last lesson of every module except 12 (which ends with the capstone). `entry` is `adr.py`; starter and solution are `adr.py` with the same shape:
 
 - `ADR`: module-level dict `{ "id", "title", "status", "context", "decision", "alternatives", "consequences" }` with the same validation rules as the AI Engineering ADRs (`status: "accepted"`, `decision` starts with `We will`, at least two alternatives with distinct options and reasons, `consequences` with `positive` and `negative`).
 - `PLAN`: module-level dict (named `PLAN` in every module; the plan fields are listed per module) whose values must be coherent with the briefing's numbers and constraints.
