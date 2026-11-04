@@ -1,0 +1,13 @@
+{
+  "title": "Map: Standard Library in Practice",
+  "summary": "Which standard-library modules replace which npm packages, the defaults that lose data without an error, the APIs that are dangerous on untrusted input, and argparse as theory, plus the path through this module.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "The Python Standard Library", "url": "https://docs.python.org/3/library/index.html" },
+    { "label": "pickle: the security warning", "url": "https://docs.python.org/3/library/pickle.html" },
+    { "label": "argparse: exit_on_error", "url": "https://docs.python.org/3/library/argparse.html#exit-on-error" },
+    { "label": "subprocess: Security Considerations", "url": "https://docs.python.org/3/library/subprocess.html#security-considerations" },
+    { "label": "XML security", "url": "https://docs.python.org/3/library/xml.html#xml-security" }
+  ]
+}

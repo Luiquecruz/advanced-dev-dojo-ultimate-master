@@ -1,0 +1,15 @@
+{
+  "title": "Logging",
+  "summary": "Loggers are a process-wide tree, handlers decide where records go and filters on a logger miss its children. Write an idempotent logger setup, attach structured fields through extra, redact secrets with a handler filter and keep user text from forging extra log lines.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "logging: Logging facility for Python", "url": "https://docs.python.org/3/library/logging.html" },
+    { "label": "Logging HOWTO", "url": "https://docs.python.org/3/howto/logging.html" },
+    { "label": "Filter objects", "url": "https://docs.python.org/3/library/logging.html#filter-objects" },
+    { "label": "OWASP Logging Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html" },
+    { "label": "OWASP: Log Injection", "url": "https://community.owasp.org/attacks/Log_Injection" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Regular Expressions",
+  "summary": "match, search and fullmatch answer different questions, $ accepts a trailing newline and \\d matches any Unicode digit. Parse log lines with named groups, mask emails with a replacement function and extract ids, with patterns that stay fast on hostile input.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "re: Regular expression operations", "url": "https://docs.python.org/3/library/re.html" },
+    { "label": "Regular Expression HOWTO", "url": "https://docs.python.org/3/howto/regex.html" },
+    { "label": "OWASP: Regular expression Denial of Service (ReDoS)", "url": "https://community.owasp.org/attacks/Regular_expression_Denial_of_Service_-_ReDoS" }
+  ]
+}

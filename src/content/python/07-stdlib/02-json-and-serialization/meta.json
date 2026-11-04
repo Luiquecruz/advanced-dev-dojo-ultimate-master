@@ -1,0 +1,14 @@
+{
+  "title": "JSON and Serialization",
+  "summary": "json refuses what it does not know and silently changes what it does: tuples, int keys, NaN, float digits. Write an encoder for datetimes, Decimals and dataclasses, byte-stable output and a parser that keeps every digit, and learn why json and not pickle is the format for untrusted data.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "json: JSON encoder and decoder", "url": "https://docs.python.org/3/library/json.html" },
+    { "label": "pickle: the security warning", "url": "https://docs.python.org/3/library/pickle.html" },
+    { "label": "dataclasses.asdict", "url": "https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict" },
+    { "label": "RFC 8259: The JSON Data Interchange Format", "url": "https://www.rfc-editor.org/rfc/rfc8259.html" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "Logger tree", "description": "Loggers named with dots (`shop.payments`) form a hierarchy; `getLogger(name)` returns the same object for the same name." },
+  { "term": "Propagation", "description": "A record is passed to the handlers of its logger and then of each ancestor while `propagate` is true." },
+  { "term": "Handler", "description": "Sends records somewhere (a stream, a file, a queue) and has its own level, filters and formatter." },
+  { "term": "Filter", "description": "Decides whether a record passes and may modify it; on a logger it does not see records propagated from children." },
+  { "term": "`extra`", "description": "Adds attributes to the `LogRecord`; keys the record already uses raise `KeyError`." },
+  { "term": "Log injection", "description": "User text with line breaks that forges extra log lines; escape it or write structured output." }
+]

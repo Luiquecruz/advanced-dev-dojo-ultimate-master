@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A form field is validated with `re.fullmatch(pattern, text)` on user input of any length. Which pattern can take exponential time on a long input that almost matches?",
+    "options": [
+      "`[a-z0-9]{1,32}`",
+      "`(\\w+\\s?)*`",
+      "`ORD-[0-9]{6}`",
+      "`[^\\]]+`"
+    ],
+    "answer": 1,
+    "explanation": "`(\\w+\\s?)*` nests a quantifier inside a quantifier, and because `\\s?` is optional, a run of letters can be split between iterations in exponentially many ways. The engine tries them all before reporting a failure."
+  },
+  {
+    "question": "What does `re.match(r\"\\d+$\", \"42\\n\")` return?",
+    "options": [
+      "`None`, because the text ends with a newline",
+      "A `re.error`",
+      "A match for `\"42\"`: `$` also matches just before a trailing newline",
+      "A match for `\"42\\n\"`"
+    ],
+    "answer": 2,
+    "explanation": "In Python, `$` matches at the end of the string or just before a newline at the end. Use `fullmatch`, or `\\z` in Python 3.14, when a trailing newline must be rejected."
+  },
+  {
+    "question": "What is `re.search(r\"\\[(.+)\\]\", \"[a] and [b]\").group(1)`?",
+    "options": [
+      "`\"a] and [b\"`",
+      "`\"a\"`",
+      "`\"b\"`",
+      "`None`"
+    ],
+    "answer": 0,
+    "explanation": "`.+` is greedy: it runs to the end and gives characters back only until a `]` can match, which is the last one. `.+?` or `[^\\]]+` would capture `\"a\"`."
+  },
+  {
+    "question": "You port the JavaScript check `/^\\d{6}$/.test(code)` to Python. Which version accepts exactly the same strings?",
+    "options": [
+      "`re.match(r\"^\\d{6}$\", code)`",
+      "`re.search(r\"\\d{6}\", code)`",
+      "`re.fullmatch(r\"\\d{6}\", code)`",
+      "`re.fullmatch(r\"[0-9]{6}\", code)`"
+    ],
+    "answer": 3,
+    "explanation": "JavaScript's `\\d` is `[0-9]` and its `$` is the end of the string. In Python `$` accepts a trailing newline and `\\d` matches any Unicode decimal digit, so only `fullmatch` with `[0-9]` (or `re.ASCII`) is equivalent."
+  }
+]

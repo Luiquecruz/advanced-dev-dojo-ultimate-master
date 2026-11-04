@@ -1,0 +1,14 @@
+{
+  "title": "Dates and Times",
+  "summary": "Only aware datetimes name an instant, and a month is not thirty days. Normalize ISO timestamps to UTC and reject naive ones, add calendar months with end-of-month clamping, and count elapsed days between instants with injected moments instead of the system clock.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "datetime: Basic date and time types", "url": "https://docs.python.org/3/library/datetime.html" },
+    { "label": "Aware and naive objects", "url": "https://docs.python.org/3/library/datetime.html#aware-and-naive-objects" },
+    { "label": "calendar.monthrange", "url": "https://docs.python.org/3/library/calendar.html" },
+    { "label": "zoneinfo: IANA time zone support", "url": "https://docs.python.org/3/library/zoneinfo.html" }
+  ]
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What is `Path(\"/srv/files\") / \"/etc/passwd\"`?",
+    "options": [
+      "`PosixPath('/srv/files/etc/passwd')`",
+      "A `ValueError`",
+      "`PosixPath('/srv/files//etc/passwd')`",
+      "`PosixPath('/etc/passwd')`"
+    ],
+    "answer": 3,
+    "explanation": "Joining follows `os.path.join`: an absolute segment discards the previous ones. Node's `path.join` would concatenate instead, which is why the habit transfers badly."
+  },
+  {
+    "question": "A server checks `str((base / name).resolve()).startswith(str(base))` with `base = Path(\"/srv/data\")`. Which `name` gets through although it is outside `base`?",
+    "options": [
+      "`\"../data-backup/secrets.txt\"`",
+      "`\"/etc/passwd\"`",
+      "`\"../../etc/passwd\"`",
+      "`\"reports/q4.csv\"`"
+    ],
+    "answer": 0,
+    "explanation": "It resolves to `/srv/data-backup/secrets.txt`, whose text starts with `/srv/data`. `is_relative_to` compares path parts, so it rejects the sibling directory."
+  },
+  {
+    "question": "Why does the `csv` module ask for `open(path, newline=\"\")`?",
+    "options": [
+      "It makes the file binary",
+      "Without it, line breaks inside quoted cells are not read back correctly and line endings can be translated twice",
+      "It sets the encoding to UTF-8",
+      "It is only needed on Windows and is ignored elsewhere"
+    ],
+    "answer": 1,
+    "explanation": "`csv` writes its own `\\r\\n` endings and must see raw line breaks to parse quoted cells. Text-mode newline translation would change both. `newline` has nothing to do with the encoding, which needs its own argument."
+  },
+  {
+    "question": "An upload handler calls `data = request_stream.read()` and then writes `data` to disk. What is the problem with a 4 GB upload?",
+    "options": [
+      "Nothing: `read()` streams automatically",
+      "`read()` raises `ValueError` above 2 GB",
+      "The whole upload is held in memory at once; read with a size in a loop or use `shutil.copyfileobj`",
+      "The data is decoded as text"
+    ],
+    "answer": 2,
+    "explanation": "`read()` without a size returns everything until the end of the stream as one object. `read(n)` returns at most `n` bytes, so a loop keeps memory bounded by the chunk size."
+  }
+]
