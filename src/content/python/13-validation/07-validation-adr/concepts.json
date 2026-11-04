@@ -1,0 +1,8 @@
+[
+  { "term": "Edge model", "description": "The parsing model at a trust boundary: converts what clients send and rejects everything outside the contract." },
+  { "term": "Domain object", "description": "The immutable, typed object code works with after parsing; usually a frozen dataclass, never revalidated inside the process." },
+  { "term": "Lax at the edge, strict inside", "description": "Convert only where clients cannot send exact types; between your own services, a type mismatch is a bug that must fail loudly." },
+  { "term": "Schema document", "description": "A generated JSON Schema for one published contract version; the count is event types times versions accepted at once." },
+  { "term": "Body limit", "description": "A size cap checked before parsing, sized from the largest legitimate payload with headroom." },
+  { "term": "ADR", "description": "Architecture Decision Record: context, decision, alternatives considered and consequences." }
+]
