@@ -32,6 +32,8 @@ export interface PythonSandboxOptions {
   /** Wall-clock limit for one program run (the Run demo). */
   runTimeoutMs?: number;
   startupTimeoutMs?: number;
+  /** Directory of the vendored wheels (default `vendor/pyodide-packages/`); every wheel is checked against the lock before a fork that loads it. */
+  packagesDirectory?: string;
   /** Interpreters started ahead of time, so a fresh one per request costs no waiting. */
   prewarm?: number;
 }
@@ -60,12 +62,42 @@ let childScriptPath: string | undefined;
 let snapshot: Promise<Uint8Array | undefined> | undefined;
 
 /**
+ * Re-hashes every vendored wheel against the sha256 in `pyodide-lock.json` before any child is forked. In Node, Pyodide reads
+ * local wheels without checking them, so this is the integrity check of verification; a mismatch or a missing wheel throws.
+ */
+export function verifyVendoredWheels(directory = VENDORED_PACKAGES_DIRECTORY): void {
+  const lock = JSON.parse(readFileSync(join(PYODIDE_DIRECTORY, 'pyodide-lock.json'), 'utf8')) as { packages: Record<string, { file_name: string; sha256: string }> };
+  const manifest = JSON.parse(readFileSync(join(directory, 'manifest.json'), 'utf8')) as { packages: { name: string; file: string }[] };
+  const problems: string[] = [];
+  for (const { name, file } of manifest.packages) {
+    const locked = lock.packages[name];
+    const path = join(directory, file);
+    if (!locked || locked.file_name !== file) {
+      problems.push(`${file} is not the file pyodide-lock.json pins for ${name}`);
+      continue;
+    }
+    if (!existsSync(path)) {
+      problems.push(`${file} is missing`);
+      continue;
+    }
+    const digest = createHash('sha256').update(readFileSync(path)).digest('hex');
+    if (digest !== locked.sha256) {
+      problems.push(`${file} has sha256 ${digest}, pyodide-lock.json pins ${locked.sha256}`);
+    }
+  }
+  if (problems.length > 0) {
+    throw new Error(`Vendored Pyodide packages failed the integrity check (run npm run python:vendor -- --check):\n- ${problems.join('\n- ')}`);
+  }
+}
+
+/**
  * Bundles the child entry (TypeScript, `?raw` runtime files) into one ES module that imports Pyodide by absolute path,
  * so the child needs read access to nothing but that file and `node_modules/pyodide`. The file is named by content hash, because
  * worktrees that share one `node_modules` would otherwise run each other's child.
  */
 function bundleChild(): Promise<string> {
   childScript ??= (async () => {
+    verifyVendoredWheels();
     const { build } = await import('vite');
     const output = await build({
       configFile: false,
@@ -122,6 +154,7 @@ export class PythonSandbox {
   private readonly runTimeoutMs: number;
   private readonly startupTimeoutMs: number;
   private readonly prewarm: number;
+  private readonly packagesDirectory: string;
   private current: Interpreter | undefined;
   private spares: Interpreter[] = [];
   private pending: Pending | undefined;
@@ -132,6 +165,7 @@ export class PythonSandbox {
     this.runTimeoutMs = options.runTimeoutMs ?? DEFAULT_RUN_TIMEOUT_MS;
     this.startupTimeoutMs = options.startupTimeoutMs ?? DEFAULT_STARTUP_TIMEOUT_MS;
     this.prewarm = options.prewarm ?? DEFAULT_PREWARM;
+    this.packagesDirectory = realpathSync(options.packagesDirectory ?? VENDORED_PACKAGES_DIRECTORY);
   }
 
   /**
@@ -269,8 +303,11 @@ export class PythonSandbox {
   }
 
   private spawn(packages: string[] = []): Interpreter {
+    if (packages.length > 0) {
+      verifyVendoredWheels(this.packagesDirectory);
+    }
     let stderrTail = '';
-    const child = forkChild();
+    const child = forkChild(this.packagesDirectory);
     void this.snapshot().then((bytes) => child.connected && child.send({ type: 'boot', snapshot: bytes, packages } satisfies SandboxRequest));
     child.stderr?.on('data', (chunk: Buffer) => {
       stderrTail = (stderrTail + chunk.toString()).slice(-STDERR_TAIL_CHARACTERS);
@@ -322,7 +359,7 @@ export class PythonSandbox {
    */
   private snapshot(): Promise<Uint8Array | undefined> {
     snapshot ??= new Promise<Uint8Array | undefined>((resolve) => {
-      const child = forkChild();
+      const child = forkChild(this.packagesDirectory);
       const finish = (bytes: Uint8Array | undefined) => {
         clearTimeout(timer);
         child.kill('SIGKILL');
@@ -400,11 +437,11 @@ function readyScriptPath(): string {
 /**
  * Node flags of every sandbox child: the permission model with read access to Pyodide, the vendored packages and the child script only, no inspector activation by signal, and memory caps.
  */
-export function childExecArgv(): string[] {
+export function childExecArgv(packagesDirectory = VENDORED_PACKAGES_DIRECTORY): string[] {
   return [
     '--permission',
     `--allow-fs-read=${PYODIDE_DIRECTORY}/`,
-    `--allow-fs-read=${VENDORED_PACKAGES_DIRECTORY}/`,
+    `--allow-fs-read=${packagesDirectory}/`,
     `--allow-fs-read=${readyScriptPath()}`,
     '--disable-sigusr1',
     `--max-old-space-size=${CHILD_HEAP_LIMIT_MB}`,
@@ -415,10 +452,10 @@ export function childExecArgv(): string[] {
 /**
  * Forks the bundled child under the permission model: read access to Pyodide, the vendored packages and the child script only, nothing else.
  */
-function forkChild(): ChildProcess {
-  const child = fork(readyScriptPath(), [`${PYODIDE_DIRECTORY}/`, `${VENDORED_PACKAGES_DIRECTORY}/`], {
+function forkChild(packagesDirectory: string): ChildProcess {
+  const child = fork(readyScriptPath(), [`${PYODIDE_DIRECTORY}/`, `${packagesDirectory}/`], {
     env: {},
-    execArgv: childExecArgv(),
+    execArgv: childExecArgv(packagesDirectory),
     serialization: 'advanced',
     stdio: ['ignore', 'ignore', 'pipe', 'ipc'],
   });

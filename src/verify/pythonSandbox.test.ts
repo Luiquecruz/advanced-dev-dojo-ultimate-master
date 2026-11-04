@@ -1,6 +1,9 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { appendFileSync, cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { connect } from 'node:net';
-import { CHILD_HEAP_LIMIT_MB, CHILD_WASM_MEMORY_LIMIT_MB, childExecArgv, PythonSandbox } from './pythonSandbox';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { CHILD_HEAP_LIMIT_MB, CHILD_WASM_MEMORY_LIMIT_MB, childExecArgv, PythonSandbox, VENDORED_PACKAGES_DIRECTORY, verifyVendoredWheels } from './pythonSandbox';
 import escapeScanSource from './pythonEscapeScan.py?raw';
 import { processAllowList } from './pythonSandboxProcess';
 
@@ -349,6 +352,51 @@ def _():
     const report = await grade('import sys\nimport pyodide_js\n\n@test("standard library only")\ndef _():\n    assert "pydantic" not in sys.modules\n    assert "pydantic" not in pyodide_js.loadedPackages.to_py()\n');
     expect(report.results).toEqual([{ name: 'standard library only', passed: true }]);
   });
+});
+
+describe('vendored package integrity', () => {
+  const PYDANTIC_TESTS = 'from pydantic import BaseModel\n\n@test("uses pydantic")\ndef _():\n    assert BaseModel\n';
+
+  function copyVendor(): string {
+    const directory = mkdtempSync(join(tmpdir(), 'dojo-vendor-'));
+    cpSync(VENDORED_PACKAGES_DIRECTORY, directory, { recursive: true });
+    return directory;
+  }
+
+  it('refuses to fork when a vendored wheel does not match pyodide-lock.json', async () => {
+    const directory = copyVendor();
+    const tampered = new PythonSandbox({ packagesDirectory: directory });
+    try {
+      appendFileSync(join(directory, 'annotated_types-0.7.0-py3-none-any.whl'), 'tampered');
+      expect(() => verifyVendoredWheels(directory)).toThrow(/annotated_types-0\.7\.0-py3-none-any\.whl has sha256 [0-9a-f]{64}, pyodide-lock\.json pins 6541523b/);
+      const report = await tampered.runTests({ files: { 'main.py': 'x = 1\n' }, entry: 'main.py', tests: PYDANTIC_TESTS });
+      expect(report.results).toEqual([]);
+      expect(report.compileError).toMatch(/failed the integrity check[\s\S]*annotated_types/);
+    } finally {
+      tampered.stop();
+      rmSync(directory, { recursive: true, force: true });
+    }
+  }, 60000);
+
+  it('fails the boot with a clear error when a required wheel cannot be loaded', async () => {
+    const directory = copyVendor();
+    const missing = new PythonSandbox({ packagesDirectory: directory });
+    try {
+      const manifestPath = join(directory, 'manifest.json');
+      const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as { packages: { file: string }[] };
+      const wheel = manifest.packages.find((entry) => entry.file.startsWith('pydantic-2'))!.file;
+      manifest.packages = manifest.packages.filter((entry) => entry.file !== wheel);
+      writeFileSync(manifestPath, JSON.stringify(manifest));
+      rmSync(join(directory, wheel));
+      const report = await missing.runTests({ files: { 'main.py': 'x = 1\n' }, entry: 'main.py', tests: PYDANTIC_TESTS });
+      expect(report.results).toEqual([]);
+      expect(report.compileError).toMatch(/Could not load the vendored package pydantic/);
+      expect(report.compileError).not.toMatch(/ModuleNotFoundError/);
+    } finally {
+      missing.stop();
+      rmSync(directory, { recursive: true, force: true });
+    }
+  }, 60000);
 });
 
 describe('standard library that needs host entropy', () => {

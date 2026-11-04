@@ -1,3 +1,4 @@
+import type { PyodideAPI } from 'pyodide';
 import type { ProjectFiles } from '../shared/project';
 
 /**
@@ -30,4 +31,20 @@ export function requiredPackages(files: ProjectFiles, tests = ''): string[] {
     }
   }
   return [...packages].sort();
+}
+
+/**
+ * Loads vendored packages by name with integrity checks and throws when any of them did not load (a failed check, a missing
+ * wheel), so the boot fails with the reason instead of the lesson seeing `ModuleNotFoundError`.
+ */
+export async function loadLessonPackages(pyodide: PyodideAPI, packages: string[]): Promise<void> {
+  if (packages.length === 0) {
+    return;
+  }
+  const errors: string[] = [];
+  await pyodide.loadPackage(packages, { checkIntegrity: true, messageCallback: () => undefined, errorCallback: (message) => errors.push(message) });
+  const missing = packages.filter((name) => !(name in pyodide.loadedPackages));
+  if (errors.length > 0 || missing.length > 0) {
+    throw new Error(`Could not load the vendored package${packages.length > 1 ? 's' : ''} ${packages.join(', ')}${missing.length > 0 ? ` (not loaded: ${missing.join(', ')})` : ''}${errors.length > 0 ? `: ${errors.join('; ')}` : ''}`);
+  }
 }
