@@ -334,4 +334,4 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-tooling-map **(quiz)** ✓ · 02-packaging-and-environments **(quiz)** ✓ · 03-environments-and-venv · 04-testing-with-unittest ✓ · 05-capstone-async-rules-engine ✓
 
 ### 13-validation — Validation with Pydantic v2
-01-validation-map **(quiz)** ✓ · 02-basemodel-vs-dataclass ✓ · 03-lax-and-strict-modes · 04-field-and-model-validators · 05-serialization-and-json-schema · 06-pydantic-core-and-performance **(quiz)** · 07-validation-adr
+01-validation-map **(quiz)** ✓ · 02-basemodel-vs-dataclass ✓ · 03-lax-and-strict-modes ✓ · 04-field-and-model-validators ✓ · 05-serialization-and-json-schema · 06-pydantic-core-and-performance **(quiz)** · 07-validation-adr

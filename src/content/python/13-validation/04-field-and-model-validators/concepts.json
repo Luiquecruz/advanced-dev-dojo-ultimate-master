@@ -1,0 +1,8 @@
+[
+  { "term": "`Field(...)` constraints", "description": "Declarative limits such as `ge`, `le`, `gt`, `min_length`, `max_length` and `pattern`; each failure has its own error type and appears in the JSON Schema." },
+  { "term": "`@field_validator`", "description": "A classmethod that checks or transforms one field; `mode=\"after\"` (default) gets the typed value, `mode=\"before\"` the raw input." },
+  { "term": "`@model_validator`", "description": "`mode=\"before\"` receives the raw input of any type; `mode=\"after\"` receives the instance and runs only if every field is valid." },
+  { "term": "`ValidationInfo`", "description": "Optional validator argument: `info.data` holds the fields already validated, `info.field_name` the current one." },
+  { "term": "`PydanticCustomError`", "description": "From `pydantic_core`: raise it with your own error `type`, a message template and a `ctx` dict." },
+  { "term": "`errors(include_input=False)`", "description": "Error dicts without the rejected values; `include_url` and `include_context` drop the other extras." }
+]

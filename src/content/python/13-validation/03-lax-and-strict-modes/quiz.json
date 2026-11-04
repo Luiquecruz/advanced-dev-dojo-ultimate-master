@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`class M(BaseModel): flag: bool`. Which input is rejected in the default lax mode?",
+    "options": [
+      "`\"off\"`",
+      "`2`",
+      "`\"Y\"`",
+      "`0`"
+    ],
+    "answer": 1,
+    "explanation": "Lax `bool` accepts `0`/`1` and a fixed set of strings (`true`/`false`, `yes`/`no`, `on`/`off`, `t`/`f`, `y`/`n`, `1`/`0`, any case). `2` is not one of them and fails with `bool_parsing`."
+  },
+  {
+    "question": "A model has `ConfigDict(strict=True)` and `price: float`. What does `model_validate({\"price\": 3})` do?",
+    "options": [
+      "Raises `float_type`",
+      "Keeps `3` as an `int`",
+      "Accepts it and stores `3.0`",
+      "Raises `int_from_float`"
+    ],
+    "answer": 2,
+    "explanation": "Strict mode makes one deliberate exception: an `int` is a valid `float` input, as in JSON, and is converted to `3.0`."
+  },
+  {
+    "question": "In a strict model, `count: int` receives `True`. What happens, and why might that surprise a Python developer?",
+    "options": [
+      "It is rejected with `int_type`, although `isinstance(True, int)` is `True` in Python",
+      "It is accepted as `1`, because `bool` subclasses `int`",
+      "It is accepted as `True`",
+      "It raises `TypeError` from the interpreter"
+    ],
+    "answer": 0,
+    "explanation": "Strict `int` excludes `bool` on purpose. Lax mode, by contrast, converts `True` to `1`."
+  },
+  {
+    "question": "A partner API must accept `\"quantity\": \"3\"`, but the `approved` flag must never be inferred from `\"yes\"` or `1`. Which design fits?",
+    "options": [
+      "A strict model, and ask partners to change their payloads first",
+      "A lax model with `approved: StrictBool`",
+      "A lax model, then `if approved is True` checks later in the handler",
+      "`z.coerce.boolean()` semantics: any non-empty string is `True`"
+    ],
+    "answer": 1,
+    "explanation": "Per-field strictness keeps conversions where the edge needs them and refuses them where a wrong guess has a security cost. Later checks scatter the rule across handlers."
+  }
+]
