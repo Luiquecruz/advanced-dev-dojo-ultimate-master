@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A handler does `payload: OrderPayload = json.loads(body)` where `OrderPayload` is a `TypedDict`. What has been checked at runtime?",
+    "options": [
+      "The keys, but not the value types",
+      "Nothing: the annotation is metadata, like `as OrderPayload` in TypeScript",
+      "Both keys and value types",
+      "Only that the body is a JSON object"
+    ],
+    "answer": 1,
+    "explanation": "Annotations are not enforced. `json.loads` returns whatever the body holds; the variable annotation only informs a static checker."
+  },
+  {
+    "question": "Where should untrusted data be parsed into typed objects?",
+    "options": [
+      "In every function that reads a field, just in case",
+      "Only in the database layer",
+      "Once, at the boundary where it enters, so the code behind it only receives valid objects",
+      "Nowhere, if the client is written in TypeScript"
+    ],
+    "answer": 2,
+    "explanation": "Parse, don't validate: one conversion at the edge removes the need to re-check later and gives one place for precise error reports."
+  },
+  {
+    "question": "Which Pydantic behavior differs from a plain Zod `z.object({ id: z.number() })`?",
+    "options": [
+      "Pydantic converts `\"17\"` to `17` by default, while `z.number()` rejects the string",
+      "Pydantic never reports the path of an error",
+      "Zod has no way to reject unknown keys",
+      "Pydantic needs a separate type definition next to the schema"
+    ],
+    "answer": 0,
+    "explanation": "Pydantic's default lax mode coerces numeric strings; Zod needs `z.coerce.number()`. Both report error paths, and in Pydantic the class is both schema and type."
+  },
+  {
+    "question": "A service builds `Invoice` objects only from values its own code computed. What does it need?",
+    "options": [
+      "A `BaseModel` revalidated on every function call",
+      "A JSON Schema",
+      "`model_construct` on every object",
+      "Usually a dataclass: the data never crossed a trust boundary"
+    ],
+    "answer": 3,
+    "explanation": "Runtime validation pays off where data comes from outside. Internal objects built from checked values can be plain (frozen) dataclasses."
+  }
+]

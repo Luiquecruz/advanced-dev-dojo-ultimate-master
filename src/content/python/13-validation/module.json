@@ -1,0 +1,4 @@
+{
+  "title": "Validation with Pydantic v2",
+  "description": "When a data model needs runtime parsing and validation instead of type hints and dataclasses: BaseModel versus dataclasses, lax and strict modes, field and model validators, serialization and JSON Schema, the Rust core and its performance, then the validation ADR for a set of services."
+}
