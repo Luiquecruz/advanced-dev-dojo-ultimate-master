@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A Brazilian company runs a CV-screening system from São Paulo, and its rankings are used by a recruiter in Lisbon. Does the AI Act reach it?",
+    "options": [
+      "No: the company has no office in the EU",
+      "Yes: the Act also applies to providers and deployers outside the EU when the system's output is used in the EU, and CV screening is an Annex III employment use",
+      "Only if the model was trained in the EU",
+      "Only after the company opens an EU subsidiary"
+    ],
+    "answer": 1,
+    "explanation": "The Act's territorial scope includes output used in the EU. Employment and worker management, including CV filtering, is listed in Annex III."
+  },
+  {
+    "question": "Under the AI Act as amended by the Digital Omnibus (Regulation (EU) 2026/1744), from when do the high-risk requirements apply to Annex III systems such as credit scoring?",
+    "options": [
+      "2 August 2025",
+      "2 August 2026",
+      "2 December 2027",
+      "They were repealed"
+    ],
+    "answer": 2,
+    "explanation": "The Omnibus deferred Annex III high-risk obligations from 2 August 2026 to 2 December 2027, and Annex I product obligations to 2 August 2028. The obligations themselves remain."
+  },
+  {
+    "question": "Which practice is prohibited outright by Article 5?",
+    "options": [
+      "A chatbot that answers customer questions",
+      "Emotion recognition used to evaluate employees at work",
+      "A model that summarizes legal documents",
+      "Credit scoring with human review"
+    ],
+    "answer": 1,
+    "explanation": "Emotion recognition in the workplace and in education is prohibited (except for medical or safety reasons). Credit scoring is high-risk, not prohibited; chatbots carry transparency duties."
+  },
+  {
+    "question": "A customer-service chatbot launched in 2026 serves EU users. Which obligation applies to it today, regardless of the high-risk delay?",
+    "options": [
+      "A conformity assessment and CE marking",
+      "Article 50 transparency: people must be told they are interacting with an AI system unless it is obvious",
+      "A fundamental rights impact assessment",
+      "Registration as a GPAI model"
+    ],
+    "answer": 1,
+    "explanation": "Article 50 duties apply from 2 August 2026. Conformity assessment is for high-risk systems; FRIA is for specific deployers of high-risk systems."
+  },
+  {
+    "question": "Which high-risk requirement does an append-only, hash-chained decision log (lesson 04) most directly support?",
+    "options": [
+      "Article 12 record-keeping (automatic logging) and the deployer's duty to keep logs",
+      "Article 5 prohibitions",
+      "The GPAI copyright policy",
+      "AI literacy"
+    ],
+    "answer": 0,
+    "explanation": "High-risk systems must log events automatically for traceability, and deployers must keep those logs for at least six months. Tamper-evident logs make that evidence trustworthy."
+  },
+  {
+    "question": "Your team fine-tunes an open general-purpose model and publishes it for others to build on. What should you check?",
+    "options": [
+      "Nothing: only the original developer has obligations",
+      "Whether your modification makes you a GPAI model provider with documentation, copyright policy and training-content summary duties, and whether systemic-risk thresholds apply",
+      "Only the model's license",
+      "Whether the model is prohibited under Article 5"
+    ],
+    "answer": 1,
+    "explanation": "Modifying and placing a general-purpose model on the market can make you its provider. The Commission's GPAI guidance and the Code of Practice explain when modifications trigger obligations."
+  }
+]

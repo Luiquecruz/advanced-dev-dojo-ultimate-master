@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A customer consented to AI-assisted support. Marketing wants to run the same tickets through a model to write upsell emails. What does purpose limitation require?",
+    "options": [
+      "Nothing: the customer already consented to AI processing",
+      "Treat marketing as a new purpose with its own legal basis (here, likely its own consent), fields and retention",
+      "Anonymize the model's output",
+      "Use a different model provider"
+    ],
+    "answer": 1,
+    "explanation": "Consent and other legal bases are tied to a purpose. Support consent does not extend to marketing; the check happens per call, per purpose."
+  },
+  {
+    "question": "A new database column `taxId` appears next sprint. Under which design does it stay out of prompts automatically?",
+    "options": [
+      "A blocklist of sensitive fields maintained by the data team",
+      "An allowlist per purpose plus treating unlabeled fields as restricted",
+      "Asking the model to ignore sensitive fields",
+      "Redacting numbers from the model's output"
+    ],
+    "answer": 1,
+    "explanation": "Minimization by allowlist and fail-closed labeling keep unknown fields home by default. Blocklists fail every time someone forgets to update them."
+  },
+  {
+    "question": "A customer asks for erasure. The database rows are deleted. What is most often forgotten?",
+    "options": [
+      "The customer's password hash",
+      "Derived copies: traces, caches, embeddings, agent memories and any fine-tuning sets that contain the data",
+      "The model provider's invoices",
+      "Nothing: deleting rows is enough"
+    ],
+    "answer": 1,
+    "explanation": "AI systems multiply copies. Classify and retain derived data like its source, and record processing so erasure can find every copy."
+  },
+  {
+    "question": "Why record each model call's subject, purpose, fields and expiry at the moment it happens?",
+    "options": [
+      "To make the model faster",
+      "So retention and erasure become simple filters over records, and the processing can be shown to an auditor or a data subject",
+      "Because providers require it",
+      "To train the model on the records later"
+    ],
+    "answer": 1,
+    "explanation": "Processing records are the evidence of the data layer. With them, a retention job or an erasure request is a query, not an investigation."
+  }
+]

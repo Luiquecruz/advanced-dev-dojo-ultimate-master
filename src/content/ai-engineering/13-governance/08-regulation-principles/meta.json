@@ -1,0 +1,12 @@
+{
+  "title": "Regulation Principles",
+  "summary": "The ideas every AI law shares (risk tiers, transparency, human oversight, data protection, fairness, robustness, accountability, contestability), provider and deployer roles, horizontal, targeted and principles-based regulatory styles, and the frameworks that operationalize them.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "OECD AI Principles", "url": "https://oecd.ai/en/ai-principles" },
+    { "label": "NIST: AI Risk Management Framework", "url": "https://www.nist.gov/itl/ai-risk-management-framework" },
+    { "label": "UK government: A pro-innovation approach to AI regulation", "url": "https://www.gov.uk/government/publications/ai-regulation-a-pro-innovation-approach" },
+    { "label": "IAPP: Global AI Law and Policy Tracker", "url": "https://iapp.org/resources/article/global-ai-legislation-tracker/" }
+  ]
+}

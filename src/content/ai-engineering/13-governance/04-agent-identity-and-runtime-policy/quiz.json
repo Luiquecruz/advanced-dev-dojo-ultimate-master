@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Why is giving every agent its own identity better than one shared service account, even if the permissions are identical?",
+    "options": [
+      "Separate identities make model calls cheaper",
+      "Each action can be attributed, one agent can be suspended without touching the others, and each identity can be scoped to only what its agent needs",
+      "Providers require one key per agent",
+      "Shared accounts cannot call tools"
+    ],
+    "answer": 1,
+    "explanation": "Attribution, revocation and least privilege all depend on identity. A shared account carries the union of all permissions and makes every log entry say \"the key did it\"."
+  },
+  {
+    "question": "The policy decision point times out while deciding a refund. What should the enforcement point do?",
+    "options": [
+      "Allow the call, since the agent is probably authorized",
+      "Retry until the decision point answers, however long it takes",
+      "Treat it as a deny (fail closed) and record the failure in the audit log",
+      "Ask the model whether it is authorized"
+    ],
+    "answer": 2,
+    "explanation": "An enforcement point that fails open turns every outage into a bypass. Denials and failures are logged like any other decision."
+  },
+  {
+    "question": "An attacker with database access edits one audit entry from \"deny\" to \"allow\" and recomputes that entry's hash. How does the hash chain reveal it?",
+    "options": [
+      "It does not: recomputing the hash hides the change",
+      "The next entry's previousHash no longer matches the edited entry's new hash",
+      "The timestamp changes automatically",
+      "SHA-256 refuses to hash edited data"
+    ],
+    "answer": 1,
+    "explanation": "Each entry commits to the previous one. To hide an edit the attacker must rewrite every later entry, which is why you also publish the latest hash somewhere they cannot rewrite."
+  },
+  {
+    "question": "Why does the audit entry store a hash of the tool arguments instead of the arguments themselves?",
+    "options": [
+      "Hashes are shorter, which is the only reason",
+      "The log lives for years and reaches auditors: the hash proves what was proposed without storing personal data such as emails or card numbers",
+      "Arguments are always invalid JSON",
+      "Hashing makes the tool run faster"
+    ],
+    "answer": 1,
+    "explanation": "Audit logs must prove decisions while respecting data minimization. If the original arguments are produced later, the hash shows whether they are the ones that were decided."
+  },
+  {
+    "question": "Which attribute lets the same agent read a customer record for support but not for a marketing campaign?",
+    "options": [
+      "The agent's risk tier",
+      "The tool's side effect",
+      "The purpose of the call",
+      "The model's version"
+    ],
+    "answer": 2,
+    "explanation": "Purpose limitation is a core data protection principle (GDPR, LGPD). Making purpose a decision attribute turns it into an enforced rule instead of a sentence in a policy."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "title": "Brazil: LGPD and PL 2338",
+  "summary": "What already binds AI in Brazil (LGPD principles, legal bases, Art. 20 review of automated decisions, transfers, impact reports, sanctions), how the ANPD acts on AI, other existing rules, and the content and status of the AI bill PL 2338/2023.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Câmara dos Deputados: PL 2338/2023 tracking page", "url": "https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2487262" },
+    { "label": "Câmara dos Deputados: special committee on AI (PL 2338/23)", "url": "https://www2.camara.leg.br/atividade-legislativa/comissoes/comissoes-temporarias/especiais/57a-legislatura/comissao-especial-sobre-inteligencia-artificial-pl-2338-23" },
+    { "label": "Senado Federal: PL 2338/2023 (Senate record)", "url": "https://www25.senado.leg.br/web/atividade/materias/-/materia/157233" },
+    { "label": "ANPD: technical and guidance documents", "url": "https://www.gov.br/anpd/pt-br/centrais-de-conteudo/documentos-tecnicos-orientativos" },
+    { "label": "ANPD (Agência Nacional de Proteção de Dados)", "url": "https://www.gov.br/anpd/pt-br" }
+  ]
+}

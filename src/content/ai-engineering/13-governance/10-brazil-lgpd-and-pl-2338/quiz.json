@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A fintech launches an AI credit-limit model for Brazilian customers in November 2026. Which statement about the law is correct?",
+    "options": [
+      "Nothing applies until PL 2338/2023 becomes law",
+      "The LGPD applies today: a legal basis and purpose, minimization, security, and the Art. 20 right to request review of decisions made solely by automated processing, with information about the criteria",
+      "Only the EU AI Act applies, because Brazil copied it",
+      "Only the Central Bank can regulate AI, so data protection does not apply"
+    ],
+    "answer": 1,
+    "explanation": "AI that processes personal data is under the LGPD now. Credit profiles are named explicitly in Art. 20."
+  },
+  {
+    "question": "What was the status of PL 2338/2023 at the end of October 2026?",
+    "options": [
+      "Signed into law in 2025 and in force",
+      "Approved by the Senate in December 2024 and still in a special committee of the Chamber of Deputies, awaiting the rapporteur's report: not law",
+      "Rejected by the Senate",
+      "Replaced by the EU AI Act"
+    ],
+    "answer": 1,
+    "explanation": "The Chamber's tracking page lists it as awaiting the rapporteur's report. Until both houses agree and the President signs, it creates no obligation."
+  },
+  {
+    "question": "A customer refused credit by an automated system asks how the decision was made. The company says its criteria are a trade secret. What can happen under the LGPD?",
+    "options": [
+      "Nothing: trade secrets override the LGPD",
+      "The ANPD may audit the system for discriminatory aspects",
+      "The customer must sue under the EU AI Act",
+      "The decision is automatically reversed"
+    ],
+    "answer": 1,
+    "explanation": "Art. 20 lets companies protect trade secrets in the information they give, but then allows the ANPD to audit for discrimination. Clear, recorded criteria avoid the problem."
+  },
+  {
+    "question": "Which example shows that the ANPD already acts on AI without an AI-specific law?",
+    "options": [
+      "It certified every large language model sold in Brazil",
+      "In 2024 it suspended, as a preventive measure, Meta's use of Brazilian users' data to train generative AI until a compliance plan was accepted",
+      "It banned all chatbots in 2025",
+      "It has no powers over AI until PL 2338 passes"
+    ],
+    "answer": 1,
+    "explanation": "The LGPD gives the ANPD powers over personal data processing, including AI training. It has also published technical notes on generative AI and listed AI among its 2026–2027 priorities."
+  },
+  {
+    "question": "Under the Senate text of PL 2338/2023, who would coordinate the national AI regulation and governance system (SIA)?",
+    "options": [
+      "The Central Bank",
+      "The ANPD, working with sector regulators",
+      "The Superior Electoral Court",
+      "A private industry association"
+    ],
+    "answer": 1,
+    "explanation": "The bill places the ANPD at the center of the SIA. A separate Executive bill (PL 6.237/2025) also proposes the SIA structure, with the ANPD as residual regulator."
+  },
+  {
+    "question": "How should a team record PL 2338/2023 in its regulatory map today?",
+    "options": [
+      "As in-force obligations with today's date",
+      "Not at all, since bills change",
+      "As a watch item marked proposed, with a quarterly review date, while LGPD controls are treated as launch requirements",
+      "As a prohibition on AI in Brazil"
+    ],
+    "answer": 2,
+    "explanation": "Bills belong in the map as dated watch items. Building LGPD controls now (purpose, minimization, review of automated decisions, impact reports) covers most of what the bill would add."
+  }
+]

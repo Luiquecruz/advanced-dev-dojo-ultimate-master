@@ -1,0 +1,8 @@
+[
+  { "term": "AI asset registry", "description": "The inventory of models, agents, prompts, MCP servers and credentials, each with an owner, dates and links. The source of truth that every other governance control reads." },
+  { "term": "Orphaned asset", "description": "An asset whose owner left or never existed. Nobody rotates its keys, answers for it or turns it off." },
+  { "term": "Stale credential", "description": "A key or grant unused for a long period. Probably a forgotten pilot, and an attractive target because nobody notices its use." },
+  { "term": "Shadow AI signal", "description": "Evidence of unsanctioned AI use: unregistered keys, models or agents in gateway logs, AI domains in egress logs, OAuth grants, expenses." },
+  { "term": "AI-BOM", "description": "AI bill of materials: the models, datasets, prompts, tools and services a product depends on, listed like a software bill of materials." },
+  { "term": "Retirement", "description": "A recorded end-of-life state for an asset, with its credentials revoked and its records kept for the audit trail." }
+]

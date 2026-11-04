@@ -1,0 +1,16 @@
+{
+  "title": "The Global Regulatory Map",
+  "summary": "The AI rules of the EU, Brazil, the US (federal and states), the UK, China, South Korea and Japan compared, and a regulatory map built as data: a dated rules table matched to a product's markets and features, with source, status on a date, summaries and a freshness check.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "IAPP: Global AI Law and Policy Tracker", "url": "https://iapp.org/resources/article/global-ai-legislation-tracker/" },
+    { "label": "European Commission: AI Act regulatory framework and timeline", "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" },
+    { "label": "Câmara dos Deputados: PL 2338/2023 tracking page", "url": "https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2487262" },
+    { "label": "California Privacy Protection Agency: CCPA regulations updates", "url": "https://cppa.ca.gov/regulations/ccpa_updates.html" },
+    { "label": "OECD.AI: Japan's AI Basic Plan", "url": "https://oecd.ai/en/dashboards/policy-initiatives/ai-basic-plan" },
+    { "label": "White House: Executive Order on a national policy framework for AI (December 2025)", "url": "https://www.whitehouse.gov/presidential-actions/2025/12/eliminating-state-law-obstruction-of-national-artificial-intelligence-policy/" }
+  ]
+}

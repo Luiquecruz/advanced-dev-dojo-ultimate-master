@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A company has a 30-page AI policy that forbids sending customer data to unapproved models. Nothing in the gateway, the harness or CI checks it. What does this module call that?",
+    "options": [
+      "Defense in depth",
+      "Policy theater: a rule with no runtime enforcement and no evidence that it holds",
+      "A risk-based approach",
+      "Human oversight"
+    ],
+    "answer": 1,
+    "explanation": "Governance controls need an owner, a precise rule, enforcement and evidence. A document alone has the first two at best; the 2026 shift is to enforce rules where calls happen."
+  },
+  {
+    "question": "Which four parts does every control in this module need?",
+    "options": [
+      "A vendor, a dashboard, a training course and a budget",
+      "A model, a prompt, a tool and an eval",
+      "An owner, a rule precise enough to check, the place where it is enforced, and the evidence that it ran",
+      "A policy, a committee, a review date and a signature"
+    ],
+    "answer": 2,
+    "explanation": "Without an owner nobody fixes it, without a precise rule code cannot check it, without enforcement it is optional, and without evidence you cannot prove it to an auditor."
+  },
+  {
+    "question": "Where do the dates of AI laws belong in a governed system?",
+    "options": [
+      "Hard-coded in the feature flags of each product",
+      "Nowhere: laws only matter to the legal team",
+      "In a dated rules table with a scheduled review, separate from the stable controls it informs",
+      "In the system prompt, so the model knows the law"
+    ],
+    "answer": 2,
+    "explanation": "Obligations and dates change every quarter. A dated table makes staleness visible and reviewable; the stable controls (logging, oversight, minimization) stay in code."
+  },
+  {
+    "question": "Module 08 built hooks that audit every tool call. What makes that hook a governance control rather than only a harness feature?",
+    "options": [
+      "Nothing: harness features and governance controls are the same thing",
+      "It has a named owner, it enforces a written policy, and its records are kept as evidence for reviews and audits",
+      "It runs on a faster machine",
+      "It uses a model to decide what to log"
+    ],
+    "answer": 1,
+    "explanation": "Governance reuses the mechanisms of the harness and security layers, and adds accountability: who owns the control, which policy it enforces, and how long and where its evidence lives."
+  },
+  {
+    "question": "A team runs one internal prototype that summarizes public release notes. Which part of this module matters most right now?",
+    "options": [
+      "The full EU AI Act high-risk conformity process",
+      "Registering the prototype with an owner and putting it under a budget (lessons 03 and 07)",
+      "A Brazilian algorithmic impact assessment",
+      "A model registry with eval-gated promotion"
+    ],
+    "answer": 1,
+    "explanation": "Governance should be proportionate. An owner and a budget prevent sprawl and surprise bills; the heavier controls arrive with customers, personal data and consequential decisions."
+  }
+]

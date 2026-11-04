@@ -1,0 +1,272 @@
+export type RuleStatus = 'law' | 'bill';
+
+export interface RuleCondition {
+  uses?: string[];
+  dataTypes?: string[];
+  users?: string[];
+}
+
+export interface Rule {
+  id: string;
+  jurisdiction: string;
+  instrument: string;
+  status: RuleStatus;
+  appliesFrom?: string;
+  when: RuleCondition;
+  obligation: string;
+}
+
+/**
+ * Simplified teaching table of AI obligations per jurisdiction. Not legal advice: review every quarter and confirm with counsel.
+ */
+export const RULES_AS_OF = '2026-10-31';
+
+export const RULES: Rule[] = [
+  {
+    id: 'eu-ai-act-art5-emotion-at-work',
+    jurisdiction: 'EU',
+    instrument: 'EU AI Act, Art. 5(1)(f)',
+    status: 'law',
+    appliesFrom: '2025-02-02',
+    when: { uses: ['emotion-recognition'], users: ['employees', 'students'] },
+    obligation: 'Prohibited practice: emotion recognition in the workplace or in education (except medical or safety reasons). Do not deploy.',
+  },
+  {
+    id: 'eu-ai-act-art50-interaction',
+    jurisdiction: 'EU',
+    instrument: 'EU AI Act, Art. 50(1)',
+    status: 'law',
+    appliesFrom: '2026-08-02',
+    when: { uses: ['chatbot', 'companion'] },
+    obligation: 'Tell people they are interacting with an AI system, unless it is obvious.',
+  },
+  {
+    id: 'eu-ai-act-art50-marking',
+    jurisdiction: 'EU',
+    instrument: 'EU AI Act, Art. 50(2)',
+    status: 'law',
+    appliesFrom: '2026-08-02',
+    when: { uses: ['synthetic-media'] },
+    obligation: 'Mark generated audio, images, video and text in a machine-readable, detectable way.',
+  },
+  {
+    id: 'eu-ai-act-gpai',
+    jurisdiction: 'EU',
+    instrument: 'EU AI Act, Art. 53',
+    status: 'law',
+    appliesFrom: '2025-08-02',
+    when: { uses: ['gpai-model'] },
+    obligation: 'Technical documentation, information for downstream providers, a copyright policy and a public summary of training content.',
+  },
+  {
+    id: 'eu-ai-act-annex3-employment',
+    jurisdiction: 'EU',
+    instrument: 'EU AI Act, Art. 6(2) and Annex III point 4, dates as amended by Regulation (EU) 2026/1744',
+    status: 'law',
+    appliesFrom: '2027-12-02',
+    when: { uses: ['employment-decision'] },
+    obligation: 'High-risk system: risk management, data governance, logging, human oversight, documentation, conformity assessment and registration.',
+  },
+  {
+    id: 'eu-ai-act-annex3-credit',
+    jurisdiction: 'EU',
+    instrument: 'EU AI Act, Art. 6(2) and Annex III point 5(b), dates as amended by Regulation (EU) 2026/1744',
+    status: 'law',
+    appliesFrom: '2027-12-02',
+    when: { uses: ['credit-decision'], users: ['consumers'] },
+    obligation: 'High-risk system: provider requirements as for every high-risk system, and a fundamental rights impact assessment by the deployer.',
+  },
+  {
+    id: 'eu-gdpr-art22',
+    jurisdiction: 'EU',
+    instrument: 'GDPR, Art. 22',
+    status: 'law',
+    appliesFrom: '2018-05-25',
+    when: { uses: ['employment-decision', 'credit-decision'], dataTypes: ['personal'] },
+    obligation: 'Solely automated decisions with legal or similarly significant effects need a lawful exception, meaningful information about the logic, human intervention and a way to contest.',
+  },
+  {
+    id: 'eu-gdpr-art35-dpia',
+    jurisdiction: 'EU',
+    instrument: 'GDPR, Art. 35',
+    status: 'law',
+    appliesFrom: '2018-05-25',
+    when: { dataTypes: ['sensitive', 'biometric', 'children'] },
+    obligation: 'Data protection impact assessment before processing likely to result in a high risk.',
+  },
+  {
+    id: 'br-lgpd-legal-basis',
+    jurisdiction: 'BR',
+    instrument: 'LGPD (Law 13.709/2018), Arts. 6, 7 and 11',
+    status: 'law',
+    appliesFrom: '2020-09-18',
+    when: { dataTypes: ['personal', 'sensitive', 'biometric', 'children'] },
+    obligation: 'A legal basis and declared purpose for each processing, minimization, transparency and security.',
+  },
+  {
+    id: 'br-lgpd-art20-review',
+    jurisdiction: 'BR',
+    instrument: 'LGPD (Law 13.709/2018), Art. 20',
+    status: 'law',
+    appliesFrom: '2020-09-18',
+    when: { uses: ['employment-decision', 'credit-decision'], dataTypes: ['personal'] },
+    obligation: 'Right to request review of decisions made solely by automated processing, with information about the criteria and procedures used.',
+  },
+  {
+    id: 'br-lgpd-art38-ripd',
+    jurisdiction: 'BR',
+    instrument: 'LGPD (Law 13.709/2018), Art. 38',
+    status: 'law',
+    appliesFrom: '2020-09-18',
+    when: { dataTypes: ['sensitive', 'biometric', 'children'] },
+    obligation: 'Data protection impact report (RIPD) for high-risk processing, delivered when the ANPD requests it.',
+  },
+  {
+    id: 'br-eca-digital',
+    jurisdiction: 'BR',
+    instrument: 'ECA Digital (Law 15.211/2025)',
+    status: 'law',
+    appliesFrom: '2026-03-17',
+    when: { users: ['minors'] },
+    obligation: 'Protection of children and adolescents by design and by default, including age assurance and limits on profiling.',
+  },
+  {
+    id: 'br-pl-2338-high-risk',
+    jurisdiction: 'BR',
+    instrument: 'PL 2338/2023 (Senate text, pending in the Chamber of Deputies)',
+    status: 'bill',
+    when: { uses: ['employment-decision', 'biometric-identification'] },
+    obligation: 'Proposed: preliminary risk assessment, algorithmic impact assessment and human oversight for high-risk uses.',
+  },
+  {
+    id: 'br-pl-2338-generative',
+    jurisdiction: 'BR',
+    instrument: 'PL 2338/2023 (Senate text, pending in the Chamber of Deputies)',
+    status: 'bill',
+    when: { uses: ['chatbot', 'companion', 'synthetic-media', 'gpai-model'] },
+    obligation: 'Proposed: governance and transparency duties for generative and general-purpose AI, and remuneration for copyrighted training content.',
+  },
+  {
+    id: 'us-ftc-act-section5',
+    jurisdiction: 'US',
+    instrument: 'FTC Act, Section 5',
+    status: 'law',
+    when: { users: ['consumers'] },
+    obligation: 'No unfair or deceptive practices: substantiate claims about AI and do not mislead consumers about what the AI does.',
+  },
+  {
+    id: 'us-ecoa-adverse-action',
+    jurisdiction: 'US',
+    instrument: 'Equal Credit Opportunity Act and Regulation B',
+    status: 'law',
+    when: { uses: ['credit-decision'] },
+    obligation: 'Adverse action notices with the specific principal reasons, also when a model makes the decision.',
+  },
+  {
+    id: 'us-co-sb26-189',
+    jurisdiction: 'US-CO',
+    instrument: 'Colorado SB 26-189 (replaced SB 24-205)',
+    status: 'law',
+    appliesFrom: '2027-01-01',
+    when: { uses: ['employment-decision', 'credit-decision'] },
+    obligation: 'Notices and consumer rights when automated decision-making technology materially influences a consequential decision.',
+  },
+  {
+    id: 'us-ca-sb243-companions',
+    jurisdiction: 'US-CA',
+    instrument: 'California SB 243 (companion chatbots)',
+    status: 'law',
+    appliesFrom: '2026-01-01',
+    when: { uses: ['companion'] },
+    obligation: 'Disclose that the companion is AI, keep protocols for self-harm content and add protections for minors.',
+  },
+  {
+    id: 'us-ca-sb942-transparency',
+    jurisdiction: 'US-CA',
+    instrument: 'California AI Transparency Act (SB 942, as amended by AB 853)',
+    status: 'law',
+    appliesFrom: '2026-08-02',
+    when: { uses: ['synthetic-media'], users: ['consumers'] },
+    obligation: 'Covered providers offer a free AI detection tool and embed latent disclosures in generated content.',
+  },
+  {
+    id: 'us-ca-ccpa-admt',
+    jurisdiction: 'US-CA',
+    instrument: 'CCPA regulations on automated decisionmaking technology',
+    status: 'law',
+    appliesFrom: '2027-01-01',
+    when: { uses: ['employment-decision', 'credit-decision'], dataTypes: ['personal'] },
+    obligation: 'Pre-use notice, opt-out and access rights when automated decisionmaking technology is used for significant decisions.',
+  },
+  {
+    id: 'us-nyc-ll144',
+    jurisdiction: 'US-NYC',
+    instrument: 'New York City Local Law 144',
+    status: 'law',
+    appliesFrom: '2023-07-05',
+    when: { uses: ['employment-decision'], users: ['job-applicants', 'employees'] },
+    obligation: 'Independent bias audit within the last year, published results, and notice to candidates before using an automated employment decision tool.',
+  },
+  {
+    id: 'uk-gdpr-automated-decisions',
+    jurisdiction: 'UK',
+    instrument: 'UK GDPR automated decision-making rules, as reformed by the Data (Use and Access) Act 2025',
+    status: 'law',
+    when: { uses: ['employment-decision', 'credit-decision'], dataTypes: ['personal'] },
+    obligation: 'Safeguards for significant automated decisions: information, human intervention and the right to contest.',
+  },
+  {
+    id: 'cn-generative-ai-measures',
+    jurisdiction: 'CN',
+    instrument: 'Interim Measures for the Management of Generative AI Services',
+    status: 'law',
+    appliesFrom: '2023-08-15',
+    when: { uses: ['chatbot', 'companion', 'synthetic-media'], users: ['consumers'] },
+    obligation: 'Security assessment and algorithm filing before offering generative AI services to the public.',
+  },
+  {
+    id: 'cn-content-labeling',
+    jurisdiction: 'CN',
+    instrument: 'Measures for Labeling AI-Generated Synthetic Content',
+    status: 'law',
+    appliesFrom: '2025-09-01',
+    when: { uses: ['chatbot', 'companion', 'synthetic-media'] },
+    obligation: 'Explicit labels and implicit (metadata) labels on AI-generated content.',
+  },
+  {
+    id: 'cn-anthropomorphic-ai',
+    jurisdiction: 'CN',
+    instrument: 'Interim Measures for Anthropomorphic AI Interaction Services',
+    status: 'law',
+    appliesFrom: '2026-07-15',
+    when: { uses: ['companion'] },
+    obligation: 'Remind users they are interacting with AI, limit prolonged use, and protect minors and interaction data.',
+  },
+  {
+    id: 'kr-ai-basic-act-generative',
+    jurisdiction: 'KR',
+    instrument: 'AI Basic Act',
+    status: 'law',
+    appliesFrom: '2026-01-22',
+    when: { uses: ['chatbot', 'companion', 'synthetic-media'] },
+    obligation: 'Notify users in advance that the service uses generative AI and label generated outputs.',
+  },
+  {
+    id: 'kr-ai-basic-act-high-impact',
+    jurisdiction: 'KR',
+    instrument: 'AI Basic Act',
+    status: 'law',
+    appliesFrom: '2026-01-22',
+    when: { uses: ['employment-decision', 'credit-decision', 'biometric-identification'] },
+    obligation: 'High-impact AI: risk management, explanation, user protection, human oversight and documentation.',
+  },
+  {
+    id: 'jp-ai-promotion-act',
+    jurisdiction: 'JP',
+    instrument: 'AI Promotion Act (2025)',
+    status: 'law',
+    appliesFrom: '2025-09-01',
+    when: {},
+    obligation: 'Best-effort duty to cooperate with government AI measures; no penalties.',
+  },
+];

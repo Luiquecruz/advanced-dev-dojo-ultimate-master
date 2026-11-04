@@ -1,0 +1,8 @@
+[
+  { "term": "Data classification", "description": "Labels such as public, internal, confidential and restricted, plus a personal-data flag, attached to fields and documents so code can decide what may travel." },
+  { "term": "Purpose limitation", "description": "Personal data collected for one purpose is not reused for another without its own legal basis. Every AI use case declares its purpose." },
+  { "term": "Legal basis", "description": "The lawful ground for processing personal data: consent, contract, legitimate interest, legal obligation and others (GDPR Art. 6, LGPD Art. 7)." },
+  { "term": "Data minimization", "description": "Sending only the fields a purpose needs, by allowlist, so new or unexpected data stays out of prompts by default." },
+  { "term": "Retention period", "description": "How long outputs, traces and memories derived from personal data may be kept, set by the purpose and enforced by a job." },
+  { "term": "Processing record", "description": "A record of who, which purpose, which fields, when and until when, written at each model call; the evidence behind retention and erasure." }
+]

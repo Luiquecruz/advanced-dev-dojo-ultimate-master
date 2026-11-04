@@ -1,0 +1,46 @@
+[
+  {
+    "question": "An audit finds an agent whose owner left the company four months ago. It still runs nightly with a valid key. Why is this a priority finding?",
+    "options": [
+      "Agents are not allowed to run at night",
+      "Nobody will rotate its credentials, answer for its incidents or turn it off: an orphaned asset is unaccountable access",
+      "The agent's model must be outdated",
+      "It is not a priority as long as it works"
+    ],
+    "answer": 1,
+    "explanation": "Ownership is the precondition of every other control. Transfer the agent to an active owner or retire it, and record which one."
+  },
+  {
+    "question": "Why does the registry reject credentials without an expiry date?",
+    "options": [
+      "Because providers charge more for keys without expiry",
+      "Because keys without expiry outlive their purpose and owner, and long-lived unused credentials are favorite targets",
+      "Because expiry dates make keys faster",
+      "Because regulations forbid API keys"
+    ],
+    "answer": 1,
+    "explanation": "Expiry forces a decision at a known time: rotate, transfer or retire. Short-lived scoped credentials (module 12) push the same idea further."
+  },
+  {
+    "question": "The gateway log shows 400 calls per week to an unregistered frontier model from laptops in sales. What is the best first response?",
+    "options": [
+      "Block the provider and open disciplinary proceedings",
+      "Ignore it, since the volume is small",
+      "Find out what job sales is doing, offer a sanctioned path that serves it, and keep monitoring the signal",
+      "Ask the model provider for the prompts"
+    ],
+    "answer": 2,
+    "explanation": "Shadow AI is mostly a missing or slow sanctioned option. Fix the cause, keep the visibility, and block only what a sanctioned path cannot cover."
+  },
+  {
+    "question": "A pilot ends. What should happen to its agent and key in the registry?",
+    "options": [
+      "Delete both records to keep the registry small",
+      "Mark them retired with a date and revoke the key, keeping the records for the audit trail",
+      "Leave them active in case the pilot restarts",
+      "Transfer them to the security team"
+    ],
+    "answer": 1,
+    "explanation": "Retirement is a recorded state. The history must still explain what the asset did, and any traffic after retirement becomes a clear signal."
+  }
+]

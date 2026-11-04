@@ -1,0 +1,9 @@
+[
+  { "term": "Agent identity", "description": "A unique, registered identity per agent with its own owner and scoped credentials, so its actions can be attributed, limited and revoked individually." },
+  { "term": "Delegation (on behalf of)", "description": "Recording that an agent (the actor) acts for a person (the subject). OAuth token exchange expresses it with an `act` claim." },
+  { "term": "Policy decision point (PDP)", "description": "The component that receives a call's attributes and returns allow, ask or deny with reasons." },
+  { "term": "Policy enforcement point (PEP)", "description": "The component on the path of every call (gateway, harness) that asks the PDP and enforces its answer; it cannot be skipped." },
+  { "term": "Attribute-based access control", "description": "Deciding from attributes of the subject, resource, action and context (agent, classification, scope, purpose) instead of fixed role lists." },
+  { "term": "Kill switch", "description": "A way to suspend an agent that takes effect on its next call, without a deploy." },
+  { "term": "Hash chain", "description": "An append-only log where each entry stores the previous entry's hash, so edits, deletions and reordering become evident." }
+]

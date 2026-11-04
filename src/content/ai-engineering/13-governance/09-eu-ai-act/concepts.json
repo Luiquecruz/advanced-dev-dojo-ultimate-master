@@ -1,0 +1,8 @@
+[
+  { "term": "AI Act", "description": "Regulation (EU) 2024/1689: a horizontal, risk-based law for AI systems and general-purpose AI models placed on the EU market or whose output is used in the EU." },
+  { "term": "High-risk AI system", "description": "A safety component of a regulated product (Annex I) or a system used in an Annex III area such as employment, credit, education or biometrics. Carries risk management, logging, oversight, documentation and conformity duties." },
+  { "term": "Article 50", "description": "The AI Act's transparency duties: disclose AI interaction, mark generated content machine-readably, disclose deepfakes and inform people exposed to emotion recognition." },
+  { "term": "GPAI model", "description": "A general-purpose AI model. Its provider owes documentation, downstream information, a copyright policy and a training-content summary; systemic-risk models owe more." },
+  { "term": "Digital Omnibus on AI", "description": "Regulation (EU) 2026/1744, in force 27 July 2026: deferred high-risk dates to December 2027 (Annex III) and August 2028 (Annex I), added prohibitions and simplified duties for smaller companies." },
+  { "term": "FRIA", "description": "Fundamental rights impact assessment, required before use from public bodies and deployers of credit scoring and life or health insurance pricing systems." }
+]

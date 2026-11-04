@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A credit-limit feature serves consumers in Brazil, Portugal and Colorado. Which obligation group appears in all three markets?",
+    "options": [
+      "AI-generated content labeling",
+      "Rights around automated decisions: LGPD Art. 20 review, GDPR Art. 22 safeguards (and AI Act high-risk duties later), and Colorado's notices and consumer rights for consequential decisions",
+      "Algorithm filing with a national regulator",
+      "Nothing: credit is only regulated by banks"
+    ],
+    "answer": 1,
+    "explanation": "Automated decisions about credit trigger rights in every one of those markets, with different instruments and dates. One review path with recorded criteria serves all of them."
+  },
+  {
+    "question": "Why does the map evaluate status on a date passed in, instead of always using today?",
+    "options": [
+      "Dates make the code faster",
+      "The same table must answer what applies today, at launch and at future deadlines such as December 2027",
+      "Laws never change, so the date is irrelevant",
+      "Bills need a date to become law"
+    ],
+    "answer": 1,
+    "explanation": "Planning needs the future view. An obligation that is upcoming at today's date may already apply on your launch date."
+  },
+  {
+    "question": "How should a bill such as Brazil's PL 2338/2023 appear in the map?",
+    "options": [
+      "As an obligation that applies today",
+      "Not at all",
+      "As a proposed watch item with its source, kept separate from laws and reviewed every quarter",
+      "As a prohibition"
+    ],
+    "answer": 2,
+    "explanation": "Bills are worth watching and designing toward, but they create no obligation until enacted."
+  },
+  {
+    "question": "The rules table was last reviewed 140 days ago. What should the map do?",
+    "options": [
+      "Nothing, since laws rarely change",
+      "Flag the table as stale so a review happens before anyone relies on it",
+      "Delete the table",
+      "Mark every obligation as proposed"
+    ],
+    "answer": 1,
+    "explanation": "AI law moved several times in 2025–2026. A dated table with a freshness check makes staleness visible instead of silently trusted."
+  },
+  {
+    "question": "Which pattern shows up in the EU, California, China and South Korea alike?",
+    "options": [
+      "A ban on all chatbots",
+      "Transparency for AI interaction and AI-generated content (disclosure and labeling)",
+      "Mandatory open-sourcing of models",
+      "A single global regulator"
+    ],
+    "answer": 1,
+    "explanation": "Disclosure and labeling duties recur across very different regulatory styles, which is why provenance and disclosure controls are worth building once."
+  }
+]

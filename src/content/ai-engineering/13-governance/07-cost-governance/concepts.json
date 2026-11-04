@@ -1,0 +1,8 @@
+[
+  { "term": "Cost attribution", "description": "Tagging every model call with its cost owner (team, feature, agent) and recording the actual usage, so spend can be split, compared and limited." },
+  { "term": "Showback and chargeback", "description": "Showing each team its AI spend (showback) or charging it to the team's own budget (chargeback)." },
+  { "term": "Unit economics", "description": "Cost per unit of value, such as per resolved ticket or per active user; the number that decides whether a feature is viable." },
+  { "term": "Soft limit", "description": "An alert threshold (for example 80% of a budget) that warns the owner once while there is still time to act." },
+  { "term": "Hard limit", "description": "A refusal before the call when the worst-case cost would exceed a budget." },
+  { "term": "Rate limit", "description": "A cap on requests per time window per team or agent, which stops bursts and retry storms faster than budgets can." }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Marketing staff paste customer lists into a free chatbot because the approved assistant needs a two-week access request. What is the most effective first fix?",
+    "options": [
+      "Block the chatbot's domain and send a reminder of the AI policy",
+      "Offer a sanctioned assistant that is fast to access and good enough, and add visibility (gateway or proxy logs) to see what is still used outside it",
+      "Ask the chatbot vendor to delete the data",
+      "Nothing: free tools do not store data"
+    ],
+    "answer": 1,
+    "explanation": "Shadow AI is a symptom of a missing or worse sanctioned option. Bans alone push usage out of sight; a good sanctioned tool plus visibility reduces it and makes the rest detectable."
+  },
+  {
+    "question": "Ten production agents call tools with the same API key. After an unauthorized refund, the audit log shows only the key. Which layer failed?",
+    "options": [
+      "The model layer",
+      "The cost layer",
+      "The agent and identity layer: without an identity per agent, actions cannot be attributed or revoked individually",
+      "The regulatory layer"
+    ],
+    "answer": 2,
+    "explanation": "Shared service accounts destroy attribution. Each agent needs its own identity, scoped credentials and, when it acts for a user, a record of on whose behalf."
+  },
+  {
+    "question": "Which situation is a symptom of AI sprawl?",
+    "options": [
+      "An agent built for a 2025 pilot still runs with an OAuth grant approved by an employee who left",
+      "A model is pinned to a dated version",
+      "A team has a monthly budget for model calls",
+      "A prompt is versioned in Git"
+    ],
+    "answer": 0,
+    "explanation": "Sprawl is unowned proliferation: orphaned agents, credentials that outlive their owners, duplicated tools. A registry with owners and expiring credentials is the fix."
+  },
+  {
+    "question": "A reviewer approves 400 credit-limit suggestions per day from an AI system and has overridden none in three months. What is the problem?",
+    "options": [
+      "None: approval proves the system is accurate",
+      "The reviewer should approve faster",
+      "Rubber-stamp oversight: the volume and setup produce automation bias, so the human adds a signature, not a check",
+      "The system should stop asking for approval"
+    ],
+    "answer": 2,
+    "explanation": "Meaningful oversight needs a manageable volume, the information and authority to disagree, and measurement of override rates. Zero overrides at high volume is a warning sign, not a success metric."
+  },
+  {
+    "question": "Where should the rule \"agents may not send customer data to models without an approved purpose\" be enforced first?",
+    "options": [
+      "In the acceptable-use policy only",
+      "In a yearly training course",
+      "At the gateway that every model call passes, with a log entry for every decision",
+      "In the system prompt of each agent"
+    ],
+    "answer": 2,
+    "explanation": "Prefer the earliest automated enforcement point. The gateway sees every model call and can check identity, purpose and data before anything leaves; the policy and training explain the rule but do not enforce it."
+  },
+  {
+    "question": "Your data layer is excellent: classification, minimization and retention all run at the gateway. Why can an audit still fail?",
+    "options": [
+      "Because data governance is optional under every law",
+      "Because layers are independent: an unowned agent with an admin key, an unpinned model or an unmonitored budget is a finding no data control prevents",
+      "Because auditors only read policies",
+      "Because data controls slow down models"
+    ],
+    "answer": 1,
+    "explanation": "Each layer answers a different question. Audits, like attacks, find the weakest layer, so every layer needs an owner and evidence."
+  }
+]

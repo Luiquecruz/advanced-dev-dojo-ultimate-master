@@ -1,0 +1,15 @@
+{
+  "title": "Agent Identity and Runtime Policy",
+  "summary": "One identity per agent instead of shared keys, a policy decision point that decides every tool call from agent, scope, data classification and purpose with reasons and a kill switch, and an append-only audit log chained with SHA-256 hashes.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "RFC 8693: OAuth 2.0 Token Exchange (delegation and the act claim)", "url": "https://datatracker.ietf.org/doc/html/rfc8693" },
+    { "label": "Open Policy Agent documentation", "url": "https://www.openpolicyagent.org/docs" },
+    { "label": "Cedar policy language", "url": "https://www.cedarpolicy.com/" },
+    { "label": "SPIFFE: workload identity overview", "url": "https://spiffe.io/docs/latest/spiffe-about/overview/" },
+    { "label": "transparency.dev: tamper-evident logs", "url": "https://transparency.dev/" }
+  ]
+}

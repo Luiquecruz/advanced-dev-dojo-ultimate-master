@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Analysts approve 99.6% of the credit agent's suggestions at about 600 per analyst per day. Which plan change addresses the oversight problem?",
+    "options": [
+      "Remove the analysts, since they add no value",
+      "Cap the queue at a volume an analyst can review carefully, track override rates, and add an appeal path for customers",
+      "Ask analysts to approve faster",
+      "Show the model's confidence score in a larger font"
+    ],
+    "answer": 1,
+    "explanation": "Meaningful oversight needs time to disagree, measurement of whether people do, and a route for the affected person. Removing the human would also remove the review path GDPR Art. 22 and LGPD Art. 20 rely on."
+  },
+  {
+    "question": "Why should the audit layer have a different owner from the agent-identity layer?",
+    "options": [
+      "Because audits must be done by lawyers",
+      "Independence: a team that audits its own controls has an incentive not to find problems",
+      "Because the identity team is too busy",
+      "It does not matter who audits"
+    ],
+    "answer": 1,
+    "explanation": "Separation of duties is a basic governance control. The evidence is only convincing when someone other than the operator reviews it."
+  },
+  {
+    "question": "The pinned model retires on 2027-01-15 and migrations must start 30 days before a retirement. Which migration start date is coherent?",
+    "options": [
+      "2027-01-15",
+      "2027-01-01",
+      "2026-11-30",
+      "Whenever the provider sends a reminder"
+    ],
+    "answer": 2,
+    "explanation": "Any date on or before 2026-12-16 respects the 30-day rule. Starting on the retirement date leaves no time to run the required evals and promote a replacement."
+  },
+  {
+    "question": "How should PL 2338/2023 appear in Lumen Pay's regulatory map?",
+    "options": [
+      "As an obligation that applies today",
+      "As a proposed watch item (or not at all), while the LGPD obligations that apply today drive the controls",
+      "As a reason to delay the launch",
+      "As an EU obligation"
+    ],
+    "answer": 1,
+    "explanation": "Bills create no obligation until enacted. The plan builds on the LGPD now and watches the bill every quarter."
+  }
+]

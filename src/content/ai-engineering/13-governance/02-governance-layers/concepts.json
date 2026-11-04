@@ -1,0 +1,8 @@
+[
+  { "term": "Shadow AI", "description": "Employees using unsanctioned AI tools with company data, usually because the sanctioned option is missing or worse. Fixed by good sanctioned tools plus visibility, not by bans alone." },
+  { "term": "AI sprawl / agent sprawl", "description": "Uncontrolled proliferation of models, agents, MCP servers, prompts and keys with no owner: orphaned agents, credentials that outlive their owners, duplicated spend." },
+  { "term": "Shared service account", "description": "One credential used by many agents. It makes actions unattributable and impossible to revoke for one agent only." },
+  { "term": "Automation bias", "description": "The tendency to accept a system's suggestion without real scrutiny. It turns a high-volume human-in-the-loop step into a rubber stamp." },
+  { "term": "Enforcement point", "description": "Where a control runs: the gateway (model calls), the harness (tool calls), CI and release (changes), or a scheduled process (reviews)." },
+  { "term": "ISO/IEC 42001", "description": "The international standard for an AI management system: policies, roles, risk assessment, controls and continual improvement, certifiable like ISO 27001." }
+]

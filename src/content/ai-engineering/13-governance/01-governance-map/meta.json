@@ -1,0 +1,12 @@
+{
+  "title": "Map: Governance in Layers",
+  "summary": "What this module answers (who may do what with which AI, and how you prove it), its place in the governance layer, the prerequisites from earlier modules, the path from inventory and runtime policy to global regulation, and the governance ADR at the end.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "theory"],
+  "resources": [
+    { "label": "NIST: AI Risk Management Framework", "url": "https://www.nist.gov/itl/ai-risk-management-framework" },
+    { "label": "European Commission: AI Act regulatory framework", "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" },
+    { "label": "Câmara dos Deputados: PL 2338/2023 tracking page", "url": "https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2487262" },
+    { "label": "IAPP: Global AI Law and Policy Tracker", "url": "https://iapp.org/resources/article/global-ai-legislation-tracker/" }
+  ]
+}

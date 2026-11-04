@@ -1,0 +1,7 @@
+[
+  { "term": "Governance ADR", "description": "The record of a company's AI governance decisions: layers, owners, controls, enforcement points, evidence and the regulatory map, each tied to a finding, policy or law in the briefing." },
+  { "term": "Governance plan", "description": "The implementable part of the decision: one entry per layer plus inventory, identity, data, model, cost, oversight and regulatory settings precise enough to check." },
+  { "term": "Separation of duties", "description": "The team that audits a control is not the team that operates it, so the evidence is credible." },
+  { "term": "Meaningful oversight", "description": "Human review sized so reviewers can disagree, with measured override rates and an appeal path for affected people." },
+  { "term": "Evidence", "description": "The record that shows a control ran: decision logs, eval records, cost reports, review minutes." }
+]

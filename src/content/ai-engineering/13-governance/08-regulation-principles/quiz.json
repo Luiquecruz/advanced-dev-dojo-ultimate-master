@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which pair shows the same principle expressed as law and as an engineering control?",
+    "options": [
+      "Human oversight and a larger model",
+      "Transparency and telling users in the interface that they are chatting with an AI, plus provenance metadata on generated images",
+      "Accountability and a faster GPU",
+      "Data protection and longer prompts"
+    ],
+    "answer": 1,
+    "explanation": "Transparency duties (AI interaction disclosure, synthetic content labeling) become concrete UI and metadata controls."
+  },
+  {
+    "question": "Your company builds a hiring assistant on top of a provider's general-purpose model and sells it to employers. Which role does it most likely hold?",
+    "options": [
+      "Only a deployer, because it did not train the model",
+      "The provider of the hiring AI system it places on the market, while the employers are deployers",
+      "No role, because the model provider carries every duty",
+      "A data subject"
+    ],
+    "answer": 1,
+    "explanation": "Roles follow who places a system on the market for a purpose. Building a hiring system on a general model makes you its provider; your customers deploy it."
+  },
+  {
+    "question": "A country has no AI-specific law. Which statement is right?",
+    "options": [
+      "AI systems are unregulated there",
+      "Existing laws still apply: data protection, consumer protection, anti-discrimination, sector rules and liability",
+      "Only international treaties apply",
+      "Companies must wait for an AI law before launching"
+    ],
+    "answer": 1,
+    "explanation": "AI-specific laws add duties on top of existing ones. Brazil's LGPD, for example, already governs personal data used by AI systems."
+  },
+  {
+    "question": "What do the NIST AI RMF and ISO/IEC 42001 give an engineering team?",
+    "options": [
+      "Legal immunity in every jurisdiction",
+      "A shared vocabulary and a management structure (Govern, Map, Measure, Manage; a certifiable AI management system) that operationalize the principles",
+      "A list of approved models",
+      "Mandatory obligations in the United States"
+    ],
+    "answer": 1,
+    "explanation": "Both are voluntary frameworks. They organize the work and the evidence that laws and customers ask for, and certification under 42001 can demonstrate it."
+  },
+  {
+    "question": "Which pair contrasts two regulatory styles correctly?",
+    "options": [
+      "The EU regulates AI horizontally by risk tiers; US states mostly regulate specific uses such as hiring tools, chatbots and deepfakes",
+      "The UK has the most detailed horizontal AI act; the EU relies on sector regulators",
+      "China has no AI rules; Japan imposes the highest fines",
+      "All countries copy the EU AI Act word for word"
+    ],
+    "answer": 0,
+    "explanation": "Horizontal risk-based laws (EU, South Korea, Brazil's bill), targeted rules (US states, China) and principles-based approaches (UK, Japan) coexist."
+  },
+  {
+    "question": "A credit decision is made automatically and the customer wants to challenge it. Which principle is at stake, and which control answers it?",
+    "options": [
+      "Robustness; retrain the model",
+      "Contestability; an appeal path to a human reviewer with the decision record and the main factors behind it",
+      "Transparency; a banner saying AI was used",
+      "Cost governance; a refund"
+    ],
+    "answer": 1,
+    "explanation": "Contestability needs a route to a human who can change the outcome, and records that explain the decision. GDPR Art. 22 and LGPD Art. 20 express versions of it."
+  }
+]

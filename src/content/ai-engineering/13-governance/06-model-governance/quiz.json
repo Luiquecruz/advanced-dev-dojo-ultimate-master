@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A support bot's tone changed overnight with no deploy. Its configuration names `acme-small-latest`. What happened, and what is the fix?",
+    "options": [
+      "A prompt injection; add a guardrail",
+      "The floating alias moved to a new snapshot; pin a dated version behind an application alias and promote changes through the registry",
+      "The context window shrank; reduce the prompt",
+      "Nothing changed; tone always drifts"
+    ],
+    "answer": 1,
+    "explanation": "Floating aliases move on the provider's calendar. Pinning makes the version change a decision you evaluate and record."
+  },
+  {
+    "question": "A candidate version passes every minimum but scores 4 points below the current version on the support suite, with a 2-point tolerance. What should the gate do?",
+    "options": [
+      "Promote: minimums are what matter",
+      "Block with a regression reason for that suite",
+      "Promote and run the evals again next quarter",
+      "Average the scores of both versions"
+    ],
+    "answer": 1,
+    "explanation": "Relative gates stop slow decay: each upgrade that loses a little passes the minimum until the product is noticeably worse."
+  },
+  {
+    "question": "A provider retires your pinned version in 20 days. What does a governed setup show, and when?",
+    "options": [
+      "Nothing until calls fail",
+      "A warning on every resolution inside the warning window, naming the replacement, so the migration (evals, then promotion) starts in time",
+      "An automatic switch to the newest model",
+      "An email to the original developer only"
+    ],
+    "answer": 1,
+    "explanation": "Deprecation is a schedule. Surfacing it where engineers look turns a 2 a.m. outage into a planned promotion."
+  },
+  {
+    "question": "Which registry field would have caught an open-weight model whose license forbids commercial use?",
+    "options": [
+      "The eval results",
+      "The license, checked against an allowlist at registration",
+      "The retirement date",
+      "The alias name"
+    ],
+    "answer": 1,
+    "explanation": "Evals measure behavior, not legal permission. License checks belong at approval, before any traffic."
+  }
+]

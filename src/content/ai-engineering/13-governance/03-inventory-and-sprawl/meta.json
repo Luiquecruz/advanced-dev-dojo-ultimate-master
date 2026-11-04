@@ -1,0 +1,14 @@
+{
+  "title": "Inventory and Sprawl",
+  "summary": "An AI asset registry for models, agents, prompts, MCP servers and keys with owners and expiry, an audit that finds orphaned assets, expired, expiring and stale credentials, and shadow AI signals aggregated from gateway logs.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "NIST: AI Risk Management Framework (Map function: inventory and context)", "url": "https://www.nist.gov/itl/ai-risk-management-framework" },
+    { "label": "Microsoft Entra Agent ID documentation", "url": "https://learn.microsoft.com/en-us/entra/agent-id/" },
+    { "label": "LiteLLM: users, keys and budgets in an AI gateway", "url": "https://docs.litellm.ai/docs/proxy/users" },
+    { "label": "OWASP GenAI Security Project", "url": "https://genai.owasp.org/" }
+  ]
+}

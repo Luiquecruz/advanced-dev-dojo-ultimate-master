@@ -1,0 +1,13 @@
+{
+  "title": "Cost Governance",
+  "summary": "Budgets per company, team and feature with soft alerts and hard limits checked before the call from a worst-case estimate, sliding-window rate limits per team, actual usage recorded after the call, and attribution by team, feature and model.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "FinOps Foundation: FinOps for AI", "url": "https://www.finops.org/topic/finops-for-ai/" },
+    { "label": "FinOps Foundation: FinOps for AI overview (working group)", "url": "https://www.finops.org/wg/finops-for-ai-overview/" },
+    { "label": "LiteLLM: users, keys and budgets in an AI gateway", "url": "https://docs.litellm.ai/docs/proxy/users" }
+  ]
+}

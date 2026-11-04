@@ -1,0 +1,7 @@
+[
+  { "term": "Governance layer", "description": "The sixth layer of the track: who may do what with which AI, and how you prove it. A stack of controls, each with an owner, enforcement and evidence." },
+  { "term": "Runtime enforcement", "description": "Checking a rule where the action happens (gateway, harness, CI) instead of only writing it in a policy document." },
+  { "term": "Policy theater", "description": "Rules nobody enforces: documents and committees with no runtime check and no evidence that the rule holds." },
+  { "term": "Evidence", "description": "The audit log, eval record, report or review that proves a control ran. Without it a control cannot be shown to an auditor or regulator." },
+  { "term": "Dated rules table", "description": "Volatile legal facts (obligations, dates, statuses) kept as data with an as-of date and a review schedule, separate from the controls they inform." }
+]

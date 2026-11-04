@@ -1,0 +1,8 @@
+[
+  { "term": "Risk-based approach", "description": "Regulation that scales obligations with the potential harm of a use: prohibited, high-risk, transparency-only and minimal tiers in the EU model." },
+  { "term": "Provider and deployer", "description": "The provider builds and places an AI system on the market; the deployer uses it under its authority. Each carries different duties." },
+  { "term": "Human oversight", "description": "The ability of a competent person to understand, monitor, override and stop an AI system, with the authority and time to do so." },
+  { "term": "Contestability", "description": "An affected person's ability to challenge an AI-assisted decision and reach a human who can change it." },
+  { "term": "NIST AI RMF", "description": "NIST's voluntary AI Risk Management Framework, organized into Govern, Map, Measure and Manage, with a Generative AI Profile (NIST AI 600-1)." },
+  { "term": "Soft law", "description": "Non-binding principles and codes (OECD, UNESCO, G7 Hiroshima) that shape national laws and company policies." }
+]

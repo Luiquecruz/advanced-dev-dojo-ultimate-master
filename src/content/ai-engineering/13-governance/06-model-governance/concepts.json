@@ -1,0 +1,8 @@
+[
+  { "term": "Model registry", "description": "The list of approved model versions with license, hosting, cards, eval results, retirement dates and owners, plus the aliases that point to them." },
+  { "term": "Pinned version", "description": "An exact, dated model snapshot id. What answers in production is what was evaluated." },
+  { "term": "Floating alias", "description": "A provider name like `-latest` that moves to new snapshots without your decision. Avoid it in production." },
+  { "term": "Application alias", "description": "A role name owned by the application (`support-default`) that points to a pinned version and changes only through promotion." },
+  { "term": "Eval-gated promotion", "description": "Changing a pin only when required eval suites reach their minimums and do not regress beyond a tolerance against the current version." },
+  { "term": "Deprecation window", "description": "The period before a version retires in which every resolution warns and names the replacement." }
+]

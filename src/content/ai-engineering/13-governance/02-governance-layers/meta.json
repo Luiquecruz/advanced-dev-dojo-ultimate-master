@@ -1,0 +1,12 @@
+{
+  "title": "Governance Layers",
+  "summary": "Governance as a stack: organizational, regulatory, data, model, agent identity, application, cost, engineering and audit layers, each with owners and controls; shadow AI, AI sprawl, shared service accounts, policy theater and rubber-stamp oversight; and where controls are enforced.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "NIST: AI Risk Management Framework", "url": "https://www.nist.gov/itl/ai-risk-management-framework" },
+    { "label": "NIST: AI RMF Playbook", "url": "https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook" },
+    { "label": "OWASP GenAI Security Project", "url": "https://genai.owasp.org/" },
+    { "label": "C2PA: Content provenance and authenticity", "url": "https://c2pa.org/" }
+  ]
+}

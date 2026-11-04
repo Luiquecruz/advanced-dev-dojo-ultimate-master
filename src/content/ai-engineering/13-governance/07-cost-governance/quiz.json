@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Why must the hard limit be checked before the model call and not after?",
+    "options": [
+      "Providers refuse calls without a prior check",
+      "After the call the money is already spent; an upper bound from input tokens and maxTokens lets you refuse before spending",
+      "Checking after is slower",
+      "The actual cost is never known after the call"
+    ],
+    "answer": 1,
+    "explanation": "Estimate before (worst case), record after (actual). The estimate guards the door; the actual usage fills the ledger."
+  },
+  {
+    "question": "The summaries feature exhausted its budget. Support replies use the same team budget, which has room left. What should happen to a support reply?",
+    "options": [
+      "Refuse it: the team has a problem",
+      "Allow it: each budget blocks only its own scope, and the reply matches the team budget but not the summaries budget",
+      "Allow it but charge it to summaries",
+      "Switch the reply to the most expensive model"
+    ],
+    "answer": 1,
+    "explanation": "Nested budgets contain damage: one runaway feature stops itself, not everything its team does."
+  },
+  {
+    "question": "An agent enters a retry storm and sends 300 requests in 20 seconds, each cheap. Which control reacts first?",
+    "options": [
+      "The monthly company budget",
+      "A per-team or per-agent rate limit",
+      "The quarterly cost review",
+      "The model registry"
+    ],
+    "answer": 1,
+    "explanation": "Budgets react to totals and may take a long time to fill with cheap calls; rate limits react to bursts within seconds."
+  },
+  {
+    "question": "What turns a token bill into a decision about whether a feature is viable?",
+    "options": [
+      "The provider's price list",
+      "Unit economics from attributed usage, such as cost per resolved ticket compared with the value of resolving it",
+      "The total monthly invoice",
+      "The model's context window"
+    ],
+    "answer": 1,
+    "explanation": "Attribution by team and feature gives costs per unit of value, which is what product and finance can compare and act on."
+  }
+]
