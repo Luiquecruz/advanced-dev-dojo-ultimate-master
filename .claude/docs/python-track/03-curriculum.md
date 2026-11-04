@@ -8,7 +8,7 @@ This table is the source for the `## Python` section of [CURRICULUM.md](../CURRI
 
 | Release | Modules | Lessons | Gate |
 | --- | --- | --- | --- |
-| MVP (first release, `TRACK_FLAGS.python` enabled) | 01–04 | 35 | G4 |
+| MVP (first release, `TRACK_FLAGS.python` enabled) | 01–04 | 36 | G4 |
 | Core | 01–08 | 65 | G5 |
 | Advanced | 09–12 including the capstone | 29 | G7 |
 

@@ -10,7 +10,7 @@ Return the longest prefix of `text` whose UTF-8 encoding is at most `max_bytes` 
 
 ## `normalize_key(text)`
 
-Return a key for case-insensitive, appearance-insensitive matching: NFC-normalized and case-folded. `"É"` and `"É"` give the same key, and so do `"STRASSE"` and `"straße"`.
+Return a key for case- and composition-insensitive matching of user-facing text (search keys, tags): NFC-normalized and case-folded. It is not meant for security-sensitive identifiers such as usernames (see the theory). `"É"` and `"É"` give the same key, and so do `"STRASSE"` and `"straße"`.
 
 ## `money_row(label, cents)`
 

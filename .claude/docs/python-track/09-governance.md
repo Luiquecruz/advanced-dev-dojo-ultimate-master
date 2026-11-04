@@ -89,7 +89,7 @@ A lesson is done when a reviewer who did not write it can answer "yes" to every 
 | G1 Pilot | Module 01 | Done. Verified, and reviewed in the browser | Python + PM |
 | G2 Standards lock | End of module 02 | Quality bar audit on all 17 lessons (trap tests added, regex checks moved to `ast`, module 01/02 ADRs with computed fields and neutral names); **velocity measured** (hours per practice lesson, per ADR) | CTO |
 | G3 Re-plan | End of module 03 | Delivery forecast for the 94 lessons from measured velocity; Core/Advanced cut line confirmed; Python `verify` duration recorded against the budget (R6) | PM + SM |
-| G4 MVP release | Modules 01–04 complete (35 lessons) | `TRACK_FLAGS.python` enabled; one learner session outside the team (a TS developer) records the confusing points; carousel and `?debug=perf` checked with 9 tracks | PM + Python |
+| G4 MVP release | Modules 01–04 complete (36 lessons) | `TRACK_FLAGS.python` enabled; one learner session outside the team (a TS developer) records the confusing points; carousel and `?debug=perf` checked with 9 tracks | PM + Python |
 | G5 Core release | Modules 05–08 complete (65 lessons) | Full `verify` green; feedback from G4 folded in | PM + CTO |
 | G6 Async spike | Before writing module 10 or the capstone (can run in parallel any time earlier) | `TaskGroup`, `asyncio.timeout`, `Queue` (with `shutdown`), `Semaphore`, cancellation, `ExceptionGroup`/`except*` and `loop.time()` resolution proven under Pyodide's WebLoop in the harness and in **Run**; the demo entry point for async lessons decided | Python + SRE |
 | G7 Advanced release | Modules 09–12 + capstone (94 lessons) | CTO redoes the capstone and async ADR arithmetic; full `verify` green; `Status as of` blocks re-dated | CTO |
