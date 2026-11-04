@@ -1,0 +1,5 @@
+Write `define_tool` first and try it on a tiny schema. Build `parameters` from `to_json_schema(input)` and delete its `"$schema"` key. In `call`, the order of checks is the contract: `json.loads`, then `input.safe_parse`, then run.
+---
+`safe_parse` returns a `ParseResult`; when `success` is false, `issues` holds one `Issue` per problem, each with a `path` list and a `message`. Turn them into `f"- {'.'.join(str(key) for key in issue.path) or '(root)'}: {issue.message}"` and join with newlines. Wrap the call to `run(parsed.data)` (awaiting it when `inspect.isawaitable`) in `try`/`except`: `except ToolError` gets its message and hint, `except Exception` gets a fixed sentence with the tool name.
+---
+For the schema, pass `description=` to each field and `strict=True` to the `Object`; `Integer(minimum=1, maximum=20, default=5, ...)` covers `limit` and `Enum([...], optional=True, ...)` covers `status`. In `find_orders`, filter `ORDERS` by the lowercased email first (empty means unknown customer: raise a `ToolError`), then by status, sort with `key=lambda order: order["placedAt"], reverse=True`, slice `[:limit]` and keep only `id`, `status`, `total` and `placedAt`.

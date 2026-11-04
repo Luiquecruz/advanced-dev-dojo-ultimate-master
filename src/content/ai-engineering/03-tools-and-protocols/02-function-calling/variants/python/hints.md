@@ -1,0 +1,5 @@
+Start with `parse_tool_arguments`: wrap `json.loads` in `try`/`except ValueError`, then reject any value that is not a `dict` (`isinstance(value, dict)` already excludes lists, `None`, strings and numbers). Every later function relies on it never raising.
+---
+In `execute_tool_call`, handle the three failures in order before running anything: find the tool (unknown → error listing every `tool["name"]`), parse the arguments (invalid → error naming the tool), then call `tool["execute"](...)` inside a `try`/`except Exception`, awaiting the result when `inspect.isawaitable(result)`. Build every error with `json.dumps({"error": message})` so the content is always valid JSON.
+---
+In `run_with_tools`, copy the incoming messages into a `transcript` list and loop `for round_number in range(1, max_rounds + 1)`. Build the definitions (`"name"`, `"description"`, `"parameters"`) once. After each `generate`, return when `"toolCalls"` is empty; raise `ToolLoopLimitError(round_number)` when `round_number == max_rounds`; otherwise append the assistant message with its `"toolCalls"`, then `await execute_tool_call(...)` for each call and append the results.

@@ -3,8 +3,8 @@
   "summary": "Discover tools across several MCP servers with pagination, namespace colliding names, route calls back to their server, and load tool definitions on demand through a search tool under a token budget.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "MCP: Client concepts", "url": "https://modelcontextprotocol.io/docs/learn/client-concepts" },
     { "label": "MCP specification: Pagination", "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/pagination" },

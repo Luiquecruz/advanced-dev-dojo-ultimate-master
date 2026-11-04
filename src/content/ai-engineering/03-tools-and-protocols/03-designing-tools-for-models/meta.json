@@ -3,8 +3,8 @@
   "summary": "Treat tools as an interface for a model: one Zod schema for validation and JSON Schema, descriptions that guide selection, errors that name every invalid field and suggest a next step, and minimal, truncation-aware outputs.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Anthropic: Writing effective tools for agents, with agents", "url": "https://www.anthropic.com/engineering/writing-tools-for-agents" },
     { "label": "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering (paper)", "url": "https://arxiv.org/abs/2405.15793" },

@@ -1,0 +1,7 @@
+Start with `McpClient.request`: keep a `next_id` counter on the instance, merge `"_meta"` into the params, `json.loads` the reply and either return `"result"` or raise `McpError(error["code"], error["message"], error.get("data"))`. Everything else talks to servers through it.
+---
+In `build_tool_index`, wrap each server in its own `try`/`except Exception` and page with a `while True` loop: request `tools/list` with `{}` or `{"cursor": cursor}`, index the page, then `cursor = page.get("nextCursor")` and `break` when it is `None`. Pass the tools, the failures and a dict from server id to client to `ToolIndex`; keep a dict from qualified name to tool there, so `call` splits nothing, it just looks the name up.
+---
+Precompute one embedding per tool in `ToolIndex.__init__`. `search` scores every tool and uses `sorted(self.tools, key=lambda tool: -score)`: Python's sort is stable, so ties keep the original order. `definitions_for` loops over the requested names with a running `used` total and adds a definition only when `used + definition_tokens(definition) <= budget_tokens`.
+---
+In `answer_with_tools`, keep a `loaded` list of definitions. For a `search_tools` call, compute the budget left (`budget_tokens` minus the tokens of `loaded`), filter out names already loaded, and extend `loaded` with what `definitions_for` returns. For any other call, check that its name is in `loaded` before calling `index.call`.

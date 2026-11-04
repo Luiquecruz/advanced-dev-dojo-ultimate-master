@@ -3,8 +3,8 @@
   "summary": "Execute the model's tool calls in your code, return results and errors as tool messages tied to call ids, survive broken arguments and unknown tools, and bound the loop with a round limit.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Anthropic: Tool use overview", "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview" },
     { "label": "Google Gemini API: Function calling", "url": "https://ai.google.dev/gemini-api/docs/function-calling" },

@@ -3,7 +3,7 @@
   "summary": "Close the tools module with a portfolio ADR for a support copilot: choose function calling, MCP or A2A per system, design a tool catalog with approvals and error contracts, and load tools on demand within a token and latency budget.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "adr.ts" },
+  "entry": { "node": "adr.ts", "python": "adr.py" },
   "resources": [
     { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
     { "label": "Anthropic: Writing effective tools for agents, with agents", "url": "https://www.anthropic.com/engineering/writing-tools-for-agents" },

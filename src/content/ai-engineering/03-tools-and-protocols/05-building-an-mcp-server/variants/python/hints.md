@@ -1,0 +1,5 @@
+Write `handle` as a pipeline of early returns, in the order of the contract: `json.loads` in a `try`, the envelope check (`"jsonrpc"`, `"method"`), `if "id" not in request: return None`, the `initialize` refusal, then the `_meta` check. Only after all of that, dispatch on the method.
+---
+Raise from deep inside and catch once. `ProtocolError` carries `code`, `message` and `data`, so a `check_meta` helper, `tools/call` and `resources/read` can raise protocol errors; a single `except ProtocolError` in `handle` turns them into `failure(request_id, error.code, error.message, error.data)`. Any other exception becomes `-32603`.
+---
+Build results without the common fields and add them in one place: `{"resultType": "complete", **result, "_meta": {SERVER_INFO_KEY: {"name": ..., "version": ...}}}`. For `tools/call`, use `tool["input"].safe_parse(arguments)`; a failure returns `{"content": [{"type": "text", "text": text}], "isError": True}` listing each issue as `"- path: message"`, and the handler call goes in its own `try`/`except Exception` that also returns `"isError": True`. Await the handler's result when `inspect.isawaitable(result)`.
