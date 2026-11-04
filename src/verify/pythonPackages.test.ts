@@ -18,6 +18,7 @@ const lock = JSON.parse(readFileSync(join(pyodideDirectory, 'pyodide-lock.json')
 const manifest = JSON.parse(readFileSync(join(VENDORED_PACKAGES_DIRECTORY, 'manifest.json'), 'utf8')) as {
   pyodide: string;
   packages: { name: string; version: string; file: string; sha256: string }[];
+  licenses: { file: string; sha256: string }[];
 };
 
 function closure(name: string, names = new Set<string>()): Set<string> {
@@ -46,7 +47,11 @@ describe('vendored Pyodide packages', () => {
     expect(createHash('sha256').update(readFileSync(join(VENDORED_PACKAGES_DIRECTORY, entry.file))).digest('hex')).toBe(locked.sha256);
   });
 
-  it.each([...manifest.packages.map((entry) => entry.name), 'pyodide'])('ships the license of %s', (name) => {
+  it.each([...manifest.packages.map((entry) => entry.name), 'pyodide', 'cpython'])('ships the license of %s', (name) => {
     expect(existsSync(join(VENDORED_PACKAGES_DIRECTORY, 'licenses', `${name}-LICENSE`))).toBe(true);
+  });
+
+  it.each(manifest.licenses.map((license) => [license.file, license.sha256] as const))('licenses/%s matches the sha256 pinned in manifest.json', (file, digest) => {
+    expect(createHash('sha256').update(readFileSync(join(VENDORED_PACKAGES_DIRECTORY, 'licenses', file))).digest('hex')).toBe(digest);
   });
 });
