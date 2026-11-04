@@ -1,6 +1,6 @@
 # Capstone and Module 13 (v2 backlog)
 
-## Capstone — `12-tooling/04-capstone-async-rules-engine`
+## Capstone — `12-tooling/05-capstone-async-rules-engine`
 
 The track's closing lesson: **a code challenge plus a short ADR** (decision D4 in [09-governance.md](09-governance.md)). The learner builds an asynchronous rules engine that runs in Pyodide's asyncio, then records the deployment decision with numbers computed from the briefing. It combines modules 04 (dataclasses), 06 (exception groups, notes), 09 (protocols), 10 (task groups, semaphores, timeouts, queues, cancellation) and 03 (multi-file modules).
 
@@ -89,6 +89,27 @@ Pyodide ships `pydantic` and `pydantic-core` (a Rust extension compiled for WebA
 5. Pydantic version and API surface for the lessons (v2.x): record exactly the version available.
 
 If any answer is "no", the module ships as quiz-only lessons (theory plus `quiz.json`) and the practice lessons stay in the backlog. Record the decision in `ARCHITECTURE.md`.
+
+## G8 spike result
+
+**GO** (2026-11-04, branch `sre/pydantic-spike`, Pyodide 314.0.7 / CPython 3.14.2). Every answer below is measured.
+
+1. **Wheels in `pyodide-lock.json`** (the closure of `pydantic`, 5 wheels, 1802 KiB in total):
+
+   | Package | Version | File | sha256 | Size |
+   | --- | --- | --- | --- | --- |
+   | pydantic | 2.12.5 | `pydantic-2.12.5-py3-none-any.whl` | `04854875001e07a8a74d87b7c80296cba168773d8c9804e232d695f82484d7d7` | 453 KiB |
+   | pydantic-core | 2.41.5 | `pydantic_core-2.41.5-cp314-cp314-pyemscripten_2026_0_wasm32.whl` | `54703fa42a0d4d574283cfb8f08050ba7820c9a42b0a21bc1286407d9a9e54da` | 1279 KiB |
+   | annotated-types | 0.7.0 | `annotated_types-0.7.0-py3-none-any.whl` | `6541523b4b16c1953d2fc9b82fb86c540eea9f78fca329ab371ed13a8b0faa51` | 12 KiB |
+   | typing-extensions | 4.15.0 | `typing_extensions-4.15.0-py3-none-any.whl` | `4fec68770a05408e668a4fa53d6bf4f0f684b9dacf820c7c5d6e97d3ad225e29` | 44 KiB |
+   | typing-inspection | 0.4.2 | `typing_inspection-0.4.2-py3-none-any.whl` | `deb989630985f7a7296b90357a947a804a7612cecbb6439d6e71128e01f61051` | 14 KiB |
+
+2. **Vendoring with integrity**: `scripts/python-track/vendor-packages.mjs` (`npm run python:vendor`) computes the dependency closure from the lock file, downloads each wheel once from `https://cdn.jsdelivr.net/pyodide/v314.0.7/full/`, refuses any file whose sha256 differs from the lock, and writes `vendor/pyodide-packages/` (wheels, `manifest.json`, the license file of each wheel and Pyodide's own MPL-2.0 license from the `314.0.7` tag, because the npm package ships none). Licenses: pydantic, pydantic-core, annotated-types and typing-inspection are MIT, typing-extensions is PSF-2.0, Pyodide is MPL-2.0; all are copied into the build at `pyodide/licenses/`. `src/verify/pythonPackages.test.ts` re-hashes every vendored wheel against the lock, checks that the set equals the closure and that each license is present. No npm package ships these wheels.
+3. **Browser, on demand, by name, under the CSP**: verified in Chromium on `npm run dev`. A run whose files or tests import `pydantic` boots its own worker and calls `loadPackage(["pydantic"], { checkIntegrity: true })` before the lock-down; the 5 wheels were requested from `/pyodide/<wheel>` only (no off-origin request at all), `pydantic_core` loaded without `'unsafe-eval'`, and the probe passed. That first Pydantic run took 992 ms including the downloads; a plain lesson graded right after took 17 ms and plain runs never load the wheels (`"pydantic" not in sys.modules`).
+4. **Verify**: the sandbox child loads the same wheels with `packageBaseUrl` = `vendor/pyodide-packages/` and an extra `--allow-fs-read` grant for that directory only (still no write, network or child-process grants). It boots from the stdlib snapshot (≈ 60 ms) and then loads the packages (≈ 140 ms); the snapshot stays Pydantic-free so other lessons are unaffected. Regression tests in `pythonSandbox.test.ts`: a Pydantic probe passes, and a lesson without the import has no Pydantic loaded.
+5. **API surface** (through the real harness, verify and browser): `pydantic.VERSION == "2.12.5"`; `BaseModel` with lax coercion (`"42"` → `42`), `model_validate`, `ConfigDict(strict=True)` (`int_type` error for `"3"`), `field_validator` and `model_validator(mode="after")`, `ValidationError.errors()`/`error_count()`, `model_dump(mode="json")`, `model_json_schema()` and `TypeAdapter(list[int])` all work. Lessons must import Pydantic at module level of `main.py` or `tests.py` (so `requiredPackages` sees it), not through `importlib` or `exec`.
+
+Decision: the module 13 practice lessons can be written. The spike leaves `ARCHITECTURE.md` untouched; the decision is recorded here and in CONTENT_GUIDE.md "Vendored packages".
 
 ## Lessons (if the spike passes)
 

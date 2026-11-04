@@ -46,7 +46,7 @@ The authoritative tables are in [03-curriculum.md](03-curriculum.md). Summary:
 | 09-typing | 10 | 9 | `08-typing-evolution-and-checkers` (merged quiz); ADR with a computed payload count |
 | 10-async | 10 | 9 | `08-blocking-threads-and-the-gil` (merged quiz); ADR rescaled with computed limits |
 | 11-metaprogramming | 9 | 7 | Frames, bytecode and the ADR to v2; `07-import-system-internals` moved in |
-| 12-tooling | 9 | 4 | Map (absorbs linters), `02-packaging-and-environments` (merged quiz), `03-testing-with-unittest` (practice), `04-capstone-async-rules-engine` |
+| 12-tooling | 9 | 4 | Map (absorbs linters), `02-packaging-and-environments` (merged quiz), `04-testing-with-unittest` (practice), `05-capstone-async-rules-engine` |
 | 13-validation | 7 | 0 | v2 backlog, after the Pydantic spike (G8) |
 | **Total** | **115** | **94** | Practice 72, quiz 15, ADR 6, capstone 1 |
 

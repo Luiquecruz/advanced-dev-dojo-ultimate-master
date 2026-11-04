@@ -32,4 +32,10 @@ describe('legacyHashRedirect', () => {
     expect(legacyHashRedirect({ hash: '', search: '' }, '/')).toBeNull();
     expect(legacyHashRedirect({ hash: '#section', search: '' }, '/')).toBeNull();
   });
+
+  it('ignores hash routes that would leave the origin', () => {
+    expect(legacyHashRedirect({ hash: '#//evil.example/x', search: '' }, '/')).toBeNull();
+    expect(legacyHashRedirect({ hash: '#/\\evil.example', search: '' }, '/')).toBeNull();
+    expect(legacyHashRedirect({ hash: '#//evil.example', search: '' }, '/dojo/')).toBeNull();
+  });
 });

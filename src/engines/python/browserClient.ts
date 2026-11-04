@@ -2,6 +2,7 @@ import type { ProjectFiles } from '../shared/project';
 import type { RunReport, TestResult } from '../shared/testRunner';
 import type { OutputLevel } from './engine';
 import type { PythonWorkerRequest, PythonWorkerResponse } from './protocol';
+import { requiredPackages } from './packages';
 import { listPythonTestNames } from './testNames';
 
 /** Wall-clock limit for one test, sync or async, the same as in verification. */
@@ -80,10 +81,10 @@ function getSnapshot(): Promise<Uint8Array | undefined> {
   return snapshot;
 }
 
-function spawn(): Interpreter {
+function spawn(packages: string[] = []): Interpreter {
   const worker = createWorker();
   const ready = getSnapshot().then((bytes) =>
-    answer(worker, { type: 'boot', snapshot: bytes }, BOOT_TIMEOUT_MS, (message) => (message.type === 'ready' ? true : undefined)).then(() => {
+    answer(worker, { type: 'boot', snapshot: bytes, packages }, BOOT_TIMEOUT_MS, (message) => (message.type === 'ready' ? true : undefined)).then(() => {
       started = true;
     }),
   );
@@ -93,8 +94,12 @@ function spawn(): Interpreter {
 
 /**
  * Takes the warm interpreter (or starts one) and starts the next spare once this one is ready, so a fresh interpreter per run costs no waiting.
+ * A run that imports vendored packages gets its own interpreter with them loaded, so other lessons never pay for them.
  */
-function take(): Interpreter {
+function take(packages: string[] = []): Interpreter {
+  if (packages.length > 0) {
+    return spawn(packages);
+  }
   const interpreter = spare ?? spawn();
   spare = undefined;
   void interpreter.ready.then(
@@ -183,7 +188,7 @@ export function gradePython(files: ProjectFiles, entry: string, tests: string): 
     const results: TestResult[] = [];
     let startAt = 0;
     for (;;) {
-      const interpreter = take();
+      const interpreter = take(requiredPackages(files, tests));
       try {
         await interpreter.ready;
       } catch (error) {
@@ -219,7 +224,7 @@ export function runPython(files: ProjectFiles, entry: string, onOutput: (level: 
     if (!started) {
       onOutput('info', 'Starting Python (the first run downloads the runtime)…');
     }
-    const interpreter = take();
+    const interpreter = take(requiredPackages(files));
     try {
       await interpreter.ready;
     } catch (error) {

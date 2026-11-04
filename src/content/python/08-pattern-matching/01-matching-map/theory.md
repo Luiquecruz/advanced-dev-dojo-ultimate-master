@@ -64,8 +64,8 @@ A bare name is a **capture**: it matches anything and binds it. Compare with a l
 
 ## The path
 
-Sequence and mapping patterns (a command parser), class patterns and `__match_args__`, guards, or-patterns and captures (a request router), then the walrus operator and the `else` clauses of loops and `try`.
+Sequence and mapping patterns (a command parser), class patterns and `__match_args__`, guards, or-patterns and captures (a request router), then the walrus operator and the `else` clauses of loops and `try`, then an ADR.
 
 ## When to choose it
 
-The module ends with a code challenge, not an ADR. The decision it trains: `match` when the branch depends on the shape of data (JSON-like dicts with a type tag, token lists, a closed set of dataclasses); `if`/`elif` for ranges and plain conditions; a dict of handlers when other code registers new cases; a method on each class when every new type should bring its own behavior.
+The closing ADR sizes this choice with numbers. It trains: `match` when the branch depends on the shape of data (JSON-like dicts with a type tag, token lists, a closed set of dataclasses); `if`/`elif` for ranges and plain conditions; a dict of handlers when other code registers new cases; a method on each class when every new type should bring its own behavior.

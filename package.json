@@ -12,6 +12,7 @@
     "verify": "vitest run src/verify",
     "python:new": "node scripts/python-track/new-lesson.mjs",
     "python:curriculum": "node scripts/python-track/sync-curriculum.mjs",
+    "python:vendor": "node scripts/python-track/vendor-packages.mjs",
     "docs:check": "node .claude/hooks/docs-sync.mjs --check"
   },
   "dependencies": {

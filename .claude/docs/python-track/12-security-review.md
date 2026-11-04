@@ -6,7 +6,7 @@ Findings marked **[verified]** were reproduced locally (Node 26.10, `pyodide@314
 
 ## Threat model
 
-- There is no backend and no code sharing: learner code is typed by the learner and stored in their own `localStorage` (`entities/progress/progressStore.ts:21,36`). Routes carry only `#/<track>/<lesson>`, never code. So learner code attacking the platform is mostly self-harm (self-XSS class), and grading integrity is a local concern.
+- There is no backend and no code sharing: learner code is typed by the learner and stored in their own `localStorage` (`entities/progress/progressStore.ts:21,36`). Routes carry only `/<track>/<lesson>` (react-router path routes since November 2026; hash routes before), never code. So learner code attacking the platform is mostly self-harm (self-XSS class), and grading integrity is a local concern.
 - Lesson content (`starter/`, `solution/`, `tests.py`, Markdown) is trusted repository content, but it **executes on contributor and CI machines** through `npm run verify`. That is the one place where a malicious contribution has real impact (see B1).
 - The realistic secondary vector is a learner pasting code from the internet into the editor.
 
@@ -498,3 +498,47 @@ Required changes:
 | 05-metaclasses, 06-inspect-and-signatures | No `exec`/`eval`; `public_api` skips names starting with `_` | None |
 
 No Critical or High findings in module 11. C11-1 to C11-3 should land before the module is marked written.
+
+---
+
+## Re-review 7 (Pydantic vendoring)
+
+Date: 2026-11-04. Scope: `git diff efd042b 2e5b13b` (branch `sre/pydantic-spike`):
+- `scripts/python-track/vendor-packages.mjs` (`npm run python:vendor`);
+- five wheels plus licenses committed in `vendor/pyodide-packages/`, served and copied by `plugins/pyodidePlugin.ts`;
+- `src/engines/python/packages.ts` (`requiredPackages`, a static import scan mapped through `LESSON_PACKAGES`);
+- `loadPackage(..., { checkIntegrity: true })` before the lock-down in `python.worker.ts` and `pythonSandbox.child.ts`;
+- one extra `--allow-fs-read` grant for the verify child.
+
+Method: a scratch worktree at `2e5b13b` running `vendor-packages.mjs --check`, verify-child probes through `PythonSandbox`, Chromium against `npm run dev`, and `vite build`. To test enforcement, I temporarily tampered and removed wheels **in the scratch worktree only**. Each was restored and `--check` re-verified before the worktree was removed. Suites: `pythonSandbox.test.ts`, `pythonPackages.test.ts` and `src/engines/python` passed 74/74.
+
+### (1) Supply chain (C1, C2)
+
+| Check | Result | Status |
+| --- | --- | --- |
+| Pinned closure | The script follows `depends` from `node_modules/pyodide/pyodide-lock.json` (it includes `typing-inspection`, the gap noted in C1). `pythonPackages.test.ts` asserts that the manifest equals the closure of `LESSON_PACKAGES`, and that every committed wheel's sha256 equals the lock | Fixed |
+| Hash chain | npm `sha512` of `pyodide@314.0.7` (package-lock) → `pyodide-lock.json` → wheel sha256. `--check` verified all 5 | Fixed |
+| Vendor script trust model | Downloads once from `cdn.jsdelivr.net/pyodide/v314.0.7/full/` and refuses any digest that differs from the lock, so the CDN is untrusted transport. License extraction writes `licenses/<package>-<basename>`, and the basename cannot contain `/`, so there is no path traversal from zip entry names. `pyodide-LICENSE` is fetched from `raw.githubusercontent.com` at the version tag without a hash (text only; Low) | OK |
+| Browser runtime | Wheels load by name from `/pyodide/` (same origin). The network log during a Pydantic run shows only the 5 `.whl` requests to the app origin (no CDN). A **tampered** `annotated_types` wheel was **rejected**: `loadPackage` warned "Failed to fetch" (SRI mismatch) and the import failed | Fixed, integrity enforced |
+| **Verify runtime — R17, Medium** | A **missing** wheel failed closed (`ModuleNotFoundError`, no download; `--permission` denies network). But a **tampered yet valid** wheel, with `DOJO_TAMPERED = True` added to `annotated_types/__init__.py` and a different sha256, **was installed and executed**. The probe test reported `tampered=True`. In Node, Pyodide reads local wheels from `packageBaseUrl` without checking `sha256`, so `checkIntegrity: true` has no effect there. Mitigation today: `pythonPackages.test.ts` and `vendor-packages.mjs --check` detect the altered file, but only if they run before the suites that load it. **Fix:** in `PythonSandbox` (parent, before forking), hash every manifest wheel against `pyodide-lock.json` once per process and refuse to boot children on a mismatch. Also run `python:vendor -- --check` in CI before `verify` | **Open (Medium)** |
+| Soft failure — R18, Low | An integrity failure or a missing wheel does not fail the boot. `loadPackage` only reports through its callbacks, so the learner or the verify suite sees a misleading `ModuleNotFoundError`. **Fix:** pass `errorCallback` and post `failed` (browser) or reject the boot (verify) when a required package does not load | Open (Low) |
+| Licenses shipped | `dist/pyodide/licenses/` contains pydantic, pydantic-core, annotated-types, typing-inspection (MIT), typing-extensions (PSF) and Pyodide (MPL-2.0). Dev serves them as `text/plain` | C2 mostly fixed. Still missing: the CPython/PSF license for `python_stdlib.zip` (Low) |
+
+### (2) Abuse of the pre-lock-down load path
+
+| Probe | Result |
+| --- | --- |
+| Crafting source the scanner reads as `import pydantic` | It can only add `"pydantic"`: names come from the fixed `LESSON_PACKAGES` map (`packages.ts:7-12`), never from learner text. The worst case is loading the allow-listed package |
+| Path traversal, arbitrary names, URLs | Impossible through the scanner (map values only). After lock-down, `pyodide_js.loadPackage("pydantic" \| "https://…" \| "../../etc/passwd")` is refused ("Installing packages is disabled"), in the browser and in verify |
+| Escape scan with Pydantic imported | verify child: 30,209 objects, `found=[]`. Browser: 12,000 objects (6 s budget), `found=[]` |
+| Host reach with Pydantic loaded (verify) | Through the Node `fs` reachable via `FS.streams[0]` (R12): reading `vendor/pyodide-packages/manifest.json` is allowed (public wheels, expected). Reading `vendor/`, `package.json` and `vendor/pyodide-packages/../../package.json` was denied, and writing into the vendor directory was denied. `loadedPackages` lists only the 5 packages. `pydantic_core`'s wasm side module adds wasm exports under `LDSO`, with no JS capability |
+
+### (3) Extra read grant
+
+`--allow-fs-read=<realpath of vendor/pyodide-packages>/` (`pythonSandbox.ts`, `childExecArgv`) is exactly that directory. Sibling reads (`vendor/`) and `..` traversal were denied. The directory holds no symlinks, only the 5 wheels, `manifest.json` and `licenses/`. **OK.**
+
+### (4) Worker CSP
+
+The dev response for the worker still carries `default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'`. Wheel downloads go to the same origin, so they fit `connect-src 'self'`. **OK.**
+
+**Open Critical/High: none.** Open Medium: R17 (no wheel integrity check at verify runtime; tampered vendored wheel executes). Open Low: R18, PSF license for the stdlib, unhashed `pyodide-LICENSE` download.

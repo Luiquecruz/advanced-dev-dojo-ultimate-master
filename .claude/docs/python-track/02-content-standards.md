@@ -33,7 +33,7 @@ src/content/python/<NN-module>/<NN-lesson-id>/
    - `NN-<module>-adr` checkpoint, **only in modules 01, 02, 04, 06, 09 and 10**: briefing, exported `ADR` and `PLAN`, tests for structure and coherence with the briefing.
    - A code integration challenge (practice lesson combining the module's mechanisms) in modules 03 and 05.
    - Nothing special elsewhere: the module ends with its last practice lesson, and the map's `## When to choose it` names the decision.
-4. The capstone (`12-tooling/04-capstone-async-rules-engine`) is a code challenge with a short `adr.py` ([08-module-13-and-capstone.md](08-module-13-and-capstone.md)).
+4. The capstone (`12-tooling/05-capstone-async-rules-engine`) is a code challenge with a short `adr.py` ([08-module-13-and-capstone.md](08-module-13-and-capstone.md)).
 
 ## Theory template
 
@@ -116,7 +116,7 @@ Verify in Pyodide before writing any lesson whose challenge touches `asyncio`, `
 
 ## ADR checkpoint format
 
-The last lesson of modules 01, 02, 04, 06, 09 and 10 only. `entry` is `adr.py`; starter and solution are `adr.py` with the same shape:
+The last lesson of every module except 12 (which ends with the capstone). `entry` is `adr.py`; starter and solution are `adr.py` with the same shape:
 
 - `ADR`: module-level dict `{ "id", "title", "status", "context", "decision", "alternatives", "consequences" }` with the same validation rules as the AI Engineering ADRs (`status: "accepted"`, `decision` starts with `We will`, at least two alternatives with distinct options and reasons, `consequences` with `positive` and `negative`).
 - `PLAN`: module-level dict (named `PLAN` in every module; the plan fields are listed per module) whose values must be coherent with the briefing's numbers and constraints.

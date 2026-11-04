@@ -44,8 +44,8 @@ Annotations are metadata stored on the function and read by type checkers, IDEs 
 
 ## The path
 
-Modules and imports, `*args`/`**kwargs`, positional-only and keyword-only parameters, mutable defaults, closures and late binding, decorators with `wraps`, parameterized decorators, callables with `partial` and caches, and a closing challenge that builds a client middleware stack.
+Modules and imports, `*args`/`**kwargs`, positional-only and keyword-only parameters, mutable defaults, closures and late binding, decorators with `wraps`, parameterized decorators, callables with `partial` and caches, and a closing challenge that builds a client middleware stack, and an ADR checkpoint.
 
 ## When to choose it
 
-The module ends with a code challenge instead of an ADR: stacking cache, metrics, retry and auth around one client call. The decision it trains is where each cross-cutting behavior lives and in which order it runs.
+The module closes with a code challenge, stacking cache, metrics, retry and auth around one client call, and then an ADR that records the same kind of decision for a team's SDK with numbers you compute (attempts, requests, worst-case latency). The decision it trains is where each cross-cutting behavior lives and in which order it runs.

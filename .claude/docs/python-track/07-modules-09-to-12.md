@@ -203,14 +203,14 @@ Quiz lesson, 5–6 questions. One dated `**Status as of**` block; cite packaging
 - Resolvers and lockfiles: `uv.lock`, `uv run`, `uv sync`, Python version management, vs pip/poetry/pip-tools; PEP 751 `pylock.toml` status.
 - Distribution: sdist vs wheel, build backends (setuptools, hatchling, flit, uv_build), PyPI, trusted publishing, versioning.
 
-### 03-testing-with-unittest (P, I)
+### 04-testing-with-unittest (P, I)
 - Concept: `unittest.TestCase`, `setUp`/`tearDown`, `assertRaises` as a context manager, `subTest`, `unittest.mock` (`Mock`, `patch` as a context manager, `side_effect`, `assert_called_once_with`), running a suite programmatically with `unittest.TestLoader` and `TextTestRunner`; how pytest fixtures and `parametrize` map onto these (theory only, pytest is not installed); how Dev Dojo's own harness relates.
 - Contrast: Jest/Vitest `describe`/`it`/`expect` and `vi.mock` module mocking vs `patch` on the name where it is looked up (the classic "patch where it is used, not where it is defined" mistake).
 - Challenge (multi-file, `main.py` + `pricing.py`): write `class PricingTests(unittest.TestCase)` in `main.py` covering `pricing.quote()` (a discount rule, an invalid-input error with `assertRaises`, a table with `subTest`) and patch `pricing.fetch_rate` where `quote` looks it up; `run_suite()` returns the `unittest.TestResult`.
 - Tests: `run_suite()` reports at least 3 tests run and no failures against the real `pricing.py`; the learner's suite **fails** against a planted buggy `pricing` (the tests load a mutated copy through `modules`), proving the tests catch the bug; `fetch_rate` is never called for real (call counter); `assertRaises` is used (checked with `ast`).
 - Notes: verify `unittest.mock.patch` and `TextTestRunner` with a `StringIO` stream in Pyodide. No timing.
 
-### 04-capstone-async-rules-engine (C, Ad)
+### 05-capstone-async-rules-engine (C, Ad)
 Specified in [08-module-13-and-capstone.md](08-module-13-and-capstone.md): a code challenge (`main.py`, the engine) plus a short `adr.py`.
 
 ### v2 backlog — 03-environments-and-venv (P, I)
