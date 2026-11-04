@@ -3,8 +3,8 @@
   "summary": "The MAST taxonomy of multi-agent failures and three defenses in code: validate worker outputs and quarantine what fails before errors cascade, vote independently before any discussion, and bound delegation by cycles, depth, fan-out and total.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Cemri et al.: Why Do Multi-Agent LLM Systems Fail? (MAST)", "url": "https://arxiv.org/abs/2503.13657" },
     { "label": "Du et al.: Improving Factuality and Reasoning through Multiagent Debate", "url": "https://arxiv.org/abs/2305.14325" },
