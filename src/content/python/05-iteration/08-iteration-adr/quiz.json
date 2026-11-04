@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A job would hold 20 000 000 rows at 1 500 bytes each as Python objects. How much memory is that list?",
+    "options": [
+      "3 000 MB",
+      "30 000 MB",
+      "300 MB",
+      "1 500 MB"
+    ],
+    "answer": 1,
+    "explanation": "20 000 000 × 1 500 = 30 × 10⁹ bytes, 30 000 MB: no worker with a budget in the hundreds of megabytes can hold it, so the stages must stream."
+  },
+  {
+    "question": "Batches may use 300 MB. One row in a batch costs 2 500 bytes and 3 batches are alive at once. What is the largest batch size?",
+    "options": [
+      "120 000 rows",
+      "100 000 rows",
+      "60 000 rows",
+      "40 000 rows"
+    ],
+    "answer": 3,
+    "explanation": "300 × 10⁶ ÷ (2 500 × 3) = 40 000. Forgetting the batches alive at once gives 120 000, three times too many."
+  },
+  {
+    "question": "A function receives `totals`, a generator, and calls `compare(totals)` and then `report(totals)`. What does `report` see?",
+    "options": [
+      "Nothing: `compare` already exhausted the generator",
+      "The same totals again",
+      "A `TypeError`",
+      "Only the last total"
+    ],
+    "answer": 0,
+    "explanation": "A generator is one-shot. A result needed twice is materialized once, `totals = list(...)` or a dict, and only when it is small."
+  },
+  {
+    "question": "Ten consumers in other processes read the export's results at their own pace. Why not `itertools.tee(rows, 10)`?",
+    "options": [
+      "`tee` is not lazy",
+      "`tee` only accepts lists",
+      "`tee` keeps every item its slowest branch has not read, and its branches live in one process",
+      "`tee` closes the source after the first branch"
+    ],
+    "answer": 2,
+    "explanation": "The buffer grows with the gap between the fastest and the slowest branch, up to the whole stream, and other processes cannot read a `tee` branch anyway. Publishing each stored batch decouples them."
+  },
+  {
+    "question": "8 000 000 rows are loaded in batches of 25 000, and each bulk insert has a fixed cost of 0.4 s. How much time does the fixed cost add?",
+    "options": [
+      "320 s",
+      "128 s",
+      "80 s",
+      "3 200 s"
+    ],
+    "answer": 1,
+    "explanation": "8 000 000 ÷ 25 000 = 320 inserts, and 320 × 0.4 s = 128 s. Batches of 2 500 would make it 1 280 s."
+  }
+]
