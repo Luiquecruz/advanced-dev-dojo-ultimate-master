@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`avg = running_average()` and the next line is `avg.send(10)`. What happens?",
+    "options": [
+      "It returns `10.0`",
+      "It returns `None` and the 10 is lost, as in JavaScript",
+      "`TypeError: can't send non-None value to a just-started generator`",
+      "`StopIteration`"
+    ],
+    "answer": 2,
+    "explanation": "A just-started generator is paused before its first line, so no `yield` exists to receive the value. Prime it with `next(avg)` or `avg.send(None)` first."
+  },
+  {
+    "question": "`def outer(): result = yield from inner(); yield result`, where `inner()` yields `1` and returns `\"ok\"`. What is `list(outer())`?",
+    "options": [
+      "`[1, 'ok']`",
+      "`[1]`",
+      "`['ok']`",
+      "`[1, None]`"
+    ],
+    "answer": 0,
+    "explanation": "`yield from` passes `inner`'s `1` through to the caller and evaluates to `inner`'s return value, which `outer` then yields."
+  },
+  {
+    "question": "A generator has `try: yield 1` and `finally: log.append(\"done\")`. Code runs `g = gen()` and then `g.close()` without ever calling `next(g)`. What is in `log`?",
+    "options": [
+      "`['done']`",
+      "`['done', 'done']`",
+      "A `RuntimeError` is raised instead",
+      "Nothing: the body never started, so the `try` was never entered"
+    ],
+    "answer": 3,
+    "explanation": "`close()` on a just-started generator only marks it finished. `finally` runs only for a `try` block the frame actually entered."
+  },
+  {
+    "question": "Why does `for x in sub: yield x` not replace `yield from sub` in a delegating generator?",
+    "options": [
+      "It yields the items in a different order",
+      "It does not forward `send()` and `throw()` to `sub`, and it loses `sub`'s return value",
+      "It is a `SyntaxError` inside a generator",
+      "It reads every item of `sub` before yielding the first one"
+    ],
+    "answer": 1,
+    "explanation": "The `for` loop always resumes `sub` with `next()`, so sent values and thrown exceptions stop at the outer generator, and it swallows the `StopIteration` that carries the return value."
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`def report(): print(\"start\"); yield 1`. A module runs `r = report()` and nothing else. What is printed?",
+    "options": [
+      "Nothing: the body only starts at the first `next(r)`",
+      "`start`",
+      "`start` and `1`",
+      "A `TypeError`: the generator was never iterated"
+    ],
+    "answer": 0,
+    "explanation": "Calling a generator function only creates the generator object with its frame paused before the first line. The body runs when something pulls the first item."
+  },
+  {
+    "question": "What does `list(load(True))` return?\n\n```py\ndef load(cached):\n    if cached:\n        return [\"a\", \"b\"]\n    for item in fetch():\n        yield item\n```",
+    "options": [
+      "`['a', 'b']`",
+      "`[['a', 'b']]`",
+      "A `SyntaxError`: `return` with a value inside a generator",
+      "`[]`"
+    ],
+    "answer": 3,
+    "explanation": "The `yield` makes `load` a generator function, whatever branch runs. `return value` ends the generator and stores the value on `StopIteration.value`, which `list()` ignores."
+  },
+  {
+    "question": "Inside a generator, `first = next(source)` runs when `source` is already empty. What does the caller see?",
+    "options": [
+      "The generator ends quietly, like a `return`",
+      "`RuntimeError: generator raised StopIteration`",
+      "`first` becomes `None`",
+      "A `ValueError` from `next()`"
+    ],
+    "answer": 1,
+    "explanation": "PEP 479, the default since Python 3.7, turns a `StopIteration` that escapes inside a generator body into a `RuntimeError`, so a forgotten end of input cannot silently truncate a pipeline."
+  },
+  {
+    "question": "`ids = id_sequence(\"ord\")` is an endless generator. Which expression finishes?",
+    "options": [
+      "`sorted(ids)[:3]`",
+      "`list(ids)[:3]`",
+      "`list(zip(range(3), ids))`",
+      "`sum(1 for _ in ids)`"
+    ],
+    "answer": 2,
+    "explanation": "`zip` pulls from `range(3)` first and stops when it is exhausted, so `ids` is pulled only three times. The others try to read every item of an endless generator."
+  }
+]

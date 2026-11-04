@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`stages = evens(numbers(read(lines)))`, where all three are generator functions and `read` prints each line it reads. What has been printed right after this line runs?",
+    "options": [
+      "Every line of `lines`",
+      "The first line only",
+      "Nothing: no stage starts until something calls `next()` on `stages`",
+      "The lines up to the first even number"
+    ],
+    "answer": 2,
+    "explanation": "Calling a generator function only builds a paused generator. Building the chain starts none of them; the first `next()` on the last stage pulls through all of them."
+  },
+  {
+    "question": "A consumer runs `chunks = pipeline(source)`, then `for chunk in chunks: send(chunk); break`, and keeps using `chunks` later. Has the pipeline's `finally` block run?",
+    "options": [
+      "No: `break` leaves the generator paused until `close()` is called or it is garbage collected",
+      "Yes: `break` calls the generator's `close()`, like `return()` in JavaScript",
+      "Yes: a `for` loop always exhausts the generator",
+      "No, and it never will: `finally` does not run in generators"
+    ],
+    "answer": 0,
+    "explanation": "A Python `for` loop does not close the iterator it leaves. The `finally` runs on `close()`, on exhaustion, on an error, or when the paused generator is finalized."
+  },
+  {
+    "question": "Which consumer reads the entire log through a lazy pipeline before producing anything?",
+    "options": [
+      "`next(pipeline(source))`",
+      "`any(len(chunk) > 10 for chunk in pipeline(source))`",
+      "`list(islice(pipeline(source), 3))`",
+      "`sorted(pipeline(source), key=len)`"
+    ],
+    "answer": 3,
+    "explanation": "Sorting needs every item before it can return the first one, so `sorted` materializes the whole stream. `next`, `any` and `islice` stop as soon as they have their answer."
+  },
+  {
+    "question": "A report needs the pipeline's final, small result twice: once to print and once to save. What is the best choice?",
+    "options": [
+      "Run the pipeline twice",
+      "Materialize it once at the sink with `list(...)` and reuse the list",
+      "Turn every stage into a list comprehension",
+      "Use `itertools.tee` on the source lines"
+    ],
+    "answer": 1,
+    "explanation": "Running it twice reads the source twice, lists in every stage bring back the full memory cost, and `tee` on the source buffers raw lines. One `list()` of the small final result is the cheap materialization point."
+  }
+]

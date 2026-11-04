@@ -1,0 +1,7 @@
+[
+  { "term": "Generator function", "description": "A function whose body contains `yield`; calling it returns a generator and runs none of the body." },
+  { "term": "Generator", "description": "The iterator a generator function returns; each `next()` runs the paused frame to the next `yield`." },
+  { "term": "Suspended frame", "description": "Between two `next()` calls the generator keeps its local variables, loop position and open `try` blocks." },
+  { "term": "PEP 479", "description": "Since Python 3.7 a `StopIteration` escaping inside a generator body is turned into `RuntimeError`." },
+  { "term": "Infinite generator", "description": "A generator with no natural end, safe only with a bounded consumer such as `next`, `zip` or `islice`." }
+]

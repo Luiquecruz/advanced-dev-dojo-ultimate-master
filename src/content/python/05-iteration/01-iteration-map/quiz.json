@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`evens = (n for n in range(6) if n % 2 == 0)`, then `print(list(evens), list(evens))`. What is printed?",
+    "options": [
+      "`[0, 2, 4] [0, 2, 4]`",
+      "`[0, 2, 4] []`",
+      "`[] []`",
+      "A `StopIteration` traceback on the second `list()`"
+    ],
+    "answer": 1,
+    "explanation": "A generator expression is an iterator. The first `list()` consumes it; the second gets `StopIteration` on its first `next()`, which `list()` treats as the end, so it returns an empty list."
+  },
+  {
+    "question": "`cursor = iter([1, 2, 3, 4])`, then `print(list(zip(cursor, cursor)))`. What is printed?",
+    "options": [
+      "`[(1, 1), (2, 2), (3, 3), (4, 4)]`",
+      "A `TypeError`: an iterator cannot be zipped with itself",
+      "`[(1, 2), (3, 4)]`",
+      "`[]`"
+    ],
+    "answer": 2,
+    "explanation": "Both arguments are the same iterator object, so they share one position. `zip` pulls one item from each argument in turn: 1 and 2, then 3 and 4."
+  },
+  {
+    "question": "`names = map(str.upper, [\"ana\", \"bo\", \"cy\"])`, then `print(\"BO\" in names, list(names))`. What is printed?",
+    "options": [
+      "`True ['ANA', 'BO', 'CY']`",
+      "`True []`",
+      "`False ['CY']`",
+      "`True ['CY']`"
+    ],
+    "answer": 3,
+    "explanation": "`map` returns a one-shot iterator. `in` pulls items until it finds a match, so `'ANA'` and `'BO'` are consumed and only `'CY'` is left for `list()`."
+  },
+  {
+    "question": "`prices = {\"tea\": 3, \"cake\": 5}` and `items = prices.items()`. What does `print(len(list(items)), len(list(items)))` print?",
+    "options": [
+      "`2 2`",
+      "`2 0`",
+      "`0 0`",
+      "A `TypeError`: a view cannot be passed to `list()`"
+    ],
+    "answer": 0,
+    "explanation": "`dict.items()` returns a view: an iterable that creates a fresh iterator each time `iter()` is called on it. Views are re-iterable, unlike `map` objects and generators."
+  }
+]
