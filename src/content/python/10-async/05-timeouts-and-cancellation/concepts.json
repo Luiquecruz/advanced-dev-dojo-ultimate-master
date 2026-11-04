@@ -1,0 +1,7 @@
+[
+  { "term": "`CancelledError`", "description": "Thrown into a task at its current `await` when it is cancelled. A `BaseException` since 3.8, so `except Exception` does not catch it." },
+  { "term": "Swallowed cancellation", "description": "Catching `CancelledError` without re-raising it: the task keeps running and whoever cancelled it waits forever." },
+  { "term": "`asyncio.timeout()`", "description": "An async context manager (3.11) that cancels its block at the deadline and raises `TimeoutError` after the block has unwound." },
+  { "term": "`asyncio.wait_for()`", "description": "Awaits one awaitable with a deadline, cancelling it on expiry; built on `timeout()` since 3.12." },
+  { "term": "`asyncio.shield()`", "description": "Protects an inner task from cancellation of its awaiter; the awaiter still sees `CancelledError`, and someone must keep a reference to the inner task." }
+]

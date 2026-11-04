@@ -1,0 +1,8 @@
+[
+  { "term": "Coroutine function", "description": "A function defined with `async def`. Calling it runs nothing and returns a coroutine object." },
+  { "term": "Coroutine object", "description": "A paused computation. It runs only when awaited or wrapped in a task, and warns if it is garbage collected without ever running." },
+  { "term": "`await`", "description": "Runs the awaited coroutine inline in the current task, suspending the task whenever the chain reaches something that is not ready yet." },
+  { "term": "Task", "description": "A coroutine scheduled on the event loop with `asyncio.create_task`. It starts on the next tick, without anyone awaiting it." },
+  { "term": "Event loop", "description": "Runs one step of one task at a time on one thread; a task gives up control only at an `await` that suspends." },
+  { "term": "`asyncio.run`", "description": "The CPython entry point: creates a loop, runs one coroutine to completion and closes the loop. Never called from inside a running loop." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Little's law", "description": "In a steady state, items in a system = arrival rate × average time in the system (`L = λ × W`); it gives the average number of calls in flight." },
+  { "term": "Concurrency limit", "description": "A cap on in-flight calls (a semaphore); at least the average load, at most what the quota allows at mean latency." },
+  { "term": "Staleness budget", "description": "The longest an item may wait; with drain rate `r` and budget `t`, a queue holds at most `r × t` items." },
+  { "term": "CPU pool sizing", "description": "Required CPU-seconds per second divided by the utilization target, rounded up, within the cores left free." },
+  { "term": "Graceful shutdown", "description": "Stop accepting work, drain what is queued and cancel what is left at a deadline." },
+  { "term": "ADR", "description": "Architecture Decision Record: context, decision, alternatives considered and consequences." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Backpressure", "description": "A full buffer makes the producer wait, so memory and item age stay bounded by the consumers' speed." },
+  { "term": "`asyncio.Queue(maxsize)`", "description": "`put` waits while full, `get` waits while empty; `maxsize=0` means unbounded and gives no backpressure." },
+  { "term": "`Queue.shutdown()`", "description": "Python 3.13: rejects new items; `get` drains what is queued, then raises `QueueShutDown` so consumers can stop." },
+  { "term": "`asyncio.Semaphore`", "description": "Lets at most `n` tasks into a section at once; the standard-library form of a concurrency limit." },
+  { "term": "`asyncio.Lock`", "description": "Serializes a critical section that contains an `await`, where another task could otherwise interleave." },
+  { "term": "Lost update", "description": "Two tasks read the same value across an `await` and both write a value based on it; one write is lost." }
+]

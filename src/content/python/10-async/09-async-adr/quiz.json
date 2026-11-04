@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A service makes 500 calls per second to an API with a mean latency of 40 ms. How many calls are in flight on average?",
+    "options": [
+      "12.5",
+      "500",
+      "20",
+      "40"
+    ],
+    "answer": 2,
+    "explanation": "Little's law: L = λ × W = 500 calls/s × 0.040 s = 20. A concurrency limit below 20 cannot keep up with that rate."
+  },
+  {
+    "question": "The same API grants a quota of 600 requests per second. At the mean latency of 40 ms, which concurrency limit keeps the service within the quota while carrying its load?",
+    "options": [
+      "Any value between 20 and 24",
+      "10",
+      "100",
+      "600"
+    ],
+    "answer": 0,
+    "explanation": "C concurrent calls at 0.040 s each produce C / 0.040 requests per second, so 600 req/s caps C at 24. The load needs at least 20."
+  },
+  {
+    "question": "Events drain at 800 per second and must not wait more than 250 ms in the local queue. What is the largest `maxsize` that respects the budget?",
+    "options": [
+      "3 200",
+      "800",
+      "250",
+      "200"
+    ],
+    "answer": 3,
+    "explanation": "A full queue of N events takes N / 800 seconds to drain, so N ≤ 800 × 0.25 = 200."
+  },
+  {
+    "question": "A pure-Python check costs 2 ms of CPU per event at 900 events per second, on a GIL build, with a 60% utilization target. Which design fits?",
+    "options": [
+      "Run the checks on the event loop",
+      "A process pool of at least 3 workers: 1.8 CPU-seconds per second ÷ 0.6 = 3",
+      "`asyncio.to_thread` with 3 threads",
+      "A process pool of 1 worker"
+    ],
+    "answer": 1,
+    "explanation": "900 × 0.002 = 1.8 CPU-seconds every second, more than one core. On a GIL build only separate processes (or interpreters) run Python in parallel."
+  }
+]

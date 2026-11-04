@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A producer reads 10 000 events per second into `asyncio.Queue()` (no `maxsize`); the consumers handle 2 000 per second. What happens after a minute?",
+    "options": [
+      "`put` slows the producer down to 2 000 per second",
+      "`put` raises `QueueFull`",
+      "About 480 000 events wait in memory, and a new event waits about four minutes before a consumer reaches it",
+      "The consumers speed up to match"
+    ],
+    "answer": 2,
+    "explanation": "`maxsize=0` means unbounded, so `put` never waits. The backlog grows by 8 000 per second (480 000 after 60 s) and drains at 2 000 per second (240 s). Only a bound makes the producer wait."
+  },
+  {
+    "question": "Is this method safe when many tasks call it at once on one event loop?\n\n```py\nasync def add(self, amount):\n    self.total = self.total + amount\n    await self.audit(amount)\n```",
+    "options": [
+      "Yes: the read and the write happen with no `await` between them, so no other task can interleave there",
+      "No: Python threads can preempt it between the read and the write",
+      "No: every coroutine needs an `asyncio.Lock`",
+      "Only if `audit` is a plain function"
+    ],
+    "answer": 0,
+    "explanation": "asyncio switches tasks only at an `await`. The read-modify-write finishes before the first `await`, so it is atomic with respect to other tasks."
+  },
+  {
+    "question": "`semaphore = asyncio.Semaphore(5)`; the code runs `async with semaphore: tasks.append(asyncio.create_task(fetch(url)))` for 100 URLs. How many `fetch` calls can run at once?",
+    "options": [
+      "5",
+      "100: the semaphore is released as soon as each task is created, before `fetch` runs",
+      "1",
+      "0: the tasks deadlock"
+    ],
+    "answer": 1,
+    "explanation": "`create_task` returns at once, so each slot is released immediately. Acquire the semaphore inside the task, around `await fetch(url)`."
+  },
+  {
+    "question": "Consumers loop on `await queue.get()`. The producer calls `queue.shutdown()` while three items are still queued. What do the consumers see?",
+    "options": [
+      "`QueueShutDown` from their next `get`, and the three items are lost",
+      "`get` blocks forever",
+      "`CancelledError`",
+      "The three remaining items, then `QueueShutDown` once the queue is empty"
+    ],
+    "answer": 3,
+    "explanation": "Without `immediate=True`, a shut-down queue still hands out what it holds; `get` raises `QueueShutDown` only when it is empty, so consumers can exit cleanly."
+  }
+]
