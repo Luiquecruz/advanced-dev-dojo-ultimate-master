@@ -1,0 +1,5 @@
+A `type=` function receives the raw string and either returns the converted value or raises `argparse.ArgumentTypeError(message)`; argparse turns that into a usage error with exit code 2. `Decimal(text)` raises `decimal.InvalidOperation` for text it cannot read, which argparse does not catch, so convert inside `try`. `amount.quantize(CENT)` gives the amount in cents; if it differs from `amount`, the input had fractions of a cent.
+---
+Build the subcommands with `commands = parser.add_subparsers(dest="command", required=True)` and `add = commands.add_parser("add")`. Options of the subcommand go on `add`, `--ledger` goes on `parser`. `add.set_defaults(handler=run_add)` puts `handler` in the `Namespace`, so `main` dispatches without an `if` per command.
+---
+argparse writes to whatever `sys.stdout` and `sys.stderr` are when it prints, and ends with `sys.exit`. Wrap only the `parse_args(argv)` call in `with redirect_stdout(out), redirect_stderr(err):` inside `try: ... except SystemExit as stop: return stop.code`. Resolve `out = sys.stdout if out is None else out` inside the function, not in the signature.
