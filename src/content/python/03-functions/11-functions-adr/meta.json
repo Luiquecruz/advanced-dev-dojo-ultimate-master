@@ -1,0 +1,14 @@
+{
+  "title": "Checkpoint: SDK Middleware ADR",
+  "summary": "Close the functions module with an ADR and a plan for an HTTP SDK shared by 9 teams: which mechanism composes cache, metrics, retry, token refresh and rate limiting, in which order, where state and time live, and how many attempts fit the callers' deadline in the worst case.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "functools: update_wrapper and wraps", "url": "https://docs.python.org/3/library/functools.html#functools.update_wrapper" },
+    { "label": "PEP 318: Decorators for Functions and Methods", "url": "https://peps.python.org/pep-0318/" },
+    { "label": "Amazon Builders' Library: Timeouts, retries and backoff with jitter", "url": "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/" }
+  ]
+}

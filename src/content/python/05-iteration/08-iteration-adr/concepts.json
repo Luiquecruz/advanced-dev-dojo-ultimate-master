@@ -1,0 +1,8 @@
+[
+  { "term": "Memory for batches", "description": "The limit minus the headroom minus the process baseline: what the batches alive at once may use." },
+  { "term": "Batch sizing", "description": "The largest batch is the memory for batches divided by bytes per row and batches alive, capped by the sink limit; the smallest is set by the per-call overhead and the time window." },
+  { "term": "Pass", "description": "One full read of a one-shot source such as a cursor or a generator; a second read is a second scan." },
+  { "term": "Materialize at the sink", "description": "Build a list or dict only of the small final result that must be read more than once, never of the rows between stages." },
+  { "term": "Batch checkpoint", "description": "The position of the last acknowledged batch; a failed run resumes there instead of at row 0." },
+  { "term": "ADR", "description": "Architecture Decision Record: context, decision, alternatives considered and consequences." }
+]

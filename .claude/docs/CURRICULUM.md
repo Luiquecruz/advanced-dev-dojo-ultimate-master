@@ -304,13 +304,13 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-collections-map **(quiz)** ✓ · 02-unpacking-and-star-expressions ✓ · 03-comprehensions-and-dict-views ✓ · 04-set-algebra ✓ · 05-sequence-protocol ✓ · 06-collections-module ✓ · 07-custom-mapping ✓ · 08-text-and-bytes ✓ · 09-collections-adr ✓
 
 ### 03-functions — Functions, Modules and Callables
-01-functions-map **(quiz)** ✓ · 02-modules-and-imports ✓ · 03-args-and-kwargs ✓ · 04-positional-and-keyword-only ✓ · 05-mutable-default-arguments ✓ · 06-closures-and-late-binding ✓ · 07-decorators-and-wraps ✓ · 08-parameterized-decorators ✓ · 09-callables-partial-and-cache ✓ · 10-client-middleware-stack ✓ · 11-functions-adr
+01-functions-map **(quiz)** ✓ · 02-modules-and-imports ✓ · 03-args-and-kwargs ✓ · 04-positional-and-keyword-only ✓ · 05-mutable-default-arguments ✓ · 06-closures-and-late-binding ✓ · 07-decorators-and-wraps ✓ · 08-parameterized-decorators ✓ · 09-callables-partial-and-cache ✓ · 10-client-middleware-stack ✓ · 11-functions-adr ✓
 
 ### 04-classes — Classes, Attributes and Descriptors
 01-classes-map **(quiz)** ✓ · 02-new-and-init ✓ · 03-properties ✓ · 04-descriptors-and-set-name ✓ · 05-slots ✓ · 06-dataclasses ✓ · 07-data-model-methods ✓ · 08-inheritance-and-mro ✓ · 09-classes-adr ✓
 
 ### 05-iteration — Iterators and Generators
-01-iteration-map **(quiz)** ✓ · 02-iterator-protocol ✓ · 03-generators ✓ · 04-generator-expressions-and-laziness ✓ · 05-yield-from-and-send ✓ · 06-itertools ✓ · 07-lazy-pipelines ✓ · 08-iteration-adr
+01-iteration-map **(quiz)** ✓ · 02-iterator-protocol ✓ · 03-generators ✓ · 04-generator-expressions-and-laziness ✓ · 05-yield-from-and-send ✓ · 06-itertools ✓ · 07-lazy-pipelines ✓ · 08-iteration-adr ✓
 
 ### 06-context-and-errors — Context Managers and Exceptions
 01-context-errors-map **(quiz)** ✓ · 02-with-protocol ✓ · 03-contextmanager-decorator ✓ · 04-suppressing-and-handling-in-exit ✓ · 05-exitstack ✓ · 06-exception-hierarchies ✓ · 07-chaining-and-notes ✓ · 08-exception-groups ✓ · 09-context-errors-adr ✓
