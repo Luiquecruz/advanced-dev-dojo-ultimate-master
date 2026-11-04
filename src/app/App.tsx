@@ -7,6 +7,7 @@ import { AmbientScene } from '@/features/ambient-scene';
 import { HomePage } from '@/pages/home/HomePage';
 import { LessonRoute } from '@/pages/lesson/LessonRoute';
 import { TrackPage } from '@/pages/track/TrackPage';
+import { Link } from 'react-router';
 import { hrefTo, useRoute } from '@/shared/routing/route';
 import { sceneTargetFor, useMotionRouting, type ActivityRoute, type BaseRoute } from './routing/router-adapter';
 import { buttonClass } from '@/shared/ui/classNames';
@@ -69,9 +70,9 @@ function NotFound() {
   return (
     <main className="grid h-full place-items-center content-center gap-4 bg-void">
       <h1 className="text-3xl font-bold">Page not found</h1>
-      <a className={buttonClass('primary')} href={hrefTo({ page: 'home' })}>
+      <Link className={buttonClass('primary')} to={hrefTo({ page: 'home' })}>
         Back to Dev Dojo
-      </a>
+      </Link>
     </main>
   );
 }

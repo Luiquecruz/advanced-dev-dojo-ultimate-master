@@ -1,11 +1,12 @@
 import clsx from 'clsx';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
 import { LANGUAGES, type LanguageId, type Lesson, type ProjectFiles, type Track } from '@/content';
 import { canRunProgram, CodeEditor, configureLanguageService, type ConsoleEntry, gradeChallenge, LanguageSwitch, LessonPanel, type LessonTab, prepareEngine, PreviewFrame, type Report, runProgram, TestName, testNamesFor } from '@/features/lesson';
 import { CurriculumDrawer } from '@/features/curriculum';
 import { Markdown } from '@/shared/ui/Markdown';
 import { codeKeyFor, isLessonComplete, progress, useProgress } from '@/entities/progress';
+import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
 import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, CrossIcon, MenuIcon, PlayIcon, RefreshIcon, ResetIcon, TerminalIcon } from '@/shared/ui/icons';
 import { useMediaQuery } from '@/shared/lib/useMediaQuery';
@@ -264,14 +265,14 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
           <MenuIcon />
         </button>
         <nav className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden text-sm whitespace-nowrap text-ink-muted">
-          <a href={hrefTo({ page: 'home' })} className="flex items-center gap-2 font-semibold tracking-[-0.02em] text-ink max-wide:hidden">
+          <Link to={hrefTo({ page: 'home' })} className="flex items-center gap-2 font-semibold tracking-[-0.02em] text-ink max-wide:hidden">
             <BrandMark size={24} />
             Dev Dojo
-          </a>
+          </Link>
           <span className="max-wide:hidden">/</span>
-          <a href={hrefTo({ page: 'track', trackId: track.id })} className="hover:text-ink">
+          <Link to={hrefTo({ page: 'track', trackId: track.id })} className="hover:text-ink">
             {track.title}
-          </a>
+          </Link>
           <span>/</span>
           <span className="truncate text-ink">{lesson.title}</span>
         </nav>
@@ -284,12 +285,12 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
           <span className="mx-1.5 font-mono text-xs text-ink-faint max-wide:hidden">
             {index + 1} / {track.lessons.length}
           </span>
-          <a className={iconButtonClass(!previous)} title="Previous lesson" href={previous ? hrefTo({ page: 'lesson', trackId: track.id, lessonId: previous.id }) : undefined}>
+          <LessonStepLink trackId={track.id} lessonId={previous?.id} title="Previous lesson">
             <ChevronLeftIcon />
-          </a>
-          <a className={iconButtonClass(!next)} title="Next lesson" href={next ? hrefTo({ page: 'lesson', trackId: track.id, lessonId: next.id }) : undefined}>
+          </LessonStepLink>
+          <LessonStepLink trackId={track.id} lessonId={next?.id} title="Next lesson">
             <ChevronRightIcon />
-          </a>
+          </LessonStepLink>
         </div>
       </header>
 
@@ -377,6 +378,31 @@ const CONSOLE_LEVEL_CLASS: Record<ConsoleEntry['level'], string> = {
 
 function bottomTabClass(active: boolean): string {
   return clsx('inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-transparent px-2.5 py-1.5 text-[13px] font-semibold', active ? 'bg-hover text-ink' : 'text-ink-muted');
+}
+
+interface LessonStepLinkProps {
+  trackId: string;
+  lessonId: string | undefined;
+  title: string;
+  children: ReactNode;
+}
+
+/**
+ * Icon link to a neighbouring lesson, rendered as a disabled placeholder when there is none.
+ */
+function LessonStepLink({ trackId, lessonId, title, children }: LessonStepLinkProps) {
+  if (!lessonId) {
+    return (
+      <a className={iconButtonClass(true)} title={title} aria-disabled="true">
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link className={iconButtonClass()} title={title} to={hrefTo({ page: 'lesson', trackId, lessonId })}>
+      {children}
+    </Link>
+  );
 }
 
 function TestOutput({ report, running, testNames }: { report: Report | null; running: boolean; testNames: string[] }) {

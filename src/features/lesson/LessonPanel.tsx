@@ -7,6 +7,7 @@ import { Quiz } from './Quiz';
 import { isLessonComplete, useProgress } from '@/entities/progress';
 import type { Report } from './runner';
 import { BulbIcon, CheckIcon, CircleIcon, CrossIcon, KeyIcon, MapIcon } from '@/shared/ui/icons';
+import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
 import { COMPILE_ERROR_CLASS, SECTION_TITLE_CLASS, TEST_MESSAGE_CLASS, buttonClass, tagClass } from '@/shared/ui/classNames';
 
@@ -111,9 +112,9 @@ export function LessonPanel({ track, lesson, challenge, tab, onTabChange, testNa
               {nextLesson ? <span> Up next: {nextLesson.title}</span> : <span> You finished the {track.title} track.</span>}
             </div>
             {nextLesson && (
-              <a className={buttonClass('primary')} href={hrefTo({ page: 'lesson', trackId: track.id, lessonId: nextLesson.id })}>
+              <Link className={buttonClass('primary')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: nextLesson.id })}>
                 Next lesson
-              </a>
+              </Link>
             )}
           </div>
         )}

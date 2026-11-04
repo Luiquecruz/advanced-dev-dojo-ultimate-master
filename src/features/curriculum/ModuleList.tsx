@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import type { Track } from '@/content';
 import { isLessonComplete, useProgress } from '@/entities/progress';
+import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
 import { CheckIcon, CircleIcon } from '@/shared/ui/icons';
 import { tagClass } from '@/shared/ui/classNames';
@@ -46,8 +47,8 @@ export function ModuleList({ track, currentKey, compact = false, className, onNa
                 const current = lesson.key === currentKey;
                 return (
                   <li key={lesson.key}>
-                    <a
-                      href={hrefTo({ page: 'lesson', trackId: track.id, lessonId: lesson.id })}
+                    <Link
+                      to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: lesson.id })}
                       className={clsx('flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm hover:bg-hover', current && 'bg-hover shadow-[inset_3px_0_0_var(--accent)]')}
                       aria-current={current ? 'page' : undefined}
                       data-motion-origin={`lesson:${lesson.key}`}
@@ -68,7 +69,7 @@ export function ModuleList({ track, currentKey, compact = false, className, onNa
                           </span>
                         )}
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 );
               })}

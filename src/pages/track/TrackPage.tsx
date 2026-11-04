@@ -2,6 +2,7 @@ import type { Track } from '@/content';
 import { CurriculumPanel, ModuleList } from '@/features/curriculum';
 import { ProgressBar } from '@/shared/ui/ProgressBar';
 import { isLessonComplete, useProgress } from '@/entities/progress';
+import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
 import { TrackLogo } from '@/entities/track';
 import { buttonClass } from '@/shared/ui/classNames';
@@ -18,9 +19,9 @@ export function TrackPage({ track }: { track: Track }) {
 
   return (
     <main data-trail={track.id} className="mx-auto max-w-245 px-6 pt-9 pb-16 max-wide:px-4 max-wide:pt-6 max-wide:pb-12">
-      <a href={hrefTo({ page: 'home' })} className="enter inline-block text-sm text-ink-muted hover:text-ink">
+      <Link to={hrefTo({ page: 'home' })} className="enter inline-block text-sm text-ink-muted hover:text-ink">
         ← All tracks
-      </a>
+      </Link>
       <div className="enter mt-5.5" style={{ ['--enter-delay' as string]: '80ms' }}>
         <CurriculumPanel label={`${track.title} curriculum`} paused={motionState === 'ACTIVITY'}>
           <header>
@@ -38,9 +39,9 @@ export function TrackPage({ track }: { track: Track }) {
                 {done}/{track.lessons.length} lessons complete
               </span>
               {resumeId && (
-                <a className={buttonClass('primary')} href={hrefTo({ page: 'lesson', trackId: track.id, lessonId: resumeId })}>
+                <Link className={buttonClass('primary')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: resumeId })}>
                   {state.lastLesson[track.id] ? 'Continue' : 'Start learning'}
-                </a>
+                </Link>
               )}
             </div>
           </header>
