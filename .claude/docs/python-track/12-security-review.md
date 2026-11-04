@@ -448,4 +448,6 @@ Date: 2026-11-04. Scope: `git diff 17c5b05 06c9ffc`. The commit makes two change
 | Bundle integrity | Content-addressed name, written via temp file plus `rename`, rewritten when content differs. This removes the cross-worktree mix-up the SRE found. A hostile local process could still swap the file between check and fork, which is outside the threat model (same user) | Low, accepted |
 | **R16 — Low — crawling `_module` kills the child.** | Walking `pyodide_js._module` from Python (descriptor values only) ended the child with exit code 1 when it reached the `_asciiTextDecoder` prototype region, while Emscripten printed its GL error source. The parent reports `Python exited unexpectedly`, and the next run gets a fresh interpreter. Availability only, contained; I did not chase the exact trigger | Low, open |
 
+**Addendum, `abef8f8`.** I re-ran the same review for `git diff 17c5b05 abef8f8`. The extra commit only strengthens the entropy test: `os.urandom(16)` differs between calls, `secrets.token_hex(8)` has length 16, and `tempfile.mkdtemp()` lands under `/tmp/`. It also updates the spike doc table (`13-sre-pyodide-spike.md`). No runtime, lock-down or permission code changed after `06c9ffc`, so the findings above hold. `pythonSandbox.test.ts` at `abef8f8`: 54/54.
+
 **Open Critical/High: none.**
