@@ -1,0 +1,13 @@
+{
+  "title": "Inheritance and the MRO",
+  "summary": "How C3 linearization orders classes, why super() means the next class in the MRO rather than the parent, and how cooperative mixins combine without running the base twice. Repair a save chain of three mixins.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "The Python 2.3 Method Resolution Order", "url": "https://docs.python.org/3/howto/mro.html" },
+    { "label": "Built-in functions: super", "url": "https://docs.python.org/3/library/functions.html#super" },
+    { "label": "Python Tutorial: Multiple Inheritance", "url": "https://docs.python.org/3/tutorial/classes.html#multiple-inheritance" }
+  ]
+}

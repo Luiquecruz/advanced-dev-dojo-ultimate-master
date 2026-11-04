@@ -1,0 +1,7 @@
+[
+  { "term": "MRO", "description": "Method Resolution Order: `Cls.__mro__`, the linear list of classes Python searches for attributes." },
+  { "term": "C3 linearization", "description": "The algorithm that builds the MRO: subclasses before bases, base order preserved, each class once; it fails with `TypeError` when that is impossible." },
+  { "term": "`super()`", "description": "A proxy for the next class after the current one in the MRO of the instance's type, not necessarily the written base." },
+  { "term": "Cooperative inheritance", "description": "Every method in the chain calls `super()` with a shared signature, so each class runs once whatever the composition." },
+  { "term": "Mixin", "description": "A small class that adds one behavior and is combined with others through multiple inheritance." }
+]

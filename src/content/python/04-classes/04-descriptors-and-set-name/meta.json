@@ -1,0 +1,13 @@
+{
+  "title": "Descriptors and __set_name__",
+  "summary": "How __get__, __set__ and __delete__ take over attribute access, why data descriptors beat the instance dict and non-data descriptors do not, and why state lives on the instance. Build validating fields, a lazy attribute and a model base that lists its fields.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Descriptor Guide", "url": "https://docs.python.org/3/howto/descriptor.html" },
+    { "label": "Python Data Model: Implementing descriptors", "url": "https://docs.python.org/3/reference/datamodel.html#implementing-descriptors" },
+    { "label": "PEP 487: Simpler customisation of class creation", "url": "https://peps.python.org/pep-0487/" }
+  ]
+}

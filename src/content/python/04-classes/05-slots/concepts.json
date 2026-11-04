@@ -1,0 +1,7 @@
+[
+  { "term": "`__slots__`", "description": "A class attribute naming the only attributes instances can hold. It removes the per-instance `__dict__`." },
+  { "term": "Member descriptor", "description": "The data descriptor Python creates on the class for each slot; it reads and writes a fixed position in the object." },
+  { "term": "Slot inheritance", "description": "Each class in the chain declares only the slots it adds. A class without `__slots__` gives its instances a `__dict__` again." },
+  { "term": "`@dataclass(slots=True)`", "description": "Generates `__slots__` from the dataclass fields and returns a new class (Python 3.10+)." },
+  { "term": "Layout conflict", "description": "The `TypeError` raised when a class inherits from two bases that both define non-empty slots." }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "question": "`class C: tags = []`. Then `a, b = C(), C()` and `a.tags.append(1)`. What is `b.tags`?",
+    "options": ["`[]`", "`[1]`", "An AttributeError", "`None`"],
+    "answer": 1,
+    "explanation": "`a.tags` finds the list on the class and mutates it in place; no instance attribute is created, so `b.tags` sees the same shared list."
+  },
+  {
+    "question": "`class C: x = 1`. Then `c = C(); c.x = 2; del c.x`. What is `c.x` now?",
+    "options": ["`2`", "An AttributeError", "`1`", "`None`"],
+    "answer": 2,
+    "explanation": "The assignment created `c.__dict__['x']`, which shadowed the class attribute. Deleting it removes the shadow and lookup falls back to the class."
+  },
+  {
+    "question": "A class defines `x` as a `property` without a setter, and code writes `obj.__dict__['x'] = 5`. What does `obj.x` return?",
+    "options": [
+      "`5`, the instance dict always wins",
+      "The property's value: a data descriptor on the class takes precedence over the instance `__dict__`",
+      "A KeyError",
+      "Whichever was set last"
+    ],
+    "answer": 1,
+    "explanation": "`property` defines `__set__` (it raises when there is no setter), so it is a data descriptor and is checked before the instance dictionary."
+  },
+  {
+    "question": "`handler = account.close` and later `handler()` is called. What is `self` inside `close`?",
+    "options": [
+      "`None`, like an unbound `this` in JavaScript",
+      "The module",
+      "A TypeError is raised",
+      "`account`: reading the attribute produced a bound method that keeps the instance"
+    ],
+    "answer": 3,
+    "explanation": "Functions are non-data descriptors. `account.close` calls `function.__get__(account, type(account))`, which returns a bound method holding `account`."
+  }
+]

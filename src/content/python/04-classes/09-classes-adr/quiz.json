@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A rule must hold for 15 fields on mutable entities, including assignments after creation. Which mechanism fits?",
+    "options": [
+      "A property per field",
+      "One data descriptor class reused on every field",
+      "`__post_init__` in each class",
+      "A check in the serializer"
+    ],
+    "answer": 1,
+    "explanation": "A descriptor runs on every assignment and is written once. `__post_init__` only runs at construction, and properties repeat the rule per field."
+  },
+  {
+    "question": "500 000 objects measure 140 bytes each with `__dict__` and 64 with `__slots__`. The budget is 50 MB. Which layout fits?",
+    "options": [
+      "Both: 70 MB and 32 MB",
+      "Neither",
+      "Only slots: 70 MB with `__dict__`, 32 MB with slots",
+      "Only `__dict__`"
+    ],
+    "answer": 2,
+    "explanation": "500 000 × 140 = 70 × 10⁶ bytes and 500 000 × 64 = 32 × 10⁶ bytes. Only the slotted layout is under 50 MB."
+  },
+  {
+    "question": "Why can `@dataclass(slots=True)` silently break a field declared as `quantity: int = Positive()`?",
+    "options": [
+      "Slotted classes cannot have type hints",
+      "Dataclasses ignore defaults",
+      "The descriptor raises on import",
+      "The generated class gets a slot named `quantity`, whose member descriptor replaces `Positive`, so validation never runs"
+    ],
+    "answer": 3,
+    "explanation": "The slot and the descriptor need the same name on the class. The rebuilt class keeps the slot, and the default only feeds `__init__`."
+  },
+  {
+    "question": "Ten entity types each need a different combination of audit, timestamps and soft delete. What is the weakest choice?",
+    "options": [
+      "One inheritance chain: Entity → Audited → Timestamped → SoftDeleted",
+      "Mixins with cooperative `super()`",
+      "Composition with helper objects",
+      "Mixins that declare `__slots__ = ()`"
+    ],
+    "answer": 0,
+    "explanation": "A chain forces every class to take all behaviors above it. Mixins or composition let each type pick its own subset."
+  }
+]

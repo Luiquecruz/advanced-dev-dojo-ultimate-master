@@ -1,0 +1,7 @@
+[
+  { "term": "`@dataclass`", "description": "A class decorator that generates `__init__`, `__repr__`, `__eq__` and optional ordering, hashing and slots from annotated fields." },
+  { "term": "`field()`", "description": "Per-field options: `default_factory`, `compare`, `repr`, `kw_only`, `hash`, `metadata`." },
+  { "term": "`__post_init__`", "description": "Called by the generated `__init__` after fields are set; the place for validation and derived values." },
+  { "term": "`FrozenInstanceError`", "description": "Raised on assignment to a field of a `frozen=True` dataclass. It subclasses `AttributeError`." },
+  { "term": "`dataclasses.replace`", "description": "Builds a new instance with some fields changed, running `__init__` and `__post_init__` again." }
+]

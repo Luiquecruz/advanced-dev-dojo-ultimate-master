@@ -1,0 +1,11 @@
+{
+  "title": "Map: Classes, Attributes and Descriptors",
+  "summary": "A guide to how Python finds attributes: instance and class namespaces, descriptors that intercept lookup, and the MRO, plus the path through this module and the decision it ends with.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Python Tutorial: Classes", "url": "https://docs.python.org/3/tutorial/classes.html" },
+    { "label": "Descriptor Guide", "url": "https://docs.python.org/3/howto/descriptor.html" },
+    { "label": "Python Data Model: Customizing attribute access", "url": "https://docs.python.org/3/reference/datamodel.html#customizing-attribute-access" }
+  ]
+}

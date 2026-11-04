@@ -1,0 +1,7 @@
+[
+  { "term": "Validation point", "description": "Where and when a rule runs: a descriptor on every assignment, `__post_init__` once at construction, a property for one attribute." },
+  { "term": "Value object", "description": "An immutable object compared by value, such as a money amount or a SKU; a frozen dataclass is hashable and safe to share." },
+  { "term": "Memory estimate", "description": "Instances × measured bytes per instance, compared with the budget before choosing a layout." },
+  { "term": "Mechanism interaction", "description": "Two features that work alone but conflict together, such as `dataclass(slots=True)` replacing descriptor fields with plain slots." },
+  { "term": "ADR", "description": "Architecture Decision Record: context, decision, alternatives considered and consequences." }
+]

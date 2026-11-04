@@ -307,7 +307,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-functions-map **(quiz)** · 02-modules-and-imports · 03-args-and-kwargs · 04-positional-and-keyword-only · 05-mutable-default-arguments · 06-closures-and-late-binding · 07-decorators-and-wraps · 08-parameterized-decorators · 09-callables-partial-and-cache · 10-client-middleware-stack
 
 ### 04-classes — Classes, Attributes and Descriptors
-01-classes-map **(quiz)** · 02-new-and-init · 03-properties · 04-descriptors-and-set-name · 05-slots · 06-dataclasses · 07-data-model-methods · 08-inheritance-and-mro · 09-classes-adr
+01-classes-map **(quiz)** ✓ · 02-new-and-init ✓ · 03-properties ✓ · 04-descriptors-and-set-name ✓ · 05-slots ✓ · 06-dataclasses ✓ · 07-data-model-methods ✓ · 08-inheritance-and-mro ✓ · 09-classes-adr ✓
 
 ### 05-iteration — Iterators and Generators
 01-iteration-map **(quiz)** · 02-iterator-protocol · 03-generators · 04-generator-expressions-and-laziness · 05-yield-from-and-send · 06-itertools · 07-lazy-pipelines

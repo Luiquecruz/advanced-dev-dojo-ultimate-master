@@ -1,0 +1,36 @@
+[
+  {
+    "question": "`__new__` returns a cached instance of the same class. What happens next?",
+    "options": [
+      "Nothing: the cached object is returned as is",
+      "`__init__` runs again on the cached object with the new arguments",
+      "Python raises TypeError",
+      "`__init__` runs on a fresh copy"
+    ],
+    "answer": 1,
+    "explanation": "After `__new__`, Python calls `__init__` whenever the result is an instance of the class, cached or not."
+  },
+  {
+    "question": "What does `def __init__(self): return Currency.cache['EUR']` do when the class is called?",
+    "options": ["Returns the cached object", "Returns a new object and ignores the return", "Raises TypeError: __init__() should return None", "Creates an infinite loop"],
+    "answer": 2,
+    "explanation": "Unlike a JavaScript constructor, `__init__` cannot replace the object. Returning anything but `None` is an error."
+  },
+  {
+    "question": "Why does `class Upper(str): def __init__(self, text): self = text.upper()` not change the value?",
+    "options": [
+      "Strings are immutable and the value was already fixed by `str.__new__`; rebinding `self` only changes a local name",
+      "`__init__` is never called on `str` subclasses",
+      "`upper()` returns `None`",
+      "It does change the value"
+    ],
+    "answer": 0,
+    "explanation": "Immutable values are set at creation. Override `__new__` and return `super().__new__(cls, text.upper())`."
+  },
+  {
+    "question": "`class Percent(float)` with a correct `__new__`. What is `type(Percent(10) * 2)`?",
+    "options": ["`Percent`", "`int`", "`Decimal`", "`float`"],
+    "answer": 3,
+    "explanation": "The inherited `float.__mul__` builds a plain `float`. A subclass keeps its type only for methods it overrides."
+  }
+]
