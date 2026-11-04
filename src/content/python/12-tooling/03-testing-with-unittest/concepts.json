@@ -1,0 +1,8 @@
+[
+  { "term": "`TestCase`", "description": "A class whose `test*` methods are tests; assertion methods such as `assertEqual` report both values on failure." },
+  { "term": "`subTest`", "description": "A context manager that reports each row of a table separately and keeps the loop going after a failure." },
+  { "term": "`assertRaises`", "description": "Used as a context manager, it fails unless the block raises the given type and exposes the exception as `caught.exception`." },
+  { "term": "`mock.patch`", "description": "Replaces one attribute, named by a `\"module.name\"` string, with a `MagicMock` for a block or a test, then restores it." },
+  { "term": "Where to patch", "description": "Patch the name in the module that looks it up: after `from rates import fetch_rate`, that is `pricing.fetch_rate`." },
+  { "term": "Mutation testing", "description": "Planting small bugs in the code to check that the suite fails on each; a surviving mutant marks a missing test." }
+]

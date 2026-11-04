@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A Node developer joins a Python repository and asks where the equivalent of `package.json` and `package-lock.json` live. What is the answer?",
+    "options": [
+      "`setup.py` and `requirements.txt`, both required",
+      "`pyproject.toml` for the metadata and dependency ranges, and a lockfile such as `uv.lock` for the exact resolved versions",
+      "`requirements.txt` for both: it is the lockfile and the metadata",
+      "`.venv/pyvenv.cfg`, which records every installed package"
+    ],
+    "answer": 1,
+    "explanation": "`pyproject.toml` holds `[project]` metadata and dependency specifiers like `package.json`; the lockfile pins exact versions (and hashes) like `package-lock.json`. `pyvenv.cfg` only records which interpreter the environment was made from."
+  },
+  {
+    "question": "A team runs Black, isort and Flake8 in pre-commit and wants one fast tool. What does Ruff replace, and what is the catch?",
+    "options": [
+      "Only Flake8; formatting still needs Black",
+      "Black, isort, Flake8 and the type checker",
+      "Nothing: Ruff is a type checker",
+      "All three, but `ruff format` alone does not sort imports: enable the `I` rules in `ruff check --fix`"
+    ],
+    "answer": 3,
+    "explanation": "Ruff is a linter and a formatter. Its formatter is a drop-in replacement for Black, while import sorting is a lint rule set (`I`). Type checking stays with mypy, pyright or ty."
+  },
+  {
+    "question": "Coming from `tsc`, what happens when a function annotated `def total(items: list[int]) -> int` is called with strings?",
+    "options": [
+      "Nothing at call time: annotations are not enforced; a type checker in CI reports the error before it ships",
+      "Python raises `TypeError` at the call",
+      "The package fails to install",
+      "The interpreter converts the strings to integers"
+    ],
+    "answer": 0,
+    "explanation": "Python stores annotations but never checks them at runtime or at install. A separate checker (mypy, pyright, ty) is what turns them into errors, so it must run in CI."
+  },
+  {
+    "question": "Why is `.venv/` listed in `.gitignore` while `uv.lock` is committed?",
+    "options": [
+      "`.venv/` is too large for git; size is the only reason",
+      "`uv.lock` is generated, so it should also be ignored",
+      "An environment is tied to one machine's interpreter paths and is recreated from the lockfile, while the lockfile is the reproducible input",
+      "Committing `.venv/` would leak the PyPI password"
+    ],
+    "answer": 2,
+    "explanation": "The venv docs call environments non-portable: scripts and `pyvenv.cfg` point at absolute paths. The lockfile is small, cross-platform text, and `uv sync` rebuilds the same environment from it anywhere."
+  }
+]

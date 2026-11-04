@@ -1,0 +1,9 @@
+[
+  { "term": "`[project]` (PEP 621)", "description": "Standard metadata in `pyproject.toml`: name, version, `requires-python`, dependencies and extras." },
+  { "term": "`[build-system]` (PEP 517/518)", "description": "Names the build backend and its requirements; installing an sdist runs that backend." },
+  { "term": "`[dependency-groups]` (PEP 735)", "description": "Named developer dependency lists (test, lint) that are never published in the package metadata." },
+  { "term": "Lockfile", "description": "Exact versions and hashes for every dependency: `uv.lock`, a hashed `requirements.txt`, or the standard `pylock.toml` (PEP 751)." },
+  { "term": "Hash-checking mode", "description": "`--require-hashes` makes pip fail on any unpinned or unhashed requirement; it verifies artifacts, not their behavior." },
+  { "term": "Dependency confusion", "description": "A public package with an internal package's name wins when indexes are merged, as `--extra-index-url` does." },
+  { "term": "Trusted publishing", "description": "PyPI accepts uploads from a CI identity via OpenID Connect and short-lived tokens, instead of long-lived API tokens." }
+]

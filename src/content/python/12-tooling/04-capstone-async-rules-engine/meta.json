@@ -1,0 +1,19 @@
+{
+  "title": "Capstone: Async Rules Engine",
+  "summary": "The track's closing challenge (budget 60 to 90 minutes): build an asyncio fraud-rules engine with Protocol rules, TaskGroup fan-out under two semaphores, a whole-event deadline, tagged failures in an ExceptionGroup, a bounded queue and a draining shutdown, then size its deployment in a short ADR whose numbers must add up.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "asyncio: Task Groups", "url": "https://docs.python.org/3/library/asyncio-task.html#task-groups" },
+    { "label": "asyncio: Timeouts", "url": "https://docs.python.org/3/library/asyncio-task.html#timeouts" },
+    { "label": "asyncio: Queues", "url": "https://docs.python.org/3/library/asyncio-queue.html" },
+    { "label": "asyncio: Semaphore", "url": "https://docs.python.org/3/library/asyncio-sync.html#semaphore" },
+    { "label": "PEP 544: Protocols", "url": "https://peps.python.org/pep-0544/" },
+    { "label": "PEP 654: Exception Groups and except*", "url": "https://peps.python.org/pep-0654/" },
+    { "label": "PEP 678: Enriching Exceptions with Notes", "url": "https://peps.python.org/pep-0678/" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "Structured concurrency", "description": "Every task is owned by a `TaskGroup` that waits for it and cancels it on exit, so no rule outlives the evaluation that started it." },
+  { "term": "Fail open with a flag", "description": "A decision taken at the deadline with the verdicts that finished, marked `timed_out=True` so downstream systems know it is incomplete." },
+  { "term": "Failure isolation", "description": "Each rule catches its own `Exception`, tags it with an `add_note` and reports it in the decision's `ExceptionGroup`, instead of cancelling its siblings." },
+  { "term": "Backpressure", "description": "A bounded `asyncio.Queue` makes `put` wait when the worker is behind, so overload slows the producer instead of growing memory and latency." },
+  { "term": "Little's law", "description": "Items in a system equal arrival rate times time in the system; it sizes calls in flight, queue length and CPU processes from measured rates." },
+  { "term": "Structural plugin contract", "description": "A `@runtime_checkable` `Protocol` accepts any object with the right members, so plugin authors never import or subclass the engine." }
+]

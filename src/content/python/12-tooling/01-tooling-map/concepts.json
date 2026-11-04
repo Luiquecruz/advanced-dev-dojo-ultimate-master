@@ -1,0 +1,7 @@
+[
+  { "term": "`pyproject.toml`", "description": "The one project file: `[project]` metadata and dependencies, `[build-system]` backend, `[dependency-groups]` and `[tool.*]` settings." },
+  { "term": "Virtual environment", "description": "A directory with its own interpreter entry point and `site-packages`; running its `python` selects its packages." },
+  { "term": "Lockfile", "description": "The exact resolved versions (and hashes) of every dependency, committed so every machine installs the same set." },
+  { "term": "Ruff", "description": "A linter and formatter in one binary that replaces Flake8, isort and Black in most projects." },
+  { "term": "Type checker", "description": "mypy, pyright or ty: a separate step that reads annotations, which the interpreter itself never enforces." }
+]

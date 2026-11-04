@@ -1,0 +1,7 @@
+1. Read the six tests in order and map each to one mechanism: semaphores and `offload`, failure isolation with notes, the deadline around the group, the bounded queue and the shared semaphore in `Engine`, and the two `adr.py` checks.
+2. Write `run(rule)` first, the coroutine for a single rule: acquire the per-event slot, then the global slot, call the rule or `offload`, turn an `Exception` into a tagged entry of `errors`, and add the name to `flags` when it returns `True`.
+3. Wrap the task group in `asyncio.timeout(deadline_s)` and build the `Decision` after the `try/except TimeoutError`, so the timed-out path and the normal path share one return.
+4. Build `Engine` around it: validate the rules in `__init__`, create the bounded queue and the shared semaphore, start one supervisor task that owns the workers in a `TaskGroup`, and keep a count of decisions.
+5. Write `shutdown`: refuse new events, shut the queue down so the workers finish what is queued and then exit, await the supervisor under `asyncio.timeout(drain_s)`, and return the decisions counted since the drain began.
+6. Fill `adr.py` from the briefing, one number at a time: worker capacity and fleet size, calls in flight (Little's law), waves per event against the evaluation budget, queue length, CPU processes, then the categorical choices that the measurements and the plugin authors force.
+7. Run the demo: it builds the engine from your `PLAN` and prints each decision, its timeout flag and the failures split by type with `except*`.
