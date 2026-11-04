@@ -1,0 +1,7 @@
+[
+  { "term": "Assignment expression", "description": "`name := value` (the walrus operator): assigns and returns the value inside an expression, such as a `while` header or a comprehension filter." },
+  { "term": "Walrus scope", "description": "Inside a comprehension, `:=` binds in the enclosing function or module, not in the comprehension." },
+  { "term": "`for … else`", "description": "The `else` block runs when the loop ends without `break`, including when the iterable is empty." },
+  { "term": "`try … else`", "description": "Runs when the `try` block raised no exception; its own exceptions are not caught by the preceding `except` clauses." },
+  { "term": "Conditional expression", "description": "`a if condition else b`: evaluates the condition first, then only the chosen branch." }
+]

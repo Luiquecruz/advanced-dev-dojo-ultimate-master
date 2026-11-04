@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What does this print?\n\n```py\nfor n in [1, 3, 4, 5]:\n    if n % 2 == 0:\n        print(\"even\", n)\n        break\nelse:\n    print(\"no even number\")\n```",
+    "options": [
+      "`even 4` and then `no even number`",
+      "`no even number` three times, then `even 4`",
+      "`even 4` only",
+      "`no even number` only"
+    ],
+    "answer": 2,
+    "explanation": "The `else` of a loop runs only when the loop ends without `break`. Here `break` ran at 4, so the `else` is skipped."
+  },
+  {
+    "question": "What is `n` after `if n := len([1, 2, 3]) > 2: pass`?",
+    "options": [
+      "`True`: `:=` binds looser than `>`, so it assigns the comparison",
+      "`3`",
+      "A `SyntaxError`: `:=` cannot appear in an `if`",
+      "`2`"
+    ],
+    "answer": 0,
+    "explanation": "The walrus has the lowest precedence of all operators. Write `if (n := len(items)) > 2:` to keep the length."
+  },
+  {
+    "question": "Which loop collects the chunks of `read` without the empty end marker and calls `read` only until it is exhausted?",
+    "options": [
+      "`while True:` that runs `chunk = read(4)` and `chunks.append(chunk)`, then `if not chunk: break`",
+      "`for chunk in read(4): chunks.append(chunk)`",
+      "`while read(4): chunks.append(read(4))`",
+      "`while chunk := read(4): chunks.append(chunk)`"
+    ],
+    "answer": 3,
+    "explanation": "The walrus reads once per iteration and tests that same value. The first option appends the empty marker; the third reads twice per iteration and loses every other chunk; the second iterates over the bytes of a single chunk."
+  },
+  {
+    "question": "In `try: value = int(text)` / `except ValueError: value = None` / `else: save(value)`, `save` raises `ValueError`. What happens?",
+    "options": [
+      "The `except ValueError` clause catches it and sets `value = None`",
+      "The `ValueError` propagates: exceptions in `else` are not handled by the `except` clauses above it",
+      "It is silently ignored",
+      "`save` is never called because `else` only runs after an exception"
+    ],
+    "answer": 1,
+    "explanation": "`else` runs only when the `try` block succeeded, and it sits outside the protection of the `except` clauses. That keeps a bug in `save` from being reported as bad input."
+  },
+  {
+    "question": "After `results = [y for x in [1, 2, 3] if (y := x * 10) > 15]` at module level, what are `results` and `y`?",
+    "options": [
+      "`[20, 30]` and `y` is undefined outside the comprehension",
+      "`[20, 30]` and `y == 30`",
+      "`[10, 20, 30]` and `y == 30`",
+      "A `SyntaxError`"
+    ],
+    "answer": 1,
+    "explanation": "A walrus in a comprehension binds in the enclosing scope, so `y` keeps the last value it was assigned. The filter kept 20 and 30."
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A function's `match shape:` has `case Circle(radius=r):` followed by `case Square:` as the last case. What does `area(\"hexagon\")` do when that block returns `shape.side ** 2`?",
+    "options": [
+      "Raises `TypeError` because `\"hexagon\"` is not a `Square`",
+      "Raises `AttributeError`: `case Square:` captured the string, so the block ran",
+      "Returns `None` because no case matched",
+      "Fails at import with a `SyntaxError`"
+    ],
+    "answer": 1,
+    "explanation": "Without parentheses `Square` is a capture pattern. As the last case it is allowed, matches every subject and binds it to a local named `Square`. The type check is `case Square():`."
+  },
+  {
+    "question": "`class Point:` sets `self.x` and `self.y` in `__init__` and defines no `__match_args__`. What happens when a `Point` instance reaches `case Point(0, 0):`?",
+    "options": [
+      "It matches the point at the origin, reading the attributes in `__init__` order",
+      "It matches any `Point`",
+      "It never matches but raises nothing",
+      "`TypeError`: Point() accepts 0 positional sub-patterns"
+    ],
+    "answer": 3,
+    "explanation": "Positional sub-patterns are mapped through `__match_args__`. Without it a plain class accepts none, so the match raises `TypeError` once the `isinstance` check has passed. `Point(x=0, y=0)` works without it."
+  },
+  {
+    "question": "`@dataclass class Event:` with fields `kind: str`, `_: KW_ONLY`, `source: str = \"ui\"`. What is `Event.__match_args__`?",
+    "options": [
+      "`(\"kind\",)`",
+      "`(\"kind\", \"source\")`",
+      "`()`",
+      "It is not defined for dataclasses with `KW_ONLY`"
+    ],
+    "answer": 0,
+    "explanation": "The dataclass builds `__match_args__` from the non-keyword-only parameters of the generated `__init__`. Keyword-only fields are left out, so `source` can only be matched by keyword."
+  },
+  {
+    "question": "Which case matches the subject `True` first?\n\n```py\nmatch True:\n    case int(n): ...\n    case bool(b): ...\n```",
+    "options": [
+      "`bool(b)`, because it is the exact type",
+      "Neither: built-ins cannot appear in class patterns",
+      "`int(n)`, with `n` bound to `True`, because `bool` is a subclass of `int`",
+      "Both run"
+    ],
+    "answer": 2,
+    "explanation": "Class patterns use `isinstance`, and the first matching case wins. Put `bool(...)` before `int(...)` when booleans need their own branch."
+  },
+  {
+    "question": "When is a polymorphic method better than a central `match` on class patterns?",
+    "options": [
+      "Never: `match` is always faster",
+      "When the set of types is open and each new type should bring its own behavior without editing the dispatcher",
+      "When the classes are dataclasses",
+      "When the subject is nested data"
+    ],
+    "answer": 1,
+    "explanation": "A `match` suits a closed set of types decoded in one place. If other teams add types, a method (or `singledispatch` for foreign classes) keeps each new type's behavior next to the type."
+  }
+]
