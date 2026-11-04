@@ -1,4 +1,5 @@
 import { reactAdapter } from '../engines/react/adapter';
 import { defineChallengeSuite } from './challengeSuite';
+import { frameworkGrader } from './graders';
 
-defineChallengeSuite('react', reactAdapter);
+defineChallengeSuite('react', frameworkGrader(reactAdapter));

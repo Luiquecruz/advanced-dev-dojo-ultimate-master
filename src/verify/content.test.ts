@@ -12,7 +12,7 @@ const lessons = allLessons.filter((lesson) => !filter || (filter.includes('/') ?
 describe('content structure', () => {
   it('loads every track with a known engine', () => {
     expect(tracks.length).toBeGreaterThanOrEqual(4);
-    tracks.forEach((track) => expect(['typescript', 'react', 'vue', 'angular', 'node']).toContain(track.engine));
+    tracks.forEach((track) => expect(['typescript', 'react', 'vue', 'angular', 'node', 'python']).toContain(track.engine));
   });
 
   it('shows only enabled tracks and keeps disabled ones loaded', () => {
