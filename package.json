@@ -82,5 +82,17 @@
     "typescript": "^6.0.3",
     "vite": "^8.3.4",
     "vitest": "^5.0.5"
+  },
+  "overrides": {
+    "monaco-editor": {
+      "dompurify": "^3.4.17"
+    },
+    "js-beautify": {
+      "glob": "^14.0.3",
+      "minimatch": "^11.0.4"
+    },
+    "editorconfig": {
+      "minimatch": "^11.0.4"
+    }
   }
 }
