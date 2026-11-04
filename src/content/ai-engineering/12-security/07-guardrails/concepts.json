@@ -1,0 +1,9 @@
+[
+  { "term": "Guardrail", "description": "A check on what enters or leaves a model call: limits, topic rules, PII redaction, classifiers. Useful noise reduction; not a substitute for architecture." },
+  { "term": "Input rail / output rail", "description": "Checks before the model (on the user's input) and after it (on the answer). Cheapest rails first." },
+  { "term": "Luhn check", "description": "The check-digit algorithm of payment card numbers; validating it removes most false positives of a card pattern." },
+  { "term": "CPF", "description": "Brazil's individual taxpayer number, personal data under the LGPD, with two check digits computed modulo 11." },
+  { "term": "Fail closed", "description": "When a security check cannot decide (the classifier errored), block. The opposite, fail open, lets attackers win by breaking the check." },
+  { "term": "Guard model", "description": "A model, often small and fine-tuned, that classifies inputs or outputs as safe or unsafe, such as the Llama Guard and Prompt Guard families." },
+  { "term": "False positive rate", "description": "The share of legitimate requests a rail blocks. Measure it with the same care as the catch rate." }
+]

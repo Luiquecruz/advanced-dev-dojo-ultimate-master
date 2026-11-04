@@ -1,0 +1,12 @@
+{
+  "title": "Map: Security",
+  "summary": "What this module answers (what an attacker can make an AI system do, and which controls hold when the model is fooled), its place in the governance layer, the prerequisites from earlier modules, the path from prompt injection to red teaming, and the threat model ADR at the end.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Simon Willison: The lethal trifecta for AI agents", "url": "https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/" },
+    { "label": "OWASP GenAI LLM Top 10 2026", "url": "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" },
+    { "label": "OWASP Top 10 for Agentic Applications for 2026", "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" },
+    { "label": "Design Patterns for Securing LLM Agents against Prompt Injections (paper)", "url": "https://arxiv.org/abs/2506.08837" }
+  ]
+}

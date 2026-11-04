@@ -1,0 +1,9 @@
+[
+  { "term": "Red teaming", "description": "Attacking your own system on purpose to find what gets through. For AI products, best kept as an automated adversarial eval suite." },
+  { "term": "Adversarial eval suite", "description": "An eval whose dataset is attacks (payloads injected into realistic content) and whose scorer checks whether each attack reached its goal." },
+  { "term": "Attack success rate (ASR)", "description": "The share of evaluated attack cases that reached their goal, overall and per category." },
+  { "term": "Canary", "description": "A random string a payload asks the model to output. Its presence proves the injection steered the answer, with no false positives." },
+  { "term": "Carrier", "description": "The content that delivers an indirect injection: an email, ticket, web page, PDF, tool result or memory." },
+  { "term": "Security regression", "description": "An attack that failed against the baseline and succeeds against the new release. Listed by case id in the gate." },
+  { "term": "Adaptive attack", "description": "An attacker who iterates against your specific system. Static suites underestimate it, so feed human findings back into the suite." }
+]

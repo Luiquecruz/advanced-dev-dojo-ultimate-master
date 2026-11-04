@@ -1,0 +1,15 @@
+{
+  "title": "Least Privilege and Secrets",
+  "summary": "Issue a scoped credential per tool call that expires on an injected clock and is revoked afterwards, keep secrets out of the context with placeholders resolved at the tool boundary, and redact raw, base64 and URL-encoded secrets from every output and log.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "OWASP LLM06:2025 Excessive Agency", "url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/" },
+    { "label": "OWASP Secrets Management Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html" },
+    { "label": "RFC 8693: OAuth 2.0 Token Exchange", "url": "https://datatracker.ietf.org/doc/html/rfc8693" },
+    { "label": "MCP: Security Best Practices", "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/security_best_practices" },
+    { "label": "GitHub Docs: OpenID Connect instead of long-lived secrets", "url": "https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect" }
+  ]
+}

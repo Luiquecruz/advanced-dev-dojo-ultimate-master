@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Release v2 has the same overall attack success rate as v1 (4%), but the gate fails. Why can that be right?",
+    "options": [
+      "The gate is flaky",
+      "Different attacks succeed: one that failed in v1 now works while another stopped working; the list of newly successful case ids exposes the regression a flat rate hides",
+      "Rates can never be equal",
+      "The gate only looks at latency"
+    ],
+    "answer": 1,
+    "explanation": "Aggregates can stay constant while the set of successful attacks changes. A new exfiltration path matters even if a harmless goal hijack stopped working."
+  },
+  {
+    "question": "Why does the suite plant a random canary such as `BANANA-17` instead of asking a judge model whether the answer was hijacked?",
+    "options": [
+      "Judges are not allowed in security tests",
+      "A random string never appears by accident, so detection is deterministic, cheap and free of false positives; judges are for goals no string can capture",
+      "Canaries make the model more vulnerable",
+      "Judges cannot read text"
+    ],
+    "answer": 1,
+    "explanation": "Deterministic detectors make the gate trustworthy and reproducible. A judge adds cost and its own error rate, so use it only where needed and calibrate it."
+  },
+  {
+    "question": "During the nightly run, the assistant's provider times out on 30% of the cases. How should those cases count?",
+    "options": [
+      "As defended, because no attack succeeded",
+      "As successful attacks, to be safe",
+      "As errored: excluded from the rate and reported, and the gate fails until the suite runs cleanly",
+      "They should be deleted from the suite"
+    ],
+    "answer": 2,
+    "explanation": "A case that did not run says nothing about resistance. Counting it as defended would make an outage look like a security improvement."
+  },
+  {
+    "question": "Your suite has run at 0% attack success for six months. What does that tell you?",
+    "options": [
+      "The system is immune to prompt injection",
+      "The defenses resist the attacks in the suite; adaptive attackers may still find others, so keep feeding human red-team findings and new techniques into the suite and keep the architectural controls",
+      "The suite can be removed",
+      "The model provider fixed injection"
+    ],
+    "answer": 1,
+    "explanation": "Static suites decay as attackers adapt. They are regression protection, not proof of security."
+  },
+  {
+    "question": "Why inject the same payload at the start, middle and end of a document?",
+    "options": [
+      "To make the suite slower",
+      "Models weigh content differently by position, so a defense that holds when the payload comes first can fail when it comes last",
+      "Payloads only work at the end",
+      "To test the tokenizer"
+    ],
+    "answer": 1,
+    "explanation": "Position bias (module 01) affects instructions hidden in content too. Crossing positions is a cheap way to multiply coverage."
+  }
+]

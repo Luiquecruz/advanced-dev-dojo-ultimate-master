@@ -1,0 +1,5 @@
+Collect the texts first: `[{ location: 'description', text: tool.description ?? '' }]` plus one entry per property of `inputSchema.properties` that has a string `description`. Then run the five rules over each text. Regular expressions to start from: `/<\s*\/?\s*(?:important|system|instructions?|secret|admin)\b[^>]*>|<!--[\s\S]*?-->/i` for tags and `/~\/\.ssh|id_rsa|\.env\b|mcp\.json|\.aws\/credentials|\/etc\/passwd/i` for paths.
+---
+The invisible-character class needs the `u` flag so `\u{E0000}-\u{E007F}` works and the match is a whole code point: `match[0].codePointAt(0).toString(16).toUpperCase().padStart(4, '0')`. For shadowing, escape each name for a regex and wrap it in `(?<![\w-])` and `(?![\w-])`, so `send_email` does not match inside `send_email_v2`.
+---
+Canonical JSON is a recursive copy: arrays map their items, objects become `Object.fromEntries(Object.keys(value).sort().map(key => [key, canonicalize(value[key])]))`, everything else stays. In the gate, keep a mutable copy of `pins` and a `Set` of seen names in the closure; in `review`, add this list's names before scanning, then compute findings and hash per tool and follow the four cases in order.

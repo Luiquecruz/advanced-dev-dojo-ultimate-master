@@ -1,0 +1,5 @@
+Do the two checksums first; they are pure loops. For Luhn, walk `index` from 0 and read `digits[digits.length - 1 - index]`, doubling when `index % 2 === 1`. For CPF, one helper computes a check digit from an array of numbers with weights starting at `length + 1`; call it on the first 9 digits and on the first 10.
+---
+Starting regexes: phone `/(?<![\w+])(?:\+\d{1,3}[\s.-]?(?:\(\d{2,3}\)|\d{2,3})|\(\d{2,3}\))[\s.-]?\d{3,5}[\s.-]?\d{4}(?!\d)/g`, card `/(?<!\d)\d(?:[ -]?\d){12,18}(?!\d)/g`, CPF `/(?<!\d)\d{3}\.?\d{3}\.?\d{3}-?\d{2}(?!\d)/g`. For cards and CPFs, the `replace` callback strips non-digits with `match.replace(/\D/g, '')`, validates, and returns the original match when invalid.
+---
+`classifyInput` is a `for` loop over attempts with a `try`/`catch` whose `catch` just continues; inside, `continue` when `finishReason !== 'stop'`, then `JSON.parse(response.text).label` and return it only if it is `'safe'` or `'unsafe'`. `guardedAnswer` is a sequence of early returns in the order of the table; build the topic check with `new RegExp(\`\\b${escaped}\\b\`, 'i')`.

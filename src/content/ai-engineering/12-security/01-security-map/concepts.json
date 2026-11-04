@@ -1,0 +1,10 @@
+[
+  { "term": "Prompt injection", "description": "Text that steers a model against its developer's intent. **Direct** when the user types it, **indirect** when it hides in content the model reads (web pages, email, documents, tool results)." },
+  { "term": "Lethal trifecta", "description": "Simon Willison's name for an agent that combines access to private data, exposure to untrusted content and a way to communicate externally. Together they let one injection steal data; remove a leg." },
+  { "term": "Exfiltration", "description": "Data leaving the system through a channel the attacker controls: a markdown image URL, a link, a tool call with data in its arguments." },
+  { "term": "Least privilege", "description": "Every tool and credential gets only the access its task needs, for as short a time as possible." },
+  { "term": "Tool poisoning", "description": "Instructions hidden in a tool's description or schema, read by the model but rarely by the user." },
+  { "term": "Guardrail", "description": "A check on what enters or leaves the model: classifiers, PII redaction, length and topic limits. Probabilistic, so one layer among several." },
+  { "term": "Red teaming", "description": "Attacking your own system on purpose, ideally as an automated adversarial eval suite that gates releases." },
+  { "term": "Threat model", "description": "Assets, trust boundaries, entry points, threats mapped to mitigations, and the residual risk you accept." }
+]

@@ -1,0 +1,14 @@
+{
+  "title": "The OWASP Top 10s",
+  "summary": "The OWASP LLM Top 10 (2026 edition, mapped to the still widely cited 2025 ids) and the Top 10 for Agentic Applications for 2026: what each entry means, where this track covers it, and how to use both lists as a threat-model checklist and shared vocabulary.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "OWASP GenAI LLM Top 10 2026", "url": "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" },
+    { "label": "OWASP GenAI LLM Top 10 repository (2026 list)", "url": "https://github.com/GenAI-Security-Project/GenAI-LLM-Top10" },
+    { "label": "OWASP Top 10 for LLM Applications 2025", "url": "https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/" },
+    { "label": "OWASP Top 10 for Agentic Applications for 2026", "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" },
+    { "label": "Help Net Security: OWASP 2026 LLM Top 10 released", "url": "https://www.helpnetsecurity.com/2026/08/06/owasp-2026-llm-top-10-released/" },
+    { "label": "OWASP GenAI Security Project: Agent Control Standard", "url": "https://github.com/GenAI-Security-Project/agent-control-standard" }
+  ]
+}

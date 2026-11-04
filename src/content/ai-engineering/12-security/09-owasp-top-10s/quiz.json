@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team stores an internal admin URL and the rule \"only managers may see salaries\" in the system prompt, trusting the model to keep both private. Which OWASP entry describes the risk, and what is the fix?",
+    "options": [
+      "Misinformation; ask the model to double-check",
+      "Hidden Context Exposure (System Prompt Leakage in the 2025 edition): assume hidden context can be extracted; keep secrets out of it and enforce access rules in code",
+      "Unbounded Consumption; shorten the prompt",
+      "Vector and Embedding Weaknesses; re-embed the prompt"
+    ],
+    "answer": 1,
+    "explanation": "Instructions the user cannot see are still extractable through injection or clever questions. Authorization that only lives in a prompt is not authorization."
+  },
+  {
+    "question": "An email agent reads a message that tells it to forward the user's invoices to an outside address, and it does. Which entries apply most directly?",
+    "options": [
+      "LLM09 Vector and Embedding Weaknesses only",
+      "ASI01 Agent Goal Hijack (its objective was redirected by content it read) and LLM01 Prompt Injection, with ASI02 Tool Misuse for the forwarding",
+      "LLM06 Unbounded Consumption",
+      "ASI07 Insecure Inter-Agent Communication"
+    ],
+    "answer": 1,
+    "explanation": "Indirect injection is the cause, goal hijack is what it does to an agent, and the email tool is the instrument. Tagging all three helps link the incident to the controls that should have stopped it."
+  },
+  {
+    "question": "What does the Agentic Top 10 cover that the LLM list mostly does not?",
+    "options": [
+      "Nothing: it renames the LLM list",
+      "Risks that appear when models plan and act: tool chains, delegated identities, runtime supply chains, memory that persists across runs, agent-to-agent messages, cascading failures, manipulation of human approvers and rogue agents",
+      "Only model training risks",
+      "Only regulatory compliance"
+    ],
+    "answer": 1,
+    "explanation": "The agentic list extends the LLM list to autonomy, tools, memory and multi-agent systems. A chat feature needs the first list; an agent needs both."
+  },
+  {
+    "question": "A support agent asks the on-call engineer to approve 40 refunds an hour, each with a confident, well-written justification. After a week the engineer approves without reading. Which agentic risk is this?",
+    "options": [
+      "ASI09 Human-Agent Trust Exploitation: the human check erodes through fatigue and persuasive output, so it no longer protects anything",
+      "ASI05 Unexpected Code Execution",
+      "ASI07 Insecure Inter-Agent Communication",
+      "LLM09 Vector and Embedding Weaknesses"
+    ],
+    "answer": 0,
+    "explanation": "Approvals are a control only while people read them. Fewer, higher-signal approvals, limits that do not need a human, and audits of approval rates keep the check real."
+  },
+  {
+    "question": "In the 2026 edition, Improper Output Handling moved from fifth to tenth. What should a team with a markdown chat UI conclude?",
+    "options": [
+      "Output sanitization can be dropped",
+      "Nothing about its own risk: the ranking reflects votes and incident data across many systems, and a single unsanitized image is still a zero-click leak in this product",
+      "That markdown is now safe to render",
+      "That the model now sanitizes its own output"
+    ],
+    "answer": 1,
+    "explanation": "The lists are shared vocabulary and checklists, not a ranking of your risks. Your threat model decides priorities."
+  },
+  {
+    "question": "How should a threat model use the two lists?",
+    "options": [
+      "Copy the twenty entries as the threat model",
+      "Walk every entry and record whether it is not applicable, mitigated (by which control) or accepted (and why), and tag threats with the ids so findings compare across teams",
+      "Use only the first three entries of each list",
+      "Ignore them for internal tools"
+    ],
+    "answer": 1,
+    "explanation": "The value of a checklist is finding the entry you had not thought about, and leaving a trace of why each one does or does not apply."
+  }
+]

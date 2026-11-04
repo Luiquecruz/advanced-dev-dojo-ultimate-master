@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Which layer does this module cover, and which earlier layer does it lean on most?",
+    "options": [
+      "Layer 1 (model): choosing a model that cannot be injected",
+      "Layer 6 (governance), seen from the attacker's side, using the harness controls of layer 3 (permissions, sandbox, hooks) as its mechanisms",
+      "Layer 2 (context) only: writing better system prompts",
+      "Layer 5 (evaluation) only: scoring answers"
+    ],
+    "answer": 1,
+    "explanation": "Security decides who and what may act, and how you prove it. The mechanisms (permission rules, egress allowlists, hooks) were built in module 08; this module decides where to point them."
+  },
+  {
+    "question": "Why does the module start from the assumption that a prompt injection will succeed?",
+    "options": [
+      "Because attackers always have access to the system prompt",
+      "Because models read instructions and data through the same channel, and no known technique makes them reliably ignore instructions hidden in data",
+      "Because injection only works on small models",
+      "Because the fake model cannot simulate a refusal"
+    ],
+    "answer": 1,
+    "explanation": "Detection lowers the rate but never reaches zero. Controls that limit what a fooled model can reach or send keep working when detection misses."
+  },
+  {
+    "question": "A team adds an input classifier that blocks 97% of known injection prompts and plans to ship an email agent that can read the inbox and send mail. What does the module's thread suggest?",
+    "options": [
+      "Ship it: 97% is an excellent detection rate",
+      "Add a second classifier to reach 99%",
+      "Treat the classifier as one layer; first remove a leg of the lethal trifecta (for example, make replies drafts a human sends), then measure the whole stack with an adversarial eval suite",
+      "Move the instructions to the end of the system prompt"
+    ],
+    "answer": 2,
+    "explanation": "An attacker only needs the remaining 3%, and adaptive attackers find it. Architecture removes the damage path; guardrails reduce noise; red teaming tells you whether the stack holds."
+  },
+  {
+    "question": "Which lesson answers \"what may a tool call touch, and where do the secrets live\"?",
+    "options": [
+      "Least privilege and secrets: scoped credentials that expire per call, placeholders resolved at the tool boundary, redaction in outputs and logs",
+      "Prompt injection",
+      "The OWASP Top 10s",
+      "Red teaming"
+    ],
+    "answer": 0,
+    "explanation": "A hijacked model can only misuse what its tools are allowed to do. Narrow, short-lived credentials and secrets that never enter the context limit the blast radius."
+  },
+  {
+    "question": "What does the threat model ADR at the end of the module record that a list of controls does not?",
+    "options": [
+      "Only the name of the model",
+      "The assets, the trust boundaries, which threat each mitigation addresses, and the residual risk the team accepts, so the next change can be checked against it",
+      "The exact wording of the system prompt",
+      "A guarantee that the system cannot be attacked"
+    ],
+    "answer": 1,
+    "explanation": "A threat model connects controls to the threats they answer and states what remains. Without it, nobody can tell whether a new tool reopens a closed path."
+  }
+]

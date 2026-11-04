@@ -1,0 +1,8 @@
+[
+  { "term": "Lethal trifecta", "description": "Private data + untrusted content + external communication in one context. Any injection in the untrusted content can then read the data and send it out." },
+  { "term": "Leg", "description": "One of the three properties. A tool, an input or a renderer can provide one or more legs." },
+  { "term": "Session", "description": "Everything that shares one context: the tools available, the inputs that started it, the UI that renders its output. Legs are analyzed per session." },
+  { "term": "Exfiltration channel", "description": "Any way data can leave: sending email, fetching a URL with data in it, rendering a remote image, opening an issue in a public tracker." },
+  { "term": "Fail closed", "description": "When information is missing (an unlabeled tool), assume the dangerous case. A false alarm is cheap; a missed leg is a breach." },
+  { "term": "Runtime trifecta guard", "description": "Tracks the legs a session has touched and denies the call that would complete the trifecta, so call order and dynamically loaded tools are covered." }
+]

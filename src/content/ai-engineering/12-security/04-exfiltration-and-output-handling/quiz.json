@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A chat UI renders markdown. Why is an image more dangerous than a link in model output?",
+    "options": [
+      "Images are larger",
+      "The browser fetches the image as soon as the answer renders, so data in its URL leaves without any user action; a link needs a click",
+      "Links cannot contain query strings",
+      "Images bypass HTTPS"
+    ],
+    "answer": 1,
+    "explanation": "Zero-click is what makes image exfiltration so effective. Links still matter (users click convincing ones), which is why both are checked."
+  },
+  {
+    "question": "A filter allows URLs when `url.includes('docs.example.com')`. Which URL defeats it?",
+    "options": [
+      "`https://docs.example.com/guide`",
+      "`https://cdn.example.com/logo.png`",
+      "`https://docs.example.com.attacker.example/?d=secret`",
+      "`http://localhost/`"
+    ],
+    "answer": 2,
+    "explanation": "Substring checks match the attacker's subdomain. Parse the URL and compare the normalized hostname exactly; `https://docs.example.com@attacker.example/` is another classic, where the allowed name is only the username."
+  },
+  {
+    "question": "Your allowlist contains your own domain, which has an open redirect at `/go?to=`. What does that mean?",
+    "options": [
+      "Nothing: the allowlist only checks the first hop",
+      "The allowed host becomes a channel: an image or link through the redirect can still reach the attacker, so fix the redirect or remove the host from the allowlist",
+      "Redirects are blocked by HTTPS",
+      "Only links are affected, never images"
+    ],
+    "answer": 1,
+    "explanation": "EchoLeak used an allowlisted Microsoft domain that proxied requests. Every host on the allowlist must be reviewed for redirects, proxies and user-controlled content."
+  },
+  {
+    "question": "A customer name from the model, `\" onfocus=\"alert(1)`, is inserted into `<input value=\"...\">` after HTML text encoding (`&`, `<`, `>`). What goes wrong?",
+    "options": [
+      "Nothing: text encoding covers attributes",
+      "The double quote is not encoded, so it closes the attribute and adds an event handler; attributes need quotes encoded too",
+      "The browser rejects the page",
+      "The name is encoded twice"
+    ],
+    "answer": 1,
+    "explanation": "Each destination needs its own encoding. HTML attribute context must also escape `\"` and `'`; URLs need `encodeURIComponent`; SQL and shells need parameters."
+  },
+  {
+    "question": "Why keep a Content Security Policy when the sanitizer already removes non-allowlisted images?",
+    "options": [
+      "CSP replaces the sanitizer, so the sanitizer can be deleted",
+      "Defense in depth: if the sanitizer misses a construct (a new markdown syntax, a renderer quirk), the browser still refuses to load resources from hosts outside `img-src` and `connect-src`",
+      "CSP makes the page faster",
+      "CSP encrypts the query string"
+    ],
+    "answer": 1,
+    "explanation": "Sanitizers have bugs and renderers evolve. A browser-enforced policy is an independent layer that does not depend on your parsing being perfect."
+  }
+]

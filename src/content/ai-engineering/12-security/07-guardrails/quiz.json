@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A card-number regex redacts `Order 4111 1111 1111 1112` in support answers, and customers complain their order numbers disappear. What is the targeted fix?",
+    "options": [
+      "Remove card redaction",
+      "Validate candidates with the Luhn check digit and redact only valid card numbers",
+      "Redact every number longer than 8 digits",
+      "Ask the model whether the number is a card"
+    ],
+    "answer": 1,
+    "explanation": "A pattern finds candidates; a checksum confirms them. Most random numbers fail Luhn, so false positives drop sharply while real cards are still caught."
+  },
+  {
+    "question": "The injection classifier times out during a provider incident. What should a security rail do, and what does it cost?",
+    "options": [
+      "Let requests through, since the incident is not an attack",
+      "Fail closed after a bounded number of attempts: block with a distinct reason; the feature is unavailable while the classifier is, so monitor that rate",
+      "Retry forever until it answers",
+      "Ask the assistant model to classify itself"
+    ],
+    "answer": 1,
+    "explanation": "If the rail fails open, an attacker only needs to make it fail (a huge or strange input). Failing closed trades availability for safety, which is why the failure must be visible."
+  },
+  {
+    "question": "Why run the length and topic rails before the classifier?",
+    "options": [
+      "The classifier cannot read long text",
+      "Cheap deterministic checks should reject what they can before an expensive model call; rejected input then never reaches any model",
+      "Topic rails are more accurate than classifiers",
+      "The order does not matter"
+    ],
+    "answer": 1,
+    "explanation": "Ordering by cost saves money and latency, and limits how much untrusted text reaches models at all, including the classifier."
+  },
+  {
+    "question": "A vendor's guard model reports 99% accuracy on a public jailbreak dataset. Your agent can issue refunds. Is the guard enough?",
+    "options": [
+      "Yes: 99% is production grade",
+      "No: probabilistic rails are bypassed by adaptive attacks and do not see actions; refunds still need permissions, limits and approval regardless of the classifier",
+      "Yes, if you add a second guard model",
+      "No, because guard models never work"
+    ],
+    "answer": 1,
+    "explanation": "Guardrails reduce noise. Consequential actions need deterministic controls that hold when the classifier is wrong."
+  }
+]

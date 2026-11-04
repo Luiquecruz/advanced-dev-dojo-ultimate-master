@@ -1,0 +1,8 @@
+[
+  { "term": "Threat model", "description": "Assets, trust boundaries, entry points, threats mapped to mitigations, and the residual risk accepted, kept up to date with the system." },
+  { "term": "Trust boundary", "description": "A point where data crosses from less trusted to more trusted (inbound content into the context, tool calls into internal APIs, output into a browser)." },
+  { "term": "Residual risk", "description": "What remains after the mitigations, stated with the reason it is acceptable and how it is monitored." },
+  { "term": "STRIDE", "description": "Spoofing, tampering, repudiation, information disclosure, denial of service, elevation of privilege: a classic prompt for threats at each boundary." },
+  { "term": "Traceability", "description": "Every concern has an effective mitigation, and every mitigation exists in the configuration, so the document and the system cannot drift apart unnoticed." },
+  { "term": "Control hierarchy", "description": "Remove the capability, then narrow it, then gate it, then detect misuse. Each step down is weaker." }
+]

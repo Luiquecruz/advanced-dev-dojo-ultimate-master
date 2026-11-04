@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A threat model lists `draft-only-replies` as the mitigation for exfiltration, but the agent configuration still enables `send_email`. What is wrong?",
+    "options": [
+      "Nothing: the mitigation is documented",
+      "The mitigation does not exist in the system; a threat model must trace each mitigation to a configuration fact that a test or reviewer can check",
+      "`send_email` is fine if the prompt says to draft",
+      "Drafts and emails are the same thing"
+    ],
+    "answer": 1,
+    "explanation": "Documents that claim controls the system lacks give false assurance. Keeping the plan in code next to the configuration, with tests, prevents the drift."
+  },
+  {
+    "question": "Why is \"the ticket itself is untrusted\" decisive for Relay's trifecta analysis?",
+    "options": [
+      "It is not: only tools provide legs",
+      "The session starts with untrusted content before any tool runs, so that leg can never be removed; with customer lookup required, the external communication leg is the one that has to go",
+      "Because tickets are long",
+      "Because tickets contain images"
+    ],
+    "answer": 1,
+    "explanation": "Inputs that trigger a session count as legs. Seeing which legs are fixed by the product narrows the design to the leg you can actually remove."
+  },
+  {
+    "question": "Which control order does the module recommend when several could address a threat?",
+    "options": [
+      "Detect first, because classifiers are cheapest",
+      "Remove the capability, then narrow it (scope, time, allowlist), then gate it (approval), then detect misuse",
+      "Gate everything with human approval",
+      "Whatever the model provider recommends"
+    ],
+    "answer": 1,
+    "explanation": "A removed capability cannot be misused; narrow ones limit damage; gates depend on attentive people; detection depends on probabilistic models. Lower steps support higher ones, not replace them."
+  },
+  {
+    "question": "A threat model has no residual risks at all. What does that usually mean?",
+    "options": [
+      "The system is perfectly secure",
+      "Nobody looked hard enough: every real system keeps some risk, and stating it with a reason and a monitor is what lets people accept it knowingly",
+      "Residual risks belong in a different document",
+      "The red-team suite replaced them"
+    ],
+    "answer": 1,
+    "explanation": "Residual risk is where trade-offs become visible: a human may still send a biased draft, approvers may rubber-stamp. Writing it down turns a hidden risk into an owned one."
+  }
+]

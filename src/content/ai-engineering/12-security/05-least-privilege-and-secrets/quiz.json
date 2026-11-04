@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A support agent's `lookup_customer` tool uses a CRM key that can read, edit and delete any customer. An injected ticket asks the agent to delete a customer. Which OWASP risk does the key create, and what is the fix?",
+    "options": [
+      "Misinformation; improve the prompt",
+      "Excessive agency; issue a credential per call scoped to reading (and ideally to the requesting customer), so a hijacked call cannot delete anything",
+      "Unbounded consumption; add a rate limit",
+      "None: the model will refuse to delete"
+    ],
+    "answer": 1,
+    "explanation": "The tool can do far more than its purpose. A narrow, short-lived credential bounds the damage of any injection to what the feature legitimately needs."
+  },
+  {
+    "question": "Why should the model write `{{secret:CRM_API_KEY}}` instead of seeing the key in its system prompt?",
+    "options": [
+      "Placeholders use fewer tokens",
+      "Anything in the context can come back out (answers, tool arguments, traces, memories); with a placeholder the value never enters the context and is resolved only at the boundary for tools granted that secret",
+      "Models cannot read API keys",
+      "Providers reject prompts that contain keys"
+    ],
+    "answer": 1,
+    "explanation": "The context window is the least controlled place in the system. Names are safe to show; values are resolved where code, not the model, decides who gets them."
+  },
+  {
+    "question": "A credential has `expiresAt = 1_030_000` and the clock reads exactly `1_030_000`. What should `verify` return?",
+    "options": [
+      "Valid, because it expires after this instant",
+      "Expired: a credential is valid strictly before its expiry instant",
+      "Valid if the scope matches",
+      "It depends on the tool"
+    ],
+    "answer": 1,
+    "explanation": "Define the boundary once (`now() >= expiresAt` means expired) and test it at the exact instant. Off-by-one expiry is a classic way short-lived tokens outlive their window."
+  },
+  {
+    "question": "A tool's error message includes `Authorization: Basic YWRhOnMzY3JldA==`. Your redaction only replaces the raw secret `s3cret`. What happens?",
+    "options": [
+      "Nothing leaks, because base64 is encryption",
+      "The encoded credential reaches the model and the logs; redaction must also cover encodings HTTP clients produce (base64, URL encoding), and tools should not return credentials at all",
+      "The model cannot decode base64",
+      "Redaction should be removed because it is incomplete"
+    ],
+    "answer": 1,
+    "explanation": "Base64 is an encoding anyone can reverse. Note this header encodes `ada:s3cret`, so even redacting base64 of the secret alone misses it: redaction is a last net, which is why tools should not echo credentials and credentials should be short-lived."
+  }
+]

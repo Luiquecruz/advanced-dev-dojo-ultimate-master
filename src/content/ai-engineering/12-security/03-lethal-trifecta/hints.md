@@ -1,0 +1,5 @@
+Write one private helper first: `capabilitiesOf(toolName, tools)` returns the tool's legs in canonical order, or all of `LEGS` when the profile is missing or has no `capabilities` field. Every function below uses it, so "unknown means every leg" lives in one place.
+---
+`analyzeSession` builds `{ privateData: [], untrustedContent: [], externalCommunication: [] }`, walks `session.tools` and pushes each name into its legs (skip duplicates), then appends the `input:` labels and `remote-images`. `lethal` is `LEGS.every(leg => legs[leg].length > 0)`. For `suggestRemoval`, iterate the legs in preference order (`externalCommunication`, `untrustedContent`, `privateData`) and keep a candidate only when it has strictly fewer sources.
+---
+In `removeLeg`, map over `config.sessions` and copy each one; for the target session filter its tools with `!capabilitiesOf(name, config.tools).includes(leg)`. The guard keeps a `present` list in a closure: compute `LEGS.filter(leg => present.includes(leg) || toolLegs.includes(leg))`; when its length is 3, return the denial with a copy of `present`; otherwise assign it to `present` and allow.

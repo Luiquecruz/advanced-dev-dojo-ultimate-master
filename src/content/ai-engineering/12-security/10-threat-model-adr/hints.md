@@ -1,0 +1,5 @@
+Start with the trifecta, not the prose. The ticket itself is untrusted, so that leg is always present; `lookup_customer` is private data the business needs. The only leg you can remove is external communication, and it has three sources: `send_email`, `fetch_url` and remote images.
+---
+`draft_reply` replaces `send_email` (support leads accepted a human sending every reply), `fetch_url` is not on the list of needs, and the console can switch remote images off. Approval on `issue_refund` is required, and it does not add a leg. Then list exactly the credentials of the tools that remain: four per-ticket or per-request credentials, no admin, no root, no SMTP.
+---
+Write one threat per concern, each with OWASP ids (C1 is injection and goal hijack, C2 tool misuse, C3 agentic supply chain, C4 sensitive information disclosure) and mitigations from the catalog that your plan really implements. Residual risks are what remains after that: a human may send a biased draft, approvers may rubber-stamp refunds. The red-team limits come straight from the briefing.

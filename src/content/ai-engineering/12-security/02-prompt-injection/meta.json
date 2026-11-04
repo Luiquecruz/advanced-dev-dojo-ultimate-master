@@ -1,0 +1,14 @@
+{
+  "title": "Prompt Injection",
+  "summary": "Direct and indirect injection, how it differs from jailbreaking, why delimiters, rules and classifiers cannot fix it, adaptive attacks, and the architectures that limit a fooled model: design patterns, dual LLM, CaMeL and the Agents Rule of Two.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Simon Willison: Prompt injection attacks against GPT-3 (2022)", "url": "https://simonwillison.net/2022/Sep/12/prompt-injection/" },
+    { "label": "Greshake et al.: Not what you've signed up for (indirect prompt injection paper)", "url": "https://arxiv.org/abs/2302.12173" },
+    { "label": "Design Patterns for Securing LLM Agents against Prompt Injections (paper)", "url": "https://arxiv.org/abs/2506.08837" },
+    { "label": "Defeating Prompt Injections by Design (CaMeL paper)", "url": "https://arxiv.org/abs/2503.18813" },
+    { "label": "The Attacker Moves Second: adaptive attacks bypass defenses (paper)", "url": "https://arxiv.org/abs/2510.09023" },
+    { "label": "Simon Willison: Agents Rule of Two and The Attacker Moves Second", "url": "https://simonwillison.net/2025/Nov/2/new-prompt-injection-papers/" }
+  ]
+}

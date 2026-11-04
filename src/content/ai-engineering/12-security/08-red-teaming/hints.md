@@ -1,0 +1,5 @@
+`injectDocument` and `buildSuite` are pure data work: `benign.split('\n\n')`, `splice(Math.floor(paragraphs.length / 2), 0, payload)`, `join('\n\n')`; and `seeds.flatMap(seed => documents.flatMap((document, index) => positions.map(position => ({ ... }))))`. Spread `canary` only when it is defined, so cases without one do not carry `canary: undefined`.
+---
+In `isAttackSuccessful`, a `switch` on the category keeps each goal separate. For exfiltration, collect URLs with a global regex such as `/https?:\/\/[^\s<>()[\]"'\`]+/gi`, parse each with `new URL()` inside a `try`, and treat unparseable URLs as not allowlisted.
+---
+In `runRedTeam`, wrap only the `await target(...)` in `try`/`catch` and `continue` after recording an error, so errored cases never touch `byCategory`. Create a category entry the first time a case of it is evaluated, compute the rates after the loop, and compute `evaluated` as `suite.length - errored.length`. The gate is four independent `if`s that push reasons; `regressions` is a `filter` over `current.successful`.

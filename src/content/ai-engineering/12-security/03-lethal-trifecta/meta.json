@@ -1,0 +1,14 @@
+{
+  "title": "The Lethal Trifecta",
+  "summary": "Analyze an agent's sessions for private data, untrusted content and external communication, treat unlabeled tools as every leg, suggest and apply the cheapest leg to remove, and guard a live session so the call that would complete the trifecta never runs.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Simon Willison: The lethal trifecta for AI agents", "url": "https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/" },
+    { "label": "Meta AI: Agents Rule of Two, a practical approach to AI agent security", "url": "https://ai.meta.com/blog/practical-ai-agent-security/" },
+    { "label": "Simon Willison: Model Context Protocol has prompt injection security problems", "url": "https://simonwillison.net/2025/Apr/9/mcp-prompt-injection/" },
+    { "label": "Design Patterns for Securing LLM Agents against Prompt Injections (paper)", "url": "https://arxiv.org/abs/2506.08837" }
+  ]
+}

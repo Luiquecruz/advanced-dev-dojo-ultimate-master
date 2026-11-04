@@ -1,0 +1,15 @@
+{
+  "title": "Guardrails",
+  "summary": "A guardrail pipeline around a model call: length and topic limits, PII redaction validated with Luhn and CPF check digits, a model-based classifier that retries and fails closed, and output checks for completeness, PII and length.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "OWASP LLM02:2025 Sensitive Information Disclosure", "url": "https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/" },
+    { "label": "NVIDIA NeMo Guardrails", "url": "https://github.com/NVIDIA/NeMo-Guardrails" },
+    { "label": "Microsoft Presidio: PII detection and anonymization", "url": "https://github.com/microsoft/presidio" },
+    { "label": "Meta Llama Guard 4 model card", "url": "https://huggingface.co/meta-llama/Llama-Guard-4-12B" },
+    { "label": "Wikipedia: Luhn algorithm", "url": "https://en.wikipedia.org/wiki/Luhn_algorithm" }
+  ]
+}
