@@ -1,0 +1,14 @@
+{
+  "title": "pydantic-core and Performance",
+  "summary": "Pydantic compiles each model into a core schema that the Rust extension pydantic-core executes. See where validation and serialization time goes, why TypeAdapters are built once and JSON is validated in one pass, when model_construct is acceptable, and when dataclasses, attrs or msgspec are the better tool.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Pydantic 2.12: Performance", "url": "https://pydantic.dev/docs/validation/2.12/concepts/performance/" },
+    { "label": "Pydantic 2.12: Architecture", "url": "https://pydantic.dev/docs/validation/2.12/internals/architecture/" },
+    { "label": "Pydantic 2.12: Type Adapter", "url": "https://pydantic.dev/docs/validation/2.12/concepts/type_adapter/" },
+    { "label": "pydantic-core on PyPI", "url": "https://pypi.org/project/pydantic-core/" },
+    { "label": "msgspec on PyPI", "url": "https://pypi.org/project/msgspec/" },
+    { "label": "attrs documentation", "url": "https://www.attrs.org/en/stable/" }
+  ]
+}

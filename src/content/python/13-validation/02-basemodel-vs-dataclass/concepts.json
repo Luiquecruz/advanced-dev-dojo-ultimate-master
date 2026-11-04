@@ -1,0 +1,8 @@
+[
+  { "term": "`BaseModel`", "description": "A Pydantic class whose annotations build a validator: construction parses, coerces and checks every field or raises `ValidationError`." },
+  { "term": "`model_validate`", "description": "Classmethod that validates a dict (or object) and returns a model; `model_validate_json` does the same from JSON text." },
+  { "term": "`ValidationError.errors()`", "description": "One dict per problem with `type` (stable code), `loc` (path tuple), `msg` (text that may change) and `input`." },
+  { "term": "`extra=\"forbid\"`", "description": "Model config that reports unknown keys as `extra_forbidden` instead of ignoring them (the default)." },
+  { "term": "`model_dump`", "description": "Returns a new dict of the fields, with `include=`/`exclude=` and `mode=\"json\"` options." },
+  { "term": "`model_construct`", "description": "Builds a model without validation, for data already validated; never for untrusted input." }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A model has `password: str = Field(min_length=12)` and an after model validator comparing `password` with `confirm`. Input: `password=\"short\"`, `confirm=\"other\"`. Which errors are reported?",
+    "options": [
+      "Only `string_too_short`: the after model validator does not run when a field failed",
+      "`string_too_short` and the mismatch error",
+      "Only the mismatch error",
+      "None: the model validator replaces field validation"
+    ],
+    "answer": 0,
+    "explanation": "After model validators run once all fields are valid, so they never see partial data. That is also why the check needs no `None` guards."
+  },
+  {
+    "question": "A before model validator does `data[\"email\"] = data.pop(\"e_mail\")`. What can go wrong?",
+    "options": [
+      "Nothing: Pydantic copies the input first",
+      "It runs after field validation, so `email` is already missing",
+      "It mutates the caller's dict, and it raises `AttributeError` or `TypeError` when the input is not a dict",
+      "Before validators cannot rename keys"
+    ],
+    "answer": 2,
+    "explanation": "Before validators receive the raw input object itself. Guard with `isinstance(data, dict)`, copy, then rename, so other input types still get a normal `model_type` error."
+  },
+  {
+    "question": "A handler sets `ConfigDict(hide_input_in_errors=True)` and returns `error.errors()` as the response body. Is the rejected password still exposed?",
+    "options": [
+      "No: the config removes `input` everywhere",
+      "Only for strings shorter than 12 characters",
+      "No, because `errors()` never includes inputs",
+      "Yes: the config hides the input in `str(error)`, but `errors()` still includes `input` unless called with `include_input=False`"
+    ],
+    "answer": 3,
+    "explanation": "`hide_input_in_errors` affects the string representation. The error dicts keep `input` by default, so pass `include_input=False` (and drop `ctx`/`url` as needed)."
+  },
+  {
+    "question": "Several clients must react programmatically when two fields disagree. Which error is easiest for them to handle?",
+    "options": [
+      "`raise ValueError(\"fields disagree\")`, then parse the message",
+      "`PydanticCustomError(\"date_range_inverted\", ..., {\"fields\": (\"start\", \"end\")})`, matched on `type` and `ctx`",
+      "`assert start < end`",
+      "A `TypeError` raised from `__init__`"
+    ],
+    "answer": 1,
+    "explanation": "A custom type is a stable code and `ctx` carries structured details. Messages can change, and `assert` vanishes under `python -O`."
+  }
+]

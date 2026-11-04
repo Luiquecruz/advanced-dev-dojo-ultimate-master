@@ -1,0 +1,15 @@
+{
+  "title": "BaseModel vs Dataclass",
+  "summary": "A dataclass stores what it receives; a Pydantic BaseModel parses, coerces and reports every problem as structured errors. Turn a trusting dataclass into a model that rejects unknown fields, parse at the edge with model_validate and dump a public view without aliasing the model.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Pydantic 2.12: Models", "url": "https://pydantic.dev/docs/validation/2.12/concepts/models/" },
+    { "label": "Pydantic 2.12: Validation errors", "url": "https://pydantic.dev/docs/validation/2.12/errors/validation_errors/" },
+    { "label": "Pydantic 2.12: Configuration (extra)", "url": "https://pydantic.dev/docs/validation/2.12/concepts/config/" },
+    { "label": "dataclasses: Data Classes", "url": "https://docs.python.org/3/library/dataclasses.html" },
+    { "label": "Zod: Defining schemas", "url": "https://zod.dev/api" }
+  ]
+}

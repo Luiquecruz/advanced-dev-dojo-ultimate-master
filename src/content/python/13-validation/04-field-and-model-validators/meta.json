@@ -1,0 +1,15 @@
+{
+  "title": "Field and Model Validators",
+  "summary": "Constraints, field validators and before and after model validators, in the order Pydantic runs them. Move the rules of a sign-up form into its model: normalize the email, reject mismatched passwords with a custom error naming both fields, accept a legacy key without mutating the input, and return errors that never echo a password.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Pydantic 2.12: Validators", "url": "https://pydantic.dev/docs/validation/2.12/concepts/validators/" },
+    { "label": "Pydantic 2.12: Fields (constraints)", "url": "https://pydantic.dev/docs/validation/2.12/concepts/fields/" },
+    { "label": "Pydantic 2.12: Error handling and custom errors", "url": "https://pydantic.dev/docs/validation/2.12/errors/errors/" },
+    { "label": "Pydantic 2.12: Validation errors", "url": "https://pydantic.dev/docs/validation/2.12/errors/validation_errors/" },
+    { "label": "OWASP Input Validation Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html" }
+  ]
+}

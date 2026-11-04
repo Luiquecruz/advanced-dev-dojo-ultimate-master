@@ -141,7 +141,14 @@ Parsing vs validation, where to validate (edges), dataclass vs `BaseModel` vs `T
 Quiz lesson. The Rust `pydantic-core`, validation vs serialization cost, `TypeAdapter`, when plain dataclasses or `attrs` suffice, comparison with msgspec/Zod. Dated status block; cite Pydantic docs.
 
 ### 07-validation-adr (A, I)
-- Briefing: three services exchange order events; one is public; 8M events/day; typed internal domain objects; partner payloads often contain strings for numbers; version drift across teams; schema documentation required.
-- `PLAN`: `edge_model` (`basemodel`|`dataclass`|`typeddict`), `internal_model` (`frozen_dataclass`|`basemodel`|`dict`), `mode` (`lax_at_edge_strict_inside`|`lax_everywhere`|`strict_everywhere`), `schema_docs` (`json_schema`|`wiki`|`none`), `validation_errors` (`structured`|`strings`), `events_per_second` int, `rejected`.
-- Computed field: `events_per_second` = 8 000 000 / 86 400 ≈ **93** (accept 92–93).
-- Coherence: partner string numbers require lax at the edge; public service requires `json_schema`; internal domain objects frozen and not revalidated; errors structured.
+- Briefing: three services exchange order events (`gateway` public, `orders` and `billing` internal, gateway → orders → billing); **8 000 000** events/day, planned at the daily average; about **30%** of partners send numbers as strings and cannot change this year; the `refund_approved` payout flag has arrived as `"yes"` and `1` but must be a JSON boolean; an unknown `discount_override` field was applied downstream last quarter; 422 bodies are parsed by partner software and payloads carry emails and card tokens; inside a service the event is an immutable typed object, and orders (contract v3) and billing (v2) drift, so mismatches between services must fail loudly; **4** event types, a new schema version every **6 months**, each accepted for **18 months**, one published schema document per type and accepted version; the largest legitimate body is **200** lines of at most **300 bytes** plus a **4 000-byte** envelope, rejected before parsing above a limit that fits it and stays under twice its size.
+- `PLAN`: `edge_model` (`basemodel`|`dataclass`|`typeddict`), `internal_model` (`frozen_dataclass`|`basemodel`|`dict`), `mode` (`lax_at_edge_strict_inside`|`lax_everywhere`|`strict_everywhere`), `payout_flag` (`strict_bool`|`lax_bool`), `unknown_fields` (`forbid`|`ignore`|`allow`), `validation_errors` (`structured`|`strings`), `error_input` (`omitted`|`echoed`), `schema_docs` (`json_schema`|`wiki`|`none`), `events_per_second` int, `schema_documents` int, `max_body_bytes` int, `rejected`.
+- Computed fields:
+
+  | Field | Derivation | Accepted |
+  | --- | --- | --- |
+  | `events_per_second` | 8 000 000 / 86 400 ≈ 92.6 | **93** (92–93) |
+  | `schema_documents` | 4 types × (18 / 6) live versions | **12** |
+  | `max_body_bytes` | 200 × 300 + 4 000 = 64 000, under twice that | 64 000 ≤ limit < 128 000 (solution **96 000**) |
+
+- Coherence: partner string numbers require lax at the edge with a `basemodel`; drift between services requires strict inside, and the domain object is a `frozen_dataclass`; the payout flag is `strict_bool`; `unknown_fields` is `forbid`; errors are `structured` with `error_input` `omitted`; documentation is `json_schema`; the decision names `lax`, `strict` and the `schema`. Test names are neutral.

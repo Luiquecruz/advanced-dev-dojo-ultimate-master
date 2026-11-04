@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A model has `created_at: datetime` and `price: Decimal`. A handler returns `json.dumps(model.model_dump())`. What happens?",
+    "options": [
+      "It works: Pydantic converts the values to strings",
+      "`TypeError`: the Python-mode dump keeps `datetime` and `Decimal` objects, which `json` cannot serialize",
+      "The datetime becomes a Unix timestamp",
+      "`Decimal` is converted to `float` silently"
+    ],
+    "answer": 1,
+    "explanation": "The default mode returns Python objects. `model_dump(mode=\"json\")` or `model_dump_json()` produce JSON types: ISO strings for datetimes and strings for decimals."
+  },
+  {
+    "question": "A model uses `alias_generator=to_camel`. What does `model.model_dump(mode=\"json\")` return for the field `issued_at`?",
+    "options": [
+      "The key `issuedAt`",
+      "Both `issued_at` and `issuedAt`",
+      "The key `issued_at`: aliases are used for output only with `by_alias=True` or `serialize_by_alias=True`",
+      "No key: aliased fields are excluded"
+    ],
+    "answer": 2,
+    "explanation": "Validation accepts aliases by default, serialization uses field names by default. Choose aliases for output explicitly."
+  },
+  {
+    "question": "Why does `Invoice.model_json_schema()` (validation mode) not list the computed field `totalDue`?",
+    "options": [
+      "Computed fields are output only; they appear in `model_json_schema(mode=\"serialization\")`, marked `readOnly`",
+      "JSON Schema cannot describe decimals",
+      "Computed fields are private",
+      "The schema lists only required fields"
+    ],
+    "answer": 0,
+    "explanation": "The validation schema describes accepted input, the serialization schema the produced output. A derived value is never input."
+  },
+  {
+    "question": "Money must cross a JSON API without losing cents. Which Pydantic setup fits?",
+    "options": [
+      "`float` fields, rounded on output",
+      "`int` fields only, never decimals",
+      "`str` fields, parsed by each client",
+      "`Decimal` fields dumped with `mode=\"json\"`, which writes them as strings such as `\"19.90\"`"
+    ],
+    "answer": 3,
+    "explanation": "A binary float cannot hold `0.1` exactly. `Decimal` keeps the digits, and the JSON mode serializes it as a string so no reader rounds it."
+  }
+]
