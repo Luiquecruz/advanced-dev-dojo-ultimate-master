@@ -10,7 +10,7 @@ A freeCodeCamp-style learning platform for front-end development: theory, hands-
 | React | React | 100 | hooks, performance, React 19, routing, data fetching, forms, testing |
 | React State Management | React | 26 | Context, Zustand, Redux Toolkit, Jotai, XState, TanStack Query, state architecture |
 | React Architecture | React | 41 | static pages, MVC, SPA, SSR, streaming, SSG, ISR, islands, RSC, web vitals, feature-based and hexagonal code, URL state, modular monolith, BFF, micro-frontends, monorepos, Module Federation, ADRs |
-| AI Engineering | Node.js now, Python later (multi-language) | 91 | in progress (modules 01–11 written): models, context, tools and MCP, RAG, knowledge graphs, memory, agents, harness and loops, multi-agent, evals, security, governance, agentic engineering |
+| AI Engineering | Node.js now, Python later (multi-language) | 113 | in progress (modules 01–13 written): models, context, tools and MCP, RAG, knowledge graphs, memory, agents, harness and loops, multi-agent, evals, security, governance, agentic engineering |
 | Node.js | in-browser Node runtime + Hono | 77 | runtime, async, core modules, HTTP, REST APIs, persistence, security, scaling |
 | Vue | Vue | 44 | hidden while in progress |
 | Angular | Angular | 53 | hidden while in progress |
