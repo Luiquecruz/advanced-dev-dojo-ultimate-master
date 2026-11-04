@@ -1,0 +1,8 @@
+[
+  { "term": "Discovery vs registration", "description": "Discovery finds where plugin code lives (entry points, a package scan, a list); registration runs when a plugin class is created and records or validates it." },
+  { "term": "Entry points", "description": "Packaging metadata (`[project.entry-points.\"group\"]`) read with `importlib.metadata.entry_points(group=...)` without importing; `EntryPoint.load()` imports one plugin." },
+  { "term": "`__init_subclass__` registry", "description": "A base-class hook that runs for every subclass at any depth, under any metaclass, so validation needs no manual step from plugin authors." },
+  { "term": "Metaclass conflict", "description": "`TypeError` raised when a class's bases have metaclasses where neither derives from the other, such as a registry metaclass and `pydantic.BaseModel`." },
+  { "term": "Import-time budget", "description": "Plugin modules × measured import cost, compared with the startup time the core leaves; over budget means lazy loading." },
+  { "term": "Plugin trust", "description": "Loading an entry point runs code from the distribution that declared it, so hosts allow-list the distributions that may provide plugins." }
+]

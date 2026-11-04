@@ -1,0 +1,17 @@
+{
+  "title": "Frames and Tracebacks",
+  "summary": "Read the call stack and exception chains as objects: frames and f_back, tracebacks that grow from the raising frame to the catching one, __cause__, __context__ and from None, and TracebackException. Build caller lookups, call paths and exception chains that never parse formatted text, and learn why stored frames leak memory and secrets.",
+  "level": "expert",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "inspect: The interpreter stack", "url": "https://docs.python.org/3/library/inspect.html#the-interpreter-stack" },
+    { "label": "traceback: TracebackException objects", "url": "https://docs.python.org/3/library/traceback.html#tracebackexception-objects" },
+    { "label": "Data model: frame objects", "url": "https://docs.python.org/3/reference/datamodel.html#frame-objects" },
+    { "label": "Data model: traceback objects", "url": "https://docs.python.org/3/reference/datamodel.html#traceback-objects" },
+    { "label": "Exception context", "url": "https://docs.python.org/3/library/exceptions.html#exception-context" },
+    { "label": "sys._getframe", "url": "https://docs.python.org/3/library/sys.html#sys._getframe" },
+    { "label": "PEP 667: Consistent views of namespaces", "url": "https://peps.python.org/pep-0667/" }
+  ]
+}

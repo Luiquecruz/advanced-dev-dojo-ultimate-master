@@ -1,0 +1,57 @@
+[
+  {
+    "question": "```py\ntry:\n    load()\nexcept ValueError as error:\n    pass\nprint(error)\n```\n`load()` raised a `ValueError`. What happens on the last line, and why?",
+    "options": [
+      "It prints the error: the name stays bound after the block, like `catch (error)` in JavaScript",
+      "It prints `None`",
+      "`NameError`: Python deletes the `as` name at the end of the `except` block, because the exception's traceback references this frame and would form a reference cycle with its locals",
+      "`RuntimeError`: the traceback was cleared"
+    ],
+    "answer": 2,
+    "explanation": "`except E as N` is compiled with a `finally: del N`. The exception holds its traceback, the traceback holds the frame, and the frame holds `N`: deleting the name breaks that cycle. Assign it to another name if you need it later."
+  },
+  {
+    "question": "`load_settings()` calls `parse()`, which raises. The error is caught in `main()`. Which frame does `error.__traceback__.tb_frame` point to?",
+    "options": [
+      "`main`: each unwound level is inserted in front, so the head is the catching frame and `tb_next` leads toward `parse`",
+      "`parse`, the frame that raised",
+      "`load_settings`, the frame in the middle",
+      "The module frame, always"
+    ],
+    "answer": 0,
+    "explanation": "Tracebacks grow at the head while the exception unwinds. `traceback.extract_tb(tb)[-1]` is where it was raised; `tb.tb_frame` is where it was caught."
+  },
+  {
+    "question": "An error reporter sends `TracebackException.from_exception(error, capture_locals=True).format()` to a shared log for every failed login. What is the problem?",
+    "options": [
+      "None: `capture_locals` only records variable names",
+      "It is slow but harmless",
+      "It raises for frames that are still running",
+      "It writes the `repr()` of every local variable in every frame, including the submitted password and session tokens, into the log"
+    ],
+    "answer": 3,
+    "explanation": "Locals are captured as representations and printed with the traceback. The default `capture_locals=False` exists for that reason; redact, and never show tracebacks to end users."
+  },
+  {
+    "question": "A retry queue keeps every failed exception object in a long-lived list so that a nightly report can print them. Memory keeps growing even though the failed requests ended long ago. What explains it, and what is the fix?",
+    "options": [
+      "Exceptions are large objects; store `str(error)` instead and lose nothing",
+      "Each exception's `__traceback__` references the frames it unwound, and those frames keep all their locals (request bodies, buffers) alive. Store a `TracebackException` (it holds no frames), or call `traceback.clear_frames(error.__traceback__)`",
+      "The garbage collector is disabled in production",
+      "`sys.exc_info()` keeps a reference to every exception ever raised"
+    ],
+    "answer": 1,
+    "explanation": "Keeping an exception keeps its traceback, which keeps frames and everything their locals reference. `TracebackException` captures names, lines and the chain without the frames."
+  },
+  {
+    "question": "Inside `except KeyError:` the code runs `raise ConfigError(\"missing key\") from None`. Which exceptions does the printed traceback show?",
+    "options": [
+      "Only `ConfigError`: `from None` sets `__suppress_context__`, so the handled `KeyError` stays in `__context__` but is not displayed",
+      "`KeyError`, then `ConfigError`, linked by \"During handling of the above exception\"",
+      "`KeyError`, then `ConfigError`, linked by \"The above exception was the direct cause\"",
+      "Only `KeyError`"
+    ],
+    "answer": 0,
+    "explanation": "A traceback shows `__cause__` when it is set, otherwise `__context__` unless `__suppress_context__` is true. `from None` sets no cause and suppresses the context."
+  }
+]

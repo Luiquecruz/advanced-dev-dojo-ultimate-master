@@ -1,0 +1,16 @@
+{
+  "title": "Bytecode and the Interpreter",
+  "summary": "Follow source to code object to .pyc, watch the specializing adaptive interpreter rewrite instructions for the types it sees, and place the experimental JIT and free threading in that picture. Decide what tools may rely on, and why bytecode is never one of those things.",
+  "level": "expert",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "dis: Disassembler for Python bytecode", "url": "https://docs.python.org/3/library/dis.html" },
+    { "label": "The import system: cached bytecode invalidation", "url": "https://docs.python.org/3/reference/import.html#cached-bytecode-invalidation" },
+    { "label": "PEP 659: Specializing Adaptive Interpreter", "url": "https://peps.python.org/pep-0659/" },
+    { "label": "PEP 744: JIT Compilation", "url": "https://peps.python.org/pep-0744/" },
+    { "label": "What's New in Python 3.14: the experimental JIT compiler", "url": "https://docs.python.org/3.14/whatsnew/3.14.html#binary-releases-for-the-experimental-just-in-time-compiler" },
+    { "label": "What's New in Python 3.14: free-threaded mode improvements", "url": "https://docs.python.org/3.14/whatsnew/3.14.html#free-threaded-mode-improvements" },
+    { "label": "What's New in Python 3.15: upgraded experimental JIT compiler", "url": "https://docs.python.org/3.15/whatsnew/3.15.html#upgraded-experimental-jit-compiler" },
+    { "label": "sys._jit", "url": "https://docs.python.org/3/library/sys.html#sys._jit" }
+  ]
+}
