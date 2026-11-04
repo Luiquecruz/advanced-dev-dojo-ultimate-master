@@ -251,10 +251,12 @@ async function runTest(javascript: string, test: RuntimeTest, timeoutMs: number)
   }
 }
 
+export const RUNTIME_TEST_TIMEOUT_MS = 2000;
+
 /**
  * Executes the transpiled learner code once to capture console output, then runs each test in a fresh scope.
  */
-export async function runRuntimeTests(javascript: string, tests: RuntimeTest[], timeoutMs = 2000): Promise<RuntimeOutcome> {
+export async function runRuntimeTests(javascript: string, tests: RuntimeTest[], timeoutMs = RUNTIME_TEST_TIMEOUT_MS): Promise<RuntimeOutcome> {
   const logs = await collectLogs(javascript);
   const results: TestResult[] = [];
   for (const test of tests) {

@@ -5,6 +5,7 @@ import { defineConfig } from 'vitest/config';
 import { contentPlugin } from './plugins/contentPlugin.ts';
 import { pyodidePlugin } from './plugins/pyodidePlugin.ts';
 import { pythonWorkerCspPlugin } from './plugins/pythonWorkerCspPlugin.ts';
+import { scaledBudget } from './src/verify/timeBudget.ts';
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), contentPlugin(), pyodidePlugin(), pythonWorkerCspPlugin()],
@@ -35,7 +36,7 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['src/**/*.test.ts'],
     exclude: ['src/content/*/**', 'node_modules/**'],
-    testTimeout: 60000,
+    testTimeout: scaledBudget(60000),
     fsModuleCache: false,
     dangerouslyIgnoreUnhandledErrors: true,
     server: { deps: { inline: [/@angular/, /@ngrx/] } },
