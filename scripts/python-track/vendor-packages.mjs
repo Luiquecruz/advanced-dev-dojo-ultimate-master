@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Downloads the Pyodide packages the Python track uses (and their dependencies) once from the official Pyodide CDN at the pinned
 // version, verifies each wheel against the sha256 in node_modules/pyodide/pyodide-lock.json, and stores them with their license
-// files (and Pyodide's own MPL-2.0 license, which the npm package does not ship) in vendor/pyodide-packages/. The app and `npm run verify` load only these files; nothing is fetched at runtime.
+// files, Pyodide's own MPL-2.0 license and the CPython (PSF) license of python_stdlib.zip, which the npm package does not ship,
+// in vendor/pyodide-packages/. License hashes are pinned in manifest.json on first download. The app and `npm run verify` load only these files; nothing is fetched at runtime.
 // Usage: npm run python:vendor            (download missing wheels, verify all)
 //        npm run python:vendor -- --check (verify only, never download; exits 1 on a missing or altered wheel)
 import { createHash } from 'node:crypto';
@@ -122,16 +123,38 @@ for (const entry of entries) {
   }
   manifest.push({ name: entry.name, version: entry.version, file: entry.file_name, sha256: entry.sha256, bytes: bytes.length });
 }
-const pyodideLicense = join(LICENSES, 'pyodide-LICENSE');
-if (check && !existsSync(pyodideLicense)) {
-  fail('licenses/pyodide-LICENSE is missing; run npm run python:vendor');
-}
+const runtimeLicenses = [
+  { file: 'pyodide-LICENSE', url: PYODIDE_LICENSE },
+  { file: 'cpython-LICENSE', url: `https://raw.githubusercontent.com/python/cpython/v${lock.info.python}/LICENSE` },
+];
+const manifestPath = join(VENDOR, 'manifest.json');
+const previous = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, 'utf8')) : {};
+const pinned = new Map((previous.licenses ?? []).map((license) => [license.file, license.sha256]));
 if (!check) {
-  const response = await fetch(PYODIDE_LICENSE);
-  if (!response.ok) {
-    fail(`${PYODIDE_LICENSE}: HTTP ${response.status}`);
+  for (const { file, url } of runtimeLicenses) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      fail(`${url}: HTTP ${response.status}`);
+    }
+    const text = await response.text();
+    if (pinned.has(file) && pinned.get(file) !== sha256(text)) {
+      fail(`${file} from ${url} changed since it was pinned in manifest.json; review it and delete its entry to re-pin`);
+    }
+    writeFileSync(join(LICENSES, file), text);
   }
-  writeFileSync(pyodideLicense, await response.text());
+}
+const licenses = readdirSync(LICENSES).sort().map((file) => ({ file, sha256: sha256(readFileSync(join(LICENSES, file))) }));
+if (check) {
+  for (const { file } of runtimeLicenses) {
+    if (!licenses.some((license) => license.file === file)) {
+      fail(`licenses/${file} is missing; run npm run python:vendor`);
+    }
+  }
+  for (const license of licenses) {
+    if (pinned.get(license.file) !== license.sha256) {
+      fail(`licenses/${license.file} does not match the sha256 pinned in manifest.json`);
+    }
+  }
 }
 const expected = new Set(entries.map((entry) => entry.file_name));
 for (const file of readdirSync(VENDOR)) {
@@ -143,7 +166,7 @@ for (const file of readdirSync(VENDOR)) {
   }
 }
 if (!check) {
-  writeFileSync(join(VENDOR, 'manifest.json'), `${JSON.stringify({ pyodide: version, source: CDN, packages: manifest }, null, 2)}\n`);
+  writeFileSync(manifestPath, `${JSON.stringify({ pyodide: version, source: CDN, packages: manifest, licenses }, null, 2)}\n`);
 }
 const total = manifest.reduce((sum, item) => sum + item.bytes, 0);
 console.log(`${check ? 'verified' : 'vendored'} ${manifest.length} wheels for pyodide ${version}, ${(total / 1024).toFixed(0)} KiB`);

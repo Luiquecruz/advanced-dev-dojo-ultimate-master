@@ -3,6 +3,7 @@ import { registerHooks } from 'node:module';
 import { constants as osConstants } from 'node:os';
 import { loadPyodide, type PyodideAPI } from 'pyodide';
 import { createPythonEngine, PYTHON_ENV, type PythonEngine } from '../engines/python/engine';
+import { loadLessonPackages } from '../engines/python/packages';
 import { lockDownPython, pythonJsGlobals, refuseStringTimers } from '../engines/python/lockdown';
 import { snapshotImports } from '../engines/python/snapshot';
 import { processAllowList } from './pythonSandboxProcess';
@@ -61,7 +62,7 @@ function lockDown(pyodide: PyodideAPI): void {
  */
 async function makeSnapshot(): Promise<Uint8Array> {
   shimConstantsBinding();
-  const pyodide = await loadPyodide({ indexURL: host.argv[2], env: { ...PYTHON_ENV }, _makeSnapshot: true, stdout: () => undefined, stderr: () => undefined });
+  const pyodide = await loadPyodide({ indexURL: host.argv[2], env: { ...PYTHON_ENV }, _makeSnapshot: true, stdin: () => null, stdout: () => undefined, stderr: () => undefined });
   pyodide.runPython(snapshotImports());
   return pyodide.makeMemorySnapshot();
 }
@@ -75,13 +76,12 @@ async function start(snapshot: Uint8Array | undefined, packages: string[]): Prom
     packageBaseUrl: host.argv[3],
     env: { ...PYTHON_ENV },
     jsglobals: globals,
+    stdin: () => null,
     stdout: () => undefined,
     stderr: () => undefined,
     ...(snapshot ? { _loadSnapshot: snapshot } : {}),
   });
-  if (packages.length > 0) {
-    await pyodide.loadPackage(packages, { checkIntegrity: true, messageCallback: () => undefined });
-  }
+  await loadLessonPackages(pyodide, packages);
   const engine = createPythonEngine(pyodide);
   pyodide.runPython('import os\nos.urandom(1)');
   lockDown(pyodide);

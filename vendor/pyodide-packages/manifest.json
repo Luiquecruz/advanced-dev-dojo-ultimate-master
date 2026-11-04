@@ -37,5 +37,35 @@
       "sha256": "deb989630985f7a7296b90357a947a804a7612cecbb6439d6e71128e01f61051",
       "bytes": 14610
     }
+  ],
+  "licenses": [
+    {
+      "file": "annotated-types-LICENSE",
+      "sha256": "fe1049884b1a0d9342901e88e07f32925d24b3121d9972b6a6805fb9824b095d"
+    },
+    {
+      "file": "cpython-LICENSE",
+      "sha256": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+    },
+    {
+      "file": "pydantic-LICENSE",
+      "sha256": "a9e186f3ca16b5eef84318e7a701721351a00cb7b8ae3a4394b67b49e3529ef3"
+    },
+    {
+      "file": "pydantic-core-LICENSE",
+      "sha256": "2afdd30d54b4d62b6f488a6bcc1546e84ec5061f13f4209c03d012348783795a"
+    },
+    {
+      "file": "pyodide-LICENSE",
+      "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5"
+    },
+    {
+      "file": "typing-extensions-LICENSE",
+      "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+    },
+    {
+      "file": "typing-inspection-LICENSE",
+      "sha256": "804b59b25f2c31bd278f9202a19ae49a3945aa2664387e2d0a128c7cacc61ec3"
+    }
   ]
 }

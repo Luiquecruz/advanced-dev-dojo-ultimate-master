@@ -17,7 +17,7 @@ interface Interpreter {
 
 type Outcome =
   | { kind: 'report'; report: RunReport }
-  | { kind: 'timeout'; index: number; name: string; collected: TestResult[] }
+  | { kind: 'stopped'; index: number; name: string; error: string; collected: TestResult[] }
   | { kind: 'failed'; message: string; collected: TestResult[] };
 
 let snapshot: Promise<Uint8Array | undefined> | undefined;
@@ -123,6 +123,11 @@ function attempt(interpreter: Interpreter, files: ProjectFiles, entry: string, t
   return new Promise<Outcome>((resolve) => {
     const collected: TestResult[] = [];
     let current = { index: startAt, name: names[startAt] ?? `test ${startAt + 1}` };
+    let running = false;
+    const crashed = (reason: string): Outcome =>
+      running
+        ? { kind: 'stopped', ...current, error: `Python crashed while running this test and was restarted for the next one: ${reason}`, collected }
+        : { kind: 'failed', message: reason, collected };
     let timer: ReturnType<typeof setTimeout> | undefined;
     const finish = (outcome: Outcome) => {
       clearTimeout(timer);
@@ -133,11 +138,11 @@ function attempt(interpreter: Interpreter, files: ProjectFiles, entry: string, t
     };
     const arm = () => {
       clearTimeout(timer);
-      timer = setTimeout(() => finish({ kind: 'timeout', ...current, collected }), TEST_TIMEOUT_MS);
+      timer = setTimeout(() => finish({ kind: 'stopped', ...current, error: `Test "${current.name}" did not finish within ${TEST_TIMEOUT_MS}ms and was stopped. Check for infinite loops and blocking calls such as time.sleep().`, collected }), TEST_TIMEOUT_MS);
     };
     const onMessage = ({ data }: MessageEvent<PythonWorkerResponse>) => {
       if (data.type === 'failed') {
-        finish({ kind: 'failed', message: data.message, collected });
+        finish(crashed(data.message));
         return;
       }
       if (!('id' in data) || data.id !== id) {
@@ -146,8 +151,10 @@ function attempt(interpreter: Interpreter, files: ProjectFiles, entry: string, t
       if (data.type === 'test-event') {
         if (data.event.type === 'start') {
           current = { index: data.event.index, name: data.event.name };
+          running = true;
         } else {
           collected.push(data.event.result);
+          running = false;
         }
         arm();
       }
@@ -155,7 +162,7 @@ function attempt(interpreter: Interpreter, files: ProjectFiles, entry: string, t
         finish({ kind: 'report', report: data.report });
       }
     };
-    const onError = (event: ErrorEvent) => finish({ kind: 'failed', message: event.message || 'Python stopped unexpectedly.', collected });
+    const onError = (event: ErrorEvent) => finish(crashed(event.message || 'Python stopped unexpectedly.'));
     worker.addEventListener('message', onMessage);
     worker.addEventListener('error', onError);
     arm();
@@ -203,11 +210,7 @@ export function gradePython(files: ProjectFiles, entry: string, tests: string): 
       if (outcome.kind === 'failed') {
         return { results, compileError: outcome.message, durationMs: durationMs() };
       }
-      results.push({
-        name: outcome.name,
-        passed: false,
-        error: `Test "${outcome.name}" did not finish within ${TEST_TIMEOUT_MS}ms and was stopped. Check for infinite loops and blocking calls such as time.sleep().`,
-      });
+      results.push({ name: outcome.name, passed: false, error: outcome.error });
       startAt = outcome.index + 1;
       if (startAt >= names.length) {
         return { results, durationMs: durationMs() };
