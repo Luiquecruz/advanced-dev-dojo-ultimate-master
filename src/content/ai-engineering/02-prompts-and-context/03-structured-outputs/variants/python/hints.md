@@ -1,0 +1,5 @@
+Write a tiny `try_parse(text)` helper that wraps `json.loads` in `try`/`except ValueError` and returns the result dict. `parse_model_json` then becomes a sequence: direct parse, `text.find("{")`/`text.rfind("}")` slice, `re.sub(r",(\s*[}\]])", r"\1", ...)`, `.replace("'", '"')`.
+---
+In `generate_structured`, keep a local `conversation = list(messages)` and a `last_error` string. Loop `for attempt in range(1, max_attempts + 1):`. Check the finish reason before parsing: refusals raise, `length` only sets `last_error`.
+---
+After `parse_model_json` succeeds, `safe_parse(schema, parsed["value"])` returns `{"success": True, "data": ...}` or `{"success": False, "issues": [...]}`; return the `"data"`, and on failure set `last_error = prettify_error(validated["issues"])`. At the end of a failed attempt, replace the conversation with `[*conversation, {"role": "assistant", "content": response["text"]}, {"role": "user", "content": ... last_error ...}]`. After the loop, `raise StructuredOutputError("exhausted", max_attempts, last_error)`.

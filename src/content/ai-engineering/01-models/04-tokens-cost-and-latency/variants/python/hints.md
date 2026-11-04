@@ -1,0 +1,5 @@
+`estimate_cost` is arithmetic: `count_tokens(messages)` times `1 + safety_margin`, rounded up with `math.ceil`, for the input; `max_tokens` as the worst-case output; then the price formula from the theory. The client keeps one `self.totals` dict that only changes after a call that was actually sent.
+---
+In `send`, compute the estimate with the client's margin first and run both checks before awaiting the model: `estimate["maxCost"] > self.max_request_cost` raises with scope `"request"`; `self.totals["cost"] + estimate["maxCost"] > self.max_session_cost` raises with scope `"session"`. An exception raised inside an `async def` surfaces where the caller awaits it.
+---
+Read `self.now()` right before `await self.model.generate(...)` and again right after; the difference is the latency. Then add `usage["inputTokens"]`, `usage["outputTokens"]` and `usage["cost"]` (the provider's numbers, not the estimate) to the totals, increment `"requests"`, append the latency, and return `{"text": ..., "usage": ..., "estimatedCost": estimate["maxCost"], "latencyMs": ...}`.
