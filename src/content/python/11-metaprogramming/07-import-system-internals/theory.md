@@ -51,15 +51,23 @@ It works for one `import shop`, but the module has no `__spec__`: `importlib.rel
 - **Cached before executed.** The module is placed in `sys.modules` before `exec_module` runs, so circular imports see the partially initialized module. If execution fails, the import system removes it again.
 - **`importlib.reload(module)`** finds the spec again under the same name and calls `exec_module` on the **same** module object: globals the new code does not redefine survive, and objects that other modules imported with `from ... import` keep pointing at the old versions.
 - **Order matters.** A finder inserted at position 0 shadows everything after it (pytest installs its assertion rewriting hook this way); appended, it is a fallback.
-- **Executing source is running code.** A finder that loads source from a database or the network runs whatever is stored there with full privileges. Serve only trusted sources.
 
 **Legacy:** finders used to implement `find_module()` and loaders `load_module()`. Python 3.12 removed `find_module()` support and the `imp` module; implement `find_spec()`, `create_module()` and `exec_module()`.
 
 > **Status as of November 2026:** this track runs Python 3.14. Python 3.15 (October 2026) removed `Loader.load_module()`, which the import system no longer calls, and stopped setting `__cached__`; `__loader__` and `__package__` are deprecated and `__loader__` stops being set in 3.16, so read `__spec__.loader` and `__spec__.parent`. In Node, `module.registerHooks()` (synchronous, in-thread) is a release candidate and `module.register()` has been runtime-deprecated since v26.0.0.
 
+## Security note
+
+An import hook decides what code runs when any part of the process writes `import x`. Three consequences:
+
+- **It executes with full privileges.** `exec_module` runs the source as ordinary Python: it can open files, read environment variables and open sockets. Removing `__builtins__` or passing a restricted globals dict is not a sandbox; there is no safe way to run untrusted Python in-process. Serve only source you would commit to your repository, never user input, request data or rows that others can edit.
+- **A finder at the front shadows everything.** At position 0 of `sys.meta_path` it answers before the standard library and installed packages, for every module not yet in `sys.modules`. A served name like `json` or `ssl`, or a dotted key that turns `ssl` into an implicit package, replaces the real module for the whole process. This is the same failure as dependency confusion (a public package that shadows an internal name) and as a stray `json.py` next to your script. Namespace your names, refuse standard library names, and append the finder when it only needs to be a fallback.
+- **Clean up.** Remove the finder and the modules it loaded when you are done (`uninstall`, or a context manager), so later imports in the same process are not answered by code that is no longer meant to run.
+
 ## When to choose it
 
 - **A meta path finder** to import code that is not a file on `sys.path`: generated modules, plugins stored elsewhere, source rewriting in test tools.
-- **`importlib.import_module(name)`** to import by a name known only at runtime; **`importlib.util.spec_from_file_location`** to load one file by path.
+- **`importlib.import_module(name)`** to import by a name known only at runtime.
+- **`importlib.resources.files(package)`** to read data files shipped inside a package (data, never code to `exec`); **`spec_from_file_location`** only for paths your program controls, never for a path taken from user input.
 - **`unittest.mock.patch.dict(sys.modules, {...})`** to replace a module inside a test: it restores `sys.modules` afterwards.
 - **Normal packages and entry points** for everything else. An import hook changes what every later `import` means, for the whole process.

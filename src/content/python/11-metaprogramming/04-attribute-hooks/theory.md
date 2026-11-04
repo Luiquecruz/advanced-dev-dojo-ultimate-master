@@ -57,5 +57,5 @@ Two fixes. Most proxies want `__getattr__`, which JavaScript has no equivalent f
 
 - **`__getattr__`** for fallbacks: proxies, defaults, computed or lazy attributes. It is the safe default among the three.
 - **`__setattr__`/`__delattr__`** to validate or freeze writes across the whole object. For one attribute, a property or descriptor is clearer.
-- **`__getattribute__`** only when every access must be intercepted (tracing, access control), always with `object.__getattribute__` inside.
+- **`__getattribute__`** only when every access must be intercepted (tracing, auditing), always with `object.__getattribute__` inside. Attribute hooks are never a security boundary: `object.__getattribute__`, `object.__setattr__` and `vars()` bypass them, which is also how `Frozen` can be unfrozen.
 - **`__slots__` or a frozen dataclass** instead of hooks when the set of attributes is known when you write the class.

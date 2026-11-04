@@ -37,7 +37,8 @@ class DictFinder(importlib.abc.MetaPathFinder, importlib.abc.Loader):
 
 def install(sources: Mapping[str, str]) -> DictFinder:
     """Put a finder for `sources` in front of every other finder and return it."""
-    # TODO: insert the finder at the front of sys.meta_path.
+    # TODO: raise ValueError naming the module when the top-level name of any key is in
+    # sys.stdlib_module_names or sys.builtin_module_names; otherwise insert the finder at the front of sys.meta_path.
     return DictFinder(sources)
 
 

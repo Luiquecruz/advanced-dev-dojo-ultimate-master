@@ -94,6 +94,24 @@ def _():
     assert loads == 2
 
 
+@test("install refuses names that would shadow the standard library")
+async def _():
+    saved = list(sys.meta_path)
+    try:
+        plain = await capture_error(lambda: mod.install({"secrets": "TOKEN = 'forged'\n"}))
+        dotted = await capture_error(lambda: mod.install({"hmac.extra": ""}))
+        mixed = await capture_error(lambda: mod.install({"dojo_virtual_ok": "", "json": "X = 1\n"}))
+        unchanged = sys.meta_path == saved
+    finally:
+        cleanup(saved)
+    kinds = [type(error).__name__ for error in (plain, dotted, mixed)]
+    assert kinds == ["ValueError", "ValueError", "ValueError"]
+    assert "secrets" in str(plain)
+    assert "hmac" in str(dotted)
+    assert "json" in str(mixed)
+    assert unchanged
+
+
 @test("names the finder does not serve fall through, and uninstall removes the finder and its modules")
 async def _():
     saved = list(sys.meta_path)

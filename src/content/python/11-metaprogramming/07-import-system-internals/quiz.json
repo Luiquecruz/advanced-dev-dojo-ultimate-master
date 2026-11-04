@@ -53,5 +53,16 @@
     ],
     "answer": 1,
     "explanation": "The loader protocol requires the module to be in `sys.modules` before `exec_module`, which is what makes cycles return a partial module instead of recursing forever."
+  },
+  {
+    "question": "Plugin sources come from a table that support staff can edit through an admin page. The finder runs them with `exec(code, module.__dict__)`. Which statement is true?",
+    "options": [
+      "`exec` in a fresh module namespace isolates the code",
+      "Removing `__builtins__` from the namespace makes it safe",
+      "Anyone who can edit the table runs arbitrary code with the application's privileges; an import hook is not a sandbox",
+      "It is safe as long as the finder is uninstalled after the import"
+    ],
+    "answer": 2,
+    "explanation": "In-process Python has no sandbox. `__builtins__` can be recovered through object dunders (`().__class__.__base__.__subclasses__()`), and the module stays loaded after `uninstall`."
   }
 ]

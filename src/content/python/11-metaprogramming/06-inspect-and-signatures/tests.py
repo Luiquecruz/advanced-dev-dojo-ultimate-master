@@ -40,10 +40,15 @@ def _():
     def lookup(key="default", /, *, clock):
         return (key, clock)
 
+    def window(start=0, db=None, /):
+        return (start, db)
+
     connected = mod.call_with(connect, AVAILABLE)
     looked_up = mod.call_with(lookup, AVAILABLE)
+    windowed = mod.call_with(window, AVAILABLE)
     assert connected == ("postgres", 5, "ada", "redis")
     assert looked_up == ("default", "utc")
+    assert windowed == (0, "postgres")
 
 
 @test("call_with reads signatures through decorators, partials, callable objects and not-yet-defined annotations")

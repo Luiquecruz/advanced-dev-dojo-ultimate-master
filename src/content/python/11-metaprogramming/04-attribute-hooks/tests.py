@@ -53,6 +53,8 @@ def _():
 @test("Frozen rejects new and deleted attributes after freeze() and keeps existing ones writable")
 async def _():
     class Config(mod.Frozen):
+        timeout = 30
+
         def __init__(self):
             self.host = "localhost"
             self.port = 8080
@@ -60,11 +62,13 @@ async def _():
 
     config = Config()
     config.port = 9090
+    config.timeout = 60
     added = await capture_error(lambda: setattr(config, "hots", "db.internal"))
     deleted = await capture_error(lambda: delattr(config, "host"))
     unfrozen = mod.Frozen()
     unfrozen.extra = 1
     assert config.port == 9090
+    assert config.timeout == 60
     assert isinstance(added, AttributeError)
     assert "hots" in str(added)
     assert isinstance(deleted, AttributeError)

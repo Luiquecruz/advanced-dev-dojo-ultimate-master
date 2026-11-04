@@ -38,6 +38,10 @@ class DictFinder(importlib.abc.MetaPathFinder, importlib.abc.Loader):
 
 def install(sources: Mapping[str, str]) -> DictFinder:
     """Put a finder for `sources` in front of every other finder and return it."""
+    protected = set(sys.stdlib_module_names) | set(sys.builtin_module_names)
+    shadowed = sorted({name.partition(".")[0] for name in sources} & protected)
+    if shadowed:
+        raise ValueError(f"refusing to shadow standard library modules: {', '.join(shadowed)}")
     finder = DictFinder(sources)
     sys.meta_path.insert(0, finder)
     return finder

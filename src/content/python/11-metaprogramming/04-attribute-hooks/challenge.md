@@ -14,7 +14,7 @@ An auditing wrapper around any object.
 A base class for objects whose shape must stop changing.
 
 - Before `freeze()` the instance behaves like any object.
-- After `freeze()`, assigning an attribute that neither the instance nor its class already has raises `AttributeError` whose message contains the attribute name (a typo like `config.hots = ...`). Existing attributes stay writable.
+- After `freeze()`, assigning an attribute that neither the instance nor its class already has raises `AttributeError` whose message contains the attribute name (a typo like `config.hots = ...`). Existing attributes stay writable, including a class-level default such as `timeout = 30` that the instance overrides after `freeze()`.
 - After `freeze()`, deleting any attribute raises `AttributeError`.
 
 ## `class Defaults(defaults, **values)`
