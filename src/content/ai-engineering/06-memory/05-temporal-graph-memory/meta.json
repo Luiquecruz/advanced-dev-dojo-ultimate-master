@@ -3,8 +3,8 @@
   "summary": "Store facts as edges with valid time and transaction time, invalidate contradicted facts instead of deleting them, and answer as-of questions: what was true at T, as known at K.",
   "level": "advanced",
   "tags": ["emerging", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Zep: A Temporal Knowledge Graph Architecture for Agent Memory (paper)", "url": "https://arxiv.org/abs/2501.13956" },
     { "label": "Graphiti (GitHub)", "url": "https://github.com/getzep/graphiti" },

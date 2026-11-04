@@ -3,8 +3,8 @@
   "summary": "Keep memory safe and lawful: per-user isolation, provenance on every memory, refusing instruction-like writes from untrusted sources, retention expiry, and erasure that reaches derived summaries.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "OWASP: Top 10 for Agentic Applications for 2026", "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" },
     { "label": "Embrace The Red: Spyware Injection Into ChatGPT's Long-Term Memory (SpAIware)", "url": "https://embracethered.com/blog/posts/2024/chatgpt-macos-app-persistent-data-exfiltration/" },

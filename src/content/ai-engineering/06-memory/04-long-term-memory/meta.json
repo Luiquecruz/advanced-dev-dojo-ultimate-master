@@ -3,8 +3,8 @@
   "summary": "Remember across sessions: extract candidate memories with the model, filter them with a write policy, merge near-duplicates by embedding similarity, and retrieve by weighted relevance, recency and importance.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Generative Agents: Interactive Simulacra of Human Behavior (paper)", "url": "https://arxiv.org/abs/2304.03442" },
     { "label": "Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory (paper)", "url": "https://arxiv.org/abs/2504.19413" },

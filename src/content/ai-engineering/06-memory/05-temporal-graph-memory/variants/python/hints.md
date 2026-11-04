@@ -1,0 +1,5 @@
+Write the two interval checks first; `as_of` is then a filter that uses both. `current` filters on `fact["expiredAt"] is None and fact["validTo"] is None`. Keep every record in one list and never remove anything from it: "invalidate" means setting `"expiredAt"`.
+---
+In `add`, compute `same_relation` once: the believed facts with the same subject and predicate. The restated case is a `next((fact for fact in same_relation if ...), None)` on it (same object, `"validFrom" <=` the new one, `"validTo"` is `None`); return early when it matches.
+---
+For an exclusive predicate, the new `"validTo"` is the `min` of `"validFrom"` among `same_relation` facts that start strictly after the new fact (or `None` when there are none). Then loop over `same_relation`: equal `"validFrom"` means set `"expiredAt"`; an earlier start that is still valid at the new `"validFrom"` means set `"expiredAt"` **and** append a copy with a fresh id, `"validTo": input["validFrom"]`, `"recordedAt"` now and `"expiredAt": None`. Finally append the new fact.

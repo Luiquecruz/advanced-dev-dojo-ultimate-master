@@ -3,8 +3,8 @@
   "summary": "Keep long chats within a token budget: a sliding window that always keeps the system prompt and the latest turns, a running summary written by the model, and summary failures that never lose history.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Anthropic: Effective context engineering for AI agents", "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" },
     { "label": "Chroma: Context Rot (research report)", "url": "https://research.trychroma.com/context-rot" },
