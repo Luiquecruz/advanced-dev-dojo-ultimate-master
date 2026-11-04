@@ -20,7 +20,7 @@ LESSON=react/use-effect npx vitest run src/verify/react.test.ts # one exact less
 DEMO_OUTPUT=1 LESSON=ai-engineering/calling-a-model npx vitest run src/verify/ai-engineering.test.ts --silent=false # print demo output
 ```
 
-Debug query params (before the `#`): `?debug=perf` shows the scene panel (fps, frame time, tier, particles, DPR, render mode, renderer count, `renderer.info`, motion state); `?tier=high|mid|low` forces a performance tier. Example: `http://localhost:5173/?debug=perf&tier=mid#/typescript`.
+Debug query params: `?debug=perf` shows the scene panel (fps, frame time, tier, particles, DPR, render mode, renderer count, `renderer.info`, motion state); `?tier=high|mid|low` forces a performance tier. Example: `http://localhost:5173/typescript?debug=perf&tier=mid`.
 
 No linter is configured. `tsconfig.json` excludes lesson folders (`src/content/*/**`), so lesson code is only checked by `verify`.
 
@@ -65,7 +65,7 @@ The UI follows feature-sliced design. Import with the `@/` alias (`@/shared/ui/i
 
 ## State and storage
 
-- **Route**: hash routing in `shared/routing/route.ts` (`#/`, `#/<track>`, `#/<track>/<lesson>`) read with `useSyncExternalStore`; no router library. Routes decide content only.
+- **Route**: react-router `BrowserRouter` in `src/main.tsx`; `shared/routing/route.ts` parses paths (`/`, `/<track>`, `/<track>/<lesson>`) with `matchPath` into `useRoute()` and builds links with `hrefTo` (always `<Link to={hrefTo(...)}>`). Legacy `#/...` URLs are rewritten on boot; hosts need an SPA fallback to `index.html`. The router only supplies the location: routes decide content only, layers and transitions stay in `useMotionRouting`. Details in ARCHITECTURE.md "Routing".
 - **Motion state**: `motionCoordinator` (`shared/motion/coordinator.ts`, states in `states.ts`) is an external store read with `useMotionState`. `useMotionRouting` in `app/routing/router-adapter.ts` turns route changes into `go()` calls; the scene target follows the motion state (`sceneTargetFor`), not the route.
 - **Progress**: `entities/progress/progressStore.ts` is an external store (`useProgress()` to read in React, `progress.getState()` outside, `progress.*` to write) persisted to `localStorage` (`dev-dojo:progress:v1`, debounced 300ms). It holds completed challenges/quizzes (a challenge passed in any language completes it; `challengeLanguages` records each passing language), quiz answers, visited lessons, the last lesson and the chosen language per track, and the learner code per lesson and language (`codeKeyFor`). Derived data (`summarizeTrack`, `isLessonComplete`) is computed, never stored.
 - **Component state**: everything else (lesson tabs, test report, console, carousel index on the home page) is local React state. The scene is imperative behind `SceneAPI`.

@@ -3,6 +3,7 @@ import { memo, useMemo, type ReactNode } from 'react';
 import type { Track } from '@/content';
 import { ProgressBar } from '@/shared/ui/ProgressBar';
 import { type ModuleProgress, modulesAroundStage, summarizeTrack, type TrackStatus, useProgress } from '@/entities/progress';
+import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
 import { TrackLogo } from '@/entities/track';
 import { ChartIcon, CheckIcon, ChevronRightIcon, CircleIcon, HalfCircleIcon } from '@/shared/ui/icons';
@@ -95,12 +96,12 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
         </div>
 
         <div className="flex gap-2.5">
-          <a className={buttonClass('ghost', 'regular', 'flex-1 justify-center')} href={hrefTo({ page: 'track', trackId: track.id })} draggable={false}>
+          <Link className={buttonClass('ghost', 'regular', 'flex-1 justify-center')} to={hrefTo({ page: 'track', trackId: track.id })} draggable={false}>
             Curriculum
-          </a>
-          <a className={buttonClass('primary', 'regular', 'flex-1 justify-center')} href={hrefTo({ page: 'lesson', trackId: track.id, lessonId: summary.resumeLesson.id })} draggable={false}>
+          </Link>
+          <Link className={buttonClass('primary', 'regular', 'flex-1 justify-center')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: summary.resumeLesson.id })} draggable={false}>
             {summary.status === 'not-started' ? 'Start' : 'Continue'}
-          </a>
+          </Link>
         </div>
       </div>
 

@@ -23,7 +23,7 @@ src/
 │   ├── scene/           persistent Three.js ambient scene (particles, grid, shaders)
 │   ├── capabilities/    device detection and performance tiers
 │   ├── design/          tokens.css: Tailwind @theme tokens, registered properties, per-track accents
-│   ├── routing/         hash route parsing and links
+│   ├── routing/         route parsing on top of react-router, link paths
 │   └── lib/             small React hooks (useMediaQuery)
 ├── content/
 │   ├── index.ts         Public API for the app: catalog (tracks, modules, lesson entries), loadLesson, LANGUAGES
@@ -73,12 +73,21 @@ Conventions:
 ### Data flow
 
 ```
-hash change ─► useRoute (shared/routing) ─► useMotionRouting (app/routing)
+history change ─► useRoute (shared/routing) ─► useMotionRouting (app/routing)
                                                ├─► layers: base page + optional activity (React state)
                                                ├─► motionCoordinator.go() ─► FLIP / view transition ─► MotionState
                                                └─► sceneTargetFor(MotionState, route) ─► AmbientScene ─► SceneAPI
 learner actions ─► progress.* (entities/progress) ─► localStorage + useProgress subscribers ─► summarizeTrack (derived)
 ```
+
+### Routing
+
+`src/main.tsx` wraps `App` in react-router's `BrowserRouter` (`basename` = `import.meta.env.BASE_URL`, `useTransitions={false}` so a navigation commits synchronously, which the motion adapter and the `flushSync` inside the base page view transition rely on). Routes are clean paths: `/`, `/<track>`, `/<track>/<lesson>`.
+
+- `shared/routing/route.ts` is the only module that knows the URL shape: `parseRoute` matches the pathname with `matchPath`, `useRoute()` reads it from `useLocation()`, and `hrefTo(route)` builds the `to` of every `Link`. Navigation always goes through `<Link to={hrefTo(...)}>`; never build paths by hand.
+- The router only provides the location. Layers, transitions and focus stay in `useMotionRouting` (`app/routing/router-adapter.ts`); no `<Routes>`, nested routes, loaders or layout routes, because the base page stays mounted under the activity.
+- A legacy `#/<track>/<lesson>` URL is rewritten to its path with `history.replaceState` before the first render (`legacyHashRedirect`).
+- Hosting: any host must serve `index.html` for unknown paths (SPA fallback); `vite` and `vite preview` already do. `sandbox.html`, `/assets/` and `/pyodide/` are real files and are never shadowed, since no track id collides with them.
 
 ### Content loading
 
@@ -93,7 +102,7 @@ The app never imports lesson files directly. `plugins/contentPlugin.ts` reads `s
 
 | State | Owner | Read with | Persisted |
 | --- | --- | --- | --- |
-| Route | `shared/routing/route.ts` (hash) | `useRoute()` | URL |
+| Route | `shared/routing/route.ts` (react-router `BrowserRouter`) | `useRoute()` | URL |
 | Motion state | `shared/motion/coordinator.ts` | `useMotionState()` | no |
 | Learner progress and code (passed challenges and the languages they passed in, quizzes, chosen language per track, code per lesson and language) | `entities/progress/progressStore.ts` | `useProgress()`, `progress.getState()` | `localStorage` `dev-dojo:progress:v1`, debounced 300ms |
 | Screen state (tabs, report, console, carousel index) | the page component | React state | no |
