@@ -37,7 +37,12 @@ export interface FrameworkAdapter {
   runProgram?(files: ProjectFiles, entry: string): Promise<void>;
 }
 
-const TEST_TIMEOUT_MS = 4000;
+export const TEST_TIMEOUT_MS = 4000;
+
+export interface RunOptions {
+  /** Per-test limit; the learner always gets `TEST_TIMEOUT_MS`, lesson verification may raise it. */
+  testTimeoutMs?: number;
+}
 
 export { listTestNames };
 
@@ -61,12 +66,12 @@ function trimDomDump(message: string): string {
   return dumpStart === -1 ? message : `${message.slice(0, dumpStart)}\n(DOM output trimmed)`;
 }
 
-function withTimeout<T>(promise: Promise<T>, name: string): Promise<T> {
+function withTimeout<T>(promise: Promise<T>, name: string, timeoutMs: number): Promise<T> {
   let timer: ReturnType<typeof setTimeout>;
   return Promise.race([
     promise.finally(() => clearTimeout(timer)),
     new Promise<T>((_, reject) => {
-      timer = setTimeout(() => reject(new Error(`Test "${name}" timed out after ${TEST_TIMEOUT_MS}ms.`)), TEST_TIMEOUT_MS);
+      timer = setTimeout(() => reject(new Error(`Test "${name}" timed out after ${timeoutMs}ms.`)), timeoutMs);
     }),
   ]);
 }
@@ -74,7 +79,11 @@ function withTimeout<T>(promise: Promise<T>, name: string): Promise<T> {
 /**
  * Compiles a learner project plus its tests and runs every test against a fresh module evaluation.
  */
-export async function runTests(adapter: FrameworkAdapter, { files, entry, tests }: RunRequest): Promise<RunReport> {
+export async function runTests(
+  adapter: FrameworkAdapter,
+  { files, entry, tests }: RunRequest,
+  { testTimeoutMs = TEST_TIMEOUT_MS }: RunOptions = {},
+): Promise<RunReport> {
   const startedAt = performance.now();
   let compiled: Record<string, string>;
   let compiledTests: string;
@@ -126,7 +135,7 @@ export async function runTests(adapter: FrameworkAdapter, { files, entry, tests 
       if (!current) {
         throw new Error('Test was not registered. Keep test() calls at the top level of the test file.');
       }
-      await withTimeout(Promise.resolve().then(current.run), current.name);
+      await withTimeout(Promise.resolve().then(current.run), current.name, testTimeoutMs);
       results.push({ name: current.name, passed: true });
     } catch (error) {
       results.push({ name: registered[index]?.name ?? names[index], passed: false, error: errorMessage(error) });

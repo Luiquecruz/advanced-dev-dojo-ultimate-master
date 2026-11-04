@@ -9,7 +9,7 @@ export interface TranspileOptions {
 }
 
 const LOOP_GUARD = '__dojoLoopGuard';
-const LOOP_LIMIT_MS = 1500;
+export const LOOP_LIMIT_MS = 1500;
 
 export class CompileError extends Error {
   constructor(message: string) {
@@ -19,9 +19,9 @@ export class CompileError extends Error {
 }
 
 /**
- * Installs the global guard called on every loop iteration of learner code.
+ * Installs the global guard called on every loop iteration of learner code. `limitMs` is raised only by lesson verification.
  */
-export function installLoopGuard(target: typeof globalThis): void {
+export function installLoopGuard(target: typeof globalThis, limitMs = LOOP_LIMIT_MS): void {
   let startedAt = 0;
   let scheduled = false;
   let iterations = 0;
@@ -35,8 +35,8 @@ export function installLoopGuard(target: typeof globalThis): void {
       }, 0);
     }
     iterations++;
-    if (iterations % 1000 === 0 && Date.now() - startedAt > LOOP_LIMIT_MS) {
-      throw new RangeError(`Potential infinite loop detected: a loop ran for more than ${LOOP_LIMIT_MS}ms.`);
+    if (iterations % 1000 === 0 && Date.now() - startedAt > limitMs) {
+      throw new RangeError(`Potential infinite loop detected: a loop ran for more than ${limitMs}ms.`);
     }
   };
 }

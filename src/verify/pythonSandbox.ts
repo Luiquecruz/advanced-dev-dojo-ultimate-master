@@ -37,7 +37,7 @@ export interface PythonSandboxOptions {
 }
 
 export const DEFAULT_TEST_TIMEOUT_MS = 6000;
-const DEFAULT_RUN_TIMEOUT_MS = 15000;
+export const DEFAULT_RUN_TIMEOUT_MS = 15000;
 const DEFAULT_STARTUP_TIMEOUT_MS = 60000;
 const DEFAULT_PREWARM = Number(process.env.DOJO_PYTHON_PREWARM) || Math.max(1, Math.min(3, Math.floor(availableParallelism() / 4)));
 const STDERR_TAIL_CHARACTERS = 2000;

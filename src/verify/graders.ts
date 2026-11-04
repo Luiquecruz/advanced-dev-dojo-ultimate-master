@@ -1,9 +1,11 @@
-import { installLoopGuard } from '../engines/shared/compile';
+import { configure as configureTestingLibrary, getConfig as getTestingLibraryConfig } from '@testing-library/dom';
+import { installLoopGuard, LOOP_LIMIT_MS } from '../engines/shared/compile';
 import { installFakeApi } from '../engines/shared/fakeApi';
-import { listTestNames, runTests, type FrameworkAdapter, type RunReport, type RunRequest } from '../engines/shared/testRunner';
+import { listTestNames, runTests, TEST_TIMEOUT_MS, type FrameworkAdapter, type RunReport, type RunRequest } from '../engines/shared/testRunner';
 import type { ProjectFiles } from '../engines/shared/project';
 import { listPythonTestNames } from '../engines/python/testNames';
-import { PythonSandbox, type PythonSandboxOptions } from './pythonSandbox';
+import { DEFAULT_RUN_TIMEOUT_MS, DEFAULT_TEST_TIMEOUT_MS, PythonSandbox, type PythonSandboxOptions } from './pythonSandbox';
+import { scaledBudget } from './timeBudget';
 
 /**
  * How lesson verification grades and runs challenges of one engine.
@@ -21,13 +23,14 @@ export interface ChallengeGrader {
 export function frameworkGrader(adapter: FrameworkAdapter): ChallengeGrader {
   return {
     setup() {
-      installLoopGuard(globalThis);
+      installLoopGuard(globalThis, scaledBudget(LOOP_LIMIT_MS));
+      configureTestingLibrary({ asyncUtilTimeout: scaledBudget(getTestingLibraryConfig().asyncUtilTimeout) });
       installFakeApi(globalThis, { delay: 5 });
       window.matchMedia ??= (query: string) =>
         ({ matches: false, media: query, onchange: null, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, dispatchEvent: () => false }) as MediaQueryList;
     },
     listTestNames,
-    runTests: (request) => runTests(adapter, request),
+    runTests: (request) => runTests(adapter, request, { testTimeoutMs: scaledBudget(TEST_TIMEOUT_MS) }),
     runProgram: adapter.runProgram,
   };
 }
@@ -36,7 +39,11 @@ export function frameworkGrader(adapter: FrameworkAdapter): ChallengeGrader {
  * Grades Python challenges with Pyodide in an isolated Node worker (see `pythonSandbox.ts`), started once per suite and restarted after a stopped test.
  */
 export function pythonGrader(options: PythonSandboxOptions = {}): ChallengeGrader {
-  const sandbox = new PythonSandbox(options);
+  const sandbox = new PythonSandbox({
+    testTimeoutMs: scaledBudget(DEFAULT_TEST_TIMEOUT_MS),
+    runTimeoutMs: scaledBudget(DEFAULT_RUN_TIMEOUT_MS),
+    ...options,
+  });
   return {
     setup: () => sandbox.start(),
     listTestNames: listPythonTestNames,
