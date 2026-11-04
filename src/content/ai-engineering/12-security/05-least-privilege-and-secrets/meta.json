@@ -3,8 +3,8 @@
   "summary": "Issue a scoped credential per tool call that expires on an injected clock and is revoked afterwards, keep secrets out of the context with placeholders resolved at the tool boundary, and redact raw, base64 and URL-encoded secrets from every output and log.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "OWASP LLM06:2025 Excessive Agency", "url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/" },
     { "label": "OWASP Secrets Management Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html" },

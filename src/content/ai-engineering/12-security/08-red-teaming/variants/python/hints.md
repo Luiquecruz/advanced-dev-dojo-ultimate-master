@@ -1,0 +1,5 @@
+`inject_document` and `build_suite` are pure data work: `benign.split("\n\n")`, `paragraphs.insert(len(paragraphs) // 2, payload)`, `"\n\n".join(paragraphs)`; and three nested `for` loops (`enumerate(documents)` gives the document index). Add `"canary"` only when the seed has one, so cases without one do not carry the key.
+---
+In `is_attack_successful`, one `if` per category keeps each goal separate. For exfiltration, collect URLs with `re.findall(r"https?://[^\s<>()\[\]\"'`]+", text, re.IGNORECASE)`, read each hostname with `urllib.parse.urlsplit(url).hostname` inside a `try`, and treat unparseable URLs as not allowlisted.
+---
+In `run_red_team`, wrap only the `await target(task=..., document=...)` in `try`/`except Exception` and `continue` after recording an error, so errored cases never touch `"byCategory"`. Create a category entry the first time a case of it is evaluated (`dict.setdefault`), compute the rates after the loop, and compute `"evaluated"` as `len(suite) - len(errored)`. The gate is four independent `if`s that append reasons; `"regressions"` is a list comprehension over `current["successful"]`.

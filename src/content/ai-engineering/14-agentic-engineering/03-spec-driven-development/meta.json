@@ -3,8 +3,8 @@
   "summary": "Specify, plan, tasks, implement: parse a Markdown spec and task list, link test names to requirement ids, report unplanned, untested and orphaned work and spec drift, and check a model-generated plan with the same traceability matrix.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Birgitta Böckeler: Understanding Spec-Driven Development: Kiro, spec-kit, and Tessl", "url": "https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html" },
     { "label": "GitHub Spec Kit", "url": "https://github.com/github/spec-kit" },

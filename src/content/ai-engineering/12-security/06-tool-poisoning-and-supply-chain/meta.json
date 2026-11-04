@@ -3,8 +3,8 @@
   "summary": "Scan MCP tool definitions for hidden tags, invisible characters, instructions, sensitive paths and shadowing, fingerprint them with SHA-256 over canonical JSON, allowlist servers by id and URL, and withhold new, changed (rug pull) and poisoned tools until approved.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Invariant Labs: MCP Security Notification, Tool Poisoning Attacks", "url": "https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks" },
     { "label": "CyberArk: Poison everywhere, no output from your MCP server is safe", "url": "https://www.cyberark.com/resources/threat-research-blog/poison-everywhere-no-output-from-your-mcp-server-is-safe" },

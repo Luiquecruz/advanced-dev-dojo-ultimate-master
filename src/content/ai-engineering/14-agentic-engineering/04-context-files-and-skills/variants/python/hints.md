@@ -1,0 +1,5 @@
+`parse_skill` is line work: split on `"\n"`, check that line 0 is `---`, find the next `---` with `next((index for index, line in enumerate(lines) if index > 0 and line.strip() == "---"), None)`, and read `key: value` pairs into a dict. The name rule fits one regular expression, `re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", name)`, plus a length check.
+---
+For `context_files_for`, compute the folder of each path (everything before the last `/`, or `""`). A file applies when its folder is `""`, equals the target's folder, or the target's folder starts with `folder + "/"`. Sort with `key=lambda file: len(file["path"].split("/"))`.
+---
+In `build_agent_context`, add up the always-on tokens first and raise before looking at skills. Then sort `(skill, score)` pairs with `key=lambda pair: (-pair[1], pair[0]["name"])` and walk them with a running `used` total, checking threshold, then the `max_skills` limit, then the budget. `answer_with_skills` reuses the same `# Skill: <name>\n<body>` section and the same running total: keep `loaded` and `tokens` in variables a nested tool handler updates (`nonlocal tokens`).

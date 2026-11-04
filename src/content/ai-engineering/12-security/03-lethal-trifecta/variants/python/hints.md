@@ -1,0 +1,5 @@
+Write one private helper first: `capabilities_of(tool_name, tools)` returns the tool's legs in canonical order, or all of `LEGS` when the profile is missing or has no `"capabilities"` key. Every function below uses it, so "unknown means every leg" lives in one place.
+---
+`analyze_session` builds `{leg: [] for leg in LEGS}`, walks `session["tools"]` and appends each name to its legs (skip duplicates), then appends the `input:` labels and `remote-images` (read the optional keys with `session.get(...)`). `"lethal"` is `all(legs[leg] for leg in LEGS)`. For `suggest_removal`, `min` over the legs in preference order (`"externalCommunication"`, `"untrustedContent"`, `"privateData"`) keyed by the number of sources keeps the first leg on a tie.
+---
+In `remove_leg`, `copy.deepcopy(config)` and, for the target session, keep only the tools where `leg not in capabilities_of(name, config["tools"])`. The guard keeps a `present` list on the instance: compute `[leg for leg in LEGS if leg in present or leg in tool_legs]`; when its length is 3, return the denial with a copy of `present`; otherwise assign it to `present` and allow.

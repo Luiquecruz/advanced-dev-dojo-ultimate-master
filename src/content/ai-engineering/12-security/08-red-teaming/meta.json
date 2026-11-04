@@ -3,8 +3,8 @@
   "summary": "Turn red teaming into an adversarial eval suite: inject payloads into documents at several positions, detect each attack's goal deterministically, report attack success rate per category with errors kept apart, and gate releases on limits, baselines and newly successful attacks.",
   "level": "advanced",
   "tags": ["established", "core", "practice", "testing"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "promptfoo: LLM red teaming", "url": "https://www.promptfoo.dev/docs/red-team/" },
     { "label": "NVIDIA garak: LLM vulnerability scanner", "url": "https://github.com/NVIDIA/garak" },
