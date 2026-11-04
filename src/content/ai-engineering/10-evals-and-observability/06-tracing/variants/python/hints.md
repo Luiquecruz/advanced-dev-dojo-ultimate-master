@@ -1,0 +1,5 @@
+In `start_span`, take `trace_id` and `parent_span_id` from `parent` when it exists and copy the attributes with `dict(attributes or {})`. In `Span.end`, return early when `self.end_ms is not None`, and append the span to `self.tracer.spans` there, not in `start_span`, so `tracer.spans` holds finished spans in the order they ended.
+---
+Both wrappers follow one shape: start the span with the attributes known up front, add optional ones with `set_attribute`, then `try:` the call, `except Exception as error:` set `"error.type"`, `span.end("error")` and `raise`; after the `try`, set the result attributes, `span.end("ok")` and return. Read the error type with `getattr(error, "code", None)` (when it is a string) or `type(error).__name__`. Guard every content attribute with `if tracer.capture_content:`.
+---
+In `summarize_trace`, filter by `trace_id` first. Select model spans by `span.attributes.get("gen_ai.operation.name") == "chat"`, read token attributes as numbers (0 when missing), look the model up in `pricing` and collect misses in a list without duplicates. Cost per span is `(input × inputPerMillion + output × outputPerMillion) / 1 000 000`.

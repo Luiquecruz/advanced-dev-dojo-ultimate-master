@@ -1,0 +1,5 @@
+`evaluate_variant` is two nested loops: cases outside, `for _ in range(repeats)` inside. Put one run in a helper that returns `"pass"`, `"fail"` or `"error"` (the `try`/`except Exception` lives there), then count passes and errors per case. The aggregate pass rate is the sum of passes over the sum of runs, and `"flaky"` is a comprehension filtered on `0 < result["passRate"] < 1`.
+---
+In `compare_runs`, index the candidate cases by id in a dict. Missing ids are baseline ids not in that dict; added ids are candidate ids not in the baseline. Build the diffs with a comprehension over the baseline cases, skipping ids the candidate does not have, then filter regressions with `diff["delta"] < -case_tolerance - 1e-9` and improvements with `diff["delta"] > case_tolerance + 1e-9`.
+---
+Collect `reasons` in order: a dataset mismatch, then `delta < -tolerance - 1e-9`, then one reason per regression whose `"critical"` is `True`. The decision is simply `"block" if reasons else "pass"`, so every block explains itself.

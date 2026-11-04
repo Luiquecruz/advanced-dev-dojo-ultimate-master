@@ -3,8 +3,8 @@
   "summary": "Trace model features with spans per model and tool call: parent and child ids, OpenTelemetry GenAI attribute names, errors on spans, prompts and outputs kept out unless opted in, and token and cost rollups per trace.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "OpenTelemetry: GenAI semantic conventions (repository)", "url": "https://github.com/open-telemetry/semantic-conventions-genai" },
     { "label": "OpenTelemetry: GenAI client spans and content capture", "url": "https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md" },

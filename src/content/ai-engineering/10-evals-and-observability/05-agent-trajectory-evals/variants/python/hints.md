@@ -1,0 +1,5 @@
+`record_trajectory` is a few lines: create a `steps` list, pass an `on_event` function that appends a model step (copy the usage fields, `"cost"` becomes `"costUsd"`) or a tool step (`"name"`, `parse_arguments(call["arguments"])`, `"ok"`), then return the run's status and answer with the steps.
+---
+In `evaluate_trajectory`, first list the tool steps together with their index (`[{**step, "index": index} for index, step in enumerate(steps) if step["type"] == "tool"]`), and compute the metrics in one pass. Then check the rules one by one with `spec.get(...)`, each appending violations to the same list, so a trajectory with several problems reports all of them.
+---
+For an order pair, find the index of the first successful `before` call (`next(..., math.inf)` when there is none) and flag every `after` call with a smaller index. For forbidden calls, skip steps whose `"arguments"` are `None` before calling `matches`. Limits use a strict `>`. `evaluate_suite` evaluates every case and counts `violation["rule"]` in a dict.
