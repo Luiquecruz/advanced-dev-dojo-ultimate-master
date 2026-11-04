@@ -1,0 +1,8 @@
+[
+  { "term": "Virtual environment", "description": "A directory with `pyvenv.cfg`, a `bin/` (or `Scripts\\`) directory and its own site-packages, used by an interpreter started from it." },
+  { "term": "`sys.prefix` vs `sys.base_prefix`", "description": "Inside an environment `sys.prefix` is the environment directory and `sys.base_prefix` the base installation; they differ only in an environment." },
+  { "term": "`pyvenv.cfg`", "description": "`key = value` lines read by the interpreter and `site`: `home` names the base interpreter's directory and `include-system-site-packages` adds the base site-packages when it is `true`." },
+  { "term": "PATH shadowing", "description": "The shell runs the first matching executable in the `PATH` directories, left to right; activation puts the environment's `bin/` first." },
+  { "term": "Activation", "description": "A shell script that prepends `bin/` to `PATH`, sets `VIRTUAL_ENV` and changes the prompt; optional, because the environment's interpreter works when called by its path." },
+  { "term": "site-packages", "description": "`lib/pythonX.Y/site-packages` on POSIX, `Lib\\site-packages` on Windows: where installers put packages and where `site` adds them to `sys.path`." }
+]

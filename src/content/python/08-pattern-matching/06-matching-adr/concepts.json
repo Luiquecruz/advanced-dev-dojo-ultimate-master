@@ -1,0 +1,8 @@
+[
+  { "term": "Dispatch", "description": "Choosing which code handles a value, by its shape (`match`), a key (a registry), its class (`singledispatch`) or its own method (polymorphism)." },
+  { "term": "Linear dispatch", "description": "A `match` or `if`/`elif` chain tests its cases in order, so the worst case costs one failed test per case." },
+  { "term": "Dict registry", "description": "A mapping from a key, such as a type tag, to a handler, filled by a registration decorator from any module." },
+  { "term": "`functools.singledispatch`", "description": "A function that picks its implementation by the class of its first argument; `register` adds or silently replaces one." },
+  { "term": "Extension point", "description": "What someone does to add a case: register a handler, edit the central `match`, or add a subclass." },
+  { "term": "Leaf decoder", "description": "A small `match` inside the code of one type that validates and binds each payload version of that type." }
+]
