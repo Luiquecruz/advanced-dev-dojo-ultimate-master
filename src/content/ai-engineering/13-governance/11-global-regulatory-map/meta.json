@@ -3,8 +3,8 @@
   "summary": "The AI rules of the EU, Brazil, the US (federal and states), the UK, China, South Korea and Japan compared, and a regulatory map built as data: a dated rules table matched to a product's markets and features, with source, status on a date, summaries and a freshness check.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "IAPP: Global AI Law and Policy Tracker", "url": "https://iapp.org/resources/article/global-ai-legislation-tracker/" },
     { "label": "European Commission: AI Act regulatory framework and timeline", "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" },

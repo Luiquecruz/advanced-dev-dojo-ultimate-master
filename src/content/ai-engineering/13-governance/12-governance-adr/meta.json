@@ -3,7 +3,7 @@
   "summary": "Close the module with the governance plan of a fintech launching AI in Brazil and Portugal: nine layers with owners, enforcement and evidence, fixes for sprawl and shadow AI, identity and audit, data and model gates, budgets, meaningful credit oversight and a dated BR and EU regulatory map.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "adr.ts" },
+  "entry": { "node": "adr.ts", "python": "adr.py" },
   "resources": [
     { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
     { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },

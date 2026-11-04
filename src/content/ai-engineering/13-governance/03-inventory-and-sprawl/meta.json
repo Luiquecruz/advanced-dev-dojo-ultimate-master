@@ -3,8 +3,8 @@
   "summary": "An AI asset registry for models, agents, prompts, MCP servers and keys with owners and expiry, an audit that finds orphaned assets, expired, expiring and stale credentials, and shadow AI signals aggregated from gateway logs.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "NIST: AI Risk Management Framework (Map function: inventory and context)", "url": "https://www.nist.gov/itl/ai-risk-management-framework" },
     { "label": "Microsoft Entra Agent ID documentation", "url": "https://learn.microsoft.com/en-us/entra/agent-id/" },

@@ -3,8 +3,8 @@
   "summary": "Classify fields with fail-closed labels, check purpose and per-purpose consent before a model call, minimize the payload by allowlist, record each processing with its expiry, and enforce retention and erasure over those records.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "EDPB Opinion 28/2024 on data protection aspects of AI models", "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/opinion-board-art-64/opinion-282024-certain-data-protection-aspects_en" },
     { "label": "EDPB: AI privacy risks and mitigations for LLMs (2025)", "url": "https://www.edpb.europa.eu/system/files/documents/2025-04/ai-privacy-risks-and-mitigations-in-llms.pdf" },

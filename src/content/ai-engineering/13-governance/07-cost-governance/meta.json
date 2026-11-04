@@ -3,8 +3,8 @@
   "summary": "Budgets per company, team and feature with soft alerts and hard limits checked before the call from a worst-case estimate, sliding-window rate limits per team, actual usage recorded after the call, and attribution by team, feature and model.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "FinOps Foundation: FinOps for AI", "url": "https://www.finops.org/topic/finops-for-ai/" },
     { "label": "FinOps Foundation: FinOps for AI overview (working group)", "url": "https://www.finops.org/wg/finops-for-ai-overview/" },

@@ -3,8 +3,8 @@
   "summary": "A model registry with license checks and pinned versions, application aliases, promotion gated by eval minimums and regressions, deprecation warnings that name the replacement, rollback and pin history, and model calls routed to exactly the pinned version.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "MLflow Model Registry: versions and aliases", "url": "https://mlflow.org/docs/latest/ml/model-registry/" },
     { "label": "Anthropic: model deprecations", "url": "https://docs.claude.com/en/docs/about-claude/model-deprecations" },
