@@ -1,0 +1,15 @@
+{
+  "title": "Checkpoint: Nightly Export ADR",
+  "summary": "Close the iteration module with an ADR and a plan for a 30-million-row nightly export: generators or lists, the batch size that fits a memory budget and a time window, how many scans of the table, what to materialize for a result read twice, and how consumers, restarts and the cursor are handled.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Functional Programming HOWTO: generators", "url": "https://docs.python.org/3/howto/functional.html#generators" },
+    { "label": "itertools.batched", "url": "https://docs.python.org/3/library/itertools.html#itertools.batched" },
+    { "label": "itertools.tee", "url": "https://docs.python.org/3/library/itertools.html#itertools.tee" },
+    { "label": "contextlib.closing", "url": "https://docs.python.org/3/library/contextlib.html#contextlib.closing" }
+  ]
+}

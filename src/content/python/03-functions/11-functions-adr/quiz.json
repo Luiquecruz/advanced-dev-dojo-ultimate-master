@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A client stack is `metrics → cache → retry → request`, outermost first. Which client calls produce a metrics sample?",
+    "options": [
+      "Only cache misses",
+      "Every client call, cache hits included",
+      "Every retry attempt",
+      "Only calls that fail"
+    ],
+    "answer": 1,
+    "explanation": "The metrics layer wraps the cache, so every client call passes through it before the cache decides. With the cache outermost, hits would return before metrics ever ran."
+  },
+  {
+    "question": "A retry layer makes up to 3 attempts and sits inside an auth layer that refreshes once and sends again. Only transient errors are retried. How many requests can one client call send in the worst case?",
+    "options": [
+      "3",
+      "4",
+      "6",
+      "9"
+    ],
+    "answer": 2,
+    "explanation": "The auth layer can run the retry layer twice, once before and once after its single refresh, and each run makes up to 3 attempts: 2 × 3 = 6."
+  },
+  {
+    "question": "Nine test suites run in parallel threads of one process. Why is patching `time.monotonic` weaker than injecting a clock into each client?",
+    "options": [
+      "Patching is slower than calling a function",
+      "Injected clocks are more precise",
+      "`time.monotonic` cannot be patched",
+      "The patch changes the time for every thread and every client in the process, so the suites interfere"
+    ],
+    "answer": 3,
+    "explanation": "A patched module attribute is global state. An injected clock lives in the closure of one client, so each test controls its own time."
+  },
+  {
+    "question": "Each team subclasses `Client` and overrides `send`. A call site needs team A's cache and team B's metrics. What does subclassing force?",
+    "options": [
+      "A new class that combines both, with an MRO that decides their order",
+      "Nothing: subclasses combine automatically",
+      "A module-level registry of subclasses",
+      "Calling `functools.wraps` on each subclass"
+    ],
+    "answer": 0,
+    "explanation": "Every combination needs its own class, and the order follows the MRO of that class instead of one reviewed builder. Decorators combine per call site."
+  },
+  {
+    "question": "The provider's quota counts every request, retries included. Where does the rate limiter belong?",
+    "options": [
+      "Outside the cache",
+      "Outside the retry layer",
+      "Inside every layer that resends, around the raw request",
+      "In a module-level registry shared by all clients"
+    ],
+    "answer": 2,
+    "explanation": "Only a limiter inside the retry and refresh layers sees each attempt. Outside them it counts one request per client call while the provider counts every attempt."
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A single `match` routes 40 message types and each failed case costs 0.2 µs. Dispatch may use 1% of one core at 2 000 messages/s. Does the worst case fit?",
+    "options": [
+      "Yes: CPython compiles a `match` to a jump table, so the number of cases does not matter",
+      "Yes: 40 × 0.2 µs is a small share of one core",
+      "No: the worst case is 8 µs and the budget is 0.01 / 2 000 s = 5 µs",
+      "It cannot be judged without the average case"
+    ],
+    "answer": 2,
+    "explanation": "Cases run in order, so an unknown or last type fails all 40: 8 µs. The budget per message is the CPU share divided by the rate, 5 µs."
+  },
+  {
+    "question": "Two teams each call `handle.register(OrderPaid)` on the same `functools.singledispatch` function. What happens?",
+    "options": [
+      "A `TypeError` when the second module is imported",
+      "Both implementations run, in registration order",
+      "The first registration wins and the second is ignored",
+      "The second registration silently replaces the first"
+    ],
+    "answer": 3,
+    "explanation": "`register` stores the implementation in a mapping keyed by class, so the last write wins with no warning. A hand-written registry can refuse duplicates."
+  },
+  {
+    "question": "Webhook payloads arrive as JSON objects such as `{\"type\": \"order.paid\", ...}` and `{\"type\": \"parcel.lost\", ...}`. Why can `singledispatch` not route them as they are?",
+    "options": [
+      "Every one of them is a `dict`, and `singledispatch` looks only at the class of its first argument",
+      "`singledispatch` refuses mutable arguments",
+      "It needs a type annotation on every dict key",
+      "Dict keys have no fixed order"
+    ],
+    "answer": 0,
+    "explanation": "Dispatch by class needs distinct classes. Decode each dict into its dataclass first, or key a registry by the `type` tag."
+  },
+  {
+    "question": "A gateway has 18 types today and gains 4 per quarter. A failed case costs 0.1 µs and the budget is 3 µs per message. When does one central `match` stop fitting its worst case?",
+    "options": [
+      "After 1 quarter, at 22 types",
+      "After 4 quarters: 34 types cost 3.4 µs, while 30 types after 3 quarters cost exactly 3 µs",
+      "Never: a `match` costs the same for any number of cases",
+      "After 12 quarters"
+    ],
+    "answer": 1,
+    "explanation": "The worst case is types × cost per case: 0.1 × (18 + 4q) exceeds 3 µs first at q = 4. The decision changes with growth, so the ADR names the horizon."
+  },
+  {
+    "question": "A gateway dispatches through a registry keyed by type tag. Where does a `match` statement still fit best?",
+    "options": [
+      "Around the registry lookup, to catch every unknown type with `case _`",
+      "In a central function that lists every type once more for documentation",
+      "Nowhere: a registry replaces pattern matching",
+      "Inside the decoder of one type, over that type's few payload versions"
+    ],
+    "answer": 3,
+    "explanation": "A short `match` owned by one team validates and binds each payload shape in one step, and its cost stays small because it holds a handful of cases."
+  }
+]

@@ -1,5 +1,6 @@
 import { loadPyodide } from 'pyodide';
 import { createPythonEngine, PYTHON_ENV, type PythonEngine } from './engine';
+import { loadLessonPackages } from './packages';
 import { lockDownPython, pythonJsGlobals, refuseStringTimers } from './lockdown';
 import type { PythonWorkerRequest, PythonWorkerResponse } from './protocol';
 import { snapshotImports } from './snapshot';
@@ -34,9 +35,7 @@ async function makeSnapshot(): Promise<Uint8Array> {
 async function boot(snapshot: Uint8Array | undefined, packages: string[]): Promise<PythonEngine> {
   refuseStringTimers(scope);
   const pyodide = await loadPyodide({ indexURL: PYODIDE_URL, env: { ...PYTHON_ENV }, jsglobals: pythonJsGlobals(scope), ...(snapshot ? { _loadSnapshot: snapshot } : {}) });
-  if (packages.length > 0) {
-    await pyodide.loadPackage(packages, { checkIntegrity: true, messageCallback: () => undefined });
-  }
+  await loadLessonPackages(pyodide, packages);
   const python = createPythonEngine(pyodide);
   lockDownPython(scope, pyodide);
   return python;

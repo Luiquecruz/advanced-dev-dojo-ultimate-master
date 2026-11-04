@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
-import { LANGUAGES, type LanguageId, type Lesson, type ProjectFiles, type Track } from '@/content';
+import { LANGUAGES, type LanguageId, type Lesson, type Track } from '@/content';
 import { canRunProgram, CodeEditor, configureLanguageService, type ConsoleEntry, gradeChallenge, LanguageSwitch, LessonPanel, type LessonTab, prepareEngine, PreviewFrame, type Report, runProgram, TestName, testNamesFor } from '@/features/lesson';
 import { CurriculumDrawer } from '@/features/curriculum';
 import { Markdown } from '@/shared/ui/Markdown';
@@ -10,6 +10,7 @@ import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
 import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, CrossIcon, MenuIcon, PlayIcon, RefreshIcon, ResetIcon, TerminalIcon } from '@/shared/ui/icons';
 import { useMediaQuery } from '@/shared/lib/useMediaQuery';
+import { useLessonFiles } from './useLessonFiles';
 import { BrandMark } from '@/shared/ui/BrandMark';
 import { COMPILE_ERROR_CLASS, SUCCESS_BADGE_CLASS, TEST_MESSAGE_CLASS, buttonClass, iconButtonClass } from '@/shared/ui/classNames';
 
@@ -32,7 +33,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   const next = track.lessons[index + 1];
 
   const [tab, setTab] = useState<LessonTab>(state.visited[lesson.key] && challenge ? 'challenge' : 'learn');
-  const [files, setFiles] = useState<ProjectFiles>(() => state.code[codeKey] ?? challenge?.starter ?? {});
+  const { files, setFiles, updateFile } = useLessonFiles(codeKey, () => state.code[codeKey] ?? challenge?.starter ?? {});
   const [activeFile, setActiveFile] = useState(challenge?.entry ?? '');
   const [report, setReport] = useState<Report | null>(null);
   const [running, setRunning] = useState(false);
@@ -54,17 +55,6 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   useEffect(() => {
     progress.visit(track.id, lesson.key);
   }, [track.id, lesson.key]);
-
-  const updateFile = useCallback(
-    (name: string, value: string) => {
-      setFiles((current) => {
-        const nextFiles = { ...current, [name]: value };
-        progress.saveCode(codeKey, nextFiles);
-        return nextFiles;
-      });
-    },
-    [codeKey],
-  );
 
   const appendConsole = useCallback((entry: ConsoleEntry) => {
     setConsoleEntries((current) => [...current.slice(-MAX_CONSOLE_ENTRIES + 1), entry]);

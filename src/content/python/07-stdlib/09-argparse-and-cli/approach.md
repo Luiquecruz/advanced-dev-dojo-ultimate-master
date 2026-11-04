@@ -1,0 +1,6 @@
+1. Read the contract as a list of boundaries: `money` and `note_text` guard the values, `build_parser` describes the grammar, `main` is the only adapter between argparse and the process. Nothing below `main` may exit.
+2. Write `money` as a sequence of guards, cheapest first: the length, then the conversion inside `try`, then finiteness and range, then the cents check. Call it directly with `"12.345"`, `"nan"` and `"abc"` and make sure each raises `ArgumentTypeError`, not `SystemExit` and not `InvalidOperation`.
+3. Write `note_text` with `isprintable()`, and try a note with `"; rm -rf ~"`: it is accepted, because it is stored as data and never reaches a shell.
+4. Build the parser top-down: the global `--ledger`, the subparsers object, then one parser per subcommand with its arguments and its `handler`. Check it with `build_parser().parse_args([...])` in the editor, putting options before and after the positional amount.
+5. Make `main` testable: resolve the default streams at call time, redirect only the parsing into `out` and `err`, and convert `SystemExit` into the returned code. Then dispatch to `args.handler(args, out, err)`.
+6. Run the demo: every session shows its exit code, and the failing ones show argparse's usage on `err` while the ledger keeps only the valid entries.

@@ -1,0 +1,17 @@
+{
+  "title": "Virtual Environments and PATH",
+  "summary": "A virtual environment is a directory with pyvenv.cfg, a bin/ that activation puts first on PATH and its own site-packages, chosen through sys.prefix. Model the real lookups of the shell, the interpreter and the site module as pure functions.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "venv: Creation of virtual environments", "url": "https://docs.python.org/3/library/venv.html" },
+    { "label": "site: Site-specific configuration hook", "url": "https://docs.python.org/3/library/site.html" },
+    { "label": "sys: prefix and base_prefix", "url": "https://docs.python.org/3/library/sys.html" },
+    { "label": "PEP 405: Python Virtual Environments", "url": "https://peps.python.org/pep-0405/" },
+    { "label": "PEP 668: Marking Python base environments as externally managed", "url": "https://peps.python.org/pep-0668/" },
+    { "label": "uv: Using Python environments", "url": "https://docs.astral.sh/uv/pip/environments/" },
+    { "label": "Node.js: Loading from node_modules folders", "url": "https://nodejs.org/api/modules.html" }
+  ]
+}

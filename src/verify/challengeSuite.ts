@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import type { LanguageId } from '../content';
 import { trackById } from '../content/allContent';
 import type { ChallengeGrader } from './graders';
+import { retryTimeoutsOnce } from './timeBudget';
 
 /**
  * Verifies that every challenge of a track passes with its solution and fails with its starter. Multi-language tracks call it once per language.
@@ -30,7 +31,9 @@ export function defineChallengeSuite(trackId: string, grader: ChallengeGrader, l
     });
 
     it('solution passes every test', async () => {
-      const report = await grader.runTests({ files: challenge.solution, entry: challenge.entry, tests: challenge.tests });
+      const report = await retryTimeoutsOnce(`${trackId}/${challenge.entry} solution`, () =>
+        grader.runTests({ files: challenge.solution, entry: challenge.entry, tests: challenge.tests }),
+      );
       expect(report.compileError).toBeUndefined();
       expect(report.results.filter((result) => !result.passed)).toEqual([]);
       expect(report.results.length).toBe(names.length);

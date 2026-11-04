@@ -1,0 +1,68 @@
+[
+  {
+    "question": "`def seconds_per_day(): return 24 * 60 * 60`. What runs when the function is called?",
+    "options": [
+      "Two multiplications, every call",
+      "Two multiplications on the first call, cached afterwards",
+      "It loads the constant `86400`: the compiler folded the expression, and the code object stores the result",
+      "It depends on whether the JIT is enabled"
+    ],
+    "answer": 2,
+    "explanation": "Constant folding happens at compile time, before the module ever runs. The multiplication never executes at call time, with or without the JIT."
+  },
+  {
+    "question": "`def add(a, b): return a + b` has been called 10 000 times with integers. Now it is called with two strings. What happens?",
+    "options": [
+      "`TypeError`: the instruction was specialized for integers",
+      "It returns the concatenated string. The `BINARY_OP_ADD_INT` guard fails, the generic path runs, and after repeated string calls the instruction can specialize again for strings",
+      "It returns a wrong result until the function is recompiled",
+      "The whole function is deoptimized permanently"
+    ],
+    "answer": 1,
+    "explanation": "Specialization is speculative and guarded: a miss falls back to the generic behavior. Only speed depends on type stability, never correctness."
+  },
+  {
+    "question": "A linter plugin decides whether a function is \"pure\" by matching opcode names in `dis.get_instructions(function)`. It was written against 3.13. What should the team expect, and what should they use instead?",
+    "options": [
+      "It keeps working: opcodes are part of the language reference",
+      "It keeps working as long as `.pyc` files are deleted after upgrading",
+      "Only the JIT changes opcodes, so it works on the default build",
+      "It breaks silently on upgrades, because bytecode changes every minor release (3.14 added `LOAD_FAST_BORROW` and `LOAD_SMALL_INT` and folded `BINARY_SUBSCR` into `BINARY_OP`); analyze the source with `ast` instead"
+    ],
+    "answer": 3,
+    "explanation": "The `dis` docs promise nothing across versions. `ast` describes what the code says, `inspect` describes callables, and `sys.monitoring` gives stable runtime hooks."
+  },
+  {
+    "question": "A container image runs `python -m compileall` with Python 3.13 at build time, but the runtime image uses Python 3.14 on a read-only filesystem. What happens at startup?",
+    "options": [
+      "3.14 looks for `*.cpython-314.pyc` files, ignores the 3.13 caches, and compiles every imported module from source on every start because it cannot write a cache",
+      "3.14 loads the 3.13 files, since `.pyc` files are portable between versions",
+      "Python refuses to start with a magic number error",
+      "Only modules with syntax changes are recompiled"
+    ],
+    "answer": 0,
+    "explanation": "The cache tag in the file name and the magic number in the header tie a `.pyc` to one bytecode format. Compile with the interpreter that runs the code."
+  },
+  {
+    "question": "A team wants `PYTHON_JIT=1` with the official Python 3.14 macOS binary for a CPU-bound service, and plans to move to the free-threaded build next quarter. What is accurate?",
+    "options": [
+      "The JIT is the default in 3.14 and roughly doubles speed",
+      "The JIT also runs threads in parallel, so free threading becomes unnecessary",
+      "It is experimental, measured from 10% slower to 20% faster depending on the workload, and the 3.14 free-threaded build does not support it: benchmark both choices on the real workload",
+      "The JIT changes floating-point results, so tests must be rewritten"
+    ],
+    "answer": 2,
+    "explanation": "The JIT turns hot traces into machine code without changing semantics or adding parallelism. In 3.14, JIT compilation and free threading are mutually exclusive."
+  },
+  {
+    "question": "Why does single-threaded code pay a much smaller penalty on 3.14's free-threaded build than on 3.13's?",
+    "options": [
+      "3.14 brought the GIL back for single-threaded programs",
+      "3.14 enables the specializing adaptive interpreter in free-threaded mode, after making its in-place bytecode rewrites safe with several threads; the penalty is now roughly 5–10%",
+      "3.14 turns on the JIT for free-threaded builds",
+      "3.14 compiles free-threaded programs ahead of time"
+    ],
+    "answer": 1,
+    "explanation": "Specialization rewrites bytecode shared by all threads. The 3.14 release notes announce it as \"now enabled in free-threaded mode\"; the JIT is still unsupported there."
+  }
+]

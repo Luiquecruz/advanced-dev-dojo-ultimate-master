@@ -9,11 +9,12 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --exclude 'src/verify/**'",
-    "verify": "vitest run src/verify",
+    "verify": "node scripts/python-track/vendor-packages.mjs --check && vitest run src/verify",
     "python:new": "node scripts/python-track/new-lesson.mjs",
     "python:curriculum": "node scripts/python-track/sync-curriculum.mjs",
     "python:vendor": "node scripts/python-track/vendor-packages.mjs",
-    "docs:check": "node .claude/hooks/docs-sync.mjs --check"
+    "docs:check": "node .claude/hooks/docs-sync.mjs --check",
+    "smoke:worker-csp": "node scripts/python-track/check-worker-csp.mjs"
   },
   "dependencies": {
     "@angular/common": "^22.2.3",

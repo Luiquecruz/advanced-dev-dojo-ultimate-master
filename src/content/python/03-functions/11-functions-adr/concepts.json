@@ -1,0 +1,8 @@
+[
+  { "term": "Middleware order", "description": "The stack read outermost first: a layer sees, and can skip or repeat, everything inside it." },
+  { "term": "Repeating layer", "description": "A layer that may call its inner function more than once, such as retry or token refresh; it multiplies the requests and the time of every layer inside it." },
+  { "term": "Worst-case latency", "description": "Every timeout, wait and refresh on the longest path through the stack; it decides how many attempts fit the callers' deadline." },
+  { "term": "Closure state", "description": "What the decorator factory received and the wrapper keeps: each built client has its own store, metrics sink and token source." },
+  { "term": "Injected clock", "description": "Time passed in as a callable, so tests advance it themselves instead of sleeping or patching the time module." },
+  { "term": "ADR", "description": "Architecture Decision Record: context, decision, alternatives considered and consequences." }
+]

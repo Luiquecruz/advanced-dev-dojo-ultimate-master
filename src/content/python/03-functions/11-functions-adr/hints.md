@@ -1,0 +1,5 @@
+Start with the order, one requirement at a time. Which layer must see cache hits? Which layers must a hit skip? If the auth layer sits inside the retry layer, how many times can it refresh during one client call? Which layer must see every request the others resend? Write each answer as "X outside Y"; only one list of the five concerns satisfies all of them.
+---
+Then the worst case for your order. With the auth layer outside the retry layer, one client call can run the whole retry layer twice, with one refresh between the runs. One run of `n` attempts costs `n` timeouts plus `n - 1` waits. Write requests and seconds as functions of `n`, then try `n = 2, 3, 4...` until one more attempt would pass 15 s.
+---
+For the other fields: 14 combinations rule out one class per combination, and "the order in one reviewed place" rules out anything registered or patched at import time. Suites in parallel threads of one process rule out patching the time module and any state shared between clients. Traces need `functools.wraps`, and an expired token is the auth layer's job.
