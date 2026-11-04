@@ -248,12 +248,13 @@ import uuid
 
 @test("entropy sources work")
 def _():
-    assert len(os.urandom(8)) == 8
-    assert len(secrets.token_hex(4)) == 8
+    assert len(os.urandom(16)) == 16
+    assert os.urandom(16) != os.urandom(16)
+    assert len(secrets.token_hex(8)) == 16
     assert uuid.uuid4().version == 4
     assert 0 <= random.Random().random() < 1
     directory = tempfile.mkdtemp()
-    assert os.path.isdir(directory)
+    assert directory.startswith("/tmp/") and os.path.isdir(directory)
 `);
     expect(report.compileError).toBeUndefined();
     expect(report.results).toEqual([{ name: 'entropy sources work', passed: true }]);
