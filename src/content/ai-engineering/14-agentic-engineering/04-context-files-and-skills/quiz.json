@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A team's root `AGENTS.md` has grown to 1 400 lines, including the full release-notes procedure and the incident template. Agents now ignore the test command. What is the best change?",
+    "options": [
+      "Move the test command to the top in bold",
+      "Keep only what every task needs in `AGENTS.md` (commands, hard rules, pointers) and move task-specific procedures into skills loaded on demand",
+      "Split the file into ten `AGENTS.md` copies with the same content",
+      "Switch to a model with a larger context window"
+    ],
+    "answer": 1,
+    "explanation": "Always-on context is paid on every call and dilutes attention. Procedures that apply to some tasks belong in skills, where only their metadata is always present."
+  },
+  {
+    "question": "An agent edits `packages/api/db/migrations/0042.sql`. Which context files should the harness include, and in what order?",
+    "options": [
+      "Only `packages/api/db/AGENTS.md`",
+      "Every `AGENTS.md` in the repository, alphabetically",
+      "`AGENTS.md`, `packages/api/AGENTS.md`, `packages/api/db/AGENTS.md`: root first, nearest last",
+      "`packages/api/db/AGENTS.md` first, then the root file"
+    ],
+    "answer": 2,
+    "explanation": "The root and every ancestor folder apply. Reading the nearest file last puts the most specific rules closest to the task and lets them win conflicts."
+  },
+  {
+    "question": "With progressive disclosure, what does the model see about a skill that was not selected for the task?",
+    "options": [
+      "Its name and description in the skill index, so it can request the body if it turns out to be needed",
+      "Nothing at all",
+      "Its full body, but marked as optional",
+      "Its scripts, but not its instructions"
+    ],
+    "answer": 0,
+    "explanation": "Metadata is cheap and always present; the body loads on selection or on request; bundled files load only when the body points to them."
+  },
+  {
+    "question": "The relevance scorer loads a database migrations skill for the task \"fix the typo in the login button label\". What does this tell you?",
+    "options": [
+      "The skill should be deleted",
+      "Similarity scores are noisy: use a threshold, precise descriptions and explicit keywords, and keep the model's ability to request or ignore skills",
+      "Embeddings never work for this, so load every skill",
+      "The context budget is too large"
+    ],
+    "answer": 1,
+    "explanation": "Any similarity measure has false positives. A threshold and explicit triggers improve precision; a metadata index plus on-demand loading recovers what preselection misses."
+  }
+]

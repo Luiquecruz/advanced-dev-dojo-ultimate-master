@@ -1,0 +1,12 @@
+{
+  "title": "Map: Agentic Engineering and Capstone",
+  "summary": "What this module answers (how to build software with coding agents under engineering discipline, and how to prove it works), the human as the seventh layer, the prerequisites from every earlier module, the path from vibe coding to the capstone, and why the capstone replaces the ADR.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "theory"],
+  "resources": [
+    { "label": "Simon Willison: Agentic Engineering Patterns", "url": "https://simonwillison.net/guides/agentic-engineering-patterns/" },
+    { "label": "Addy Osmani: Agentic engineering", "url": "https://addyosmani.com/topics/agentic-engineering/" },
+    { "label": "Simon Willison: Vibe engineering", "url": "https://simonwillison.net/2025/Oct/7/vibe-engineering/" },
+    { "label": "Anthropic: Claude Code best practices", "url": "https://www.anthropic.com/engineering/claude-code-best-practices" }
+  ]
+}

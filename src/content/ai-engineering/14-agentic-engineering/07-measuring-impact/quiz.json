@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A manager reports that \"62% of our code is now written by AI\" as proof that agents doubled productivity. What is wrong with this metric?",
+    "options": [
+      "Nothing: more generated code means more value",
+      "It measures output, not outcomes: it says nothing about lead time, stability, rework or whether users got working software sooner",
+      "The percentage is too low to matter",
+      "It should count characters instead of lines"
+    ],
+    "answer": 1,
+    "explanation": "Activity counts are easy to inflate and do not show delivery or quality. DORA metrics and SPACE's other dimensions describe outcomes."
+  },
+  {
+    "question": "What did METR's randomized study of experienced open-source developers, published in July 2025, find?",
+    "options": [
+      "AI tools made them 55% faster",
+      "AI tools had no effect and developers noticed none",
+      "With early-2025 tools they took 19% longer on real issues in their own repositories, while believing they had been about 20% faster",
+      "Only junior developers were slower"
+    ],
+    "answer": 2,
+    "explanation": "The study measured a slowdown and a large perception gap. The 55% figure comes from GitHub's 2022 lab task, a very different setting."
+  },
+  {
+    "question": "Why did METR say in February 2026 that the data from its follow-up experiment was unreliable?",
+    "options": [
+      "The models were too slow",
+      "Selection effects: many developers refused to work without AI or withheld tasks from the no-AI condition, and running several agents at once broke time measurement",
+      "The developers were paid too much",
+      "The tasks were too easy"
+    ],
+    "answer": 1,
+    "explanation": "METR reported raw estimates pointing to a speedup but judged them weak evidence and is redesigning the study. Measuring productivity well is hard, which is why you need a deliberate design."
+  },
+  {
+    "question": "What does the 2025 DORA report mean by calling AI an \"amplifier\"?",
+    "options": [
+      "AI increases the volume of output only",
+      "AI magnifies the strengths of high-performing organizations and the dysfunctions of struggling ones",
+      "AI always improves stability",
+      "AI replaces the need for platforms and version control"
+    ],
+    "answer": 1,
+    "explanation": "The report found adoption positively associated with throughput but still negatively with stability, and named seven capabilities, such as small batches and strong version control, that amplify the benefits."
+  },
+  {
+    "question": "Your team plans an agent rollout and wants to know whether it works. Which plan is sound?",
+    "options": [
+      "Ask developers after a month whether they feel faster",
+      "Count accepted suggestions per week",
+      "Record DORA metrics, review times and incident rates as a baseline, choose outcome and guardrail metrics in advance, compare similar work, and include model spend and rework",
+      "Trust the vendor's published productivity numbers"
+    ],
+    "answer": 2,
+    "explanation": "A baseline, metrics fixed in advance, like-for-like comparison and full cost accounting turn an impression into evidence."
+  },
+  {
+    "question": "After the rollout, deployment frequency rises 30% but change fail rate doubles. How should you read this?",
+    "options": [
+      "As a clear success: throughput is what matters",
+      "As the amplifier effect at work: more change volume is hitting weak downstream controls, so invest in tests, small batches and review before pushing more volume",
+      "As noise: ignore stability metrics",
+      "As proof that agents should be banned"
+    ],
+    "answer": 1,
+    "explanation": "Throughput gains that cost stability are not a win. A guardrail metric getting worse is the signal to strengthen the practices AI amplifies."
+  }
+]

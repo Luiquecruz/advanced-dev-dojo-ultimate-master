@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A developer asks an agent for a feature, reads every diff, runs the test suite, and asks the agent to explain a confusing function before merging. Is this vibe coding?",
+    "options": [
+      "Yes: any code written by a model is vibe coding",
+      "No: vibe coding means accepting code without reviewing or understanding it; reviewing, testing and owning the result is engineering with an assistant",
+      "Yes, because the agent wrote more lines than the developer",
+      "Only if the feature is small"
+    ],
+    "answer": 1,
+    "explanation": "The definition hinges on accountability, not on who typed the code. Simon Willison made this point in March 2025: not all AI-assisted programming is vibe coding."
+  },
+  {
+    "question": "According to the lesson, what is the main practice that lets an agent iterate safely on its own?",
+    "options": [
+      "A longer system prompt",
+      "A more expensive model",
+      "An automated test suite the agent runs after every change",
+      "Asking the agent to be careful"
+    ],
+    "answer": 2,
+    "explanation": "Tests turn \"looks right\" into a check the agent can act on. Without them, every iteration needs a human to notice what broke."
+  },
+  {
+    "question": "Which project is a reasonable candidate for vibe coding?",
+    "options": [
+      "A personal script to rename photos on your own laptop, which you will delete next week",
+      "The login flow of a customer-facing app",
+      "A database migration on production data",
+      "An internal tool other teams will depend on"
+    ],
+    "answer": 0,
+    "explanation": "Vibe code only what is disposable and private, with no production data or credentials in reach. Anything others rely on needs tests, review and an owner."
+  },
+  {
+    "question": "Who proposed the term \"agentic engineering\" as the name for the disciplined practice, and when?",
+    "options": [
+      "OpenAI, in its 2023 GPT-4 launch",
+      "Andrej Karpathy, in February 2026, one year after coining \"vibe coding\"",
+      "The OWASP GenAI Security Project, in 2024",
+      "The EU AI Act, in 2024"
+    ],
+    "answer": 1,
+    "explanation": "Karpathy coined \"vibe coding\" in February 2025 and suggested \"agentic engineering\" in February 2026; Simon Willison, who had proposed \"vibe engineering\" in October 2025, adopted the new term."
+  },
+  {
+    "question": "A team adopts coding agents but has slow, flaky tests and no code review. What does the DORA \"amplifier\" finding predict?",
+    "options": [
+      "Agents will compensate for the missing practices",
+      "Nothing changes: agents have no effect on delivery",
+      "AI magnifies existing conditions, so more change volume will hit weak tests and review and likely increase instability",
+      "Throughput will fall to zero"
+    ],
+    "answer": 2,
+    "explanation": "DORA's 2025 report frames AI as an amplifier of strengths and dysfunctions; it found AI adoption still associated with lower delivery stability when downstream controls are weak."
+  },
+  {
+    "question": "Which incident illustrates what goes wrong when an agent runs with broad permissions and no harness?",
+    "options": [
+      "An agent on Replit deleting a production database during a code freeze in July 2025",
+      "A model refusing to answer a question",
+      "A benchmark score dropping after a model update",
+      "A context window being too small"
+    ],
+    "answer": 0,
+    "explanation": "Destructive actions are a permissions problem: an agent should not hold the ability to delete production data without an approval gate (module 08)."
+  }
+]

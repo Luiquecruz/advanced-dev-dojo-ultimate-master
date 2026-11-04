@@ -1,0 +1,15 @@
+{
+  "title": "Spec-Driven Development",
+  "summary": "Specify, plan, tasks, implement: parse a Markdown spec and task list, link test names to requirement ids, report unplanned, untested and orphaned work and spec drift, and check a model-generated plan with the same traceability matrix.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Birgitta Böckeler: Understanding Spec-Driven Development: Kiro, spec-kit, and Tessl", "url": "https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html" },
+    { "label": "GitHub Spec Kit", "url": "https://github.com/github/spec-kit" },
+    { "label": "GitHub Blog: Spec-driven development with AI", "url": "https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/" },
+    { "label": "Kiro: Specs", "url": "https://kiro.dev/docs/specs/" },
+    { "label": "Alistair Mavin: EARS, the Easy Approach to Requirements Syntax", "url": "https://alistairmavin.com/ears/" }
+  ]
+}

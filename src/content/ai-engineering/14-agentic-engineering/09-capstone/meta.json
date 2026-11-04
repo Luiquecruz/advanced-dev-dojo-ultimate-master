@@ -1,0 +1,16 @@
+{
+  "title": "Capstone: A Governed Support Copilot",
+  "summary": "Combine every layer in one multi-file project: retrieval over help documents, tools behind an MCP server, a budgeted agent with a citation verifier inside an allow/ask/deny policy, a gated eval suite over a golden set, and a threat model and governance map checked against the code.",
+  "level": "expert",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Anthropic: Building effective agents", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
+    { "label": "Model Context Protocol specification", "url": "https://modelcontextprotocol.io/specification/latest" },
+    { "label": "Simon Willison: The lethal trifecta for AI agents", "url": "https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/" },
+    { "label": "OWASP Top 10 for Agentic Applications for 2026", "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" },
+    { "label": "Hamel Husain: Your AI Product Needs Evals", "url": "https://hamel.dev/blog/posts/evals/" },
+    { "label": "NIST AI Risk Management Framework", "url": "https://www.nist.gov/itl/ai-risk-management-framework" }
+  ]
+}

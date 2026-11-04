@@ -1,0 +1,13 @@
+{
+  "title": "What Changed",
+  "summary": "The track's dated changelog of the volatile edge (protocols, tools, terms, regulation, research), newest first and extended at every quarterly review, plus how to keep the same kind of changelog for your own AI system.",
+  "level": "advanced",
+  "tags": ["emerging", "theory"],
+  "resources": [
+    { "label": "Model Context Protocol specification", "url": "https://modelcontextprotocol.io/specification/latest" },
+    { "label": "Agentic AI Foundation: projects", "url": "https://aaif.io/projects/" },
+    { "label": "OWASP Top 10 for Agentic Applications for 2026", "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" },
+    { "label": "GitHub Spec Kit releases", "url": "https://github.com/github/spec-kit/releases" },
+    { "label": "METR: We are changing our developer productivity experiment design", "url": "https://metr.org/blog/2026-02-24-uplift-update/" }
+  ]
+}

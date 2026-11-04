@@ -1,0 +1,8 @@
+[
+  { "term": "Latency budget", "description": "The response time a feature is designed for: under a second for inline suggestions, longer for reports, with progress feedback beyond about 10 seconds." },
+  { "term": "Time to first token", "description": "How long until the first streamed text appears. With streaming, it is the latency users actually feel." },
+  { "term": "Sources", "description": "Links from an answer to the passages it relies on, so users can check instead of trust." },
+  { "term": "Editable output", "description": "Model output presented as a draft the user changes and confirms, keeping the human as the decision maker." },
+  { "term": "Implicit feedback", "description": "Signals from behavior (edits, retries, copies, escalations) that complement thumbs up or down." },
+  { "term": "Human handoff", "description": "Passing a conversation, with its context and what was tried, to a person when the assistant cannot help." }
+]

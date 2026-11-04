@@ -1,0 +1,46 @@
+[
+  {
+    "question": "The traceability matrix shows TASK-7, \"Add a CSV export of audit logs\", implementing no requirement of the spec. What is the right reaction?",
+    "options": [
+      "Nothing: tasks without requirements are normal in agent-generated plans",
+      "Delete the tests for TASK-7 so the matrix is clean",
+      "Treat it as an orphan: either it is scope creep to remove from the plan, or a real need to add to the spec as a requirement first",
+      "Mark the task as done so it leaves the report"
+    ],
+    "answer": 2,
+    "explanation": "An orphan task means the plan and the spec disagree. The spec is the reviewed artifact, so the fix is to change one of them deliberately, not to hide the signal."
+  },
+  {
+    "question": "Which statement describes the spec-as-source level of SDD?",
+    "options": [
+      "A spec is written before the change and discarded afterwards",
+      "Humans edit only the spec; code is regenerated from it, so tests must carry the guarantees because regeneration is not deterministic",
+      "The spec is kept next to the code and updated with every change, but code is edited by hand",
+      "The spec is generated from the code after the release"
+    ],
+    "answer": 1,
+    "explanation": "Spec-first discards the spec, spec-anchored maintains it alongside hand-edited code, spec-as-source makes it the only edited artifact. Regenerating from the same spec can produce different code."
+  },
+  {
+    "question": "A teammate proposes running the full specify, plan, tasks flow for a one-line typo fix in an error message. What does the lesson recommend?",
+    "options": [
+      "Always run the full flow, because consistency matters more than speed",
+      "Never use specs with agents",
+      "Let the agent decide whether to write a spec",
+      "Scale the process to the change: a clear prompt, a test where useful and a review are enough for a small fix; specs pay off for multi-session, risky or long-lived work"
+    ],
+    "answer": 3,
+    "explanation": "Ceremony for small changes is one of the main criticisms of SDD tools. Specs earn their cost when they prevent expensive rework or encode rules that must survive many sessions."
+  },
+  {
+    "question": "Why does the challenge put requirement and task ids in test names, such as `REQ-2: rejects an expired link`?",
+    "options": [
+      "Test runners require ids in names",
+      "It makes the link between tests and requirements machine-readable, so coverage, orphans and drift can be checked on every change",
+      "It makes the tests run faster",
+      "It lets the model skip writing tests"
+    ],
+    "answer": 1,
+    "explanation": "A naming convention is the cheapest traceability mechanism. Without it, \"is REQ-2 tested?\" needs a human to read every test."
+  }
+]

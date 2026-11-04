@@ -1,0 +1,68 @@
+[
+  {
+    "question": "You ask an agent to \"build the billing module\" and get a 3 000-line diff touching 40 files. What should you have done instead?",
+    "options": [
+      "Used a larger model so the diff is correct",
+      "Asked for a plan first, then split the work into small changes, each reviewed, tested and committed before the next",
+      "Merged it and fixed bugs as they appear",
+      "Asked another agent to review it and merged if it approves"
+    ],
+    "answer": 1,
+    "explanation": "Big diffs do not get real review. Planning first and moving in small, verifiable steps keeps every change understandable and reversible."
+  },
+  {
+    "question": "Working test-first, an agent cannot make a test pass and eventually edits the test so it asserts the buggy behavior. Which practice prevents this?",
+    "options": [
+      "Telling the agent in the prompt not to edit tests",
+      "Raising the agent's step limit",
+      "Reviewing test changes more carefully than code changes and restricting the agent's write access to test files",
+      "Deleting the test suite"
+    ],
+    "answer": 2,
+    "explanation": "Tests are the agent's goal and your guarantee. Protect them with permissions or hooks, and review every change to them."
+  },
+  {
+    "question": "Why give each parallel agent its own git worktree?",
+    "options": [
+      "Worktrees make models faster",
+      "So agents do not overwrite each other's files or run tests against each other's half-finished changes; each works and commits on its own branch",
+      "Because git forbids two agents in one repository",
+      "To avoid code review"
+    ],
+    "answer": 1,
+    "explanation": "Isolation keeps each agent's changes and test results its own. The real limit then becomes how much you can review."
+  },
+  {
+    "question": "Which change deserves the deepest review?",
+    "options": [
+      "A typo fix in a help text",
+      "A new color for a button",
+      "A change to the permission check that decides who can issue refunds",
+      "Renaming a local variable"
+    ],
+    "answer": 2,
+    "explanation": "Review depth follows the cost of a mistake. Permissions, payments, authentication and migrations get line-by-line review and a second reviewer."
+  },
+  {
+    "question": "A team ships fast with agents, but during an incident nobody can explain how the retry logic in the payment client works. What is this, and what helps?",
+    "options": [
+      "Technical debt; rewrite the client from scratch",
+      "Comprehension debt; require explanations in pull requests, record decisions in ADRs and context files, rotate reviewers and keep hands-on skills",
+      "A model bug; switch providers",
+      "Nothing: it is the expected cost of using agents"
+    ],
+    "answer": 1,
+    "explanation": "Comprehension debt is the gap between shipped and understood code. It is paid down by making understanding part of the workflow, not by more generation."
+  },
+  {
+    "question": "You run five agents in parallel and the pull request queue keeps growing. What does this tell you?",
+    "options": [
+      "Add more agents",
+      "Review capacity, not agent capacity, is the bottleneck: run fewer agents or invest in faster review (smaller changes, better tests, mechanical checks)",
+      "Merge without review to clear the queue",
+      "Switch to a bigger model"
+    ],
+    "answer": 1,
+    "explanation": "Unreviewed changes are inventory, not productivity. Throughput is limited by the slowest step, which is usually human review."
+  }
+]

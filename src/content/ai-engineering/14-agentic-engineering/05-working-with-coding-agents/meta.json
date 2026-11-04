@@ -1,0 +1,12 @@
+{
+  "title": "Working with Coding Agents",
+  "summary": "Daily practice with coding agents: plan first and move in small verifiable steps, TDD with protected tests, parallel agents in git worktrees, review depth proportional to risk, and paying down comprehension debt.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "theory"],
+  "resources": [
+    { "label": "Anthropic: Claude Code best practices", "url": "https://www.anthropic.com/engineering/claude-code-best-practices" },
+    { "label": "Simon Willison: Agentic Engineering Patterns", "url": "https://simonwillison.net/guides/agentic-engineering-patterns/" },
+    { "label": "Addy Osmani: Comprehension debt", "url": "https://addyosmani.com/blog/comprehension-debt/" },
+    { "label": "Git documentation: git worktree", "url": "https://git-scm.com/docs/git-worktree" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Measuring Impact",
+  "summary": "Measure what agents change with outcomes instead of output: DORA delivery metrics and the SPACE dimensions, what the METR study, its 2026 update and the DORA AI reports found, the perception gap, and a plan to measure your own team.",
+  "level": "advanced",
+  "tags": ["emerging", "theory"],
+  "resources": [
+    { "label": "METR: Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity", "url": "https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/" },
+    { "label": "METR: We are changing our developer productivity experiment design (February 2026)", "url": "https://metr.org/blog/2026-02-24-uplift-update/" },
+    { "label": "DORA: State of AI-assisted Software Development 2025", "url": "https://dora.dev/research/2025/dora-report/" },
+    { "label": "Google Cloud: Introducing the DORA AI Capabilities Model", "url": "https://cloud.google.com/blog/products/ai-machine-learning/introducing-doras-inaugural-ai-capabilities-model" },
+    { "label": "DORA: Software delivery performance metrics", "url": "https://dora.dev/guides/dora-metrics/" },
+    { "label": "GitHub: Quantifying Copilot's impact on developer productivity (2022)", "url": "https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/" }
+  ]
+}

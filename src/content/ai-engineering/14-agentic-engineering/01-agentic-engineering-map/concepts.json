@@ -1,0 +1,7 @@
+[
+  { "term": "Human layer", "description": "The seventh layer of the track: the engineer who directs agents and keeps ownership of architecture, correctness and review." },
+  { "term": "Agentic engineering", "description": "Building production software with coding agents under human ownership, with specs, tests, review and measured results." },
+  { "term": "Vibe coding", "description": "Accepting generated code without reading or testing it. Fine for throwaway prototypes, a bad practice in production." },
+  { "term": "Capstone", "description": "The module's checkpoint: one project combining retrieval, tools over MCP, a budgeted agent with a verifier, a permission policy, evals, a threat model and a governance map." },
+  { "term": "Quarterly review", "description": "The track's freshness routine: status boxes and the What Changed changelog are checked and updated every quarter." }
+]

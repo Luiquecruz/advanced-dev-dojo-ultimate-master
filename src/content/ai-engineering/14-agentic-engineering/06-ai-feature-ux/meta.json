@@ -1,0 +1,12 @@
+{
+  "title": "AI Feature UX",
+  "summary": "Designing AI features people can use well: latency budgets and streaming, progress for agents, showing uncertainty and sources, editable drafts for actions, explicit and implicit feedback wired into evals, and fallbacks with a human handoff.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Google PAIR: People + AI Guidebook", "url": "https://pair.withgoogle.com/guidebook/" },
+    { "label": "Nielsen Norman Group: Response Times, the 3 important limits", "url": "https://www.nngroup.com/articles/response-times-3-important-limits/" },
+    { "label": "Vercel AI SDK: Streaming", "url": "https://ai-sdk.dev/docs/foundations/streaming" },
+    { "label": "Anthropic: Streaming messages", "url": "https://docs.claude.com/en/docs/build-with-claude/streaming" }
+  ]
+}

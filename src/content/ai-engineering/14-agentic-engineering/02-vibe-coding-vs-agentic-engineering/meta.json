@@ -1,0 +1,13 @@
+{
+  "title": "Vibe Coding vs Agentic Engineering",
+  "summary": "Where \"vibe coding\" (February 2025) and \"agentic engineering\" (February 2026) came from, how vibe coding fails in production, and the practices that let teams keep the speed of agents with the controls of engineering: tests, specs, small steps, review by risk and measurement.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "theory"],
+  "resources": [
+    { "label": "Andrej Karpathy: the original vibe coding post", "url": "https://x.com/karpathy/status/1886192184808149383" },
+    { "label": "Simon Willison: Not all AI-assisted programming is vibe coding", "url": "https://simonwillison.net/2025/Mar/19/vibe-coding/" },
+    { "label": "Simon Willison: Vibe engineering", "url": "https://simonwillison.net/2025/Oct/7/vibe-engineering/" },
+    { "label": "Simon Willison: Agentic Engineering Patterns", "url": "https://simonwillison.net/guides/agentic-engineering-patterns/" },
+    { "label": "Addy Osmani: Agentic engineering", "url": "https://addyosmani.com/topics/agentic-engineering/" }
+  ]
+}

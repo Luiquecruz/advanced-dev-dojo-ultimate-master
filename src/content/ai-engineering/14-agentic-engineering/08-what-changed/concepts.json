@@ -1,0 +1,7 @@
+[
+  { "term": "Stable core", "description": "Concepts that last years: retrieval, evals, loops, injection, governance layers. Taught in the body of each lesson." },
+  { "term": "Volatile edge", "description": "Names, versions, laws, prices and vendor features. Kept in dated status boxes and in this changelog." },
+  { "term": "Quarterly review", "description": "Every quarter the status boxes are checked against primary sources and the changelog gets a new section." },
+  { "term": "Changelog entry", "description": "One dated line: what changed and which modules it touches. Superseded entries stay as history." },
+  { "term": "Dependency changelog", "description": "The same practice for your own system: model snapshots, protocol revisions, SDK versions and policies, reviewed on a fixed cadence." }
+]

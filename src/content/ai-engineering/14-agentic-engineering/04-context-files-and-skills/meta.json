@@ -1,0 +1,15 @@
+{
+  "title": "Context Files and Skills",
+  "summary": "Always-on AGENTS.md files resolved from the root to the edited folder, Agent Skills parsed and validated, a metadata-only skill index, relevance-scored skills loaded under a token budget, and a load_skill tool for skills the model asks for during the run.",
+  "level": "advanced",
+  "tags": ["emerging", "core", "practice"],
+  "entry": { "node": "main.ts" },
+  "run": { "node": "demo.ts" },
+  "resources": [
+    { "label": "Agent Skills specification", "url": "https://agentskills.io/specification" },
+    { "label": "AGENTS.md", "url": "https://agents.md/" },
+    { "label": "Anthropic: Equipping agents for the real world with Agent Skills", "url": "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills" },
+    { "label": "Claude Code: Manage memory (CLAUDE.md files)", "url": "https://code.claude.com/docs/en/memory" },
+    { "label": "Anthropic: Effective context engineering for AI agents", "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" }
+  ]
+}

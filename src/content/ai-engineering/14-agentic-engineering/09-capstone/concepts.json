@@ -1,0 +1,8 @@
+[
+  { "term": "Capstone", "description": "One system that combines every layer of the track: retrieval, tools over MCP, a budgeted agent with a verifier inside a permission policy, evals, a threat model and a governance map." },
+  { "term": "Simplest design that meets the evals", "description": "The capstone's first criterion: workflow before agent, one agent before several, retrieval before adaptation. Each component must buy a measured improvement." },
+  { "term": "Removing a trifecta leg", "description": "Making an attack impossible by architecture: here, the policy denies every `send_*` tool, so injected instructions have no exfiltration channel." },
+  { "term": "Fail closed", "description": "Anything the policy does not explicitly allow is denied: unknown tools, malformed arguments and unapproved actions never reach the server." },
+  { "term": "Eval gate", "description": "A release check over the golden set: the pass rate must reach the threshold and no critical case may fail." },
+  { "term": "Governance map", "description": "Owners, data classification and approval per tool, the pinned model, budgets, the eval gate and the review cadence, checked against the running code." }
+]

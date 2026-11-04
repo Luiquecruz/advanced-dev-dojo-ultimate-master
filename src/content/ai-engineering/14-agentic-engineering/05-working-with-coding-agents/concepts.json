@@ -1,0 +1,8 @@
+[
+  { "term": "Small verifiable step", "description": "A change small enough to review in minutes and revert without regret, checked by tests before the next one starts." },
+  { "term": "TDD with agents", "description": "A failing test is the agent's goal: it iterates against the test runner while you review the test and the implementation." },
+  { "term": "Git worktree", "description": "An extra working directory on its own branch from the same repository, so parallel agents never share files." },
+  { "term": "Review depth by risk", "description": "Line-by-line review for authentication, payments and migrations; lighter review where mistakes are cheap and tests cover them." },
+  { "term": "Comprehension debt", "description": "The gap between the code a team ships and the code it understands. It feels like speed until an incident needs someone who knows the code." },
+  { "term": "Plan first", "description": "Ask the agent to explore and propose a plan before editing; correcting a plan is cheaper than correcting code." }
+]

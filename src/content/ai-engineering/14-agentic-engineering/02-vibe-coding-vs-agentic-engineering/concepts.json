@@ -1,0 +1,7 @@
+[
+  { "term": "Vibe coding", "description": "Accepting generated code without reading or testing it, iterating by pasting errors back. Coined by Andrej Karpathy in February 2025 for throwaway projects." },
+  { "term": "Vibe engineering", "description": "Simon Willison's October 2025 name for experienced developers using agents while staying accountable for what they ship; superseded by \"agentic engineering\"." },
+  { "term": "Agentic engineering", "description": "Building production software with agents you orchestrate and oversee, with tests, specs, review and measurement. Proposed by Karpathy in February 2026." },
+  { "term": "AI slop", "description": "Plausible, low-quality generated content or code produced in volume and accepted without review." },
+  { "term": "Amplifier", "description": "The 2025 DORA report's framing: AI magnifies a team's existing strengths and dysfunctions rather than fixing them." }
+]

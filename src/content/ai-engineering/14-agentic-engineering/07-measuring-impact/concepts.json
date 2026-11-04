@@ -1,0 +1,8 @@
+[
+  { "term": "DORA metrics", "description": "Software delivery measures: change lead time, deployment frequency and failed deployment recovery time (throughput); change fail rate and deployment rework rate (instability)." },
+  { "term": "SPACE", "description": "A framework for developer productivity with five dimensions: satisfaction and well-being, performance, activity, communication and collaboration, efficiency and flow." },
+  { "term": "Perception gap", "description": "The difference between how much faster developers feel with AI and what is measured. METR's 2025 study found a predicted 24% speedup and a measured 19% slowdown." },
+  { "term": "AI as amplifier", "description": "DORA's 2025 finding that AI magnifies existing organizational strengths and dysfunctions." },
+  { "term": "Vanity metric", "description": "A number that rises without better outcomes, such as lines generated or suggestions accepted." },
+  { "term": "Guardrail metric", "description": "A metric that must not get worse while you optimize another, such as change fail rate during an agent rollout." }
+]

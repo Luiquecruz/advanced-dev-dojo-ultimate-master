@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A support answer takes 8 seconds to generate and users complain it feels broken. Total time cannot drop much. What helps most?",
+    "options": [
+      "Stream the answer so the first words appear within about a second, and show what the assistant is doing",
+      "Show a generic spinner until the full answer is ready",
+      "Hide the feature behind a settings page",
+      "Ask users to be patient in the help text"
+    ],
+    "answer": 0,
+    "explanation": "Perceived latency is driven by time to first token and visible progress. Streaming and step labels keep users oriented even when total time stays the same."
+  },
+  {
+    "question": "Your feature returns a JSON object that the UI renders as a form. Why is streaming that output token by token harder than streaming prose?",
+    "options": [
+      "JSON cannot be streamed at all",
+      "The output can only be validated once complete, and a stream can fail midway, so you must buffer, validate and handle interrupted streams",
+      "Streaming JSON costs more tokens",
+      "Browsers cannot display JSON"
+    ],
+    "answer": 1,
+    "explanation": "Structured outputs need validation (module 02). Stream progress if useful, but render only validated data, and plan for a stream that fails after a few chunks."
+  },
+  {
+    "question": "How should an assistant show that it is unsure about an answer?",
+    "options": [
+      "Always add \"I might be wrong\" to every answer",
+      "Show a made-up confidence percentage",
+      "Show sources and their coverage, say clearly when no document answers the question, and use labels backed by measured accuracy",
+      "Never show uncertainty: it reduces trust"
+    ],
+    "answer": 2,
+    "explanation": "Users need actionable signals. Sources let them check, an explicit \"not covered\" state avoids fluent guesses, and calibrated labels mean something only if measured."
+  },
+  {
+    "question": "An assistant drafts refund emails for support agents. Which design keeps the human in control?",
+    "options": [
+      "Send the email automatically and log it",
+      "Show the draft as editable text with the exact recipient and refund amount, and send only after the agent confirms",
+      "Hide the draft and send a summary to the manager",
+      "Let the model decide when confirmation is needed"
+    ],
+    "answer": 1,
+    "explanation": "Treat model output as a draft for actions with side effects: visible, editable and confirmed. Errors become edits instead of incidents."
+  },
+  {
+    "question": "The model provider is down. What should a well-designed AI feature do?",
+    "options": [
+      "Show an empty box until the provider recovers",
+      "Retry forever",
+      "Degrade gracefully: a fallback model or a plain search result list, the non-AI path, an honest message and a handoff to a human with context",
+      "Return the last answer given to any user"
+    ],
+    "answer": 2,
+    "explanation": "Fallbacks are part of the product. Users should always have a way forward, and a handoff should carry what was tried so they do not start over."
+  },
+  {
+    "question": "Users click thumbs down on 12% of answers, but nobody looks at the data. What is missing?",
+    "options": [
+      "A bigger thumbs-down button",
+      "Routing feedback (tied to trace ids, with reasons and implicit signals such as edits and retries) into the review queue and eval datasets",
+      "Removing the feedback buttons",
+      "A higher temperature"
+    ],
+    "answer": 1,
+    "explanation": "Feedback is useful only when it feeds evaluation and fixes (module 10). Implicit signals often say more than the buttons."
+  }
+]

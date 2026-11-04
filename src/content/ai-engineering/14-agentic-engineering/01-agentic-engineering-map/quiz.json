@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Which layer does this module cover, and how does it relate to the other six?",
+    "options": [
+      "Layer 1, the model: it picks the best coding model",
+      "The seventh layer, the human: it applies context, harness, verification and evaluation to the way you build software with agents",
+      "Layer 6, governance: it only writes policies",
+      "None: it is a list of tool tutorials"
+    ],
+    "answer": 1,
+    "explanation": "Agentic engineering points the track's mechanisms at your own workflow: context files are context engineering, permissions are the harness, tests are verifiers, delivery metrics are evals."
+  },
+  {
+    "question": "A coding agent keeps forgetting the project's test command and its rule against calling the payments API from the web package. Which lesson of this module addresses this first?",
+    "options": [
+      "Measuring impact",
+      "AI feature UX",
+      "Context files and skills: put the command and the rule in the always-on context file for that folder",
+      "What changed"
+    ],
+    "answer": 2,
+    "explanation": "What every task in a folder needs belongs in a short context file; task-specific procedures become skills loaded on demand."
+  },
+  {
+    "question": "Why does this module end with a capstone instead of its own ADR checkpoint?",
+    "options": [
+      "Because ADRs are no longer used",
+      "Because the capstone combines every layer in one project and draws on the ADRs written at the end of the earlier modules",
+      "Because agentic engineering has no decisions to record",
+      "Because the fake model cannot grade ADRs"
+    ],
+    "answer": 1,
+    "explanation": "Each module's ADR is a decision for one layer; the capstone is where those decisions meet in running code, a threat model and a governance map."
+  },
+  {
+    "question": "Which earlier modules does the capstone rely on most directly?",
+    "options": [
+      "Only module 01",
+      "Model adaptation and knowledge graphs",
+      "Retrieval, tools and MCP, agents with budgets, harness permissions and verifiers, evals, security and governance",
+      "None: it starts from scratch"
+    ],
+    "answer": 2,
+    "explanation": "The capstone reuses vector retrieval with citations, an MCP server, the budgeted agent loop, allow/ask/deny policies, verifiers, eval gates, the lethal trifecta and governance maps."
+  },
+  {
+    "question": "A returning learner finished the track a year ago. Where should they start?",
+    "options": [
+      "From module 01 again",
+      "The What Changed lesson, which lists dated changes reviewed every quarter, then the status boxes of the modules they rely on",
+      "Nowhere: the stable core never changes, so nothing needs revisiting",
+      "Only the capstone"
+    ],
+    "answer": 1,
+    "explanation": "The track separates the stable core from the volatile edge. The changelog shows the delta since the learner's last visit."
+  }
+]

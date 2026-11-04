@@ -1,0 +1,68 @@
+[
+  {
+    "question": "How often is this changelog reviewed and extended?",
+    "options": [
+      "Whenever a vendor announces a new model",
+      "Quarterly: the status boxes are checked against primary sources and a new section is added",
+      "Once a year",
+      "Never: the changelog is fixed when the track ships"
+    ],
+    "answer": 1,
+    "explanation": "A fixed quarterly cadence keeps the volatile edge current without chasing every announcement. The October 2026 survey is the current one; January 2027 is next."
+  },
+  {
+    "question": "Which MCP change from July 2026 affects the server you built in module 03 and reused in the capstone?",
+    "options": [
+      "MCP was replaced by A2A",
+      "Revision 2026-07-28 made requests stateless, with the protocol version in `_meta` on every request and `server/discover` instead of the `initialize` handshake",
+      "MCP dropped JSON-RPC for gRPC",
+      "MCP servers can no longer expose tools"
+    ],
+    "answer": 1,
+    "explanation": "The 2026-07-28 revision removed the handshake and session state; many deployed servers still speak 2025-11-25, so check what your SDK supports."
+  },
+  {
+    "question": "What did the Digital Omnibus on AI, in force since 27 July 2026, change?",
+    "options": [
+      "It repealed the EU AI Act",
+      "It moved the EU AI Act's high-risk obligations to 2 December 2027 (Annex III) and 2 August 2028 (Annex I)",
+      "It banned general-purpose models in the EU",
+      "It only applies to Brazil"
+    ],
+    "answer": 1,
+    "explanation": "The Omnibus amended the application dates of high-risk obligations. Transparency duties still applied from 2 August 2026, with a grace period for marking content from existing generative systems."
+  },
+  {
+    "question": "A change earns a line in the changelog when it...",
+    "options": [
+      "was covered by many news sites",
+      "changes what an engineer should do or know in one of the track's modules, dated by the event itself",
+      "comes from the largest vendor",
+      "includes a new benchmark record"
+    ],
+    "answer": 1,
+    "explanation": "The changelog tracks consequences for practice, with the date of the specification, release or legal event, not the date of the coverage."
+  },
+  {
+    "question": "Looking at a year of changes in the table, which statement holds?",
+    "options": [
+      "Every change invalidated the track's core rules",
+      "Names, versions, dates and defaults changed, but core rules held: injection is solved by architecture rather than prompts, evals beat impressions, workflows come before agents, loops need budgets and verifiers",
+      "Nothing changed in the field",
+      "Prompt injection was solved in 2026"
+    ],
+    "answer": 1,
+    "explanation": "This is why the track separates the stable core from the volatile edge: the edge moves monthly, the core decides how you build."
+  },
+  {
+    "question": "How can you apply the changelog idea to your own production AI system?",
+    "options": [
+      "Use the latest model alias so you never need to track changes",
+      "Keep a dated changelog of your dependencies (model snapshots, protocol revisions, SDK versions, policies) and review it on a fixed cadence",
+      "Rely on vendor emails",
+      "Only track changes after an incident"
+    ],
+    "answer": 1,
+    "explanation": "Most surprises come from an undocumented dated change: a retired snapshot, a new protocol revision, a changed default. Writing them down and reviewing them makes them planned work."
+  }
+]

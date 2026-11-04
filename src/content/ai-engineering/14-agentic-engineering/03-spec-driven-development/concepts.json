@@ -1,0 +1,8 @@
+[
+  { "term": "Spec-driven development (SDD)", "description": "Working from a written specification that humans review and agents plan, break into tasks and implement from." },
+  { "term": "Specify, plan, tasks, implement", "description": "The common SDD pipeline: requirements first, then the technical design, then small tasks that reference requirements, then implementation proven by tests." },
+  { "term": "Traceability matrix", "description": "One row per requirement with the tasks that implement it and the tests that verify it. It shows what is unplanned, untested or orphaned." },
+  { "term": "Spec-first, spec-anchored, spec-as-source", "description": "Levels of commitment: a spec that guides one change, a spec maintained with the feature, or a spec that is the only artifact humans edit." },
+  { "term": "EARS", "description": "Easy Approach to Requirements Syntax: templates such as \"When <trigger>, the system shall <response>\" that make each requirement testable." },
+  { "term": "Spec drift", "description": "The spec, the tasks and the tests no longer describe the same system: references to removed ids, behavior nobody specified." }
+]

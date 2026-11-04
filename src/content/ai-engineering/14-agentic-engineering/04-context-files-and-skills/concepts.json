@@ -1,0 +1,8 @@
+[
+  { "term": "Context file", "description": "Markdown a coding agent reads before every session (`AGENTS.md`, `CLAUDE.md`): commands, conventions and rules for the folder it lives in." },
+  { "term": "Nearest file wins", "description": "In a monorepo the root file and every file on the path to the edited code apply; the deepest one is read last and takes precedence." },
+  { "term": "Agent Skill", "description": "A folder with a `SKILL.md` (name, description, instructions) and optional scripts and references, loaded only when a task needs it." },
+  { "term": "Progressive disclosure", "description": "Metadata of every skill always in context, the body only when selected, bundled files only when the body points to them." },
+  { "term": "Skill index", "description": "The list of skill names and descriptions in the system context, so the model knows what it can ask for." },
+  { "term": "Context budget", "description": "The tokens you allow for instructions. Always-on context must fit; skills compete for the rest." }
+]
