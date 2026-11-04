@@ -3,8 +3,8 @@
   "summary": "Write a provider-agnostic complete() over messages, finish reasons and usage: truncated and refused answers as outcomes the caller must see, plus a streaming variant.",
   "level": "beginner",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Anthropic: Messages API", "url": "https://docs.claude.com/en/api/messages" },
     { "label": "OpenAI: Streaming API responses", "url": "https://platform.openai.com/docs/guides/streaming-responses" },

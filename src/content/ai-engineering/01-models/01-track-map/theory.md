@@ -45,7 +45,7 @@ What the fake model cannot do is judge quality. That is exactly why module 10 te
 
 ## Multi-language challenges
 
-The track is not tied to one language. Theory, quizzes and challenge contracts are shared; the code lives in one variant per language. Today every challenge ships a **Node.js (TypeScript)** variant; **Python** variants will arrive with the Python engine. A lesson passed in one language counts as complete, and each language you pass gets its own check mark.
+The track is not tied to one language. Theory, quizzes and challenge contracts are shared; the code lives in one variant per language. Every challenge ships a **Node.js (TypeScript)** variant, and **Python** variants (real CPython running in your browser through Pyodide) are being added lesson by lesson: when a lesson has both, a switch in the editor toolbar picks the language. A lesson passed in one language counts as complete, and each language you pass gets its own check mark.
 
 ## Reading the labels
 
