@@ -70,10 +70,10 @@ Write `meta.json` last in every lesson. Update `CURRICULUM.md` in the same chang
 | MVP (modules 01–04, 36 lessons) | Written, cross-reviewed, verified, browser-checked |
 | Core (modules 05–08, 29 lessons) | Written, cross-reviewed, verified, browser-checked |
 | Advanced (modules 09–12, 29 lessons, capstone) | Written, cross-reviewed, verified, browser-checked |
-| Release | Pending the product owner: `TRACK_FLAGS.python` is still `false`; G4 asks for one learner session outside the team before enabling it |
+| Release | Released in November 2026: `TRACK_FLAGS.python` is `true`. The product owner released without the G4 learner session outside the team; run that session and feed its findings into the v2 backlog |
 | v2 backlog | Not started (deferred lessons and module 13 Pydantic, see 03-curriculum.md) |
 
-All 94 planned lessons are on `feat/python-track`; `npm run verify` passes with every Python lesson's solution green and every starter failing at least one test.
+All 94 planned lessons are on `main`; `npm run verify` passes with every Python lesson's solution green and every starter failing at least one test.
 
 ## Departures from the NotebookLM draft
 

@@ -2,7 +2,7 @@
 
 Product view of the track: why it exists, how we know it works, in what order the remaining modules ship, who can write what in parallel, and where the MVP cut line sits. Lesson contracts live in [03-curriculum.md](03-curriculum.md) and the per-module specs (04–08); this file never restates them.
 
-Status as of November 2026: milestones M0–M5 are complete. All 94 lessons of modules 01–12 (including the capstone) are written, cross-reviewed, verified and browser-checked on `feat/python-track`; the track stays behind `TRACK_FLAGS.python = false` until the product owner enables it (G4). M6 (Pydantic) and the v2 backlog are not started.
+Status as of November 2026: milestones M0–M5 are complete. All 94 lessons of modules 01–12 (including the capstone) are written, cross-reviewed, verified and browser-checked and released on `main` with `TRACK_FLAGS.python = true` (the product owner skipped the G4 learner session; schedule it after release). M6 (Pydantic) and the v2 backlog are not started.
 
 ## Learner value
 
