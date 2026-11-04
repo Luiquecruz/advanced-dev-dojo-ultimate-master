@@ -47,6 +47,8 @@ def retry(
 
         return wrapper
 
-    if function is not None:
-        return decorator(function)
-    return decorator
+    if function is None:
+        return decorator
+    if not callable(function):
+        raise TypeError("retry settings are keyword-only: use @retry(times=...)")
+    return decorator(function)

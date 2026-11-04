@@ -1,41 +1,46 @@
 [
   {
     "question": "The stack is `cached` → `measured` → `retried` → `call`, outermost first. A cache hit happens. How many metrics samples are recorded?",
-    "options": ["One", "One per retry attempt", "Zero", "Two"],
-    "answer": 2,
+    "options": [
+      "One",
+      "One per retry attempt",
+      "Two",
+      "Zero"
+    ],
+    "answer": 3,
     "explanation": "`cached` is outermost and returns the stored value without calling anything inside it, `measured` included."
   },
   {
     "question": "`measured` is moved inside `retried`. A call fails twice and succeeds on the third attempt. What do the metrics show?",
     "options": [
       "One sample with the total time",
-      "Three samples: two failures and one success",
       "No samples",
+      "Three samples: two failures and one success",
       "One failed sample"
     ],
-    "answer": 1,
+    "answer": 2,
     "explanation": "Each attempt now passes through `measured`, so dashboards count attempts instead of client calls."
   },
   {
     "question": "Why should `authenticated` refresh at most once per call instead of looping until the call succeeds?",
     "options": [
-      "A broken token source would otherwise trigger endless refreshes, a storm against the auth server",
       "`refresh()` can only be called once per process",
+      "A broken token source would otherwise trigger endless refreshes, a storm against the auth server",
       "Python limits recursion in decorators",
       "Retries belong only in `cached`"
     ],
-    "answer": 0,
+    "answer": 1,
     "explanation": "One refresh handles the normal expiry case. A second `AuthExpired` signals a real problem and must surface to the caller."
   },
   {
     "question": "`cached` keeps its entries in a module-level `_CACHE = {}`. Two clients are built for different services. What goes wrong?",
     "options": [
-      "Nothing, the keys differ by service automatically",
+      "A call on one client can return the other client's cached result for the same arguments",
       "Python raises `RuntimeError` on shared dicts",
       "Only the first client caches",
-      "A call on one client can return the other client's cached result for the same arguments"
+      "Nothing, the keys differ by service automatically"
     ],
-    "answer": 3,
+    "answer": 0,
     "explanation": "The module dict is shared by every wrapper the factory creates. Injecting `store` gives each client its own cache."
   }
 ]

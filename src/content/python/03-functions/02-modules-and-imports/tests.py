@@ -23,11 +23,11 @@ def imported_modules(text):
     return found
 
 
-@test("current_level sees a level changed through config.set_level")
+@test("current_level sees a level rebound on the config module after import")
 def _():
     config = modules["config.py"]
     before = mod.current_level()
-    config.set_level("debug")
+    config.LEVEL = "debug"
     after = mod.current_level()
     assert before == "info"
     assert after == "debug"
@@ -43,11 +43,16 @@ def _():
 def _():
     first = importlib.import_module("registry")
     again = importlib.import_module("registry")
+    main_again = importlib.import_module("main")
     cached = sys.modules["registry"]
     assert first is again
     assert again is cached
+    assert main_again is mod
+    mod.handlers()
     names = mod.handlers()
     assert names == ["ping", "health"]
+    count = len(cached.HANDLERS)
+    assert count == 2
 
 
 @test("the script block is guarded and does not run on import")

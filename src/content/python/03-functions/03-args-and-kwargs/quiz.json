@@ -3,22 +3,22 @@
     "question": "What does `def f(*args, **kwargs): return args, kwargs` return for `f(1, [2], x=3)`?",
     "options": [
       "`([1, [2]], {'x': 3})`",
-      "`((1, [2]), {'x': 3})`",
+      "`((1, [2], 3), {})`",
       "`((1, 2), {'x': 3})`",
-      "`((1, [2], 3), {})`"
+      "`((1, [2]), {'x': 3})`"
     ],
-    "answer": 1,
+    "answer": 3,
     "explanation": "Extra positional arguments are collected into a tuple (the list stays one element) and extra keyword arguments into a dict."
   },
   {
     "question": "A wrapper calls `target(args, kwargs)` with `args == (1, 2)` and `kwargs == {'x': 3}`. What does `target` receive?",
     "options": [
-      "`1, 2, x=3`",
-      "Nothing: it raises `SyntaxError`",
       "Two positional arguments: the tuple and the dict",
+      "Nothing: it raises `SyntaxError`",
+      "`1, 2, x=3`",
       "One positional argument, a merged dict"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "Without `*` and `**` at the call site, the tuple and the dict are passed as ordinary values. Forwarding needs `target(*args, **kwargs)`."
   },
   {
@@ -26,21 +26,21 @@
     "options": [
       "Into `kwargs`",
       "Into `args`",
-      "It raises `TypeError`",
-      "Into the `attempts` parameter, so `kwargs == {'timeout': 2}`"
+      "Into the `attempts` parameter, so `kwargs == {'timeout': 2}`",
+      "It raises `TypeError`"
     ],
-    "answer": 3,
+    "answer": 2,
     "explanation": "Keyword arguments first match named parameters. Only names with no matching parameter are collected into `**kwargs`."
   },
   {
     "question": "`def wrap(function, **kwargs)` is called as `wrap(task, function='x')`. What happens?",
     "options": [
-      "`TypeError: got multiple values for argument 'function'`",
       "`kwargs == {'function': 'x'}`",
+      "`TypeError: got multiple values for argument 'function'`",
       "`function` is rebound to `'x'` silently",
       "`task` is ignored"
     ],
-    "answer": 0,
+    "answer": 1,
     "explanation": "`function` is a positional-or-keyword parameter, so the keyword matches it too. Declaring `def wrap(function, /, **kwargs)` makes it positional-only and frees the name."
   }
 ]

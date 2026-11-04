@@ -29,19 +29,21 @@ console.log(level);      // "debug": live binding
 ```
 
 ```py
-from config import LEVEL, set_level
-set_level("debug")
-print(LEVEL)             # "info": a copy of the reference taken at import
-
+from config import LEVEL
 import config
+
+config.LEVEL = "debug"   # what a CLI entry point or a test fixture does
+print(LEVEL)             # "info": the name still points at the object bound at import
 print(config.LEVEL)      # "debug": looked up on the module each time
 ```
 
 The mistake is assuming `from x import y` is a live view. When a value can change after import, import the module and read the attribute.
 
+Assigning another module's attribute is a normal Python idiom: `logging.raiseExceptions = False`, or pytest's `monkeypatch.setattr(config, "LEVEL", "debug")`. Rebinding a module's own top-level name from a function inside it needs a `global` statement, so code that wants a setter usually keeps **one mutable settings object** and changes it in place (`SETTINGS.level = value`). That object is never rebound, so even `from config import SETTINGS` sees the update.
+
 ## How it works
 
-- `import config` binds the name `config` to the module object. `from config import LEVEL` runs the same import, then copies one attribute into your namespace.
+- `import config` binds the name `config` to the module object. `from config import LEVEL` runs the same import, then binds a new name `LEVEL` in your namespace to the object `config.LEVEL` refers to at that moment.
 - A module's top level is **import-time code**. Registrations, constants and decorators run there, once. Expensive work or I/O at import time slows every importer and runs in tests too.
 - `__name__` is the module's import name (`"config"`), or `"__main__"` for the file Python was started with. `if __name__ == "__main__":` keeps script-only code from running on import.
 
@@ -63,7 +65,8 @@ Whether it fails depends on which module is imported first, so a cycle can pass 
 
 ## When to choose it
 
-- **`import module` and `module.NAME`** for anything that can change after import: configuration, feature flags, objects tests replace.
+- **`import module` and `module.NAME`** for anything that can be rebound after import: configuration, feature flags, objects tests replace.
+- **One mutable settings object** changed in place when the module itself must offer a setter.
 - **`from module import name`** for functions, classes and true constants. It reads better and the binding never needs to change.
 - **Import-time registration** for plugins and handlers, with the registry owned by the module that the plugins import, never by the application module.
 - **Avoid** heavy work at import time; put it in a function the caller runs.

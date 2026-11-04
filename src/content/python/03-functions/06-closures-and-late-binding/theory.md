@@ -27,7 +27,7 @@ for (const name of ["ada", "linus"]) {
 handlers.map((handler) => handler());   // ["hello ada", "hello linus"]
 ```
 
-Python loops and comprehensions behave like `var`. The loop variable is **one** variable of the enclosing scope, rebound on each iteration. Every lambda closes over that same variable and reads it when called, after the loop has finished:
+Python loops and comprehensions behave like `var`. A `for` loop variable is **one** variable of the enclosing scope, and a comprehension variable is one variable of the comprehension's own scope; either way it is rebound on each iteration, never created anew. Every lambda closes over that same variable and reads it when called, after the loop has finished:
 
 ```py
 handlers = [lambda: f"hello {name}" for name in ["ada", "linus"]]

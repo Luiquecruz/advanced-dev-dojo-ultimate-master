@@ -52,12 +52,14 @@ def retry(function=None, /, *, times=3, exceptions=(Exception,)):
             ...
         return wrapper
 
-    if function is not None:     # used bare: @retry
-        return decorator(function)
-    return decorator             # used with settings: @retry(times=2)
+    if function is None:         # used with settings: @retry(times=2)
+        return decorator
+    if not callable(function):   # @retry(5): a setting passed by position
+        raise TypeError("retry settings are keyword-only: use @retry(times=5)")
+    return decorator(function)   # used bare: @retry
 ```
 
-Because the settings are keyword-only, `@retry(5)` fails loudly instead of being mistaken for a function.
+Keyword-only settings mean the only positional argument is the function, so `function is None` tells the two forms apart. They do not stop a caller from writing `@retry(5)`: the `5` still binds to `function`, and without the `callable` check it would be wrapped as if it were the function and fail later with a confusing `'int' object is not callable`.
 
 ### State per decorated function
 
@@ -77,5 +79,5 @@ Pitfalls:
 
 - **A factory** when the behavior needs settings: limits, retry counts, cache sizes, permission names.
 - **Bare-or-called support** for library decorators used in many places, where `@retry` with defaults is common.
-- **Keyword-only settings** always, so the two forms can never be confused.
+- **Keyword-only settings** always, plus a `callable` check, so the two forms can never be confused.
 - **An injected clock** for any time-based behavior, and **a plain decorator** when there is nothing to configure.

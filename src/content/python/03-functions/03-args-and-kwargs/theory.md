@@ -54,7 +54,7 @@ Pitfalls:
 
 - `*args` is always a tuple, even when the caller passed a list with `*`.
 - `**kwargs` is a fresh dict per call; changing it does not touch the caller's dict.
-- Keyword names must be strings and valid parameter names of the target, or the target raises `TypeError`.
+- Keys unpacked with `**` must be strings (`TypeError: keywords must be strings`), and a name the target neither declares nor collects in its own `**kwargs` raises `TypeError: unexpected keyword argument`.
 - Re-raising inside a retry loop: keep the last exception and `raise` it after the loop, so the caller sees the real error and its traceback.
 
 ## When to choose it

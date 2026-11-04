@@ -59,16 +59,28 @@ async def _():
     assert fourth == "sent d"
 
 
-@test("each rate-limited function keeps its own window and its metadata")
+@test("functions decorated by the same limiter keep separate windows and their metadata")
 def _():
     clock = FakeClock(0.0)
-    email = make_limited(clock, max_calls=1)
-    sms = make_limited(clock, max_calls=1)
+    limiter = mod.rate_limit(1, 10, clock)
+
+    @limiter
+    def email(message):
+        """Send one email."""
+        return f"email {message}"
+
+    @limiter
+    def sms(message):
+        return f"sms {message}"
+
     email("hi")
     result = sms("hi")
-    assert result == "sent hi"
-    assert email.__name__ == "send"
-    assert email.__doc__ == "Send one message."
+    assert result == "sms hi"
+    separate = make_limited(clock, max_calls=1)
+    other = separate("hi")
+    assert other == "sent hi"
+    assert email.__name__ == "email"
+    assert email.__doc__ == "Send one email."
 
 
 @test("retry retries listed exceptions and re-raises the last one after times attempts")

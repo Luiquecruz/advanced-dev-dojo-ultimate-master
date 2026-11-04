@@ -2,45 +2,45 @@
   {
     "question": "Given `def send(to, /, body, *, retries=0)`, which call is valid?",
     "options": [
-      "`send(to=\"ops\", body=\"hi\")`",
-      "`send(\"ops\", \"hi\", 3)`",
       "`send(\"ops\", body=\"hi\", retries=3)`",
+      "`send(\"ops\", \"hi\", 3)`",
+      "`send(to=\"ops\", body=\"hi\")`",
       "`send(\"ops\")`"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "Everything before `/` is positional-only, so `to` cannot be passed by name. Everything after `*` is keyword-only, so `retries` cannot be passed positionally. `body` is required and accepts either form."
   },
   {
     "question": "With `@outer` written above `@inner` on `def f()`, what does Python build?",
     "options": [
       "`f = inner(outer(f))`",
-      "`f = outer(inner(f))`",
+      "`f = inner(f)`, then `outer` runs once at import time only",
       "`f = outer(f)` and `inner` is ignored",
-      "`f = inner(f)`, then `outer` runs once at import time only"
+      "`f = outer(inner(f))`"
     ],
-    "answer": 1,
+    "answer": 3,
     "explanation": "Decorators apply bottom-up: the one closest to `def` wraps first. At call time the outermost wrapper (`outer`) runs first."
   },
   {
     "question": "What does `double(\"a\")` do for `def double(x: int) -> int: return x * 2`?",
     "options": [
       "Raises `TypeError` because `\"a\"` is not an `int`",
-      "Returns `0`",
+      "Returns `\"aa\"`",
       "Fails at definition time",
-      "Returns `\"aa\"`"
+      "Returns `0`"
     ],
-    "answer": 3,
+    "answer": 1,
     "explanation": "Annotations are metadata for checkers and tools. The interpreter never validates arguments against them, so `\"a\" * 2` runs and returns `\"aa\"`."
   },
   {
-    "question": "`config.py` holds `LEVEL = \"info\"` and `set_level(value)` rebinds it. `main.py` does `from config import LEVEL`. After `config.set_level(\"debug\")`, what does `main.LEVEL` hold?",
+    "question": "`config.py` holds `LEVEL = \"info\"`. `main.py` does `from config import LEVEL`. A test then runs `config.LEVEL = \"debug\"`. What does `main.LEVEL` hold?",
     "options": [
-      "`\"info\"`",
-      "`\"debug\"`",
       "It raises `NameError`",
+      "`\"debug\"`",
+      "`\"info\"`",
       "It depends on the import order"
     ],
-    "answer": 0,
+    "answer": 2,
     "explanation": "`from config import LEVEL` binds a new name in `main` to the object `config.LEVEL` referenced at import time. Rebinding `config.LEVEL` later does not touch that name; reading `config.LEVEL` does."
   }
 ]

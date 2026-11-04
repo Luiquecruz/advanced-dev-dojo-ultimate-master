@@ -24,7 +24,7 @@ connect("db", 5433, ssl=False)   # host is positional-only, ssl keyword-only
 
 ## Coming from TypeScript and JavaScript
 
-- ES module bindings are live; `from config import LEVEL` copies the value once.
+- ES module bindings are live; `from config import LEVEL` binds a new name to the current object once, and later rebinding of `config.LEVEL` is not seen.
 - JS defaults are evaluated per call; Python evaluates them once, so `def f(items=[])` shares one list.
 - A closure in a `for` loop behaves like `var`, not `let`.
 - Options objects become keyword arguments and keyword-only parameters.

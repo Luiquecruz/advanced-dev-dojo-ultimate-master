@@ -1,8 +1,3 @@
-import sys
+"""Process-wide settings. Entry points and tests change them by assigning the attribute: `config.LEVEL = "debug"`."""
 
 LEVEL = "info"
-
-
-def set_level(value: str) -> None:
-    """Rebind LEVEL on this module object, like `config.LEVEL = value` from outside."""
-    setattr(sys.modules[__name__], "LEVEL", value)

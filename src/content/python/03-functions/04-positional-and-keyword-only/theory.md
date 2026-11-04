@@ -62,7 +62,7 @@ Pitfalls:
 
 - A bare `*` must be followed by at least one keyword-only parameter.
 - A positional-only parameter may share its name with a key in `**kwargs`: `def f(name, /, **kwargs)` accepts `f("a", name="b")`.
-- Adding a parameter in the middle of a positional-or-keyword list breaks positional callers; keyword-only parameters can be added anywhere.
+- Adding a parameter in the middle of a positional-or-keyword list breaks positional callers; a new keyword-only parameter **with a default** can go anywhere after `*` without breaking anyone.
 
 ## When to choose it
 
