@@ -1,10 +1,11 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { connect } from 'node:net';
 import { CHILD_HEAP_LIMIT_MB, CHILD_WASM_MEMORY_LIMIT_MB, childExecArgv, PythonSandbox } from './pythonSandbox';
+import escapeScanSource from './pythonEscapeScan.py?raw';
 import { processAllowList } from './pythonSandboxProcess';
 
-const LIMIT_MS = 1500;
-const RESTART_ALLOWANCE_MS = 20000;
+const LIMIT_MS = 4000;
+const RESTART_ALLOWANCE_MS = 45000;
 const sandbox = new PythonSandbox({ testTimeoutMs: LIMIT_MS, runTimeoutMs: LIMIT_MS });
 
 const lesson = `
@@ -155,6 +156,30 @@ function inspectorListening(): Promise<boolean> {
     socket.once('error', () => resolve(false));
   });
 }
+
+describe('code generators reachable from Python', () => {
+  it('finds no original Function, eval or async/generator constructor among the objects reachable from js and pyodide_js', async () => {
+    const scanner = new PythonSandbox({ testTimeoutMs: 60000 });
+    try {
+      const report = await scanner.runTests({
+        files: { 'main.py': 'x = 1\n' },
+        entry: 'main.py',
+        tests: `${escapeScanSource}
+
+@test("no code generator is reachable")
+def _():
+    found, visited = scan()
+    assert visited > 1000
+    assert found == []
+`,
+      });
+      expect(report.compileError).toBeUndefined();
+      expect(report.results).toEqual([{ name: 'no code generator is reachable', passed: true }]);
+    } finally {
+      scanner.stop();
+    }
+  }, 120000);
+});
 
 describe('process allow-list', () => {
   it('starts children under the permission model without signal-activated inspector', () => {

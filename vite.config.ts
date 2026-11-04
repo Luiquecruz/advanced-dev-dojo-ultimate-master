@@ -4,9 +4,10 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 import { contentPlugin } from './plugins/contentPlugin.ts';
 import { pyodidePlugin } from './plugins/pyodidePlugin.ts';
+import { pythonWorkerCspPlugin } from './plugins/pythonWorkerCspPlugin.ts';
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), contentPlugin(), pyodidePlugin()],
+  plugins: [react(), tailwindcss(), contentPlugin(), pyodidePlugin(), pythonWorkerCspPlugin()],
   resolve: {
     alias: [
       { find: /^@\//, replacement: `${resolve(import.meta.dirname, 'src')}/` },
