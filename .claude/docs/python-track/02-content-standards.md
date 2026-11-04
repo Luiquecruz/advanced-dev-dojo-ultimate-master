@@ -33,7 +33,7 @@ src/content/python/<NN-module>/<NN-lesson-id>/
    - `NN-<module>-adr` checkpoint, **only in modules 01, 02, 04, 06, 09 and 10**: briefing, exported `ADR` and `PLAN`, tests for structure and coherence with the briefing.
    - A code integration challenge (practice lesson combining the module's mechanisms) in modules 03 and 05.
    - Nothing special elsewhere: the module ends with its last practice lesson, and the map's `## When to choose it` names the decision.
-4. The capstone (`12-tooling/04-capstone-async-rules-engine`) is a code challenge with a short `adr.py` ([08-module-13-and-capstone.md](08-module-13-and-capstone.md)).
+4. The capstone (`12-tooling/05-capstone-async-rules-engine`) is a code challenge with a short `adr.py` ([08-module-13-and-capstone.md](08-module-13-and-capstone.md)).
 
 ## Theory template
 

@@ -1,6 +1,6 @@
 # Curriculum Map — Python Track
 
-v1 has 12 modules and 94 lessons (approved in [09-governance.md](09-governance.md), November 2026). Module ids are folder names without the numeric prefix. Kinds: **P** practice (theory + challenge, quiz optional), **Q** quiz lesson (theory + 4–6 questions), **A** ADR checkpoint, **C** capstone. Levels: B beginner, I intermediate, Ad advanced, E expert.
+v1 had 12 modules and 94 lessons; v2 adds 9 restored lessons (103) and module 13 after G8 (approved in [09-governance.md](09-governance.md), November 2026). Module ids are folder names without the numeric prefix. Kinds: **P** practice (theory + challenge, quiz optional), **Q** quiz lesson (theory + 4–6 questions), **A** ADR checkpoint, **C** capstone. Levels: B beginner, I intermediate, Ad advanced, E expert.
 
 This table is the source for the `## Python` section of [CURRICULUM.md](../CURRICULUM.md), where each written lesson gets `✓`. `npm run python:curriculum` regenerates that section from the module headings and lesson rows below, and `npm run python:new` reads kind and level from them. Keep both formats exactly: `## NN-module — Title (count)` and `| NN-lesson-id | Kind | Level |`. Detailed per-lesson specs: [04](04-module-01-object-model.md), [05](05-modules-02-to-04.md), [06](06-modules-05-to-08.md), [07](07-modules-09-to-12.md), [08](08-module-13-and-capstone.md). Lessons cut from the 115-lesson plan are kept in the [v2 backlog](#v2-backlog) at the end of this file.
 
@@ -11,6 +11,8 @@ This table is the source for the `## Python` section of [CURRICULUM.md](../CURRI
 | MVP (first release, `TRACK_FLAGS.python` enabled) | 01–04 | 36 | G4 |
 | Core | 01–08 | 65 | G5 |
 | Advanced | 09–12 including the capstone | 29 | G7 |
+| v2 restored lessons | 03, 05, 07, 08, 11, 12 | 9 | product owner decision (November 2026): the 9 deferred lessons come back, held to the same quality bar |
+| v2 module 13 (Pydantic) | 13 | 7 | G8 |
 
 ## Progression
 
@@ -50,7 +52,7 @@ ADR checkpoints close modules 01, 02, 04, 06, 09 and 10 only. Modules 03 and 05 
 | 08-text-and-bytes | P | I |
 | 09-collections-adr | A | I |
 
-## 03-functions — Functions, Modules and Callables (10)
+## 03-functions — Functions, Modules and Callables (11)
 
 | Lesson | Kind | Level |
 | --- | --- | --- |
@@ -64,6 +66,7 @@ ADR checkpoints close modules 01, 02, 04, 06, 09 and 10 only. Modules 03 and 05 
 | 08-parameterized-decorators | P | Ad |
 | 09-callables-partial-and-cache | P | I |
 | 10-client-middleware-stack | P | Ad |
+| 11-functions-adr | A | I |
 
 ## 04-classes — Classes, Attributes and Descriptors (9)
 
@@ -79,7 +82,7 @@ ADR checkpoints close modules 01, 02, 04, 06, 09 and 10 only. Modules 03 and 05 
 | 08-inheritance-and-mro | P | Ad |
 | 09-classes-adr | A | Ad |
 
-## 05-iteration — Iterators and Generators (7)
+## 05-iteration — Iterators and Generators (8)
 
 | Lesson | Kind | Level |
 | --- | --- | --- |
@@ -90,6 +93,7 @@ ADR checkpoints close modules 01, 02, 04, 06, 09 and 10 only. Modules 03 and 05 
 | 05-yield-from-and-send | P | Ad |
 | 06-itertools | P | I |
 | 07-lazy-pipelines | P | Ad |
+| 08-iteration-adr | A | I |
 
 ## 06-context-and-errors — Context Managers and Exceptions (9)
 
@@ -105,7 +109,7 @@ ADR checkpoints close modules 01, 02, 04, 06, 09 and 10 only. Modules 03 and 05 
 | 08-exception-groups | P | Ad |
 | 09-context-errors-adr | A | I |
 
-## 07-stdlib — Standard Library in Practice (8)
+## 07-stdlib — Standard Library in Practice (10)
 
 | Lesson | Kind | Level |
 | --- | --- | --- |
@@ -117,8 +121,10 @@ ADR checkpoints close modules 01, 02, 04, 06, 09 and 10 only. Modules 03 and 05 
 | 06-dates-and-times | P | I |
 | 07-enums | P | I |
 | 08-logging | P | I |
+| 09-argparse-and-cli | P | I |
+| 10-stdlib-adr | A | I |
 
-## 08-pattern-matching — Pattern Matching and Control Flow (5)
+## 08-pattern-matching — Pattern Matching and Control Flow (6)
 
 | Lesson | Kind | Level |
 | --- | --- | --- |
@@ -127,6 +133,7 @@ ADR checkpoints close modules 01, 02, 04, 06, 09 and 10 only. Modules 03 and 05 
 | 03-class-patterns | P | I |
 | 04-guards-or-and-capture | P | I |
 | 05-walrus-and-loop-else | P | I |
+| 06-matching-adr | A | I |
 
 ## 09-typing — Type Hints and Static Typing (9)
 
@@ -156,7 +163,7 @@ ADR checkpoints close modules 01, 02, 04, 06, 09 and 10 only. Modules 03 and 05 
 | 08-blocking-threads-and-the-gil | Q | Ad |
 | 09-async-adr | A | Ad |
 
-## 11-metaprogramming — Metaprogramming and Internals (7)
+## 11-metaprogramming — Metaprogramming and Internals (10)
 
 | Lesson | Kind | Level |
 | --- | --- | --- |
@@ -167,45 +174,44 @@ ADR checkpoints close modules 01, 02, 04, 06, 09 and 10 only. Modules 03 and 05 
 | 05-metaclasses | P | E |
 | 06-inspect-and-signatures | P | Ad |
 | 07-import-system-internals | P | Ad |
+| 08-frames-and-tracebacks | P | E |
+| 09-bytecode-and-the-interpreter | Q | E |
+| 10-metaprogramming-adr | A | Ad |
 
-## 12-tooling — Packaging, Testing and Capstone (4)
+## 12-tooling — Packaging, Testing and Capstone (5)
 
 | Lesson | Kind | Level |
 | --- | --- | --- |
 | 01-tooling-map | Q | B |
 | 02-packaging-and-environments | Q | I |
-| 03-testing-with-unittest | P | I |
-| 04-capstone-async-rules-engine | C | Ad |
+| 03-environments-and-venv | P | I |
+| 04-testing-with-unittest | P | I |
+| 05-capstone-async-rules-engine | C | Ad |
 
 ## Totals
 
 | Kind | Count |
 | --- | --- |
-| Practice (P) | 72 |
-| Quiz (Q), including 12 maps | 15 |
-| ADR (A) | 6 |
+| Practice (P) | 75 |
+| Quiz (Q), including 12 maps | 16 |
+| ADR (A) | 11 |
 | Capstone (C) | 1 |
-| Total | 94 |
+| Total | 103 |
 
-Module sizes: 8, 9, 10, 9, 7, 9, 8, 5, 9, 9, 7, 4. Recompute these counts from the tables whenever a row changes.
+Module sizes: 8, 9, 11, 9, 8, 9, 10, 6, 9, 9, 10, 5. Recompute these counts from the tables whenever a row changes.
 
 ## v2 backlog
 
 Lessons from the 115-lesson plan that are not in v1. They are deferred, not dropped: each keeps its spec in the module files (marked **v2 backlog**) and returns through a normal plan change once v1 ships. Folder numbers are those of the 115-lesson plan. This section uses `Module / lesson` paths on purpose, so the curriculum scripts never read these rows as planned lessons.
 
+### Restored in v2
+
+The product owner brought back the 9 deferred lessons of modules 03, 05, 07, 08, 11 and 12 (November 2026). They are planned in the module tables above with new folder numbers (the ADRs close their modules; `12-tooling` was renumbered so the capstone stays last). The reasons they had been deferred are now quality requirements: every ADR has a computed field tied to a real decision, the frames lesson asserts names and relationships only, the bytecode lesson is theory and quiz with dated facts and no `dis` asserts, and the venv and argparse lessons test real mechanisms (`main(argv)`, PATH resolution, `pyvenv.cfg` parsing).
+
 ### Deferred
 
 | Module / lesson (115 plan) | Kind | Level | Why deferred |
 | --- | --- | --- | --- |
-| 03-functions/10-functions-adr | A | I | ADRs only where a real architectural decision exists. Its briefing (cross-cutting SDK behavior) becomes the code challenge `10-client-middleware-stack` |
-| 05-iteration/08-iteration-adr | A | I | Same ADR rule. `07-lazy-pipelines` closes the module as a code integration challenge |
-| 07-stdlib/09-argparse-and-cli | P | I | No `sys.argv` or shell in the sandbox; a pure-function stand-in teaches argparse badly |
-| 07-stdlib/10-stdlib-adr | A | I | "Which library" is a thin decision; the money/time/JSON choices are already tested in the lessons |
-| 08-pattern-matching/06-matching-adr | A | I | Same ADR rule. Dispatch choice is covered by the module 09/10 ADRs and the capstone |
-| 11-metaprogramming/07-frames-and-tracebacks | P | E | Frame lifetime and `f_locals` behavior are CPython details that are unstable to assert in Pyodide |
-| 11-metaprogramming/08-bytecode-and-the-interpreter | Q | E | Conflicts with the no-`dis` rule; facts move every release (specializing interpreter, JIT) |
-| 11-metaprogramming/09-metaprogramming-adr | A | Ad | Same ADR rule. The "lightest hook that works" ladder is taught in the map |
-| 12-tooling/03-environments-and-venv | P | I | The challenge simulated venv with pure functions over fake prefixes; the concepts move to the quiz `02-packaging-and-environments` |
 | 13-validation/01-validation-map | Q | B | Module 13 (Pydantic v2) waits for the packaging spike and gate G8 ([08](08-module-13-and-capstone.md)) |
 | 13-validation/02-basemodel-vs-dataclass | P | I | Module 13, spike pending |
 | 13-validation/03-lax-and-strict-modes | P | I | Module 13, spike pending |
@@ -231,7 +237,7 @@ Lessons from the 115-lesson plan that are not in v1. They are deferred, not drop
 | 12-tooling/08-wheels-and-distribution | Q | 12-tooling/02-packaging-and-environments | Merged quiz |
 | 12-tooling/07-linting-formatting-and-checkers | Q | 12-tooling/01-tooling-map | Absorbed by the map |
 | 12-tooling/05-modules-and-the-import-system | P | 11-metaprogramming/07-import-system-internals | Moved; the beginner side becomes 03-functions/02-modules-and-imports |
-| 12-tooling/06-testing-pytest-and-unittest | Q | 12-tooling/03-testing-with-unittest | Quiz becomes practice: `unittest` runs in Pyodide |
-| 12-tooling/09-capstone-async-rules-engine | C | 12-tooling/04-capstone-async-rules-engine | Code challenge plus a short ADR, coherent numbers |
+| 12-tooling/06-testing-pytest-and-unittest | Q | 12-tooling/04-testing-with-unittest | Quiz becomes practice: `unittest` runs in Pyodide |
+| 12-tooling/09-capstone-async-rules-engine | C | 12-tooling/05-capstone-async-rules-engine | Code challenge plus a short ADR, coherent numbers |
 
 New in v1: `03-functions/02-modules-and-imports` (P, B) and `03-functions/10-client-middleware-stack` (P, Ad).

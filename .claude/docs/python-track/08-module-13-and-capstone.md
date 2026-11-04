@@ -1,6 +1,6 @@
 # Capstone and Module 13 (v2 backlog)
 
-## Capstone — `12-tooling/04-capstone-async-rules-engine`
+## Capstone — `12-tooling/05-capstone-async-rules-engine`
 
 The track's closing lesson: **a code challenge plus a short ADR** (decision D4 in [09-governance.md](09-governance.md)). The learner builds an asynchronous rules engine that runs in Pyodide's asyncio, then records the deployment decision with numbers computed from the briefing. It combines modules 04 (dataclasses), 06 (exception groups, notes), 09 (protocols), 10 (task groups, semaphores, timeouts, queues, cancellation) and 03 (multi-file modules).
 
