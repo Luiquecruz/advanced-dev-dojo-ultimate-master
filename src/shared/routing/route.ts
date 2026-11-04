@@ -43,8 +43,9 @@ export function hrefTo(route: Route): string {
  * Path form of a legacy `#/<track>/<lesson>` URL, or `null` when the URL has no hash route.
  */
 export function legacyHashRedirect(url: Pick<Location, 'hash' | 'search'>, basename: string): string | null {
-  if (!url.hash.startsWith('#/')) {
+  const path = url.hash.slice(1);
+  if (!/^\/(?![/\\])/.test(path)) {
     return null;
   }
-  return `${basename.replace(/\/$/, '')}${url.hash.slice(1)}${url.search}`;
+  return `${basename.replace(/\/$/, '')}${path}${url.search}`;
 }
