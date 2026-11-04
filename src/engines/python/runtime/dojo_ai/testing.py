@@ -2,7 +2,7 @@
 
 import inspect
 
-from pyodide.ffi import JsProxy, create_proxy
+from pyodide.ffi import JsProxy, create_proxy, jsnull
 
 from dojo_ai import _to_js, _to_py
 import _dojo_ai_bridge as _bridge
@@ -26,6 +26,15 @@ class BehaviorContext:
 
     def pick(self, items):
         return items[int(self.random() * len(items))]
+
+
+def _json_value(value):
+    """Converts JSON-like data for the model, keeping nested `None` as JSON `null` instead of dropping the key."""
+    if isinstance(value, dict):
+        return {key: jsnull if item is None else _json_value(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [jsnull if item is None else _json_value(item) for item in value]
+    return value
 
 
 def _without_missing(record):
@@ -115,16 +124,16 @@ class _Respond:
         return _js_respond.text(_to_js(text))
 
     def json(self, value):
-        return _js_respond.json(_to_js(value))
+        return _js_respond.json(_to_js(_json_value(value)))
 
     def malformed_json(self, value=None):
-        return _js_respond.malformedJson(_to_js(value))
+        return _js_respond.malformedJson(_to_js(_json_value(value)))
 
     def tool_call(self, name, arguments=None):
-        return _js_respond.toolCall(name, _to_js(arguments))
+        return _js_respond.toolCall(name, _to_js(_json_value(arguments)))
 
     def tool_calls(self, calls):
-        return _js_respond.toolCalls(_to_js(calls))
+        return _js_respond.toolCalls(_to_js(_json_value(calls)))
 
     def invalid_tool_arguments(self, name):
         return _js_respond.invalidToolArguments(name)

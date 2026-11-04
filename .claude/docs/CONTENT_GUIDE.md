@@ -232,7 +232,7 @@ Functions, parameters and attributes use Python names (`complete_stream`, `on_de
 | `respond.malformedJson`, `toolCall(name, args)`, `failMidStream(text, { afterChunks, status })`, `error(429, { retryAfterMs })` … | `respond.malformed_json`, `tool_call(name, arguments)`, `fail_mid_stream(text, after_chunks=…, status=…)`, `error(429, retry_after_ms=…)` … (every builder, snake_case) |
 | `forEachSeed(count, async (seed) => …)` | `await for_each_seed(count, scenario)` (`scenario()` or `scenario(seed)`, sync or async) |
 
-`fake_model.handle(lambda request, context: …)` receives the request as a dict and a context with `call_index`, `random()` and `pick(items)`; return a `respond` builder, a reply dict (`{"text": …}`) or `None`.
+`respond.json`, `malformed_json`, `tool_call` and `tool_calls` keep nested `None` as JSON `null`; in requests, a key set to `None` counts as unset and is dropped. `fake_model.handle(lambda request, context: …)` receives the request as a dict and a context with `call_index`, `random()` and `pick(items)`; return a `respond` builder, a reply dict (`{"text": …}`) or `None`.
 
 ### Tests (`tests.py`)
 
