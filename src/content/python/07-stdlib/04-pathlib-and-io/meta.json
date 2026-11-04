@@ -1,0 +1,15 @@
+{
+  "title": "pathlib and I/O",
+  "summary": "Paths are objects, and an absolute segment discards everything before it. Build object-store keys, round-trip CSV with an explicit encoding, stream bytes in bounded chunks, and join untrusted names to a base directory without path traversal.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "pathlib: Object-oriented filesystem paths", "url": "https://docs.python.org/3/library/pathlib.html" },
+    { "label": "io: Core tools for working with streams", "url": "https://docs.python.org/3/library/io.html" },
+    { "label": "csv: CSV file reading and writing", "url": "https://docs.python.org/3/library/csv.html" },
+    { "label": "tempfile: Generate temporary files and directories", "url": "https://docs.python.org/3/library/tempfile.html" },
+    { "label": "OWASP: Path Traversal", "url": "https://community.owasp.org/attacks/Path_Traversal" }
+  ]
+}

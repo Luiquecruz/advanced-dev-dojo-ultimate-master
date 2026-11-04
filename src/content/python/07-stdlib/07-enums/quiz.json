@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`class Color(IntEnum): RED = 1` and `class Size(IntEnum): SMALL = 1`. What is `Color.RED == Size.SMALL`?",
+    "options": [
+      "`False`, members of different enums are never equal",
+      "A `TypeError`",
+      "`True`, both compare as the int `1`",
+      "`False`, but `Color.RED == 1` is also `False`"
+    ],
+    "answer": 2,
+    "explanation": "`IntEnum` members are ints, so equality falls back to integer comparison. With plain `Enum`, members are equal only to themselves."
+  },
+  {
+    "question": "`class Permission(Flag)` defines `READ = 1`, `WRITE = 2`, `DELETE = 3`. What is `Permission.DELETE in (Permission.READ | Permission.WRITE)`?",
+    "options": [
+      "`True`: `3` is the union of bits `1` and `2`, so a user with read and write also holds delete",
+      "`False`",
+      "A `ValueError` at class creation",
+      "`None`"
+    ],
+    "answer": 0,
+    "explanation": "Flag membership is a bit test. Consecutive numbers make `DELETE` an alias of `READ | WRITE`; `auto()` in a `Flag` assigns powers of two so every member is its own bit."
+  },
+  {
+    "question": "A `StrEnum` named `Status` defines `_missing_` to compare `value.casefold()` with each member value. What does `Status(\"refunded\")` do when no member matches?",
+    "options": [
+      "Returns `None`",
+      "Returns the string `\"refunded\"`",
+      "Creates a new member `REFUNDED`",
+      "Raises `ValueError`, because `_missing_` returned `None`"
+    ],
+    "answer": 3,
+    "explanation": "`Enum` calls `_missing_` after the normal lookup fails. A member result is returned; `None` makes `Enum` raise `ValueError`, so bad input still fails loudly."
+  },
+  {
+    "question": "With `ADMIN = READ | WRITE | DELETE` defined in a `Flag` class, what does `[member.name for member in Permission.ADMIN]` return?",
+    "options": [
+      "`[\"ADMIN\"]`",
+      "`[\"READ\", \"WRITE\", \"DELETE\"]`: iterating a flag value yields its single-bit members",
+      "`[\"ADMIN\", \"READ\", \"WRITE\", \"DELETE\"]`",
+      "A `TypeError`: flag values are not iterable"
+    ],
+    "answer": 1,
+    "explanation": "Since Python 3.11, iterating a flag value returns the non-alias members it contains, in definition order. Aliases such as `ADMIN` are never part of the iteration."
+  }
+]

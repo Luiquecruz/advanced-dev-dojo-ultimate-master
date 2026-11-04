@@ -1,0 +1,8 @@
+[
+  { "term": "Aware datetime", "description": "A `datetime` whose `tzinfo` gives a UTC offset, so it names one instant." },
+  { "term": "Naive datetime", "description": "A `datetime` without offset information: a wall-clock reading that different machines interpret differently." },
+  { "term": "`astimezone` vs `replace(tzinfo=...)`", "description": "`astimezone` converts the same instant to another offset; `replace` keeps the wall clock and changes the instant." },
+  { "term": "`timedelta`", "description": "An exact duration in days, seconds and microseconds; calendar months are not durations." },
+  { "term": "`calendar.monthrange`", "description": "Returns the weekday of the first day and the number of days of a month, used to clamp month arithmetic." },
+  { "term": "Injected clock", "description": "Passing \"now\" (or a function returning it) into code instead of reading the system clock, so results are testable." }
+]

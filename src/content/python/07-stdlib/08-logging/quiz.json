@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A function `setup()` runs `logging.getLogger(\"shop\").addHandler(logging.StreamHandler())`, and two modules call it. What does one `logger.info(...)` on `shop` produce, with the level allowing it?",
+    "options": [
+      "One line: the second handler replaces the first",
+      "No line: two handlers cancel out",
+      "An error at the second `addHandler`",
+      "Two identical lines, because the logger is a singleton with two handlers"
+    ],
+    "answer": 3,
+    "explanation": "`getLogger` returns the same logger for the same name, and `addHandler` adds a different handler object each time. Configure once, or remove the handlers you own before adding new ones."
+  },
+  {
+    "question": "A redacting filter is attached with `logging.getLogger(\"shop\").addFilter(redact)`. Code logs a password through `logging.getLogger(\"shop.db\")`, which propagates to the `shop` handler. Is it redacted?",
+    "options": [
+      "Yes, filters apply to the whole subtree",
+      "No: logger filters only see records logged on that logger; attach the filter to the handler",
+      "Only if `shop.db` has its own level",
+      "Yes, but only for `WARNING` and above"
+    ],
+    "answer": 1,
+    "explanation": "During propagation, records go straight to ancestor handlers; neither the level nor the filters of ancestor loggers are consulted. Handler filters run for every record the handler emits."
+  },
+  {
+    "question": "What does `logger.info(\"user\", extra={\"name\": \"ada\"})` do?",
+    "options": [
+      "Raises `KeyError`, because `name` is already a `LogRecord` attribute (the logger name)",
+      "Logs with `record.name == \"ada\"`",
+      "Ignores the `extra` dict",
+      "Logs `user ada`"
+    ],
+    "answer": 0,
+    "explanation": "`extra` keys become record attributes, and keys the record already uses (`name`, `msg`, `args`, `message`, `asctime`...) are refused. Nesting fields under one key avoids the clash."
+  },
+  {
+    "question": "A login handler runs `logger.warning(\"failed login for %s\", username)` and the username is `\"bob\\nINFO auth admin logged in\"`. With a plain `Formatter`, what appears in the log file?",
+    "options": [
+      "An error, because `%s` refuses newlines",
+      "The username with the newline removed",
+      "Two lines, the second one forged to look like a real event",
+      "Nothing, because the record is filtered"
+    ],
+    "answer": 2,
+    "explanation": "Formatting inserts the text as is, line break included. Escape `\\r` and `\\n` in the formatter or write one JSON object per line so attacker text cannot start a new record."
+  }
+]

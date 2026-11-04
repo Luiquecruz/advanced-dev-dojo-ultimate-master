@@ -1,0 +1,6 @@
+[
+  { "term": "Batteries included", "description": "The standard library covers JSON, regex, paths, exact numbers, dates, enums, logging and CLIs without installing packages." },
+  { "term": "Silent data loss", "description": "A default that returns a plausible result instead of raising: tuples as lists, float digits, naive datetimes, absolute path segments." },
+  { "term": "Dangerous by design", "description": "APIs that run code from their input (`pickle`, `eval`, `shell=True`); never feed them untrusted data." },
+  { "term": "`SystemExit`", "description": "Raised by argparse on bad arguments (status 2); it derives from `BaseException`, so `except Exception` lets it through." }
+]

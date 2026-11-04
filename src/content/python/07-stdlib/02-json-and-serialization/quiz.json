@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A partner team posts a payload to your service. Which call is safe to run on the request body?",
+    "options": [
+      "`json.loads(body)` after checking the body size",
+      "`pickle.loads(body)`, because it restores the original Python types",
+      "`eval(body)`, because the payload looks like a Python dict",
+      "`pickle.loads(body)` inside `try/except Exception`"
+    ],
+    "answer": 0,
+    "explanation": "Decoding JSON only builds plain values. Unpickling can call any importable function the sender names through `__reduce__`, and the call happens before any `except` can help. `eval` runs arbitrary expressions."
+  },
+  {
+    "question": "What does `json.loads(json.dumps({1: (2, 3)}))` return?",
+    "options": [
+      "`{1: (2, 3)}`",
+      "A `TypeError`, because tuples are not JSON",
+      "`{\"1\": [2, 3]}`",
+      "`{1: [2, 3]}`"
+    ],
+    "answer": 2,
+    "explanation": "JSON objects only have string keys, so `1` is written as `\"1\"`, and JSON has one array type, so the tuple comes back as a list. The round trip is lossy without raising."
+  },
+  {
+    "question": "A Python service sends `json.dumps({\"ratio\": float(\"nan\")})` to a JavaScript client. What happens?",
+    "options": [
+      "The client receives `{\"ratio\":null}`",
+      "`json.dumps` raises `ValueError`",
+      "The client receives a string `\"NaN\"`",
+      "Python writes `{\"ratio\": NaN}`, which `JSON.parse` rejects as invalid JSON"
+    ],
+    "answer": 3,
+    "explanation": "`allow_nan` defaults to `True`, so Python writes the `NaN` literal that the JSON standard does not allow. Pass `allow_nan=False` to fail at the sender instead of at every consumer."
+  },
+  {
+    "question": "An encoder's `default` ends with `return str(o)` instead of `super().default(o)`. A teammate then serializes a `set` of tags. What is the result?",
+    "options": [
+      "A JSON array of the tags",
+      "A string such as `\"{'b', 'a'}\"` that no consumer can parse back into tags",
+      "A `TypeError` naming the set",
+      "An empty object `{}`"
+    ],
+    "answer": 1,
+    "explanation": "`default` receives every unknown object, so the `str()` fallback silently turns bugs into strings in the contract. Deferring to `super().default(o)` raises `TypeError` and makes the missing case visible."
+  }
+]

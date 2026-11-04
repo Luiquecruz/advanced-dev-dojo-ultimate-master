@@ -1,0 +1,14 @@
+{
+  "title": "Numbers: Decimal and Fractions",
+  "summary": "Floats approximate, round() breaks ties to even and // floors. Split a bill in integer cents that always add up, round money half up with Decimal built from text, parse exact ratios with Fraction, and cap the length of untrusted number text.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "decimal: Decimal fixed-point and floating-point arithmetic", "url": "https://docs.python.org/3/library/decimal.html" },
+    { "label": "fractions: Rational numbers", "url": "https://docs.python.org/3/library/fractions.html" },
+    { "label": "Floating-Point Arithmetic: Issues and Limitations", "url": "https://docs.python.org/3/tutorial/floatingpoint.html" },
+    { "label": "Integer string conversion length limitation", "url": "https://docs.python.org/3/builtins/stdtypes.html#int-max-str-digits" }
+  ]
+}

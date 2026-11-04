@@ -1,0 +1,13 @@
+{
+  "title": "Enums",
+  "summary": "Enum members are singletons, StrEnum and IntEnum mix in str and int, and Flag members are bits. Parse statuses case-insensitively through _missing_ into the member itself, model permissions as a Flag, list a flag's members, and choose the base class that keeps severities apart from plain ints.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "enum: Support for enumerations", "url": "https://docs.python.org/3/library/enum.html" },
+    { "label": "Enum HOWTO", "url": "https://docs.python.org/3/howto/enum.html" },
+    { "label": "Enum._missing_", "url": "https://docs.python.org/3/library/enum.html#enum.Enum._missing_" }
+  ]
+}
