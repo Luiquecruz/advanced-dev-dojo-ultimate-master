@@ -79,6 +79,7 @@ async function start(snapshot: Uint8Array | undefined): Promise<PythonEngine> {
     ...(snapshot ? { _loadSnapshot: snapshot } : {}),
   });
   const engine = createPythonEngine(pyodide);
+  pyodide.runPython('import os\nos.urandom(1)');
   lockDown(pyodide);
   return engine;
 }

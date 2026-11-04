@@ -40,7 +40,7 @@ PASS = works as in CPython. LIMITED = runs, with a difference that lessons must 
 | `datetime.UTC`, fixed offsets | PASS | | Use. |
 | `logging` | PASS | | Use a `StringIO` handler, `propagate = False`, and **remove handlers in `finally`**: named loggers are interpreter-global and survive between tests and lessons. |
 | `argparse` | PASS | bad args raise `SystemExit(2)`; the usage error goes to **stderr** | Pass `out`/`err` streams or use `contextlib.redirect_stderr`; `capture_output()` only captures stdout. `exit_on_error=False` also works. |
-| `pathlib` on `/tmp`, `tempfile` | PASS | in-memory FS; `cwd` is `/home/pyodide`; `/tmp` persists for the whole suite | Use `tempfile.TemporaryDirectory()` or `/tmp/dojo-<unique>` plus cleanup. Never write relative paths (they land in `/home/pyodide`). |
+| `pathlib` on `/tmp`, `tempfile` | PASS (see §10: broken in verify between d15e4b6 and the §10 fix) | in-memory FS; `cwd` is `/home/pyodide`; `/tmp` persists for the whole suite | Use `tempfile.TemporaryDirectory()` or `/tmp/dojo-<unique>` plus cleanup. Never write relative paths (they land in `/home/pyodide`). |
 | `json`, `re`, `unicodedata` | PASS | | Use. |
 | `weakref` / `gc` | PASS | refcount frees immediately; cycle freed by `gc.collect()` (returned 1) | Use; call `gc.collect()` before asserting on cyclic garbage. |
 | `tracemalloc` | PASS | | Assert relations (`peak >= current`, "grew"), never byte counts. |
@@ -263,3 +263,9 @@ Not covered: a memory cap for the browser worker (browsers expose no wasm memory
 Production hosting requirement (also in CONTENT_GUIDE.md "Python engine"): send `Content-Security-Policy: default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'` with `assets/python.worker-*.js`, and never add `'unsafe-eval'`.
 
 Browser check after the fix (Chromium, `npm run dev` on the branch): the escape scan finds nothing, `_api.tests` is gone, code generation and storage file systems are refused, `while True: pass` fails only its test, and the AI Engineering "Calling a Model" Python variant grades the starter 0/6 and the pasted solution "All tests passed", with the Run demo ending in `Process exited with code 0`. No CSP violation was reported during these runs.
+
+## 10. Entropy after lock-down (2026-11-04)
+
+Reported by the module 07 author: in verify, `os.urandom` (and so `tempfile.mkdtemp`, `uuid.uuid4`, `secrets`, an unseeded `random.Random()`) killed the child with `Importing "node:crypto" is not allowed while lesson code runs`. Emscripten's `getentropy` imports `node:crypto` lazily on first use, which happened after `registerHooks` blocked imports. Fix: the child calls `os.urandom(1)` once after the harness is installed and before `lockDown`, so `node:crypto` is loaded while imports are still allowed. Regression test: `pythonSandbox.test.ts` "runs os.urandom, secrets, uuid4, tempfile and an unseeded Random after lock-down" (fails without the fix with exactly that error). The browser worker is not affected (its `getentropy` uses `crypto.getRandomValues`), but this was not re-checked in a browser.
+
+While verifying this fix, three sandbox tests failed only when other worktrees ran verify at the same time: every worktree that symlinks the main `node_modules` wrote its own bundle to the same `node_modules/.cache/dojo-python-sandbox/python-sandbox-child.mjs`, so a run could fork another branch's child (here an older lock-down without the code-generation block). The child bundle is now named by content hash (`python-sandbox-child-<sha256 prefix>.mjs`) and the permission flag grants read access to that exact file; two full runs of the four suites then passed 1245/1245 while other agents were running verify.

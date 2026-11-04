@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { type ChildProcess, fork } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, realpathSync, renameSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -52,11 +53,13 @@ const CACHE_DIRECTORY = join(realpathSync(join(PROJECT_ROOT, 'node_modules')), '
 const PYODIDE_DIRECTORY = realpathSync(dirname(createRequire(import.meta.url).resolve('pyodide/package.json')));
 
 let childScript: Promise<string> | undefined;
+let childScriptPath: string | undefined;
 let snapshot: Promise<Uint8Array | undefined> | undefined;
 
 /**
  * Bundles the child entry (TypeScript, `?raw` runtime files) into one ES module that imports Pyodide by absolute path,
- * so the child needs read access to nothing but that file and `node_modules/pyodide`.
+ * so the child needs read access to nothing but that file and `node_modules/pyodide`. The file is named by content hash, because
+ * worktrees that share one `node_modules` would otherwise run each other's child.
  */
 function bundleChild(): Promise<string> {
   childScript ??= (async () => {
@@ -78,12 +81,13 @@ function bundleChild(): Promise<string> {
       throw new Error('The Python sandbox child bundle does not import pyodide as expected.');
     }
     mkdirSync(CACHE_DIRECTORY, { recursive: true });
-    const path = join(CACHE_DIRECTORY, 'python-sandbox-child.mjs');
+    const path = join(CACHE_DIRECTORY, `python-sandbox-child-${createHash('sha256').update(code).digest('hex').slice(0, 16)}.mjs`);
     if (!existsSync(path) || readFileSync(path, 'utf8') !== code) {
       const temporary = `${path}.${process.pid}.tmp`;
       writeFileSync(temporary, code);
       renameSync(temporary, path);
     }
+    childScriptPath = path;
     return path;
   })();
   return childScript;
@@ -381,7 +385,10 @@ export class PythonSandbox {
 }
 
 function readyScriptPath(): string {
-  return join(CACHE_DIRECTORY, 'python-sandbox-child.mjs');
+  if (!childScriptPath) {
+    throw new Error('The Python sandbox child has not been bundled yet.');
+  }
+  return childScriptPath;
 }
 
 /**

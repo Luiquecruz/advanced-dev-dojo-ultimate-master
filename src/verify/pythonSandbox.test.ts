@@ -237,6 +237,29 @@ def _():
   });
 });
 
+describe('standard library that needs host entropy', () => {
+  it('runs os.urandom, secrets, uuid4, tempfile and an unseeded Random after lock-down', async () => {
+    const report = await grade(`
+import os
+import random
+import secrets
+import tempfile
+import uuid
+
+@test("entropy sources work")
+def _():
+    assert len(os.urandom(8)) == 8
+    assert len(secrets.token_hex(4)) == 8
+    assert uuid.uuid4().version == 4
+    assert 0 <= random.Random().random() < 1
+    directory = tempfile.mkdtemp()
+    assert os.path.isdir(directory)
+`);
+    expect(report.compileError).toBeUndefined();
+    expect(report.results).toEqual([{ name: 'entropy sources work', passed: true }]);
+  });
+});
+
 describe('interpreter state between tests', () => {
   it('uses a fixed string hash seed', async () => {
     const report = await grade('import sys\n\n@test("seed")\ndef _():\n    assert sys.flags.hash_randomization == 0');
