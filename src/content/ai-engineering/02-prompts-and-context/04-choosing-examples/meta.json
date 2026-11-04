@@ -3,8 +3,8 @@
   "summary": "Pick few-shot examples per request from a labeled pool: rank by embedding similarity, skip weak matches and near-duplicates, cap by count and tokens, and put the most similar example closest to the question.",
   "level": "beginner",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Language Models are Few-Shot Learners (paper)", "url": "https://arxiv.org/abs/2005.14165" },
     { "label": "What Makes Good In-Context Examples for GPT-3? (paper)", "url": "https://arxiv.org/abs/2101.06804" },

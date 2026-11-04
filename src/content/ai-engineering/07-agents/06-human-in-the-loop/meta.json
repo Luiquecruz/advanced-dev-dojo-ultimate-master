@@ -3,8 +3,8 @@
   "summary": "Gate risky tools by tool and by arguments, interrupt before acting with the run's state as plain JSON, and resume later with approve, deny or edit so every tool call gets exactly one result.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "LangGraph: Interrupts", "url": "https://docs.langchain.com/oss/javascript/langgraph/interrupts" },
     { "label": "OpenAI Agents SDK (JS): Human-in-the-loop", "url": "https://openai.github.io/openai-agents-js/guides/human-in-the-loop/" },

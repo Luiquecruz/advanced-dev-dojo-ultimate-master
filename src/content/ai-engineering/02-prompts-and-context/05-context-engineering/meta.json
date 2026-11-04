@@ -3,8 +3,8 @@
   "summary": "Build the context of a call under a token budget: reserve the output, pin the system prompt and the question, select and compress documents, fill by priority, drop old turns without gaps, and report what the model saw.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Anthropic: Effective context engineering for AI agents", "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" },
     { "label": "LangChain: Context engineering for agents", "url": "https://blog.langchain.com/context-engineering-for-agents/" },

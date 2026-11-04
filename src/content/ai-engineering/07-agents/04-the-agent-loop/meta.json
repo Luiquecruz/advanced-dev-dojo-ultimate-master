@@ -3,8 +3,8 @@
   "summary": "Build the loop every agent runs: call the model with tools, execute its tool calls, append results by call id, stop on a final answer, a refusal or the step limit, and survive unknown tools, broken arguments and failing tools.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "ReAct: Synergizing Reasoning and Acting in Language Models (paper)", "url": "https://arxiv.org/abs/2210.03629" },
     { "label": "Anthropic: Building effective agents", "url": "https://www.anthropic.com/engineering/building-effective-agents" },

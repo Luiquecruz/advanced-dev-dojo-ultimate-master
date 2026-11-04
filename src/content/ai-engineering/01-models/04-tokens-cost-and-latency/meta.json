@@ -3,8 +3,8 @@
   "summary": "Estimate the worst-case cost of a call with a safety margin for tokenizer drift, enforce per-request and per-session budgets before sending, record the provider's usage and measure latency with an injected clock.",
   "level": "beginner",
   "tags": ["established", "core", "practice", "performance"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Anthropic: Token counting", "url": "https://docs.claude.com/en/docs/build-with-claude/token-counting" },
     { "label": "Google Gemini API: Understand and count tokens", "url": "https://ai.google.dev/gemini-api/docs/tokens" },

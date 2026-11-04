@@ -3,8 +3,8 @@
   "summary": "Keep prompts in a versioned registry: templates with strictly rendered variables, immutable versions, tests per prompt that gate promotion, an active version per environment and one-call rollback.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Langfuse: Prompt management", "url": "https://langfuse.com/docs/prompt-management/overview" },
     { "label": "promptfoo: testing prompts in CI", "url": "https://www.promptfoo.dev/docs/intro/" },

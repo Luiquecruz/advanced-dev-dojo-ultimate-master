@@ -3,8 +3,8 @@
   "summary": "Checkpoint an agent run atomically after every step, resume it after a crash from the same run id, and use stable idempotency keys so a side effect interrupted before its checkpoint never happens twice.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Temporal: Workflows", "url": "https://docs.temporal.io/workflows" },
     { "label": "LangGraph: Durable execution", "url": "https://docs.langchain.com/oss/javascript/langgraph/durable-execution" },

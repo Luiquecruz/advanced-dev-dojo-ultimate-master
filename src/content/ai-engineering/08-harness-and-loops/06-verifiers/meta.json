@@ -3,8 +3,8 @@
   "summary": "Checks the agent must pass, ordered from cheap to expensive, with precise failure feedback fed into the next model step, completeness checks, bounded attempts, and schema and example-based verifiers.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Martin Fowler (Birgitta Böckeler): Harness engineering for coding agent users", "url": "https://martinfowler.com/articles/harness-engineering.html" },
     { "label": "Anthropic: Building effective agents (evaluator-optimizer)", "url": "https://www.anthropic.com/engineering/building-effective-agents" },

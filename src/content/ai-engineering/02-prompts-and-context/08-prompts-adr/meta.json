@@ -3,7 +3,7 @@
   "summary": "Close the prompts module with a portfolio ADR: choose the output contract and attempt limit, the example strategy, context caps, prompt layout and cache breakpoint, batch or interactive processing and the release path for a claim-extraction feature.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "adr.ts" },
+  "entry": { "node": "adr.ts", "python": "adr.py" },
   "resources": [
     { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
     { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },

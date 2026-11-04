@@ -3,8 +3,8 @@
   "summary": "Bound the agent loop with step, token, cost and wall-time budgets read from reported usage and an injected clock, detect a stuck agent repeating the same call, and return a structured stop reason with usage totals.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Anthropic: Building effective agents (stopping conditions)", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
     { "label": "Anthropic: How we built our multi-agent research system", "url": "https://www.anthropic.com/engineering/multi-agent-research-system" },

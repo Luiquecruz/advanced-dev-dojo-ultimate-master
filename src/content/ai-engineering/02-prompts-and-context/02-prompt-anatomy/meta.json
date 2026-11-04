@@ -3,8 +3,8 @@
   "summary": "Build prompts from a structured spec: role, constraints and output format in the system message, examples as conversation turns, context, task and input in the final message, and delimiters untrusted input cannot close.",
   "level": "beginner",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Anthropic: Prompt engineering overview", "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview" },
     { "label": "Google Gemini API: Prompt design strategies", "url": "https://ai.google.dev/gemini-api/docs/prompting-strategies" },

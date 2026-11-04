@@ -3,7 +3,7 @@
   "summary": "Close the agents module with a portfolio ADR and agent spec for a refund assistant: pattern from pilot evidence, least-privilege tools, an approval gate, coherent budgets with stuck detection and a human handoff, durability and failure modes.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "adr.ts" },
+  "entry": { "node": "adr.ts", "python": "adr.py" },
   "resources": [
     { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
     { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },

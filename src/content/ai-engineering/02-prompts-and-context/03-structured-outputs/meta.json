@@ -3,8 +3,8 @@
   "summary": "Describe the output with one Zod schema, request schema-constrained JSON, repair mechanical defects locally, re-ask with the located validation error, stop on refusals and give up after a bounded number of attempts.",
   "level": "beginner",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Zod: JSON Schema", "url": "https://zod.dev/json-schema" },
     { "label": "Zod: Formatting errors", "url": "https://zod.dev/error-formatting" },

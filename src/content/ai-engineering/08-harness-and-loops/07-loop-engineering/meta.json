@@ -3,8 +3,8 @@
   "summary": "Run agents from triggers until verified: act, verify, feed back, save state after every iteration, stop on success, stuck output, failure limits or budget, escalate to a human once, and make repeated triggers harmless.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Addy Osmani: Loop Engineering", "url": "https://addyosmani.com/blog/loop-engineering/" },
     { "label": "Geoffrey Huntley: Ralph Wiggum as a software engineer", "url": "https://ghuntley.com/ralph/" },

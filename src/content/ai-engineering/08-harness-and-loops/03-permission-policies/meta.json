@@ -3,8 +3,8 @@
   "summary": "Allow, ask and deny rules over a tool and its main argument: command and path patterns, deny-then-ask-then-allow precedence with the deciding rule, compound commands, path traversal, and failing closed on tool calls you cannot read.",
   "level": "advanced",
   "tags": ["emerging", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Claude Code: Configure permissions", "url": "https://code.claude.com/docs/en/permissions" },
     { "label": "Codex: Sandboxing and approvals", "url": "https://developers.openai.com/codex/concepts/sandboxing" },

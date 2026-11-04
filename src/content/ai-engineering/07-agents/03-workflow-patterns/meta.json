@@ -3,8 +3,8 @@
   "summary": "Build prompt chaining with gates, routing over a closed set with a fallback, parallel sectioning and voting with abstentions, and an evaluator-optimizer with a bounded number of rounds.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Anthropic: Building effective agents", "url": "https://www.anthropic.com/engineering/building-effective-agents" },
     { "label": "LangGraph: Workflows and agents", "url": "https://docs.langchain.com/oss/javascript/langgraph/workflows-agents" },

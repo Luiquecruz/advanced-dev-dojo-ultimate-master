@@ -3,8 +3,8 @@
   "summary": "A path jail over the virtual file system that survives traversal, absolute paths and sibling prefixes, plus a network egress allowlist that sees through IP spellings, localhost tricks and redirects, with refusals returned to the model as tool messages.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
-  "entry": { "node": "main.ts" },
-  "run": { "node": "demo.ts" },
+  "entry": { "node": "main.ts", "python": "main.py" },
+  "run": { "node": "demo.ts", "python": "demo.py" },
   "resources": [
     { "label": "Claude Code: Sandboxing", "url": "https://code.claude.com/docs/en/sandboxing" },
     { "label": "Anthropic: Making Claude Code more secure and autonomous with sandboxing", "url": "https://www.anthropic.com/engineering/claude-code-sandboxing" },
