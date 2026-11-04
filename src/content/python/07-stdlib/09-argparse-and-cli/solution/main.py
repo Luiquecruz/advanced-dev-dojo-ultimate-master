@@ -92,6 +92,8 @@ def main(argv: list[str] | None = None, out: TextIO | None = None, err: TextIO |
         with redirect_stdout(out), redirect_stderr(err):
             args = parser.parse_args(argv)
     except SystemExit as stop:
+        if stop.code is None:
+            return 0
         return stop.code if isinstance(stop.code, int) else 1
     return args.handler(args, out, err)
 
