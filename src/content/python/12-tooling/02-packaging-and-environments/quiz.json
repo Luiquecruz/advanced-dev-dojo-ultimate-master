@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A service is deployed with `pip install -r requirements.txt`, and the file says `httpx>=0.27`. Nothing in the code changed, yet last night's deploy broke. What is the most likely cause, and the fix?",
+    "options": [
+      "pip cached a corrupted wheel; clear the cache",
+      "`requirements.txt` must be renamed to `pyproject.toml`",
+      "The range resolved to a newer release on this build; an application should install from a lockfile with exact pins and hashes",
+      "`>=` is not valid syntax, so pip ignored the line"
+    ],
+    "answer": 2,
+    "explanation": "pip resolves ranges fresh on every install and writes no lockfile. Libraries declare ranges; applications lock (`uv.lock`, `pip-compile --generate-hashes`, `pylock.toml`) and install with `--locked` or `--require-hashes`."
+  },
+  {
+    "question": "`pip install --require-hashes -r requirements.txt` succeeds. What has it guaranteed?",
+    "options": [
+      "Every installed file matches a hash recorded in the file, and every requirement, including transitive ones, was pinned with `==`",
+      "The packages contain no malicious code",
+      "The packages have no known vulnerabilities",
+      "The packages came from PyPI and not from another index"
+    ],
+    "answer": 0,
+    "explanation": "Hash-checking mode fails closed on any unpinned or unhashed requirement and proves you installed exactly the artifacts you locked. It says nothing about whether that code is benign or vulnerable: review new dependencies and run `pip-audit` in CI."
+  },
+  {
+    "question": "A company publishes `acme-auth` on its private index and installs with `pip install --extra-index-url https://pypi.internal/simple acme-auth`. Someone uploads `acme-auth` 99.0 to the public PyPI. What happens?",
+    "options": [
+      "pip always prefers the extra index, so nothing changes",
+      "pip treats both indexes as one pool and installs the highest version, the attacker's 99.0",
+      "pip refuses to install because the name exists twice",
+      "pip installs both and the import system picks the internal one"
+    ],
+    "answer": 1,
+    "explanation": "That is dependency confusion. Use a single index (a proxy that serves internal and mirrored packages), or uv, whose default `first-index` strategy stops at the first index that has the name, with internal packages pinned to an `explicit = true` index."
+  },
+  {
+    "question": "Inside a virtual environment, `sys.prefix` is `/srv/app/.venv`. What is `sys.base_prefix`, and what does activation change?",
+    "options": [
+      "Also `/srv/app/.venv`; activation copies the interpreter",
+      "Empty; activation installs pip",
+      "`/srv/app`; activation changes the working directory",
+      "The prefix of the base Python that created the environment; activation only puts `.venv/bin` first on `PATH`"
+    ],
+    "answer": 3,
+    "explanation": "The venv docs define the test `sys.prefix != sys.base_prefix`. Activation is a convenience: running `.venv/bin/python` directly selects the same `site-packages`."
+  },
+  {
+    "question": "CI publishes to PyPI with a project-scoped API token stored as a secret. What does trusted publishing change?",
+    "options": [
+      "It signs the wheel with the developer's GPG key",
+      "It removes the need to build wheels",
+      "PyPI trusts the CI run's OpenID Connect identity and issues a token that expires in about 15 minutes, so no long-lived secret exists to leak",
+      "It lets any fork of the repository publish"
+    ],
+    "answer": 2,
+    "explanation": "A leaked API token works until someone revokes it. Trusted publishing exchanges a short-lived OIDC identity for a short-lived upload token; PEP 740 attestations can add a signed record of the workflow that built each file."
+  },
+  {
+    "question": "Why do security guides recommend wheels (`--only-binary :all:`) for production installs?",
+    "options": [
+      "Installing an sdist runs its build backend, which is arbitrary code; a wheel is only unpacked",
+      "Wheels are always smaller than sdists",
+      "sdists cannot declare dependencies",
+      "Wheels are verified by PyPI's antivirus"
+    ],
+    "answer": 0,
+    "explanation": "An sdist is built on your machine by whatever `[build-system]` declares, so build-time code runs during install. A wheel is a pre-built archive that the installer copies into `site-packages`."
+  }
+]

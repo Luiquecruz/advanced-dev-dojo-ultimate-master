@@ -331,4 +331,4 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-metaprogramming-map **(quiz)** · 02-init-subclass-registries · 03-dynamic-classes · 04-attribute-hooks · 05-metaclasses · 06-inspect-and-signatures · 07-import-system-internals
 
 ### 12-tooling — Packaging, Testing and Capstone
-01-tooling-map **(quiz)** · 02-packaging-and-environments **(quiz)** · 03-testing-with-unittest · 04-capstone-async-rules-engine
+01-tooling-map **(quiz)** ✓ · 02-packaging-and-environments **(quiz)** ✓ · 03-testing-with-unittest ✓ · 04-capstone-async-rules-engine ✓

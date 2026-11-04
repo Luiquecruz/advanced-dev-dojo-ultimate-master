@@ -1,0 +1,7 @@
+Start the plan from the capacity of one worker, not from the fleet number. Every per-worker limit (calls in flight, queue length, CPU processes) is "rate × time" at 400 events/s; the fleet size comes last, from "lose one worker and still serve 2 000 events/s".
+---
+A failing rule is an expected event, not an exceptional one. Catch `Exception` inside the coroutine that runs one rule, call `error.add_note(f"rule={rule.name}")`, append it to a list and return. If the error reached the `TaskGroup`, it would cancel the other rules and lose their verdicts. Never catch `BaseException`: that is where `CancelledError` lives.
+---
+"Protocol or abc" depends on who writes the rules: outside authors who must not inherit from your package need a structural contract. `isinstance(rule, AsyncRule)` works because both protocols are `@runtime_checkable`; anything that matches neither raises `TypeError` in the `Engine` constructor. Discovery without editing the engine and without a base class leaves one option.
+---
+The deadline wraps the whole group, not each rule: `async with asyncio.timeout(deadline_s):` outside `async with asyncio.TaskGroup() as group:`, and `except TimeoutError` around both. For the shutdown, `Queue.shutdown()` stops `put` and lets `get` empty the queue before raising `QueueShutDown`; awaiting the supervisor task inside `asyncio.timeout(drain_s)` cancels it, and its workers, when the drain overruns.

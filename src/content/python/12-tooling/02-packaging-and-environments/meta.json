@@ -1,0 +1,18 @@
+{
+  "title": "Packaging, Environments and Lockfiles",
+  "summary": "What each table of pyproject.toml is for, what a virtual environment really is, how uv and lockfiles make installs reproducible, and the supply-chain defaults: hashes, a single index, wheels and trusted publishing.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Python Packaging User Guide: pyproject.toml specification", "url": "https://packaging.python.org/en/latest/specifications/pyproject-toml/" },
+    { "label": "Python Packaging User Guide: Dependency groups", "url": "https://packaging.python.org/en/latest/specifications/dependency-groups/" },
+    { "label": "Python Packaging User Guide: pylock.toml specification", "url": "https://packaging.python.org/en/latest/specifications/pylock-toml/" },
+    { "label": "Python Packaging User Guide: Package formats", "url": "https://packaging.python.org/en/latest/discussions/package-formats/" },
+    { "label": "venv: Creation of virtual environments", "url": "https://docs.python.org/3/library/venv.html" },
+    { "label": "pip: Secure installs", "url": "https://pip.pypa.io/en/stable/topics/secure-installs/" },
+    { "label": "uv: Locking and syncing", "url": "https://docs.astral.sh/uv/concepts/projects/sync/" },
+    { "label": "uv: Package indexes", "url": "https://docs.astral.sh/uv/concepts/indexes/" },
+    { "label": "PyPI: Trusted publishers", "url": "https://docs.pypi.org/trusted-publishers/" },
+    { "label": "PEP 751: A file format to record Python dependencies", "url": "https://peps.python.org/pep-0751/" }
+  ]
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "An evaluation uses `done, pending = await asyncio.wait(tasks, timeout=0.15)` and returns a decision built from `done`. What happens to the rules in `pending`?",
+    "options": [
+      "They are cancelled automatically when `wait` returns",
+      "They keep running after the decision, still holding their semaphore slots and connections",
+      "They raise `TimeoutError` inside each rule",
+      "They are paused until the next event reuses them"
+    ],
+    "answer": 1,
+    "explanation": "`asyncio.wait` only reports which tasks finished, like `Promise.race`. Nothing cancels the rest. `asyncio.timeout` around a `TaskGroup` cancels every unfinished task and waits for its cleanup before the code after the block runs."
+  },
+  {
+    "question": "A rule wrapper uses `except BaseException as error: errors.append(error)`. The event hits its deadline while one rule is waiting. What does the evaluation do?",
+    "options": [
+      "It fails with `TypeError: Cannot nest BaseExceptions in an ExceptionGroup` when it builds the group",
+      "It returns a normal decision with `timed_out=True`",
+      "It hangs until the slow rule finishes",
+      "It retries the slow rule once"
+    ],
+    "answer": 0,
+    "explanation": "The deadline cancels the rule task, and `CancelledError` is a `BaseException`, so the wrapper collects it. `ExceptionGroup` only holds `Exception` instances, so building the group raises `TypeError`. Catch `Exception` and let cancellation propagate."
+  },
+  {
+    "question": "One worker runs at 400 events/s; each event makes 36 calls with a mean of 15 ms. How many calls are in flight on average?",
+    "options": [
+      "36",
+      "540",
+      "216",
+      "14 400"
+    ],
+    "answer": 2,
+    "explanation": "Little's law: in flight = arrival rate × time in the system = 400 × 36 calls/s × 0.015 s = 216. 14 400 is the call rate per second, not the concurrency."
+  },
+  {
+    "question": "Outside teams write rules and must not depend on the engine package. Which interface and discovery fit together?",
+    "options": [
+      "A concrete base class and `__init_subclass__` registration",
+      "An `abc.ABC` base class and a hand-maintained list in the engine",
+      "A `Protocol` and a hand-maintained list in the engine",
+      "A `Protocol` and entry points declared by each rule package"
+    ],
+    "answer": 3,
+    "explanation": "A `Protocol` is structural, so a rule never imports or subclasses the engine. `__init_subclass__` needs a base class, and a list in the engine means editing it for every rule; entry points let each distribution announce its rules. Pin and review those packages: any installed distribution can register code."
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`orders.py` contains `from clock import now` and `def stamp(): return now()`. Which patch makes `orders.stamp()` return the fake time?",
+    "options": [
+      "`mock.patch(\"clock.now\", return_value=t)`",
+      "`mock.patch(\"orders.now\", return_value=t)`",
+      "`mock.patch(\"now\", return_value=t)`",
+      "Both of the first two work the same way"
+    ],
+    "answer": 1,
+    "explanation": "`from clock import now` copies the reference into `orders` at import time, and `stamp` looks up `orders.now`. Patching `clock.now` changes an attribute nobody reads here. Patch where the name is looked up."
+  },
+  {
+    "question": "A table test loops over 5 rows without `subTest`, and row 2 fails. What does the report show?",
+    "options": [
+      "Five separate failures",
+      "Nothing: loops are skipped by the runner",
+      "One failure for row 2; rows 3 to 5 never ran",
+      "One failure listing all five rows"
+    ],
+    "answer": 2,
+    "explanation": "The first failing assertion raises and ends the test method. Wrapping each row in `with self.subTest(row=...)` records that failure with its parameters and continues with the next row."
+  },
+  {
+    "question": "Which test notices a bug that changes `if quantity <= 0:` into `if quantity < 0:`?",
+    "options": [
+      "`assertRaises(InvalidQuote)` around `quote(250, 0)`",
+      "`assertRaises(InvalidQuote)` around `quote(250, -1)`",
+      "`assertEqual(quote(250, 4), 1000)`",
+      "Any test, as long as there are at least three"
+    ],
+    "answer": 0,
+    "explanation": "Only an input on the boundary separates the two conditions: `-1` raises in both versions. Mutation testing makes this visible, because the planted bug survives every test that does not sit on the boundary."
+  },
+  {
+    "question": "What does `fetch.side_effect = [ConnectionError(\"down\"), 0.5]` make a mock do?",
+    "options": [
+      "Return the list every time",
+      "Raise `ConnectionError` on the first call and return `0.5` on the second",
+      "Return `0.5` and log the error",
+      "Raise `TypeError`, because `side_effect` must be a function"
+    ],
+    "answer": 1,
+    "explanation": "An iterable `side_effect` yields one item per call, and items that are exceptions are raised. It is how a test exercises a retry: fail once, then succeed."
+  }
+]
