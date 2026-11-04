@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  checks:
+    name: Typecheck, unit tests, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run test
+      - run: npx vite build
+
+  verify:
+    name: Verify ${{ matrix.suite }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+          - structure
+          - typescript
+          - react
+          - react-state
+          - architecture
+          - ai-engineering
+          - node
+          - python
+          - vue
+          - angular
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Run suite
+        env:
+          SUITE: ${{ matrix.suite }}
+        run: |
+          if [ "$SUITE" = "structure" ]; then
+            npx vitest run $(ls src/verify/*.test.ts | grep -v -E '/(typescript|react|react-state|architecture|ai-engineering|node|python|vue|angular)\.test\.ts$')
+          else
+            npx vitest run "src/verify/$SUITE.test.ts"
+          fi
+      - if: matrix.suite == 'structure'
+        run: npm run python:curriculum -- --check
+
+  docs:
+    name: Docs sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Check documents of changed areas
+        env:
+          DOCS_SYNC_BASE: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
+        run: |
+          if [ -z "$DOCS_SYNC_BASE" ] || [ "$DOCS_SYNC_BASE" = "0000000000000000000000000000000000000000" ]; then
+            echo "No base commit to compare against."
+            exit 0
+          fi
+          node .claude/hooks/docs-sync.mjs --check || {
+            echo "::warning title=Docs sync::Changed areas without document updates, see the job log"
+            exit 1
+          }
