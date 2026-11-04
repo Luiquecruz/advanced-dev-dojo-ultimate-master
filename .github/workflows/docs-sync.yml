@@ -1,0 +1,43 @@
+name: Docs sync
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-sync-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docs:
+    name: Docs sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Check documents of changed areas
+        env:
+          DOCS_SYNC_BASE: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
+          DOCS_WAIVED: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'docs:none') }}
+        run: |
+          if [ -z "$DOCS_SYNC_BASE" ] || [ "$DOCS_SYNC_BASE" = "0000000000000000000000000000000000000000" ]; then
+            echo "No base commit to compare against."
+            exit 0
+          fi
+          if node .claude/hooks/docs-sync.mjs --check; then
+            exit 0
+          fi
+          if [ "$DOCS_WAIVED" = "true" ]; then
+            echo "::notice title=Docs sync::Uncovered files above were reviewed: the pull request is labeled docs:none (nothing a document describes changed)."
+            exit 0
+          fi
+          echo "::warning title=Docs sync::Changed areas without document updates, see the job log. If nothing a document describes changed, add the docs:none label."
+          exit 1

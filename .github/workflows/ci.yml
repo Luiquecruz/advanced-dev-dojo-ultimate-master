@@ -65,25 +65,3 @@ jobs:
           fi
       - if: matrix.suite == 'structure'
         run: npm run python:curriculum -- --check
-
-  docs:
-    name: Docs sync
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-      - name: Check documents of changed areas
-        env:
-          DOCS_SYNC_BASE: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
-        run: |
-          if [ -z "$DOCS_SYNC_BASE" ] || [ "$DOCS_SYNC_BASE" = "0000000000000000000000000000000000000000" ]; then
-            echo "No base commit to compare against."
-            exit 0
-          fi
-          node .claude/hooks/docs-sync.mjs --check || {
-            echo "::warning title=Docs sync::Changed areas without document updates, see the job log"
-            exit 1
-          }
