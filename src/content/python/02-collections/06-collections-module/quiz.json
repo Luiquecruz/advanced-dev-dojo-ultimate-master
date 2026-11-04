@@ -1,0 +1,26 @@
+[
+  {
+    "question": "Why prefer `deque.popleft()` over `list.pop(0)` for a queue?",
+    "options": ["It returns the last item", "It is constant time; `pop(0)` shifts every remaining item", "`list` has no `pop`", "`deque` is sorted"],
+    "answer": 1,
+    "explanation": "A list is a contiguous array, so removing the first item moves all the others. A deque is built for both ends."
+  },
+  {
+    "question": "After `counts = Counter(); counts['x']`, what does `list(counts)` contain?",
+    "options": ["`['x']`", "`[]`", "`[0]`", "A KeyError is raised"],
+    "answer": 1,
+    "explanation": "Reading a missing key returns 0 but does not insert it. A `defaultdict` would have inserted it."
+  },
+  {
+    "question": "What happens with `d = defaultdict(list); d['a']` and nothing else?",
+    "options": ["KeyError", "`d` now contains `'a': []`", "`d` stays empty", "`d['a']` is None"],
+    "answer": 1,
+    "explanation": "The factory runs on a missing key and the result is stored, so even a read grows the dict."
+  },
+  {
+    "question": "In `config = ChainMap(a, b)`, where does `config['k'] = 1` write?",
+    "options": ["Into `b`", "Into both", "Into `a`, the first mapping", "Into a new copy"],
+    "answer": 2,
+    "explanation": "Lookups search all mappings, but writes and deletes affect only the first one."
+  }
+]

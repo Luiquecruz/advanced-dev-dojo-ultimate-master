@@ -1,0 +1,7 @@
+[
+  { "term": "Shallow copy", "description": "A new outer container that reuses the same inner objects: `list(x)`, `d.copy()`, `{**d}`, `copy.copy(x)`." },
+  { "term": "Deep copy", "description": "A recursive copy of every nested mutable object: `copy.deepcopy(x)`." },
+  { "term": "Memo", "description": "The table `deepcopy` keeps of already copied objects. It makes cyclic structures copyable and keeps shared references shared inside the copy." },
+  { "term": "Atomic value", "description": "A number, string or `None`. `deepcopy` returns the same object because it cannot change." },
+  { "term": "`__deepcopy__`", "description": "A hook a class can define to control how `copy.deepcopy` copies its instances." }
+]

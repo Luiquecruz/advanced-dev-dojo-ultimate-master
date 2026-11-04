@@ -1,0 +1,7 @@
+[
+  { "term": "Mutable", "description": "An object whose contents can change in place: `list`, `dict`, `set` and most class instances." },
+  { "term": "Immutable", "description": "An object that never changes after creation: `int`, `str`, `tuple`, `frozenset`, `None`. Operations return new objects." },
+  { "term": "Hashable", "description": "Has a stable `__hash__` consistent with `__eq__`. Required for dict keys and set members. Lists, dicts and sets are not hashable." },
+  { "term": "`frozenset`", "description": "An immutable, hashable set. Equality ignores order." },
+  { "term": "Shallow immutability", "description": "A tuple cannot change its slots, but a mutable object stored inside can still change; such a tuple is not hashable." }
+]

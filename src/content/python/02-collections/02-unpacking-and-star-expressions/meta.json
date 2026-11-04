@@ -1,0 +1,13 @@
+{
+  "title": "Unpacking and Star Expressions",
+  "summary": "Unpack any iterable into names, collect the rest with a starred target, and merge dicts and lists with * and **, without modifying the inputs.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: Unpacking Argument Lists", "url": "https://docs.python.org/3/tutorial/controlflow.html#unpacking-argument-lists" },
+    { "label": "PEP 3132: Extended Iterable Unpacking", "url": "https://peps.python.org/pep-3132/" },
+    { "label": "PEP 448: Additional Unpacking Generalizations", "url": "https://peps.python.org/pep-0448/" }
+  ]
+}

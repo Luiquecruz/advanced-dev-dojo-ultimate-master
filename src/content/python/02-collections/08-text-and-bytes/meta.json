@@ -1,0 +1,13 @@
+{
+  "title": "Text, Bytes and Unicode",
+  "summary": "Keep str and bytes apart, decode and encode with explicit encodings, truncate UTF-8 safely, normalize text for matching, and format aligned columns with f-string specs.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Unicode HOWTO", "url": "https://docs.python.org/3/howto/unicode.html" },
+    { "label": "unicodedata: Unicode Database", "url": "https://docs.python.org/3/library/unicodedata.html" },
+    { "label": "Format Specification Mini-Language", "url": "https://docs.python.org/3/library/string.html#format-specification-mini-language" }
+  ]
+}

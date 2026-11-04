@@ -1,0 +1,7 @@
+[
+  { "term": "Protocol", "description": "A set of special methods that built-in syntax relies on. Implementing `__len__` and `__getitem__` makes a class behave like a sequence." },
+  { "term": "Hashable", "description": "Has a stable hash, so it can be a dict key or set member." },
+  { "term": "Insertion order", "description": "Since Python 3.7 a `dict` remembers the order in which keys were first inserted." },
+  { "term": "`collections.abc`", "description": "Abstract base classes (`Sequence`, `Mapping`, `MutableMapping`) that provide mixin methods once you implement the minimum." },
+  { "term": "Text vs bytes", "description": "`str` is Unicode text; `bytes` is raw data. Converting between them needs an encoding." }
+]

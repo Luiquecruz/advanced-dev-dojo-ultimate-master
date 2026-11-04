@@ -1,0 +1,12 @@
+{
+  "title": "Map: How This Track Works",
+  "summary": "How the Python track is organized (map, practice, ADR), the three ideas behind most differences from JavaScript, what the browser runtime can and cannot run, and how dated facts are marked.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "The Python Tutorial", "url": "https://docs.python.org/3/tutorial/index.html" },
+    { "label": "The Python Language Reference: Data model", "url": "https://docs.python.org/3/reference/datamodel.html" },
+    { "label": "PEP 8: Style Guide for Python Code", "url": "https://peps.python.org/pep-0008/" },
+    { "label": "Pyodide", "url": "https://pyodide.org/" }
+  ]
+}

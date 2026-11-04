@@ -1,0 +1,26 @@
+[
+  {
+    "question": "After `d = {'a': 1}; view = d.keys(); d['b'] = 2`, what is `list(view)`?",
+    "options": ["`['a']`", "`['a', 'b']`", "`['b']`", "A RuntimeError"],
+    "answer": 1,
+    "explanation": "`keys()` returns a live view, so it reflects keys added later."
+  },
+  {
+    "question": "What is `{'a': 1, 'b': 2}.keys() & {'b': 0, 'c': 0}.keys()`?",
+    "options": ["`['b']`", "`{'b'}`", "`{'a', 'b', 'c'}`", "A TypeError"],
+    "answer": 1,
+    "explanation": "Keys views support set operators and the result of `&` is a set."
+  },
+  {
+    "question": "What happens here?\n\n```py\nfor key in d:\n    if bad(key):\n        del d[key]\n```",
+    "options": ["Works and removes the keys", "Raises RuntimeError: dictionary changed size during iteration", "Silently skips some keys", "Raises KeyError"],
+    "answer": 1,
+    "explanation": "Changing the size of a dict while iterating over it is an error. Iterate over `list(d)` or build a new dict."
+  },
+  {
+    "question": "After `[i for i in range(3)]`, is `i` defined in the enclosing function?",
+    "options": ["Yes, it equals 2", "Yes, it equals 3", "No, the comprehension has its own scope", "Only for list comprehensions"],
+    "answer": 2,
+    "explanation": "Comprehension variables are local to the comprehension in Python 3."
+  }
+]

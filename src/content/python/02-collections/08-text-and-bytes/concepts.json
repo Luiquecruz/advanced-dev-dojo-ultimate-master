@@ -1,0 +1,7 @@
+[
+  { "term": "`str` vs `bytes`", "description": "`str` is Unicode text (code points); `bytes` is raw data. `encode` and `decode` convert between them." },
+  { "term": "Encoding", "description": "The rule that maps characters to bytes. UTF-8 is the common default for text." },
+  { "term": "Normalization", "description": "`unicodedata.normalize('NFC', s)` composes characters so visually identical strings compare equal." },
+  { "term": "`casefold()`", "description": "Aggressive lowercasing for caseless comparison (`'ß'` becomes `'ss'`). Prefer it over `lower()` for matching." },
+  { "term": "Format spec", "description": "The mini-language after `:` in an f-string: alignment, width, precision, type, for example `{price:>8.2f}`." }
+]

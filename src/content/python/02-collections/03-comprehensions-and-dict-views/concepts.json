@@ -1,0 +1,7 @@
+[
+  { "term": "Comprehension", "description": "An expression that builds a list, set or dict from an iterable: `[x for x in items if ok(x)]`." },
+  { "term": "Dict view", "description": "`keys()`, `values()` and `items()` return live views that reflect later changes to the dict." },
+  { "term": "Set operations on views", "description": "`keys()` supports `&`, `|`, `-`, `^`, and so does `items()` when the values are hashable." },
+  { "term": "Comprehension scope", "description": "The loop variable lives in the comprehension's own scope and does not leak into the enclosing function." },
+  { "term": "Snapshot", "description": "`list(view)` copies the current contents, so later changes to the dict are not seen." }
+]

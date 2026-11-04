@@ -1,0 +1,36 @@
+[
+  {
+    "question": "After `a = [[1], [2]]; b = a.copy(); b[0].append(9)`, what is `a`?",
+    "options": ["[[1], [2]]", "[[1, 9], [2]]", "[[9], [2]]", "A RuntimeError"],
+    "answer": 1,
+    "explanation": "`copy()` is shallow: `b[0]` and `a[0]` are the same inner list, so the append is visible through both."
+  },
+  {
+    "question": "What does `copy.deepcopy` do with `d = {}; d['me'] = d`?",
+    "options": [
+      "Raises RecursionError",
+      "Returns a copy whose `'me'` key points to the copy itself",
+      "Returns a copy whose `'me'` key points to the original",
+      "Returns `None`"
+    ],
+    "answer": 1,
+    "explanation": "`deepcopy` keeps a memo of copied objects, so the cycle is preserved inside the new structure."
+  },
+  {
+    "question": "Which pair builds equivalent shallow copies of a list `a`?",
+    "options": ["`list(a)` and `a[:]`", "`a` and `a.copy` (without parentheses)", "`list(a)` and `copy.deepcopy(a)`", "`a[0]` and `a[-1]`"],
+    "answer": 0,
+    "explanation": "`list(a)`, `a[:]` and `a.copy()` all create a new list holding the same element objects."
+  },
+  {
+    "question": "Why is `with_defaults` built as `{**defaults, **config}` risky when `defaults` contains a list?",
+    "options": [
+      "The syntax is deprecated",
+      "The result shares the default list with `defaults`, so appending to it changes the defaults",
+      "It reorders the keys",
+      "It copies the list twice"
+    ],
+    "answer": 1,
+    "explanation": "The merge is shallow. Both dicts point at the same list object, which is the classic shared-default bug."
+  }
+]

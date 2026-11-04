@@ -1,0 +1,12 @@
+{
+  "title": "Custom Mappings",
+  "summary": "Subclass MutableMapping, implement five methods and get get, pop, update and more for free, and see why subclassing dict silently bypasses your rules. Build a case-insensitive headers dict.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "collections.abc.MutableMapping", "url": "https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping" },
+    { "label": "Python Data Model: Emulating container types", "url": "https://docs.python.org/3/reference/datamodel.html#emulating-container-types" }
+  ]
+}

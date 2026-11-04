@@ -1,0 +1,13 @@
+{
+  "title": "Scope: LEGB, global and nonlocal",
+  "summary": "How Python resolves names, why assignment makes a name local, and how nonlocal lets closures keep private state. Build counters and a bounded history without classes.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: Python Scopes and Namespaces", "url": "https://docs.python.org/3/tutorial/classes.html#python-scopes-and-namespaces" },
+    { "label": "Python Reference: Naming and binding", "url": "https://docs.python.org/3/reference/executionmodel.html#naming-and-binding" },
+    { "label": "Python FAQ: Why am I getting an UnboundLocalError?", "url": "https://docs.python.org/3/faq/programming.html#why-am-i-getting-an-unboundlocalerror-when-the-variable-has-a-value" }
+  ]
+}

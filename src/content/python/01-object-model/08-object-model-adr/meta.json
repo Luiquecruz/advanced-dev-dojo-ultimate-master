@@ -1,0 +1,13 @@
+{
+  "title": "Checkpoint: Shared Value Objects ADR",
+  "summary": "Close the object-model module with an ADR and a plan for price rules shared by six services: immutability and hashing, copy cost versus read volume, and a sentinel for fields that were not provided.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Python Data Model: Objects, values and types", "url": "https://docs.python.org/3/reference/datamodel.html#objects-values-and-types" },
+    { "label": "copy: Shallow and deep copy operations", "url": "https://docs.python.org/3/library/copy.html" }
+  ]
+}

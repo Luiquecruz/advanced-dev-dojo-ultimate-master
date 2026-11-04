@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What is `len('😀')` in Python?",
+    "options": [
+      "1",
+      "2",
+      "4",
+      "It raises an error"
+    ],
+    "answer": 0,
+    "explanation": "`len` counts code points. JavaScript's `.length` counts UTF-16 code units and returns 2."
+  },
+  {
+    "question": "What does `'a' + b'b'` do?",
+    "options": [
+      "`'ab'`",
+      "`b'ab'`",
+      "Raises TypeError",
+      "`'a98'`"
+    ],
+    "answer": 2,
+    "explanation": "Text and bytes never mix implicitly. Decode or encode explicitly."
+  },
+  {
+    "question": "Why is `'é' == 'e\\u0301'` false even though they look the same?",
+    "options": [
+      "They differ in case",
+      "One is a single code point and the other is two (a letter plus a combining accent)",
+      "Python compares appearance incorrectly",
+      "One of them is bytes"
+    ],
+    "answer": 1,
+    "explanation": "Normalize both with `unicodedata.normalize('NFC', ...)` before comparing."
+  },
+  {
+    "question": "Which is better for caseless matching of user-facing names?",
+    "options": [
+      "`s.lower()`",
+      "`s.casefold()`",
+      "`s.upper()`",
+      "`s.title()`"
+    ],
+    "answer": 1,
+    "explanation": "`casefold()` handles cases like German `ß` that `lower()` leaves unchanged."
+  },
+  {
+    "question": "What does `f'{3.14159:>8.2f}'` produce?",
+    "options": [
+      "`'3.14'`",
+      "`'    3.14'`",
+      "`'3.14    '`",
+      "`'  3.1416'`"
+    ],
+    "answer": 1,
+    "explanation": "`>8` right-aligns in a field of width 8 and `.2f` rounds to two decimals."
+  },
+  {
+    "question": "Sign-up rejects a username whose `normalize_key` (NFC + `casefold()`) matches an existing one. An attacker registers `аdmin` with a Cyrillic `а`. What is true?",
+    "options": [
+      "It is rejected, because casefold maps it to `admin`",
+      "It is rejected, because NFC composes it into `admin`",
+      "It is accepted: no normalization form merges Cyrillic `а` with Latin `a`; it needs confusable detection (Unicode TR39) on top of NFKC",
+      "It raises `UnicodeError`"
+    ],
+    "answer": 2,
+    "explanation": "Normalization only merges equivalent encodings of the same character. Homoglyphs from different scripts are different characters, so security-sensitive identifiers need confusable (skeleton) checks and script restrictions from a vetted library."
+  }
+]

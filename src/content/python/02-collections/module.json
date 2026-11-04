@@ -1,0 +1,4 @@
+{
+  "title": "Collections and Data Protocols",
+  "description": "Choosing the right container and the protocol behind it: unpacking, comprehensions and dict views, set algebra, the sequence and mapping protocols, the collections module, and text versus bytes."
+}

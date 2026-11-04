@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A teammate proposes `frozenset((tenant, event_id))` as the store key because it is hashable. What goes wrong?",
+    "options": [
+      "Nothing: hashable is all a key needs",
+      "Lookups become linear",
+      "It forgets which part is the tenant, so swapped parts collide, and equal parts collapse into one element",
+      "frozensets cannot be dict keys"
+    ],
+    "answer": 2,
+    "explanation": "A key must be hashable **and** distinguish every different entity. A tuple keeps positions; a frozenset keeps only membership."
+  },
+  {
+    "question": "Events must be replayed in arrival order and retries must be dropped. Which line fits?",
+    "options": [
+      "`list(set(events))`",
+      "`sorted(set(events))`",
+      "`list(dict.fromkeys(events))`",
+      "`set(events)`"
+    ],
+    "answer": 2,
+    "explanation": "Dict keys are unique and keep insertion order, so the first arrival survives in its place. A set gives no order and sorting replaces arrival order with value order."
+  },
+  {
+    "question": "Why is a `list` of `(key, payload)` pairs the wrong store for 12 million lookups per minute over 2 million payloads?",
+    "options": [
+      "Lists cannot hold tuples",
+      "Each lookup scans the list, so the cost grows with the number of payloads",
+      "Lists are unordered",
+      "Lists use more memory than dicts in every case"
+    ],
+    "answer": 1,
+    "explanation": "A dict finds a key by hashing in constant time on average; a list compares items one by one."
+  },
+  {
+    "question": "Headers are stored in a plain `dict` and the ingestion code lowercases names only in one of its three entry points. What is the risk?",
+    "options": [
+      "None, dicts are case-insensitive",
+      "`Content-Type` and `content-type` can become two entries and a reader can see the wrong value",
+      "A TypeError on insert",
+      "Headers lose their order"
+    ],
+    "answer": 1,
+    "explanation": "A key rule must hold at every entry point. Own it in one `MutableMapping` or route every write through one normalizing function."
+  },
+  {
+    "question": "A store holds 1 million items in 3 × 10⁹ bytes; each item takes 2 000 bytes. Can you keep a second list of copies for replay?",
+    "options": [
+      "Yes, 3 000 bytes per item leaves room for one copy",
+      "No: one more copy needs 4 000 bytes per item against 3 000; keep the order in the store itself",
+      "Yes, Python shares list items automatically, so copies are free",
+      "It depends only on the lookup rate"
+    ],
+    "answer": 1,
+    "explanation": "3 × 10⁹ / 10⁶ = 3 000 bytes per item. Two copies need 4 000. A dict already keeps insertion order, so the replay can read the store. (A list of *references* to the same objects would be cheap; the briefing's second structure holds copies.)"
+  }
+]

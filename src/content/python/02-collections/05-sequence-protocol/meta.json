@@ -1,0 +1,12 @@
+{
+  "title": "The Sequence Protocol",
+  "summary": "Implement __len__ and __getitem__ and get indexing, negative indexes, slicing, iteration, membership and reversed for free, in a Deck class that returns Decks from slices.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Data Model: Emulating container types", "url": "https://docs.python.org/3/reference/datamodel.html#emulating-container-types" },
+    { "label": "collections.abc.Sequence", "url": "https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" }
+  ]
+}

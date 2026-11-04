@@ -1,0 +1,13 @@
+{
+  "title": "Checkpoint: Event Payload Store ADR",
+  "summary": "Close the collections module with an ADR and a plan for a payload store shared by four services: container and key type for 12 million lookups per minute, order-preserving de-duplication, and case-insensitive headers.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "Python Tutorial: Data Structures", "url": "https://docs.python.org/3/tutorial/datastructures.html" },
+    { "label": "collections.abc: Abstract Base Classes for Containers", "url": "https://docs.python.org/3/library/collections.abc.html" }
+  ]
+}

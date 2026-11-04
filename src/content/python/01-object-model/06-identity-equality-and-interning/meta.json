@@ -1,0 +1,13 @@
+{
+  "title": "Identity, Equality and Interning",
+  "summary": "The difference between is and ==, when to use sentinels, why integer and string identity must never be relied on, and how __eq__ and __hash__ work together in a Money value object.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Reference: Comparisons", "url": "https://docs.python.org/3/reference/expressions.html#comparisons" },
+    { "label": "Python Data Model: object.__eq__ and object.__hash__", "url": "https://docs.python.org/3/reference/datamodel.html#object.__hash__" },
+    { "label": "Python Data Model: NotImplemented", "url": "https://docs.python.org/3/library/constants.html#NotImplemented" }
+  ]
+}

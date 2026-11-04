@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What is `middle` after `first, *middle, last = (1, 2, 3, 4)`?",
+    "options": [
+      "`[2, 3]`",
+      "`(2, 3)`",
+      "`{2, 3}`",
+      "`2`"
+    ],
+    "answer": 0,
+    "explanation": "A starred target always collects into a list, whatever the source type is."
+  },
+  {
+    "question": "What does `first, *rest = []` do?",
+    "options": [
+      "`first = None`, `rest = []`",
+      "Raises ValueError: not enough values to unpack",
+      "`first = []`",
+      "Raises IndexError"
+    ],
+    "answer": 1,
+    "explanation": "The plain name `first` needs at least one value. Only the starred name may be empty."
+  },
+  {
+    "question": "What is `{**{'a': 1, 'b': 2}, **{'b': 3}}`?",
+    "options": [
+      "`{'a': 1, 'b': 2}`",
+      "`{'b': 3}`",
+      "`{'a': 1, 'b': 3}`",
+      "A TypeError, duplicate key"
+    ],
+    "answer": 2,
+    "explanation": "Later mappings win, like `{ ...a, ...b }` in JavaScript. The result is a new dict."
+  },
+  {
+    "question": "Which is valid Python?",
+    "options": [
+      "`*first, *second = items`",
+      "`first, ...rest = items`",
+      "`{a, b} = obj`",
+      "`first, *middle, last = items`"
+    ],
+    "answer": 3,
+    "explanation": "Only one starred target is allowed, and it may be in the middle. Python has no object destructuring syntax."
+  }
+]

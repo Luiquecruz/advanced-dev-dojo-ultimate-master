@@ -1,0 +1,240 @@
+# Python Track — Security Review
+
+Date: 2026-11-04. Scope: lessons written so far (`src/content/python/01-object-model`, `02-collections`), planned lessons in specs 05–08, the Python engine (`src/engines/python/*`, `runtime/dojo_harness.py`), the Node grader (`src/verify/graders.ts`), `plugins/pyodidePlugin.ts`, and the Pyodide/Pydantic supply chain.
+
+Findings marked **[verified]** were reproduced locally (Node 26.10, `pyodide@314.0.7`). Findings marked **[inferred]** follow from code reading and Pyodide FFI semantics but were not run in a browser.
+
+## Threat model
+
+- There is no backend and no code sharing: learner code is typed by the learner and stored in their own `localStorage` (`entities/progress/progressStore.ts:21,36`). Routes carry only `#/<track>/<lesson>`, never code. So learner code attacking the platform is mostly self-harm (self-XSS class), and grading integrity is a local concern.
+- Lesson content (`starter/`, `solution/`, `tests.py`, Markdown) is trusted repository content, but it **executes on contributor and CI machines** through `npm run verify`. That is the one place where a malicious contribution has real impact (see B1).
+- The realistic secondary vector is a learner pasting code from the internet into the editor.
+
+## Summary
+
+| ID | Area | Severity | Finding |
+| --- | --- | --- | --- |
+| B1 | Platform | **High** | `npm run verify` runs lesson Python with full host access (`fs`, `child_process`, `process.env`) through `import js` |
+| B2 | Platform | Medium | Interpreter state (builtins, stdlib modules, `dojo_harness`) leaks between runs and lessons; grading can be poisoned |
+| B3 | Platform | Medium | Worker has unrestricted network (`js.fetch`, `pyfetch`, `WebSocket`, `loadPackage(url)`) |
+| B4 | Platform | Medium | A JS-side exception in the worker never answers; the UI waits 45–75 s |
+| C1 | Supply chain | Medium | Spec 08 spike omits `typing-inspection`; wheels need a pinned, hash-checked vendoring step |
+| A1 | Content | Medium | `normalize_key` is presented as fit for "user-facing identifiers" without the NFKC/confusables caveat |
+| B5 | Platform | Low | Learner code can forge worker responses (`js.postMessage`) and mark tests as passed |
+| B6 | Platform | Low | Unbounded output size (single huge `print`, `capture_output` buffer) |
+| B7 | Platform | Low | `write_project` does not confine file names to `/app` |
+| B8 | Platform | Low | No CSP; Markdown is rendered with `dangerouslySetInnerHTML` without sanitizing (trusted content only) |
+| C2 | Supply chain | Low | Pyodide (MPL-2.0) and vendored wheels need license notices in the build |
+
+Confirmed good: Pyodide is served from the app origin in the browser, learner output is rendered as text, timeouts terminate the worker, `pyodide` is pinned exactly with a lockfile integrity hash.
+
+---
+
+## A. Content teaching risk
+
+### A.1 Written lessons (modules 01–02)
+
+A scan for `eval`/`exec`, `pickle`, `marshal`, `subprocess`, `shell=True`, `yaml.load`, bare `except:`, `except Exception: pass`, secrets, network calls, mutable default parameters and catastrophic regex patterns found **no insecure habit modelled** in `src/content/python`. Positive patterns already taught:
+
+- `05-shallow-vs-deep-copy` teaches the shared-mutable-defaults leak explicitly (`theory.md:44`, test `tests.py:35`).
+- `08-text-and-bytes/theory.md:25` warns that `errors="ignore"`/`"replace"` lose data silently and that `latin-1` "never fails"; `theory.md:15` recommends explicit `encoding=`.
+- Exceptions are caught by specific type (`06-identity-equality-and-interning/starter/demo.py:10`, `08-text-and-bytes/solution/main.py` catches `UnicodeDecodeError` only).
+
+**A1 (Medium) — identifier normalization.** `02-collections/08-text-and-bytes/theory.md:60` recommends "`casefold()` and NFC normalization for user-facing identifiers", and `challenge.md:13` calls the result "appearance-insensitive". NFC + `casefold()` does not fold compatibility characters (fullwidth `ｆ`, ligature `ﬁ`, superscripts) nor confusables (Cyrillic `а` vs Latin `a`), so two usernames that look identical can still be distinct keys (account spoofing). Fix (theory only, no test change needed): add a short Security note: for login/username identifiers use NFKC + casefold (or PRECIS, RFC 8264 / Python `unicodedata.normalize("NFKC", s).casefold()`), and check confusables per Unicode UTS #39; NFC + casefold is right for search keys and display matching. Also reword "appearance-insensitive" to "case- and composition-insensitive".
+
+**A2 (Low) — hash randomization.** `01-object-model/03-mutability-and-hashing` teaches `__hash__` but not that `str`/`bytes` hashes are salted per process (`PYTHONHASHSEED`) as a defence against hash-flooding DoS. Add one line plus a quiz option: never persist or transmit `hash()` values; use `hashlib` for stable digests.
+
+### A.2 Security points for planned lessons
+
+Each item is a short **Security note** section in `theory.md` and, where testable, a test or a quiz question. Lesson ids follow specs 06 and 07.
+
+**Module 07-stdlib** (`06-modules-05-to-08.md:110-166`)
+
+| Lesson | Security note | Test / quiz |
+| --- | --- | --- |
+| `01-stdlib-map` | Map row "dangerous by design": `pickle`/`marshal`/`shelve` (code execution on load), `eval`, `subprocess(shell=True)`, `yaml.load` (third party), `xml.etree` on untrusted input (prefer `defusedxml`). | Quiz: "Which of these is safe to call on bytes from an HTTP request?" (`json.loads` correct; `pickle.loads` wrong). |
+| `02-json-and-serialization` | `json` is the safe default for untrusted data; `pickle.loads` runs arbitrary code via `__reduce__` (JS has no equivalent: `JSON.parse` never executes code). `parse_constant` to reject `NaN`/`Infinity`, which other JSON parsers refuse. Limit input size before `loads`. Never `eval` JSON-like text. | Test: `loads_with_decimals("NaN")` behaviour documented, or a quiz on `pickle` vs `json` for a cross-team payload. Keep `pickle` out of every challenge. |
+| `03-regular-expressions` | ReDoS: nested quantifiers like `(a+)+$` or `(\w+\s?)*$` backtrack exponentially; Python's `re` has no timeout. Bound input length, avoid nested quantifiers, prefer `fullmatch` with simple classes. Python 3.11+ atomic groups `(?>...)` and possessive quantifiers `a++` help. Email masking: do not claim a regex validates emails. | Test: `parse_log_line("a" * 50_000 + "!")` returns `None` well within the 4 s test timeout (guards against a learner writing a catastrophic pattern). Quiz: identify the vulnerable pattern. |
+| `04-pathlib-and-io` | Path traversal: `base / user_part` with `"../"` or an absolute `user_part` escapes `base` (`Path("/srv") / "/etc/passwd"` is `/etc/passwd`). Resolve and check `resolved.is_relative_to(base.resolve())`. `tempfile.mkstemp`/`TemporaryDirectory` instead of predictable `/tmp` names (spec's `/tmp/dojo-<unique>` is fine in the in-memory FS but say why it matters on real hosts). | Add a function to the challenge, e.g. `safe_join(base, name)` raising `ValueError` on escape; tests with `"../x"`, `"/etc/passwd"`, `"a/../../x"`. |
+| `05-numbers-decimal-and-fractions` | `int("9" * 10**6)` is capped (CVE-2020-10735, `sys.set_int_max_str_digits`, default 4300 digits) to stop quadratic-time DoS; `Fraction(text)`/`Decimal(text)` on untrusted input should be length-checked. | Quiz on the int-to-str digit limit. |
+| `06-dates-and-times` | Parse with an explicit format or `fromisoformat` and reject naive input (already in spec). | None beyond the spec. |
+| `08-logging` | Never log secrets, tokens or full request bodies; redact with a `logging.Filter`. Log injection: user text containing `\n` forges extra log lines; escape or use structured output. Lazy `%` formatting (`logger.info("user %s", name)`), never `logger.info(user_text)` as the format string (a `%` in user text breaks or misformats it). | Test: `log_event(logger, "login", password="x")` output does not contain `"x"` (redacting filter), and a field with `"\n"` stays on one line. |
+| `09-argparse-and-cli` | Do not pass secrets as CLI flags (visible in `ps`, shell history); read from env or a file. If the CLI shells out, use `subprocess.run([...])` with a list, never `shell=True` with user text (`shlex.quote` only as last resort). | Quiz on `shell=True` injection. |
+| `10-stdlib-adr` | Coherence rule already excludes `pickle` for cross-team JSON; add `security` to the consequences and require the ADR to mention untrusted input in `context`. | Coherence test: `serialization == "pickle"` fails with a message naming code execution. |
+
+**Module 06-context-and-errors** (same spec)
+
+| Lesson | Security note |
+| --- | --- |
+| `04-suppressing-and-handling-in-exit`, `06-exception-hierarchies` | Swallowing exceptions (`except Exception: pass`, `__exit__` returning `True` unconditionally, `contextlib.suppress(Exception)`) hides security failures; never catch `BaseException` outside top-level runners. Error messages shown to users must not include secrets or internal paths. Test: `__exit__` suppresses only the declared exception type. |
+
+**Module 11-metaprogramming** (`07-modules-09-to-12.md:120-167`)
+
+| Lesson | Security note | Test / quiz |
+| --- | --- | --- |
+| `01-metaprogramming-map` | `eval`/`exec`/`compile` on strings is the most dangerous hook; `ast.literal_eval` for literal data only (still bound the input size: deeply nested input can exhaust the parser). Dunder access (`().__class__.__base__.__subclasses__()`) defeats "restricted" `eval` with stripped builtins: there is no safe Python sandbox in-process. | Quiz: "Does `eval(text, {"__builtins__": {}})` make `eval` safe?" (no). |
+| `02-init-subclass-registries` | Import-time registration runs code from every imported module; plugin discovery equals code execution. | — |
+| `03-dynamic-classes` | `make_record_class(name, fields)`: validate field names with `str.isidentifier()` and `keyword.iskeyword()`; never build classes by `exec` of templated source (the `namedtuple` history). | Test: a field named `"__class__"` or `"x; import os"` raises `ValueError`. |
+| `04-attribute-hooks` | `Proxy` forwarding everything exposes private/dunder attributes of the target; forward an allow-list. `Frozen` is not a security boundary (`object.__setattr__` bypasses it). | Test: `Proxy` does not forward `_private` names (if the spec accepts the change). Quiz on `object.__setattr__` bypass. |
+| `06-inspect-and-signatures` | `call_with` dependency injection must not inject by arbitrary user-supplied names. | — |
+| `07-frames-and-tracebacks` | `f_locals` and full tracebacks leak secrets (passwords in locals) into logs and error pages; `traceback.TracebackException(..., capture_locals=False)` default; don't render tracebacks to end users. | Quiz. |
+| `09-metaprogramming-adr` | Add `entry_points` trade-off: any installed distribution can register a plugin (supply-chain surface). | Coherence: choosing `entry_points` requires a `trust` note. |
+
+**Module 12-tooling** (`07-modules-09-to-12.md:169-207`)
+
+| Lesson | Security note | Test / quiz |
+| --- | --- | --- |
+| `02-pyproject-toml` | Version specifiers vs pins: libraries declare ranges, applications lock. `[build-system]` requirements run arbitrary code at build time (sdist builds). | Quiz. |
+| `03-environments-and-venv` | `resolve_command` PATH shadowing is the venv mechanism **and** an attack (a writable directory early in `PATH`, `.` in `PATH`). | Test already planned ("PATH shadowing"); add one asserting a relative/empty `PATH` entry is ignored, if the spec accepts it. |
+| `04-uv-and-lockfiles` | Lockfiles with hashes (`uv.lock`, `pip install --require-hashes -r requirements.txt`, `pip-compile --generate-hashes`); hash mode fails closed on any unpinned or unhashed dependency. Dependency confusion: `--extra-index-url` mixes indexes and lets a public package shadow an internal name; prefer a single index or uv's index pinning (`[tool.uv.sources]`, `explicit = true`). Typosquatting. | Quiz: what `--require-hashes` guarantees and what it does not (it verifies artifacts, not that the code is benign). |
+| `05-modules-and-the-import-system` | `sys.meta_path` finders and `.pth` files execute code at startup; a writable `site-packages` or a module named like a stdlib module in the script directory (`json.py`) shadows the real one (`python -I`, `safe_path`, PEP 704-era `-P` flag). | Test: `DictFinder` does not serve names outside its dict; quiz on script-directory shadowing. |
+| `06-testing-pytest-and-unittest` | `pip-audit`/`osv-scanner` in CI; tests must not read real secrets. | — |
+| `07-linting-formatting-and-checkers` | Ruff's `S` rules (flake8-bandit) and Bandit flag `eval`, `pickle`, `shell=True`, `yaml.load`, `assert` used for authorization (stripped by `-O`). | Quiz: which rule catches `subprocess.run(cmd, shell=True)`. |
+| `08-wheels-and-distribution` | Prefer wheels (no code at install) over sdists (build backend runs); PyPI trusted publishing (OIDC, no long-lived API tokens), PEP 740 attestations / Sigstore, 2FA, yanking. Dated facts with sources. | Quiz on trusted publishing vs API tokens. |
+
+**Module 13-validation** (spec 08): validate at the edge, reject unknown fields (`model_config = ConfigDict(extra="forbid")`), size limits before parsing, never echo `ValidationError` input values containing secrets back to clients (`errors(include_input=False)`). Add a test for `extra="forbid"` in `02-basemodel-vs-dataclass`.
+
+### A.3 Where an explicit security ADR belongs
+
+1. **Platform ADR** (decision record, not a lesson): a new section "Python sandbox threat model" in `.claude/docs/ARCHITECTURE.md`, next to the "Multi-language challenges" section, recording the threat model above, the decisions for B1–B4 and the Pydantic vendoring decision (spec 08 already says to record it there).
+2. **Learner ADR checkpoint**: add a dedicated lesson `12-tooling/09-supply-chain-adr` (A, Ad) before the capstone (capstone moves to `10-`). Briefing: a service with 40 dependencies, an internal package index, CI publishing to PyPI. `PLAN`: `locking` (`hashed_lockfile`|`ranges`|`none`), `index` (`single`|`extra_index_url`), `publishing` (`trusted_publishing`|`api_token`), `audit` (`ci`|`manual`|`none`), `install_from` (`wheels_only`|`sdist_allowed`), `rejected`. Coherence: an internal index forbids `extra_index_url`; CI publishing requires `trusted_publishing`; `none` locking is rejected. Update `03-curriculum.md` and `CURRICULUM.md` together (the curriculum test enforces `✓`).
+3. The existing `07-stdlib/10-stdlib-adr` keeps its `pickle` coherence rule; it is the natural place for the untrusted-input decision in serialization.
+
+---
+
+## B. Platform risk
+
+### What is already sound
+
+- **Same-origin runtime, no CDN in the browser.** `plugins/pyodidePlugin.ts:6-11` allow-lists four runtime files, the dev middleware serves only those names (`:28-37`, so no path traversal through `request.url`), and the build copies them (`:39-43`). The worker sets `indexURL` to `<base>pyodide/` (`src/engines/python/python.worker.ts:5,14`). Pyodide uses its jsDelivr `cdnUrl` only in Node (`node_modules/pyodide/pyodide.asm.mjs`, the `IN_NODE` branch sets `cdnURL`; the browser branch uses `packageBaseUrl` only, which defaults to the lock file directory, i.e. our origin). [verified by reading the bundled source]
+- **Learner output is rendered as text.** Test messages and compile errors go into `<pre>{...}</pre>` (`src/features/lesson/LessonPanel.tsx:176,188`), console lines into `{entry.text}` (`src/pages/lesson/LessonPage.tsx:242`), test names through `TestName` which builds React nodes, not HTML (`src/features/lesson/TestName.tsx:4-9`). No XSS from learner-produced strings. `RunReport` crosses `postMessage` via structured clone, so no prototype pollution through `__proto__` keys.
+- **Loop and hang guards.** The main thread terminates the worker on timeout: tests 45 s, run 15 s, plus 30 s on first start (`src/engines/python/browserClient.ts:6-8,54-57`, `stopWorker` at `:20-24`). Async tests have a per-test 4 s `asyncio.wait_for` (`runtime/dojo_harness.py:18,247`). A synchronous infinite loop blocks the worker, so only the outer terminate catches it; that is correct (there is no `setInterruptBuffer`, which would need `SharedArrayBuffer` and cross-origin isolation).
+- **Worker isolation from app storage.** The worker cannot touch `localStorage` (not exposed to workers), so learner code cannot read or rewrite progress. Memory is bounded by the wasm32 heap; allocation failure raises `MemoryError` or aborts the instance, and the worker is replaced on the next timeout.
+- **Pinning.** `package.json:50` pins `"pyodide": "314.0.7"` exactly; `package-lock.json:4401-4405` records the tarball `sha512` integrity.
+
+### Findings
+
+**B1 — High — `npm run verify` gives lesson code full host access.** [verified] `src/verify/graders.ts:40-53` loads Pyodide in Node and runs lesson code in the same process. Through the FFI, `import js` is Node's `globalThis`: `js.process.env` returns the developer's environment (`HOME` printed in the probe), and `js.process.getBuiltinModule("fs")` / `("child_process").execSync` are reachable. A malicious or careless lesson contribution (solution, starter or `tests.py`) therefore executes arbitrary commands on contributor laptops and CI runners and can read CI secrets. There is also no timeout around `engine.runTests` in Node; a synchronous infinite loop blocks the Vitest worker thread. *Minimal fix:* before running lesson code in `createPythonEngine` when in Node, run a bootstrap that removes the bridge: `pyodide.runPython("import sys; sys.modules['js'] = None; sys.modules['pyodide_js'] = None")` is not enough on its own (`pyodide.ffi` and `_pyodide` still reach JS), so prefer running each verify grader in a `node:worker_threads` Worker with `env: {}` (`SHARE_ENV` off) and `resourceLimits`, terminating it on a per-lesson timeout; in CI, run `verify` with no secrets in the job environment and without network. Track the stricter option (Node permission model, `node --permission --allow-fs-read=<repo>`) as a follow-up. The same review should be applied to the Node.js and TypeScript engines' verify paths [inferred: not checked here].
+
+**B2 — Medium — State leaks between runs and lessons.** [verified in Node] One Pyodide instance serves every run in the session (`browserClient.ts:15` creates the worker once; `graders.ts:40-46` loads once per suite). `unload_project` (`dojo_harness.py:101-106`) removes only modules named after the project files. Learner code can patch `builtins` (the probe set `builtins.len` and it stayed patched in the next `runPython`), replace stdlib modules in `sys.modules`, monkeypatch `dojo_harness` itself (e.g. `describe_error`, `run_tests`), or leave `sys.stdout` replaced. Effects: a later lesson's tests pass or fail for reasons unrelated to its code, in the browser and in `npm run verify`. `run_program` restores `asyncio.run` (`:292`) but nothing else. *Minimal fix:* at engine creation snapshot `set(sys.modules)` and `dict(builtins.__dict__)`; after each `run_tests`/`run_program` delete modules not in the snapshot, restore the builtins dict and `sys.stdout`/`sys.stderr`, and reset `sys.path` to its snapshot. For verify, a fresh instance per lesson is cheap enough to consider. Full isolation from a deliberately hostile learner is not achievable in-process and not required (threat model).
+
+**B3 — Medium — Unrestricted network from the worker.** [inferred] Learner code can call `js.fetch`, `pyodide.http.pyfetch`, `js.WebSocket`, or `pyodide_js.loadPackage("https://…/any.whl")` (absolute URLs bypass the lock file) to any origin that allows CORS, and same-origin requests carry cookies. Impact today is limited (no backend, no secrets in the origin), but it contradicts the content rule "never call real models" and lets pasted snippets beacon out. There is no CSP anywhere (`index.html`, `sandbox.html`). *Minimal fix:* after `loadPyodide` and any package preload in `python.worker.ts`, delete the network globals from the worker scope (`fetch`, `XMLHttpRequest`, `WebSocket`, `EventSource`, `importScripts`), keeping a private reference only if the engine needs it; and serve the worker script with `Content-Security-Policy: connect-src 'self'` from the static host (a `<meta>` CSP in `index.html` does not apply to workers).
+
+**B4 — Medium (availability) — Worker errors outside Python never answer.** `python.worker.ts:31-38` awaits `runTests`/`runProgram` without `try/catch`. If Pyodide throws on the JS side (fatal wasm abort after memory exhaustion, a `PythonError` escaping the harness, a `toJs` conversion failure on an odd report), the promise rejects inside `onmessage`, no message is posted, and `browserClient.ts` waits the full timeout (45 s, or 75 s on first run) before showing "took too long". *Minimal fix:* wrap both branches and `post({ type: 'failed', message })` on error; `browserClient.ts:46-49` already terminates and restarts on `failed`.
+
+**B5 — Low — Forged worker responses.** [inferred] `browserClient.ts:45-53` trusts any `message` event from the worker; request ids are sequential (`:13`). Learner code can `js.postMessage(to_js({"type": "test-report", "id": n, "report": {...}}, dict_converter=js.Object.fromEntries))` and mark a challenge as passed. Self-cheating only; accept and document, or move the harness channel to a `MessageChannel` port created before learner code runs and validate the report shape.
+
+**B6 — Low — Unbounded output.** `LessonPage.tsx:17,69` caps the console at 200 entries but not entry length; a single `print("x" * 10**8)` is posted and rendered as one node. `_OutputCapture` (`dojo_harness.py:49-63`) grows without limit during tests. Each `print` line is a separate `postMessage` plus `setState` (`engine.ts:50-51`, `LessonPage.tsx:69`), so a tight print loop floods the main thread for up to 15 s. *Fix:* truncate each entry (e.g. 10 kB) and batch console posts in the worker per animation frame or per 50 ms.
+
+**B7 — Low — File names not confined.** `write_project` (`dojo_harness.py:90-99`) does `os.path.join("/app", name)`; an absolute name or `../` writes anywhere in the in-memory FS (for example over `/dojo/dojo_harness.py` or stdlib files under `/lib`). Names come from lesson folders today (the editor has no add/rename file action), so it is not learner-reachable. *Fix:* `path = os.path.normpath(os.path.join(APP_DIRECTORY, name))` and reject when it does not start with `APP_DIRECTORY + "/"`.
+
+**B8 — Low — HTML rendering of lesson content.** `src/shared/ui/Markdown.tsx:61-62,69-70` renders `marked` output with `dangerouslySetInnerHTML` and no sanitizer; theory, hints, quiz options and explanations can therefore carry raw HTML/script. Only repository content flows there, so this is defence in depth for contributions (pairs with B1). *Fix:* sanitize (DOMPurify) or disable raw HTML in `marked`, and add a CSP with `script-src 'self'` on the static host.
+
+**Note on `describe_assertion`.** `dojo_harness.py:164` `eval`s sub-expressions of the failing `assert`, restricted by `is_safe` (`:129-135`) to builtins from `SAFE_CALLS` and no lambdas/awaits/walrus. Attribute and subscript access can still run learner `__getattr__`/`property`/`__repr__` code, which is already learner code in the same interpreter, so this adds no privilege. The `except Exception: pass` at `:173-174` intentionally drops the diagnostic; acceptable for a harness, but a learner `__repr__` that loops forever stalls the whole suite until the 45 s terminate.
+
+**Out of scope, noted for the team.** The JavaScript sandbox iframe is same-origin and has no `sandbox` attribute (`src/features/lesson/runner.ts:61-67`), so React/Vue/Angular/Node learner code runs with the app origin and can read and rewrite `localStorage` progress. The Python worker is better isolated than that path.
+
+---
+
+## C. Supply chain
+
+**Pyodide pin (OK).** Exact version in `package.json:50`, `sha512` in `package-lock.json:4405`, license `MPL-2.0`. There is no `.github/` CI in the repo; when CI is added, install with `npm ci` (fails on lockfile drift) and keep `pyodide` out of automated range upgrades: a new Pyodide bumps CPython (`pyodide-lock.json` `info`: Python 3.14.2, ABI `2026_0`) and invalidates any vendored wheels.
+
+**C1 — Medium — Pydantic vendoring plan (spec 08 spike).**
+- The spike lists four packages (`08-module-13-and-capstone.md:53`), but the pinned lock declares `pydantic 2.12.5` depending on `typing-extensions`, `pydantic_core`, `annotated-types` **and `typing-inspection`**. Vendoring must follow `depends` from `pyodide-lock.json`, not a hand list. Pinned set from the lock:
+
+| Package | Version | Wheel |
+| --- | --- | --- |
+| pydantic | 2.12.5 | `pydantic-2.12.5-py3-none-any.whl` |
+| pydantic-core | 2.41.5 | `pydantic_core-2.41.5-cp314-cp314-pyemscripten_2026_0_wasm32.whl` |
+| typing-extensions | 4.15.0 | `typing_extensions-4.15.0-py3-none-any.whl` |
+| annotated-types | 0.7.0 | `annotated_types-0.7.0-py3-none-any.whl` |
+| typing-inspection | 0.4.2 | `typing_inspection-0.4.2-py3-none-any.whl` |
+
+- These wheels are not in the npm package (`node_modules/pyodide` holds only the runtime). Fetch them once from the Pyodide **314.0.7** release (GitHub release tarball or the versioned jsDelivr path) with a script that verifies each file's SHA-256 against the `sha256` field of `node_modules/pyodide/pyodide-lock.json`, then store them in the repo (or a checked cache) and add their names to `RUNTIME_FILES` in `pyodidePlugin.ts` (or a second allow-list) so dev and build serve them from the app origin.
+- Keep `checkIntegrity` at its default `true` when calling `loadPackage` (`node_modules/pyodide/pyodide.d.ts:184-185`; lock entries must carry `sha256`, `:415-418`). Load by **package name** only (`loadPackage(["pydantic"])`), never by URL, so the lock decides version and hash.
+- In Node (`npm run verify`) Pyodide falls back to the jsDelivr CDN for packages missing from the local directory (the `IN_NODE` `cdnURL` branch). Make verify fail instead of downloading: point `packageBaseUrl`/`packageCacheDir` at the vendored folder, or check that all five wheels exist before the suite starts.
+- Load Pydantic only for module 13 lessons (spike question 3) and before stripping network globals (B3).
+
+**C2 — Low — Licenses.** From package metadata [to confirm from each wheel's `METADATA` during the spike]: pydantic MIT, pydantic-core MIT, annotated-types MIT, typing-inspection MIT, typing-extensions PSF-2.0; Pyodide MPL-2.0 (redistributing unmodified files is allowed; keep its license notice and point to the source); CPython stdlib in `python_stdlib.zip` PSF-2.0. All are compatible with redistribution in a static site. Ship a `THIRD_PARTY_LICENSES` (or `pyodide/LICENSES.txt`) next to the copied runtime in the build, and add a license check to the vendoring script (reject a wheel whose `License`/`License-Expression` is not in an allow-list).
+
+---
+
+## Recommended order
+
+1. B1 (verify isolation + timeout) before more lessons are contributed.
+2. B4 and B2 (cheap, improve grading reliability).
+3. A1 theory fix and the Security notes in specs 06/07 for modules 07, 11, 12, 13; add `12-tooling/09-supply-chain-adr` to the curriculum.
+4. C1 vendoring script with hash verification as part of the module 13 spike.
+5. B3, B5–B8 as hardening.
+
+---
+
+## Re-review after hardening
+
+Date: 2026-11-04. Scope: the working-tree changes to `src/verify/graders.ts`, `src/engines/python/engine.ts`, `src/engines/python/python.worker.ts`, `src/engines/python/runtime/dojo_harness.py`, and the new `src/verify/pythonSandbox.ts`, `pythonSandbox.worker.ts`, `pythonSandbox.test.ts`. Every bypass below was reproduced with throwaway Vitest probes that drive `PythonSandbox` from the scratchpad, outside the repo (Node 26.10, `pyodide@314.0.7`). The repo suites pass: `pythonSandbox.test.ts`, `src/verify/python.test.ts`, `src/verify/ai-engineering.test.ts` and `src/engines/python` (4 files, 527 tests).
+
+### Status of the original findings
+
+| ID | Status | Notes |
+| --- | --- | --- |
+| B1 | **Partially fixed, still Critical** | Fixed: `js` is a filtered globals object, `process.env` is empty, `getBuiltinModule`/`binding`/`dlopen` are blocked, `import()` is blocked by `registerHooks`, and `fetch`/`WebSocket` are removed. Still open: the bypasses R1–R3 below give host file read/write and the full host environment |
+| B2 | **Partially fixed** (Medium) | Bindings are restored. In-place mutation of stdlib objects still leaks (R5) |
+| B3 | Fixed in verify, **open in the browser** | `python.worker.ts` does not lock anything down; `js.fetch`/`pyfetch` still work there [inferred, unchanged code] |
+| B4 | **Fixed** | `python.worker.ts:28-43` wraps the handlers and posts `failed`, and `browserClient.ts` terminates the worker on `failed` |
+| B5–B8, C1, C2, A1 | Open | Not in scope of this change |
+
+### New findings
+
+**R1 — Critical — Host file system through NODEFS.** [verified] `lockDown()` (`pythonSandbox.worker.ts:28-40`) leaves Pyodide's own Node file-system bridge in place. From `tests.py` or lesson code:
+- `pyodide_js.mountNodeFS("/host", "<any host dir>")` listed a host directory;
+- `pyodide_js.FS.mount(pyodide_js.FS.filesystems.NODEFS, {root: "/etc"}, "/host2")` followed by `open("/host2/hostname").read()` returned the machine's hostname.
+
+NODEFS can also write, so lesson code can overwrite `node_modules/.cache/dojo-python-sandbox/worker-*.mjs` (`pythonSandbox.ts:39,61`), shell rc files or repo files. That reaches code execution with full privileges on the next run. **Fix:** after `createPythonEngine`, delete `pyodide.mountNodeFS`, `pyodide.FS.filesystems.NODEFS` and `NODERAWFS` (they are the same objects as `pyodide._module.FS.filesystems`), then add a sandbox test that asserts both calls fail.
+
+**R2 — Critical — Host environment and file write through `process.report`.** [verified] The worker's `env: {}` only empties the worker's copy of `process.env`.
+- `js.Object.constructor("return process.report.getReport()")()` returned `environmentVariables` with 113 host variables (including `HOME`) plus the full command line. On CI that includes every secret in the job environment.
+- `process.report.writeReport(path)` wrote a 38 kB file at an arbitrary host path.
+
+**Fix:** add `report` and `loadEnvFile` to `PROCESS_CAPABILITIES`. A stronger alternative is to use an allow-list: replace `globalThis.process` with a minimal stub after Pyodide has loaded, if Pyodide does not need it at run time (to be verified).
+
+**R3 — High — Host file read through `process.loadEnvFile`.** [verified] `process.loadEnvFile("<host path>")` parsed a host `.env` file, and its values became readable through `process.env`. Any `KEY=VALUE` file on the host can be read this way (`.env`, many credential files). **Fix:** add `loadEnvFile` to `PROCESS_CAPABILITIES`.
+
+**Structural recommendation for R1–R3.** A deny-list on `process` and the Pyodide API will keep missing members. The durable fix is to run the grader in a **child process** (`child_process.fork`) with `env: {}` and `execArgv: ['--permission', '--allow-fs-read=<node_modules/pyodide>,<bundled worker file>']`. The Node permission model is process-wide, so it cannot be applied to a `worker_threads` Worker. It denies fs writes, child processes, workers, native addons and (Node 25+) network unless they are allowed. Keep the existing deny-list as a second layer.
+
+**R4 — Info — Per-test kill and leaks: working.** [verified] A synchronous loop, an async busy loop, `time.sleep` and a JS `Atomics.wait` on a `SharedArrayBuffer` were each stopped within the 3 s limit. The next test ran in a fresh worker (`pythonSandbox.ts:264-270,137-142`).
+- Five consecutive kills kept the process thread count flat (45 → 43).
+- RSS rose from 268 MB to 384 MB and fell back to 294 MB after `stop()`, so no lasting leak.
+- Each kill costs about 4.5 s, mostly Pyodide restart.
+- Residual risk: no `resourceLimits` on the Worker. A memory bomb grows wasm memory inside the Vitest process. This is Low because wasm32 caps it at 4 GB per worker.
+
+**R5 — Medium — State restore misses in-place mutation.** [verified] `InterpreterState.restore()` (`dojo_harness.py:189-266`) restores bindings (builtins, `sys.modules`, the top-level dicts of `RESTORED_NAMESPACES`, paths, hooks, loggers, env, cwd, `/tmp` and `~`). It does not restore objects mutated in place. A polluting test changed all of the following, and they stayed changed for the next test **and the next lesson** (a second `runTests` call):
+- `json.JSONEncoder.default = …` made `json.dumps(object())` return `"patched"`. This would let a wrong starter pass `07-stdlib/02-json-and-serialization` ("unknown types raise `TypeError`").
+- `copy._deepcopy_dispatch[list] = …` changed `copy.deepcopy([1])`, which affects `01-object-model/05-shallow-vs-deep-copy`.
+- `collections.abc.Mapping.register(list)` made `isinstance([], Mapping)` true.
+- `gc.disable()`, `js.dojoProbe = 42` (a property on the JS global), `logging.raiseExceptions` and `logging.Formatter.default_msec_format` all persisted. `logging` is not in `RESTORED_NAMESPACES`.
+- Not reproduced, known Python behaviour: `sys.addaudithook` hooks can never be removed. `codecs.register`, `copyreg.pickle`, `warnings.filters` changed by a Run demo (outside `catch_warnings`), `asyncio` policy changes and `pyodide_js.setStdout` replacing output callbacks would also persist.
+
+**Fix:** in the browser, start a fresh worker per lesson. Pyodide is served from the HTTP cache, at roughly 1–2 s. In verify, start a fresh sandbox per lesson (`defineChallengeSuite` level) and keep `InterpreterState` for test-to-test isolation within a lesson. Add `gc.enable()`, `logging` and `copy`/`copyreg` to the restore set. Treat full in-process isolation as out of reach (see the threat model).
+
+**R6 — Medium (regression risk, module 13) — Native extensions are dropped from `sys.modules` after every test.** [inferred] `_restore_namespace(sys.modules, …)` deletes every module imported after the snapshot. With Pydantic loaded on demand, `pydantic_core._pydantic_core` (PyO3) would be re-imported on the next test. PyO3 refuses a second initialization in one interpreter ("PyO3 modules may only be initialised once per interpreter process"), so every test after the first would fail with `ImportError`. Pure-Python packages would also be re-imported on every test, which costs time. **Fix:** never remove extension modules (`isinstance(getattr(module, "__spec__", None) and module.__spec__.loader, importlib.machinery.ExtensionFileLoader)`), or take the snapshot after the lesson's packages have been loaded. Add a check for this to the module 13 spike in `08-module-13-and-capstone.md`.
+
+**R7 — Low — Browser worker cost and behaviour.** [inferred, not run in a browser]
+- `import dojo_harness` now preloads 25 stdlib modules and builds `InterpreterState` at startup (`dojo_harness.py:141-145,192-217`). That adds to the first-run time.
+- Each test now runs `gc.collect()` and `restore()`, which scans `/tmp` and `~`.
+- `engine.ts` always passes a JS `notify` callback, so the browser pays one JSON round trip per test event without using it. Passing `None` when `onEvent` is absent avoids that.
+- The browser path still has no per-test kill, only the 45 s whole-suite terminate in `browserClient.ts`, so one hanging test still loses every other result in the UI.
+- `PYTHONHASHSEED=0` (`engine.ts` `PYTHON_ENV`) makes set and dict-of-str iteration deterministic. This helps graders, but lessons must not present that order as guaranteed: `01-object-model/03-mutability-and-hashing` should keep saying that hashes are salted per process in real CPython (A2).
+
+**R8 — Low — Grading can still be forged in verify.** [inferred] Lesson code can walk frames (`sys._getframe().f_back…f_locals["notify"]`) and emit fake `result` events, or patch `dojo_harness` in place. This only matters if a contributor wants a starter to "fail" or a solution to "pass" dishonestly, and review of `tests.py` covers that case. Accept.
+
+### ai-engineering Python variants
+
+There is no regression in verify: `src/verify/ai-engineering.test.ts` passes inside the new sandbox. `dojo_ai` and `dojo_ai.testing` are in `RESTORED_NAMESPACES`, `_dojo_ai_bridge.reset()` still runs around each test, and leftover asyncio tasks are cancelled (`dojo_harness.py:357-361`). The new never-awaited-coroutine check (`unawaited_coroutines`) can fail tests that passed before. It is a behaviour change, intended and covered by `pythonSandbox.test.ts:169-197`. The browser path was not exercised.
+
+### Priority
+
+1. R1 + R2 + R3 (Critical/High): remove NODEFS/`mountNodeFS`, `process.report` and `loadEnvFile` now, add sandbox tests for each, then move to a `fork` + `--permission` child process.
+2. R6 before the module 13 spike.
+3. R5: a fresh interpreter per lesson in verify and in the browser.
+4. B3 in the browser worker, R7.

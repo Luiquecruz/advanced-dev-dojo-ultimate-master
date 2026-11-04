@@ -1,0 +1,12 @@
+{
+  "title": "Truthiness and __bool__",
+  "summary": "Which values are falsy in Python, how bool() consults __bool__ and __len__, why or is not a nullish operator, and how to separate emptiness from absence.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Library: Truth Value Testing", "url": "https://docs.python.org/3/library/stdtypes.html#truth-value-testing" },
+    { "label": "Python Data Model: object.__bool__", "url": "https://docs.python.org/3/reference/datamodel.html#object.__bool__" }
+  ]
+}

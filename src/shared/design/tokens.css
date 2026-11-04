@@ -109,6 +109,11 @@
   --accent-rgb: 155 225 93;
 }
 
+[data-trail='python'] {
+  --accent: #62e869;
+  --accent-rgb: 98 232 105;
+}
+
 @theme {
   --color-void: #0a0f18;
   --color-panel: #121c2a;

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A frozen record keeps its `fees` in a `list`. Is the object safe to share between services?",
+    "options": [
+      "Yes, frozen means nothing inside can change",
+      "No: the list is still mutable through the shared reference, and the record is not hashable either",
+      "Yes, as long as the list is private",
+      "Only if every service copies the record on read"
+    ],
+    "answer": 1,
+    "explanation": "Immutability of the record is shallow. A mutable collection inside it keeps the original bug alive; use a tuple for the fees."
+  },
+  {
+    "question": "A cache is keyed by price rules, and a developer proposes `eq=False` identity equality. What is the consequence?",
+    "options": [
+      "Nothing: identity is faster and equivalent",
+      "Two rules with identical contents become different keys, so the cache would miss on every rebuilt rule",
+      "The cache raises TypeError",
+      "Rules can no longer be shared"
+    ],
+    "answer": 1,
+    "explanation": "Value equality and hashing are what let equal rules hit the same cache entry."
+  },
+  {
+    "question": "Reads happen 2 000 times per request and writes twice a day. Which sharing policy fits?",
+    "options": [
+      "Deep copy on every read",
+      "Shallow copy on every read",
+      "Share one immutable object and build a new one when the data changes",
+      "Lock every read"
+    ],
+    "answer": 2,
+    "explanation": "Cost should follow the rare event. Copying on write pays twice a day; copying on read pays millions of times."
+  },
+  {
+    "question": "`discount=0` is valid, `None` means inherit. How should an update function detect that the caller did not pass `discount`?",
+    "options": [
+      "`if not discount:`",
+      "`if discount is None:`",
+      "`if discount is MISSING:` with a module-level `MISSING = object()`",
+      "`if discount == 0:`"
+    ],
+    "answer": 2,
+    "explanation": "Both falsy checks and `None` checks collide with valid data. A unique sentinel compared with `is` cannot."
+  },
+  {
+    "question": "A request reads 500 rules, a deep copy takes 8 microseconds and the budget is 5 ms. Does deep copying on read fit, and what changes the answer?",
+    "options": [
+      "No: it costs 40 ms",
+      "Yes: it costs 4 ms, but any growth in reads per request or rule size breaks the budget, so measure before relying on it",
+      "Yes, copying is always free in Python",
+      "It cannot be computed without knowing the write rate"
+    ],
+    "answer": 1,
+    "explanation": "500 × 8 µs = 4 000 µs = 4 ms. The arithmetic, not the pattern name, decides; and the margin is thin, so the write rate and growth still matter."
+  }
+]

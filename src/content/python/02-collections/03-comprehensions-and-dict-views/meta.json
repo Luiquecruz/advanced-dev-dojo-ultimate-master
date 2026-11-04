@@ -1,0 +1,12 @@
+{
+  "title": "Comprehensions and Dict Views",
+  "summary": "Build collections with comprehensions, understand that keys(), values() and items() are live set-like views, and implement inversion, grouping and key intersections.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: List Comprehensions", "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions" },
+    { "label": "Python Library: Dictionary view objects", "url": "https://docs.python.org/3/library/stdtypes.html#dict-views" }
+  ]
+}
