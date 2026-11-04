@@ -1,0 +1,7 @@
+[
+  { "term": "`sys.modules`", "description": "The cache of loaded modules by name. A module body runs only on its first import; later imports return the cached object." },
+  { "term": "`from x import y`", "description": "Imports `x`, then binds a new name `y` to the object `x.y` referenced at that moment. It is not a live binding." },
+  { "term": "`__name__`", "description": "The import name of a module, or `\"__main__\"` for the file Python was started with." },
+  { "term": "Partially initialized module", "description": "A module already in `sys.modules` whose body is still running, which is what a circular import sees." },
+  { "term": "Import-time side effect", "description": "Work done by a module's top level, such as registering handlers, which runs once per process on first import." }
+]

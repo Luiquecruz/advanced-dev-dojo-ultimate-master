@@ -1,0 +1,4 @@
+{
+  "title": "Functions, Modules and Callables",
+  "description": "How arguments bind, what a closure captures and where cross-cutting behavior should live: modules and imports, parameter kinds, defaults, closures, decorators, callable objects and functools."
+}

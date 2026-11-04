@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`def cache(size=128)` returns a decorator. What happens with `@cache` (no parentheses) above `def load(key)`?",
+    "options": [
+      "`load` is cached with size 128",
+      "A `SyntaxError`",
+      "`size` receives the function and `load` becomes the inner decorator, so calling `load(key)` misbehaves",
+      "Python calls `cache()` automatically"
+    ],
+    "answer": 2,
+    "explanation": "`@cache` means `load = cache(load)`. The factory treats the function as its `size` setting and returns the decorator instead of a wrapper."
+  },
+  {
+    "question": "In a decorator factory, where should a per-function call counter be created?",
+    "options": [
+      "At module level",
+      "Inside the decorator, before defining the wrapper",
+      "Inside the wrapper",
+      "Inside the factory, before defining the decorator"
+    ],
+    "answer": 1,
+    "explanation": "The decorator body runs once per decorated function. Module level is shared by everything, the wrapper resets on every call, and the factory level is shared when one factory result decorates several functions."
+  },
+  {
+    "question": "Why does `retry(function=None, /, *, times=3)` make `times` keyword-only?",
+    "options": [
+      "So `@retry(5)` fails clearly instead of passing `5` as the function",
+      "Keyword-only parameters are faster",
+      "`functools.wraps` requires it",
+      "To allow `@retry` without parentheses"
+    ],
+    "answer": 0,
+    "explanation": "With a keyword-only setting, the only positional argument is the function, so the bare and called forms cannot be confused."
+  },
+  {
+    "question": "A rate limiter calls `time.time()` directly. What is the main cost?",
+    "options": [
+      "`time.time()` is not precise enough",
+      "It cannot be used as a decorator",
+      "It breaks `functools.wraps`",
+      "Tests must sleep for real seconds to cross the window, so they are slow and flaky"
+    ],
+    "answer": 3,
+    "explanation": "Injecting `clock` lets a test move time forward instantly and deterministically; production passes `time.monotonic`."
+  }
+]

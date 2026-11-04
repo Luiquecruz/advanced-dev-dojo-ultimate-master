@@ -1,0 +1,7 @@
+[
+  { "term": "Decorator", "description": "A callable applied at definition time: `@dec` above `def f` means `f = dec(f)`." },
+  { "term": "Wrapper", "description": "The inner function a decorator returns; it runs on every call and usually calls the original." },
+  { "term": "`functools.wraps`", "description": "Copies `__name__`, `__qualname__`, `__doc__`, `__module__` and annotations onto the wrapper and sets `__wrapped__`." },
+  { "term": "`__wrapped__`", "description": "A reference to the original function; `inspect.signature` and `inspect.unwrap` follow it." },
+  { "term": "Stacking order", "description": "Decorators apply bottom-up, and their wrappers run top-down at call time." }
+]

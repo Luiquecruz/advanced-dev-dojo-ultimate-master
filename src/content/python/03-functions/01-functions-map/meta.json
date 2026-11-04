@@ -1,0 +1,11 @@
+{
+  "title": "Map: Functions, Modules and Callables",
+  "summary": "A guide to how Python binds arguments, caches modules, captures variables in closures and wraps functions with decorators, and why annotations are not enforced at runtime.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Python Tutorial: More on Defining Functions", "url": "https://docs.python.org/3/tutorial/controlflow.html#more-on-defining-functions" },
+    { "label": "Python Tutorial: Modules", "url": "https://docs.python.org/3/tutorial/modules.html" },
+    { "label": "PEP 649: Deferred Evaluation Of Annotations Using Descriptors", "url": "https://peps.python.org/pep-0649/" }
+  ]
+}

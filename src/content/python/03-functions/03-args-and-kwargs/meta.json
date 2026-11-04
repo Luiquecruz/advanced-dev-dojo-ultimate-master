@@ -1,0 +1,13 @@
+{
+  "title": "*args and **kwargs",
+  "summary": "How Python collects extra positional and keyword arguments, how call-site unpacking forwards them, and why a wrapper's own parameters must not collide with the callee's. Build forward, retry and compose helpers.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: Arbitrary Argument Lists", "url": "https://docs.python.org/3/tutorial/controlflow.html#arbitrary-argument-lists" },
+    { "label": "Python Tutorial: Unpacking Argument Lists", "url": "https://docs.python.org/3/tutorial/controlflow.html#unpacking-argument-lists" },
+    { "label": "Language Reference: Calls", "url": "https://docs.python.org/3/reference/expressions.html#calls" }
+  ]
+}

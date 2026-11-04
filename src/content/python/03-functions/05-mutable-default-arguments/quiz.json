@@ -1,0 +1,52 @@
+[
+  {
+    "question": "What does the third call print? `def f(x, seen=set()): seen.add(x); return len(seen)` called as `f(1)`, `f(2)`, `print(f(1))`.",
+    "options": ["`1`", "`3`", "`2`", "`0`"],
+    "answer": 2,
+    "explanation": "The default set is created once and shared. After `f(1)` and `f(2)` it holds `{1, 2}`; adding `1` again keeps the size at 2."
+  },
+  {
+    "question": "Why is `items = items or []` a weaker fix than `if items is None: items = []`?",
+    "options": [
+      "An empty list passed by the caller is falsy, so it is replaced by a new list and the caller's list never gets filled",
+      "`or` evaluates the default once",
+      "It is slower",
+      "It raises `TypeError` for lists"
+    ],
+    "answer": 0,
+    "explanation": "Truthiness treats `[]`, `{}` and `0` like `None`. An identity check with `is None` only replaces the real sentinel."
+  },
+  {
+    "question": "What happens when a dataclass declares `tags: list[str] = []`?",
+    "options": [
+      "Each instance gets its own list",
+      "All instances share the list silently",
+      "The annotation is ignored and `tags` is `None`",
+      "Class creation raises `ValueError: mutable default ... use default_factory`"
+    ],
+    "answer": 3,
+    "explanation": "`dataclass` rejects unhashable defaults to prevent the shared-default bug and points you at `field(default_factory=list)`."
+  },
+  {
+    "question": "A function must treat `timeout=None` as \"no timeout\" and an omitted `timeout` as \"use the configured default\". What should the default be?",
+    "options": [
+      "`None`",
+      "A private module-level `object()` checked with `is`",
+      "`0`",
+      "`False`"
+    ],
+    "answer": 1,
+    "explanation": "`None` is already a valid value here, so a unique sentinel is the only way to detect that the argument was omitted."
+  },
+  {
+    "question": "`def log(message, at=time.time())`: when is `at` computed?",
+    "options": [
+      "Once, when the `def` statement runs, so every call gets the same timestamp",
+      "On every call",
+      "Lazily on first use",
+      "Never: it raises `SyntaxError`"
+    ],
+    "answer": 0,
+    "explanation": "Defaults are evaluated at definition time even when they are immutable. Use `at=None` and compute `time.time()` in the body."
+  }
+]

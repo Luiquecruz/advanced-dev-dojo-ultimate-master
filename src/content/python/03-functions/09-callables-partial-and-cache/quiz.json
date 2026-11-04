@@ -1,0 +1,42 @@
+[
+  {
+    "question": "With `@lru_cache(maxsize=2)`, calls go `f('a')`, `f('b')`, `f('a')`, `f('c')`, `f('b')`. How many times does the body of `f` run?",
+    "options": ["3", "5", "4", "2"],
+    "answer": 2,
+    "explanation": "`a` and `b` miss, `a` hits and becomes most recent, `c` misses and evicts `b` (least recently used), so `b` misses again: 4 runs."
+  },
+  {
+    "question": "A `singledispatch` function registers handlers for `object` and `int` only. Which handler does `render(False)` use?",
+    "options": ["The `int` handler", "The `object` fallback", "It raises `TypeError`", "A `bool` handler created automatically"],
+    "answer": 0,
+    "explanation": "Dispatch follows the MRO of the argument's class: `bool` → `int` → `object`, and `int` is the first one registered."
+  },
+  {
+    "question": "Where does `@cached_property` store the computed value?",
+    "options": [
+      "In a global cache keyed by the instance",
+      "On the class, shared by all instances",
+      "In `functools` internal storage",
+      "In the instance's `__dict__`, under the property's name"
+    ],
+    "answer": 3,
+    "explanation": "After the first access the instance attribute shadows the descriptor, so later reads are plain attribute lookups. Deleting the attribute forces a recompute."
+  },
+  {
+    "question": "`base = Pipeline(strip)`, then `a = base.then(upper)` and `b = base.then(lower)`. If `then` appends to `self` and returns `self`, what is wrong?",
+    "options": [
+      "Nothing: chaining is the point of `then`",
+      "`a`, `b` and `base` are the same object holding all three steps",
+      "Python forbids returning `self`",
+      "Only `b` is affected"
+    ],
+    "answer": 1,
+    "explanation": "Mutating builders alias every derived pipeline to `base`. Returning a new `Pipeline` keeps each one independent."
+  },
+  {
+    "question": "Which replaces `lambda row: row['email']` in `sorted(rows, key=...)`?",
+    "options": ["`attrgetter('email')`", "`partial(dict.get)`", "`itemgetter('email')`", "`methodcaller('email')`"],
+    "answer": 2,
+    "explanation": "`itemgetter` builds a callable that subscripts its argument; `attrgetter` reads attributes instead."
+  }
+]

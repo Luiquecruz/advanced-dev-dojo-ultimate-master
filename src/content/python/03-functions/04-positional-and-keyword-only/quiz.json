@@ -1,0 +1,36 @@
+[
+  {
+    "question": "For `def f(a, /, b, *, c)`, which call is valid?",
+    "options": ["`f(a=1, b=2, c=3)`", "`f(1, 2, 3)`", "`f(1, b=2, c=3)`", "`f(1, 2)`"],
+    "answer": 2,
+    "explanation": "`a` must be positional, `c` must be named and is required, and `b` accepts either style."
+  },
+  {
+    "question": "Why do public APIs make boolean flags keyword-only, as in `def save(path, *, overwrite=False)`?",
+    "options": [
+      "Keyword-only parameters are faster",
+      "`save('a.txt', True)` would be unreadable, and new options can be added without breaking positional callers",
+      "Booleans cannot be positional in Python",
+      "It enables type checking at runtime"
+    ],
+    "answer": 1,
+    "explanation": "Forcing `overwrite=True` documents the call site, and since nobody relies on the option's position, the signature can grow safely."
+  },
+  {
+    "question": "What does `inspect.signature(lambda *items, **extra: None).parameters['items'].kind.name` return?",
+    "options": ["`'POSITIONAL_ONLY'`", "`'POSITIONAL_OR_KEYWORD'`", "`'KEYWORD_ONLY'`", "`'VAR_POSITIONAL'`"],
+    "answer": 3,
+    "explanation": "`*items` collects extra positional arguments, which `inspect` reports as `VAR_POSITIONAL`; `**extra` is `VAR_KEYWORD`."
+  },
+  {
+    "question": "A library renames a positional-only parameter from `value` to `number`. Which callers break?",
+    "options": [
+      "None: callers could never pass it by name",
+      "Every caller",
+      "Callers that use `value=` by name",
+      "Callers that pass it by position"
+    ],
+    "answer": 0,
+    "explanation": "Positional-only names are not part of the call API, which is exactly why builtins and stable libraries use `/`."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "title": "Callables, partial and Caches",
+  "summary": "Any object with __call__ is a function to Python. Build an immutable callable pipeline, dispatch by type with singledispatch, and cache with lru_cache and cached_property instead of hand-written memo dicts.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "functools: Higher-order functions and operations on callable objects", "url": "https://docs.python.org/3/library/functools.html" },
+    { "label": "operator: itemgetter and attrgetter", "url": "https://docs.python.org/3/library/operator.html#operator.itemgetter" },
+    { "label": "Data model: Emulating callable objects", "url": "https://docs.python.org/3/reference/datamodel.html#emulating-callable-objects" }
+  ]
+}

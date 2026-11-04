@@ -1,0 +1,7 @@
+[
+  { "term": "Definition-time default", "description": "A default expression is evaluated once, when `def` runs, and stored in `__defaults__`." },
+  { "term": "Mutable default bug", "description": "A list, dict or set default mutated by the function, so every call that omits the argument shares the changes." },
+  { "term": "`None` sentinel", "description": "Using `None` as the default and building a fresh object inside the body: `if tags is None: tags = []`." },
+  { "term": "`default_factory`", "description": "A dataclass field option that calls a factory such as `list` for each new instance." },
+  { "term": "Private sentinel", "description": "A unique `object()` used as a default when `None` is a meaningful argument, compared with `is`." }
+]

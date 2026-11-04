@@ -1,0 +1,7 @@
+[
+  { "term": "Closure", "description": "A function that keeps references to variables of its enclosing scope after that scope has returned." },
+  { "term": "Late binding", "description": "Names in a closure are looked up when the function runs, so a loop variable shows its last value." },
+  { "term": "Cell", "description": "The object that holds a captured variable; `function.__closure__` lists them and `cell_contents` reads one." },
+  { "term": "Factory function", "description": "A function that builds and returns a closure, creating a fresh scope (and fresh cells) per call." },
+  { "term": "`nonlocal`", "description": "Declares that assignments inside an inner function rebind a variable of the enclosing function." }
+]

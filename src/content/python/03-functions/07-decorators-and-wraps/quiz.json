@@ -1,0 +1,41 @@
+[
+  {
+    "question": "A decorator prints `\"decorating\"` in its body and `\"calling\"` in its wrapper. A module defines one decorated function and calls it twice. What is printed?",
+    "options": [
+      "`calling` twice",
+      "`decorating`, `calling`, `decorating`, `calling`",
+      "`decorating` once, then `calling` twice",
+      "`decorating` twice"
+    ],
+    "answer": 2,
+    "explanation": "The decorator body runs once when `@` is applied at definition time; the wrapper runs on every call."
+  },
+  {
+    "question": "Without `functools.wraps`, what does `inspect.signature(ship)` show for a decorated `def ship(order_id, *, express=False)`?",
+    "options": [
+      "`(order_id, *, express=False)`",
+      "`(*args, **kwargs)`",
+      "An error",
+      "`()`"
+    ],
+    "answer": 1,
+    "explanation": "`ship` is now the wrapper, whose own parameters are `*args, **kwargs`. `wraps` sets `__wrapped__`, which `inspect.signature` follows to the original."
+  },
+  {
+    "question": "Each decorator prints its name before calling the wrapped function. In what order do they print for `@a` above `@b` above `@c` on `def f`?",
+    "options": ["`c b a`", "`b a c`", "Unspecified", "`a b c`"],
+    "answer": 3,
+    "explanation": "`f = a(b(c(f)))`. Calling `f` enters `a`'s wrapper first, which calls `b`'s, which calls `c`'s."
+  },
+  {
+    "question": "A decorator's wrapper ends with `function(*args, **kwargs)` but no `return`. What happens?",
+    "options": [
+      "Every decorated function now returns `None`",
+      "Python returns the last expression automatically",
+      "A `SyntaxError` at import",
+      "Only async functions are affected"
+    ],
+    "answer": 0,
+    "explanation": "Python functions without `return` return `None`. A wrapper must return the inner result explicitly."
+  }
+]

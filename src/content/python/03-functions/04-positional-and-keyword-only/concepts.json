@@ -1,0 +1,7 @@
+[
+  { "term": "Positional-only parameter", "description": "A parameter declared before `/`; callers cannot pass it by name, so its name is free to change." },
+  { "term": "Keyword-only parameter", "description": "A parameter declared after `*` or `*args`; callers must pass it by name." },
+  { "term": "`inspect.signature`", "description": "Returns a `Signature` object whose ordered `parameters` describe names, kinds, defaults and annotations." },
+  { "term": "`Parameter.kind`", "description": "One of `POSITIONAL_ONLY`, `POSITIONAL_OR_KEYWORD`, `VAR_POSITIONAL`, `KEYWORD_ONLY`, `VAR_KEYWORD`." },
+  { "term": "Options object", "description": "The JS/TS pattern of passing named settings in one object; in Python, keyword-only parameters play that role." }
+]
