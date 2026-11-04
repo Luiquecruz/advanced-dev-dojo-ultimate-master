@@ -6,7 +6,7 @@ Findings marked **[verified]** were reproduced locally (Node 26.10, `pyodide@314
 
 ## Threat model
 
-- There is no backend and no code sharing: learner code is typed by the learner and stored in their own `localStorage` (`entities/progress/progressStore.ts:21,36`). Routes carry only `#/<track>/<lesson>`, never code. So learner code attacking the platform is mostly self-harm (self-XSS class), and grading integrity is a local concern.
+- There is no backend and no code sharing: learner code is typed by the learner and stored in their own `localStorage` (`entities/progress/progressStore.ts:21,36`). Routes carry only `/<track>/<lesson>` (react-router path routes since November 2026; hash routes before), never code. So learner code attacking the platform is mostly self-harm (self-XSS class), and grading integrity is a local concern.
 - Lesson content (`starter/`, `solution/`, `tests.py`, Markdown) is trusted repository content, but it **executes on contributor and CI machines** through `npm run verify`. That is the one place where a malicious contribution has real impact (see B1).
 - The realistic secondary vector is a learner pasting code from the internet into the editor.
 
