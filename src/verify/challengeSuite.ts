@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { trackById, type LanguageId } from '../content';
+import type { LanguageId } from '../content';
+import { trackById } from '../content/allContent';
 import { installLoopGuard } from '../engines/shared/compile';
 import { installFakeApi } from '../engines/shared/fakeApi';
 import { listTestNames, runTests, type FrameworkAdapter } from '../engines/shared/testRunner';

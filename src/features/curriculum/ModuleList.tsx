@@ -61,7 +61,7 @@ export function ModuleList({ track, currentKey, compact = false, className, onNa
                       <span className="flex items-center gap-1.5">
                         {lesson.tags.includes('legacy') && <span className={tagClass('legacy')}>legacy</span>}
                         {(lesson.tags.includes('new') || lesson.tags.includes('react-19')) && <span className={tagClass('new')}>new</span>}
-                        {!lesson.challenge && <span className={tagClass('quiz')}>quiz</span>}
+                        {!lesson.hasChallenge && <span className={tagClass('quiz')}>quiz</span>}
                         {!compact && (
                           <span className={clsx('min-w-19.5 text-right text-[11px] capitalize max-wide:hidden', lesson.level === 'advanced' || lesson.level === 'expert' ? 'text-advanced' : 'text-ink-faint')}>
                             {lesson.level}

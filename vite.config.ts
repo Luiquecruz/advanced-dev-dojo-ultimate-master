@@ -2,9 +2,10 @@ import { resolve } from 'node:path';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
+import { contentPlugin } from './plugins/contentPlugin.ts';
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), contentPlugin()],
   resolve: {
     alias: [
       { find: /^@\//, replacement: `${resolve(import.meta.dirname, 'src')}/` },

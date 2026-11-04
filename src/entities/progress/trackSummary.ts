@@ -1,4 +1,4 @@
-import type { Lesson, Module, Track } from '@/content';
+import type { LessonEntry, Module, Track } from '@/content';
 import { isLessonComplete, type ProgressState } from './progressStore';
 
 export type TrackStatus = 'not-started' | 'in-progress' | 'completed';
@@ -16,7 +16,7 @@ export interface TrackSummary {
   total: number;
   percent: number;
   status: TrackStatus;
-  resumeLesson: Lesson;
+  resumeLesson: LessonEntry;
   currentModuleIndex: number;
   modules: ModuleProgress[];
 }

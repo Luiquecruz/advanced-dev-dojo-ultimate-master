@@ -8,7 +8,7 @@ This document describes how Dev Dojo is built and the step-by-step pattern to ad
 src/
 ├── main.tsx             Entry: mounts App and the Tailwind stylesheet
 ├── app/                 Composition root: App, routing adapter (route → layers, motion, scene), ActivityShell, styles.css
-├── pages/               One screen per route: home/HomePage, track/TrackPage, lesson/LessonPage
+├── pages/               One screen per route: home/HomePage, track/TrackPage, lesson/LessonRoute (lazy LessonPage)
 ├── features/            User-facing capabilities, each with an index.ts public API
 │   ├── lesson/          LessonPanel, Quiz, CodeEditor (Monaco), PreviewFrame, runner (grading bridge)
 │   ├── curriculum/      ModuleList, CurriculumDrawer, CurriculumPanel (frosted panel + glow border)
@@ -26,8 +26,10 @@ src/
 │   ├── routing/         hash route parsing and links
 │   └── lib/             small React hooks (useMediaQuery)
 ├── content/
-│   ├── index.ts         Public API: globs the lesson files and exposes tracks, lessons, LANGUAGES
-│   ├── loader.ts        buildTracks: tracks → modules → lessons → challenge variants (unit tested in loader.test.ts)
+│   ├── index.ts         Public API for the app: catalog (tracks, modules, lesson entries), loadLesson, LANGUAGES
+│   ├── allContent.ts    Full tracks built synchronously from an eager glob, for src/verify only
+│   ├── loader.ts        buildTracks: tracks → modules → lessons → challenge variants; splitCatalog, restoreLesson
+│   ├── virtual.d.ts     Types of the virtual:dojo-content modules
 │   ├── languages.ts     LANGUAGES registry for multi-language tracks (language → label, engine)
 │   ├── types.ts         Track, Lesson, Challenge, EngineId, LanguageId...
 │   └── <track>/         track.json (declares its engine or languages) + <NN-module>/module.json + <NN-lesson>/...
@@ -39,6 +41,7 @@ src/
 │   └── angular/         Framework adapter + JIT transform for signal APIs
 ├── sandbox/             sandbox.html entry: loads one framework engine inside an iframe
 ├── verify/              Vitest suites that validate every lesson (solution passes, starter fails)
+└── ../plugins/          contentPlugin: Vite plugin serving the catalog and one lazy module per lesson
 └── architecture.test.ts Enforces the layer rules below
 ```
 
@@ -76,6 +79,15 @@ hash change ─► useRoute (shared/routing) ─► useMotionRouting (app/routin
                                                └─► sceneTargetFor(MotionState, route) ─► AmbientScene ─► SceneAPI
 learner actions ─► progress.* (entities/progress) ─► localStorage + useProgress subscribers ─► summarizeTrack (derived)
 ```
+
+### Content loading
+
+The app never imports lesson files directly. `plugins/contentPlugin.ts` reads `src/content/<track>/**`, runs `buildTracks` and `splitCatalog`, and serves two kinds of virtual modules:
+
+- `virtual:dojo-content`: the catalog (track meta, modules and `LessonEntry` items with `hasChallenge`/`hasQuiz`) plus `lessonLoaders`, one dynamic import per lesson. It is the only content in the initial load.
+- `virtual:dojo-content/lesson/<track>/<lesson>`: the lesson body (theory, concepts, variants, quiz, resources), one chunk per lesson.
+
+`loadLesson(entry)` (`content/index.ts`) imports the body once and caches the promise; `restoreLesson` rebuilds `challenge` as `variants[0]`. `pages/lesson/LessonRoute.tsx` lazy-loads `LessonPage` (Monaco, engines, runner) and the lesson body in parallel, suspends on them and shows the lesson title meanwhile; when the coordinator focused that placeholder title, focus moves to the real `[data-activity-title]` once the page mounts. Everything outside the lesson screen works on `LessonEntry` (`isLessonComplete`, `summarizeTrack`, curriculum, carousel). In dev, a change under `src/content/<track>/` invalidates the virtual modules and reloads the page. `src/verify` builds full tracks from `content/allContent.ts` (eager glob), and `content.test.ts` checks that the served catalog matches them.
 
 ### State and storage
 

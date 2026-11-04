@@ -37,7 +37,7 @@ export interface Challenge {
   preview: boolean;
 }
 
-export interface Lesson {
+export interface LessonEntry {
   key: string;
   id: string;
   folder: string;
@@ -47,6 +47,11 @@ export interface Lesson {
   summary: string;
   level: Level;
   tags: string[];
+  hasChallenge: boolean;
+  hasQuiz: boolean;
+}
+
+export interface LessonContent {
   theory: string;
   concepts: Concept[];
   challenge?: Challenge;
@@ -55,15 +60,17 @@ export interface Lesson {
   resources: Array<{ label: string; url: string }>;
 }
 
-export interface Module {
+export interface Lesson extends LessonEntry, LessonContent {}
+
+export interface Module<TLesson extends LessonEntry = LessonEntry> {
   id: string;
   trackId: TrackId;
   title: string;
   description: string;
-  lessons: Lesson[];
+  lessons: TLesson[];
 }
 
-export interface Track {
+export interface Track<TLesson extends LessonEntry = LessonEntry> {
   id: TrackId;
   engine: EngineId;
   languages: LanguageId[];
@@ -73,6 +80,6 @@ export interface Track {
   monogram: string;
   description: string;
   version: string;
-  modules: Module[];
-  lessons: Lesson[];
+  modules: Module<TLesson>[];
+  lessons: TLesson[];
 }

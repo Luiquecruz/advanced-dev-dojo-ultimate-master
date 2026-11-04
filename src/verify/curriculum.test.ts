@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { allLessons, tracks } from '../content';
+import { allLessons, tracks } from '../content/allContent';
 
 const CURRICULUM = readFileSync(resolve(import.meta.dirname, '../../.claude/docs/CURRICULUM.md'), 'utf8');
 const SECTION = /^## .*\(`src\/content\/([a-z0-9-]+)`/;

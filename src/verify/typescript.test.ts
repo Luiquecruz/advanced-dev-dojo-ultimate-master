@@ -4,7 +4,7 @@ import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import ts from 'typescript';
 import { describe, expect, it } from 'vitest';
-import { trackById } from '../content';
+import { trackById } from '../content/allContent';
 import { combineResults, splitTests } from '../engines/typescript/grader';
 import { runRuntimeTests } from '../engines/typescript/runtime';
 import { createStaticAnalyzer } from '../engines/typescript/staticAnalysis';

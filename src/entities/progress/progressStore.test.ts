@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { codeKeyFor, isLessonComplete, progress } from './progressStore';
 
 const STORAGE_KEY = 'dev-dojo:progress:v1';
-const lesson = { key: 'demo/intro', challenge: {}, quiz: [{}] };
+const lesson = { key: 'demo/intro', hasChallenge: true, hasQuiz: true };
 
 describe('progress store', () => {
   beforeEach(() => {

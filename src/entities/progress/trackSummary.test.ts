@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import type { Lesson, Module, Track } from '@/content';
+import type { LessonEntry, Module, Track } from '@/content';
 import type { ProgressState } from './progressStore';
 import { modulesAroundStage, summarizeTrack } from './trackSummary';
 
-function lesson(id: string, moduleId: string): Lesson {
-  return { key: `demo/${id}`, id, folder: `demo/${moduleId}/${id}`, trackId: 'demo', moduleId, title: id, summary: '', level: 'beginner', tags: [], theory: '', concepts: [], quiz: [], resources: [], challenge: {} as Lesson['challenge'], variants: [] };
+function lesson(id: string, moduleId: string): LessonEntry {
+  return { key: `demo/${id}`, id, folder: `demo/${moduleId}/${id}`, trackId: 'demo', moduleId, title: id, summary: '', level: 'beginner', tags: [], hasChallenge: true, hasQuiz: false };
 }
 
 function buildTrack(moduleCount: number, lessonsPerModule: number): Track {

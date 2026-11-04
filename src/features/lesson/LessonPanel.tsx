@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useState } from 'react';
-import type { Challenge, Lesson, Track } from '@/content';
+import type { Challenge, Lesson, LessonEntry, Track } from '@/content';
 import { InlineMarkdown, Markdown } from '@/shared/ui/Markdown';
 import { TestName } from './TestName';
 import { Quiz } from './Quiz';
@@ -22,7 +22,7 @@ interface LessonPanelProps {
   report: Report | null;
   running: boolean;
   onRevealSolution(): void;
-  nextLesson?: Lesson;
+  nextLesson?: LessonEntry;
 }
 
 type TestStatus = 'running' | 'pending' | 'passed' | 'failed';

@@ -26,7 +26,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   const engine = challenge?.engine ?? track.engine;
   const codeKey = codeKeyFor(lesson.key, challenge?.language);
   const narrow = useMediaQuery('(width < 56.25rem)');
-  const index = track.lessons.indexOf(lesson);
+  const index = track.lessons.findIndex((entry) => entry.key === lesson.key);
   const previous = track.lessons[index - 1];
   const next = track.lessons[index + 1];
 

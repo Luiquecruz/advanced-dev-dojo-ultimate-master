@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import type { LanguageId, ProjectFiles, TrackId } from '@/content';
+import type { LanguageId, LessonEntry, ProjectFiles, TrackId } from '@/content';
 
 const STORAGE_KEY = 'dev-dojo:progress:v1';
 
@@ -118,8 +118,8 @@ export function useProgress(): ProgressState {
 /**
  * A lesson is complete when its challenge passed in any language (if any) and its quiz was answered correctly (if any).
  */
-export function isLessonComplete(state: ProgressState, lesson: { key: string; challenge?: unknown; quiz: unknown[] }): boolean {
-  const challengeDone = !lesson.challenge || Boolean(state.challenges[lesson.key]);
-  const quizDone = lesson.quiz.length === 0 || Boolean(state.quizzes[lesson.key]);
+export function isLessonComplete(state: ProgressState, lesson: Pick<LessonEntry, 'key' | 'hasChallenge' | 'hasQuiz'>): boolean {
+  const challengeDone = !lesson.hasChallenge || Boolean(state.challenges[lesson.key]);
+  const quizDone = !lesson.hasQuiz || Boolean(state.quizzes[lesson.key]);
   return challengeDone && quizDone;
 }

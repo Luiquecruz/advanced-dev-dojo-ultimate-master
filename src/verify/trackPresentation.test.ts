@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { tracks } from '../content';
+import { tracks } from '../content/allContent';
 
 const TOKENS = readFileSync(resolve(import.meta.dirname, '../shared/design/tokens.css'), 'utf8');
 const SURFACES = { void: '#0a0f18', panel: '#121c2a', elevated: '#1b293a' };

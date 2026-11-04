@@ -1,6 +1,10 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { allLessons, availableTracks, isTrackEnabled, LANGUAGES, tracks } from '../content';
+import { tracks as catalog } from '../content';
+import { allLessons, availableTracks, tracks } from '../content/allContent';
+import { isTrackEnabled } from '../content/featureFlags';
+import { LANGUAGES } from '../content/languages';
+import { splitCatalog } from '../content/loader';
 
 const filter = process.env.LESSON;
 const lessons = allLessons.filter((lesson) => !filter || (filter.includes('/') ? lesson.key === filter : lesson.id.includes(filter)));
@@ -14,6 +18,10 @@ describe('content structure', () => {
   it('shows only enabled tracks and keeps disabled ones loaded', () => {
     expect(availableTracks).toEqual(tracks.filter((track) => isTrackEnabled(track.id)));
     expect(availableTracks.length).toBeGreaterThan(0);
+  });
+
+  it('serves the app a catalog matching the lesson files', () => {
+    expect(catalog).toEqual(splitCatalog(tracks).catalog);
   });
 
   it.each(tracks.map((track) => [track.id, track] as const))('%s grades each challenge with the engine of its language', (_, track) => {

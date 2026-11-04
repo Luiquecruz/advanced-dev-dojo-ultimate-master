@@ -18,7 +18,7 @@ const HEADLINE_LABEL = 'Dev Dojo: learn, build and code, from front-end and back
 const EXPLORE_AFTER_MS = 1400;
 
 const totalLessons = availableTracks.reduce((sum, track) => sum + track.lessons.length, 0);
-const totalChallenges = availableTracks.reduce((sum, track) => sum + track.lessons.filter((lesson) => lesson.challenge).length, 0);
+const totalChallenges = availableTracks.reduce((sum, track) => sum + track.lessons.filter((lesson) => lesson.hasChallenge).length, 0);
 
 /**
  * Full-screen landing: editorial layout around the 3D path carousel, with the active track name as a giant backdrop.

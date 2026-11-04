@@ -5,7 +5,7 @@ import { ActivityShell } from './layout/ActivityShell';
 import { useMotionState } from '@/shared/motion/useMotionState';
 import { AmbientScene } from '@/features/ambient-scene';
 import { HomePage } from '@/pages/home/HomePage';
-import { LessonPage } from '@/pages/lesson/LessonPage';
+import { LessonRoute } from '@/pages/lesson/LessonRoute';
 import { TrackPage } from '@/pages/track/TrackPage';
 import { hrefTo, useRoute } from '@/shared/routing/route';
 import { sceneTargetFor, useMotionRouting, type ActivityRoute, type BaseRoute } from './routing/router-adapter';
@@ -61,8 +61,8 @@ function BasePage({ base, onExploreChange, onTrailChange }: BasePageProps) {
 
 function ActivityPage({ activity }: { activity: ActivityRoute }) {
   const track = availableTrackById.get(activity.trackId);
-  const lesson = track?.lessons.find((entry) => entry.id === activity.lessonId);
-  return track && lesson ? <LessonPage key={lesson.key} track={track} lesson={lesson} /> : <NotFound />;
+  const entry = track?.lessons.find((lesson) => lesson.id === activity.lessonId);
+  return track && entry ? <LessonRoute key={entry.key} track={track} entry={entry} /> : <NotFound />;
 }
 
 function NotFound() {

@@ -1,4 +1,4 @@
-import type { Challenge, Concept, EngineId, LanguageId, LanguageRegistry, Level, Module, ProjectFiles, QuizQuestion, Track, TrackId } from './types';
+import type { Challenge, Concept, EngineId, LanguageId, LanguageRegistry, Lesson, LessonContent, LessonEntry, Level, Module, ProjectFiles, QuizQuestion, Track, TrackId } from './types.ts';
 
 export interface ContentSources {
   textFiles: Record<string, string>;
@@ -56,7 +56,7 @@ function renameSingle(files: ProjectFiles, entry: string): ProjectFiles {
 /**
  * Builds tracks, modules and lessons from raw lesson files keyed by their path relative to `src/content` (`./<track>/...`).
  */
-export function buildTracks({ textFiles, jsonFiles }: ContentSources, languages: LanguageRegistry): Track[] {
+export function buildTracks({ textFiles, jsonFiles }: ContentSources, languages: LanguageRegistry): Array<Track<Lesson>> {
   const file = (path: string): string | undefined => textFiles[path];
 
   const collectFiles = (directory: string, kind: 'starter' | 'solution'): { files: ProjectFiles; extension?: string } => {
@@ -100,7 +100,7 @@ export function buildTracks({ textFiles, jsonFiles }: ContentSources, languages:
     };
   };
 
-  const buildVariants = (track: Track, directory: string, meta: LessonMeta): Challenge[] => {
+  const buildVariants = (track: Track<Lesson>, directory: string, meta: LessonMeta): Challenge[] => {
     if (track.languages.length === 0) {
       const challenge = buildChallenge(directory, directory, track.engine, meta);
       return challenge ? [challenge] : [];
@@ -111,8 +111,8 @@ export function buildTracks({ textFiles, jsonFiles }: ContentSources, languages:
     });
   };
 
-  const tracks = new Map<TrackId, Track>();
-  const modules = new Map<string, Module>();
+  const tracks = new Map<TrackId, Track<Lesson>>();
+  const modules = new Map<string, Module<Lesson>>();
   const lessonDirectories = new Set<string>();
 
   for (const path of Object.keys(jsonFiles)) {
@@ -146,6 +146,7 @@ export function buildTracks({ textFiles, jsonFiles }: ContentSources, languages:
     const meta = jsonFiles[`${directory}/meta.json`] as LessonMeta;
     const id = stripPrefix(lessonDirectory);
     const variants = buildVariants(track, directory, meta);
+    const quiz = (jsonFiles[`${directory}/quiz.json`] as QuizQuestion[] | undefined) ?? [];
     module.lessons.push({
       key: `${trackId}/${id}`,
       id,
@@ -156,9 +157,11 @@ export function buildTracks({ textFiles, jsonFiles }: ContentSources, languages:
       summary: meta.summary,
       level: meta.level,
       tags: meta.tags ?? [],
+      hasChallenge: variants.length > 0,
+      hasQuiz: quiz.length > 0,
       theory: file(`${directory}/theory.md`) ?? '',
       concepts: (jsonFiles[`${directory}/concepts.json`] as Concept[] | undefined) ?? [],
-      quiz: (jsonFiles[`${directory}/quiz.json`] as QuizQuestion[] | undefined) ?? [],
+      quiz,
       resources: meta.resources ?? [],
       challenge: variants[0],
       variants,
@@ -174,4 +177,29 @@ export function buildTracks({ textFiles, jsonFiles }: ContentSources, languages:
   }
 
   return [...tracks.values()].sort((a, b) => a.order - b.order);
+}
+
+export type StoredLessonContent = Omit<LessonContent, 'challenge'>;
+
+/**
+ * Splits full tracks into a catalog without lesson bodies and the body of every lesson keyed by `<track>/<lesson>`.
+ */
+export function splitCatalog(tracks: Array<Track<Lesson>>): { catalog: Track[]; contents: Map<string, StoredLessonContent> } {
+  const contents = new Map<string, StoredLessonContent>();
+  const toEntry = ({ theory, concepts, challenge, variants, quiz, resources, ...entry }: Lesson): LessonEntry => {
+    contents.set(entry.key, { theory, concepts, variants, quiz, resources });
+    return entry;
+  };
+  const catalog = tracks.map((track): Track => {
+    const modules = track.modules.map((module): Module => ({ ...module, lessons: module.lessons.map(toEntry) }));
+    return { ...track, modules, lessons: modules.flatMap((module) => module.lessons) };
+  });
+  return { catalog, contents };
+}
+
+/**
+ * Joins a catalog entry with its stored body into a full lesson.
+ */
+export function restoreLesson(entry: LessonEntry, content: StoredLessonContent): Lesson {
+  return { ...entry, ...content, challenge: content.variants[0] };
 }
