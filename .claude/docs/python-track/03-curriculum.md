@@ -12,7 +12,7 @@ This table is the source for the `## Python` section of [CURRICULUM.md](../CURRI
 | Core | 01–08 | 65 | G5 |
 | Advanced | 09–12 including the capstone | 29 | G7 |
 | v2 restored lessons | 03, 05, 07, 08, 11, 12 | 9 | product owner decision (November 2026): the 9 deferred lessons come back, held to the same quality bar |
-| v2 module 13 (Pydantic) | 13 | 7 | G8 |
+| v2 module 13 (Pydantic) | 13 | 7 | G8 passed (GO, November 2026: wheels vendored with lock-pinned sha256, see 08-module-13-and-capstone.md) |
 
 ## Progression
 
@@ -188,17 +188,29 @@ ADR checkpoints close modules 01, 02, 04, 06, 09 and 10 only. Modules 03 and 05 
 | 04-testing-with-unittest | P | I |
 | 05-capstone-async-rules-engine | C | Ad |
 
+## 13-validation — Validation with Pydantic v2 (7)
+
+| Lesson | Kind | Level |
+| --- | --- | --- |
+| 01-validation-map | Q | B |
+| 02-basemodel-vs-dataclass | P | I |
+| 03-lax-and-strict-modes | P | I |
+| 04-field-and-model-validators | P | Ad |
+| 05-serialization-and-json-schema | P | I |
+| 06-pydantic-core-and-performance | Q | I |
+| 07-validation-adr | A | I |
+
 ## Totals
 
 | Kind | Count |
 | --- | --- |
-| Practice (P) | 75 |
-| Quiz (Q), including 12 maps | 16 |
-| ADR (A) | 11 |
+| Practice (P) | 79 |
+| Quiz (Q), including 13 maps | 18 |
+| ADR (A) | 12 |
 | Capstone (C) | 1 |
-| Total | 103 |
+| Total | 110 |
 
-Module sizes: 8, 9, 11, 9, 8, 9, 10, 6, 9, 9, 10, 5. Recompute these counts from the tables whenever a row changes.
+Module sizes: 8, 9, 11, 9, 8, 9, 10, 6, 9, 9, 10, 5, 7. Recompute these counts from the tables whenever a row changes.
 
 ## v2 backlog
 
@@ -212,13 +224,6 @@ The product owner brought back the 9 deferred lessons of modules 03, 05, 07, 08,
 
 | Module / lesson (115 plan) | Kind | Level | Why deferred |
 | --- | --- | --- | --- |
-| 13-validation/01-validation-map | Q | B | Module 13 (Pydantic v2) waits for the packaging spike and gate G8 ([08](08-module-13-and-capstone.md)) |
-| 13-validation/02-basemodel-vs-dataclass | P | I | Module 13, spike pending |
-| 13-validation/03-lax-and-strict-modes | P | I | Module 13, spike pending |
-| 13-validation/04-field-and-model-validators | P | Ad | Module 13, spike pending |
-| 13-validation/05-serialization-and-json-schema | P | I | Module 13, spike pending |
-| 13-validation/06-pydantic-core-and-performance | Q | I | Module 13, spike pending |
-| 13-validation/07-validation-adr | A | I | Module 13, spike pending |
 
 ### Merged, moved or reshaped in v1 (content kept)
 
