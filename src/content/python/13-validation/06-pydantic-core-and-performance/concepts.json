@@ -1,0 +1,8 @@
+[
+  { "term": "`pydantic-core`", "description": "The Rust extension (PyO3) that executes validation and serialization; `pydantic` itself only builds schemas from Python classes." },
+  { "term": "Core schema", "description": "The dict `pydantic` generates from annotations at class creation (`__pydantic_core_schema__`), compiled into a `SchemaValidator` and `SchemaSerializer`." },
+  { "term": "`TypeAdapter`", "description": "Validation, serialization and JSON Schema for any type (`list[int]`, a `TypedDict`, a dataclass); costly to build, so create it once." },
+  { "term": "`validate_json`", "description": "Parses and validates JSON text in one Rust pass, avoiding intermediate Python objects." },
+  { "term": "msgspec", "description": "A C library of `Struct` types with fast JSON and MessagePack decoding and type checks; fewer hooks than Pydantic." },
+  { "term": "attrs / cattrs", "description": "Python libraries for classes with optional validators (attrs) and for structuring dicts into them (cattrs)." }
+]

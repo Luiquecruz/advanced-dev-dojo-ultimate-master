@@ -1,0 +1,57 @@
+[
+  {
+    "question": "An endpoint runs `TypeAdapter(list[Order]).validate_python(rows)` inside the handler, and profiling shows most time spent in Pydantic's Python code, not in Rust. What is the fix?",
+    "options": [
+      "Switch to `model_construct` for every row",
+      "Create the `TypeAdapter` once at module level and reuse it: building the validator is the expensive part",
+      "Replace `list[Order]` with `Sequence[Order]`",
+      "Call `json.loads` before validating"
+    ],
+    "answer": 1,
+    "explanation": "Each `TypeAdapter(...)` walks the type and builds a new core schema, validator and serializer. Models do it once at class creation; adapters should too."
+  },
+  {
+    "question": "Which is generally faster for a JSON request body, and why?",
+    "options": [
+      "`Model.model_validate(json.loads(body))`, because the standard library parser is in C",
+      "They are identical",
+      "`Model.model_validate_json(body)`: pydantic-core parses and validates in one pass without building intermediate Python dicts",
+      "`Model(**json.loads(body))`, because it skips `model_validate`"
+    ],
+    "answer": 2,
+    "explanation": "The two-step version materializes the whole document as Python objects and walks them again. The docs list exceptions for models with `before` or `wrap` validators."
+  },
+  {
+    "question": "A model validates a list of 100 000 prices. Which change reduces per-item work the most?",
+    "options": [
+      "Replacing a Python `field_validator` that checks `value > 0` on each item with the declarative constraint `Field(gt=0)`",
+      "Adding a `model_validator(mode=\"wrap\")`",
+      "Using `Mapping` instead of `dict` for the container",
+      "Raising `ValueError` with shorter messages"
+    ],
+    "answer": 0,
+    "explanation": "Declarative constraints run inside Rust. A Python validator is a call from Rust back into Python for every value, and wrap validators are slower still."
+  },
+  {
+    "question": "A service reads rows that it validated and wrote itself, with the same model version. It wants to skip validation on read. Which statement is right?",
+    "options": [
+      "`model_construct` is never acceptable",
+      "`model_construct` validates lazily on first attribute access",
+      "`model_construct` is safe for request bodies too, if they come over HTTPS",
+      "`model_construct` is a reasonable fast path here, because the data is trusted and already valid; it must never receive client input"
+    ],
+    "answer": 3,
+    "explanation": "`model_construct` performs no checks at all. Trusted, previously validated data is its use case; anything from outside must go through validation."
+  },
+  {
+    "question": "An internal pipeline passes `Event` objects between functions of one process; the events were validated once at the edge. What should `Event` be?",
+    "options": [
+      "A `BaseModel` revalidated in every function",
+      "A frozen dataclass: no further validation is needed, and `TypeAdapter(Event)` can still validate one at a boundary",
+      "A plain dict, to avoid any class",
+      "A msgspec `Struct` decoded from JSON in every function"
+    ],
+    "answer": 1,
+    "explanation": "Validation belongs at trust boundaries. Inside the process, an immutable dataclass keeps the guarantees without paying for them again."
+  }
+]
