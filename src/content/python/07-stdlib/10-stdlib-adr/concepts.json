@@ -1,0 +1,8 @@
+[
+  { "term": "Per-line rounding drift", "description": "Rounding each line with binary floats lands on the wrong side of half a cent for some prices; the drift is the cents per line times the lines." },
+  { "term": "Distinct offsets", "description": "The set of UTC offsets the sources use over a year, daylight saving included; more than one makes a naive local time ambiguous." },
+  { "term": "Strict encoder", "description": "A `json.JSONEncoder` subclass whose `default` converts the types it knows and raises `TypeError` for the rest." },
+  { "term": "Bytes, not characters", "description": "Size limits apply to the encoded body: `len(text.encode(\"utf-8\"))`, where an accented letter takes two bytes." },
+  { "term": "Atomic replace", "description": "Write a temporary file in the same folder and `os.replace` it onto the final name, so readers never see a partial file." },
+  { "term": "ADR", "description": "Architecture Decision Record: context, decision, alternatives considered and consequences." }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A fee of 0.15 gets a 10% surcharge rounded per line. What do `round(0.15 * 0.10, 2)` and `(Decimal(\"0.15\") * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), ROUND_HALF_UP)` return?",
+    "options": [
+      "`0.02` and `Decimal(\"0.02\")`",
+      "`0.01` and `Decimal(\"0.01\")`",
+      "`0.01` and `Decimal(\"0.02\")`",
+      "`0.015` and `Decimal(\"0.015\")`"
+    ],
+    "answer": 2,
+    "explanation": "The float product is the nearest double to 0.015, which is just below it, so `round` goes down. `Decimal` multiplies exactly and `ROUND_HALF_UP` takes the half cent up. Over 2.4 million lines that is 24 000 EUR."
+  },
+  {
+    "question": "Offices report times in `+00:00`, `-05:00`/`-04:00` (daylight saving) and `-04:00`/`-03:00`. How many distinct UTC offsets must the tool handle, and what follows?",
+    "options": [
+      "5; one local timezone for the whole tool is enough",
+      "4; store aware datetimes in UTC, because a local time without its offset names several instants",
+      "3; one per office",
+      "4; store naive local times and add the offset when printing"
+    ],
+    "answer": 1,
+    "explanation": "The set is {+00:00, -05:00, -04:00, -03:00}: two offices share -04:00. With more than one offset, a naive local time is ambiguous, so parse it with its offset and keep UTC."
+  },
+  {
+    "question": "`line = json.dumps({\"city\": \"Zürich\"}, ensure_ascii=False) + \"\\n\"`. A webhook accepts 64 bytes per body. Which number do you compare with the limit?",
+    "options": [
+      "`len(line)`, the characters",
+      "The number of keys",
+      "`len(json.dumps(...))` with `ensure_ascii=True`, whatever the contract says",
+      "`len(line.encode(\"utf-8\"))`, the bytes the request sends"
+    ],
+    "answer": 3,
+    "explanation": "Limits count bytes. `ü` is one character but two bytes in UTF-8, and six characters (`\\u00fc`) with `ensure_ascii=True`. Measure the encoding the contract specifies."
+  },
+  {
+    "question": "Carriers upload usage files to a shared folder, and three teams in different languages read the export. Which serialization fits?",
+    "options": [
+      "JSON through a `json.JSONEncoder` subclass that handles `Decimal` and `datetime` and raises `TypeError` on anything else",
+      "`pickle`, because it keeps `Decimal` and `datetime` types",
+      "`json.dumps(value, default=str)`, because it never fails",
+      "`repr()` of each record, parsed back with `eval`"
+    ],
+    "answer": 0,
+    "explanation": "`pickle.loads` and `eval` run code chosen by whoever wrote the file, and only Python reads pickle. `default=str` hides unknown types instead of failing. A strict encoder keeps types explicit and the contract enforced."
+  },
+  {
+    "question": "The warehouse loads every file the moment it appears in the export folder. How should the tool write a file?",
+    "options": [
+      "Open the final path in `\"w\"` mode and flush often",
+      "Write the final path, then sleep before closing it",
+      "Write a temporary file in the same folder, then `os.replace` it onto the final name",
+      "Write it in another file system and rename it across"
+    ],
+    "answer": 2,
+    "explanation": "`os.replace` within one file system is atomic: readers see either no file or the complete file, never a partial one. A rename across file systems becomes a copy, which is not atomic."
+  }
+]

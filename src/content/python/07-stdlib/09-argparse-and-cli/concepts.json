@@ -1,0 +1,8 @@
+[
+  { "term": "`main(argv=None)`", "description": "The CLI entry point takes its arguments as a list and returns an exit code; `None` means `sys.argv[1:]`, so tests pass lists and only `raise SystemExit(main())` exits." },
+  { "term": "`SystemExit`", "description": "What `sys.exit` and `parser.error` raise: a `BaseException`, so `except Exception` does not stop it; it carries the exit code in `.code`." },
+  { "term": "`type=` function", "description": "Called with the raw string; returns the converted value or raises `ArgumentTypeError` (or `ValueError`), which argparse reports as a usage error with code 2." },
+  { "term": "Subcommands", "description": "`add_subparsers(dest=..., required=True)` creates one parser per command; `set_defaults(handler=...)` stores the function to dispatch to." },
+  { "term": "Exit codes", "description": "0 for success, 1 for a runtime failure, 2 for a usage error (argparse's convention)." },
+  { "term": "Shell injection", "description": "User text inside a `shell=True` command line can start other commands; pass a list of arguments to `subprocess.run` instead." }
+]

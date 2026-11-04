@@ -1,0 +1,16 @@
+{
+  "title": "Checkpoint: Billing-Report Tool Standard Library ADR",
+  "summary": "Close the standard-library module with an ADR and a plan for a billing-report tool: compute what float surcharges cost per month, how many UTC offsets the sources use and how many bytes one export line takes, then choose money, time, serialization, file, logging and CLI mechanisms that survive those numbers.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "adr.py",
+  "resources": [
+    { "label": "Michael Nygard: Documenting Architecture Decisions", "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" },
+    { "label": "MADR: Markdown Architectural Decision Records", "url": "https://adr.github.io/madr/" },
+    { "label": "decimal: Decimal fixed-point and floating-point arithmetic", "url": "https://docs.python.org/3/library/decimal.html" },
+    { "label": "Floating-Point Arithmetic: Issues and Limitations", "url": "https://docs.python.org/3/tutorial/floatingpoint.html" },
+    { "label": "datetime: Aware and naive objects", "url": "https://docs.python.org/3/library/datetime.html#aware-and-naive-objects" },
+    { "label": "json: JSON encoder and decoder", "url": "https://docs.python.org/3/library/json.html" },
+    { "label": "pickle: Python object serialization (security warning)", "url": "https://docs.python.org/3/library/pickle.html" }
+  ]
+}

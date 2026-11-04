@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A helper validates input and calls `sys.exit(\"bad amount\")`. A web handler calls it inside `try: ... except Exception: return error_page()`. What happens on bad input?",
+    "options": [
+      "The handler returns the error page",
+      "`SystemExit` passes through `except Exception` and ends the worker or request instead",
+      "Python prints \"bad amount\" and the handler continues",
+      "`sys.exit` is ignored outside the main module"
+    ],
+    "answer": 1,
+    "explanation": "`sys.exit` raises `SystemExit`, which derives from `BaseException`, not `Exception`. Library code should raise an ordinary exception and let the entry point choose the exit code."
+  },
+  {
+    "question": "`parser.add_argument(\"amount\", type=Decimal)` and the user types `abc`. What does the user see?",
+    "options": [
+      "A usage message and exit code 2",
+      "`amount` is `Decimal(\"NaN\")`",
+      "A traceback ending in `decimal.InvalidOperation`",
+      "argparse asks for the value again"
+    ],
+    "answer": 2,
+    "explanation": "argparse turns only `ArgumentTypeError`, `ValueError` and `TypeError` from a `type=` function into usage errors. `InvalidOperation` is an `ArithmeticError`, so it escapes; wrap the conversion and raise `ArgumentTypeError`."
+  },
+  {
+    "question": "A module defines `def main(argv=None, out=sys.stdout)`. A test runs `with redirect_stdout(buffer): main([\"list\"])`. Where does the output go?",
+    "options": [
+      "Into `buffer`",
+      "Nowhere: `out` is `None`",
+      "Into both streams",
+      "To the stream that was `sys.stdout` when the module was imported, so `buffer` stays empty"
+    ],
+    "answer": 3,
+    "explanation": "Default values are evaluated once, when `def` runs. Default to `None` and resolve `sys.stdout` inside the function, at call time."
+  },
+  {
+    "question": "A CLI receives a branch name from the user and runs Git. Which call is safe with `ref = \"main; rm -rf ~\"`?",
+    "options": [
+      "`subprocess.run([\"git\", \"log\", \"--\", ref], check=True)`",
+      "`subprocess.run(f\"git log {ref}\", shell=True)`",
+      "`os.system(\"git log \" + ref)`",
+      "`subprocess.run(\"git log \" + ref.strip(), shell=True)`"
+    ],
+    "answer": 0,
+    "explanation": "With a list and no shell, `ref` reaches Git as one argument and `;` means nothing. Every shell form lets the text after `;` run as a second command."
+  },
+  {
+    "question": "A deploy script needs an API token. Which interface is the right one?",
+    "options": [
+      "`--token sk-123` on the command line",
+      "`--token-file PATH` or an environment variable read by the script",
+      "A positional argument, because positionals are not logged",
+      "`--token` with `type=str` so argparse hides the value"
+    ],
+    "answer": 1,
+    "explanation": "Command-line arguments are visible to other users in `ps` and stay in shell history and CI logs. Read secrets from a file, the environment or `getpass.getpass()`."
+  }
+]

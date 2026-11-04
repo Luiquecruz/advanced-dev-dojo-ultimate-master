@@ -1,0 +1,16 @@
+{
+  "title": "argparse and Testable CLIs",
+  "summary": "A command-line tool is a parser plus a main(argv) that returns an exit code. Build an expenses CLI with subcommands, validating type functions and streams passed in, so tests drive it with lists and catch SystemExit as the BaseException it is.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "argparse: Parser for command-line options, arguments and subcommands", "url": "https://docs.python.org/3/library/argparse.html" },
+    { "label": "Argparse Tutorial", "url": "https://docs.python.org/3/howto/argparse.html" },
+    { "label": "contextlib.redirect_stdout and redirect_stderr", "url": "https://docs.python.org/3/library/contextlib.html#contextlib.redirect_stdout" },
+    { "label": "SystemExit", "url": "https://docs.python.org/3/library/exceptions.html#SystemExit" },
+    { "label": "subprocess: Security considerations", "url": "https://docs.python.org/3/library/subprocess.html#security-considerations" },
+    { "label": "OWASP OS Command Injection Defense Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" }
+  ]
+}

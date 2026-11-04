@@ -316,7 +316,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-context-errors-map **(quiz)** ✓ · 02-with-protocol ✓ · 03-contextmanager-decorator ✓ · 04-suppressing-and-handling-in-exit ✓ · 05-exitstack ✓ · 06-exception-hierarchies ✓ · 07-chaining-and-notes ✓ · 08-exception-groups ✓ · 09-context-errors-adr ✓
 
 ### 07-stdlib — Standard Library in Practice
-01-stdlib-map **(quiz)** ✓ · 02-json-and-serialization ✓ · 03-regular-expressions ✓ · 04-pathlib-and-io ✓ · 05-numbers-decimal-and-fractions ✓ · 06-dates-and-times ✓ · 07-enums ✓ · 08-logging ✓ · 09-argparse-and-cli · 10-stdlib-adr
+01-stdlib-map **(quiz)** ✓ · 02-json-and-serialization ✓ · 03-regular-expressions ✓ · 04-pathlib-and-io ✓ · 05-numbers-decimal-and-fractions ✓ · 06-dates-and-times ✓ · 07-enums ✓ · 08-logging ✓ · 09-argparse-and-cli ✓ · 10-stdlib-adr ✓
 
 ### 08-pattern-matching — Pattern Matching and Control Flow
 01-matching-map **(quiz)** ✓ · 02-sequence-and-mapping-patterns ✓ · 03-class-patterns ✓ · 04-guards-or-and-capture ✓ · 05-walrus-and-loop-else ✓ · 06-matching-adr ✓
