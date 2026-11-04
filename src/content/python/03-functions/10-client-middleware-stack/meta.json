@@ -1,0 +1,13 @@
+{
+  "title": "Client Middleware Stack",
+  "summary": "The module's closing challenge: compose cache, metrics, retry and token refresh as decorator factories around one SDK call, with injected state and clock, metadata preserved and an order that decides every behavior.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "functools: update_wrapper and wraps", "url": "https://docs.python.org/3/library/functools.html#functools.update_wrapper" },
+    { "label": "inspect.unwrap", "url": "https://docs.python.org/3/library/inspect.html#inspect.unwrap" },
+    { "label": "Axios: Interceptors", "url": "https://axios-http.com/docs/interceptors" }
+  ]
+}

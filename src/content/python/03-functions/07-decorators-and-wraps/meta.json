@@ -1,0 +1,14 @@
+{
+  "title": "Decorators and functools.wraps",
+  "summary": "A decorator is f = dec(f): it runs once at definition and its wrapper on every call. Write counting and validating decorators that keep the wrapped function's name, docstring and signature, and stack them in the right order.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "functools.wraps", "url": "https://docs.python.org/3/library/functools.html#functools.wraps" },
+    { "label": "Glossary: decorator", "url": "https://docs.python.org/3/glossary.html#term-decorator" },
+    { "label": "PEP 318: Decorators for Functions and Methods", "url": "https://peps.python.org/pep-0318/" },
+    { "label": "PEP 614: Relaxing Grammar Restrictions On Decorators", "url": "https://peps.python.org/pep-0614/" }
+  ]
+}

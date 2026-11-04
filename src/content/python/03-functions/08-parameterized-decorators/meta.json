@@ -1,0 +1,13 @@
+{
+  "title": "Parameterized Decorators",
+  "summary": "Decorator factories add a third level for settings, and a bare @retry is not the same call as @retry(). Build a rate limiter with an injected clock and a retry decorator that works with and without arguments.",
+  "level": "advanced",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Language Reference: Function definitions and decorators", "url": "https://docs.python.org/3/reference/compound_stmts.html#function-definitions" },
+    { "label": "functools.wraps", "url": "https://docs.python.org/3/library/functools.html#functools.wraps" },
+    { "label": "time.monotonic", "url": "https://docs.python.org/3/library/time.html#time.monotonic" }
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  { "term": "`*args`", "description": "Collects extra positional arguments into a tuple." },
+  { "term": "`**kwargs`", "description": "Collects extra keyword arguments into a new dict, in call order." },
+  { "term": "Call-site unpacking", "description": "`f(*items, **mapping)` spreads an iterable into positional arguments and a mapping into keyword arguments." },
+  { "term": "Forwarding", "description": "Passing the arguments a wrapper received to another callable unchanged: `function(*args, **kwargs)`." },
+  { "term": "Reserved wrapper option", "description": "A keyword-only parameter after `*args` (like `attempts`) that the wrapper consumes and never forwards." }
+]

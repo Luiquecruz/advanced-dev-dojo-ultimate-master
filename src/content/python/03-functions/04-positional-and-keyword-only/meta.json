@@ -1,0 +1,14 @@
+{
+  "title": "Positional-Only and Keyword-Only Parameters",
+  "summary": "How the / and * markers decide how each parameter may be passed, why keyword-only options replace the TypeScript options object, and how inspect.signature reports parameter kinds.",
+  "level": "intermediate",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: Special parameters", "url": "https://docs.python.org/3/tutorial/controlflow.html#special-parameters" },
+    { "label": "inspect: Introspecting callables with the Signature object", "url": "https://docs.python.org/3/library/inspect.html#introspecting-callables-with-the-signature-object" },
+    { "label": "PEP 570: Python Positional-Only Parameters", "url": "https://peps.python.org/pep-0570/" },
+    { "label": "PEP 3102: Keyword-Only Arguments", "url": "https://peps.python.org/pep-3102/" }
+  ]
+}
