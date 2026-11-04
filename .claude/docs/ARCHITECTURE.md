@@ -114,6 +114,7 @@ Stores are plain external stores read through `useSyncExternalStore`: no state l
 | --- | --- | --- | --- |
 | **Static engine** | TypeScript | Web Workers (`analysis.worker.ts`, `runtime.worker.ts`) | Type checks with the compiler API, runs plain JS with `assert`, regex pattern tests. Tests written in `tests.md`. |
 | **Framework engine** | React, Vue, Angular, Node.js | Same-origin iframe (`sandbox.html?engine=<id>`) | Transpiles learner files to CommonJS, evaluates them with a module registry, runs `test()` blocks with Testing Library and a Jest-like `expect`. Tests written as a script. |
+| **Python engine** | Python variants of multi-language tracks | Web Worker with Pyodide (`python.worker.ts`) | Writes the project to Pyodide's file system, imports the entry fresh for every test, runs `@test` functions from `tests.py` with plain `assert`. |
 
 Pick the **framework engine** for anything that renders UI or needs a DOM, or that needs a module registry and a runtime (Node.js). Pick the **static engine** pattern for languages or topics where type checking or pure functions are the subject.
 
@@ -128,6 +129,18 @@ Pick the **framework engine** for anything that renders UI or needs a DOM, or th
 - `adapter.ts`: `nodeAdapter` (test scope: `request`, `writeFiles`, `captureLogs`, `fs`, `process`, `Buffer`, `fakeModel`, `respond`, `forEachSeed`; the runtime and the fake model are reset before and after every test) and `runNodeProgram`, used by the sandbox `run` mode behind the lesson **Run** button.
 
 `content/loader.ts` treats `typescript` and `node` as headless engines (no preview by default); `features/lesson/runner.ts` decides which engines get a **Run** button (`canRunProgram`) and runs them (`runProgram`: TypeScript in a worker, Node.js in a `mode=run` sandbox iframe that streams `console` messages back and answers `run-complete`).
+
+### The Python engine
+
+`engines/python/` runs CPython 3.14 compiled to WebAssembly (Pyodide, pinned in `package.json`):
+
+- `engine.ts`: `createPythonEngine(pyodide)` registers the JS fake model provider as the `_dojo_ai_bridge` module, writes the Python runtime (`runtime/dojo_ai/`, `runtime/dojo_harness.py`, imported with `?raw`) to `/dojo` and returns `runTests` and `runProgram`. The same function serves the browser worker and Node verification.
+- `runtime/dojo_ai/`: the Python face of the fake model (`create_model`, `count_tokens`, `ModelError`, `testing.fake_model`, `respond`, `for_each_seed`), converting dicts to JS objects and back; `python.test.ts` fails when the JS provider gains a builder or method the wrapper lacks.
+- `runtime/dojo_harness.py`: writes learner files to `/app`, checks syntax (a `SyntaxError` becomes the report's `compileError`), and for every test unloads the learner modules, imports the entry, executes `tests.py` with the test globals and runs the test at that index (4 s `asyncio.wait_for`). Failed asserts are described from the AST of the assert statement and the frame's variables. `run_program` executes the entry as `__main__`, turning `asyncio.run(main())` into a task it awaits, and returns the exit code.
+- `python.worker.ts` + `browserClient.ts`: one long-lived worker loads Pyodide from `<base>pyodide/` (served and emitted by `plugins/pyodidePlugin.ts`); requests are queued, and a run that exceeds its timeout terminates the worker (the only way to stop a synchronous infinite loop), so the next request starts a fresh one. `prepareEngine` (`features/lesson/runner.ts`) starts the worker when a Python challenge opens.
+- `testNames.ts`: `listPythonTestNames` reads `@test("…")` names for the test list shown before the first run.
+
+`features/lesson/runner.ts` routes `python` to the worker in `testNamesFor`, `gradeChallenge` and `runProgram`; Monaco highlights `.py` files (no language service).
 
 ### Framework engine pipeline
 
@@ -168,7 +181,7 @@ Most new tracks do not need a new engine. `react-state` (React State Management)
 1. **Libraries**: install what the lessons import and register each import path in the engine registry (`src/engines/react/registry.ts` for React). Check the package `exports` map for subpaths (`zustand/react/shallow`, `@reduxjs/toolkit/query/react`, `valtio/utils`). Run the engine's existing suite afterwards to prove nothing broke.
 2. **Track folder**: `src/content/<track-id>/track.json` (see [Track presentation](#track-presentation)) with `"engine": "react"` and an `"order"` (position on the home carousel), plus one `module.json` per module.
 3. **Accent**: a `[data-trail='<track-id>']` rule in `src/shared/design/tokens.css` (see [Track presentation](#track-presentation)).
-4. **Verification suite**: `src/verify/<track-id>.test.ts` calling `defineChallengeSuite('<track-id>', reactAdapter)`.
+4. **Verification suite**: `src/verify/<track-id>.test.ts` calling `defineChallengeSuite('<track-id>', frameworkGrader(reactAdapter))`.
 5. **Plan and guide**: add the module and lesson plan to [CURRICULUM.md](CURRICULUM.md) (written lessons get `✓`) and list new libraries in [CONTENT_GUIDE.md](CONTENT_GUIDE.md).
 6. **Copy that names the tracks**: update the `<meta name="description">` in `index.html` when the new track should be named there.
 
@@ -176,7 +189,7 @@ No change is needed in the runner, sandbox, loader, pages or features: they read
 
 ## Multi-language challenges
 
-Generic tracks (AI Engineering today, more later) are not tied to one language: the learner picks the language of each challenge, and the same lesson ships one challenge per language. Node.js is the only registered language today; Python joins when its engine exists.
+Generic tracks (AI Engineering today, more later) are not tied to one language: the learner picks the language of each challenge, and the same lesson ships one challenge per language. Registered languages: Node.js (`node` engine) and Python (`python` engine).
 
 ### Content
 
@@ -215,15 +228,15 @@ src/content/<track>/<NN-module>/<NN-lesson>/
 
 ### Verification
 
-`defineChallengeSuite(trackId, adapter, language?)` verifies the variants of one language (and, when a challenge declares a `run` file and the adapter implements `runProgram`, that the solution's demo runs cleanly); a multi-language track calls it once per language (`defineChallengeSuite('ai-engineering', nodeAdapter, 'node')`). `src/verify/content.test.ts` checks that every declared language is registered and that each variant uses its language's engine.
+`defineChallengeSuite(trackId, grader, language?)` verifies the variants of one language (and, when a challenge declares a `run` file and the grader can run programs, that the solution's demo runs cleanly). Graders live in `src/verify/graders.ts`: `frameworkGrader(adapter)` for the JavaScript framework engines and `pythonGrader()` (Pyodide in Node, loaded once per suite). A multi-language track calls it once per language (`defineChallengeSuite('ai-engineering', frameworkGrader(nodeAdapter), 'node')` and `defineChallengeSuite('ai-engineering', pythonGrader(), 'python')`). `src/verify/content.test.ts` checks that every declared language is registered and that each variant uses its language's engine.
 
-### Adding a language (for example Python)
+### Adding a language (Python is the worked example)
 
-1. Build the engine (see [Adding a framework track](#adding-a-framework-track-step-by-step) or [Adding a static track](#adding-a-static-non-dom-track)): for Python, Pyodide in the sandbox iframe or a worker, a test runner and the fake API exposed to Python.
+1. Build the engine (see [Adding a framework track](#adding-a-framework-track-step-by-step), [Adding a static track](#adding-a-static-non-dom-track) or [The Python engine](#the-python-engine)): a runtime that can stop runaway code (a worker for anything that cannot inject a loop guard), a test runner and the fake model exposed in that language.
 2. Register the engine (`EngineId`, `DEFAULT_ENTRY` such as `{ py: 'main.py' }`, sandbox, runner, `monacoSetup.ts` language for the file extension).
 3. Add the language to `LANGUAGES` (`python: { label: 'Python', engine: 'python' }`).
 4. List it in the `languages` of the tracks that will offer it and add `variants/python/` to their lessons.
-5. Add `defineChallengeSuite('<track>', pythonAdapter, 'python')` to the track's verify suite.
+5. Add `defineChallengeSuite('<track>', <language>Grader(), '<language>')` to the track's verify suite (`pythonGrader()` for Python).
 
 ## Track presentation
 
@@ -316,8 +329,9 @@ export const svelteRegistry: ModuleRegistry = {
 ```ts
 import { svelteAdapter } from '../engines/svelte/adapter';
 import { defineChallengeSuite } from './challengeSuite';
+import { frameworkGrader } from './graders';
 
-defineChallengeSuite('svelte', svelteAdapter);
+defineChallengeSuite('svelte', frameworkGrader(svelteAdapter));
 ```
 
 Then add the engine id to the list of valid engines in `src/verify/content.test.ts`.

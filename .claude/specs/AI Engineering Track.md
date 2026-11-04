@@ -577,7 +577,7 @@ The result: grading stays deterministic and free, learners still meet realistic 
 Decided:
 
 1. Track id `ai-engineering`, title "AI Engineering".
-2. Challenges are multi-language (Node.js now, Python later) through a new platform feature reused by future generic tracks.
+2. Challenges are multi-language (Node.js in every challenge; Python through the Pyodide engine, added lesson by lesson) through a platform feature reused by future generic tracks.
 3. Module 11 is concept-only for now; hands-on model training stays open for a future architecture decision.
 4. Regulation coverage is global, including Brazil.
 5. The track is long and complete, built for navigation and freshness (section 19).

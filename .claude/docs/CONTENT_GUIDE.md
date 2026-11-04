@@ -195,11 +195,77 @@ test('handles every malformed JSON shape', async () => {
 
 `forEachSeed(count, run)` resets the model, seeds it and runs the body once per seed (1..count), naming the failing seed; script the model inside the body. Use it to prove the learner's code survives every variation, not one lucky script. Keep model-specific facts (names, prices, limits of real models) in theory "Status as of" boxes and quizzes, never in assertions.
 
+## Python engine (`python`, multi-language tracks)
+
+Python challenges run on [Pyodide](https://pyodide.org) (CPython 3.14 compiled to WebAssembly, pinned in `package.json`). In the app, Pyodide runs in a Web Worker (`engines/python/python.worker.ts`), started when a Python challenge opens; the first start downloads about 12 MB, served from the app's own origin by `plugins/pyodidePlugin.ts`. `npm run verify` runs the same engine in Node. Python is offered as a language of multi-language tracks (`"languages": ["node", "python"]`), never as a track engine on its own.
+
+### Files
+
+```
+<lesson>/variants/python/
+├── starter/main.py, starter/demo.py      starter code (TODO comments allowed, like the Node.js starters)
+├── solution/main.py, solution/demo.py
+├── tests.py
+└── challenge.md, hints.md, approach.md   override the lesson-level text when names differ (they usually do)
+```
+
+`meta.json` names the Python entry and demo next to the Node.js ones: `"entry": { "node": "main.ts", "python": "main.py" }`, `"run": { "node": "demo.ts", "python": "demo.py" }`. Learner modules import each other by module name (`from orders import load_orders` for `orders.py`).
+
+### Naming
+
+Functions, parameters and attributes use Python names (`complete_stream`, `on_delta`, `retry_after_ms`); data that mirrors `@dojo/ai` or a JSON contract keeps its camelCase keys (`response["finishReason"]`, `usage["inputTokens"]`, `request["maxTokens"]`). Requests, responses and results are plain dicts. Write a Python `challenge.md` (and `hints.md`/`approach.md` when they name functions) in `variants/python/` instead of mixing both languages in the shared text.
+
+### Fake model in Python (`dojo_ai`)
+
+`dojo_ai` is a thin wrapper over the same fake provider as `@dojo/ai` (`engines/python/runtime/dojo_ai/`), so both languages see identical behaviors, token counts and costs.
+
+| Node.js | Python |
+| --- | --- |
+| `createModel({ model })` | `create_model(model=None)`; `model.name`, `model.context_window` |
+| `await model.generate(request)` | `await model.generate(request)` → dict |
+| `for await (const chunk of model.stream(request))` | `async for chunk in model.stream(request)` → dicts |
+| `ModelError` (`status`, `code`, `retryAfterMs`) | `ModelError` (`status`, `code`, `retry_after_ms`) |
+| `countTokens`, `embed(text, { dimensions })`, `cosineSimilarity` | `count_tokens`, `embed(text, dimensions=64)`, `cosine_similarity` |
+| `fakeModel.reply / forModel(name).reply / handle / seed / replay / reset` | `fake_model.reply / for_model(name).reply / handle / seed / replay / reset` |
+| `fakeModel.configure({ latencyMs, contextWindow, pricing, tokenizerDrift })` | `fake_model.configure(latency_ms=…, context_window=…, pricing={"inputPerMillion": …}, tokenizer_drift=…)` |
+| `fakeModel.requests / responses / pending` | `fake_model.requests / responses / pending` (requests drop unset keys) |
+| `respond.malformedJson`, `toolCall(name, args)`, `failMidStream(text, { afterChunks, status })`, `error(429, { retryAfterMs })` … | `respond.malformed_json`, `tool_call(name, arguments)`, `fail_mid_stream(text, after_chunks=…, status=…)`, `error(429, retry_after_ms=…)` … (every builder, snake_case) |
+| `forEachSeed(count, async (seed) => …)` | `await for_each_seed(count, scenario)` (`scenario()` or `scenario(seed)`, sync or async) |
+
+`fake_model.handle(lambda request, context: …)` receives the request as a dict and a context with `call_index`, `random()` and `pick(items)`; return a `respond` builder, a reply dict (`{"text": …}`) or `None`.
+
+### Tests (`tests.py`)
+
+Each test is a function decorated with `@test("name")`, sync or `async`, with plain `assert` statements. The name is what the learner sees; the function name does not matter (`_` is fine):
+
+```python
+from dojo_ai import ModelError, create_model
+
+
+@test("retries after a rate limit and returns the answer")
+async def _():
+    fake_model.reply(respond.error(429, retry_after_ms=10), respond.text("Paris"))
+    assert await mod.answer_with_retry(create_model(), "Capital of France?") == "Paris"
+    assert len(fake_model.requests) == 2
+```
+
+A failing `assert` reports its source line and, for a comparison of simple expressions, both values (`left:` / `right:`); an error raised in learner code reports the learner file and line; `for_each_seed` adds the failing seed. Keep asserts free of calls with side effects so values can be shown.
+
+Globals in `tests.py`: `test`, `mod` (the entry module, imported fresh for every test), `modules` (`modules["orders.py"]`, imported on first access), `source`, `sources`, `fake_model`, `respond`, `for_each_seed`, `capture_error` (`error = await capture_error(coroutine_or_function)` returns the raised exception, fails when nothing is raised), `capture_output()` (a list that collects printed lines until the test ends) and `approx(expected, rel=1e-6, abs=1e-12)` (`assert cost == approx(0.000132, abs=1e-9)`). Each test has a 4 s timeout; the fake model resets before every test.
+
+### Demos
+
+A demo is a normal script: `async def main()` plus `if __name__ == "__main__": asyncio.run(main())`. The engine runs it as `__main__`, waits for what `asyncio.run` scheduled, prints `Process exited with code 0` (or 1 with a traceback of learner frames) and verification checks it like the Node.js demos.
+
+### Limits
+
+Standard library only: no `pip` packages (no Pydantic, NumPy or LangChain: validate with dataclasses or plain checks, and mention the libraries in theory), no network, threads, subprocesses or real files outside the project. A synchronous infinite loop cannot be interrupted: in the app the worker is stopped after 45 s (tests) or 15 s (Run) and restarted on the next request.
+
 ## AI Engineering track (`ai-engineering`)
 
 Conventions settled by the pilot module (`01-models`). The plan and module rules are in [CURRICULUM.md](CURRICULUM.md); the content source is `.claude/specs/AI Engineering Track.md`.
 
-- **Layout:** multi-language (`variants/node/` now). Write `challenge.md` as a language-neutral contract: behavior and data shapes, export names in camelCase. Python variants will use snake_case function names but keep camelCase keys in data that mirrors `@dojo/ai` and JSON contracts (`finishReason`, `inputTokens`).
+- **Layout:** multi-language: `variants/node/` and `variants/python/` (see "Python engine"). The shared `challenge.md` describes the Node.js contract; each Python variant overrides it with Python names and dict keys. A lesson may ship Node.js first and gain its Python variant later.
 - **Fake model only:** learner code imports `@dojo/ai`; tests use `fakeModel`, `respond`, `forEachSeed`. Assert handling and properties, never exact wording; use `forEachSeed` wherever a behavior varies.
 - **Run demo:** verification runs every declared `run` file with the solution and fails on console errors, empty output or a non-zero exit. Each challenge ships a `demo.ts` in starter and solution and sets `"run": { "node": "demo.ts" }` in `meta.json`. The demo imports the learner's functions, scripts a realistic scenario with `fakeModel`/`respond` from `@dojo/ai/testing` and prints results. It never executes during tests (it is outside the entry's import graph), so it cannot consume scripted replies.
 - **Theory:** 300–1000 words, provider-agnostic, ending with `## When to choose it`; no `## Working with AI` section (the whole track is about it). Volatile facts (model names, prices, context sizes, benchmark scores, laws, framework versions) go in one blockquote that starts with `**Status as of <Month YYYY>:**`.
@@ -254,6 +320,7 @@ flags: i
 npx vitest run src/verify/<track>.test.ts                      # whole track (every language of a multi-language track)
 LESSON=use-effect npx vitest run src/verify/react.test.ts      # lessons whose id contains "use-effect"
 LESSON=react/use-effect npx vitest run src/verify/react.test.ts # exactly one lesson (track/id)
+DEMO_OUTPUT=1 LESSON=ai-engineering/calling-a-model npx vitest run src/verify/ai-engineering.test.ts --silent=false # also print each demo's output
 LESSON=use-effect npx vitest run src/verify/content.test.ts    # structure checks
 npx vitest run src/verify/curriculum.test.ts                    # CURRICULUM.md matches the written lessons
 npm run verify                                                  # everything
