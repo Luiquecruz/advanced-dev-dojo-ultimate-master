@@ -39,6 +39,11 @@ const DEFAULT_RUN_TIMEOUT_MS = 15000;
 const DEFAULT_STARTUP_TIMEOUT_MS = 60000;
 const DEFAULT_PREWARM = Number(process.env.DOJO_PYTHON_PREWARM) || Math.max(1, Math.min(3, Math.floor(availableParallelism() / 4)));
 const STDERR_TAIL_CHARACTERS = 2000;
+/** JavaScript heap of a sandbox child; Pyodide itself needs well under 100 MB of it. */
+export const CHILD_HEAP_LIMIT_MB = 256;
+/** Maximum size of the wasm memory (the Python heap) of a sandbox child. */
+export const CHILD_WASM_MEMORY_LIMIT_MB = 1024;
+const WASM_PAGE_BYTES = 64 * 1024;
 
 const VERIFY_DIRECTORY = dirname(fileURLToPath(import.meta.url));
 const CHILD_ENTRY = join(VERIFY_DIRECTORY, 'pythonSandbox.child.ts');
@@ -380,10 +385,17 @@ function readyScriptPath(): string {
 }
 
 /**
- * Node flags of every sandbox child: the permission model with read access to Pyodide and the child script only, and no inspector activation by signal.
+ * Node flags of every sandbox child: the permission model with read access to Pyodide and the child script only, no inspector activation by signal, and memory caps.
  */
 export function childExecArgv(): string[] {
-  return ['--permission', `--allow-fs-read=${PYODIDE_DIRECTORY}/`, `--allow-fs-read=${readyScriptPath()}`, '--disable-sigusr1'];
+  return [
+    '--permission',
+    `--allow-fs-read=${PYODIDE_DIRECTORY}/`,
+    `--allow-fs-read=${readyScriptPath()}`,
+    '--disable-sigusr1',
+    `--max-old-space-size=${CHILD_HEAP_LIMIT_MB}`,
+    `--wasm-max-mem-pages=${(CHILD_WASM_MEMORY_LIMIT_MB * 1024 * 1024) / WASM_PAGE_BYTES}`,
+  ];
 }
 
 /**

@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { connect } from 'node:net';
-import { childExecArgv, PythonSandbox } from './pythonSandbox';
+import { CHILD_HEAP_LIMIT_MB, CHILD_WASM_MEMORY_LIMIT_MB, childExecArgv, PythonSandbox } from './pythonSandbox';
+import { processAllowList } from './pythonSandboxProcess';
 
 const LIMIT_MS = 1500;
 const RESTART_ALLOWANCE_MS = 20000;
@@ -99,11 +100,22 @@ def _():
 def _():
     assert "DOJO_SANDBOX_PROBE" not in os.environ
 
-@test("the real global process has an empty env and no getBuiltinModule")
+@test("code generation is disabled")
 def _():
-    reach = js.Object.constructor("return [Object.keys(process.env).length, typeof process.getBuiltinModule, typeof fetch]")
-    assert list(reach()) == [0, "undefined", "undefined"]
+    assert getattr(js, "eval", None) is None
+    for attempt in (lambda: js.Object.constructor("return 1"), lambda: js.Promise.constructor("return 1"), lambda: js.setTimeout("1", 0)):
+        try:
+            attempt()
+        except JsException:
+            continue
+        raise AssertionError("code generation was not refused")
 
+@test("network functions are gone")
+async def _():
+    assert getattr(js, "fetch", None) is None
+    from pyodide.http import pyfetch
+    error = await capture_error(pyfetch("https://example.com"))
+    assert error is not None
 
 @test("NODEFS cannot be mounted")
 async def _():
@@ -111,14 +123,15 @@ async def _():
     assert getattr(pyodide_js.FS.filesystems, "NODEFS", None) is None
     assert getattr(pyodide_js, "mountNodeFS", None) is None
 
-@test("dynamic import is blocked")
+@test("package installation refuses URLs")
 async def _():
-    load = js.Object.constructor("return import('node:child_process').then(() => 'loaded', (error) => 'blocked')")
-    assert await load() == "blocked"
+    import pyodide_js
+    error = await capture_error(pyodide_js.loadPackage("https://example.com/evil-0.1-py3-none-any.whl"))
+    assert "disabled" in str(error)
 `,
       });
       expect(report.results.filter((result) => !result.passed)).toEqual([]);
-      expect(report.results).toHaveLength(5);
+      expect(report.results).toHaveLength(6);
     } finally {
       isolated.stop();
       delete process.env.DOJO_SANDBOX_PROBE;
@@ -151,14 +164,31 @@ describe('process allow-list', () => {
     expect(flags.some((flag) => /^--allow-(fs-write|child-process|worker|net|addons|wasi|inspector|ffi)/.test(flag))).toBe(false);
   });
 
-  it('exposes none of the process members that act on the host', async () => {
-    const tests = REMOVED_PROCESS_MEMBERS.map(
-      (name) => `@test("process.${name} is unavailable")\ndef _():\n    assert js.Object.constructor("return typeof process.${name}")() == "undefined"\n`,
-    ).join('\n');
-    const report = await grade(`import js\n\n${tests}`);
-    expect(report.results.filter((result) => !result.passed)).toEqual([]);
-    expect(report.results).toHaveLength(REMOVED_PROCESS_MEMBERS.length);
+  it.each(REMOVED_PROCESS_MEMBERS)('the process seen after lock-down has no %s', (name) => {
+    expect((processAllowList(process) as Record<string, unknown>)[name]).toBeUndefined();
   });
+
+  it('caps the JavaScript heap and the wasm memory of every child', () => {
+    expect(childExecArgv()).toContain(`--max-old-space-size=${CHILD_HEAP_LIMIT_MB}`);
+    expect(childExecArgv()).toContain(`--wasm-max-mem-pages=${(CHILD_WASM_MEMORY_LIMIT_MB * 1024 * 1024) / 65536}`);
+  });
+
+  it('fails a test that allocates past the memory cap and keeps grading', async () => {
+    const report = await grade(`
+@test("allocates 1.5 GB")
+def _():
+    blob = bytearray(1536 * 1024 * 1024)
+    assert len(blob) > 0
+
+@test("after")
+def _():
+    assert sum(range(10)) == 45
+`);
+    expect(report.results.map((result) => [result.name, result.passed])).toEqual([
+      ['allocates 1.5 GB', false],
+      ['after', true],
+    ]);
+  }, 60000);
 
   it('cannot open the inspector on the parent process with _debugProcess', async () => {
     const listeningBefore = await inspectorListening();
@@ -167,8 +197,12 @@ import js
 
 @test("_debugProcess cannot be called")
 def _():
-    attempt = js.Object.constructor("try { process._debugProcess(process.ppid); return 'called' } catch (error) { return 'blocked' }")
-    assert attempt() == "blocked"
+    from pyodide.ffi import JsException
+    try:
+        js.Object.constructor("process._debugProcess(process.ppid)")()
+    except JsException:
+        return
+    raise AssertionError("_debugProcess was reachable")
 `);
     expect(report.results[0]).toEqual({ name: '_debugProcess cannot be called', passed: true });
     await new Promise((resolve) => setTimeout(resolve, 500));

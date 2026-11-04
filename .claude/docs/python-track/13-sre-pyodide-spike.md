@@ -233,3 +233,20 @@ Timing. The machine had load average 7–13 from other agents during these runs,
 | `python.test.ts` (load 9–13) | — | 14.8 / 18.5 / 16.4 s |
 
 The per-request isolation costs about 0.1–0.2 s per extra boot (two extra boots per lesson), so roughly +0.3 s per lesson: about +35 s for 115 Python lessons on a loaded machine, less on an idle CI runner.
+
+## 8. Browser worker hardening (2026-11-04, branch `sre/browser-hardening`)
+
+Closes B3, R7 and the verify memory caps.
+
+| Item | Change | Verified |
+| --- | --- | --- |
+| B3 network from learner code | New `src/engines/python/lockdown.ts`, used by `python.worker.ts` and the verify child. Before load: `setTimeout`/`setInterval` refuse strings; `jsglobals` is an allow-list. After load: `fetch`, `XMLHttpRequest`, `WebSocket`, `WebSocketStream`, `WebTransport`, `EventSource`, `importScripts`, `Worker`, `SharedWorker`, `FontFace`, `fonts`, `caches`, `BroadcastChannel` and `eval` are removed from the scope and its prototype chain; `Function.prototype.constructor` and the async/generator constructors throw (no generated `import()`); `loadPackage`/`loadPackagesFromImports` reject | Chromium (Playwright, dev server): `getattr(js, "fetch")` is `None`, `pyfetch("https://example.com")` fails, `js.Object.constructor(...)` and `js.setTimeout("1", 0)` raise, `pyodide_js.loadPackage(url)` rejects with "disabled". Verify: `pythonSandbox.test.ts` "code generation is disabled", "network functions are gone", "package installation refuses URLs" |
+| Worker CSP | Not added: it needs a response header from the dev middleware or the static host, and Pyodide's boot `eval`s its EM_ASM constants, so it would need `'unsafe-eval'`. The run-time lockdown above is stricter. Recommended for production: `connect-src 'self'` on the host | — |
+| R7 per-test kill in the browser | `browserClient.ts` mirrors `pythonSandbox.ts`: the worker reports `start`/`result` per test, a 6 s timer per test terminates the worker, only that test fails and the rest resume in a fresh worker. Run keeps 15 s | Chromium: `while True: pass` failed only its test ("did not finish within 6000ms"), the tests before and after passed |
+| R7 fresh interpreter per run | Every `gradePython` and `runPython` takes a fresh worker and terminates it afterwards; a memory snapshot is made once per page by a worker that runs no lesson code and transferred to each new worker; one worker is kept warm | Chromium: cold boot 1233 / 1138 ms, snapshot boot 188 / 177 ms (31.5 MB snapshot made in 1.3 s); warm grading runs 225–228 ms end to end |
+| Verify memory caps | Children get `--max-old-space-size=256` and `--wasm-max-mem-pages=16384` (1 GB wasm memory) | `pythonSandbox.test.ts` "caps the JavaScript heap and the wasm memory", "fails a test that allocates past the memory cap and keeps grading" (1.5 GB `bytearray`) |
+| Process allow-list test | Python can no longer generate JavaScript, so the per-member checks moved to a unit test of `processAllowList()` (`src/verify/pythonSandboxProcess.ts`), one case per member | `pythonSandbox.test.ts` "the process seen after lock-down has no …" |
+
+Browser check (real Chromium through Playwright on `npm run dev`): the AI Engineering lesson "Calling a Model", Python variant: the starter graded 0/6, the solution pasted into Monaco graded 6/6 in 147 ms, and the Run demo printed its output and `Process exited with code 0`.
+
+Not covered: a memory cap for the browser worker (browsers expose no wasm memory limit; a runaway allocation is bounded by the 4 GB wasm32 limit and the 6 s test kill), Firefox/Safari (snapshot boot falls back to a cold boot if the experimental snapshot API fails).
