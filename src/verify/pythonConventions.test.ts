@@ -322,6 +322,12 @@ describe('python track conventions', () => {
     expect(problems).toEqual([]);
   });
 
+  it('keeps Python bytecode caches out of lesson folders', () => {
+    const root = resolve(CONTENT, 'python');
+    const caches = readdirSync(root, { recursive: true, encoding: 'utf8' }).filter((path) => /(^|\/)__pycache__(\/|$)|\.pyc$/.test(path));
+    expect(caches).toEqual([]);
+  });
+
   it('keeps the known exceptions list honest', () => {
     const stale = Object.keys(KNOWN_EXCEPTIONS).filter((key) => {
       const [lessonKey, rule] = key.split('#');
