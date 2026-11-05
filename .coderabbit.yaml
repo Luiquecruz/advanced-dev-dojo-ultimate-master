@@ -14,10 +14,9 @@ reviews:
     drafts: false
     auto_incremental_review: true
     ignore_title_keywords:
-      - "WIP"
+      - "[WIP]"
       - "[skip review]"
   path_filters:
-    - "!package-lock.json"
     - "!dist/**"
     - "!vendor/**"
     - "!**/__pycache__/**"
@@ -40,7 +39,7 @@ reviews:
       instructions: |
         Grading engines and the sandbox run untrusted learner code. Treat isolation as security-critical:
         - learner code must not reach the app window, the host, environment variables, the network or a real model (the fake model in src/engines/shared/fakeModel.ts is the only provider);
-        - learner code imports only what the engine's registry.ts registers;
+        - framework learner code's bare module imports must be registered in the engine's registry.ts; relative imports resolve between project files;
         - flag any widened postMessage surface, eval of host strings, or removed timeout or loop guard.
         A change to the Python engine, harness or worker must keep both the python and ai-engineering verify suites passing.
     - path: "src/verify/**"
@@ -52,7 +51,7 @@ reviews:
         Shared layer: framework-agnostic, no course knowledge. It must never import src/content, src/engines or src/sandbox (enforced by src/architecture.test.ts).
     - path: "src/{app,pages,features,entities,shared}/**"
       instructions: |
-        Feature-sliced layers (.claude/docs/ARCHITECTURE.md): no imports of a sibling slice of the same layer, other slices only through their index.ts, relative imports stay inside their slice.
+        Feature-sliced layers (.claude/docs/ARCHITECTURE.md): pages, features and entities cannot import sibling slices of the same layer; other entity and feature slices are reached only through their index.ts. Shared modules are imported by path. Relative imports stay inside their slice.
         Performance rules from .claude/CLAUDE.md: animate only transform, opacity and clip-path; values written every frame are registered @property with inherits: false and written on the consuming element; every effect respects prefers-reduced-motion and has a fallback.
         Accessibility: one exposed <main>, inert (never aria-hidden) on inactive layers, no skipped heading levels, touch targets of at least 24px.
         Never call progress.* or another external store inside a setState updater.
@@ -137,7 +136,10 @@ knowledge_base:
   code_guidelines:
     enabled: true
     filePatterns:
-      - ".claude/docs/CONTRIBUTING.md"
+      - files: ".claude/docs/CONTRIBUTING.md"
+        applyTo: "**"
+      - files: ".claude/CLAUDE.md"
+        applyTo: "**"
       - files: ".claude/docs/ARCHITECTURE.md"
         applyTo: "src/**,plugins/**,sandbox.html,index.html"
       - files: ".claude/docs/CONTENT_GUIDE.md"

@@ -102,12 +102,12 @@ CodeRabbit reviews every non-draft pull request against `main`. Its configuratio
 | Setting | Value | Why |
 | --- | --- | --- |
 | `language`, `profile` | `en-US`, `chill` | the project is in English; content pull requests touch hundreds of files, so only real issues are reported |
-| `auto_review` | non-draft pull requests, incremental on each push; skipped when the title has `WIP` or `[skip review]` | review once the author asks for it |
-| `path_filters` | skip `package-lock.json`, `dist/`, `vendor/`, `__pycache__/` | generated or downloaded files |
+| `auto_review` | non-draft pull requests, incremental on each push; skipped when the title has `[WIP]` or `[skip review]` | review once the author asks for it |
+| `path_filters` | skip `dist/`, `vendor/`, `__pycache__/`; keep `package-lock.json` for `osvScanner` | omit generated or downloaded files while retaining resolved dependencies for security scanning |
 | `path_instructions` | per area: lessons, Python lessons, engines and sandbox, verify, shared, UI layers, tokens, workflows, `netlify.toml`, docs | the project rules that apply to each folder |
 | `pre_merge_checks` | title in conventional commit format, description present, two custom checks (lessons listed in `CURRICULUM.md`, new track registered everywhere), all as warnings; docstring coverage off | the checks CI cannot express; docs sync stays in `.github/workflows/docs-sync.yml` |
 | `tools` | on: `shellcheck`, `actionlint`, `zizmor`, `yamllint`, `gitleaks`, `trufflehog`, `osvScanner`, GitHub checks. Off: `ruff`, `pylint`, `flake8`, `biome`, `eslint`, `oxc`, `reactDoctor`, `stylelint`, `markdownlint`, `languagetool` | lesson starters are incomplete on purpose and the project has no linter config, so linters would only add noise |
-| `knowledge_base` | learnings kept to this repository; guidelines: `.claude/CLAUDE.md` (detected by default), this file, `ARCHITECTURE.md` (code), `CONTENT_GUIDE.md` (content, engines, verify), Python content standards and working agreement (Python track) | reviews follow the same rules as authors and Claude Code |
+| `knowledge_base` | learnings kept to this repository; guidelines: `.claude/CLAUDE.md` and this file (repository-wide), `ARCHITECTURE.md` (code), `CONTENT_GUIDE.md` (content, engines, verify), Python content standards and working agreement (Python track) | reviews follow the same rules as authors and Claude Code |
 
 `path_instructions` and `custom_checks` restate rules that live in `.claude/CLAUDE.md`, `ARCHITECTURE.md`, `CONTENT_GUIDE.md` and `.github/workflows/ci.yml`: when one of those rules changes, update `.coderabbit.yaml` in the same change. Teach CodeRabbit in the pull request (`@coderabbitai` replies); its learnings stay in this repository. Rules that apply to everyone belong in the documents above, not in learnings or personal settings.
 
@@ -162,6 +162,6 @@ In CI the check runs in its own workflow (`.github/workflows/docs-sync.yml`) on 
 | `.claude/settings.local.json` | personal overrides (ignored by git) |
 | `.claude/worktrees/` | local worktrees (ignored by git) |
 
-The `Stop` hook runs when Claude finishes a turn. When a documented area changed without its documents, it blocks the stop once with the list of files and documents, so Claude updates the docs (or states that nothing documented changed) before handing back. The same set of uncovered files is reported only once; the state lives in `.git/dev-dojo-docs-sync`. Review or disable hooks with `/hooks`; personal settings go in `.claude/settings.local.json` or `~/.claude/settings.json`, never in the shared file.
+The `Stop` hook runs when Claude finishes a turn. When a documented area changed without its documents, it blocks the stop once with the list of files and documents, so Claude updates the docs (or states that nothing documented changed) before handing back. Changes to `.coderabbit.yaml` are covered by an update to this file. The same set of uncovered files is reported only once; the state lives in `.git/dev-dojo-docs-sync`. Review or disable hooks with `/hooks`; personal settings go in `.claude/settings.local.json` or `~/.claude/settings.json`, never in the shared file.
 
 Personal Claude Code rules (`~/.claude/CLAUDE.md`, memory) are not shared. Anything the whole team must follow belongs in `.claude/CLAUDE.md` or this file.
