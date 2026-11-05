@@ -6,7 +6,7 @@ Status as of November 2026: milestones M0–M5 are complete. All 94 lessons of m
 
 ## Learner value
 
-> A TypeScript/JavaScript developer who finishes the track can predict what Python code does before running it (names, mutability, protocols, scopes, async scheduling), knows which JS habit each feature breaks, and can defend a design choice in an ADR. All of it in the browser, with no install.
+> A learner who finishes the track, with no prior programming language, can predict what Python code does before running it (names, mutability, protocols, scopes, async scheduling), knows the common mistake each feature invites, and can defend a design choice in an ADR. All of it in the browser, with no install.
 
 What makes it different from a generic Python course: every lesson contrasts with JS/TS, every challenge builds a language mechanism (not a puzzle), and every module ends with a decision, not a recap.
 

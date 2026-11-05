@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { trackById } from '../content/allContent';
 import type { Lesson } from '../content/types';
-import { PYTHON_PENDING_REWRITE } from './pythonPendingRewrite';
+import { PYTHON_PENDING_HEADERS, PYTHON_PENDING_REWRITE } from './pythonPendingRewrite';
 
 /**
  * Definition of Done for the Python track (.claude/docs/python-track/02-content-standards.md and
@@ -23,12 +23,18 @@ const MATURITY = ['established', 'emerging', 'hype-watch'];
 const META_KEYS = new Set(['title', 'summary', 'level', 'tags', 'entry', 'run', 'resources']);
 const MONTHS = 'January|February|March|April|May|June|July|August|September|October|November|December';
 const STATUS = new RegExp(`^> \\*\\*Status as of (${MONTHS}) \\d{4}:\\*\\*`);
+const HOW_IT_WORKS = '## How it works';
 const COMMON_MISTAKES = '## Common mistakes';
 const CLOSING = '## When to choose it';
 const FENCES = ['py', 'text', 'bash', 'toml', 'json'];
-/** Comparisons with another language (02-content-standards.md "No bridges"): the track assumes no prior programming language. */
+/**
+ * Comparisons with another language and names from another ecosystem (02-content-standards.md "No bridges"): the track assumes no
+ * prior programming language. `===` and `!==` count only between operands or alone in backticks, so a `=== Report ===` or `=====`
+ * banner passes; `??` counts outside a string literal.
+ * C is not listed: CPython and its extension modules are written in it, so "C extension" and "the C API" are Python terms.
+ */
 const BRIDGE =
-  /\bJavaScript\b|\bTypeScript\b|\bJS\b|\bTS\b|Node\.js|Node developer|\bnpm\b|\bnpx\b|package\.json|node_modules|\btsc\b|===|!==|Object\.groupBy|Object\.seal|Object\.freeze|structuredClone|Symbol\.dispose|TC39|ECMAScript|Vitest|\bJest\b|\b[Pp]romises?\b|\bPHP\b|Magento/;
+  /\bJavaScript\b|\bTypeScript\b|\bJS\b|\bTS\b|Node\.js|Node developer|\bnpm\b|\bnpx\b|\bpnpm\b|\byarn\b|\bDeno\b|\bBun\b|package\.json|node_modules|\btsc\b|`[!=]==`|[\w)\]]\s*[!=]==\s*[\w([-]|[\w)\]]\s*[!=]==\s+["']|(?<!["'])\?\?=?(?!["'])|Object\.groupBy|Object\.seal|Object\.freeze|structuredClone|Symbol\.dispose|new Proxy|console\.log|TC39|ECMAScript|\bES20\d\d\b|ESLint|Prettier|\bBiome\b|\bZod\b|\blodash\b|Vitest|\bJest\b|\b[Pp]romises?\b|\bPHP|Magento|\bRust\b|\bJava\b|\bGolang\b|\bRuby\b|\bKotlin\b|\bSwift\b|C\+\+|C#/;
 /** Hosts of other languages' documentation; a Python lesson cites docs.python.org, the PEPs and the libraries it teaches. */
 const BLOCKED_HOSTS = ['developer.mozilla.org', 'nodejs.org', 'zod.dev', 'typescriptlang.org', 'vitest.dev'];
 const BEGINNER_MISTAKE = /^# beginner mistake: (.*)$/;
@@ -257,6 +263,11 @@ function checkTheory(lesson: Lesson, kind: Kind): Violation[] {
       violations.push({ rule: 'theory-common-mistakes', detail: `"${COMMON_MISTAKES}" needs the wrong code and the fix in a py fence and the mistake in bold` });
     }
   }
+  const mechanism = headings.indexOf(HOW_IT_WORKS);
+  const mistakesAt = headings.indexOf(COMMON_MISTAKES);
+  if (mechanism === -1 || (mistakesAt !== -1 && mistakesAt < mechanism)) {
+    violations.push({ rule: 'theory-order', detail: `${kind} theory needs "${HOW_IT_WORKS}" before "${COMMON_MISTAKES}"` });
+  }
   if (headings.at(-1) !== CLOSING) {
     violations.push({ rule: 'theory-closing', detail: `${kind} theory must end with "${CLOSING}", last section is "${headings.at(-1) ?? 'none'}"` });
   }
@@ -397,6 +408,18 @@ function unexpected(lesson: Lesson): string[] {
     .map((violation) => `${violation.rule}: ${violation.detail}`);
 }
 
+/** The track and module titles and descriptions the carousel and the module headers show, keyed like PYTHON_PENDING_HEADERS. */
+const headerTexts: Array<[string, string]> = track
+  ? [
+      [`track:${track.id}`, `${track.title}\n${track.description}`],
+      ...track.modules.map((module): [string, string] => [`module:${track.id}/${module.id}`, `${module.title}\n${module.description}`]),
+    ]
+  : [];
+const headerBridges = new Map(headerTexts.flatMap(([key, text]) => {
+  const match = BRIDGE.exec(text);
+  return match ? [[key, match[0]] as const] : [];
+}));
+
 describe('python track conventions', () => {
   it('loads the python track', () => {
     expect(track).toBeDefined();
@@ -429,6 +452,19 @@ describe('python track conventions', () => {
     const root = resolve(CONTENT, 'python');
     const caches = readdirSync(root, { recursive: true, encoding: 'utf8' }).filter((path) => /(^|\/)__pycache__(\/|$)|\.pyc$/.test(path));
     expect(caches).toEqual([]);
+  });
+
+  it('compares with no other language in the track and module titles and descriptions', () => {
+    const unexpected = [...headerBridges].filter(([key]) => !PYTHON_PENDING_HEADERS[key]?.includes('no-bridge')).map(([key, name]) => `${key} names "${name}"`);
+    const stale = Object.entries(PYTHON_PENDING_HEADERS).flatMap(([key, rules]) => rules.filter((rule) => rule !== 'no-bridge' || !headerBridges.has(key)).map((rule) => `${key}#${rule}`));
+    expect({ unexpected, stale }).toEqual({ unexpected: [], stale: [] });
+  });
+
+  it('matches other-language names and leaves Python text alone', () => {
+    const caught = ['ESLint + Prettier', '`??` replaces only `null`', 'opt-in since ES2022', 'if (a === b)', 'a !== b', 'written in Rust', 'z.object with Zod'];
+    const allowed = ['print("=== Report ===")', '======================================================================', 'country == "??"', 'a C extension releases the GIL', 'undefined names raise NameError'];
+    expect(caught.filter((text) => !BRIDGE.test(text))).toEqual([]);
+    expect(allowed.filter((text) => BRIDGE.test(text))).toEqual([]);
   });
 
   it('keeps the known exceptions list honest', () => {

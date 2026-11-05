@@ -6,20 +6,20 @@
 export const PYTHON_PENDING_REWRITE: Record<string, readonly string[]> = {
   'python/python-map': ['theory-fences', 'no-bridge'],
   'python/names-and-references': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
-  'python/mutability-and-hashing': ['theory-no-bridge', 'theory-common-mistakes', 'no-bridge', 'tests-beginner-mistake'],
-  'python/scope-and-nonlocal': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
+  'python/mutability-and-hashing': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'no-bridge', 'tests-beginner-mistake'],
+  'python/scope-and-nonlocal': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
   'python/shallow-vs-deep-copy': ['theory-no-bridge', 'theory-common-mistakes', 'no-bridge', 'resources-host', 'tests-beginner-mistake'],
-  'python/identity-equality-and-interning': ['theory-no-bridge', 'theory-common-mistakes', 'no-bridge', 'tests-beginner-mistake'],
-  'python/truthiness-and-bool': ['theory-no-bridge', 'theory-common-mistakes', 'no-bridge', 'tests-beginner-mistake'],
+  'python/identity-equality-and-interning': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'no-bridge', 'tests-beginner-mistake'],
+  'python/truthiness-and-bool': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'no-bridge', 'tests-beginner-mistake'],
   'python/object-model-adr': ['no-bridge'],
   'python/collections-map': ['theory-no-bridge', 'theory-fences', 'no-bridge'],
-  'python/unpacking-and-star-expressions': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
-  'python/comprehensions-and-dict-views': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
-  'python/set-algebra': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
-  'python/sequence-protocol': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
-  'python/collections-module': ['theory-no-bridge', 'theory-common-mistakes', 'no-bridge', 'tests-beginner-mistake'],
-  'python/custom-mapping': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
-  'python/text-and-bytes': ['theory-no-bridge', 'theory-common-mistakes', 'no-bridge', 'tests-beginner-mistake'],
+  'python/unpacking-and-star-expressions': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
+  'python/comprehensions-and-dict-views': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
+  'python/set-algebra': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
+  'python/sequence-protocol': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
+  'python/collections-module': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'no-bridge', 'tests-beginner-mistake'],
+  'python/custom-mapping': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
+  'python/text-and-bytes': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'no-bridge', 'tests-beginner-mistake'],
   'python/collections-adr': ['no-bridge'],
   'python/functions-map': ['theory-no-bridge', 'no-bridge'],
   'python/modules-and-imports': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
@@ -29,7 +29,7 @@ export const PYTHON_PENDING_REWRITE: Record<string, readonly string[]> = {
   'python/closures-and-late-binding': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
   'python/decorators-and-wraps': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
   'python/parameterized-decorators': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
-  'python/callables-partial-and-cache': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
+  'python/callables-partial-and-cache': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
   'python/client-middleware-stack': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
   'python/classes-map': ['theory-no-bridge', 'theory-fences', 'no-bridge'],
   'python/new-and-init': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
@@ -107,4 +107,15 @@ export const PYTHON_PENDING_REWRITE: Record<string, readonly string[]> = {
   'python/serialization-and-json-schema': ['theory-no-bridge', 'theory-common-mistakes', 'no-bridge', 'resources-host', 'tests-beginner-mistake'],
   'python/pydantic-core-and-performance': ['theory-no-bridge', 'no-bridge'],
   'python/validation-adr': ['theory-no-bridge', 'no-bridge'],
+};
+
+/**
+ * Track and module texts (`track.json` and `module.json` titles and descriptions) that still compare with another language, keyed
+ * `track:<track id>` or `module:<track id>/<module id>`. The same rules as above: fix the text, remove the entry, and a stale entry fails.
+ */
+export const PYTHON_PENDING_HEADERS: Record<string, readonly string[]> = {
+  'track:python': ['no-bridge'],
+  'module:python/stdlib': ['no-bridge'],
+  'module:python/typing': ['no-bridge'],
+  'module:python/validation': ['no-bridge'],
 };

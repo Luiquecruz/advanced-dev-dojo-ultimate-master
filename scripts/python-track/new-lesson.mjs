@@ -95,7 +95,7 @@ TODO: when to use it, when to avoid it, and the alternative. This section is alw
 
 const theoryMap = (title) => `# TODO: ${title}
 
-TODO: what this module answers (250-500 words in total).
+TODO: what this module answers (200-500 words in total).
 
 ## Prerequisites
 

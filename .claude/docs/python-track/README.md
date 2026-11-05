@@ -13,7 +13,7 @@ Teach the **mental model of Python 3.14** to developers who already know TypeScr
 | Decision | Choice | Reason |
 | --- | --- | --- |
 | Shape | Own track, `id: python`, `"engine": "python"`, single language | The language selector serves the same content in two languages; here the content is the language |
-| Audience | Mid/senior developers coming from TypeScript/JavaScript | Every lesson contrasts with JS/TS and names the typical mistake |
+| Audience | Learners with no prior programming language | No lesson compares with another language; practice lessons name the typical mistake in `## Common mistakes` and catch it with the `# beginner mistake:` test |
 | Accent | `#62e868`-class green at 123° hue | Only band that satisfies the existing 30° rule without changing tests ([01-platform-and-engine.md](01-platform-and-engine.md)) |
 | Test runner | Existing Pyodide harness (`@test`, plain `assert`, introspected `left/right` failure output) | No second runner and no `assert_equal` helper: the harness already prints both sides of a failed comparison |
 | Runtime | Python **3.14** (Pyodide `314.0.7`, CPython 3.14.2, pinned exactly), although 3.15 is current since October 2026; 3.15 differences only in dated `**Status as of**` blocks | The runtime decides what learners can run |
@@ -54,7 +54,7 @@ Each phase ends at a gate defined in [09-governance.md](09-governance.md) "Appro
 
 1. **Platform** (G0): register the track, accent, verify suite, docs (see 01), and platform hardening (SRE). Exit: `npm run typecheck`, `npm run test`, `npm run build` green.
 2. **Pilot** (G1): module 01 complete and verified (see 04).
-3. **Standards lock** (G2): module 02 complete and all lessons audited against the quality bar (trap tests, `ast` checks, ADR computed fields).
+3. **Standards lock** (G2): module 02 complete and all lessons audited against the quality bar (beginner-mistake tests, `ast` checks, ADR computed fields).
 4. **MVP** (G3 re-plan after module 03, G4 release): modules 03–04, then `TRACK_FLAGS.python` is enabled.
 5. **Core** (G5): modules 05–08.
 6. **Advanced** (G6 asyncio spike before module 10, G7 release): modules 09–12 including the capstone.

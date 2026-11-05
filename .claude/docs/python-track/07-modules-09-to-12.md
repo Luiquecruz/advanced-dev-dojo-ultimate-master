@@ -11,24 +11,24 @@ Question: what do annotations promise, who checks them, and what happens to them
 Constraint: no type checker runs in the browser. Every typing challenge asserts **runtime-visible artifacts** (`get_type_hints`, `__annotations__`, `__type_params__`, `__required_keys__`, `isinstance` with runtime-checkable protocols, `get_overloads`) or implements a small runtime consumer of annotations.
 
 ### 01-typing-map (Q, B)
-Gradual typing, annotations are metadata, checkers vs runtime, TypeScript comparison (structural everywhere vs nominal by default plus protocols).
+Gradual typing, annotations are metadata, checkers vs runtime, nominal classes by default plus structural protocols.
 
 ### 02-modern-annotation-syntax (P, B)
 - Concept: `list[str]`, `dict[str, int]`, `X | None`, `typing.Optional` history, `Callable`, `Self`, annotations on variables, `__annotations__`.
-- Contrast: TS annotations are erased and statically enforced; Python annotations are evaluated objects available at runtime.
+- Common mistake: expecting annotations to be checked when the code runs; `def total(count: int)` accepts a string without complaint. Annotations are objects that tools and `typing.get_type_hints` read; a type checker or a validation library enforces them.
 - Challenge: annotate five functions in `main.py` so that `typing.get_type_hints` returns the contracted types (for example `{"items": list[str], "limit": int | None, "return": dict[str, int]}`).
 - Tests: `get_type_hints(function)` equals the expected dict for each function; no `typing.List/Dict/Optional` in the source (checked with `ast`: no `Attribute`/`Name`/`ImportFrom` node naming them, so a comment that mentions `List` does not fail).
 
 ### 03-generics-pep-695 (P, I)
 - Concept: `def first[T](…)`, `class Stack[T]`, `type Alias[T] = …`, bounds and constraints, defaults (PEP 696), variance inferred.
-- Contrast: TS `<T>` syntax is the same idea; older Python needed `TypeVar`.
+- Common mistake: keeping the old `T = TypeVar("T")` boilerplate, or sharing one module-level `TypeVar` between unrelated functions; since Python 3.12, declare type parameters in brackets (`def first[T](items: list[T]) -> T`), scoped to that function or class.
 - Challenge: `first[T](items, default=None)`, `class Stack[T]` with `push/pop/peek`, `type Pair[T] = tuple[T, T]`, `class Box[T: (int, str)]`.
 - Tests: behavior; `first.__type_params__` length 1; `Stack.__type_params__`; `Pair.__value__` is `tuple[T, T]`-shaped; `Box.__type_params__[0].__constraints__`.
 - Notes: PEP 695 (3.12), PEP 696 (3.13).
 
 ### 04-protocols (P, I)
 - Concept: `Protocol`, structural subtyping, `@runtime_checkable` (`isinstance` checks only member presence), protocol vs ABC, `SupportsInt`-style stdlib protocols.
-- Contrast: closest to TS interfaces; Python classes are nominal by default.
+- Common mistake: trusting `isinstance` with a `@runtime_checkable` protocol to check signatures; it checks only that the members exist, not their parameters or return types. Classes are nominal by default; a `Protocol` matches by structure, without inheritance.
 - Challenge: `Renderable(Protocol)` with `render() -> str`; `render_all(items)` renders items that satisfy it and skips others; `Closeable` protocol and `close_all`; a class satisfying the protocol without inheriting.
 - Tests: structural match without inheritance; `isinstance` true/false; protocol cannot be instantiated (`TypeError`); non-conforming skipped.
 
@@ -74,11 +74,11 @@ Constraints:
 - Tests are deterministic: event recorders, `await asyncio.sleep(0)` ticks, `asyncio.Event` gates instead of sleeps, real delays ≤ 50 ms, injected clocks.
 
 ### 01-async-map (Q, B)
-Cooperative concurrency, event loop, coroutines vs tasks, comparison with JS promises and the microtask queue.
+Cooperative concurrency, event loop, coroutines vs tasks, and why calling a coroutine function runs nothing until it is awaited or scheduled.
 
 ### 02-event-loop-mental-model (P, I)
 - Concept: calling `async def` returns a coroutine that has not started; `await` yields control; `asyncio.run`; tasks start when scheduled; no unhandled promise: a never-awaited coroutine warns.
-- Contrast: a JS promise starts executing immediately; a Python coroutine does not until awaited or wrapped in a task.
+- Common mistake: calling an `async def` function without `await` and expecting it to run; the call only creates a coroutine object, nothing runs, and Python warns `coroutine ... was never awaited`. Await it, or wrap it in a task.
 - Challenge: `async def fetch(name, recorder)` appending `start:name`/`end:name` with `await asyncio.sleep(0)` between; `run_sequential(names, recorder)`; `run_concurrent(names, recorder)` via tasks; `lazy_coroutine(recorder)` returning an unstarted coroutine.
 - Tests: event order lists for sequential and concurrent runs; `inspect.iscoroutine`; recorder empty before awaiting the coroutine.
 
@@ -95,7 +95,7 @@ Cooperative concurrency, event loop, coroutines vs tasks, comparison with JS pro
 
 ### 05-task-groups (P, I)
 - Concept: structured concurrency, `TaskGroup` (3.11), automatic cancellation of siblings on error, errors surface as `ExceptionGroup`, comparison with `gather`.
-- Contrast: `Promise.all` leaves siblings running; `TaskGroup` cancels them.
+- Common mistake: assuming `asyncio.gather` stops the other tasks when one fails; they keep running. `TaskGroup` cancels the siblings and raises an `ExceptionGroup`.
 - Challenge: `process_batch(items, handler)` runs handlers in a group and returns results; on failure siblings are cancelled and `ExceptionGroup` propagates; `handle_failures(...)` with `except*`.
 - Tests: all results; sibling cancellation flags set; `ExceptionGroup` contains the original error type; `except*` handler count.
 - Notes: `TaskGroup` is 3.11 (not PEP 654, which defines `ExceptionGroup`).
@@ -166,7 +166,7 @@ Hook ladder, class creation steps, when frameworks use each.
 ### 07-import-system-internals (P, Ad)
 Moved from `12-tooling/05-modules-and-the-import-system` (115 plan). The beginner side (caching, `from` copies, `__main__`, circular imports) is `03-functions/02-modules-and-imports`; this lesson is the protocol underneath.
 - Concept: `sys.modules` cache, finders/loaders (`importlib.abc.MetaPathFinder`, `Loader`, `importlib.util.spec_from_loader`), packages and `__path__`, relative imports, `__spec__`, `importlib.reload`.
-- Contrast: Node resolution and ES module loaders vs Python's import protocol; both are hookable, Python at runtime through `sys.meta_path`.
+- Common mistake: a finder inserted into `sys.meta_path` and never removed, or a module expected to run again on a second import; `sys.modules` caches it, so tests uninstall the finder and drop the cached modules (or call `importlib.reload`).
 - Challenge: `class DictFinder(sources)` serving modules (and packages) from a dict of name → source, installable in `sys.meta_path`; `install(sources)`/`uninstall()` helpers; imports are cached; `reload` re-executes.
 - Tests: import a module and a package submodule with correct `__name__` and `__spec__.name`; module cached in `sys.modules`; relative import inside the package; uninstall removes the finder and a missing module raises `ModuleNotFoundError`.
 - Notes: verify custom finders work in Pyodide and that tests clean `sys.meta_path` and `sys.modules` (the harness reuses one interpreter).
@@ -195,7 +195,7 @@ Question: how do I make a Python project reproducible, installable and verifiabl
 Constraint: pip, uv, venv and build backends cannot run in the sandbox, so packaging is taught as quizzes with dated facts. The 115-plan lessons `02-pyproject-toml`, `04-uv-and-lockfiles`, `07-linting-formatting-and-checkers` and `08-wheels-and-distribution` are merged into the two quizzes below. `05-modules-and-the-import-system` moved to `11-metaprogramming/07-import-system-internals`. Testing becomes practice because `unittest` runs in Pyodide.
 
 ### 01-tooling-map (Q, B)
-Project lifecycle map: layout (`src/` vs flat), `pyproject.toml`, environments, lockfiles, tests, linters and formatters (Ruff, Black and isort history, pre-commit, checkers in CI), build, publish. Quiz: which tool owns which step, compared with `package.json`, `npm`, ESLint and Prettier. Dated `**Status as of**` block for the linter/formatter landscape.
+Project lifecycle map: layout (`src/` vs flat), `pyproject.toml`, environments, lockfiles, tests, linters and formatters (Ruff, Black and isort history, pre-commit, checkers in CI), build, publish. Quiz: which tool owns which step, and what each step protects against. Dated `**Status as of**` block for the linter/formatter landscape.
 
 ### 02-packaging-and-environments (Q, I)
 Quiz lesson, 5–6 questions. One dated `**Status as of**` block; cite packaging.python.org, the PEPs and the Astral docs.
@@ -207,13 +207,13 @@ Quiz lesson, 5–6 questions. One dated `**Status as of**` block; cite packaging
 ### v2 backlog — 03-environments-and-venv (P, I)
 Deferred: the challenge simulated venv with pure functions over fake prefixes, which teaches the mechanism poorly; the concepts live in `02-packaging-and-environments`. Spec kept for v2.
 - Concept: a virtual environment is a directory plus `PATH` ordering and `sys.prefix` vs `sys.base_prefix`; `pyvenv.cfg`.
-- Contrast: `node_modules` per project vs environments referenced by interpreter.
+- Common mistake: installing packages with a `pip` that belongs to another interpreter, because the environment is not active or `PATH` finds a system `bin` first; run `python -m pip` with the environment's interpreter and check `sys.prefix != sys.base_prefix`.
 - Challenge (pure functions): `is_virtualenv(prefix, base_prefix)`; `resolve_command(name, path_dirs, files)` returns the first matching executable path honoring PATH order; `parse_pyvenv_cfg(text)` → dict.
 - Tests: detection; PATH shadowing (venv `bin` before system); missing command returns `None`; cfg parsing with comments and spaces.
 
 ### 04-testing-with-unittest (P, I)
 - Concept: `unittest.TestCase`, `setUp`/`tearDown`, `assertRaises` as a context manager, `subTest`, `unittest.mock` (`Mock`, `patch` as a context manager, `side_effect`, `assert_called_once_with`), running a suite programmatically with `unittest.TestLoader` and `TextTestRunner`; how pytest fixtures and `parametrize` map onto these (theory only, pytest is not installed); how Dev Dojo's own harness relates.
-- Contrast: Jest/Vitest `describe`/`it`/`expect` and `vi.mock` module mocking vs `patch` on the name where it is looked up (the classic "patch where it is used, not where it is defined" mistake).
+- Common mistake: patching a name where it is defined instead of where it is looked up (`patch("rates.fetch_rate")` when `pricing` did `from rates import fetch_rate`); patch `pricing.fetch_rate`.
 - Challenge (multi-file, `main.py` + `pricing.py`): write `class PricingTests(unittest.TestCase)` in `main.py` covering `pricing.quote()` (a discount rule, an invalid-input error with `assertRaises`, a table with `subTest`) and patch `pricing.fetch_rate` where `quote` looks it up; `run_suite()` returns the `unittest.TestResult`.
 - Tests: `run_suite()` reports at least 3 tests run and no failures against the real `pricing.py`; the learner's suite **fails** against a planted buggy `pricing` (the tests load a mutated copy through `modules`), proving the tests catch the bug; `fetch_rate` is never called for real (call counter); `assertRaises` is used (checked with `ast`).
 - Notes: verify `unittest.mock.patch` and `TextTestRunner` with a `StringIO` stream in Pyodide. No timing.

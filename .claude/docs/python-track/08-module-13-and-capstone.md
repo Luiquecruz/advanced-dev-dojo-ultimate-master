@@ -114,11 +114,11 @@ Decision: the module 13 practice lessons can be written. The spike leaves `ARCHI
 ## Lessons (if the spike passes)
 
 ### 01-validation-map (Q, B)
-Parsing vs validation, where to validate (edges), dataclass vs `BaseModel` vs `TypedDict`, comparison with Zod/TypeScript runtime validation.
+Parsing vs validation, where to validate (edges), dataclass vs `BaseModel` vs `TypedDict`, and what each one checks at runtime.
 
 ### 02-basemodel-vs-dataclass (P, I)
 - Concept: `BaseModel` parses and coerces on construction; dataclasses store without checks; `model_validate`, `model_dump`, `ValidationError.errors()`.
-- Contrast: Zod `schema.parse` (parse, don't validate) is the closest JS equivalent.
+- Common mistake: expecting a dataclass to validate or convert its input (`Order(quantity="42")` stores the string); a `BaseModel` parses and coerces on construction and raises `ValidationError` naming the field in `errors()`.
 - Challenge: `class User(BaseModel)` with `id: int`, `email: str`, `tags: list[str] = []` default handling; `parse_user(data)` returns `User` or raises; `to_public(user)` excluding `email`.
 - Tests: `"42"` becomes `42`; invalid raises `ValidationError` with the field in `errors()`; defaults not shared between instances; dump excludes a field.
 
@@ -138,7 +138,7 @@ Parsing vs validation, where to validate (edges), dataclass vs `BaseModel` vs `T
 - Tests: alias round trip; computed total included; datetime ISO output; schema property list.
 
 ### 06-pydantic-core-and-performance (Q, I)
-Quiz lesson. The Rust `pydantic-core`, validation vs serialization cost, `TypeAdapter`, when plain dataclasses or `attrs` suffice, comparison with msgspec/Zod. Dated status block; cite Pydantic docs.
+Quiz lesson. The compiled `pydantic-core` extension, validation vs serialization cost, `TypeAdapter`, when plain dataclasses, `attrs` or msgspec suffice. Dated status block; cite Pydantic docs.
 
 ### 07-validation-adr (A, I)
 - Briefing: three services exchange order events (`gateway` public, `orders` and `billing` internal, gateway → orders → billing); **8 000 000** events/day, planned at the daily average; about **30%** of partners send numbers as strings and cannot change this year; the `refund_approved` payout flag has arrived as `"yes"` and `1` but must be a JSON boolean; an unknown `discount_override` field was applied downstream last quarter; 422 bodies are parsed by partner software and payloads carry emails and card tokens; inside a service the event is an immutable typed object, and orders (contract v3) and billing (v2) drift, so mismatches between services must fail loudly; **4** event types, a new schema version every **6 months**, each accepted for **18 months**, one published schema document per type and accepted version; the largest legitimate body is **200** lines of at most **300 bytes** plus a **4 000-byte** envelope, rejected before parsing above a limit that fits it and stays under twice its size.

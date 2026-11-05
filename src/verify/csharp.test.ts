@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { trackById } from '../content/allContent';
 import type { Lesson } from '../content/types';
 import { defineChallengeSuite } from './challengeSuite';
-import { CSHARP_PENDING_REWRITE } from './csharpPendingRewrite';
+import { CSHARP_PENDING_HEADERS, CSHARP_PENDING_REWRITE } from './csharpPendingRewrite';
 import { csharpGrader } from './graders';
 
 /**
@@ -26,11 +26,13 @@ const DOCUMENTATION_HOSTS = new Set([
   'datatracker.ietf.org', 'openid.net', 'api-security.owasp.org',
 ]);
 /**
- * A comparison with PHP or Magento (06-content-standards.md "No bridges"). Scoped to them on purpose: the track legitimately
- * names JavaScript (the SignalR client) and Python (Aspire's polyglot hosting).
+ * A comparison with PHP or Magento, or a name from their ecosystem (06-content-standards.md "No bridges"). Scoped to them on purpose:
+ * the track legitimately names JavaScript (the SignalR client) and Python (Aspire's polyglot hosting).
  */
 const PHP_BRIDGE =
-  /\bPHP\b|Magento|PHP-FPM|\bFPM\b|Composer|composer\.(json|lock)|composer install|env\.php|di\.xml|crontab\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Guzzle/;
+  /\bPHP|\bphp\b|\.php\b|\.phtml\b|php\.ini|PSR-\d+|[Mm]agento|Adminhtml|routes\.xml|\bFPM\b|Composer|composer\.(json|lock)|composer install|di\.xml|crontab\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Guzzle|Monolog|Packagist|Zend|Laminas|\bPsalm\b|\bRector\b|Laravel|Symfony|Doctrine|Eloquent|[Oo][Pp]cache|Xdebug/;
+/** An `Assert.ThrowsAsync` that is not awaited returns a task nobody observes, so the test passes even when nothing throws. */
+const UNAWAITED_THROWS_ASYNC = /(?<!\bawait\s+)Assert\.ThrowsAsync\b/;
 
 interface Violation {
   rule: string;
@@ -74,6 +76,10 @@ function templateViolations(lesson: Lesson): Violation[] {
   const theory = lesson.theory;
   if (!theory.startsWith('# ')) {
     violations.push({ rule: 'theory-title', detail: 'theory.md must start with a "# " title' });
+  }
+  const intro = theory.split('\n## ')[0];
+  if (!/^You need: \S/m.test(intro)) {
+    violations.push({ rule: 'theory-you-need', detail: 'a "You need: <earlier lessons>" line follows the opening paragraph, before the first "##" section' });
   }
   const words = wordCount(theory);
   const minimum = kind === 'project' ? 400 : 500;
@@ -141,14 +147,22 @@ function resourceViolations(lesson: Lesson): Violation[] {
   return violations;
 }
 
-/** The theory, quiz, concepts, summary and resources, labelled by file. */
+/** Every text a learner reads or edits in a lesson, labelled by file. */
 function learnerTexts(lesson: Lesson): Array<[string, string]> {
-  return [
+  const texts: Array<[string, string]> = [
     ['theory.md', lesson.theory],
     ['quiz.json', lesson.quiz.map(({ question, options, explanation }) => [question, ...options, explanation].join('\n')).join('\n')],
     ['concepts.json', lesson.concepts.map(({ term, description }) => `${term} ${description}`).join('\n')],
-    ['meta.json', [lesson.summary, ...lesson.resources.map(({ label, url }) => `${label} ${url}`)].join('\n')],
+    ['meta.json', [lesson.title, lesson.summary, ...lesson.resources.map(({ label, url }) => `${label} ${url}`)].join('\n')],
   ];
+  const challenge = lesson.challenge;
+  if (challenge) {
+    texts.push(['challenge.md', challenge.instructions], ['hints.md', challenge.hints.join('\n')], ['approach.md', challenge.approach], ['tests.cs', challenge.tests]);
+    for (const [side, files] of [['starter', challenge.starter], ['solution', challenge.solution]] as const) {
+      Object.entries(files).forEach(([name, text]) => texts.push([`${side}/${name}`, text]));
+    }
+  }
+  return texts;
 }
 
 function bridgeViolations(lesson: Lesson): Violation[] {
@@ -158,9 +172,26 @@ function bridgeViolations(lesson: Lesson): Violation[] {
   });
 }
 
-function violationsOf(lesson: Lesson): Violation[] {
-  return [...templateViolations(lesson), ...resourceViolations(lesson), ...bridgeViolations(lesson)];
+function testViolations(lesson: Lesson): Violation[] {
+  const tests = lesson.challenge?.tests ?? '';
+  return UNAWAITED_THROWS_ASYNC.test(tests) ? [{ rule: 'tests-await-throws-async', detail: 'tests.cs calls Assert.ThrowsAsync without await' }] : [];
 }
+
+function violationsOf(lesson: Lesson): Violation[] {
+  return [...templateViolations(lesson), ...resourceViolations(lesson), ...bridgeViolations(lesson), ...testViolations(lesson)];
+}
+
+/** The track and module titles and descriptions the carousel and the module headers show, keyed like CSHARP_PENDING_HEADERS. */
+const headerTexts: Array<[string, string]> = track
+  ? [
+      [`track:${track.id}`, `${track.title}\n${track.description}`],
+      ...track.modules.map((module): [string, string] => [`module:${track.id}/${module.id}`, `${module.title}\n${module.description}`]),
+    ]
+  : [];
+const headerBridges = new Map(headerTexts.flatMap(([key, text]) => {
+  const match = PHP_BRIDGE.exec(text);
+  return match ? [[key, match[0]] as const] : [];
+}));
 
 describe('csharp track', () => {
   it('runs on the C# engine', () => {
@@ -194,6 +225,20 @@ describe('csharp track', () => {
       return rules.filter((rule) => !broken.has(rule)).map((rule) => `${lessonKey}#${rule}`);
     });
     expect(stale).toEqual([]);
+  });
+
+  it('names no PHP/Magento bridge in the track and module titles and descriptions', () => {
+    const unexpected = [...headerBridges].filter(([key]) => !CSHARP_PENDING_HEADERS[key]?.includes('no-php-bridge')).map(([key, name]) => `${key} names "${name}"`);
+    const stale = Object.entries(CSHARP_PENDING_HEADERS).flatMap(([key, rules]) => rules.filter((rule) => rule !== 'no-php-bridge' || !headerBridges.has(key)).map((rule) => `${key}#${rule}`));
+    expect({ unexpected, stale }).toEqual({ unexpected: [], stale: [] });
+  });
+
+  it('matches PHP ecosystem names and leaves .NET facts alone', () => {
+    const caught = ['used to PSR-3', "PHPUnit's setUp()", 'php -S 127.0.0.1:8081 legacy.php', 'Controller/Adminhtml/Product/Save.php', 'bin/magento cron:run', 'Monolog channels'];
+    const allowed = ['the SignalR JavaScript client', "Aspire's polyglot hosting runs Python apps", 'ILogger<T> categories', 'dotnet test --logger trx'];
+    expect(caught.filter((text) => !PHP_BRIDGE.test(text))).toEqual([]);
+    expect(allowed.filter((text) => PHP_BRIDGE.test(text))).toEqual([]);
+    expect(['await Assert.ThrowsAsync<E>(() => run())', 'public static void X() => Assert.ThrowsAsync<E>(() => run());'].map((text) => UNAWAITED_THROWS_ASYNC.test(text))).toEqual([false, true]);
   });
 
   it.each(eachLesson)('%s has 4 to 8 concepts', (_, lesson) => {
