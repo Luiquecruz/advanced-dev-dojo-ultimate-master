@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { EDITOR_THEME, languageForFile, monaco } from './monacoSetup';
 
 interface CodeEditorProps {
@@ -17,7 +17,11 @@ export function CodeEditor({ modelPath, fileName, value, readOnly = false, onCha
   const containerRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const callbacksRef = useRef({ onChange, onRun });
-  callbacksRef.current = { onChange, onRun };
+  const valueRef = useRef(value);
+  useLayoutEffect(() => {
+    callbacksRef.current = { onChange, onRun };
+    valueRef.current = value;
+  });
 
   useEffect(() => {
     const editor = monaco.editor.create(containerRef.current!, {
@@ -49,9 +53,9 @@ export function CodeEditor({ modelPath, fileName, value, readOnly = false, onCha
     const uri = monaco.Uri.parse(`file:///${modelPath}/${fileName}`);
     let model = monaco.editor.getModel(uri);
     if (!model) {
-      model = monaco.editor.createModel(value, languageForFile(fileName), uri);
-    } else if (model.getValue() !== value) {
-      model.setValue(value);
+      model = monaco.editor.createModel(valueRef.current, languageForFile(fileName), uri);
+    } else if (model.getValue() !== valueRef.current) {
+      model.setValue(valueRef.current);
     }
     editorRef.current?.setModel(model);
   }, [modelPath, fileName]);

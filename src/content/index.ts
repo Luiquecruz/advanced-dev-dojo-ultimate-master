@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference -- types of the virtual module served by plugins/contentPlugin.ts
 /// <reference path="./virtual.d.ts" />
 import { lessonLoaders, tracks as catalog } from 'virtual:dojo-content';
 import { isTrackEnabled } from './featureFlags';

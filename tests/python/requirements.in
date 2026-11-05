@@ -1,0 +1,9 @@
+# CPython test suite (tests/python). Pydantic and its dependencies match the wheels vendored for Pyodide
+# (vendor/pyodide-packages/manifest.json). Regenerate the lock with:
+#   uv pip compile tests/python/requirements.in --generate-hashes --python-version 3.14 -o tests/python/requirements.txt
+pytest
+pydantic==2.12.5
+pydantic-core==2.41.5
+annotated-types==0.7.0
+typing-extensions==4.15.0
+typing-inspection==0.4.2

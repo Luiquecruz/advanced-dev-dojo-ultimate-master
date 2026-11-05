@@ -77,7 +77,7 @@ export function LessonPanel({ track, lesson, challenge, tab, onTabChange, testNa
         )}
       </header>
 
-      <nav className="flex gap-1 border-b border-line px-5 max-wide:px-2.5" role="tablist">
+      <div className="flex gap-1 border-b border-line px-5 max-wide:px-2.5" role="tablist" aria-label="Lesson sections">
         {tabs.map((entry) => (
           <button
             key={entry.id}
@@ -93,7 +93,7 @@ export function LessonPanel({ track, lesson, challenge, tab, onTabChange, testNa
             {entry.done && <CheckIcon className="size-3.5 text-success" role="img" aria-label="Done" />}
           </button>
         ))}
-      </nav>
+      </div>
 
       <div className="flex-1 overflow-y-auto px-6.5 pt-4.5 pb-10 max-wide:px-4 max-wide:pt-3.5 max-wide:pb-8">
         <div key={tab} className="enter" style={{ ['--enter-delay' as string]: '60ms' }}>

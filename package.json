@@ -15,7 +15,8 @@
     "python:curriculum": "node scripts/python-track/sync-curriculum.mjs",
     "python:vendor": "node scripts/python-track/vendor-packages.mjs",
     "docs:check": "node .claude/hooks/docs-sync.mjs --check",
-    "smoke:worker-csp": "node scripts/python-track/check-worker-csp.mjs"
+    "smoke:worker-csp": "node scripts/python-track/check-worker-csp.mjs",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@angular/common": "^22.2.3",
@@ -75,14 +76,20 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@types/readable-stream": "^4.0.25",
     "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "eslint": "^10.14.0",
+    "eslint-plugin-jsx-a11y-x": "^0.2.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
     "jsdom": "^29.1.1",
     "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1",
     "vite": "^8.3.4",
     "vitest": "^5.0.5"
   },
@@ -95,6 +102,18 @@
       "minimatch": "^11.0.4"
     },
     "editorconfig": {
+      "minimatch": "^11.0.4"
+    },
+    "eslint": {
+      "minimatch": "^11.0.4"
+    },
+    "@eslint/config-array": {
+      "minimatch": "^11.0.4"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.4"
+    },
+    "eslint-plugin-jsx-a11y-x": {
       "minimatch": "^11.0.4"
     }
   }

@@ -53,6 +53,8 @@ defineChallengeSuite('python', pythonGrader());
 
 `language` stays undefined (single-language track). `challengeSuite.ts` filters variants whose `language` equals the argument, and for a single-language track `variant.language` is `undefined`, so the call without a language works.
 
+A second check runs outside Pyodide: `tests/python` (pytest, CPython 3.14, a CI job) grades the Python challenges with the same `dojo_harness.py` (lessons that use the fake model `dojo_ai` are skipped: it runs only in Pyodide) in a fresh `python -s -P` child (hash seed 0, like Pyodide), with temporary `DOJO_APP_DIRECTORY` and `DOJO_SCRATCH_DIRECTORIES` (the harness deletes new files in its scratch directories). Details in CONTRIBUTING.md "Python on CPython".
+
 ### 4–7. Docs and copy
 
 - `CURRICULUM.md`: new `## Python (src/content/python)` section generated from [03-curriculum.md](03-curriculum.md); written lessons carry `✓`.
