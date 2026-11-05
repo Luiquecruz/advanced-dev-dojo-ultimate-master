@@ -20,11 +20,12 @@ export default defineConfig({
     dotnetPlugin(),
     pythonWorkerCspPlugin(),
     sentryVitePlugin({
-      disable: !sentryUploadEnabled,
       org: 'lcruz-development',
       project: 'advanced-dev-dojo-ultimate-master',
       authToken: process.env.SENTRY_AUTH_TOKEN,
       telemetry: false,
+      silent: !sentryUploadEnabled,
+      release: { create: false, finalize: false, inject: false },
       sourcemaps: { filesToDeleteAfterUpload: ['./dist/**/*.map'] },
     }),
   ],
@@ -43,7 +44,7 @@ export default defineConfig({
   worker: { format: 'es' },
   build: {
     target: 'es2022',
-    sourcemap: sentryUploadEnabled ? 'hidden' : false,
+    sourcemap: 'hidden',
     chunkSizeWarningLimit: 12000,
     rollupOptions: {
       input: {

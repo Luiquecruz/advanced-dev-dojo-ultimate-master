@@ -1,9 +1,10 @@
 import * as Sentry from '@sentry/react';
+import type { RootOptions } from 'react-dom/client';
 
-export function initSentry(): void {
+export function initSentry(): RootOptions | undefined {
   const dsn = import.meta.env.VITE_SENTRY_DSN;
   if (!dsn) {
-    return;
+    return undefined;
   }
 
   Sentry.init({
@@ -14,10 +15,10 @@ export function initSentry(): void {
     replaysSessionSampleRate: 0,
     replaysOnErrorSampleRate: 1,
   });
-}
 
-export const reactRootErrorHandlers = {
-  onUncaughtError: Sentry.reactErrorHandler(),
-  onCaughtError: Sentry.reactErrorHandler(),
-  onRecoverableError: Sentry.reactErrorHandler(),
-};
+  return {
+    onUncaughtError: Sentry.reactErrorHandler(),
+    onCaughtError: Sentry.reactErrorHandler(),
+    onRecoverableError: Sentry.reactErrorHandler(),
+  };
+}
