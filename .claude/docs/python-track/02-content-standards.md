@@ -43,7 +43,7 @@ src/content/python/<NN-module>/<NN-lesson-id>/
 
 Word limits: practice lessons and the capstone 300–1,000, maps 200–500, quiz-only theory lessons and ADRs 250–1,000. Practice lessons and the capstone follow this order:
 
-1. `# <title>` and **the model**: what Python does, with a runnable example.
+1. **The model**: what Python does, with a runnable example. The lesson page already shows the `meta.json` title as its heading, so most theories open straight with this paragraph; a `# <title>` line is optional and no suite checks it.
 2. `## How it works`: the mechanism (data model hook, protocol, bytecode behavior), pitfalls.
 3. `## Common mistakes`: 40–250 words. The mistake a newcomer makes most often with this mechanism, named in **bold**, what happens at runtime, and the wrong code next to the fix in a `py` fence. The test marked `# beginner mistake:` catches exactly that mistake.
 4. Optional sections, such as **legacy vs modern** when an API evolved (`typing.List` → `list[str]`, `asyncio.gather` → `TaskGroup`).
@@ -143,7 +143,7 @@ The last lesson of every module except 00 (which ends with the skip test) and 12
 ## Verification checklist per lesson
 
 - [ ] Solution passes every test; starter fails at least one (`npm run verify` enforces), by assertion and not by import error.
-- [ ] The `# beginner mistake:` test fails on the wrong version named in `## Common mistakes`; source checks use `ast`.
+- [ ] Practice lessons and the capstone: the `# beginner mistake:` test fails on the wrong version named in `## Common mistakes` (ADRs and quiz-only lessons have none). Source checks use `ast`.
 - [ ] ADR only: a computed numeric field, coherent briefing arithmetic, neutral test names.
 - [ ] At least 2 hints separated by `---`; non-trivial `approach.md`; theory over 200 characters.
 - [ ] Practice lessons and the capstone: theory has `## How it works` before `## Common mistakes` and ends with `## When to choose it` (maps and ADRs are exempt). No theory compares with another language.
