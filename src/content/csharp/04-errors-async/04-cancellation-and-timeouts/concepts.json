@@ -1,0 +1,9 @@
+[
+  { "term": "CancellationTokenSource", "description": "The disposable object that can request cancellation, immediately with `Cancel()` or after a delay with `CancelAfter`, for every copy of its token." },
+  { "term": "CancellationToken", "description": "A lightweight struct passed to operations so they can observe a cancellation request; it can be observed but never reset or cancelled by the listener." },
+  { "term": "Cooperative cancellation", "description": "The .NET model in which nothing is killed: each operation checks the token and stops itself, usually by throwing `OperationCanceledException`." },
+  { "term": "HttpContext.RequestAborted", "description": "The token ASP.NET Core cancels when the client disconnects or a request timeout fires, and the value bound to a `CancellationToken` endpoint parameter." },
+  { "term": "Linked token source", "description": "A source created with `CreateLinkedTokenSource` whose token is cancelled when any of the joined tokens is cancelled, typically a caller's token plus a deadline." },
+  { "term": "Request timeouts middleware", "description": "ASP.NET Core middleware (`AddRequestTimeouts`, `UseRequestTimeouts`) that sets per-endpoint or default time limits on incoming requests." },
+  { "term": "Standard resilience handler", "description": "The `AddStandardResilienceHandler()` pipeline from `Microsoft.Extensions.Http.Resilience` that adds total and per-attempt timeouts, retries and a circuit breaker to an `HttpClient`." }
+]

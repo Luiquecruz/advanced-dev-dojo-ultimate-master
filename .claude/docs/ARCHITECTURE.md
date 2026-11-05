@@ -259,15 +259,15 @@ Everything the UI shows about a track comes from two places:
 | `track.json` | `order` | position in the home carousel and the track list |
 | `tokens.css` | `[data-trail='<id>'] { --accent; --accent-rgb }` | every accent: buttons, borders, glow, scene particles, headline highlight |
 
-Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue` and `angular`). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
+Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue`, `angular` and `csharp`). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
 
 Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
 
 - At least 4.5:1 contrast against `void` (`#0a0f18`), `panel` (`#121c2a`) and `elevated` (`#1b293a`), and at least 4.5:1 for the dark `on-accent` text drawn on top of it.
-- At least 30° of hue away from every other track accent, so tracks stay distinguishable (also for color-blind users; the monogram and title are the second cue).
+- At least 30° of hue away from the accent of every other track shown to learners, so tracks stay distinguishable (also for color-blind users; the monogram and title are the second cue). Tracks hidden in `src/content/featureFlags.ts` never share a screen with the others and are left out; enabling one whose hue collides fails the test, and the accents are revisited then.
 - `--accent-rgb` must be the same color as `--accent` written as `R G B`.
 
-Current accents and their hues. No band 30° away from every accent is left (Python took the last one, around 123°): the next track needs this rule revisited, for example by allowing tracks that never share a screen to reuse a hue.
+Current accents and their hues. Python took the last band 30° away from every accent (around 123°), so the rule now counts only the tracks shown to learners: C# uses the band of the hidden Angular track (about 358°), and Vue's band (about 154°) is free while Vue stays hidden.
 
 | Track | Accent | Hue |
 | --- | --- | --- |
@@ -275,11 +275,12 @@ Current accents and their hues. No band 30° away from every accent is left (Pyt
 | ai-engineering | `#f07ad9` | 312° |
 | node | `#9be15d` | 92° |
 | python | `#62e869` | 123° |
-| vue | `#6de6b2` | 154° |
+| vue (hidden) | `#6de6b2` | 154° |
 | typescript | `#4dd9ff` | 193° |
 | react | `#8c8cff` | 240° |
 | react-state | `#d29cff` | 273° |
-| angular | `#ff6b81` | 351° |
+| angular (hidden) | `#ff6b81` | 351° |
+| csharp | `#ff7a7f` | 358° |
 
 ## Adding a framework track (step by step)
 

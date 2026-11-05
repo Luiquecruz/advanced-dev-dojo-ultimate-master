@@ -1,0 +1,13 @@
+{
+  "title": "Nullable Reference Types",
+  "summary": "Turn on nullable reference types, read null-state warnings (CS8602, CS8618 and friends), fix them with types, guards, `required`, attributes and C# 14 null-conditional assignment, and know where the compile-time guarantee ends.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "C# fundamentals: Nullable reference types", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/null-safety/nullable-reference-types" },
+    { "label": "C# guide: Nullable migration strategies", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/update-applications/nullable-migration-strategies" },
+    { "label": "C# compiler options: errors and warnings (WarningsAsErrors nullable)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/errors-warnings" },
+    { "label": "System.Text.Json: Respect nullable annotations", "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/nullable-annotations" },
+    { "label": "What's new in C# 14 (null-conditional assignment)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14" }
+  ]
+}

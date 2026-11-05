@@ -1,0 +1,68 @@
+[
+  {
+    "question": "To make SKU searches ignore case, a teammate adds a C# 14 extension member `extension(string text) { public bool Contains(string value) => text.Contains(value, StringComparison.OrdinalIgnoreCase); }`. What does `\"ABC-1\".Contains(\"abc\")` return?",
+    "options": [
+      "`true`, because an extension declared in your own code takes precedence",
+      "`false`: the instance `Contains(string)` wins over the extension",
+      "It does not compile, because the call is ambiguous between the two `Contains`",
+      "`true`, but only in files that import the extension's namespace with `using`"
+    ],
+    "answer": 1,
+    "explanation": "The compiler binds to applicable members of the type first and considers extensions only when none applies, so `string.Contains(string)` runs and the extension is dead code. Scope (the last option) matters only when no instance member fits. Give the extension its own name, such as `ContainsIgnoreCase`."
+  },
+  {
+    "question": "With `Order(OrderStatus Status, decimal Total)`, what does this return for `new Order(OrderStatus.Cancelled, 150m)`?\n\n```csharp\norder switch\n{\n    { Total: >= 100m } => \"free\",\n    { Status: OrderStatus.Cancelled } => \"none\",\n    _ => \"paid\",\n}\n```",
+    "options": [
+      "`\"free\"`, because the first matching arm wins",
+      "`\"none\"`, because the more specific pattern wins",
+      "`\"paid\"`, because two arms match and the discard resolves the conflict",
+      "It throws `SwitchExpressionException`"
+    ],
+    "answer": 0,
+    "explanation": "Arms are evaluated in text order and the first match is chosen; nothing ranks patterns by specificity. To give cancelled orders priority, put that arm first. The \"most specific wins\" intuition comes from CSS and some routing systems, not from C# patterns."
+  },
+  {
+    "question": "`public sealed class PriceService(IPriceRepository repository) { ... }`. Which statement about `repository` is true?",
+    "options": [
+      "A public property, like the parameters of a positional record",
+      "A private `readonly` field, so reassigning it in a method is a compile error",
+      "Usable only in field initializers, not in method bodies",
+      "A parameter in scope in the whole class; methods may reassign it"
+    ],
+    "answer": 3,
+    "explanation": "Primary constructor parameters on classes stay parameters: the compiler captures them in a hidden private field when members use them, and they are not read-only. The first option describes records only. The second is the PHP constructor-promotion `private readonly` intuition, which C# does not apply to classes."
+  },
+  {
+    "question": "`args` is `[\"products.csv\", \"--dry-run\"]`. What does this return?\n\n```csharp\nargs switch\n{\n    [] => \"usage\",\n    [var file] => $\"import {file}\",\n    [var file, \"--dry-run\"] => $\"check {file}\",\n    [_, .. var rest] => \"unknown\",\n}\n```",
+    "options": [
+      "`\"import products.csv\"`",
+      "`\"check products.csv\"`",
+      "`\"unknown\"`, because `..` matches first",
+      "`\"usage\"`"
+    ],
+    "answer": 1,
+    "explanation": "`[var file]` requires exactly one element, so it fails; `[var file, \"--dry-run\"]` matches two elements with the second equal to the constant. The slice arm would also match, but it comes later, and arms are tried in order."
+  },
+  {
+    "question": "A `switch` expression over an `OrderStatus` enum handles all four named values and has no `_` arm. At run time it receives `(OrderStatus)7`. What happens?",
+    "options": [
+      "It returns the default value of the result type, such as `null` for `string`",
+      "Nothing: the compiler rejected the non-exhaustive switch, so the code never ran",
+      "It throws `SwitchExpressionException`; the compiler had only warned",
+      "It falls through to the first arm, like a C `switch` without `break`"
+    ],
+    "answer": 2,
+    "explanation": "C# enums are backed by integers, so any `int` can be cast to the enum, and a switch covering only the named values is not exhaustive. The compiler warns, but the code still builds, and an unmatched value throws at run time. That is why the lesson recommends a final `_` arm. PHP enums cannot hold an undeclared value (`from()` throws `ValueError`), but C# enums can, which is why a C# switch over an enum is never exhaustive without `_`."
+  },
+  {
+    "question": "`IEnumerable<int> ids = [.. LoadIds(), 99];` When does `LoadIds()` run and get enumerated?",
+    "options": [
+      "When this line runs: the spread is enumerated and copied immediately",
+      "Lazily, the first time someone enumerates `ids`, like a LINQ query",
+      "Every time `ids` is enumerated, because the target is `IEnumerable<int>`",
+      "Only when `ids` is first converted with `ToList()` or `ToArray()`"
+    ],
+    "answer": 0,
+    "explanation": "Collection expressions materialize all elements into an in-memory collection, regardless of the target type. Deferred execution (the second option) is how LINQ operators such as `Where` behave, covered in 03/03, and mixing the two up hides when your data source is read."
+  }
+]

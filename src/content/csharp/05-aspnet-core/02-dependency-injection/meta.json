@@ -1,0 +1,24 @@
+{
+  "title": "Dependency Injection and Service Lifetimes",
+  "summary": "Register services with transient, scoped and singleton lifetimes, catch captive dependencies with scope validation, use TryAdd and keyed services, and map di.xml preferences, virtual types and plugins to .NET.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Dependency injection in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection"
+    },
+    {
+      "label": "Service lifetimes (dependency injection) in .NET",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection/service-lifetimes"
+    },
+    {
+      "label": "Dependency injection in .NET: scope validation and keyed services",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection/overview"
+    }
+  ]
+}

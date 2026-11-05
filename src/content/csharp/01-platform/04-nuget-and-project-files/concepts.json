@@ -1,0 +1,9 @@
+[
+  { "term": "PackageReference", "description": "An item in the .csproj that declares a NuGet dependency, where Version=\"3.6.0\" means 3.6.0 or higher with the lowest available version preferred." },
+  { "term": "SDK-style project", "description": "A short .csproj whose Sdk attribute brings in the build logic and which compiles every .cs file under its folder without listing them." },
+  { "term": "Transitive package", "description": "A package your project receives because one of its direct packages depends on it, recorded with the rest of the graph in obj/project.assets.json." },
+  { "term": "Central package management", "description": "Keeping every package version of a repository in one Directory.Packages.props file, with version-less PackageReference items in the projects." },
+  { "term": "Lock file", "description": "An opt-in packages.lock.json that records the full resolved graph, so restore with --locked-mode fails instead of silently changing versions." },
+  { "term": "NuGet Audit", "description": "A vulnerability check that runs on every restore and reports NU1901 to NU1904 warnings, covering transitive packages by default for net10.0 projects." },
+  { "term": "SPDX licence expression", "description": "The standard identifier, such as MIT or Apache-2.0, that a package declares as its licence and that nuget.org shows on the package page." }
+]

@@ -1,0 +1,13 @@
+{
+  "title": "HTTP Semantics and Problem Details",
+  "summary": "Choosing status codes from RFC 9110, safe and idempotent methods, RFC 9457 Problem Details with AddProblemDetails, central exception mapping with IExceptionHandler (and its .NET 10 logging change), and endpoint filters for shared checks.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Microsoft Learn: Handle errors in ASP.NET Core APIs", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api?view=aspnetcore-10.0" },
+    { "label": "Microsoft Learn: Handle errors in ASP.NET Core (IExceptionHandler)", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-10.0" },
+    { "label": "Microsoft Learn: Filters in Minimal API apps", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/min-api-filters?view=aspnetcore-10.0" },
+    { "label": "RFC 9457: Problem Details for HTTP APIs", "url": "https://www.rfc-editor.org/rfc/rfc9457.html" },
+    { "label": "RFC 9110: HTTP Semantics", "url": "https://www.rfc-editor.org/rfc/rfc9110.html" }
+  ]
+}

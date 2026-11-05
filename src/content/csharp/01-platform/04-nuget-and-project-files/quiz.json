@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A project declares `<PackageReference Include=\"Contoso.Pdf\" Version=\"2.0.0\" />`. nuget.org has 2.0.0, 2.4.1 and 3.0.0. Which version does restore resolve?",
+    "options": [
+      "3.0.0, because NuGet takes the newest release on every restore",
+      "2.4.1, because `2.0.0` behaves like Composer's `^2.0`",
+      "2.0.0: the value is a minimum, and NuGet prefers the lowest",
+      "Restore fails, because a plain version is not a valid range"
+    ],
+    "answer": 2,
+    "explanation": "A plain version is an inclusive minimum (x ≥ 2.0.0), and NuGet's lowest-applicable-version rule picks 2.0.0. Composer's caret constraint resolves to the highest compatible release, which is why the second option is the PHP developer's trap. An exact match would be written `[2.0.0]`."
+  },
+  {
+    "question": "You add a new file `Services/PriceRules.cs` to an SDK-style project. What else must you do for it to be compiled?",
+    "options": [
+      "Nothing: SDK-style projects compile every `.cs` file",
+      "Add a `<Compile Include=\"Services/PriceRules.cs\" />` item",
+      "Add the file to the `.slnx`, which lists the files of each project",
+      "Run `dotnet restore` so that the new file is discovered"
+    ],
+    "answer": 0,
+    "explanation": "SDK-style projects include source files by glob, so creating the file is enough. Explicit `<Compile>` lists belong to the old, pre-SDK project format used by .NET Framework projects, which is why the second option looks familiar in legacy code. A solution lists projects, not files."
+  },
+  {
+    "question": "A solution has eight projects and their `Microsoft.EntityFrameworkCore` versions have drifted to three different values. What fixes this with the least ongoing effort?",
+    "options": [
+      "A floating version `10.*` in every project, so all resolve the newest",
+      "A `Directory.Build.props` that sets `TargetFramework` for every project",
+      "A committed `packages.lock.json` per project, restored in locked mode",
+      "Central package management in one `Directory.Packages.props`"
+    ],
+    "answer": 3,
+    "explanation": "Central package management puts each version in one `<PackageVersion>` entry and the projects reference packages without a version, so an upgrade is a one-line change. Lock files record what each project resolved but do not stop the declared versions from diverging, so the third option treats the symptom; floating versions make restores depend on the day."
+  },
+  {
+    "question": "Restore reports `NU1904` for a package your API does not reference directly. The project targets `net10.0`. What does this mean, and what is a reasonable first step?",
+    "options": [
+      "A critical advisory in a transitive package; run `dotnet nuget why`",
+      "The package is deprecated, so the warning can be suppressed with `NoWarn`",
+      "A transitive package was deprecated by its owner; replace the parent",
+      "nuget.org could not be reached during the audit; retry the restore"
+    ],
+    "answer": 0,
+    "explanation": "NU1901 to NU1904 report known vulnerabilities by severity, and NU1904 is critical; on `net10.0` the audit covers transitive packages by default. Once you know the parent, upgrade it or raise the version with transitive pinning in `Directory.Packages.props`. Suppressing the warning, the second option, hides the finding without fixing anything; an unreachable audit source is a different warning (NU1900)."
+  },
+  {
+    "question": "Your CI pipeline must fail if a pull request changes the package graph without updating it on purpose. Which setup does that?",
+    "options": [
+      "Run `dotnet build --no-restore`, which fails when the graph changed",
+      "Commit `packages.lock.json` and restore with `--locked-mode`",
+      "Enable central package management, which rejects unplanned changes",
+      "Delete `obj/` before each build, so restore starts from a clean graph"
+    ],
+    "answer": 1,
+    "explanation": "With `RestorePackagesWithLockFile`, locked mode restores exactly the graph in the committed lock file and fails if the declared dependencies no longer match it. Central package management, the third option, keeps versions in one place but accepts any change made to that file. Skipping restore only works if a restore already happened and checks nothing about the graph."
+  },
+  {
+    "question": "A teammate wants to add MediatR 14 to a commercial project because \"everyone uses it\". Following this track's guidance, what do you do first?",
+    "options": [
+      "Add it: packages on nuget.org must use an OSI-approved licence",
+      "Refuse: commercial licences are not allowed in .NET projects",
+      "Check the licence: MediatR 13.0 moved to RPL-1.5",
+      "Add any version: older MediatR majors were relicensed too"
+    ],
+    "answer": 2,
+    "explanation": "MediatR 13.0 ships under RPL-1.5 plus a commercial licence and later majors are assumed to follow, so the team decides between buying, staying on 12.x or writing the pattern in plain C#. Older majors keep their original open-source licence, so the last option is wrong, and nuget.org accepts any licence, which rules out the first. No licence is forbidden outright; the team decides."
+  }
+]

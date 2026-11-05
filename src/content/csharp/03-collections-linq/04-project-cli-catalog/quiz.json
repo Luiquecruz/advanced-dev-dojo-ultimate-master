@@ -1,0 +1,68 @@
+[
+  {
+    "question": "The importer parses prices with `decimal.TryParse(text, out var price)`. It works on your machine, but on a colleague's machine set to Brazilian Portuguese every row still passes validation and `19.90` comes out as `1990`. Why?",
+    "options": [
+      "That overload uses the current culture; on `pt-BR` the `.` is the thousands separator, which its default style allows",
+      "`decimal` rounds differently on that operating system and shifts the two decimal places",
+      "The file is read with that machine's default encoding, which silently drops the `.` byte before the text reaches `TryParse`",
+      "`TryParse` ignores the decimal point unless you pass `NumberStyles.Float`"
+    ],
+    "answer": 0,
+    "explanation": "The `TryParse(String, Decimal)` overload uses `NumberStyles.Number`, which allows thousands separators, and the current culture's separators. On `pt-BR` the decimal separator is `,` and `.` groups thousands, so `19.90` parses successfully as `1990`: no row is rejected and every price is 100 times too high. Pass an explicit style without `AllowThousands` and `CultureInfo.InvariantCulture`. Encoding affects characters, not the meaning of `.`, and the default style already allows a decimal point."
+  },
+  {
+    "question": "Why is `decimal` the right type for the price column rather than `double`?",
+    "options": [
+      "`double` cannot hold values above one million, and a large catalog can exceed that in total stock value",
+      "`decimal` is base 10, so `0.10` is exact; `double` is binary and drifts in sums",
+      "LINQ's `Sum` only works on `decimal`",
+      "`double.TryParse` does not exist"
+    ],
+    "answer": 1,
+    "explanation": "Money needs exact decimal fractions; `double` stores binary fractions, so `0.1 + 0.2` is not exactly `0.3` and totals drift. The other options are false: `double` has a huge range, `Sum` has `double` and `int` overloads, and `double.TryParse` exists. PHP's `float` has the same binary problem."
+  },
+  {
+    "question": "A PHP version of the importer does `(float) $row[2]`, so `\"12abc\"` silently becomes `12`. What does the C# version with `decimal.TryParse` do with `\"12abc\"`?",
+    "options": [
+      "Returns `true` and `12`, like the PHP cast",
+      "Throws `FormatException`, which stops the import at the first bad row unless you wrap it in `try`",
+      "Returns `true` and `0`",
+      "Returns `false`, so the row can be reported as invalid while the import continues"
+    ],
+    "answer": 3,
+    "explanation": "`TryParse` rejects input that is not entirely a number in the allowed style and returns `false`, which is what makes \"invalid rows are listed and do not stop the import\" easy. `FormatException` is thrown by `decimal.Parse`, not `TryParse`. PHP's numeric-prefix coercion has no equivalent here, which is a feature for an importer."
+  },
+  {
+    "question": "The code is `File.ReadLines(path).Skip(1).Select((line, index) => (line, Number: index + 1))`. Row `B-2` is on the third line of the file. Which number does the report print for it?",
+    "options": [
+      "`3`, because `Select` counts lines in the file",
+      "`1`, because `index` starts at the header",
+      "`2`, because the index is counted after `Skip(1)` removed the header, so every number is one too low",
+      "`0`, because `index` is zero-based"
+    ],
+    "answer": 2,
+    "explanation": "`Select`'s index counts the elements it receives, and after `Skip(1)` the first element is file line 2, so it gets index 0 and number 1; line 3 gets number 2. Attach the numbers before `Skip(1)` to keep them equal to the physical line numbers the acceptance criteria ask for. The `+ 1` already handles zero-based indexing."
+  },
+  {
+    "question": "The top 5 must be ranked by stock value (`Price * Stock`), and products with the same stock value must appear in SKU order whatever the order of the rows in the file. Which ordering does that?",
+    "options": [
+      "`OrderByDescending(p => p.Price * p.Stock).ThenBy(p => p.Sku, StringComparer.Ordinal)`",
+      "`OrderByDescending(p => p.Price * p.Stock)` alone, because the stable sort already keeps tied products in a fixed order",
+      "`OrderByDescending(p => p.Price * p.Stock).OrderBy(p => p.Sku)`",
+      "Load the products into a `Dictionary<string, Product>` keyed by SKU, then sort its values by stock value"
+    ],
+    "answer": 0,
+    "explanation": "`ThenBy` adds an explicit tie-break, and the ordinal comparer keeps it independent of culture, so ties come out in SKU order for any file. `OrderBy` is a stable sort: without a tie-break, ties keep their input order, which is repeatable for one file but follows the file, not the SKU. A second `OrderBy` becomes the new primary key, so that list is sorted by SKU and no longer ranked by value. Sorting a dictionary's values leaves ties in its enumeration order, which is undefined."
+  },
+  {
+    "question": "The importer filters the parsed rows into `valid` and `invalid` with `Where` and then calls `Count`, `Sum` and `OrderByDescending` on `valid`, without `ToList()`. The file is read lazily with `File.ReadLines`. What happens?",
+    "options": [
+      "Nothing unusual; LINQ caches the parsed rows after the first operator",
+      "Each terminal operator enumerates `valid` again, so the file is read and parsed several times; materialize the parsed results once with `ToList()`",
+      "The second operator throws because `File.ReadLines` can only be enumerated once",
+      "The compiler merges the operators into a single pass"
+    ],
+    "answer": 1,
+    "explanation": "Deferred queries re-run on every enumeration, and here the source is a file, so each `Count`, `Sum` or sort reopens and reparses it. LINQ does not cache, and the compiler does not merge separate queries. `File.ReadLines` is not a run-once generator: each enumeration reads the file again, so the problem is repeated work, not an exception."
+  }
+]

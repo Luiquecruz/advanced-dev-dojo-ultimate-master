@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`InMemoryProductStore` is registered with `AddSingleton` and holds a plain `Dictionary<string, Product>`. Under concurrent `POST` requests, what is the risk?",
+    "options": [
+      "None; each request gets its own copy, as in PHP-FPM",
+      "Concurrent writes can corrupt the shared dictionary",
+      "Data is lost after each request because singletons are disposed",
+      "ASP.NET Core serializes all requests to a singleton, so it is safe"
+    ],
+    "answer": 1,
+    "explanation": "A singleton lives for the whole process and is used from many threads at once. `Dictionary<TKey, TValue>` is not safe for concurrent writes, so use `ConcurrentDictionary` or a lock. The PHP-FPM intuition of a fresh object per request is the tempting wrong answer; ASP.NET Core does not serialize access for you."
+  },
+  {
+    "question": "`GET /products?page=2&pageSize=10` sometimes returns different products for the same data. What is the most likely bug?",
+    "options": [
+      "`Skip`/`Take` run without an explicit `OrderBy` first",
+      "`pageSize` is bound from the body instead of the query",
+      "The handler is missing `[AsParameters]` on `page` and `pageSize`",
+      "JSON serialization reorders arrays by hash code"
+    ],
+    "answer": 0,
+    "explanation": "Dictionary enumeration order is unspecified, so paging without an explicit `OrderBy` is not stable; order by SKU first. Simple `int` parameters bind from the query without attributes, so binding is not the issue, and `System.Text.Json` writes arrays in their enumeration order."
+  },
+  {
+    "question": "Posting a product whose SKU already exists should return what, and from where?",
+    "options": [
+      "400 from a validation attribute that checks the store",
+      "200 with the existing product, so the call is idempotent",
+      "404, because the new product was not created",
+      "409 Conflict, from the store's `TryAdd` result"
+    ],
+    "answer": 3,
+    "explanation": "The request is well formed; it conflicts with the current state of the catalog, which RFC 9110 describes as 409. The check belongs where the data is, and `TryAdd` makes check-and-insert one atomic step. A validation attribute looking up the store is tempting but mixes request shape with server state."
+  },
+  {
+    "question": "A request to `/produtcs` (a typo) returns 404 with an empty body, while the criteria ask for Problem Details on every error. What is missing?",
+    "options": [
+      "`AddValidation()`, which also validates unmatched routes",
+      "A route constraint on `/products` that rejects typos",
+      "`AddProblemDetails()` together with `UseStatusCodePages()`",
+      "An `IExceptionHandler`, because a 404 is an exception"
+    ],
+    "answer": 2,
+    "explanation": "No endpoint matched, so no handler ran and nothing threw. The status code pages middleware fills empty 4xx and 5xx responses, and with `AddProblemDetails` it writes `application/problem+json`. An exception handler only sees thrown exceptions, and validation only runs for matched endpoints."
+  },
+  {
+    "question": "Why does the project keep the endpoints behind `IProductStore` instead of using the dictionary directly in the handlers?",
+    "options": [
+      "So P3 can swap in EF Core without touching the handlers",
+      "Because minimal API handlers cannot use a `ConcurrentDictionary` directly",
+      "Because OpenAPI needs an interface to generate schemas",
+      "Because singletons must be registered by interface"
+    ],
+    "answer": 0,
+    "explanation": "The interface is the seam for the next project: the storage changes, the acceptance criteria do not. Handlers could technically use the dictionary, OpenAPI reads handler signatures rather than storage types, and `AddSingleton<T>()` also works with a concrete class."
+  }
+]

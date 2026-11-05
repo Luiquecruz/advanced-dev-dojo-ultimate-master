@@ -1,0 +1,24 @@
+{
+  "title": "Map: How This Track Works",
+  "summary": "How the C# track is organized (theory, quizzes, local practice projects), where each Magento concept lands in .NET, and the three mindset shifts from PHP: compile-time types, one long-running process, and not blocking threads.",
+  "level": "beginner",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Introduction to .NET",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/introduction"
+    },
+    {
+      "label": "What's new in .NET 10",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/overview"
+    },
+    {
+      "label": "C# console app template changes in .NET 6+",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/tutorials/top-level-templates"
+    }
+  ]
+}

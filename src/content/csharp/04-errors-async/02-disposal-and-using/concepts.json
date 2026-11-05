@@ -1,0 +1,9 @@
+[
+  { "term": "IDisposable", "description": "The interface with a single `Dispose()` method that releases a resource deterministically instead of waiting for the garbage collector." },
+  { "term": "using declaration", "description": "`using var x = ...;` disposes `x` at the end of the enclosing scope, even when an exception or a `return` leaves it early." },
+  { "term": "IAsyncDisposable", "description": "The interface whose `DisposeAsync()` returns a `ValueTask`, for cleanup that needs I/O, consumed with `await using`." },
+  { "term": "Dispose ownership", "description": "The rule that whoever creates a disposable object disposes it, while services injected by the container are disposed by the container." },
+  { "term": "Dispose(bool) pattern", "description": "The protected virtual method a non-sealed class uses so derived classes can add cleanup, with `disposing` true from `Dispose()` and false from a finalizer." },
+  { "term": "SafeHandle", "description": "A built-in wrapper for an unmanaged handle that already provides the finalizer, so your own classes almost never need one." },
+  { "term": "ObjectDisposedException", "description": "The exception thrown when code uses an object after it was disposed, typically an injected service someone disposed too early." }
+]

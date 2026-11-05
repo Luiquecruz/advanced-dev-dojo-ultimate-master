@@ -1,0 +1,28 @@
+{
+  "title": "Routing, Binding and Validation",
+  "summary": "Route templates and why constraints are not validation, the order in which minimal APIs pick a binding source, the status codes of binding failures, and .NET 10 minimal API validation with DataAnnotations and IValidatableObject.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: Parameter binding in Minimal API apps",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Microsoft Learn: Validation in ASP.NET Core (Microsoft.Extensions.Validation)",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/validation?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Microsoft Learn: Routing in ASP.NET Core (route constraints)",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Microsoft Learn: What's new in ASP.NET Core 10.0",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0?view=aspnetcore-10.0"
+    }
+  ]
+}

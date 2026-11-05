@@ -1,0 +1,28 @@
+{
+  "title": "Generics, Delegates, Lambdas and Events",
+  "summary": "Generic types and methods with constraints, `Func` and `Action`, lambdas and what a closure captures, expression trees in one paragraph, and when a C# event is the right tool in a backend.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "C# fundamentals: Generic types and methods",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/generics"
+    },
+    {
+      "label": "C# programming guide: Constraints on type parameters",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters"
+    },
+    {
+      "label": "C# reference: Lambda expressions (capture of outer variables)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions"
+    },
+    {
+      "label": "C# programming guide: Events",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/"
+    }
+  ]
+}

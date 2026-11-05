@@ -1,0 +1,13 @@
+{
+  "title": "async and await",
+  "summary": "Write correct async methods, run independent I/O concurrently, choose `Task` over `ValueTask` by default, and see why `.Result` starves the ASP.NET Core thread pool and deadlocks only under a synchronization context.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Asynchronous programming with async and await (C#)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/" },
+    { "label": "Async return types (C#)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/async-return-types" },
+    { "label": "ASP.NET Core best practices: avoid blocking calls", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/best-practices" },
+    { "label": "ValueTask<TResult> remarks (API reference)", "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask-1" },
+    { "label": "ConfigureAwait FAQ (Stephen Toub, .NET Blog, 2019)", "url": "https://devblogs.microsoft.com/dotnet/configureawait-faq/" }
+  ]
+}

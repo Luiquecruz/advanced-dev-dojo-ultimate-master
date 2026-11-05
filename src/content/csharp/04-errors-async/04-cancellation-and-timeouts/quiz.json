@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An endpoint declares a `CancellationToken cancellationToken` parameter, but the repository calls `await db.Orders.ToListAsync()` without it. The client disconnects after one second of a 20-second query. What happens?",
+    "options": [
+      "ASP.NET Core aborts the thread running the query as soon as the client disconnects",
+      "The query runs to completion, because the token never reached it",
+      "EF Core reads `HttpContext.RequestAborted` on its own and cancels the query",
+      "Kestrel closes the database connection along with the socket, ending the query"
+    ],
+    "answer": 1,
+    "explanation": "Cancellation is cooperative: only code that receives the token can observe it, so a dropped token means the query finishes for nobody. Expecting the framework to kill the work is the PHP-FPM assumption (`request_terminate_timeout` kills the worker); .NET never aborts running code for you."
+  },
+  {
+    "question": "Inside `GetShippingQuoteAsync(cart, cancellationToken)` you need a 3-second deadline that also respects the caller's cancellation. Which code is right?",
+    "options": [
+      "`using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken); cts.CancelAfter(TimeSpan.FromSeconds(3));`, then pass `cts.Token`",
+      "`using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));`, then pass `cts.Token` and leave the caller's `cancellationToken` unused",
+      "`await carrierClient.QuoteAsync(cart, cancellationToken).WaitAsync(TimeSpan.FromSeconds(3), cancellationToken);`, which also cancels the outgoing HTTP call",
+      "`cancellationToken.CancelAfter(TimeSpan.FromSeconds(3));` on the caller's token, then pass `cancellationToken` on as usual"
+    ],
+    "answer": 0,
+    "explanation": "A linked source is cancelled by either the caller or the deadline, and `using` disposes it. `WaitAsync` is the tempting shortcut, but it only stops waiting: the underlying call is not cancelled and keeps running; and a `CancellationToken` has no `CancelAfter`, only its source does."
+  },
+  {
+    "question": "Which statement about `HttpClient.Timeout` is correct?",
+    "options": [
+      "It defaults to infinite, so a client without an explicit value can wait forever",
+      "It defaults to 30 seconds and retries a timed-out request three times on its own",
+      "100 s by default; on .NET 5+ it surfaces as a cancellation wrapping `TimeoutException`",
+      "It is ignored whenever a `CancellationToken` is also passed to `GetAsync` or `SendAsync`"
+    ],
+    "answer": 2,
+    "explanation": "The documented default is 100,000 ms, and the .NET 5+ timeout exception is an `OperationCanceledException` with an inner `TimeoutException`. The 30-second value is the standard resilience handler's total timeout, a separate layer; and with a token as well, the shorter of the two timeouts applies rather than one being ignored."
+  },
+  {
+    "question": "You add `app.UseRequestTimeouts()` and a default policy of 10 seconds, then debug a slow endpoint in Visual Studio and the timeout never fires. Why?",
+    "options": [
+      "Request timeouts only apply to controllers, so a minimal API endpoint is not covered",
+      "`UseRequestTimeouts` must be called before `AddRequestTimeouts`, or the policy is ignored",
+      "The default policy only applies to endpoints that also declare `[RequestTimeout]`",
+      "The middleware does not trigger with a debugger attached; test without one"
+    ],
+    "answer": 3,
+    "explanation": "Microsoft's docs state that the middleware, like Kestrel timeouts, does not trigger in debug mode. The controllers-only distractor is wrong because the feature works in minimal APIs, controllers, MVC and Razor Pages alike, and a default policy applies to endpoints without their own setting."
+  },
+  {
+    "question": "A method catches `OperationCanceledException` and logs it at Error level as \"Unexpected failure\". What is the problem?",
+    "options": [
+      "Cancellation is an expected outcome, so logging it as an error buries real failures",
+      "It should catch `TaskCanceledException` instead, the base class of every cancellation exception",
+      "Catching it stops the request timeouts middleware from writing its 504 response",
+      "It must call `ThrowIfCancellationRequested()` in the `catch`, or the token resets"
+    ],
+    "answer": 0,
+    "explanation": "Cancellation (client disconnect, deadline, shutdown) signals that someone no longer needs the work, so it should be handled quietly or allowed to propagate. The `TaskCanceledException` distractor reverses the hierarchy: `TaskCanceledException` derives from `OperationCanceledException`, and Microsoft recommends catching the base type."
+  },
+  {
+    "question": "A Magento developer expects `max_execution_time = 30` to protect a PHP script from a slow MySQL query. What does the PHP manual say about that on Linux, and what is the .NET counterpart?",
+    "options": [
+      "It counts all wall-clock time; the .NET counterpart is `HttpClient.Timeout`",
+      "It stops the query at 30 seconds; in .NET the counterpart is a command timeout",
+      "Query time is not counted, so it bounds nothing; in .NET pass a token with a deadline",
+      "It applies only to CLI scripts; the .NET counterpart is the request timeouts middleware"
+    ],
+    "answer": 2,
+    "explanation": "The PHP manual notes that on non-Windows systems `max_execution_time` excludes time spent outside the script, such as database queries; the wall-clock backstop is PHP-FPM's `request_terminate_timeout`, which kills the worker. Assuming it counts wall-clock time is the common belief (true only on Windows); in .NET a deadline is a cancelled token that the query observes."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "title": "Disposal and using",
+  "summary": "Release connections, streams and transactions deterministically with `using` and `await using`, implement `IDisposable` and `IAsyncDisposable`, and know what the DI container disposes for you.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "using statement (C# reference)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/using" },
+    { "label": "Implement a Dispose method (.NET)", "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose" },
+    { "label": "Implement a DisposeAsync method (.NET)", "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync" },
+    { "label": "Transactions (EF Core)", "url": "https://learn.microsoft.com/en-us/ef/core/saving/transactions" },
+    { "label": "CA2000: Dispose objects before losing scope", "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2000" }
+  ]
+}

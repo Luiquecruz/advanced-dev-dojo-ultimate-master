@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`appsettings.json` sets `Shipping:FlatRate:Price` to 10, `appsettings.Production.json` sets it to 15, and the container has `Shipping__FlatRate__Price=19.90`. The environment is Production and there are no command-line arguments. Which value does the app read?",
+    "options": [
+      "10, because `appsettings.json` is the base file and the other sources only fill gaps",
+      "15, because `appsettings.Production.json` overrides every other source in Production",
+      "The app fails to start, because the same key is defined by three different providers",
+      "19.90, because environment variables outrank both JSON files in the default order"
+    ],
+    "answer": 3,
+    "explanation": "The default precedence, from highest to lowest, is command line, environment variables, user secrets (Development only), `appsettings.{Environment}.json`, then `appsettings.json`. Environment-specific JSON beats the base file but loses to environment variables. Duplicate keys across providers are normal: the highest-priority provider wins."
+  },
+  {
+    "question": "A deploy script on a Linux server runs `export Shipping:FlatRate:Price=19.90` in Bash before starting the app, and the app keeps reading the JSON value. What is the fix?",
+    "options": [
+      "Name it `Shipping__FlatRate__Price`; .NET converts the double underscore to `:`",
+      "Prefix it with `ASPNETCORE_` so that the default environment variable provider picks it up",
+      "Set `reloadOnChange: true` on the environment variable provider and restart the app",
+      "Quote the name, `export \"Shipping:FlatRate:Price\"=19.90`, so that Bash accepts the colons"
+    ],
+    "answer": 0,
+    "explanation": "Bash refuses a variable name with `:` (\"not a valid identifier\"), and quoting the name does not change that, so the variable never reaches the app. A double underscore works on every platform and becomes `:` when the app reads it. Docker `-e` or a Kubernetes `env` entry could set a colon name, but `__` is the portable choice. The `ASPNETCORE_` prefix is for host settings and is excluded from the default unprefixed provider, and environment variables have no `reloadOnChange`."
+  },
+  {
+    "question": "A required API key is missing in production. Options are registered with `.ValidateDataAnnotations()` but without `.ValidateOnStart()`. When does the failure appear?",
+    "options": [
+      "At compile time, because the C# compiler checks `[Required]` on options classes",
+      "When `builder.Build()` runs, because building the host validates every registered option",
+      "On the first read of `.Value`, often in a request, as an `OptionsValidationException`",
+      "Never: a missing value binds as an empty string, which passes `[Required]` validation"
+    ],
+    "answer": 2,
+    "explanation": "Options are created and validated lazily on first access, often on the first request that needs the setting, unless `ValidateOnStart` asks the host to validate during startup. Data annotations are runtime checks, not compiler checks, and `Build()` does not touch options. A missing required value does fail validation (`[Required]` rejects null and, by default, empty strings); it just fails late, which is why `ValidateOnStart` belongs on critical settings."
+  },
+  {
+    "question": "An operator edits `appsettings.json` on a running server. A singleton service injected `IOptions<FeatureOptions>` in its constructor. What does the service see?",
+    "options": [
+      "The new value on its next call, because JSON files reload on change by default",
+      "The original value, because `IOptions<T>` is computed once and never recomputed afterwards",
+      "An exception on the next read, because the file changed under a singleton consumer",
+      "The new value: `IOptionsSnapshot<T>` recomputes per request, so the singleton sees it too"
+    ],
+    "answer": 1,
+    "explanation": "The configuration itself reloads, but `IOptions<T>` is a singleton computed once and never recomputed, so the service keeps the startup value. To see changes, a singleton uses `IOptionsMonitor<T>.CurrentValue`. `IOptionsSnapshot<T>` does recompute per request, but it is scoped, cannot be injected into a singleton and does not change what an `IOptions<T>` holds."
+  },
+  {
+    "question": "A Magento store has a per-website shipping price edited by admins in `core_config_data`. Where does that setting belong when you port the store to ASP.NET Core?",
+    "options": [
+      "In `appsettings.{Website}.json`, one file per website, selected by the request host name",
+      "In environment variables named per website, such as `Website__De__ShippingPrice`",
+      "In named options per website, loaded from `dotnet user-secrets` on the server",
+      "In the application's database, as business data with its own model and admin screen"
+    ],
+    "answer": 3,
+    "explanation": ".NET configuration describes how a deployment runs; it has no website or store scopes and no admin UI. Settings that admins change per store are business data and belong in the application's database, cached if needed. Files per website or environment variables would require a redeploy or restart for each admin edit, and user secrets are a development-only tool."
+  }
+]

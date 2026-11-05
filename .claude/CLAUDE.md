@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Dev Dojo is a browser-only learning platform (theory, test-validated coding challenges, hints, quizzes) for TypeScript, React, React State Management, React Architecture, AI Engineering (Node.js and Python variants), Node.js, Python, Vue and Angular. There is no backend: grading, previews, a fake REST API and a fake model provider all run client-side. Everything (code, content, docs, commit messages) is written in English. The project has more than one contributor: workflow, commit format and the documentation upkeep rule are in `.claude/docs/CONTRIBUTING.md`.
+Dev Dojo is a browser-only learning platform (theory, test-validated coding challenges, hints, quizzes) for TypeScript, React, React State Management, React Architecture, AI Engineering (Node.js and Python variants), Node.js, Python, C# and .NET (theory and quizzes only, no code engine), Vue and Angular. There is no backend: grading, previews, a fake REST API and a fake model provider all run client-side. Everything (code, content, docs, commit messages) is written in English. The project has more than one contributor: workflow, commit format and the documentation upkeep rule are in `.claude/docs/CONTRIBUTING.md`.
 
 ## Commands
 
@@ -15,7 +15,7 @@ npm run test                                                   # unit + architec
 npm run verify                                                 # lesson verification (src/verify): solution passes, starter fails
 npx vitest run src/shared/motion                               # one folder of unit tests
 npm run docs:check                                             # changed areas whose documents were not updated (.claude/hooks/docs-sync.mjs)
-npx vitest run src/verify/<track>.test.ts                      # one track (typescript, react, react-state, architecture, ai-engineering, node, python, vue, angular)
+npx vitest run src/verify/<track>.test.ts                      # one track (typescript, react, react-state, architecture, ai-engineering, node, python, csharp, vue, angular)
 npm run python:new -- <NN-module> <NN-lesson-id>               # scaffold a Python track lesson (writes meta.json.draft)
 npm run python:curriculum                                      # regenerate the Python section of CURRICULUM.md (-- --check to verify)
 npm run python:vendor                                          # download the pinned Pyodide packages (runs as postinstall; -- --check to verify)
@@ -129,8 +129,8 @@ Follow `.claude/docs/CONTENT_GUIDE.md` and `.claude/docs/CURRICULUM.md`. The ver
 New tracks are coming; follow the checklist at the end of `.claude/docs/ARCHITECTURE.md`. In short, a track on an existing engine needs no UI code:
 
 1. `src/content/<id>/track.json`: `engine`, `order`, `title`, `monogram` (1–3 characters), `shortTitle` when the title is long (home backdrop word), `description`, `version`; then modules and lessons.
-2. `[data-trail='<id>']` accent rule in `src/shared/design/tokens.css`: AA on void, panel and elevated, AA under dark text, at least 30° of hue from every other accent (no 30° band is left: revisit the rule before adding a track). `trackPresentation.test.ts` checks it.
-3. `src/verify/<id>.test.ts` with `defineChallengeSuite` (CI runs it as `Verify <id>`, listed from `track.json`; add the check to branch protection), the plan in CURRICULUM.md, new libraries registered in the engine `registry.ts` and listed in CONTENT_GUIDE.md.
+2. `[data-trail='<id>']` accent rule in `src/shared/design/tokens.css`: AA on void, panel and elevated, AA under dark text, at least 30° of hue from every other accent of a track shown to learners (hidden tracks in `featureFlags.ts` do not count; enabling one whose hue collides fails the test and the accents are revisited then). `trackPresentation.test.ts` checks it.
+3. `src/verify/<id>.test.ts` with `defineChallengeSuite` (CI runs it as `Verify <id>`, listed from `track.json`; add the check to branch protection); a track without a code engine uses a standards suite instead, like `csharp.test.ts`, the plan in CURRICULUM.md, new libraries registered in the engine `registry.ts` and listed in CONTENT_GUIDE.md.
 4. Name the track in the `index.html` meta description if it should appear there.
 
 A new engine also needs the registrations listed in ARCHITECTURE.md (`sandbox/protocol.ts`, `sandbox/sandbox.ts`, `content/types.ts` + `content/loader.ts`, `features/lesson/monacoSetup.ts`) and its id in the engine list of `src/verify/content.test.ts`.

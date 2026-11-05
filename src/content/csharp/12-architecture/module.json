@@ -1,0 +1,4 @@
+{
+  "title": "Application Architecture",
+  "description": "Layered and Clean Architecture, vertical slices and modular monoliths, domain-driven design, CQRS, and microservices trade-offs."
+}

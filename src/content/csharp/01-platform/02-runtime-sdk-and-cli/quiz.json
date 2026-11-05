@@ -1,0 +1,68 @@
+[
+  {
+    "question": "You run `dotnet build` on a web API. What is in the resulting `.dll` of your project?",
+    "options": [
+      "Native x64 machine code, so the server needs no runtime",
+      "CIL that the runtime interprets instruction by instruction",
+      "CIL plus metadata, which the JIT compiles to native code",
+      "Your C# source, which the runtime compiles when the app starts"
+    ],
+    "answer": 2,
+    "explanation": "The compiler emits CPU-independent CIL and type metadata into the assembly; the CLR's JIT turns each method into native code on its first call. The second option is the interpreter model PHP developers know, but the CLR compiles CIL to native code rather than interpreting it. Native code at build time, the first option, only happens with Native AOT publishing."
+  },
+  {
+    "question": "A production Linux server must run a framework-dependent ASP.NET Core API that targets `net10.0`. What needs to be installed on it?",
+    "options": [
+      "The ASP.NET Core 10.0 runtime, which needs the base runtime; no SDK",
+      "The .NET 10 SDK, because the app is compiled when it starts",
+      "Only the base .NET 10 runtime, since ASP.NET Core ships inside the app",
+      "Nothing, because every published app includes the runtime"
+    ],
+    "answer": 0,
+    "explanation": "A framework-dependent app needs the shared frameworks it targets, here `Microsoft.AspNetCore.App` on top of `Microsoft.NETCore.App`; the SDK is only needed to build. The third option is tempting because ASP.NET Core is used through a package-like reference, but it is a shared framework installed on the server, not copied into the publish output."
+  },
+  {
+    "question": "Your deploy script on the server runs `git pull && dotnet run --project src/Catalog.Api`. What is wrong with it?",
+    "options": [
+      "It works, but you must add `-c Release` to make it production-ready",
+      "Nothing, as long as the SDK on the server matches `global.json`",
+      "`git pull` skips restore, so the next run fails on missing packages",
+      "It builds Debug from source on the server; deploy publish output"
+    ],
+    "answer": 3,
+    "explanation": "`dotnet run` is a development convenience: it needs the SDK on the server, builds Debug by default and resolves dependencies from the local NuGet cache, and Microsoft advises against it in production. `-c Release`, the first option, fixes only the configuration; the server still builds from source instead of running tested, published output. `run` restores implicitly, so the third option is wrong."
+  },
+  {
+    "question": "A new .NET service responds slowly for its first minutes under load and then speeds up without any code change. What is the most likely cause?",
+    "options": [
+      "The garbage collector stays disabled until the app has warmed up",
+      "Tiered compilation recompiles hot methods with full optimization",
+      "The runtime downloads missing NuGet packages on first use",
+      "Response caching fills up, so repeated requests skip the endpoint"
+    ],
+    "answer": 1,
+    "explanation": "Tiered compilation is on by default since .NET Core 3.0: methods first run as quickly produced code, and the optimizing JIT later replaces the frequently called ones in the background. Packages are resolved at build and publish time, never downloaded by a running app, so the third option carries over a misconception from runtime package managers. Response caching is not on by default."
+  },
+  {
+    "question": "In `Catalog.Core` you declare `internal static class TaxTable`. The `Catalog.Api` project references `Catalog.Core`. What happens when `Catalog.Api` code uses `TaxTable` directly?",
+    "options": [
+      "It compiles, because both projects are in the same solution",
+      "It compiles after adding `using Catalog.Core;` to the file",
+      "The build fails: `internal` limits it to `Catalog.Core`",
+      "It compiles, but throws `MethodAccessException` at run time"
+    ],
+    "answer": 2,
+    "explanation": "Each project compiles to its own assembly, and `internal` restricts visibility to that assembly; the compiler enforces it. A solution is only a list of projects and grants no access, which is why the first option is wrong. A `using` directive imports names but does not change accessibility."
+  },
+  {
+    "question": "You must ship an API to a customer's server where you cannot install anything. Which publish option fits, and what is the trade-off?",
+    "options": [
+      "Self-contained for the server's RID; patches need a redeploy",
+      "Framework-dependent; the server downloads the runtime on first start",
+      "Native AOT, because it is required whenever no runtime is installed",
+      "Self-contained; it still rolls forward to the newest installed patch"
+    ],
+    "answer": 0,
+    "explanation": "Self-contained output bundles the runtime for one runtime identifier, so the server needs nothing, but the app no longer picks up runtime patches installed on the machine; you get them by publishing again. The last option is the tempting one: roll-forward to installed patches applies to framework-dependent apps only. Native AOT also needs no runtime, but it is an option with its own limits, not a requirement."
+  }
+]
