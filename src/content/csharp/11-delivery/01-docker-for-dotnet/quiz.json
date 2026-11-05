@@ -30,7 +30,7 @@
       "The build fails, because `HEALTHCHECK` is not allowed after `ENTRYPOINT` in a Dockerfile"
     ],
     "answer": 0,
-    "explanation": "Chiseled images are distroless: no shell, no package manager, only what .NET needs. A command-based health check has nothing to run. Kubernetes, Container Apps or Compose can probe `/health` over HTTP from outside. Docker never installs packages for a health check."
+    "explanation": "Chiseled images are distroless: no shell, no package manager, only what .NET needs. A command-based health check has nothing to run. Kubernetes or Container Apps can probe `/health` over HTTP from outside; a Compose `healthcheck` runs inside the container, so it needs a probe binary copied into the image. Docker never installs packages for a health check."
   },
   {
     "question": "Why does the Dockerfile copy the `.csproj` files and run `dotnet restore` before `COPY . .`?",

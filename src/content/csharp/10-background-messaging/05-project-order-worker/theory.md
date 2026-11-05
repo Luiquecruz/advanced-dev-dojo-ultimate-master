@@ -23,10 +23,10 @@ A message-driven flow where `POST /orders` returns quickly and stock is reserved
 ```csharp
 consumer.ReceivedAsync += async (_, ea) =>
 {
-    await using AsyncServiceScope scope = scopeFactory.CreateAsyncScope();
-    var handler = scope.ServiceProvider.GetRequiredService<ReserveStockHandler>();
     try
     {
+        await using AsyncServiceScope scope = scopeFactory.CreateAsyncScope();
+        var handler = scope.ServiceProvider.GetRequiredService<ReserveStockHandler>();
         await handler.HandleAsync(ea.BasicProperties.MessageId, ea.Body, stoppingToken);
         await channel.BasicAckAsync(ea.DeliveryTag, multiple: false);
     }
@@ -51,9 +51,9 @@ The worker declares the `orders.dlx` exchange and binds `orders.reserve-stock.dl
 
 Run the API and the worker with `dotnet run`.
 
-1. `POST /orders` with a non-admin token and two lines returns `202 Accepted` with the order id; within a few seconds the order's status in the database is `Reserved` and each product's stock has dropped by the ordered quantity. The same request with no token returns `401`.
-2. Publishing the **same** message twice (same body and `message_id`, from the management UI at `http://localhost:15672` or a console publisher) reserves stock once. The worker log shows one "reserved" entry and one "duplicate skipped" entry for that `MessageId`.
-3. A poison message (a body that is not valid JSON, or an unknown SKU) is delivered 4 times, the original plus 3 retries, and then appears in `orders.reserve-stock.dlq`: `docker exec rabbitmq rabbitmqctl list_queues name messages` shows it there and none in `orders.reserve-stock`.
+1. `POST /orders` with a non-admin token and two lines returns `202 Accepted` with the order id; within seconds the order's status is `Reserved` and each product's stock has dropped by the ordered quantity. The same request with no token returns `401`.
+2. Publishing the **same** message twice (same body and `message_id`, from the management UI on port 15672) reserves stock once. The worker log shows one "reserved" entry and one "duplicate skipped" entry for that `MessageId`.
+3. A poison message (a body that is not valid JSON, or an unknown SKU) is delivered 4 times and then appears in `orders.reserve-stock.dlq`: `docker exec rabbitmq rabbitmqctl list_queues name messages` shows it there and none in `orders.reserve-stock`.
 4. The worker log shows a different scope id for every message, or a test asserts that two messages get two different `DbContext` instances.
 5. Stopping the worker with Ctrl+C while a message is being handled does not lose it: after a restart it is processed, and stock is still reserved only once.
 6. `dotnet test` passes, including a handler test against a real database (Testcontainers, as in P4) that calls `HandleAsync` twice with the same `MessageId` and asserts a single reservation.
@@ -64,7 +64,7 @@ Run the API and the worker with `dotnet run`.
 2. Add the `Order`, `OrderLine` and `ProcessedMessages` entities with one migration (module 07). Keep P3's row version on `Product`: the worker's `ExecuteUpdateAsync` bumps it too, so a `PUT` with a version read before a reservation returns 409.
 3. Write `ReserveStockHandler` and its Testcontainers test first, without any broker. Get criterion 6 green.
 4. Create the worker, declare the queues, add the consumer loop with a scope per message and the ack/reject logic.
-5. Add the publisher to the API. Register one RabbitMQ connection as a singleton and create channels from it, not a connection per request.
+5. Add the publisher to the API and declare `orders.reserve-stock` there too (declaring is idempotent): otherwise an order placed before the worker first starts is dropped as unroutable. Register one RabbitMQ connection as a singleton and create channels from it.
 6. Apply the policy, then walk through criteria 1 to 5 by hand.
 
 ## Stretch goals
