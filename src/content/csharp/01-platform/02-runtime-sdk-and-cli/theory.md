@@ -100,7 +100,7 @@ AnsiConsole.MarkupLine("[green]Import finished[/]");
 
 ## Common mistakes
 
-- **Running `dotnet run` on a production server.** It needs the SDK there, builds a Debug configuration from source on every start and resolves packages from that machine's cache, so production runs code nobody tested in that form. Deploy the output of `dotnet publish -c Release` and start it with `dotnet <app>.dll`.
+- **Running `dotnet run` on a production server.** It needs the SDK there, builds a Debug configuration from source on every start and resolves packages from that machine's cache, so production runs code nobody tested in that form. Deploy the output of `dotnet publish -c Release` and start it with `dotnet <app>.dll`, or run the executable of a self-contained publish.
 - **Installing only the runtime on a developer machine.** `dotnet build` then fails because no SDK is found. Install the SDK; it includes the matching runtime.
 - **Publishing self-contained and never redeploying.** The bundled runtime never takes the security patches installed on the server, so the app keeps running a vulnerable runtime. Publish framework-dependent, or rebuild and redeploy on every runtime patch.
 - **Committing `bin/` and `obj/`.** Stale build output from one machine breaks restores and builds on another. Ignore both folders with `dotnet new gitignore`.

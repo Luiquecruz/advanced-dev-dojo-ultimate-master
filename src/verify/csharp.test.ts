@@ -2,6 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { trackById } from '../content/allContent';
 import type { Lesson } from '../content/types';
+import { listCsharpTestNames } from '../engines/csharp/testNames';
 import { defineChallengeSuite } from './challengeSuite';
 import { CSHARP_PENDING_HEADERS, CSHARP_PENDING_REWRITE } from './csharpPendingRewrite';
 import { csharpGrader } from './graders';
@@ -33,7 +34,8 @@ const PHP_BRIDGE =
   /\bPHP|\bphp\b|\.php\b|\.phtml\b|php\.ini|PSR-\d+|[Mm]agento|Adminhtml|routes\.xml|\bFPM\b|Composer|composer\.(json|lock)|composer install|di\.xml|crontab\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Guzzle|Monolog|Packagist|Zend|Laminas|\bPsalm\b|\bRector\b|Laravel|Symfony|Doctrine|Eloquent|[Oo][Pp]cache|Xdebug|phpunit|\$\w+->\w+|::get\b|(webapi|events|system|acl|module)\.xml|<preference\b|<virtualType\b|shared="false"|\bEAV\b|sales_order_\w+|Update by Schedule|[Aa]round plugin|[Pp]lugins and observers|[Nn]o plugins\b|without plugins|like a plugin|a plugin intercepts|[Pp]lugins that intercept|setup:[\w:-]+|getSize\(\)|count\(\$\w+\)/;
 /** An `Assert.ThrowsAsync` that is not awaited returns a task nobody observes, so the test passes even when nothing throws. */
 const UNAWAITED_THROWS_ASYNC = /(?<!\bawait\s+)Assert\.ThrowsAsync\b/;
-const TEST_ATTRIBUTE = /\[Test\(/g;
+/** Block comments, removed before the marker check so a commented-out `[Test(…)]` cannot carry the marker. */
+const BLOCK_COMMENT = /\/\*[\s\S]*?\*\//g;
 /** The test that catches the most common wrong implementation, marked on the line above its `[Test("…")]`. */
 const BEGINNER_MISTAKE = /^[ \t]*\/\/ beginner mistake: \S.*\n[ \t]*\[Test\(/gm;
 
@@ -184,14 +186,14 @@ function testViolations(lesson: Lesson): Violation[] {
   if (UNAWAITED_THROWS_ASYNC.test(tests)) {
     violations.push({ rule: 'tests-await-throws-async', detail: 'tests.cs calls Assert.ThrowsAsync without await' });
   }
-  const count = (tests.match(TEST_ATTRIBUTE) ?? []).length;
+  const count = listCsharpTestNames(tests).length;
   if (count < 3 || count > 6) {
     violations.push({ rule: 'tests-count', detail: `tests.cs has ${count} tests, expected 3–6` });
   }
   if (lesson.challenge.instructions.trimStart().startsWith('#')) {
     violations.push({ rule: 'challenge-no-h1', detail: 'challenge.md starts with a heading; start with prose (the Challenge tab supplies the title)' });
   }
-  const marked = (tests.match(BEGINNER_MISTAKE) ?? []).length;
+  const marked = (tests.replace(BLOCK_COMMENT, '').match(BEGINNER_MISTAKE) ?? []).length;
   if (marked !== 1) {
     violations.push({ rule: 'tests-beginner-mistake', detail: `tests.cs marks ${marked} tests with "// beginner mistake:" on the line above [Test], expected 1` });
   }
@@ -268,6 +270,8 @@ describe('csharp track', () => {
     expect(caught.filter((text) => !PHP_BRIDGE.test(text))).toEqual([]);
     expect(allowed.filter((text) => PHP_BRIDGE.test(text))).toEqual([]);
     expect(['await Assert.ThrowsAsync<E>(() => run())', 'public static void X() => Assert.ThrowsAsync<E>(() => run());'].map((text) => UNAWAITED_THROWS_ASYNC.test(text))).toEqual([false, true]);
+    const commentedOut = '[Test("a")] void A() {}\n/*\n// beginner mistake: x\n[Test("b")] void B() {}\n*/\n// [Test("c")]';
+    expect([listCsharpTestNames(commentedOut).length, (commentedOut.replace(BLOCK_COMMENT, '').match(BEGINNER_MISTAKE) ?? []).length]).toEqual([1, 0]);
   });
 
   it.each(eachLesson)('%s has 4 to 8 concepts', (_, lesson) => {
