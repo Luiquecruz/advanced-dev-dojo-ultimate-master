@@ -8,11 +8,13 @@ public sealed class CountingPool : ArrayPool<byte>
     public int Rents { get; private set; }
     public int Returns { get; private set; }
     public byte[]? LastRented { get; private set; }
+    public int LastMinimumLength { get; private set; }
     public bool ReturnedTheRentedArray { get; private set; }
 
     public override byte[] Rent(int minimumLength)
     {
         Rents++;
+        LastMinimumLength = minimumLength;
         var array = new byte[minimumLength + 100];
         Array.Fill(array, (byte)0xFF);
         LastRented = array;
@@ -113,12 +115,13 @@ public static class PerformanceAndMemoryTests
         Assert.Equal(0L, Checksum.Compute(new MemoryStream(), new CountingPool()));
     }
 
-    [Test("Checksum rents one buffer and returns that same buffer exactly once, also when the stream throws")]
+    [Test("Checksum rents one buffer of BufferSize bytes and returns that same buffer exactly once, also when the stream throws")]
     public static void ChecksumAlwaysReturnsTheBuffer()
     {
         var pool = new CountingPool();
         Checksum.Compute(new MemoryStream(Data(9_000)), pool);
         Assert.Equal(1, pool.Rents);
+        Assert.Equal(Checksum.BufferSize, pool.LastMinimumLength);
         Assert.Equal(1, pool.Returns);
         Assert.True(pool.ReturnedTheRentedArray, "Return should receive the array that Rent handed out");
 

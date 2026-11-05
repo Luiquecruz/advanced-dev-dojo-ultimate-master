@@ -57,18 +57,20 @@ LineItem = make_record_class("LineItem", ["sku", "quantity"])
 LineItem.__name__                 # 'Record'
 LineItem(sku="A-1", price=9)      # accepted
 
-# right: the name and the fields come from the arguments
+# right: the name and the fields come from the arguments (positional values only here)
 def make_record_class(name, fields):
     field_names = tuple(fields)
 
     def __init__(self, *args):
-        for field, value in zip(field_names, args, strict=True):
+        if len(args) != len(field_names):
+            raise TypeError(f"{name}() takes {len(field_names)} values, got {len(args)}")
+        for field, value in zip(field_names, args):
             setattr(self, field, value)
 
     return type(name, (), {"__slots__": field_names, "__init__": __init__})
 ```
 
-Reprs, tracebacks, logs and `pickle` all report the class by its `__name__`, so the wrong version makes every record look the same.
+Reprs, tracebacks and logs report the class by its `__name__`, so the wrong version makes every record look the same. `pickle` stores a class by module and `__qualname__`: it refuses the nested `Record` (`make_record_class.<locals>.Record`), and a generated class pickles only when it is bound at module level under its own name.
 
 ## When to choose it
 

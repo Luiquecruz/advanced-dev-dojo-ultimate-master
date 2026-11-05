@@ -37,7 +37,8 @@ def lookup(names: list[str], limit: int = 10) -> dict[str, int] | None:
 | `list[str]`, `dict[str, int]`, `tuple[int, ...]` | a container and the type of its items (`...`: any length) |
 | `X \| None` | an `X` or `None` |
 | `-> None` | the function returns nothing useful |
-| `Any`, `object` | any value |
+| `Any` | any value; the checker allows any operation |
+| `object` | any value; the checker allows only what every object supports |
 | `Callable[..., Any]` | a function taking any arguments |
 
 Annotations are metadata stored on the function and read by type checkers, IDEs and libraries. The interpreter does not check arguments against them:

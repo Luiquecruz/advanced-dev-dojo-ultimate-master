@@ -21,7 +21,7 @@ print(list(islice(count(10), 3)))            # [10, 11, 12]: a slice of an endle
 - `groupby(iterable, key)` starts a new group **every time the key changes**, so it yields one `(key, group)` pair per run of equal keys, where `group` is an iterator sharing the underlying input. Advancing to the next pair empties the previous group, so `list(groupby(data))` leaves every group empty: consume or copy each group before moving on.
 - `accumulate(iterable, func=operator.add, *, initial=None)` yields running results; `initial` adds a leading value.
 - `pairwise(iterable)` yields overlapping pairs: `n - 1` pairs for `n` items, none for fewer than two.
-- Slicing (`items[start:start + n]` for chunks, `zip(items, items[1:])` for neighbors) needs a sequence and copies it. `batched` and `pairwise` work on any iterable, generators and files included, and copy nothing.
+- Slicing (`items[start:start + n]` for chunks, `zip(items, items[1:])` for neighbors) needs a sequence and copies it. `batched` and `pairwise` work on any iterable, generators and files included, and never copy the whole input (`batched` still builds one tuple per batch).
 - `batched(iterable, n, *, strict=False)` yields tuples of `n` items and a shorter last tuple. It reads only enough input to fill each batch. `n < 1` raises `ValueError`, and `strict=True` raises `ValueError` when the last batch is short.
 - `tee(iterable, n=2)` splits one iterator into `n` independent ones by buffering what the slower ones have not read yet. Do not touch the original afterwards, and prefer `list()` when one consumer reads everything before the other starts.
 

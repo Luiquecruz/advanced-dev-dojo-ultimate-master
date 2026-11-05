@@ -2,4 +2,4 @@ In `RunAsync`, the loop body is two lines: `cancellationToken.ThrowIfCancellatio
 ---
 Start `WithTimeoutAsync` with `using var timeoutSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);` and `timeoutSource.CancelAfter(timeout);`, then `return await operation(timeoutSource.Token);` inside a `try`.
 ---
-Tell the two causes apart with an exception filter on the caller's token: `catch (OperationCanceledException ex) when (!cancellationToken.IsCancellationRequested) { throw new TimeoutException($"...", ex); }`. When the caller cancelled, the filter is false and the exception keeps going.
+Tell the causes apart with an exception filter on both tokens: `catch (OperationCanceledException ex) when (timeoutSource.IsCancellationRequested && !cancellationToken.IsCancellationRequested) { throw new TimeoutException($"...", ex); }`. When the caller cancelled, or the operation cancelled for a reason of its own, the filter is false and the exception keeps going.

@@ -8,7 +8,7 @@
       "The instance is shared, but ASP.NET Core resets its fields at the end of every request"
     ],
     "answer": 1,
-    "explanation": "An ASP.NET Core app is one long-running process, so a singleton lives until the process stops and every request gets the same instance. The first option describes the scoped lifetime (05/02), which you must ask for explicitly; `AddSingleton` never behaves that way, and nothing resets its fields between requests."
+    "explanation": "An ASP.NET Core app is one long-running process, so a singleton lives until the process stops and every request gets the same instance. The first option confuses it with the scoped lifetime (05/02), one instance per request, which you must ask for explicitly; even that would not keep a cart, because the instance is discarded when the request ends. `AddSingleton` never behaves that way, and nothing resets its fields between requests."
   },
   {
     "question": "Every HTTP response of an API must carry a security header. Where does that behaviour belong in an ASP.NET Core app?",
@@ -19,7 +19,7 @@
       "A singleton service that the container calls after every endpoint"
     ],
     "answer": 2,
-    "explanation": "Code that runs around every request is middleware (or an endpoint filter), added to the pipeline in `Program.cs`. The container only creates what something asks for; it never calls a registered service on its own, so the last option would do nothing. A `BackgroundService` runs outside the request and cannot change a response."
+    "explanation": "Code that runs around every request is middleware, added to the pipeline in `Program.cs`; an endpoint filter runs only when an endpoint is reached, so a 404 would miss the header. The container only creates what something asks for; it never calls a registered service on its own, so the last option would do nothing. A `BackgroundService` runs outside the request and cannot change a response."
   },
   {
     "question": "A program contains `int quantity = \"10\";`. What happens?",

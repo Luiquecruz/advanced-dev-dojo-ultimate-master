@@ -35,6 +35,22 @@ function isModuleCounted(state: ProgressState, module: Module): boolean {
 }
 
 /**
+ * The last visited lesson while it is unfinished, else the next unfinished counted lesson after it (wrapping); a fresh track starts at its first unfinished lesson.
+ */
+function findResumeLesson(track: Track, state: ProgressState, countedLessons: LessonEntry[], lastLesson: LessonEntry | undefined): LessonEntry {
+  const incomplete = (lesson: LessonEntry) => !isLessonComplete(state, lesson);
+  if (!lastLesson) {
+    return track.lessons.find(incomplete) ?? track.lessons[0];
+  }
+  if (incomplete(lastLesson)) {
+    return lastLesson;
+  }
+  const pending = countedLessons.filter(incomplete);
+  const position = track.lessons.indexOf(lastLesson);
+  return pending.find((lesson) => track.lessons.indexOf(lesson) > position) ?? pending[0] ?? lastLesson;
+}
+
+/**
  * Progress overview of a track: overall completion, the lesson to resume, the current stage (module) and per-module progress.
  */
 export function summarizeTrack(track: Track, state: ProgressState): TrackSummary {
@@ -43,7 +59,7 @@ export function summarizeTrack(track: Track, state: ProgressState): TrackSummary
   const total = countedLessons.length;
   const lastLesson = track.lessons.find((lesson) => lesson.id === state.lastLesson[track.id]);
   const status: TrackStatus = total > 0 && done === total ? 'completed' : done > 0 || lastLesson ? 'in-progress' : 'not-started';
-  const resumeLesson = lastLesson ?? track.lessons.find((lesson) => !isLessonComplete(state, lesson)) ?? track.lessons[0];
+  const resumeLesson = findResumeLesson(track, state, countedLessons, lastLesson);
   const currentModuleIndex = track.modules.findIndex((module) => module.id === resumeLesson.moduleId);
   const modules = track.modules.map((module, index): ModuleProgress => {
     const moduleDone = module.lessons.filter((lesson) => isLessonComplete(state, lesson)).length;

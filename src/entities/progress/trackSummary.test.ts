@@ -43,6 +43,12 @@ describe('summarizeTrack', () => {
     expect(summary.modules.map((module) => module.state)).toEqual(['done', 'upcoming', 'current', 'upcoming', 'upcoming', 'upcoming']);
   });
 
+  it('resumes the next unfinished lesson when the last visited lesson is complete', () => {
+    const summary = summarizeTrack(track, progressWith(['module-1-lesson-1', 'module-3-lesson-1'], 'module-3-lesson-1'));
+    expect(summary.resumeLesson.id).toBe('module-3-lesson-2');
+    expect(summary.currentModuleIndex).toBe(2);
+  });
+
   it('reports a completed track', () => {
     const summary = summarizeTrack(track, progressWith(track.lessons.map((entry) => entry.id)));
     expect(summary).toMatchObject({ status: 'completed', percent: 100 });
@@ -122,6 +128,18 @@ describe('summarizeTrack with an optional module', () => {
     it('starts the module once a challenge lesson after the map is complete', () => {
       expect(summarizeTrack(mapTrack, withMapPassed([...requiredLessons, 'module-1-lesson-2'], 'module-1-lesson-3'))).toMatchObject({ done: 10, total: 12, status: 'in-progress' });
     });
+  });
+
+  it('resumes an unfinished lesson of a started optional module once the required lessons are done', () => {
+    const summary = summarizeTrack(track, progressWith([...requiredLessons, 'module-1-lesson-2'], 'module-3-lesson-4'));
+    expect(summary).toMatchObject({ done: 9, total: 12, status: 'in-progress', currentModuleIndex: 0 });
+    expect(summary.resumeLesson.id).toBe('module-1-lesson-1');
+    expect(summary.modules.map((module) => module.state)).toEqual(['current', 'done', 'done']);
+  });
+
+  it('does not resume a never started optional module', () => {
+    const summary = summarizeTrack(track, progressWith(['module-2-lesson-1'], 'module-2-lesson-1'));
+    expect(summary.resumeLesson.id).toBe('module-2-lesson-2');
   });
 
   it('still starts a fresh track at the first lesson of the optional module', () => {

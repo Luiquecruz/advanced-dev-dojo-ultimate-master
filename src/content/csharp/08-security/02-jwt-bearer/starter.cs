@@ -20,7 +20,7 @@ public static class Jwt
         JsonElement claims = payload.RootElement;
 
         // TODO: require exactly three parts, read "aud" as a string or an array, read "sub" and "nbf" when present,
-        // and throw FormatException when "iss" or "exp" is missing.
+        // and throw FormatException when "iss" or "exp" is missing, the payload is not an object, or a time is out of range.
         return new TokenClaims(
             claims.GetProperty("iss").GetString()!,
             [claims.GetProperty("aud").GetString()!],

@@ -45,7 +45,7 @@ Code that only needs names should pass `annotationlib.Format.FORWARDREF` (or `ST
 **Reading parameter names from the code object.** `__code__` describes the function body that runs, not the callable a caller sees, and it breaks in three ways: a `functools.wraps` decorator leaves the wrapper's `(*args, **kwargs)`, a `functools.partial` or a callable object has no `__code__` at all, and `co_argcount` leaves keyword-only parameters out.
 
 ```py
-# wrong: AttributeError on partials and callable objects, ('args', 'kwargs') after a decorator
+# wrong: AttributeError on partials and callable objects, () after a (*args, **kwargs) decorator
 code = handler.__code__
 names = code.co_varnames[: code.co_argcount]
 

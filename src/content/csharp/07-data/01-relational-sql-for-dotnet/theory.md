@@ -104,7 +104,7 @@ Opening a physical database connection is slow: a network round trip, authentica
 ## Common mistakes
 
 - **A singleton `SqlConnection`.** Concurrent requests share one connection that is not thread-safe, and fail with "There is already an open DataReader" or corrupted results. Open and dispose a connection per unit of work.
-- **Forgetting `await using`.** Connections never return to the pool; under load the pool runs dry and requests time out waiting for one. Dispose every connection, command and reader.
+- **Forgetting to dispose the connection.** Connections never return to the pool; under load the pool runs dry and requests time out waiting for one. Dispose every connection, command and reader.
 - **SQL built with interpolation.** `$"... WHERE Sku = '{sku}'"` lets a crafted value rewrite the statement (SQL injection). Pass values as parameters.
 
 ## In practice

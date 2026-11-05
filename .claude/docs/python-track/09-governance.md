@@ -6,7 +6,7 @@ CTO review of the Python track specs ([README](README.md), [01](01-platform-and-
 
 ## Verdict
 
-The foundation is sound. The repo-native format, the decision to reuse the Pyodide harness, the anti-LeetCode rule and the "Coming from TypeScript/JavaScript" section are the right calls, and the written lessons meet them: `04-scope-and-nonlocal` and `07-custom-mapping` are mechanism challenges with behavioral tests and a clear JS contrast.
+The foundation is sound. The repo-native format, the decision to reuse the Pyodide harness and the anti-LeetCode rule are the right calls: `04-scope-and-nonlocal` and `07-custom-mapping` are mechanism challenges with behavioral tests. The track assumes no prior programming language (D10), so no lesson compares Python with another one.
 
 The review found four problems in the 115-lesson plan, and all four are addressed by the decisions below:
 

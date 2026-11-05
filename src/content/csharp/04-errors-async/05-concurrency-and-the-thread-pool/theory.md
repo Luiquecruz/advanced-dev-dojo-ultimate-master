@@ -152,7 +152,7 @@ An async iterator (`async IAsyncEnumerable<T>` with `yield return`) produces ite
 
 ## Common mistakes
 
-- **A plain `Dictionary` in a singleton.** Concurrent writes corrupt it silently, with no exception. Use `ConcurrentDictionary`.
+- **A plain `Dictionary` in a singleton.** Concurrent writes corrupt it, often silently, sometimes with an `InvalidOperationException`. Use `ConcurrentDictionary`.
 - **Refreshing shared state without a gate.** Ten requests find the token expired and all ten refresh it. Guard the refresh with `SemaphoreSlim.WaitAsync` and check again inside.
 - **`WaitAsync` without `Release` in `finally`.** One exception keeps the slot taken and every later caller waits forever. The semaphore does not track owners, so each successful wait needs exactly one `Release`.
 - **Unbounded fan-out.** `Task.WhenAll` over thousands of calls hits the remote service all at once. Cap it with `Parallel.ForEachAsync` or a `SemaphoreSlim` limiter.

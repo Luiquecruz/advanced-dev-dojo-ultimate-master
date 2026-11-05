@@ -35,7 +35,7 @@ The fastest way to place a codebase is its `.csproj`. A classic .NET Framework p
 </Project>
 ```
 
-Three tells mark this format, none of which exist in an SDK-style project: `TargetFrameworkVersion` with a `v` prefix instead of a TFM, one `<Compile Include>` line per source file instead of a default glob, and packages listed in a separate `packages.config` file instead of `<PackageReference>` items. The project may even be an SDK-style file that targets `net48`; then the TFM decides, and 01/03 ("Versions, Support and Target Frameworks") covers TFMs, default C# versions and multi-targeting.
+Three tells mark this format, none of which an SDK-style project uses by default: `TargetFrameworkVersion` with a `v` prefix instead of a TFM, one `<Compile Include>` line per source file instead of a default glob, and packages listed in a separate `packages.config` file instead of `<PackageReference>` items. The project may even be an SDK-style file that targets `net48`; then the TFM decides, and 01/03 ("Versions, Support and Target Frameworks") covers TFMs, default C# versions and multi-targeting.
 
 What matters for legacy work is the bridge. `netstandard2.0` is the last .NET Standard version that .NET Framework implements (it does not support 2.1), so a library that targets it can be referenced from the old `net48` app and the new `net10.0` app at the same time. That is how a migration shares business logic while both apps run.
 
