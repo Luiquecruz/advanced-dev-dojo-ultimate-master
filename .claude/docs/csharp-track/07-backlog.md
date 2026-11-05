@@ -9,6 +9,7 @@ Each item is done only when its evidence is recorded in the **Evidence** column.
 | R1 | Market research | Real postings with dates and URLs; BR versus international; competency frequency; limits | done | [01-market-research.md](01-market-research.md): 69 postings; independent review fixed |
 | R2 | Ecosystem and legacy | Official sources; classification 1–4; available, supported and adopted kept apart | done | [02-ecosystem-and-legacy.md](02-ecosystem-and-legacy.md); review verdict "sound", low findings fixed |
 | R4 | Engine spike | Measured feasibility and a GO/NO-GO verdict | done | [04-engine-spike.md](04-engine-spike.md): GO-WITH-CONDITIONS, prototype graded 3/3 |
+| R6 | Market research round 2 | Wider sample, adoption apart from demand, salaries where stated, change from round 1 | done | [08-market-research-v2.md](08-market-research-v2.md): 198 postings; independent review (7 findings) fixed |
 | R5 | Plan | Sequence, outcomes, official materials, projects, effort, traceability; coherence review | done | [05-curriculum.md](05-curriculum.md), [06-content-standards.md](06-content-standards.md); independent coherence review "ready-after-fixes": 3 high, 11 medium, 13 low, all applied |
 
 ## Platform
@@ -44,6 +45,7 @@ Acceptance for every module:
 | C10 | 10-background-messaging | 5 | done | written, cross-reviewed (findings fixed), suites green |
 | C11 | 11-delivery | 6 | done | written, cross-reviewed (findings fixed), suites green |
 | C12 | 12-architecture | 5 | done | written, cross-reviewed (findings fixed), suites green |
+| C14 | 14-integration-quality | 6 | done | written, reviewed (8 findings: 7 fixed; the challenge request is tracked in E1), each lesson ends with a local exercise; suites green |
 | C13 | 13-legacy | 5 | done | written, cross-reviewed (findings fixed), suites green |
 
 ## Release

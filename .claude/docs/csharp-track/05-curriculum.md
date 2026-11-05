@@ -10,7 +10,7 @@
 
 Seven of the lessons are practice projects. Each one closes a module and is done locally with the .NET 10 SDK.
 
-The market percentages below come from the convenience sample of 69 postings in [01-market-research.md](01-market-research.md) §6, as "any mention" across both groups. They show what this sample asked for; they are not market statistics.
+The market percentages below come from the convenience sample of 69 postings in [01-market-research.md](01-market-research.md) §6, as "any mention" across both groups. They show what this sample asked for; they are not market statistics. Round 2 ([08-market-research-v2.md](08-market-research-v2.md), 198 postings) keeps the same core and the same module order, with lower shares for most competencies (for example unit testing 40%, messaging 37%) and legacy at 28%; the figures below stay those of round 1 so each one traces to its posting list.
 
 ## Why this order
 

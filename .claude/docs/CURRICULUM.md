@@ -380,4 +380,4 @@ Spec: `.claude/docs/csharp-track/`. Single-language track without a code engine 
 01-net-framework-landscape ✓ · 02-aspnet-mvc5-and-web-api-2 ✓ · 03-web-forms-and-wcf ✓ · 04-migration-strategies ✓ · 05-project-legacy-migration **(project)** ✓
 
 ### 14-integration-quality — Integration, Performance and Quality
-01-http-clients-and-resilience · 02-grpc-and-signalr · 03-performance-and-memory · 04-diagnostics-in-production · 05-code-quality-and-analyzers · 06-ai-in-dotnet-apps
+01-http-clients-and-resilience ✓ · 02-grpc-and-signalr ✓ · 03-performance-and-memory ✓ · 04-diagnostics-in-production ✓ · 05-code-quality-and-analyzers ✓ · 06-ai-in-dotnet-apps ✓
