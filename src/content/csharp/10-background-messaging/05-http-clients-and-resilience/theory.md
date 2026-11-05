@@ -83,7 +83,7 @@ You met these defaults in module 04 lesson 04; this section explains them, and m
 
 The retry applies to **every HTTP method** by default. Retrying a `POST /orders` that timed out after the server committed it creates a second order. `DisableForUnsafeHttpMethods()` turns retries off for `POST`, `PATCH`, `PUT`, `DELETE` and `CONNECT`; `DisableFor(HttpMethod.Post)` targets specific methods. Note that RFC 9110 defines `PUT` and `DELETE` as idempotent; the helper is stricter than the RFC, which is usually what you want for a third-party API you cannot inspect.
 
-When a write must be retried, make it idempotent first: send a client-generated key (many payment APIs accept an `Idempotency-Key` header, still an IETF draft) or use a natural key the server deduplicates on, exactly like the idempotent consumers of lesson 04.
+When a write must be retried, make it idempotent first: send a client-generated key (many payment APIs accept an `Idempotency-Key` header, still an IETF draft) or use a natural key the server deduplicates on, exactly like the idempotent consumers of module 10 lesson 04.
 
 ## In practice
 
