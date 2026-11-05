@@ -42,10 +42,10 @@ Acceptance for every module:
 | C07 | 07-data | 8 | done | written, cross-reviewed (findings fixed), suites green |
 | C08 | 08-security | 5 | done | written, cross-reviewed (findings fixed), suites green |
 | C09 | 09-testing | 5 | done | written, cross-reviewed (findings fixed), suites green |
-| C10 | 10-background-messaging | 5 | done | written, cross-reviewed (findings fixed), suites green |
+| C10 | 10-background-messaging | 6 | done | written, cross-reviewed (findings fixed), suites green |
 | C11 | 11-delivery | 6 | done | written, cross-reviewed (findings fixed), suites green |
 | C12 | 12-architecture | 5 | done | written, cross-reviewed (findings fixed), suites green |
-| C14 | 14-integration-quality | 6 | done | written, reviewed (8 findings: 7 fixed; the challenge request is tracked in E1), each lesson ends with a local exercise; suites green |
+| C14 | 14-integration-quality | 5 | done | written, reviewed (8 findings: 7 fixed; the challenge request is tracked in E1), each lesson ends with a local exercise; suites green |
 | C13 | 13-legacy | 5 | done | written, cross-reviewed (findings fixed), suites green |
 
 ## Release

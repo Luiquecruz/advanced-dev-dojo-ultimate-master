@@ -6,7 +6,7 @@ After this lesson you can call a language model from a .NET service through `Mic
 
 In PHP you usually call a model through the vendor's SDK or a plain Guzzle request to its REST API, inside a Magento service class, perhaps behind your own interface. Switching vendors means rewriting that class, and logging, caching and retries are hand-made.
 
-.NET has a shared abstraction instead. `Microsoft.Extensions.AI` defines `IChatClient`, which provider libraries implement, plus a builder that layers middleware around it, in the same spirit as the `HttpClient` handler pipeline from lesson 01. The trap is the PHP reflex of injecting the vendor SDK's own client class everywhere: the code then depends on one provider, and you lose the shared middleware, telemetry and test doubles.
+.NET has a shared abstraction instead. `Microsoft.Extensions.AI` defines `IChatClient`, which provider libraries implement, plus a builder that layers middleware around it, in the same spirit as the `HttpClient` handler pipeline from module 10 lesson 05. The trap is the PHP reflex of injecting the vendor SDK's own client class everywhere: the code then depends on one provider, and you lose the shared middleware, telemetry and test doubles.
 
 ## The packages
 
@@ -61,7 +61,7 @@ public sealed class DescriptionWriter(IChatClient chat)
 }
 ```
 
-Each `Use*` call wraps the client, like the delegating handlers of lesson 01, and order matters: here a cache hit returns before any tool call or model request. `UseOpenTelemetry` emits spans and metrics that follow the OpenTelemetry semantic conventions for generative AI, so model calls show up in the same traces as your HTTP and database spans (module 11 lesson 04); add `"Catalog.AI"` with `AddSource`. Swapping to Azure OpenAI, a local Ollama model or a test fake changes one registration line. `AddKeyedChatClient` registers several pipelines side by side, for example a cheap model for classification and a stronger one for writing.
+Each `Use*` call wraps the client, like the delegating handlers of module 10 lesson 05, and order matters: here a cache hit returns before any tool call or model request. `UseOpenTelemetry` emits spans and metrics that follow the OpenTelemetry semantic conventions for generative AI, so model calls show up in the same traces as your HTTP and database spans (module 11 lesson 04); add `"Catalog.AI"` with `AddSource`. Swapping to Azure OpenAI, a local Ollama model or a test fake changes one registration line. `AddKeyedChatClient` registers several pipelines side by side, for example a cheap model for classification and a stronger one for writing.
 
 ## Tools
 
@@ -84,7 +84,7 @@ Microsoft's guidance: `Microsoft.Extensions.AI` alone is not an agent framework.
 ## In practice
 
 - Depend on `IChatClient` in application code, and keep the provider choice and model name in configuration.
-- Put model calls behind your own service with timeouts and cancellation; a model call is a slow, paid, external HTTP call, and lesson 01's rules apply.
+- Put model calls behind your own service with timeouts and cancellation; a model call is a slow, paid, external HTTP call, and the rules of module 10 lesson 05 apply.
 - Never send secrets or unnecessary personal data in prompts, and log prompts only where your data policy allows it (`EnableSensitiveData` on the telemetry client is off by default for a reason; setting `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT=true` turns it on without code changes).
 - In unit tests, substitute a fake `IChatClient`; evaluate real model behavior separately, as the AI Engineering track explains.
 - Try it locally: write a fake `IChatClient` that returns a fixed `ChatResponse` and unit-test a service that depends on it.

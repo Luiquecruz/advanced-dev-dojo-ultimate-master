@@ -18,7 +18,7 @@ The market percentages below come from the convenience sample of 69 postings in 
 - **05–06, ASP.NET Core and APIs.** REST/Web API is named in 64% of postings.
 - **07, data.** SQL Server appears in 57%, EF Core in 35% and Dapper in 12%. Data comes after APIs, so that the projects have an API to persist.
 - **08–09, security and tests, on the API learners already have.** Unit testing appears in 55% and security in 42%.
-- **10, background work and messaging.** Messaging appears in 51% and maps directly to Magento queue consumers and cron.
+- **10, background work and messaging.** Messaging appears in 51% and maps directly to Magento queue consumers and cron. Calling external APIs with resilience sits here too, before modules 11 and 12 rely on it.
 - **11, delivery: Docker, CI/CD, cloud and observability.** Docker appears in 42%, CI/CD in 54% and cloud in 67%. This module closes the core.
 - **12, architecture.** SOLID and patterns appear in 54% and microservices in 38%, but this is judgment learned after the mechanics.
 - **13, legacy.** Legacy technology appears in 30% of postings. It is a separate tier because it is needed for maintenance and migration roles, not for new code.
@@ -33,8 +33,8 @@ The market percentages below come from the convenience sample of 69 postings in 
 
 | Tier | Lessons | Projects | Estimate | Weeks at 8–10 h |
 | --- | --- | --- | --- | --- |
-| Core 01–11 | 57 (6 of them projects) | P1–P6, ≈ 55 h | ≈ 26 h of lessons + 55 h = **≈ 81 h** | 8–10 |
-| Deepening 12, 14 | 11 | none | ≈ 6 h | 1 |
+| Core 01–11 | 58 (6 of them projects) | P1–P6, ≈ 55 h | ≈ 26 h of lessons + 55 h = **≈ 81 h** | 8–10 |
+| Deepening 12, 14 | 10 | none | ≈ 5 h | 1 |
 | Legacy 13 | 5 (1 project) | P7, ≈ 8 h | ≈ 2 h + 8 h = **≈ 10 h** | 1–1.5 |
 
 ## Modules
@@ -86,8 +86,8 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 | Lesson | Kind | Outcome | Competency |
 | --- | --- | --- | --- |
 | 01-exceptions-and-results | theory | Throws, catches and filters exceptions, and knows when a result type is clearer | C# |
-| 02-disposal-and-using | theory | Releases resources with `using`/`await using`, `IDisposable` and `IAsyncDisposable` | async 20% |
-| 03-async-await | theory | Writes correct `async` methods, explains `Task` versus `ValueTask`, and why `.Result` starves the thread pool in ASP.NET Core (and deadlocks only where a synchronization context exists: legacy ASP.NET, UI apps) | async 20% |
+| 02-async-await | theory | Writes correct `async` methods, explains `Task` versus `ValueTask`, and why `.Result` starves the thread pool in ASP.NET Core (and deadlocks only where a synchronization context exists: legacy ASP.NET, UI apps) | async 20% |
+| 03-disposal-and-using | theory | Releases resources with `using`/`await using`, `IDisposable` and `IAsyncDisposable` | async 20% |
 | 04-cancellation-and-timeouts | theory | Passes a `CancellationToken` through a call chain and sets timeouts | async |
 | 05-concurrency-and-the-thread-pool | theory | Avoids sync-over-async and uses `Parallel`, `Channel<T>` and `IAsyncEnumerable` | async, messaging |
 
@@ -170,9 +170,10 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 | 02-scheduling-with-hangfire-and-quartz | theory | Picks between a hosted service, Hangfire and Quartz.NET for scheduled jobs | background jobs |
 | 03-message-brokers | theory | Explains queues, topics and partitions in RabbitMQ, Kafka and Azure Service Bus | messaging 51% |
 | 04-reliable-messaging | theory | Designs for at-least-once delivery: idempotent consumers, retries, dead letters, the outbox; knows the MassTransit v9 licence | messaging |
-| 05-project-order-worker | project | **P5** order processing worker | messaging |
+| 05-http-clients-and-resilience | theory | Calls external APIs with `IHttpClientFactory` and typed clients, adds the standard resilience handler (`Microsoft.Extensions.Http.Resilience`: timeout, retry, circuit breaker), and knows when a retry is unsafe; compares with Guzzle middlewares in Magento integrations | integrations, messaging 51% (reliability) |
+| 06-project-order-worker | project | **P5** order processing worker | messaging |
 
-- **Official:** hosted services, Worker Service.
+- **Official:** hosted services, Worker Service, `IHttpClientFactory`, HTTP resilience.
 - **Done when:** the quizzes are passed and P5 is accepted.
 
 ### 11-delivery — Containers, CI/CD, Cloud and Observability (core)
@@ -219,14 +220,13 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 
 | Lesson | Kind | Outcome | Competency |
 | --- | --- | --- | --- |
-| 01-http-clients-and-resilience | theory | Calls external APIs with `IHttpClientFactory` and typed clients, adds the standard resilience handler (`Microsoft.Extensions.Http.Resilience`: timeout, retry, circuit breaker), and knows when a retry is unsafe; compares with Guzzle middlewares in Magento integrations | integrations, messaging 51% (reliability) |
-| 02-grpc-and-signalr | theory | Chooses between REST, gRPC and SignalR; defines a gRPC service with protobuf and a SignalR hub, and knows how each scales out | GraphQL/gRPC 4%, microservices 38% |
-| 03-performance-and-memory | theory | Finds allocations, uses `Span<T>`, `ArrayPool<T>` and `StringBuilder` where they pay off, knows the basics of the GC, and measures with BenchmarkDotNet instead of guessing | async 20%, query tuning 29% |
-| 04-diagnostics-in-production | theory | Investigates a slow or leaking process with `dotnet-counters`, `dotnet-trace` and `dotnet-dump`, including inside a container | observability 39% |
-| 05-code-quality-and-analyzers | theory | Enforces style and correctness with `.editorconfig`, the built-in analyzers (`AnalysisLevel`), warnings as errors and `dotnet format` in CI | SOLID/clean code 54%, CI/CD 54% |
-| 06-ai-in-dotnet-apps | theory | Calls a model through `Microsoft.Extensions.AI` (`IChatClient`), keeps the provider swappable, and knows where the Agent Framework fits; points to the AI Engineering track for the engineering practice | AI-assisted development 29% (adjacent) |
+| 01-grpc-and-signalr | theory | Chooses between REST, gRPC and SignalR; defines a gRPC service with protobuf and a SignalR hub, and knows how each scales out | GraphQL/gRPC 4%, microservices 38% |
+| 02-performance-and-memory | theory | Finds allocations, uses `Span<T>`, `ArrayPool<T>` and `StringBuilder` where they pay off, knows the basics of the GC, and measures with BenchmarkDotNet instead of guessing | async 20%, query tuning 29% |
+| 03-diagnostics-in-production | theory | Investigates a slow or leaking process with `dotnet-counters`, `dotnet-trace` and `dotnet-dump`, including inside a container | observability 39% |
+| 04-code-quality-and-analyzers | theory | Enforces style and correctness with `.editorconfig`, the built-in analyzers (`AnalysisLevel`), warnings as errors and `dotnet format` in CI | SOLID/clean code 54%, CI/CD 54% |
+| 05-ai-in-dotnet-apps | theory | Calls a model through `Microsoft.Extensions.AI` (`IChatClient`), keeps the provider swappable, and knows where the Agent Framework fits; points to the AI Engineering track for the engineering practice | AI-assisted development 29% (adjacent) |
 
-- **Official:** `IHttpClientFactory`, HTTP resilience, gRPC on ASP.NET Core, SignalR, memory and spans, GC fundamentals, the .NET diagnostic tools, code analysis, `Microsoft.Extensions.AI`.
+- **Official:** gRPC on ASP.NET Core, SignalR, memory and spans, GC fundamentals, the .NET diagnostic tools, code analysis, `Microsoft.Extensions.AI`.
 - **Done when:** the quizzes are passed.
 
 ## Practice projects
@@ -239,7 +239,7 @@ Each project builds on the previous one, without extra architecture. Acceptance 
 | P2 | 06/05 | Catalog REST API | CRUD over products in memory, filtering and paging, validation, Problem Details, OpenAPI | `GET /products?page=2` returns paged JSON; an invalid body returns 400 with field errors; an unknown SKU returns 404 Problem Details; `/openapi/v1.json` documents every endpoint | 8 h |
 | P3 | 07/08 | Persistence | EF Core with PostgreSQL or SQL Server in Docker, migrations, a Dapper read query for the report, optimistic concurrency on product updates and stock reservations as a conditional update that never goes negative, a cached product read | `dotnet ef database update` creates the schema; two `PUT` requests carrying the same row version: the second returns 409; the EF Core log (`LogTo`) shows the report as one SQL statement; a second read of a product is served from the cache | 10 h |
 | P4 | 09/05 | Secured and tested API | JWT bearer auth, an `admin` policy for writes, rate limiting; unit tests (including P1's parser), `WebApplicationFactory` tests, a Testcontainers database test | Tokens from `dotnet user-jwts create` (with and without `--role admin`): anonymous writes return 401, a non-admin gets 403; `dotnet test` runs all three test kinds; nothing uses the EF in-memory provider | 10 h |
-| P5 | 10/05 | Order processing worker | The API publishes an `OrderPlaced` message to RabbitMQ in Docker (or Service Bus); a worker consumes it idempotently and reserves stock | Publishing the same message twice reserves stock once; a poison message lands in the dead-letter queue after 3 retries; a test (or the log, which prints a scope id per message) shows a new DI scope per message | 12 h |
+| P5 | 10/06 | Order processing worker | The API publishes an `OrderPlaced` message to RabbitMQ in Docker (or Service Bus); a worker consumes it idempotently and reserves stock | Publishing the same message twice reserves stock once; a poison message lands in the dead-letter queue after 3 retries; a test (or the log, which prints a scope id per message) shows a new DI scope per message | 12 h |
 | P6 | 11/06 | Ship it | A container image for the API and the worker, a CI pipeline (build, test, publish image), OpenTelemetry traces across API → broker → worker, health checks | The pipeline is green on a pull request; `docker compose up` starts everything; one trace shows the HTTP request and the worker span; `/health` reports the database | 9 h |
 | P7 | 13/05 | Legacy migration kata | Create an ASP.NET MVC 5 or Web API 2 app from the Visual Studio template (needs Windows or a Windows VM: .NET Framework is Windows-only), put a new ASP.NET Core app with YARP in front, and move one endpoint. On Linux or macOS, replace the legacy app with any HTTP server and practice the routing part only | Clients call one host; the migrated endpoint is served by the ASP.NET Core app and the rest by the old app; a test proves both answer | 8 h |
 
@@ -261,10 +261,10 @@ Each project builds on the previous one, without extra architecture. Acceptance 
 | CI/CD (54%), Azure DevOps (25%) | 11/02 | quiz 11, P6 |
 | Observability (39%) | 05/04, 11/04 | quiz 11, P6 |
 | SOLID/patterns (54%), Clean Architecture (12%), DDD (10%), CQRS (13%) | 02/03, 12/01–04 | quiz 12 |
-| Microservices (38%) | 12/05, 14/02 | quiz 12, quiz 14 |
-| External API integration, resilience (not measured in the sample) | 14/01 | quiz 14 |
-| Performance, diagnostics, code quality (not measured; SOLID/clean code 54%) | 14/03–05 | quiz 14 |
-| AI in .NET apps (AI-assisted development 29%, adjacent) | 14/06 | quiz 14 |
+| Microservices (38%) | 12/05, 14/01 | quiz 12, quiz 14 |
+| External API integration, resilience (not measured in the sample) | 10/05 | quiz 10 |
+| Performance, diagnostics, code quality (not measured; SOLID/clean code 54%) | 14/02–04 | quiz 14 |
+| AI in .NET apps (AI-assisted development 29%, adjacent) | 14/05 | quiz 14 |
 | Legacy .NET-era technology (30%), migration (13%) | 13/* | quiz 13, P7 |
 | .NET versions and support (23%) | 01/03 | quiz 01 |
 | English (20%; 34% international) | Every lesson is in English, and 01/01 says so | not graded |

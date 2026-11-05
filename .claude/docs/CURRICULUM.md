@@ -350,7 +350,7 @@ Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"en
 01-collections ✓ · 02-linq-fundamentals ✓ · 03-deferred-execution-and-iqueryable ✓ · 04-project-cli-catalog **(project)** ✓
 
 ### 04-errors-async — Errors, Resources and Async
-01-exceptions-and-results ✓ · 02-disposal-and-using ✓ · 03-async-await ✓ · 04-cancellation-and-timeouts ✓ · 05-concurrency-and-the-thread-pool ✓
+01-exceptions-and-results ✓ · 02-async-await ✓ · 03-disposal-and-using ✓ · 04-cancellation-and-timeouts ✓ · 05-concurrency-and-the-thread-pool ✓
 
 ### 05-aspnet-core — ASP.NET Core Fundamentals
 01-host-and-program ✓ · 02-dependency-injection ✓ · 03-configuration-and-options ✓ · 04-logging ✓ · 05-middleware-pipeline ✓
@@ -368,7 +368,7 @@ Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"en
 01-unit-testing-with-xunit ✓ · 02-test-doubles ✓ · 03-integration-tests-with-webapplicationfactory ✓ · 04-database-tests-with-testcontainers ✓ · 05-project-secure-and-test-the-api **(project)** ✓
 
 ### 10-background-messaging — Background Work and Messaging
-01-hosted-services ✓ · 02-scheduling-with-hangfire-and-quartz ✓ · 03-message-brokers ✓ · 04-reliable-messaging ✓ · 05-project-order-worker **(project)** ✓
+01-hosted-services ✓ · 02-scheduling-with-hangfire-and-quartz ✓ · 03-message-brokers ✓ · 04-reliable-messaging ✓ · 05-http-clients-and-resilience ✓ · 06-project-order-worker **(project)** ✓
 
 ### 11-delivery — Containers, CI/CD, Cloud and Observability
 01-docker-for-dotnet ✓ · 02-ci-cd-pipelines ✓ · 03-cloud-hosting ✓ · 04-observability ✓ · 05-aspire ✓ · 06-project-ship-it **(project)** ✓
@@ -380,4 +380,4 @@ Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"en
 01-net-framework-landscape ✓ · 02-aspnet-mvc5-and-web-api-2 ✓ · 03-web-forms-and-wcf ✓ · 04-migration-strategies ✓ · 05-project-legacy-migration **(project)** ✓
 
 ### 14-integration-quality — Integration, Performance and Quality
-01-http-clients-and-resilience ✓ · 02-grpc-and-signalr ✓ · 03-performance-and-memory ✓ · 04-diagnostics-in-production ✓ · 05-code-quality-and-analyzers ✓ · 06-ai-in-dotnet-apps ✓
+01-grpc-and-signalr ✓ · 02-performance-and-memory ✓ · 03-diagnostics-in-production ✓ · 04-code-quality-and-analyzers ✓ · 05-ai-in-dotnet-apps ✓

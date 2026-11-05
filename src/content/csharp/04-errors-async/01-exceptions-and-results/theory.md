@@ -72,7 +72,7 @@ catch (Exception ex) when (ex is not OperationCanceledException)
 
 Two rules hide in that snippet. `throw;` rethrows the caught exception and keeps its stack trace; `throw ex;` restarts the trace at the current method (code analysis rule CA2200 flags it). Wrapping in a new exception is fine when you pass the original as `innerException`. And cancellation is not a failure: excluding `OperationCanceledException` keeps a client disconnect from being logged as an error. Catch `OperationCanceledException` rather than its subclass `TaskCanceledException`.
 
-`finally` runs whether the block completes, returns or throws. For anything that implements `IDisposable`, prefer `using` (next lesson); the compiler turns it into `try`/`finally` for you.
+`finally` runs whether the block completes, returns or throws. For anything that implements `IDisposable`, prefer `using` (lesson 03); the compiler turns it into `try`/`finally` for you.
 
 ## Results: when failure is expected
 

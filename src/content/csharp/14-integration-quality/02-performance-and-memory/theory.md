@@ -83,7 +83,7 @@ Strings are immutable, so `s += part` in a loop copies the whole string each tim
 ## In practice
 
 - Fix the big costs first: N+1 queries, missing `AsNoTracking`, unbounded result sets, chatty HTTP calls. Then look at allocations on paths that run thousands of times per second.
-- Use `dotnet-counters` (lesson 04) in production to see allocation rate and GC counts, BenchmarkDotNet locally to compare two implementations, and keep the benchmark in the repository so the next change can be measured too.
+- Use `dotnet-counters` (lesson 03) in production to see allocation rate and GC counts, BenchmarkDotNet locally to compare two implementations, and keep the benchmark in the repository so the next change can be measured too.
 - Keep spans and pools inside hot, well-tested helpers such as parsers and serializers. Business code stays plain.
 - Do not call `GC.Collect()` to "free memory"; it forces an expensive collection and usually hides a real reference leak.
 - Try it locally: run the `SkuParsing` benchmark with `dotnet run -c Release`, then change one method and compare the `Allocated` column.
