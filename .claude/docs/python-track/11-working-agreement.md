@@ -78,7 +78,7 @@ Existing content that breaks a rule is listed in `KNOWN_EXCEPTIONS` at the top o
 - [ ] Challenge builds or repairs a language mechanism, not a puzzle; `challenge.md` names everything the tests use.
 - [ ] Each test is one behavior with a readable sentence; assertions compute into locals first so the harness prints `left:`/`right:`.
 - [ ] Theory follows the template order; `## Common mistakes` names a real newcomer mistake with the wrong code and the fix.
-- [ ] The reviewer wrote the wrong version named in `## Common mistakes` once: the `# beginner mistake:` test fails on it and the solution passes.
+- [ ] Practice lessons and the capstone (ADRs and quiz-only lessons have no such test): the reviewer wrote the wrong version named in `## Common mistakes` once, the `# beginner mistake:` test fails on it and the solution passes.
 - [ ] Hints climb from nudge to near-answer; `approach.md` reasons without pasting the solution.
 - [ ] Quiz tests decisions and predictions; explanations name the mechanism; answer positions vary.
 - [ ] Volatile facts dated and traced to a primary source; resources open (200) in a browser.
