@@ -4,15 +4,8 @@ The `csharp` engine grades C# challenges in the browser: the .NET 10 WebAssembly
 
 ## Status
 
-- The engine, its vendored files, the worker CSP, the Node verification sandbox and the regression tests exist. `src/engines/csharp/fixtures/basic/` is the only challenge graded by it: the solution passes 4/4 and the starter fails 3/4, in Chromium and in Node.
-- **No lesson has a C# challenge on this branch, and the C# track is challenge-less until the integration below.** The track's content (`src/content/csharp/`, theory and quizzes) lives on the content branch with `"engine": "typescript"`. `src/verify/csharp.test.ts` is already the merged suite: the content standards of that branch (skipped while no `csharp` track exists here), without its "no challenge" rule, plus `defineChallengeSuite('csharp', csharpGrader())`. CI runs it in the `structure` job until the track exists.
-
-## Integrating the content branch
-
-1. Merge the content branch; on the `src/verify/csharp.test.ts` conflict keep this branch's version (it carries the content branch's checks).
-2. Set `"engine": "csharp"` in `src/content/csharp/track.json` (the suite checks it).
-3. Add at least one real lesson challenge, so CI grades content and not only the fixture. A first one was written and verified against the content branch for `03-collections-linq/02-linq-fundamentals` (`OrderReport`: `Where`/`OrderByDescending`/`ThenBy`, `GroupBy` + `ToDictionary`, `CountBy`, `DefaultIfEmpty().Max()`; solution 6/6, starter fails 5/6): `challenge.md`, `starter.cs`, `solution.cs`, `tests.cs`, `hints.md`, `approach.md`, with `meta.json` unchanged.
-4. Run `npx vitest run src/verify/csharp.test.ts src/verify/content.test.ts src/verify/curriculum.test.ts`, mark the challenge in CURRICULUM.md, and add `Verify csharp` to branch protection.
+- The engine, its vendored files, the worker CSP, the Node verification sandbox and the regression tests exist. The C# track (`src/content/csharp/`) runs on it (`"engine": "csharp"`); its lessons are theory and quizzes so far, so no lesson downloads the engine yet. `src/engines/csharp/fixtures/basic/` is the challenge graded by it: the solution passes 4/4 and the starter fails 3/4, in Chromium and in Node.
+- `src/verify/csharp.test.ts` is the track's suite: the content standards (tags, theory headings and length, quizzes, official resources), a check that the track runs on the C# engine, and `defineChallengeSuite('csharp', csharpGrader())`, which grades every challenge a lesson adds. A first challenge was drafted and verified against the content branch for `03-collections-linq/02-linq-fundamentals` (`OrderReport`: `Where`/`OrderByDescending`/`ThenBy`, `GroupBy` + `ToDictionary`, `CountBy`, `DefaultIfEmpty().Max()`; solution 6/6, starter fails 5/6); it is not committed. Once a lesson has a challenge, mark it in CURRICULUM.md and add `Verify csharp` to branch protection.
 - Checked in Chromium only. Firefox and Safari are not checked yet; that check is required before a lesson ships.
 
 ## Giving a lesson a C# challenge
@@ -28,25 +21,43 @@ The `csharp` engine grades C# challenges in the browser: the .NET 10 WebAssembly
 | --- | --- | --- | --- |
 | `Microsoft.NETCore.App.Runtime.Mono.browser-wasm` (runtime pack) | 10.0.14 | nuget.org | SHA-512 `packageHash` of its catalog entry, then the pin in `vendor/dotnet/manifest.json` |
 | `Microsoft.NETCore.App.Ref` (reference pack) | 10.0.14 | nuget.org | same |
+| `Microsoft.NET.Sdk.WebAssembly.Pack` (its Webcil converter, install time only) | 10.0.14 | nuget.org | same |
 | `Microsoft.CodeAnalysis.Common`, `Microsoft.CodeAnalysis.CSharp` (Roslyn) | 5.9.0 | nuget.org | same |
 | `Microsoft.Net.Compilers.Toolset` (`csc.dll`, install time only) | 5.9.0 | nuget.org | same |
 | .NET runtime for the machine (install time only, never served) | 10.0.14 | builds.dotnet.microsoft.com | SHA-512 in `releases.json`, then the pin per RID |
 
-`scripts/csharp-track/vendor-dotnet.mjs` (`npm run csharp:vendor`, run by `postinstall`) compiles the host (`src/engines/csharp/host/*.cs` into `Dojo.Testing.dll` and `DojoHost.dll`, deterministic) and writes 57 files to `vendor/dotnet/` (git-ignored except `manifest.json`), 54 of them booted. `plugins/dotnetPlugin.ts` serves them under `dotnet/<version>/`, where `<version>` is the manifest's hash of the served set, and serves every `.dll` gzip-compressed as `.dll.gz`: Netlify compresses `.js` and `.wasm` with Brotli but sends `application/octet-stream` uncompressed (22.5 MiB of `.dll` files would have gone out raw). The worker gunzips with `DecompressionStream` before the SHA-256 check.
+`scripts/csharp-track/vendor-dotnet.mjs` (`npm run csharp:vendor`, run by `postinstall`, on Netlify by the build command) compiles the host (`src/engines/csharp/host/*.cs` into `Dojo.Testing.dll` and `DojoHost.dll`) and the converter (`scripts/csharp-track/WebcilConvert.cs`, on `Microsoft.NET.WebAssembly.Webcil.dll` from the SDK pack), all deterministic, and writes 57 files to `vendor/dotnet/` (git-ignored except `manifest.json`), 54 of them booted. **No `.dll` is served:**
 
-| Group | Files | Raw | Transferred |
-| --- | --- | --- | --- |
-| runtime JS + wasm (Brotli by the host) | 4 | 3.23 MiB | 1.02 MiB |
-| CoreLib (`.dll.gz`) | 1 | 4.65 MiB | 1.48 MiB |
-| assemblies: BCL, Roslyn, host (`.dll.gz`) | 35 | 16.55 MiB | 6.02 MiB |
-| reference assemblies (`.dll.gz`) | 14 | 1.31 MiB | 0.46 MiB |
-| licenses (`licenses/`, served, not booted) | 3 | | |
+- CoreLib, the BCL assemblies, Roslyn and the host are converted to **Webcil** wrapped in a WebAssembly module (`System.Private.CoreLib.wasm`, `assemblies/*.wasm`), the format the .NET 10 SDK publishes and the runtime loads natively;
+- the reference assemblies of the learner compilation (`ref/*.wasm`) are their PE bytes in the one custom section `dojo.pe` of a minimal valid module, because Roslyn reads references as PE files: `unwrapReference` (`engine.ts`) takes them out after the hash check and mounts them at `/ref/<name>.dll`.
 
-Total 25.75 MiB raw, 8.98 MiB transferred against a 9.5 MiB transfer budget: the script fails above it. That is over the spike's 8 MiB target, which assumed Brotli for every file (7.45 MiB); getting there needs Brotli in the worker (no browser-wide `DecompressionStream('brotli')`, so a vendored decoder) or Webcil `.wasm` assemblies (an SDK step today). The assembly set is what one compile and run loaded when booted with the whole runtime pack (`System.Text.Json` also needs `System.IO.Pipelines` and the two `Reflection.Emit` assemblies). The first install downloads about 107 MB and keeps 182 MB in `vendor/dotnet/.cache/`. `/dotnet/*` is cached as `immutable` (netlify.toml), so each fresh worker per run reads the files from the HTTP cache.
+`plugins/dotnetPlugin.ts` serves the files unchanged under `dotnet/<version>/`, where `<version>` is the manifest's hash of the served set. Every booted file is `.js` or `.wasm`, which Netlify Brotli-compresses itself (`application/wasm`; measured on production: `pyodide.asm.wasm` 9,598,218 B sent as 3,285,125 B). The budget is measured with Brotli quality 5, the closest to what Netlify sends (`pyodide.asm.wasm`: 3,438,516 B at q4, 3,227,042 B at q5):
 
-In CI (`CI` or `NETLIFY` set) the script never rewrites the manifest: a manifest that no longer matches the script, the host sources or the curated set fails `npm ci`, and a rebuild of missing files must reproduce the committed manifest byte for byte (it does: the build is deterministic). `vite build` also fails, and `npm run dev` warns, when the host sources changed since `DojoHost.dll` was compiled. The `csc` step runs with invariant globalization (no libicu needed on the build image) and downloads are retried with backoff.
+| Group | Files | Raw | Brotli 5 (budget) | Brotli 11 |
+| --- | --- | --- | --- | --- |
+| runtime JS + `dotnet.native.wasm` | 4 | 3.23 MiB | 1.15 MiB | 1.02 MiB |
+| CoreLib (Webcil) | 1 | 4.64 MiB | 1.34 MiB | 1.16 MiB |
+| assemblies: BCL, Roslyn, host (Webcil) | 35 | 16.23 MiB | 5.32 MiB | 4.68 MiB |
+| reference assemblies (wrapped PE) | 14 | 1.31 MiB | 0.41 MiB | 0.37 MiB |
+| licenses (`licenses/`, served, not booted) | 3 | | | |
 
-Bumping a version: change `DOTNET` or `ROSLYN` in the script (keep .NET on the 10.0 LTS line, support ends 2028-11-14; bump Roslyn and the runtime together), run `npm run csharp:vendor`, which takes the new pins from the catalog and `releases.json`, review the `manifest.json` diff, then rerun the C# sandbox tests and the browser check.
+Total 25.41 MiB raw and **8.22 MiB with Brotli 5** against an **8.5 MiB budget** (the script and `--check` fail above it); 7.23 MiB at Brotli 11. The assembly set is what one compile and run loaded when booted with the whole runtime pack (`System.Text.Json` also needs `System.IO.Pipelines` and the two `Reflection.Emit` assemblies). The first install downloads about 111 MB into `vendor/dotnet/.cache/`.
+
+In CI (`CI` or `NETLIFY` set) the script never rewrites the manifest: a manifest that no longer matches the script, the host sources, the converter source or the curated set fails `npm ci` (or the Netlify build), and a rebuild of missing files must reproduce the committed manifest byte for byte (it does: compile and conversion are deterministic). `vite build` also fails, and `npm run dev` warns, when the host sources changed since `DojoHost.dll` was compiled. `csc` and the converter run with invariant globalization (no libicu needed on the build image) and downloads are retried with backoff.
+
+Bumping a version: change `DOTNET` or `ROSLYN` in the script (keep .NET on the 10.0 LTS line, support ends 2028-11-14; bump Roslyn and the runtime together; the SDK pack follows `DOTNET`), run `npm run csharp:vendor`, which takes the new pins from the catalog and `releases.json`, review the `manifest.json` diff, then rerun the C# sandbox tests and the browser check.
+
+## Download and boot
+
+- **Only when needed.** `prepareEngine` warms C# only on a lesson with a C# challenge; theory and quiz lessons, and every other track, download nothing. The warm-up is a prefetch: it waits for an idle moment (`requestIdleCallback`, at most 3 s; usually while the learner reads the Learn tab), and it does not start with Save-Data or a `slow-2g`/`2g`/`3g` connection (`navigator.connection`, Chromium only), where the first run downloads the runtime instead. A run cancels a prefetch that has not started; leaving C# challenges terminates the warm runtime.
+- **In parallel, largest first.** The worker fetches all 54 files at once over the origin's HTTP/2 connection: the runtime's JavaScript first (it starts the runtime), then by size (`Microsoft.CodeAnalysis.CSharp`, CoreLib, `dotnet.native.wasm`, ...), the runtime's own files with `priority: 'high'`. It imports the runtime modules as soon as their own bytes are checked and calls `create()` while the assemblies are still arriving: every asset is a `pendingDownload` whose response is the checked bytes, so `dotnet.native.wasm` compiles during the download and no byte reaches the runtime before its check.
+- **No chunking.** Measured against production Netlify from one machine (`pyodide.asm.wasm`, an edge cache hit): one stream reaches about 5.3 MB/s, 4 parallel streams about 8 MB/s and 8 about 9 MB/s, so a single stream does not fill the link but a few parallel ones do, and the engine opens 54. Range requests cannot split a file either: Netlify answers `Range` with `206` and no Brotli. Splitting files into separate parts would add a reassembly step and per-part pins for no measurable gain.
+- **Cache.** The browser HTTP cache is the only store: `/dotnet/*` is `immutable` (netlify.toml) under a versioned path, so every later worker (one per run) boots from it without network. Nothing is kept in Cache Storage or IndexedDB.
+- **Measured** in Chromium against a local HTTP/2 server that compresses with Brotli 5 and shares one 50 Mbit/s link with a 30 ms first-byte delay (six runs each, medians; the machine was shared with other jobs, so boot and warm-up vary by ±30%): the cold download is 8.62 MB (9.56 MB with the earlier `.dll.gz` files); download and start 1.63 s (1.91 s); warming Roslyn 2.7 s (2.5 s, within the noise: without throttling both formats warm in 1.2 s on an idle machine); first grade of the fixture 0.48 s (0.49 s); a later worker booted from the HTTP cache 0.6 s, plus its warm-up.
+
+## Netlify build cache
+
+The dependency install runs before any Netlify build plugin, so `postinstall` skips the .NET step on Netlify (`vendor-dotnet.mjs --postinstall` exits when `NETLIFY` is set). `plugins/netlify-dotnet-cache` (wired in `netlify.toml`) restores `vendor/dotnet/.cache/nuget` and `vendor/dotnet/.cache/toolchain` in `onPreBuild`; the build command `npm run csharp:vendor && npm run build` then checks every cached package and the runtime archive against their SHA-512 pins (a mismatch downloads that file again from the official source), extracts the runtime again (a cached extraction is never run), compiles the host and the converter, converts the assemblies and requires the committed manifest (about 5 s locally with a warm cache, instead of downloading about 111 MB); `onPostBuild` saves the two folders. The script removes cached packages and archives that no pin uses, so a version bump does not grow the cache. The plugin's calls are unit-tested (`npx vitest run plugins`); that Netlify restores and saves the cache (`netlify-dotnet-cache: restored …` in the deploy log) only a Deploy Preview shows.
 
 ## Security model
 
@@ -59,7 +70,7 @@ Learner C# runs in a dedicated worker (a fresh one per grading run and per **Run
 | C3: references kept inside the runtime's own JavaScript | `lockDownDotnetInternals` removes `INTERNAL.require`, `process`, `dynamic_import`, `loadLazyAssembly`, `loadSatelliteAssemblies` and every `http_wasm_*`/`ws_*` binding, which learner C# could call through `JSFunctionBinding.BindJSFunction`; in Node every import is refused and `process` is an allow-list | `csharpEscapeScan.ts` (38 findings before the fix, none after), Node only |
 | C4: MEMFS shared between runs | a fresh worker per run; `/tmp` emptied and the working directory restored before each run | sandbox tests ("fresh state per run") |
 | C5: static fields and `AppContext` data of the BCL persist in one worker | a fresh worker per run | same |
-| C6: integrity of the served assemblies | the worker and the verify child check every file (size and SHA-256, after gunzip) against the pins **bundled into their script**, not the served `manifest.json`; the build fails on a missing or altered file; the deploy smoke compares every `dotnet/<version>/` file byte for byte and checks immutable caching and compression | `csharp.test.ts`, tampering tests in `csharpSandbox.test.ts`, `smoke:worker-csp` |
+| C6: integrity of the served assemblies | the worker and the verify child check every file (size and SHA-256 of the served bytes; a reference assembly is unwrapped only afterwards) against the pins **bundled into their script**, not the served `manifest.json`; the build fails on a missing or altered file; the deploy smoke compares every `dotnet/<version>/` file byte for byte, fails on any `.dll` or `.gz`, and checks immutable caching and compression | `csharp.test.ts`, tampering tests in `csharpSandbox.test.ts`, `smoke:worker-csp` |
 | Forged grades (engine review) | requests carry a `crypto.randomUUID()` id; the worker's `postMessage` and every new JavaScript binding are gone; the client accepts a report only when its results equal the result events it watched, in order, and name the tests listed from `tests.cs` | `csharp.test.ts` (`reportMismatch`), browser check: a lesson that tries to post 300 forged reports is graded normally |
 | Resource use (engine review) | the console of a run stops after 1,000,000 characters (events of at most 8192, then one notice) and the client cuts a line at 10,000; a stack overflow or `Environment.Exit` reports "the program exited"; the next spare starts only after a run, and leaving C# challenges terminates it | sandbox tests, browser check |
 
@@ -71,7 +82,7 @@ Learner code also cannot use `unsafe`, and only the `[Test]` methods declared in
 - **The escape scan runs in Node only.** In the browser no binding can be made after the lock-down, so there is no reach from C# to scan; the browser check runs the `DynamicMethod` probe instead.
 - **Grades can still be faked from inside the runtime** by reflecting into the host's cached `emit` binding and calling it with a `DynamicMethod`. It only cheats that learner's own progress, which is local (Python accepts the same, R8).
 - **Browser memory is not capped:** the runtime's maximum memory is set when `dotnet.native.wasm` is linked; a probe reached 1920 MiB before `OutOfMemoryException`. Node verification caps it with `--wasm-max-mem-pages`.
-- **Not measured yet:** Firefox and Safari, real download times, and the compression and caching headers on a Netlify deploy (the smoke test checks them on the next deploy).
-- **Netlify build cost:** Netlify keeps no `vendor/dotnet`, so every deploy downloads about 107 MB and compiles the host. A Netlify build-cache plugin was not added: it runs after the dependency install, so it would need the install moved into the build command, which cannot be checked without a Deploy Preview.
+- **Not measured yet:** Firefox and Safari, real download times from Netlify for the `dotnet/` set, the Brotli sizes Netlify actually sends for the Webcil files (estimated from Pyodide at about 2% over Brotli 5) and the caching headers on a Netlify deploy (the smoke test checks compression and caching on the next deploy).
+- **Netlify build cache:** the plugin restoring and saving `vendor/dotnet/.cache` is proven only by a Deploy Preview log; the first deploy after the change still downloads everything.
 - **Assembly contexts** of earlier runs are unloaded only at garbage collection; with a fresh worker per run this costs memory only inside one run.
 - **Runtime migration:** WebAssembly .NET stays on Mono through .NET 11; the move to CoreCLR is planned for .NET 12, so the boot code (hand-written `withConfig`, `dotnetSidecar`) has to be checked again on that bump.

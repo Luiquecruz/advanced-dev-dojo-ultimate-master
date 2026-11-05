@@ -95,9 +95,10 @@ Pinning: every action and reusable workflow is pinned to a full commit SHA with 
 
 - SPA fallback: every path without a file rewrites to `/index.html` (routing uses `BrowserRouter`).
 - `Content-Security-Policy` on `/assets/python.worker-*` and `/assets/csharp.worker-*`, the same value as `WORKER_CSP` in `plugins/pythonWorkerCspPlugin.ts` (its `CSP_WORKERS` lists the workers); keep them in sync. The `smoke` job checks it on every Deploy Preview and production deploy.
-- Long-lived cache on `/assets/*` (hashed file names) and `/dotnet/*` (`dotnet/<version>/`, where the version is the hash of the served set).
+- Long-lived cache on `/assets/*` (hashed file names) and `/dotnet/*` (`dotnet/<version>/`, where the version is the hash of the served set). Netlify Brotli-compresses the `.js` and `.wasm` files itself; `dotnet/` serves nothing else (no `.dll`), and a Range request is answered uncompressed, so the C# worker never sends one.
+- The build command `npm run csharp:vendor && npm run build` and the local build plugin `plugins/netlify-dotnet-cache` (`[[plugins]]`).
 
-Netlify does not keep `vendor/dotnet` between builds, so every Netlify build downloads the .NET files again (about 107 MB, retried with backoff), verifies them and compiles the host with invariant globalization (no libicu needed). With `NETLIFY` set the install never rewrites `vendor/dotnet/manifest.json`: it must reproduce the committed one, or the build fails.
+On Netlify `postinstall` skips the .NET step (`vendor-dotnet.mjs --postinstall` exits when `NETLIFY` is set), because the dependency install runs before any build plugin. `plugins/netlify-dotnet-cache` restores `vendor/dotnet/.cache/nuget` and `vendor/dotnet/.cache/toolchain` in `onPreBuild`, the build command runs `npm run csharp:vendor` (checks every cached file against its SHA-512 pin, extracts the .NET runtime again, compiles the host and the Webcil converter and converts the assemblies: about 5 s with a warm cache), and `onPostBuild` saves the two folders. A cold cache downloads about 111 MB (retried with backoff). With `NETLIFY` set the step never rewrites `vendor/dotnet/manifest.json`: it must reproduce the committed one, or the build fails. Only a Deploy Preview shows the plugin restoring and saving the cache (`netlify-dotnet-cache: restored …` in the deploy log); `npx vitest run plugins` covers its calls.
 
 Netlify deploys through its Git integration: a Deploy Preview for every pull request (`deploy-preview-<number>--adv-dv-doj.netlify.app`) and production for every push to `main`. CI holds no Netlify token. Netlify does not wait for GitHub Actions, so the gate is branch protection: only a pull request whose required checks passed can reach `main`, and only then does Netlify publish it. The `smoke` job then checks what Netlify serves.
 
@@ -144,7 +145,7 @@ Documentation is incremental: every change that alters behavior, structure, comm
 | a lesson (new, renamed, removed) | `CURRICULUM.md` (`✓`, enforced by `src/verify/curriculum.test.ts`) |
 | a Python track lesson or its plan | `python-track/03-curriculum.md`, then `npm run python:curriculum` (the Python section of `CURRICULUM.md` is generated, never hand-edited) |
 | the Python engine, harness or worker | `python-track/01-platform-and-engine.md`, `CONTENT_GUIDE.md` "Python engine"; run both the `python` and `ai-engineering` suites |
-| the C# engine, its host, worker, `vendor/dotnet/manifest.json` or `scripts/csharp-track/` | `csharp-engine.md`, `ARCHITECTURE.md` "The C# engine", `CONTENT_GUIDE.md` "C# engine", `CI_SECURITY.md` for pins and checks; run `npx vitest run src/verify/csharpSandbox.test.ts` and the browser check |
+| the C# engine, its host, worker, `vendor/dotnet/manifest.json`, `scripts/csharp-track/` or `plugins/netlify-dotnet-cache/` | `csharp-engine.md`, `CONTRIBUTING.md` "Netlify", `ARCHITECTURE.md` "The C# engine", `CONTENT_GUIDE.md` "C# engine", `CI_SECURITY.md` for pins and checks; run `npx vitest run src/verify/csharpSandbox.test.ts` and the browser check |
 | `track.json`, a new track or a hidden/shown track | `README.md` tracks table, `CURRICULUM.md`, `CONTENT_GUIDE.md` |
 | an engine, its `registry.ts`, test globals or installed libraries | `CONTENT_GUIDE.md` (globals, versions), `ARCHITECTURE.md` (engine sections) |
 | `src/sandbox/`, `sandbox.html`, the runner | `ARCHITECTURE.md` |

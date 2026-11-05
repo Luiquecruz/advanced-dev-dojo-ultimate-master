@@ -28,7 +28,7 @@ A freeCodeCamp-style learning platform for front-end, back-end and AI engineerin
 | AI Engineering | Node.js and Python (Pyodide), chosen per challenge | 122 | models, context, tools and MCP, RAG, knowledge graphs, memory, agents, harness and loops, multi-agent, evals, security, governance, agentic engineering |
 | Node.js | in-browser Node runtime + Hono | 77 | runtime, async, core modules, HTTP, REST APIs, persistence, security, scaling |
 | Python | Python 3.14 on Pyodide (WebAssembly) | 110 | object model, functions and closures, classes and descriptors, iterators, context managers, standard library, pattern matching, type hints, asyncio, metaprogramming, tooling, validation with Pydantic |
-| C# and .NET | none: theory and quizzes, practice projects built locally with the .NET 10 SDK | 67 | .NET 10 and C# 14 for PHP/Magento backend developers: runtime and language, LINQ, async, ASP.NET Core APIs, EF Core and Dapper, security, testing, background work and messaging, containers, CI/CD and observability, architecture, legacy .NET Framework and migration |
+| C# and .NET | C# (.NET 10 WebAssembly + Roslyn in a Web Worker); lessons are theory and quizzes so far, practice projects built locally with the .NET 10 SDK | 67 | .NET 10 and C# 14 for PHP/Magento backend developers: runtime and language, LINQ, async, ASP.NET Core APIs, EF Core and Dapper, security, testing, background work and messaging, containers, CI/CD and observability, architecture, legacy .NET Framework and migration |
 | Vue | Vue | 44 | hidden while in progress |
 | Angular | Angular | 53 | hidden while in progress |
 
@@ -107,16 +107,16 @@ npm run csharp:vendor                              # download, verify and assemb
 | --- | --- |
 | `src/app`, `src/pages`, `src/features`, `src/entities`, `src/shared` | the UI, in feature-sliced layers (rules enforced by `src/architecture.test.ts`) |
 | `src/content/` | tracks, modules and lessons as plain files (`track.json`, `meta.json`, theory, starter, solution, tests, quiz) |
-| `src/engines/` | grading engines: TypeScript, React, Vue, Angular, Node.js, Python |
+| `src/engines/` | grading engines: TypeScript, React, Vue, Angular, Node.js, Python, C# |
 | `src/sandbox/`, `sandbox.html` | the iframe where learner code runs |
 | `src/verify/` | lesson verification suites |
 | `tests/python/` | the CPython test suite: lessons and harness under pytest, with its hashed lockfile |
-| `plugins/` | Vite plugins: lesson content as virtual modules, Pyodide runtime, .NET runtime (`dotnet/`), worker CSP |
-| `scripts/` | authoring and maintenance scripts (Python lesson scaffolding, curriculum sync, Pyodide packages, .NET files for the C# engine, CSP smoke test) |
+| `plugins/` | Vite plugins: lesson content as virtual modules, Pyodide runtime, .NET runtime (`dotnet/`), worker CSP; `netlify-dotnet-cache/`, the Netlify build plugin that keeps the .NET downloads between deploys |
+| `scripts/` | authoring and maintenance scripts (Python lesson scaffolding, curriculum sync, Pyodide packages, .NET files for the C# engine with its Webcil converter, CSP smoke test) |
 | `vendor/pyodide-packages/` | `manifest.json` of the Pyodide packages; the wheels are downloaded on install and git-ignored |
-| `vendor/dotnet/` | `manifest.json` of the C# engine's files (pinned package and runtime hashes, served file hashes, the version folder they are served under, transfer size); the files are assembled on install and git-ignored |
+| `vendor/dotnet/` | `manifest.json` of the C# engine's files (pinned package and runtime hashes, served file hashes, the version folder they are served under, Brotli sizes against the 8.5 MiB budget); the files (Webcil `.wasm`, no `.dll`) are assembled on install (on Netlify by the build command) and git-ignored |
 | `.claude/` | documentation, specs and the shared Claude Code harness |
-| `.github/`, `netlify.toml` | workflows, Dependabot, pull request template, Netlify headers and SPA fallback |
+| `.github/`, `netlify.toml` | workflows, Dependabot, pull request template, Netlify build command, headers, SPA fallback and build plugin |
 | `.coderabbit.yaml` | CodeRabbit review configuration (path instructions, pre-merge checks, tools) |
 
 ## Limitations
