@@ -30,7 +30,15 @@ const DOCUMENTATION_HOSTS = new Set([
  * the track legitimately names JavaScript (the SignalR client) and Python (Aspire's polyglot hosting).
  */
 const PHP_BRIDGE =
-  /\bPHP|\bphp|\.php\b|\.phtml\b|php\.ini|PSR-\d+|[Mm]agento|Adminhtml|routes\.xml|\bFPM\b|Composer|composer\.(json|lock)|composer install|di\.xml|crontab\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Guzzle|Monolog|Packagist|Zend|Laminas|\bPsalm\b|\bRector\b|Laravel|Symfony|Doctrine|Eloquent|[Oo][Pp]cache|Xdebug|phpunit|\$\w+->\w+|::get\b|(webapi|events|system|acl|module)\.xml|<preference\b|<virtualType\b|shared="false"|\bEAV\b|sales_order_\w+|Update by Schedule|[Aa]round plugin|[Pp]lugins and observers|[Nn]o plugins\b|without plugins|like a plugin|a plugin intercepts|[Pp]lugins that intercept|setup:[\w:-]+|getSize\(\)|count\(\$\w+\)/;
+  /\bPHP|\bphp|\.php\b|\.phtml\b|php\.ini|PSR-\d+|[Mm]agento|Adminhtml|routes\.xml|\bFPM\b|di\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Zend|Laminas|\bPsalm\b|\bRector\b|Doctrine|\$\w+->\w+|::get\b|(webapi|events|system|acl|module)\.xml|<preference\b|<virtualType\b|shared="false"|\bEAV\b|sales_order_\w+|Update by Schedule|[Aa]round plugin|[Pp]lugins and observers|[Nn]o plugins\b|without plugins|like a plugin|a plugin intercepts|[Pp]lugins that intercept|setup:[\w:-]+|getSize\(\)|count\(\$\w+\)/;
+/**
+ * PHP-ecosystem names that only ever appear as a bridge, matched in any case (`guzzle`, `composer require`, `crontab -e`, the `cron_schedule`
+ * table, `php-fpm`, `artisan`). Part of the same rule as PHP_BRIDGE; the case-sensitive alternatives stay there because their lower-case
+ * forms are English or .NET words.
+ */
+const PHP_ECOSYSTEM_NAME = /\b(?:guzzle|composer|crontab|cron_schedule|laravel|symfony|monolog|phpunit|xdebug|php-fpm|opcache|eloquent|packagist|artisan)\b/i;
+/** The first PHP/Magento bridge a text names, or undefined. */
+const bridgeIn = (text: string) => PHP_BRIDGE.exec(text)?.[0] ?? PHP_ECOSYSTEM_NAME.exec(text)?.[0];
 /** An `Assert.ThrowsAsync` that is not awaited returns a task nobody observes, so the test passes even when nothing throws. */
 const UNAWAITED_THROWS_ASYNC = /(?<!\bawait\s+)Assert\.ThrowsAsync\b/;
 /** C# source with its line and block comments blanked out and string literals kept, so a commented `await` does not count. */
@@ -169,8 +177,8 @@ function learnerTexts(lesson: Lesson): Array<[string, string]> {
 
 function bridgeViolations(lesson: Lesson): Violation[] {
   return learnerTexts(lesson).flatMap(([file, text]) => {
-    const match = PHP_BRIDGE.exec(text);
-    return match ? [{ rule: 'no-php-bridge', detail: `${file} names "${match[0]}"` }] : [];
+    const name = bridgeIn(text);
+    return name === undefined ? [] : [{ rule: 'no-php-bridge', detail: `${file} names "${name}"` }];
   });
 }
 
@@ -191,8 +199,8 @@ const headerTexts: Array<[string, string]> = track
     ]
   : [];
 const headerBridges = new Map(headerTexts.flatMap(([key, text]) => {
-  const match = PHP_BRIDGE.exec(text);
-  return match ? [[key, match[0]] as const] : [];
+  const name = bridgeIn(text);
+  return name === undefined ? [] : [[key, name] as const];
 }));
 
 describe('csharp track', () => {
@@ -243,11 +251,16 @@ describe('csharp track', () => {
       'declared in events.xml', 'a field in system.xml', 'Around plugins wrap the call', '| Plugins and observers | Middleware, endpoint filters, decorators |',
       'the .NET version of `count($collection)` versus `getSize()`', 'Like `setup:upgrade`, it connects', 'Nothing runs `setup:upgrade` for you',
       '## No plugins: decorators instead', 'every call of `ICartService` without plugins', 'intercepts each public method, like a plugin',
-      'the way a plugin intercepts any public method', 'Plugins that intercept any public method of another module', 'run phpstan on the module'];
+      'the way a plugin intercepts any public method', 'Plugins that intercept any public method of another module', 'run phpstan on the module',
+      'a DelegatingHandler is a Guzzle middleware', 'wraps guzzle in a client class', 'composer require vendor/package', 'run composer update first', 'Composer autoloading',
+      'edit the crontab on the server', 'writes upcoming runs to the cron_schedule table', 'a Laravel queue worker', 'the Symfony console', 'a monolog handler',
+      'PHPUnit data providers', 'xdebug.mode=debug', 'opcache.enable=1', 'php-fpm workers', 'an Eloquent model', 'published on Packagist', 'an artisan command'];
     const allowed = ['the SignalR JavaScript client', "Aspire's polyglot hosting runs Python apps", 'ILogger<T> categories', 'dotnet test --logger trx',
-      'creates a second `AppDomain` to isolate plugins', '.WithManagementPlugin()', '// ... builder setup:', 'items.Count()'];
-    expect(caught.filter((text) => !PHP_BRIDGE.test(text))).toEqual([]);
-    expect(allowed.filter((text) => PHP_BRIDGE.test(text))).toEqual([]);
+      'creates a second `AppDomain` to isolate plugins', '.WithManagementPlugin()', '// ... builder setup:', 'items.Count()',
+      'a cron expression has five fields', 'RecurringJob.AddOrUpdate(id, job, Cron.Daily())', '40 report jobs with different cron schedules', 'a composite key',
+      'decorators compose'];
+    expect(caught.filter((text) => bridgeIn(text) === undefined)).toEqual([]);
+    expect(allowed.filter((text) => bridgeIn(text) !== undefined)).toEqual([]);
     const throwsAsync = ['await Assert.ThrowsAsync<E>(() => run())', 'public static void X() => Assert.ThrowsAsync<E>(() => run());', '// await\nAssert.ThrowsAsync<E>(() => run());',
       'await /* checked */ Assert.ThrowsAsync<E>(() => Get("https://x"))'];
     expect(throwsAsync.map((text) => UNAWAITED_THROWS_ASYNC.test(withoutComments(text)))).toEqual([false, true, true, false]);
