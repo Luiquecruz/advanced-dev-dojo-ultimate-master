@@ -19,30 +19,6 @@ with Opened("report.csv") as report:
 # open report.csv / writing report.csv / close report.csv after success
 ```
 
-## Coming from TypeScript and JavaScript
-
-JavaScript has `try/finally` and, newer, `using` declarations: when the block ends, the runtime calls the object's `[Symbol.dispose]()`. A Python port of that habit breaks in two places.
-
-```ts
-class Transaction {
-  constructor(private store: Store) { store.begin(); }
-  [Symbol.dispose]() { this.store.commit(); }   // runs after success AND after a throw
-}
-using tx = new Transaction(store);              // tx is the object itself
-```
-
-```py
-class Transaction:
-    def __enter__(self):
-        self.store.begin()                      # no return: `as tx` binds None
-
-    def __exit__(self, *exc_info):
-        self.store.commit()                     # commits a failed block
-```
-
-- **`as` binds what `__enter__` returns**, not the object after `with`. `using tx = new X()` binds the object; in Python you must `return self` (or whatever the caller should use, like a file object or a cursor).
-- **`__exit__` sees the exception.** A disposer receives no arguments, so it cannot tell success from failure and cannot stop the error. `__exit__` receives the exception type, the exception and its traceback (all `None` on success), so a transaction commits only on success and rolls back otherwise.
-
 ## How it works
 
 The language reference defines `with` by this expansion (simplified):
@@ -74,7 +50,22 @@ Read the consequences off the code:
 - **Special method lookup**: `__enter__` and `__exit__` are found on the type. An object without them raises `TypeError: ... does not support the context manager protocol`.
 - **Several items** in one statement behave like nested `with` blocks: `with A() as a, B() as b:` enters `A` then `B`, and exits `B` first. Since 3.10 the items may be wrapped in parentheses across several lines.
 
-> **Status as of November 2026:** TC39 lists Explicit Resource Management (`using`, `Symbol.dispose`, `DisposableStack`) as a finished proposal with ES2027 as its expected edition, and MDN does not yet mark `using` as Baseline. Its disposers still receive no error and cannot suppress one; errors thrown during disposal are aggregated into a `SuppressedError`.
+## Common mistakes
+
+**An `__enter__` with no `return`.** The `as` target receives what `__enter__` returns, not the manager, and a method without `return` returns `None`. The block then fails on its first attribute access, far from the real bug:
+
+```py
+# wrong: `as transaction` binds None
+def __enter__(self):
+    self.store.begin()
+
+# right: hand the caller the object it should use
+def __enter__(self):
+    self.store.begin()
+    return self
+```
+
+**An `__exit__` that ignores its arguments.** Committing unconditionally commits a failed block, and `return True` "to report success" swallows every exception. Check `exc_type` (it is `None` on success), roll back on failure, and return `False`.
 
 ## When to choose it
 

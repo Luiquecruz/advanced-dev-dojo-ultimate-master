@@ -20,21 +20,7 @@ except ConfigError as error:
     print(error.__notes__)                   # ['order_id=7']
 ```
 
-The traceback prints the `JSONDecodeError` first, then *"The above exception was the direct cause of the following exception:"*, then the `ConfigError` followed by its notes.
-
-## Coming from TypeScript and JavaScript
-
-```ts
-try {
-  return JSON.parse(text);
-} catch (error) {
-  throw new ConfigError(`invalid config: ${(error as Error).message}`);   // cause lost
-}
-// opt-in since ES2022: new ConfigError("invalid config", { cause: error })
-```
-
-- **Copying the message instead of keeping the cause.** The JavaScript habit keeps only the text. In Python, `raise ConfigError(...)` inside `except` still records the original as `__context__` ("During handling of the above exception, another exception occurred"), which reads like a second bug in the handler. `from error` records it as `__cause__`, the intended translation.
-- **Growing the message for context.** `error.message += " (order 7)"` becomes `error.args = (...)` in Python, which breaks callers that read `args`, compare messages or group errors by message in monitoring. `add_note()` attaches the context separately, and every traceback prints it.
+`json.loads(text)` parses JSON text into Python objects (a JSON object becomes a `dict`) and raises `json.JSONDecodeError`, a `ValueError` subclass with `msg`, `lineno` and `colno` attributes, when the text is not valid JSON; module 07 covers the `json` module. The traceback prints the `JSONDecodeError` first, then *"The above exception was the direct cause of the following exception:"*, then the `ConfigError` followed by its notes.
 
 ## How it works
 
@@ -58,6 +44,22 @@ Choose deliberately: `from error` when the original explains the failure (I/O, p
 ### Security note
 
 Messages and notes end up in logs, error trackers and sometimes in responses. Add identifiers that help the investigation (order ID, region, attempt) and never secrets: tokens, card numbers, passwords or full request bodies. `from None` is **not** a way to hide sensitive data: it changes what the default traceback prints, while `__context__` still holds the original exception and its frames. If a value must not leak, do not put it in an exception at all.
+
+## Common mistakes
+
+**Raising the new exception without `from`.** Inside `except`, `raise ConfigError(...)` still records the original as `__context__`, but the traceback then says *"During handling of the above exception, another exception occurred"*, which reads like a second bug in the handler, and `__cause__` stays empty. Copying the original message into the new one does not help: code and tools that follow `__cause__` still find nothing. State the translation:
+
+```py
+# wrong: the decode error is only an accident of the handler
+except json.JSONDecodeError as error:
+    raise ConfigError(f"invalid config: {error}")
+
+# right: the decode error is the explicit cause
+except json.JSONDecodeError as error:
+    raise ConfigError(f"invalid config at line {error.lineno}") from error
+```
+
+Growing the message for context (`error.args = (f"{error} (order 7)",)`) is the other one: it breaks callers that read `args`, compare messages or group errors by message in monitoring. Use `add_note()`.
 
 ## When to choose it
 

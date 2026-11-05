@@ -1,7 +1,7 @@
 [
   { "term": "`__call__`", "description": "Defining it on a class makes its instances callable with `()`, like functions." },
   { "term": "`functools.partial`", "description": "A callable that pre-fills positional and keyword arguments of another callable." },
-  { "term": "`singledispatch`", "description": "Turns a function into a generic function that picks an implementation from the type of its first argument, following the MRO." },
+  { "term": "`singledispatch`", "description": "Turns a function into a generic function that picks an implementation from the type of its first argument, following the class hierarchy." },
   { "term": "`lru_cache`", "description": "Memoizes a function by its hashable arguments and evicts the least recently used entry when `maxsize` is reached." },
   { "term": "`cached_property`", "description": "Computes a value on first access and stores it in the instance `__dict__`, so later reads skip the method." }
 ]

@@ -25,7 +25,7 @@
   {
     "question": "`handler = account.close` and later `handler()` is called. What is `self` inside `close`?",
     "options": [
-      "`None`, like an unbound `this` in JavaScript",
+      "`None`, because the method was detached from the instance",
       "The module",
       "A TypeError is raised",
       "`account`: reading the attribute produced a bound method that keeps the instance"

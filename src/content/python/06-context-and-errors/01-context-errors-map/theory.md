@@ -1,5 +1,9 @@
 **Question this module answers:** who releases the resource when something fails, and what does an exception carry?
 
+## Prerequisites
+
+Module 03 (decorators and closures), module 04 (classes, inheritance and special methods) and module 05 (generators, `yield` and `close()`, which `@contextmanager` builds on). The basics of `raise`, `try`/`except`, `else` and `finally` are in module 00 (lesson 08, errors and exceptions); this module explains what `except` matches and what an exception keeps.
+
 ## Cleanup that cannot be skipped
 
 ```py
@@ -12,22 +16,7 @@ A `with` block calls the manager's `__exit__` on every way out of the block, and
 
 ## What an exception carries
 
-An exception is an instance of a class under `BaseException`. Its **class** says what went wrong and decides which `except` clause matches; its **message** is for humans; `__cause__` and `__context__` link it to the error it replaced; `__notes__` carry extra context added on the way up; an **`ExceptionGroup`** carries several unrelated failures at once.
-
-## Coming from TypeScript and JavaScript
-
-```ts
-try {
-  using connection = openConnection();   // [Symbol.dispose]() runs at the end of the block
-  connection.save(order);
-} catch (error) {                        // error: unknown, any value can be thrown
-  throw new Error("save failed", { cause: error });
-}
-```
-
-- JavaScript can throw any value; Python raises only `BaseException` instances, so `except` matches by class and the hierarchy is part of an API.
-- A `using` disposer never sees the error and cannot suppress it; `__exit__` sees it and decides.
-- `{ cause }` is opt-in in JavaScript. Python records the exception being handled automatically (`__context__`), and `raise ... from` states the cause explicitly.
+An exception is an instance of a class under `BaseException`, and only such instances can be raised, so `except` matches by class and a library's hierarchy is part of its API. Its **class** says what went wrong and decides which `except` clause matches; its **message** is for humans; `__context__` links it automatically to the error being handled when it was raised, and `__cause__` to the one `raise ... from` names; `__notes__` carry extra context added on the way up; an **`ExceptionGroup`** carries several unrelated failures at once.
 
 ## The path
 

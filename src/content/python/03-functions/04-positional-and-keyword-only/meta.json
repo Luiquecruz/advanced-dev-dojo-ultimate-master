@@ -1,6 +1,6 @@
 {
   "title": "Positional-Only and Keyword-Only Parameters",
-  "summary": "How the / and * markers decide how each parameter may be passed, why keyword-only options replace the TypeScript options object, and how inspect.signature reports parameter kinds.",
+  "summary": "How the / and * markers decide how each parameter may be passed, why options and flags should be keyword-only, and how inspect.signature reports parameter kinds.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

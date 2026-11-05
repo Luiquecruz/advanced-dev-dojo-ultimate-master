@@ -3,5 +3,5 @@
   { "term": "`contextlib.suppress`", "description": "Standard manager that swallows the listed exception types and their subclasses; since 3.12 it also filters exception groups." },
   { "term": "Error collector", "description": "A reusable suppressing manager that keeps the matching exception objects so a batch can report every failure." },
   { "term": "`BaseException`-only exceptions", "description": "`KeyboardInterrupt`, `SystemExit`, `GeneratorExit`, `asyncio.CancelledError`: control-flow signals that broad handlers must let through." },
-  { "term": "Bare `except`", "description": "`except:` catches everything, including `BaseException` subclasses; it is the Python spelling of an untyped JavaScript `catch`." }
+  { "term": "Bare `except`", "description": "`except:` catches everything, including `BaseException` subclasses; name the types you expect instead." }
 ]

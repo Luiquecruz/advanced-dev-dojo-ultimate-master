@@ -27,22 +27,9 @@ class Version:
 
 `total_ordering` derives `<=`, `>` and `>=` from `__eq__` and `__lt__`.
 
-## Coming from TypeScript and JavaScript
-
-```ts
-class Money {
-  constructor(public cents: number, public currency: string) {}
-  valueOf() { return this.cents; }          // makes <, > and + "work"
-  equals(other: Money) { return this.cents === other.cents; }
-}
-new Set([new Money(1, "EUR"), new Money(1, "EUR")]).size;   // 2: Set uses identity
-```
-
-- JavaScript has no operator overloading, so the habit is `valueOf()` plus an `equals` method. `valueOf` silently turns `money + 1` into a number and compares euros with dollars. In Python, write the operators and refuse what makes no sense.
-- `Set` and `Map` use identity in JavaScript. Python sets and dict keys use `__hash__` and `__eq__` together: **equal objects must have equal hashes**. Defining `__eq__` alone sets `__hash__` to `None`, and `{money}` raises `TypeError: unhashable type`.
-- Comparing only the amount (`self.cents == other.cents`) is the translated `equals`, and it makes 100 EUR equal to 100 USD. Compare every field that defines the value.
-
 ## How it works
+
+Sets and dict keys use `__hash__` and `__eq__` together: **equal objects must have equal hashes**. Python finds the bucket with the hash, then confirms the match with `==`.
 
 **`NotImplemented`** is a return value, not an exception. It tells Python "I do not know this operand, ask the other side". For `a + b`, Python calls `a.__add__(b)`; on `NotImplemented` it tries `b.__radd__(a)`; if both decline, it raises `TypeError` with a clear message. Raising `TypeError` yourself in `__add__` for unknown types would stop the other operand from ever handling the operation.
 
@@ -53,6 +40,24 @@ new Set([new Money(1, "EUR"), new Money(1, "EUR")]).size;   // 2: Set uses ident
 **Text**: `__repr__` is for developers and should look like the constructor call (`Money(1050, 'EUR')`); `__str__` is for users; `__format__(spec)` receives what follows the colon in `f"{x:.2f}"`, so a class can apply the spec to the right part of its value.
 
 **Truthiness**: `__bool__` decides `if x:`. Without it Python uses `__len__`, then treats every object as true.
+
+## Common mistakes
+
+**Defining `__eq__` without a matching `__hash__`.** A class that defines `__eq__` alone gets `__hash__ = None`, so its objects can no longer go into a set or be dict keys:
+
+```py
+# wrong: {Money(100, "EUR")} raises TypeError (unhashable type: 'Money')
+def __eq__(self, other):
+    if not isinstance(other, Money):
+        return NotImplemented
+    return (self.cents, self.currency) == (other.cents, other.currency)
+
+# right: hash exactly the fields that equality compares
+def __hash__(self):
+    return hash((self.cents, self.currency))
+```
+
+**Comparing only the amount.** `self.cents == other.cents` makes 100 EUR equal to 100 USD. Compare every field that defines the value, and hash the same fields.
 
 ## When to choose it
 

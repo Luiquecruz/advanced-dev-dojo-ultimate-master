@@ -1,4 +1,4 @@
-A config loader splits text into blocks, a batch job needs only the first few records of a long stream, and an invoicing service hands out ids. Write all three in `main.py` as **generator functions** (with `yield`): the tests check `inspect.isgenerator` on what each one returns. The starter builds lists, the way an array-first JavaScript version would.
+A config loader splits text into blocks, a batch job needs only the first few records of a long stream, and an invoicing service hands out ids. Write all three in `main.py` as **generator functions** (with `yield`): the tests check `inspect.isgenerator` on what each one returns. The starter builds and returns lists, so each function reads its whole source before the caller gets anything.
 
 ## `read_blocks(lines)`
 

@@ -8,7 +8,6 @@
   "resources": [
     { "label": "Language reference: the with statement", "url": "https://docs.python.org/3/reference/compound_stmts.html#the-with-statement" },
     { "label": "Data model: With Statement Context Managers", "url": "https://docs.python.org/3/reference/datamodel.html#with-statement-context-managers" },
-    { "label": "PEP 343: The with Statement", "url": "https://peps.python.org/pep-0343/" },
-    { "label": "TC39: Explicit Resource Management", "url": "https://github.com/tc39/proposal-explicit-resource-management" }
+    { "label": "PEP 343: The with Statement", "url": "https://peps.python.org/pep-0343/" }
   ]
 }

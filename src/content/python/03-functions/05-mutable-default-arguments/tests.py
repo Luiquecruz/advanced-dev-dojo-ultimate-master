@@ -1,6 +1,4 @@
-import dataclasses
-
-
+# beginner mistake: tags=[] in the signature creates one list when def runs, and every call appends to it
 @test("add_tag calls without a list never share one")
 def _():
     first = mod.add_tag("python")
@@ -27,19 +25,6 @@ def _():
     seeded.register("queue", 3)
     assert seed == {"db": 2}
     assert seeded.items == {"db": 2, "queue": 3}
-
-
-@test("Settings instances start empty and do not share their list and dict fields")
-def _():
-    assert dataclasses.is_dataclass(mod.Settings)
-    first = mod.Settings()
-    second = mod.Settings(name="worker")
-    assert first.tags == []
-    assert first.limits == {}
-    first.tags.append("blue")
-    first.limits["rps"] = 10
-    assert second.tags == []
-    assert second.limits == {}
 
 
 @test("request tells an omitted headers argument apart from None")

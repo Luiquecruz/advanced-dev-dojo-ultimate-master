@@ -28,6 +28,7 @@ def _():
     assert empty == []
 
 
+# beginner mistake: Paginator.__iter__ returns self, so the container holds the loop position and nested loops share it
 @test("two iterators over one Paginator advance independently, so nested loops see every pair")
 def _():
     paginator = mod.Paginator([["a", "b"], ["c"]])

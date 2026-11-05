@@ -1,4 +1,4 @@
-A checkout service searches carts, validates payments and checks fraud rules. Its helpers were ported from JavaScript with list comprehensions where the original used `filter(...)[0]` and `map(...).some(...)`. Make them lazy in `main.py`.
+A checkout service searches carts, validates payments and checks fraud rules. Its helpers build complete lists with list comprehensions before `[0]`, `sum()` and `any()` get to work. Make them lazy in `main.py`.
 
 ## `first_match(items, predicate, default=None)`
 

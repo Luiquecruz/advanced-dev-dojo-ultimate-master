@@ -1,6 +1,6 @@
 {
   "title": "itertools",
-  "summary": "Lazy building blocks for the loop shapes you keep rewriting: batched for chunks, groupby for runs (not SQL-style groups), accumulate for running totals and pairwise for neighbors, all working on any iterable. Rebuild a log tool ported from array slicing and Object.groupBy.",
+  "summary": "Lazy building blocks for the loop shapes you keep rewriting: batched for chunks, groupby for runs (not totals per key), accumulate for running totals and pairwise for neighbors, all working on any iterable. Rebuild a log tool written with list slicing and a dict counter.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

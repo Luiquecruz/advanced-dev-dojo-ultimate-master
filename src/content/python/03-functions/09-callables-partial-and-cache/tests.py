@@ -13,6 +13,7 @@ def _():
     assert empty(marker) is marker
 
 
+# beginner mistake: then appends to self and returns self, so every derived pipeline aliases the base
 @test("then returns a new Pipeline and leaves the original unchanged")
 def _():
     base = mod.Pipeline(str.strip)

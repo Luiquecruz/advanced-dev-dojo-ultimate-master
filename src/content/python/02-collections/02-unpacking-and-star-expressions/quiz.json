@@ -30,17 +30,17 @@
       "A TypeError, duplicate key"
     ],
     "answer": 2,
-    "explanation": "Later mappings win, like `{ ...a, ...b }` in JavaScript. The result is a new dict."
+    "explanation": "Later mappings win: the `b` from the second dict replaces the first one. The result is a new dict, and neither input changes."
   },
   {
     "question": "Which is valid Python?",
     "options": [
       "`*first, *second = items`",
-      "`first, ...rest = items`",
-      "`{a, b} = obj`",
+      "`first, rest* = items`",
+      "`first, **rest = items`",
       "`first, *middle, last = items`"
     ],
     "answer": 3,
-    "explanation": "Only one starred target is allowed, and it may be in the middle. Python has no object destructuring syntax."
+    "explanation": "Only one starred target is allowed, it is written with a single `*` before the name, and it may be in the middle. `**` is for mappings in calls and displays, never in an assignment target."
   }
 ]

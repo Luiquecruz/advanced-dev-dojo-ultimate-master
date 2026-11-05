@@ -1,4 +1,3 @@
-from dataclasses import dataclass, field
 from typing import Any
 
 DEFAULT_HEADERS = {"Accept": "application/json", "User-Agent": "dojo-client"}
@@ -19,13 +18,6 @@ class Registry:
 
     def register(self, name: str, value: Any) -> None:
         self.items[name] = value
-
-
-@dataclass
-class Settings:
-    name: str = "default"
-    tags: list[str] = field(default_factory=list)
-    limits: dict[str, int] = field(default_factory=dict)
 
 
 def request(path: str, headers: dict[str, str] | None = _UNSET) -> dict[str, Any]:

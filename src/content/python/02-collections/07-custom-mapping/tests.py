@@ -31,6 +31,7 @@ async def _():
     assert isinstance(error, KeyError)
 
 
+# beginner mistake: subclassing dict, whose get, update, setdefault and constructor bypass the overridden methods
 @test("get, in, pop, setdefault and update are case-insensitive through the ABC")
 def _():
     headers = mod.CaseInsensitiveDict({"Accept": "*/*"})

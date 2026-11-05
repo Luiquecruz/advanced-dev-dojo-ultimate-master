@@ -13,38 +13,43 @@ print([(key, len(list(group))) for key, group in groupby("aabccc")])
 print(list(islice(count(10), 3)))            # [10, 11, 12]: a slice of an endless iterator
 ```
 
-## Coming from TypeScript and JavaScript
-
-`Object.groupBy` (ES2024) and lodash's `groupBy` collect every element with the same key wherever it appears, like SQL `GROUP BY`. `itertools.groupby` starts a new group **every time the key changes**, like the Unix `uniq` command:
-
-```ts
-Object.groupBy(["ok", "ok", "error", "ok"], (status) => status);
-// { ok: ["ok", "ok", "ok"], error: ["error"] }
-```
-
-```py
-[(key, len(list(group))) for key, group in groupby(["ok", "ok", "error", "ok"])]
-# [('ok', 2), ('error', 1), ('ok', 1)]
-```
-
-Each answers a different question. `groupby` on unsorted data gives the **runs**: how long a service stayed in each state. To aggregate by key regardless of position, sort by the same key first, or use a `dict`, `defaultdict` or `Counter`.
-
-The second habit is slicing arrays to get chunks and neighbors: `items.slice(i, i + n)` and `zip(items, items[1:])`. Slicing needs a sequence and copies it. `batched` and `pairwise` work on any iterable, including generators and files, and never copy.
-
 ## How it works
 
 - Every result is an iterator: lazy and one-shot. Wrap it in `list()` when you need it twice.
 - `chain.from_iterable(iterables)` flattens one level, pulling the outer iterable lazily; `chain(*iterables)` unpacks the outer iterable up front.
 - `islice(iterable, start, stop, step)` slices any iterator. It accepts no negative indexes, and it consumes the items it skips.
-- `groupby(iterable, key)` yields `(key, group)` pairs where `group` is an iterator sharing the underlying input. Advancing to the next pair empties the previous group, so `list(groupby(data))` leaves every group empty: consume or copy each group before moving on.
+- `groupby(iterable, key)` starts a new group **every time the key changes**, so it yields one `(key, group)` pair per run of equal keys, where `group` is an iterator sharing the underlying input. Advancing to the next pair empties the previous group, so `list(groupby(data))` leaves every group empty: consume or copy each group before moving on.
 - `accumulate(iterable, func=operator.add, *, initial=None)` yields running results; `initial` adds a leading value.
 - `pairwise(iterable)` yields overlapping pairs: `n - 1` pairs for `n` items, none for fewer than two.
+- Slicing (`items[start:start + n]` for chunks, `zip(items, items[1:])` for neighbors) needs a sequence and copies it. `batched` and `pairwise` work on any iterable, generators and files included, and copy nothing.
 - `batched(iterable, n, *, strict=False)` yields tuples of `n` items and a shorter last tuple. It reads only enough input to fill each batch. `n < 1` raises `ValueError`, and `strict=True` raises `ValueError` when the last batch is short.
 - `tee(iterable, n=2)` splits one iterator into `n` independent ones by buffering what the slower ones have not read yet. Do not touch the original afterwards, and prefer `list()` when one consumer reads everything before the other starts.
 
 Before `batched` existed, chunking an iterator looked like `iter(lambda: tuple(islice(iterator, n)), ())`, the two-argument `iter()` from lesson 02.
 
 > **Status as of November 2026:** `pairwise` arrived in Python 3.10, `batched` in 3.12 and its `strict=` flag in 3.13. Python 3.14 removed `copy`, `deepcopy` and `pickle` support from itertools iterators (deprecated since 3.12): use `tee` to fork one.
+
+## Common mistakes
+
+**Expecting `groupby` to collect every item with the same key.** It groups only neighbors: a key that comes back later starts a new group. That is what a run report needs, and what totals per key do not. Sorting first turns runs into totals, so pick the tool for the question:
+
+```py
+from collections import Counter
+from itertools import groupby
+
+statuses = ["ok", "ok", "error", "ok"]
+
+# wrong for runs: sorting first merges the runs that are apart
+[(key, len(list(group))) for key, group in groupby(sorted(statuses))]
+# [('error', 1), ('ok', 3)]
+
+# right for runs: group the data in its original order
+[(key, len(list(group))) for key, group in groupby(statuses)]
+# [('ok', 2), ('error', 1), ('ok', 1)]
+
+# right for totals per key, in any order
+Counter(statuses)   # Counter({'ok': 3, 'error': 1})
+```
 
 ## When to choose it
 

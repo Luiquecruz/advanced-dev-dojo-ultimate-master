@@ -20,35 +20,35 @@ Three effects follow:
 - **A closed attribute set**: a typo such as `p.xx = 1` raises instead of silently creating a new attribute.
 - **Slightly faster attribute access**, because each slot is a descriptor on the class pointing at a fixed offset.
 
-## Coming from TypeScript and JavaScript
-
-```ts
-class Point {
-  z = 0;                                    // field initializer
-  constructor(public x: number, public y: number) {}
-}
-const p = new Point(1, 2) as any;
-p.w = 3;                                    // allowed: objects are open by default
-```
-
-Two habits break:
-
-- **Field initializers.** `z = 0` in a Python class body is a *class attribute*. Next to `__slots__ = ("x", "y", "z")` it is an error at class creation: `ValueError: 'z' in __slots__ conflicts with class variable`. Put defaults in `__init__` parameters.
-- **Assuming the subclass inherits the restriction.** In JavaScript, `Object.seal` or a closed shape is something you apply per object. In Python, a subclass that does not declare `__slots__` gets a `__dict__` back, and with it the memory cost and the open attribute set. Each class in the chain must declare `__slots__`, listing **only the names it adds**.
-
-```py
-class ColorPoint(Point):
-    __slots__ = ("color",)        # x and y already come from Point
-```
-
 ## How it works
 
 For each name in `__slots__`, the class gets a **member descriptor** (`Point.__dict__["x"]`), a data descriptor that reads and writes a fixed slot in the instance. There is no instance namespace to fall back to, so unknown names fail.
 
+- A value written in the class body is a *class attribute*, not a per-instance default. Next to `__slots__ = ("x", "y", "z")`, a line `z = 0` fails at class creation with `ValueError: 'z' in __slots__ conflicts with class variable`. Put defaults in the `__init__` parameters.
 - Add `"__dict__"` to `__slots__` to allow extra attributes again, or `"__weakref__"` when instances must be weakly referenceable.
 - Repeating a parent's slot name in a child wastes space and hides the parent slot.
 - `vars(p)` fails on a slotted object; `copy`, `pickle` and `dataclasses.asdict` still work.
 - Multiple inheritance from two bases that both have non-empty slots raises `TypeError: multiple bases have instance lay-out conflict`. Mixins meant to be combined should declare `__slots__ = ()`.
+
+## Common mistakes
+
+**Assuming a subclass inherits the restriction.** A subclass that does not declare `__slots__` gets a `__dict__` back, and with it the memory cost and the open attribute set. Each class in the chain declares `__slots__`, listing **only the names it adds**:
+
+```py
+# wrong: ColorPoint instances have a __dict__ again, so point.colour = "red" is accepted
+class ColorPoint(Point):
+    def __init__(self, x, y, color):
+        super().__init__(x, y)
+        self.color = color
+
+# right: x and y already come from Point
+class ColorPoint(Point):
+    __slots__ = ("color",)
+
+    def __init__(self, x, y, color):
+        super().__init__(x, y)
+        self.color = color
+```
 
 ## Slotted dataclasses
 

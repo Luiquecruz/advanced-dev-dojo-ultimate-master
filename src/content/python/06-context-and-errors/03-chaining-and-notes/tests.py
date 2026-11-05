@@ -11,6 +11,7 @@ async def _():
     assert kind == "ConfigError"
 
 
+# beginner mistake: load_config raises ConfigError inside except without from, so the decode error is only __context__
 @test("invalid JSON raises ConfigError whose explicit cause is the original decode error")
 async def _():
     error = await capture_error(lambda: mod.load_config('{"region": "eu",}'))

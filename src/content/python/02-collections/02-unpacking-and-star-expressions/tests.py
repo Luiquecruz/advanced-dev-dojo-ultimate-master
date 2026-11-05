@@ -27,6 +27,7 @@ def _():
     assert merged == {"a": 1, "b": 2, "c": 3}
 
 
+# beginner mistake: starting the merge from layers[0] and calling update on it, which changes the caller's first dict
 @test("merge_layers leaves the input layers untouched and returns a new dict")
 def _():
     first = {"a": 1}

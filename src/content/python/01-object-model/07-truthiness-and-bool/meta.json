@@ -1,6 +1,6 @@
 {
   "title": "Truthiness and __bool__",
-  "summary": "Which values are falsy in Python, how bool() consults __bool__ and __len__, why or is not a nullish operator, and how to separate emptiness from absence.",
+  "summary": "Which values are falsy in Python, how bool() consults __bool__ and __len__, why or replaces every falsy value and not only None, and how to separate emptiness from absence.",
   "level": "beginner",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

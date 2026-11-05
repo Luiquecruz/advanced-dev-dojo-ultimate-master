@@ -14,29 +14,7 @@ print(next(timer))       # 1
 next(timer)              # done, then StopIteration: the function returned
 ```
 
-## Coming from TypeScript and JavaScript
-
-`function*` and `yield` are the same idea, with the same calling rule: calling either one returns a paused generator object. What breaks in translation is the **array-first habit**: collect results in an array and return it, or turn an iterable into an array before slicing it.
-
-```ts
-function take<T>(count: number, items: Iterable<T>): T[] {
-  return Array.from(items).slice(0, count);   // reads every item, then drops most of them
-}
-```
-
-```py
-def take(count, items):
-    return list(items)[:count]   # same cost: reads the whole source, never returns on an infinite one
-```
-
-A generator inverts the flow. It hands out each item as soon as it exists, and it reads nothing more once the consumer stops asking:
-
-```py
-def non_empty(lines):
-    for line in lines:
-        if line.strip():
-            yield line           # one line at a time: nothing is collected
-```
+The consumer decides how much work happens. A generator hands out each item as soon as it exists, and it reads nothing more once the consumer stops asking.
 
 ## How it works
 
@@ -47,6 +25,28 @@ def non_empty(lines):
 - Infinite generators are normal: `while True: yield ...` is safe as long as the consumer is bounded (`next`, `zip` with a finite input, `itertools.islice`, `break`). `list()`, `sorted()` and `sum()` on one never return.
 - Order matters at the edges. Pulling an item and then deciding you already have enough loses that item from a shared iterator. Yield first, then check whether you are done.
 - To make a **class** re-iterable, write its `__iter__` as a generator method: every `iter()` call creates a new generator with its own position.
+
+## Common mistakes
+
+**Collecting the results in a list and returning it.** The function reads its whole source before the caller gets the first item, keeps every item in memory, and never returns on an endless source. Slicing has the same cost: `list(items)[:count]` reads everything, then drops most of it.
+
+```py
+# wrong: every line is read and stored before the caller sees one
+def non_empty(lines):
+    result = []
+    for line in lines:
+        if line.strip():
+            result.append(line)
+    return result
+
+# right: one line at a time, nothing is collected
+def non_empty(lines):
+    for line in lines:
+        if line.strip():
+            yield line
+```
+
+A second mistake is checking the count after pulling one more item than needed: on a shared iterator, that item is lost to the next reader.
 
 ## When to choose it
 

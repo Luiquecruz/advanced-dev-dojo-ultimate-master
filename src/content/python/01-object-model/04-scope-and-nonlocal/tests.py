@@ -25,6 +25,7 @@ def _():
     assert first() == 2
 
 
+# beginner mistake: assigning the counter in reset without nonlocal, which creates a new local and leaves the counter unchanged
 @test("reset restores the starting value")
 def _():
     next_value, reset = mod.make_counter(7)

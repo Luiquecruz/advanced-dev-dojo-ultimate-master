@@ -13,22 +13,6 @@ def merge(paths):
 
 `enter_context(manager)` calls `manager.__enter__()`, registers its `__exit__`, and returns what `__enter__` returned. `callback(function, *args)` registers a plain function, which never sees the exception and cannot suppress it. `push(exit_function)` registers an `__exit__`-shaped callback without entering anything.
 
-## Coming from TypeScript and JavaScript
-
-Without a stack, the JavaScript habit is an array and a loop in `finally`:
-
-```ts
-const opened: Resource[] = [];
-try {
-  for (const open of openers) opened.push(open());
-  work(opened);
-} finally {
-  for (const resource of opened) resource.close();   // forward order, stops at the first throw
-}
-```
-
-Ported to Python, that loop has two bugs. It closes in **opening order**, so the export file is closed before the broker channel that still writes to it. And if one `close()` raises, the loop stops and every later resource stays open, holding its lock. The newer JavaScript `DisposableStack` (`use`, `defer`, `move`, `dispose`) fixes both and is the direct counterpart of `ExitStack`.
-
 ## How it works
 
 - **Partial failure**: inside `with ExitStack() as stack:`, a failing opener raises out of the block, and the stack closes everything entered so far. No bookkeeping of "how far did we get".
@@ -52,7 +36,31 @@ If any opener raises, `pop_all()` is never reached and the `with` closes what wa
 - `close()` reports "no exception" to every registered `__exit__`. Callbacks are **not** run when the stack is garbage collected, so always close it.
 - `AsyncExitStack` is the same tool for `async with` managers (module 10).
 
-> **Status as of November 2026:** MDN marks JavaScript's `DisposableStack` as not yet Baseline (limited availability). In Python 3.15 (October 2026) `enter_context` and `push` accept `__enter__`/`__exit__` implemented by arbitrary descriptors, matching the `with` statement; the dojo runs 3.14.
+> **Status as of November 2026:** in Python 3.15 (October 2026) `enter_context` and `push` accept `__enter__`/`__exit__` implemented by arbitrary descriptors, matching the `with` statement; the dojo runs 3.14.
+
+## Common mistakes
+
+**Closing resources by hand in a loop.** A list of opened managers closed in `finally` has two bugs. It closes in **opening order**, so the export file is closed before the broker channel that still writes to it. And if one `__exit__` raises, the loop stops and every later resource stays open, holding its lock.
+
+```py
+# wrong: forward order, and the first failing close leaves the rest open
+opened = []
+try:
+    for open_resource in openers:
+        manager = open_resource()
+        manager.__enter__()
+        opened.append(manager)
+    work()
+finally:
+    for manager in opened:
+        manager.__exit__(None, None, None)
+
+# right: reverse order, and every close is attempted
+with ExitStack() as stack:
+    for open_resource in openers:
+        stack.enter_context(open_resource())
+    work()
+```
 
 ## When to choose it
 

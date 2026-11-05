@@ -29,14 +29,14 @@ Map of list/tuple/dict/set/frozenset/deque/Counter, the sequence/mapping/set pro
 - Concept: `|`, `&`, `-`, `^`, subset/superset, `frozenset`, average O(1) membership, hashable-only members, `dict.fromkeys` for ordered dedupe.
 - Common mistake: `list(set(items))` to remove duplicates, which loses the original order; `list(dict.fromkeys(items))` keeps the first occurrence. Membership in a list scans every item, in a set it is a hash lookup.
 - Challenge: `access_report(roles, user_roles)` where `roles` maps role → set of permissions: returns `{"all": union, "common": intersection, "exclusive": symmetric difference, "missing": needed - union}` (needed passed as third parameter); `dedupe_keep_order(items)`; `unique_ids(*iterables)`.
-- Tests: union/intersection/exclusive/missing for a fixture; empty roles → empty sets; dedupe preserves first occurrence; unhashable item raises `TypeError`.
+- Tests: union/intersection/exclusive/missing for a fixture; empty roles → empty sets; dedupe preserves first occurrence, for strings and for ints (`[3, 1, 3, 2, 1]`, so `list(set(items))` fails whatever the hash seed); unhashable item raises `TypeError`.
 - Notes: behavior only; never assert timing.
 
 ### 05-sequence-protocol (P, I)
 - Concept: implementing `__len__` and `__getitem__` gives indexing, slicing, iteration fallback, `in`, `reversed`; slice objects; `collections.abc.Sequence` mixins.
 - Common mistake: a `__getitem__` that handles only `int` keys, so `deck[1:3]` passes a `slice` object it cannot use; check `isinstance(key, slice)` and build a new `Deck` from the sliced list.
 - Challenge: `class Deck` over an internal list: `len`, int index (including negative), slices returning a new `Deck`, `IndexError` for out of range, `TypeError` for other key types; iteration works without defining `__iter__`.
-- Tests: length; negative index; slice returns `Deck` with right items; iteration order; `reversed(deck)`; bad index raises `IndexError`.
+- Tests: length; negative index; slice returns `Deck` with right items; iteration order; `reversed(deck)`; bad index raises `IndexError`; the source defines no `__iter__` (checked with `ast`, not a regular expression).
 - Notes: optional second step: `class Deck(Sequence)` gives `index`/`count` for free.
 
 ### 06-collections-module (P, I)
@@ -100,10 +100,10 @@ Parameter kinds, modules, scope and closures, decorators, callable objects. One 
 - Notes: PEP 570 (3.8), PEP 3102.
 
 ### 05-mutable-default-arguments (P, B)
-- Concept: defaults evaluated once at definition; `None` sentinel; `dataclasses.field(default_factory=…)`; a private sentinel for `None` as a valid argument.
-- Common mistake: `def add(item, items=[])`, whose list is created once, when `def` runs, and shared by every call; default to `None` and create the list inside the function, or use `field(default_factory=list)` in a dataclass.
-- Challenge: fix `add_tag(tag, tags=[])`; fix `class Registry(items={})`; `@dataclass class Settings` with list and dict fields using `default_factory`; `request(path, headers=_UNSET)` where `None` means "send no headers" and `_UNSET` means "use defaults".
-- Tests: independent calls; independent `Registry` instances; two `Settings` do not share lists; `None` vs unset behavior.
+- Concept: defaults evaluated once at definition; `None` sentinel; a defensive copy of a passed-in container; a private sentinel for `None` as a valid argument. The dataclass form, `field(default_factory=list)`, is taught in `04-classes/05-dataclasses`.
+- Common mistake: `def add(item, items=[])`, whose list is created once, when `def` runs, and shared by every call; default to `None` and create the list inside the function.
+- Challenge (3 fixes): fix `add_tag(tag, tags=[])`; fix `class Registry(items={})`; `request(path, headers=_UNSET)` where `None` means "send no headers" and `_UNSET` means "use defaults".
+- Tests (4): independent calls; independent `Registry` instances; `None` vs unset behavior; `request` never hands out the module default headers object.
 - Notes: `inspect.signature(f).parameters["tags"].default` can reveal the shared list (use in theory only).
 
 ### 06-closures-and-late-binding (P, I)
@@ -131,7 +131,7 @@ Merges the 115-plan lessons `06-decorators` and the `wraps` half of `07-functool
 ### 09-callables-partial-and-cache (P, I)
 Takes the 115-plan lesson `09-callable-objects-and-partial` plus the cache half of `07-functools-wraps-and-cache`.
 - Concept: `__call__`, `functools.partial/partialmethod`, `operator.itemgetter/attrgetter`, `singledispatch`, `lru_cache`/`cache`, `cached_property`.
-- Common mistake: forgetting that `bool` is a subclass of `int`, so `singledispatch` sends `True` to the `int` handler unless `bool` is registered; and `@lru_cache` on a function that receives a list, which raises `TypeError: unhashable type`.
+- Common mistake: a `then()` that appends to `self` and returns it, so every derived pipeline aliases the base; build a new `Pipeline` instead. Also: forgetting that `bool` is a subclass of `int`, and writing `type(value) is int` by hand instead of registering handlers with `singledispatch`; `@lru_cache` on a function that receives a list raises `TypeError: unhashable type`.
 - Challenge: `class Pipeline(*steps)` callable applying steps in order, `.then(step)` returns a *new* pipeline; `render = singledispatch` function with registrations for `int`, `list`, and a fallback; `exchange_rate(currency)` decorated with `lru_cache(maxsize=2)` over a call counter; `class Report` with a `cached_property` `total` computed once.
 - Tests: pipeline immutability and call order; dispatch by type including subclass (`bool` → `int` handler unless registered); cache hits and eviction at `maxsize` via `cache_info()`; `cached_property` computed once per instance.
 - Notes: `functools.cache` is `lru_cache(maxsize=None)`; `cached_property` and free-threading: mention only.
@@ -168,7 +168,7 @@ Instance vs class attributes, lookup order, `__dict__`, descriptors, MRO. Quiz: 
 
 ### 03-properties (P, I)
 - Concept: `@property`, setter, deleter, read-only and computed attributes; start with public attributes and add properties later; `property` is a descriptor.
-- Common mistake: storing the value under the property's own name inside its setter (`self.celsius = value`), which calls the setter again and raises `RecursionError`; store it in a private attribute such as `self._celsius`.
+- Common mistake: assigning `self._celsius` directly in `__init__`, which skips the setter's validation on construction; assign `self.celsius` so every write path validates. Storing the value under the property's own name inside its setter (`RecursionError`) stays in "How it works".
 - Challenge: `class Temperature` with `celsius` (validated ≥ −273.15), read/write `fahrenheit`, read-only `kelvin`, deleter resets to 0.
 - Tests: conversions; validation error; `AttributeError` assigning `kelvin`; `isinstance(Temperature.celsius, property)`; deleting resets.
 
@@ -182,18 +182,20 @@ Merges the 115-plan lessons `04-descriptors` and `05-set-name`: `__set_name__` i
 
 ### 05-dataclasses (P, I)
 - Concept: `@dataclass` options (`frozen`, `order`, `slots`, `kw_only`), `field`, `__post_init__`, `InitVar`, `replace`, `asdict`.
-- Common mistake: a mutable default such as `tags: list[str] = []`, which `@dataclass` rejects with `ValueError`; use `field(default_factory=list)`. The generated `__init__` checks no types at runtime.
+- Common mistake: `copy.copy` plus `object.__setattr__` to change a field of a frozen object, which skips the `__post_init__` validation; use `dataclasses.replace`, which calls `__init__` and so `__post_init__`. The mutable default (`tags: list[str] = []`, rejected with `ValueError`; use `field(default_factory=list)`) stays in "How it works": no single test can catch it, because the class fails to build.
 - Challenge: `@dataclass(frozen=True, order=True) class Product` with validation in `__post_init__` and `tags` default factory; `with_price(product, price)` using `replace`.
 - Tests: frozen assignment raises `FrozenInstanceError`; ordering by fields; validation; tags not shared; `replace` keeps other fields.
 
 ### 06-slots (P, I)
 - Concept: `__slots__` removes `__dict__`, blocks new attributes, saves memory; subclasses without `__slots__` regain `__dict__`; `dataclass(slots=True)`.
+- Common mistake: a subclass with no `__slots__` of its own, so its instances get a `__dict__` back; each class declares `__slots__` with only the names it adds.
 - Challenge: `class Point3D` with slots; a slotted child; `@dataclass(slots=True) class Pixel`.
 - Tests: no `__dict__`; assigning an unknown attribute raises `AttributeError`; child without slots has `__dict__`; dataclass slots instance has no `__dict__`.
 - Notes: do not assert byte sizes. Comes after 05-dataclasses, so `@dataclass(slots=True)` uses a decorator already taught.
 
 ### 07-data-model-methods (P, I)
 - Concept: `__repr__`/`__str__`/`__format__`, `__eq__`/`__hash__`, `__lt__` with `total_ordering`, `NotImplemented`, `__bool__`, `__add__`/`__radd__`.
+- Common mistake: `__eq__` without a matching `__hash__`, which sets `__hash__` to `None`, so `Money` cannot go into a set or be a dict key; hash exactly the fields that equality compares.
 - Challenge: `class Money` (cents + currency) with repr that round-trips (`eval`-free: compare `repr(m)` string), `format(m, ".2f")`-style `__format__`, ordering within a currency (`TypeError` across currencies), `+` returning `NotImplemented` for non-Money, hash/eq consistent.
 - Tests: set dedupe; `sorted`; cross-currency compare/add raises `TypeError`; `Money + 1` raises `TypeError`; `sum([...], start=Money.zero("EUR"))` works.
 

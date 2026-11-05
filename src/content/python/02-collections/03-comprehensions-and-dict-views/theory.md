@@ -9,7 +9,11 @@ pairs = [(x, y) for x in range(2) for y in "ab"]       # two loops, read left to
 
 The shape is `expression for target in iterable if condition`. A comprehension runs in **its own scope**: the loop variable does not leak into the surrounding function.
 
-## Dict views are live
+## How it works
+
+A comprehension reads like the loop it replaces: `[f(x) for x in items if ok(x)]` is a loop that appends `f(x)` for each `x` that passes the condition. Several `for` clauses nest from left to right. Keep a comprehension to **one idea**: more than two loops or conditions belong in a normal `for` loop with a name, and `[f(x) for x in items]` written only for its side effects builds a useless list.
+
+### Dict views are live
 
 `mapping.keys()`, `.values()` and `.items()` do not return lists. They return **views** that reflect later changes.
 
@@ -29,25 +33,26 @@ left.keys() & right.keys()     # {'b'}
 left.keys() - right.keys()     # {'a'}
 ```
 
-Take a snapshot with `list(view)` when you need one, for example before mutating the dict while iterating.
+Take a snapshot with `list(view)` when you need one. Adding or removing keys while iterating over a dict (or one of its views) raises `RuntimeError`, so iterate over `list(mapping)` when the loop deletes keys. Assigning a new value to an existing key is allowed.
 
-## Coming from TypeScript and JavaScript
+## Common mistakes
 
-```ts
-const squares = [0, 1, 2].map((n) => n * n);
-const inverted = Object.fromEntries(Object.entries(map).map(([k, v]) => [v, k]));
-const keys = Object.keys(map);       // a snapshot array
+**Inverting a mapping with a dict comprehension.** A dict holds one value per key, so when two keys share a value, the later one silently overwrites the earlier one:
+
+```py
+roles = {"u1": "admin", "u2": "admin", "u3": "guest"}
+{role: user for user, role in roles.items()}
+# wrong: {'admin': 'u2', 'guest': 'u3'}, u1 is lost
+
+by_role = {}
+for user, role in roles.items():
+    by_role.setdefault(role, set()).add(user)
+# right: {'admin': {'u1', 'u2'}, 'guest': {'u3'}}
 ```
 
-- A comprehension replaces chained `map`/`filter` and `Object.fromEntries(...)` with one readable expression.
-- `Object.keys` returns a **copy**; a Python `keys()` is a **live view** with set operators.
-- Inverting a mapping silently overwrites duplicate values in both languages. In Python you decide what to do: collect into sets, or raise.
+`setdefault(key, default)` returns the value stored under `key`, inserting `default` first when the key is missing, so each role gets its own set.
 
-## Pitfalls
-
-- Adding or removing keys while iterating over a dict (or one of its views) raises `RuntimeError`. Iterate over `list(mapping)` instead. Assigning a new value to an existing key is allowed.
-- Keep a comprehension to **one idea**. More than two loops or conditions belongs in a normal `for` loop with a name.
-- `[f(x) for x in items]` just for side effects builds a useless list; use a loop.
+**Copying a view by accident.** `list(mapping.keys())` is a snapshot that never sees later keys; return `mapping.keys()` itself when the caller needs the live view.
 
 ## When to choose it
 

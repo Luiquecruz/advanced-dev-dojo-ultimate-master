@@ -14,7 +14,7 @@
     "question": "A consumer runs `chunks = pipeline(source)`, then `for chunk in chunks: send(chunk); break`, and keeps using `chunks` later. Has the pipeline's `finally` block run?",
     "options": [
       "No: `break` leaves the generator paused until `close()` is called or it is garbage collected",
-      "Yes: `break` calls the generator's `close()`, like `return()` in JavaScript",
+      "Yes: `break` calls the generator's `close()` on the way out of the loop",
       "Yes: a `for` loop always exhausts the generator",
       "No, and it never will: `finally` does not run in generators"
     ],

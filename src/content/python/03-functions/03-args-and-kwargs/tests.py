@@ -20,6 +20,7 @@ class Flaky:
         return "ok"
 
 
+# beginner mistake: function(args, kwargs) passes one tuple and one dict instead of unpacking them
 @test("forward unpacks positional and keyword arguments into the call")
 def _():
     result, record = mod.forward(price, 10, 3, discount=5)

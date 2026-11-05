@@ -15,19 +15,9 @@ counter = make_counter()
 counter(); print(counter())   # 2: `count` lives on after make_counter returned
 ```
 
-## Coming from TypeScript and JavaScript
+## How it works
 
-In modern JavaScript, `let` in a `for` loop creates a **new binding per iteration**, so callbacks built in a loop each see their own value. Only the old `var` shared one variable:
-
-```ts
-const handlers = [];
-for (const name of ["ada", "linus"]) {
-  handlers.push(() => `hello ${name}`);
-}
-handlers.map((handler) => handler());   // ["hello ada", "hello linus"]
-```
-
-Python loops and comprehensions behave like `var`. A `for` loop variable is **one** variable of the enclosing scope, and a comprehension variable is one variable of the comprehension's own scope; either way it is rebound on each iteration, never created anew. Every lambda closes over that same variable and reads it when called, after the loop has finished:
+A `for` loop variable is **one** variable of the enclosing scope, and a comprehension variable is one variable of the comprehension's own scope. Either way it is rebound on each iteration, never created anew. Every lambda built in the loop closes over that same variable and reads it when called, after the loop has finished:
 
 ```py
 handlers = [lambda: f"hello {name}" for name in ["ada", "linus"]]
@@ -35,8 +25,6 @@ handlers = [lambda: f"hello {name}" for name in ["ada", "linus"]]
 ```
 
 This is **late binding**: names in a closure are looked up at call time, not at definition time.
-
-## How it works
 
 Variables that an inner function uses are stored in **cells**. The inner function's `__closure__` holds references to those cells, so it sees every later rebinding:
 
@@ -64,9 +52,25 @@ The factory is the clearest. The default-argument trick works but leaks an optio
 
 Pitfalls:
 
-- Using the result as the "already ran" flag (`if result is None`) breaks when the function legitimately returns `None`. Keep a separate boolean.
 - If the first call raises, assign the flag only **after** the call succeeds, or the wrapper will return a value that was never computed.
 - Closing over a mutable object (a list) and mutating it needs no `nonlocal`; rebinding the name does.
+
+## Common mistakes
+
+**Building callbacks in a loop that read the loop variable.** Each one looks the name up when it runs, so every callback sees the last value:
+
+```py
+# wrong: both handlers return "hello linus"
+handlers = [lambda: f"hello {name}" for name in ["ada", "linus"]]
+
+# right: each factory call creates a new scope that holds its own name
+def make_greeter(name):
+    return lambda: f"hello {name}"
+
+handlers = [make_greeter(name) for name in ["ada", "linus"]]
+```
+
+**Testing `if result is None` to decide whether a run-once wrapper already ran.** A function that legitimately returns `None` is then called again every time; keep a separate `called` flag.
 
 ## When to choose it
 

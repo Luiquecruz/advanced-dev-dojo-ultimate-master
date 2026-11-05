@@ -21,6 +21,7 @@ def _():
     assert other_calls == 1
 
 
+# beginner mistake: a bare wrapper without functools.wraps replaces the name, docstring and signature with its own
 @test("decorated functions keep the original name, docstring, __wrapped__ and signature")
 def _():
     for decorator in (mod.count_calls, mod.require_positive):

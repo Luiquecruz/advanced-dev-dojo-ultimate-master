@@ -1,18 +1,15 @@
-from collections import defaultdict
-
-
 def invert(mapping):
-    inverted = defaultdict(set)
+    inverted = {}
     for key, value in mapping.items():
-        inverted[value].add(key)
-    return dict(inverted)
+        inverted.setdefault(value, set()).add(key)
+    return inverted
 
 
 def group_by(items, key):
-    groups = defaultdict(list)
+    groups = {}
     for item in items:
-        groups[key(item)].append(item)
-    return dict(groups)
+        groups.setdefault(key(item), []).append(item)
+    return groups
 
 
 def shared_keys(first, second):

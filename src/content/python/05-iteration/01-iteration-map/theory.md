@@ -22,21 +22,21 @@ big = (amount for amount in orders if amount > 20)
 print(sum(big), sum(big))          # 65 0: the generator is exhausted after one pass
 ```
 
-## Coming from TypeScript and JavaScript
+A `break` inside a `for` loop only stops pulling. A generator left behind stays paused, holding whatever it opened, until it is closed or garbage collected (lesson 07).
 
-- A JavaScript iterator returns `{ value, done }`. A Python `__next__` returns the value itself and signals the end by **raising** `StopIteration`; `for`, `list()` and `sum()` catch it for you.
-- Array methods (`map`, `filter`, `slice`) build new arrays. Python's `map`, `filter`, `zip` and `enumerate` return **one-shot iterators**: the second loop over the same `map(...)` sees nothing.
-- `break` inside `for...of` calls the iterator's `return()`. A Python `break` only stops pulling: a generator stays paused until it is closed or garbage collected.
+## Reading the starters
+
+The starters annotate their functions, and two forms are new here. `def take[T](count: int, iterable: Iterable[T]) -> Iterator[T]` declares a **type parameter** `T` in the square brackets: it stands for "the type of the items", so the signature says the iterator hands out items of the same type the iterable holds. `type Record = dict[str, str]` creates a **type alias**, a short name for a longer annotation, so later signatures can write `Record`. Neither form changes what the code does when it runs; module 09 covers them.
 
 ## The path
 
-1. The iterator protocol: a re-iterable `Paginator` and a one-shot `LineReader`.
-2. Generators: `yield`, suspended frames and infinite sequences.
-3. Generator expressions and short-circuiting with `next`, `any` and `sum`.
-4. `yield from`, `send`, `close` and the generator's return value.
-5. `itertools` for batching, runs, running totals and transitions.
-6. Lazy pipelines, the closing code challenge.
-7. An ADR: batch size and passes for a large export, computed from a memory budget and a time window.
+2. The iterator protocol: a re-iterable `Paginator` and a one-shot `LineReader`.
+3. Generators: `yield`, suspended frames and infinite sequences.
+4. Generator expressions and short-circuiting with `next`, `any` and `sum`.
+5. `yield from`, `send`, `close` and the generator's return value.
+6. `itertools` for batching, runs, running totals and transitions.
+7. Lazy pipelines, the closing code challenge.
+8. An ADR: batch size and passes for a large export, computed from a memory budget and a time window.
 
 ## When to choose it
 

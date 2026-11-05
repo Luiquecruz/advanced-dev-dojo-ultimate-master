@@ -10,9 +10,9 @@ print(first == second)   # True: same contents
 print(first is second)   # False: two different list objects
 ```
 
-## Use `is` for singletons, `==` for values
+## How it works
 
-`None`, `True`, `False` and your own sentinels are singletons, so `is` is the right check and cannot be fooled by an unusual `__eq__`.
+`None`, `True`, `False` and your own sentinels are **singletons**: only one object of each exists. `is` is the right check for them and cannot be fooled by an unusual `__eq__`.
 
 ```py
 if value is None:
@@ -28,15 +28,7 @@ def lookup(mapping, key, default=MISSING):
     return default          # `None` is a legitimate default
 ```
 
-Never compare numbers or strings with `is`. CPython caches small integers and may reuse equal string objects, so `a is b` can be `True` for `100` and `False` for `1000`. That is an **implementation detail**, not a guarantee, and the compiler warns when you write `is` against a literal.
-
-## Coming from TypeScript and JavaScript
-
-- JS `===` compares primitives by value and objects by reference. Python splits that into `==` (value, customizable) and `is` (identity).
-- JS `==` coerces (`1 == "1"` is `true`). Python's `==` does not coerce across unrelated types: `1 == "1"` is `False`.
-- JS has `null` and `undefined`; Python has one `None`. Test it with `is None`.
-
-## Defining equality
+`==` never converts between unrelated types: `1 == "1"` is `False`. Numbers of different types still compare by value (`1 == 1.0` is `True`).
 
 A class that defines `__eq__` must keep two rules: equal objects have equal hashes, and `__eq__` should return `NotImplemented` for types it does not understand so Python can try the other operand.
 
@@ -58,6 +50,19 @@ class Money:
 If you define `__eq__` without `__hash__`, Python sets `__hash__` to `None` and instances become unhashable. Hash only fields that do not change.
 
 `float("nan") == float("nan")` is `False`: equality is not always reflexive.
+
+## Common mistakes
+
+**Comparing numbers or strings with `is`.** CPython keeps one shared object for each small integer (-5 to 256) and may reuse equal string objects, a behavior called **interning**. So `a is b` can be `True` for `100` and `False` for `1000` computed at run time, and the code passes every small test and fails in production. That is an implementation detail, not a guarantee, and the compiler warns when you write `is` against a literal.
+
+```py
+if first.amount is second.amount:   # wrong: identity, true only by luck
+    ...
+if first.amount == second.amount:   # right: equal values
+    ...
+```
+
+**Testing absence with `== None`.** A class with a custom `__eq__` can claim to equal `None`. Write `value is None`.
 
 ## When to choose it
 

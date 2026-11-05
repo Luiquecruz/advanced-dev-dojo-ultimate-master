@@ -2,7 +2,7 @@
   {
     "question": "`Lock.__enter__` acquires the lock but has no `return` statement. What is `held` inside `with Lock() as held:`?",
     "options": [
-      "The `Lock` instance, like `using held = new Lock()`",
+      "The `Lock` instance, because `as` binds the manager itself",
       "`None`",
       "`True`, because the lock was acquired",
       "A `TypeError` is raised"

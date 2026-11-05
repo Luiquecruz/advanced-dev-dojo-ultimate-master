@@ -12,10 +12,10 @@ Return a **hashable, immutable** equivalent of `value`:
 
 `freeze` never modifies its input.
 
-## `memoize_by_value(function)`
+## `cache_key(args, kwargs)`
 
-Return a wrapper that caches results by the **values** of the arguments, so calls with equal lists or dicts reuse the cache:
+Return a hashable key for one function call, so a cache can recognize calls made with equal arguments:
 
-- The key is built from `freeze(args)` and `freeze(kwargs)`.
-- The wrapper has an attribute `calls`: how many times the real `function` ran.
-- Positional and keyword arguments both take part in the key.
+- `args` is a tuple of positional arguments and `kwargs` a dict of keyword arguments, for example `cache_key(([1, 2],), {"scale": 2})`.
+- The key is `(freeze(args), freeze(kwargs))`.
+- Two calls with equal arguments give equal keys, whatever the order of the keyword arguments; different arguments give different keys.

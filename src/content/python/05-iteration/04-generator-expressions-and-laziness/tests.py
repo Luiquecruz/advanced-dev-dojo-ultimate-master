@@ -36,6 +36,7 @@ def is_small(record):
     return record["amount"].value < 50
 
 
+# beginner mistake: first_match builds a list comprehension and takes [0], so the predicate runs on every item
 @test("first_match returns the first matching item and evaluates nothing after it")
 def _():
     predicate = Recorder(is_even)

@@ -10,6 +10,7 @@ async def _():
     assert isinstance(error, ValueError)
 
 
+# beginner mistake: slicing the text by characters (text[:max_bytes]) when the limit counts UTF-8 bytes
 @test("truncate_utf8 cuts by bytes without splitting a character")
 def _():
     assert mod.truncate_utf8("añb", 2) == "a"

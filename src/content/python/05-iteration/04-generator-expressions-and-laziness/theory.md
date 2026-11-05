@@ -9,24 +9,6 @@ print(sum(order["total"] for order in orders))             # 230, no list in bet
 print(any(order["total"] > 100 for order in orders))       # True, stops at order 2
 ```
 
-## Coming from TypeScript and JavaScript
-
-```ts
-const first = orders.filter((o) => o.total > 100)[0] ?? null;    // tests every order
-const hasBig = orders.map((o) => o.total > 100).some(Boolean);   // evaluates every order first
-```
-
-`find` and `some` short-circuit, but chains of `filter` and `map` build whole arrays before the last step runs. The direct translation keeps that cost, because square brackets build a list:
-
-```py
-first = [o for o in orders if o["total"] > 100][0]    # tests every order, IndexError when none match
-has_big = any([o["total"] > 100 for o in orders])      # the list is complete before any() sees it
-```
-
-Swap the brackets for parentheses and the same expressions become lazy: `next((o for o in orders if o["total"] > 100), None)` stops at the first match, and `any(o["total"] > 100 for o in orders)` stops at the first `True`.
-
-> **Status as of November 2026:** ECMAScript 2025 added iterator helpers (`Iterator.prototype.map`, `filter`, `take`, `find`, `some`), which give JavaScript lazy chains over iterators. Array methods are still eager, and they are what most code ports from.
-
 ## How it works
 
 - Creating a generator expression evaluates only the iterable of its first `for` clause: `(x for x in None)` raises `TypeError` at once, while `(missing_name for x in range(3))` fails only when iterated. Every other name is read late, when items are pulled: after `big = (n for n in values if n > limit)`, rebinding `limit` before the first `next()` changes what `big` yields.
@@ -36,6 +18,20 @@ Swap the brackets for parentheses and the same expressions become lazy: `next((o
 - A match can be falsy (`0`, `""`, `[]`). Pass the fallback as `next`'s default; `next(gen, None) or default` replaces a real match of `0` with the default.
 - Parentheses may be dropped only when the generator expression is the sole argument: `sorted(x for x in xs, reverse=True)` is a `SyntaxError` ("Generator expression must be parenthesized"); write `sorted((x for x in xs), reverse=True)`.
 - A generator has no `len()` and prints as `<generator object <genexpr> ...>`. Materialize with `list(...)` when you need to look at the values.
+
+## Common mistakes
+
+**Square brackets where parentheses belong.** A list comprehension is complete before the next step runs, so `[...][0]` tests every order to keep one, and `any([...])` evaluates every order before `any()` sees the first `True`. `[...][0]` also raises `IndexError` when nothing matches. Swap the brackets for parentheses and the same expressions stop early:
+
+```py
+# wrong: every order is tested, and IndexError when none match
+first = [order for order in orders if order["total"] > 100][0]
+has_big = any([order["total"] > 100 for order in orders])
+
+# right: stops at the first match, None when there is none
+first = next((order for order in orders if order["total"] > 100), None)
+has_big = any(order["total"] > 100 for order in orders)
+```
 
 ## When to choose it
 

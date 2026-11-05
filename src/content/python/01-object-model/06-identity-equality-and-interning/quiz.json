@@ -5,10 +5,10 @@
       "`x is None`",
       "`x == None`",
       "`not x`",
-      "`x == null`"
+      "`x == False`"
     ],
     "answer": 0,
-    "explanation": "`None` is a singleton, so `is None` is exact and cannot be affected by a custom `__eq__`. `not x` would also match `0`, `''` and `[]`."
+    "explanation": "`None` is a singleton, so `is None` is exact and cannot be affected by a custom `__eq__`. `not x` would also match `0`, `''` and `[]`, and `x == False` does not match `None` at all."
   },
   {
     "question": "What does `[] is []` evaluate to?",
@@ -25,7 +25,7 @@
     "question": "A teammate writes `if count is 1000:`. What is the right response?",
     "options": [
       "It is fine, `is` is faster",
-      "Use `===`",
+      "Compare the identities: `id(count) == id(1000)`",
       "Use `==`: whether two equal integers are the same object is a CPython implementation detail",
       "Convert `count` to a string first"
     ],

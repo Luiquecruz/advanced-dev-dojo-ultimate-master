@@ -14,41 +14,6 @@ while True:
 
 Two roles take part. The **iterable** (`pages`) owns the data and hands out iterators through `__iter__`. The **iterator** owns the position: `__next__` returns the next item or raises `StopIteration`, and its own `__iter__` returns `self`, so an iterator can be used wherever an iterable is expected.
 
-## Coming from TypeScript and JavaScript
-
-```ts
-class Paginator {
-  private index = 0;
-  constructor(private items: string[]) {}
-  [Symbol.iterator]() { return this; }          // the container is its own cursor
-  next() {
-    return this.index < this.items.length
-      ? { value: this.items[this.index++], done: false }
-      : { value: undefined, done: true };
-  }
-}
-```
-
-Two habits break when this shape is ported:
-
-- **Returning `this` from `[Symbol.iterator]()`**. The container becomes one-shot: the second loop sees nothing, and two nested loops share one position. JavaScript code rarely notices because arrays hand out fresh iterators. Python has the same bug when `__iter__` returns `self` on a container.
-- **The `{ value, done }` result**. Python has no result object. `__next__` returns the item and raises `StopIteration` when there is none. A `__next__` that returns `None` at the end yields `None` forever, and a `for` loop over it never stops.
-
-```py
-class Paginator:
-    def __init__(self, items):
-        self.items, self.index = items, 0
-
-    def __iter__(self):
-        return self                      # the container now holds the loop position
-
-    def __next__(self):
-        if self.index >= len(self.items):
-            return None                  # "done" as a value: the loop never ends
-        self.index += 1
-        return self.items[self.index - 1]
-```
-
 ## How it works
 
 - `iter(obj)` calls `type(obj).__iter__(obj)`. Without `__iter__` it falls back to the sequence protocol from module 02 (`__getitem__(0)`, `__getitem__(1)`... until `IndexError`); otherwise it raises `TypeError`.
@@ -61,6 +26,24 @@ class Paginator:
 - `iter(callable, sentinel)` builds an iterator from a function: `iter(stream.readline, "")` calls `readline` until it returns `""`.
 
 The next lesson shows the shortest way to return a fresh iterator: write `__iter__` as a generator.
+
+## Common mistakes
+
+**A container whose `__iter__` returns `self`.** The loop position then lives on the container, so a second loop finds it exhausted and two nested loops share one position. Keep the data on the container and hand out a new cursor:
+
+```py
+# wrong: the paginator is its own cursor
+class Paginator:
+    def __iter__(self):
+        return self              # the second loop sees nothing
+
+# right: every loop gets a fresh cursor
+class Paginator:
+    def __iter__(self):
+        return PageCursor(self.pages)
+```
+
+**Ending with a value instead of an exception.** A `__next__` that returns `None` when nothing is left hands out `None` forever, and a `for` loop over it never stops. Only `raise StopIteration` ends the loop.
 
 ## When to choose it
 

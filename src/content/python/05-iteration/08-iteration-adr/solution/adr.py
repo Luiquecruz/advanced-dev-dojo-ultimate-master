@@ -16,7 +16,7 @@ ADR = {
     ),
     "alternatives": [
         {
-            "option": "Lists between stages, as in the array-chain port",
+            "option": "Lists between stages, each stage finished before the next starts",
             "reason": "30 000 000 rows at 1 200 bytes are 36 000 MB, about 80 times the 448 MB ceiling.",
         },
         {

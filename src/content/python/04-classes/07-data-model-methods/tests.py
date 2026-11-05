@@ -15,6 +15,7 @@ def _():
     assert plain == "10.50 EUR"
 
 
+# beginner mistake: __eq__ without a matching __hash__ sets __hash__ to None, so Money cannot go into a set
 @test("equal amounts collapse in a set and other currencies or types are never equal")
 def _():
     unique = {eur(100), eur(100), mod.Money(100, "eur"), eur(250)}

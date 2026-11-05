@@ -26,21 +26,13 @@ second = itemgetter(1)               # lambda row: row[1]
 by_name = attrgetter("name")         # lambda user: user.name
 ```
 
-## Coming from TypeScript and JavaScript
+## How it works
 
-JavaScript classes cannot be called, so a configurable function becomes an object with a `run()` or `execute()` method, and fluent builders usually **mutate** `this` and return it:
+An object with `__call__` is used exactly like a function: it can be passed to `map`, `sorted(key=...)` or any API that expects a callable. Unlike a closure, its configuration stays visible (`ten_off.percent`), so it can be inspected, compared and extended. A builder method such as `then` should return a **new** object instead of changing `self`, so every derived pipeline is independent.
 
-```ts
-class Pipeline {
-  steps: Array<(v: unknown) => unknown> = [];
-  then(step: (v: unknown) => unknown) { this.steps.push(step); return this; }
-  run(value: unknown) { return this.steps.reduce((v, step) => step(v), value); }
-}
-```
+### Dispatch by type
 
-In Python, define `__call__` and the object is used exactly like a function: no `run()`, and it can be passed to `map`, `sorted(key=...)` or any API that expects a callable. And make `then` return a **new** object: a mutating builder means `base.then(a)` and `base.then(b)` silently share and change `base`, the same aliasing trap as module 01.
-
-The second habit is overloading by hand with `typeof`/`instanceof` chains. `functools.singledispatch` picks an implementation from the type of the first argument, following the class hierarchy:
+`functools.singledispatch` turns a function into a **generic function**: it picks an implementation from the type of the first argument. The decorated function is the fallback, and `@render.register` adds a handler for the type named in the handler's annotation. The lookup follows the class hierarchy, so a subclass uses its parent's handler unless it has its own:
 
 ```py
 from functools import singledispatch
@@ -53,10 +45,14 @@ def render(value):
 def _(value: int):
     return f"#{value}"
 
+render(7)      # "#7"
 render(True)   # "#True": bool is a subclass of int, so the int handler wins
+render("x")    # "<str>": no handler for str, so the fallback runs
 ```
 
-## How it works: caches
+Handlers can live in other modules, so new types can be supported without editing an `if` chain. This is one of the few places where an annotation changes behavior: `register` reads it to know the type.
+
+### Caches
 
 - `@lru_cache(maxsize=128)` memoizes a function by its arguments (which must be hashable). When full, it evicts the **least recently used** entry. `cache_info()` reports `hits`, `misses`, `maxsize` and `currsize`, and `cache_clear()` empties it. `@cache` is `lru_cache(maxsize=None)`: unbounded.
 - `@cached_property` runs a method on first access and stores the result in the **instance's `__dict__`** under the same name, so later reads never call it again. Delete the attribute to recompute. It needs instances with a `__dict__` (no `__slots__` without it).
@@ -68,6 +64,23 @@ Pitfalls:
 - `singledispatch` dispatches on the **first** argument only; use `singledispatchmethod` for methods.
 
 > **Status as of November 2026:** Python 3.14 added `functools.Placeholder` to reserve positional slots in `partial`, as in `partial(str.replace, Placeholder, " ", "-")`. Since 3.12 `cached_property` no longer takes a lock, so concurrent first accesses may compute the value twice.
+
+## Common mistakes
+
+**A builder method that changes `self` and returns it.** Every pipeline derived from the same base is then one object, and each `then` call adds a step to all of them:
+
+```py
+# wrong: shouting and whispering are base, with both steps appended
+def then(self, step):
+    self._steps.append(step)
+    return self
+
+# right: a new pipeline; base keeps its own steps
+def then(self, step):
+    return Pipeline(*self._steps, step)
+```
+
+**Checking `type(value) is int` by hand instead of dispatching.** The check rejects subclasses such as `bool`, and every new type means editing the same function.
 
 ## When to choose it
 

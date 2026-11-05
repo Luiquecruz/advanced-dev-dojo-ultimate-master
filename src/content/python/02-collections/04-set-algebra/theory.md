@@ -19,7 +19,9 @@ a.union(["admin", "ops"])      # fine
 a | ["admin"]                  # TypeError
 ```
 
-## Building and freezing
+## How it works
+
+A set stores each item in a slot chosen by the item's hash, so `x in some_set` jumps to one slot instead of comparing `x` with every element, as `x in some_list` must. That is why set members must be hashable: `{[1, 2]}` raises `TypeError: unhashable type: 'list'`. The slot layout has nothing to do with insertion order, so a set is **unordered**: iteration order is not guaranteed.
 
 ```py
 empty = set()          # {} is an empty dict, not a set
@@ -27,31 +29,19 @@ unique = set(["a", "b", "a"])          # {'a', 'b'}
 frozen = frozenset({"read", "write"})  # immutable and hashable: a valid dict key
 ```
 
-A set is **unordered**: do not rely on iteration order. To remove duplicates **and keep order**, use a dict, which preserves insertion order:
+`a | b` and `a.union(b)` return **new** sets, but `a |= b` changes `a` in place. Returning one of the input sets hands the caller a reference into your data. `set.intersection(*sets)` with **no** sets raises `TypeError`, so guard the empty case.
+
+## Common mistakes
+
+**Removing duplicates with `list(set(items))` when the order matters.** The duplicates disappear, and so does the order of the items. A dict keeps insertion order and its keys are unique, so it removes duplicates and keeps the first occurrence:
 
 ```py
-list(dict.fromkeys(["b", "a", "b", "c"]))   # ['b', 'a', 'c']
+items = [3, 1, 3, 2, 1]
+list(set(items))             # wrong: [1, 2, 3], the original order is gone
+list(dict.fromkeys(items))   # right: [3, 1, 2]
 ```
 
-Elements must be hashable. `{[1, 2]}` raises `TypeError: unhashable type: 'list'`.
-
-## Coming from TypeScript and JavaScript
-
-```ts
-const union = new Set([...a, ...b]);
-const inter = [...a].filter((x) => b.has(x));
-```
-
-- Python has had set operators for decades. Recent JavaScript engines added `Set.prototype.union`, `intersection` and friends, but code often still spells them out with spreads and filters.
-- JavaScript's `Set` keeps insertion order; Python's does not guarantee any order.
-- `array.includes(x)` in a loop is O(n) per check. In Python `x in some_set` is the fast path; `x in some_list` has the same cost problem.
-
-## Pitfalls
-
-- `{}` is a dict. Use `set()` for an empty set.
-- `set.intersection(*sets)` with **no** sets raises `TypeError`; guard the empty case.
-- Do not expect `sorted(set)` order to match insertion order.
-- `a | b` and `a.union(b)` return new sets, but `a |= b` changes `a` in place. Returning one of the input sets hands the caller a reference into your data.
+**Writing `{}` for an empty set.** `{}` is an empty dict; `set()` is the empty set.
 
 ## When to choose it
 

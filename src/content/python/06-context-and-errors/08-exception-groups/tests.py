@@ -65,6 +65,7 @@ def _():
     assert calls == ["amount", "currency"]
 
 
+# beginner mistake: handle filters group.exceptions with isinstance, which misses the members of nested groups
 @test("handle counts each handled type separately, including nested groups and subclasses")
 def _():
     group = ExceptionGroup("validation failed", [

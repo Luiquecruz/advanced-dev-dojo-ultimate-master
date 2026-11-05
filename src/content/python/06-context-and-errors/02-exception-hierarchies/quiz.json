@@ -37,7 +37,7 @@
     "options": [
       "A `RuntimeError` with that message",
       "`TypeError: exceptions must derive from BaseException`",
-      "The string is raised, like `throw \"card declined\"` in JavaScript",
+      "The string itself is raised as the exception",
       "A `SyntaxError`"
     ],
     "answer": 1,

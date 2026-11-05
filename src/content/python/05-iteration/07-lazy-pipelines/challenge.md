@@ -1,4 +1,4 @@
-The module's closing challenge. An alerting job reads a service log, keeps the `ERROR` lines and sends them to a pager API in chunks. The log can be huge, the pager often stops the job after the first chunk, and the log handle must be released however the job ends. The starter was ported from array chains: every stage builds a list, and nothing closes the source.
+The module's closing challenge. An alerting job reads a service log, keeps the `ERROR` lines and sends them to a pager API in chunks. The log can be huge, the pager often stops the job after the first chunk, and the log handle must be released however the job ends. In the starter every stage builds a list, and nothing closes the source.
 
 Build in `main.py`:
 

@@ -23,39 +23,35 @@ class LowerDict(MutableMapping):
         return len(self._data)
 ```
 
-From those five methods the ABC provides `get`, `pop`, `popitem`, `clear`, `update`, `setdefault`, `keys`, `values`, `items`, `__contains__` and `__eq__`, all routed through **your** `__getitem__` and `__setitem__`.
+## How it works
 
-## Why not subclass `dict`?
+`MutableMapping` is an **abstract base class**: it declares the five methods above as abstract, so instantiating a subclass that misses one raises `TypeError`. From those five methods the ABC provides `get`, `pop`, `popitem`, `clear`, `update`, `setdefault`, `keys`, `values`, `items`, `__contains__` and `__eq__`, all routed through **your** `__getitem__` and `__setitem__`. One rule written once, such as lowercasing the key, therefore applies to every operation.
 
-`dict` is implemented in C. Several of its methods do not call your overridden `__getitem__` or `__setitem__`:
+`__iter__` must return an **iterator**, the object a `for` loop pulls items from one at a time. `iter(self._data)` asks the inner dict for one, and a dict's iterator yields its keys, so `for key in headers` walks the stored keys in insertion order.
+
+Design notes:
+
+- Store the **original-cased key** next to the value (`{lower: (original, value)}`) when users expect to see the key they wrote.
+- Make iteration yield what users expect, and keep `__len__` consistent with it.
+- Keep your own state private; do not expose the inner dict.
+- Provide `__repr__` and `copy()` for debugging and convenience.
+
+## Common mistakes
+
+**Subclassing `dict` to change how keys are stored.** `dict` is implemented in C, and several of its methods (`update`, `setdefault`, `get`, the constructor) work directly on its internal table without calling your overridden `__getitem__` or `__setitem__`, so the rule is silently skipped:
 
 ```py
-class BadLowerDict(dict):
+class BadLowerDict(dict):         # wrong: dict methods bypass the override
     def __setitem__(self, key, value):
         super().__setitem__(key.lower(), value)
 
 d = BadLowerDict()
 d.update({"Content-Type": 1})     # bypasses __setitem__
 print(list(d))                    # ['Content-Type']  not lowercased
+
+class LowerDict(MutableMapping):  # right: every operation goes through your methods
+    ...
 ```
-
-`update`, `setdefault`, `__init__` and others work directly on the C structure. An ABC-based mapping routes every operation through the methods you defined, so one rule (case-insensitive keys) applies everywhere.
-
-## Coming from TypeScript and JavaScript
-
-```ts
-const headers = new Proxy({}, { get: (t, k) => t[String(k).toLowerCase()] });
-```
-
-- JavaScript reaches for `Proxy` or `Map` wrappers. Python expresses the same idea as a protocol with a ready-made base class.
-- `Headers` in the Fetch API is case-insensitive by design; in Python you build that behavior yourself, as many HTTP libraries do.
-
-## Design notes
-
-- Store the **original-cased key** next to the value (`{lower: (original, value)}`) when users expect to see the key they wrote.
-- Make iteration yield what users expect, and keep `__len__` consistent with it.
-- Keep your own state private; do not expose the inner dict.
-- Provide `__repr__` and `copy()` for debugging and convenience.
 
 ## When to choose it
 

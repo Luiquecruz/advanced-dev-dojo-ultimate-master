@@ -1,4 +1,4 @@
-A log tool for a billing service sends events in chunks, reports how long the service stayed in each state, keeps running totals of charges and lists every state change. The starter was ported from JavaScript with slicing and an `Object.groupBy`-style counter. Rewrite the four functions in `main.py` with `itertools`.
+A log tool for a billing service sends events in chunks, reports how long the service stayed in each state, keeps running totals of charges and lists every state change. The starter slices lists and counts statuses in a dict, so it fails on generators and merges runs that are apart. Rewrite the four functions in `main.py` with `itertools`.
 
 Events are dicts with a `"status"` key and other keys the functions ignore, such as a timestamp that differs on every event. Every function accepts any iterable, including a generator.
 

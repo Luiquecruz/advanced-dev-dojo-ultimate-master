@@ -12,6 +12,7 @@ def _():
     assert result is cart
 
 
+# beginner mistake: returning the cart itself (saved = cart) instead of a new list, so later appends show up in the snapshot
 @test("snapshot is a new list that ignores later changes to the cart")
 def _():
     cart = ["book"]

@@ -48,10 +48,10 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 
 - Concept: mutable and immutable types; why only hashable (effectively immutable) objects can be dict keys or set members; `tuple` is immutable but may hold mutable items, so it may be unhashable.
 - Common mistake: using a list, or a tuple that holds a list, as a dict key or set member, which raises `TypeError: unhashable type: 'list'`; convert it to a `tuple` or `frozenset` first, recursively.
-- Challenge: **`freeze` and `memoize_by_value`** (`main.py`).
+- Challenge: **`freeze` and `cache_key`** (`main.py`).
   - `freeze(value)`: returns a hashable, immutable equivalent: `list`/`tuple` → `tuple` (recursively), `set` → `frozenset`, `dict` → `frozenset` of `(key, frozen_value)` pairs, scalars (`int`, `float`, `str`, `bytes`, `bool`, `None`) unchanged. Any other type raises `TypeError` whose message contains the type name. The input is never modified.
-  - `memoize_by_value(function)`: returns a wrapper that caches results by `freeze(args)` and `freeze(sorted kwargs items)`, so calls with equal lists or dicts reuse the cache. The wrapper exposes `calls` (number of real executions of `function`).
-- Tests (6): freeze result is hashable and usable as dict key; equal nested inputs freeze equal (`{"a": [1, 2]}` and a separately built twin); input list unchanged; set becomes `frozenset`; unsupported type raises `TypeError` naming the type; `memoize_by_value` runs the function once for equal list arguments and twice for different ones.
+  - `cache_key(args, kwargs)`: returns `(freeze(args), freeze(kwargs))`, a hashable key that is equal for equal arguments whatever the keyword order.
+- Tests (6): freeze is hashable for nested lists and dicts (the `# beginner mistake:` test: freezing only the outer container); equal nested data freezes equal whatever the key order; the input is unchanged; a set becomes a `frozenset`; unsupported type raises `TypeError` naming the type; `cache_key` finds equal calls in a dict and misses different ones.
 - Hints: (1) recursion: freeze children first, then wrap. (2) dict order is insertion order but `frozenset` ignores order, which is what makes `{"a":1,"b":2}` equal `{"b":2,"a":1}`.
 - Demo: freezes a config, uses it as a cache key, prints cache hits.
 - Quiz (5): hashability of `tuple` with a list inside, why `list` is unhashable, mutating a key object, `frozenset`, string concatenation in loops (use `str.join`).
@@ -92,8 +92,8 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 - Challenge: **a value object and a sentinel lookup** (`main.py`).
   - `MISSING = object()` module-level sentinel and `lookup(mapping, key, default=MISSING)`: returns the value; if the key is absent and `default is MISSING` raises `KeyError(key)`; otherwise returns `default` (so `default=None` is a legitimate return value).
   - `class Money` with `amount: int` (cents) and `currency: str`: equality and hashing based on both fields, `Money(100, "EUR") == Money(100, "EUR")`, hashes equal, usable in sets; comparison with a non-`Money` returns `NotImplemented` (so `Money(1, "EUR") == 1` is `False` without raising).
-  - `same_amount(first, second)`: returns `True` when the two `Money` have equal `amount` regardless of currency; it must use `==` on amounts. A source check forbids `is` comparisons with literals (`re.search(r"\bis\s+(?:\d|['\"])", source)` must not match).
-- Tests (6): `lookup` returns present value; missing key with no default raises `KeyError`; missing with `default=None` returns `None`; equal `Money` objects compare equal and hash equal; a set of two equal `Money` has length 1; `Money(1, "EUR") == 1` is `False`; source check.
+  - `same_amount(first, second)`: returns `True` when the two `Money` have equal `amount` regardless of currency; it must use `==` on amounts. A source check (with `ast`) forbids `==`/`!=` with `None` and `is` comparisons with literals.
+- Tests (6): `lookup` returns present value; missing key with no default raises `KeyError`; missing with `default=None` returns `None`; equal `Money` objects compare equal and hash equal; a set of two equal `Money` has length 1; `Money(1, "EUR") == 1` is `False`; `same_amount` on large amounts built at run time (`int("250000")`), the `# beginner mistake:` test, so an `is` comparison fails; source check.
 - Hints: (1) a fresh `object()` is a unique sentinel that no caller can pass by accident. (2) `@dataclass(frozen=True)` is allowed but writing `__eq__` and `__hash__` by hand is the point of the lesson; either passes the tests.
 - Demo: sentinel vs `None`, interning demo printing `a == b` and noting in text that `is` results for ints are implementation-defined (the demo never prints an `is` on ints or strings).
 - Quiz (5): `x is None` vs `x == None`, why `[] is []` is `False`, `256 is 256` and why not to rely on it, `__eq__` without `__hash__`, `float('nan') == float('nan')`.

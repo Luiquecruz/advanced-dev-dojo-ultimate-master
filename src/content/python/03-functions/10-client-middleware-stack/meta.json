@@ -8,6 +8,6 @@
   "resources": [
     { "label": "functools: update_wrapper and wraps", "url": "https://docs.python.org/3/library/functools.html#functools.update_wrapper" },
     { "label": "inspect.unwrap", "url": "https://docs.python.org/3/library/inspect.html#inspect.unwrap" },
-    { "label": "Axios: Interceptors", "url": "https://axios-http.com/docs/interceptors" }
+    { "label": "The try statement: finally", "url": "https://docs.python.org/3/reference/compound_stmts.html#the-try-statement" }
   ]
 }

@@ -22,20 +22,6 @@ class Product:
 
 One `Positive` object serves **every** `Product`, so it must never keep a value on `self`. The descriptor holds configuration (the name, limits); the instance holds data.
 
-## Coming from TypeScript and JavaScript
-
-```ts
-function positive(target: object, key: string) {
-  let value: number;                                   // one variable for the whole class
-  Object.defineProperty(target, key, {
-    get: () => value,
-    set: (v: number) => { if (v <= 0) throw new Error(key); value = v; },
-  });
-}
-```
-
-`Object.defineProperty` on a prototype is the closest JavaScript gets, and it invites the classic bug shown above: the value is captured once per class, so every instance shares it. The Python translation is `self.value = value` inside `__set__`, and it fails the same way: `Product(3, 1)` followed by `Product(50, 2)` makes both prices `50`. Store data in `instance.__dict__` (or a `WeakKeyDictionary` keyed by the instance when the class has no `__dict__`). TypeScript decorators also run once per class, and they do not change how lookup works; descriptors do.
-
 ## How it works
 
 Precedence depends on which methods the descriptor defines:
@@ -71,6 +57,24 @@ def fields(cls):
 ```
 
 Walk `reversed(cls.__mro__)` to include inherited fields. Avoid a registry list on the base class that `__set_name__` appends to: every subclass would share it.
+
+## Common mistakes
+
+**Storing the value on the descriptor.** The descriptor object is created once, in the class body, and shared by every instance, so `self.value` is one slot for all of them and the last write wins:
+
+```py
+# wrong: Product(3, 1) then Product(50, 2) makes both prices 50
+def __set__(self, instance, value):
+    self.value = value
+
+# right: the data lives on the instance, under the descriptor's name
+def __set__(self, instance, value):
+    instance.__dict__[self.name] = value
+```
+
+When the owner class has no `__dict__` (it uses `__slots__`, lesson 06), keep the values in a `weakref.WeakKeyDictionary` keyed by the instance instead.
+
+**Forgetting the `instance is None` branch in `__get__`.** `Product.price` then tries to read a value from `None` and fails, and tools that inspect the class can no longer find the descriptor.
 
 ## When to choose it
 

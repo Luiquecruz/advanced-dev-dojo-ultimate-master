@@ -27,21 +27,6 @@ print(Order().save([]))
 
 `Audited` never mentions `Timestamped`, yet its `super().save` calls `Timestamped.save`, because in an `Order` the next class after `Audited` is `Timestamped`. That is **cooperative multiple inheritance**: each class does its part and hands over, and the diamond's shared base `Entity` runs exactly once.
 
-## Coming from TypeScript and JavaScript
-
-```ts
-const Audited = <T extends new (...a: any[]) => Entity>(Base: T) =>
-  class extends Base {
-    save(log: string[]) { log.push("Audited"); return super.save(log); }
-  };
-class Order extends Audited(Timestamped(Entity)) {}
-```
-
-JavaScript has single inheritance; mixins are functions that build a chain, and `super` is fixed lexically to the class the mixin was applied to. Two habits break in Python:
-
-- **Calling the parent by name**: `Entity.save(self, log)` is the translation of `Parent.prototype.save.call(this, log)`. In a chain of mixins it jumps straight to `Entity` and skips every mixin after the first one. The opposite mistake, a class that calls each of its bases by name (`Audited.save(self, log)` then `Timestamped.save(self, log)`), runs the shared `Entity.save` twice. Always use `super().save(log)`.
-- **Reading `super()` as "my base class"**. The target depends on the final class, so the same mixin can call a different method in each composition. Every `save` in the chain must accept the same arguments and call `super()`, or the chain breaks for everyone after it.
-
 ## How it works
 
 **C3 linearization** builds the MRO from the class, then a merge of its bases' MROs and the list of bases, so that:
@@ -61,7 +46,29 @@ class Broken(Entity, Audited): ...
 
 Zero-argument `super()` works inside a method because the compiler gives the function a hidden `__class__` cell; it is equivalent to `super(ThisClass, self)`. Writing the explicit form couples the method to a name and breaks when the class is renamed or copied.
 
+The target of `super()` depends on the final class, so the same mixin can call a different method in each composition. Every `save` in the chain must accept the same arguments and call `super()`, or the chain breaks for everyone after it.
+
 Cooperative `__init__` follows the same rule: accept `**kwargs`, take what you need, pass the rest on with `super().__init__(**kwargs)`.
+
+## Common mistakes
+
+**Calling the parent by name instead of `super()`.** `Entity.save(self, log)` jumps straight to `Entity`, so in a chain of mixins every class after the first one is skipped:
+
+```py
+# wrong: Order().save([]) returns ["Validation", "Entity"]
+class ValidationMixin(Entity):
+    def save(self, log):
+        log.append("Validation")
+        return Entity.save(self, log)
+
+# right: hand over to the next class in the MRO of the object
+class ValidationMixin(Entity):
+    def save(self, log):
+        log.append("Validation")
+        return super().save(log)
+```
+
+**Calling each base by name from the combined class.** `Audited.save(self, log)` followed by `Timestamped.save(self, log)` runs the shared `Entity.save` twice. One `super()` call reaches every class once.
 
 ## When to choose it
 

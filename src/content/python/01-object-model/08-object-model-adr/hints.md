@@ -1,4 +1,4 @@
-Start from the symptom: a `list` field that every service can append to. Which design makes that impossible, instead of merely discouraged? Then ask what the cache needs from a key, and whether that promise can hold while a mutable collection sits inside the object.
+Start from the symptom: a `list` field that every service can append to. Which design makes that impossible, instead of merely discouraged? Then ask what the cache needs from a key, and whether that guarantee can hold while a mutable collection sits inside the object.
 ---
 Do the arithmetic before choosing a policy: reads per request times the cost of one deep copy, converted from microseconds to milliseconds. Compare the result with the latency budget, then compare it with the cost of two writes a day.
 ---

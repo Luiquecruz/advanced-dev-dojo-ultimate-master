@@ -17,4 +17,4 @@ Return a list without duplicates, keeping the first occurrence of each item. Unh
 
 ## `unique_ids(*iterables)`
 
-Return a set with every item of every iterable, including generators.
+`*iterables` collects every positional argument into a tuple: `unique_ids([1, 2], (2, 3))` receives `iterables == ([1, 2], (2, 3))`. Return a set with every item of every iterable, including generators.

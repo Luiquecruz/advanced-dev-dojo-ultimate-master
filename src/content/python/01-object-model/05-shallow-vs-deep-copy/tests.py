@@ -5,6 +5,7 @@ def make_config():
     return {"name": "api", "db": {"port": 5432}, "tags": ["a"]}
 
 
+# beginner mistake: a shallow copy (dict(config) or config.copy()), so the clone still shares the nested dict and list
 @test("clone_config isolates nested dicts and lists from the original")
 def _():
     config = make_config()
