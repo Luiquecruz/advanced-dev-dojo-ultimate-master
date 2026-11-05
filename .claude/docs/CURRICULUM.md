@@ -338,7 +338,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 
 ## C# and .NET (`src/content/csharp`)
 
-Spec: `.claude/docs/csharp-track/`. Single-language track without a code engine (`"engine": "typescript"` is a placeholder): every lesson is theory + quiz, and practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK. 13 modules, 66 lessons: core 01–11, deepening 12, legacy 13. Hidden (`TRACK_FLAGS.csharp = false`) until every module is verified and reviewed.
+Spec: `.claude/docs/csharp-track/`. Single-language track without a code engine (`"engine": "typescript"` is a placeholder): every lesson is theory + quiz, and practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK. 13 modules, 67 lessons: core 01–11, deepening 12, legacy 13. Hidden (`TRACK_FLAGS.csharp = false`) until every module is verified and reviewed.
 
 ### 01-platform — The .NET Platform for PHP Developers
 01-csharp-map · 02-runtime-sdk-and-cli · 03-versions-and-support · 04-nuget-and-project-files
@@ -359,7 +359,7 @@ Spec: `.claude/docs/csharp-track/`. Single-language track without a code engine 
 01-minimal-apis-and-controllers · 02-routing-binding-and-validation · 03-http-semantics-and-problem-details · 04-openapi-and-versioning · 05-project-catalog-api **(project)**
 
 ### 07-data — Data Access
-01-relational-sql-for-dotnet · 02-ef-core-basics · 03-ef-core-migrations · 04-tracking-and-performance · 05-dapper-and-ado-net · 06-transactions-and-concurrency · 07-project-catalog-persistence **(project)**
+01-relational-sql-for-dotnet · 02-ef-core-basics · 03-ef-core-migrations · 04-tracking-and-performance · 05-dapper-and-ado-net · 06-transactions-and-concurrency · 07-caching-redis-and-nosql · 08-project-catalog-persistence **(project)**
 
 ### 08-security — API Security
 01-authentication-concepts · 02-jwt-bearer · 03-authorization-policies · 04-aspnet-core-identity · 05-api-hardening

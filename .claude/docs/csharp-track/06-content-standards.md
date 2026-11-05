@@ -18,16 +18,16 @@ src/content/csharp/<NN-module>/<NN-lesson>/
 
 ## Theory template (`theory.md`)
 
-At least 3,500 characters for a theory lesson and 2,500 for a project lesson; most lessons land around 5,000–9,000. Headings in this order:
+500–1,300 words for a theory lesson, 400–1,300 for a project lesson (an exception to the CONTENT_GUIDE's 250–900 words, recorded there in "C# track": with no challenge, the theory and the quiz carry the whole lesson). Headings in this order:
 
 1. `# <title>`: one paragraph on what the learner will be able to do after the lesson.
 2. `## Coming from PHP/Magento`: what transfers, and the trap. This must be concrete (`di.xml` versus `IServiceCollection`, PHP-FPM versus a long-running host, `db_schema.xml` versus migrations, `crontab.xml` versus `BackgroundService`). When nothing in PHP is close, say so.
-3. Concept sections (`##`), each with a short C# snippet in a ```` ```csharp ```` block. Snippets must compile on .NET 10 / C# 14 as written; mark partial snippets with `// ...`. Prefer real ASP.NET Core and EF Core APIs over toy code.
+3. Concept sections (`##`), each with a short C# snippet in a ```` ```csharp ```` block (highlighted by the app; `sql` and `bash` fences too). Snippets must compile on .NET 10 / C# 14 as written; mark partial snippets with `// ...`. Prefer real ASP.NET Core and EF Core APIs over toy code. There is no automated compile check in v1 (no SDK in CI): authors check every API against its learn.microsoft.com page and the cross-review re-checks it.
 4. `## In practice`: how teams use it, what to choose and when, and the usual mistakes.
-5. Optional `## Status as of 2026-11-05`: dated facts that will age, such as versions, support dates, licence changes and .NET 11 previews. Every dated fact goes here or carries its date inline.
+5. Optional `## Status as of <YYYY-MM-DD>` (the date the facts were checked): dated facts that will age, such as versions, support dates, licence changes and .NET 11 releases (use the newest release on the .NET support page). Every dated fact goes here or carries its date inline.
 6. `## Check yourself`: 2–4 open questions for self-review. The quiz covers the graded part.
 
-Project lessons (`kind: project`) replace the concept sections with these headings:
+Project lessons (`kind: project`) use exactly these headings, in this order: `## Coming from PHP/Magento`, then the six below, then `## Check yourself` (no `## In practice`):
 - `## Goal`
 - `## Features`
 - `## Acceptance criteria`, which must be checkable: commands such as `dotnet test`, HTTP requests with the expected status codes, observable behavior.
@@ -38,8 +38,9 @@ Project lessons (`kind: project`) replace the concept sections with these headin
 ## Facts and sources
 
 - Every version, date, default value, licence and support statement must match an official source (learn.microsoft.com, the dotnet GitHub repositories, the vendor's own page) or the research documents of this folder, which cite their sources. Do not state benchmark numbers without a source.
-- Licence changes are stated as facts with dates (MassTransit v9, MediatR v13+ and AutoMapper v15+, Fluent Assertions v8+). Do not present any library as a recommendation when its licence changed. Mention it, explain the alternative, and leave the choice to the team.
-- Deprecated APIs (`System.Data.SqlClient`, the EF Core in-memory provider as a test fake, .NET Upgrade Assistant) are named as deprecated whenever they come up.
+- Licence changes are stated with the boundaries the research could verify: MassTransit v9 is commercial (v8 and earlier stay open source); AutoMapper v15.0 and MediatR v13.0 ship under RPL-1.5 plus a commercial licence (2025-07-02 announcement; later majors assumed the same, not verified); Fluent Assertions 8.x needs a paid licence for commercial use (2025-01-13 announcement; the 8.0 boundary is inferred). Do not present any of them as a recommendation: mention the licence, explain the alternative, and leave the choice to the team.
+- `System.Data.SqlClient` and .NET Upgrade Assistant are deprecated, and are named so whenever they come up. The EF Core in-memory provider is not deprecated: Microsoft highly discourages it as a test fake and supports it only for legacy applications, so say exactly that.
+- Facts the research documents do not cover (RFC numbers, OWASP lists, AWS or Kubernetes options, central package management) must come from the owner's page (IETF, OWASP, AWS, kubernetes.io, learn.microsoft.com), opened by the author.
 
 ## Resources (`meta.json` `resources`)
 

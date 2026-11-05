@@ -1,10 +1,10 @@
 # C# Track — Curriculum
 
-13 modules and 66 lessons, all theory + quiz ([06-content-standards.md](06-content-standards.md)).
+13 modules and 67 lessons, all theory + quiz ([06-content-standards.md](06-content-standards.md)).
 
 | Tier | Modules | Lessons |
 | --- | --- | --- |
-| **Core**: what a backend job needs | 01–11 | 56 |
+| **Core**: what a backend job needs | 01–11 | 57 |
 | **Deepening** | 12 architecture | 5 |
 | **Legacy** | 13 .NET Framework and migration | 5 |
 
@@ -25,23 +25,23 @@ The market percentages below come from the convenience sample of 69 postings in 
 
 ## Prerequisites and effort
 
-**Prerequisites for the track.** You can already build HTTP backends in PHP, have used an ORM, a DI container, SQL, Git and a message queue or cron, and read technical English. No C# is assumed.
+**Prerequisites for the track.** You can already build HTTP backends in PHP, have used an ORM, a DI container, SQL, Git and a message queue or cron, and read technical English. No C# is assumed. For the projects you also need the .NET 10 SDK and Docker (`docker run` and `docker compose` for PostgreSQL, RabbitMQ and Testcontainers from P3 on; module 11 teaches containers for your own app). Git (58% of postings) and agile practice (45%) are assumed, not taught.
 
 **Effort assumptions.** The learner studies 8–10 hours a week.
 - A theory lesson takes about 25–35 minutes to read and to answer its quiz.
 - A project takes 6–12 hours, depending on its size.
 - The balta.io courses are optional companions; their hours come from the course pages ([03-balta-catalog.md](03-balta-catalog.md)).
-- A learner who watches every mapped course adds about 75 h to the core. That figure is the course pages' own hours summed, plus an estimate for the backend half of Fullstack .NET.
+- A learner who watches every course mapped to modules 01–11 adds about 84 h. That is the sum of the workloads on the course pages, with the 8 h 31 m measured for the backend modules of Fullstack .NET ([03-balta-catalog.md](03-balta-catalog.md)).
 
 | Tier | Lessons | Projects | Estimate without courses | Weeks at 8–10 h |
 | --- | --- | --- | --- | --- |
-| Core 01–11 | 56 (6 of them projects) | P1–P6, ≈ 55 h | ≈ 25 h of lessons + 55 h = **≈ 80 h** | 8–10 |
+| Core 01–11 | 57 (6 of them projects) | P1–P6, ≈ 55 h | ≈ 26 h of lessons + 55 h = **≈ 81 h** | 8–10 |
 | Deepening 12 | 5 | none | ≈ 3 h | 0.5 |
 | Legacy 13 | 5 (1 project) | P7, ≈ 8 h | ≈ 2 h + 8 h = **≈ 10 h** | 1–1.5 |
 
 ## Modules
 
-Each module lists:
+Project acceptance is self-assessed on the learner's machine; the app records quizzes only. Each module lists:
 - **Outcomes**: what the learner can do after it.
 - **Done when**: the completion criteria. Every quiz of the module answered correctly in the app, which is recorded in progress, plus the module project's acceptance criteria, where there is one.
 - **Courses**: optional balta.io companions, from [03-balta-catalog.md](03-balta-catalog.md).
@@ -58,7 +58,7 @@ Each module lists:
 
 - **Courses:** Fundamentos do C# (.NET Core 3.1; the CLI concepts still apply).
 - **Official:** .NET support policy, `dotnet` CLI, NuGet `PackageReference`.
-- **Done when:** the module quizzes are passed.
+- **Done when:** the module quizzes are passed (recorded in the app's progress).
 
 ### 02-language — C# Language Essentials (core)
 
@@ -95,7 +95,7 @@ Each module lists:
 | --- | --- | --- | --- |
 | 01-exceptions-and-results | theory | Throws, catches and filters exceptions, and knows when a result type is clearer | C# |
 | 02-disposal-and-using | theory | Releases resources with `using`/`await using`, `IDisposable` and `IAsyncDisposable` | async 20% |
-| 03-async-await | theory | Writes correct `async` methods and explains `Task` versus `ValueTask` and why `.Result` deadlocks or starves | async 20% |
+| 03-async-await | theory | Writes correct `async` methods, explains `Task` versus `ValueTask`, and why `.Result` starves the thread pool in ASP.NET Core (and deadlocks only where a synchronization context exists: legacy ASP.NET, UI apps) | async 20% |
 | 04-cancellation-and-timeouts | theory | Passes a `CancellationToken` through a call chain and sets timeouts | async |
 | 05-concurrency-and-the-thread-pool | theory | Avoids sync-over-async and uses `Parallel`, `Channel<T>` and `IAsyncEnumerable` | async, messaging |
 
@@ -110,8 +110,8 @@ Each module lists:
 | 01-host-and-program | theory | Explains the generic host, `Program.cs` and a long-running process versus PHP-FPM | Web API 64% |
 | 02-dependency-injection | theory | Registers services with the right lifetime and spots captive dependencies; compares with `di.xml` | SOLID |
 | 03-configuration-and-options | theory | Layers `appsettings` with environment variables and binds validated options; compares with `env.php` | Web API |
-| 04-logging | theory | Writes structured logs with `ILogger` and levels | observability 39% |
-| 05-middleware-pipeline | theory | Orders middleware and uses endpoint filters; compares with Magento plugins and observers | Web API |
+| 04-logging | theory | Writes structured logs with `ILogger`, message templates, levels and scopes (export and tracing come in 11/04) | observability 39% |
+| 05-middleware-pipeline | theory | Orders middleware and writes custom middleware; compares with Magento plugins and observers | Web API |
 
 - **Courses:**
   - Fundamentos do ASP.NET 6 (ASP.NET 6; .NET 10 differences in the lessons)
@@ -125,7 +125,7 @@ Each module lists:
 | --- | --- | --- | --- |
 | 01-minimal-apis-and-controllers | theory | Builds endpoints with both styles and picks one (Microsoft recommends minimal APIs for new projects; postings still ask for MVC) | Web API 64%, MVC 23% |
 | 02-routing-binding-and-validation | theory | Binds route, query and body data, and validates with .NET 10 minimal-API validation | Web API |
-| 03-http-semantics-and-problem-details | theory | Returns correct status codes and RFC 9457 Problem Details, and handles errors globally | Web API |
+| 03-http-semantics-and-problem-details | theory | Returns correct status codes and Problem Details (RFC 9457), handles errors globally, and uses endpoint filters for cross-cutting checks | Web API |
 | 04-openapi-and-versioning | theory | Generates OpenAPI 3.1 with `Microsoft.AspNetCore.OpenApi` and plans API versioning | Web API |
 | 05-project-catalog-api | project | **P2** catalog REST API | Web API |
 
@@ -141,9 +141,10 @@ Each module lists:
 | 02-ef-core-basics | theory | Maps entities with a `DbContext` and queries with LINQ translated to SQL | EF Core 35% |
 | 03-ef-core-migrations | theory | Creates, reviews and applies migrations; compares with `db_schema.xml` | EF Core |
 | 04-tracking-and-performance | theory | Avoids N+1, uses no-tracking queries, projections and split queries | EF Core, query tuning 29% |
-| 05-dapper-and-ado-net | theory | Writes Dapper queries and decides when Dapper beats EF Core | Dapper 12% |
+| 05-dapper-and-ado-net | theory | Writes Dapper queries, calls stored procedures, and decides when Dapper beats EF Core | Dapper 12%, stored procedures 29% |
 | 06-transactions-and-concurrency | theory | Uses transactions and optimistic concurrency tokens | SQL |
-| 07-project-catalog-persistence | project | **P3** persist the catalog | EF Core, SQL |
+| 07-caching-redis-and-nosql | theory | Uses `IMemoryCache`, `IDistributedCache` with Redis and HybridCache, and knows when a document or key-value store fits better than SQL; compares with Magento's Redis and Varnish | NoSQL 33%, Redis/caching 14% |
+| 08-project-catalog-persistence | project | **P3** persist the catalog | EF Core, SQL |
 
 - **Courses:**
   - Fundamentos do SQL Server
@@ -194,7 +195,7 @@ Each module lists:
 | 04-reliable-messaging | theory | Designs for at-least-once delivery: idempotent consumers, retries, dead letters, the outbox; knows the MassTransit v9 licence | messaging |
 | 05-project-order-worker | project | **P5** order processing worker | messaging |
 
-- **Courses:** Fundamentos do Event-Driven Architecture. **Gap:** brokers and background services are not covered in depth by balta.io.
+- **Courses:** Fundamentos do Event-Driven Architecture (concepts and Kafka only; RabbitMQ and Service Bus come from the lessons). **Gap:** brokers and background services are not covered in depth by balta.io.
 - **Official:** hosted services, Worker Service.
 - **Done when:** the quizzes are passed and P5 is accepted.
 
@@ -202,10 +203,10 @@ Each module lists:
 
 | Lesson | Kind | Outcome | Competency |
 | --- | --- | --- | --- |
-| 01-docker-for-dotnet | theory | Writes a multi-stage Dockerfile and uses SDK container publish, chiseled images and non-root port 8080 | Docker 42% |
+| 01-docker-for-dotnet | theory | Writes a multi-stage Dockerfile, uses SDK container publish, chiseled images and non-root port 8080, and runs the app with its dependencies in `docker compose` | Docker 42% |
 | 02-ci-cd-pipelines | theory | Builds, tests and publishes with the `dotnet` CLI in GitHub Actions and Azure DevOps | CI/CD 54%, Azure DevOps 25% |
-| 03-cloud-hosting | theory | Compares Azure App Service and Container Apps with AWS options for a .NET API | cloud 67% |
-| 04-observability | theory | Adds OpenTelemetry traces and metrics, structured logs and health checks | observability 39% |
+| 03-cloud-hosting | theory | Compares Azure App Service and Container Apps, AWS options and Kubernetes (AKS/EKS) at concept level for a .NET API, from each vendor's docs | cloud 67%, Kubernetes 22% |
+| 04-observability | theory | Adds OpenTelemetry traces and metrics, exports logs, propagates trace context through a message broker, and adds health checks | observability 39% |
 | 05-aspire | theory | Uses Aspire for local orchestration and knows its support model | observability, cloud |
 | 06-project-ship-it | project | **P6** containerize, pipeline and observe | Docker, CI/CD |
 
@@ -214,7 +215,7 @@ Each module lists:
   - Fundamentos do Azure, Git, GitHub e DevOps
   - Fundamentos do Git e Azure DevOps
   - Azure para devs .NET
-  - Monitorando Aplicações com Application Insights
+  - Monitorando Aplicações com Application Insights (older course; lesson content not described on the page)
 - **Official:** containerize a .NET app, OpenTelemetry in .NET, health checks, Aspire.
 - **Done when:** the quizzes are passed and P6 is accepted.
 
@@ -249,7 +250,8 @@ Each module lists:
 
 - **Courses:**
   - Migrando para o .NET 7 e C# 11 (migration concepts)
-  - Uma visão completa do ASP.NET MVC and APIs Web com ASP.NET MVC (both carry balta.io's legacy banner; for reading classic code)
+  - Uma visão completa do ASP.NET MVC (legacy banner on balta.io; for reading classic code)
+  - APIs Web com ASP.NET MVC (legacy banner on balta.io; for reading classic code)
 - **Gap:** WCF and Web Forms have no course.
 - **Official:** porting from .NET Framework, incremental ASP.NET migration, CoreWCF.
 - **Done when:** the quizzes are passed and P7 is accepted.
@@ -260,13 +262,13 @@ Each project builds on the previous one, without extra architecture. Acceptance 
 
 | # | Lesson | Builds | Features | Acceptance criteria | Effort |
 | --- | --- | --- | --- | --- | --- |
-| P1 | 03/04 | Console catalog importer | Read a CSV of products (SKU, name, price, stock), validate rows, report with LINQ (totals, top 5 by stock value, invalid rows) | `dotnet run -- products.csv` prints the report; invalid rows are listed with line numbers and do not stop the import; `dotnet test` covers the parser | 6 h |
+| P1 | 03/04 | Console catalog importer | Read a CSV of products (SKU, name, price, stock) with `File.ReadLines` (shown in the project lesson), validate rows with `TryParse`, report with LINQ (totals, top 5 by stock value, invalid rows) | `dotnet run -- products.csv` prints the report; invalid rows are listed with line numbers and do not stop the import; the same input always prints the same report (tests come in P4) | 6 h |
 | P2 | 06/05 | Catalog REST API | CRUD over products in memory, filtering and paging, validation, Problem Details, OpenAPI | `GET /products?page=2` returns paged JSON; an invalid body returns 400 with field errors; an unknown SKU returns 404 Problem Details; `/openapi/v1.json` documents every endpoint | 8 h |
-| P3 | 07/07 | Persistence | EF Core with PostgreSQL or SQL Server, migrations, a Dapper read query for the report, optimistic concurrency on stock | `dotnet ef database update` creates the schema; concurrent stock updates return 409 for the loser; the report query issues one SQL statement | 10 h |
-| P4 | 09/05 | Secured and tested API | JWT bearer auth, an `admin` policy for writes, rate limiting; unit tests, `WebApplicationFactory` tests, a Testcontainers database test | Anonymous writes return 401, a non-admin gets 403; `dotnet test` runs all three test kinds; nothing uses the EF in-memory provider | 10 h |
-| P5 | 10/05 | Order processing worker | The API publishes an `OrderPlaced` message to RabbitMQ (or Service Bus); a worker consumes it idempotently and reserves stock | Publishing the same message twice reserves stock once; a poison message lands in the dead-letter queue after N retries; the worker uses one DI scope per message | 12 h |
+| P3 | 07/08 | Persistence | EF Core with PostgreSQL or SQL Server in Docker, migrations, a Dapper read query for the report, optimistic concurrency on stock, a cached product read | `dotnet ef database update` creates the schema; two `PUT` requests carrying the same row version: the second returns 409; the EF Core log (`LogTo`) shows the report as one SQL statement; a second read of a product is served from the cache | 10 h |
+| P4 | 09/05 | Secured and tested API | JWT bearer auth, an `admin` policy for writes, rate limiting; unit tests (including P1's parser), `WebApplicationFactory` tests, a Testcontainers database test | Tokens from `dotnet user-jwts create` (with and without `--role admin`): anonymous writes return 401, a non-admin gets 403; `dotnet test` runs all three test kinds; nothing uses the EF in-memory provider | 10 h |
+| P5 | 10/05 | Order processing worker | The API publishes an `OrderPlaced` message to RabbitMQ in Docker (or Service Bus); a worker consumes it idempotently and reserves stock | Publishing the same message twice reserves stock once; a poison message lands in the dead-letter queue after 3 retries; a test (or the log, which prints a scope id per message) shows a new DI scope per message | 12 h |
 | P6 | 11/06 | Ship it | A container image for the API and the worker, a CI pipeline (build, test, publish image), OpenTelemetry traces across API → broker → worker, health checks | The pipeline is green on a pull request; `docker compose up` starts everything; one trace shows the HTTP request and the worker span; `/health` reports the database | 9 h |
-| P7 | 13/05 | Legacy migration kata | Starting from a small ASP.NET MVC 5 or Web API 2 sample, route one endpoint to a new ASP.NET Core app behind YARP, sharing session or auth where needed | Clients call one host; the migrated endpoint is served by the ASP.NET Core app and the rest by the old app; a test proves both answer | 8 h |
+| P7 | 13/05 | Legacy migration kata | Create an ASP.NET MVC 5 or Web API 2 app from the Visual Studio template (needs Windows or a Windows VM: .NET Framework is Windows-only), put a new ASP.NET Core app with YARP in front, and move one endpoint. On Linux or macOS, replace the legacy app with any HTTP server and practice the routing part only | Clients call one host; the migrated endpoint is served by the ASP.NET Core app and the rest by the old app; a test proves both answer | 8 h |
 
 ## Traceability: competency → content → check
 
@@ -280,14 +282,15 @@ Each project builds on the previous one, without extra architecture. Acceptance 
 | Security/auth (42% / 16%) | 08/* | Segurança em APIs … JWT | quiz 08, P4 |
 | Async/concurrency (20%) | 04/02–05 | none (gap) | quiz 04, P5 |
 | Messaging (51%), background jobs (13%) | 10/* | Fundamentos do Event-Driven Architecture | quiz 10, P5 |
-| Docker (42%), Kubernetes (22%) | 11/01, 11/03 | Docker para devs .NET | quiz 11, P6 |
+| Docker (42%), Kubernetes (22%) | 11/01, 11/03 (Kubernetes at concept level) | Docker para devs .NET | quiz 11, P6 |
+| NoSQL (33%), Redis/caching (14%), stored procedures (29%) | 07/05, 07/07 | none (gap) | quiz 07, P3 |
 | Cloud (67%: Azure 42%, AWS 35%) | 11/03, 11/05 | Azure para devs .NET | quiz 11 |
 | CI/CD (54%), Azure DevOps (25%) | 11/02 | Fundamentos do Azure, Git, GitHub e DevOps; Fundamentos do Git e Azure DevOps | quiz 11, P6 |
 | Observability (39%) | 05/04, 11/04 | Monitorando Aplicações com Application Insights | quiz 11, P6 |
 | SOLID/patterns (54%), Clean Architecture (12%), DDD (10%), CQRS (13%) | 02/03, 12/01–04 | Arquitetura Limpa com .NET; Modelando Domínios Ricos; Dominando Mediator | quiz 12 |
 | Microservices (38%) | 12/05 | Fundamentos dos Microsserviços | quiz 12 |
-| Legacy .NET (30%), migration (13%) | 13/* | Migrando para o .NET 7 e C# 11; Uma visão completa do ASP.NET MVC | quiz 13, P7 |
+| Legacy .NET-era technology (30%), migration (13%) | 13/* | Migrando para o .NET 7 e C# 11; Uma visão completa do ASP.NET MVC | quiz 13, P7 |
 | .NET versions and support (23%) | 01/03 | Migrando para o .NET 7 e C# 11 | quiz 01 |
 | English (20%; 34% international) | Every lesson is in English, and 01/01 says so | none | not graded |
 
-Not covered on purpose: frontend frameworks (Angular/React, 22% each) and Blazor (0% in the sample). These are other tracks or are not backend. AI-assisted development (29%) is the subject of the AI Engineering track.
+Not covered on purpose: frontend frameworks (Angular 23%, React 22%) and Blazor (0% in the sample). These are other tracks or are not backend. AI-assisted development (29%) is the subject of the AI Engineering track.

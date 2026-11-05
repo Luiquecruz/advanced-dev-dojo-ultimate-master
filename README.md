@@ -28,7 +28,7 @@ A freeCodeCamp-style learning platform for front-end, back-end and AI engineerin
 | AI Engineering | Node.js and Python (Pyodide), chosen per challenge | 122 | models, context, tools and MCP, RAG, knowledge graphs, memory, agents, harness and loops, multi-agent, evals, security, governance, agentic engineering |
 | Node.js | in-browser Node runtime + Hono | 77 | runtime, async, core modules, HTTP, REST APIs, persistence, security, scaling |
 | Python | Python 3.14 on Pyodide (WebAssembly) | 110 | object model, functions and closures, classes and descriptors, iterators, context managers, standard library, pattern matching, type hints, asyncio, metaprogramming, tooling, validation with Pydantic |
-| C# and .NET | none: theory and quizzes, projects built locally with the .NET 10 SDK | 66 planned | hidden while in progress |
+| C# and .NET | none: theory and quizzes, projects built locally with the .NET 10 SDK | 67 planned | hidden while in progress |
 | Vue | Vue | 44 | hidden while in progress |
 | Angular | Angular | 53 | hidden while in progress |
 
