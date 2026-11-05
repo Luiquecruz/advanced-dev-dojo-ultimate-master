@@ -40,7 +40,7 @@ All project documentation lives in `.claude/docs/` (the root `README.md` is the 
 | Document | Covers | Read before |
 | --- | --- | --- |
 | `.claude/docs/CONTRIBUTING.md` | setup, branches, commit format, checks before a pull request, documentation upkeep map, shared harness (`.claude/settings.json`, hooks) | any change; editing `.claude/settings.json` or `.claude/hooks/` |
-| `.claude/docs/CI_SECURITY.md` | why each CI/CD security control exists (no deploy secrets, pinning, token permissions, triggers, secret and dependency scanning, deploy smoke test), threat model, what was left out | editing `.github/`, `netlify.toml` or `.gitleaksignore` |
+| `.claude/docs/CI_SECURITY.md` | why each CI/CD security control exists (no deploy secrets, pinning, token permissions, triggers, secret and dependency scanning, deploy smoke test), threat model, what was left out | editing `.github/`, `netlify.toml`, `.nvmrc` or `.gitleaksignore` |
 | `.claude/docs/ARCHITECTURE.md` | frontend layers and rules, data flow, state and storage, engines, sandbox, adding a track, an engine or a UI feature, track presentation rules | touching engines, adding a track, adding or moving a slice |
 | `.claude/docs/CONTENT_GUIDE.md` | lesson file format, `track.json` fields, test globals per engine, fake REST API data, installed library versions, verification commands | writing or fixing a lesson |
 | `.claude/docs/CURRICULUM.md` | every track, its modules and lessons; `✓` marks written lessons and the rest is the backlog | adding lessons or planning a track |

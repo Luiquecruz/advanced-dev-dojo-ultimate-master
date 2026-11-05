@@ -34,18 +34,30 @@ function workerFile(outDir) {
 }
 
 async function checkServed(origin, outDir, worker) {
+  // index.html names the entry assets by content hash: a page that references exactly those files, served byte for byte,
+  // proves this is the same build (an older deploy would otherwise pass every other check when only the app's HTML or
+  // JavaScript changed). The HTML itself is not compared byte for byte: the host may inject comments into it.
+  const entryAssets = [...readFileSync(join(outDir, 'index.html'), 'utf8').matchAll(/(?:src|href)="\/(assets\/[^"]+)"/g)].map((match) => match[1]);
+  expect(entryAssets.length > 0, 'the build index.html references no /assets/ files');
+  const referencesThisBuild = (html) => entryAssets.every((asset) => html.includes(`/${asset}`));
   const page = await fetch(`${origin}/`);
   expect(page.ok, `GET / returned ${page.status}`);
+  expect(referencesThisBuild(await page.text()), 'GET / does not reference this build\'s entry assets (an older deploy is still live)');
+  for (const asset of entryAssets) {
+    const response = await fetch(`${origin}/${asset}`);
+    expect(response.ok && sha256(Buffer.from(await response.arrayBuffer())) === sha256(readFileSync(join(outDir, asset))), `/${asset} does not match the build`);
+  }
   expect(page.headers.get('content-security-policy') !== PYTHON_WORKER_CSP, 'the page must not carry the worker CSP (it would break Monaco)');
   if (worker) {
     const script = await fetch(`${origin}/assets/${worker}`);
+    const served = Buffer.from(await script.arrayBuffer());
     expect(script.ok, `GET /assets/${worker} returned ${script.status}`);
+    expect(sha256(served) === sha256(readFileSync(join(outDir, 'assets', worker))), `/assets/${worker} does not match the build`);
     expect(script.headers.get('content-security-policy') === PYTHON_WORKER_CSP, `assets/${worker} must send Content-Security-Policy: ${PYTHON_WORKER_CSP} (got ${script.headers.get('content-security-policy')})`);
   }
   for (const route of ['/python', '/python/python-map', '/ai-engineering/calling-a-model']) {
     const response = await fetch(`${origin}${route}`);
-    const body = await response.text();
-    expect(response.ok && /<div id="root"/.test(body), `${route} must fall back to index.html (got ${response.status})`);
+    expect(response.ok && referencesThisBuild(await response.text()), `${route} must fall back to this build's index.html (got ${response.status})`);
   }
   // Every file the build put under pyodide/ (runtime, loader, lock, wheels, licenses), compared byte for byte: the host's
   // SPA fallback answers a missing file with index.html and status 200.

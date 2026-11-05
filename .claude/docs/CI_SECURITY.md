@@ -88,7 +88,7 @@ merge to main ─► Netlify builds and publishes production ─► ci.yml smoke
 
 ### The deploy is checked, not assumed
 
-- **Decision.** The `smoke` job checks what Netlify actually serves against the `dist` artifact built from the same commit. On a pull request it checks the Deploy Preview, reading the URL from Netlify's commit status. After a merge it checks production, retrying until the new build is live. It verifies the worker Content-Security-Policy, that the page does not carry it, the SPA fallback, and every file under `pyodide/` byte for byte.
+- **Decision.** The `smoke` job checks what Netlify actually serves against the `dist` artifact built from the same commit. On a pull request it checks the Deploy Preview, reading the URL from Netlify's commit status. After a merge it checks production, retrying until the new build is live. It verifies that the page and the SPA fallback reference this build's hashed entry assets and serve them byte for byte (an older deploy still live fails; the HTML itself is not compared, since the host injects comments into it), the worker Content-Security-Policy, that the page does not carry it, and every file under `pyodide/` byte for byte.
 - **Why.** The worker CSP (`script-src 'self' 'wasm-unsafe-eval'`, no `'unsafe-eval'`) is what stops learner Python from compiling JavaScript in the browser, and only the host can send it. A status check alone is not enough: the SPA fallback answers a missing file with `index.html` and status 200.
 
 ### Python tests on CPython isolate the harness
