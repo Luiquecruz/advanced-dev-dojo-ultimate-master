@@ -171,17 +171,17 @@ Moved from `12-tooling/05-modules-and-the-import-system` (115 plan). The beginne
 - Tests: import a module and a package submodule with correct `__name__` and `__spec__.name`; module cached in `sys.modules`; relative import inside the package; uninstall removes the finder and a missing module raises `ModuleNotFoundError`.
 - Notes: verify custom finders work in Pyodide and that tests clean `sys.meta_path` and `sys.modules` (the harness reuses one interpreter).
 
-### v2 backlog — 08-frames-and-tracebacks (P, E)
-Deferred: frame lifetime and `f_locals` behavior are CPython details that are unstable to assert in Pyodide. Spec kept for v2.
+### 08-frames-and-tracebacks (P, E)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. Frame lifetime and `f_locals` behavior are CPython details, so tests assert only what is stable in Pyodide.
 - Concept: frames (`inspect.currentframe`, `f_back`, `f_code`, `f_locals`), `traceback.TracebackException`, `sys.exc_info`, why frames are CPython details.
 - Challenge: `caller_name()` returns the name of the calling function; `format_chain(error)` returns the list of exception type names following `__cause__`/`__context__`; `locals_of_caller()` snapshot.
 - Tests: nested calls; chain of three errors; frame references not kept alive (documented with a weakref test only if verified stable in Pyodide).
 
-### v2 backlog — 09-bytecode-and-the-interpreter (Q, E)
-Deferred: conflicts with the no-`dis` rule and its facts move every release. Spec kept for v2. Quiz lesson. `dis`, compile pipeline, adaptive specialization (PEP 659), JIT (PEP 744), why bytecode is not a stable API. No challenge asserting opcode counts.
+### 09-bytecode-and-the-interpreter (Q, E)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. Quiz lesson with no challenge, because the no-`dis` rule applies to graded code and bytecode facts move every release. `dis`, compile pipeline, adaptive specialization (PEP 659), JIT (PEP 744), why bytecode is not a stable API. No challenge asserting opcode counts.
 
-### v2 backlog — 10-metaprogramming-adr (A, Ad)
-Deferred ([03-curriculum.md](03-curriculum.md) "v2 backlog"): module 11 ends with `07-import-system-internals`, and the hook ladder is taught in the map. Spec kept for v2; a v2 version must add a computed field.
+### 10-metaprogramming-adr (A, Ad)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. It closes module 11; its computed fields (plugin counts and import time) decide whether discovery and loading fit the startup budget.
 - Briefing: an internal plugin framework with 60 plugins, discovery at import, config validation at class creation, 12 plugin authors across teams, requirement for good error messages, Python 3.12+.
 - `PLAN`: `registration` (`init_subclass`|`metaclass`|`decorator`|`entry_points`), `validation_time` (`class_creation`|`first_use`), `attribute_hooks` (`none`|`getattr`|`getattribute`), `metaclass_needed` bool, `rejected`.
 - Coherence: class-creation validation needs `init_subclass` or `metaclass`; `metaclass_needed` is false when `init_subclass` suffices; `getattribute` only with justification (a `reason` field ≥ 30 characters).
@@ -204,8 +204,8 @@ Quiz lesson, 5–6 questions. One dated `**Status as of**` block; cite packaging
 - Resolvers and lockfiles: `uv.lock`, `uv run`, `uv sync`, Python version management, vs pip/poetry/pip-tools; PEP 751 `pylock.toml` status.
 - Distribution: sdist vs wheel, build backends (setuptools, hatchling, flit, uv_build), PyPI, trusted publishing, versioning.
 
-### v2 backlog — 03-environments-and-venv (P, I)
-Deferred: the challenge simulated venv with pure functions over fake prefixes, which teaches the mechanism poorly; the concepts live in `02-packaging-and-environments`. Spec kept for v2.
+### 03-environments-and-venv (P, I)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. The challenge models the venv mechanism with pure functions over prefixes, since the sandbox has no real environments.
 - Concept: a virtual environment is a directory plus `PATH` ordering and `sys.prefix` vs `sys.base_prefix`; `pyvenv.cfg`.
 - Contrast: `node_modules` per project vs environments referenced by interpreter.
 - Challenge (pure functions): `is_virtualenv(prefix, base_prefix)`; `resolve_command(name, path_dirs, files)` returns the first matching executable path honoring PATH order; `parse_pyvenv_cfg(text)` → dict.
