@@ -33,7 +33,7 @@ interface ModuleMeta {
   optional?: boolean;
 }
 
-const DEFAULT_ENTRY:Record<EngineId, Record<string, string>> = {
+const DEFAULT_ENTRY: Record<EngineId, Record<string, string>> = {
   typescript: { ts: 'main.ts' },
   react: { jsx: 'App.jsx', tsx: 'App.tsx' },
   vue: { vue: 'App.vue', ts: 'main.ts', js: 'main.js' },

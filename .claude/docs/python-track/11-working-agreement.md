@@ -6,7 +6,7 @@ How the team writes, checks and lands Python lessons. The lesson contract itself
 
 | Command | Does |
 | --- | --- |
-| `npm run python:new -- <NN-module> <NN-lesson-id> [--kind practice\|quiz\|adr] [--level ...]` | Scaffolds every file of the contract with `TODO` placeholders. Kind and level come from 03-curriculum.md when omitted (`-map` → quiz, `-adr` → adr). Creates `module.json` when the module is new. Refuses to touch an existing folder. Writes `meta.json.draft`, never `meta.json`. |
+| `npm run python:new -- <NN-module> <NN-lesson-id> [--kind practice\|quiz\|adr] [--level ...]` | Scaffolds every file of the contract with `TODO` placeholders. Kind and level come from 03-curriculum.md when omitted (`-map` → quiz, `-adr` → adr). Creates `module.json` when the module is new (with `"optional": true` for a `00-` module). Refuses to touch an existing folder. Writes `meta.json.draft`, never `meta.json`. |
 | `LESSON=python/<id> npx vitest run src/verify/python.test.ts` | Grades the lesson in Pyodide: solution passes every test, starter fails at least one, demo runs. |
 | `LESSON=python/<id> npx vitest run src/verify/pythonConventions.test.ts` | Definition of Done checks (below). Runs in seconds, no Pyodide. |
 | `npm run python:curriculum` | Regenerates the `## Python` module lists in [CURRICULUM.md](../CURRICULUM.md) from 03-curriculum.md plus the lesson folders: a lesson gets `✓` when it has `meta.json`. `-- --check` exits 1 when the file is stale. |

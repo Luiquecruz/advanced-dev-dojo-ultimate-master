@@ -348,7 +348,8 @@ if (existsSync(lessonDirectory)) {
 const created = [];
 if (!existsSync(join(moduleDirectory, 'module.json'))) {
   mkdirSync(moduleDirectory, { recursive: true });
-  writeFileSync(join(moduleDirectory, 'module.json'), `${JSON.stringify({ title: 'TODO: module title', description: 'TODO: one sentence from 03-curriculum.md.' }, null, 2)}\n`);
+  const moduleMeta = { title: 'TODO: module title', description: 'TODO: one sentence from 03-curriculum.md.', ...(moduleFolder.startsWith('00-') ? { optional: true } : {}) };
+  writeFileSync(join(moduleDirectory, 'module.json'), `${JSON.stringify(moduleMeta, null, 2)}\n`);
   created.push(relative(ROOT, join(moduleDirectory, 'module.json')));
 }
 const title = lessonId.replace(/-/g, ' ');

@@ -54,7 +54,7 @@ describe('summarizeTrack with an optional module', () => {
   const track: Track = { ...base, modules: base.modules.map((module, index) => (index === 0 ? { ...module, optional: true } : module)) };
   const requiredLessons = track.modules.slice(1).flatMap((module) => module.lessons.map((entry) => entry.id));
 
-  it('leaves a never started optional module out of done and total', () => {
+  it('leaves the lessons of a never started optional module out of done and total', () => {
     const summary = summarizeTrack(track, progressWith(['module-2-lesson-1'], 'module-2-lesson-1', ['module-2-lesson-1']));
     expect(summary).toMatchObject({ done: 1, total: 4, percent: 25, status: 'in-progress' });
   });
@@ -62,22 +62,45 @@ describe('summarizeTrack with an optional module', () => {
   it('completes the track when every required lesson is done and the optional module was skipped', () => {
     const summary = summarizeTrack(track, progressWith(requiredLessons, 'module-3-lesson-2', requiredLessons));
     expect(summary).toMatchObject({ done: 4, total: 4, percent: 100, status: 'completed' });
+    expect(summary.modules.map((module) => module.state)).toEqual(['optional', 'done', 'done']);
   });
 
-  it('counts the optional module once one of its lessons was visited', () => {
+  it('does not count a visit to an optional lesson', () => {
     const summary = summarizeTrack(track, progressWith(requiredLessons, 'module-1-lesson-1', [...requiredLessons, 'module-1-lesson-1']));
-    expect(summary).toMatchObject({ done: 4, total: 6, percent: 67, status: 'in-progress', currentModuleIndex: 0 });
+    expect(summary).toMatchObject({ done: 4, total: 4, percent: 100, status: 'completed', currentModuleIndex: 0 });
   });
 
-  it('counts the optional module once one of its lessons was completed', () => {
-    const summary = summarizeTrack(track, progressWith(['module-1-lesson-2'], 'module-2-lesson-1'));
-    expect(summary).toMatchObject({ done: 1, total: 6 });
+  it('counts a completed optional lesson in done and total, so skipping the rest still completes the track', () => {
+    const summary = summarizeTrack(track, progressWith([...requiredLessons, 'module-1-lesson-2'], 'module-3-lesson-2'));
+    expect(summary).toMatchObject({ done: 5, total: 5, percent: 100, status: 'completed' });
+  });
+
+  it('counts a completed optional lesson toward an unfinished track', () => {
+    const summary = summarizeTrack(track, progressWith(['module-1-lesson-1', 'module-1-lesson-2'], 'module-2-lesson-1'));
+    expect(summary).toMatchObject({ done: 2, total: 6, percent: 33, status: 'in-progress' });
+    expect(summary.modules.map((module) => module.state)).toEqual(['done', 'current', 'upcoming']);
+  });
+
+  it('counts an optional quiz-only lesson once its quiz is passed', () => {
+    const quizTrack: Track = {
+      ...track,
+      modules: track.modules.map((module, index) =>
+        index === 0 ? { ...module, lessons: module.lessons.map((entry, lessonIndex) => (lessonIndex === 0 ? { ...entry, hasChallenge: false, hasQuiz: true } : entry)) } : module,
+      ),
+    };
+    const state = { ...progressWith(requiredLessons, 'module-3-lesson-2'), quizzes: { 'demo/module-1-lesson-1': true as const } };
+    expect(summarizeTrack(quizTrack, state)).toMatchObject({ done: 5, total: 5, percent: 100, status: 'completed' });
   });
 
   it('still starts a fresh track at the first lesson of the optional module', () => {
     const summary = summarizeTrack(track, progressWith([]));
     expect(summary).toMatchObject({ status: 'not-started', done: 0, total: 4, currentModuleIndex: 0 });
     expect(summary.resumeLesson.id).toBe('module-1-lesson-1');
+  });
+
+  it('reports a track whose modules are all optional and untouched as not started', () => {
+    const optionalTrack: Track = { ...base, modules: base.modules.map((module) => ({ ...module, optional: true })) };
+    expect(summarizeTrack(optionalTrack, progressWith([]))).toMatchObject({ done: 0, total: 0, percent: 0, status: 'not-started' });
   });
 });
 

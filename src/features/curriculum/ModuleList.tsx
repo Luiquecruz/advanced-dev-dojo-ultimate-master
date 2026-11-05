@@ -34,7 +34,10 @@ export function ModuleList({ track, currentKey, compact = false, className, onNa
             <header className="flex items-start gap-3.5 border-b border-line px-4.5 py-4">
               <span className="pt-0.5 font-mono text-[13px] font-semibold text-accent">{String(moduleIndex + 1).padStart(2, '0')}</span>
               <div className="flex-1">
-                <h2 className="m-0 text-base font-semibold">{module.title}</h2>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h2 className="m-0 text-base font-semibold">{module.title}</h2>
+                  {module.optional && <span className={tagClass('optional')}>optional</span>}
+                </div>
                 <p className="mt-0.5 text-[13px] text-ink-muted">{module.description}</p>
               </div>
               <span className="text-xs whitespace-nowrap text-ink-faint">

@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
 import { TrackLogo } from '@/entities/track';
 import { ChartIcon, CheckIcon, ChevronRightIcon, CircleIcon, HalfCircleIcon } from '@/shared/ui/icons';
-import { buttonClass } from '@/shared/ui/classNames';
+import { buttonClass, tagClass } from '@/shared/ui/classNames';
 import { GlowBorder } from '@/shared/ui/GlowBorder';
 
 const TIMELINE_SIZE = 5;
@@ -127,6 +127,7 @@ function TimelineRow({ entry }: { entry: ModuleProgress }) {
         {entry.state === 'done' ? <CheckIcon className="size-3" /> : entry.index + 1}
       </span>
       <span className={clsx('min-w-0 flex-1 truncate text-[13px] font-medium', current ? 'text-ink' : 'text-ink-muted')}>{entry.module.title}</span>
+      {entry.module.optional && <span className={tagClass('optional', 'flex-none')}>optional</span>}
       <span className="flex-none font-mono text-[11px] text-ink-faint" aria-label={`${entry.done} of ${entry.total} lessons`}>
         {entry.done}/{entry.total}
       </span>
@@ -136,7 +137,7 @@ function TimelineRow({ entry }: { entry: ModuleProgress }) {
         ) : current ? (
           <ChevronRightIcon role="img" aria-label="Current stage" />
         ) : (
-          <CircleIcon role="img" aria-label="Not started" />
+          <CircleIcon role="img" aria-label={entry.state === 'optional' ? 'Optional, not complete' : 'Not started'} />
         )}
       </span>
     </li>

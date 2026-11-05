@@ -14,8 +14,8 @@ import { useMotionState } from '@/shared/motion/useMotionState';
 export function TrackPage({ track }: { track: Track }) {
   const state = useProgress();
   const motionState = useMotionState();
-  const { done, total, percent } = summarizeTrack(track, state);
-  const resumeId = state.lastLesson[track.id] ?? track.lessons[0]?.id;
+  const { done, total, percent, status, resumeLesson } = summarizeTrack(track, state);
+  const hasOptionalModule = track.modules.some((module) => module.optional);
 
   return (
     <main data-trail={track.id} className="mx-auto max-w-245 px-6 pt-9 pb-16 max-wide:px-4 max-wide:pt-6 max-wide:pb-12">
@@ -38,11 +38,10 @@ export function TrackPage({ track }: { track: Track }) {
               <span className="text-ink-muted">
                 {done}/{total} lessons complete
               </span>
-              {resumeId && (
-                <Link className={buttonClass('primary')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: resumeId })}>
-                  {state.lastLesson[track.id] ? 'Continue' : 'Start learning'}
-                </Link>
-              )}
+              <Link className={buttonClass('primary')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: resumeLesson.id })}>
+                {status === 'not-started' ? 'Start learning' : 'Continue'}
+              </Link>
+              {hasOptionalModule && <p className="m-0 basis-full text-xs text-ink-faint">Lessons in optional modules count toward progress once you complete them.</p>}
             </div>
           </header>
           <ModuleList track={track} />
