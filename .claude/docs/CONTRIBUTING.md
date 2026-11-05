@@ -34,6 +34,14 @@ ci: waive docs sync only when docs:none itself is added
 - Subject: starts with a lowercase imperative verb (`add`, `fix`, `remove`, `update`, `mark`...); product and language names keep their casing after it. No trailing period.
 - A body, when needed, is a list of what changed.
 
+### Opening a pull request from an AI agent
+
+1. Branch from `main` (`feat/<name>`), commit with the format above and `git push -u origin <branch>`.
+2. The remote is `https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master` (the repository name is not `dev-dojo`). Read it with `git remote -v` instead of guessing it.
+3. With the GitHub CLI available, open it against `main`: `gh pr create --base main --title "<title>" --body "<body>"`.
+4. Without `gh` (it is not installed on every machine; check with `which gh`), give the compare link and the title and body to paste: `https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/new/<branch>`.
+5. Title: same format as a commit subject (see Commits). Body: a short list of what changed, then one line for any setup the reviewer must do (for example an environment variable on Netlify).
+
 ### Pull request size
 
 CodeRabbit reviews at most **300 changed files**; above that it skips the whole pull request, which would then merge with no automated review. The `Pull request size` job in `ci.yml` fails a pull request over 300 files. Keep pull requests well below the limit (one module or one platform change per pull request when possible), and split larger work into **stacked pull requests**:
