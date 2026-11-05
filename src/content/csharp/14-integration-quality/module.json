@@ -1,0 +1,4 @@
+{
+  "title": "Integration, Performance and Quality",
+  "description": "Calling external APIs with IHttpClientFactory and resilience, gRPC and SignalR, performance and memory with measurements, diagnosing production processes, code quality with analyzers in CI, and calling AI models from .NET apps."
+}

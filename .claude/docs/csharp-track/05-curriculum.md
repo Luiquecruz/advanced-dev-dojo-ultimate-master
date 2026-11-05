@@ -1,11 +1,11 @@
 # C# Track — Curriculum
 
-13 modules and 67 lessons, all theory + quiz ([06-content-standards.md](06-content-standards.md)).
+14 modules and 73 lessons, all theory + quiz ([06-content-standards.md](06-content-standards.md)).
 
 | Tier | Modules | Lessons |
 | --- | --- | --- |
 | **Core**: what a backend job needs | 01–11 | 57 |
-| **Deepening** | 12 architecture | 5 |
+| **Deepening** | 12 architecture, 14 integration, performance and quality | 11 |
 | **Legacy** | 13 .NET Framework and migration | 5 |
 
 Seven of the lessons are practice projects. Each one closes a module and is done locally with the .NET 10 SDK.
@@ -34,7 +34,7 @@ The market percentages below come from the convenience sample of 69 postings in 
 | Tier | Lessons | Projects | Estimate | Weeks at 8–10 h |
 | --- | --- | --- | --- | --- |
 | Core 01–11 | 57 (6 of them projects) | P1–P6, ≈ 55 h | ≈ 26 h of lessons + 55 h = **≈ 81 h** | 8–10 |
-| Deepening 12 | 5 | none | ≈ 3 h | 0.5 |
+| Deepening 12, 14 | 11 | none | ≈ 6 h | 1 |
 | Legacy 13 | 5 (1 project) | P7, ≈ 8 h | ≈ 2 h + 8 h = **≈ 10 h** | 1–1.5 |
 
 ## Modules
@@ -215,6 +215,20 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 - **Official:** porting from .NET Framework, incremental ASP.NET migration, CoreWCF.
 - **Done when:** the quizzes are passed and P7 is accepted.
 
+### 14-integration-quality — Integration, Performance and Quality (deepening)
+
+| Lesson | Kind | Outcome | Competency |
+| --- | --- | --- | --- |
+| 01-http-clients-and-resilience | theory | Calls external APIs with `IHttpClientFactory` and typed clients, adds the standard resilience handler (`Microsoft.Extensions.Http.Resilience`: timeout, retry, circuit breaker), and knows when a retry is unsafe; compares with Guzzle middlewares in Magento integrations | integrations, messaging 51% (reliability) |
+| 02-grpc-and-signalr | theory | Chooses between REST, gRPC and SignalR; defines a gRPC service with protobuf and a SignalR hub, and knows how each scales out | GraphQL/gRPC 4%, microservices 38% |
+| 03-performance-and-memory | theory | Finds allocations, uses `Span<T>`, `ArrayPool<T>` and `StringBuilder` where they pay off, knows the basics of the GC, and measures with BenchmarkDotNet instead of guessing | async 20%, query tuning 29% |
+| 04-diagnostics-in-production | theory | Investigates a slow or leaking process with `dotnet-counters`, `dotnet-trace` and `dotnet-dump`, including inside a container | observability 39% |
+| 05-code-quality-and-analyzers | theory | Enforces style and correctness with `.editorconfig`, the built-in analyzers (`AnalysisLevel`), warnings as errors and `dotnet format` in CI | SOLID/clean code 54%, CI/CD 54% |
+| 06-ai-in-dotnet-apps | theory | Calls a model through `Microsoft.Extensions.AI` (`IChatClient`), keeps the provider swappable, and knows where the Agent Framework fits; points to the AI Engineering track for the engineering practice | AI-assisted development 29% (adjacent) |
+
+- **Official:** `IHttpClientFactory`, HTTP resilience, gRPC on ASP.NET Core, SignalR, memory and spans, GC fundamentals, the .NET diagnostic tools, code analysis, `Microsoft.Extensions.AI`.
+- **Done when:** the quizzes are passed.
+
 ## Practice projects
 
 Each project builds on the previous one, without extra architecture. Acceptance is checked by the learner on their own machine.
@@ -247,7 +261,10 @@ Each project builds on the previous one, without extra architecture. Acceptance 
 | CI/CD (54%), Azure DevOps (25%) | 11/02 | quiz 11, P6 |
 | Observability (39%) | 05/04, 11/04 | quiz 11, P6 |
 | SOLID/patterns (54%), Clean Architecture (12%), DDD (10%), CQRS (13%) | 02/03, 12/01–04 | quiz 12 |
-| Microservices (38%) | 12/05 | quiz 12 |
+| Microservices (38%) | 12/05, 14/02 | quiz 12, quiz 14 |
+| External API integration, resilience (not measured in the sample) | 14/01 | quiz 14 |
+| Performance, diagnostics, code quality (not measured; SOLID/clean code 54%) | 14/03–05 | quiz 14 |
+| AI in .NET apps (AI-assisted development 29%, adjacent) | 14/06 | quiz 14 |
 | Legacy .NET-era technology (30%), migration (13%) | 13/* | quiz 13, P7 |
 | .NET versions and support (23%) | 01/03 | quiz 01 |
 | English (20%; 34% international) | Every lesson is in English, and 01/01 says so | not graded |
