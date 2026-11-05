@@ -2,7 +2,7 @@
 
 After this lesson you can write a pipeline that restores, builds, tests and publishes a .NET 10 API as a container image, in GitHub Actions and in Azure DevOps Pipelines. You will know which `dotnet` CLI flags make a pipeline reproducible and fast, and why "build once, deploy the same image everywhere" is the rule.
 
-You need: 01/03 (`global.json`), 01/04 (NuGet and lock files), 05/03 (configuration per environment), 07/03 (migrations), 09/01 (`dotnet test`) and lesson 01 of this module (container images).
+You need: 01/03 (`global.json`), 01/04 (NuGet and lock files), 05/03 (configuration per environment), 07/03 (migrations), 09/01 (`dotnet test`) and 11/01 (container images).
 
 ## What a pipeline is for
 

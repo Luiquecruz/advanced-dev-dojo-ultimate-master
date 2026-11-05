@@ -35,7 +35,8 @@ A .NET 10 API template uses top-level statements: the file is the entry point, w
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Register services (lesson 02)
+// 1. Register services (lesson 05/02)
+// TimeProvider is .NET's injectable clock; 09/02 shows why tests need it
 builder.Services.AddSingleton(TimeProvider.System);
 
 var app = builder.Build();
@@ -54,7 +55,7 @@ app.Run();
 
 The file has two phases separated by `builder.Build()`. Before it you describe services; after it the container is built and frozen, and you describe how a request flows. Registering a service after `Build()` throws, because the container already exists.
 
-`CreateBuilder` does a lot before your first line runs. It loads configuration from `appsettings.json`, `appsettings.{Environment}.json`, user secrets (in Development), environment variables and command-line arguments. It adds the Console, Debug and EventSource logging providers (plus EventLog on Windows), configures Kestrel, and in Development enables DI scope validation and the developer exception page. Lessons 02 to 05 open each of these boxes.
+`CreateBuilder` does a lot before your first line runs. It loads configuration from `appsettings.json`, `appsettings.{Environment}.json`, user secrets (in Development), environment variables and command-line arguments. It adds the Console, Debug and EventSource logging providers (plus EventLog on Windows), configures Kestrel, and in Development enables DI scope validation and the developer exception page. Lessons 05/02 to 05/05 open each of these boxes.
 
 ## Environments
 
@@ -76,7 +77,7 @@ app.MapGet("/hits", () => Interlocked.Increment(ref hits));
 app.Run();
 ```
 
-Every request increments the same `hits`, and two requests can run at the same instant on different threads, which is why the snippet uses `Interlocked.Increment` instead of `hits++`. This is useful for genuinely process-wide things (a connection pool, a compiled regex, an in-memory cache) and dangerous for anything that belongs to one user or one request. Per-request data travels with the request: through `HttpContext`, method parameters or scoped services (lesson 02).
+Every request increments the same `hits`, and two requests can run at the same instant on different threads, which is why the snippet uses `Interlocked.Increment` instead of `hits++`. This is useful for genuinely process-wide things (a connection pool, a compiled regex, an in-memory cache) and dangerous for anything that belongs to one user or one request. Per-request data travels with the request: through `HttpContext`, method parameters or scoped services (lesson 05/02).
 
 Two more consequences of the long-running model:
 
@@ -114,7 +115,7 @@ A deploy that kills the process without waiting for graceful shutdown cuts reque
 
 ## In practice
 
-- Keep `Program.cs` readable. When registrations grow, move them into extension methods such as `builder.Services.AddCatalog()` (lesson 02 shows the convention) instead of letting the file reach hundreds of lines.
+- Keep `Program.cs` readable. When registrations grow, move them into extension methods such as `builder.Services.AddCatalog()` (lesson 05/02 shows the convention) instead of letting the file reach hundreds of lines.
 - Use `WebApplication` for HTTP and `Host.CreateApplicationBuilder` for workers. You will see `Host.CreateDefaultBuilder(...).ConfigureWebHostDefaults(...)` and `Startup` classes in older code and blog posts: they still work, but they are not what new templates generate.
 - Treat static mutable state as a bug unless it is deliberately process-wide and thread-safe.
 - Do slow startup work (warming a cache, checking a dependency) with a timeout, because it delays the moment the app can serve traffic.

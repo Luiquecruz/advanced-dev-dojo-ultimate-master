@@ -88,7 +88,7 @@ Microsoft's guidance: `Microsoft.Extensions.AI` alone is not an agent framework.
 - **The vendor SDK's client injected everywhere.** Every consumer now depends on one provider, and switching vendors, adding a cache or faking the model in a test means touching all of them. Depend on `IChatClient`.
 - **No cancellation token.** A model call can take many seconds; when the user closes the page, the request keeps running and you still pay for it. Pass the request's token to `GetResponseAsync`.
 - **Unvalidated tool arguments.** The model chooses the arguments, so a tool that trusts them can read another customer's data. Validate them like any user input.
-- **An agent framework for a single prompt.** It adds concepts and dependencies that one `GetResponseAsync` call does not need.
+- **An agent framework for a single prompt.** It adds concepts and dependencies that one `GetResponseAsync` call does not need. Call `IChatClient.GetResponseAsync` directly, and add an agent framework only when the workflow needs multi-step planning or several agents.
 
 ## In practice
 

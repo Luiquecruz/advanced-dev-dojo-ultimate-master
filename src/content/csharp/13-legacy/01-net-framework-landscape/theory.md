@@ -77,11 +77,11 @@ Microsoft lists the .NET Framework technologies that are not available on .NET 6
 - **Workflow Foundation**: not supported; CoreWF is a community port.
 - Smaller items: saving `Reflection.Emit` assemblies before .NET 9, multi-module assemblies and XSLT script blocks.
 
-The same page adds a tip that the WCF server runs on modern .NET through the community CoreWCF packages (lesson 3). ASP.NET Web Forms is not on that list because it belongs to ASP.NET, not the runtime: it follows the .NET Framework support policy and has no ASP.NET Core equivalent; Microsoft's path is Blazor ("Blazor for ASP.NET Web Forms Developers", lesson 3).
+The same page adds a tip that the WCF server runs on modern .NET through the community CoreWCF packages (lesson 13/03). ASP.NET Web Forms is not on that list because it belongs to ASP.NET, not the runtime: it follows the .NET Framework support policy and has no ASP.NET Core equivalent; Microsoft's path is Blazor ("Blazor for ASP.NET Web Forms Developers", lesson 13/03).
 
 ## Common mistakes
 
-- **Estimating the move as a version bump.** The TFM changes to `net10.0`, the build fails on every `System.Web` reference, and the "one-day upgrade" becomes an unplanned project. Estimate the web layer as a migration (lesson 4).
+- **Estimating the move as a version bump.** The TFM changes to `net10.0`, the build fails on every `System.Web` reference, and the "one-day upgrade" becomes an unplanned project. Estimate the web layer as a migration (lesson 13/04).
 - **Reading "4.8 is supported" as "4.8 is a fine target".** Supported means security fixes only: new code on 4.8 never gets ASP.NET Core, EF Core or Linux containers. Start new code on .NET 10.
 - **Treating .NET Core 3.1 as Framework code.** It already runs on Linux and uses ASP.NET Core, so moving it is mostly a TFM change plus breaking changes, not a migration.
 
@@ -89,8 +89,8 @@ The same page adds a tip that the WCF server runs on modern .NET through the com
 
 In the 69-posting sample of this track's research, about 3 in 10 postings named .NET Framework-era technology (WCF, Web Forms, ASP.NET 4.8, WinForms, VB.NET) and about 1 in 8 asked for migration or modernization. "Legacy .NET" in a posting can mean three different jobs, and you should ask which one:
 
-1. **Maintain** a .NET Framework 4.x app on Windows Server and IIS: you need to read `System.Web` code (lessons 2 and 3).
-2. **Migrate** it to modern .NET: you need lesson 4 and the project.
+1. **Maintain** a .NET Framework 4.x app on Windows Server and IIS: you need to read `System.Web` code (lessons 13/02 and 13/03).
+2. **Migrate** it to modern .NET: you need lesson 13/04 and the project.
 3. **Upgrade** an out-of-support modern app (.NET Core 3.1, .NET 6): a much smaller job.
 
 ## Status as of 2026-11-05

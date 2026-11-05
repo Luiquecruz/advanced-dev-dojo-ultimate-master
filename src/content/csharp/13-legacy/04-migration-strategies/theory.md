@@ -2,7 +2,7 @@
 
 After this lesson you can plan the move of an ASP.NET Framework app to ASP.NET Core on .NET 10: choose between an in-place and an incremental migration, set up a Strangler Fig proxy with YARP, order the library upgrades, use the System.Web adapters for shared code, and pick the tooling Microsoft supports today.
 
-You need: 05/03 (configuration), 05/05 (middleware), 06/01 (routing endpoints), 08/01 (authentication) and lessons 1 to 3 of this module.
+You need: 05/03 (configuration), 05/05 (middleware), 06/01 (routing endpoints), 08/01 (authentication) and 13/01 to 13/03.
 
 ## Big bang or strangler
 

@@ -106,7 +106,7 @@ services:
       db:
         condition: service_healthy
   db:
-    image: postgres:17
+    image: postgres:18
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: dev-only
@@ -128,8 +128,8 @@ Inside the compose network, the service name `db` is the host name. `condition: 
 
 ## In practice
 
-- **Dockerfile or SDK publish?** SDK publish is the shorter path for a plain API or worker and fits CI well (lesson 02). Keep a Dockerfile when you need OS packages, a custom build, or a team standard that scans Dockerfiles.
-- **Chiseled by default for APIs.** Have the platform probe an HTTP endpoint (lesson 04) instead of a `HEALTHCHECK CMD curl ...`, which cannot run in an image without a shell or curl.
+- **Dockerfile or SDK publish?** SDK publish is the shorter path for a plain API or worker and fits CI well (lesson 11/02). Keep a Dockerfile when you need OS packages, a custom build, or a team standard that scans Dockerfiles.
+- **Chiseled by default for APIs.** Have the platform probe an HTTP endpoint (lesson 11/04) instead of a `HEALTHCHECK CMD curl ...`, which cannot run in an image without a shell or curl.
 - **Logs go to stdout.** The console logger already writes there; the container runtime collects it. No log files inside the container.
 - **No secrets in the image.** Every layer can be read by anyone who pulls it. Pass secrets at run time from the platform's secret store; the `dev-only` password above is for local Compose only.
 

@@ -8,7 +8,7 @@ You need: 10/01 (hosted services and `PeriodicTimer`), 05/02 (scoped services), 
 
 A **cron expression** says when a job runs, in five fields: minute, hour, day of month, month and day of week. `0 2 * * *` is 02:00 every day and `*/5 * * * *` is every five minutes; `*` means "any". The name comes from `cron`, the Unix scheduler. Quartz.NET adds a leading seconds field (below).
 
-A scheduler needs more than the expression: a record of what ran, when and whether it failed, retries, and coordination between instances. A `BackgroundService` with a `PeriodicTimer` (lesson 01) has none of these. Hangfire and Quartz.NET keep jobs and their state in a database that every instance shares.
+A scheduler needs more than the expression: a record of what ran, when and whether it failed, retries, and coordination between instances. A `BackgroundService` with a `PeriodicTimer` (lesson 10/01) has none of these. Hangfire and Quartz.NET keep jobs and their state in a database that every instance shares.
 
 The plain timer also runs once **per process**. Scale the API to three replicas and the nightly export runs three times. Container platforms make several instances the normal case, so decide this before the first deploy.
 
@@ -56,7 +56,7 @@ What to know:
 
 - **Arguments are serialized into storage.** Pass an order id, not an `Order` entity. The job loads fresh data when it runs, which may be minutes later on another server.
 - **`CancellationToken.None` is a placeholder.** Hangfire replaces it with a real token that is cancelled on shutdown or when the job is deleted.
-- **Retries are on by default.** A failing job is retried automatically, 10 attempts by default, then moves to the `Failed` state, where it stays until someone retries or deletes it. Change the count with `[AutomaticRetry(Attempts = 3)]`. Because a job can run more than once, its work must be idempotent (lesson 04).
+- **Retries are on by default.** A failing job is retried automatically, 10 attempts by default, then moves to the `Failed` state, where it stays until someone retries or deletes it. Change the count with `[AutomaticRetry(Attempts = 3)]`. Because a job can run more than once, its work must be idempotent (lesson 10/04).
 - **Recurring jobs** need a unique id: `AddOrUpdate` with the same id replaces the schedule, so calling it at every startup is safe. Cron expressions are evaluated in UTC unless you pass `RecurringJobOptions` with a `TimeZone`.
 - **Dashboard.** `app.UseHangfireDashboard()` shows queues, retries and failures. By default only local requests can open it; exposing it requires an authorization filter. An open dashboard lets anyone delete or trigger jobs.
 
@@ -109,14 +109,14 @@ What to know:
 - **Passing entities as job arguments.** Hangfire serializes them into storage, so the job runs later on a stale, possibly large snapshot. Pass the id and load fresh data.
 - **Exposing the Hangfire dashboard without authorization.** Anyone who reaches it can trigger or delete jobs. Add an authorization filter tied to an admin policy.
 - **A timer-based job on every replica.** Three instances run the nightly export three times. Use shared job storage, or a single scheduler instance.
-- **Non-idempotent jobs under automatic retries.** A job that fails after charging a card is retried, up to 10 times, and charges again. Make the work idempotent (lesson 04).
+- **Non-idempotent jobs under automatic retries.** A job that fails after charging a card is retried, up to 10 times, and charges again. Make the work idempotent (lesson 10/04).
 
 ## In practice
 
 - **Start with the simplest tool that is correct for your instance count.** A single Worker Service instance with a `PeriodicTimer` is fine for "every 5 minutes, skipping a run is harmless".
 - **Choose Hangfire** when most jobs are enqueued by the application ("send this invoice after the request returns") and operators need a dashboard with retry buttons.
 - **Choose Quartz.NET** when scheduling is the product: many cron triggers, time zones, calendars, misfire handling, clustering.
-- **Neither replaces a broker.** A job store is a work queue owned by one application. When several services must react to "order placed", publish a message (lesson 03).
+- **Neither replaces a broker.** A job store is a work queue owned by one application. When several services must react to "order placed", publish a message (lesson 10/03).
 
 ## Status as of 2026-11-05
 

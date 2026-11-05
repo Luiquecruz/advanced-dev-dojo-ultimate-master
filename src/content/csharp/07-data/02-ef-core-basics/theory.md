@@ -114,7 +114,7 @@ Entities returned by a query are **tracked**: EF Core keeps a snapshot, compares
 ## In practice
 
 - Most teams use the `DbContext` directly in handlers or in thin services. Microsoft does not require a repository on top of EF Core; a generic `IRepository<T>` mostly re-implements `DbSet<T>` with fewer features. Add a repository when you need a test seam or want to hide queries behind domain methods.
-- Read-only endpoints project to DTOs with `Select` instead of returning entities; lesson 04 explains why that is also the fast path.
+- Read-only endpoints project to DTOs with `Select` instead of returning entities; lesson 07/04 explains why that is also the fast path.
 
 ## Status as of 2026-11-05
 

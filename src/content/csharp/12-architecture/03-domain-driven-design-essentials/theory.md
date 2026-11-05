@@ -2,7 +2,7 @@
 
 After this lesson you can model a piece of business logic with entities, value objects and an aggregate root that protects its own rules, map value objects with EF Core complex types, raise domain events without dispatching them too early, and tell when this machinery pays off and when plain CRUD is the better tool.
 
-You need: 02/03 (records, `with` and the `field` keyword), 03/01 (read-only views of a list), 04/01 (throw helpers), 07/02 (EF Core), 10/04 (the outbox) and lessons 01 and 02 of this module.
+You need: 02/03 (records, `with` and the `field` keyword), 03/01 (read-only views of a list), 04/01 (throw helpers), 07/02 (EF Core), 10/04 (the outbox) and 12/01 and 12/02.
 
 ## Rules live with the data
 
@@ -12,7 +12,7 @@ Domain-driven design (DDD) moves the rules into the object that owns the data. A
 
 ## Strategic DDD: bounded contexts and the ubiquitous language
 
-Before code, DDD splits the business into **bounded contexts**: areas where a word has one meaning. "Product" in Catalog has a description and images; "product" in Inventory is a SKU with a quantity per warehouse. Each context has its own model, in the words domain experts use (the *ubiquitous language*), and is a natural boundary for a module (lesson 02) or a service (lesson 05).
+Before code, DDD splits the business into **bounded contexts**: areas where a word has one meaning. "Product" in Catalog has a description and images; "product" in Inventory is a SKU with a quantity per warehouse. Each context has its own model, in the words domain experts use (the *ubiquitous language*), and is a natural boundary for a module (lesson 12/02) or a service (lesson 12/05).
 
 ## Entities and value objects
 

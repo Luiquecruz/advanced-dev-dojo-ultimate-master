@@ -2,7 +2,7 @@
 
 After this lesson you can place a containerized .NET API on a cloud platform and defend the choice. You will compare Azure App Service, Azure Container Apps and AKS on Azure, and ECS on Fargate, Lambda and EKS on AWS, by what each one runs for you and what it leaves to you. You will also know the Kubernetes vocabulary that job postings assume.
 
-You need: 05/01 (the long-running host), 07/07 (caching), 08/05 (rate limiting), 10/01 (hosted services) and lessons 01 and 02 of this module (an image built by a pipeline).
+You need: 05/01 (the long-running host), 07/07 (caching), 08/05 (rate limiting), 10/01 (hosted services) and 11/01 and 11/02 (an image built by a pipeline).
 
 ## Scaling out multiplies the process
 
@@ -90,7 +90,7 @@ containers:
     readinessProbe: { httpGet: { path: /health/ready, port: 8080 } }
 ```
 
-The two endpoints are built in lesson 04. The difference matters: a database outage should fail readiness, not liveness. Otherwise Kubernetes restarts every replica in a loop while the database is down.
+The two endpoints are built in lesson 11/04. The difference matters: a database outage should fail readiness, not liveness. Otherwise Kubernetes restarts every replica in a loop while the database is down.
 
 ## Common mistakes
 

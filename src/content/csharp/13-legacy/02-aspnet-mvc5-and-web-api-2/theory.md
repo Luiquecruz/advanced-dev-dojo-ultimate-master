@@ -2,13 +2,13 @@
 
 After this lesson you can open a classic `System.Web` solution and find your way: where the app starts, where configuration and routes live, how an MVC 5 controller differs from a Web API 2 controller, and what each piece becomes in ASP.NET Core. The goal is reading and safely changing legacy code, not writing new code in it.
 
-You need: 04/02 (async and `.Result`), 05/01 to 05/05 (the ASP.NET Core host, DI, configuration and middleware), 06/01 (controllers) and lesson 1 of this module.
+You need: 04/02 (async and `.Result`), 05/01 to 05/05 (the ASP.NET Core host, DI, configuration and middleware), 06/01 (controllers) and 13/01.
 
 ## The shape of a `System.Web` app
 
 `Global.asax` holds code that runs once when the app starts. `web.config` is one XML file for settings, connection strings and web server rules. Routes are registered in code in `App_Start`. Controllers return results that a view engine (Razor, `.cshtml`) renders.
 
-One static runs through it all: `HttpContext.Current`, the current request, readable from anywhere, and legacy code reads it deep in business classes. It is tied to the request's thread context, so in a background thread, a timer or a fire-and-forget task it is `null`. ASP.NET Core does not have it: the System.Web adapters can supply it during a migration (lesson 4), but the goal is an injected `HttpContext` or `IHttpContextAccessor`. Every `HttpContext.Current` you find is a migration cost.
+One static runs through it all: `HttpContext.Current`, the current request, readable from anywhere, and legacy code reads it deep in business classes. It is tied to the request's thread context, so in a background thread, a timer or a fire-and-forget task it is `null`. ASP.NET Core does not have it: the System.Web adapters can supply it during a migration (lesson 13/04), but the goal is an injected `HttpContext` or `IHttpContextAccessor`. Every `HttpContext.Current` you find is a migration cost.
 
 ## How a request reaches your code
 

@@ -6,7 +6,7 @@ You need: 10/01 (hosted services and `stoppingToken`), 04/02 (`async` and `await
 
 ## Two shapes of messaging
 
-A **message broker** is a server that stores messages between the program that sends them (the producer) and the programs that process them (the consumers), so the two need not run at the same time. In .NET you call the broker's client library directly, or a messaging framework on top of it (lesson 04).
+A **message broker** is a server that stores messages between the program that sends them (the producer) and the programs that process them (the consumers), so the two need not run at the same time. In .NET you call the broker's client library directly, or a messaging framework on top of it (lesson 10/04).
 
 - **Point-to-point (competing consumers).** One queue, many consumer instances; each message goes to one of them. This spreads work: "reserve stock for order 42".
 - **Publish/subscribe.** One published message, a copy for every interested subscriber. This announces facts: "order 42 was placed", consumed by stock, invoicing and e-mail independently.

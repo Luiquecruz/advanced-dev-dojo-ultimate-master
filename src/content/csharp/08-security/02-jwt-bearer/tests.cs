@@ -53,9 +53,10 @@ public static class JwtTests
         Assert.Null(claims.NotBefore);
         Assert.Throws<FormatException>(() => Jwt.ReadClaims("only.two"));
         Assert.Throws<FormatException>(() => Jwt.ReadClaims(Token($$"""{"aud":"catalog-api","exp":{{Exp}}}""")));
+        Assert.Throws<FormatException>(() => Jwt.ReadClaims(Token($$"""{"iss":"{{Issuer}}","aud":"catalog-api"}""")));
     }
 
-    [Test("Check returns Valid for a good token and names the first broken rule: format, issuer, audience")]
+    [Test("Check returns Valid for a good token and names the first broken rule: format, issuer, audience, then the times")]
     public static void ChecksIssuerAndAudience()
     {
         ClaimsValidator validator = At(new DateTimeOffset(2025, 12, 31, 23, 30, 0, TimeSpan.Zero));
@@ -63,6 +64,12 @@ public static class JwtTests
         Assert.Equal(TokenCheck.Malformed, validator.Check("not-a-token"));
         Assert.Equal(TokenCheck.WrongIssuer, validator.Check(Token(Payload(iss: "https://login.example.com"))));
         Assert.Equal(TokenCheck.WrongAudience, validator.Check(Token(Payload(aud: "\"orders-api\""))));
+        Assert.Equal(TokenCheck.WrongIssuer, validator.Check(Token(Payload(iss: "https://other.example.com/", aud: "\"orders-api\""))));
+
+        DateTimeOffset expired = DateTimeOffset.FromUnixTimeSeconds(Exp).AddHours(1);
+        Assert.Equal(TokenCheck.WrongIssuer, At(expired).Check(Token(Payload(iss: "https://login.example.com"))));
+        DateTimeOffset early = DateTimeOffset.FromUnixTimeSeconds(Nbf).AddHours(-1);
+        Assert.Equal(TokenCheck.WrongAudience, At(early).Check(Token(Payload(aud: "\"orders-api\""))));
     }
 
     [Test("Check accepts a token up to the clock skew after exp, and rejects it after that")]

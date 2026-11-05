@@ -118,7 +118,7 @@ The Moq equivalent is `new Mock<IPaymentGateway>()`, `.Setup(p => p.CaptureAsync
 Use them with restraint:
 
 - **Verify outcomes first, interactions second.** `Received(1)` on every call couples the test to the implementation, so a harmless refactor breaks it.
-- **Do not mock what you do not own.** Mocking `HttpClient`, `DbContext` or `DbSet` produces tests that pass while production fails. Put your own interface in front, or use an integration test (lessons 03 and 04).
+- **Do not mock what you do not own.** Mocking `HttpClient`, `DbContext` or `DbSet` produces tests that pass while production fails. Put your own interface in front, or use an integration test (lessons 09/03 and 09/04).
 - **Do not mock value objects or DTOs.** Create them with `new`.
 - **If a test needs five mocks, the class has too many dependencies.** That is design feedback, not a reason for a bigger mock setup.
 
@@ -137,7 +137,7 @@ What that means for a team:
 - **Reading `DateTime.UtcNow` in the code under test.** The test cannot move that clock, so "expires after 15 minutes" needs a real 15-minute wait or stays untested. Inject `TimeProvider` and call `GetUtcNow()`.
 - **Mocking a concrete class whose members are not virtual.** The setup throws or is silently ignored, so the test never controls the dependency. Put an interface in front of it.
 - **Verifying every call.** `Received(1)` on each interaction fails on harmless refactors. Assert the outcome, and verify only interactions that are the behavior.
-- **Mocking `DbSet` for queries.** The LINQ runs over a list, not as SQL, so translation errors never show. Test queries against a real database (lesson 04).
+- **Mocking `DbSet` for queries.** The LINQ runs over a list, not as SQL, so translation errors never show. Test queries against a real database (lesson 09/04).
 
 ## In practice
 

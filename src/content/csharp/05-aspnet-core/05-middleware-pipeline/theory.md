@@ -8,7 +8,7 @@ You need: 05/01 (requests, responses and `Program.cs`), 05/02 (lifetimes and cap
 
 Many concerns apply to almost every request: catching unhandled exceptions, logging, checking who the caller is, adding security headers. Writing them in every endpoint would repeat the same code hundreds of times. ASP.NET Core puts them in the **pipeline**: one explicit chain of request delegates, written in order in `Program.cs`. Each piece, a **middleware**, receives the `HttpContext` (the request and the response being built), may do work, calls the next one (or does not), and may do more work on the way back.
 
-Two consequences shape everything below. Order is the order of the code, nothing else. And a middleware sees the HTTP request only: it cannot wrap a call to one of your services (a decorator does that, lesson 02), and it does not know when something in your domain happened, such as an order being placed.
+Two consequences shape everything below. Order is the order of the code, nothing else. And a middleware sees the HTTP request only: it cannot wrap a call to one of your services (a decorator does that, lesson 05/02), and it does not know when something in your domain happened, such as an order being placed.
 
 ## Use, Run and Map
 
@@ -118,7 +118,7 @@ Register it with `app.UseRequestTiming();` at the point in the pipeline where it
 Two rules show up in this small class:
 
 - **Headers cannot change once the body has started.** ASP.NET Core does not buffer the response, so after the first write the headers are already on the wire and setting one throws. Set them before calling `next`, or register `Response.OnStarting` as above, or check `Response.HasStarted`. Also do not call `next` after you have written to the response yourself.
-- **Middleware is a singleton in practice.** Convention-based middleware is constructed once at startup and lives for the whole application. Constructor parameters must therefore be singletons (a logger is fine). A scoped service, such as a `DbContext` or a per-request cart, goes into `InvokeAsync` as an extra parameter, which DI fills per request: `InvokeAsync(HttpContext context, ICartService carts)`. Injecting a scoped service into the constructor is the captive dependency from lesson 02: in Development it throws at runtime (scope validation); in Production it silently shares one instance across all requests.
+- **Middleware is a singleton in practice.** Convention-based middleware is constructed once at startup and lives for the whole application. Constructor parameters must therefore be singletons (a logger is fine). A scoped service, such as a `DbContext` or a per-request cart, goes into `InvokeAsync` as an extra parameter, which DI fills per request: `InvokeAsync(HttpContext context, ICartService carts)`. Injecting a scoped service into the constructor is the captive dependency from lesson 05/02: in Development it throws at runtime (scope validation); in Production it silently shares one instance across all requests.
 
 The alternative is factory-based middleware: implement `IMiddleware`, register the class in DI, usually as scoped or transient, and it is activated per request, so scoped constructor injection works. Registering it as a singleton would bring the captive problem back.
 

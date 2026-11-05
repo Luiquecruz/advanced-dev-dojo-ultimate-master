@@ -2,7 +2,7 @@
 
 After this lesson you can make a .NET API and worker observable in production. You will export traces, metrics and logs with OpenTelemetry over OTLP, add your own spans and counters, carry one trace from an HTTP request through a message broker into a worker, and expose liveness and readiness health checks that a platform can probe.
 
-You need: 05/04 (`ILogger`), 05/05 (middleware), 10/03 (RabbitMQ), 10/05 (`HttpClient`) and lesson 03 of this module (probes and replicas).
+You need: 05/04 (`ILogger`), 05/05 (middleware), 10/03 (RabbitMQ), 10/05 (`HttpClient`) and 11/03 (probes and replicas).
 
 ## Instrumentation is part of the platform
 
@@ -118,12 +118,12 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
 });
 ```
 
-`/health/live` runs no checks: it answers `Healthy` while the process can serve requests, which is all a liveness probe should ask. `/health/ready` checks the database. The default response is plain text (`Healthy`, `Degraded` or `Unhealthy`), and `Unhealthy` returns **503**, which is what probes and load balancers look at (lesson 03). The popular `AspNetCore.HealthChecks.*` packages for Redis, RabbitMQ and others are community projects that Microsoft does not maintain or support.
+`/health/live` runs no checks: it answers `Healthy` while the process can serve requests, which is all a liveness probe should ask. `/health/ready` checks the database. The default response is plain text (`Healthy`, `Degraded` or `Unhealthy`), and `Unhealthy` returns **503**, which is what probes and load balancers look at (lesson 11/03). The popular `AspNetCore.HealthChecks.*` packages for Redis, RabbitMQ and others are community projects that Microsoft does not maintain or support.
 
 ## Common mistakes
 
 - **A source missing from `AddSource`.** You create `new ActivitySource("Catalog.Orders")`, but only the ASP.NET Core spans arrive: `StartActivity` returns `null` and an `activity.SetTag` without `?.` throws `NullReferenceException`. Register every source and meter name, and use `activity?.`.
-- **Liveness that checks the database.** A database outage restarts every replica in a loop. Check dependencies in readiness only.
+- **Extracting the context and then ignoring it.** `StartActivity("process order-placed", ActivityKind.Consumer)` without `parent.ActivityContext` starts a new trace, so the request seems to end at the queue. Pass the extracted context as the parent.
 - **Log files inside containers.** They vanish with the replica and nobody reads them. Write to stdout and export through OpenTelemetry.
 - **A hard-coded exporter endpoint.** The image then only works against one backend. Read `OTEL_EXPORTER_OTLP_ENDPOINT` from configuration.
 

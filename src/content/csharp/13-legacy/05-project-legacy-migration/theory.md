@@ -1,8 +1,8 @@
 # Project P7: Migrate One Endpoint Incrementally
 
-In this project you run a legacy app and a new ASP.NET Core 10 app side by side, put YARP in front, and move one endpoint from the old app to the new one while clients keep calling a single host. It is the Strangler Fig from lesson 4 at kata size: small enough to finish in a day, real enough to show where the friction is. Expect about 8 hours.
+In this project you run a legacy app and a new ASP.NET Core 10 app side by side, put YARP in front, and move one endpoint from the old app to the new one while clients keep calling a single host. It is the Strangler Fig from lesson 13/04 at kata size: small enough to finish in a day, real enough to show where the friction is. Expect about 8 hours.
 
-You need: lessons 2 and 4 of this module, 06/01 (minimal APIs), 06/03 (HTTP status codes), 09/03 (`WebApplicationFactory` tests) and 11/04 (tracing, for a stretch goal).
+You need: 13/02 and 13/04, 06/01 (minimal APIs), 06/03 (HTTP status codes), 09/03 (`WebApplicationFactory` tests) and 11/04 (tracing, for a stretch goal).
 
 ## Goal
 
@@ -107,7 +107,7 @@ Assert the status on the legacy route too. When the legacy app is down, the forw
 
 ## Where to get help
 
-- Lesson 4 of this module (migration strategies), lesson 2 (reading Web API 2), 06/01 (minimal APIs) and 09/03 (integration tests with `WebApplicationFactory`).
+- Lesson 13/04 (migration strategies), lesson 13/02 (reading Web API 2), 06/01 (minimal APIs) and 09/03 (integration tests with `WebApplicationFactory`).
 - Microsoft: [Get started with YARP](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/getting-started), [Remote app setup](https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/inc/remote-app-setup) and [Get started with incremental migration](https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/start).
 
 ## Check yourself

@@ -2,7 +2,7 @@
 
 After this lesson you can investigate a .NET process that is slow, burning CPU or growing in memory, without attaching a debugger. You will read live runtime metrics with `dotnet-counters`, record a CPU trace with `dotnet-trace`, capture and analyze a memory dump with `dotnet-dump`, and do all three when the app runs in a container.
 
-You need: 04/05 (thread-pool starvation), 11/01 (containers), 11/04 (OpenTelemetry metrics) and lesson 02 of this module (the GC).
+You need: 04/05 (thread-pool starvation), 11/01 (containers), 11/04 (OpenTelemetry metrics) and 14/02 (the GC).
 
 ## A process that lives for days
 
@@ -25,7 +25,7 @@ dotnet-counters monitor --process-id 1234 --refresh-interval 3 --counters System
 
 On .NET 9 and later, `System.Runtime` shows `System.Diagnostics.Metrics` instruments with OpenTelemetry-style names. What to read:
 
-- `dotnet.gc.collections` by generation and `dotnet.gc.heap.total_allocated`: a high gen 2 count or a fast-growing allocation total points to lesson 02's problems.
+- `dotnet.gc.collections` by generation and `dotnet.gc.heap.total_allocated`: a high gen 2 count or a fast-growing allocation total points to lesson 14/02's problems.
 - `dotnet.gc.last_collection.heap.size`: if it keeps climbing between collections under steady load, something holds references.
 - `dotnet.thread_pool.queue.length` and `dotnet.thread_pool.thread.count`: the starvation signature from 04/05.
 - `dotnet.exceptions`: thousands per second means exceptions used for control flow, or a failing dependency.

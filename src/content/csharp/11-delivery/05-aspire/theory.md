@@ -2,7 +2,7 @@
 
 After this lesson you can describe an API, a worker, PostgreSQL and RabbitMQ in one C# AppHost, start them all with `aspire run`, and read their logs, traces and metrics in the Aspire dashboard. You will know what Aspire's service defaults wire up for you, how far its publish and deploy commands go, and the support model that comes with it: only the latest release is supported.
 
-You need: 05/03 (configuration and connection strings), 10/03 (RabbitMQ), 10/05 (HTTP clients and resilience) and lessons 01, 03 and 04 of this module (Compose, hosting platforms, OpenTelemetry and health checks).
+You need: 05/03 (configuration and connection strings), 10/03 (RabbitMQ), 10/05 (HTTP clients and resilience) and 11/01, 11/03 and 11/04 (Compose, hosting platforms, OpenTelemetry and health checks).
 
 ## One model for the whole local system
 
@@ -10,7 +10,7 @@ A backend rarely runs alone: an API, a worker, a database and a broker must star
 
 Aspire's answer: **the topology is C# code that also configures your apps.** The AppHost starts the containers and your .NET projects, generates connection strings and injects them as environment variables into each project that references a resource. The dashboard then shows every process's logs and traces in one place.
 
-Aspire is **not your production platform**. Its overview says "Aspire isn't a cloud provider or production runtime." The AppHost orchestrates development and can generate deployment artifacts (below); in production, your apps run on App Service, Container Apps, Kubernetes or ECS (lesson 03), with configuration from that platform.
+Aspire is **not your production platform**. Its overview says "Aspire isn't a cloud provider or production runtime." The AppHost orchestrates development and can generate deployment artifacts (below); in production, your apps run on App Service, Container Apps, Kubernetes or ECS (lesson 11/03), with configuration from that platform.
 
 ## The AppHost
 
@@ -36,7 +36,7 @@ builder.Build().Run();
 
 - `AddPostgres` and `AddRabbitMQ` come from the hosting integrations `Aspire.Hosting.PostgreSQL` and `Aspire.Hosting.RabbitMQ`; `aspire add postgres` installs them. They run the official images in your container runtime.
 - `WithReference(catalogDb)` gives the project a connection string named after the resource, `catalogdb`, as configuration.
-- `WaitFor` delays the project's start until the resource is healthy. This is the Aspire version of Compose's `condition: service_healthy` from lesson 01.
+- `WaitFor` delays the project's start until the resource is healthy. This is the Aspire version of Compose's `condition: service_healthy` from lesson 11/01.
 - `Projects.Catalog_Api` is a generated type for the referenced project, so a renamed project is a compile error, not a wrong path.
 
 ## Consuming resources in the apps
@@ -61,7 +61,7 @@ The app does not know where PostgreSQL runs. It asks for `catalogdb`, and in pro
 
 The `ServiceDefaults` project in the template is ordinary code you own. Its `AddServiceDefaults()` does four things:
 
-- **OpenTelemetry** with ASP.NET Core, `HttpClient` and runtime instrumentation, exporting over OTLP when `OTEL_EXPORTER_OTLP_ENDPOINT` is set. This is the lesson 04 setup, already written.
+- **OpenTelemetry** with ASP.NET Core, `HttpClient` and runtime instrumentation, exporting over OTLP when `OTEL_EXPORTER_OTLP_ENDPOINT` is set. This is the lesson 11/04 setup, already written.
 - **Health checks**, with a `self` check tagged `live`; `MapDefaultEndpoints()` maps `/health` (all checks) and `/alive` (`live` only) in Development.
 - **Service discovery**, so `http://api` resolves to the right local port.
 - **Resilience** on every `HttpClient` through `AddStandardResilienceHandler()`, which retries transient failures.
@@ -84,9 +84,8 @@ The CLI reference marks `publish`, `deploy` and `destroy` as preview commands. T
 
 ## Common mistakes
 
-- **Expecting `/health` in production.** The service defaults map `/health` and `/alive` only in Development, so a production probe gets 404 and the platform marks every replica unhealthy. Map your own health endpoints (lesson 04).
+- **Expecting `/health` in production.** The service defaults map `/health` and `/alive` only in Development, so a production probe gets 404 and the platform marks every replica unhealthy. Map your own health endpoints (lesson 11/04).
 - **Shipping the AppHost as a production process.** It is a development orchestrator; in production nothing supervises your apps but the platform. Deploy the apps and use `aspire publish` for the artifacts.
-- **Freezing on an old Aspire version.** Only the latest release is supported, so a version two releases behind gets no fixes. Upgrade as routine work.
 
 ## In practice
 

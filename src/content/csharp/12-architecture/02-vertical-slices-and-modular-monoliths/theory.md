@@ -2,11 +2,11 @@
 
 After this lesson you can organize an ASP.NET Core application by feature instead of by technical layer, split a monolith into modules with enforced boundaries inside one deployable, and choose between layers, slices and modules for a given codebase.
 
-You need: 06/01 (minimal API endpoints and `TypedResults`), 07/02 (EF Core), 10/04 (the outbox) and lesson 01 of this module (projects as boundaries).
+You need: 06/01 (minimal API endpoints and `TypedResults`), 07/02 (EF Core), 10/04 (the outbox) and 12/01 (projects as boundaries).
 
 ## Layers cut horizontally, slices cut vertically
 
-Lesson 01 split code by technical concern: endpoints in one project, use cases in another, EF Core in a third. Adding one feature ("get a product by SKU") touches all of them. A **vertical slice** groups everything one request needs, from the endpoint to the query, in one place. Jimmy Bogard, who popularized the term, sums it up as "minimize coupling between slices, and maximize coupling in a slice."
+Lesson 12/01 split code by technical concern: endpoints in one project, use cases in another, EF Core in a third. Adding one feature ("get a product by SKU") touches all of them. A **vertical slice** groups everything one request needs, from the endpoint to the query, in one place. Jimmy Bogard, who popularized the term, sums it up as "minimize coupling between slices, and maximize coupling in a slice."
 
 ```
 Catalog.Api/
@@ -57,7 +57,7 @@ products.MapCreateProduct().RequireAuthorization("admin"); // this endpoint only
 // ...
 ```
 
-Each slice picks the simplest approach that works. A read slice projects straight from the `DbContext`; a write slice with real rules calls a domain object (lesson 03). There is no mandatory repository or service layer to pass through, so there is nothing to keep in sync. The price: the team must notice when logic is duplicated across slices and move it into a shared domain type. Bogard names that as the main drawback: the style assumes a team that recognizes code smells and refactors.
+Each slice picks the simplest approach that works. A read slice projects straight from the `DbContext`; a write slice with real rules calls a domain object (lesson 12/03). There is no mandatory repository or service layer to pass through, so there is nothing to keep in sync. The price: the team must notice when logic is duplicated across slices and move it into a shared domain type. Bogard names that as the main drawback: the style assumes a team that recognizes code smells and refactors.
 
 ## Modular monolith: modules with real boundaries
 
@@ -136,7 +136,7 @@ Rules that keep the boundary honest:
 | Vertical slices | Many independent use cases, mostly reads and simple writes, frequent feature changes |
 | Modular monolith | Several business capabilities and teams in one codebase, boundaries still moving, one deployment acceptable |
 
-They combine: modules on the outside, slices inside each module, and a small domain model where the rules are hard. A modular monolith is also the cheapest way to find the boundaries a future microservice would need (lesson 05).
+They combine: modules on the outside, slices inside each module, and a small domain model where the rules are hard. A modular monolith is also the cheapest way to find the boundaries a future microservice would need (lesson 12/05).
 
 ## Status as of 2026-11-05
 

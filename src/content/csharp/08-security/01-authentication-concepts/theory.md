@@ -66,16 +66,16 @@ Which flow gets the token is the client's concern, not the API's. The current gu
 
 ## Common mistakes
 
-- **Registering authentication and calling the API protected.** `AddAuthentication().AddJwtBearer()` only teaches the app how to read a token. An endpoint without `RequireAuthorization()`, `[Authorize]` or a fallback policy still answers an anonymous caller with `200`. Add authorization metadata or a fallback policy (lesson 03).
+- **Registering authentication and calling the API protected.** `AddAuthentication().AddJwtBearer()` only teaches the app how to read a token. An endpoint without `RequireAuthorization()`, `[Authorize]` or a fallback policy still answers an anonymous caller with `200`. Add authorization metadata or a fallback policy (lesson 08/03).
 - **Returning `401` for a permission problem.** The client reads it as "sign in again" and loops through sign-in. Answer `403` (or `404`) when the caller is known but not allowed.
 - **Sending the ID token to the API.** It is addressed to the client and carries the client's audience, so a correctly configured API rejects it with `401`. Send the access token.
 - **Keeping access tokens in `localStorage`.** Any XSS bug on the page can read and replay them. Keep tokens on a backend and give the browser an `HttpOnly` cookie.
 
 ## In practice
 
-- Your API is almost always a **resource server**. It validates tokens that someone else issued (next lesson) and makes authorization decisions (lesson 03). Issuing tokens is the identity provider's job.
+- Your API is almost always a **resource server**. It validates tokens that someone else issued (next lesson) and makes authorization decisions (lesson 08/03). Issuing tokens is the identity provider's job.
 - Choose by client: cookies for browser apps on your own site, bearer tokens for mobile apps, services and integrations. One API can accept both schemes when it serves both.
-- Make protection the default. A fallback policy that requires an authenticated user (lesson 03) protects the endpoint someone adds next month and forgets to mark.
+- Make protection the default. A fallback policy that requires an authenticated user (lesson 08/03) protects the endpoint someone adds next month and forgets to mark.
 
 ## Check yourself
 

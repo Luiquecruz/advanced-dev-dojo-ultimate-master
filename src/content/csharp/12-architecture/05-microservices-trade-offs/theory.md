@@ -2,7 +2,7 @@
 
 After this lesson you can decide between a monolith, a modular monolith and microservices with concrete criteria, name what a split costs in consistency, testing and operations, and recognize what a .NET service needs once a method call becomes a network call.
 
-You need: 07/06 (transactions), 10/04 (outbox and idempotent consumers), 10/05 (typed HTTP clients and the standard resilience handler), 11/04 (distributed tracing) and lesson 02 of this module (the modular monolith).
+You need: 07/06 (transactions), 10/04 (outbox and idempotent consumers), 10/05 (typed HTTP clients and the standard resilience handler), 11/04 (distributed tracing) and 12/02 (the modular monolith).
 
 ## One transaction, then a network call
 
@@ -35,7 +35,7 @@ The same Azure page lists the challenges: more moving parts, harder testing acro
 
 ## A method call becomes a network call
 
-In the modular monolith of lesson 02, Ordering reads stock in-process:
+In the modular monolith of lesson 12/02, Ordering reads stock in-process:
 
 ```csharp
 var available = await stockReader.GetAvailableAsync(sku, ct); // IStockReader, same process
@@ -92,7 +92,7 @@ Microsoft's guide to service boundaries adds the checks: no chatty calls between
 
 - **The usual path is incremental.** Build a modular monolith, keep module boundaries honest, extract the one module that has a real reason to leave, and route traffic to it gradually (the Strangler Fig approach of 13/04).
 - **Share contracts, not code.** The Azure guide lists shared libraries as an antipattern because they couple releases; share message and API schemas instead.
-- **Reference app:** `dotnet/eShop` is Microsoft's current services-based sample, on .NET 10 with Aspire, running PostgreSQL, Redis and RabbitMQ. It references MediatR 13.1.0, which falls under the RPL-1.5/commercial licence from lesson 04, so check the licence before you copy its dependencies.
+- **Reference app:** `dotnet/eShop` is Microsoft's current services-based sample, on .NET 10 with Aspire, running PostgreSQL, Redis and RabbitMQ. It references MediatR 13.1.0, which falls under the RPL-1.5/commercial licence from lesson 12/04, so check the licence before you copy its dependencies.
 
 ## Status as of 2026-11-05
 

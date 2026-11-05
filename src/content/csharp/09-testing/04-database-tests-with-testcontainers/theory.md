@@ -14,7 +14,7 @@ Microsoft's recommendation is plain: "We recommend that developers have good tes
 
 ## Docker in brief
 
-Docker runs a program from an **image** (a packaged file system with the program and everything it needs) as a **container**, an isolated process with its own network and files. `docker run postgres:17` starts a PostgreSQL server without installing one, and removing the container throws everything away. Lesson 11/01 builds images of your own; here you only need Docker installed and running.
+Docker runs a program from an **image** (a packaged file system with the program and everything it needs) as a **container**, an isolated process with its own network and files. `docker run postgres:18` starts a PostgreSQL server without installing one, and removing the container throws everything away. Lesson 11/01 builds images of your own; here you only need Docker installed and running.
 
 ## What Testcontainers does
 
@@ -27,7 +27,7 @@ dotnet add package Testcontainers.PostgreSql
 ```csharp
 using Testcontainers.PostgreSql;
 
-var postgres = new PostgreSqlBuilder("postgres:17").Build();
+var postgres = new PostgreSqlBuilder("postgres:18").Build();
 await postgres.StartAsync();                      // pulls the image if needed, waits until ready
 var connectionString = postgres.GetConnectionString();
 // ... use it
@@ -38,7 +38,7 @@ Each run gets a fresh server on a random host port, so tests never collide with 
 
 ## Wiring it into WebApplicationFactory
 
-Combine it with lesson 03: the factory starts the container, points the app's `DbContext` at it and applies the real migrations from module 07.
+Combine it with lesson 09/03: the factory starts the container, points the app's `DbContext` at it and applies the real migrations from module 07.
 
 ```csharp
 using Microsoft.AspNetCore.Hosting;
@@ -53,7 +53,7 @@ using Xunit;
 
 public sealed class CatalogApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
-    private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder("postgres:17").Build();
+    private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder("postgres:18").Build();
 
     public async ValueTask InitializeAsync()
     {
@@ -133,7 +133,7 @@ public sealed class ProductSearchTests(CatalogApiFactory factory) : IClassFixtur
 - Test against the real engine what only the real engine can prove: LINQ translation, migrations, unique constraints, optimistic concurrency (P3's second `PUT` with a stale row version must return 409), provider functions, raw SQL and Dapper queries.
 - Keep business rules in unit tests. A database test per rule makes the suite slow for no gain.
 - Start one container per test class or collection, not per test. Container startup takes seconds; queries against a local container are fast.
-- Pin the image tag to the version you run in production (`postgres:17`, not `postgres:latest`).
+- Pin the image tag to the version you run in production (`postgres:18`, not `postgres:latest`).
 
 ## Status as of 2026-11-05
 

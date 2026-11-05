@@ -76,7 +76,7 @@ public static class PerformanceAndMemoryTests
         return sum;
     }
 
-    [Test("Parse reads a SKU and a quantity from a slice, trimming spaces, and throws FormatException for a line without a comma or with a bad number")]
+    [Test("Parse reads a SKU and a quantity from a slice, trimming spaces, and throws FormatException for a line without a comma, with an empty SKU or with a bad number")]
     public static void ParseReadsASlice()
     {
         Assert.Equal(new StockLine("MUG-01", 12), LineParser.Parse("MUG-01,12"));
@@ -84,6 +84,7 @@ public static class PerformanceAndMemoryTests
         Assert.Equal(new StockLine("HAT", 5), LineParser.Parse("xxHAT,5yy".AsSpan(2, 5)));
         Assert.Throws<FormatException>(() => LineParser.Parse("MUG-01;12"));
         Assert.Throws<FormatException>(() => LineParser.Parse("MUG-01,twelve"));
+        Assert.Throws<FormatException>(() => LineParser.Parse(" ,5"));
     }
 
     [Test("SumQuantities adds up every line, skips blank lines, and accepts a trailing newline and Windows line endings")]

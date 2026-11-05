@@ -106,7 +106,7 @@ Limits to know: generation only covers the assembly where `AddValidation` is cal
 ## Common mistakes
 
 - **Forgetting `AddValidation()`.** The attributes compile and do nothing: invalid input reaches the handler, and nothing logs a warning. Call `builder.Services.AddValidation()` and test that a bad body returns 400.
-- **A complex type on a `GET`.** `GET /products` with a `ProductFilter filter` parameter is treated as a body, which `GET` never binds, so the request fails. Use `[AsParameters]` to read it from the query string.
+- **A complex type on a `GET`.** `GET /products` with a `ProductFilter filter` parameter is inferred as a body, which `GET` does not allow, so building the endpoint throws `InvalidOperationException` ("Body was inferred but the method does not allow inferred body parameters"), which breaks every route, not one request. Use `[AsParameters]` to read it from the query string.
 - **A route constraint as validation.** `/orders/{id:int}` makes `/orders/abc` a 404, and the client learns nothing. Bind `int id` without a constraint so a bad value gets a 400.
 
 ## In practice

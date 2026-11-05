@@ -24,7 +24,7 @@ The usual API **does not issue tokens and stores nothing about them**. It trusts
 
 ## Reading a token by hand
 
-The handler does this for you, but decoding one token yourself shows what it checks. Base64URL is Base64 made safe for URLs: `-` and `_` replace `+` and `/`, and the trailing `=` padding is dropped. `Convert.FromBase64String` expects the standard alphabet with padding, so it throws `FormatException` on many segments; .NET 9 added `Base64Url` for the URL variant.
+Decoding a token yourself shows what the handler checks. Base64URL is Base64 made safe for URLs: `-` and `_` replace `+` and `/`, and the trailing `=` padding is dropped. `Convert.FromBase64String` expects the standard alphabet with padding, so it throws `FormatException` on many segments; .NET 9 added `Base64Url` for the URL variant.
 
 ```csharp
 using System.Buffers.Text;
@@ -38,9 +38,19 @@ JsonElement claims = payload.RootElement;
 
 string? issuer = claims.GetProperty("iss").GetString();
 DateTimeOffset expires = DateTimeOffset.FromUnixTimeSeconds(claims.GetProperty("exp").GetInt64());
+string? subject = claims.TryGetProperty("sub", out JsonElement sub) ? sub.GetString() : null;
+
+var audiences = new List<string>();
+if (claims.TryGetProperty("aud", out JsonElement aud))
+{
+    if (aud.ValueKind == JsonValueKind.Array)
+        foreach (JsonElement item in aud.EnumerateArray()) audiences.Add(item.GetString()!);
+    else
+        audiences.Add(aud.GetString()!);
+}
 ```
 
-Times are NumericDate values, seconds since 1970-01-01 UTC. `aud` may be one string or an array of strings (RFC 7519), so check `ValueKind` before reading it. None of this verifies the signature: until that check passes, every claim is text anyone could have written.
+`GetProperty` throws `KeyNotFoundException` for a missing claim; `TryGetProperty` returns `false`, which suits optional claims. `Parse` throws `JsonException` when the payload is not valid JSON. Times are NumericDate seconds since 1970-01-01 UTC, and `aud` is one string or an array (RFC 7519). None of this verifies the signature: until it passes, every claim is text anyone could have written.
 
 ## Configuring the handler
 
@@ -74,7 +84,7 @@ You can also configure the scheme from `appsettings.json`: minimal-API apps read
 ## Defaults that surprise
 
 - **Claim mapping.** By default (`MapInboundClaims = true`) the handler renames well-known short claims to long `ClaimTypes` URIs, so `sub` arrives as `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier`. Choose once per app: keep the mapping and use the `ClaimTypes` constants, or set `MapInboundClaims = false` and read the claims as the issuer sent them. The second option has a required half: `NameClaimType` and `RoleClaimType` still default to the long URIs, so set them to your issuer's short names, as the snippet above does. Without them `User.Identity.Name` is `null` and `IsInRole`, `RequireRole` and `[Authorize(Roles = ...)]` never match.
-- **Clock skew.** `TokenValidationParameters.DefaultClockSkew` is 5 minutes: a token counts as expired only when `exp` is more than five minutes in the past, and as not yet valid only when `nbf` is more than five minutes in the future. Tests that wait for a one-minute token to expire will "fail" because of it. Lower it if your servers' clocks are synchronized.
+- **Clock skew.** `TokenValidationParameters.DefaultClockSkew` is 5 minutes: a token counts as expired only when `exp` is more than five minutes in the past, and as not yet valid only when `nbf` is more than five minutes in the future. A test waiting for a one-minute token to expire "fails" because of it. Lower it when server clocks are synchronized.
 - **No revocation.** A stolen or logged-out token keeps working until it expires. Keep access tokens short-lived and let the client renew them through the identity provider; revocation at the API needs extra machinery (introspection or a deny list), which is the identity provider's area.
 
 ## Tokens for local development
@@ -102,8 +112,7 @@ It stores its signing key with the Secret Manager in your user profile and write
 ## In practice
 
 - Treat the API as a token **validator**. Configure `Authority` and `Audience`, keep the signature, issuer, audience and lifetime checks on, and let an identity provider issue tokens. Microsoft limits self-created tokens to test scenarios.
-- Read failure reasons in the logs: the handler logs why validation failed (expired, bad signature, wrong audience) at `Information` level under the `Microsoft.AspNetCore.Authentication` category. The default `"Microsoft.AspNetCore": "Warning"` setting hides them, so add `"Microsoft.AspNetCore.Authentication": "Information"` to `Logging:LogLevel` while diagnosing. The `401` response itself says little on purpose.
-- If an API accepts tokens from several issuers, register one named scheme per issuer and a policy scheme (`AddPolicyScheme`) that picks between them.
+- Read failure reasons in the logs: the handler logs why validation failed (expired, bad signature, wrong audience) at `Information` level under the `Microsoft.AspNetCore.Authentication` category. The default `"Microsoft.AspNetCore": "Warning"` setting hides them, so add `"Microsoft.AspNetCore.Authentication": "Information"` to `Logging:LogLevel` while diagnosing.
 
 ## Check yourself
 

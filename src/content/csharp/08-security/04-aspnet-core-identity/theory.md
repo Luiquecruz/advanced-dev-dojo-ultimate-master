@@ -98,7 +98,7 @@ After a security-relevant change (new password, role removed), call `UserManager
 | --- | --- |
 | One API with its own SPA or mobile app, its own users | Identity + `MapIdentityApi` (cookies for the SPA on the same site, tokens for mobile) |
 | Server-rendered app or Blazor Web App with local accounts | Identity with cookies (and passkeys in .NET 10) |
-| Several apps sharing one login, third-party clients, B2B partners | an identity provider issuing OIDC/OAuth tokens; your APIs validate JWTs (lesson 02) |
+| Several apps sharing one login, third-party clients, B2B partners | an identity provider issuing OIDC/OAuth tokens; your APIs validate JWTs (lesson 08/02) |
 | Staff accounts in Microsoft 365 | Microsoft Entra ID, not local accounts |
 
 When you need an OIDC server you host yourself, options include Duende IdentityServer (which older SPA templates used; Microsoft notes it "might require you to pay a license fee for production use"), OpenIddict and Keycloak. Compare their licences before you commit; this track recommends none of them.

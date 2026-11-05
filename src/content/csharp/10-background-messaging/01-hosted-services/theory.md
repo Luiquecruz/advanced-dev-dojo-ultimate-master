@@ -90,7 +90,7 @@ It has configuration, logging and DI like a web app, but no Kestrel and no endpo
 
 ## In-process queues
 
-Hosted services can also drain an in-memory queue: an endpoint writes a work item to a bounded `Channel<T>` (module 04) and returns `202 Accepted`, and a `BackgroundService` reads and runs the items. Microsoft's hosted services article shows this pattern. It is good for work you can afford to lose, because the queue lives in process memory: a crash, a deploy or a scale-in drops whatever was waiting. Work that must survive belongs in a durable store or a broker (lessons 02 and 03).
+Hosted services can also drain an in-memory queue: an endpoint writes a work item to a bounded `Channel<T>` (module 04) and returns `202 Accepted`, and a `BackgroundService` reads and runs the items. Microsoft's hosted services article shows this pattern. It is good for work you can afford to lose, because the queue lives in process memory: a crash, a deploy or a scale-in drops whatever was waiting. Work that must survive belongs in a durable store or a broker (lessons 10/02 and 10/03).
 
 ## Common mistakes
 
@@ -102,7 +102,7 @@ Hosted services can also drain an in-memory queue: an endpoint writes a work ite
 ## In practice
 
 - **Same host or separate worker.** Start in the API process when the job is small. Move it to a Worker Service when it needs its own scaling, its own deploy cadence, or should not compete with requests for CPU.
-- **Every replica runs every hosted service**, so scheduled work on several instances needs coordination (lesson 02).
+- **Every replica runs every hosted service**, so scheduled work on several instances needs coordination (lesson 10/02).
 - **Do not capture request state.** `HttpContext` must not be stored or used after the request; copy the values you need (an order id, a user id) into the work item.
 
 ## Status as of 2026-11-05

@@ -65,7 +65,7 @@ What to know before you trust it:
 - The default rejection status is **503**, which tells clients the server is down; set `429 Too Many Requests` and, in `OnRejected`, a `Retry-After` header from the lease metadata.
 - `UseRateLimiter` must come after `UseRouting` when you use endpoint policies (`RequireRateLimiting`, `[EnableRateLimiting]`).
 - Counters live **in memory, per instance**. Three instances behind a load balancer allow three times the limit. For one global limit use a gateway or a limiter backed by a shared store.
-- Each partition key creates a limiter. Partitioning on unbounded user input (an arbitrary header) can exhaust memory, and Microsoft notes that partitioning by client IP is exposed to IP spoofing. The example partitions on `sub`, which every access token carries (with `MapInboundClaims = false`, lesson 02; with the default mapping read `ClaimTypes.NameIdentifier`). Microsoft's samples use `User.Identity?.Name`, but that is `null` unless `NameClaimType` matches a claim in the token, and then every signed-in user would share the `"anonymous"` bucket. All anonymous callers share one bucket, which suits an API where almost everything requires sign-in.
+- Each partition key creates a limiter. Partitioning on unbounded user input (an arbitrary header) can exhaust memory, and Microsoft notes that partitioning by client IP is exposed to IP spoofing. The example partitions on `sub`, which every access token carries (with `MapInboundClaims = false`, lesson 08/02; with the default mapping read `ClaimTypes.NameIdentifier`). Microsoft's samples use `User.Identity?.Name`, but that is `null` unless `NameClaimType` matches a claim in the token, and then every signed-in user would share the `"anonymous"` bucket. All anonymous callers share one bucket, which suits an API where almost everything requires sign-in.
 - Rate limiting helps against abuse and accidental floods; it is not DDoS protection, which belongs to the hosting platform or a CDN/WAF.
 
 ## Secrets
@@ -85,8 +85,8 @@ A checklist to walk through for every API, with where ASP.NET Core helps:
 
 | Risk | What to do in ASP.NET Core |
 | --- | --- |
-| API1 Broken Object Level Authorization | ownership checks per record (lesson 03) |
-| API2 Broken Authentication | validate tokens fully (lesson 02), Identity lockout (lesson 04) |
+| API1 Broken Object Level Authorization | ownership checks per record (lesson 08/03) |
+| API2 Broken Authentication | validate tokens fully (lesson 08/02), Identity lockout (lesson 08/04) |
 | API3 Broken Object Property Level Authorization | request and response DTOs, never bind or return entities directly |
 | API4 Unrestricted Resource Consumption | rate limiting, paging limits, request size limits |
 | API5 Broken Function Level Authorization | named policies on admin endpoints, a fallback policy |

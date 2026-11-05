@@ -2,7 +2,7 @@
 
 After this lesson you can separate commands from queries in an ASP.NET Core app with a few interfaces and the built-in DI container, add cross-cutting behavior with a decorator, decide whether a mediator library earns its place, and explain the 2025 licence change of MediatR and AutoMapper to your team.
 
-You need: 05/02 (registering services, factories), 05/04 (`ILogger`), 06/01 (minimal API endpoints), 07/02 (EF Core projections), 10/04 (the outbox) and lesson 03 of this module (the `Order` aggregate).
+You need: 05/02 (registering services, factories), 05/04 (`ILogger`), 06/01 (minimal API endpoints), 07/02 (EF Core projections), 10/04 (the outbox) and 12/03 (the `Order` aggregate).
 
 ## CQS and CQRS
 
@@ -26,7 +26,7 @@ public interface IQueryHandler<in TQuery, TResult>
 }
 ```
 
-A command handler loads or creates the aggregate from lesson 03, calls its methods and saves:
+A command handler loads or creates the aggregate from lesson 12/03, calls its methods and saves:
 
 ```csharp
 public sealed record PlaceOrder(Guid CustomerId, string Currency, IReadOnlyList<PlaceOrderLine> Lines);

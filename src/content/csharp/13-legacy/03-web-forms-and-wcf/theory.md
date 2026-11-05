@@ -2,7 +2,7 @@
 
 After this lesson you can read an ASP.NET Web Forms page and a WCF service, explain why neither moves to modern .NET by recompiling, and choose what to do with each: keep a WCF contract alive with CoreWCF, call an old SOAP service from .NET 10 with the WCF client, or plan a Web Forms page as a rewrite.
 
-You need: 05/01 (the ASP.NET Core host), 06/01 (minimal APIs and controllers), 07/05 (ADO.NET and parameterized SQL) and lessons 1 and 2 of this module.
+You need: 05/01 (the ASP.NET Core host), 06/01 (minimal APIs and controllers), 07/05 (ADO.NET and parameterized SQL) and 13/01 and 13/02.
 
 ## Two technologies, two different problems
 

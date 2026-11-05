@@ -115,14 +115,14 @@ app.MapGet("/rates/fedex", ([FromKeyedServices("fedex")] IShippingRates rates) =
 
 ## Decorators: behavior around a service
 
-The built-in container has no interception: it never wraps your methods with extra code on its own. For HTTP cross-cutting concerns you use middleware (lesson 05) and endpoint filters (module 06). For a service, write a decorator: a class that implements the same interface, receives the inner implementation, and adds behavior.
+The built-in container has no interception: it never wraps your methods with extra code on its own. For HTTP cross-cutting concerns you use middleware (lesson 05/05) and endpoint filters (module 06). For a service, write a decorator: a class that implements the same interface, receives the inner implementation, and adds behavior.
 
 ```csharp
 public sealed class LoggingCartService(ICartService inner, ILogger<LoggingCartService> logger) : ICartService
 {
     public async Task<Cart?> GetAsync(int id)
     {
-        logger.LogInformation("Loading cart {CartId}", id); // ILogger: lesson 04
+        logger.LogInformation("Loading cart {CartId}", id); // ILogger: lesson 05/04
         return await inner.GetAsync(id);
     }
 }

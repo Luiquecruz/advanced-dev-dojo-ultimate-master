@@ -2,7 +2,7 @@ Finish a small stock-file toolkit in `Program.cs` with the tools of this lesson:
 
 ## `LineParser.Parse(ReadOnlySpan<char> line)`
 
-Reads one line of the form `"SKU,quantity"` into a `StockLine`. The starter copies the span into a string and splits it, which allocates an array and a string per part. Rewrite it by slicing the span: find the comma with `IndexOf(',')`, take the parts with ranges, and `Trim()` the spaces around each one.
+Reads one line of the form `"SKU,quantity"` into a `StockLine`. The starter copies the span into a string and splits it, which allocates an array and a string per part. Rewrite it by slicing the span: find the comma with `IndexOf(',')`, take the parts with ranges, and `Trim()` the spaces around each one. Slicing is the technique this lesson teaches; the tests cannot see it, so they grade only the results.
 
 - The SKU becomes a string (`sku.ToString()`), the quantity is read with `int.Parse(span, CultureInfo.InvariantCulture)`.
 - A line without a comma, with an empty SKU or with a quantity that is not a number throws `FormatException`.

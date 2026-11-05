@@ -67,14 +67,14 @@ Run the API and the worker with `dotnet run`.
 
 ## Stretch goals
 
-- Replace the direct publish with a transactional outbox and a relay `BackgroundService` in the API (lesson 04), and show that orders saved while RabbitMQ is stopped are published once it is back.
+- Replace the direct publish with a transactional outbox and a relay `BackgroundService` in the API (lesson 10/04), and show that orders saved while RabbitMQ is stopped are published once it is back.
 - Add a delayed retry for transient errors (a retry queue with a message TTL that dead-letters back into the main queue), and dead-letter validation errors immediately.
 - Run two worker instances: messages are shared between them and duplicates stay harmless.
 - Port the consumer to Azure Service Bus with `ServiceBusProcessor`, `AutoCompleteMessages = false` and `MaxDeliveryCount` set to 4.
 
 ## Where to get help
 
-- This module: lesson 01 (hosted services and scopes), lesson 03 (RabbitMQ client), lesson 04 (idempotency, dead letters, outbox).
+- This module: lesson 10/01 (hosted services and scopes), lesson 10/03 (RabbitMQ client), lesson 10/04 (idempotency, dead letters, outbox).
 - 05/02 (lifetimes), module 07 (EF Core, migrations, transactions), 09/04 (Testcontainers).
 - Microsoft: [Background tasks with hosted services](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-10.0) and the [Idempotent Consumer pattern](https://learn.microsoft.com/en-us/azure/architecture/patterns/idempotent-consumer).
 - RabbitMQ: the [.NET work queues tutorial](https://www.rabbitmq.com/tutorials/tutorial-two-dotnet) and [dead letter exchanges](https://www.rabbitmq.com/docs/dlx).

@@ -1,4 +1,4 @@
-Finish `ReliableConsumer` in `Program.cs`: the code that sits between the broker and your handler and turns at-least-once delivery into effectively-once processing.
+Finish `ReliableConsumer` in `Program.cs`: the code that sits between the broker and your handler and holds the dedup, retry and dead-letter logic of an effectively-once consumer on top of at-least-once delivery.
 
 `new ReliableConsumer(processed, handle, delay, maxAttempts, firstDelay)` receives everything it depends on:
 
@@ -18,5 +18,7 @@ Returns what happened to the message:
 - An **`OperationCanceledException`** means the consumer is stopping: let it propagate, without retrying or dead-lettering.
 
 A dead-lettered message is not marked as processed, so an operator can fix it and resubmit it with the same id.
+
+This in-memory version still leaves a crash window: a process that dies after the handler's side effect and before `Add` processes the message again on redelivery. In production the marker goes into the inbox table in the same transaction as the side effect, or a unique key rejects the second attempt, as the theory shows. Marking after success, which you write here, is still required: the transaction closes the crash window, not the wrong order.
 
 `System.Threading` is already imported at the top of the file.

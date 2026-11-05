@@ -108,7 +108,7 @@ Many teams add a fourth project, **Application**, that holds use cases (one hand
 ## In practice
 
 - **Cost is real.** Each boundary adds an interface, a mapping from entity to response, and a hop to read when debugging. For a CRUD service over a few tables, one project with folders is fine; Microsoft's e-book recommends Clean Architecture for *non-trivial* monoliths, not for every service.
-- **Do not wrap EF Core blindly.** `DbContext` is already a unit of work and `DbSet<T>` is already a repository. A generic `IRepository<T>` with `GetAll()` returning `IQueryable<T>` leaks EF Core into Core anyway and hides what queries run. Define narrow, use-case-shaped interfaces, or let read-only queries use the `DbContext` directly (lesson 04 of this module).
+- **Do not wrap EF Core blindly.** `DbContext` is already a unit of work and `DbSet<T>` is already a repository. A generic `IRepository<T>` with `GetAll()` returning `IQueryable<T>` leaks EF Core into Core anyway and hides what queries run. Define narrow, use-case-shaped interfaces, or let read-only queries use the `DbContext` directly (lesson 12/04).
 - **Keep Core free of framework types.** No `HttpContext`, no `IActionResult`, no EF attributes in Core. Fluent configuration (`IEntityTypeConfiguration<T>`) lives in Infrastructure.
 - **Test the boundary you drew.** Core gets fast unit tests; Infrastructure gets integration tests against a real database (module 09).
 
