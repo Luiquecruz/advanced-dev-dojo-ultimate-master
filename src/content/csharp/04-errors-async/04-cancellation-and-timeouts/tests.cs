@@ -56,7 +56,7 @@ public static class CancellationTests
         async Task<int> Slow(CancellationToken token)
         {
             seen = token;
-            await Task.Delay(TimeSpan.FromSeconds(3), token);
+            await Task.Delay(TimeSpan.FromSeconds(1), token);
             return 1;
         }
 
@@ -71,6 +71,6 @@ public static class CancellationTests
         using var caller = new CancellationTokenSource();
         caller.CancelAfter(TimeSpan.FromMilliseconds(30));
         await Assert.ThrowsAsync<OperationCanceledException>(() =>
-            Deadline.WithTimeoutAsync(async token => { await Task.Delay(TimeSpan.FromSeconds(3), token); return 1; }, TimeSpan.FromSeconds(5), caller.Token));
+            Deadline.WithTimeoutAsync(async token => { await Task.Delay(TimeSpan.FromSeconds(1), token); return 1; }, TimeSpan.FromSeconds(5), caller.Token));
     }
 }

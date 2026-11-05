@@ -2,27 +2,11 @@
   "title": "Deferred Execution and IQueryable",
   "summary": "When a LINQ query really runs, how yield return iterators pause and restart, why enumerating twice repeats the work, where to call ToList, and how IQueryable expression trees become SQL while IEnumerable runs in memory.",
   "level": "intermediate",
-  "tags": [
-    "recommended",
-    "core",
-    "theory"
-  ],
+  "tags": ["recommended", "core", "theory"],
   "resources": [
-    {
-      "label": "Introduction to LINQ queries: immediate, deferred, streaming and non-streaming",
-      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/introduction-to-linq-queries"
-    },
-    {
-      "label": "EF Core: client vs. server evaluation",
-      "url": "https://learn.microsoft.com/en-us/ef/core/querying/client-eval"
-    },
-    {
-      "label": "EF Core: how queries work",
-      "url": "https://learn.microsoft.com/en-us/ef/core/querying/how-query-works"
-    },
-    {
-      "label": "CA1851: possible multiple enumerations of IEnumerable",
-      "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1851"
-    }
+    { "label": "Introduction to LINQ queries: immediate, deferred, streaming and non-streaming", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/introduction-to-linq-queries" },
+    { "label": "EF Core: client vs. server evaluation", "url": "https://learn.microsoft.com/en-us/ef/core/querying/client-eval" },
+    { "label": "EF Core: how queries work", "url": "https://learn.microsoft.com/en-us/ef/core/querying/how-query-works" },
+    { "label": "CA1851: possible multiple enumerations of IEnumerable", "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1851" }
   ]
 }

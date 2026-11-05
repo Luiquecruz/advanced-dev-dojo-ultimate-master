@@ -2,6 +2,7 @@ using Dojo;
 
 public static class InventoryTests
 {
+    // beginner mistake: a dictionary without StringComparer.OrdinalIgnoreCase stores A-1 and a-1 as two SKUs
     [Test("Receive adds to one entry per SKU, whatever its case")]
     public static void ReceiveIgnoresCase()
     {
@@ -13,7 +14,6 @@ public static class InventoryTests
         Assert.Equal(1, inventory.Snapshot().Count);
     }
 
-    // beginner mistake: reading an unknown key with the indexer throws KeyNotFoundException
     [Test("StockOf an unknown SKU is 0 instead of an exception")]
     public static void StockOfUnknownSku()
     {

@@ -2,11 +2,11 @@
 
 After this lesson you can explain what happens between a `.cs` file and running machine code (compiler, CIL, CLR, JIT), tell the SDK from the runtime and say which one a server needs, create a solution with the `dotnet` CLI, and choose between `dotnet run`, `dotnet build` and `dotnet publish`.
 
-In .NET the build step is mandatory: it turns your source files into compiled files, and those compiled files are what you deploy. So "which .NET?" is two questions: which **SDK** builds the code on your machine and in CI, and which **runtime** runs it in production.
-
 You need: 01/01, the map of this track. If you have never written a program, work through module 00 first.
 
 ## From C# to machine code
+
+In .NET the build step is mandatory: it turns your source files into compiled files, and those compiled files are what you deploy. So "which .NET?" is two questions: which **SDK** builds the code on your machine and in CI, and which **runtime** runs it in production.
 
 The C# compiler (Roslyn) turns your source into **common intermediate language (CIL)** and metadata that describes every type and member. Both live in an **assembly**, usually a `.dll`. CIL is CPU-independent. When the program runs, the **common language runtime (CLR)** loads the assembly and a **just-in-time (JIT) compiler** translates each method to native code the first time it is called; later calls run the native code directly. The CLR also provides the garbage collector, type safety checks and exception handling.
 

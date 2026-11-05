@@ -1,5 +1,3 @@
-# Order report
-
 A shop wants a few numbers about its orders. Complete the static class `OrderReport` with one LINQ query per method. The types are given:
 
 ```csharp

@@ -72,6 +72,7 @@ public static class GenericsAndDelegatesTests
     {
         var counter = new StockCounter(initialStock: 3, threshold: 5);
         counter.Remove(1);
+        Assert.Equal(2, counter.Stock);
         var crossing = new StockCounter(initialStock: 5, threshold: 5);
         crossing.Remove(1);
         Assert.Equal(4, crossing.Stock);

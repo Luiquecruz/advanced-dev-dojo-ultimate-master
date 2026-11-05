@@ -2,8 +2,6 @@
 
 After this lesson you can pick a target framework for a new or existing service, explain LTS versus STS and what "end of support" costs you, keep the SDK reproducible with `global.json`, and read a job posting that says ".NET 6" or ".NET Core" knowing what changed since then.
 
-In .NET the version belongs to the **project**, not the server: the target framework in the `.csproj` decides the APIs and the C# version, and a server only needs a runtime of the same major version.
-
 You need: 01/02 (SDK, runtime and the `dotnet` CLI).
 
 ## LTS and STS
@@ -24,6 +22,8 @@ You can make a build warn when it uses an out-of-support SDK:
 ```
 
 ## Target framework and C# version
+
+In .NET the version belongs to the **project**, not the server: the target framework in the `.csproj` decides the APIs and the C# version, and a server only needs a runtime of the same major version.
 
 The **target framework moniker (TFM)** names the API set: `net10.0`, `net8.0`, `netstandard2.0`, `net48`. The last one is **.NET Framework** 4.8, a different product from modern .NET (5 and later): Windows only, C# 7.3 and in maintenance (module 13). A job posting that says ".NET" can mean either. The compiler picks the default C# version from it: `net10.0` gets C# 14, `net9.0` C# 13, `net8.0` C# 12, and every .NET Framework target C# 7.3. Microsoft states that using a language version newer than the one tied to your TFM is unsupported, so do not set `<LangVersion>latest</LangVersion>` to get new syntax on an old target.
 

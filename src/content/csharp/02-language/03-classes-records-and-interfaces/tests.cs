@@ -2,17 +2,17 @@ using Dojo;
 
 public static class CatalogTests
 {
-    private static Product Bag(decimal price) => new(new Sku("24-MB01"), "Joust Duffle Bag", price);
+    private static Product Bag(decimal price) => new(new Sku("BAG-01"), "Travel Bag", price);
 
     // beginner mistake: declaring Sku as a plain class, whose == compares identity instead of the value
     [Test("Two Sku values with the same text are equal")]
     public static void SkuHasValueEquality()
     {
-        var first = new Sku("24-MB01");
-        var second = new Sku("24-MB01");
+        var first = new Sku("BAG-01");
+        var second = new Sku("BAG-01");
         Assert.True(first == second, "== compares the values of two Sku objects");
         Assert.True(first.Equals(second), "Equals compares the values too");
-        Assert.False(first == new Sku("24-MB04"), "different text, different Sku");
+        Assert.False(first == new Sku("BAG-02"), "different text, different Sku");
     }
 
     [Test("Product rejects a negative price, in the constructor and in ChangePrice")]

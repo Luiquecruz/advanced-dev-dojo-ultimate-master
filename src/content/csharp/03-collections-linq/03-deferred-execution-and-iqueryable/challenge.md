@@ -1,5 +1,3 @@
-# A query is a recipe
-
 The catalog code below reads products from sources that are expensive to read: a file, an API, a database. The tests hand your methods a source that **counts** how often it is enumerated and how many products it hands out, so they can see when a query runs and how much it reads. The record is given:
 
 ```csharp

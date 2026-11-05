@@ -35,15 +35,17 @@ public static class ExceptionsAndResultsTests
         Assert.Equal(5, inventory.StockOf("MUG"));
     }
 
-    [Test("ParseLine reads a SKU and a quantity, and rejects a line without exactly one ';' or with a quantity of 0")]
+    [Test("ParseLine reads a SKU and a quantity, and rejects a line without exactly one ';', with a blank SKU or with a quantity of 0")]
     public static void ParseLineReadsAndRejectsShape()
     {
         Assert.Equal(new StockLine("MUG", 12), StockImport.ParseLine("MUG;12", 1));
         var shape = Assert.Throws<ImportException>(() => StockImport.ParseLine("MUG-12", 7));
         Assert.Equal(7, shape.LineNumber);
         Assert.Null(shape.InnerException);
+        var blank = Assert.Throws<ImportException>(() => StockImport.ParseLine(";5", 3));
+        Assert.Equal(3, blank.LineNumber);
         var zero = Assert.Throws<ImportException>(() => StockImport.ParseLine("MUG;0", 8));
-        Assert.Contains("Line 8", zero.Message);
+        Assert.True(zero.Message.StartsWith("Line 8:", StringComparison.Ordinal), $"the message should start with \"Line 8:\", got \"{zero.Message}\"");
     }
 
     [Test("ParseLine wraps a quantity that is not a number or too large for an int in ImportException, with the FormatException or OverflowException as its cause")]

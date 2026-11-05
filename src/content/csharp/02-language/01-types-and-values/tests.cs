@@ -35,19 +35,19 @@ public static class PricingTests
     public static void AddGiftChangesTheSharedList()
     {
         var cart = new Cart();
-        cart.Skus.Add("24-MB01");
+        cart.Skus.Add("BAG-01");
         Pricing.AddGift(cart.Skus);
         Pricing.AddGift(cart.Skus);
-        Assert.SequenceEqual(["24-MB01", "GIFT-01"], cart.Skus);
+        Assert.SequenceEqual(["BAG-01", "GIFT-01"], cart.Skus);
     }
 
     [Test("SameCart is true only when both variables refer to one cart")]
     public static void SameCartComparesIdentity()
     {
         var first = new Cart();
-        first.Skus.Add("24-MB01");
+        first.Skus.Add("BAG-01");
         var second = new Cart();
-        second.Skus.Add("24-MB01");
+        second.Skus.Add("BAG-01");
         var alias = first;
         Assert.True(Pricing.SameCart(first, alias), "a variable copied from first refers to the same cart");
         Assert.False(Pricing.SameCart(first, second), "two carts with the same SKUs are still two carts");

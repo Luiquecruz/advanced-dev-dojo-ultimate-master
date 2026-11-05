@@ -31,6 +31,7 @@ public static class Pricing
     public static void AddGift(List<string> skus)
     {
         // TODO: the caller's list must contain "GIFT-01" exactly once afterwards.
+        // [.. skus, "GIFT-01"] builds a new list with every item of skus plus one more (lesson 02/05).
         skus = [.. skus, "GIFT-01"];
     }
 

@@ -2,7 +2,7 @@ Model a small catalog in `Program.cs` with the four kinds of type from this less
 
 ## `Sku`
 
-A SKU is plain data: two `Sku` values built from the same text must be equal with `==` and with `Equals`. Keep the constructor `new Sku("24-MB01")` and the `Value` property.
+A SKU is plain data: two `Sku` values built from the same text must be equal with `==` and with `Equals`. Keep the constructor `new Sku("BAG-01")` and the `Value` property.
 
 ## `Product`
 

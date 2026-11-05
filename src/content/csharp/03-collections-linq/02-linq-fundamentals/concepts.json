@@ -1,10 +1,10 @@
 [
-  {"term": "Method syntax", "description": "Writing a LINQ query as chained extension method calls such as `Where`, `Select` and `GroupBy`, each taking a lambda."},
-  {"term": "Query syntax", "description": "The SQL-like `from ... where ... select` form that the compiler translates into the same method calls, with no semantic or performance difference."},
-  {"term": "Projection", "description": "Shaping each element into a new type with `Select`, usually an anonymous type inside a method or a record when the result leaves it."},
-  {"term": "`IGrouping<TKey,TElement>`", "description": "One group produced by `GroupBy`, exposing its `Key` and enumerable as the elements that share that key."},
-  {"term": "Element operator", "description": "An operator such as `First`, `FirstOrDefault`, `Single` or `SingleOrDefault` that returns one element and differs in how it treats zero or several matches."},
-  {"term": "`ILookup<TKey,TElement>`", "description": "A one-to-many dictionary built by `ToLookup`, which returns an empty sequence for a missing key instead of throwing."},
-  {"term": "`LeftJoin`", "description": "A .NET 10 LINQ operator that keeps every element of the first sequence and passes `null` to the result selector when the second has no match."},
-  {"term": "`DefaultIfEmpty`", "description": "An operator that turns an empty sequence into one holding a single `default` element, so a following `Max` returns `0` instead of throwing."}
+  { "term": "Method syntax", "description": "Writing a LINQ query as chained extension method calls such as `Where`, `Select` and `GroupBy`, each taking a lambda." },
+  { "term": "Query syntax", "description": "The SQL-like `from ... where ... select` form that the compiler translates into the same method calls, with no semantic or performance difference." },
+  { "term": "Projection", "description": "Shaping each element into a new type with `Select`, usually an anonymous type inside a method or a record when the result leaves it." },
+  { "term": "`IGrouping<TKey,TElement>`", "description": "One group produced by `GroupBy`, exposing its `Key` and enumerable as the elements that share that key." },
+  { "term": "Element operator", "description": "An operator such as `First`, `FirstOrDefault`, `Single` or `SingleOrDefault` that returns one element and differs in how it treats zero or several matches." },
+  { "term": "`ILookup<TKey,TElement>`", "description": "A one-to-many dictionary built by `ToLookup`, which returns an empty sequence for a missing key instead of throwing." },
+  { "term": "`LeftJoin`", "description": "A .NET 10 LINQ operator that keeps every element of the first sequence and passes `null` to the result selector when the second has no match." },
+  { "term": "`DefaultIfEmpty`", "description": "An operator that turns an empty sequence into one holding a single `default` element, so a following `Max` returns `0` instead of throwing." }
 ]

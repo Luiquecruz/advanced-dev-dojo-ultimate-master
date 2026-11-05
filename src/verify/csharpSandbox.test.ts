@@ -86,7 +86,7 @@ describe('fixture challenge', () => {
   it('fails at least one test with the starter', async () => {
     const report = await sandbox.runTests({ files: { 'Scores.cs': fixtureStarter }, tests: fixtureTests });
     expect(report.compileError).toBeUndefined();
-    expect(report.results).toHaveLength(4);
+    expect(report.results).toHaveLength(5);
     expect(report.results.some((result) => !result.passed)).toBe(true);
     expect(report.results.find((result) => result.name === 'Total adds the positive scores')?.error).toContain('12');
   }, 60000);

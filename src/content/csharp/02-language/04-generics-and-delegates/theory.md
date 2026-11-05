@@ -95,7 +95,7 @@ An event is a delegate field that outsiders can only subscribe to (`+=`) and uns
 ```csharp
 var checkout = new Checkout();
 checkout.OrderPlaced += (sender, e) => Console.WriteLine($"Send confirmation for {e.OrderNumber}");
-checkout.PlaceOrder("000000042");
+checkout.PlaceOrder("1042");
 
 public sealed class OrderPlacedEventArgs : EventArgs
 {

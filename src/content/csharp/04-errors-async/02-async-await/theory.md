@@ -20,6 +20,7 @@ public interface IProductStore
     Task<Product?> FindAsync(string sku, CancellationToken cancellationToken);
 }
 
+// ... inside a class with an IProductStore field named store
 public async Task<string> DescribeAsync(string sku, CancellationToken cancellationToken)
 {
     Product? product = await store.FindAsync(sku, cancellationToken);
@@ -67,6 +68,8 @@ Never write `async void` except for UI event handlers. The caller cannot await i
 **Deadlock (only with a synchronization context).** UI frameworks (WinForms, WPF) install a `SynchronizationContext` that runs continuations on the UI thread; classic ASP.NET on .NET Framework installs one that lets only one thread at a time into the request context. If the thread holding that context blocks on `.Result`, the continuation that would complete the task can never enter it: deadlock. ASP.NET Core has no synchronization context, so the same code usually starves there instead. "It didn't deadlock" is not proof the code is fine.
 
 ```csharp
+// ... inside a class with an IProductStore field named _store
+
 // Wrong: blocks a pool thread for the whole query
 public Product? Find(string sku) => _store.FindAsync(sku, default).Result;
 

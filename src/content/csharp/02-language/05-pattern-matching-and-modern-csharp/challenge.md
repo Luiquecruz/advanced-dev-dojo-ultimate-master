@@ -27,4 +27,4 @@ One `switch` expression with list patterns:
 
 ## `Zone(string name, params string[] codes)`
 
-The class header already declares a primary constructor, so `new Zone("Benelux", "NL", "BE", "LU")` works. `Name` returns the name. `Covers(string country)` returns `true` when one of the codes equals `country`, ignoring case. A zone with no codes covers nothing.
+The class header already declares a primary constructor, so `new Zone("Benelux", "NL", "BE", "LU")` works. `params string[] codes` lets callers pass any number of strings; inside the class `codes` is a `string[]`. `Name` returns the name. `Covers(string country)` returns `true` when one of the codes equals `country`, ignoring case. A zone with no codes covers nothing.

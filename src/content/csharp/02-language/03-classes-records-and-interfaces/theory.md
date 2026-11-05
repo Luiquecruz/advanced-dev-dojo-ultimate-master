@@ -21,7 +21,7 @@ public class Product
     public bool IsFree => Price == 0m;           // computed on every read, no storage
 }
 
-var bag = new Product { Sku = "24-MB01", Name = "Joust Duffle Bag", Price = 34m };
+var bag = new Product { Sku = "BAG-01", Name = "Travel Bag", Price = 34m };
 // bag.Sku = "X";  // error: init-only after construction
 ```
 
@@ -72,11 +72,11 @@ Many teams mark classes `sealed` by default and open them only on purpose. To sw
 A `record` (short for `record class`) is a reference type whose compiler-generated members treat it as data. Two records are equal when they have the same type and the same values. The compiler also writes a readable `ToString` and supports nondestructive copies with `with`:
 
 ```csharp
-var a = new ProductDto("24-MB01", "Joust Duffle Bag", 34m);
-var b = new ProductDto("24-MB01", "Joust Duffle Bag", 34m);
+var a = new ProductDto("BAG-01", "Travel Bag", 34m);
+var b = new ProductDto("BAG-01", "Travel Bag", 34m);
 Console.WriteLine(a == b);              // True: value equality
 var onSale = a with { Price = 29m };    // a new record; a is unchanged
-Console.WriteLine(onSale);              // ProductDto { Sku = 24-MB01, Name = Joust Duffle Bag, Price = 29 }
+Console.WriteLine(onSale);              // ProductDto { Sku = BAG-01, Name = Travel Bag, Price = 29 }
 
 public record ProductDto(string Sku, string Name, decimal Price);
 ```

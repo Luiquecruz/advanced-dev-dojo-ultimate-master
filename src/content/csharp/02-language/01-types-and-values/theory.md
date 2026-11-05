@@ -22,7 +22,7 @@ Console.WriteLine(a.Amount);       // 10
 
 var cart1 = new Cart();
 var cart2 = cart1;       // copies the reference only
-cart2.Skus.Add("24-MB01");
+cart2.Skus.Add("BAG-01");
 Console.WriteLine(cart1.Skus.Count); // 1
 
 public struct Money

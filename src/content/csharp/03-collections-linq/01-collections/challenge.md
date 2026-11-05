@@ -1,5 +1,3 @@
-# Pick the container
-
 A small warehouse keeps stock per SKU. Write the two types below, choosing for each job the collection from this lesson that makes it cheap and correct. SKUs ignore case everywhere: `A-1` and `a-1` are the same SKU.
 
 ## `Inventory`

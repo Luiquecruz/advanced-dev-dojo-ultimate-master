@@ -88,8 +88,8 @@ A collection expression `[...]` creates whatever collection the target type asks
 
 ```csharp
 int[] ids = [1, 2, 3];
-List<string> skus = ["24-MB01", "24-MB04"];
-IReadOnlyList<string> featured = [.. skus, "24-WB02"];  // spread, then one more element
+List<string> skus = ["BAG-01", "BAG-02"];
+IReadOnlyList<string> featured = [.. skus, "BOTTLE-01"];  // spread, then one more element
 string[] none = [];                                    // the compiler may reuse an empty array
 ```
 
