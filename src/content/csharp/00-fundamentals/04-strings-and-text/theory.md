@@ -68,7 +68,7 @@ Console.WriteLine(string.Join("-", parts));   // Big-Blue-Box
 
 ## Building long text with `StringBuilder`
 
-Because strings are immutable, `text += piece` in a loop creates a new string on every pass and copies everything built so far. `StringBuilder` (namespace `System.Text`) keeps one growing buffer instead; call `ToString()` once at the end:
+Because strings are immutable, `text += piece` in a loop creates a new string on every pass and copies everything built so far. `StringBuilder` keeps one growing buffer instead; call `ToString()` once at the end. It lives in the namespace `System.Text`, a named group of types, and the `using System.Text;` line at the top of the file makes that group's types available (00/06 explains namespaces):
 
 ```csharp
 using System.Text;

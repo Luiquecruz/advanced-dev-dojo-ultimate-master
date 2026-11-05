@@ -8,7 +8,7 @@ You need: no earlier lesson. If you have never written a program, start with mod
 
 Module 00, **Programming Fundamentals with C#**, is for people who have never programmed. Its seven lessons, each with a graded challenge, teach variables, methods, decisions and loops, text, collections, classes, and errors and tests. Every later module assumes them.
 
-The skip rule is a single test: open the challenge of 00/07 (errors and tests). If you can solve it without help, start here at module 01. If you cannot, work through module 00 from 00/01. Module 00 is optional: a learner who skips it can still reach 100% of the track, and a learner who works through it has it counted in their progress.
+The skip rule is a single test: open the challenge of 00/07 (errors and tests). If you can solve it without help, start here at module 01. If you cannot, work through module 00 from 00/01. Module 00 is optional: you can skip it and still reach 100% of the track. Its seven lessons count toward your progress once you complete one of 00/02 to 00/06.
 
 ## How the track works
 

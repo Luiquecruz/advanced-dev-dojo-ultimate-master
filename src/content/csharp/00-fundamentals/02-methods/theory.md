@@ -19,7 +19,7 @@ public static class Pricing
 }
 ```
 
-Read it from left to right. `public` lets code outside the class call the method. `static` means you call it on the class itself, `Pricing.LineTotal(...)`; lesson 00/06 shows methods that belong to objects instead. `decimal` is the **return type**, the type of the result. `LineTotal` is the name, in PascalCase and usually a verb or a noun phrase. `decimal price, int quantity` are the **parameters**, each a type and a name. A class groups related methods; for now it is only their container.
+Read it from left to right. `public` lets code outside the class call the method. `static` means you call it on the class itself, `Pricing.LineTotal(...)`; lesson 00/06 shows methods that belong to objects instead. `decimal` is the **return type**, the type of the result. `LineTotal` is the name, in PascalCase and usually a verb or a noun phrase. `decimal price, int quantity` are the **parameters**, each a type and a name. A class groups related methods; for now it is only their container, and `static` on the class itself means it holds only static members (00/06 shows classes that create objects).
 
 ## Calling a method and returning a result
 

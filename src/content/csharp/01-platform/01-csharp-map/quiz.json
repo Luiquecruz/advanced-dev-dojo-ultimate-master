@@ -41,7 +41,7 @@
       "Skip it whenever you know any programming language, since module 01 repeats the basics"
     ],
     "answer": 0,
-    "explanation": "The skip rule is one test: the 00/07 challenge, which uses everything module 00 teaches. Nothing in the track is locked, so the third option is wrong, and module 01 does not repeat the basics: it assumes them, which is why the last option leaves gaps that show up in 02/01."
+    "explanation": "The skip rule is one test: the 00/07 challenge, which combines what module 00 teaches: parsing text, loops over arrays, a dictionary, a class with a constructor and properties, and exceptions. Nothing in the track is locked, so the third option is wrong, and module 01 does not repeat the basics: it assumes them, which is why the last option leaves gaps that show up in 02/01."
   },
   {
     "question": "An endpoint calls `File.ReadAllTextAsync(path).Result`. The code works on your laptop, but the API slows down badly under load in production. Why?",

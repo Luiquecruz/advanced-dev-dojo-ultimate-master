@@ -32,11 +32,34 @@ public static class Ages
     }
 }
 
-public static class Safe
+public class SignUpList
 {
-    public static (bool Ok, int Result) Divide(int a, int b)
+    private readonly Dictionary<string, int> _ages = new();
+
+    public SignUpList(string eventName)
     {
-        // TODO: return (false, 0) when b is 0; otherwise (true, a / b).
+        // TODO: throw ArgumentException for a blank event name; store the trimmed name in EventName.
+    }
+
+    public string EventName { get; } = "";
+
+    public int Count { get; private set; }
+
+    public void Add(string name, string ageText)
+    {
+        // TODO: refuse a blank or already signed-up name with ArgumentException.
+        // TODO: store the age from Ages.Parse under the cleaned name (trimmed, lowercase), then count the sign-up.
+    }
+
+    public (bool Found, int Age) Find(string name)
+    {
+        // TODO: look the cleaned name up; return (true, age) when it is there, (false, 0) when it is not.
         return (false, 0);
+    }
+
+    public int Adults()
+    {
+        // TODO: count the stored ages that are 18 or more.
+        return 0;
     }
 }

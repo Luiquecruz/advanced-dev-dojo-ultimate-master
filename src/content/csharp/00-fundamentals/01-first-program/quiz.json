@@ -60,9 +60,9 @@
       "The tests pass, because they ignore the top-level statements",
       "Only the first test fails, because the error is on line 1",
       "The tests pass, and the console shows a warning about the semicolon",
-      "Every test fails: the file does not compile, and the report shows the CS1002 error with its line and column"
+      "No test runs: the file does not compile, and the report shows the CS1002 error with its line and column"
     ],
     "answer": 3,
-    "explanation": "The tests ignore what the top-level statements *do*, but the whole file is compiled with the tests, and a program that does not compile cannot run at all. The report shows `error CS1002: ; expected` with its position, and fixing it lets the tests run. The tempting \"the tests pass\" answer confuses ignoring the statements at run time with skipping them at compile time."
+    "explanation": "The tests ignore what the top-level statements *do*, but the whole file is compiled with the tests, and a program that does not compile cannot run at all. The report shows `error CS1002: ; expected` with its position, and no test runs until you fix it. The tempting \"the tests pass\" answer confuses ignoring the statements at run time with skipping them at compile time."
   }
 ]

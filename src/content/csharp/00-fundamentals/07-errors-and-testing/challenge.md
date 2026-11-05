@@ -1,4 +1,4 @@
-A sign-up form sends ages as text, a report divides totals, and a method somebody else wrote has a bug. Complete `Ages.Parse` and `Safe.Divide`, then find and fix the bug in `Ages.CountAdults`.
+A sign-up form for a race sends names and ages as text, and a method somebody else wrote has a bug. This challenge uses the whole module: complete `Ages.Parse`, find and fix the bug in `Ages.CountAdults`, and finish the `SignUpList` class that keeps the sign-ups.
 
 ## `Ages.Parse`
 
@@ -10,10 +10,16 @@ A sign-up form sends ages as text, a report divides totals, and a method somebod
 
 `ArgumentOutOfRangeException` is a kind of `ArgumentException`, so the tests check the exact type of the first case: throwing `ArgumentOutOfRangeException` for `"abc"` fails, and so does letting a `FormatException` escape.
 
-## `Safe.Divide`
-
-`static (bool Ok, int Result) Divide(int a, int b)` returns `(true, a / b)` (integer division, so `Divide(7, 2)` is `(true, 3)`), and `(false, 0)` when `b` is `0`. It never throws.
-
 ## `Ages.CountAdults`
 
-`static int CountAdults(int[] ages)` returns how many ages are `18` or more. It is already written, but it has a bug. Run the tests and read the exception the report shows. Then use the program at the top of the file: it calls `CountAdults` inside a `try` and prints the whole exception, stack trace included, when you press **Run**. Fix the bug without rewriting the method.
+`static int CountAdults(int[] ages)` returns how many ages are `18` or more. It is already written, but it has a bug. Run the tests and read the exception the report shows: its type and message. Then use the program at the top of the file: it calls `CountAdults` inside a `try` and prints the whole exception, stack trace included, when you press **Run**. Fix the bug without rewriting the method.
+
+## `SignUpList`
+
+An instance class: each `new SignUpList(...)` is one event with its own sign-ups, kept in a `Dictionary<string, int>` from a name to an age.
+
+- `SignUpList(string eventName)`: a blank event name (`null`, `""` or only spaces) throws `ArgumentException`. Otherwise `EventName` is the name without surrounding spaces: `new SignUpList("  Summer Run ")` has the `EventName` `"Summer Run"`. A new list has a `Count` of `0`.
+- `string EventName { get; }` and `int Count { get; private set; }`: everyone reads them, and only the class sets them.
+- `void Add(string name, string ageText)` cleans the name, trimmed and in lowercase, so `" Ana "`, `"ana"` and `"ANA"` are the same person. It stores the age that `Ages.Parse` returns under the clean name and adds one to `Count`. A blank name, or a name already signed up, throws `ArgumentException`; a bad age throws what `Ages.Parse` throws. A refused sign-up changes nothing.
+- `(bool Found, int Age) Find(string name)` cleans the name the same way and returns `(true, age)` when that person signed up, or `(false, 0)` when not. It never throws for a missing name.
+- `int Adults()` returns how many of the stored ages are `18` or more.

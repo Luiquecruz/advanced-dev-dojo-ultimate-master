@@ -33,7 +33,7 @@
     "explanation": "These are overloads: the same name with different parameter lists. The compiler picks the one that matches the call, and one argument matches `Area(double side)`. Overloads are legal as long as the parameter lists differ; two methods that differ only in their return type are the case that fails, with CS0111."
   },
   {
-    "question": "A learner writes this method, and a test that checks `Total(2m, 3)` fails. Why?\n\n```csharp\npublic static void Total(decimal price, int quantity)\n{\n    Console.WriteLine(price * quantity);\n}\n```",
+    "question": "A learner writes this method, and a test that checks `Total(2m, 3)` reports an error instead of a result. Why?\n\n```csharp\npublic static void Total(decimal price, int quantity)\n{\n    Console.WriteLine(price * quantity);\n}\n```",
     "options": [
       "`Console.WriteLine` cannot print a `decimal`",
       "The multiplication needs a cast, because `price` and `quantity` have different types",
@@ -41,7 +41,7 @@
       "The method prints the result instead of returning it, so the test receives no value; it should return `decimal`"
     ],
     "answer": 3,
-    "explanation": "A `void` method returns nothing, so the test has no value to compare: a test that uses its result does not even compile. Declare `decimal` as the return type and `return price * quantity;`. The multiplication itself is fine: an `int` converts to `decimal` automatically."
+    "explanation": "A `void` method returns nothing, so the test has no value to compare: a test that compares its result, such as `Assert.Equal(6m, Total(2m, 3))`, does not even compile, and the report shows the compile error. Declare `decimal` as the return type and `return price * quantity;`. The multiplication itself is fine: an `int` converts to `decimal` automatically."
   },
   {
     "question": "What does this print?\n\n```csharp\nint stock = 5;\nReset(stock);\nConsole.WriteLine(stock);\n\nstatic void Reset(int quantity)\n{\n    quantity = 0;\n}\n```",

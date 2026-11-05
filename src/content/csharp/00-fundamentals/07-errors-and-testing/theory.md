@@ -27,7 +27,7 @@ Unhandled exception. System.IndexOutOfRangeException: Index was outside the boun
 
 Read it from the top. The first line says what went wrong. The first `at` line is where it happened, here inside `Scores.Total`, and each line below is the caller of the one above it: `Total` was called from the top-level statements (`<Main>$`). Start at the first line that names your own code.
 
-In this app the test report shows the type and the message of an exception. To see the stack trace, catch the exception in the program at the top of the file and print `ex.ToString()`, as the section on catching below shows.
+In this app the test report shows the type and the message of an exception. To see the stack trace, catch the exception in the program at the top of the file and print `ex.ToString()`, as the section on catching below shows, and press **Run**. On screens narrower than 900 pixels **Run** is hidden; there, the type and message in the test report usually name the mistake.
 
 ## Throwing an exception
 
@@ -116,7 +116,7 @@ The text in `[Test("...")]` is the requirement in plain words, and it is what th
 
 ## Debugging with Run
 
-When a test fails and the reason is not obvious, reproduce it. Call the method with the test's input in the program at the top of the file, print what comes back with `Console.WriteLine`, and press **Run**. Print intermediate values inside the method too, change one thing at a time, and run the tests again.
+When a test fails and the reason is not obvious, reproduce it. Call the method with the test's input in the program at the top of the file, print what comes back with `Console.WriteLine`, and press **Run**. Print intermediate values inside the method too, change one thing at a time, and run the tests again. Where **Run** is hidden, the failing test's message shows the expected and the actual value.
 
 ## Common mistakes
 

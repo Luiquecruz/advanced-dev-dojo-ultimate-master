@@ -60,10 +60,10 @@ For learners who have never programmed. Every lesson is `beginner`, tagged `reco
 | 04-strings-and-text | theory + challenge | Takes text apart and cleans it, splits and joins, builds it with `StringBuilder`, parses numbers with `TryParse` and `out`, formats numbers with `InvariantCulture` | C# |
 | 05-arrays-lists-dictionaries | theory + challenge | Uses arrays, `List<T>`, collection expressions, `Dictionary<TKey,TValue>` with `TryGetValue`, and tuples with deconstruction | C# |
 | 06-classes-and-objects | theory + challenge | Writes a class with fields, a constructor, properties and instance and `static` members; handles `null`; uses an `enum` and namespaces | C#, SOLID 54% |
-| 07-errors-and-testing | theory + challenge | Tells compile errors from exceptions, reads a stack trace, throws and catches exceptions, writes guard clauses, and reads a test as arrange, act, assert; the challenge is the skip test | C#, unit testing 55% |
+| 07-errors-and-testing | theory + challenge | Tells compile errors from exceptions, reads a stack trace, throws and catches exceptions, writes guard clauses, and reads a test as arrange, act, assert; the challenge is the skip test and combines the module: parsing with `TryParse`, a loop over an array, a `Dictionary` inside an instance class with a constructor and properties, string cleaning, a tuple result and exceptions | C#, unit testing 55% |
 
 - **Official:** C# fundamentals tutorials and the C# language reference.
-- **Done when:** the quizzes and the module's challenges are passed. Optional: a learner who skips the module still reaches 100% of the track.
+- **Done when:** the quizzes and the module's challenges are passed. Optional: a learner who skips the module still reaches 100% of the track; the module counts toward progress, all seven lessons, once a lesson from 00/02 to 00/06 is complete.
 
 ### 01-platform — The .NET Platform (core)
 

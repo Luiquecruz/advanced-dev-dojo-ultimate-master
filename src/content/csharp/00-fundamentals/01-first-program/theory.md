@@ -95,7 +95,7 @@ Console.WriteLine($"{count} x {product} = {unitPrice * count}");   // 3 x Mug = 
 
 ## Run and tests in this app
 
-A challenge's `Program.cs` holds two kinds of code. The top-level statements at the top are your program: **Run** compiles it and prints its output in the console panel. Below them are the methods the challenge asks for. **Run tests** compiles the file together with the lesson's tests, which call those methods directly and ignore the top-level statements. A compile error anywhere in the file fails every test, and the report shows its file, line, column, code and message.
+A challenge's `Program.cs` holds two kinds of code. The top-level statements at the top are your program: **Run** compiles it and prints its output in the console panel. Below them are the methods the challenge asks for. **Run tests** compiles the file together with the lesson's tests, which call those methods directly and ignore the top-level statements. A compile error anywhere in the file stops every test from running, and the report shows its file, line, column, code and message. **Run** appears only on screens at least 900 pixels wide; on a phone or a narrow window you have **Run tests** only, and the test report is where you read what your code did.
 
 ## Common mistakes
 
