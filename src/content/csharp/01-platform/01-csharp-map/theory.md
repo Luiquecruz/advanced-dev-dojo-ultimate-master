@@ -10,10 +10,10 @@ The trap is the runtime model. Under PHP-FPM, Magento boots, serves one request 
 
 ## How the track works
 
-The track has 13 modules and 67 lessons in three tiers:
+The track has 14 modules and 73 lessons in three tiers:
 
-- **Core (modules 01–11):** the platform, the language, LINQ, async, ASP.NET Core, Web APIs, data access, security, testing, background work and messaging, delivery.
-- **Deepening (module 12):** application architecture.
+- **Core (modules 01–11):** the platform, the language, LINQ, async, ASP.NET Core, Web APIs, data access, security, testing, background work, messaging and HTTP clients, delivery.
+- **Deepening (modules 12 and 14):** application architecture; integration, performance and quality.
 - **Legacy (module 13):** .NET Framework code and incremental migration.
 
 Every lesson is theory plus a graded quiz. There is no C# runtime in this browser app, so there are no code challenges; the quiz result is what the app records in your progress. Seven practice projects (P1–P7) close modules 03, 06, 07, 09, 10, 11 and 13. You build them on your own machine with the .NET 10 SDK, and Docker from P3 on, and you check them yourself against acceptance criteria such as `dotnet test` passing or an HTTP request returning 409.

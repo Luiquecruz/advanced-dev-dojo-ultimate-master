@@ -4,8 +4,8 @@
 
 | Tier | Modules | Lessons |
 | --- | --- | --- |
-| **Core**: what a backend job needs | 01–11 | 57 |
-| **Deepening** | 12 architecture, 14 integration, performance and quality | 11 |
+| **Core**: what a backend job needs | 01–11 | 58 |
+| **Deepening** | 12 architecture, 14 integration, performance and quality | 10 |
 | **Legacy** | 13 .NET Framework and migration | 5 |
 
 Seven of the lessons are practice projects. Each one closes a module and is done locally with the .NET 10 SDK.

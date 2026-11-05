@@ -61,7 +61,7 @@ public static class Telemetry
 
 ## Where to get help
 
-- Lessons 11/01 to 11/05, and the P5 project lesson (10/05) for the worker and the broker setup.
+- Lessons 11/01 to 11/05, and the P5 project lesson (10/06) for the worker and the broker setup.
 - [Containerize an app with dotnet publish](https://learn.microsoft.com/en-us/dotnet/core/containers/sdk-publish) and [Health checks in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks).
 - [Use OpenTelemetry with OTLP and the Aspire Dashboard](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/observability-otlp-example).
 

@@ -89,7 +89,7 @@ You will meet `ValueTask` mostly as a consumer: `IAsyncDisposable.DisposeAsync` 
 ## Status as of 2026-11-05
 
 - The ASP.NET Core best-practices page (`aspnetcore-10.0` view, updated 2026-11-03) still lists "Do not block asynchronous execution by calling `Task.Wait` or `Task<TResult>.Result`" as its first performance rule.
-- The ConfigureAwait FAQ is a 2019-12-11 blog post; its guidance still matches the current `IAsyncDisposable` docs, which use `ConfigureAwait(false)` in library-style samples.
+- The ConfigureAwait FAQ is a 2019-12-11 blog post; its guidance still matches the current `IAsyncDisposable` docs (lesson 03), which use `ConfigureAwait(false)` in library-style samples.
 
 ## Check yourself
 

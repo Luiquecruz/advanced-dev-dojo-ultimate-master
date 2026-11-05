@@ -581,6 +581,8 @@ The new postings also differ in mix: 89 of the 129 are INT (round 1: 32 of 69) a
 | 05 Code quality and analyzers | A tool is named in 6% (SonarQube in 9 postings), code review in 39%; SonarQube/SonarCloud 18.8% usage in SO 2026 | **Keep**, and consider adding SonarQube next to the built-in analyzers, since it is the tool postings and the survey name; .NET analyzers are named by no posting |
 | 06 AI in .NET apps | AI in the product 4%; Microsoft.Extensions.AI named by 0 postings and Semantic Kernel by 1; NuGet: OpenAI 92 million, Microsoft.Extensions.AI 41 million, Semantic Kernel 19 million | **Keep as an adjacent lesson, do not expand.** Postings that ask for this name LLM APIs or "agents", not a .NET library, so teaching the provider-neutral abstraction is the defensible choice |
 
+Since this round, HTTP clients and resilience moved into the core as lesson 10/05 (decision Q2, 2026-11-05), and module 14 was renumbered 01–05 (the rows above keep their research-time numbers).
+
 ## 10. What this sample still cannot tell
 
 - **Market size and share.** 198 postings from the boards that allowed automated reading; LinkedIn supplies 86% of them and its ranking decided which ones appeared. Indeed, Glassdoor, Turing and Catho could not be read, and the remote boards had almost no .NET roles.
