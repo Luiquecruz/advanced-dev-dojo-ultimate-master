@@ -28,7 +28,7 @@ def lookup(mapping, key, default=MISSING):
     return default          # `None` is a legitimate default
 ```
 
-`==` never converts between unrelated types: `1 == "1"` is `False`. Numbers of different types still compare by value (`1 == 1.0` is `True`).
+Built-in types never convert between unrelated types in `==`: `1 == "1"` is `False`. A class can still define `__eq__` to accept other types. Numbers of different types still compare by value (`1 == 1.0` is `True`).
 
 A class that defines `__eq__` must keep two rules: equal objects have equal hashes, and `__eq__` should return `NotImplemented` for types it does not understand so Python can try the other operand.
 

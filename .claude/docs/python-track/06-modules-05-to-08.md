@@ -43,7 +43,7 @@ Iterable vs iterator, generators, itertools, laziness. Quiz: exhaustion predicti
 Closes the module as its code integration challenge (no ADR in module 05; see [03-curriculum.md](03-curriculum.md)). The theory's `## When to choose it` carries the decision the deferred ADR trained: lists vs generators under a memory limit, and when to materialize.
 - Concept: composing generator stages; backpressure by pulling; closing the pipeline releases resources.
 - Challenge: stages `parse(lines)`, `only_errors(records)`, `chunked(records, size)`; `Source` class counting reads and recording `closed` in `close()`; `pipeline(source)` returns a lazy generator; consuming only the first chunk reads only what is needed and closing the pipeline closes the source via `try/finally`.
-- Common mistake: closing the source after the loop instead of in `finally`, so an early `close()` or an error skips it; and expecting `break` to close the pipeline while a name still holds the paused generator. Cleanup goes in `finally` in the stage that opened the resource, and a consumer that stops early calls `close()`.
+- Common mistake: closing the source after the loop instead of in `finally`, so an early `close()` or an error skips it; and expecting `break` to close the pipeline while a name still holds the paused generator. Cleanup goes in `finally` in the stage that owns the resource's lifetime (here `pipeline`, which closes the `Source` it is given), and a consumer that stops early calls `close()`.
 - Tests (5): `Source` hands out lines one at a time, returns itself from `iter`, counts reads and records an idempotent `close()`; the pipeline is a generator that reads nothing when built and only the lines each chunk needs (4 reads for the first chunk of 2, 8 for the second); closing the pipeline after the first chunk closes the source (the `# beginner mistake:` test: closing after the loop instead of in `finally`), running it to the end closes it too, and the default `size=100` gives chunks of 100 and 50; a malformed line raises `ValueError` naming the line, stops reading and still closes the source; `parse`, `only_errors` and `chunked` are separate lazy generator stages (blank lines skipped, a bad line raises only when reached).
 
 ### 08-iteration-adr (A, I)
@@ -63,7 +63,7 @@ Question: who releases the resource when something fails, and what does an excep
 
 ### 02-exception-hierarchies (P, B)
 - Concept: `BaseException` vs `Exception`, domain exceptions, `except` ordering by specificity, `LookupError`/`OSError` families, `else`/`finally`.
-- Common mistake: deriving a domain error from `BaseException`, or catching with a bare `except:`, so `KeyboardInterrupt` and `SystemExit` are swallowed; derive from `Exception` and order `except` clauses from the most specific to the most general.
+- Common mistake: deriving a domain error from `BaseException`, so `except Exception` does not catch it, or catching with a bare `except:`, which also swallows `KeyboardInterrupt` and `SystemExit`; derive domain errors from `Exception` and order `except` clauses from the most specific to the most general.
 - Challenge: `AppError` → `ValidationError`, `NotFoundError`, `ConflictError` (with `status` class attribute); `exit_status(error)` returning the nearest `status` via MRO; `parse_age(text)` raising `ValidationError` with a message.
 - Tests: subclass relationships; `except AppError` catches children; status resolution; `Exception` not `BaseException` ancestry.
 - Notes: first practice lesson of the module, before chaining and the `with` lessons, which raise and catch these exceptions.
@@ -160,7 +160,7 @@ Standard-library tour (`re`, `pathlib`, `decimal`, `datetime`, `json`, `enum`, `
 
 ### 08-logging (P, I)
 - Concept: loggers, handlers, formatters, levels, propagation, `extra`, configure once, library vs application logging.
-- Common mistake: calling `logging.basicConfig` or adding a handler on every call or at import time in a library, so each message prints twice or more; configure logging once at program start, and in a library only call `logging.getLogger(__name__)`.
+- Common mistake: adding a handler on every call, or to both a logger and one of its ancestors, so each record is emitted twice or more (a repeated `logging.basicConfig` is a no-op once the root logger has handlers, unless `force=True`); configure logging once at program start, and in a library only call `logging.getLogger(__name__)`, never configure the root logger.
 - Challenge: `configure_logger(name, stream, level)` idempotent (calling twice adds one handler); `log_event(logger, event, **fields)` adds fields in the record; capturing through a `StringIO` handler.
 - Tests: single handler after two configs; level filtering; format contains level and message; fields attached to the record via `extra`.
 
@@ -188,7 +188,7 @@ Question: when does `match` express intent better than `if/elif`, dict dispatch 
 
 ### 02-sequence-and-mapping-patterns (P, I)
 - Concept: sequence patterns with `*rest`, mapping patterns (extra keys allowed), literals, wildcard, nested patterns.
-- Common mistake: matching `tokens[0]` and indexing the rest, which accepts extra tokens and raises `IndexError` for missing ones; match the whole value, so the pattern checks the length too. A mapping pattern accepts extra keys and a sequence pattern never matches a `str`.
+- Common mistake: matching `tokens[0]` and indexing the rest, which accepts extra tokens and raises `IndexError` for missing ones; match the whole value, so the pattern checks the length too. A mapping pattern accepts extra keys and a sequence pattern never matches a `str`. A bare name captures the subject without comparing it, while literal and dotted value patterns compare it with a value.
 - Challenge: `parse_command(tokens)` → dict for `["move", x, y]`, `["say", *words]`, `["quit"]`, anything else → `ValueError`; `handle_event(event)` for mapping events `{"type": "click", "pos": (x, y)}` and `{"type": "key", "key": k}`.
 - Tests: each shape; extra keys tolerated; unknown shape raises.
 

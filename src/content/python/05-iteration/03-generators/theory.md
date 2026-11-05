@@ -23,7 +23,7 @@ The consumer decides how much work happens. A generator hands out each item as s
 - `return` ends the generator, and so does reaching the end of the body; the caller sees `StopIteration`. `return value` stores `value` on the `StopIteration` (lesson 05); `for` and `list()` ignore it. So a generator function cannot also "return a list": `return ["a", "b"]` inside it ends the iteration with nothing yielded.
 - Since Python 3.7 ([PEP 479](https://peps.python.org/pep-0479/)), a `StopIteration` that escapes inside a generator body becomes `RuntimeError: generator raised StopIteration`. A bare `next(source)` that hits the end of `source` therefore crashes the generator instead of ending it quietly. Use `return`, a `for` loop, or `next(source, default)`.
 - Infinite generators are normal: `while True: yield ...` is safe as long as the consumer is bounded (`next`, `zip` with a finite input, `itertools.islice`, `break`). `list()`, `sorted()` and `sum()` on one never return.
-- Order matters at the edges. Pulling an item and then deciding you already have enough loses that item from a shared iterator. Yield first, then check whether you are done.
+- Order matters at the edges. Pulling an item and then deciding you already have enough loses that item from a shared iterator. Check for a count of zero before the loop; inside it, yield first, then check whether you are done.
 - To make a **class** re-iterable, write its `__iter__` as a generator method: every `iter()` call creates a new generator with its own position.
 
 ## Common mistakes

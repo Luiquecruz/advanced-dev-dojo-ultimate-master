@@ -89,11 +89,12 @@ class Currency:
     _instances = {}
 
     def __new__(cls, code):
-        if code not in cls._instances:
+        key = (cls, code)                # a subclass gets its own instances
+        if key not in cls._instances:
             instance = super().__new__(cls)
             instance.code, instance.rates = code, {}
-            cls._instances[code] = instance
-        return cls._instances[code]
+            cls._instances[key] = instance
+        return cls._instances[key]
 ```
 
 ## When to choose it

@@ -30,7 +30,7 @@
       "Never; EF Core reads the whole table at startup and filters it in memory"
     ],
     "answer": 2,
-    "explanation": "`Where` and `OrderBy` on an `IQueryable` only build an expression. The terminal operator `ToListAsync` makes EF Core translate the whole expression into one SQL statement. Thinking each line runs a query confuses `IQueryable` with an in-memory list, where each operator runs at once (03/03)."
+    "explanation": "`Where` and `OrderBy` on an `IQueryable` only build an expression. The terminal operator `ToListAsync` makes EF Core translate the whole expression into one SQL statement. Thinking each line runs a query misses deferred execution: on an in-memory list the operators also wait until the sequence is enumerated, but then run in C# over the objects instead of in SQL (03/03)."
   },
   {
     "question": "A query contains `.Where(p => MySlugHelper.Normalize(p.Name) == slug)`, where `Normalize` is your own C# method. What does EF Core 10 do?",
