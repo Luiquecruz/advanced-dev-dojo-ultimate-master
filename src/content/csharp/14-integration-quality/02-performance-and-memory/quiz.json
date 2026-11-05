@@ -63,6 +63,6 @@
       "Something still references the objects, such as a static cache or an event subscription"
     ],
     "answer": 3,
-    "explanation": "The GC frees only unreachable objects, so a .NET leak is usually a reference you keep: an unbounded static dictionary, a cache without limits or an event handler that is never removed. Lesson 04 shows how to find the root with a dump. The GC runs in containers, Server GC with DATAS does shrink heaps, and stack memory is released when the method returns."
+    "explanation": "The GC frees only unreachable objects, so a .NET leak is usually a reference you keep: an unbounded static dictionary, a cache without limits or an event handler that is never removed. Lesson 03 shows how to find the root with a dump. The GC runs in containers, Server GC with DATAS does shrink heaps, and stack memory is released when the method returns."
   }
 ]

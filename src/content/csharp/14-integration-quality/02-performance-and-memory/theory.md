@@ -14,7 +14,7 @@ Most of that still applies: slow queries and missing caches (module 07) dwarf ev
 - Objects of **85,000 bytes or more** go to the **large object heap** (LOH), collected only with gen 2 and not compacted by default (except under a container memory limit, where the runtime compacts it automatically). Microsoft's ASP.NET Core memory page shows an endpoint that allocates just over the limit per request causing constant gen 2 collections and roughly halving throughput.
 - **Server GC** is the default for ASP.NET Core apps: one heap and GC thread per core, tuned for throughput. Standalone console apps default to workstation GC unless you set `<ServerGarbageCollection>true</ServerGarbageCollection>`. Microsoft notes that workstation GC can be the better choice when many containerized apps share one machine.
 - Since .NET 9, **DATAS** (dynamic adaptation to application sizes) is on by default for Server GC. It starts with one heap and grows the number of heaps with load, which keeps small containers from reserving memory for every core.
-- A "leak" in .NET is almost always a reference you still hold: a static dictionary, an event handler, a cache without limits. Lesson 04 shows how to find it.
+- A "leak" in .NET is almost always a reference you still hold: a static dictionary, an event handler, a cache without limits. Lesson 03 shows how to find it.
 
 ## Measure first: BenchmarkDotNet
 

@@ -39,10 +39,11 @@ const track = trackById.get('csharp');
 const lessons: Lesson[] = track ? track.modules.flatMap((module) => module.lessons) : [];
 const kindOf = (lesson: Lesson) => (lesson.tags.includes('project') ? 'project' : 'theory');
 const eachLesson = lessons.map((lesson) => [lesson.key, lesson] as const);
-/** Tier of each module by position (05-curriculum.md): 01–11 core, 13 legacy, 12 and 14 deepening. */
-const tierOfModule = (position: number) => (position <= 11 ? 'core' : position === 13 ? 'legacy' : 'deepening');
-const eachLessonTier = (track ? track.modules : []).flatMap((module, index) =>
-  module.lessons.map((lesson) => [lesson.key, lesson, tierOfModule(index + 1)] as const),
+/** Modules outside the core tier, by module id (05-curriculum.md); every other module is core. */
+const MODULE_TIERS: Record<string, string> = { architecture: 'deepening', legacy: 'legacy', 'integration-quality': 'deepening' };
+const tierOfModule = (moduleId: string) => MODULE_TIERS[moduleId] ?? 'core';
+const eachLessonTier = (track ? track.modules : []).flatMap((module) =>
+  module.lessons.map((lesson) => [lesson.key, lesson, tierOfModule(module.id)] as const),
 );
 
 describe('csharp track', () => {
