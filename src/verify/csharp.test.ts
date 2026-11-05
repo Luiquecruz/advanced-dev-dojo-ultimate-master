@@ -31,13 +31,15 @@ const DOCUMENTATION_HOSTS = new Set([
  * the track legitimately names JavaScript (the SignalR client) and Python (Aspire's polyglot hosting).
  */
 const PHP_BRIDGE =
-  /\bPHP|\bphp\b|\.php\b|\.phtml\b|php\.ini|PSR-\d+|[Mm]agento|Adminhtml|routes\.xml|\bFPM\b|Composer|composer\.(json|lock)|composer install|di\.xml|crontab\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Guzzle|Monolog|Packagist|Zend|Laminas|\bPsalm\b|\bRector\b|Laravel|Symfony|Doctrine|Eloquent|[Oo][Pp]cache|Xdebug|phpunit|\$\w+->\w+|::get\b|(webapi|events|system|acl|module)\.xml|<preference\b|<virtualType\b|shared="false"|\bEAV\b|sales_order_\w+|Update by Schedule|[Aa]round plugin|[Pp]lugins and observers|[Nn]o plugins\b|without plugins|like a plugin|a plugin intercepts|[Pp]lugins that intercept|setup:[\w:-]+|getSize\(\)|count\(\$\w+\)/;
+  /\bPHP|\bphp|\.php\b|\.phtml\b|php\.ini|PSR-\d+|[Mm]agento|Adminhtml|routes\.xml|\bFPM\b|Composer|composer\.(json|lock)|composer install|di\.xml|crontab\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Guzzle|Monolog|Packagist|Zend|Laminas|\bPsalm\b|\bRector\b|Laravel|Symfony|Doctrine|Eloquent|[Oo][Pp]cache|Xdebug|phpunit|\$\w+->\w+|::get\b|(webapi|events|system|acl|module)\.xml|<preference\b|<virtualType\b|shared="false"|\bEAV\b|sales_order_\w+|Update by Schedule|[Aa]round plugin|[Pp]lugins and observers|[Nn]o plugins\b|without plugins|like a plugin|a plugin intercepts|[Pp]lugins that intercept|setup:[\w:-]+|getSize\(\)|count\(\$\w+\)/;
 /** An `Assert.ThrowsAsync` that is not awaited returns a task nobody observes, so the test passes even when nothing throws. */
 const UNAWAITED_THROWS_ASYNC = /(?<!\bawait\s+)Assert\.ThrowsAsync\b/;
 /** Block comments, removed before the marker check so a commented-out `[Test(…)]` cannot carry the marker. */
 const BLOCK_COMMENT = /\/\*[\s\S]*?\*\//g;
 /** The test that catches the most common wrong implementation, marked on the line above its `[Test("…")]`. */
 const BEGINNER_MISTAKE = /^[ \t]*\/\/ beginner mistake: \S.*\n[ \t]*\[Test\(/gm;
+/** C# source with its line and block comments blanked out and string literals kept, so a commented `await` does not count. */
+const withoutComments = (code: string) => code.replace(/"(?:[^"\\\n]|\\.)*"|\/\/[^\n]*|\/\*[\s\S]*?\*\//g, (token) => (token.startsWith('"') ? token : ' '));
 
 interface Violation {
   rule: string;
@@ -183,7 +185,7 @@ function testViolations(lesson: Lesson): Violation[] {
   }
   const tests = lesson.challenge.tests;
   const violations: Violation[] = [];
-  if (UNAWAITED_THROWS_ASYNC.test(tests)) {
+  if (UNAWAITED_THROWS_ASYNC.test(withoutComments(tests))) {
     violations.push({ rule: 'tests-await-throws-async', detail: 'tests.cs calls Assert.ThrowsAsync without await' });
   }
   const count = listCsharpTestNames(tests).length;
@@ -264,12 +266,14 @@ describe('csharp track', () => {
       'declared in events.xml', 'a field in system.xml', 'Around plugins wrap the call', '| Plugins and observers | Middleware, endpoint filters, decorators |',
       'the .NET version of `count($collection)` versus `getSize()`', 'Like `setup:upgrade`, it connects', 'Nothing runs `setup:upgrade` for you',
       '## No plugins: decorators instead', 'every call of `ICartService` without plugins', 'intercepts each public method, like a plugin',
-      'the way a plugin intercepts any public method', 'Plugins that intercept any public method of another module'];
+      'the way a plugin intercepts any public method', 'Plugins that intercept any public method of another module', 'run phpstan on the module'];
     const allowed = ['the SignalR JavaScript client', "Aspire's polyglot hosting runs Python apps", 'ILogger<T> categories', 'dotnet test --logger trx',
       'creates a second `AppDomain` to isolate plugins', '.WithManagementPlugin()', '// ... builder setup:', 'items.Count()'];
     expect(caught.filter((text) => !PHP_BRIDGE.test(text))).toEqual([]);
     expect(allowed.filter((text) => PHP_BRIDGE.test(text))).toEqual([]);
-    expect(['await Assert.ThrowsAsync<E>(() => run())', 'public static void X() => Assert.ThrowsAsync<E>(() => run());'].map((text) => UNAWAITED_THROWS_ASYNC.test(text))).toEqual([false, true]);
+    const throwsAsync = ['await Assert.ThrowsAsync<E>(() => run())', 'public static void X() => Assert.ThrowsAsync<E>(() => run());', '// await\nAssert.ThrowsAsync<E>(() => run());',
+      'await /* checked */ Assert.ThrowsAsync<E>(() => Get("https://x"))'];
+    expect(throwsAsync.map((text) => UNAWAITED_THROWS_ASYNC.test(withoutComments(text)))).toEqual([false, true, true, false]);
     const commentedOut = '[Test("a")] void A() {}\n/*\n// beginner mistake: x\n[Test("b")] void B() {}\n*/\n// [Test("c")]';
     expect([listCsharpTestNames(commentedOut).length, (commentedOut.replace(BLOCK_COMMENT, '').match(BEGINNER_MISTAKE) ?? []).length]).toEqual([1, 0]);
   });
