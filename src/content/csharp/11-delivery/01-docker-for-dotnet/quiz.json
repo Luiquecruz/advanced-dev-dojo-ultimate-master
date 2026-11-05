@@ -8,7 +8,7 @@
       "The SDK image ships no ASP.NET Core runtime, so the API fails to start until one is installed"
     ],
     "answer": 1,
-    "explanation": "An ASP.NET Core app is compiled ahead of time and then run from its published DLLs. A multi-stage build keeps the SDK in the build stage and copies only `/app` into `aspnet`, which is smaller and has fewer tools for an attacker. The tempting first option is wrong: .NET never reads source files at request time; `dotnet run` checks and builds the project first, at every start."
+    "explanation": "An ASP.NET Core app is compiled ahead of time and then run from its published DLLs. A multi-stage build keeps the SDK in the build stage and copies only `/app` into `aspnet`, which is smaller and has fewer tools for an attacker. The tempting first option is wrong: `dotnet run` does not automatically reload `.cs` files on each request; it checks and builds the project first, at every start."
   },
   {
     "question": "You run `docker run -p 8000:80 catalog-api` on a .NET 10 image and `curl localhost:8000` gets \"connection reset\". Why?",
