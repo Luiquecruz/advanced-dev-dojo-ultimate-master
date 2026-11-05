@@ -9,3 +9,7 @@ f019c1960a8f43873a6383c6f8e2b71faf4b8e22:src/content/ai-engineering/08-harness-a
 f019c1960a8f43873a6383c6f8e2b71faf4b8e22:src/content/ai-engineering/08-harness-and-loops/05-hooks/variants/node/tests.ts:generic-api-key:51
 f019c1960a8f43873a6383c6f8e2b71faf4b8e22:src/content/ai-engineering/08-harness-and-loops/05-hooks/variants/node/tests.ts:aws-access-token:51
 6432ecc92ff7156cdba739cfe7d3a4317579070a:src/content/node/09-security/03-jwt-from-scratch/tests.ts:jwt:2
+5170ce17c2506ec340e72de4d74c32bd013d1969:src/content/ai-engineering/08-harness-and-loops/05-hooks/variants/python/solution/demo.py:generic-api-key:20
+5170ce17c2506ec340e72de4d74c32bd013d1969:src/content/ai-engineering/08-harness-and-loops/05-hooks/variants/python/starter/demo.py:generic-api-key:20
+5170ce17c2506ec340e72de4d74c32bd013d1969:src/content/ai-engineering/08-harness-and-loops/05-hooks/variants/python/tests.py:aws-access-token:103
+5170ce17c2506ec340e72de4d74c32bd013d1969:src/content/ai-engineering/08-harness-and-loops/05-hooks/variants/python/tests.py:generic-api-key:103

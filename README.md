@@ -83,7 +83,7 @@ Every pull request and every push to `main` runs on GitHub Actions:
 | [Security](.github/workflows/security.yml) | `npm audit`; secret scan of the whole git history (gitleaks); OSV-Scanner over the npm and Python lockfiles; CodeQL for TypeScript, Python and the workflows. Also runs weekly |
 | [Docs sync](.github/workflows/docs-sync.yml) | warns when a documented area changes without its documents (`docs:none` label for reviewed exceptions) |
 
-Once the production secrets are configured on the `production` environment, only code that passed every check on `main` is deployed, and the live site is smoke-tested right after; without them `deploy` and `smoke` are skipped. Details, required secrets and branch protection in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy).
+Once the production secrets are configured on the `production` environment, a push to `main` is deployed after every CI job passes and the live site is smoke-tested right after; without the secrets `deploy` and `smoke` are skipped. The Security workflow gates merges into `main` through branch protection, not the deploy itself. Details, required secrets and branch protection in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy).
 
 ## Authoring scripts
 

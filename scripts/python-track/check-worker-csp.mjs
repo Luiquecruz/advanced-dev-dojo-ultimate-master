@@ -7,7 +7,7 @@
 import { createHash } from 'node:crypto';
 import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { build, preview } from 'vite';
@@ -47,8 +47,15 @@ async function checkServed(origin, outDir, worker) {
     const body = await response.text();
     expect(response.ok && /<div id="root"/.test(body), `${route} must fall back to index.html (got ${response.status})`);
   }
-  // Compare bytes, not only the status: the host's SPA fallback answers a missing file with index.html and 200.
-  for (const file of ['pyodide/pyodide.asm.wasm', 'pyodide/python_stdlib.zip', 'pyodide/pyodide-lock.json', 'pyodide/pydantic-2.12.5-py3-none-any.whl', 'pyodide/licenses/pyodide-LICENSE']) {
+  // Every file the build put under pyodide/ (runtime, loader, lock, wheels, licenses), compared byte for byte: the host's
+  // SPA fallback answers a missing file with index.html and status 200.
+  const pyodideFiles = readdirSync(join(outDir, 'pyodide'), { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => relative(outDir, join(entry.parentPath, entry.name)).split(sep).join('/'));
+  for (const required of ['pyodide/pyodide.asm.mjs', 'pyodide/pyodide.asm.wasm', 'pyodide/python_stdlib.zip', 'pyodide/pyodide-lock.json', 'pyodide/pydantic-2.12.5-py3-none-any.whl', 'pyodide/licenses/pyodide-LICENSE']) {
+    expect(pyodideFiles.includes(required), `the build has no ${required}`);
+  }
+  for (const file of pyodideFiles) {
     const response = await fetch(`${origin}/${file}`);
     const served = Buffer.from(await response.arrayBuffer());
     expect(response.ok, `/${file} returned ${response.status}`);
