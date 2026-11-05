@@ -110,6 +110,8 @@ The app never imports lesson files directly. `plugins/contentPlugin.ts` reads `s
 
 Stores are plain external stores read through `useSyncExternalStore`: no state library, no context providers. Derived values (`summarizeTrack`, `isLessonComplete`) are computed from the store, never stored.
 
+`summarizeTrack` (`entities/progress/trackSummary.ts`) is the single source of track `done`/`total`/`percent`/`status` for the carousel card and the track page. A module marked `"optional": true` in `module.json` (`Module.optional`, `false` by default; the loader rejects a non-boolean value) counts toward those numbers only once one of its lessons was started (visited, or its challenge or quiz passed): a learner who skips it can still complete the track, and one who opens it sees its lessons added to the total. The resume lesson of a fresh track is still the first lesson of the track, and per-module counts in `ModuleList` and `ModuleProgress` always include every module.
+
 ### Adding UI
 
 1. Decide the layer: a new screen goes in `pages/`, a capability used by a screen in `features/<name>/`, domain state in `entities/<name>/`, anything generic in `shared/`.
@@ -382,7 +384,7 @@ Then add the engine id to the list of valid engines in `src/verify/content.test.
 
 ```
 src/content/svelte/track.json                 { "engine", "order", "title", "monogram", "description", "version" }
-src/content/svelte/01-foundations/module.json { "title", "description" }
+src/content/svelte/01-foundations/module.json { "title", "description", "optional"? }
 src/content/svelte/01-foundations/01-.../     one reference lesson (see CONTENT_GUIDE.md)
 ```
 

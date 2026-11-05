@@ -25,7 +25,7 @@ All content is written in **English**.
 | `approach.md` | with challenge | "Solution path": numbered reasoning steps, without pasting the full solution |
 | `variants/<language>/` | multi-language tracks | One challenge per language: `starter`, `solution`, `tests` and optional `challenge.md`/`hints.md`/`approach.md` overrides (see below) |
 | `quiz.json` | optional | `[{ "question", "options": [...], "answer": <index>, "explanation" }]` (Markdown allowed) |
-| `module.json` | per module | `{ "title", "description" }` |
+| `module.json` | per module | `{ "title", "description", "optional"? }`; `"optional": true` marks a module learners may skip (a module zero for people who have never programmed): it counts toward track progress only once the learner opened or completed one of its lessons, so skipping it still reaches 100% |
 | `track.json` | per track | `{ "engine", "order", "title", "monogram", "shortTitle"?, "description", "version" }`, or `"languages": [...]` instead of `"engine"` for a multi-language track; the accent color lives in `src/shared/design/tokens.css` (rules in [ARCHITECTURE.md](ARCHITECTURE.md#track-presentation)) |
 
 - `level`: `beginner`, `intermediate`, `advanced` or `expert`.

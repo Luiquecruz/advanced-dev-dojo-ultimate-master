@@ -22,11 +22,26 @@ export interface TrackSummary {
 }
 
 /**
+ * A lesson is started once the learner opened it or passed its challenge or quiz.
+ */
+function isLessonStarted(state: ProgressState, lesson: Pick<LessonEntry, 'key'>): boolean {
+  return Boolean(state.visited[lesson.key] || state.challenges[lesson.key] || state.quizzes[lesson.key]);
+}
+
+/**
+ * A module counts toward track progress unless it is optional and none of its lessons was started.
+ */
+function isModuleCounted(state: ProgressState, module: Module): boolean {
+  return !module.optional || module.lessons.some((lesson) => isLessonStarted(state, lesson));
+}
+
+/**
  * Progress overview of a track: overall completion, the lesson to resume, the current stage (module) and per-module progress.
  */
 export function summarizeTrack(track: Track, state: ProgressState): TrackSummary {
-  const done = track.lessons.filter((lesson) => isLessonComplete(state, lesson)).length;
-  const total = track.lessons.length;
+  const countedLessons = track.modules.flatMap((module) => (isModuleCounted(state, module) ? module.lessons : []));
+  const done = countedLessons.filter((lesson) => isLessonComplete(state, lesson)).length;
+  const total = countedLessons.length;
   const lastLesson = track.lessons.find((lesson) => lesson.id === state.lastLesson[track.id]);
   const resumeLesson = lastLesson ?? track.lessons.find((lesson) => !isLessonComplete(state, lesson)) ?? track.lessons[0];
   const currentModuleIndex = track.modules.findIndex((module) => module.id === resumeLesson.moduleId);
@@ -35,7 +50,7 @@ export function summarizeTrack(track: Track, state: ProgressState): TrackSummary
     const complete = moduleDone === module.lessons.length;
     return { module, index, done: moduleDone, total: module.lessons.length, state: index === currentModuleIndex && !complete ? 'current' : complete ? 'done' : 'upcoming' };
   });
-  const status: TrackStatus = done === total ? 'completed' : done > 0 || lastLesson ? 'in-progress' : 'not-started';
+  const status: TrackStatus = total > 0 && done === total ? 'completed' : done > 0 || lastLesson ? 'in-progress' : 'not-started';
   return { done, total, percent: total ? Math.round((done / total) * 100) : 0, status, resumeLesson, currentModuleIndex, modules };
 }
 

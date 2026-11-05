@@ -1,7 +1,7 @@
 import type { Track } from '@/content';
 import { CurriculumPanel, ModuleList } from '@/features/curriculum';
 import { ProgressBar } from '@/shared/ui/ProgressBar';
-import { isLessonComplete, useProgress } from '@/entities/progress';
+import { summarizeTrack, useProgress } from '@/entities/progress';
 import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
 import { TrackLogo } from '@/entities/track';
@@ -14,7 +14,7 @@ import { useMotionState } from '@/shared/motion/useMotionState';
 export function TrackPage({ track }: { track: Track }) {
   const state = useProgress();
   const motionState = useMotionState();
-  const done = track.lessons.filter((lesson) => isLessonComplete(state, lesson)).length;
+  const { done, total, percent } = summarizeTrack(track, state);
   const resumeId = state.lastLesson[track.id] ?? track.lessons[0]?.id;
 
   return (
@@ -34,9 +34,9 @@ export function TrackPage({ track }: { track: Track }) {
             </div>
             <p className="my-4 text-base text-ink-muted">{track.description}</p>
             <div className="mt-4.5 mb-7 flex flex-wrap items-center gap-4">
-              <ProgressBar percent={track.lessons.length ? (done / track.lessons.length) * 100 : 0} label={`${done} of ${track.lessons.length} lessons complete`} large />
+              <ProgressBar percent={percent} label={`${done} of ${total} lessons complete`} large />
               <span className="text-ink-muted">
-                {done}/{track.lessons.length} lessons complete
+                {done}/{total} lessons complete
               </span>
               {resumeId && (
                 <Link className={buttonClass('primary')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: resumeId })}>

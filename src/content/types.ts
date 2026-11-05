@@ -67,6 +67,7 @@ export interface Module<TLesson extends LessonEntry = LessonEntry> {
   trackId: TrackId;
   title: string;
   description: string;
+  optional: boolean;
   lessons: TLesson[];
 }
 
