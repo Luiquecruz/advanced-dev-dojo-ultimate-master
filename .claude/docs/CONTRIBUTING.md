@@ -11,10 +11,10 @@ How to set up the project, ship a change and keep the documentation in step with
 
 ## Workflow
 
-1. Branch from `main`: `feat/<topic>`, `fix/<topic>`, `docs/<topic>`, `perf/<topic>`, `refactor/<topic>`. Never commit straight to `main`.
+1. Branch from `main`, or from the preceding branch for a later part of a stack: `feat/<topic>`, `fix/<topic>`, `docs/<topic>`, `perf/<topic>`, `refactor/<topic>`. Never commit straight to `main`.
 2. Make the change and update the documents that describe it in the same change (see [Documentation upkeep](#documentation-upkeep)).
 3. Run the checks below.
-4. Push the branch and open a pull request against `main`.
+4. Push the branch and open a pull request against `main`, or against the preceding branch for a later part of a stack.
 
 Parallel work on the same machine uses git worktrees under `.claude/worktrees/` (ignored by git).
 
@@ -33,6 +33,14 @@ ci: waive docs sync only when docs:none itself is added
 - Scope (optional): a track id (`typescript`, `react`, `react-state`, `architecture`, `ai-engineering`, `node`, `python`, `csharp`, `vue`, `angular`) or an area (`engines`, `sandbox`, `verify`, `content`, `curriculum`, `lesson`, `routing`, `scene`, `motion`, `ui`, `deps`, `ci`, `review`, `docs`, `harness`). A new scope is added to this list and to `.coderabbit.yaml` in the same change.
 - Subject: starts with a lowercase imperative verb (`add`, `fix`, `remove`, `update`, `mark`...); product and language names keep their casing after it. No trailing period.
 - A body, when needed, is a list of what changed.
+
+### Opening a pull request from an AI agent
+
+1. Branch from `main` for a non-stacked pull request or the first part of a stack; for each later part, branch from the preceding part's branch. Commit with the format above and `git push -u origin <branch>`.
+2. The remote is `https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master` (the repository name is not `dev-dojo`). Read it with `git remote -v` instead of guessing it.
+3. With the GitHub CLI available, open it with `gh pr create --base <base-branch> --title "<title>" --body "<body>"`. Use `main` as the base for a non-stacked pull request or the first part of a stack, and the preceding part's branch for each later part.
+4. Without `gh` (it is not installed on every machine; check with `which gh`), give the compare link and the title and body to paste: `https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/compare/<base-branch>...<branch>?expand=1`. Use the same base as in step 3 and the pushed branch as the head.
+5. Title: same format as a commit subject (see Commits). Body: a short list of what changed, then one line for any setup the reviewer must do (for example an environment variable on Netlify).
 
 ### Pull request size
 

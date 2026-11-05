@@ -49,6 +49,8 @@ npm run build        # production build in dist/ (needs an SPA fallback to index
 npm run preview      # serve the production build
 ```
 
+Error monitoring: Sentry (`@sentry/react`, `src/app/monitoring/sentry.ts`) starts in the app window only when `VITE_SENTRY_DSN` is set (copy `.env.example` to `.env.local`; on Netlify set it as a build environment variable). The sandbox iframe and the workers run learner code and are not instrumented.
+
 Debug query params: `?debug=perf` shows the scene panel and `?tier=high|mid|low` forces a performance tier, e.g. `http://localhost:5173/typescript?debug=perf&tier=mid`.
 
 ## How it works
