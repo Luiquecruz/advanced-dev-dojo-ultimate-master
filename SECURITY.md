@@ -8,7 +8,7 @@ Only the current `main` branch and the site deployed from it (https://adv-dv-doj
 
 Report it privately. Do not open a public issue.
 
-Use **Security → Report a vulnerability** on this repository (GitHub private vulnerability reporting). Include:
+Use **Security → Report a vulnerability** on this repository (GitHub private vulnerability reporting). If that button is not available, open an issue titled "Security contact request" that says nothing about the problem: a maintainer replies there to agree on a private channel. Include in the private report:
 
 - what an attacker can do, and against whom: another learner, the site, the repository or its CI;
 - the steps or a proof of concept, and the browser or Node.js version you used.
