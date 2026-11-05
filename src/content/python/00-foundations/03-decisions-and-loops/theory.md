@@ -92,6 +92,8 @@ elif total < 5000:
     cost = 395
 elif total < 10000:
     cost = 195
+else:                  # 10000 or more ships free
+    cost = 0
 ```
 
 **Stopping one number short.** `range(1, n)` ends at `n - 1`. To include `n`, write `range(1, n + 1)`.
