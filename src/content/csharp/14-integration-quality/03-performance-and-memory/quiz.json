@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In Magento you never worried about per-request allocations because PHP frees everything at the end of the request. Why do they matter more in an ASP.NET Core API?",
+    "options": [
+      "Every allocation is a system call, unlike PHP's request arena",
+      "One long-running process shares the heap, and allocations drive GC work that costs CPU and pauses",
+      "The GC only runs at shutdown, so memory grows until the container restarts",
+      "Objects are never freed unless you call `Dispose` on them"
+    ],
+    "answer": 1,
+    "explanation": "Allocation in .NET is cheap, but every allocation fills gen 0 sooner and triggers collections, which consume CPU and can pause threads for all concurrent requests. The GC runs continuously, not at shutdown, and `Dispose` releases unmanaged resources such as sockets; it does not free managed memory."
+  },
+  {
+    "question": "An endpoint builds a 100,000-byte buffer with `new byte[100_000]` on every request. Under load, gen 2 collections are constant and throughput drops. What is the best fix?",
+    "options": [
+      "Call `GC.Collect()` at the end of each request to clear the buffers",
+      "Switch to workstation GC so collections are cheaper",
+      "Shrink the buffer to 90,000 bytes so it stays on the small object heap",
+      "Rent the buffer from `ArrayPool<byte>.Shared` and return it in `finally`"
+    ],
+    "answer": 3,
+    "explanation": "Buffers of 85,000 bytes or more go on the large object heap, which is collected only with gen 2, so a per-request large buffer forces expensive collections. Pooling reuses the same arrays and stops the allocations. 90,000 bytes is still over the limit, `GC.Collect()` forces exactly the expensive collection you are trying to avoid, and workstation GC does not change where large objects go."
+  },
+  {
+    "question": "Which code compiles and is correct?",
+    "options": [
+      "`ReadOnlySpan<char> sku = line.AsSpan(0, 8); await SaveAsync(sku.ToString());`",
+      "`private Span<byte> _buffer;` as a field of a scoped service",
+      "`ReadOnlySpan<char> sku = line.AsSpan(0, 8); await Task.Delay(10); Use(sku);`",
+      "`object boxed = line.AsSpan();` to pass the span to a logging method"
+    ],
+    "answer": 0,
+    "explanation": "Since C# 13, an async method may declare a span local as long as it is not used across an `await`; here it becomes a string before the await, so it compiles. `Span<T>` is a `ref struct`, so it cannot be a field of a class, cannot be boxed to `object`, and cannot be used across an `await`. Use `Memory<T>` when the buffer must outlive a synchronous section."
+  },
+  {
+    "question": "A teammate measures two parsers with a `Stopwatch` around 1,000 calls in a Debug build and reports a 40% speed-up. What should you ask for?",
+    "options": [
+      "Nothing: 1,000 calls is enough to average out noise",
+      "The same loop run 10,000 times, still in Debug, to rule out noise",
+      "A BenchmarkDotNet run in Release with `[MemoryDiagnoser]`, comparing both versions",
+      "A production deploy behind a feature flag, since local numbers never matter"
+    ],
+    "answer": 2,
+    "explanation": "Debug builds disable optimizations, and a hand-written loop has no warm-up or statistics, so the number is unreliable. BenchmarkDotNet handles warm-up, iterations and outliers, and the BenchmarkDotNet guide requires a Release build without a debugger. More iterations of the same flawed setup still measure unoptimized code."
+  },
+  {
+    "question": "Where does `StringBuilder` clearly pay off?",
+    "options": [
+      "Replacing `$\"{sku}-{size}\"` in a product URL helper",
+      "Building a CSV export by appending one line per product in a loop",
+      "Every string literal in a hot path, to avoid string allocations",
+      "Concatenating two constants with `+`, which allocates at runtime"
+    ],
+    "answer": 1,
+    "explanation": "Appending in a loop with `+=` copies the growing string every time; `StringBuilder` appends into a buffer. A short interpolation is already compiled efficiently with `DefaultInterpolatedStringHandler`, literals are not allocated per use, and the compiler folds two constants into one at compile time."
+  },
+  {
+    "question": "Memory of an API container climbs for hours and never comes down after load stops. What is the most likely cause in a .NET app?",
+    "options": [
+      "The GC is disabled in containers unless `DOTNET_gcServer=1` is set",
+      "Server GC never returns memory, so every Server GC app grows forever",
+      "Spans allocated on the stack are not freed until the thread pool shrinks",
+      "Something still references the objects, such as a static cache or an event subscription"
+    ],
+    "answer": 3,
+    "explanation": "The GC frees only unreachable objects, so a .NET leak is usually a reference you keep: an unbounded static dictionary, a cache without limits or an event handler that is never removed. Lesson 04 shows how to find the root with a dump. The GC runs in containers, Server GC with DATAS does shrink heaps, and stack memory is released when the method returns."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Roslyn analyzers", "description": "Code checks that run inside the C# compiler on every build and in the IDE, reporting diagnostics with IDs such as `CA2017` or `IDE0040`." },
+  { "term": "`AnalysisLevel`", "description": "The MSBuild property that picks which release's rule set runs, `latest` by default, optionally with a mode suffix such as `latest-recommended`." },
+  { "term": "`AnalysisMode`", "description": "How many code quality rules are build warnings: `None`, `Default`, `Minimum`, `Recommended` or `All`." },
+  { "term": "`.editorconfig` severity", "description": "An entry such as `dotnet_diagnostic.CA2016.severity = warning` that sets one rule to error, warning, suggestion, silent or none." },
+  { "term": "`EnforceCodeStyleInBuild`", "description": "The property that makes `IDE` code style rules run during `dotnet build`, not only in the editor." },
+  { "term": "`TreatWarningsAsErrors`", "description": "The compiler option that turns every warning into an error, with `WarningsAsErrors` and `WarningsNotAsErrors` for finer control." },
+  { "term": "`dotnet format --verify-no-changes`", "description": "A check that applies no fixes but exits with a non-zero code when any file does not match the configured style, suited to CI." }
+]

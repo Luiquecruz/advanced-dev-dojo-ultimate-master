@@ -105,6 +105,7 @@ Sizes in author-hours: **S** ≤ 2 h, **M** 2–6 h, **L** 6–12 h. Module rows
 
 | Id | Title | Module/lesson | Type | Size | Dep | Acceptance criteria (testable) |
 | --- | --- | --- | --- | --- | --- | --- |
+| PY-S1 | Sequence audit and reorganization | whole track | tooling + content | L (many changes) | open pull requests merged | Every lesson declares the concepts it introduces and uses. A test fails when a lesson uses a concept only a later lesson introduces. Modules and lessons are reordered so the track reads in a clean order (folders renumbered, CURRICULUM.md regenerated with `npm run python:curriculum`, progress keys checked); verify green and a browser check of progress. Shared with the C# track item S1 (csharp-track/07-backlog.md) |
 | PY-C02 | Collections ADR | 02-collections/09-collections-adr | lesson | M | — | `LESSON=python/collections-adr` verify green; starter fails; `✓` in CURRICULUM.md; module 2 browser pass |
 | PY-C03 | Functions and callables | 03-functions (10) | lesson | L ×10 (≈ 42 h) | PY-T01, PY-T02 | 10 lessons, each verify green and convention test green; browser pass; `✓` × 10 |
 | PY-C04 | Classes and descriptors | 04-classes (10) | lesson | ≈ 48 h | PY-T01, PY-T02 | as PY-C03; descriptors and `__set_name__` tests cover get/set/delete |

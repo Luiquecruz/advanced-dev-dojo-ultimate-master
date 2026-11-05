@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In Magento a leak disappears when the PHP-FPM request ends. Your .NET API's memory has grown for six hours under steady traffic. What is the right first step?",
+    "options": [
+      "Take a full `dotnet-dump` immediately, since only a dump can show memory",
+      "Restart the pod every hour, since .NET processes are expected to grow",
+      "Increase the container memory limit until the growth stops",
+      "Watch `dotnet.gc.last_collection.heap.size` and gen 2 counts with `dotnet-counters`"
+    ],
+    "answer": 3,
+    "explanation": "Metrics tell you cheaply whether the managed heap is growing after collections, which points to held references, or whether the growth is elsewhere. Then you choose a gcdump or a dump. Jumping to a full dump in production can pause the process and writes a large, sensitive file. Restarts and bigger limits hide a leak; they do not fix it."
+  },
+  {
+    "question": "Under steady traffic, `dotnet.gc.heap.total_allocated` climbs fast while `dotnet.gc.last_collection.heap.size` stays flat. What does that tell you?",
+    "options": [
+      "The heap is leaking, so take a full `dotnet-dump` now",
+      "The app allocates many short-lived objects that the GC reclaims: an allocation-rate cost, not a leak",
+      "The GC has stopped running, so the process will soon run out of memory",
+      "The two counters disagree, so the diagnostic port is misconfigured"
+    ],
+    "answer": 1,
+    "explanation": "`total_allocated` is a running total of bytes allocated since start, so it always grows; the heap size after the last collection shows what survives. A flat survivor size means the GC frees what you allocate, so there is no leak to dump; if CPU or gen 0/1 counts are high, reduce allocations with lesson 03's tools. A leak looks different: `last_collection.heap.size` keeps climbing between collections."
+  },
+  {
+    "question": "An old runbook says `dotnet-trace collect -p 1234 --profile cpu-sampling`. On a current `dotnet-trace`, what should you run instead?",
+    "options": [
+      "`dotnet-trace collect -p 1234`, whose defaults include `dotnet-sampled-thread-time`",
+      "`dotnet-trace collect -p 1234 --profile gc-verbose`",
+      "`dotnet-counters collect -p 1234 --format csv`",
+      "`dotnet-dump collect -p 1234 --type Mini`"
+    ],
+    "answer": 0,
+    "explanation": "The `cpu-sampling` profile was removed from `collect` because its name was misleading. With no profile flags, `collect` enables `dotnet-common` and `dotnet-sampled-thread-time`, which is the documented replacement. `gc-verbose` targets allocations, counters do not record stacks, and a dump is a snapshot, not a time profile."
+  },
+  {
+    "question": "`dumpheap -stat` shows 2 million `ProductDto` instances. What do you do next to learn why they are not collected?",
+    "options": [
+      "Run `analyzeoom` to see which allocation failed",
+      "Call `GC.Collect()` from the app and take another dump",
+      "List instances with `dumpheap -mt <MT>` and run `gcroot` on one address",
+      "Compare the dump file size with the container memory limit"
+    ],
+    "answer": 2,
+    "explanation": "`gcroot` prints the reference chain from a root, for example a static dictionary in a singleton cache, to the object. That chain is the bug. `analyzeoom` only reports a failed allocation after an out-of-memory, and forcing a collection cannot free objects that are still referenced."
+  },
+  {
+    "question": "Your API runs from a chiseled image with no shell. You add a sidecar with the .NET tools to the pod, but `dotnet-counters ps` lists nothing. What is missing?",
+    "options": [
+      "The app must be rebuilt in Debug so it opens a diagnostic port",
+      "A shared process namespace and a shared `/tmp` volume between the two containers",
+      "The `DOTNET_EnableDiagnostics=0` variable, which turns diagnostics on",
+      "A TCP port mapping, because the diagnostic port listens on 8080"
+    ],
+    "answer": 1,
+    "explanation": "The tools find processes through the process namespace and talk to the runtime over a Unix domain socket in `/tmp`, so both must be shared (`shareProcessNamespace` plus an `emptyDir` on `/tmp` in Kubernetes). Release builds expose the diagnostic port too. `DOTNET_EnableDiagnostics=0` disables it rather than enabling it, and the port is a socket file, not TCP 8080."
+  },
+  {
+    "question": "Why does the lesson treat a `dotnet-dump` file like a database backup?",
+    "options": [
+      "It contains process memory, which can include tokens, connection strings and customer data",
+      "It can be restored into a running process to replay requests",
+      "It is encrypted with the app's data-protection keys",
+      "It is required by law to be kept for 30 days"
+    ],
+    "answer": 0,
+    "explanation": "A full or heap dump holds the process memory, so secrets and personal data in memory end up in the file. Store it with restricted access and delete it after analysis. Dumps cannot be restored into a process, are not encrypted by the runtime, and no retention rule applies by default."
+  }
+]

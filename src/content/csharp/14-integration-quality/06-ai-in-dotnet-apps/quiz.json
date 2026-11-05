@@ -1,0 +1,57 @@
+[
+  {
+    "question": "In your Magento module, a `DescriptionGenerator` class used the vendor's PHP SDK directly. Porting it to .NET, what should consumers such as `DescriptionWriter` depend on?",
+    "options": [
+      "`IChatClient`, registered with `AddChatClient` and built from a provider adapter",
+      "The vendor's `ChatClient` class, injected as a singleton",
+      "An `HttpClient` typed client that posts JSON to the vendor's REST API",
+      "A static helper that reads the API key and creates the SDK client per call"
+    ],
+    "answer": 0,
+    "explanation": "Depending on `IChatClient` keeps the provider a configuration choice, lets you add caching, telemetry and tool calling as middleware, and makes tests use a fake. Injecting the vendor SDK class ties every consumer to one provider. A hand-written HTTP client rebuilds what the provider libraries already do, and a static helper defeats DI and configuration."
+  },
+  {
+    "question": "A chat endpoint sends only the user's latest message to a stateless model on each turn. Users complain the assistant forgets what they said. What is the fix?",
+    "options": [
+      "Raise `Temperature` so the model reuses more context",
+      "Set `ChatOptions.ConversationId` to a new GUID on every request",
+      "Keep the message list, add each response with `AddMessages`, and send the whole history every turn",
+      "Switch from `GetResponseAsync` to `GetStreamingResponseAsync`, which keeps history"
+    ],
+    "answer": 2,
+    "explanation": "Stateless services require the caller to send the relevant history with every request, including the model's previous responses. `ConversationId` only helps with stateful services, and a new id per request would start a fresh conversation anyway. Temperature controls randomness, and streaming changes delivery, not memory."
+  },
+  {
+    "question": "The pipeline is `.UseDistributedCache().UseFunctionInvocation().UseOpenTelemetry()`. What happens when the same history is sent twice?",
+    "options": [
+      "Both calls reach the model, because the cache only stores tool results",
+      "The second call is answered from the cache, before tools or the model run",
+      "The second call fails, because cached responses cannot contain tool calls",
+      "Both calls run the tools again, and only the model's final text is cached"
+    ],
+    "answer": 1,
+    "explanation": "Each `Use*` wraps the next client, so the cache is outermost here: a known history returns the cached response without reaching function invocation or the model. That is why the lesson says order matters. The caching client caches full responses for a history, not tool results."
+  },
+  {
+    "question": "With `UseFunctionInvocation()`, the model can call a `CancelOrder(int orderId)` tool. What is the main risk to design for?",
+    "options": [
+      "Tools only work with OpenAI models, so the code breaks on a provider change",
+      "The tool runs on the model provider's servers, outside your logs",
+      "The tool cannot be async, so it blocks a thread-pool thread",
+      "The model chooses the arguments, so a manipulated prompt can cancel someone else's order"
+    ],
+    "answer": 3,
+    "explanation": "The .NET method runs in your process with arguments the model produced from text that may include untrusted user input. Validate arguments, check authorization against the real user, and give tools least privilege. Function invocation works with any provider that supports tool calling, tools run locally, and async tools are supported."
+  },
+  {
+    "question": "Which feature is the best reason to adopt the Microsoft Agent Framework instead of a plain `IChatClient`?",
+    "options": [
+      "Generating one product description per SKU from a template",
+      "Classifying support emails into five categories",
+      "A multi-step workflow where agents research, draft and review a supplier contract with handoffs",
+      "Streaming a chat answer to the browser token by token"
+    ],
+    "answer": 2,
+    "explanation": "Microsoft's guidance is that `Microsoft.Extensions.AI` alone covers one-shot calls, chat and tool-calling loops; the Agent Framework is for goal-directed, multi-step orchestration, routing and handoffs between agents. Descriptions, classification and streaming are single calls that need no orchestration layer."
+  }
+]

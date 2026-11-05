@@ -1,0 +1,36 @@
+{
+  "title": "gRPC and SignalR",
+  "summary": "Choose between JSON HTTP APIs, gRPC and SignalR, define a gRPC service from a .proto contract with deadlines, push updates from a strongly typed SignalR hub, and scale both out correctly.",
+  "level": "advanced",
+  "tags": [
+    "established",
+    "deepening",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Compare gRPC services with HTTP APIs",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/grpc/comparison"
+    },
+    {
+      "label": "gRPC services with C#",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/grpc/basics"
+    },
+    {
+      "label": "Reliable gRPC services with deadlines and cancellation",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/grpc/deadlines-cancellation"
+    },
+    {
+      "label": "gRPC client-side load balancing",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/grpc/loadbalancing"
+    },
+    {
+      "label": "Use hubs in ASP.NET Core SignalR",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/signalr/hubs"
+    },
+    {
+      "label": "ASP.NET Core SignalR production hosting and scaling",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/signalr/scale"
+    }
+  ]
+}

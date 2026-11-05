@@ -1,0 +1,28 @@
+{
+  "title": "Performance and Memory",
+  "summary": "Understand GC generations, the large object heap and Server GC with DATAS, remove hot-path allocations with Span<T>, ArrayPool<T> and StringBuilder, and prove every change with BenchmarkDotNet.",
+  "level": "advanced",
+  "tags": [
+    "recommended",
+    "deepening",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Fundamentals of garbage collection",
+      "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals"
+    },
+    {
+      "label": "Memory management and garbage collection in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/memory"
+    },
+    {
+      "label": "Memory<T> and Span<T> usage guidelines",
+      "url": "https://learn.microsoft.com/en-us/dotnet/standard/memory-and-spans/memory-t-usage-guidelines"
+    },
+    {
+      "label": "BenchmarkDotNet (GitHub)",
+      "url": "https://github.com/dotnet/BenchmarkDotNet"
+    }
+  ]
+}

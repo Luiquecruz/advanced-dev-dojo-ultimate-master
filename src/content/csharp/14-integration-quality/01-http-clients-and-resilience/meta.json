@@ -1,0 +1,32 @@
+{
+  "title": "HTTP Clients and Resilience",
+  "summary": "Call external APIs with IHttpClientFactory and typed clients, add outgoing middleware with DelegatingHandler, apply the standard resilience handler, and keep retries away from unsafe methods; compared with Guzzle middlewares.",
+  "level": "advanced",
+  "tags": [
+    "recommended",
+    "deepening",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Use IHttpClientFactory in .NET",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory"
+    },
+    {
+      "label": "Build resilient HTTP apps (Microsoft.Extensions.Http.Resilience)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience"
+    },
+    {
+      "label": "Make HTTP requests using IHttpClientFactory in ASP.NET Core: outgoing request middleware",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests"
+    },
+    {
+      "label": "RFC 9110 HTTP Semantics: safe and idempotent methods",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html#section-9.2"
+    },
+    {
+      "label": "IETF draft: The Idempotency-Key HTTP Header Field",
+      "url": "https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/"
+    }
+  ]
+}

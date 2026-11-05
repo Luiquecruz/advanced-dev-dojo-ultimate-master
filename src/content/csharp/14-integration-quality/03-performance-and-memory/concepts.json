@@ -1,0 +1,9 @@
+[
+  { "term": "Generations", "description": "The GC's split of the heap into gen 0, 1 and 2, where new objects start in gen 0 and only survivors are promoted, so most collections stay small and fast." },
+  { "term": "Large object heap (LOH)", "description": "The heap area for objects of 85,000 bytes or more, collected only with gen 2 and rarely compacted." },
+  { "term": "Server GC and DATAS", "description": "The default GC mode for ASP.NET Core apps, which since .NET 9 adapts its number of heaps to the load through DATAS." },
+  { "term": "`Span<T>`", "description": "A stack-only `ref struct` view over contiguous memory that slices without copying and cannot be stored on the heap or held across an `await`." },
+  { "term": "`Memory<T>`", "description": "A heap-storable counterpart of `Span<T>` for buffers that must live in fields or across asynchronous calls." },
+  { "term": "`ArrayPool<T>`", "description": "A shared pool of reusable arrays: `Rent` returns an array at least as long as requested and `Return` gives it back for reuse." },
+  { "term": "BenchmarkDotNet", "description": "The standard .NET micro-benchmarking library, run in Release, whose `[MemoryDiagnoser]` reports allocated bytes and GC counts per operation." }
+]
