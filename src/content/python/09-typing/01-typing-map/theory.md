@@ -1,4 +1,4 @@
-**Question this module answers:** what do annotations guarantee, who checks them, and what happens to them at runtime?
+**Question this module answers:** what do annotations declare, who checks them, and what happens to them at runtime?
 
 ## Annotations are metadata
 

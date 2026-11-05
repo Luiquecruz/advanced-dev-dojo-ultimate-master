@@ -42,21 +42,20 @@ Pitfall: a validated model is not frozen. `user.id = "x"` is accepted unless the
 **Expecting a dataclass to validate its input.** The annotations of a dataclass are labels: the generated `__init__` stores whatever it receives, so bad data travels on and fails far from the request that brought it:
 
 ```py
-# wrong: the annotation is never checked, so "42" stays a string
+# wrong: the annotation is never checked, so "3" stays a string
 @dataclass
-class User:
-    id: int
-    email: str
+class CartLine:
+    sku: str
+    quantity: int
 
-User(**{"id": "42", "email": "ada@example.com"}).id     # '42'
+CartLine(**{"sku": "A-1", "quantity": "3"}).quantity           # '3'
 
 # right: the model parses, coerces and reports every problem at the edge
-class User(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    id: int
-    email: str
+class CartLine(BaseModel):
+    sku: str
+    quantity: int
 
-User.model_validate({"id": "42", "email": "ada@example.com"}).id   # 42
+CartLine.model_validate({"sku": "A-1", "quantity": "3"}).quantity   # 3
 ```
 
 ## Legacy vs modern

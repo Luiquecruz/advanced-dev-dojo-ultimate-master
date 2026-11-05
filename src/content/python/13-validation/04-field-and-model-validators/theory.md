@@ -43,14 +43,17 @@ print(Transfer(amount_cents=500, currency="eur", source="A", target="B").currenc
 **Returning `error.errors()` to the client unchanged.** Each error dict carries the rejected value under `input`, and `str(error)` prints `input_value=...`, so a 422 response sends the password back to whoever made the request, and into every log that records responses:
 
 ```py
-# wrong: every error dict includes "input", the rejected password among them
-except ValidationError as error:
-    return error.errors()
+class Login(BaseModel):
+    password: str = Field(min_length=12)
 
-# right: keep type, loc and msg; drop the input, the URL and the context
+try:
+    Login(password="hunter2")
 except ValidationError as error:
-    return error.errors(include_input=False, include_url=False, include_context=False)
+    error.errors()[0]["input"]                      # 'hunter2': the secret goes back out
+    "input" in error.errors(include_input=False)[0] # False
 ```
+
+The safe report in How it works also leaves out the URL and the context, which the client does not need.
 
 `ConfigDict(hide_input_in_errors=True)` is not the fix: it hides the input in `str(error)` only.
 

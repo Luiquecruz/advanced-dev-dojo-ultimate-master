@@ -25,7 +25,7 @@ Three combinators cover most needs. They differ in what they do with the other t
 | `gather(*aws)` | values in argument order | the first error propagates at once; the others **keep running** |
 | `gather(*aws, return_exceptions=True)` | values and exception objects, in argument order | nothing is raised; every task runs to the end |
 | `wait(tasks, return_when=FIRST_COMPLETED)` | `(done, pending)` sets of tasks | the pending tasks **keep running** until you cancel them |
-| `as_completed(aws)` | results in finishing order | the rest keep running while you process each one |
+| `as_completed(aws)` | awaitables in finishing order; await each one for its result | the rest keep running while you process each one |
 
 - **`gather`** wraps plain coroutines in tasks. With `return_exceptions=True`, each failure takes its place in the result list as an exception object, so you split values from errors by type.
 - **`wait`** raises nothing. Since Python 3.11 it refuses bare coroutines: create the tasks yourself, which is also how you keep references to cancel them.
@@ -43,22 +43,20 @@ task.add_done_callback(background.discard)  # drop it when done
 
 ## Common mistakes
 
-**Taking the winner of a race and leaving the losers running.** After `wait(..., FIRST_COMPLETED)` the pending tasks still hold connections, timers and memory, and a `cancel()` that is never awaited returns before their cleanup has run.
+**Taking the winner of a race and leaving the losers running.** `wait` never cancels anything: the tasks in `pending` still hold connections, timers and memory, and a `cancel()` that is never awaited returns before their cleanup has run. The same slip shows up with a deadline instead of a race:
 
 ```py
-# wrong: the replica keeps running in the background
-done, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
-fastest = done.pop().result()
+# wrong: the downloads that missed the deadline keep running in the background
+done, pending = await asyncio.wait(downloads, timeout=2.0)
 
-# right: cancel the losers and wait until they have stopped
-done, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+# right: stop them, then wait until their cleanup has run
+done, pending = await asyncio.wait(downloads, timeout=2.0)
 for task in pending:
     task.cancel()
 await asyncio.gather(*pending, return_exceptions=True)
-fastest = done.pop().result()
 ```
 
-`return_exceptions=True` on that last `gather` collects each `CancelledError` instead of raising it.
+`return_exceptions=True` on that last `gather` collects each `CancelledError` instead of raising it. A race with `FIRST_COMPLETED` leaves its losers in `pending` in exactly the same way.
 
 ## Legacy vs modern
 

@@ -48,19 +48,16 @@ Scripts installed in an environment start with a shebang holding its absolute pa
 
 ## Common mistakes
 
-**Expecting the project's `.venv` to be used because it sits in the folder.** `cd /srv/api && python server.py` runs the first `python` on `PATH`. Without activation that is `/usr/bin/python3`, whose `sys.path` has never heard of `.venv`, so `import fastapi` fails with `ModuleNotFoundError` while the package is installed two directories away. An unactivated `.venv/bin/pytest` is not on `PATH` either, so the shell finds the global one or nothing, and a bare `pip install` installs into whichever interpreter owns the first `pip` on `PATH`. In code, the mistake is looking a command up among every executable that exists instead of along `PATH`:
+**Expecting the project's `.venv` to be used because it sits in the folder.** `cd /srv/api && python server.py` runs the first `python` on `PATH`. Without activation that is `/usr/bin/python3`, whose `sys.path` has never heard of `.venv`, so `import fastapi` fails with `ModuleNotFoundError` while the package is installed two directories away. An unactivated `.venv/bin/pytest` is not on `PATH` either, so the shell finds the global one or nothing, and a bare `pip install` installs into whichever interpreter owns the first `pip` on `PATH`. In code, the mistake is looking a command up among every executable that exists instead of along `PATH`. `shutil.which` performs the lookup the shell does:
 
 ```py
-# wrong: finds .venv/bin/pytest just because it exists
-def resolve_command(name, path_dirs, files):
-    return next((path for path in files if path.endswith("/" + name)), None)
+import shutil
 
-# right: only the PATH directories, left to right
-def resolve_command(name, path_dirs, files):
-    for directory in path_dirs:
-        if f"{directory}/{name}" in files:
-            return f"{directory}/{name}"
-    return None
+# wrong assumption: .venv/bin/pytest exists, so `pytest` runs it
+shutil.which("pytest", path="/usr/local/bin:/usr/bin")    # '/usr/bin/pytest' or None
+
+# right: only the PATH directories count, left to right; activation puts .venv/bin first
+shutil.which("pytest", path=".venv/bin:/usr/local/bin:/usr/bin")   # '.venv/bin/pytest'
 ```
 
 Run `.venv/bin/python server.py` and `.venv/bin/python -m pip install ...`, activate first, or use `uv run`.

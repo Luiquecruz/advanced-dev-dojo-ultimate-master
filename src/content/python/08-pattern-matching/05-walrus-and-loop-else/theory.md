@@ -47,24 +47,27 @@ else:
 
 ## Common mistakes
 
-**Indenting the `else` under the `if` inside the loop.** That `else` belongs to the `if`, so it runs for the first item that does not match and ends the search there. The loop's `else` is written at the level of `for` and means "the loop was not left by `break`":
+**Indenting the `else` under the `if` inside the loop.** That `else` belongs to the `if`, so it runs for every item that does not match, instead of once after the loop. The loop's `else` is written at the level of `for` and means "the loop was not left by `break`":
 
 ```py
-# wrong: find_first([3, 5, 8], is_even) returns None after checking only 3
-for index, item in enumerate(items):
-    if predicate(item):
-        return (index, item)
+# wrong: prints "no free port" once for every busy port before the free one
+for port in ports:
+    if is_free(port):
+        print("using", port)
+        break
     else:
-        return None
+        print("no free port")
 
-# right: break on a match; the loop's else runs only when nothing matched
-for index, item in enumerate(items):
-    if predicate(item):
+# right: the loop's else runs once, and only when no break happened
+for port in ports:
+    if is_free(port):
+        print("using", port)
         break
 else:
-    return None
-return (index, item)
+    print("no free port")
 ```
+
+Inside a search function, the misplaced `else` usually holds a `return None`, so the search gives up after the first item.
 
 **Appending before the emptiness check in a `while True` read loop.** The empty chunk that marks the end lands in the result; `while chunk := read(size):` reads, tests and binds in one place.
 

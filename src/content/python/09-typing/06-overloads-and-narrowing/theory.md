@@ -24,7 +24,6 @@ The checker picks the first matching overload, so `load("a.txt")` is a `str` for
 - **`TypeGuard[T]`** (PEP 647, 3.10) narrows only the `True` branch and allows `T` that is not a subtype of the input, such as `list[object]` → `list[str]`. Prefer `TypeIs` unless you need that.
 - `assert_never(arg)` takes the bottom type `Never`. After every variant has been handled, the remaining type is `Never`, so the checker accepts the call; a missing branch makes it an error. At runtime it raises `AssertionError("Expected code to be unreachable, but got: ...")`, and because it is a function rather than an `assert` statement, `python -O` does not remove it.
 - `typing.cast(T, value)` returns `value` unchanged. It only tells the checker to trust you: never a conversion or a check.
-
 - **Exhaustiveness is checked at runtime too.** A `match` with a `case _: return "unknown"` hides a new event type sent by another service. `assert_never` in the fallback fails loudly instead.
 
 Pitfalls:
@@ -34,16 +33,16 @@ Pitfalls:
 
 ## Common mistakes
 
-**Treating "iterable of strings" as "list of strings".** A string is itself an iterable of one-character strings, so a guard that only checks the items accepts `"abc"`, and an empty string or an empty dict passes too. A `TypeIs[list[str]]` guard with that body makes the checker trust a lie.
+**Checking only the items and not the container.** A guard whose body is `all(isinstance(item, ...) for item in value)` accepts anything iterable whose items match: an empty string, an empty dict, a tuple, and for strings even `"abc"`, which is an iterable of one-character strings. A `TypeIs[list[...]]` guard with that body makes the checker trust a lie.
 
 ```py
-# wrong: is_str_list("abc") is True
-def is_str_list(value: object) -> TypeIs[list[str]]:
-    return all(isinstance(item, str) for item in value)
+# wrong: is_int_list((1, 2)) and is_int_list({}) are True
+def is_int_list(value: object) -> TypeIs[list[int]]:
+    return all(isinstance(item, int) for item in value)
 
 # right: check the container first, then the items
-def is_str_list(value: object) -> TypeIs[list[str]]:
-    return isinstance(value, list) and all(isinstance(item, str) for item in value)
+def is_int_list(value: object) -> TypeIs[list[int]]:
+    return isinstance(value, list) and all(isinstance(item, int) for item in value)
 ```
 
 > **Status as of November 2026:** `get_overloads` and `assert_never` exist since Python 3.11 and `TypeIs` since 3.13; libraries supporting older versions import them from `typing_extensions`.

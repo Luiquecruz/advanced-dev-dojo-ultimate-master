@@ -6,7 +6,7 @@ Same per-lesson format and shared requirements as [05-modules-02-to-04.md](05-mo
 
 # 09-typing — Type Hints and Static Typing
 
-Question: what do annotations guarantee, who checks them, and what happens to them at runtime?
+Question: what do annotations declare, who checks them, and what happens to them at runtime?
 
 Constraint: no type checker runs in the browser. Every typing challenge asserts **runtime-visible artifacts** (`get_type_hints`, `__annotations__`, `__type_params__`, `__required_keys__`, `isinstance` with runtime-checkable protocols, `get_overloads`) or implements a small runtime consumer of annotations.
 

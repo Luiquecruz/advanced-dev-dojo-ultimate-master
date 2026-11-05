@@ -42,7 +42,7 @@ Pitfalls:
 
 ## Common mistakes
 
-**A `None` default without `None` in the type.** The function works, because nothing checks the annotation, but every reader of the annotations is told `None` is not allowed: a checker reports the default itself as an error, and a validator or schema built from `get_type_hints` rejects `None` or marks the field as required.
+**A `None` default without `None` in the type.** The function works, because nothing checks the annotation, but every reader of the annotations is told `None` is not allowed: a validator built from `get_type_hints` rejects an explicit `None`, and a checker reports the default itself.
 
 ```py
 # wrong: the annotation says int, the default says None

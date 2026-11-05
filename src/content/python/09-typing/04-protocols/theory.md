@@ -49,21 +49,21 @@ Pitfalls:
 
 ## Common mistakes
 
-**An ABC or a base class for "anything with `close()`".** The check is nominal, so every object that has the method but not the base is rejected: a third-party connection is silently skipped, and nothing fails loudly.
+**An ABC or a base class for "anything with `close()`".** The check is nominal, so every object that has the method but not the base is rejected: a third-party connection is silently skipped, and nothing fails loudly. The same holds for any one-method capability, such as "anything with `flush()`":
 
 ```py
-# wrong: Connection has close() but does not inherit, so it is never closed
-class Closeable(ABC):
+# wrong: a file object has flush() but does not inherit, so it is never flushed
+class Flushable(ABC):
     @abstractmethod
-    def close(self) -> None: ...
+    def flush(self) -> None: ...
 
-# right: any object with close() matches
+# right: any object with flush() matches
 @runtime_checkable
-class Closeable(Protocol):
-    def close(self) -> None: ...
+class Flushable(Protocol):
+    def flush(self) -> None: ...
 ```
 
-Forgetting `@runtime_checkable` is the second slip: the first `isinstance(resource, Closeable)` raises `TypeError` instead of answering.
+Forgetting `@runtime_checkable` is the second slip: the first `isinstance(stream, Flushable)` raises `TypeError` instead of answering.
 
 ## When to choose it
 

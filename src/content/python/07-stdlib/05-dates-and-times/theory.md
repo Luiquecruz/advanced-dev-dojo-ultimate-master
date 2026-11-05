@@ -36,15 +36,12 @@ Named zones such as `America/Sao_Paulo` come from `zoneinfo.ZoneInfo`, which kno
 **Treating a month as thirty days.** `timedelta` only knows exact durations, so "one month later" computed with days drifts away from the calendar:
 
 ```py
-# wrong: January 31 plus one month is March 2
-def add_months(value, months):
-    return value + timedelta(days=30 * months)
+# wrong: "one month" after January 31 lands on March 2
+date(2026, 1, 31) + timedelta(days=30)          # date(2026, 3, 2)
 
-# right: shift the month index, then clamp the day to the month's length
-def add_months(value, months):
-    year, index = divmod(value.year * 12 + value.month - 1 + months, 12)
-    day = min(value.day, calendar.monthrange(year, index + 1)[1])
-    return value.replace(year=year, month=index + 1, day=day)
+# right: pick the target month, then clamp the day to that month's length
+last_day = calendar.monthrange(2026, 2)[1]      # 28
+date(2026, 1, 31).replace(month=2, day=min(31, last_day))   # date(2026, 2, 28)
 ```
 
 **Assuming text without an offset is UTC.** `fromisoformat("2026-11-04T10:15:00")` is naive; attaching `timezone.utc` to it with `replace` moves the instant by the sender's real offset without any error.

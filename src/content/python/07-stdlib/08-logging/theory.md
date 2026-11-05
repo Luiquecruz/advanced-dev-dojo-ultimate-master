@@ -40,11 +40,12 @@ def configure(stream):
     logger.addHandler(logging.StreamHandler(stream))
     return logger
 
-# right: replace the handlers this function owns
+# right: replace every handler on this logger
 def configure(stream):
     logger = logging.getLogger("shop")
     for handler in list(logger.handlers):
         logger.removeHandler(handler)
+        handler.close()
     logger.addHandler(logging.StreamHandler(stream))
     return logger
 ```

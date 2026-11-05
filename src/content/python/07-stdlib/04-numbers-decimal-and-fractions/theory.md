@@ -33,14 +33,11 @@ round(2.675, 2)                    # 2.67: the float stored is 2.674999999999999
 **Splitting or rounding money with floats.** `total / people` returns a `float`, and rounding each share on its own loses or invents cents, because every share rounds the same way:
 
 ```py
-# wrong: split(1000, 3) == [333, 333, 333], one cent short of 1000
-def split(total_cents, people):
-    return [round(total_cents / people)] * people
+# wrong: three rounded shares of 1000 cents add up to 999
+[round(1000 / 3)] * 3      # [333, 333, 333]
 
-# right: integer division, and the remainder goes to the first people
-def split(total_cents, people):
-    share, extra = divmod(total_cents, people)
-    return [share + 1 if index < extra else share for index in range(people)]
+# right: integer division keeps the remainder, so no cent is lost
+divmod(1000, 3)            # (333, 1): 333 cents each, 1 cent still to hand out
 ```
 
 **Building a `Decimal` from a float.** `Decimal(2.675)` copies the binary value `2.67499…`, so even `ROUND_HALF_UP` gives `2.67`. Pass the text `"2.675"`.

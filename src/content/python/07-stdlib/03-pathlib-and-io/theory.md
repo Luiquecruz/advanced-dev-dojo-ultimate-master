@@ -33,21 +33,14 @@ out.mkdir(parents=True, exist_ok=True)
 **Treating paths as strings and checking containment with `startswith`.** Text comparison ignores path structure: `/srv/files-evil/x` starts with the characters `/srv/files`, and an unresolved `../x` or a symbolic link still looks like it is inside the base:
 
 ```py
-# wrong: "../x", "../files-evil/x" and "link/secret.txt" all get through
-def safe_join(base, name):
-    target = base / name
-    if not str(target).startswith(str(base)):
-        raise ValueError("path escapes the base directory")
-    return target
+# wrong: a text comparison lets a sibling directory with the same prefix through
+str(Path("/srv/files-evil/x")).startswith("/srv/files")    # True
 
-# right: resolve both, then compare path parts
-def safe_join(base, name):
-    root = base.resolve()
-    target = (root / name).resolve()
-    if not target.is_relative_to(root):
-        raise ValueError("path escapes the base directory")
-    return target
+# right: compare path parts
+Path("/srv/files-evil/x").is_relative_to("/srv/files")     # False
 ```
+
+Comparing parts is only half of the check: the Security note below resolves both paths first, so `..` and links are followed before the comparison.
 
 **Opening text files without `encoding`.** The same code reads a file correctly on one machine and garbles it, or raises `UnicodeDecodeError`, on another whose locale encoding differs.
 

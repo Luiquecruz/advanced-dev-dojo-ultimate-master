@@ -42,19 +42,21 @@ asyncio.run(main())
 
 ## Common mistakes
 
-**A read-modify-write with an `await` in the middle, and no lock.** One thread does not mean no races: code between two awaits runs without interruption, but every `await` lets another task run. Two increments that both read before either writes lose an update.
+**A read-modify-write with an `await` in the middle, and no lock.** One thread does not mean no races: code between two awaits runs without interruption, but every `await` lets another task run. Two increments that both read before either writes lose an update; two reservations that both read "1 left" sell the last item twice.
 
 ```py
-# wrong: task B reads the same value while A waits for its write
-async def increment(self):
-    current = await self.store.read()
-    await self.store.write(current + 1)    # A and B both write current + 1
+# wrong: two orders both read 1 item left, and both reserve it
+async def reserve(self, sku):
+    left = await self.inventory.count(sku)
+    if left > 0:
+        await self.inventory.set(sku, left - 1)
 
-# right: the lock covers the read and the write
-async def increment(self):
+# right: the lock covers the read, the check and the write
+async def reserve(self, sku):
     async with self._lock:                 # self._lock = asyncio.Lock() in __init__
-        current = await self.store.read()
-        await self.store.write(current + 1)
+        left = await self.inventory.count(sku)
+        if left > 0:
+            await self.inventory.set(sku, left - 1)
 ```
 
 Acquiring a `Semaphore` around `create_task` instead of around the work is the second slip: it only slows down task creation.
