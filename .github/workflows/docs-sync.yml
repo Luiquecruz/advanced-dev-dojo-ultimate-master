@@ -9,13 +9,15 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: docs-sync-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
   docs:
     name: Docs sync
+    # Label events run only for docs:none: Dependabot adds several labels in a row, and a run for another label would
+    # cancel the docs:none run and replace its verdict. A skipped job takes no concurrency slot, so it cancels nothing.
+    if: github.event_name != 'pull_request' || (github.event.action != 'labeled' && github.event.action != 'unlabeled') || github.event.label.name == 'docs:none'
+    concurrency:
+      group: docs-sync-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     continue-on-error: true
