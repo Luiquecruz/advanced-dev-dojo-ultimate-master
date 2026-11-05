@@ -8,6 +8,7 @@ import css from 'highlight.js/lib/languages/css';
 import bash from 'highlight.js/lib/languages/bash';
 import json from 'highlight.js/lib/languages/json';
 import sql from 'highlight.js/lib/languages/sql';
+import csharp from 'highlight.js/lib/languages/csharp';
 
 hljs.registerLanguage('typescript', typescript);
 hljs.registerLanguage('javascript', javascript);
@@ -16,6 +17,7 @@ hljs.registerLanguage('css', css);
 hljs.registerLanguage('bash', bash);
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('sql', sql);
+hljs.registerLanguage('csharp', csharp);
 
 const LANGUAGE_ALIASES: Record<string, string> = {
   ts: 'typescript',
@@ -33,6 +35,9 @@ const LANGUAGE_ALIASES: Record<string, string> = {
   sh: 'bash',
   shell: 'bash',
   json: 'json',
+  sql: 'sql',
+  csharp: 'csharp',
+  cs: 'csharp',
 };
 
 function escapeHtml(text: string): string {

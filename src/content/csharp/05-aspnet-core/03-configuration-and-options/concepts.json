@@ -1,0 +1,8 @@
+[
+  { "term": "Configuration provider", "description": "A source of key-value settings (JSON file, environment variables, user secrets, command line) stacked so that later providers override earlier ones key by key." },
+  { "term": "Configuration key", "description": "A flattened path such as `Shipping:FlatRate:Price`, written as `Shipping__FlatRate__Price` in environment variables." },
+  { "term": "User secrets", "description": "A per-user JSON file outside the repository, managed with `dotnet user-secrets`, that is loaded only in the Development environment." },
+  { "term": "Options pattern", "description": "Binding a configuration section to a typed class and injecting it as `IOptions<T>`, `IOptionsSnapshot<T>` or `IOptionsMonitor<T>`." },
+  { "term": "ValidateOnStart", "description": "An `OptionsBuilder` call that runs options validation when the host starts, so invalid settings fail the deploy instead of the first request." },
+  { "term": "IOptionsMonitor<T>", "description": "A singleton options accessor whose `CurrentValue` reflects reloaded configuration and which raises change notifications." }
+]

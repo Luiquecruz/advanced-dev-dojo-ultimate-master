@@ -1,0 +1,9 @@
+[
+  { "term": "Task / Task<T>", "description": "An object that represents an operation in progress and its eventual result or exception, and the default return type of an async method." },
+  { "term": "await", "description": "Suspends the method until the task completes, returning the thread to the pool meanwhile and resuming the rest of the method as a continuation." },
+  { "term": "Sync over async", "description": "Blocking on an asynchronous operation with `.Result`, `.Wait()` or `.GetAwaiter().GetResult()`, which holds a thread for the whole wait." },
+  { "term": "Thread-pool starvation", "description": "The state where every pool thread is busy or blocked, so new work items queue up and latency grows while CPU stays low." },
+  { "term": "SynchronizationContext", "description": "A per-environment scheduler that UI frameworks and classic ASP.NET use to resume continuations on the UI thread or inside a one-thread-at-a-time request context, and that ASP.NET Core does not have." },
+  { "term": "ValueTask<T>", "description": "A struct alternative to `Task<T>` that avoids an allocation when results are often synchronous, to be used only when profiling justifies it and awaited exactly once." },
+  { "term": "Task.WhenAll", "description": "Returns a task that completes when all the given tasks complete, so independent operations run concurrently instead of one after another." }
+]

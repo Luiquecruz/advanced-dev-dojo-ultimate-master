@@ -1,0 +1,10 @@
+[
+  { "term": "Generic type parameter", "description": "A placeholder such as `T` in `List<T>` that the caller fills with a real type, checked at compile time and kept at run time without type erasure." },
+  { "term": "Constraint", "description": "A `where` clause such as `where T : class, IEntity` that limits the allowed type arguments and lets the generic code use their members." },
+  { "term": "Delegate", "description": "A type-safe reference to a method that can be stored, passed and invoked like a value." },
+  { "term": "`Func` and `Action`", "description": "The built-in generic delegates: `Func<..., TResult>` returns its last type argument, and `Action<...>` returns nothing." },
+  { "term": "Lambda expression", "description": "Inline function syntax such as `p => p.Price > 10` that converts to a delegate or to an expression tree." },
+  { "term": "Closure", "description": "A lambda that captures an outer variable itself, not a snapshot, so it sees later changes and keeps the variable alive as long as the delegate lives." },
+  { "term": "Expression tree", "description": "An `Expression<Func<...>>` that represents a lambda as data, which query providers such as EF Core translate into SQL." },
+  { "term": "Event", "description": "A delegate member that outside code can only subscribe to with `+=` and unsubscribe from with `-=`, raised synchronously by its declaring class." }
+]

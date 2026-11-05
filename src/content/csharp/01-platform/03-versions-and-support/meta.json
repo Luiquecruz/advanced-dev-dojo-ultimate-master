@@ -1,0 +1,32 @@
+{
+  "title": "Versions, Support and Target Frameworks",
+  "summary": "LTS versus STS, what end of support means, choosing a target framework and its C# version, pinning the SDK with global.json, and what changed between .NET 6, .NET 8 and .NET 10.",
+  "level": "beginner",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": ".NET releases, patches, and support",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/releases-and-support"
+    },
+    {
+      "label": ".NET and .NET Core Support Policy",
+      "url": "https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core"
+    },
+    {
+      "label": "C# language versioning",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-versioning"
+    },
+    {
+      "label": "global.json overview",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/global-json"
+    },
+    {
+      "label": "Target frameworks in SDK-style projects",
+      "url": "https://learn.microsoft.com/en-us/dotnet/standard/frameworks"
+    }
+  ]
+}

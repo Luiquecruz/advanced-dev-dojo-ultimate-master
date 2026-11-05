@@ -47,6 +47,28 @@ jobs:
           retention-days: 7
           if-no-files-found: error
 
+  pr-size:
+    name: Pull request size (CodeRabbit reviews at most 300 files)
+    # CodeRabbit skips a pull request with more than 300 changed files, so it would merge unreviewed.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Count changed files
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          count=$(git diff --name-only "origin/$BASE_REF...HEAD" | wc -l)
+          echo "Changed files: $count (limit 300)"
+          if [ "$count" -gt 300 ]; then
+            echo "::error title=Pull request too large::$count changed files; CodeRabbit reviews at most 300. Split it into stacked pull requests (CONTRIBUTING.md \"Pull request size\")."
+            exit 1
+          fi
+
   python:
     name: Python lessons on CPython (pytest)
     runs-on: ubuntu-24.04

@@ -1,0 +1,12 @@
+{
+  "title": "LINQ Fundamentals: Filter, Project, Group, Join",
+  "summary": "Everyday LINQ in method syntax: Where, Select, OrderBy, GroupBy and CountBy, Join and the .NET 10 LeftJoin, lookups, and the element and aggregate operators that throw on empty input.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Language Integrated Query (LINQ) in C#", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/" },
+    { "label": "Grouping data (LINQ)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/grouping-data" },
+    { "label": "Join operations (LINQ), including LeftJoin and RightJoin", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/join-operations" },
+    { "label": "Enumerable.LeftJoin API reference (.NET 10)", "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-10.0" }
+  ]
+}

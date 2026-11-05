@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A developer used to PSR-3 writes `logger.LogInformation(\"Order {OrderId} for {CustomerId}\", customerId, orderId);`. What does the log contain?",
+    "options": [
+      "The correct values, because .NET matches placeholders to the argument variable names",
+      "A compile error, because the argument names do not match the placeholder names",
+      "`OrderId` holds the customer id and `CustomerId` holds the order id, filled by position",
+      "Two empty placeholders, because .NET needs a context dictionary like PSR-3 does"
+    ],
+    "answer": 2,
+    "explanation": "In .NET message templates, the order of the arguments, not the placeholder names, decides which value fills which placeholder, so the fields are swapped. PSR-3 ties `{id}` to the context key `id` by name, which is why the habit transfers badly. The compiler does not check this for ordinary `Log*` calls, and no context dictionary is involved."
+  },
+  {
+    "question": "Why is `logger.LogWarning($\"Stock for {sku} is low\")` worse than `logger.LogWarning(\"Stock for {Sku} is low\", sku)`, even though both print the same text?",
+    "options": [
+      "The interpolated version throws an `ArgumentNullException` when `sku` is null",
+      "It loses the `Sku` field, builds the string even when disabled, and breaks grouping",
+      "The template version is slower, because it re-parses the template string on every call",
+      "There is no difference, because providers turn both into the same structured event"
+    ],
+    "answer": 1,
+    "explanation": "Interpolation hands the logger a finished string, so structured providers cannot store `Sku` as a field and each SKU produces a different message. The string is also built before the logger can check whether `Warning` is enabled. The output looking identical in the console is exactly why the defect goes unnoticed."
+  },
+  {
+    "question": "With the template `appsettings.json` (`Default: Information`, `Microsoft.AspNetCore: Warning`), which message is written?",
+    "options": [
+      "An `Information` message from the category `Microsoft.AspNetCore.Routing.EndpointMiddleware`",
+      "A `Debug` message from `Shop.Orders.OrderService`",
+      "A `Trace` message from any category",
+      "A `Warning` message from `Microsoft.AspNetCore.Hosting.Diagnostics`"
+    ],
+    "answer": 3,
+    "explanation": "The `Microsoft.AspNetCore` entry applies to every category that starts with that prefix and allows `Warning` and above, so its `Warning` is written and its `Information` is filtered. `Shop.Orders.OrderService` falls under `Default`, which allows `Information` and above, so `Debug` and `Trace` are dropped."
+  },
+  {
+    "question": "You deploy an API to a container and look for `var/log/system.log`, as in Magento. Where do the logs from the default ASP.NET Core setup go?",
+    "options": [
+      "To stdout through the Console provider, plus Debug and EventSource; none of them writes files",
+      "To `logs/app.log` in the content root, rotated daily by the default file provider",
+      "Nowhere: no provider is registered until you install Serilog or another package",
+      "Into the database named in `ConnectionStrings:Logging`, when that key is present"
+    ],
+    "answer": 0,
+    "explanation": "`WebApplication.CreateBuilder` adds the Console, Debug and EventSource providers (EventLog on Windows). None writes files, which suits containers, where the platform captures stdout. There is no default file or database provider, and third-party providers such as Serilog are optional add-ons, not a requirement for logs to appear."
+  },
+  {
+    "question": "Every message logged while processing one order, including messages from `InventoryService` and `PaymentService`, must carry the order id. What is the idiomatic approach?",
+    "options": [
+      "Add `{OrderId}` to every template in every service and pass the id down to each call",
+      "Store the order id in a static field that every logger reads when it writes a message",
+      "Wrap the work in `logger.BeginScope(...)` so each message carries the order id",
+      "Create a logger whose category is the order id and pass it to each of the services"
+    ],
+    "answer": 2,
+    "explanation": "A scope attaches its values to every message logged inside it, across classes, without changing their templates, in providers that support scopes. Passing the id into every template works but couples every service to the caller's context. A static field is shared by all concurrent requests, and per-order categories would make filtering configuration meaningless."
+  },
+  {
+    "question": "Which statement about the `[LoggerMessage]` source generator is correct?",
+    "options": [
+      "It is a third-party package that needs a commercial licence for production use",
+      "It generates level-checked logging code at compile time from a `partial` method",
+      "It replaces `ILogger` with a static logger, so classes no longer need DI to log",
+      "It only supports the `Error` and `Critical` levels, which are fixed at compile time"
+    ],
+    "answer": 1,
+    "explanation": "The generator is part of `Microsoft.Extensions.Logging`: it turns a `partial` method into logging code that checks the level first, avoids boxing and temporary allocations, and reports template mistakes at compile time. It still uses an `ILogger`, passed as a parameter or taken from a field or primary constructor, and supports any level, including a level passed at runtime."
+  }
+]

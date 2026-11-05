@@ -1,0 +1,28 @@
+{
+  "title": "Minimal APIs and Controllers",
+  "summary": "The same endpoint written as a minimal API and as a controller, what each does at runtime (handlers are shared, controllers are per request), how to organize minimal APIs with route groups and TypedResults, and when Microsoft says to pick controllers.",
+  "level": "beginner",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: APIs overview (minimal APIs versus controllers)",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/apis?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Microsoft Learn: Route handlers in Minimal API apps",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Microsoft Learn: Create responses in Minimal API applications",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Microsoft Learn: Create web APIs with ASP.NET Core (controllers)",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-10.0"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "title": "Errors, Resources and Async",
+  "description": "Exceptions and results, disposal, async and await, cancellation, and concurrency on a long-running runtime."
+}

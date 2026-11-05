@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A server runs an API built for `net10.0`. The ops team installs the .NET 11 runtime next to the 10.0 runtime. Which runtime does the API use afterwards?",
+    "options": [
+      "The .NET 11 runtime, because the newest installed runtime always wins",
+      "The newest installed 10.0 patch; apps never move to a new major alone",
+      "The exact 10.0 patch it was built against, ignoring newer patches",
+      "Neither: the API fails to start until it is rebuilt for .NET 11"
+    ],
+    "answer": 1,
+    "explanation": "Major versions install side by side, and a framework-dependent app keeps its targeted major version while rolling forward to the latest installed patch of it. The first option is the PHP mental model, where the server's version is the app's version; in .NET the project's target framework decides."
+  },
+  {
+    "question": "Your team starts a new backend service on 2026-11-05 and expects to maintain it for years. Which target framework is the sound default?",
+    "options": [
+      "`net8.0`, because it is LTS and widely used in postings",
+      "`net11.0`, because the newest version is always the best choice",
+      "`netstandard2.0`, for maximum compatibility",
+      "`net10.0`, the current LTS, supported until 2028-11-14"
+    ],
+    "answer": 3,
+    "explanation": ".NET 10 is the supported LTS release; .NET 8 ends support on 2026-11-10, five days later, so starting on it means an immediate upgrade. .NET 11 is still a release candidate, and `netstandard2.0` is a library compatibility target that hides modern APIs, not an application target."
+  },
+  {
+    "question": "A teammate adds `<LangVersion>latest</LangVersion>` to a `net8.0` project so that the C# 14 `field` keyword compiles. What is the right response?",
+    "options": [
+      "Raise the TFM to `net10.0`; newer C# than its default is unsupported",
+      "Accept it: `LangVersion` is the supported way to get new syntax",
+      "Set `LangVersion` to `14` instead of `latest`, so the version is pinned",
+      "Move the property to a `netstandard2.0` library, which allows any C#"
+    ],
+    "answer": 0,
+    "explanation": "The compiler picks C# 12 for `net8.0` and C# 14 for `net10.0`, and Microsoft states that a newer language version than the TFM's default is unsupported because features can depend on runtime types and behavior. Pinning `14`, the third option, is the same unsupported configuration with a fixed number. `netstandard2.0` defaults to C# 7.3, so the last option moves further back."
+  },
+  {
+    "question": "A repository has no `global.json`. A build passes on a developer laptop but fails in CI with errors from a newer analyzer. What is the likely cause?",
+    "options": [
+      "CI builds a different target framework, because the TFM depends on the agent",
+      "The CI agent has an older runtime, and the runtime runs the analyzers",
+      "Each machine uses its highest installed SDK, so the SDKs differed",
+      "NuGet restored a different C# compiler package from the CI cache"
+    ],
+    "answer": 2,
+    "explanation": "The TFM is in the project file and is the same everywhere; the SDK, which brings the compiler and its analyzers, is chosen per machine, and without `global.json` the highest installed one is used. Pinning a version with a `rollForward` policy makes builds agree. Analyzers run inside the SDK's compiler, not the runtime, which rules out the second option."
+  },
+  {
+    "question": "A job posting asks for \"5 years of .NET, ASP.NET MVC 5, WCF, Web Forms\". What does it tell you?",
+    "options": [
+      "The team uses modern .NET, where MVC 5 is the name for controllers",
+      "The role maintains .NET Framework code: Windows-only, own lifecycle",
+      "These are .NET Core 3.1 technologies, replaced by .NET 6 and later",
+      "The posting is outdated, as these technologies no longer run anywhere"
+    ],
+    "answer": 1,
+    "explanation": "MVC 5, WCF and Web Forms run on .NET Framework 4.x, which is still supported as a Windows component (C# 7.3 by default) but is not modern .NET; module 13 covers it. The third option is tempting, but Web Forms and the WCF server never ran on .NET Core. The last option is wrong too: the code still runs and still needs maintainers."
+  },
+  {
+    "question": "What happens to an API that stays on .NET 8 after 2026-11-10?",
+    "options": [
+      "It keeps receiving security fixes for another year, because it is LTS",
+      "It rolls forward to the .NET 10 runtime automatically, if installed",
+      "Its bug fixes stop, but security fixes continue under extended support",
+      "It keeps running, but gets no more patches, security fixes included"
+    ],
+    "answer": 3,
+    "explanation": "End of support does not stop the runtime; it stops the fixes, security fixes included. LTS means at least three years of support, and 2026-11-10 is the end of that period, so the first option confuses the support window with what follows it. Apps never roll forward to a new major by themselves, which rules out the second option."
+  }
+]

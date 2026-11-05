@@ -1,0 +1,24 @@
+{
+  "title": "The Host and Program.cs",
+  "summary": "What the generic host and WebApplication set up before the first request, how Program.cs is read, environments, graceful shutdown, and why a long-running process changes everything you know from PHP-FPM.",
+  "level": "beginner",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": ".NET Generic Host in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host"
+    },
+    {
+      "label": "WebApplication and WebApplicationBuilder in ASP.NET Core apps",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/webapplication"
+    },
+    {
+      "label": "ASP.NET Core Best Practices",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/best-practices"
+    }
+  ]
+}

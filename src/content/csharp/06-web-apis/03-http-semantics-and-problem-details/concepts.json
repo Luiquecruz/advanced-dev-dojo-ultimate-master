@@ -1,0 +1,9 @@
+[
+  { "term": "Idempotent method", "description": "A method whose repeated identical requests have the same intended effect as one request; RFC 9110 lists `PUT`, `DELETE` and the safe methods." },
+  { "term": "Problem Details", "description": "The RFC 9457 JSON error format (`application/problem+json`) with `type`, `title`, `status`, `detail`, `instance` and optional extension members." },
+  { "term": "`AddProblemDetails`", "description": "The registration of `IProblemDetailsService`, which makes the exception handler, status code pages and developer exception page write Problem Details bodies." },
+  { "term": "`IExceptionHandler`", "description": "A singleton, registered with `AddExceptionHandler<T>`, whose `TryHandleAsync` maps an exception to a response and returns `true` when it handled it." },
+  { "term": "`UseStatusCodePages`", "description": "Middleware that gives empty 4xx and 5xx responses, including routing 404s, a body; with `AddProblemDetails` that body is Problem Details." },
+  { "term": "Endpoint filter", "description": "An `IEndpointFilter` that wraps a specific endpoint or route group, can read its bound arguments and can short-circuit with its own result." },
+  { "term": "Developer Exception Page", "description": "The detailed error page with stack trace and request data, enabled by default only in the `Development` environment." }
+]

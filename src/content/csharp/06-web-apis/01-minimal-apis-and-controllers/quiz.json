@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In `Program.cs`, `var cart = new List<string>();` is captured by `app.MapPost(\"/cart\", (string sku) => cart.Add(sku));`. What happens in production?",
+    "options": [
+      "Each request gets its own empty list, as in PHP-FPM",
+      "The list is recreated whenever the DI scope of a request ends",
+      "One list, shared by every request and every user at once",
+      "The compiler rejects lambdas that capture local variables in `Map` calls"
+    ],
+    "answer": 2,
+    "explanation": "The handler delegate is built once at startup, so the captured list lives as long as the process and is shared by every concurrent request: data leaks between users and `List<T>` is not thread-safe. The PHP-FPM intuition (a fresh graph per request) is the tempting wrong answer; in ASP.NET Core only DI scoped services and controllers are per request."
+  },
+  {
+    "question": "Your team starts a new catalog API on .NET 10 and has no special MVC needs. Which style matches Microsoft's current guidance?",
+    "options": [
+      "Minimal APIs, organized with route groups",
+      "Controllers, because minimal APIs are meant for prototypes only",
+      "Controllers, because minimal APIs cannot use dependency injection",
+      "Either one, because Microsoft makes no recommendation"
+    ],
+    "answer": 0,
+    "explanation": "The ASP.NET Core APIs overview says: \"For new projects, we recommend using Minimal APIs.\" They support DI, groups, filters, authorization and OpenAPI, so the claim that they are prototype-only is outdated. Controllers stay the alternative for specific needs such as custom model binders or OData."
+  },
+  {
+    "question": "Which requirement is a reason Microsoft lists for choosing controllers instead of minimal APIs?",
+    "options": [
+      "You need JSON responses with custom `JsonSerializerOptions`",
+      "You need OData or custom `IModelBinder` binders",
+      "You need route parameters with constraints such as `{sku:alpha}`",
+      "You need constructor injection of scoped services"
+    ],
+    "answer": 1,
+    "explanation": "The overview page lists model binding extensibility, `IModelValidator`, application parts and the application model, and OData as controller features. JSON, route parameters and DI work in both styles; injection is simply done through handler parameters in minimal APIs instead of the constructor."
+  },
+  {
+    "question": "A handler is declared as `Results<Ok<Product>, NotFound> (string sku, IProductStore store) => ...`. A teammate adds a branch that returns `TypedResults.BadRequest()`. What happens?",
+    "options": [
+      "It compiles and returns 400, but OpenAPI does not document it",
+      "It throws `InvalidCastException` at runtime when that branch runs",
+      "It compiles, and the 400 response is added to OpenAPI automatically",
+      "It fails to compile: `BadRequest` is not in the union"
+    ],
+    "answer": 3,
+    "explanation": "`Results<T1, T2>` only has implicit conversions from its listed types, so returning `BadRequest` is a compile-time error until the signature becomes `Results<Ok<Product>, NotFound, BadRequest>`. That check is the point of the union type; with a plain `IResult` return, the first option would describe the behavior."
+  },
+  {
+    "question": "An API controller derives from `Controller` and has no `[ApiController]` attribute. What do you lose?",
+    "options": [
+      "Nothing; `[ApiController]` only changes the generated OpenAPI tags",
+      "Dependency injection into the controller constructor",
+      "Automatic 400s for invalid models and binding source inference",
+      "JSON output, so actions must return `ContentResult` strings"
+    ],
+    "answer": 2,
+    "explanation": "`[ApiController]` requires attribute routing and enables automatic 400 responses, inferred `[FromBody]`/`[FromServices]` sources and Problem Details for errors. Without it, an invalid body reaches your action silently. Constructor injection and JSON output work either way, so those options are wrong."
+  },
+  {
+    "question": "Why does this lesson move handlers from lambdas into named static methods inside a `MapProductEndpoints` extension method?",
+    "options": [
+      "Lambdas run slower than methods on every request",
+      "Named methods can be unit-tested and carry XML comments into OpenAPI",
+      "Route groups only accept static methods, not lambdas",
+      "Lambdas cannot receive services from dependency injection"
+    ],
+    "answer": 1,
+    "explanation": "The C# build does not capture XML doc comments on lambdas, so .NET 10 OpenAPI can only read them from methods, and a named method can be called from a test with fake arguments. Route groups and DI work with lambdas too, and there is no documented per-request speed difference."
+  }
+]

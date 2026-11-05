@@ -1,0 +1,28 @@
+{
+  "title": "OpenAPI and Versioning",
+  "summary": "Generating an OpenAPI 3.1 document with Microsoft.AspNetCore.OpenApi, making it accurate with TypedResults and metadata, transformers, build-time generation and third-party UIs, then telling additive from breaking changes and versioning with Asp.Versioning.Http.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: Overview of OpenAPI support in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/overview?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Microsoft Learn: Generate OpenAPI documents",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Microsoft Learn: What's new in ASP.NET Core 10.0 (OpenAPI 3.1, XML comments)",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0?view=aspnetcore-10.0"
+    },
+    {
+      "label": "ASP.NET API Versioning: getting started",
+      "url": "https://dotnet.github.io/aspnet-api-versioning/getting-started.html"
+    }
+  ]
+}

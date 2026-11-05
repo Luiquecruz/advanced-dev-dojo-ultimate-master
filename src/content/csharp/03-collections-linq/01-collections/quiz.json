@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A PHP developer ports a function that receives the cart lines, appends a free gift line and returns a total. In C# the parameter is `List<CartLine> lines`. What does the caller see after the call?",
+    "options": [
+      "Nothing changes for the caller, because C# copies the list when it is passed, like a PHP array",
+      "The caller's list now contains the gift line, because the method received a reference to the same list object",
+      "The compiler rejects `lines.Add(...)` because parameters are read-only by default",
+      "The caller sees the gift line only if the method returns the list and the caller assigns it"
+    ],
+    "answer": 1,
+    "explanation": "`List<T>` is a reference type, so the method and the caller share one object and `Add` is visible to both. The tempting answer is the PHP behaviour: PHP arrays have value semantics (copy-on-write), but C# makes no implicit copy. Accept `IReadOnlyList<T>` or copy the list explicitly if the method must not change it."
+  },
+  {
+    "question": "Code that imports products builds a `Dictionary<string, Product>` and later prints the products by iterating the dictionary, expecting file order. Tests pass. What is the problem?",
+    "options": [
+      "None: `Dictionary<TKey,TValue>` keeps insertion order, like a PHP array",
+      "Iterating a dictionary is not allowed; only lookups by key are",
+      "Its enumeration order is undefined; matching insertion order in tests is luck, not a contract",
+      "The dictionary sorts keys alphabetically, so the output is in SKU order rather than file order"
+    ],
+    "answer": 2,
+    "explanation": "The `Dictionary<TKey,TValue>` documentation says the order in which items are returned is undefined. It often looks like insertion order for small dictionaries without removals, which is why the PHP assumption survives tests. Sorting by key is `SortedDictionary`, not `Dictionary`. When order matters, use `OrderedDictionary<TKey,TValue>` (.NET 9+), a `List<T>`, or an explicit `OrderBy`."
+  },
+  {
+    "question": "You need to detect duplicate SKUs in an import where `A-1` and `a-1` count as the same SKU. Which code does it correctly and efficiently?",
+    "options": [
+      "`var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);` and treat `!seen.Add(sku)` as a duplicate",
+      "`var seen = new List<string>();` and treat `seen.Contains(sku.ToLower())` as a duplicate before adding",
+      "`var seen = new HashSet<string>();` and treat `!seen.Add(sku)` as a duplicate",
+      "`var seen = new Dictionary<string, bool>();` and call `seen.Add(sku, true)` inside a `try`/`catch`"
+    ],
+    "answer": 0,
+    "explanation": "A set with a case-insensitive comparer gives fast membership and treats `A-1` and `a-1` as equal; `Add` returning `false` signals the duplicate. The default `HashSet<string>` compares case-sensitively, so it misses `a-1`. The `List` version works only if every stored item is also lower-cased, and its `Contains` scans the whole list on every row. Using exceptions for an expected case is slow and noisy."
+  },
+  {
+    "question": "`Cart.Lines` returns `_lines.AsReadOnly()`. A caller keeps that object, and later the cart adds a line through `Cart.Add`. What does the caller's object show?",
+    "options": [
+      "The old lines only, because `AsReadOnly` takes a snapshot",
+      "It throws `InvalidOperationException` on the next read, because the underlying list was changed after the view was created",
+      "Nothing; `AsReadOnly` returns an empty collection until the list is frozen",
+      "The new line as well, because a read-only view wraps the same list and reflects the owner's changes"
+    ],
+    "answer": 3,
+    "explanation": "`AsReadOnly` returns a `ReadOnlyCollection<T>` wrapper around the same list: the caller cannot mutate it, but the owner can, and the view shows the changes. A snapshot is what `ToImmutableArray()` or `ToList()` gives you. `InvalidOperationException` happens only to an enumerator in progress when the list changes, not to later reads."
+  },
+  {
+    "question": "An ASP.NET Core app loads 5,000 VAT rates at startup and reads them on every request; they never change until the next deploy. Which type fits best?",
+    "options": [
+      "A `static Dictionary<string, decimal>` that each request may update when it finds a new rate",
+      "`FrozenDictionary<string, decimal>`, built once with `ToFrozenDictionary()`",
+      "`ImmutableList<KeyValuePair<string, decimal>>`, searched with `First`",
+      "`List<(string Country, decimal Rate)>`, sorted once so lookups can stop early"
+    ],
+    "answer": 1,
+    "explanation": "Frozen collections are documented as costly to create but fast to read, and ideal for data created once at startup and used for the rest of the application's life; they are also immutable, so concurrent requests can read them safely. A shared mutable `Dictionary` written by concurrent requests is a race, because generic collections are not synchronized. The list options turn every lookup into a scan."
+  },
+  {
+    "question": "Which signature best fits a method that only loops once over the products it receives to compute a total?",
+    "options": [
+      "`decimal Total(List<Product> products)`",
+      "`decimal Total(IList<Product> products)`",
+      "`decimal Total(IEnumerable<Product> products)`",
+      "`decimal Total(Dictionary<string, Product> products)`"
+    ],
+    "answer": 2,
+    "explanation": "Accept the weakest interface you need: `IEnumerable<T>` lets callers pass an array, a list, a set or a LINQ query, and it promises the method will not modify the input. `List<T>` and `IList<T>` look harmless but force callers to build a list and give the method the right to mutate it. A dictionary is the wrong shape for a sequence."
+  }
+]

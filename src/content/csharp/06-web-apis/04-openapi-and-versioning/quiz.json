@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An app created from the `webapi` template is deployed to Production, and `GET /openapi/v1.json` returns 404. Why?",
+    "options": [
+      "OpenAPI documents are only generated at build time",
+      "The template maps `MapOpenApi()` only in Development",
+      "The document is named `v0` until you set a version",
+      "`AddOpenApi` requires a UI package such as Swagger UI to serve JSON"
+    ],
+    "answer": 1,
+    "explanation": "The template restricts the endpoint to Development to avoid exposing API details by default. Exposing it in Production is a deliberate decision. The default document name is `v1`, and generation works without any UI package; the UI is a separate, optional, third-party piece."
+  },
+  {
+    "question": "A handler returns `Results.Ok(product)` (typed as `IResult`), and the generated document shows no response schema. Which change fixes it with the least code?",
+    "options": [
+      "Return `TypedResults.Ok` with a `Results<...>` type",
+      "Add `[ApiController]` to the class that holds the handler",
+      "Switch the document to OpenAPI 3.0 in `AddOpenApi`",
+      "Install Swashbuckle next to `Microsoft.AspNetCore.OpenApi`"
+    ],
+    "answer": 0,
+    "explanation": "`TypedResults` return concrete types that carry response metadata, so the generator sees `Product` and the 404 without extra calls. The alternative is `.Produces<Product>()` on the endpoint. `[ApiController]` is a controller attribute, and neither the spec version nor a second generator adds the missing type information."
+  },
+  {
+    "question": "Your Magento integration partner's client generator only supports OpenAPI 3.0 and fails on your .NET 10 document. What is the direct fix?",
+    "options": [
+      "Downgrade the whole project to .NET 8 and its SDK",
+      "Disable nullable reference types in the project file",
+      "Write the document by hand",
+      "Set `OpenApiVersion` to `OpenApi3_0` in the `AddOpenApi` options"
+    ],
+    "answer": 3,
+    "explanation": ".NET 10 generates 3.1 by default but lets you choose the version through `OpenApiOptions.OpenApiVersion` (or `--openapi-version` for build-time generation). Downgrading the framework or hand-writing the document throws away the generator, and nullability is not the root problem, only one visible difference in 3.1."
+  },
+  {
+    "question": "Which change to the `GET /products/{sku}` response can ship without a new API version?",
+    "options": [
+      "Renaming `price` to `unitPrice`",
+      "Changing `stock` from a number to a string",
+      "Adding a new `stockStatus` property",
+      "Returning 200 with an empty body instead of 404 for unknown SKUs"
+    ],
+    "answer": 2,
+    "explanation": "Adding a property is additive: well-behaved clients ignore unknown properties, and Problem Details' RFC asks the same of extension members. Renaming or retyping a field breaks deserialization, and changing a status code that clients branch on changes the meaning of the endpoint, so those need a new version or a different design."
+  },
+  {
+    "question": "With `Asp.Versioning.Http`, v1 and v2 groups both map `/products/{sku}` and the client sends `/products/ABC?api-version=2.0`. What does this show about the library?",
+    "options": [
+      "It routes by URL only, so the second mapping overrides the first",
+      "It picks the endpoint by the requested API version",
+      "It requires a separate application per version",
+      "It needs controllers; minimal APIs cannot be versioned"
+    ],
+    "answer": 1,
+    "explanation": "Endpoints are declared in version sets (`NewVersionedApi`, `HasApiVersion`), and the requested version, read here from the `api-version` query string, decides which handler runs. `Asp.Versioning.Http` is the minimal API package; `Asp.Versioning.Mvc` exists for controllers, so the last option is wrong."
+  },
+  {
+    "question": "You add XML doc comments to a minimal API lambda and set `<GenerateDocumentationFile>true</GenerateDocumentationFile>`, but the summary does not appear in OpenAPI. Why?",
+    "options": [
+      "XML comments are only read for controllers, not minimal APIs",
+      "XML comments are only emitted for OpenAPI 3.0 documents",
+      "The document caches the first version forever",
+      "The C# build does not capture XML comments on lambdas"
+    ],
+    "answer": 3,
+    "explanation": "The .NET 10 release notes say XML comments are read from methods, classes and members, and that comments on lambdas are not captured by the build. Referencing a named method from `MapGet`, or calling `WithSummary`, fixes it. The document is regenerated on each request, so caching is not the cause."
+  }
+]

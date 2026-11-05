@@ -1,0 +1,9 @@
+[
+  { "term": "Middleware", "description": "A component in the request pipeline that receives the `HttpContext`, can act before and after calling the next component, or can end the request." },
+  { "term": "RequestDelegate", "description": "The delegate type `Task (HttpContext)` that represents the rest of the pipeline and is passed to middleware as `next`." },
+  { "term": "Short-circuit", "description": "Ending the request in a middleware by not calling `next`, so later middleware and the endpoint never run." },
+  { "term": "Terminal middleware", "description": "Middleware added with `Run` that has no `next` and always ends its branch of the pipeline." },
+  { "term": "Middleware order", "description": "The order of the `Use...` calls in `Program.cs`, which is the order requests flow in and the reverse of the order responses flow out." },
+  { "term": "Response.OnStarting", "description": "A callback that runs just before response headers are sent, the safe place to add headers from middleware that runs after `next`." },
+  { "term": "IMiddleware", "description": "The interface for factory-based middleware, registered in DI and activated per request, so scoped services can be constructor-injected." }
+]

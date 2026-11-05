@@ -1,0 +1,9 @@
+[
+  { "term": "Thread pool", "description": "The shared set of worker threads and work-item queue on which ASP.NET Core runs request code and every `await` continuation." },
+  { "term": "Thread-pool starvation", "description": "No free pool threads for queued work, visible as a slowly climbing thread count, a growing queue and low CPU while latency rises." },
+  { "term": "dotnet-counters", "description": "A .NET diagnostic tool that shows live runtime counters such as `dotnet.thread_pool.thread.count` and `dotnet.thread_pool.queue.length`." },
+  { "term": "SemaphoreSlim", "description": "A lightweight semaphore whose `WaitAsync` lets an async critical section or a concurrency limit work where `lock` cannot contain `await`." },
+  { "term": "Parallel.ForEachAsync", "description": "Runs an async body for each item with a bounded degree of parallelism, defaulting to `Environment.ProcessorCount` when no limit is set." },
+  { "term": "Channel<T>", "description": "An in-memory asynchronous FIFO queue between producers and consumers; a bounded channel applies back pressure by making writers wait." },
+  { "term": "IAsyncEnumerable<T>", "description": "An asynchronous sequence produced with `yield return` in an async iterator and consumed with `await foreach`, so results stream instead of buffering." }
+]

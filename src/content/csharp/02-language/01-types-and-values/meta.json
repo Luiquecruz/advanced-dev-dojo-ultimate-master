@@ -1,0 +1,13 @@
+{
+  "title": "Types and Values: Copy or Share?",
+  "summary": "Value types versus reference types: what assignment and argument passing copy, why lists are shared but structs are copied, how strings behave, and what boxing costs.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "C# reference: Value types", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-types" },
+    { "label": "C# reference: Built-in reference types (object, string, delegate)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/reference-types" },
+    { "label": "C# reference: Method parameters and modifiers", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/method-parameters" },
+    { "label": "C# programming guide: Boxing and unboxing", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/types/boxing-and-unboxing" },
+    { "label": "Framework Design Guidelines: Choosing between class and struct", "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/choosing-between-class-and-struct" }
+  ]
+}

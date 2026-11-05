@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A PHP developer ports a Magento helper that keeps `private static array $cache = []` filled with the current customer's cart lines. In ASP.NET Core the same idea becomes a `static Dictionary<string, decimal>` filled during each request. What happens?",
+    "options": [
+      "The framework clears static fields at the end of each request, as PHP-FPM discards its state",
+      "One dictionary is shared by every request and thread, so carts leak between different users",
+      "Each request runs in its own AppDomain, so the static field starts empty for every request",
+      "Each thread gets its own copy of the static field, so the data stays isolated per request"
+    ],
+    "answer": 1,
+    "explanation": "ASP.NET Core runs one long-lived process, so a static field is one value shared by all requests and threads; it never resets between requests, and a plain `Dictionary` can also be corrupted by concurrent writes. The tempting option (reset per request) describes PHP-FPM, where the process state is thrown away. .NET (Core) has no per-request AppDomains, and statics are not per thread unless marked `[ThreadStatic]`."
+  },
+  {
+    "question": "In `Program.cs`, which statement about the code before and after `builder.Build()` is correct?",
+    "options": [
+      "Order does not matter: services and middleware can be registered on either side of `Build()`",
+      "Middleware is registered on `builder` before `Build()`, and services are added to `app` afterwards",
+      "Services go before `Build()`; middleware and endpoints are configured on the built `app`",
+      "`Build()` starts Kestrel, and services registered after it are picked up on the first request"
+    ],
+    "answer": 2,
+    "explanation": "`builder.Services` collects registrations and `Build()` creates the container from them, so adding services afterwards throws. The pipeline (middleware, `MapGet`) is described on the built `app`. `Build()` does not start the server: `app.Run()` does."
+  },
+  {
+    "question": "A server has neither `ASPNETCORE_ENVIRONMENT` nor `DOTNET_ENVIRONMENT` set. Which environment does the app run in?",
+    "options": [
+      "`Production`, the name the host uses when neither variable is set",
+      "`Development`, because the .NET SDK and `dotnet run` default to it",
+      "None: the host refuses to start until an environment name is set",
+      "`Staging`, the default for apps built with `dotnet publish`"
+    ],
+    "answer": 0,
+    "explanation": "The default environment name is `Production`, which is the safe choice for a forgotten variable. `dotnet run` on a laptop usually runs as Development only because `Properties/launchSettings.json` sets the variable, and that file is a local tooling file, not a runtime default."
+  },
+  {
+    "question": "Kubernetes sends SIGTERM to your pod during a rolling deploy. What does the ASP.NET Core host do by default?",
+    "options": [
+      "It exits immediately and drops in-flight requests, like a PHP-FPM worker killed with SIGKILL",
+      "It ignores SIGTERM and keeps serving until every client disconnects, with no upper time limit",
+      "It loads the new assemblies into the same process, so open connections survive the deploy",
+      "It raises `ApplicationStopping` and lets in-flight requests finish, within a 30-second timeout"
+    ],
+    "answer": 3,
+    "explanation": "`ConsoleLifetime` turns SIGTERM into a graceful shutdown: `ApplicationStopping` fires, Kestrel stops accepting connections, in-flight requests finish and hosted services stop, bounded by `HostOptions.ShutdownTimeout` (30 seconds by default). It does not exit instantly, and it does not wait forever: services still running at the timeout are stopped anyway. A process never reloads new code in place."
+  },
+  {
+    "question": "You are writing a service that consumes a queue and has no HTTP endpoints. Which builder fits best?",
+    "options": [
+      "`WebApplication.CreateBuilder`, because hosted services only run while Kestrel is listening",
+      "`Host.CreateApplicationBuilder`, for DI, configuration, logging and hosted services",
+      "None: a `while (true)` loop in `Main` is the usual pattern, since hosting is for web apps",
+      "A `Startup` class with `ConfigureServices`, which non-web apps still require in .NET 10"
+    ],
+    "answer": 1,
+    "explanation": "The generic host (`Host.CreateApplicationBuilder`) provides the same DI, configuration and logging as a web app, and runs hosted services such as a queue consumer. `WebApplication` adds an HTTP server you do not need. A hand-written loop loses DI, configuration and graceful shutdown; `Startup` classes are an older style, not a requirement."
+  }
+]

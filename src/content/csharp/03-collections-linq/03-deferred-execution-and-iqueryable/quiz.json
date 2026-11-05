@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What does this print?\n\n```csharp\nList<int> stock = [5, 0, 12];\nvar available = stock.Where(s => s > 0);\nstock.Add(7);\nConsole.WriteLine(available.Count());\n```",
+    "options": [
+      "`2`, because `Where` filtered the list when it was called",
+      "`3`, because the query runs when `Count()` enumerates it and sees the added `7`",
+      "`4`, because `Count()` counts the list, not the filter",
+      "It throws `InvalidOperationException` because the list changed after the query was created"
+    ],
+    "answer": 1,
+    "explanation": "`Where` uses deferred execution: it stores the filter, and `Count()` runs it against the list as it is at that moment, which now holds 5, 0, 12 and 7. The tempting answer assumes eager evaluation like PHP's `array_filter`. `InvalidOperationException` happens only when a list changes during an enumeration that is already in progress."
+  },
+  {
+    "question": "A PHP generator throws if you try to iterate it again after it has advanced. A C# method returns `IEnumerable<Order>` built with `yield return` from an HTTP API, and the caller calls `orders.Any()` and then `foreach (var o in orders)`. What happens?",
+    "options": [
+      "The second enumeration throws, just like a PHP generator",
+      "The results of `Any()` are cached, so the API is called once",
+      "`Any()` is compiled away because `foreach` follows it, so one call happens",
+      "Each enumeration restarts the iterator, so the API is called again for the `foreach`"
+    ],
+    "answer": 3,
+    "explanation": "A C# iterator is re-run from the start by each new enumeration, silently, so `Any()` and `foreach` each call the API. PHP generators behave differently, which is exactly why the habit misleads. Nothing is cached; call `ToList()` once if you need the data twice. Analyzer rule CA1851 flags this pattern."
+  },
+  {
+    "question": "`db.Products` is an EF Core `DbSet<Product>` on a table with one million rows. What does this code send to the database?\n\n```csharp\nIEnumerable<Product> all = db.Products;\nvar firstTen = all.Where(p => p.Stock > 0).Take(10).ToList();\n```",
+    "options": [
+      "A query for every row of the table; the filter and `Take` then run in memory",
+      "`SELECT ... WHERE Stock > 0 LIMIT 10`, because EF Core always translates `Where`",
+      "Nothing; the code does not compile because `DbSet<T>` is not an `IEnumerable<T>`",
+      "`SELECT ... WHERE Stock > 0`, and only `Take` runs in memory"
+    ],
+    "answer": 0,
+    "explanation": "The variable's static type is `IEnumerable<Product>`, so `Where` and `Take` bind to `Enumerable`'s in-memory operators; EF Core is only asked to enumerate the whole set. It compiles because `IQueryable<T>` derives from `IEnumerable<T>`. Keep the type `IQueryable<Product>` (or just chain on `db.Products`) and the filter and the limit become SQL."
+  },
+  {
+    "question": "Why can EF Core translate `db.Products.Where(p => p.Stock > 0)` into SQL, while the same lambda passed to `List<Product>.Where` cannot be translated at all?",
+    "options": [
+      "EF Core parses the C# source file at runtime with Roslyn and rewrites the text of each lambda into the equivalent SQL clause",
+      "For `IQueryable<T>` the compiler builds an expression tree the provider can inspect; for `IEnumerable<T>`, a delegate",
+      "`List<T>.Where` is slower, so it skips translation",
+      "EF Core sends the compiled IL of the lambda to the database server"
+    ],
+    "answer": 1,
+    "explanation": "The C# docs state that the compiler turns `IEnumerable<T>` queries into delegates and `IQueryable<T>` queries into expression trees. A delegate can only be executed; an expression tree is data that a provider walks and translates. Nothing is parsed from source or sent as IL; the database receives SQL."
+  },
+  {
+    "question": "Under EF Core 10, a query calls a C# helper `Normalize(p.Name)` that has no SQL translation. Where in the query does that make it throw at runtime?",
+    "options": [
+      "Anywhere in the query, including the final `Select`",
+      "Nowhere: EF Core silently evaluates any untranslatable part in memory",
+      "Only inside `OrderBy`",
+      "In `Where` (or anywhere except the top-level projection); in the final `Select` EF Core evaluates the call on the client"
+    ],
+    "answer": 3,
+    "explanation": "Since EF Core 3.0, client evaluation is supported only in the top-level projection; an untranslatable expression anywhere else throws. Silent client evaluation everywhere was the behaviour before 3.0, and it was removed because it hid performance problems. To filter in memory on purpose, filter in SQL first and then call `AsEnumerable()` or `ToList()`."
+  },
+  {
+    "question": "A repository method creates a `DbContext` in a `using` declaration and returns `db.Orders.Where(o => o.IsOpen)` as `IEnumerable<Order>`. The caller's `foreach` fails. Why, and what is the fix?",
+    "options": [
+      "`Where` cannot run on a `DbSet`; replace it with a loop",
+      "The query runs when the caller enumerates it, after the context is disposed; materialize it inside the method",
+      "`foreach` cannot iterate an `IEnumerable<T>` returned from another method",
+      "The query ran when the method returned, but `IEnumerable<T>` loses the rows; return a `List<T>` variable instead"
+    ],
+    "answer": 1,
+    "explanation": "Deferred execution moves the work to the first enumeration, so the error appears in the caller, where the context is already disposed (`ObjectDisposedException`). The tempting option assumes the query ran at `return`; it did not. Materializing inside the method (`return await query.ToListAsync();`), or letting DI own the context per request, makes the lifetime explicit."
+  }
+]

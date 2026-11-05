@@ -1,0 +1,9 @@
+[
+  { "term": "Exception filter", "description": "A `when (condition)` clause on `catch` that runs before the stack unwinds, so a `false` result lets the exception continue with its original stack trace." },
+  { "term": "Rethrow (`throw;`)", "description": "Rethrows the exception being handled and keeps its stack trace, whereas `throw ex;` restarts the trace at the current method." },
+  { "term": "Inner exception", "description": "The original exception passed to a new exception's constructor, so wrapping adds context without hiding the cause." },
+  { "term": "Throw helper", "description": "A static method such as `ArgumentNullException.ThrowIfNull` or `ArgumentOutOfRangeException.ThrowIfNegativeOrZero` that checks a condition and throws the matching exception." },
+  { "term": "`Try*` pattern", "description": "A method such as `int.TryParse` that returns `bool` and an `out` value instead of throwing for a routine failure." },
+  { "term": "Result type", "description": "A return type that lists the expected outcomes of an operation (for example a small record hierarchy), so callers handle each case without exceptions." },
+  { "term": "OperationCanceledException", "description": "The exception that signals cooperative cancellation; it is an expected outcome, not an error to log as a failure." }
+]

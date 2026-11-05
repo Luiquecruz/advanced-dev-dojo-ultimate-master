@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In PHP, `function addGift(array $skus) { $skus[] = 'GIFT'; }` leaves the caller's array unchanged. You port it to C# as `void AddGift(List<string> skus) => skus.Add(\"GIFT\");`. What happens to the caller's list?",
+    "options": [
+      "Nothing changes: C# passes arguments by value, so the method works on its own copy of the list",
+      "It gains `\"GIFT\"`: the method receives a copy of the reference, which points to the same list",
+      "It fails to compile until the parameter is marked `ref`, because a method cannot change its arguments",
+      "It gains `\"GIFT\"` only when the caller created the list with a collection expression such as `[\"A\"]`"
+    ],
+    "answer": 1,
+    "explanation": "Arguments are passed by value, but for a reference type the value is the reference, so `Add` changes the one shared list. The tempting answer, \"a copy of the list\", is PHP's array rule; C# arrays and lists are classes and are never copied implicitly."
+  },
+  {
+    "question": "`Money` is a mutable `struct` with a public `Amount` field. What does this print?\n\n```csharp\nvar a = new Money { Amount = 10m };\nvar b = a;\nb.Amount = 99m;\nConsole.WriteLine(a.Amount);\n```",
+    "options": [
+      "`99`",
+      "`0`",
+      "`10`",
+      "It does not compile, because structs cannot be assigned"
+    ],
+    "answer": 2,
+    "explanation": "Assigning a struct copies the whole value, so `b` is an independent copy and `a.Amount` stays `10`. `99` would be the answer if `Money` were a class, where `b = a` copies only the reference."
+  },
+  {
+    "question": "`prices` is a `List<Money>` and `Money` is a mutable struct. Why does `prices[0].Amount = 6m;` fail with error CS1612?",
+    "options": [
+      "The indexer returns a temporary copy, so changing its field would be silently lost",
+      "Struct fields become read-only once the struct is stored in a collection",
+      "`List<T>` stores value types boxed, and a boxed value cannot be changed in place",
+      "The list must be declared `readonly` before its elements can be changed through the indexer"
+    ],
+    "answer": 0,
+    "explanation": "Reading a struct element through the indexer gives you a copy. Assigning a field of that temporary would change nothing in the list, so the compiler stops you; read into a local, change it, and write it back. Struct fields are not inherently read-only: changing a local struct variable works fine, and `List<T>` stores value types unboxed."
+  },
+  {
+    "question": "What does this print?\n\n```csharp\nint stock = 5;\nobject boxed = stock;\nstock = 7;\nConsole.WriteLine(boxed);\n```",
+    "options": [
+      "`7`, because `boxed` still refers to the `stock` variable on the stack",
+      "`0`, because boxing stores a default value until the box is first read",
+      "Nothing: `Console.WriteLine` throws `InvalidCastException` for a boxed `int`",
+      "`5`, because boxing copied the current value into a new heap object"
+    ],
+    "answer": 3,
+    "explanation": "Boxing allocates an object and copies the current value into it, so later changes to `stock` do not reach the box. The tempting `7` assumes the box points at the variable, which is how a reference type behaves, not a boxed value."
+  },
+  {
+    "question": "`object boxed = 42;` Which line throws at run time?",
+    "options": [
+      "`int i = (int)boxed;`",
+      "`long l = (long)boxed;`",
+      "`var s = boxed.ToString();`",
+      "`bool b = boxed is int;`"
+    ],
+    "answer": 1,
+    "explanation": "Unboxing requires the exact boxed type, so casting a boxed `int` to `long` throws `InvalidCastException`, even though an `int` variable converts to `long` implicitly. To widen, unbox first: `(long)(int)boxed`. `(int)boxed` is the correct unboxing and succeeds."
+  },
+  {
+    "question": "Which type is the best candidate for a `struct` according to Microsoft's design guidelines?",
+    "options": [
+      "A `Customer` entity with an address list, an order history and a mutable status",
+      "An `OrderService` that holds a database connection and is created once per request",
+      "An immutable `Percentage` that wraps one `double` and is rarely cast to `object`",
+      "A `ProductDto` with twenty properties returned from an API, since it is just data"
+    ],
+    "answer": 2,
+    "explanation": "The guidelines say to avoid a struct unless the type is a single logical value, under 16 bytes, immutable and rarely boxed; a `double` is 8 bytes, so `Percentage` matches all four. The DTO is tempting because it is \"just data\", but twenty properties make every copy expensive, and data carriers are better as classes or records."
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A PHP developer opens a `SqlConnection` (Microsoft.Data.SqlClient) by hand in an ASP.NET Core service and never disposes it, expecting it to close at the end of the request like PDO in PHP-FPM. What happens under load?",
+    "options": [
+      "It closes when the method returns, because the variable goes out of scope",
+      "ASP.NET Core closes the connections opened during a request when it sends the response",
+      "It stays checked out until the GC finalizes it, so the pool can run dry under load",
+      "The pool notices the abandoned connection after its idle timeout and reclaims it"
+    ],
+    "answer": 2,
+    "explanation": "The process is long-running and the garbage collector runs when it decides to, so undisposed connections are not returned to the pool promptly. Expecting cleanup when the variable goes out of scope is the PHP reference-counting habit; .NET does not destroy objects at scope exit, which is why `using` exists."
+  },
+  {
+    "question": "A `CatalogService` receives `CatalogDbContext` through its constructor (registered with `AddDbContext`). Where should the context be disposed?",
+    "options": [
+      "Nowhere in your code: the container disposes it when the scope ends",
+      "In the service's own `Dispose()`, because the service is the one that uses it",
+      "At the end of every method, with `using (_db) { ... }` around the queries",
+      "In a finalizer on the service, so it runs even if nobody disposes the service"
+    ],
+    "answer": 0,
+    "explanation": "Ownership decides: the container created the scoped context, so it disposes it at the end of the scope. Disposing it in the service is tempting because the service uses it, but other services in the same request share that instance and would then fail with `ObjectDisposedException`."
+  },
+  {
+    "question": "What does the first line of this method do?\n\n`await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);`",
+    "options": [
+      "It awaits the same transaction task twice, which throws `InvalidOperationException`",
+      "It awaits the start now, and awaits `DisposeAsync` when the scope ends",
+      "It commits the transaction when the scope ends, unless an exception was thrown",
+      "It starts the transaction on a background thread so the method can continue"
+    ],
+    "answer": 1,
+    "explanation": "The right-hand `await` waits for `BeginTransactionAsync`; `await using` registers an awaited `DisposeAsync` at the end of the scope. Nothing commits automatically: disposing a transaction that was never committed rolls it back, so `CommitAsync` must be called explicitly. Reading the line as a double await of one task is the other common confusion: they are two different operations."
+  },
+  {
+    "question": "Your sealed class `CsvExporter` creates a `StreamWriter` in its constructor and stores it in a field. What should the class do?",
+    "options": [
+      "Nothing; the garbage collector closes the writer when the exporter is collected",
+      "Add a finalizer that calls `_writer.Dispose()`, so cleanup always happens",
+      "Call `_writer.Flush()` after every row, so that disposal is no longer needed",
+      "Implement `IAsyncDisposable` (or `IDisposable`) and dispose the writer there"
+    ],
+    "answer": 3,
+    "explanation": "A class that creates and stores a disposable object owns it and must cascade disposal. A finalizer is the tempting but wrong tool: finalizers are only for raw unmanaged handles, run at an unpredictable time, and must not touch other managed objects; flushing writes the data but still leaves the file handle open."
+  },
+  {
+    "question": "Why does Microsoft advise against `using var client = new HttpClient();` inside a method that runs on every request?",
+    "options": [
+      "Disposing an `HttpClient` also cancels requests other threads started on it",
+      "`using var` disposes the client before the caller reads the response body, so reads fail",
+      "Per-call clients can exhaust sockets (`TIME_WAIT`); use `IHttpClientFactory`",
+      "The advice is only for .NET Framework, where `HttpClient` was not thread-safe"
+    ],
+    "answer": 2,
+    "explanation": "`HttpClient` implements `IDisposable`, which is exactly why the per-call `using` looks correct, but the type is meant to be reused and per-call creation leaves sockets in `TIME_WAIT` until they run out. The thread-safety distractor is tempting, but `HttpClient` has always been safe for concurrent requests; `IHttpClientFactory` pools the underlying handlers for you."
+  },
+  {
+    "question": "A class implements only `IAsyncDisposable`. A teammate writes `using var exporter = new CsvExporter(path);` (a plain `using`) inside a synchronous method. What happens?",
+    "options": [
+      "It compiles, and `using` calls `DisposeAsync` and blocks until it finishes",
+      "It compiles, but `DisposeAsync` never runs, so the writer leaks quietly",
+      "It does not compile: a plain `using` needs `IDisposable`; use `await using`",
+      "It compiles, and the runtime adapts the object to `IDisposable` by reflection"
+    ],
+    "answer": 2,
+    "explanation": "A `using` statement or declaration requires a type convertible to `IDisposable`, and the compiler error suggests `await using`. The quiet leak is tempting because Microsoft does warn about it, but in a different case: a consumer that only knows `IDisposable` and calls `Dispose` never reaches `DisposeAsync`, which is why types that may be disposed both ways implement both interfaces."
+  }
+]

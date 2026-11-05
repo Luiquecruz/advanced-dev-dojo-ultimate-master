@@ -1,0 +1,9 @@
+[
+  { "term": "`List<T>`", "description": "An ordered, growable collection backed by an array, with cheap index access and appends but linear-time searches." },
+  { "term": "`Dictionary<TKey,TValue>`", "description": "A hash-based map from unique, non-null keys to values whose enumeration order is undefined." },
+  { "term": "`HashSet<T>`", "description": "A collection of unique values with fast membership checks, where `Add` returns `false` for a value already present." },
+  { "term": "Equality comparer", "description": "An `IEqualityComparer<T>` such as `StringComparer.OrdinalIgnoreCase` that decides when two keys are the same, passed to the dictionary or set constructor." },
+  { "term": "Read-only view", "description": "A wrapper such as `ReadOnlyCollection<T>` that stops its holder from changing the collection while the owner can still change it underneath." },
+  { "term": "Immutable collection", "description": "A collection from `System.Collections.Immutable` that never changes after creation, where every modifying method returns a new instance." },
+  { "term": "Frozen collection", "description": "A `FrozenDictionary<TKey,TValue>` or `FrozenSet<T>` that is costly to build but optimized for reads, meant for data created once at startup." }
+]

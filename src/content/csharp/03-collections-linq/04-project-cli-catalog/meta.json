@@ -1,0 +1,24 @@
+{
+  "title": "Project P1: Console Catalog Importer",
+  "summary": "Build a .NET 10 console app that streams a product CSV, validates rows with TryParse without stopping, and prints a deterministic LINQ report with totals, the top 5 by stock value and invalid rows.",
+  "level": "beginner",
+  "tags": [
+    "recommended",
+    "core",
+    "project"
+  ],
+  "resources": [
+    {
+      "label": "File.ReadLines API reference",
+      "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readlines?view=net-10.0"
+    },
+    {
+      "label": "Decimal.TryParse API reference (styles and culture)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-10.0"
+    },
+    {
+      "label": "dotnet run command",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-run"
+    }
+  ]
+}

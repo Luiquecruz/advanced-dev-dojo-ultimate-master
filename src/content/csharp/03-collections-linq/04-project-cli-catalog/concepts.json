@@ -1,0 +1,8 @@
+[
+  { "term": "`File.ReadLines`", "description": "Returns the lines of a file as a lazily read `IEnumerable<string>`, so processing can start before the whole file is loaded, unlike `File.ReadAllLines`." },
+  { "term": "`TryParse` pattern", "description": "Methods such as `decimal.TryParse` return `false` for invalid input and write the value to an `out` parameter, so validation needs no exceptions." },
+  { "term": "Invariant culture", "description": "`CultureInfo.InvariantCulture` fixes the decimal point and number format, so parsing and output do not depend on the machine's regional settings." },
+  { "term": "`decimal`", "description": "The 128-bit base-10 numeric type used for money, which represents values such as `0.10` exactly where `double` cannot." },
+  { "term": "Deterministic report", "description": "Output that is identical for the same input on every run and machine, which needs explicit tie-breaking in sorts and culture-independent formatting." },
+  { "term": "Exit code", "description": "The integer a console app returns to the shell, `0` for success and non-zero for failure, which scripts and CI read through `$?`." }
+]
