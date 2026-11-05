@@ -51,3 +51,4 @@ def _():
     assert other not in cache
     assert type(hash(nested)) is int
     assert nested == nested_twin
+    assert mod.cache_key(([1, 2],), {}) == mod.cache_key(((1, 2),), {})

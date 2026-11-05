@@ -19,3 +19,4 @@ Return a hashable key for one function call, so a cache can recognize calls made
 - `args` is a tuple of positional arguments and `kwargs` a dict of keyword arguments, for example `cache_key(([1, 2],), {"scale": 2})`.
 - The key is `(freeze(args), freeze(kwargs))`.
 - Two calls with equal arguments give equal keys, whatever the order of the keyword arguments; different arguments give different keys.
+- Freezing normalizes containers: a list and a tuple with the same items give the same key, and so do a set and a frozenset. Use this cache only for functions that treat them alike.

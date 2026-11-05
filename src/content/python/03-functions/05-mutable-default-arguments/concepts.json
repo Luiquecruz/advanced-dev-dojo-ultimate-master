@@ -2,6 +2,6 @@
   { "term": "Definition-time default", "description": "A default expression is evaluated once, when `def` runs, and stored in `__defaults__`." },
   { "term": "Mutable default bug", "description": "A list, dict or set default mutated by the function, so every call that omits the argument shares the changes." },
   { "term": "`None` sentinel", "description": "Using `None` as the default and building a fresh object inside the body: `if tags is None: tags = []`." },
-  { "term": "Defensive copy", "description": "Copying a container the caller passes in, such as `dict(items)`, so the object owns its state and the caller's data never changes." },
+  { "term": "Defensive copy", "description": "Copying a container the caller passes in, such as `dict(items)`, so changes to the object's top-level entries never reach the caller's container. The copy is shallow: nested mutable values are still shared." },
   { "term": "Private sentinel", "description": "A unique `object()` used as a default when `None` is a meaningful argument, compared with `is`." }
 ]
