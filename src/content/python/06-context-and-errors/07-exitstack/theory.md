@@ -40,7 +40,7 @@ If any opener raises, `pop_all()` is never reached and the `with` closes what wa
 
 ## Common mistakes
 
-**Closing resources by hand in a loop.** A list of opened managers closed in `finally` has two bugs. It closes in **opening order**, so the export file is closed before the broker channel that still writes to it. And if one `__exit__` raises, the loop stops and every later resource stays open, holding its lock.
+**Closing resources by hand in a loop.** A list of opened managers closed in `finally` has two bugs. It closes in **opening order**, so the database is closed first while the broker and the export opened after it may still use it. And if one `__exit__` raises, the loop stops and every later resource stays open, holding its lock.
 
 ```py
 # wrong: forward order, and the first failing close leaves the rest open

@@ -57,7 +57,7 @@ public async Task<Quote> GetShippingQuoteAsync(Cart cart, CancellationToken canc
     {
         return await carrierClient.QuoteAsync(cart, timeout.Token);
     }
-    catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+    catch (OperationCanceledException) when (timeout.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
     {
         // Our 3-second deadline fired, not the caller: fall back to a flat rate.
         return Quote.FlatRate(cart);
@@ -65,7 +65,7 @@ public async Task<Quote> GetShippingQuoteAsync(Cart cart, CancellationToken canc
 }
 ```
 
-The exception filter tells the two causes apart: if the caller's token is not cancelled, the deadline fired. If the client disconnected, the exception propagates, which is what the caller expects. Instead of a fallback, a method can also turn its own deadline into `throw new TimeoutException("...", ex)`, so callers can tell "too slow" from "cancelled". `CancelAfter` restarts the countdown if called again before it fires.
+The exception filter tells the causes apart: if your source is cancelled and the caller's token is not, the deadline fired. A cancellation from anywhere else, such as the client's own shorter timeout, is not yours to rename. If the client disconnected, the exception propagates, which is what the caller expects. Instead of a fallback, a method can also turn its own deadline into `throw new TimeoutException("...", ex)`, so callers can tell "too slow" from "cancelled". `CancelAfter` restarts the countdown if called again before it fires.
 
 `Task.WaitAsync(TimeSpan)` is a different tool: it stops *waiting* after the timeout and throws `TimeoutException`, but the underlying operation is not cancelled and keeps running. Use it only around APIs that take no token.
 

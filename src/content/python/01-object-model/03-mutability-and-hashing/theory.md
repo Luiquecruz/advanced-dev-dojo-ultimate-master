@@ -16,7 +16,7 @@ items.sort()          # changes the list in place and returns None
 
 A `dict` key or a `set` member must be **hashable**: it has a `__hash__` that never changes while the object is stored, and `a == b` implies `hash(a) == hash(b)`. The dict uses the hash to find the slot, then `==` to confirm the match. Keys are therefore compared by **value**: `(1, 2)` and another `(1, 2)` built elsewhere are the same key.
 
-Immutable built-ins satisfy this. `list`, `dict` and `set` do not, because their contents could change while stored and their hash would no longer point to the right slot, so they raise `TypeError: unhashable type`.
+Immutable scalars such as `int`, `str` and `bytes` satisfy this, and so does a `frozenset`; a `tuple` does only when its items do. `list`, `dict` and `set` do not, because their contents could change while stored and their hash would no longer point to the right slot, so they raise `TypeError: unhashable type`.
 
 ```py
 cache = {}
@@ -51,7 +51,7 @@ log = ""
 for line in lines:
     log += line + "\n"      # may build a new string each time
 
-log = "\n".join(lines)      # one pass, preferred
+log = "".join([line + "\n" for line in lines])   # one pass, preferred
 ```
 
 ## When to choose it

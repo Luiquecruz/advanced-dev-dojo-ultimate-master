@@ -147,7 +147,7 @@ Events that leave the process (to another module or service) are **integration e
 - **Handing out the internal list.** `public IReadOnlyList<OrderLine> Lines => _lines;` still returns the `List<OrderLine>`, so a caller casts it back and adds a line to a placed order. Return `_lines.AsReadOnly()`.
 - **Changing state before the last check.** `AddLine` appends the line, then the currency check throws, leaving a line the total does not include. Validate first, then mutate.
 - **Navigation properties into another aggregate.** An `Order.Customer` that updates loyalty points makes one save change two aggregates. Hold `CustomerId`.
-- **Dispatching events from the entity method.** Handlers run before the save, so a failed save leaves an e-mail sent for an order that does not exist. Record events; dispatch them at save.
+- **Dispatching events from the entity method.** Handlers run before the save, so a failed save leaves an e-mail sent for an order that does not exist. Record events; send the e-mail after commit or through an outbox row (10/04).
 
 ## In practice
 

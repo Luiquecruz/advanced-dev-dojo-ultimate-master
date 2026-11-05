@@ -146,7 +146,7 @@ The last lesson of every module except 12 (which ends with the capstone). `entry
 - [ ] The `# beginner mistake:` test fails on the wrong version named in `## Common mistakes`; source checks use `ast`.
 - [ ] ADR only: a computed numeric field, coherent briefing arithmetic, neutral test names.
 - [ ] At least 2 hints separated by `---`; non-trivial `approach.md`; theory over 200 characters.
-- [ ] Theory has `## How it works` before `## Common mistakes`, ends with `## When to choose it` and compares with no other language.
+- [ ] Practice lessons and the capstone: theory has `## How it works` before `## Common mistakes` and ends with `## When to choose it` (maps and ADRs are exempt). No theory compares with another language.
 - [ ] Volatile facts dated and verified.
 - [ ] `✓` added to `CURRICULUM.md`; `meta.json` written last.
 - [ ] `pythonConventions.test.ts` passes. A lesson written before these rules is listed in `src/verify/pythonPendingRewrite.ts` with the rules it still breaks; its rewrite removes the entry (a stale entry fails the suite). Track and module texts that still compare with another language sit in its `PYTHON_PENDING_HEADERS`.

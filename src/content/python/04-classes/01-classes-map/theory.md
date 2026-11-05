@@ -30,7 +30,7 @@ Assignment never searches: `obj.x = 1` writes to `obj.__dict__` unless a data de
 ## Methods live on the class
 
 - Methods are plain functions stored on the class. Functions are descriptors, so reading `obj.method` returns a **bound method** that already holds `obj` as `self`: `handler = obj.method` and a later `handler()` still act on `obj`.
-- A class can **intercept** lookup with descriptors before the instance `__dict__` is consulted. Properties, `classmethod` and `staticmethod` are built that way.
+- A class can **intercept** lookup with descriptors. A data descriptor such as a property runs before the instance `__dict__` is consulted; `classmethod` and `staticmethod` are non-data descriptors, so an instance attribute with the same name hides them.
 - Creating an object takes two steps: `__new__` builds the instance and `__init__` fills it in.
 
 ## What this module covers

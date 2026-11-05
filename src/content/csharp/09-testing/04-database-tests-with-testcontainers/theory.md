@@ -14,7 +14,7 @@ Microsoft's recommendation is plain: "We recommend that developers have good tes
 
 ## Docker in brief
 
-Docker runs a program from an **image** (a packaged file system with the program and everything it needs) as a **container**, an isolated process with its own network and files. `docker run postgres:18` starts a PostgreSQL server without installing one, and removing the container throws everything away. Lesson 11/01 builds images of your own; here you only need Docker installed and running.
+Docker runs a program from an **image** (a packaged file system with the program and everything it needs) as a **container**, an isolated process with its own network and files. `docker run --rm -e POSTGRES_PASSWORD=example postgres:18` starts a PostgreSQL server without installing one (the image refuses to start without a password), and removing the container throws everything away. Lesson 11/01 builds images of your own; here you only need Docker installed and running.
 
 ## What Testcontainers does
 

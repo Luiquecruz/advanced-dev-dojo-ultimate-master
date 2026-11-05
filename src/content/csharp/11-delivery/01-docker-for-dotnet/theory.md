@@ -121,7 +121,7 @@ Inside the compose network, the service name `db` is the host name. `condition: 
 
 ## Common mistakes
 
-- **The SDK image in production.** Running `dotnet run` on `sdk:10.0` against mounted source ships the compilers and your code, compiles at every start and gives an attacker more tools. Publish in a build stage and copy only `/app` into `aspnet`.
+- **The SDK image in production.** Running `dotnet run` on `sdk:10.0` against mounted source ships the compilers and your code, checks and builds the project before every start and gives an attacker more tools. Publish in a build stage and copy only `/app` into `aspnet`.
 - **Mapping port 80.** `docker run -p 8000:80` gets "connection reset", because the app listens on 8080. Map `-p 8000:8080`.
 - **`localhost` in a connection string.** Inside a container, `localhost` is that container, so the API cannot reach the database and startup fails with a connection error. Use the Compose service name (`Host=db`).
 - **No `.dockerignore`.** `COPY . .` brings the host's `obj/` folder over the container's restore output, so `dotnet publish --no-restore` can fail with package paths from your machine. Ignore `bin/` and `obj/`.

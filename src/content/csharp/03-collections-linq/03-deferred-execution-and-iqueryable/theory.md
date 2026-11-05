@@ -67,7 +67,11 @@ IEnumerable<Product> ReadProducts(string path)
     }
 }
 
-Product ParseLine(string line) => // ... your own parsing: one CSV line to one Product
+Product ParseLine(string line)
+{
+    string[] cells = line.Split(',');
+    return new Product(cells[0], int.Parse(cells[1]));
+}
 
 IEnumerable<Product> products = ReadProducts("products.csv");
 
@@ -76,6 +80,8 @@ if (products.Any())                       // opens the file, reads up to the fir
     Console.WriteLine(products.Count());  // reads the whole file again
     foreach (var p in products) { }       // and a third time
 }
+
+record Product(string Sku, int Stock); // types come after the top-level statements
 ```
 
 The fix is to materialize once when you will use the result more than once: `List<Product> products = ReadProducts("products.csv").ToList();`. The .NET analyzer rule CA1851, "Possible multiple enumerations of `IEnumerable` collection", detects this pattern; it is not enabled by default in .NET 10, so turn it on in `.editorconfig`. For a single pass over a large file, though, streaming keeps memory flat.
