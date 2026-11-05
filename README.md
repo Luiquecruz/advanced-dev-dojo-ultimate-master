@@ -35,14 +35,14 @@ Hidden tracks are toggled in `src/content/featureFlags.ts`. Module and lesson pl
 
 ## Requirements
 
-- Node.js 26 (`.nvmrc`, the version CI and Netlify use) and npm. `npm install` needs network: it also downloads the pinned Pyodide packages.
+- Node.js 26 (`.nvmrc`, the version CI and Netlify use) and npm. `npm install` needs network: it also downloads the pinned Pyodide packages and the .NET runtime, Roslyn and reference assemblies of the C# engine.
 - Python 3.14, only for the CPython test suite (`tests/python`); CI always runs it.
 - No environment variables, API keys or backend.
 
 ## Run
 
 ```bash
-npm install          # also downloads the pinned Pyodide packages (postinstall)
+npm install          # also downloads the pinned Pyodide packages and .NET files (postinstall)
 npm run dev          # http://localhost:5173
 npm run build        # production build in dist/ (needs an SPA fallback to index.html when hosted)
 npm run preview      # serve the production build
@@ -74,7 +74,7 @@ npm run typecheck    # tsc --noEmit
 npm run test         # unit and architecture tests (feature-sliced layer rules)
 npm run verify       # every lesson: solution passes, starter fails, structure, curriculum
 npm run docs:check   # changed areas whose documents were not updated
-npm run smoke:worker-csp                               # production layout: worker CSP, SPA fallback, Pyodide files
+npm run smoke:worker-csp                               # production layout: worker CSP, SPA fallback, Pyodide and dotnet/ files
 .venv/bin/python -m pytest                             # Python challenges and harness on CPython 3.14
 ```
 
@@ -97,6 +97,7 @@ Netlify deploys through its Git integration, with a Deploy Preview for every pul
 npm run python:new -- <NN-module> <NN-lesson-id>   # scaffold a Python track lesson
 npm run python:curriculum                          # regenerate the Python section of CURRICULUM.md
 npm run python:vendor                              # download and verify the pinned Pyodide packages
+npm run csharp:vendor                              # download, verify and assemble the C# engine's .NET files (-- --check to verify)
 ```
 
 ## Project layout
@@ -109,9 +110,10 @@ npm run python:vendor                              # download and verify the pin
 | `src/sandbox/`, `sandbox.html` | the iframe where learner code runs |
 | `src/verify/` | lesson verification suites |
 | `tests/python/` | the CPython test suite: lessons and harness under pytest, with its hashed lockfile |
-| `plugins/` | Vite plugins: lesson content as virtual modules, Pyodide runtime, worker CSP |
-| `scripts/` | authoring and maintenance scripts (Python lesson scaffolding, curriculum sync, Pyodide packages, CSP smoke test) |
+| `plugins/` | Vite plugins: lesson content as virtual modules, Pyodide runtime, .NET runtime (`dotnet/`), worker CSP |
+| `scripts/` | authoring and maintenance scripts (Python lesson scaffolding, curriculum sync, Pyodide packages, .NET files for the C# engine, CSP smoke test) |
 | `vendor/pyodide-packages/` | `manifest.json` of the Pyodide packages; the wheels are downloaded on install and git-ignored |
+| `vendor/dotnet/` | `manifest.json` of the C# engine's files (pinned package and runtime hashes, served file hashes, the version folder they are served under, transfer size); the files are assembled on install and git-ignored |
 | `.claude/` | documentation, specs and the shared Claude Code harness |
 | `.github/`, `netlify.toml` | workflows, Dependabot, pull request template, Netlify headers and SPA fallback |
 | `.coderabbit.yaml` | CodeRabbit review configuration (path instructions, pre-merge checks, tools) |

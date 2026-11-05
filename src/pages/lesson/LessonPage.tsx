@@ -49,8 +49,13 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
 
   useEffect(() => {
     configureLanguageService(engine);
-    prepareEngine(engine);
   }, [engine]);
+
+  useEffect(() => {
+    prepareEngine(challenge ? engine : undefined);
+  }, [engine, challenge]);
+
+  useEffect(() => () => prepareEngine(undefined), []);
 
   useEffect(() => {
     progress.visit(track.id, lesson.key);

@@ -97,6 +97,7 @@ export function languageForFile(fileName: string): string {
   if (fileName.endsWith('.css')) return 'css';
   if (fileName.endsWith('.json')) return 'json';
   if (fileName.endsWith('.py')) return 'python';
+  if (fileName.endsWith('.cs')) return 'csharp';
   return 'plaintext';
 }
 

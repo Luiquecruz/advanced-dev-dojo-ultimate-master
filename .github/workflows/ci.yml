@@ -33,7 +33,17 @@ jobs:
         with:
           path: vendor/pyodide-packages
           key: pyodide-packages-${{ hashFiles('vendor/pyodide-packages/manifest.json', 'package-lock.json') }}
+      - name: Cache the .NET runtime and C# engine files (never the manifest; re-verified against the committed one by postinstall)
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            vendor/dotnet
+            !vendor/dotnet/manifest.json
+            !vendor/dotnet/.cache
+          key: dotnet-${{ hashFiles('vendor/dotnet/manifest.json', 'scripts/csharp-track/vendor-dotnet.mjs', 'src/engines/csharp/host/*.cs') }}
       - run: npm ci
+      - name: The install reproduced the committed vendor/dotnet/manifest.json
+        run: git diff --exit-code vendor/dotnet/manifest.json
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run test
@@ -120,6 +130,14 @@ jobs:
         with:
           path: vendor/pyodide-packages
           key: pyodide-packages-${{ hashFiles('vendor/pyodide-packages/manifest.json', 'package-lock.json') }}
+      - name: Cache the .NET runtime and C# engine files (never the manifest; re-verified against the committed one by postinstall)
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            vendor/dotnet
+            !vendor/dotnet/manifest.json
+            !vendor/dotnet/.cache
+          key: dotnet-${{ hashFiles('vendor/dotnet/manifest.json', 'scripts/csharp-track/vendor-dotnet.mjs', 'src/engines/csharp/host/*.cs') }}
       - run: npm ci
       - name: Run suite
         env:
@@ -170,6 +188,15 @@ jobs:
         with:
           path: vendor/pyodide-packages
           key: pyodide-packages-${{ hashFiles('vendor/pyodide-packages/manifest.json', 'package-lock.json') }}
+      - name: Cache the .NET runtime and C# engine files (never the manifest; re-verified against the committed one by postinstall)
+        if: github.event_name == 'pull_request'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            vendor/dotnet
+            !vendor/dotnet/manifest.json
+            !vendor/dotnet/.cache
+          key: dotnet-${{ hashFiles('vendor/dotnet/manifest.json', 'scripts/csharp-track/vendor-dotnet.mjs', 'src/engines/csharp/host/*.cs') }}
       - name: Build the pull request head, as Netlify does for the Deploy Preview
         if: github.event_name == 'pull_request'
         run: |

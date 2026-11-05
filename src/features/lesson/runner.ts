@@ -1,4 +1,5 @@
 import type { Challenge, EngineId, ProjectFiles } from '@/content';
+import { disposeCsharp, gradeCsharp, listCsharpTestNames, runCsharp, warmUpCsharp } from '@/engines/csharp';
 import { gradePython, runPython, warmUpPython } from '@/engines/python/browserClient';
 import { listPythonTestNames } from '@/engines/python/testNames';
 import { listTestNames } from '@/engines/shared/testNames';
@@ -25,7 +26,7 @@ export interface Report {
 const COMPILE_TEST_NAME = 'Your code compiles without type errors';
 const SANDBOX_TIMEOUT_MS = 45000;
 const RUN_TIMEOUT_MS = 15000;
-const RUNNABLE_ENGINES = new Set<EngineId>(['typescript', 'node', 'python']);
+const RUNNABLE_ENGINES = new Set<EngineId>(['typescript', 'node', 'python', 'csharp']);
 
 /**
  * Names of the tests a challenge will run, shown before the first run.
@@ -37,15 +38,24 @@ export function testNamesFor(engine: EngineId, challenge: Challenge): string[] {
   if (engine === 'python') {
     return listPythonTestNames(challenge.tests);
   }
+  if (engine === 'csharp') {
+    return listCsharpTestNames(challenge.tests);
+  }
   return listTestNames(challenge.tests);
 }
 
 /**
- * Starts the engine of a challenge ahead of the first run when it needs a slow download (Python).
+ * Starts the engine of the open challenge ahead of its first run when it needs a slow download (Python, C#). `undefined` (a theory
+ * or quiz lesson, or the lesson screen closing) starts nothing and releases the C# runtime kept warm for the next run.
  */
-export function prepareEngine(engine: EngineId): void {
+export function prepareEngine(engine: EngineId | undefined): void {
   if (engine === 'python') {
     warmUpPython();
+  }
+  if (engine === 'csharp') {
+    warmUpCsharp();
+  } else {
+    disposeCsharp();
   }
 }
 
@@ -102,6 +112,16 @@ function runInSandbox(engine: EngineId, files: ProjectFiles, entry: string, test
   });
 }
 
+function gradeWithEngine(engine: EngineId, challenge: Challenge, files: ProjectFiles): Promise<RunReport> {
+  if (engine === 'python') {
+    return gradePython(files, challenge.entry, challenge.tests);
+  }
+  if (engine === 'csharp') {
+    return gradeCsharp(files, challenge.tests);
+  }
+  return runInSandbox(engine, files, challenge.entry, challenge.tests);
+}
+
 /**
  * Grades learner files against the challenge tests with the engine of the track.
  */
@@ -114,7 +134,7 @@ export async function gradeChallenge(engine: EngineId, challenge: Challenge, fil
       logs: result.logs,
     };
   }
-  const report = engine === 'python' ? await gradePython(files, challenge.entry, challenge.tests) : await runInSandbox(engine, files, challenge.entry, challenge.tests);
+  const report = await gradeWithEngine(engine, challenge, files);
   const tests = report.results.map((result) => ({ name: result.name, passed: result.passed, message: result.error }));
   return {
     passed: !report.compileError && tests.length > 0 && tests.every((test) => test.passed),
@@ -181,6 +201,10 @@ export async function runProgram(engine: EngineId, files: ProjectFiles, entry: s
   }
   if (engine === 'python') {
     await runPython(files, entry, (level, text) => onConsole({ level, text }));
+    return;
+  }
+  if (engine === 'csharp') {
+    await runCsharp(files, (level, text) => onConsole({ level, text }));
     return;
   }
   await runNodeInSandbox(engine, files, entry, onConsole);

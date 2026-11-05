@@ -8,6 +8,17 @@
     Content-Security-Policy = "default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'"
 
 [[headers]]
+  for = "/assets/csharp.worker-*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'"
+
+# dotnet/<version>/ (plugins/dotnetPlugin.ts): the version is the hash of the served set, so every path names fixed content.
+[[headers]]
+  for = "/dotnet/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"

@@ -9,5 +9,13 @@
 # Isolation of learner code: worker lock-down, CSP and the verify sandbox.
 /plugins/pythonWorkerCspPlugin.ts           @Luiquecruz @hewersonfreitas
 /src/engines/python/lockdown.ts             @Luiquecruz @hewersonfreitas
+/src/engines/shared/workerLockdown.ts       @Luiquecruz @hewersonfreitas
+/src/engines/csharp/lockdown.ts             @Luiquecruz @hewersonfreitas
+/src/engines/csharp/csharp.worker.ts        @Luiquecruz @hewersonfreitas
+/src/engines/csharp/host/                   @Luiquecruz @hewersonfreitas
 /src/verify/pythonSandbox*.ts               @Luiquecruz @hewersonfreitas
 /src/sandbox/                               @Luiquecruz @hewersonfreitas
+# Supply chain of the C# engine: downloaded artifacts, their pins and what is served.
+/scripts/csharp-track/vendor-dotnet.mjs     @Luiquecruz @hewersonfreitas
+/vendor/dotnet/manifest.json                @Luiquecruz @hewersonfreitas
+/plugins/dotnetPlugin.ts                    @Luiquecruz @hewersonfreitas

@@ -1,0 +1,553 @@
+{
+  "dotnet": "10.0.14",
+  "roslyn": "5.9.0",
+  "version": "6bb4073769b5834c",
+  "packages": [
+    {
+      "id": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
+      "version": "10.0.14",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.runtime.mono.browser-wasm/10.0.14/microsoft.netcore.app.runtime.mono.browser-wasm.10.0.14.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.10.25.18.18.28/microsoft.netcore.app.runtime.mono.browser-wasm.10.0.14.json",
+      "sha512": "4c2953c664cea0e88820c78436bd21fac8f32c6c0a1199f390a171dcc625658b6f1f8ad3339d53db4a4e7fd15a37025cb2262f0e66ec08f519f3e7ebca9a47db"
+    },
+    {
+      "id": "Microsoft.NETCore.App.Ref",
+      "version": "10.0.14",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.ref/10.0.14/microsoft.netcore.app.ref.10.0.14.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.10.25.17.28.26/microsoft.netcore.app.ref.10.0.14.json",
+      "sha512": "f319a497c9e0b9c11a3a0be344322bdc8e0ad97c71e4af727620164ace9fc39017e8c5a44c1485edca983ab45668b6b40698f911f26b3d3494a922c680900d04"
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.Common",
+      "version": "5.9.0",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.common/5.9.0/microsoft.codeanalysis.common.5.9.0.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.08.17.16.59.10/microsoft.codeanalysis.common.5.9.0.json",
+      "sha512": "cc92ab70bce4e7996b7c2c1dfd5369322b5ac50a8fba2a7aef8bdabd59e2e447d59ebb22aaea52ef106a96d2a2dfb545f733dde2067a2dc814ba8070429e9f47"
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.CSharp",
+      "version": "5.9.0",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.csharp/5.9.0/microsoft.codeanalysis.csharp.5.9.0.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.08.17.16.59.10/microsoft.codeanalysis.csharp.5.9.0.json",
+      "sha512": "a6322155eeb63975f5a2cead9145b4949dde4e6bde2e7ab46288c2268ced3a3129137868e941409bc81a1e933fb532cfbada1687a390c83839db30146a537621"
+    },
+    {
+      "id": "Microsoft.Net.Compilers.Toolset",
+      "version": "5.9.0",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.net.compilers.toolset/5.9.0/microsoft.net.compilers.toolset.5.9.0.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.08.17.17.01.16/microsoft.net.compilers.toolset.5.9.0.json",
+      "sha512": "9ee78cb3c893a5d7cce3eb5b85ca876cf2360c743b34ca95c779f5c4079c9c84c5e620771ed4791f8d247ead032db234fd081c906fddc37d0b7887688e661ae1"
+    }
+  ],
+  "toolchain": {
+    "version": "10.0.14",
+    "source": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json",
+    "runtime": {
+      "linux-x64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-linux-x64.tar.gz",
+        "sha512": "634326028645f38731c8c4e71a68356e4ca0d6b6607139a234ab760687f742063edaf33a1f20dda615742d2dc8300ca2ff857619d51fbb38090383b71334af89"
+      },
+      "linux-arm64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-linux-arm64.tar.gz",
+        "sha512": "99e1d6eb5d3de935853404fd378c77cbf813bd3ae094837b5a589000a492c289bf0d01d8a6bff99b4470572d9f85dc0b41239b5b7801e031197b83d527cdfeb2"
+      },
+      "linux-musl-x64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-linux-musl-x64.tar.gz",
+        "sha512": "b6e1855b3ece331d6d5b1daf4ed0a209931b8527ece85eff6d843ff3e6bccd4bc8b0c484cada7832a453cf9130e8fe83df961f129fcf4e61199ad701814039f0"
+      },
+      "linux-musl-arm64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-linux-musl-arm64.tar.gz",
+        "sha512": "08f19dd39dfe705e1333c3ee63c37be027e0627768f5048be6be7767c239aca0f83a0ed34ac0445cd2f63bbf5edd9483a6ac184e263923284f294e06b0f6692a"
+      },
+      "osx-x64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-osx-x64.tar.gz",
+        "sha512": "b13d453e60f3d718743ada5710d0174524cbf16dead74aa62af6cc258bc5f7310e8ec991fa9365f84bf78bb198417ddceb1381acf557ed52ab0300a21b671596"
+      },
+      "osx-arm64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-osx-arm64.tar.gz",
+        "sha512": "19c5781dc2f87600865886b8774a4c5851caf1f5cf3f591185b922b0e51dea6b8c0ed0bf80ae4d3be2e083db662124258743e779fab6885322d641eff52b0382"
+      },
+      "win-x64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-win-x64.zip",
+        "sha512": "a176095f1db69b42c81acc60940744078d6bf2d2ac643e418342aa9c81889f4bd13e42f4621b131f9e77e4bc781ad46e375956219df9a4f979031d2a5a8d93cd"
+      },
+      "win-arm64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-win-arm64.zip",
+        "sha512": "8690d0dd94ce1d4df66dd34f85b9f86e81ed5db0c4e5fcd281e5d379b9abd0018547556d1d7e8c0ce33a55ac69835c788c8da7c583fc0f58ccbdd6de227a0294"
+      }
+    }
+  },
+  "host": {
+    "sources": {
+      "DojoHost.cs": "0d34e6ebe327429787f4d14d5c0dcae6ad3d61f2b299f78c767680bd00f4e1d3",
+      "Harness.cs": "e84f4111f4404dd4087e7fc43438d305e7d77deff53d5108a4d50d995586f193",
+      "Json.cs": "a4a9a9eef6ee5de06d3638d08a11e5700a80779e0394d8083b6fd11a50fdfff7",
+      "Testing.cs": "421bc8f645a73f379bf09b7e09bb6bb39d48d6733f803b6eaebd25bdab731df9"
+    }
+  },
+  "size": {
+    "files": 57,
+    "bytes": 26995911,
+    "brotli": 7809006,
+    "transfer": 9415199,
+    "budget": 9961472
+  },
+  "files": [
+    {
+      "path": "assemblies/Dojo.Testing.dll",
+      "role": "assembly",
+      "sha256": "9e5aa8ee937178816f41e947dcb12a6c40509c4bde7ed8fc989e18615294de96",
+      "bytes": 7680,
+      "brotli": 3029,
+      "transfer": 3375
+    },
+    {
+      "path": "assemblies/DojoHost.dll",
+      "role": "host",
+      "sha256": "bda2c14e68bfefc4b1336ebf16229bb8ee15d6e6eeda720a2f59f71fbd24e12c",
+      "bytes": 33792,
+      "brotli": 14263,
+      "transfer": 15903
+    },
+    {
+      "path": "assemblies/Microsoft.CodeAnalysis.CSharp.dll",
+      "role": "assembly",
+      "sha256": "fc571a6647ac45b0b0dc1866b795529bb2eeb93adf9be97fcd5903cf482f700a",
+      "bytes": 7079208,
+      "brotli": 1943764,
+      "transfer": 2454639
+    },
+    {
+      "path": "assemblies/Microsoft.CodeAnalysis.dll",
+      "role": "assembly",
+      "sha256": "55618d457128eec582017545b8929ebf195669003b6ec737110f9519e1711d28",
+      "bytes": 3103056,
+      "brotli": 895883,
+      "transfer": 1110052
+    },
+    {
+      "path": "assemblies/System.Collections.Concurrent.dll",
+      "role": "assembly",
+      "sha256": "6a1240cd6afced983574d79b3918379da1285188f577c64e3e77c203edd7b5fc",
+      "bytes": 88912,
+      "brotli": 35752,
+      "transfer": 41039
+    },
+    {
+      "path": "assemblies/System.Collections.dll",
+      "role": "assembly",
+      "sha256": "918ab42719faf59fd096f44d5149abfa6455eab112675bcfda7867e70fae7c81",
+      "bytes": 112976,
+      "brotli": 43295,
+      "transfer": 50158
+    },
+    {
+      "path": "assemblies/System.Collections.Immutable.dll",
+      "role": "assembly",
+      "sha256": "aea13e3b8c37fff158a171cb90392a250d982408d8b8aaa8a1c65b5c8c826769",
+      "bytes": 251176,
+      "brotli": 88067,
+      "transfer": 105174
+    },
+    {
+      "path": "assemblies/System.Console.dll",
+      "role": "assembly",
+      "sha256": "ddac36a67805968f4658b0bbc3e99986133e90c31afabd54c47878bfa26ce4c6",
+      "bytes": 54056,
+      "brotli": 23011,
+      "transfer": 26409
+    },
+    {
+      "path": "assemblies/System.IO.MemoryMappedFiles.dll",
+      "role": "assembly",
+      "sha256": "51398fd058103bdf3a8f48c1b30287e5ea0308cb12081f4ca626601b993b784e",
+      "bytes": 50000,
+      "brotli": 21603,
+      "transfer": 24235
+    },
+    {
+      "path": "assemblies/System.IO.Pipelines.dll",
+      "role": "assembly",
+      "sha256": "9c083d7b765f97c4cdd4e7cb466d91073e7ce9764c3cbef1861872eeabfb7e02",
+      "bytes": 78120,
+      "brotli": 32873,
+      "transfer": 37714
+    },
+    {
+      "path": "assemblies/System.Linq.dll",
+      "role": "assembly",
+      "sha256": "fb8e44e39cb3b6f9d84056e690d779a92ade31cc86b6a3ebc9011b82961852d1",
+      "bytes": 201000,
+      "brotli": 67730,
+      "transfer": 82105
+    },
+    {
+      "path": "assemblies/System.Memory.dll",
+      "role": "assembly",
+      "sha256": "0981468d9bf2772218689fbd6b8d06fc21e539717cea73ec7ed63e598d80fc3e",
+      "bytes": 55592,
+      "brotli": 24967,
+      "transfer": 27548
+    },
+    {
+      "path": "assemblies/System.Numerics.Vectors.dll",
+      "role": "assembly",
+      "sha256": "74f387b0ca0c984b57ed23df0146f1ed2ca6b814540ba9ec2851d43dcb5cac27",
+      "bytes": 15656,
+      "brotli": 8843,
+      "transfer": 9326
+    },
+    {
+      "path": "assemblies/System.ObjectModel.dll",
+      "role": "assembly",
+      "sha256": "8e129b1d3ce31e4bfd18f5660ffb814a8dd66bf98b1992663b1206be936a2960",
+      "bytes": 41256,
+      "brotli": 18494,
+      "transfer": 20674
+    },
+    {
+      "path": "assemblies/System.Private.Uri.dll",
+      "role": "assembly",
+      "sha256": "2498f0eb12c53925aad9d19565fafae755b852eeb8ededd9ef8b138b5bf2e27e",
+      "bytes": 105808,
+      "brotli": 44004,
+      "transfer": 49324
+    },
+    {
+      "path": "assemblies/System.Private.Xml.dll",
+      "role": "assembly",
+      "sha256": "3714635447f6a87129d22ee372a9d93a26e77b20d9a572fe0ea24c3f072b0220",
+      "bytes": 3107112,
+      "brotli": 855047,
+      "transfer": 1057731
+    },
+    {
+      "path": "assemblies/System.Private.Xml.Linq.dll",
+      "role": "assembly",
+      "sha256": "9e4a890922fe2c269606e4281e282f646aebf27b59d03d793f94c7b048c59094",
+      "bytes": 153896,
+      "brotli": 55831,
+      "transfer": 65949
+    },
+    {
+      "path": "assemblies/System.Reflection.Emit.ILGeneration.dll",
+      "role": "assembly",
+      "sha256": "689f0113683505e78b226d571cb1153818f4ba0536cccf0d5a480620f2ee1c63",
+      "bytes": 15696,
+      "brotli": 8871,
+      "transfer": 9360
+    },
+    {
+      "path": "assemblies/System.Reflection.Emit.Lightweight.dll",
+      "role": "assembly",
+      "sha256": "7cb35a8281c781d72e9b4441f44bae93094cc1e67225e42449d5753677215d1f",
+      "bytes": 15656,
+      "brotli": 8794,
+      "transfer": 9302
+    },
+    {
+      "path": "assemblies/System.Reflection.Metadata.dll",
+      "role": "assembly",
+      "sha256": "428795b82083d114dc663756d0313d954708b8ba74e6e21e342bc85b5baa38ba",
+      "bytes": 503592,
+      "brotli": 160369,
+      "transfer": 199481
+    },
+    {
+      "path": "assemblies/System.Reflection.Primitives.dll",
+      "role": "assembly",
+      "sha256": "6cde1453aca4c157845783da88a3b332350e42defcfa4d427013794844bccb83",
+      "bytes": 15656,
+      "brotli": 8890,
+      "transfer": 9442
+    },
+    {
+      "path": "assemblies/System.Runtime.dll",
+      "role": "assembly",
+      "sha256": "3be80c7e09ffb70a089806895da13cb8ddc4153a584b6f16cf808135350adfe3",
+      "bytes": 44840,
+      "brotli": 15731,
+      "transfer": 18198
+    },
+    {
+      "path": "assemblies/System.Runtime.InteropServices.dll",
+      "role": "assembly",
+      "sha256": "9bba1871351575f41b9ac38389a14836acc406d13d15314fd8ea944cfc75d73e",
+      "bytes": 64808,
+      "brotli": 26987,
+      "transfer": 30638
+    },
+    {
+      "path": "assemblies/System.Runtime.InteropServices.JavaScript.dll",
+      "role": "assembly",
+      "sha256": "600017093c93a298b07ef7f00687c9caa8bb83394e5ef37dfa7b2ed79261ad06",
+      "bytes": 89896,
+      "brotli": 33808,
+      "transfer": 39254
+    },
+    {
+      "path": "assemblies/System.Runtime.Loader.dll",
+      "role": "assembly",
+      "sha256": "dfb87a40789e0e1b93ef37bacc511457b4028cc57ea803a49783b8c54a89816d",
+      "bytes": 15656,
+      "brotli": 8834,
+      "transfer": 9382
+    },
+    {
+      "path": "assemblies/System.Runtime.Numerics.dll",
+      "role": "assembly",
+      "sha256": "5ae6390fc731c2e536297f8754d093b99856e16b278407c82957d4fbd9e5317d",
+      "bytes": 145192,
+      "brotli": 53070,
+      "transfer": 60210
+    },
+    {
+      "path": "assemblies/System.Security.Cryptography.dll",
+      "role": "assembly",
+      "sha256": "6dcc2e13fc9d227bf96956c7a1122ca3d81c6cca9019d35fa1407e7bfeb62394",
+      "bytes": 654160,
+      "brotli": 193241,
+      "transfer": 234874
+    },
+    {
+      "path": "assemblies/System.Text.Encoding.Extensions.dll",
+      "role": "assembly",
+      "sha256": "a49869220f161752182614a049e093883b9942b740e96f1388fc645f86f7fefd",
+      "bytes": 15656,
+      "brotli": 8796,
+      "transfer": 9315
+    },
+    {
+      "path": "assemblies/System.Text.Encodings.Web.dll",
+      "role": "assembly",
+      "sha256": "a9a0b5d715a90ff347515c3074287eeb13d883c281c02dfb537187f4e424b0f7",
+      "bytes": 65872,
+      "brotli": 24717,
+      "transfer": 29081
+    },
+    {
+      "path": "assemblies/System.Text.Json.dll",
+      "role": "assembly",
+      "sha256": "f651a598b36ebfcabf539f2c9ba151a6474d915d0a79ae7767c20fdf929e91b4",
+      "bytes": 649000,
+      "brotli": 195538,
+      "transfer": 235626
+    },
+    {
+      "path": "assemblies/System.Text.RegularExpressions.dll",
+      "role": "assembly",
+      "sha256": "d884d2f097f2fd5c10c1598973b31589f28e008027a1f7e7c2d8b2cfd7439d02",
+      "bytes": 384848,
+      "brotli": 140998,
+      "transfer": 165739
+    },
+    {
+      "path": "assemblies/System.Threading.dll",
+      "role": "assembly",
+      "sha256": "25c1ca2f537eba25eeaff2c349011acf197a8a9462a12657cbeee7403f8fbc92",
+      "bytes": 44840,
+      "brotli": 19673,
+      "transfer": 22038
+    },
+    {
+      "path": "assemblies/System.Threading.Tasks.dll",
+      "role": "assembly",
+      "sha256": "3f9ed305ad4c3222aaf98d58ba6384e341dc07087f9fe62bdecff15a2e49af61",
+      "bytes": 16720,
+      "brotli": 9063,
+      "transfer": 9677
+    },
+    {
+      "path": "assemblies/System.Threading.Tasks.Parallel.dll",
+      "role": "assembly",
+      "sha256": "9c71a741e391a8d12b2462ebf9755ea06c6375c7a1a9d4c77831fec08db02092",
+      "bytes": 61264,
+      "brotli": 25285,
+      "transfer": 28068
+    },
+    {
+      "path": "assemblies/System.Xml.XDocument.dll",
+      "role": "assembly",
+      "sha256": "d2f90e9ba43d96bc44cc19856060d9c0f1414330494aecc1dd717f9d3745ca8b",
+      "bytes": 15696,
+      "brotli": 8966,
+      "transfer": 9482
+    },
+    {
+      "path": "dotnet.js",
+      "role": "runtime",
+      "sha256": "84978337f9e9c1a485eb560538b30ea1cb1209e1c40a85114a7f3742ae828a5b",
+      "bytes": 37898,
+      "brotli": 10455,
+      "transfer": 10455
+    },
+    {
+      "path": "dotnet.native.js",
+      "role": "runtime",
+      "sha256": "099d0855990b4c8bde7bb9f5c95bce8ad94958d763fd88da160a4c82588833ae",
+      "bytes": 145050,
+      "brotli": 30436,
+      "transfer": 30436
+    },
+    {
+      "path": "dotnet.native.wasm",
+      "role": "runtime",
+      "sha256": "62521652bab002242e009341397f999bdc2958bfac177278e3d885abb247a2e4",
+      "bytes": 3001771,
+      "brotli": 976573,
+      "transfer": 976573
+    },
+    {
+      "path": "dotnet.runtime.js",
+      "role": "runtime",
+      "sha256": "ff774183db23d722c3de1d0f0cc1e73545d6b3fdb35b020c133a26d57cf7438d",
+      "bytes": 198480,
+      "brotli": 47839,
+      "transfer": 47839
+    },
+    {
+      "path": "licenses/dotnet-LICENSE.TXT",
+      "role": "license",
+      "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310",
+      "bytes": 1116,
+      "brotli": 0,
+      "transfer": 0
+    },
+    {
+      "path": "licenses/dotnet-THIRD-PARTY-NOTICES.TXT",
+      "role": "license",
+      "sha256": "66f1d4e44973185519bb4aa8a9718eb22fc7af2cc532e3ae9cfc4c127ee7fc54",
+      "bytes": 76623,
+      "brotli": 0,
+      "transfer": 0
+    },
+    {
+      "path": "licenses/roslyn-ThirdPartyNotices.rtf",
+      "role": "license",
+      "sha256": "ef4678850e7e3aaf9297f07e5c4060d477854e545ccf8e2ef8452d65a7b2efaf",
+      "bytes": 2183,
+      "brotli": 0,
+      "transfer": 0
+    },
+    {
+      "path": "ref/Dojo.Testing.dll",
+      "role": "reference",
+      "sha256": "9e5aa8ee937178816f41e947dcb12a6c40509c4bde7ed8fc989e18615294de96",
+      "bytes": 7680,
+      "brotli": 3029,
+      "transfer": 3375
+    },
+    {
+      "path": "ref/System.Collections.Concurrent.dll",
+      "role": "reference",
+      "sha256": "c2397bedf543acb1929152fb6cd3c32a6a125bcb4a083938220ee62642814c9e",
+      "bytes": 27472,
+      "brotli": 12650,
+      "transfer": 13993
+    },
+    {
+      "path": "ref/System.Collections.dll",
+      "role": "reference",
+      "sha256": "887169794f6380e1fc110b237f6fdba15a0e6c5a2f73e7539f3e5330f17502a4",
+      "bytes": 55120,
+      "brotli": 20513,
+      "transfer": 24458
+    },
+    {
+      "path": "ref/System.Collections.Immutable.dll",
+      "role": "reference",
+      "sha256": "1a37547bc962e0a63aec96eceab9b83daa634f347683355e374ad4336127e562",
+      "bytes": 75088,
+      "brotli": 25440,
+      "transfer": 31073
+    },
+    {
+      "path": "ref/System.Console.dll",
+      "role": "reference",
+      "sha256": "0cee0de93a568dfdb468febc313d3a027929e218e082c16dc8582299bb528174",
+      "bytes": 26408,
+      "brotli": 12922,
+      "transfer": 14647
+    },
+    {
+      "path": "ref/System.Linq.dll",
+      "role": "reference",
+      "sha256": "288a8944aead18fab66da426c510877917209c03581955b69c00e53e2db2c114",
+      "bytes": 33576,
+      "brotli": 13452,
+      "transfer": 15614
+    },
+    {
+      "path": "ref/System.Memory.dll",
+      "role": "reference",
+      "sha256": "ca633099219d52dea264b12d3a13adb82b8970adf9f1e521660c137ec84fa733",
+      "bytes": 57128,
+      "brotli": 19912,
+      "transfer": 23997
+    },
+    {
+      "path": "ref/System.ObjectModel.dll",
+      "role": "reference",
+      "sha256": "93e83f98d6cebca4c97758a8628a5f1c9627a7cd92f4a09f8da1cc8e13a08b81",
+      "bytes": 23376,
+      "brotli": 11536,
+      "transfer": 12653
+    },
+    {
+      "path": "ref/System.Runtime.dll",
+      "role": "reference",
+      "sha256": "83718200954acb9052d8ff716053bca0fb8f591cacd59d5fe821ae8a19565382",
+      "bytes": 862504,
+      "brotli": 187145,
+      "transfer": 250343
+    },
+    {
+      "path": "ref/System.Runtime.Numerics.dll",
+      "role": "reference",
+      "sha256": "aff64aa1bb78d390f77024d8b04385114027e4d3b36f42b59c49172058c68bc4",
+      "bytes": 36136,
+      "brotli": 14631,
+      "transfer": 16563
+    },
+    {
+      "path": "ref/System.Text.Json.dll",
+      "role": "reference",
+      "sha256": "105ac7c08a63c6c41dbbf41650ff1b54c96ee11afa6ffb510cb213b78d23d71a",
+      "bytes": 82216,
+      "brotli": 28554,
+      "transfer": 34364
+    },
+    {
+      "path": "ref/System.Text.RegularExpressions.dll",
+      "role": "reference",
+      "sha256": "b2e82bc317bfc47444554a90832644cdb1b1cbe83f53290ecb02ccdd8855a168",
+      "bytes": 36648,
+      "brotli": 15658,
+      "transfer": 17848
+    },
+    {
+      "path": "ref/System.Threading.dll",
+      "role": "reference",
+      "sha256": "bdf1caf4bc601e81a7bba8dd9cdf51d98383ec9812d7cdbb258872036292f142",
+      "bytes": 33616,
+      "brotli": 14974,
+      "transfer": 16914
+    },
+    {
+      "path": "ref/System.Threading.Tasks.dll",
+      "role": "reference",
+      "sha256": "a908649b99249e9533d674ed8838f2cace1f6a4071d848bf9edf7b96dc4ebc5f",
+      "bytes": 16680,
+      "brotli": 9101,
+      "transfer": 9655
+    },
+    {
+      "path": "System.Private.CoreLib.dll",
+      "role": "core",
+      "sha256": "90e44338a3c2f707bdee01c000c6ffc9e2cea2d74064648565b933a822d8251f",
+      "bytes": 4880720,
+      "brotli": 1226099,
+      "transfer": 1553877
+    }
+  ]
+}
