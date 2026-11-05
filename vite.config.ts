@@ -35,7 +35,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    include: ['src/**/*.test.ts'],
+    include: ['src/**/*.test.ts', 'plugins/**/*.test.js'],
     exclude: ['src/content/*/**', 'node_modules/**'],
     testTimeout: scaledBudget(60000),
     fsModuleCache: false,

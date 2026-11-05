@@ -1,6 +1,10 @@
 [build]
-  command = "npm run build"
+  # postinstall skips the .NET vendor step on Netlify; it runs here, after plugins/netlify-dotnet-cache restored its downloads.
+  command = "npm run csharp:vendor && npm run build"
   publish = "dist"
+
+[[plugins]]
+  package = "./plugins/netlify-dotnet-cache"
 
 [[headers]]
   for = "/assets/python.worker-*"
