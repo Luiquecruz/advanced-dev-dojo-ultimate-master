@@ -1,6 +1,6 @@
 [
   {
-    "question": "A store keeps its orders in normalized tables and rebuilds a denormalized `product_search` table from them every few minutes for the storefront. In CQRS terms, what is that table?",
+    "question": "A store keeps its products, prices and stock in normalized tables and rebuilds a denormalized `product_search` table from them every few minutes for the storefront. In CQRS terms, what is that table?",
     "options": [
       "A second write model, because the storefront can update the products through it",
       "A read model rebuilt from the write side, so storefront reads are eventually consistent",

@@ -62,6 +62,9 @@ public static class JwtTests
         ClaimsValidator validator = At(new DateTimeOffset(2025, 12, 31, 23, 30, 0, TimeSpan.Zero));
         Assert.Equal(TokenCheck.Valid, validator.Check(Token(Payload())));
         Assert.Equal(TokenCheck.Malformed, validator.Check("not-a-token"));
+        Assert.Equal(TokenCheck.Malformed, validator.Check(Token("""["not","an","object"]""")));
+        Assert.Equal(TokenCheck.Malformed, validator.Check(Token($$"""{"iss":"{{Issuer}}","aud":"catalog-api","exp":999999999999999}""")));
+        Assert.Equal(TokenCheck.Malformed, validator.Check(Token($$"""{"iss":"{{Issuer}}","aud":"catalog-api","nbf":-999999999999999,"exp":{{Exp}}}""")));
         Assert.Equal(TokenCheck.WrongIssuer, validator.Check(Token(Payload(iss: "https://login.example.com"))));
         Assert.Equal(TokenCheck.WrongAudience, validator.Check(Token(Payload(aud: "\"orders-api\""))));
         Assert.Equal(TokenCheck.WrongIssuer, validator.Check(Token(Payload(iss: "https://other.example.com/", aud: "\"orders-api\""))));

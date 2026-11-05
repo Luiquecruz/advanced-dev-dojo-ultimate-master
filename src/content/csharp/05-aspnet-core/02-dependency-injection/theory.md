@@ -118,6 +118,11 @@ app.MapGet("/rates/fedex", ([FromKeyedServices("fedex")] IShippingRates rates) =
 The built-in container has no interception: it never wraps your methods with extra code on its own. For HTTP cross-cutting concerns you use middleware (lesson 05/05) and endpoint filters (module 06). For a service, write a decorator: a class that implements the same interface, receives the inner implementation, and adds behavior.
 
 ```csharp
+builder.Services.AddScoped<CartService>();
+builder.Services.AddScoped<ICartService>(provider => new LoggingCartService(
+    provider.GetRequiredService<CartService>(),
+    provider.GetRequiredService<ILogger<LoggingCartService>>()));
+
 public sealed class LoggingCartService(ICartService inner, ILogger<LoggingCartService> logger) : ICartService
 {
     public async Task<Cart?> GetAsync(int id)
@@ -126,11 +131,6 @@ public sealed class LoggingCartService(ICartService inner, ILogger<LoggingCartSe
         return await inner.GetAsync(id);
     }
 }
-
-builder.Services.AddScoped<CartService>();
-builder.Services.AddScoped<ICartService>(provider => new LoggingCartService(
-    provider.GetRequiredService<CartService>(),
-    provider.GetRequiredService<ILogger<LoggingCartService>>()));
 ```
 
 The factory registration builds the real service and wraps it. Third-party libraries such as Scrutor automate this; the built-in container does not.

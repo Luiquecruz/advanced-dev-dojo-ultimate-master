@@ -26,7 +26,7 @@ public static class Deadline
         {
             return await operation(timeoutSource.Token);
         }
-        catch (OperationCanceledException ex) when (!cancellationToken.IsCancellationRequested)
+        catch (OperationCanceledException ex) when (timeoutSource.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
         {
             throw new TimeoutException($"The operation did not finish within {timeout.TotalMilliseconds} ms.", ex);
         }

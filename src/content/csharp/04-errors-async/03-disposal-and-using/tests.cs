@@ -87,6 +87,7 @@ public static class DisposalTests
     {
         var writer = new TrackingWriter();
         await Assert.ThrowsAsync<ArgumentException>(() => ReportWriter.WriteAsync(writer, [new OrderLine("MUG", 3), new OrderLine("BAG,RED", 1)]));
+        Assert.Equal(1, writer.AsyncDisposals);
         Assert.Equal(1, writer.Disposals);
     }
 }

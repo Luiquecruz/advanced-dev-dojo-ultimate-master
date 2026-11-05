@@ -63,7 +63,7 @@ Question: who releases the resource when something fails, and what does an excep
 
 ### 02-exception-hierarchies (P, B)
 - Concept: `BaseException` vs `Exception`, domain exceptions, `except` ordering by specificity, `LookupError`/`OSError` families, `else`/`finally`.
-- Common mistake: deriving a domain error from `BaseException`, or catching with a bare `except:`, so `KeyboardInterrupt` and `SystemExit` are swallowed; derive from `Exception` and order `except` clauses from the most specific to the most general.
+- Common mistake: deriving a domain error from `BaseException`, so `except Exception` does not catch it, or catching with a bare `except:`, which also swallows `KeyboardInterrupt` and `SystemExit`; derive domain errors from `Exception` and order `except` clauses from the most specific to the most general.
 - Challenge: `AppError` → `ValidationError`, `NotFoundError`, `ConflictError` (with `status` class attribute); `exit_status(error)` returning the nearest `status` via MRO; `parse_age(text)` raising `ValidationError` with a message.
 - Tests: subclass relationships; `except AppError` catches children; status resolution; `Exception` not `BaseException` ancestry.
 - Notes: first practice lesson of the module, before chaining and the `with` lessons, which raise and catch these exceptions.
@@ -156,7 +156,7 @@ Standard-library tour (`re`, `pathlib`, `decimal`, `datetime`, `json`, `enum`, `
 
 ### 08-logging (P, I)
 - Concept: loggers, handlers, formatters, levels, propagation, `extra`, configure once, library vs application logging.
-- Common mistake: calling `logging.basicConfig` or adding a handler on every call or at import time in a library, so each message prints twice or more; configure logging once at program start, and in a library only call `logging.getLogger(__name__)`.
+- Common mistake: adding a handler on every call, or to both a logger and one of its ancestors, so each record is emitted twice or more (a repeated `logging.basicConfig` is a no-op once the root logger has handlers, unless `force=True`); configure logging once at program start, and in a library only call `logging.getLogger(__name__)`, never configure the root logger.
 - Challenge: `configure_logger(name, stream, level)` idempotent (calling twice adds one handler); `log_event(logger, event, **fields)` adds fields in the record; capturing through a `StringIO` handler.
 - Tests: single handler after two configs; level filtering; format contains level and message; fields attached to the record via `extra`.
 
@@ -183,7 +183,7 @@ Question: when does `match` express intent better than `if/elif`, dict dispatch 
 
 ### 02-sequence-and-mapping-patterns (P, I)
 - Concept: sequence patterns with `*rest`, mapping patterns (extra keys allowed), literals, wildcard, nested patterns.
-- Common mistake: expecting a mapping pattern to reject extra keys (`case {"type": "click"}` also matches a dict with more keys), or a sequence pattern to match a `str` (it never does); patterns check structure and bind names, they do not compare whole values.
+- Common mistake: expecting a mapping pattern to reject extra keys (`case {"type": "click"}` also matches a dict with more keys), or a sequence pattern to match a `str` (it never does); a bare name captures the subject without comparing it, while literal and dotted value patterns compare it with a value.
 - Challenge: `parse_command(tokens)` → dict for `["move", x, y]`, `["say", *words]`, `["quit"]`, anything else → `ValueError`; `handle_event(event)` for mapping events `{"type": "click", "pos": (x, y)}` and `{"type": "key", "key": k}`.
 - Tests: each shape; extra keys tolerated; unknown shape raises.
 
