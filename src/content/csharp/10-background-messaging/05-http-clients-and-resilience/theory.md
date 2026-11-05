@@ -6,7 +6,7 @@ After this lesson you can call an external API from a .NET service the way produ
 
 A Magento integration (an ERP, a payment provider, a shipping API) usually wraps Guzzle: a client class under `Model/Api`, a `HandlerStack` with `Middleware::retry`, `Middleware::mapRequest` to add the auth header, and `Middleware::log`. Each PHP-FPM request builds the client, sends a few calls and dies, so a badly managed client costs little.
 
-The ideas transfer almost one to one: a `DelegatingHandler` is a Guzzle middleware, and the resilience handler is your retry middleware with a timeout and a circuit breaker added. The trap is the lifetime. A .NET API is one long-running process. `new HttpClient()` per call leaks sockets (module 04 lesson 03), and one static client kept forever never sees DNS changes. Retries also cost more: a .NET process serves many requests at once, so three retries per call during an outage triple the load on a dependency that is already struggling.
+In .NET the same pieces exist: a `DelegatingHandler` is outgoing middleware that sees every request a client sends, and the resilience handler adds retries, a timeout and a circuit breaker to that pipeline. The trap is the lifetime. A .NET API is one long-running process. `new HttpClient()` per call leaks sockets (module 04 lesson 03), and one static client kept forever never sees DNS changes. Retries also cost more: a .NET process serves many requests at once, so three retries per call during an outage triple the load on a dependency that is already struggling.
 
 ## Typed clients
 

@@ -6,7 +6,7 @@ After this lesson you can choose between a plain hosted service, Hangfire and Qu
 
 Magento's `crontab.xml` gives each job a code, a cron expression and a group. `bin/magento cron:run` writes upcoming runs to the `cron_schedule` table and executes the ones that are due, so the database records what ran, when and whether it failed. Running jobs on several servers needs care, which is why Magento projects usually run cron on one node.
 
-That picture maps well to .NET, but you choose its pieces. A `BackgroundService` with a `PeriodicTimer` (lesson 01) is the equivalent of a crontab entry with no `cron_schedule` table: no history, no retry and no coordination between replicas. Hangfire and Quartz.NET add the table back: jobs and their state live in a database that every instance shares.
+That picture maps well to .NET, but you choose its pieces. A `BackgroundService` with a `PeriodicTimer` (lesson 01) is a schedule with no job table behind it: no history, no retry and no coordination between replicas. Hangfire and Quartz.NET add the table back: jobs and their state live in a database that every instance shares.
 
 The trap: a timer in a hosted service looks like cron, but it runs once **per process**. Scale the API to three replicas and the nightly export runs three times. Magento's single cron node hid that problem; container platforms make multiple instances the normal case.
 
