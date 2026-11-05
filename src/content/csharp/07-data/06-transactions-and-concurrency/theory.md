@@ -111,6 +111,8 @@ For stock you often do not need a token at all. Let the database check and chang
 
 ```csharp
 // ... reserve stock only if enough is left
+ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity); // in an endpoint: return 400 instead
+
 int reserved = await db.Products
     .Where(p => p.Sku == sku && p.Stock >= quantity)
     .ExecuteUpdateAsync(s => s.SetProperty(p => p.Stock, p => p.Stock - quantity), cancellationToken);
@@ -121,7 +123,7 @@ if (reserved == 0)
 }
 ```
 
-The condition and the decrement run atomically in the database, so two concurrent requests can never both take the last unit.
+The condition and the decrement run atomically in the database, so two concurrent requests can never both take the last unit. The guard comes first because `ExecuteUpdateAsync` runs immediately with no validation step: with a negative `quantity`, `Stock >= quantity` matches any product and `Stock - quantity` adds stock.
 
 ## In practice
 

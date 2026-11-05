@@ -30,12 +30,15 @@ The tag `10.0` now means **Ubuntu 24.04 "Noble"**. In .NET 9 and earlier, defaul
 ## A multi-stage Dockerfile
 
 ```dockerfile
+# src/Catalog.Api/Dockerfile, built with the solution root as context
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
-COPY Catalog.Api/Catalog.Api.csproj Catalog.Api/
-RUN dotnet restore Catalog.Api/Catalog.Api.csproj
+COPY src/Catalog.Api/Catalog.Api.csproj src/Catalog.Api/
+COPY src/Catalog.Core/Catalog.Core.csproj src/Catalog.Core/
+COPY src/Catalog.Infrastructure/Catalog.Infrastructure.csproj src/Catalog.Infrastructure/
+RUN dotnet restore src/Catalog.Api/Catalog.Api.csproj
 COPY . .
-RUN dotnet publish Catalog.Api/Catalog.Api.csproj -c Release -o /app --no-restore
+RUN dotnet publish src/Catalog.Api/Catalog.Api.csproj -c Release -o /app --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled
 WORKDIR /app
@@ -43,7 +46,7 @@ COPY --from=build /app .
 ENTRYPOINT ["dotnet", "Catalog.Api.dll"]
 ```
 
-The first stage compiles; the second copies only `/app` into a small runtime image, so the SDK never reaches production. Copying the `.csproj` and restoring before copying the rest of the code is a cache trick: Docker reuses the restore layer until the package references change, the same idea as copying `composer.json` and `composer.lock` before the source. Add a `.dockerignore` with `bin/` and `obj/` so host build output never leaks into the context. Pin the base image by digest too (`FROM mcr.microsoft.com/dotnet/aspnet:10.0@sha256:<digest>`), so a rebuild cannot silently pick up a different image; Microsoft's "Containerize a .NET app" tutorial calls a SHA after the tag a best practice.
+The first stage compiles; the second copies only `/app` into a small runtime image, so the SDK never reaches production. Copying the `.csproj` files and restoring before copying the rest of the code is a cache trick: Docker reuses the restore layer until the package references change, the same idea as copying `composer.json` and `composer.lock` before the source. Copy every project the API references (here P5's `Catalog.Core` and `Catalog.Infrastructure`), plus any `Directory.Build.props` or `Directory.Packages.props`; restore walks the project references, and a missing file fails it in a clean build. Add a `.dockerignore` with `bin/` and `obj/` so host build output never leaks into the context. Pin the base image by digest too (`FROM mcr.microsoft.com/dotnet/aspnet:10.0@sha256:<digest>`), so a rebuild cannot silently pick up a different image; Microsoft's "Containerize a .NET app" tutorial calls a SHA after the tag a best practice.
 
 ## Port 8080 and the non-root user
 
@@ -99,7 +102,9 @@ var connectionString = builder.Configuration.GetConnectionString("Catalog")
 ```yaml
 services:
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: src/Catalog.Api/Dockerfile
     ports: ["5000:8080"]
     environment:
       ConnectionStrings__Catalog: "Host=db;Database=catalog;Username=app;Password=dev-only"
