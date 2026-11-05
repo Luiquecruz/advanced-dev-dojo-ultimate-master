@@ -19,16 +19,19 @@ Parallel work on the same machine uses git worktrees under `.claude/worktrees/` 
 
 ### Commits
 
-Conventional commits, short and objective, one subject line naming what changed:
+Conventional commits, short and objective, one subject line naming what changed. Pull request titles follow the same format (CodeRabbit's title check enforces it as a warning, rule in `.coderabbit.yaml` `pre_merge_checks.title`):
 
 ```
-feat(ai-engineering): Python variants for the governance module
+feat(python): add module 11 metaprogramming
 fix(engines): keep nested None as JSON null in Python fake model replies
 docs(curriculum): mark AI Engineering modules 12-13 written
-perf(content): load lesson bodies and lesson screen on demand
+ci: waive docs sync only when docs:none itself is added
 ```
 
-Types used: `feat`, `fix`, `docs`, `perf`, `refactor`, `test`, `chore`. The scope is a track id (`react`, `node`, `ai-engineering`...) or an area (`engines`, `routing`, `verify`, `content`, `curriculum`, `scene`, `motion`). A body, when needed, is a list of what changed.
+- Types: `feat`, `fix`, `docs`, `perf`, `refactor`, `test`, `chore`, `ci`.
+- Scope (optional): a track id (`typescript`, `react`, `react-state`, `architecture`, `ai-engineering`, `node`, `python`, `vue`, `angular`) or an area (`engines`, `sandbox`, `verify`, `content`, `curriculum`, `lesson`, `routing`, `scene`, `motion`, `ui`, `deps`, `ci`, `review`, `docs`, `harness`). A new scope is added to this list and to `.coderabbit.yaml` in the same change.
+- Subject: starts with a lowercase imperative verb (`add`, `fix`, `remove`, `update`, `mark`...); product and language names keep their casing after it. No trailing period.
+- A body, when needed, is a list of what changed.
 
 ### Checks before a pull request
 

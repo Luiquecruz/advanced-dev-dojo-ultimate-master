@@ -73,7 +73,11 @@ reviews:
       mode: "off"
     title:
       mode: "warning"
-      requirements: "Conventional commit format: type(scope): subject. Types: feat, fix, docs, perf, refactor, test, chore, ci. Scope is a track id or an area (engines, routing, verify, content, curriculum, scene, motion, deps). Lowercase subject, no trailing period."
+      requirements: |
+        Conventional commit format: `type(scope): subject` or `type: subject` (the scope is optional).
+        Types: feat, fix, docs, perf, refactor, test, chore, ci.
+        Scope, when present, is one of: typescript, react, react-state, architecture, ai-engineering, node, python, vue, angular, engines, sandbox, verify, content, curriculum, lesson, routing, scene, motion, ui, deps, ci, review, docs, harness.
+        The subject starts with a lowercase imperative verb (add, fix, remove, update, move, mark...); product and language names keep their casing after it (add CodeRabbit configuration). No trailing period.
     description:
       mode: "warning"
     issue_assessment:
