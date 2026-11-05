@@ -22,7 +22,7 @@ Splits the token into its three parts, decodes the **payload** (the middle part)
 1. `Malformed` when `ReadClaims` cannot read it (`FormatException` or `JsonException`).
 2. `WrongIssuer` when `iss` is not exactly the expected issuer.
 3. `WrongAudience` when the expected audience is not among the audiences.
-4. `Expired` when the current time is later than `exp` plus the clock skew.
+4. `Expired` when the current time is later than `exp` plus the clock skew. An `exp` up to the last second `DateTimeOffset` can hold (253402300799) is valid input, and `Check` never throws for it.
 5. `NotYetValid` when `nbf` is later than the current time plus the clock skew.
 
 Otherwise it returns `Valid`. Read the current time from the injected `TimeProvider` (`clock.GetUtcNow()`), never from the system clock, so tests can choose the moment.
