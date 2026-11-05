@@ -133,5 +133,5 @@ merge to main ─► Netlify builds and publishes production ─► ci.yml smoke
 The settings no file can enforce are listed in [CONTRIBUTING.md](CONTRIBUTING.md#netlify-netlifytoml) "Setup, once, by a repository admin":
 - Netlify: Deploy Previews on, Enforce Git-based deployments.
 - Branch protection with required checks, code owners, the branch up to date before merging, and no admin bypass.
-- Secret scanning and push protection.
+- Private vulnerability reporting (the channel `SECURITY.md` points to), secret scanning and push protection.
 - CodeQL default setup off.
