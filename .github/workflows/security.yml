@@ -23,10 +23,24 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
       - run: npm audit --audit-level=moderate
+
+  secrets:
+    name: Secret scan (gitleaks, full history)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      # Fake credentials that lessons use on purpose are listed by fingerprint in .gitleaksignore.
+      - run: docker run --rm -v "$PWD:/repo:ro" ghcr.io/gitleaks/gitleaks:v8.28.0@sha256:cdbb7c955abce02001a9f6c9f602fb195b7fadc1e812065883f695d1eeaba854 git /repo --no-banner --redact --gitleaks-ignore-path /repo/.gitleaksignore
 
   osv-scan:
     name: OSV-Scanner (npm and Python lockfiles)
@@ -60,6 +74,8 @@ jobs:
         language: [javascript-typescript, python, actions]
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}

@@ -80,7 +80,7 @@ Every pull request and every push to `main` runs on GitHub Actions:
 | Workflow | Checks |
 | --- | --- |
 | [CI](.github/workflows/ci.yml) | lint, typecheck, unit tests and build; lesson verification per track; Python lessons on CPython (pytest); workflow lint (actionlint); production layout smoke test (worker CSP, SPA fallback, Pyodide files); Netlify deploy from `main`, followed by the same smoke test against the live site |
-| [Security](.github/workflows/security.yml) | `npm audit`; OSV-Scanner over the npm and Python lockfiles; CodeQL for TypeScript, Python and the workflows. Also runs weekly |
+| [Security](.github/workflows/security.yml) | `npm audit`; secret scan of the whole git history (gitleaks); OSV-Scanner over the npm and Python lockfiles; CodeQL for TypeScript, Python and the workflows. Also runs weekly |
 | [Docs sync](.github/workflows/docs-sync.yml) | warns when a documented area changes without its documents (`docs:none` label for reviewed exceptions) |
 
 Only code that passed every check is deployed. Details, required secrets and branch protection in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy).
