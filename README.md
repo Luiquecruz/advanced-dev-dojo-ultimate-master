@@ -2,13 +2,18 @@
 
 [![CI](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/ci.yml)
 [![Security](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/security.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/badge)](https://scorecard.dev/viewer/?uri=github.com/Luiquecruz/advanced-dev-dojo-ultimate-master)
+[![CodeRabbit Reviews](https://img.shields.io/coderabbit/prs/github/Luiquecruz/advanced-dev-dojo-ultimate-master?labelColor=171717&color=FF570A&label=CodeRabbit+Reviews)](https://coderabbit.ai)
+[![Netlify](https://img.shields.io/badge/Netlify-live-00C7B7?logo=netlify&logoColor=white)](https://adv-dv-doj.netlify.app)
+
 ![Node.js](https://img.shields.io/badge/Node.js-26-5FA04E?logo=nodedotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.14_on_Pyodide-3776AB?logo=python&logoColor=white)
-![Netlify](https://img.shields.io/badge/Netlify-00C7B7?logo=netlify&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-5-6E9F18?logo=vitest&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-10-4B32C3?logo=eslint&logoColor=white)
 
 A freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 655 lessons in 9 tracks, 558 of them public.
 
@@ -56,7 +61,7 @@ Browser ─ React app (routes, curriculum, Monaco editor, progress in localStora
 
 - **Lessons are plain files** in `src/content/<track>/<module>/<lesson>/` (`meta.json`, theory, challenge, starter, solution, tests, hints, quiz). A Vite plugin serves the catalog as a virtual module and loads each lesson body on demand.
 - **Grading engines** run the learner project against the lesson tests: the TypeScript compiler API, framework adapters in an iframe, an in-browser Node.js runtime, or Pyodide with a Python test harness (`@test` functions with plain `assert`).
-- **Learner code is isolated.** Framework code never runs in the app window. Python runs in a fresh worker per run, with network APIs and JavaScript code generation removed, under a worker Content-Security-Policy without `'unsafe-eval'` that the host must send (`netlify.toml`; checked on every CI run under `vite preview`, and against the live site after each CI deploy).
+- **Learner code is isolated.** Framework code never runs in the app window. Python runs in a fresh worker per run, with network APIs and JavaScript code generation removed, under a worker Content-Security-Policy without `'unsafe-eval'` that the host must send (`netlify.toml`; checked on every CI run under `vite preview`, and against every Netlify Deploy Preview and production deploy).
 - **No real network or models**: the fake REST API and the fake model provider are deterministic, so lessons and tests are reproducible.
 
 Architecture, layers and engines are described in [ARCHITECTURE.md](.claude/docs/ARCHITECTURE.md).
@@ -79,11 +84,12 @@ Every pull request and every push to `main` runs on GitHub Actions:
 
 | Workflow | Checks |
 | --- | --- |
-| [CI](.github/workflows/ci.yml) | lint, typecheck, unit tests and build; lesson verification per track; Python lessons on CPython (pytest); workflow lint (actionlint); production layout smoke test (worker CSP, SPA fallback, Pyodide files); Netlify deploy from `main`, followed by the same smoke test against the live site |
-| [Security](.github/workflows/security.yml) | `npm audit`; secret scan of the whole git history (gitleaks); OSV-Scanner over the npm and Python lockfiles; CodeQL for TypeScript, Python and the workflows. Also runs weekly |
+| [CI](.github/workflows/ci.yml) | lint, typecheck, unit tests and build; lesson verification per track; Python lessons on CPython (pytest); workflow lint and security audit (actionlint, zizmor); production layout smoke test (worker CSP, SPA fallback, Pyodide files) under `vite preview`, then against the Netlify Deploy Preview of the pull request or the live site after a merge |
+| [Security](.github/workflows/security.yml) | `npm audit`; dependency review on pull requests; secret scan of the whole git history (gitleaks); OSV-Scanner over the npm and Python lockfiles; CodeQL for TypeScript, Python and the workflows. Also runs weekly |
+| [Scorecard](.github/workflows/scorecard.yml) | OpenSSF Scorecard of the repository's security practices, behind the badge above |
 | [Docs sync](.github/workflows/docs-sync.yml) | warns when a documented area changes without its documents (`docs:none` label for reviewed exceptions) |
 
-Once the production secrets are configured on the `production` environment, a push to `main` is deployed after the CI checks pass and the live site is smoke-tested right after; without the secrets `deploy` and `smoke` are skipped. The Security workflow gates merges into `main` through branch protection, not the deploy itself. Details, required secrets and branch protection in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy).
+Netlify deploys through its Git integration, with a Deploy Preview for every pull request and production from `main`; CI holds no Netlify token. The gate is branch protection: only a pull request whose required checks passed reaches `main`, and only then does Netlify publish it. Details, branch protection settings and the reasons behind each control in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy) and [CI_SECURITY.md](.claude/docs/CI_SECURITY.md).
 
 ## Authoring scripts
 
@@ -128,6 +134,7 @@ All project documentation lives in [`.claude/docs/`](.claude/docs):
 | Document | Read it to |
 | --- | --- |
 | [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md) | set up, branch, commit, check and keep the docs in step with the code; CI, deploy and the shared harness |
+| [CI_SECURITY.md](.claude/docs/CI_SECURITY.md) | understand why each CI/CD security control exists, what it protects against and what was considered and left out |
 | [ARCHITECTURE.md](.claude/docs/ARCHITECTURE.md) | understand the frontend layers, routing, state, engines and sandbox, and add a track, an engine or a UI feature |
 | [CONTENT_GUIDE.md](.claude/docs/CONTENT_GUIDE.md) | write a lesson: file format, test globals per engine, fake API, fake model, installed library versions |
 | [CURRICULUM.md](.claude/docs/CURRICULUM.md) | see every track, its modules and which lessons are written |
