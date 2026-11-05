@@ -18,3 +18,6 @@ vendor/dotnet/*
 .venv/
 .pytest_cache/
 .playwright-mcp/
+
+.env
+.env.local
