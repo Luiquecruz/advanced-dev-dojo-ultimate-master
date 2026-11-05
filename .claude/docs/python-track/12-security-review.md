@@ -46,18 +46,18 @@ A scan for `eval`/`exec`, `pickle`, `marshal`, `subprocess`, `shell=True`, `yaml
 
 ### A.2 Security points for planned lessons
 
-Each item is a short **Security note** section in `theory.md` and, where testable, a test or a quiz question. Lesson ids follow specs 06 and 07.
+Each item is a short **Security note** section in `theory.md` and, where testable, a test or a quiz question. Lessons follow specs 06 and 07. The modules 06, 07 and 11 tables use the current folder prefixes; the spec line ranges and the module 12 rows are as planned on 2026-11-04 (module 12 was later restructured), so look a lesson up by its id, the folder name without its numeric prefix, which never changes.
 
 **Module 07-stdlib** (`06-modules-05-to-08.md:110-166`)
 
 | Lesson | Security note | Test / quiz |
 | --- | --- | --- |
 | `01-stdlib-map` | Map row "dangerous by design": `pickle`/`marshal`/`shelve` (code execution on load), `eval`, `subprocess(shell=True)`, `yaml.load` (third party), `xml.etree` on untrusted input (prefer `defusedxml`). | Quiz: "Which of these is safe to call on bytes from an HTTP request?" (`json.loads` correct; `pickle.loads` wrong). |
-| `02-json-and-serialization` | `json` is the safe default for untrusted data; `pickle.loads` runs arbitrary code via `__reduce__` (JS has no equivalent: `JSON.parse` never executes code). `parse_constant` to reject `NaN`/`Infinity`, which other JSON parsers refuse. Limit input size before `loads`. Never `eval` JSON-like text. | Test: `loads_with_decimals("NaN")` behaviour documented, or a quiz on `pickle` vs `json` for a cross-team payload. Keep `pickle` out of every challenge. |
-| `03-regular-expressions` | ReDoS: nested quantifiers like `(a+)+$` or `(\w+\s?)*$` backtrack exponentially; Python's `re` has no timeout. Bound input length, avoid nested quantifiers, prefer `fullmatch` with simple classes. Python 3.11+ atomic groups `(?>...)` and possessive quantifiers `a++` help. Email masking: do not claim a regex validates emails. | Test: `parse_log_line("a" * 50_000 + "!")` returns `None` well within the 4 s test timeout (guards against a learner writing a catastrophic pattern). Quiz: identify the vulnerable pattern. |
-| `04-pathlib-and-io` | Path traversal: `base / user_part` with `"../"` or an absolute `user_part` escapes `base` (`Path("/srv") / "/etc/passwd"` is `/etc/passwd`). Resolve and check `resolved.is_relative_to(base.resolve())`. `tempfile.mkstemp`/`TemporaryDirectory` instead of predictable `/tmp` names (spec's `/tmp/dojo-<unique>` is fine in the in-memory FS but say why it matters on real hosts). | Add a function to the challenge, e.g. `safe_join(base, name)` raising `ValueError` on escape; tests with `"../x"`, `"/etc/passwd"`, `"a/../../x"`. |
-| `05-numbers-decimal-and-fractions` | `int("9" * 10**6)` is capped (CVE-2020-10735, `sys.set_int_max_str_digits`, default 4300 digits) to stop quadratic-time DoS; `Fraction(text)`/`Decimal(text)` on untrusted input should be length-checked. | Quiz on the int-to-str digit limit. |
-| `06-dates-and-times` | Parse with an explicit format or `fromisoformat` and reject naive input (already in spec). | None beyond the spec. |
+| `06-json-and-serialization` | `json` is the safe default for untrusted data; `pickle.loads` runs arbitrary code via `__reduce__` (JS has no equivalent: `JSON.parse` never executes code). `parse_constant` to reject `NaN`/`Infinity`, which other JSON parsers refuse. Limit input size before `loads`. Never `eval` JSON-like text. | Test: `loads_with_decimals("NaN")` behaviour documented, or a quiz on `pickle` vs `json` for a cross-team payload. Keep `pickle` out of every challenge. |
+| `02-regular-expressions` | ReDoS: nested quantifiers like `(a+)+$` or `(\w+\s?)*$` backtrack exponentially; Python's `re` has no timeout. Bound input length, avoid nested quantifiers, prefer `fullmatch` with simple classes. Python 3.11+ atomic groups `(?>...)` and possessive quantifiers `a++` help. Email masking: do not claim a regex validates emails. | Test: `parse_log_line("a" * 50_000 + "!")` returns `None` well within the 4 s test timeout (guards against a learner writing a catastrophic pattern). Quiz: identify the vulnerable pattern. |
+| `03-pathlib-and-io` | Path traversal: `base / user_part` with `"../"` or an absolute `user_part` escapes `base` (`Path("/srv") / "/etc/passwd"` is `/etc/passwd`). Resolve and check `resolved.is_relative_to(base.resolve())`. `tempfile.mkstemp`/`TemporaryDirectory` instead of predictable `/tmp` names (spec's `/tmp/dojo-<unique>` is fine in the in-memory FS but say why it matters on real hosts). | Add a function to the challenge, e.g. `safe_join(base, name)` raising `ValueError` on escape; tests with `"../x"`, `"/etc/passwd"`, `"a/../../x"`. |
+| `04-numbers-decimal-and-fractions` | `int("9" * 10**6)` is capped (CVE-2020-10735, `sys.set_int_max_str_digits`, default 4300 digits) to stop quadratic-time DoS; `Fraction(text)`/`Decimal(text)` on untrusted input should be length-checked. | Quiz on the int-to-str digit limit. |
+| `05-dates-and-times` | Parse with an explicit format or `fromisoformat` and reject naive input (already in spec). | None beyond the spec. |
 | `08-logging` | Never log secrets, tokens or full request bodies; redact with a `logging.Filter`. Log injection: user text containing `\n` forges extra log lines; escape or use structured output. Lazy `%` formatting (`logger.info("user %s", name)`), never `logger.info(user_text)` as the format string (a `%` in user text breaks or misformats it). | Test: `log_event(logger, "login", password="x")` output does not contain `"x"` (redacting filter), and a field with `"\n"` stays on one line. |
 | `09-argparse-and-cli` | Do not pass secrets as CLI flags (visible in `ps`, shell history); read from env or a file. If the CLI shells out, use `subprocess.run([...])` with a list, never `shell=True` with user text (`shlex.quote` only as last resort). | Quiz on `shell=True` injection. |
 | `10-stdlib-adr` | Coherence rule already excludes `pickle` for cross-team JSON; add `security` to the consequences and require the ADR to mention untrusted input in `context`. | Coherence test: `serialization == "pickle"` fails with a message naming code execution. |
@@ -66,7 +66,7 @@ Each item is a short **Security note** section in `theory.md` and, where testabl
 
 | Lesson | Security note |
 | --- | --- |
-| `04-suppressing-and-handling-in-exit`, `06-exception-hierarchies` | Swallowing exceptions (`except Exception: pass`, `__exit__` returning `True` unconditionally, `contextlib.suppress(Exception)`) hides security failures; never catch `BaseException` outside top-level runners. Error messages shown to users must not include secrets or internal paths. Test: `__exit__` suppresses only the declared exception type. |
+| `06-suppressing-and-handling-in-exit`, `02-exception-hierarchies` | Swallowing exceptions (`except Exception: pass`, `__exit__` returning `True` unconditionally, `contextlib.suppress(Exception)`) hides security failures; never catch `BaseException` outside top-level runners. Error messages shown to users must not include secrets or internal paths. Test: `__exit__` suppresses only the declared exception type. |
 
 **Module 11-metaprogramming** (`07-modules-09-to-12.md:120-167`)
 
@@ -77,8 +77,8 @@ Each item is a short **Security note** section in `theory.md` and, where testabl
 | `03-dynamic-classes` | `make_record_class(name, fields)`: validate field names with `str.isidentifier()` and `keyword.iskeyword()`; never build classes by `exec` of templated source (the `namedtuple` history). | Test: a field named `"__class__"` or `"x; import os"` raises `ValueError`. |
 | `04-attribute-hooks` | `Proxy` forwarding everything exposes private/dunder attributes of the target; forward an allow-list. `Frozen` is not a security boundary (`object.__setattr__` bypasses it). | Test: `Proxy` does not forward `_private` names (if the spec accepts the change). Quiz on `object.__setattr__` bypass. |
 | `06-inspect-and-signatures` | `call_with` dependency injection must not inject by arbitrary user-supplied names. | — |
-| `07-frames-and-tracebacks` | `f_locals` and full tracebacks leak secrets (passwords in locals) into logs and error pages; `traceback.TracebackException(..., capture_locals=False)` default; don't render tracebacks to end users. | Quiz. |
-| `09-metaprogramming-adr` | Add `entry_points` trade-off: any installed distribution can register a plugin (supply-chain surface). | Coherence: choosing `entry_points` requires a `trust` note. |
+| `08-frames-and-tracebacks` | `f_locals` and full tracebacks leak secrets (passwords in locals) into logs and error pages; `traceback.TracebackException(..., capture_locals=False)` default; don't render tracebacks to end users. | Quiz. |
+| `10-metaprogramming-adr` | Add `entry_points` trade-off: any installed distribution can register a plugin (supply-chain surface). | Coherence: choosing `entry_points` requires a `trust` note. |
 
 **Module 12-tooling** (`07-modules-09-to-12.md:169-207`)
 
@@ -210,7 +210,7 @@ NODEFS can also write, so lesson code can overwrite `node_modules/.cache/dojo-py
 - Residual risk: no `resourceLimits` on the Worker. A memory bomb grows wasm memory inside the Vitest process. This is Low because wasm32 caps it at 4 GB per worker.
 
 **R5 — Medium — State restore misses in-place mutation.** [verified] `InterpreterState.restore()` (`dojo_harness.py:189-266`) restores bindings (builtins, `sys.modules`, the top-level dicts of `RESTORED_NAMESPACES`, paths, hooks, loggers, env, cwd, `/tmp` and `~`). It does not restore objects mutated in place. A polluting test changed all of the following, and they stayed changed for the next test **and the next lesson** (a second `runTests` call):
-- `json.JSONEncoder.default = …` made `json.dumps(object())` return `"patched"`. This would let a wrong starter pass `07-stdlib/02-json-and-serialization` ("unknown types raise `TypeError`").
+- `json.JSONEncoder.default = …` made `json.dumps(object())` return `"patched"`. This would let a wrong starter pass `07-stdlib/06-json-and-serialization` ("unknown types raise `TypeError`").
 - `copy._deepcopy_dispatch[list] = …` changed `copy.deepcopy([1])`, which affects `01-object-model/05-shallow-vs-deep-copy`.
 - `collections.abc.Mapping.register(list)` made `isinstance([], Mapping)` true.
 - `gc.disable()`, `js.dojoProbe = 42` (a property on the JS global), `logging.raiseExceptions` and `logging.Formatter.default_msec_format` all persisted. `logging` is not in `RESTORED_NAMESPACES`.

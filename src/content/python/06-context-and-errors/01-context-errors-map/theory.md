@@ -31,14 +31,14 @@ try {
 
 ## The path
 
-1. Exception hierarchies for a domain.
-2. Chaining with `raise ... from` and context with `add_note`.
-3. The `with` protocol: `__enter__`, `__exit__` and what its return value means.
-4. `@contextmanager`: a context manager written as a generator with one `yield`.
-5. Suppressing on purpose, and only the declared exception types.
-6. `ExitStack` for a number of resources known only at run time.
-7. Exception groups and `except*`.
-8. The ADR: resources and errors of a payment-capture workflow.
+2. Exception hierarchies for a domain.
+3. Chaining with `raise ... from` and context with `add_note`.
+4. The `with` protocol: `__enter__`, `__exit__` and what its return value means.
+5. `@contextmanager`: a context manager written as a generator with one `yield`.
+6. Suppressing on purpose, and only the declared exception types.
+7. `ExitStack` for a number of resources known only at run time.
+8. Exception groups and `except*`.
+9. The ADR: resources and errors of a payment-capture workflow.
 
 > **Status as of November 2026:** the dojo runs CPython 3.14 in Pyodide. Since 3.14 (PEP 765) the compiler emits a `SyntaxWarning` for `return`, `break` or `continue` that leaves a `finally` block, because they silently discard the exception in flight.
 

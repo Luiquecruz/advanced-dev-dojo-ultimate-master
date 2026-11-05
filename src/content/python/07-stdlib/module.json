@@ -1,4 +1,4 @@
 {
   "title": "Standard Library in Practice",
-  "description": "Which batteries replace which npm packages, and which defaults lose data silently: json, re, pathlib and io, decimal and fractions, datetime, enum and logging, each with the security trap that comes with it."
+  "description": "Which batteries replace which npm packages, and which defaults lose data silently: re, pathlib and io, decimal and fractions, datetime, json, enum and logging, each with the security trap that comes with it."
 }

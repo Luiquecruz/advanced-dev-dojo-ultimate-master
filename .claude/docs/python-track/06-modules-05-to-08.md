@@ -116,7 +116,7 @@ Question: who releases the resource when something fails, and what does an excep
 Question: which batteries replace which npm packages, and which defaults lose data silently?
 
 ### 01-stdlib-map (Q, B)
-Standard-library tour for JS developers (`json`, `re`, `pathlib`, `decimal`, `datetime`, `enum`, `logging`, and `argparse` as theory only) and the npm equivalent of each. The module has no ADR; it ends with `08-logging`.
+Standard-library tour for JS developers (`re`, `pathlib`, `decimal`, `datetime`, `json`, `enum`, `logging`, `argparse`) and the npm equivalent of each. It ends with `10-stdlib-adr`.
 
 ### 02-regular-expressions (P, I)
 - Concept: `re.compile`, groups and named groups, `match` vs `search` vs `fullmatch`, greedy vs lazy, `VERBOSE`, `sub` with function, raw strings.
