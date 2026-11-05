@@ -45,7 +45,7 @@ reviews:
     - path: "src/verify/**"
       instructions: |
         Lesson verification. pythonSandbox* forks a child under the Node permission model with an empty env: flag any widened --allow-* flag, inherited env, or access to fs, child_process or network from lesson code.
-        A new track suite must also be added to the verify matrix and the structure exclusion list in .github/workflows/ci.yml.
+        CI lists the verify suites from src/content/*/track.json: a track suite is src/verify/<id>.test.ts, and any other src/verify/*.test.ts runs in the structure job.
     - path: "src/shared/**"
       instructions: |
         Shared layer: framework-agnostic, no course knowledge. It must never import src/content, src/engines or src/sandbox (enforced by src/architecture.test.ts).
@@ -60,7 +60,7 @@ reviews:
         Tokens are the single source of truth. Track accents must stay AA on void, panel and elevated, AA under dark text, and at least 30 degrees of hue from every other accent (src/verify/trackPresentation.test.ts).
     - path: ".github/**"
       instructions: |
-        Workflows keep least-privilege permissions and set persist-credentials: false on every checkout. Secrets live only on the production environment and are used only by the deploy job on main, which never installs or runs repository code; no pull_request job may reach them. GitHub's own actions use their major tag; third-party actions, reusable workflows and images are pinned to a commit SHA or digest with the version in a comment. CI and deploy are described in .claude/docs/CONTRIBUTING.md "CI and deploy"; flag changes that make it stale.
+        Workflows keep least-privilege permissions and set persist-credentials: false on every checkout. CI holds no deploy secrets: Netlify deploys through its Git integration and the smoke job only reads public URLs; flag any new secret, and never let a pull_request job reach one. Every action and reusable workflow is pinned to a full commit SHA with the version in a comment, and every Docker image to a digest (zizmor enforces it). CI and deploy are described in .claude/docs/CONTRIBUTING.md "CI and deploy" and the reason for each control in .claude/docs/CI_SECURITY.md; flag changes that make either stale. Renaming a job changes its required check name: the same pull request must update the required status checks in .claude/docs/CONTRIBUTING.md.
     - path: "netlify.toml"
       instructions: |
         The Content-Security-Policy for /assets/python.worker-* must equal PYTHON_WORKER_CSP in plugins/pythonWorkerCspPlugin.ts, and the SPA fallback to /index.html must stay (BrowserRouter).
@@ -91,7 +91,7 @@ reviews:
         mode: "warning"
         instructions: |
           Pass when the pull request adds no new src/content/<id>/track.json.
-          Otherwise pass only when the same pull request adds a [data-trail='<id>'] rule in src/shared/design/tokens.css, src/verify/<id>.test.ts, the id in the verify matrix and structure exclusion list of .github/workflows/ci.yml, the track in the README.md tracks table, and its plan in .claude/docs/CURRICULUM.md.
+          Otherwise pass only when the same pull request adds a [data-trail='<id>'] rule in src/shared/design/tokens.css, src/verify/<id>.test.ts, `Verify <id>` in the required status checks listed in .claude/docs/CONTRIBUTING.md, the track in the README.md tracks table, and its plan in .claude/docs/CURRICULUM.md.
   tools:
     shellcheck:
       enabled: true

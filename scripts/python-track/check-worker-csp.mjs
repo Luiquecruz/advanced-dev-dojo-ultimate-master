@@ -4,6 +4,7 @@
 // plus the vendored wheels are served from the app's origin.
 // Usage: npm run smoke:worker-csp                                  builds the app and checks it under `vite preview`
 //        npm run smoke:worker-csp -- --url <origin> --dist <dir>   checks a deployed build (CI runs it on each Netlify deploy)
+//        add --build-only to only check that <origin> serves this build's index.html (exit 3 while another build is live)
 import { createHash } from 'node:crypto';
 import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -14,9 +15,13 @@ import { build, preview } from 'vite';
 import { PYTHON_WORKER_CSP } from '../../plugins/pythonWorkerCspPlugin.ts';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const { values: options } = parseArgs({ options: { url: { type: 'string' }, dist: { type: 'string' } } });
+const { values: options } = parseArgs({ options: { url: { type: 'string' }, dist: { type: 'string' }, 'build-only': { type: 'boolean' } } });
 if (Boolean(options.url) !== Boolean(options.dist)) {
   console.error('--url and --dist go together: the deployed origin and the build directory that was deployed');
+  process.exit(2);
+}
+if (options['build-only'] && !options.url) {
+  console.error('--build-only needs --url and --dist');
   process.exit(2);
 }
 const failures = [];
@@ -33,19 +38,63 @@ function workerFile(outDir) {
   return worker;
 }
 
+/**
+ * The build's index.html, its hashed entry assets and a predicate telling whether a served page is this build's page.
+ * Same build, not just a healthy one: an older deploy still live would pass every other check. The served HTML must
+ * contain every line of this build's index.html in order (the host may inject its own lines, such as a comment, but a
+ * changed or removed line fails, a new meta description included) plus the root element the app mounts on.
+ */
+function buildPage(outDir) {
+  const html = readFileSync(join(outDir, 'index.html'), 'utf8');
+  const lines = html.split('\n').map((line) => line.trim()).filter(Boolean);
+  const entryAssets = [...html.matchAll(/(?:src|href)="\/(assets\/[^"]+)"/g)].map((match) => match[1]);
+  const isThisBuild = (served) => {
+    let cursor = 0;
+    for (const line of lines) {
+      const found = served.indexOf(line, cursor);
+      if (found === -1) return false;
+      cursor = found + line.length;
+    }
+    return served.includes('<div id="root"');
+  };
+  return { html, entryAssets, isThisBuild };
+}
+
+/**
+ * Whether the origin's page is this build's page; false while another build is live or the origin is unreachable.
+ */
+async function servesBuild(origin, outDir) {
+  const { isThisBuild } = buildPage(outDir);
+  try {
+    const page = await fetch(`${origin}/`, { cache: 'no-store' });
+    return page.ok && isThisBuild(await page.text());
+  } catch {
+    return false;
+  }
+}
+
 async function checkServed(origin, outDir, worker) {
+  const { html: buildHtml, entryAssets, isThisBuild } = buildPage(outDir);
+  expect(entryAssets.length > 0, 'the build index.html references no /assets/ files');
+  expect(buildHtml.includes('<div id="root"'), 'the build index.html has no <div id="root"> (src/main.tsx mounts the app there)');
   const page = await fetch(`${origin}/`);
   expect(page.ok, `GET / returned ${page.status}`);
+  expect(isThisBuild(await page.text()), "GET / does not serve this build's index.html (an older deploy is still live, or the root element is missing)");
+  for (const asset of entryAssets) {
+    const response = await fetch(`${origin}/${asset}`);
+    expect(response.ok && sha256(Buffer.from(await response.arrayBuffer())) === sha256(readFileSync(join(outDir, asset))), `/${asset} does not match the build`);
+  }
   expect(page.headers.get('content-security-policy') !== PYTHON_WORKER_CSP, 'the page must not carry the worker CSP (it would break Monaco)');
   if (worker) {
     const script = await fetch(`${origin}/assets/${worker}`);
+    const served = Buffer.from(await script.arrayBuffer());
     expect(script.ok, `GET /assets/${worker} returned ${script.status}`);
+    expect(sha256(served) === sha256(readFileSync(join(outDir, 'assets', worker))), `/assets/${worker} does not match the build`);
     expect(script.headers.get('content-security-policy') === PYTHON_WORKER_CSP, `assets/${worker} must send Content-Security-Policy: ${PYTHON_WORKER_CSP} (got ${script.headers.get('content-security-policy')})`);
   }
   for (const route of ['/python', '/python/python-map', '/ai-engineering/calling-a-model']) {
     const response = await fetch(`${origin}${route}`);
-    const body = await response.text();
-    expect(response.ok && /<div id="root"/.test(body), `${route} must fall back to index.html (got ${response.status})`);
+    expect(response.ok && isThisBuild(await response.text()), `${route} must fall back to this build's index.html (got ${response.status})`);
   }
   // Every file the build put under pyodide/ (runtime, loader, lock, wheels, licenses), compared byte for byte: the host's
   // SPA fallback answers a missing file with index.html and status 200.
@@ -67,7 +116,15 @@ function sha256(bytes) {
   return createHash('sha256').update(bytes).digest('hex');
 }
 
-if (options.url) {
+if (options['build-only']) {
+  const origin = options.url.replace(/\/$/, '');
+  if (await servesBuild(origin, resolve(options.dist))) {
+    console.log(`${origin} serves this build`);
+    process.exit(0);
+  }
+  console.log(`${origin} serves another build`);
+  process.exit(3);
+} else if (options.url) {
   const dist = resolve(options.dist);
   await checkServed(options.url.replace(/\/$/, ''), dist, workerFile(dist));
 } else {

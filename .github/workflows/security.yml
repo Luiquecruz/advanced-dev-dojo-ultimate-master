@@ -19,23 +19,26 @@ concurrency:
 jobs:
   npm-audit:
     name: npm audit
-    runs-on: ubuntu-latest
+    # Not on pull requests: a new advisory against a dependency already on main would fail every unrelated pull request.
+    # Pull requests get dependency-review and osv-scan-pr, which report only what the pull request adds.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
       - run: npm audit --audit-level=moderate
 
   secrets:
     name: Secret scan (gitleaks, full history)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -44,47 +47,60 @@ jobs:
       # where a key added while resolving a conflict would otherwise go unseen.
       - run: docker run --rm -v "$PWD:/repo:ro" ghcr.io/gitleaks/gitleaks:v8.28.0@sha256:cdbb7c955abce02001a9f6c9f602fb195b7fadc1e812065883f695d1eeaba854 git /repo --no-banner --redact --log-opts="--full-history --all --diff-filter=tuxdb -m" --gitleaks-ignore-path /repo/.gitleaksignore
 
+  dependency-review:
+    name: Dependency review (new dependencies in this pull request)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      # Fails when the pull request adds a dependency with a known vulnerability of moderate severity or more.
+      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: moderate
+
   osv-scan:
     name: OSV-Scanner (npm and Python lockfiles)
     if: github.event_name != 'pull_request'
     uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@b1d267aea5211fa648d9d442fa64b90dbdcbdd36 # v2.7.0
     permissions:
-      actions: read
-      contents: read
-      security-events: write
+      actions: read # read the workflow run, for the SARIF upload
+      contents: read # check out the repository
+      security-events: write # upload results to code scanning
 
   osv-scan-pr:
     name: OSV-Scanner (new vulnerabilities in this pull request)
     if: github.event_name == 'pull_request'
     uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@b1d267aea5211fa648d9d442fa64b90dbdcbdd36 # v2.7.0
     permissions:
-      actions: read
-      contents: read
-      security-events: write
+      actions: read # read the workflow run, for the SARIF upload
+      contents: read # check out the repository
+      security-events: write # upload results to code scanning
 
   codeql:
     name: CodeQL ${{ matrix.language }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     permissions:
-      actions: read
-      contents: read
-      security-events: write
+      actions: read # read the workflow run, for the SARIF upload
+      contents: read # check out the repository
+      security-events: write # upload results to code scanning
     strategy:
       fail-fast: false
       matrix:
         language: [javascript-typescript, python, actions]
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: github/codeql-action/init@v4
+      - uses: github/codeql-action/init@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee # v4.39.0
         with:
           languages: ${{ matrix.language }}
           build-mode: none
           config: |
             paths-ignore:
               - src/content/*/**
-      - uses: github/codeql-action/analyze@v4
+      - uses: github/codeql-action/analyze@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee # v4.39.0
         with:
           category: /language:${{ matrix.language }}

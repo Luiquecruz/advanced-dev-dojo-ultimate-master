@@ -40,6 +40,7 @@ All project documentation lives in `.claude/docs/` (the root `README.md` is the 
 | Document | Covers | Read before |
 | --- | --- | --- |
 | `.claude/docs/CONTRIBUTING.md` | setup, branches, commit format, checks before a pull request, documentation upkeep map, shared harness (`.claude/settings.json`, hooks) | any change; editing `.claude/settings.json` or `.claude/hooks/` |
+| `.claude/docs/CI_SECURITY.md` | why each CI/CD security control exists (no deploy secrets, pinning, token permissions, triggers, secret and dependency scanning, deploy smoke test), threat model, what was left out | editing `.github/`, `netlify.toml`, `.nvmrc` or `.gitleaksignore` |
 | `.claude/docs/ARCHITECTURE.md` | frontend layers and rules, data flow, state and storage, engines, sandbox, adding a track, an engine or a UI feature, track presentation rules | touching engines, adding a track, adding or moving a slice |
 | `.claude/docs/CONTENT_GUIDE.md` | lesson file format, `track.json` fields, test globals per engine, fake REST API data, installed library versions, verification commands | writing or fixing a lesson |
 | `.claude/docs/CURRICULUM.md` | every track, its modules and lessons; `✓` marks written lessons and the rest is the backlog | adding lessons or planning a track |
@@ -129,7 +130,7 @@ New tracks are coming; follow the checklist at the end of `.claude/docs/ARCHITEC
 
 1. `src/content/<id>/track.json`: `engine`, `order`, `title`, `monogram` (1–3 characters), `shortTitle` when the title is long (home backdrop word), `description`, `version`; then modules and lessons.
 2. `[data-trail='<id>']` accent rule in `src/shared/design/tokens.css`: AA on void, panel and elevated, AA under dark text, at least 30° of hue from every other accent (no 30° band is left: revisit the rule before adding a track). `trackPresentation.test.ts` checks it.
-3. `src/verify/<id>.test.ts` with `defineChallengeSuite`, the plan in CURRICULUM.md, new libraries registered in the engine `registry.ts` and listed in CONTENT_GUIDE.md.
+3. `src/verify/<id>.test.ts` with `defineChallengeSuite` (CI runs it as `Verify <id>`, listed from `track.json`; add the check to branch protection), the plan in CURRICULUM.md, new libraries registered in the engine `registry.ts` and listed in CONTENT_GUIDE.md.
 4. Name the track in the `index.html` meta description if it should appear there.
 
 A new engine also needs the registrations listed in ARCHITECTURE.md (`sandbox/protocol.ts`, `sandbox/sandbox.ts`, `content/types.ts` + `content/loader.ts`, `features/lesson/monacoSetup.ts`) and its id in the engine list of `src/verify/content.test.ts`.

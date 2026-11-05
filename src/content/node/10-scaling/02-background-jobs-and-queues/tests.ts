@@ -65,15 +65,15 @@ test('a job waiting for its retry delay does not hold a slot, and onIdle waits f
       calls.push(name);
       if (name === 'flaky' && job.attempts === 1) throw new Error('503');
     },
-    { concurrency: 1, retryDelay: () => 30 },
+    { concurrency: 1, retryDelay: () => 300 },
   );
   queue.add('flaky');
   queue.add('steady');
   await sleep(10);
   expect(calls).toEqual(['flaky', 'steady']);
   const startedAt = Date.now();
-  await withTimeout(queue.onIdle());
-  expect(Date.now() - startedAt).toBeGreaterThanOrEqual(10);
+  await withTimeout(queue.onIdle(), 2_000);
+  expect(Date.now() - startedAt).toBeGreaterThanOrEqual(100);
   expect(calls).toEqual(['flaky', 'steady', 'flaky']);
   expect(queue.completed.map((job: any) => job.data)).toEqual(['steady', 'flaky']);
 });

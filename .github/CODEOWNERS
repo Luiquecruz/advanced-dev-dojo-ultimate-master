@@ -1,0 +1,13 @@
+# Changes to the pipeline, the deploy, the review rules and the Claude Code harness need a review from a maintainer.
+# Enforced when branch protection on main requires review from code owners (CONTRIBUTING.md "CI and deploy").
+/.github/                                   @Luiquecruz @hewersonfreitas
+/netlify.toml                               @Luiquecruz @hewersonfreitas
+/.coderabbit.yaml                           @Luiquecruz @hewersonfreitas
+/.gitleaksignore                            @Luiquecruz @hewersonfreitas
+/.claude/settings.json                      @Luiquecruz @hewersonfreitas
+/.claude/hooks/                             @Luiquecruz @hewersonfreitas
+# Isolation of learner code: worker lock-down, CSP and the verify sandbox.
+/plugins/pythonWorkerCspPlugin.ts           @Luiquecruz @hewersonfreitas
+/src/engines/python/lockdown.ts             @Luiquecruz @hewersonfreitas
+/src/verify/pythonSandbox*.ts               @Luiquecruz @hewersonfreitas
+/src/sandbox/                               @Luiquecruz @hewersonfreitas
