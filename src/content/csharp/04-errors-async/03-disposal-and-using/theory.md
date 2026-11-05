@@ -8,7 +8,7 @@ You need: 04/01 (exceptions and `finally`), 04/02 (`async`, `await` and `ValueTa
 
 Memory in .NET is reclaimed by the **garbage collector**, which runs when it decides to, not when a variable goes out of scope. That is fine for memory, but some objects also hold a resource the operating system or a pool hands out in limited numbers: an open file, a network socket, a database connection.
 
-A backend is a long-running process, so nothing ends and cleans up after each piece of work. A connection you do not release stays checked out of the pool until the garbage collector happens to notice the object, if it ever does. Under load that is how an API runs out of database connections or sockets while CPU and memory look normal. The rule: **anything that holds an operating-system or pooled resource implements `IDisposable`, and whoever creates it must dispose it.**
+A backend is a long-running process, so nothing ends and cleans up after each piece of work. A connection you do not release stays checked out of the pool until the garbage collector happens to notice the object, if it ever does. Under load that is how an API runs out of database connections or sockets while CPU and memory look normal. The rule: **anything that holds an operating-system or pooled resource implements `IDisposable` or `IAsyncDisposable`, and its owner, usually whoever creates it, must dispose it with `Dispose` or `DisposeAsync`.**
 
 ## `IDisposable` and the `using` statement
 

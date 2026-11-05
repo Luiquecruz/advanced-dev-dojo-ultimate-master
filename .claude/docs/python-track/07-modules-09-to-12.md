@@ -15,7 +15,7 @@ Gradual typing, annotations are metadata, checkers vs runtime, nominal classes b
 
 ### 02-modern-annotation-syntax (P, B)
 - Concept: `list[str]`, `dict[str, int]`, `X | None`, `typing.Optional` history, `Callable`, `Self`, annotations on variables, `__annotations__`.
-- Common mistake: a `None` default with a bare annotation (`count: int = None`), so the declared type never admits `None` and every reader of the annotations (a checker, `get_type_hints`, a schema) is told it is not allowed; write `int | None`. Nothing checks annotations when the code runs.
+- Common mistake: a `None` default with a bare annotation (`count: int = None`), so the declared type never admits `None` and every reader of the annotations (a checker, `get_type_hints`, a schema) is told it is not allowed; write `int | None`. Nothing checks annotations when the code runs on its own: a type checker checks them statically, and a validation library can use them to enforce constraints at runtime.
 - Challenge: annotate five functions in `main.py` so that `typing.get_type_hints` returns the contracted types (for example `{"items": list[str], "limit": int | None, "return": dict[str, int]}`).
 - Tests: `get_type_hints(function)` equals the expected dict for each function; no `typing.List/Dict/Optional` in the source (checked with `ast`: no `Attribute`/`Name`/`ImportFrom` node naming them, so a comment that mentions `List` does not fail).
 
@@ -178,7 +178,7 @@ Hook ladder, class creation steps, when frameworks use each.
 ### 07-import-system-internals (P, Ad)
 Moved from `12-tooling/05-modules-and-the-import-system` (115 plan). The beginner side (caching, `from` copies, `__main__`, circular imports) is `03-functions/02-modules-and-imports`; this lesson is the protocol underneath.
 - Concept: `sys.modules` cache, finders/loaders (`importlib.abc.MetaPathFinder`, `Loader`, `importlib.util.spec_from_loader`), packages and `__path__`, relative imports, `__spec__`, `importlib.reload`.
-- Common mistake: an uninstall that removes the finder from `sys.meta_path` but leaves its modules in `sys.modules`, so they stay importable; a module runs once per process, so drop the cached modules too (or call `importlib.reload` to run one again).
+- Common mistake: an uninstall that removes the finder from `sys.meta_path` but leaves its modules in `sys.modules`, so they stay importable; a module runs once per process, so drop the cached modules too. To run one again, call `importlib.reload` while the finder is still installed (reload finds the spec through `sys.meta_path`), then uninstall the finder.
 - Challenge: `class DictFinder(sources)` serving modules (and packages) from a dict of name → source, installable in `sys.meta_path`; `install(sources)`/`uninstall()` helpers; imports are cached; `reload` re-executes.
 - Tests: import a module and a package submodule with correct `__name__` and `__spec__.name`; module cached in `sys.modules`; relative import inside the package; uninstall removes the finder and a missing module raises `ModuleNotFoundError`.
 - Notes: verify custom finders work in Pyodide and that tests clean `sys.meta_path` and `sys.modules` (the harness reuses one interpreter).

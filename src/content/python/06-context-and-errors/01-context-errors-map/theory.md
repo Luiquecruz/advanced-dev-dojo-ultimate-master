@@ -16,7 +16,7 @@ A `with` block calls the manager's `__exit__` on every way out of the block, and
 
 ## What an exception carries
 
-An exception is an instance of a class under `BaseException`, and only such instances can be raised, so `except` matches by class and a library's hierarchy is part of its API. Its **class** says what went wrong and decides which `except` clause matches; its **message** is for humans; `__context__` links it automatically to the error being handled when it was raised, and `__cause__` to the one `raise ... from` names; `__notes__` carry extra context added on the way up; an **`ExceptionGroup`** carries several unrelated failures at once.
+An exception is an instance of a class under `BaseException`, and `raise` accepts only such an instance or such a class (Python then creates the instance), so `except` matches by class and a library's hierarchy is part of its API. Its **class** says what went wrong and decides which `except` clause matches; its **message** is for humans; `__context__` links it automatically to the error being handled when it was raised, and `__cause__` to the one `raise ... from` names; `__notes__` carry extra context added on the way up; an **`ExceptionGroup`** carries several unrelated failures at once.
 
 ## The path
 

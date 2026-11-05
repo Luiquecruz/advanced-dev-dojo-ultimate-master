@@ -41,6 +41,6 @@
       "Use `itertools.tee` on the source lines"
     ],
     "answer": 1,
-    "explanation": "Running it twice reads the source twice, lists in every stage bring back the full memory cost, and `tee` on the source buffers raw lines. One `list()` of the small final result is the cheap materialization point."
+    "explanation": "Running it twice needs a fresh source and reads the whole log again, lists in every stage bring back the full memory cost, and `tee` on the source buffers raw lines. One `list()` of the small final result is the cheap materialization point."
   }
 ]

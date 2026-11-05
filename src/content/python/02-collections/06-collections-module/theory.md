@@ -54,7 +54,7 @@ config["port"]             # 80: first mapping that has the key
 config["port"] = 1         # writes go to the FIRST mapping only
 ```
 
-`ChainMap` does not copy: it searches the mappings in order, which makes it ideal for command line, environment and default layers. Merging the same layers with `{**defaults, **env, **cli}` builds a new dict once: later changes to `defaults` never reach it, and writes to it never reach `cli`. A `ChainMap` is a view, so a change in any layer is visible immediately.
+`ChainMap` does not copy: it searches the mappings in order, which makes it ideal for command line, environment and default layers. Merging the same layers with `{**defaults, **env, **cli}` builds a new dict once: later changes to `defaults` never reach it, and writes to it never reach `cli`. A `ChainMap` is a view, so a change in any layer is visible immediately, unless an earlier layer holds the same key and hides it.
 
 ## Common mistakes
 

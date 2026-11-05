@@ -105,7 +105,7 @@ app.Lifetime.ApplicationStopping.Register(() =>
 app.Run();
 ```
 
-A deploy that kills the process without waiting for graceful shutdown cuts requests in half, so orchestrators give the process a grace period at least as long as the timeout.
+A deploy that kills the process without waiting for graceful shutdown cuts requests in half, so set the orchestrator's grace period longer than the timeout: `docker stop` waits 10 seconds and a Kubernetes pod 30 seconds by default before killing the process.
 
 ## Common mistakes
 

@@ -51,6 +51,7 @@ public sealed class ReservationService(IStockGateway stock, TimeProvider clock)
 
     public async Task<Hold?> HoldAsync(string sku, int quantity, CancellationToken cancellationToken)
     {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity);
         if (await stock.GetAvailableAsync(sku, cancellationToken) < quantity)
         {
             return null;
@@ -65,6 +66,7 @@ public sealed class ReservationService(IStockGateway stock, TimeProvider clock)
 
     public async Task<int> ExpireHoldsAsync(CancellationToken cancellationToken)
     {
+        // TODO: this reads the system clock too; check hold ages with the injected clock.
         DateTimeOffset now = DateTimeOffset.UtcNow;
         int released = 0;
         foreach (Hold hold in _holds)

@@ -76,6 +76,7 @@ public sealed class ReservationService(IStockGateway stock, TimeProvider clock)
 
     public async Task<Hold?> HoldAsync(string sku, int quantity, CancellationToken cancellationToken)
     {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity);
         if (await stock.GetAvailableAsync(sku, cancellationToken) < quantity)
         {
             return null;

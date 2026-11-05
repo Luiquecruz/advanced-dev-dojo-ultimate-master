@@ -17,7 +17,7 @@ my-service/
 | Isolate dependencies | a virtual environment (`.venv`) | projects sharing one set of packages |
 | Resolve and lock | `uv lock` (or pip-tools, Poetry) | a deploy that installs versions nobody tested |
 | Run a command | `uv run pytest` | a tool from the wrong environment |
-| Lint and format | Ruff (`ruff check`, `ruff format`) | style debates, risky calls such as `eval` |
+| Lint and format | Ruff (`ruff check`, `ruff format`) | style debates; `eval` with `--select S` |
 | Type-check | mypy, pyright, ty | type errors that the interpreter never reports |
 | Test | `unittest`, pytest | regressions users would find first |
 | Build | a backend writes an sdist and a wheel | installs that differ between machines |

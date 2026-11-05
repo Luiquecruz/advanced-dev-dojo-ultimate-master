@@ -72,7 +72,7 @@ def __set__(self, instance, value):
     instance.__dict__[self.name] = value
 ```
 
-When the owner class has no `__dict__` (it uses `__slots__`, lesson 06), keep the values in a `weakref.WeakKeyDictionary` keyed by the instance instead.
+When the owner class has no `__dict__` (it uses `__slots__`, lesson 06), keep the values in a `weakref.WeakKeyDictionary` keyed by the instance instead. The instance must then be hashable and the class must list `"__weakref__"` in its `__slots__`, or inserting it raises `TypeError`.
 
 **Forgetting the `instance is None` branch in `__get__`.** `Product.price` then tries to read a value from `None` and fails, and tools that inspect the class can no longer find the descriptor.
 

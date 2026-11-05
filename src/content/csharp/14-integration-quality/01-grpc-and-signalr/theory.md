@@ -122,7 +122,7 @@ public sealed class StockNotifier(IHubContext<StockHub, IStockClient> hub)
 ## Common mistakes
 
 - **A gRPC call without a deadline.** When the server hangs, the call waits forever and holds its resources. Pass `deadline: DateTime.UtcNow.AddSeconds(…)` on every call.
-- **gRPC behind a layer 4 balancer.** All calls ride one HTTP/2 connection, so one pod takes all the traffic while the others idle. Use a layer 7 proxy or client-side load balancing.
+- **gRPC behind a layer 4 balancer.** The balancer picks a pod per connection, not per call, and a gRPC client sends many calls over each long-lived HTTP/2 connection, so a few pods take the traffic while the others idle. Use a layer 7 proxy or client-side load balancing.
 - **Two SignalR replicas without a backplane.** `Clients.All` reaches only the users connected to the sending replica. Add Azure SignalR Service or Redis.
 - **State in hub fields.** A hub instance lives for one invocation, so a field is empty on the next call. Keep state in a singleton service or a store.
 
