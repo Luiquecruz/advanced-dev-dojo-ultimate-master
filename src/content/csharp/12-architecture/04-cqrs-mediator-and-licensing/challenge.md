@@ -2,7 +2,7 @@ Split an ordering feature into a command side and a query side in `Program.cs`, 
 
 ## `PlaceOrderHandler`, the command side
 
-`HandleAsync(PlaceOrder command, ct)` creates an `Order` with a new id from `Guid.CreateVersion7()`, calls `Place()`, adds it to the store, calls `SaveChanges()` once and returns the order's id. A command returns the id, not the order.
+`HandleAsync(PlaceOrder command, ct)` creates an `Order` with a new id from `Guid.CreateVersion7()` and the command's `CustomerId`, `Sku`, `Quantity` and `UnitPrice`, calls `Place()`, adds it to the store, calls `SaveChanges()` once and returns the order's id. A command returns the id, not the order.
 
 ## `GetOrderSummaryHandler`, the query side
 

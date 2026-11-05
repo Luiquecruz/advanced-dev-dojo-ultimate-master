@@ -63,6 +63,8 @@ public static class JwtTests
         Assert.Equal(TokenCheck.Valid, validator.Check(Token(Payload())));
         Assert.Equal(TokenCheck.Malformed, validator.Check("not-a-token"));
         Assert.Equal(TokenCheck.Malformed, validator.Check(Token("""["not","an","object"]""")));
+        Assert.Equal(TokenCheck.Malformed, validator.Check(Segment("""{"alg":"RS256"}""") + ".not*base64url.c2lnbmF0dXJl"));
+        Assert.Equal(TokenCheck.Malformed, validator.Check(Token("not json")));
         Assert.Equal(TokenCheck.Malformed, validator.Check(Token($$"""{"iss":"{{Issuer}}","aud":"catalog-api","exp":999999999999999}""")));
         Assert.Equal(TokenCheck.Malformed, validator.Check(Token($$"""{"iss":"{{Issuer}}","aud":"catalog-api","nbf":-999999999999999,"exp":{{Exp}}}""")));
         Assert.Equal(TokenCheck.WrongIssuer, validator.Check(Token(Payload(iss: "https://login.example.com"))));
@@ -80,12 +82,17 @@ public static class JwtTests
         Assert.Equal(TokenCheck.Expired, validator.Check(backwards));
     }
 
-    [Test("Check accepts a token up to the clock skew after exp, and rejects it after that")]
+    [Test("Check accepts a token up to the clock skew after exp, rejects it after that, and does not throw for the latest possible exp")]
     public static void ChecksExpiryWithSkew()
     {
         DateTimeOffset exp = DateTimeOffset.FromUnixTimeSeconds(Exp);
         Assert.Equal(TokenCheck.Valid, At(exp.AddMinutes(4).AddSeconds(59)).Check(Token(Payload())));
+        Assert.Equal(TokenCheck.Valid, At(exp.AddMinutes(5)).Check(Token(Payload())));
         Assert.Equal(TokenCheck.Expired, At(exp.AddMinutes(5).AddSeconds(1)).Check(Token(Payload())));
+
+        // 9999-12-31T23:59:59Z, the last second a DateTimeOffset can hold: exp plus the skew would pass DateTimeOffset.MaxValue.
+        string lastSecond = Token($$"""{"iss":"{{Issuer}}","aud":"catalog-api","exp":253402300799}""");
+        Assert.Equal(TokenCheck.Valid, At(exp).Check(lastSecond));
     }
 
     [Test("Check rejects a token whose nbf is more than the clock skew in the future")]

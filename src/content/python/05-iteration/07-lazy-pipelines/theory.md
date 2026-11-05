@@ -25,11 +25,11 @@ Write each stage as a list comprehension instead and the shape inverts: every st
 
 ## How it works
 
-- **The stage that owns a resource's lifetime closes it**, in `try`/`finally` around its `yield`s; here that is `pipeline`, which closes the `Source` it is given. Then exhaustion, an exception and `close()` all release it.
+- **The stage that owns a resource's lifetime closes it**, in `try`/`finally` around its `yield`s; here that is `pipeline`, which closes the `Source` it is given. Then exhaustion, an exception and `close()` after the first pull all release it. A generator closed before its first `next()` never ran its body: `close()` only marks it finished, its `finally` does not run, and the source stays open.
 - `close()` on the outer generator reaches the inner ones: `yield from` closes its sub-generator, and generators held only by a closed frame are finalized in CPython as soon as their last reference disappears. A plain object such as a file, a connection or this lesson's `Source` has no frame: only code that calls its `close()` releases it.
 - **Errors surface late.** A malformed line raises when the pipeline reaches it, long after the call that built the chain. Put the offending input in the exception message; the traceback no longer points at the caller's line.
 - **Chunking at the end of the chain** (`itertools.batched`) gives the sink bulk batches while every earlier stage stays item by item. A chunk is yielded as soon as it is full, so the first chunk of 2 errors reads only up to the second error.
-- `contextlib.closing(pipeline(source))` (module 06) calls `close()` at the end of a `with` block, for consumers that may stop early.
+- `contextlib.closing(pipeline(source))` (module 06) calls `close()` at the end of a `with` block, for consumers that may stop early. Code that opens the source and may give up before the first pull closes the source itself as well, for example with `closing(source)` around the whole job; a second `close()` is harmless.
 - A pipeline makes one pass over a one-shot source and closes it, so running it again needs a fresh source. When results are needed again, materialize them once at the sink.
 
 ## Common mistakes
