@@ -89,8 +89,9 @@ public sealed class Order
         if (Status != OrderStatus.Draft) throw new InvalidOperationException("Only draft orders can change.");
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity);
 
+        Money newTotal = Total.Add(unitPrice.Times(quantity));
         _lines.Add(new OrderLine(sku, quantity, unitPrice));
-        Total = Total.Add(unitPrice.Times(quantity));
+        Total = newTotal;
     }
 
     public void Place()
@@ -106,7 +107,7 @@ public sealed class Order
 }
 ```
 
-"Total equals the sum of the lines" cannot break: `AddLine` is the only way in, and it updates both. `Lines` returns a read-only wrapper, so a cast back to `List<OrderLine>` fails, and `Place` records `OrderPlaced` only once.
+"Total equals the sum of the lines" cannot break: `AddLine` is the only way in, and it computes the new total first, so a currency mismatch changes nothing. `Lines` returns a read-only wrapper, so a cast back to `List<OrderLine>` fails, and `Place` records `OrderPlaced` only once.
 
 ## Persisting it with EF Core 10
 
@@ -123,7 +124,7 @@ modelBuilder.Entity<Order>(order =>
 
 ## Domain events: record now, dispatch at save
 
-A **domain event** says something meaningful happened in the domain ("order placed", not "row inserted"). The aggregate only *records* it; the application dispatches it when the unit of work is saved. Microsoft's microservices e-book describes this deferred approach and the choice it forces: handlers that run *before* `SaveChangesAsync` share the transaction; handlers that run *after* need eventual consistency and compensation if they fail. Despite the rule above, the e-book says both can be right: one transaction across aggregates for side effects of one command (Bogard), or eventual consistency (Evans, Vernon). Business requirements decide.
+A **domain event** says something meaningful happened in the domain ("order placed", not "row inserted"). The aggregate only *records* it; the application dispatches it when the unit of work is saved. Microsoft's microservices e-book describes this deferred approach and the choice it forces: handlers that run *before* `SaveChangesAsync` share the transaction; handlers that run *after* need eventual consistency and compensation if they fail. The e-book accepts both: one transaction across aggregates for one command's side effects (Bogard), or eventual consistency (Evans, Vernon).
 
 ```csharp
 public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
