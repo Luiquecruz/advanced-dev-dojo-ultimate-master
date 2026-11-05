@@ -1,0 +1,14 @@
+{
+  "title": "CI/CD Pipelines",
+  "summary": "Restore, build, test and publish a .NET API image with the dotnet CLI in GitHub Actions and Azure DevOps Pipelines, with pinned SDKs, lock files and one image promoted through every environment.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "GitHub Actions and .NET", "url": "https://learn.microsoft.com/en-us/dotnet/devops/github-actions-overview" },
+    { "label": "Build, test, and deploy .NET Core projects (Azure Pipelines)", "url": "https://learn.microsoft.com/en-us/azure/devops/pipelines/ecosystems/dotnet-core" },
+    { "label": "actions/setup-dotnet", "url": "https://github.com/actions/setup-dotnet" },
+    { "label": "Working with the GitHub Container registry", "url": "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry" },
+    { "label": "balta.io: Fundamentos do Azure, Git, GitHub e DevOps (version not shown on the page)", "url": "https://balta.io/courses/fundamentos-azure-git-github-devops" },
+    { "label": "balta.io: Fundamentos do Git e Azure DevOps (version not shown on the page)", "url": "https://balta.io/courses/fundamentos-git-azure-devops" }
+  ]
+}

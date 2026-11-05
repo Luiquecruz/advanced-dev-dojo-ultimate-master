@@ -1,0 +1,7 @@
+[
+  { "term": "Deliverable system", "description": "Images, a pipeline and runtime configuration that let anyone build, test and start the system from a clean clone without manual steps." },
+  { "term": "Commit-tagged image", "description": "An image tagged with the commit SHA so every running container can be traced back to the exact source and pipeline run." },
+  { "term": "Health-gated start-up", "description": "Compose `depends_on` with `condition: service_healthy`, which starts the apps only after their dependencies report healthy." },
+  { "term": "End-to-end trace", "description": "One trace id shared by the API's server span, the producer span and the worker's consumer span, made possible by injecting context into message headers." },
+  { "term": "Readiness versus liveness", "description": "Readiness fails while a dependency is down and recovers without a restart; liveness only reports whether the process can serve." }
+]

@@ -1,0 +1,13 @@
+{
+  "title": "Transactions and Concurrency",
+  "summary": "What EF Core already makes atomic, explicit transactions and execution strategies, optimistic concurrency tokens (rowversion, xmin) mapped to HTTP 409, and conditional updates for stock.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Transactions in EF Core", "url": "https://learn.microsoft.com/en-us/ef/core/saving/transactions" },
+    { "label": "Handling concurrency conflicts", "url": "https://learn.microsoft.com/en-us/ef/core/saving/concurrency" },
+    { "label": "Connection resiliency and execution strategies", "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency" },
+    { "label": "Npgsql EF Core: concurrency tokens with xmin", "url": "https://www.npgsql.org/efcore/modeling/concurrency.html" },
+    { "label": "balta.io: Acesso à dados com .NET, C#, Dapper e SQL Server (version not shown on the page)", "url": "https://balta.io/courses/acesso-dados-csharp-net-dapper-sql-server" }
+  ]
+}

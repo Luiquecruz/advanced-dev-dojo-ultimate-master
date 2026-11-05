@@ -1,0 +1,9 @@
+[
+  { "term": "Hosted service", "description": "A class implementing `IHostedService` that the host starts with the app and stops on graceful shutdown, registered with `AddHostedService` as a singleton." },
+  { "term": "BackgroundService", "description": "The base class for long-running hosted services: you override `ExecuteAsync`, whose returned task is the lifetime of the service." },
+  { "term": "stoppingToken", "description": "The cancellation token passed to `ExecuteAsync`, cancelled when the host stops, which every loop and async call in the service should observe." },
+  { "term": "Scope per unit of work", "description": "Creating a DI scope with `IServiceScopeFactory.CreateAsyncScope()` for each tick, message or job, so scoped services such as `DbContext` live only as long as that work." },
+  { "term": "PeriodicTimer", "description": "An async timer whose `WaitForNextTickAsync` drives interval loops without overlapping iterations." },
+  { "term": "BackgroundServiceExceptionBehavior", "description": "The host option that decides what an unhandled exception in `ExecuteAsync` does; the default since .NET 6, `StopHost`, logs it and stops the host." },
+  { "term": "Worker Service", "description": "The `dotnet new worker` template: a host built with `Host.CreateApplicationBuilder` and the `Microsoft.NET.Sdk.Worker` SDK, with DI, configuration and logging but no HTTP server." }
+]

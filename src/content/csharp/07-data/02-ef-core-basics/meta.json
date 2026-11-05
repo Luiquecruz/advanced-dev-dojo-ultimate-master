@@ -1,0 +1,13 @@
+{
+  "title": "EF Core Basics",
+  "summary": "Mapping entities with a DbContext, registering it as a scoped unit of work, LINQ queries translated to SQL, and saving through the change tracker, compared with Magento repositories and resource models.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "DbContext lifetime, configuration and initialization", "url": "https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/" },
+    { "label": "Client vs. server evaluation", "url": "https://learn.microsoft.com/en-us/ef/core/querying/client-eval" },
+    { "label": "What's new in EF Core 10", "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew" },
+    { "label": "balta.io: Fundamentos do Entity Framework (EF Core 5; concepts still apply)", "url": "https://balta.io/courses/fundamentos-entity-framework" },
+    { "label": "balta.io: Dominando Postgres com Entity Framework (version not shown on the page)", "url": "https://balta.io/courses/dominando-postgres-com-entity-framework" }
+  ]
+}

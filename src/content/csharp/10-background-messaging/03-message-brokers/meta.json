@@ -1,0 +1,14 @@
+{
+  "title": "Message Brokers: RabbitMQ, Kafka and Azure Service Bus",
+  "summary": "How RabbitMQ exchanges and queues, Kafka partitioned topics and consumer groups, and Azure Service Bus queues and topics deliver and acknowledge messages, with their .NET clients and a guide to choosing one.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Azure Service Bus queues, topics and subscriptions", "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions" },
+    { "label": "Azure Service Bus queue quickstart for .NET", "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dotnet-get-started-with-queues" },
+    { "label": "RabbitMQ: AMQP 0-9-1 model explained", "url": "https://www.rabbitmq.com/tutorials/amqp-concepts" },
+    { "label": "RabbitMQ tutorial: work queues (.NET)", "url": "https://www.rabbitmq.com/tutorials/tutorial-two-dotnet" },
+    { "label": "Confluent .NET client for Apache Kafka", "url": "https://docs.confluent.io/kafka-clients/dotnet/current/overview.html" },
+    { "label": "balta.io: Fundamentos do Event-Driven Architecture (concepts and Kafka only)", "url": "https://balta.io/courses/fundamentos-event-driven-architecture" }
+  ]
+}

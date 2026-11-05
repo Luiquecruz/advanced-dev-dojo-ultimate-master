@@ -1,0 +1,13 @@
+{
+  "title": "Project P2: Catalog REST API",
+  "summary": "Build an in-memory catalog minimal API on .NET 10 with CRUD, stable paging and search, DataAnnotations validation, Problem Details for every error and an OpenAPI document, checked with curl against explicit acceptance criteria.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "project"],
+  "resources": [
+    { "label": "Microsoft Learn: Tutorial: Create a Minimal API with ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-10.0" },
+    { "label": "Microsoft Learn: Handle errors in ASP.NET Core APIs", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api?view=aspnetcore-10.0" },
+    { "label": "Microsoft Learn: Generate OpenAPI documents", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi?view=aspnetcore-10.0" },
+    { "label": "balta.io: Fundamentos do ASP.NET 6 (ASP.NET 6; minimal APIs and CRUD)", "url": "https://balta.io/courses/fundamentos-aspnet" },
+    { "label": "balta.io: Fullstack .NET (.NET 8; backend modules)", "url": "https://balta.io/courses/fullstack-dotnet" }
+  ]
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What does `factory.CreateClient()` send requests to?",
+    "options": [
+      "A Kestrel instance that the factory starts on a random local port",
+      "The real `Program` pipeline on an in-memory `TestServer`, with no socket",
+      "Only the endpoint handler, with the middleware pipeline skipped",
+      "The URL in `launchSettings.json`, so the app must already be running"
+    ],
+    "answer": 1,
+    "explanation": "`WebApplicationFactory` builds the host from your entry point and swaps Kestrel for `TestServer`; the `HttpClient` talks to it in memory, so routing, middleware, DI and authorization all run. Nothing listens on a port, and the app does not need to be started separately as Magento's API-functional tests require."
+  },
+  {
+    "question": "Every test in a class shares one `WebApplicationFactory<Program>` through `IClassFixture`. P2 keeps products in a list registered with `AddSingleton`. `Create_ThenList_ReturnsOneProduct` passes alone and fails when the whole class runs. Why?",
+    "options": [
+      "`IClassFixture` builds a new host for each test, so the product is lost",
+      "`TestServer` handles requests in parallel and silently drops some of them",
+      "`HttpClient` caches the first GET response and returns it for later calls",
+      "The singleton lives as long as the shared host, so other tests' products remain"
+    ],
+    "answer": 3,
+    "explanation": "The factory builds the host once and keeps it for every test that shares it, so singleton state survives between tests, unlike a PHP request that starts from nothing. Create unique data per test and assert on that data instead of on totals. A class fixture is created once, not per test, so the first option has it backwards."
+  },
+  {
+    "question": "In `ConfigureWebHost` you call `builder.ConfigureTestServices(s => s.AddSingleton<IPriceFeed, FakePriceFeed>())`, while `Program.cs` registers `HttpPriceFeed`. Which implementation does an endpoint that injects `IPriceFeed` receive?",
+    "options": [
+      "`FakePriceFeed`, because test service callbacks run after `Program.cs`",
+      "`HttpPriceFeed`, because the app's own registrations always take precedence",
+      "Neither, because registering the same interface twice throws at startup",
+      "`HttpPriceFeed`, because `ConfigureTestServices` only adds missing services"
+    ],
+    "answer": 0,
+    "explanation": "The test callbacks run after the app's own registrations, and resolving a single `IPriceFeed` returns the last registration. `ConfigureTestServices` is not a `TryAdd`, and duplicate registrations do not throw. Code that resolves `IEnumerable<IPriceFeed>` would still get both, which is why `RemoveAll<IPriceFeed>()` is the clearer choice."
+  },
+  {
+    "question": "A Magento developer upgrading a test project to .NET 10 keeps `public partial class Program { }` at the end of `Program.cs`. What happens?",
+    "options": [
+      "The build fails, because .NET 10 no longer allows declaring `Program` yourself",
+      "It compiles, but tests can no longer reference `Program` from the test project",
+      "It compiles; .NET 10 generates that declaration and an analyzer flags yours",
+      "It is still required, because .NET 10 keeps the generated `Program` internal"
+    ],
+    "answer": 2,
+    "explanation": "Before .NET 10 the top-level `Program` class was `internal`, so tests needed the public partial declaration or `InternalsVisibleTo`. ASP.NET Core 10 adds a source generator that emits it, plus an analyzer that flags the now redundant line. Partial declarations merge, so nothing breaks."
+  },
+  {
+    "question": "With a test authentication handler that returns `AuthenticateResult.NoResult()` when the `X-Test-Role` header is missing, what should these requests to `POST /products`, protected by an `admin` policy, return: no header, `X-Test-Role: customer`, `X-Test-Role: admin`?",
+    "options": [
+      "403, 403, 201",
+      "401, 401, 201",
+      "200, 403, 201",
+      "401, 403, 201"
+    ],
+    "answer": 3,
+    "explanation": "No authenticated user means a challenge, which is 401. An authenticated user who fails the policy is forbidden, which is 403. An admin passes and the endpoint creates the product. Answering 403 for the anonymous request mixes up authentication with authorization, the distinction from module 08."
+  },
+  {
+    "question": "An endpoint redirects unauthenticated browser users to `/login`. Your test calls it with `factory.CreateClient()` and gets 200. What is going on?",
+    "options": [
+      "The client followed the redirect; set `AllowAutoRedirect = false` to see the 302",
+      "`TestServer` does not support redirects, so it always answers with 200",
+      "The test ran in `Production`, where the redirect middleware is turned off",
+      "Redirects only happen over HTTPS, and the test client uses `http://localhost`"
+    ],
+    "answer": 0,
+    "explanation": "Clients from `CreateClient()` follow redirects and handle cookies by default, so the redirect is hidden behind the login page's final 200. Passing `WebApplicationFactoryClientOptions { AllowAutoRedirect = false }` exposes the 302 and its `Location` header. `TestServer` supports redirects, and the default environment is `Development`, not `Production`."
+  }
+]

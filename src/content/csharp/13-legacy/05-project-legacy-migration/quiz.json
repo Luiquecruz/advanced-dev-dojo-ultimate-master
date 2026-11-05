@@ -1,0 +1,68 @@
+[
+  {
+    "question": "The gateway maps `GET /api/products/{id:int}` and a catch-all forwarder. A client calls `GET /api/products/abc`. What happens?",
+    "options": [
+      "The new endpoint answers 400, because `abc` is not a valid integer",
+      "The constraint fails, so the catch-all forwards it to the legacy app",
+      "ASP.NET Core throws at startup, because the two route patterns overlap",
+      "Both apps receive it, and the gateway returns whichever answers first"
+    ],
+    "answer": 1,
+    "explanation": "A route constraint is part of matching: when it fails, that endpoint is not a candidate, so the forwarder takes the request. Expecting a 400 is the tempting answer because that is what model binding does for a bad body, but constraints never bind; they only decide whether the route matches."
+  },
+  {
+    "question": "Which acceptance check best proves that the migrated endpoint, and not the legacy app, answered `/api/products/1`?",
+    "options": [
+      "The response status is 200, as the acceptance criteria require",
+      "The body has exactly the JSON shape recorded from the legacy app",
+      "The response arrives noticeably faster than it did before migration",
+      "The `X-Served-By` header, plus no request in the legacy app's log"
+    ],
+    "answer": 3,
+    "explanation": "Both apps return 200 and the same JSON by design, so status and body cannot tell them apart; a provenance header plus the legacy log can. Response time is a weak signal that varies run to run."
+  },
+  {
+    "question": "Your `WebApplicationFactory<Program>` test for `/api/orders/1` passes locally, but in CI it fails because the response is `502 Bad Gateway` instead of `200`. Why?",
+    "options": [
+      "No legacy app runs in CI, and the forwarder calls the real legacy URL",
+      "`WebApplicationFactory` cannot host apps that map YARP forwarders",
+      "The in-memory test server rejects routes that start with `/api`",
+      "xUnit runs the tests in parallel, which exhausts the forwarder's connections"
+    ],
+    "answer": 0,
+    "explanation": "The factory hosts the gateway in memory, but forwarding still leaves the process to reach `LegacyAppUrl`, so CI must start the legacy app (or a stand-in) first. The forwarder does not throw on the refused connection; it turns it into a 502 response, so the test must assert the status, or a check for the missing `X-Served-By` header alone would pass. Blaming parallel execution is tempting for a CI-only failure, but a 502 here comes from a refused connection, not a race."
+  },
+  {
+    "question": "On Linux you replace the Windows-only MVC 5 app with `php -S 127.0.0.1:8081 legacy.php`. What does this version of the kata still let you practice?",
+    "options": [
+      "Remote session through the System.Web adapters, backed by PHP's session store",
+      "Upgrading the `System.Web` libraries to `netstandard2.0` with the adapters",
+      "Route priority, constraints, the configured fallback and provenance tests",
+      "Remote authentication against a stub server that mimics the MVC 5 app"
+    ],
+    "answer": 2,
+    "explanation": "The proxy does not care what technology answers behind it, so routing, priorities, the configured legacy URL and provenance tests are fully realistic. Remote session, remote authentication and `System.Web` library upgrades need the real .NET Framework app with `AddRemoteAppServer`, which is why they are a Windows-only stretch goal."
+  },
+  {
+    "question": "Why bind the legacy app to `127.0.0.1` (or a private network) once the gateway is in front?",
+    "options": [
+      "YARP can only forward requests to loopback or private addresses",
+      "So clients cannot bypass the gateway and call old routes directly",
+      "YARP adds the `X-Forwarded-For` header only for loopback destinations",
+      "The gateway's health checks reject destinations on a public address"
+    ],
+    "answer": 1,
+    "explanation": "If the old app stays public, some clients keep calling it and a migrated route still has a live old implementation, so it is never really retired; Microsoft also recommends exposing the Framework app only through the proxy. YARP forwards to any reachable address, so the first option confuses a security choice with a technical limit."
+  },
+  {
+    "question": "The forwarder reads `app.Configuration[\"LegacyAppUrl\"]`. How do you point it at port 9090 in a container without editing code or `appsettings.json`?",
+    "options": [
+      "Set the environment variable `LegacyAppUrl=http://legacy:9090`",
+      "Recompile with a `#if CONTAINER` symbol that switches the URL",
+      "Edit `web.config`, which ASP.NET Core reads for its app settings",
+      "Pass `--urls http://legacy:9090` to `dotnet run` inside the container"
+    ],
+    "answer": 0,
+    "explanation": "The default host layers environment variables over `appsettings.json`, so the same build runs anywhere (module 05). `--urls` is tempting because the project uses it, but it sets the address the gateway listens on, not the URL it forwards to; and ASP.NET Core does not read app settings from `web.config`."
+  }
+]

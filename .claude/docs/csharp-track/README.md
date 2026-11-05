@@ -19,7 +19,7 @@ Make a backend developer coming from **PHP/Magento** productive in a modern C#/.
 | Scope | 13 modules, 67 lessons: core 01–11, deepening 12, legacy 13 | Core = what the [market sample](01-market-research.md) asks for in most postings. Architecture and legacy are separate so that a learner can stop after the core |
 | Practice | 7 progressive projects, each described in the closing lesson of a module with features and acceptance criteria | The goal requires described projects; there is no executable C# in the app |
 | Courses | balta.io courses linked as optional companions, with version caveats | [03-balta-catalog.md](03-balta-catalog.md): no backend course uses .NET 10, and some carry the site's own legacy banner. Lessons are the source of truth for current versions |
-| Visibility | `TRACK_FLAGS.csharp = false` while modules are written, `true` once every module is verified and reviewed | No half-built track in the carousel |
+| Visibility | `TRACK_FLAGS.csharp = true` since the release: every module was written, cross-reviewed and verified, and the whole track passed an independent final review (it was `false` while the modules were written) | No half-built track in the carousel |
 | Language | English | Project rule |
 
 ## Documents

@@ -1,0 +1,14 @@
+{
+  "title": "Migration Strategies",
+  "summary": "Plan an ASP.NET Framework to ASP.NET Core migration: in place versus incremental, the Strangler Fig with YARP, remote session and authentication, postorder library upgrades with the System.Web adapters, and current tooling (Copilot modernization; Upgrade Assistant is deprecated).",
+  "level": "advanced",
+  "tags": ["recommended", "legacy", "theory"],
+  "resources": [
+    { "label": "Migrate from ASP.NET Framework to ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/" },
+    { "label": "Get started with incremental ASP.NET to ASP.NET Core migration", "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/start" },
+    { "label": "Remote app setup (YARP fallback)", "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/inc/remote-app-setup" },
+    { "label": "System.Web adapters", "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/inc/systemweb-adapters" },
+    { "label": ".NET Upgrade Assistant overview (deprecated)", "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/upgrade-assistant-overview" },
+    { "label": "balta.io: Migrando para o .NET 7 e C# 11 (.NET 7; migration strategy concepts still apply)", "url": "https://balta.io/courses/migrando-dotnet-7-csharp-11" }
+  ]
+}

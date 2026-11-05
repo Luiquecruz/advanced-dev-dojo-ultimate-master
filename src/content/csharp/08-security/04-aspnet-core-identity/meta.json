@@ -1,0 +1,32 @@
+{
+  "title": "ASP.NET Core Identity",
+  "summary": "Add user accounts with ASP.NET Core Identity, know its hashing, password and lockout defaults, use `MapIdentityApi` within its documented limits, and see what .NET 10 passkey support covers and when an identity provider is the better choice.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: Use Identity to secure a Web API backend for SPAs",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization"
+    },
+    {
+      "label": "Microsoft Learn: Configure ASP.NET Core Identity",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration"
+    },
+    {
+      "label": "Microsoft Learn: Enable Web Authentication API (WebAuthn) passkeys",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/passkeys/"
+    },
+    {
+      "label": "Microsoft Learn: What's new in ASP.NET Core in .NET 10",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0"
+    },
+    {
+      "label": "balta.io: Introdução ao ASP.NET Core Identity (old ASP.NET Core era; concepts only)",
+      "url": "https://balta.io/courses/introducao-ao-aspnet-core-identity"
+    }
+  ]
+}

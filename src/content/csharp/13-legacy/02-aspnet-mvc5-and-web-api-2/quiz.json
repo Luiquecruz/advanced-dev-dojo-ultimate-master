@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A legacy service class reads `HttpContext.Current.Session[\"CustomerId\"]`. It works in controllers but throws `NullReferenceException` when called from a `Task.Run` job. Why?",
+    "options": [
+      "Outside the request context, such as a thread-pool thread, it is `null`",
+      "Session state is disabled for `Task.Run` work by a default setting in `web.config`",
+      "`Task.Run` runs the code in a separate AppDomain that cannot load `System.Web`",
+      "The session has already expired, because `Task.Run` waits for the request to end"
+    ],
+    "answer": 0,
+    "explanation": "`HttpContext.Current` behaves like a PHP superglobal only while code runs in the request context; a background task has no current request, so it is `null`. There is no `web.config` switch that disables session for tasks, which makes the second option a plausible but invented cause."
+  },
+  {
+    "question": "A team adds a global authorization filter with `FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters)`. Pages are protected, but `/api/orders` is still open. What is the most likely reason?",
+    "options": [
+      "MVC global filters apply only to `[HttpPost]` actions unless configured otherwise",
+      "The filter only runs on controllers that are marked with `[AllowAnonymous]`",
+      "Web API 2 has its own filter collection in `HttpConfiguration`, which MVC filters never reach",
+      "IIS caches API responses, so the filter is skipped after the first call"
+    ],
+    "answer": 2,
+    "explanation": "MVC 5 and Web API 2 are separate frameworks: `System.Web.Mvc` and `System.Web.Http` each have their own filters, routing and DI hooks, so an MVC global filter never runs for `ApiController` actions. The `[AllowAnonymous]` option is backwards: that attribute disables authorization, it does not enable it."
+  },
+  {
+    "question": "Where do you look first to understand which subsystems a classic MVC 5 app turns on at startup?",
+    "options": [
+      "`packages.config`, because it lists every package the app depends on",
+      "`Application_Start` in `Global.asax.cs`, then the `App_Start` classes",
+      "`Views/web.config`, which configures the Razor view engine and its namespaces",
+      "The `bin` folder, to see which assemblies were deployed with the site"
+    ],
+    "answer": 1,
+    "explanation": "`Application_Start` registers areas, Web API routes, filters, MVC routes and bundles through the `App_Start/*Config` classes, so it is the map of the app, like Magento's bootstrap. `packages.config` lists what is installed, not what is actually wired up."
+  },
+  {
+    "question": "A Web API 2 app uses the default route `api/{controller}/{id}`. Which method answers `GET /api/products/5` in `ProductsController : ApiController`?",
+    "options": [
+      "`Index(int id)`, because `Index` is the default action of the route",
+      "Any public method, picked in the order the methods are declared",
+      "`Details(int id)`, following the MVC naming convention for one item",
+      "`GetProduct(int id)`, chosen by HTTP verb and the `Get` prefix"
+    ],
+    "answer": 3,
+    "explanation": "The Web API convention route has no `{action}` segment; it selects the action by HTTP verb and parameters, and a name starting with `Get` answers GET. The `Index` default belongs to the MVC route `{controller}/{action}/{id}`, which is why it is a tempting but wrong answer here."
+  },
+  {
+    "question": "An MVC 5 action calls `var price = _pricing.GetPriceAsync(sku).Result;` and requests sometimes hang forever. What is happening?",
+    "options": [
+      "`.Result` is unsupported in MVC 5 actions, so the call silently never returns",
+      "A deadlock: the task continuation waits for the synchronization context the blocked thread holds",
+      "Thread-pool starvation, because IIS gives each site only one worker thread",
+      "`GetPriceAsync` runs in a separate process and the call never times out"
+    ],
+    "answer": 1,
+    "explanation": "The blocked request thread waits for the task, and the task's continuation waits for that same synchronization context, so neither moves: the textbook sync-over-async deadlock. The fix is `async Task<ActionResult>` and `await`. Thread-pool starvation is what the same code causes on ASP.NET Core, which has no synchronization context, so that option describes the other stack."
+  },
+  {
+    "question": "A legacy app reads settings with `ConfigurationManager.AppSettings[...]` inside a shared library. What does that mean for migrating it to ASP.NET Core on .NET 10?",
+    "options": [
+      "Nothing: ASP.NET Core still reads `appSettings` from `web.config` the same way",
+      "The library must target `netstandard2.1` so `ConfigurationManager` keeps working",
+      "The library should receive its settings, for example as an options object",
+      "`ConfigurationManager` reads `appsettings.json` automatically once it runs on .NET 10"
+    ],
+    "answer": 2,
+    "explanation": "ASP.NET Core configuration comes from `appsettings.json`, environment variables and the Options pattern; `web.config` is only a publish-time file for IIS, and `ConfigurationManager` never reads `appsettings.json`. Passing settings in is the clean seam. The first option is tempting because `web.config` still appears in ASP.NET Core deployments, but not as the app's settings source."
+  }
+]

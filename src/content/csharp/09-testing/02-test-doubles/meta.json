@@ -1,0 +1,14 @@
+{
+  "title": "Test Doubles: Fakes, Stubs and Mocks",
+  "summary": "Choose between real objects, hand-written fakes, stubs and mocks; test time and logging with Microsoft's FakeTimeProvider and FakeLogger; use NSubstitute or Moq with restraint; and weigh the Fluent Assertions licence change.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Microsoft Learn: Unit testing terminology (fake, mock, stub)", "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices" },
+    { "label": "Microsoft Learn: FakeTimeProvider class", "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.time.testing.faketimeprovider" },
+    { "label": "Microsoft Learn: FakeLogger class", "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.testing.fakelogger" },
+    { "label": "NuGet: FluentAssertions (licence terms on the package page)", "url": "https://www.nuget.org/packages/FluentAssertions" },
+    { "label": "Xceed: Fluent Assertions partnership announcement (2025-01-13)", "url": "https://xceed.com/?p=2592" },
+    { "label": "balta.io: Refatorando para testes de unidade (mocking repositories; no framework version stated)", "url": "https://balta.io/courses/refatorando-para-testes-de-unidade" }
+  ]
+}

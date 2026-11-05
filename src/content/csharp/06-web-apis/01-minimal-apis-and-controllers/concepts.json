@@ -1,0 +1,9 @@
+[
+  { "term": "Minimal API", "description": "An endpoint declared with `app.MapGet`, `MapPost` and similar methods that bind a route and verb to a handler delegate, recommended by Microsoft for new projects." },
+  { "term": "Route handler", "description": "The lambda, local function or method passed to a `Map{Verb}` call; it is built once at startup and shared by every request." },
+  { "term": "Controller", "description": "A class deriving from `ControllerBase` whose public action methods are endpoints, created and disposed once per request." },
+  { "term": "`[ApiController]`", "description": "An attribute that requires attribute routing and turns on automatic 400 responses, binding source inference and Problem Details for error status codes." },
+  { "term": "`TypedResults`", "description": "Factory methods that return concrete result types such as `Ok<T>` and `NotFound`, which carry OpenAPI response metadata and are easy to assert in tests." },
+  { "term": "`Results<T1, T2>`", "description": "A union return type that lists every possible result of a handler, so the compiler rejects undeclared responses and OpenAPI documents each one." },
+  { "term": "Route group", "description": "A `MapGroup` prefix that applies shared metadata, filters and authorization to all endpoints mapped inside it." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "HSTS", "description": "The `Strict-Transport-Security` header sent by `UseHsts`, a browser-only instruction that API clients such as mobile apps and services ignore." },
+  { "term": "CORS", "description": "A W3C standard that lets a server relax the browser's same-origin policy for chosen origins; it relaxes security and does not protect an API." },
+  { "term": "Rate limiter partition", "description": "A bucket with its own counters, chosen by a key such as user name or API key, created with `RateLimitPartition` inside `AddRateLimiter`." },
+  { "term": "RejectionStatusCode", "description": "The status the rate limiting middleware returns for a rejected request, 503 by default and usually set to 429 Too Many Requests." },
+  { "term": "Secret Manager", "description": "The `dotnet user-secrets` tool that keeps development secrets unencrypted in the user profile and is loaded by `CreateBuilder` only in Development." },
+  { "term": "OWASP API Security Top 10", "description": "OWASP's list of the ten most critical API risks, whose 2023 edition starts with Broken Object Level Authorization." }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Strangler Fig pattern", "description": "Replacing a system gradually by putting a new app in front of it, moving routes one at a time and forwarding the rest until the old app serves nothing." },
+  { "term": "YARP", "description": "Microsoft's reverse proxy library for ASP.NET Core (`Yarp.ReverseProxy`), used here to forward unmigrated routes to the .NET Framework app." },
+  { "term": "Fallback route", "description": "A catch-all `MapForwarder(\"/{**catch-all}\", ...)` with the lowest order, so routes the new app defines always win." },
+  { "term": "System.Web adapters", "description": "The `Microsoft.AspNetCore.SystemWebAdapters` packages that let libraries using `System.Web` types run on both stacks and provide remote session and remote authentication." },
+  { "term": "Postorder library upgrade", "description": "Upgrading libraries leaves first and the main web app last, so each library's dependencies are already compatible when it moves." },
+  { "term": "GitHub Copilot app modernization", "description": "Microsoft's recommended AI-assisted upgrade agent in Visual Studio, which plans the upgrade and commits each change for review." },
+  { "term": ".NET Upgrade Assistant", "description": "The earlier upgrade tool, now officially deprecated in favor of the Copilot modernization agent." }
+]

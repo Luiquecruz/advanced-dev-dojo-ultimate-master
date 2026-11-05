@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Your Magento habit is to rebuild the release per server because `env.php` and static content differ. In the .NET pipeline, what should staging and production deploy?",
+    "options": [
+      "A separate image per environment, each built with its own `appsettings` file baked in",
+      "The source code, compiled on each server during deploy so it matches that machine",
+      "One image digest per commit, with environment differences supplied as configuration",
+      "The `sdk` image, so that each environment can recompile the app when settings change"
+    ],
+    "answer": 2,
+    "explanation": "Promoting one artifact means what you tested is what you run. ASP.NET Core layers configuration from environment variables and secret stores at start-up, so nothing environment-specific has to be in the build. Baking settings into per-environment images reintroduces the drift the rule exists to prevent."
+  },
+  {
+    "question": "What does `dotnet test --no-build -c Release` assume?",
+    "options": [
+      "That an earlier step already ran `dotnet build -c Release` and left binaries to run",
+      "That the tests use xUnit v2, because v3 projects always rebuild before they run",
+      "That the project has no package references, since `--no-build` also skips restore",
+      "That no `global.json` exists, because a pinned SDK would force a fresh compilation"
+    ],
+    "answer": 0,
+    "explanation": "`--no-build` skips compilation and runs the binaries already in `bin/Release`. The pipeline builds once and the test step reuses that output; without that build there is nothing to run. The flag has nothing to do with the test framework or with `global.json`."
+  },
+  {
+    "question": "A pipeline that worked yesterday fails today with a compiler behaviour change, although nobody touched the code. The workflow uses `setup-dotnet` with `dotnet-version: 10.0.x` and there is no `global.json`. What is the most likely cause and fix?",
+    "options": [
+      "A NuGet package was removed from nuget.org overnight; turn on `cache: true` in `setup-dotnet`",
+      "The runner picked up a newer SDK; pin it in `global.json` and use `global-json-file`",
+      "GitHub retired the `ubuntu-latest` image version; switch the job to a Windows runner",
+      "`--no-restore` was deprecated in .NET 10 and now changes the build"
+    ],
+    "answer": 1,
+    "explanation": "A floating version (and the runner's preinstalled SDKs) means the SDK feature band or patch can change between runs. `global.json` pins the version for CI and for every laptop. Caching packages does not pin the SDK, and `--no-restore` is a current flag."
+  },
+  {
+    "question": "Which job layout matches the workflow in the lesson?",
+    "options": [
+      "Pull requests build, test and push an image for review; `main` only builds and tests",
+      "Every event builds, tests and pushes an image tagged `latest` to the same registry",
+      "Only `main` runs the tests, to save runner minutes on every pull request update",
+      "Pull requests build and test; only `main` also publishes the image to the registry"
+    ],
+    "answer": 3,
+    "explanation": "Pull requests must prove the change compiles and passes tests, and they should not push artifacts, especially from forks. Publishing on `main` produces one image per merged commit. Tagging only `latest` makes it impossible to know which build is running."
+  },
+  {
+    "question": "`dotnet restore --locked-mode` fails in CI with a lock file mismatch. What does it mean?",
+    "options": [
+      "nuget.org is unreachable from the runner, so restore cannot compare package versions",
+      "The SDK in CI is older than the developer's, so it reads the lock file differently",
+      "A package reference changed but `packages.lock.json` was not regenerated and committed",
+      "The project does not use central package management, which locked mode requires"
+    ],
+    "answer": 2,
+    "explanation": "Locked mode refuses to resolve versions that differ from the committed lock file, like `composer install` against a stale `composer.lock`. The fix is to restore locally, commit the updated `packages.lock.json` and review the change. Network or SDK problems produce different errors."
+  },
+  {
+    "question": "Why is OIDC federation preferred over storing a cloud access key as a CI secret?",
+    "options": [
+      "It makes the build faster, because the workflow no longer needs any login step",
+      "Each run gets a short-lived, scoped token, so no long-lived key can leak",
+      "It is the only way `dotnet publish` can authenticate when it pushes to a registry",
+      "It removes the need to declare `permissions` in the workflow"
+    ],
+    "answer": 1,
+    "explanation": "A stored key works until someone revokes it, wherever it leaks. Federation exchanges the CI's identity token for short-lived cloud credentials per run. It still needs a login step and, in GitHub Actions, the `id-token: write` permission. `dotnet publish` can push with any credentials that `docker login` stored."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "title": "Project P6: Ship It",
+  "summary": "Containerize the catalog API and the order worker, build a CI pipeline that tests and publishes the images, trace one order from the HTTP request through RabbitMQ into the worker, and expose health checks.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "project"],
+  "resources": [
+    { "label": "Containerize an app with dotnet publish", "url": "https://learn.microsoft.com/en-us/dotnet/core/containers/sdk-publish" },
+    { "label": "Health checks in ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks" },
+    { "label": "Use OpenTelemetry with OTLP and the Aspire Dashboard", "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/observability-otlp-example" },
+    { "label": "Docker Compose: control startup order", "url": "https://docs.docker.com/compose/how-tos/startup-order/" },
+    { "label": "balta.io: Docker para devs .NET (version not shown on the page)", "url": "https://balta.io/courses/docker-para-devs-dotnet" }
+  ]
+}

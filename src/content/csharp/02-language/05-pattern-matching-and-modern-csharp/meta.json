@@ -1,0 +1,14 @@
+{
+  "title": "Pattern Matching and Modern C#",
+  "summary": "Switch expressions with type, property, relational and list patterns, primary constructors for services, collection expressions, C# 14 extension blocks, and what C# 15 brings next.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "C# reference: Patterns", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns" },
+    { "label": "C# reference: switch expression", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/switch-expression" },
+    { "label": "C# programming guide: Instance constructors (primary constructors)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/instance-constructors" },
+    { "label": "C# reference: Collection expressions", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/collection-expressions" },
+    { "label": "C# programming guide: Extension members", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods" },
+    { "label": "What's new in C# 14", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14" }
+  ]
+}

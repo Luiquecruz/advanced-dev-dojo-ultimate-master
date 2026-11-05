@@ -1,0 +1,9 @@
+[
+  { "term": "Default transaction", "description": "EF Core applies all changes of one `SaveChangesAsync` call in a transaction, so they commit together or not at all." },
+  { "term": "Explicit transaction", "description": "A transaction opened with `Database.BeginTransactionAsync` that groups several saves, bulk updates or Dapper calls into one atomic unit." },
+  { "term": "Execution strategy", "description": "EF Core's retry policy for transient failures; with retries enabled, explicit transactions must run inside `CreateExecutionStrategy().ExecuteAsync`." },
+  { "term": "Lost update", "description": "The bug where two writers read the same row and the later save silently overwrites the earlier one." },
+  { "term": "Concurrency token", "description": "A column that EF Core adds to the `WHERE` of updates and deletes, such as `rowversion` on SQL Server or `xmin` on PostgreSQL." },
+  { "term": "DbUpdateConcurrencyException", "description": "The exception `SaveChangesAsync` throws when a concurrency token no longer matches, which an API usually maps to HTTP 409." },
+  { "term": "Conditional update", "description": "A single statement such as `Where(p => p.Stock >= quantity).ExecuteUpdateAsync(...)` that checks and changes a value atomically in the database." }
+]

@@ -1,0 +1,12 @@
+{
+  "title": "Hosted Services and the Worker Service",
+  "summary": "Write a BackgroundService that creates a DI scope per unit of work, stops cleanly and does not take the host down, and map Magento cron jobs and queue consumers to hosted services in the API or a Worker Service.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Background tasks with hosted services in ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-10.0" },
+    { "label": "Worker Services in .NET", "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/workers" },
+    { "label": "Breaking change (.NET 10): BackgroundService runs all of ExecuteAsync as a Task", "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/extensions/10.0/backgroundservice-executeasync-task" },
+    { "label": "Breaking change (.NET 6): exception handling in hosting", "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/hosting-exception-handling" }
+  ]
+}

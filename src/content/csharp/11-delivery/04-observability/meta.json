@@ -1,0 +1,13 @@
+{
+  "title": "Observability",
+  "summary": "Export traces, metrics and logs with OpenTelemetry and OTLP, add custom spans and counters, propagate one trace through a message broker, and expose liveness and readiness health checks.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": ".NET observability with OpenTelemetry", "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/observability-with-otel" },
+    { "label": "Use OpenTelemetry with OTLP and the Aspire Dashboard", "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/observability-otlp-example" },
+    { "label": "Health checks in ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks" },
+    { "label": "OpenTelemetry .NET: RabbitMQ propagation example (MessageSender.cs)", "url": "https://github.com/open-telemetry/opentelemetry-dotnet/blob/main/examples/MicroserviceExample/Utils/Messaging/MessageSender.cs" },
+    { "label": "balta.io: Monitorando Aplicações com Application Insights (older course; lesson content not described)", "url": "https://balta.io/courses/monitorando-aplicacoes-com-application-insights" }
+  ]
+}

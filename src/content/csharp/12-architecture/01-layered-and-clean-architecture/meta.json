@@ -1,0 +1,11 @@
+{
+  "title": "Layered and Clean Architecture",
+  "summary": "Split a .NET solution into Core, Infrastructure and API projects whose references point inward, wire them in one composition root, and judge when the extra projects are worth their cost.",
+  "level": "advanced",
+  "tags": ["recommended", "deepening", "theory"],
+  "resources": [
+    { "label": "Microsoft Learn: Common web application architectures (e-book chapter, 2021)", "url": "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures" },
+    { "label": "balta.io: Arquitetura Limpa com .NET (.NET 9; concepts still apply)", "url": "https://balta.io/courses/arquitetura-limpa" },
+    { "label": "balta.io: Arquitetura Limpa na prática (.NET 9; concepts still apply)", "url": "https://balta.io/courses/arquitetura-limpa-na-pratica" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Dapper and Stored Procedures",
+  "summary": "Typed SQL queries with Dapper, list and output parameters, stored procedures, EF Core's own raw SQL APIs, sharing a connection and transaction with EF Core, and when hand-written SQL beats LINQ.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Dapper on GitHub (README)", "url": "https://github.com/DapperLib/Dapper" },
+    { "label": "SQL queries in EF Core (FromSql, SqlQuery, ExecuteSql)", "url": "https://learn.microsoft.com/en-us/ef/core/querying/sql-queries" },
+    { "label": "Using external DbTransactions with EF Core", "url": "https://learn.microsoft.com/en-us/ef/core/saving/transactions" },
+    { "label": "balta.io: Acesso à dados com .NET, C#, Dapper e SQL Server (version not shown on the page)", "url": "https://balta.io/courses/acesso-dados-csharp-net-dapper-sql-server" },
+    { "label": "balta.io: .NET Data Access career", "url": "https://balta.io/paths/dotnet-data-access" }
+  ]
+}

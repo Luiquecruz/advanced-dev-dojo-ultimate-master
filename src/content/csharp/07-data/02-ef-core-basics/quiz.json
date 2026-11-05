@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A Magento developer updates five products and expects to call `save` five times. What is the EF Core way?",
+    "options": [
+      "Call `SaveChangesAsync()` after each property change, the same way you call `$repository->save()` per product",
+      "Call `db.Update(product)` for each product first, otherwise EF Core ignores changes to entities it loaded",
+      "Open a transaction manually around the five saves, because `SaveChangesAsync()` is not transactional on its own",
+      "Change the tracked entities, then call `SaveChangesAsync()` once"
+    ],
+    "answer": 3,
+    "explanation": "The context is a unit of work: tracked entities are compared with their snapshots and one `SaveChangesAsync()` applies every change in a transaction. Calling `Update` on entities the context already tracks is unnecessary, and saving per entity adds round trips and loses atomicity."
+  },
+  {
+    "question": "Why does `AddDbContext` register the context as scoped?",
+    "options": [
+      "A context is a non-thread-safe unit of work, so each request needs its own",
+      "Scoped services resolve faster than singletons, and the context is resolved on almost every request",
+      "A singleton context could not read the connection string, which is bound per request from configuration",
+      "Transient services cannot be injected into minimal API handlers, so scoped is the only lifetime left"
+    ],
+    "answer": 0,
+    "explanation": "One request is one unit of work, and one context must never be used by concurrent operations; the scoped instance is disposed at the end of the request. A singleton context would be shared by every concurrent request, and its change tracker would grow for the life of the process; speed of resolution has nothing to do with it."
+  },
+  {
+    "question": "When does this code send SQL to the database? `var q = db.Products.Where(p => p.Price < 10); q = q.OrderBy(p => p.Sku); var list = await q.ToListAsync();`",
+    "options": [
+      "Three times, once per line, because each LINQ operator runs its own query",
+      "On the `Where` line; the `OrderBy` and the list are then done in memory",
+      "Once, on `ToListAsync`, as one statement with the filter and the order",
+      "Never; EF Core reads the whole table at startup and filters it in memory"
+    ],
+    "answer": 2,
+    "explanation": "`Where` and `OrderBy` on an `IQueryable` only build an expression. The terminal operator `ToListAsync` makes EF Core translate the whole expression into one SQL statement. Thinking each line runs a query is the habit from eager PHP collection methods."
+  },
+  {
+    "question": "A query contains `.Where(p => MySlugHelper.Normalize(p.Name) == slug)`, where `Normalize` is your own C# method. What does EF Core 10 do?",
+    "options": [
+      "Loads every product, runs the filter in memory, and logs a client-evaluation warning",
+      "Throws at runtime, because it cannot translate the method to SQL",
+      "Translates the method body to SQL automatically by inspecting its compiled IL",
+      "Ignores the untranslatable filter and returns every product without an error"
+    ],
+    "answer": 1,
+    "explanation": "Since EF Core 3.0, client evaluation is allowed only in the final `Select`; anywhere else EF Core throws instead of silently loading the table. Loading and filtering in memory was the behavior of versions before 3.0, which old answers online still describe."
+  },
+  {
+    "question": "A handler runs `await Task.WhenAll(db.Products.CountAsync(), db.Categories.CountAsync())` on the injected context. What happens?",
+    "options": [
+      "Both queries run in parallel on the same connection, which halves the response time",
+      "The second query waits automatically until the first completes, so it works but is not parallel",
+      "It works only on SQL Server with MARS enabled, and throws on every other provider",
+      "EF Core throws, because a second operation started before the first completed"
+    ],
+    "answer": 3,
+    "explanation": "A `DbContext` does not support parallel operations, and EF Core detects this with an `InvalidOperationException`; await the queries one after the other or use separate contexts. Expecting an automatic queue is the tempting misconception; parallel work needs one context per operation, for example from `IDbContextFactory`."
+  },
+  {
+    "question": "Your `Product` has `public string Sku { get; set; }` with nullable reference types enabled and no other configuration. What column does EF Core create?",
+    "options": [
+      "A `NOT NULL` column with no length limit or unique index",
+      "A nullable column of unlimited length, because `string` is a reference type",
+      "A `NOT NULL` column limited to 255 characters, with a unique index on it",
+      "No column at all, because string properties need a `[Column]` attribute"
+    ],
+    "answer": 0,
+    "explanation": "With nullable reference types on, EF Core maps `string` to a required column and `string?` to an optional one. It does not invent a length or a unique index; those come from `HasMaxLength` and `HasIndex(...).IsUnique()` or attributes, which is why the lesson's model sets them explicitly."
+  }
+]

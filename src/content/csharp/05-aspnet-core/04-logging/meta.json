@@ -1,0 +1,10 @@
+{
+  "title": "Logging with ILogger",
+  "summary": "Structured logs with ILogger<T>: categories, message templates filled by position, levels and filtering in configuration, scopes, and the LoggerMessage source generator; compared with Monolog and PSR-3.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Logging in .NET and ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/" },
+    { "label": "Compile-time logging source generation", "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logging/source-generation" }
+  ]
+}

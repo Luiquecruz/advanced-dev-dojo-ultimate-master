@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A Magento project ran `crontab.xml` jobs on one cron node. The .NET port puts a nightly export in a `BackgroundService` with a 24-hour `PeriodicTimer`, and the API runs on three containers. What is the most accurate description of the result?",
+    "options": [
+      "It runs once per night, because hosted services elect a leader among the containers",
+      "It runs three times per night, and each restart shifts that container's timer",
+      "It never runs, because `PeriodicTimer` rejects periods longer than one hour",
+      "It runs once, on whichever container started first and holds the timer"
+    ],
+    "answer": 1,
+    "explanation": "Each container runs its own hosted service with its own timer, and nothing coordinates them, so the job runs once per instance; the timer also starts counting from each process start, not at a fixed clock time. Hosted services do not elect a leader. Shared job storage (Hangfire, or Quartz.NET with clustering) fixes both problems."
+  },
+  {
+    "question": "Which Hangfire call is the better way to send an invoice in the background after `POST /orders/{id}/invoice` returns?",
+    "options": [
+      "`jobs.Enqueue<InvoiceService>(s => s.SendAsync(order, CancellationToken.None))`, passing the loaded `Order` entity",
+      "`Task.Run(() => invoiceService.SendAsync(id, default))` inside the endpoint",
+      "`jobs.Enqueue<InvoiceService>(s => s.SendAsync(id, CancellationToken.None))`, passing only the order id",
+      "`RecurringJob.AddOrUpdate` with the order id as the job id and `Cron.Minutely()`"
+    ],
+    "answer": 2,
+    "explanation": "Hangfire serializes the arguments into its storage and the job may run later on another server, so passing an id keeps storage small and lets the job load current data. Passing the entity serializes a snapshot that can be stale and large. `Task.Run` loses the work on a crash, and a recurring job per order would keep firing every minute."
+  },
+  {
+    "question": "A Hangfire job calls a payment API, the charge succeeds, and then the job throws while saving the result. With default settings, what happens next?",
+    "options": [
+      "It is retried, up to 10 times, so the card can be charged again",
+      "It is marked `Failed` at once and stays there until someone retries it",
+      "Hangfire rolls back the payment API call along with its own state",
+      "It is retried exactly once, then deleted from storage"
+    ],
+    "answer": 0,
+    "explanation": "Hangfire applies `AutomaticRetry` globally with 10 attempts by default, so the whole method runs again and calls the payment API again. Hangfire cannot undo an external side effect. Make the job idempotent (an idempotency key on the payment, a check of what already happened) or lower the attempts with `[AutomaticRetry]`."
+  },
+  {
+    "question": "You need 40 report jobs with different cron schedules in several time zones, running on two Worker Service instances, each occurrence exactly once and never overlapping a previous run of the same job. Which setup fits best?",
+    "options": [
+      "A hosted service with a `PeriodicTimer` per job on each of the two instances",
+      "Quartz.NET with the in-memory store and the same job attributes on both instances",
+      "A `Channel<T>` filled by a timer in the API and drained by both workers",
+      "Quartz.NET with a clustered persistent store and `[DisallowConcurrentExecution]`"
+    ],
+    "answer": 3,
+    "explanation": "A clustered persistent store makes each trigger occurrence fire on one node, cron triggers carry their own time zone, and `[DisallowConcurrentExecution]` prevents overlap. The in-memory store is the tempting choice because the configuration looks the same, but each instance would then keep its own schedule and both would fire every job."
+  },
+  {
+    "question": "Why does this Quartz.NET 4.x job fail to compile when copied from a 2022 blog post: `public Task Execute(IJobExecutionContext context) { ... }`?",
+    "options": [
+      "Quartz.NET 4.x requires jobs to be static classes registered by attribute",
+      "In 4.x `Execute` returns `ValueTask` and takes a `CancellationToken`",
+      "`IJobExecutionContext` was renamed to `JobContext` in the 4.x release",
+      "Quartz.NET 4.x only runs jobs that are declared in XML or JSON files"
+    ],
+    "answer": 1,
+    "explanation": "The Quartz.NET 4.x documentation declares `ValueTask Execute(IJobExecutionContext context, CancellationToken cancellationToken = default)`. Code written for 3.x returns `Task` and has no token, so it does not match. The context type kept its name, and jobs are ordinary DI-resolved classes, declared in code or with attributes."
+  },
+  {
+    "question": "The team adds `app.UseHangfireDashboard()` and deploys. Which statement is correct?",
+    "options": [
+      "It is public by default, so anyone who finds the URL can delete jobs",
+      "It refuses to start without a Hangfire Pro licence key in configuration",
+      "Only local requests can open it until you add an authorization filter",
+      "It is read-only, so exposing it on the public internet is harmless"
+    ],
+    "answer": 2,
+    "explanation": "Hangfire's docs state that only local access is permitted by default, so in a container or behind a proxy it looks broken until you configure authorization. The fix is an authorization filter tied to your admin policy, not removing the check. The dashboard is not read-only: it can retry, trigger and delete jobs."
+  }
+]

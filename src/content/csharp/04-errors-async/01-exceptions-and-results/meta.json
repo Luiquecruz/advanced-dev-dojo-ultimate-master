@@ -1,0 +1,12 @@
+{
+  "title": "Exceptions and Results",
+  "summary": "Throw the right exception type, catch narrowly with `when` filters, rethrow without losing the stack trace, and return expected failures as `Try*` methods or result types.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Best practices for exceptions (.NET)", "url": "https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions" },
+    { "label": "Exception-handling statements: throw and try, catch, finally (C# reference)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/exception-handling-statements" },
+    { "label": "Creating and throwing exceptions (C#)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/exceptions/creating-and-throwing-exceptions" },
+    { "label": "ASP.NET Core best practices: minimize exceptions", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/best-practices" }
+  ]
+}

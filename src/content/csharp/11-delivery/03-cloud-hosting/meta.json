@@ -1,0 +1,14 @@
+{
+  "title": "Cloud Hosting",
+  "summary": "Choose where a containerized .NET API runs: Azure App Service, Container Apps and AKS; ECS on Fargate, Lambda and EKS on AWS; and the Kubernetes concepts and probes that postings assume.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Comparing Container Apps with other Azure container options", "url": "https://learn.microsoft.com/en-us/azure/container-apps/compare-options" },
+    { "label": "Overview of Azure App Service", "url": "https://learn.microsoft.com/en-us/azure/app-service/overview" },
+    { "label": "Configure ASP.NET Core to work with proxy servers and load balancers", "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer" },
+    { "label": "AWS App Runner availability change (and ECS Express Mode)", "url": "https://docs.aws.amazon.com/apprunner/latest/dg/apprunner-availability-change.html" },
+    { "label": "Kubernetes: liveness, readiness and startup probes", "url": "https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/" },
+    { "label": "balta.io: Azure para devs .NET (version not shown on the page)", "url": "https://balta.io/courses/fundamentos-azure-devs-dotnet" }
+  ]
+}

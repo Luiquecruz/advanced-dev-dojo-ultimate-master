@@ -1,0 +1,4 @@
+{
+  "title": "API Security",
+  "description": "Authentication and authorization concepts, JWT bearer, policies, ASP.NET Core Identity, and hardening an API."
+}

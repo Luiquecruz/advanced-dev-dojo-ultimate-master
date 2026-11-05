@@ -1,0 +1,11 @@
+{
+  "title": "Configuration and the Options Pattern",
+  "summary": "Predict which configuration provider wins, override keys with environment variables, keep secrets out of appsettings.json, and bind validated options with IOptions, IOptionsSnapshot and IOptionsMonitor; compared with env.php and core_config_data.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Configuration in ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/" },
+    { "label": "Options pattern in .NET", "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/options" },
+    { "label": "balta.io: Fundamentos do ASP.NET 6 (ASP.NET 6; .NET 10 differences in the lessons)", "url": "https://balta.io/courses/fundamentos-aspnet" }
+  ]
+}

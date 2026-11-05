@@ -1,0 +1,4 @@
+{
+  "title": "Containers, CI/CD, Cloud and Observability",
+  "description": "Docker images for .NET, CI/CD pipelines, cloud hosting, OpenTelemetry and health checks, Aspire, and the ship-it project."
+}

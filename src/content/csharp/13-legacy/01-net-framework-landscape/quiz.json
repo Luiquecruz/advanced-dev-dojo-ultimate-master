@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team runs an ASP.NET MVC 5 site on .NET Framework 4.8 on Windows Server 2022. Is the runtime still supported by Microsoft?",
+    "options": [
+      "No: support for .NET Framework ended when .NET 5 shipped as its replacement",
+      "Yes, until the fixed end date Microsoft announced for 4.8, as for an LTS release",
+      "Yes: as a Windows component, 4.8 follows the lifecycle of Windows Server 2022",
+      "Only with a paid extended support contract bought for .NET Framework itself"
+    ],
+    "answer": 2,
+    "explanation": "Since 4.5.2, .NET Framework is a component of Windows and receives the same support as the Windows version it is installed on, so 4.8 has no end date of its own. The tempting answer that support ended with .NET 5 confuses 'no new features' with 'no support': security fixes still ship."
+  },
+  {
+    "question": "A Magento developer is asked to estimate moving an MVC 5 app from `net48` to `net10.0`. Which estimate reflects how the move actually works?",
+    "options": [
+      "A short task: change the TFM, fix deprecation warnings and redeploy, like PHP 7.4 to 8.3",
+      "A migration project: the web layer moves onto ASP.NET Core, like Magento 1 to 2",
+      "A full rewrite from scratch, because no .NET Framework code can be reused on .NET 10",
+      "A recompile after the (deprecated) .NET Upgrade Assistant converts the `System.Web` calls"
+    ],
+    "answer": 1,
+    "explanation": "`System.Web`, `web.config` and IIS-only hosting do not exist on .NET 10, so the web layer is rewritten onto ASP.NET Core while the C# and most business logic carry over. The PHP-style in-place upgrade fails because the app does not compile without `System.Web`; 'rewrite everything' is wrong too, because libraries can be retargeted and shared, and no tool converts `System.Web` automatically."
+  },
+  {
+    "question": "Which TFM should a shared business-logic library use so that both the legacy `net48` app and the new `net10.0` app can reference it during a migration?",
+    "options": [
+      "`netstandard2.1`, the newest .NET Standard, which every current runtime implements",
+      "`net10.0`, since .NET Framework 4.8 can load assemblies built for newer runtimes",
+      "`netcoreapp3.1`, the last .NET Core target, which .NET Framework can still reference",
+      "`netstandard2.0`, or multi-targeting `net48;net10.0` when newer APIs are needed"
+    ],
+    "answer": 3,
+    "explanation": "`netstandard2.0` is the last .NET Standard version that .NET Framework implements, and multi-targeting is the alternative when the library needs newer APIs on .NET 10. `netstandard2.1` looks newer and therefore better, but .NET Framework does not support it at all."
+  },
+  {
+    "question": "You open a `.csproj` with `<TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>`, a `packages.config` file next to it and a `<Compile Include=...>` line per source file. What does this tell you?",
+    "options": [
+      "A classic non SDK-style .NET Framework project: Windows only, C# 7.3 by default",
+      "A .NET Core 3.1 project that was never converted from the old project format",
+      "An SDK-style project targeting .NET Standard 2.0, with packages kept in the old file",
+      "A modern .NET project in which `v4.7.2` is the version of its NuGet package"
+    ],
+    "answer": 0,
+    "explanation": "`TargetFrameworkVersion` with a `v` prefix, `packages.config` and explicit `Compile` items are the classic .NET Framework project format. .NET Core projects were SDK-style and used a TFM such as `netcoreapp3.1`, so the second option mixes the two formats."
+  },
+  {
+    "question": "A .NET Framework library creates a second `AppDomain` to isolate plugins. What happens when you retarget it to `net10.0`?",
+    "options": [
+      "It works unchanged, because the `AppDomain` type still exists in .NET 10",
+      "`AppDomain.CreateDomain` throws `PlatformNotSupportedException` at run time",
+      "It fails to compile, because `System.AppDomain` was removed from modern .NET",
+      "It works on Windows only, where the runtime still hosts several app domains"
+    ],
+    "answer": 1,
+    "explanation": "Modern .NET exposes part of the `AppDomain` surface so code compiles, but creating domains is not supported: isolation needs separate processes or containers, and loading needs `AssemblyLoadContext`. That partial surface is why 'it compiles, so it works' is the tempting and wrong conclusion, and also why the compile-error option is wrong."
+  },
+  {
+    "question": "A posting asks for 'experience with legacy .NET'. Which question best clarifies the job before you apply?",
+    "options": [
+      "Whether the app targets .NET Core 3.1 or .NET 6, since both count as .NET Framework code",
+      "Whether the libraries target `netstandard2.1`, which marks a .NET Framework codebase",
+      "Whether the job is maintaining, migrating or upgrading the app, since each needs other skills",
+      "Which C# version the team uses, since every legacy app is C# 7.3 or older"
+    ],
+    "answer": 2,
+    "explanation": "'Legacy .NET' covers three different jobs: maintaining a .NET Framework app (reading `System.Web` code), migrating it to modern .NET, or upgrading an out-of-support .NET Core or .NET 6 app, which is mostly a TFM change. Treating .NET Core 3.1 or .NET 6 as Framework code is the tempting mistake: those already run on Linux and use ASP.NET Core."
+  }
+]

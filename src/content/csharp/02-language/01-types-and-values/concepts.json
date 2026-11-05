@@ -1,0 +1,10 @@
+[
+  { "term": "Value type", "description": "A type such as `int`, `decimal`, a `struct` or an `enum` whose variable contains the instance itself, so assignment and argument passing copy the whole value." },
+  { "term": "Reference type", "description": "A type such as a `class`, an array, `List<T>` or `string` whose variable holds a reference, so assignment copies the reference and both variables see one object." },
+  { "term": "Pass by value", "description": "The default for every C# argument: the method receives a copy of the variable, which for a class is a copy of the reference, not of the object." },
+  { "term": "`ref` / `out`", "description": "Parameter modifiers that pass the variable itself, so the method can assign it; `out` is used by the `TryParse` pattern to return a second result." },
+  { "term": "String immutability", "description": "A `string` never changes after creation; methods like `Trim` return a new string, and `==` compares content rather than identity." },
+  { "term": "Boxing", "description": "Converting a value type to `object` or to an interface, which allocates a heap object holding a copy of the value." },
+  { "term": "Unboxing", "description": "An explicit cast from `object` back to the exact value type, which throws `InvalidCastException` when the boxed type differs." },
+  { "term": "`readonly record struct`", "description": "An immutable value type with value equality and `with` support, the safe way to model small values such as a price." }
+]

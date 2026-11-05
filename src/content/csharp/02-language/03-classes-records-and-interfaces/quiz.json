@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In Magento you change `ProductRepository::save()` with a plugin. In C#, `ProductRepository.Save` is a plain public method of a non-sealed class. You write `class AuditedRepository : ProductRepository` with `public override void Save(...)`. What happens?",
+    "options": [
+      "It works: every public method of a non-sealed class can be overridden",
+      "It compiles, but callers keep running the base `Save` instead of yours",
+      "The runtime generates an interceptor around `Save`, as Magento does",
+      "It fails to compile, because `Save` is not `virtual`"
+    ],
+    "answer": 3,
+    "explanation": "C# methods are non-virtual by default, so `override` is a compile error unless the base declares `virtual`. Magento's plugins rely on generated subclasses that wrap any public, non-final, non-static method; C# code replaces behavior through an `IProductRepository` interface with a decorating implementation registered in DI. Hiding the method with `new` would compile, but callers holding a `ProductRepository` reference would still call the base method, which is the trap behind the second option."
+  },
+  {
+    "question": "`public record ProductDto(string Sku, decimal Price);` What does `new ProductDto(\"A\", 1m) == new ProductDto(\"A\", 1m)` return, and what would it return if `ProductDto` were a plain `class` with the same properties?",
+    "options": [
+      "`true` for the record (value equality), `false` for the class",
+      "`false` for both, because they are two different objects in memory",
+      "`true` for both, because C# compares properties like PHP's `==`",
+      "The class version does not compile, because classes cannot be compared with `==`"
+    ],
+    "answer": 0,
+    "explanation": "Records synthesize `==` and `Equals` from their data, while a class's default `==` asks whether both variables refer to the same object. Expecting PHP's `==` (property comparison) on plain classes is the trap behind the third option."
+  },
+  {
+    "question": "`var copy = original with { Price = 29m };` where `original` is a record with a `List<string> Tags` property. You then call `copy.Tags.Add(\"sale\")`. What does `original.Tags` contain?",
+    "options": [
+      "Its old tags only, because `with` deep-copies every property of the record",
+      "Its old tags only, because `copy.Tags` is read-only and `Add` throws",
+      "The `\"sale\"` tag too, because `with` makes a shallow copy",
+      "It does not compile, because records cannot hold mutable lists"
+    ],
+    "answer": 2,
+    "explanation": "`with` copies each property value; for a reference type that value is the reference, so the list is shared. Records give shallow immutability only. Use an immutable or read-only collection if the data must not change. A deep copy (the first option) is what many people assume and what never happens."
+  },
+  {
+    "question": "A class in your `Catalog.Infrastructure` project is declared `class SkuNormalizer { }` with no access modifier. From which code can you use it?",
+    "options": [
+      "From any project that references `Catalog.Infrastructure`, because the default is `public`",
+      "Only from code in `Catalog.Infrastructure`; the default is `internal`",
+      "Only from inside `SkuNormalizer` itself, because the default is `private`",
+      "Only from derived classes, because the default is `protected`"
+    ],
+    "answer": 1,
+    "explanation": "A top-level type without a modifier is `internal`: visible in its own assembly only. `private` is the default for *members*, which makes the third option tempting, but a top-level type cannot be private."
+  },
+  {
+    "question": "Which modeling choice follows the guidance in this lesson for an online store?",
+    "options": [
+      "`Order` as a `readonly record struct`, because orders are mostly data",
+      "`IOrderRepository` as an abstract class, so it can hold the connection string",
+      "`CreateOrderRequest` as a `class` with `GetSku()` and `SetSku()` methods",
+      "`Order` as a `class` entity and `CreateOrderRequest` as a `record`"
+    ],
+    "answer": 3,
+    "explanation": "Entities have identity and change over time (class), and request payloads are data compared by value (record). Making `Order` a struct is tempting because it holds data, but it is large and mutable, and copying it silently would lose updates; structs fit only tiny immutable values such as coordinates."
+  },
+  {
+    "question": "An interface `IDescribable` declares `public string Describe() => \"product\";` (a default implementation). `class Bag : IDescribable { }` does not implement `Describe`. Which call compiles?",
+    "options": [
+      "`IDescribable item = new Bag(); item.Describe();`",
+      "`var bag = new Bag(); bag.Describe();`",
+      "Both calls",
+      "Neither: default interface members require `override` in the class"
+    ],
+    "answer": 0,
+    "explanation": "A default interface member is reachable only through the interface type, so `bag.Describe()` on a `Bag` variable does not compile. This differs from a PHP trait, whose methods become part of the class, which is why the second option looks right to PHP developers."
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Porting a Magento queue consumer, you write `public sealed class StockConsumer(ShopDbContext db) : BackgroundService` and register it with `AddHostedService`. `ShopDbContext` is registered with `AddDbContext` (scoped). What happens when the app starts in Development?",
+    "options": [
+      "It works: the host creates a new `DbContext` for every iteration of the loop",
+      "Startup fails: scope validation rejects a scoped dependency in a singleton",
+      "It works, but only the first request gets a `DbContext` and the rest get `null`",
+      "The compiler reports an error because hosted services cannot take constructor parameters"
+    ],
+    "answer": 1,
+    "explanation": "Hosted services are singletons, and Development enables scope validation, so resolving a scoped `DbContext` for one throws at startup. Without validation it would resolve once and live for the whole process. The tempting first option describes a scope per iteration, which you only get by calling `CreateAsyncScope()` yourself inside the loop."
+  },
+  {
+    "question": "A `BackgroundService` in your web API throws an exception that nothing catches inside `ExecuteAsync`. With default .NET 10 settings, what happens?",
+    "options": [
+      "The exception is swallowed and the service silently stops while the API keeps running",
+      "The host restarts the service after a back-off delay and logs a warning",
+      "The exception is logged and the whole host stops, taking the API down",
+      "The exception is rethrown to the caller of the next HTTP request"
+    ],
+    "answer": 2,
+    "explanation": "Since .NET 6, `BackgroundServiceExceptionBehavior` defaults to `StopHost`: the exception is logged and the host stops. Before .NET 6 the exception was lost and the service stopped silently. Since .NET 6 it is always logged, and `Ignore` only keeps the host running. There is no automatic restart, so catch per-iteration failures inside the loop."
+  },
+  {
+    "question": "Which loop is the right choice for a job that must run every 5 minutes and must never run two iterations at the same time in one process?",
+    "options": [
+      "`while (await timer.WaitForNextTickAsync(stoppingToken))` with a `PeriodicTimer`",
+      "A `System.Threading.Timer` whose callback does the work every 5 minutes, started in `StartAsync`",
+      "`while (true) { DoWork(); Thread.Sleep(300_000); }` in `StartAsync`",
+      "`Task.Run` in the constructor with a `Task.Delay` loop that ignores the token"
+    ],
+    "answer": 0,
+    "explanation": "`PeriodicTimer` waits for the loop to come back before the next tick, so iterations never overlap, and it observes `stoppingToken`. `System.Threading.Timer` fires callbacks without waiting for the previous one to finish, so a slow run overlaps the next. The other two block a thread or ignore shutdown."
+  },
+  {
+    "question": "A Worker Service container imports a CSV file in `ExecuteAsync`, and `ExecuteAsync` returns when the import is done. Hours later the container is still running. Why?",
+    "options": [
+      "The import is still running on the thread pool, because the host never awaited `ExecuteAsync`",
+      "Returning from `ExecuteAsync` ends the service, not the host; the worker must call `StopApplication()`",
+      "`BackgroundService` calls `ExecuteAsync` again in a loop until the stopping token is cancelled",
+      "The container platform restarts the process every time it exits, so it only looks like it never stopped"
+    ],
+    "answer": 1,
+    "explanation": "A finished `ExecuteAsync` completes only that one service; the host keeps running until something stops it, so a run-once worker calls `IHostApplicationLifetime.StopApplication()` when its work is done. The tempting idea that `BackgroundService` reruns `ExecuteAsync` is wrong: it is called once, and a loop exists only if you write one."
+  },
+  {
+    "question": "An endpoint writes work items to a bounded `Channel<T>` and returns `202 Accepted`; a `BackgroundService` drains the channel. Which work is this design appropriate for?",
+    "options": [
+      "Charging a customer's card after checkout",
+      "Reserving stock for a paid order",
+      "Sending the order to the ERP, which must happen exactly once",
+      "Warming a cache entry that can be rebuilt on the next read"
+    ],
+    "answer": 3,
+    "explanation": "The channel lives in process memory, so a crash or deploy drops queued items. That is acceptable for a cache warm-up, which can simply happen later. Payments, stock and ERP integration must survive restarts, so they belong in a durable store or a message broker; the bounded channel limits memory but adds no durability."
+  },
+  {
+    "question": "In .NET 10, a `BackgroundService` does 20 seconds of synchronous setup at the top of `ExecuteAsync`, before its first `await`. What is the effect on app startup?",
+    "options": [
+      "Other hosted services and the HTTP server wait the full 20 seconds before starting",
+      "The host throws because `ExecuteAsync` must reach its first `await` within 5 seconds",
+      "Startup is not blocked: .NET 10 runs all of `ExecuteAsync` in the background",
+      "The setup is deferred until the first HTTP request reaches the app"
+    ],
+    "answer": 2,
+    "explanation": "In .NET 10, `BackgroundService` runs the whole `ExecuteAsync` on a background thread, so the synchronous part no longer blocks other services. The first option was true in .NET 9 and earlier, which is why older code begins with `await Task.Yield()`. Work that must finish before startup goes in an overridden `StartAsync`."
+  }
+]

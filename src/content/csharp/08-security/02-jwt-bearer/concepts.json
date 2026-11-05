@@ -1,0 +1,9 @@
+[
+  { "term": "JWT", "description": "A JSON Web Token: a Base64URL-encoded header, payload of claims and signature, readable by anyone and protected against tampering by the signature." },
+  { "term": "Authority", "description": "The `JwtBearerOptions` setting that points at the issuer, from which the handler downloads OpenID Connect metadata and the public signing keys." },
+  { "term": "Audience", "description": "The `aud` claim and the matching option that make the API reject tokens issued for a different API." },
+  { "term": "TokenValidationParameters", "description": "The `Microsoft.IdentityModel.Tokens` class that controls issuer, audience, signing key, lifetime and clock skew validation." },
+  { "term": "MapInboundClaims", "description": "A handler option, `true` by default, that renames short claims such as `sub` to long `ClaimTypes` URIs; set it to `false` to keep the issuer's names, and then also set `NameClaimType` and `RoleClaimType` to those short names." },
+  { "term": "Clock skew", "description": "The tolerance applied to `exp` and `nbf`, 5 minutes by default, during which an expired token is still accepted." },
+  { "term": "dotnet user-jwts", "description": "A .NET CLI tool that issues development tokens signed with a key kept by the Secret Manager and writes matching settings to `appsettings.Development.json`." }
+]

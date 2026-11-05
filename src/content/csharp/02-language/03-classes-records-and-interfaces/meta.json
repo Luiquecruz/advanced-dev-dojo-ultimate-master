@@ -1,0 +1,14 @@
+{
+  "title": "Classes, Records, Structs and Interfaces",
+  "summary": "Properties with `init`, `required` and the C# 14 `field` keyword, access modifiers and `internal`, non-virtual-by-default inheritance, records with value equality and `with`, interfaces as DI seams, and how to choose among them.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "C# reference: Records", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record" },
+    { "label": "C# reference: interface keyword (default and static members)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/interface" },
+    { "label": "C# reference: Access modifiers", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/access-modifiers" },
+    { "label": "C# reference: required modifier", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/required" },
+    { "label": "balta.io: Fundamentos da Orientação a Objetos (no C# version stated; modern syntax in this lesson)", "url": "https://balta.io/courses/fundamentos-orientacao-objetos" },
+    { "label": "balta.io: Aplicando Orientação a Objetos em Projetos Reais com C# 11 e .NET 7 (C# 11; newer syntax in the lessons)", "url": "https://balta.io/courses/aplicando-orientacao-a-objetos-em-projetos-reais-com-csharp-11-e-dotnet-7" }
+  ]
+}

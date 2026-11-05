@@ -1,0 +1,68 @@
+[
+  {
+    "question": "You add `builder.Services.AddAuthentication().AddJwtBearer();` and map `app.MapGet(\"/orders\", ...)` with nothing else. A request without a token arrives. What happens?",
+    "options": [
+      "ASP.NET Core returns 401, because registering a bearer scheme makes every endpoint require a valid token",
+      "The endpoint runs and returns the orders: nothing requires an authenticated user",
+      "ASP.NET Core returns 403, because the caller is anonymous",
+      "The app fails at startup because `UseAuthentication()` was not called"
+    ],
+    "answer": 1,
+    "explanation": "Configuring authentication only teaches the app how to read credentials; it restricts nothing. Access is restricted by `RequireAuthorization()`, `[Authorize]` or a fallback policy. Coming from Magento, where every `webapi.xml` route names a resource, the first option is the tempting assumption, but it is wrong. The middleware is added automatically by `WebApplication`, so startup does not fail."
+  },
+  {
+    "question": "A user with a valid token calls `DELETE /products/42` but lacks the required permission. Which response should a JWT-bearer API return?",
+    "options": [
+      "401 Unauthorized with a `WWW-Authenticate: Bearer` header",
+      "302 redirect to the login page",
+      "403 Forbidden",
+      "400 Bad Request"
+    ],
+    "answer": 2,
+    "explanation": "The caller is authenticated, so the handler's forbid action runs and returns 403. 401 is the challenge for a caller with no valid credentials; returning it for a permission problem makes clients re-authenticate in a loop. A redirect is a cookie-handler behavior meant for browsers, not for APIs."
+  },
+  {
+    "question": "Which statement about OAuth 2.0 and OpenID Connect is correct?",
+    "options": [
+      "OAuth 2.0 defines the ID token, and OpenID Connect defines access tokens",
+      "OpenID Connect replaces OAuth 2.0, so an API that uses OIDC no longer needs to validate access tokens",
+      "The client should send the ID token to the API, because the ID token is the one that proves who the user is",
+      "OIDC adds identity on top of OAuth 2.0: the ID token is for the client, the access token for the API"
+    ],
+    "answer": 3,
+    "explanation": "OAuth 2.0 is about delegated access through access tokens; OIDC builds on it and adds the ID token so the client learns who signed in. Sending the ID token to an API is a common mistake: it is addressed to the client, while the API validates access tokens. OIDC extends OAuth 2.0 rather than replacing it."
+  },
+  {
+    "question": "In an OAuth 2.0 setup where shoppers sign in at Microsoft Entra ID and a mobile app calls your ASP.NET Core catalog API, which role does the API play?",
+    "options": [
+      "Resource server",
+      "Authorization server",
+      "Client",
+      "Resource owner"
+    ],
+    "answer": 0,
+    "explanation": "The API hosts the protected resources and accepts access tokens, which is the resource server role in RFC 6749. Entra ID is the authorization server that issues tokens, the mobile app is the client, and the shopper is the resource owner. An API that starts issuing its own tokens is taking on the authorization server's job, which the next lesson advises against."
+  },
+  {
+    "question": "Your React SPA is served from `shop.example.com` and calls an API on the same site. Which approach follows Microsoft's guidance for keeping the user signed in?",
+    "options": [
+      "Store the access token in `localStorage` and add it to each request",
+      "Store the access token in `sessionStorage`, which is cleared when the tab closes, so XSS cannot reach it",
+      "Use a secure `HttpOnly` cookie issued by the backend, and protect state-changing endpoints against CSRF",
+      "Send the username and password with every request over HTTPS"
+    ],
+    "answer": 2,
+    "explanation": "Microsoft warns that tokens in `localStorage`, `sessionStorage` or web workers can be stolen through XSS, and recommends keeping tokens on a trusted server with only a secure HttpOnly cookie in the browser. `sessionStorage` is still readable by any script on the page, so the second option is wrong. Because the browser sends cookies automatically, CSRF protection is the cost of this choice."
+  },
+  {
+    "question": "Coming from Magento, a developer writes a `/token` endpoint that accepts a username and password and returns a self-signed JWT for a third-party integration. What is the main problem?",
+    "options": [
+      "Minimal API endpoints cannot return a JWT; the token must come from an MVC controller action",
+      "Nothing is wrong, as long as the endpoint is served over HTTPS and the password is hashed in the database",
+      "The JWT must be encrypted (JWE), otherwise ASP.NET Core's bearer handler rejects it as insecure",
+      "It hand-rolls a password-for-token flow; partners should get tokens from an identity provider"
+    ],
+    "answer": 3,
+    "explanation": "Microsoft's JWT bearer guidance says not to create access tokens from username/password requests and to limit self-created tokens to tests; use OIDC or a standard OAuth flow, and client credentials when no user is involved. HTTPS protects the transport but not the design flaws: password handling in every client and non-standard tokens. Signed, unencrypted JWTs are the normal format, so encryption is not the issue."
+  }
+]

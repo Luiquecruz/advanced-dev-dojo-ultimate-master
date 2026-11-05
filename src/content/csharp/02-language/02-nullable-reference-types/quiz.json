@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In PHP, `function ship(string $sku) {}` called with `null` throws a `TypeError`. In a C# project with `<Nullable>enable</Nullable>`, `void Ship(string sku)` receives `null` from code that used `!` to silence a warning. What happens when `Ship` is called?",
+    "options": [
+      "The runtime throws `ArgumentNullException` before the method body runs, as PHP throws `TypeError`",
+      "The call fails to compile in every caller, because `!` only silences the warning in one place",
+      "Nothing at the call; a `NullReferenceException` comes later, at the first dereference",
+      "The runtime converts `null` to an empty string, because the parameter is non-nullable"
+    ],
+    "answer": 2,
+    "explanation": "Nullable reference types are compile-time only, so no runtime check is generated and `null` flows in. The tempting first option describes what you get only if you write `ArgumentNullException.ThrowIfNull(sku)` yourself; PHP's automatic `TypeError` has no C# equivalent for reference types."
+  },
+  {
+    "question": "What is the difference between `int?` and `string?`?",
+    "options": [
+      "`int?` is a runtime `Nullable<int>` struct; `string?` is only a compiler annotation",
+      "Both are wrapper types the compiler creates, so both expose `HasValue` and `Value`",
+      "Both are annotations only; neither exists at run time, and both compile to the plain type",
+      "`string?` makes the string immutable, while `int?` makes the integer optional in method calls"
+    ],
+    "answer": 0,
+    "explanation": "A nullable value type is a real generic struct, so you can ask `discount.HasValue`. A nullable reference type changes no runtime type at all. Assuming they work the same way leads to looking for a `HasValue` on `string?`, which does not exist."
+  },
+  {
+    "question": "`public class Product { public string Sku { get; set; } }` produces warning CS8618. Every product must have a SKU. Which fix states the design honestly?",
+    "options": [
+      "`public string Sku { get; set; } = null!;`",
+      "`public string? Sku { get; set; }`",
+      "Add `#nullable disable` at the top of the file",
+      "`public required string Sku { get; init; }`"
+    ],
+    "answer": 3,
+    "explanation": "`required` makes the compiler reject any construction that forgets the SKU, which matches the rule. `= null!` is the tempting quick fix, but it only silences the warning and leaves a real `null` that crashes at run time. `string?` would claim the SKU is optional, which it is not."
+  },
+  {
+    "question": "Inside `if (cache.TryGetValue(sku, out var product)) { product.Name ... }`, why is there no nullability warning on `product`, even though `TryGetValue` must set `product` to a default when the key is missing?",
+    "options": [
+      "`var` infers a non-nullable type for `out` variables, so the analysis skips them",
+      "The `out` parameter is declared `[MaybeNullWhen(false)]`, so `true` means not-null",
+      "A dictionary with a non-nullable value type can never contain a null value",
+      "The compiler reads the body of `TryGetValue` to prove it never returns null"
+    ],
+    "answer": 1,
+    "explanation": "The attribute encodes \"maybe null only when the result is false\", and null-state analysis applies it inside the `if`. The analysis never reads into other methods' bodies (the last option), which is exactly why such attributes exist."
+  },
+  {
+    "question": "An API on .NET 10 deserializes `{\"Email\": null}` into `record Signup(string Email)` with default `System.Text.Json` options. What does `Email` contain?",
+    "options": [
+      "`null`: the serializer ignores nullable annotations by default",
+      "An empty string, because the serializer replaces `null` for non-nullable `string` properties",
+      "Nothing: deserialization throws `JsonException`, because `Email` is not nullable",
+      "The build fails, because the source generator checks the JSON contract against the record"
+    ],
+    "answer": 0,
+    "explanation": "The serializer ignores nullability annotations unless you set `RespectNullableAnnotations = true` (available since .NET 9); only then does an explicit `null` throw. The third option describes that opt-in behavior, not the default, and even with it a missing property is still not rejected. Nothing checks JSON payloads at build time."
+  },
+  {
+    "question": "Which C# 14 line assigns the address only when `order` is not null, and skips calling `LoadAddress()` otherwise?",
+    "options": [
+      "`order!.ShippingAddress = LoadAddress();`",
+      "`order.ShippingAddress ??= LoadAddress();`",
+      "`order?.ShippingAddress = LoadAddress();`",
+      "`order ?? ShippingAddress = LoadAddress();`"
+    ],
+    "answer": 2,
+    "explanation": "Null-conditional assignment, new in C# 14, evaluates the right side only when the receiver is not null. `!` merely silences the compiler and throws `NullReferenceException` for a null `order`. `??=` tests the property, not `order`, so it still dereferences a null `order`."
+  }
+]

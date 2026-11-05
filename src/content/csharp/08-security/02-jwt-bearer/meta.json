@@ -1,0 +1,32 @@
+{
+  "title": "JWT Bearer Authentication",
+  "summary": "Configure `AddJwtBearer` to validate access tokens from an identity provider, know what it checks and its surprising defaults (claim mapping, 5-minute clock skew, no revocation), and test locally with `dotnet user-jwts`.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: Configure JWT bearer authentication in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-jwt-bearer-authentication"
+    },
+    {
+      "label": "Microsoft Learn: Generate tokens with dotnet user-jwts",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/jwt-authn"
+    },
+    {
+      "label": "Microsoft Learn: Map, customize, transform claims",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/claims"
+    },
+    {
+      "label": "Microsoft Learn: Authentication and authorization in Minimal APIs",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/security"
+    },
+    {
+      "label": "balta.io: Segurança em APIs ASP.NET com JWT e Bearer Authentication (.NET 7; concepts still apply)",
+      "url": "https://balta.io/courses/seguranca-apis-aspnet-jwt-bearer"
+    }
+  ]
+}

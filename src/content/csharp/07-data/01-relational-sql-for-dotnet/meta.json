@@ -1,0 +1,13 @@
+{
+  "title": "Relational SQL for .NET",
+  "summary": "ADO.NET providers for SQL Server and PostgreSQL, parameterized queries, data readers, connection pooling in a long-running process, and why System.Data.SqlClient is deprecated.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Microsoft.Data.SqlClient namespace and compatibility", "url": "https://learn.microsoft.com/en-us/sql/connect/ado-net/introduction-microsoft-data-sqlclient-namespace" },
+    { "label": "Migrate from System.Data.SqlClient to Microsoft.Data.SqlClient", "url": "https://learn.microsoft.com/en-us/sql/connect/ado-net/migrate-system-data-sql-client-to-microsoft-data-sql-client" },
+    { "label": "Npgsql: basic usage", "url": "https://www.npgsql.org/doc/basic-usage.html" },
+    { "label": "balta.io: Fundamentos do SQL Server (version not shown on the page)", "url": "https://balta.io/courses/fundamentos-sql-server" },
+    { "label": "balta.io: Postgres para devs .NET (version not shown on the page)", "url": "https://balta.io/courses/postgres-para-devs-dotnet" }
+  ]
+}

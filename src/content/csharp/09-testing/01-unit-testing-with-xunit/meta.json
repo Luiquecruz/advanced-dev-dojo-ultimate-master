@@ -1,0 +1,14 @@
+{
+  "title": "Unit Testing with xUnit v3",
+  "summary": "Create an xUnit.net v3 project, write facts and theories in arrange-act-assert form, share setup with fixtures, and understand the per-test instance and parallel collections that PHPUnit users trip over.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Microsoft Learn: Best practices for writing unit tests", "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices" },
+    { "label": "Microsoft Learn: Testing in .NET (frameworks and test platforms)", "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/" },
+    { "label": "xUnit.net: Getting started with v3", "url": "https://xunit.net/docs/getting-started/v3/getting-started" },
+    { "label": "xUnit.net: Shared context between tests (fixtures)", "url": "https://xunit.net/docs/shared-context" },
+    { "label": "xUnit.net: Running tests in parallel", "url": "https://xunit.net/docs/running-tests-in-parallel" },
+    { "label": "balta.io: Modelando Domínios Ricos (domain tests; no framework version stated)", "url": "https://balta.io/courses/modelando-dominios-ricos" }
+  ]
+}

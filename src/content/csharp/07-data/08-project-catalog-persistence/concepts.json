@@ -1,0 +1,8 @@
+[
+  { "term": "P3 persistence", "description": "The third practice project, which moves the P2 catalog API from memory to PostgreSQL or SQL Server with EF Core." },
+  { "term": "User secrets", "description": "The development-only store (`dotnet user-secrets`) that keeps the connection string out of source control." },
+  { "term": "Version field", "description": "The concurrency token the API returns with each product and expects back on `PUT`, so a stale write returns 409." },
+  { "term": "Conditional reservation", "description": "A single `UPDATE ... WHERE stock >= quantity` issued with `ExecuteUpdateAsync`, whose affected row count decides between 200 and 409." },
+  { "term": "Statement count", "description": "The number of SQL commands in the EF Core log for one request, the evidence that a report runs as one query." },
+  { "term": "Cache invalidation on write", "description": "Removing a product's `HybridCache` entry after a successful update or reservation so the next read is fresh." }
+]

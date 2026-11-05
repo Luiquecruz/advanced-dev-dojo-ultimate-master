@@ -1,0 +1,14 @@
+{
+  "title": "Project P5: Order Processing Worker",
+  "summary": "Build a Worker Service that consumes OrderPlaced messages from RabbitMQ in Docker, reserves stock idempotently with a scope per message, and dead-letters poison messages after three retries.",
+  "level": "advanced",
+  "tags": ["established", "core", "project"],
+  "resources": [
+    { "label": "Background tasks with hosted services in ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-10.0" },
+    { "label": "Idempotent Consumer pattern (Azure Architecture Center)", "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/idempotent-consumer" },
+    { "label": "RabbitMQ tutorial: work queues (.NET)", "url": "https://www.rabbitmq.com/tutorials/tutorial-two-dotnet" },
+    { "label": "RabbitMQ: dead letter exchanges", "url": "https://www.rabbitmq.com/docs/dlx" },
+    { "label": "RabbitMQ: policies", "url": "https://www.rabbitmq.com/docs/policies" },
+    { "label": "balta.io: Fundamentos do Event-Driven Architecture (concepts and Kafka only)", "url": "https://balta.io/courses/fundamentos-event-driven-architecture" }
+  ]
+}

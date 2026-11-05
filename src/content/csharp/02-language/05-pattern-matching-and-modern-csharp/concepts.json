@@ -1,0 +1,10 @@
+[
+  { "term": "Switch expression", "description": "An expression `x switch { pattern => value, ... }` that returns the value of the first matching arm and throws `SwitchExpressionException` when none matches." },
+  { "term": "Property pattern", "description": "A pattern such as `{ Status: OrderStatus.Paid, Total: > 0 }` that matches a non-null object whose properties match nested patterns." },
+  { "term": "Relational and logical patterns", "description": "Comparisons like `>= 100m` combined with `and`, `or` and `not` to express ranges and alternatives inside a pattern." },
+  { "term": "List pattern", "description": "A pattern such as `[var first, .. var rest]` that matches an array or list by its elements, where the `..` slice matches zero or more elements." },
+  { "term": "Case guard", "description": "A `when` condition after a pattern that must also be true for the arm to be chosen." },
+  { "term": "Primary constructor", "description": "Constructor parameters declared in a class header, in scope in the whole body; they are mutable parameters, and only records turn them into properties." },
+  { "term": "Collection expression", "description": "The `[a, b, .. other]` syntax that eagerly builds an array, list, span, immutable collection or interface-typed collection chosen by the target type." },
+  { "term": "Extension block", "description": "The C# 14 `extension(Type receiver) { ... }` syntax in a static class that adds extension methods, properties and static members, which never override the type's own members." }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Coming from Magento, you write `new Mock<SqlProductRepository>()` and set up `FindAsync`, a public non-virtual method of a sealed class. What happens?",
+    "options": [
+      "It works, because Moq can override any public method, like PHPUnit's `createMock()`",
+      "It fails, because Moq only intercepts interface, virtual or abstract members",
+      "It works once the test project gets `InternalsVisibleTo` for that assembly",
+      "It works for synchronous methods, but async setups are silently ignored"
+    ],
+    "answer": 1,
+    "explanation": "Moq and NSubstitute generate proxy classes that override members, so sealed classes and non-virtual methods cannot be intercepted; you need an interface such as `IProductRepository`. PHPUnit can mock any non-final class, which is why the Magento habit fails here. `InternalsVisibleTo` controls visibility, not overridability."
+  },
+  {
+    "question": "A test passes a double that returns a fixed price list to `CartService` and then asserts only on the cart total. What is that double?",
+    "options": [
+      "A mock, because it was created with a mocking library",
+      "A spy, because the library records every call made on it",
+      "A stub, because it only feeds data and nothing asserts on it",
+      "A fake database, because it stands in for the persistence layer"
+    ],
+    "answer": 2,
+    "explanation": "A double becomes a mock only when the test asserts on it. Here it only supplies data, so it is a stub whatever tool created it. Calling it a mock misleads readers into looking for an interaction check that is not there."
+  },
+  {
+    "question": "`OrderExpiry` calls `DateTime.UtcNow` to decide whether a 15-minute hold has expired. How do you make it testable with .NET's own types?",
+    "options": [
+      "Inject `TimeProvider` and drive a `FakeTimeProvider` with `Advance` in tests",
+      "Call `Thread.Sleep(TimeSpan.FromMinutes(16))` in the test, then assert",
+      "Mock `DateTime.UtcNow` with NSubstitute and return a fixed instant",
+      "Make `UtcNow` a `virtual` property on the entity and override it in tests"
+    ],
+    "answer": 0,
+    "explanation": "`TimeProvider` (BCL since .NET 8) is the seam: register `TimeProvider.System` in production, and `FakeTimeProvider` moves only when the test says so, which makes the test instant and deterministic. `DateTime` is a struct with a static property, so no proxy-based library can mock it. A virtual clock on the entity is a home-made seam, not a .NET type, and sleeping makes the suite slow while still depending on the real clock."
+  },
+  {
+    "question": "A handler test configures NSubstitute and then checks `Received(1)` on every one of the seven calls the handler makes. A colleague merges two repository calls into one without changing behavior, and the test fails. What is the lesson?",
+    "options": [
+      "Switch to Moq, whose `Verify` calls tolerate merged repository calls",
+      "Keep the checks but use `Received()` without a count on each call",
+      "Assert on the outcome and verify only the calls that are the behavior",
+      "Revert the refactor, because the tests now define the handler's design"
+    ],
+    "answer": 2,
+    "explanation": "Interaction checks on every call couple the test to the implementation, so it fails on harmless refactors and stops being a safety net. Assert on the result or state first, and verify only the interactions that matter, such as a payment captured once. Dropping the count still asserts on implementation details, and switching libraries changes nothing."
+  },
+  {
+    "question": "Your company ships a commercial SaaS product. A developer runs `dotnet add package FluentAssertions` and gets 8.11.0. What is the accurate position?",
+    "options": [
+      "Nothing to check, because packages used only in test projects need no licence",
+      "Nothing to check, because Fluent Assertions is MIT like the rest of the stack",
+      "Replace it today, because Fluent Assertions was deprecated and pulled from NuGet",
+      "Commercial use needs a paid Xceed licence, so the team must choose deliberately"
+    ],
+    "answer": 3,
+    "explanation": "Since Xceed's 2025-01-13 announcement, the NuGet page for 8.11.0 says it is free for open-source and non-commercial use and that commercial use needs a paid licence. A licence applies to the package wherever it is referenced, test projects included. The package is still published, so the team decides between buying it, the built-in `Assert`, or an alternative such as Shouldly."
+  },
+  {
+    "question": "Which use of a mocking library is most likely to give a test that passes while production fails?",
+    "options": [
+      "Stubbing your own `IPaymentGateway` interface to return a declined result",
+      "Mocking `DbSet<Product>` so a LINQ query runs over an in-memory list",
+      "Verifying that `IEmailSender.SendAsync` was called once after an order",
+      "Creating an `Order` value object with `new` instead of mocking it"
+    ],
+    "answer": 1,
+    "explanation": "A mocked `DbSet` evaluates the LINQ query in memory, not as SQL, so translation errors, case sensitivity and provider functions are never exercised; the EF Core docs advise against it for queries. Stubbing your own interface and verifying a meaningful email call are the intended uses, and value objects should be created, not mocked."
+  }
+]

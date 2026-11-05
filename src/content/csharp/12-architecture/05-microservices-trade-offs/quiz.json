@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Your team proposes splitting a Magento-style store into Catalog, Inventory and Ordering services that keep reading the same MySQL schema. What have they built?",
+    "options": [
+      "Microservices, because each service runs in its own container and scales on its own",
+      "A distributed monolith: coupled through one schema, now with network calls",
+      "A modular monolith, because the code is split by capability over one database",
+      "A CQRS system, because each service reads the shared tables in its own shape"
+    ],
+    "answer": 1,
+    "explanation": "Data ownership and independent deployment define microservices. A shared schema couples the services as tightly as before and adds latency and partial failures. A modular monolith is one deployable, which this is not; containers alone define nothing."
+  },
+  {
+    "question": "In a monolith, checkout reserves stock and creates the order in one database transaction. What replaces that transaction once Inventory is a separate service with its own database?",
+    "options": [
+      "A distributed transaction that EF Core opens across both databases automatically",
+      "A `TransactionScope` around both HTTP calls, so a failure rolls back each service",
+      "A retry policy on the HTTP call, so the reservation eventually succeeds every time",
+      "Eventual consistency: an outbox, idempotent consumers and compensating actions"
+    ],
+    "answer": 3,
+    "explanation": "Across services there is no shared ACID transaction, so consistency is rebuilt with messaging patterns from module 10. A `TransactionScope` covers local resources, not another service's database behind HTTP, and an HTTP call can time out after the remote side already committed, so retries alone can duplicate it."
+  },
+  {
+    "question": "Early in a product, boundaries keep moving and two developers maintain the code. Which choice do Microsoft's guidance and this lesson favor?",
+    "options": [
+      "A monolith, ideally modular, so boundaries can be found and moved cheaply",
+      "Microservices from day one, so the team never has to migrate a monolith later",
+      "One service per aggregate, since aggregates are already the consistency boundaries",
+      "Serverless functions for every endpoint, so nothing runs when there is no traffic"
+    ],
+    "answer": 0,
+    "explanation": "Microsoft's e-book notes that natural boundaries may not be clear early, and that cloning a whole instance is often enough to scale. Moving a boundary inside a monolith is a refactor; moving it between services is a migration of data and contracts."
+  },
+  {
+    "question": "Ordering calls Inventory with `AddStandardResilienceHandler()` defaults to reserve stock with `POST /reservations`. Why is that dangerous?",
+    "options": [
+      "The standard handler does not support `POST`, so the request fails before it is sent",
+      "The circuit breaker opens on the first failed `POST` and blocks all later reservations",
+      "Its retries cover every method, so a timed-out `POST` can reserve stock twice",
+      "The attempt timeout cancels the call, which also rolls back the server's reservation"
+    ],
+    "answer": 2,
+    "explanation": "Microsoft's docs warn that the standard handler retries every method and offer `DisableForUnsafeHttpMethods()`. A request that timed out on the client may have succeeded on the server: cancelling the client side rolls nothing back, so an automatic retry can duplicate the side effect."
+  },
+  {
+    "question": "Two of your services call each other on almost every request and you always deploy them together. What does the boundary guidance suggest?",
+    "options": [
+      "Put a message broker between them, so the calls become asynchronous and they stay apart",
+      "Split them into smaller services, so each one has fewer reasons to call the other",
+      "Share a domain library between them, so both services always agree on the types",
+      "Merge them: chatty calls and joint deployment signal a wrong boundary"
+    ],
+    "answer": 3,
+    "explanation": "Microsoft's boundary checklist says chatty services and services that must deploy together indicate the split is wrong. Splitting further or sharing a domain library increases coupling; a broker changes the transport, not the coupling."
+  },
+  {
+    "question": "Which situation is the strongest reason to extract a module into its own service?",
+    "options": [
+      "Stable boundary and data, a different scaling need, and a team blocked by shared releases",
+      "The solution has passed 100,000 lines and a full build and test run takes ten minutes",
+      "A new team member prefers small repositories with one service each, to learn faster",
+      "The team is moving to Kubernetes and wants each module as a separate deployment there"
+    ],
+    "answer": 0,
+    "explanation": "Extraction pays when the business and organizational reasons line up and the platform can operate another service (per-service CI/CD and tracing). Code size, preference or a new platform are not criteria; a slow build in a large codebase with clean modules is better fixed inside a modular monolith."
+  }
+]

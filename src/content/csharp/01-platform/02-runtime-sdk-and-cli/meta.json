@@ -1,0 +1,13 @@
+{
+  "title": "The Runtime, the SDK and the dotnet CLI",
+  "summary": "How C# becomes running code (CIL, CLR, JIT, tiered compilation, Native AOT), the SDK versus the runtime, creating a solution with the dotnet CLI, and choosing between run, build and publish.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": ".NET CLI overview", "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/" },
+    { "label": "Managed execution process", "url": "https://learn.microsoft.com/en-us/dotnet/standard/managed-execution-process" },
+    { "label": ".NET application publishing overview", "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/" },
+    { "label": "File-based apps", "url": "https://learn.microsoft.com/en-us/dotnet/core/sdk/file-based-apps" },
+    { "label": "balta.io: Fundamentos do C# (.NET Core 3.1; the CLI concepts still apply)", "url": "https://balta.io/courses/fundamentos-csharp" }
+  ]
+}

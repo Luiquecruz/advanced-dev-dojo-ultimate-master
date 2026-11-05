@@ -1,0 +1,8 @@
+[
+  { "term": "Testcontainers", "description": "An MIT library that starts throwaway Docker containers, such as PostgreSQL or SQL Server, from test code and removes them afterwards." },
+  { "term": "Container module", "description": "A Testcontainers package such as `Testcontainers.PostgreSql` that wraps one image with a builder, a readiness check and `GetConnectionString()`." },
+  { "term": "Resource reaper (Ryuk)", "description": "A helper container Testcontainers starts to remove leftover Docker resources after the test session, whether the tests passed or failed." },
+  { "term": "EF Core in-memory provider", "description": "A non-relational provider that evaluates queries over .NET collections, highly discouraged by Microsoft as a test fake and supported only for legacy applications." },
+  { "term": "Transaction-per-test isolation", "description": "Running a writing test inside a database transaction that is never committed, so its changes roll back when the transaction is disposed." },
+  { "term": "IDbContextOptionsConfiguration<TContext>", "description": "The service `AddDbContext` registers with the provider configuration, which tests remove before registering the context against the test database." }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In a Clean Architecture solution, which set of project references is correct?",
+    "options": [
+      "Core references Infrastructure so it can save; Api references Core and Infrastructure",
+      "Infrastructure references Core; Api references Core, and Infrastructure only for wiring",
+      "Core references Api so it can return HTTP results; Infrastructure references Core",
+      "Api references only Infrastructure, which re-exports the Core types the endpoints use"
+    ],
+    "answer": 1,
+    "explanation": "Dependencies point inward: Infrastructure implements interfaces declared in Core, and the API depends on Core while referencing Infrastructure only to register it in the composition root. Core referencing Infrastructure is the classic N-layer direction this architecture exists to invert."
+  },
+  {
+    "question": "A Magento developer writes a domain service in `Catalog.Core` and wants to call `CatalogDbContext` from it \"just this once\". `Catalog.Core` has no reference to `Catalog.Infrastructure`. What happens?",
+    "options": [
+      "It compiles, because every project in one solution can see the others' public types",
+      "It compiles but throws at run time, because the DI container cannot resolve the context",
+      "It fails to compile: Core cannot name a type from a project it does not reference",
+      "It compiles with a warning that a `<NoWarn>` entry in the `.csproj` can suppress"
+    ],
+    "answer": 2,
+    "explanation": "Unlike PHP, where any class can `use` any other, .NET resolves types through project references at compile time. Being in the same solution gives no visibility, and Infrastructure already references Core, so adding the reference back would create a cycle. The run-time DI failure is tempting, but the code never gets that far."
+  },
+  {
+    "question": "Why does Microsoft's e-book say testing business logic is hard in a traditional N-layer application?",
+    "options": [
+      "The business layer depends at compile time on data access, which often needs a database",
+      "N-layer forces business logic into static classes, which a test double cannot replace",
+      "N-layer applications cannot use the built-in dependency injection container at all",
+      "Every test must start the UI layer first, because the UI layer owns the composition root"
+    ],
+    "answer": 0,
+    "explanation": "In UI → BLL → DAL the business layer depends on data access details, so tests of the rules drag the database in. N-layer code can use instance classes and dependency injection too; the problem is the direction of the dependency, not static classes or the container."
+  },
+  {
+    "question": "Where should `services.AddScoped<IProductRepository, EfProductRepository>()` be called from?",
+    "options": [
+      "From a static `Register` method on `Product` in Core, run when the type first loads",
+      "From each endpoint, through `HttpContext.RequestServices`, right before it is needed",
+      "From the composition root, usually an `AddInfrastructure` method that `Program.cs` calls",
+      "Nowhere: ASP.NET Core scans the loaded assemblies at startup and registers each class"
+    ],
+    "answer": 2,
+    "explanation": "Bindings belong in one composition root so the rest of the code sees only interfaces. The built-in container does not scan assemblies on its own; registrations are explicit code, which replaces the `<preference>` entries of `di.xml`."
+  },
+  {
+    "question": "A teammate proposes a generic `IRepository<T>` in Core exposing `IQueryable<T> Query()` over every EF Core entity. What is the strongest objection?",
+    "options": [
+      "It blocks unit tests, because an `IQueryable<T>` cannot be faked with an in-memory list",
+      "`IQueryable<T>` cannot be the return type of a method declared on a public interface",
+      "EF Core rejects generic repositories, because `DbSet<T>` cannot be wrapped in another type",
+      "It leaks EF Core query semantics into Core and duplicates what `DbSet<T>` already offers"
+    ],
+    "answer": 3,
+    "explanation": "`DbContext` is already a unit of work and `DbSet<T>` a repository. Exposing `IQueryable<T>` means callers in Core write queries that only work because EF translates them, so the abstraction is in name only and the SQL that runs is hidden. A list's `AsQueryable()` fakes it easily, which is exactly the danger: the fake accepts queries EF cannot translate."
+  },
+  {
+    "question": "Which situation makes a single-project, folder-organized API the better choice?",
+    "options": [
+      "A service with complex pricing and stock rules that several teams will extend for years",
+      "A small internal CRUD API over a handful of tables with little business logic",
+      "Any API that uses EF Core, since `DbContext` is already a repository and unit of work",
+      "Any API deployed in a container, since each image should be built from one project"
+    ],
+    "answer": 1,
+    "explanation": "Clean Architecture pays off when there is non-trivial business logic to protect and test in isolation. For thin CRUD, the extra projects, interfaces and mappings cost more than they return. Using EF Core or containers says nothing about the right structure."
+  }
+]
