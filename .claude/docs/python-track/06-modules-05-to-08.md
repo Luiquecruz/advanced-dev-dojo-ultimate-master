@@ -134,7 +134,7 @@ Standard-library tour (`re`, `pathlib`, `decimal`, `datetime`, `json`, `enum`, `
 
 ### 04-numbers-decimal-and-fractions (P, I)
 - Concept: binary floating point error, `Decimal` contexts and `quantize`, `Fraction`, `round` (banker's), integer arbitrary precision, `//` and `%` with negatives.
-- Common mistake: splitting or rounding money with floats (`total / people`, then rounding each share), which loses or invents cents; split integer cents with `divmod` and give the remainder to the first shares, or use `Decimal` built from strings (`Decimal("0.10")`, not `Decimal(0.1)`). `round` rounds halves to even.
+- Common mistake: splitting or rounding money with floats (`total / people`, then rounding each share), which loses or invents cents; split integer cents with `divmod` and give the remainder to the first shares. `Decimal` built from strings (`Decimal("0.10")`, not `Decimal(0.1)`) makes each amount exact but does not remove the remainder: `Decimal("10") / 3` quantized to cents is three shares of `3.33` that sum to `9.99`, so a `Decimal` split also hands the leftover cents to the first shares. `round` rounds halves to even.
 - Challenge: `split_bill(total_cents, people)` returns a list of ints summing exactly to total, distributing remainder from the first; `round_money(value)` → `Decimal` rounded `ROUND_HALF_UP`; `exact_ratio(text)` → `Fraction`.
 - Tests: sums; `0.1 + 0.2 != 0.3` documented via a test on `math.isclose`; rounding of 2.675 as Decimal vs float.
 
