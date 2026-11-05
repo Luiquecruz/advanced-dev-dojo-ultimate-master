@@ -12,7 +12,7 @@ src/content/csharp/<NN-module>/<NN-lesson>/
 └── quiz.json       5–6 questions
 ```
 
-- **No `challenge.md`, `starter`, `solution`, `tests`, `hints.md` or `approach.md`.** There is no C# engine, and `src/verify/csharp.test.ts` fails if any challenge file appears.
+- **Challenge files are optional.** A lesson may add a graded C# challenge (`challenge.md`, `starter.cs`, `solution.cs`, `tests.cs`, `hints.md`, `approach.md`) on the C# engine, in the format of CONTENT_GUIDE.md "C# engine" and with the steps of [csharp-engine.md](../csharp-engine.md) "Giving a lesson a C# challenge"; `src/verify/csharp.test.ts` grades it. The theory and quiz files above stay required.
 - Lesson ids are unique in the track and listed in [05-curriculum.md](05-curriculum.md). Folder prefixes set the order.
 - `meta.json` `level`: `beginner` | `intermediate` | `advanced`. `tags` hold three entries: status (`recommended`, `established`, `legacy` or `context`, matching classes 1–4 of [02-ecosystem-and-legacy.md](02-ecosystem-and-legacy.md)), tier (`core`, `deepening` or `legacy`) and kind (`theory` or `project`).
 

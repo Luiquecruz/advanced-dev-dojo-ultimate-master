@@ -34,9 +34,10 @@ const DEFAULT_ENTRY: Record<EngineId, Record<string, string>> = {
   angular: { ts: 'app.ts' },
   node: { ts: 'main.ts', js: 'main.js' },
   python: { py: 'main.py' },
+  csharp: { cs: 'Program.cs' },
 };
 
-const HEADLESS_ENGINES = new Set<EngineId>(['typescript', 'node', 'python']);
+const HEADLESS_ENGINES = new Set<EngineId>(['typescript', 'node', 'python', 'csharp']);
 
 function stripPrefix(segment: string): string {
   return segment.replace(/^\d+-/, '');

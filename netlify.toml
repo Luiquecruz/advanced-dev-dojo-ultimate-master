@@ -1,11 +1,26 @@
 [build]
-  command = "npm run build"
+  # postinstall skips the .NET vendor step on Netlify; it runs here, after plugins/netlify-dotnet-cache restored its downloads.
+  command = "npm run csharp:vendor && npm run build"
   publish = "dist"
+
+[[plugins]]
+  package = "./plugins/netlify-dotnet-cache"
 
 [[headers]]
   for = "/assets/python.worker-*"
   [headers.values]
     Content-Security-Policy = "default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'"
+
+[[headers]]
+  for = "/assets/csharp.worker-*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'"
+
+# dotnet/<version>/ (plugins/dotnetPlugin.ts): the version is the hash of the served set, so every path names fixed content.
+[[headers]]
+  for = "/dotnet/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/assets/*"

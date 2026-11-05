@@ -3,7 +3,9 @@ import { installLoopGuard, LOOP_LIMIT_MS } from '../engines/shared/compile';
 import { installFakeApi } from '../engines/shared/fakeApi';
 import { listTestNames, runTests, TEST_TIMEOUT_MS, type FrameworkAdapter, type RunReport, type RunRequest } from '../engines/shared/testRunner';
 import type { ProjectFiles } from '../engines/shared/project';
+import { listCsharpTestNames } from '../engines/csharp/testNames';
 import { listPythonTestNames } from '../engines/python/testNames';
+import { CsharpSandbox, DEFAULT_RUN_TIMEOUT_MS as CSHARP_RUN_TIMEOUT_MS, DEFAULT_TEST_TIMEOUT_MS as CSHARP_TEST_TIMEOUT_MS, type CsharpSandboxOptions } from './csharpSandbox';
 import { DEFAULT_RUN_TIMEOUT_MS, DEFAULT_TEST_TIMEOUT_MS, PythonSandbox, type PythonSandboxOptions } from './pythonSandbox';
 import { scaledBudget } from './timeBudget';
 
@@ -50,6 +52,25 @@ export function pythonGrader(options: PythonSandboxOptions = {}): ChallengeGrade
     runTests: (request) => sandbox.runTests(request),
     async runProgram(files, entry) {
       await sandbox.runProgram(files, entry, (level, text) => (level === 'error' ? console.error(text) : console.log(text)));
+    },
+  };
+}
+
+/**
+ * Grades C# challenges with the .NET WebAssembly runtime in isolated Node children (see `csharpSandbox.ts`), a fresh runtime per test run.
+ */
+export function csharpGrader(options: CsharpSandboxOptions = {}): ChallengeGrader {
+  const sandbox = new CsharpSandbox({
+    testTimeoutMs: scaledBudget(CSHARP_TEST_TIMEOUT_MS),
+    runTimeoutMs: scaledBudget(CSHARP_RUN_TIMEOUT_MS),
+    ...options,
+  });
+  return {
+    setup: () => sandbox.start(),
+    listTestNames: listCsharpTestNames,
+    runTests: ({ files, tests }) => sandbox.runTests({ files, tests }),
+    async runProgram(files) {
+      await sandbox.runProgram(files, (level, text) => (level === 'error' ? console.error(text) : console.log(text)));
     },
   };
 }

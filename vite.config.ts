@@ -3,12 +3,13 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 import { contentPlugin } from './plugins/contentPlugin.ts';
+import { dotnetPlugin } from './plugins/dotnetPlugin.ts';
 import { pyodidePlugin } from './plugins/pyodidePlugin.ts';
 import { pythonWorkerCspPlugin } from './plugins/pythonWorkerCspPlugin.ts';
 import { scaledBudget } from './src/verify/timeBudget.ts';
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), contentPlugin(), pyodidePlugin(), pythonWorkerCspPlugin()],
+  plugins: [react(), tailwindcss(), contentPlugin(), pyodidePlugin(), dotnetPlugin(), pythonWorkerCspPlugin()],
   resolve: {
     alias: [
       { find: /^@\//, replacement: `${resolve(import.meta.dirname, 'src')}/` },
@@ -34,7 +35,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    include: ['src/**/*.test.ts'],
+    include: ['src/**/*.test.ts', 'plugins/**/*.test.js'],
     exclude: ['src/content/*/**', 'node_modules/**'],
     testTimeout: scaledBudget(60000),
     fsModuleCache: false,

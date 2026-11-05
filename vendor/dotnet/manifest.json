@@ -1,0 +1,565 @@
+{
+  "dotnet": "10.0.14",
+  "roslyn": "5.9.0",
+  "version": "79969882530b9991",
+  "packages": [
+    {
+      "id": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
+      "version": "10.0.14",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.runtime.mono.browser-wasm/10.0.14/microsoft.netcore.app.runtime.mono.browser-wasm.10.0.14.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.10.25.18.18.28/microsoft.netcore.app.runtime.mono.browser-wasm.10.0.14.json",
+      "sha512": "4c2953c664cea0e88820c78436bd21fac8f32c6c0a1199f390a171dcc625658b6f1f8ad3339d53db4a4e7fd15a37025cb2262f0e66ec08f519f3e7ebca9a47db"
+    },
+    {
+      "id": "Microsoft.NETCore.App.Ref",
+      "version": "10.0.14",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.ref/10.0.14/microsoft.netcore.app.ref.10.0.14.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.10.25.17.28.26/microsoft.netcore.app.ref.10.0.14.json",
+      "sha512": "f319a497c9e0b9c11a3a0be344322bdc8e0ad97c71e4af727620164ace9fc39017e8c5a44c1485edca983ab45668b6b40698f911f26b3d3494a922c680900d04"
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.Common",
+      "version": "5.9.0",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.common/5.9.0/microsoft.codeanalysis.common.5.9.0.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.08.17.16.59.10/microsoft.codeanalysis.common.5.9.0.json",
+      "sha512": "cc92ab70bce4e7996b7c2c1dfd5369322b5ac50a8fba2a7aef8bdabd59e2e447d59ebb22aaea52ef106a96d2a2dfb545f733dde2067a2dc814ba8070429e9f47"
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.CSharp",
+      "version": "5.9.0",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.csharp/5.9.0/microsoft.codeanalysis.csharp.5.9.0.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.08.17.16.59.10/microsoft.codeanalysis.csharp.5.9.0.json",
+      "sha512": "a6322155eeb63975f5a2cead9145b4949dde4e6bde2e7ab46288c2268ced3a3129137868e941409bc81a1e933fb532cfbada1687a390c83839db30146a537621"
+    },
+    {
+      "id": "Microsoft.Net.Compilers.Toolset",
+      "version": "5.9.0",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.net.compilers.toolset/5.9.0/microsoft.net.compilers.toolset.5.9.0.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.08.17.17.01.16/microsoft.net.compilers.toolset.5.9.0.json",
+      "sha512": "9ee78cb3c893a5d7cce3eb5b85ca876cf2360c743b34ca95c779f5c4079c9c84c5e620771ed4791f8d247ead032db234fd081c906fddc37d0b7887688e661ae1"
+    },
+    {
+      "id": "Microsoft.NET.Sdk.WebAssembly.Pack",
+      "version": "10.0.14",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.net.sdk.webassembly.pack/10.0.14/microsoft.net.sdk.webassembly.pack.10.0.14.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.10.25.18.06.17/microsoft.net.sdk.webassembly.pack.10.0.14.json",
+      "sha512": "e64fcaebdf355339342675c8c32edcdb38833baa10677c11ae3b4905732474b98b2ab5c413a2a60b04eb6f028503f0b2e7c7c2fc6731ac6bf080cea6ec8f15b6"
+    }
+  ],
+  "toolchain": {
+    "version": "10.0.14",
+    "source": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json",
+    "runtime": {
+      "linux-x64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-linux-x64.tar.gz",
+        "sha512": "634326028645f38731c8c4e71a68356e4ca0d6b6607139a234ab760687f742063edaf33a1f20dda615742d2dc8300ca2ff857619d51fbb38090383b71334af89"
+      },
+      "linux-arm64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-linux-arm64.tar.gz",
+        "sha512": "99e1d6eb5d3de935853404fd378c77cbf813bd3ae094837b5a589000a492c289bf0d01d8a6bff99b4470572d9f85dc0b41239b5b7801e031197b83d527cdfeb2"
+      },
+      "linux-musl-x64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-linux-musl-x64.tar.gz",
+        "sha512": "b6e1855b3ece331d6d5b1daf4ed0a209931b8527ece85eff6d843ff3e6bccd4bc8b0c484cada7832a453cf9130e8fe83df961f129fcf4e61199ad701814039f0"
+      },
+      "linux-musl-arm64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-linux-musl-arm64.tar.gz",
+        "sha512": "08f19dd39dfe705e1333c3ee63c37be027e0627768f5048be6be7767c239aca0f83a0ed34ac0445cd2f63bbf5edd9483a6ac184e263923284f294e06b0f6692a"
+      },
+      "osx-x64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-osx-x64.tar.gz",
+        "sha512": "b13d453e60f3d718743ada5710d0174524cbf16dead74aa62af6cc258bc5f7310e8ec991fa9365f84bf78bb198417ddceb1381acf557ed52ab0300a21b671596"
+      },
+      "osx-arm64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-osx-arm64.tar.gz",
+        "sha512": "19c5781dc2f87600865886b8774a4c5851caf1f5cf3f591185b922b0e51dea6b8c0ed0bf80ae4d3be2e083db662124258743e779fab6885322d641eff52b0382"
+      },
+      "win-x64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-win-x64.zip",
+        "sha512": "a176095f1db69b42c81acc60940744078d6bf2d2ac643e418342aa9c81889f4bd13e42f4621b131f9e77e4bc781ad46e375956219df9a4f979031d2a5a8d93cd"
+      },
+      "win-arm64": {
+        "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.14/dotnet-runtime-10.0.14-win-arm64.zip",
+        "sha512": "8690d0dd94ce1d4df66dd34f85b9f86e81ed5db0c4e5fcd281e5d379b9abd0018547556d1d7e8c0ce33a55ac69835c788c8da7c583fc0f58ccbdd6de227a0294"
+      }
+    }
+  },
+  "host": {
+    "sources": {
+      "DojoHost.cs": "0d34e6ebe327429787f4d14d5c0dcae6ad3d61f2b299f78c767680bd00f4e1d3",
+      "Harness.cs": "e84f4111f4404dd4087e7fc43438d305e7d77deff53d5108a4d50d995586f193",
+      "Json.cs": "a4a9a9eef6ee5de06d3638d08a11e5700a80779e0394d8083b6fd11a50fdfff7",
+      "Testing.cs": "421bc8f645a73f379bf09b7e09bb6bb39d48d6733f803b6eaebd25bdab731df9"
+    }
+  },
+  "build": {
+    "converter": "5a7a1e4a4c484a8006ee6883b3a5fa1c7ad039dca3ba391c1b4bd984cb063618",
+    "referenceSection": "dojo.pe"
+  },
+  "size": {
+    "files": 57,
+    "bytes": 26646410,
+    "brotli": 8619211,
+    "brotli11": 7578323,
+    "brotliQuality": 5,
+    "budget": 8912896
+  },
+  "files": [
+    {
+      "path": "assemblies/Dojo.Testing.wasm",
+      "role": "assembly",
+      "sha256": "514eae79c42ae5e62acb590ed3a95b2f60796e260863d8f5fcdc7950bc82e4b4",
+      "bytes": 7445,
+      "brotli": 3263,
+      "brotli11": 3003
+    },
+    {
+      "path": "assemblies/DojoHost.wasm",
+      "role": "host",
+      "sha256": "ac444992a510559e4710d24ae51479169f74cd1ced87297dc3f2a544f0adeb54",
+      "bytes": 33557,
+      "brotli": 15267,
+      "brotli11": 14195
+    },
+    {
+      "path": "assemblies/Microsoft.CodeAnalysis.CSharp.wasm",
+      "role": "assembly",
+      "sha256": "5d258ba5c17d3a5fcacee09bb216bc3ddbe4e1e2fd5773ce5563721f5b14d69d",
+      "bytes": 7068953,
+      "brotli": 2249514,
+      "brotli11": 1937595
+    },
+    {
+      "path": "assemblies/Microsoft.CodeAnalysis.wasm",
+      "role": "assembly",
+      "sha256": "fda55a125a87bdf3b990575f06431ca822660ab58d07e3ab72134439a7b9f2bf",
+      "bytes": 3092761,
+      "brotli": 1011170,
+      "brotli11": 889449
+    },
+    {
+      "path": "assemblies/System.Collections.Concurrent.wasm",
+      "role": "assembly",
+      "sha256": "85fa85329f2778f2d7feeabe96e17150c2529cdee2671227f6adca55511e85ba",
+      "bytes": 78613,
+      "brotli": 31696,
+      "brotli11": 29003
+    },
+    {
+      "path": "assemblies/System.Collections.Immutable.wasm",
+      "role": "assembly",
+      "sha256": "659249897525dbdd045be0c365aa78670911e71f082962fab29cb3d92f659523",
+      "bytes": 240917,
+      "brotli": 89868,
+      "brotli11": 81221
+    },
+    {
+      "path": "assemblies/System.Collections.wasm",
+      "role": "assembly",
+      "sha256": "7d1b8e3fb815980cc84b2d67b6894fa6bf936064cb4c0639547f214d3337826e",
+      "bytes": 102677,
+      "brotli": 40297,
+      "brotli11": 36580
+    },
+    {
+      "path": "assemblies/System.Console.wasm",
+      "role": "assembly",
+      "sha256": "9cbe95b0e710127a9dc6fb016d89e3198bf5602e8767b4fe3318de77cc2e4184",
+      "bytes": 43797,
+      "brotli": 17885,
+      "brotli11": 16087
+    },
+    {
+      "path": "assemblies/System.IO.MemoryMappedFiles.wasm",
+      "role": "assembly",
+      "sha256": "dfc14559b3102cdd3d1155ec7cc198999db5b31439aafcd1775dffa39015d0a7",
+      "bytes": 39701,
+      "brotli": 16219,
+      "brotli11": 14864
+    },
+    {
+      "path": "assemblies/System.IO.Pipelines.wasm",
+      "role": "assembly",
+      "sha256": "3aa8165bec8d2b718d927cf0ba7ba9fb2e301544164d62202a578d3e3010d850",
+      "bytes": 67861,
+      "brotli": 28537,
+      "brotli11": 26065
+    },
+    {
+      "path": "assemblies/System.Linq.wasm",
+      "role": "assembly",
+      "sha256": "4cf1e524ac3f80887e4c7d723c29f54b676ad76325c8472ecbbd064652881d57",
+      "bytes": 190741,
+      "brotli": 67486,
+      "brotli11": 60718
+    },
+    {
+      "path": "assemblies/System.Memory.wasm",
+      "role": "assembly",
+      "sha256": "09ddaf85e36c7c13ef4d7e32cc5436cfec4984e1c26c989072e499ddde8ae062",
+      "bytes": 45333,
+      "brotli": 19759,
+      "brotli11": 18163
+    },
+    {
+      "path": "assemblies/System.Numerics.Vectors.wasm",
+      "role": "assembly",
+      "sha256": "624bf089833a6c91bd2c0e83cf58f9db9b8e702dcc8c9e2b389610f8f3ad9924",
+      "bytes": 5397,
+      "brotli": 2206,
+      "brotli11": 2033
+    },
+    {
+      "path": "assemblies/System.ObjectModel.wasm",
+      "role": "assembly",
+      "sha256": "b8c1e66933e2073d4d95b7971ce949d2aee7caacd85a222261200d12368e6305",
+      "bytes": 30997,
+      "brotli": 12946,
+      "brotli11": 11769
+    },
+    {
+      "path": "assemblies/System.Private.Uri.wasm",
+      "role": "assembly",
+      "sha256": "e4b56986f49b6104f86884d59fd3a4eff4e525fdd2d1f83baee01b752efa337e",
+      "bytes": 95509,
+      "brotli": 40384,
+      "brotli11": 37293
+    },
+    {
+      "path": "assemblies/System.Private.Xml.Linq.wasm",
+      "role": "assembly",
+      "sha256": "7d05fc1b72e4d16c33f13e7cfd85a6f5a92f5c2ca343c8f78d4425d2afa50d0a",
+      "bytes": 143637,
+      "brotli": 54051,
+      "brotli11": 49099
+    },
+    {
+      "path": "assemblies/System.Private.Xml.wasm",
+      "role": "assembly",
+      "sha256": "86009953171be26f62eab577e33c3502d82ddc74a9d6f27c6b4d07ea6300e498",
+      "bytes": 3096857,
+      "brotli": 957448,
+      "brotli11": 848200
+    },
+    {
+      "path": "assemblies/System.Reflection.Emit.ILGeneration.wasm",
+      "role": "assembly",
+      "sha256": "c46d97174687a1f77ef95a0c085d632881c1f315d7141b985a673662131235e0",
+      "bytes": 5397,
+      "brotli": 2203,
+      "brotli11": 1996
+    },
+    {
+      "path": "assemblies/System.Reflection.Emit.Lightweight.wasm",
+      "role": "assembly",
+      "sha256": "bdb328f85330a0991ea097895f5f233c7c185bcc54d115f9f4deb7c02fa7ce83",
+      "bytes": 5397,
+      "brotli": 2183,
+      "brotli11": 1984
+    },
+    {
+      "path": "assemblies/System.Reflection.Metadata.wasm",
+      "role": "assembly",
+      "sha256": "b136c7933bc62da5e4f3e34ad6fea876f5cc7a7e47d35e7b7c64055927fc68f6",
+      "bytes": 493333,
+      "brotli": 171777,
+      "brotli11": 153716
+    },
+    {
+      "path": "assemblies/System.Reflection.Primitives.wasm",
+      "role": "assembly",
+      "sha256": "c84511d42d21a09fd8818bb0ee4d4423584f19dd9a58a98a8d8631c0435336bb",
+      "bytes": 5397,
+      "brotli": 2301,
+      "brotli11": 2080
+    },
+    {
+      "path": "assemblies/System.Runtime.InteropServices.JavaScript.wasm",
+      "role": "assembly",
+      "sha256": "810c9571d56aae8aabdccec828936d48cb8664b4e2e923d3c49f5c288234a26c",
+      "bytes": 79637,
+      "brotli": 29416,
+      "brotli11": 26913
+    },
+    {
+      "path": "assemblies/System.Runtime.InteropServices.wasm",
+      "role": "assembly",
+      "sha256": "dd89331d3297a0c4a5aac4e6ed289c59d6c8858f7f85d55a46fb0d80c69ca429",
+      "bytes": 54549,
+      "brotli": 22073,
+      "brotli11": 20136
+    },
+    {
+      "path": "assemblies/System.Runtime.Loader.wasm",
+      "role": "assembly",
+      "sha256": "0db7813efcf24740ffc3121704940e5b39bac5745b05c3cbd23a71bbc13d7800",
+      "bytes": 5397,
+      "brotli": 2270,
+      "brotli11": 2070
+    },
+    {
+      "path": "assemblies/System.Runtime.Numerics.wasm",
+      "role": "assembly",
+      "sha256": "937500e9e310341dabaee15f5c1f39eccc0214d055b846951547ed19f635659d",
+      "bytes": 134933,
+      "brotli": 49941,
+      "brotli11": 46199
+    },
+    {
+      "path": "assemblies/System.Runtime.wasm",
+      "role": "assembly",
+      "sha256": "4af52a715b0a80fca05f4fe3d35e0882a47699e2cc64a8d6dfdb5fbfc5bddedd",
+      "bytes": 34581,
+      "brotli": 10063,
+      "brotli11": 8892
+    },
+    {
+      "path": "assemblies/System.Security.Cryptography.wasm",
+      "role": "assembly",
+      "sha256": "5e2d390cae360df7f1a224f866cd4648f896a02bdd8dc8b6dd97f4036a3434a6",
+      "bytes": 643861,
+      "brotli": 206585,
+      "brotli11": 186752
+    },
+    {
+      "path": "assemblies/System.Text.Encoding.Extensions.wasm",
+      "role": "assembly",
+      "sha256": "fe7930a6f00825e1c4a3f32e0e3bd42117377db151afc127110c70fbb701366a",
+      "bytes": 5397,
+      "brotli": 2182,
+      "brotli11": 2017
+    },
+    {
+      "path": "assemblies/System.Text.Encodings.Web.wasm",
+      "role": "assembly",
+      "sha256": "2a97377ae59b872eb3d69f1eb9555ba512f577708f951f7a2ef8040292911df0",
+      "bytes": 55573,
+      "brotli": 19939,
+      "brotli11": 17847
+    },
+    {
+      "path": "assemblies/System.Text.Json.wasm",
+      "role": "assembly",
+      "sha256": "f79b95a0e74fb4fb30fb90a704078e0b910c6d9d08cd9a7ab7a589b8fdcc24ef",
+      "bytes": 638741,
+      "brotli": 209660,
+      "brotli11": 188904
+    },
+    {
+      "path": "assemblies/System.Text.RegularExpressions.wasm",
+      "role": "assembly",
+      "sha256": "8336c54d5413476b6125468549c98d35c0a9e5bd0db682b3795a7351d38e7b4c",
+      "bytes": 374549,
+      "brotli": 147998,
+      "brotli11": 134104
+    },
+    {
+      "path": "assemblies/System.Threading.Tasks.Parallel.wasm",
+      "role": "assembly",
+      "sha256": "a9e66658c76d0aa175b202b59391a313ed841a8ca09fbe80ef88962090b72b6e",
+      "bytes": 50965,
+      "brotli": 20138,
+      "brotli11": 18626
+    },
+    {
+      "path": "assemblies/System.Threading.Tasks.wasm",
+      "role": "assembly",
+      "sha256": "a224a48edb58b9d097a72b83d5804930357555dee3f8be811827482e827ac544",
+      "bytes": 6421,
+      "brotli": 2497,
+      "brotli11": 2268
+    },
+    {
+      "path": "assemblies/System.Threading.wasm",
+      "role": "assembly",
+      "sha256": "a12c2a6463d08e453a9e0dc72152b68692c5e6b2f5d69d8700f0c0bd2c4ba90a",
+      "bytes": 34581,
+      "brotli": 14146,
+      "brotli11": 12834
+    },
+    {
+      "path": "assemblies/System.Xml.XDocument.wasm",
+      "role": "assembly",
+      "sha256": "c12264747d6099b7063ae2ecc540848a570d33620fdf5f4815d34ded85c9bc8f",
+      "bytes": 5397,
+      "brotli": 2324,
+      "brotli11": 2129
+    },
+    {
+      "path": "dotnet.js",
+      "role": "runtime",
+      "sha256": "84978337f9e9c1a485eb560538b30ea1cb1209e1c40a85114a7f3742ae828a5b",
+      "bytes": 37898,
+      "brotli": 11332,
+      "brotli11": 10455
+    },
+    {
+      "path": "dotnet.native.js",
+      "role": "runtime",
+      "sha256": "099d0855990b4c8bde7bb9f5c95bce8ad94958d763fd88da160a4c82588833ae",
+      "bytes": 145050,
+      "brotli": 33426,
+      "brotli11": 30436
+    },
+    {
+      "path": "dotnet.native.wasm",
+      "role": "runtime",
+      "sha256": "62521652bab002242e009341397f999bdc2958bfac177278e3d885abb247a2e4",
+      "bytes": 3001771,
+      "brotli": 1108029,
+      "brotli11": 976573
+    },
+    {
+      "path": "dotnet.runtime.js",
+      "role": "runtime",
+      "sha256": "ff774183db23d722c3de1d0f0cc1e73545d6b3fdb35b020c133a26d57cf7438d",
+      "bytes": 198480,
+      "brotli": 52955,
+      "brotli11": 47839
+    },
+    {
+      "path": "licenses/dotnet-LICENSE.TXT",
+      "role": "license",
+      "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310",
+      "bytes": 1116,
+      "brotli": 0,
+      "brotli11": 0
+    },
+    {
+      "path": "licenses/dotnet-THIRD-PARTY-NOTICES.TXT",
+      "role": "license",
+      "sha256": "66f1d4e44973185519bb4aa8a9718eb22fc7af2cc532e3ae9cfc4c127ee7fc54",
+      "bytes": 76623,
+      "brotli": 0,
+      "brotli11": 0
+    },
+    {
+      "path": "licenses/roslyn-ThirdPartyNotices.rtf",
+      "role": "license",
+      "sha256": "ef4678850e7e3aaf9297f07e5c4060d477854e545ccf8e2ef8452d65a7b2efaf",
+      "bytes": 2183,
+      "brotli": 0,
+      "brotli11": 0
+    },
+    {
+      "path": "ref/Dojo.Testing.wasm",
+      "role": "reference",
+      "sha256": "242aaba814bc66b03abd25964e379c151bf8bcea0ed176771033e08e1417c849",
+      "bytes": 7699,
+      "brotli": 3312,
+      "brotli11": 3054
+    },
+    {
+      "path": "ref/System.Collections.Concurrent.wasm",
+      "role": "reference",
+      "sha256": "779da071572ee8e96bb67f0dbdc3d93783f1b2fec7fe12e72fa83209f8cffb82",
+      "bytes": 27492,
+      "brotli": 13555,
+      "brotli11": 12664
+    },
+    {
+      "path": "ref/System.Collections.Immutable.wasm",
+      "role": "reference",
+      "sha256": "1165ca9a66792ff7492fed099bc04a663d5e984843cbde398ddf977c52e85813",
+      "bytes": 75108,
+      "brotli": 28037,
+      "brotli11": 25457
+    },
+    {
+      "path": "ref/System.Collections.wasm",
+      "role": "reference",
+      "sha256": "6f3334beca7d5b5b68f222cdbd59231514046a7170c2f2b42956e1de10513126",
+      "bytes": 55140,
+      "brotli": 22925,
+      "brotli11": 20616
+    },
+    {
+      "path": "ref/System.Console.wasm",
+      "role": "reference",
+      "sha256": "c533096cd6d4e222d190e048f93483bd95c149c52ddad89eef505b3e1ec0a619",
+      "bytes": 26428,
+      "brotli": 13665,
+      "brotli11": 12896
+    },
+    {
+      "path": "ref/System.Linq.wasm",
+      "role": "reference",
+      "sha256": "f4b475cf35fb212008bda8257760093498433a59390ef0b7914e54006532409f",
+      "bytes": 33596,
+      "brotli": 14445,
+      "brotli11": 13473
+    },
+    {
+      "path": "ref/System.Memory.wasm",
+      "role": "reference",
+      "sha256": "7d3812420446bbd7be1aee193ef782f9e76f8a3e46f194d2c2a3ac28ec8913aa",
+      "bytes": 57148,
+      "brotli": 21599,
+      "brotli11": 19797
+    },
+    {
+      "path": "ref/System.ObjectModel.wasm",
+      "role": "reference",
+      "sha256": "52a245afdc8e615e1c7d104a63fac50fccbb49b4efb07a5fe7fc86f7e4865218",
+      "bytes": 23396,
+      "brotli": 12273,
+      "brotli11": 11571
+    },
+    {
+      "path": "ref/System.Runtime.Numerics.wasm",
+      "role": "reference",
+      "sha256": "a93c303a79b34119e9cd622652f047507cf8e1b3a475b72983acb2032526513d",
+      "bytes": 36156,
+      "brotli": 15605,
+      "brotli11": 14564
+    },
+    {
+      "path": "ref/System.Runtime.wasm",
+      "role": "reference",
+      "sha256": "165b69b423d6042a925c127e3f76d2d307c6bbcced93b6c4b500e91049a3f737",
+      "bytes": 862524,
+      "brotli": 212344,
+      "brotli11": 187124
+    },
+    {
+      "path": "ref/System.Text.Json.wasm",
+      "role": "reference",
+      "sha256": "1c7117c1787892123fe6417f7371f87b7d48ad1e05213a60b199487df87efeb7",
+      "bytes": 82236,
+      "brotli": 31307,
+      "brotli11": 28547
+    },
+    {
+      "path": "ref/System.Text.RegularExpressions.wasm",
+      "role": "reference",
+      "sha256": "a475472314cb9feb6e3076b61e4a4eb9e12b04e8dc9b8487101f4e03181d13f9",
+      "bytes": 36668,
+      "brotli": 16860,
+      "brotli11": 15636
+    },
+    {
+      "path": "ref/System.Threading.Tasks.wasm",
+      "role": "reference",
+      "sha256": "aa7d1e927bfdeac5c3f891bc6f437568b6c91fd33602279b28c11f8e426a4972",
+      "bytes": 16700,
+      "brotli": 9418,
+      "brotli11": 9083
+    },
+    {
+      "path": "ref/System.Threading.wasm",
+      "role": "reference",
+      "sha256": "79e0507ee5036c5585fae0ca26e442cb642d8d9b15edb901cb91d89d69b481bd",
+      "bytes": 33636,
+      "brotli": 16177,
+      "brotli11": 14951
+    },
+    {
+      "path": "System.Private.CoreLib.wasm",
+      "role": "core",
+      "sha256": "0b6d3f3864053400013921497367c1f9806b10baa069e9e80ea2ba7ff1943d20",
+      "bytes": 4870425,
+      "brotli": 1406255,
+      "brotli11": 1218783
+    }
+  ]
+}

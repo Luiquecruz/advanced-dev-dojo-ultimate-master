@@ -10,6 +10,10 @@ __pycache__/
 vendor/pyodide-packages/*
 !vendor/pyodide-packages/manifest.json
 
+# The C# engine's .NET runtime, assemblies and build cache are assembled by npm install (postinstall); only the manifest is committed
+vendor/dotnet/*
+!vendor/dotnet/manifest.json
+
 # CPython test suite (tests/python)
 .venv/
 .pytest_cache/

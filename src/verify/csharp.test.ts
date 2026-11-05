@@ -1,17 +1,16 @@
 // @vitest-environment node
-import { readdirSync } from 'node:fs';
-import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { trackById } from '../content/allContent';
 import type { Lesson } from '../content/types';
+import { defineChallengeSuite } from './challengeSuite';
+import { csharpGrader } from './graders';
 
 /**
- * Definition of Done for the C# track (.claude/docs/csharp-track/06-content-standards.md). The track has no C# engine,
- * so every lesson is theory + quiz; this suite is its verification and fails if a challenge appears.
+ * Verification of the C# track: the content standards of its theory and quiz lessons (.claude/docs/csharp-track/06-content-standards.md,
+ * merged from the content branch's standards suite without its "no challenge" rule) and, through the C# engine, every challenge's
+ * solution passing and starter failing.
  */
 
-const CONTENT = resolve(import.meta.dirname, '../content');
-const CHALLENGE_FILES = /^(starter|solution|tests|challenge|hints|approach|variants)(\.|$)/;
 const STATUS_TAGS = ['recommended', 'established', 'legacy', 'context'];
 const TIER_TAGS = ['core', 'deepening', 'legacy'];
 const KIND_TAGS = ['theory', 'project'];
@@ -39,28 +38,26 @@ function checkYourselfQuestions(theory: string): number {
 const track = trackById.get('csharp');
 const lessons: Lesson[] = track ? track.modules.flatMap((module) => module.lessons) : [];
 const kindOf = (lesson: Lesson) => (lesson.tags.includes('project') ? 'project' : 'theory');
+const eachLesson = lessons.map((lesson) => [lesson.key, lesson] as const);
 
 describe('csharp track', () => {
-  it('is registered with the placeholder engine and modules', () => {
-    expect(track).toBeDefined();
-    expect(track!.engine).toBe('typescript');
+  it('runs on the C# engine', () => {
+    expect(track!.engine).toBe('csharp');
     expect(track!.modules.length).toBeGreaterThan(0);
   });
 
-  it.each(lessons.map((lesson) => [lesson.key, lesson] as const))('%s ships no challenge (there is no C# engine)', (_, lesson) => {
-    expect(lesson.hasChallenge).toBe(false);
-    expect(lesson.variants).toEqual([]);
-    expect(readdirSync(resolve(CONTENT, lesson.folder)).filter((name) => CHALLENGE_FILES.test(name))).toEqual([]);
+  it.each(eachLesson)('%s grades its challenge, if any, with the C# engine', (_, lesson) => {
+    expect(lesson.variants.map((challenge) => [challenge.language, challenge.engine])).toEqual(lesson.hasChallenge ? [[undefined, 'csharp']] : []);
   });
 
-  it.each(lessons.map((lesson) => [lesson.key, lesson] as const))('%s has status, tier and kind tags', (_, lesson) => {
+  it.each(eachLesson)('%s has status, tier and kind tags', (_, lesson) => {
     expect(lesson.tags).toHaveLength(3);
     expect(STATUS_TAGS).toContain(lesson.tags[0]);
     expect(TIER_TAGS).toContain(lesson.tags[1]);
     expect(KIND_TAGS).toContain(lesson.tags[2]);
   });
 
-  it.each(lessons.map((lesson) => [lesson.key, lesson] as const))('%s follows the theory template', (_, lesson) => {
+  it.each(eachLesson)('%s follows the theory template', (_, lesson) => {
     const kind = kindOf(lesson);
     expect(lesson.theory.startsWith('# ')).toBe(true);
     const words = lesson.theory.split(/\s+/).filter(Boolean).length;
@@ -86,18 +83,18 @@ describe('csharp track', () => {
     if (kind === 'theory') {
       expect(lesson.theory).toContain('```csharp');
     }
-    for (const status of lesson.theory.match(/^## Status as of.*$/gm) ?? []) {
-      expect(status).toMatch(/^## Status as of \d{4}-\d{2}-\d{2}$/);
+    for (const heading of lesson.theory.match(/^## Status as of.*$/gm) ?? []) {
+      expect(heading).toMatch(/^## Status as of \d{4}-\d{2}-\d{2}$/);
     }
   });
 
-  it.each(lessons.map((lesson) => [lesson.key, lesson] as const))('%s has 4 to 8 concepts', (_, lesson) => {
+  it.each(eachLesson)('%s has 4 to 8 concepts', (_, lesson) => {
     expect(lesson.concepts.length).toBeGreaterThanOrEqual(4);
     expect(lesson.concepts.length).toBeLessThanOrEqual(8);
     lesson.concepts.forEach((concept) => expect(concept.description.trim().endsWith('.')).toBe(true));
   });
 
-  it.each(lessons.map((lesson) => [lesson.key, lesson] as const))('%s has a 5 to 6 question quiz with explained answers', (_, lesson) => {
+  it.each(eachLesson)('%s has a 5 to 6 question quiz with explained answers', (_, lesson) => {
     expect(lesson.quiz.length).toBeGreaterThanOrEqual(5);
     expect(lesson.quiz.length).toBeLessThanOrEqual(6);
     lesson.quiz.forEach((question) => {
@@ -108,7 +105,7 @@ describe('csharp track', () => {
     expect(new Set(lesson.quiz.map((question) => question.answer)).size).toBeGreaterThanOrEqual(2);
   });
 
-  it.each(lessons.map((lesson) => [lesson.key, lesson] as const))('%s links official and vendor documentation only', (_, lesson) => {
+  it.each(eachLesson)('%s links official and vendor documentation only', (_, lesson) => {
     expect(lesson.resources.length).toBeGreaterThanOrEqual(2);
     expect(lesson.resources.length).toBeLessThanOrEqual(6);
     expect(lesson.resources.some((resource) => resource.url.startsWith('https://learn.microsoft.com/'))).toBe(true);
@@ -118,3 +115,5 @@ describe('csharp track', () => {
     }
   });
 });
+
+defineChallengeSuite('csharp', csharpGrader());
