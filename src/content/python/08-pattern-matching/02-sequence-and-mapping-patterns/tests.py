@@ -34,6 +34,7 @@ def _():
     assert move_tuple == {"action": "move", "x": 0, "y": 7}
 
 
+# beginner mistake: matching tokens[0] and indexing the rest, which accepts extra tokens and raises IndexError for missing ones
 @test("parse_command raises ValueError for unknown words, wrong token counts and non-sequences")
 def _():
     bad_inputs = [

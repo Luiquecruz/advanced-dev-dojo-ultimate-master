@@ -1,4 +1,4 @@
-An ingestion service parses messages and writes an audit log. Give the checker precise types with overloads and a type guard, and make the runtime behavior match what those types promise. The tests read the registered overloads and annotations, and call the functions.
+An ingestion service parses messages and writes an audit log. Give the checker precise types with overloads and a type guard, and make the runtime behavior match what those types declare. The tests read the registered overloads and annotations, and call the functions.
 
 ## `parse(value, mode)`
 

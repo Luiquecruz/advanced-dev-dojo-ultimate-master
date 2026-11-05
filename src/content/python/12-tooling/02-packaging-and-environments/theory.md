@@ -26,14 +26,9 @@ line-length = 100
 
 `setup.py` (code that runs to describe a package) and `requirements.txt` (a list for `pip install -r`) still exist, but new projects keep metadata in `[project]` and exact versions in a lockfile.
 
-## Coming from TypeScript and JavaScript
+## Ranges and locks
 
-```ts
-// package.json: ranges everywhere; package-lock.json appears on the first `npm install`
-const manifest = { dependencies: { undici: "^7.0.0" }, devDependencies: { vitest: "^4.0.0" } };
-```
-
-The habit that breaks: **ranges everywhere and trusting that a lockfile will appear**. `pip install` writes no lockfile, so an application deployed from `requirements.txt` with `httpx>=0.27` resolves again on every build and can ship a version nobody tested. The rule is: **libraries declare ranges, applications lock**. Two smaller mappings: `devDependencies` become `[dependency-groups]`, while `optional-dependencies` are extras for users, not dev tools; and `node_modules` per folder becomes one environment per project interpreter.
+The mistake that breaks deploys: **ranges everywhere, and no lockfile**. `pip install` resolves the ranges again on every run and writes no lockfile, so an application deployed from `requirements.txt` with `httpx>=0.27` can ship a version nobody tested. The rule is: **libraries declare ranges, applications lock**. Two related distinctions: `[dependency-groups]` hold developer tools such as test runners and linters, while `optional-dependencies` are extras that users opt into; and each project gets one environment for its interpreter, never a shared system-wide install.
 
 ## How it works
 

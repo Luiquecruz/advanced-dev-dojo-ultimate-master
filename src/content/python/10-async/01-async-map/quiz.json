@@ -2,7 +2,7 @@
   {
     "question": "Inside a running coroutine, `job = send_email(user)` is executed, where `send_email` is an `async def`. The function never awaits `job`. When is the email sent?",
     "options": [
-      "Immediately, like a JavaScript promise",
+      "Immediately, as soon as `send_email(user)` is called",
       "On the next tick of the event loop",
       "When the program exits",
       "Never: the coroutine never runs, and CPython warns that it was never awaited"
@@ -33,14 +33,14 @@
     "explanation": "asyncio is cooperative: tasks switch only at an `await`. CPU work runs one task after the other and blocks everything else meanwhile."
   },
   {
-    "question": "Which part of a JavaScript habit carries over unchanged to asyncio?",
+    "question": "Which statement about asyncio is true?",
     "options": [
-      "Promises start running as soon as they are created",
-      "One thread runs the event loop, and code between two `await`s runs without interruption",
-      "Losing a race leaves the other operations running, and nothing can stop them",
+      "A coroutine starts running as soon as its `async def` function is called",
+      "One thread runs the event loop, and code between two `await`s runs without interruption from another task",
+      "A task that lost a race keeps running, and nothing can stop it",
       "I/O libraries are non-blocking by default"
     ],
     "answer": 1,
-    "explanation": "The single-threaded, cooperative loop is shared. Coroutines start lazily, tasks can be cancelled, and many Python libraries block."
+    "explanation": "The loop is single-threaded and cooperative. Coroutines start lazily, tasks can be cancelled with `CancelledError`, and many Python libraries block."
   }
 ]

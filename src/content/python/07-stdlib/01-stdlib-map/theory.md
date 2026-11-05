@@ -1,19 +1,22 @@
-**Question this module answers:** which batteries replace which npm packages, and which defaults lose data silently?
+**Question this module answers:** which standard-library module handles each everyday task, and which defaults lose data silently?
 
-Python ships the tools a JavaScript project installs. Each one has a default that is convenient and a case where it quietly gives the wrong answer; every lesson of this module builds the safe version.
+Python ships these tools with the interpreter, so a program needs no extra package for them. Each one has a default that is convenient and a case where it quietly gives the wrong answer; every lesson of this module builds the safe version.
 
-## Coming from TypeScript and JavaScript
+**Prerequisites:** modules 01 to 06, especially exceptions and `with` (module 06): most lessons open files, raise `ValueError` for bad input, or both.
 
-| npm habit | Standard library | Lesson |
+## The path: task to module
+
+| Task | Standard library | Lesson |
 | --- | --- | --- |
-| `RegExp` | `re` | 02 |
-| `path`, `fs` | `pathlib`, `io`, `tempfile` | 03 |
-| decimal.js, big.js | `decimal`, `fractions` | 04 |
-| date-fns, Luxon | `datetime` | 05 |
-| `JSON.parse`/`stringify`, superjson | `json` | 06 |
-| TS `enum`, string unions | `enum` | 07 |
-| `console.log`, pino | `logging` | 08 |
-| commander, yargs | `argparse` | lesson 09 |
+| Find, extract or mask text with a known shape | `re` | 02 |
+| Build paths, read and write files, stream bytes | `pathlib`, `io`, `tempfile` | 03 |
+| Exact money and ratios | `decimal`, `fractions` | 04 |
+| Instants, durations, calendar months | `datetime` | 05 |
+| Exchange data with other programs | `json` | 06 |
+| A closed set of named values | `enum` | 07 |
+| Diagnostics for operators | `logging` | 08 |
+| Command-line options and exit codes | `argparse` | 09 |
+| Choose these defaults for one billing tool | an ADR | 10 |
 
 Defaults that lose data without an error: `json` turns tuples into lists and int keys into strings, a float holds only 15 to 17 significant decimal digits, a `datetime` without `tzinfo` is naive and means nothing across machines, and `Path("/srv") / user_text` jumps to the root when the text is absolute.
 
@@ -27,10 +30,6 @@ Defaults that lose data without an error: `json` turns tuples into lists and int
 ## argparse
 
 The sandbox has no shell, so lesson 09 tests a CLI the way production code does: `main(argv)` receives an explicit list of arguments and returns an exit code. Declare validation in the parser: `type=int` or your own function, `choices=[...]`. On bad input `parse_args` prints usage to stderr and raises `SystemExit(2)`. That is a `BaseException`, so `except Exception` does not stop it; `exit_on_error=False` raises `argparse.ArgumentError` instead. Never accept secrets as flags (other users can see them in process lists and shell history), and when a CLI starts a program, pass `subprocess.run` a list of arguments, never a shell string built from input.
-
-## The path
-
-Regular expressions without catastrophic backtracking, paths that cannot escape a base directory, exact money, timezone-aware time, JSON encoders and decoders, enums, logging that redacts secrets, a command-line interface built with `argparse`, and an ADR that chooses these defaults for a billing tool.
 
 ## When to choose it
 

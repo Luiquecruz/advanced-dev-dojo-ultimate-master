@@ -1,6 +1,6 @@
 [
   {
-    "question": "An endpoint runs `TypeAdapter(list[Order]).validate_python(rows)` inside the handler, and profiling shows most time spent in Pydantic's Python code, not in Rust. What is the fix?",
+    "question": "An endpoint runs `TypeAdapter(list[Order]).validate_python(rows)` inside the handler, and profiling shows most time spent in Pydantic's Python code, not in pydantic-core. What is the fix?",
     "options": [
       "Switch to `model_construct` for every row",
       "Create the `TypeAdapter` once at module level and reuse it: building the validator is the expensive part",
@@ -30,7 +30,7 @@
       "Raising `ValueError` with shorter messages"
     ],
     "answer": 0,
-    "explanation": "Declarative constraints run inside Rust. A Python validator is a call from Rust back into Python for every value, and wrap validators are slower still."
+    "explanation": "Declarative constraints run inside pydantic-core. A Python validator is a call from the compiled core back into Python for every value, and wrap validators are slower still."
   },
   {
     "question": "A service reads rows that it validated and wrote itself, with the same model version. It wants to skip validation on read. Which statement is right?",

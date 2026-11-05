@@ -19,7 +19,7 @@
       "`None`"
     ],
     "answer": 0,
-    "explanation": "A `str` is an iterable of `str`. Check `isinstance(value, list)` first, the way TypeScript code checks `Array.isArray`."
+    "explanation": "A `str` is an iterable of `str`. Check `isinstance(value, list)` first, then the items."
   },
   {
     "question": "`if is_str_list(value): ... else: ...` where `is_str_list` returns `TypeIs[list[str]]` and `value: list[str] | int`. What does a checker know in the `else` branch?",

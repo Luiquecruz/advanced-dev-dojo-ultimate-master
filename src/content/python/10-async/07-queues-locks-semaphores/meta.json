@@ -1,6 +1,6 @@
 {
   "title": "Queues, Locks and Semaphores",
-  "summary": "An array used as a queue has no backpressure, and single-threaded code still loses updates across an await. Build a bounded producer-consumer pipeline, a concurrency-limited gather and a counter whose read-modify-write is protected by a lock.",
+  "summary": "A list used as a queue has no backpressure, and single-threaded code still loses updates across an await. Build a bounded producer-consumer pipeline, a concurrency-limited gather and a counter whose read-modify-write is protected by a lock.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

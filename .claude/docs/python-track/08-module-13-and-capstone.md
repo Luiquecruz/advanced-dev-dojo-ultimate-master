@@ -56,6 +56,7 @@ All numbers are checked for physical coherence at review (gate G7). Capacity is 
 | `shutdown_deadline_s` | briefing | ≤ 15 |
 
 - Categorical coherence: `model` is `asyncio`; `fanout` is `task_group`; `cpu_rules.where` is not `event_loop`; `rule_interface.kind` is `protocol` and `discovery` is not `manual_list`; `on_timeout` is not `drop_event`.
+- Common mistake: catching `BaseException` in the rule wrapper, which swallows the deadline's `CancelledError`; building the `ExceptionGroup` then raises `TypeError`, because a group holds only `Exception` instances. Catch `Exception`.
 
 ### Tests (6)
 
@@ -124,16 +125,19 @@ Parsing vs validation, where to validate (edges), dataclass vs `BaseModel` vs `T
 
 ### 03-lax-and-strict-modes (P, I)
 - Concept: lax mode coercion table, `strict=True`, `ConfigDict`, per-field `Strict`, `StrictInt`.
+- Common mistake: a security flag left as a plain `bool` in a lax model, so `"yes"`, `"on"` and `1` become `True`; declare it `StrictBool` (or `Field(strict=True)`).
 - Challenge: `class Order(BaseModel)` strict configuration; `parse_lax(data)` and `parse_strict(data)`; `coercions(data)` returning which fields changed type.
 - Tests: `"true"` accepted in lax, rejected in strict; int-for-float; error type and location.
 
 ### 04-field-and-model-validators (P, Ad)
 - Concept: `Field(ge=, le=, pattern=)`, `@field_validator`, `@model_validator(mode="after"/"before")`, `ValidationInfo`, custom errors.
+- Common mistake: returning `error.errors()` to the client unchanged, which echoes each rejected value (a password included) under `input`; call `errors(include_input=False, include_url=False, include_context=False)`.
 - Challenge: `Signup(BaseModel)` with password confirmation (`model_validator(mode="after")`), normalized email (`field_validator`), constrained age.
 - Tests: normalization; mismatched passwords error mentions both fields; constraint errors; before-validator transforms a legacy field name.
 
 ### 05-serialization-and-json-schema (P, I)
 - Concept: `model_dump(mode="json")`, aliases, `model_json_schema()`, `computed_field`, serialization of datetimes and decimals.
+- Common mistake: `json.dumps(model.model_dump())`, which fails on `datetime` and `Decimal` because the default Python mode keeps them (and `default=str` writes non-ISO text with snake_case keys); use `model_dump(mode="json", by_alias=True)` or `model_dump_json(by_alias=True)`.
 - Challenge: `Invoice` model with aliases and a computed total; `export(invoice)` returns JSON-compatible dict; `schema_properties(model)` returns the sorted property names.
 - Tests: alias round trip; computed total included; datetime ISO output; schema property list.
 

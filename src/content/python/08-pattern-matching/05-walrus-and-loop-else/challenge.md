@@ -1,4 +1,4 @@
-Repair three helpers of a file-upload and config service in `main.py`. Each starter carries a JavaScript habit; the tests also check that `read_chunks` and `parse_pairs` use `:=` and that `find_first` uses `for … else`.
+Repair three helpers of a file-upload and config service in `main.py`. Each starter carries a common mistake; the tests also check that `read_chunks` and `parse_pairs` use `:=` and that `find_first` uses `for … else`.
 
 ## `read_chunks(read, size)`
 
@@ -24,4 +24,4 @@ The starter's `else` belongs to the `if`, so it gives up after the first item.
 
 Return a dict built from the pairs of the lines that parse (later keys win), calling `parse` **exactly once per line**, in order. `lines` may be any iterable of strings, a generator included.
 
-The starter filters with `parse(line)` and then calls it again for the value, like `.filter(parse).map(parse)`.
+The starter filters with `parse(line)` and then calls it again for the value, so every kept line is parsed twice.

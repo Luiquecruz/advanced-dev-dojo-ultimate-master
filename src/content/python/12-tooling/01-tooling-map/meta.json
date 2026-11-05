@@ -1,6 +1,6 @@
 {
   "title": "Map: Packaging, Testing and Capstone",
-  "summary": "A guide to the Python project lifecycle compared with npm: pyproject.toml, environments, lockfiles, Ruff and type checkers, tests, builds and publishing, plus the path through this module and the capstone it ends with.",
+  "summary": "A guide to the Python project lifecycle and what each step protects against: pyproject.toml, environments, lockfiles, Ruff and type checkers, tests, builds and publishing, plus the path through this module and the capstone it ends with.",
   "level": "beginner",
   "tags": ["established", "core", "theory"],
   "resources": [

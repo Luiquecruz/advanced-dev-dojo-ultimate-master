@@ -1,4 +1,4 @@
-**Question this module answers:** what do annotations promise, who checks them, and what happens to them at runtime?
+**Question this module answers:** what do annotations guarantee, who checks them, and what happens to them at runtime?
 
 ## Annotations are metadata
 
@@ -17,11 +17,17 @@ The interpreter **never enforces** an annotation. It stores it as an ordinary ob
 
 Python typing is **gradual**: unannotated code is treated as `Any` by a checker, so a project adds types file by file and turns on stricter flags as coverage grows.
 
-## Coming from TypeScript and JavaScript
+## Prerequisites
 
-- TypeScript types are **erased**: `tsc` checks them and the emitted JavaScript holds none. Python keeps annotations as runtime objects, but nothing checks them unless a checker runs in your pipeline. The habit that breaks is trusting a signature as if a compiler had enforced it.
-- TypeScript is **structural** everywhere: any object of the right shape fits an `interface`. Python classes are **nominal** by default, so `isinstance` follows inheritance; structural typing is opted into with `Protocol`.
-- There is no `tsc` here: **no type checker runs in this sandbox**. Every challenge in this module asserts what runtime code can see (`get_type_hints`, `__type_params__`, TypedDict key sets, runtime-checkable protocols, registered overloads) or builds a small consumer of annotations.
+Module 02 (the `collections.abc` base classes), module 03 (reading the annotations in starters), module 04 (classes, dataclasses and inheritance) and module 05 (iterators and generators). Every function here also runs without a checker, so you can try each example as you read.
+
+## Nominal by default, structural on request
+
+A plain class is a **nominal** type: `isinstance(obj, Named)` is `True` only when `obj`'s class inherits from `Named`, whatever attributes it has. Matching by **shape** (any object with a `name` attribute) is opt-in, with `typing.Protocol` in lesson 04.
+
+## What the challenges can test
+
+**No type checker runs in this sandbox.** Every challenge in this module asserts what runtime code can see (`get_type_hints`, `__type_params__`, TypedDict key sets, runtime-checkable protocols, registered overloads) or builds a small consumer of annotations. The type errors a checker would report are explained in the theory and in the quizzes.
 
 ## The path
 

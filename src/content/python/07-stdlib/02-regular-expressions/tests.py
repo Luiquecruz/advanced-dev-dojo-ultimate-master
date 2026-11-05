@@ -15,6 +15,7 @@ def _():
     assert result == expected
 
 
+# beginner mistake: re.match instead of fullmatch, which accepts a line with text or a newline after the format
 @test("parse_log_line returns None unless the whole line has the format")
 def _():
     rejected = [

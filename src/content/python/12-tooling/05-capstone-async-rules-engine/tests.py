@@ -200,6 +200,7 @@ async def _():
     assert notes == ["rule=feature-store", "rule=ledger"]
 
 
+# beginner mistake: catching BaseException in the rule wrapper, which swallows the deadline's CancelledError
 @test("deadlines cut slow work: an event past its deadline keeps the finished verdicts, and a drain past its deadline cancels the rest")
 async def _():
     slow = StuckRule()

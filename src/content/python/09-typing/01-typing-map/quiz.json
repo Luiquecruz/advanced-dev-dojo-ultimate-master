@@ -22,10 +22,10 @@
     "explanation": "Only a static checker analyses calls against signatures. `get_type_hints` just returns the annotation objects, and `-O` only removes `assert` statements."
   },
   {
-    "question": "TypeScript accepts any object with a `name: string` for `interface Named`. A Python class `Named` declares `name: str`, and `User` has a `name` attribute but does not inherit from `Named`. What is `isinstance(User(), Named)`?",
+    "question": "A plain Python class `Named` declares `name: str`. `User` has a `name` attribute but does not inherit from `Named`. What is `isinstance(User(), Named)`?",
     "options": [
       "`False`: plain classes are nominal, so `isinstance` follows inheritance; structural checks need a `Protocol`",
-      "`True`: Python compares attributes like TypeScript",
+      "`True`: `isinstance` compares the attributes both classes declare",
       "It raises `TypeError`",
       "`True` only if both declare the same annotation"
     ],

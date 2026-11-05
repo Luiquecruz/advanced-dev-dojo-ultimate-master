@@ -79,6 +79,7 @@ def _():
         assert normalized == base / "q4.csv"
 
 
+# beginner mistake: checking containment with str.startswith, which lets a sibling directory with the same prefix through
 @test("safe_join rejects names that escape the base directory")
 def _():
     with scratch("escape") as root:

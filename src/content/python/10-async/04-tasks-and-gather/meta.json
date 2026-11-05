@@ -1,6 +1,6 @@
 {
   "title": "Tasks, gather and wait",
-  "summary": "gather is Promise.all and, with return_exceptions, Promise.allSettled; wait is the building block for races. Load several sources at once, keep partial results, and race coroutines while cancelling the losers, which JavaScript promises cannot do.",
+  "summary": "gather runs coroutines together and, with return_exceptions, keeps partial results; wait is the building block for races. Load several sources at once, keep the values next to the errors, and race coroutines while cancelling the losers.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

@@ -20,38 +20,37 @@ async def main():
 asyncio.run(main())
 ```
 
-## Coming from TypeScript and JavaScript
-
-JavaScript has no built-in cancellation. `AbortController` is opt-in: an operation stops only if you pass it the `signal` and it checks it. `Promise.race` with a timer is the usual timeout, and the slow work keeps running after the race is lost:
-
-```ts
-const timer = new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), 50));
-await Promise.race([download(), timer]);   // download() keeps going after the timeout
-```
-
-Two habits break in Python.
-
-**The race-based timeout.** `asyncio.wait({work}, timeout=0.05)` is the literal port, and it leaves `work` running. `asyncio.timeout()` and `asyncio.wait_for()` cancel the work and wait for its cleanup before raising.
-
-**The catch-all.** In JavaScript, an abort is an ordinary error, so `catch (e) { log(e) }` around a step is harmless. In Python, cancellation can arrive at *any* `await`, and a catch-all turns it into "just another failed job":
-
-```py
-while True:
-    job = await inbox.get()
-    try:
-        await job()
-    except:                    # also catches CancelledError: the worker can never be stopped
-        log("job failed")
-```
-
-`CancelledError` has been a subclass of `BaseException`, not `Exception`, since Python 3.8. So `except Exception` is the right per-job handler: it catches failures and lets cancellation through. Bare `except:`, `except BaseException` and `except CancelledError` without `raise` all swallow it.
-
 ## How it works
 
 - **`task.cancel()`** marks the task; the next time it runs, `CancelledError` is thrown in at its current `await`. `finally` blocks and `async with` exits run during the unwinding.
 - **Swallowing** a cancellation (catching it and not re-raising) makes `cancel()` silently fail: the task carries on, and shutdown code waiting for it hangs. If you truly must suppress it, call `task.uncancel()`; almost no application code should.
 - **`asyncio.timeout(seconds)`** (3.11) cancels the current task when the deadline passes, then converts the resulting `CancelledError` into `TimeoutError` at the block's exit. It can be nested and rescheduled. `asyncio.wait_for(aw, seconds)` does the same for a single awaitable and, since 3.12, is implemented with `timeout()`.
+- **A deadline is not a race.** `asyncio.wait({work}, timeout=0.05)` only reports that `work` is not done yet and leaves it running in the background. `asyncio.timeout()` and `wait_for()` cancel the work and wait for its cleanup before raising.
 - **`asyncio.shield(task)`** protects the inner task from cancellation coming from the awaiting side: the caller still gets `CancelledError`, but the inner task keeps running. The shielded task then has no awaiter, so **keep a reference** to it (for example in a set with `add_done_callback(set.discard)`); the loop holds only a weak one.
+
+## Common mistakes
+
+**A catch-all around each job in a long-running loop.** Cancellation can arrive at *any* `await`, and a bare `except:` turns it into "just another failed job": the worker logs it and takes the next one, so it can never be stopped.
+
+```py
+# wrong: also catches CancelledError
+while True:
+    job = await inbox.get()
+    try:
+        await job()
+    except:
+        log("job failed")
+
+# right: CancelledError is a BaseException, so it passes through
+while True:
+    job = await inbox.get()
+    try:
+        await job()
+    except Exception:
+        log("job failed")
+```
+
+`CancelledError` has been a subclass of `BaseException`, not `Exception`, since Python 3.8. Bare `except:`, `except BaseException` and `except CancelledError` without `raise` all swallow it.
 
 ## Legacy vs modern
 

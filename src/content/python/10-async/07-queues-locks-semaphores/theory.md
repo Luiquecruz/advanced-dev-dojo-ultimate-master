@@ -31,31 +31,33 @@ async def main():
 asyncio.run(main())
 ```
 
-## Coming from TypeScript and JavaScript
-
-The first habit is the array as a queue: `jobs.push(job)` on one side, `jobs.shift()` on the other. Nothing ever tells the producer to slow down, so a slow consumer turns into unbounded memory growth and ever older items. A plain `list` or an `asyncio.Queue()` without `maxsize` has the same flaw. Backpressure needs a bound, and a producer that **pulls the next item only when `put` returns**:
-
-```ts
-for await (const event of source) buffer.push(event);  // reads the whole source, whatever the consumers do
-```
-
-The second habit is "JavaScript is single-threaded, so there are no races". It is true **between** two awaits and false **across** one. Both runtimes interleave tasks at every `await`, so a read-modify-write that waits in the middle loses updates:
-
-```py
-async def increment(self):
-    current = await self.store.read()    # task B reads the same value while A waits here
-    await self.store.write(current + 1)  # A and B both write current + 1: one update is lost
-```
-
-Hold an `asyncio.Lock` from the read to the write. Concurrency limits, which JavaScript code gets from libraries such as `p-limit`, are a `Semaphore` in the standard library.
-
 ## How it works
 
+- **Backpressure needs a bound.** A plain `list` used as a buffer, or an `asyncio.Queue()` without `maxsize`, never tells the producer to slow down, so a slow consumer turns into unbounded memory growth and ever older items. Bound the queue, and let the producer **pull the next item only when `put` returns**.
 - **`Queue.task_done()` and `Queue.join()`**: every `get` followed by `task_done()` lets `join()` return once every item put has been processed. The classic shutdown is `await queue.join()`, then cancel the consumers *and wait for them*.
 - **`Queue.shutdown(immediate=False)`** (3.13): further `put` calls raise `QueueShutDown`; `get` keeps returning queued items and raises `QueueShutDown` once the queue is empty, so consumers end on their own. `immediate=True` drops the remaining items.
 - **`Semaphore`** keeps a counter: `acquire` decrements it or waits at zero, `release` increments it. Acquire it **inside** each task, around the work. Acquiring it around `create_task` only limits how fast tasks are created, not how many run. `asyncio.BoundedSemaphore` behaves the same but raises `ValueError` when it is released more times than it was acquired, which turns a stray `release()` into an error instead of a silently higher limit.
 - **`Lock`** is not reentrant. Keep the critical section short; everything waiting for it is serialized.
 - **None of these primitives are thread-safe**, and `threading.Lock` must never be held across an `await`: a second task trying to acquire it blocks the only thread, and with it the event loop.
+
+## Common mistakes
+
+**A read-modify-write with an `await` in the middle, and no lock.** One thread does not mean no races: code between two awaits runs without interruption, but every `await` lets another task run. Two increments that both read before either writes lose an update.
+
+```py
+# wrong: task B reads the same value while A waits for its write
+async def increment(self):
+    current = await self.store.read()
+    await self.store.write(current + 1)    # A and B both write current + 1
+
+# right: the lock covers the read and the write
+async def increment(self):
+    async with self._lock:                 # self._lock = asyncio.Lock() in __init__
+        current = await self.store.read()
+        await self.store.write(current + 1)
+```
+
+Acquiring a `Semaphore` around `create_task` instead of around the work is the second slip: it only slows down task creation.
 
 > **Status as of November 2026:** `Queue.shutdown()` and `QueueShutDown` (Python 3.13) work in this sandbox (Pyodide, Python 3.14). On 3.12 and older, stop consumers with `join()` and cancellation, or with a sentinel item per consumer.
 

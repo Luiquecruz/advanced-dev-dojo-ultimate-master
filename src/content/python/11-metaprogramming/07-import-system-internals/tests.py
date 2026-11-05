@@ -112,6 +112,7 @@ async def _():
     assert unchanged
 
 
+# beginner mistake: uninstall removes the finder but leaves its modules in sys.modules, so they stay importable
 @test("names the finder does not serve fall through, and uninstall removes the finder and its modules")
 async def _():
     saved = list(sys.meta_path)

@@ -23,6 +23,7 @@ async def _():
     assert Deploy.name == "deploy"
 
 
+# beginner mistake: returning the cached instance but letting __init__ run again on every call, which resets its state
 @test("SingletonMeta creates one instance per class and runs __init__ only once")
 def _():
     inits = []

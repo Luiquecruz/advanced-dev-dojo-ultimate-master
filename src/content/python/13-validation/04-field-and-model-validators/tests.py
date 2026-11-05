@@ -73,6 +73,7 @@ async def _():
     assert shape_pairs == [((), "model_type")]
 
 
+# beginner mistake: returning error.errors() unchanged, which echoes the rejected password in each "input" field
 @test("signup_errors returns structured errors without echoing rejected input")
 def _():
     valid = mod.signup_errors(GOOD)

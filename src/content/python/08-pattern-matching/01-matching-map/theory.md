@@ -26,7 +26,7 @@ def handle(message):
             raise ValueError(f"unknown message: {message!r}")
 ```
 
-Each `case` checks a **shape** (type, length, keys, attributes) and **binds** names to its parts in one step. Cases are tried in order, the first that matches runs, and there is no fall-through.
+Each `case` checks a **shape** (type, length, keys, attributes) and **binds** names to its parts in one step. Cases are tried in order, and only the first that matches runs.
 
 | Pattern | Example | Matches |
 | --- | --- | --- |
@@ -40,14 +40,9 @@ Each `case` checks a **shape** (type, length, keys, attributes) and **binds** na
 
 Or-patterns, `as` captures and `if` guards combine them.
 
-## Coming from TypeScript and JavaScript
+## A bare name captures
 
-`switch` evaluates each `case` expression and compares it with `===`. A `case` pattern is not an expression:
-
-```ts
-const QUIT = "quit";
-switch (command) { case QUIT: return stop(); default: return run(command); }
-```
+A `case` pattern is not an expression that Python evaluates and compares. A plain name in a pattern is a capture, even when a variable of that name exists:
 
 ```py
 QUIT = "quit"

@@ -31,6 +31,7 @@ def _():
     assert outcomes == {"2026-11-04T10:15:00": "ValueError", "2026-11-04": "ValueError", "yesterday": "ValueError"}
 
 
+# beginner mistake: adding timedelta(days=30) per month, which drifts past short months
 @test("add_months clamps the day to the last day of the target month")
 def _():
     cases = {

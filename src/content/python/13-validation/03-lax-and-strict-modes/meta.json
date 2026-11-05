@@ -1,6 +1,6 @@
 {
   "title": "Lax and Strict Modes",
-  "summary": "Pydantic converts compatible inputs by default, where Zod refuses them unless asked to coerce. Read the lax conversion table, switch strictness per call, per model and per field, keep a security-sensitive flag strict inside a lax partner model, and report which fields lax mode converted.",
+  "summary": "Pydantic converts compatible inputs by default, so a valid model does not prove the client sent the declared type. Read the lax conversion table, switch strictness per call, per model and per field, keep a security-sensitive flag strict inside a lax partner model, and report which fields lax mode converted.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",
@@ -8,7 +8,6 @@
   "resources": [
     { "label": "Pydantic 2.12: Strict Mode", "url": "https://pydantic.dev/docs/validation/2.12/concepts/strict_mode/" },
     { "label": "Pydantic 2.12: Conversion Table", "url": "https://pydantic.dev/docs/validation/2.12/concepts/conversion_table/" },
-    { "label": "Pydantic 2.12: Configuration", "url": "https://pydantic.dev/docs/validation/2.12/concepts/config/" },
-    { "label": "Zod: Defining schemas (coercion)", "url": "https://zod.dev/api" }
+    { "label": "Pydantic 2.12: Configuration", "url": "https://pydantic.dev/docs/validation/2.12/concepts/config/" }
   ]
 }

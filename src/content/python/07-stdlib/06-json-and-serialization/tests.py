@@ -24,6 +24,7 @@ def _():
     assert day == '{"due": "2026-12-01"}'
 
 
+# beginner mistake: ending default with return str(o), which turns every unknown object into text
 @test("DojoEncoder refuses values it does not know how to encode")
 async def _():
     for value in (object(), {1, 2}, mod.Invoice):

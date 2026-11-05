@@ -1,6 +1,6 @@
 # Checkpoint: the Typing ADR
 
-This module answered one question from several sides: what do annotations promise, who checks them, and what happens to them at runtime? Annotations are evaluated objects that nothing enforces. A checker reads them before the program runs; runtime code (`get_type_hints`, `dataclasses`, your validators) reads them while it runs. Protocols bring structural typing to nominal classes, TypedDict types dicts without changing them, PEP 695 scopes type parameters, overloads and `TypeIs` give precise types, and Python 3.14 evaluates annotations lazily.
+This module answered one question from several sides: what do annotations guarantee, who checks them, and what happens to them at runtime? Annotations are evaluated objects that nothing enforces. A checker reads them before the program runs; runtime code (`get_type_hints`, `dataclasses`, your validators) reads them while it runs. Protocols bring structural typing to nominal classes, TypedDict types dicts without changing them, PEP 695 scopes type parameters, overloads and `TypeIs` give precise types, and Python 3.14 evaluates annotations lazily.
 
 The checkpoint turns these facts into a typing strategy for a **published package**: an **Architecture Decision Record** plus a **plan** that other teams can rely on.
 

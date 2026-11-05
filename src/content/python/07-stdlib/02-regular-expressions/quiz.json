@@ -33,7 +33,7 @@
     "explanation": "`.+` is greedy: it runs to the end and gives characters back only until a `]` can match, which is the last one. `.+?` or `[^\\]]+` would capture `\"a\"`."
   },
   {
-    "question": "You port the JavaScript check `/^\\d{6}$/.test(code)` to Python. Which version accepts exactly the same strings?",
+    "question": "A shipping code must be exactly six ASCII digits, with nothing before or after them. Which check accepts exactly those strings?",
     "options": [
       "`re.match(r\"^\\d{6}$\", code)`",
       "`re.search(r\"\\d{6}\", code)`",
@@ -41,6 +41,6 @@
       "`re.fullmatch(r\"[0-9]{6}\", code)`"
     ],
     "answer": 3,
-    "explanation": "JavaScript's `\\d` is `[0-9]` and its `$` is the end of the string. In Python `$` accepts a trailing newline and `\\d` matches any Unicode decimal digit, so only `fullmatch` with `[0-9]` (or `re.ASCII`) is equivalent."
+    "explanation": "`$` also matches before a trailing newline, so `re.match(r\"^\\d{6}$\", \"123456\\n\")` succeeds, and `\\d` matches any Unicode decimal digit, such as `٣`. `search` accepts surrounding text. Only `fullmatch` with `[0-9]` (or `re.ASCII`) accepts exactly six ASCII digits."
   }
 ]

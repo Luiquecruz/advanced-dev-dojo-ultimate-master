@@ -72,7 +72,7 @@ ADR = {
         "Every one of 6 660 000 monthly lines pays a 10% surcharge rounded per line; the legacy float rounding differs "
         f"from finance's ROUND_HALF_UP rule by {FLOAT_DRIFT_CENTS} cents a month, and the api_call price of 0.0035 is "
         f"below a cent. Usage files carry {UTC_OFFSETS} distinct UTC offsets over a year while invoice months are cut in "
-        "UTC. Three consumers in Python, TypeScript and a partner webhook (256 KiB per request, 5 requests/s, one hour) "
+        "UTC. Three consumers, a Python warehouse, a browser dashboard and a partner webhook (256 KiB per request, 5 requests/s, one hour), "
         "read the export; the warehouse loads files as soon as they appear on shared storage, where the carriers' usage "
         "files are untrusted input. Finance pipes standard output into the report and pages on exit codes 2 and 1."
     ),
@@ -99,7 +99,7 @@ ADR = {
     "consequences": {
         "positive": [
             "Surcharges match finance's rule on every line, removing a 33 600 EUR monthly reconciliation gap.",
-            "The dashboard receives amounts as strings and never rounds them through JavaScript doubles.",
+            "The dashboard receives amounts as strings, so its parser never rounds them through binary floats.",
         ],
         "negative": [
             "Decimal arithmetic is slower than float and every boundary must convert amounts explicitly.",
@@ -130,7 +130,7 @@ PLAN = {
         },
         {
             "pattern": "pickle files on the shared storage",
-            "reason": "pickle.loads runs code chosen by whoever wrote the file, and TypeScript cannot read it anyway.",
+            "reason": "pickle.loads runs code chosen by whoever wrote the file, and only Python programs can read the format.",
         },
         {
             "pattern": "print for diagnostics",

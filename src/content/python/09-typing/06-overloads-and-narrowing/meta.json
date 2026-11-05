@@ -1,6 +1,6 @@
 {
   "title": "Overloads and Narrowing",
-  "summary": "Overloads describe per-argument return types for the checker while one implementation runs; TypeIs and assert_never narrow and close unions. Write a two-overload parse, a list-of-strings guard and an exhaustive describe that fails loudly at runtime, unlike TypeScript's never.",
+  "summary": "Overloads describe per-argument return types for the checker while one implementation runs; TypeIs and assert_never narrow and close unions. Write a two-overload parse, a list-of-strings guard and an exhaustive describe that also fails loudly at runtime.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

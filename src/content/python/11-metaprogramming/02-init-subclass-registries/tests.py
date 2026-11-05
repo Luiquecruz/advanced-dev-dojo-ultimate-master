@@ -1,6 +1,7 @@
 import abc
 
 
+# beginner mistake: registering plugins in __init__, so the registry stays empty until an instance exists
 @test("concrete subclasses register under their class keyword name or their class name")
 def _():
     class CsvExport(mod.Plugin, name="csv"):

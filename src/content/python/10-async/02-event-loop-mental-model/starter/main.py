@@ -17,8 +17,8 @@ async def run_sequential(names: list[str], recorder: list[str]) -> list[str]:
 
 
 async def run_concurrent(names: list[str], recorder: list[str]) -> list[str]:
-    # TODO: in JavaScript, creating every promise first makes them run at the same time.
-    # These coroutines only start when awaited, one by one. Wrap each one in a task instead.
+    # TODO: run every fetch at the same time. These coroutines only start when awaited,
+    # one by one, so this is sequential. Wrap each one in a task instead.
     pending = [fetch(name, recorder) for name in names]
     return [await coroutine for coroutine in pending]
 

@@ -18,23 +18,14 @@ notify(EmailClient())                       # a checker accepts it: the shape ma
 print(isinstance(EmailClient(), Sender))    # True, only because of @runtime_checkable
 ```
 
-## Coming from TypeScript and JavaScript
+## How it works
 
-A TypeScript `interface` is structural everywhere, and it disappears at runtime:
+Python's defaults run the other way from protocols, and both matter:
 
-```ts
-interface Sender { send(message: string): void; }
-class EmailClient { send(message: string) { console.log(message); } }
-const channel: Sender = new EmailClient();   // fine: same shape
-// channel instanceof Sender                 // error: Sender only exists for the compiler
-```
-
-Python flips both defaults, and two habits break:
-
-- **Plain classes and ABCs are nominal.** `isinstance(x, Base)` is true only when `x`'s class inherits from `Base` (or is registered with an ABC). Writing a base class or an `ABC` for "anything with `close()`" and checking `isinstance` rejects every third-party object that has the method but not the base.
+- **Plain classes and ABCs are nominal.** `isinstance(x, Base)` is true only when `x`'s class inherits from `Base` (or is registered with an ABC). Having the same methods is not enough.
 - **A protocol is not checkable by default.** `isinstance(x, Sender)` without `@runtime_checkable` raises `TypeError: Instance and class checks can only be used with @runtime_checkable protocols`. The decorator opts into a runtime check; a checker does not need it.
 
-## How it works
+The mechanics:
 
 - `class P(Protocol)` collects its members: methods, and attributes annotated in the body. `typing.get_protocol_members(P)` returns them as a frozenset and `typing.is_protocol(P)` tells a protocol from a class that merely inherits from one (both added in 3.13).
 - `@runtime_checkable` makes `isinstance` check that every member **exists** on the object (looked up with `inspect.getattr_static` since 3.12, so `__getattr__` tricks do not count). It does not check signatures or types: a `send(self)` without the `message` parameter still passes `isinstance`, and only a checker catches it.
@@ -55,6 +46,24 @@ Pitfalls:
 
 - `isinstance` against a runtime protocol is slower than against a class: it checks every member on every call. Avoid it in hot loops.
 - A **method** member set to `None` on the class (the `__hash__ = None` idiom) counts as missing; a **data** member whose value is `None` counts as present.
+
+## Common mistakes
+
+**An ABC or a base class for "anything with `close()`".** The check is nominal, so every object that has the method but not the base is rejected: a third-party connection is silently skipped, and nothing fails loudly.
+
+```py
+# wrong: Connection has close() but does not inherit, so it is never closed
+class Closeable(ABC):
+    @abstractmethod
+    def close(self) -> None: ...
+
+# right: any object with close() matches
+@runtime_checkable
+class Closeable(Protocol):
+    def close(self) -> None: ...
+```
+
+Forgetting `@runtime_checkable` is the second slip: the first `isinstance(resource, Closeable)` raises `TypeError` instead of answering.
 
 ## When to choose it
 

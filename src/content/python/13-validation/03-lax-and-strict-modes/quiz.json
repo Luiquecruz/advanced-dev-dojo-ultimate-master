@@ -38,7 +38,7 @@
       "A strict model, and ask partners to change their payloads first",
       "A lax model with `approved: StrictBool`",
       "A lax model, then `if approved is True` checks later in the handler",
-      "`z.coerce.boolean()` semantics: any non-empty string is `True`"
+      "`bool(raw)` on the raw value: any non-empty string is `True`"
     ],
     "answer": 1,
     "explanation": "Per-field strictness keeps conversions where the edge needs them and refuses them where a wrong guess has a security cost. Later checks scatter the rule across handlers."

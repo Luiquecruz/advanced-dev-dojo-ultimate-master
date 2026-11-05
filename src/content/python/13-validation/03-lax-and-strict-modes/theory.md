@@ -17,17 +17,6 @@ InternalOrder.model_validate({"quantity": "2", "unit_price": 9.5, "paid": True})
 # ValidationError: quantity  [type=int_type]
 ```
 
-## Coming from TypeScript and JavaScript
-
-Zod is strict by default and coercion is opt-in: `z.number().parse("2")` fails, `z.coerce.number().parse("2")` returns `2`. Pydantic is the opposite, lax unless told otherwise. The habit that breaks is assuming "it validated, so the client sent a number".
-
-```ts
-z.coerce.boolean().parse("false");   // true: Boolean("false") is truthy
-z.stringbool().parse("false");       // false: Zod 4's explicit string-to-boolean parser
-```
-
-Pydantic's lax `bool` is closer to `z.stringbool()`: it accepts `True`/`False`, `0`/`1` and the strings `"true"`, `"false"`, `"yes"`, `"no"`, `"on"`, `"off"`, `"1"`, `"0"`, `"t"`, `"f"`, `"y"`, `"n"` in any case, and rejects `2` or `"maybe"` with `bool_parsing`. Convenient for query strings, dangerous for a flag that unlocks something.
-
 ## How it works
 
 The conversion table of lax mode, for Python input (`model_validate`):
@@ -38,6 +27,8 @@ The conversion table of lax mode, for Python input (`model_validate`):
 | `float` | `3`, `"9.5"`, `True`, `"nan"`, `"inf"` | `"cheap"` (`float_parsing`) |
 | `bool` | the strings and `0`/`1` above | `2`, `"maybe"` (`bool_parsing`) |
 | `str` | `bytes` | `42`, `4.2`, `True` (`string_type`) |
+
+The lax `bool` accepts `True`/`False`, `0`/`1` and the strings `"true"`, `"false"`, `"yes"`, `"no"`, `"on"`, `"off"`, `"1"`, `"0"`, `"t"`, `"f"`, `"y"`, `"n"` in any case, and rejects `2` or `"maybe"` with `bool_parsing`. It never uses plain truthiness, so `"false"` becomes `False`. Convenient for query strings, dangerous for a flag that unlocks something: "it validated" does not mean "the client sent a boolean".
 
 Strict mode accepts the exact type only, with one deliberate exception: an `int` is accepted for a `float` field and becomes `3.0`. `True` is **not** an `int` in strict mode, although `bool` subclasses `int` in Python. The error types change too: lax reports `int_parsing` ("I tried and the text is not a number"), strict reports `int_type` ("this is not an int at all").
 
@@ -55,11 +46,33 @@ Pitfalls:
 - Lax `int` accepts `True`, the bool-is-int trap of module 09, now hidden inside the library.
 - A model that is lax for partners and strict internally is two models (or two calls), not one flag flipped at runtime.
 
+## Common mistakes
+
+**Leaving a security flag as a plain `bool` in a lax model.** Lax mode turns `"yes"`, `"on"` and `1` into `True`, so a partner's typo or a forged payload releases the shipment:
+
+```py
+# wrong: "yes" validates as True
+class Order(BaseModel):
+    quantity: int
+    paid: bool
+
+Order.model_validate({"quantity": "2", "paid": "yes"}).paid   # True
+
+# right: the rest of the model stays lax, the flag accepts only a real boolean
+class Order(BaseModel):
+    quantity: int
+    paid: StrictBool
+
+# ValidationError: paid  [type=bool_type]
+```
+
+Checking `type(order.paid)` after a lax parse cannot catch it: by then `"yes"` is already `True`.
+
 ## Legacy vs modern
 
 Pydantic v1 coerced far more: `str` fields accepted `42` and returned `"42"`, and `int` fields truncated `3.5` to `3`. v2 removed both conversions, and added strict mode and the per-field `Strict` markers.
 
-> **Status as of November 2026:** Strict mode, `ConfigDict(strict=True)` and the `Strict` marker behave as described from Pydantic 2.0 through the latest 2.14.2; this sandbox runs 2.12.5. Zod 4 (latest 4.6.7 on npm, October 2026) is strict by default and offers `z.coerce.*` and `z.stringbool()`. Sources: the Pydantic 2.12 docs "Strict Mode" and "Conversion Table" at pydantic.dev/docs/validation, pypi.org/project/pydantic, zod.dev.
+> **Status as of November 2026:** Strict mode, `ConfigDict(strict=True)` and the `Strict` marker behave as described from Pydantic 2.0 through the latest 2.14.2; this sandbox runs 2.12.5. Sources: the Pydantic 2.12 docs "Strict Mode" and "Conversion Table" at pydantic.dev/docs/validation and pypi.org/project/pydantic.
 
 ## When to choose it
 

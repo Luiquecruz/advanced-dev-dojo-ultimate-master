@@ -128,6 +128,7 @@ def _():
     assert printed == []
 
 
+# beginner mistake: letting parse_args raise SystemExit out of main instead of returning the exit code
 @test("main reports bad input on err with exit code 2 or 1, without raising or writing the ledger")
 def _():
     with tempfile.TemporaryDirectory() as directory:

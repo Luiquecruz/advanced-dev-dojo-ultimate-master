@@ -17,32 +17,6 @@ async def main():
 asyncio.run(main())              # CPython entry point: create a loop, run main, close the loop
 ```
 
-## Coming from TypeScript and JavaScript
-
-A JavaScript `async` function starts running **synchronously** when you call it, up to its first `await`, and the promise it returns settles whether or not anyone awaits it. So this idiom is concurrent in JavaScript:
-
-```ts
-const pending = names.map((name) => fetchUser(name));  // every request is already running
-const results = [];
-for (const promise of pending) results.push(await promise);
-```
-
-The same shape in Python is **sequential**. The list holds coroutine objects that have not started; each one starts only when the loop reaches its `await`, and the next one waits for it to finish:
-
-```py
-pending = [fetch(name) for name in names]          # nothing runs yet
-results = [await coroutine for coroutine in pending]  # start a, end a, start b, end b...
-```
-
-To run them at the same time, hand each coroutine to the event loop as a task:
-
-```py
-tasks = [asyncio.create_task(fetch(name)) for name in names]  # scheduled, start on the next tick
-results = [await task for task in tasks]                      # start a, start b, end a, end b
-```
-
-The second habit is the forgotten `await`. A JavaScript promise that nobody awaits still runs. A Python coroutine that nobody awaits never runs at all, and when it is garbage collected CPython prints `RuntimeWarning: coroutine 'fetch' was never awaited`. Dev Dojo turns that warning into a failed test.
-
 ## How it works
 
 - **`await coroutine`** runs the coroutine inline, in the current task, like a function call that may pause. It does not schedule anything. The current task is suspended only when the chain reaches something that is not ready, such as a sleep, a lock or a socket.
@@ -50,6 +24,22 @@ The second habit is the forgotten `await`. A JavaScript promise that nobody awai
 - **`asyncio.create_task(coroutine)`** wraps a coroutine in a `Task` and schedules its first step. It returns at once; the coroutine starts the next time the current task suspends. A task is a future: awaiting it returns its result or raises its exception.
 - **The event loop** runs one step of one task at a time on a single thread. Nothing preempts a running step: between two `await`s, your code has the loop to itself.
 - **`asyncio.run(main())`** is how a CPython program starts: it creates a loop, runs `main` to completion, cancels leftovers and closes the loop. It must not be called while a loop is already running. In this sandbox Pyodide already runs a loop backed by the browser, so tests `await` your coroutines directly, and the Run button handles the `asyncio.run` at the bottom of `demo.py` for you.
+
+## Common mistakes
+
+**Creating every coroutine first and expecting them to run at the same time.** The list holds paused calls that have not started; each one starts only when the loop reaches its `await`, and the next one waits for it to finish. The code is correct, just sequential.
+
+```py
+# wrong: sequential; start a, end a, start b, end b
+pending = [fetch(name) for name in names]
+results = [await coroutine for coroutine in pending]
+
+# right: every task is scheduled before the first await; start a, start b, end a, end b
+tasks = [asyncio.create_task(fetch(name)) for name in names]
+results = [await task for task in tasks]
+```
+
+The second slip is the forgotten `await`: `fetch("users")` on its own line never runs at all, and when the coroutine is garbage collected CPython prints `RuntimeWarning: coroutine 'fetch' was never awaited`. Dev Dojo turns that warning into a failed test.
 
 ## Legacy vs modern
 

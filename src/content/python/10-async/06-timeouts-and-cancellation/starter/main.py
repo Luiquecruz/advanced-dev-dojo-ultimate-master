@@ -7,7 +7,7 @@ PENDING_COMMITS: set[asyncio.Task[Any]] = set()
 
 async def with_deadline(coroutine_factory: Callable[[], Awaitable[Any]], seconds: float) -> Any:
     """Return the result of coroutine_factory(), or raise TimeoutError after `seconds` and cancel the work."""
-    # TODO: this is Promise.race against a timer: on timeout the work keeps running in the background.
+    # TODO: asyncio.wait only reports that the work is not done: on timeout it keeps running in the background.
     # Use `async with asyncio.timeout(seconds):` so the work is cancelled when the deadline passes.
     work = asyncio.ensure_future(coroutine_factory())
     done, _ = await asyncio.wait({work}, timeout=seconds)

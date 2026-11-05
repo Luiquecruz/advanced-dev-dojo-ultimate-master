@@ -1,6 +1,6 @@
 {
   "title": "Map: Pattern Matching and Control Flow",
-  "summary": "A guide to match as destructuring plus dispatch, not switch: the pattern kinds, the capture-versus-compare trap, the path through this module and the decision it trains between match, if/elif, handler dicts and polymorphism.",
+  "summary": "A guide to match as destructuring plus dispatch: the pattern kinds, the capture-versus-compare trap, the path through this module and the decision it trains between match, if/elif, handler dicts and polymorphism.",
   "level": "beginner",
   "tags": ["established", "core", "theory"],
   "resources": [

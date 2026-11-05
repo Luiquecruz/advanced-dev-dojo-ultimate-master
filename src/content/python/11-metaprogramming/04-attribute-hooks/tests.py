@@ -30,6 +30,7 @@ async def _():
     assert "status" not in proxy_names
 
 
+# beginner mistake: a __getattribute__ proxy that reads self.log inside the hook and recurses forever
 @test("Proxy records every forwarded read and write in log, in order")
 def _():
     proxy = mod.Proxy(Order())

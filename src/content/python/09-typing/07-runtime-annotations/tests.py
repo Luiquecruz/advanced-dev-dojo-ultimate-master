@@ -74,6 +74,7 @@ def _():
     assert required == ["id", "customer", "lines"]
 
 
+# beginner mistake: reading dataclasses.fields(cls)[i].type, which holds the string "int" for a quoted annotation
 @test("string annotations are evaluated before they are mapped")
 def _():
     schema = mod.build_schema(mod.Coupon)

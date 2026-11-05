@@ -26,6 +26,7 @@ async def _():
     assert recorder == ["start:a", "end:a", "start:b", "end:b", "start:c", "end:c"]
 
 
+# beginner mistake: building a list of coroutines and awaiting them one by one, which runs them sequentially
 @test("run_concurrent starts every fetch before the first one ends and keeps the input order")
 async def _():
     recorder = []

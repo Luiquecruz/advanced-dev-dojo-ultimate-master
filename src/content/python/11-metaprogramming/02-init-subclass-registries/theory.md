@@ -16,33 +16,6 @@ Plugin.registry          # {'csv': <class 'CsvExport'>}, and no instance was cre
 
 The hook runs for subclasses at any depth, but not for the class that defines it: `Plugin` never registers itself.
 
-## Coming from TypeScript and JavaScript
-
-JavaScript has no hook that runs when a class is extended. Registries are filled by a decorator on each class, which a subclass does not inherit, or from the constructor, which only runs when someone creates an instance:
-
-```ts
-const registry = new Map<string, typeof Plugin>();
-class Plugin {
-  constructor() { registry.set(this.constructor.name, this.constructor as typeof Plugin); }
-}
-class CsvExport extends Plugin {}
-registry.get("CsvExport");   // undefined until something runs `new CsvExport()`
-```
-
-Translated literally, the registry stays empty exactly when it is needed, at startup, when the application reads `"csv"` from its configuration and looks for the class:
-
-```py
-class Plugin:
-    registry = {}
-
-    def __init__(self):
-        Plugin.registry[type(self).__name__] = type(self)   # too late: needs an instance first
-
-Plugin.registry.get("CsvExport")   # None
-```
-
-Register in `__init_subclass__`, which runs when the class statement runs.
-
 ## How it works
 
 `type.__new__` builds the class, calls `__set_name__` on its descriptors, then calls `__init_subclass__` on the parent (the next class in the new class's MRO). It is an implicit classmethod, so no decorator is needed.
@@ -70,6 +43,34 @@ If `Plugin` calls `super().__init_subclass__()` without `**kwargs`, `Tagged` sil
 **Legacy.** Before Python 3.6 ([PEP 487](https://peps.python.org/pep-0487/)) this required a metaclass. A metaclass registry still works, but it conflicts with any other metaclass in the bases: `class Exporter(Plugin, abc.ABC)` fails with `TypeError: metaclass conflict` when `Plugin` uses its own metaclass and `abc.ABC` uses `ABCMeta`. `__init_subclass__` has no such cost.
 
 `__class_getitem__` is the other class-level hook, from [PEP 560](https://peps.python.org/pep-0560/): `Plugin[int]` calls it. The data model reference discourages using it for anything except type hints, so `Plugin["csv"]` is not a registry lookup API.
+
+## Common mistakes
+
+**Registering plugins in `__init__`.** `__init__` runs only when someone creates an instance, but the application looks a plugin up by name at startup, before any instance exists. The registry is empty exactly when it is needed:
+
+```py
+# wrong: registration waits for an instance
+class Plugin:
+    registry = {}
+
+    def __init__(self):
+        Plugin.registry[type(self).__name__] = type(self)
+
+class CsvExport(Plugin):
+    pass
+
+Plugin.registry.get("CsvExport")   # None: no instance was ever created
+
+# right: registration runs with the class statement
+class Plugin:
+    registry = {}
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        Plugin.registry[cls.__name__] = cls
+```
+
+The other slip is calling `super().__init_subclass__()` without `**kwargs`: no error, but a mixin later in the MRO never receives its keywords.
 
 ## When to choose it
 

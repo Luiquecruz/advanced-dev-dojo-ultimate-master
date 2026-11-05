@@ -14,30 +14,42 @@ out.mkdir(parents=True, exist_ok=True)
 
 `io.StringIO` and `io.BytesIO` are in-memory file objects with the same `read`/`write` interface as open files, which makes them the standard test double for streams.
 
-## Coming from TypeScript and JavaScript
-
-Node's `path.join` concatenates and normalizes. Python's `/` follows `os.path.join` instead: an absolute segment **discards** everything before it. The usual guard against it in Node is a string-prefix check, which has its own hole:
-
-```ts
-path.join("/srv/files", "/etc/passwd");            // '/srv/files/etc/passwd'
-const full = path.resolve(base, name);
-if (!full.startsWith(base)) throw new Error("escape"); // '/srv/files-evil/x' passes
-```
-
-```py
-Path("/srv/files") / "/etc/passwd"                 # PosixPath('/etc/passwd')
-Path("/srv/files") / "../secret"                   # PosixPath('/srv/files/../secret'), not normalized
-str(full).startswith(str(base))                    # the same prefix hole as in Node
-```
-
-The mistake is treating paths as strings: joining with `/` and checking with `startswith`. Paths have structure (parts, `..`, links), and only path methods respect it.
-
 ## How it works
+
+- **Joining**: `/` follows `os.path.join`, so an absolute segment **discards** everything before it, and `..` stays in the path as text until something resolves it:
+
+  ```py
+  Path("/srv/files") / "/etc/passwd"     # PosixPath('/etc/passwd')
+  Path("/srv/files") / "../secret"       # PosixPath('/srv/files/../secret'), not normalized
+  ```
 
 - **`resolve()`** makes a path absolute, removes `..` and follows symbolic links. **`is_relative_to(other)`** compares parts, not characters, so `/srv/files-evil` is not inside `/srv/files`. It is purely textual and does not interpret `..` itself, so it only means something on resolved paths.
 - **Text vs binary**: `open(path, "w", encoding="utf-8")` encodes `str`, `"rb"`/`"wb"` move `bytes`. Without `encoding`, Python 3.14 uses the locale encoding (often cp1252 on Windows), so always pass it. The `csv` docs require `newline=""`, because the `csv` module writes its own line endings and must see line breaks inside quoted cells.
-- **Streaming**: `read(n)` returns at most `n` bytes and `b""` at the end. Copying chunk by chunk keeps memory flat whatever the size; `shutil.copyfileobj(source, target, length)` is the stock loop. `read()` without a size loads everything, which is the `readFileSync` habit.
+- **Streaming**: `read(n)` returns at most `n` bytes and `b""` at the end. Copying chunk by chunk keeps memory flat whatever the size; `shutil.copyfileobj(source, target, length)` is the stock loop. `read()` without a size loads the whole file into memory at once.
 - **`tempfile`**: `TemporaryDirectory()` and `mkstemp()` create unique names with owner-only permissions and no race on creation.
+
+## Common mistakes
+
+**Treating paths as strings and checking containment with `startswith`.** Text comparison ignores path structure: `/srv/files-evil/x` starts with the characters `/srv/files`, and an unresolved `../x` or a symbolic link still looks like it is inside the base:
+
+```py
+# wrong: "../x", "../files-evil/x" and "link/secret.txt" all get through
+def safe_join(base, name):
+    target = base / name
+    if not str(target).startswith(str(base)):
+        raise ValueError("path escapes the base directory")
+    return target
+
+# right: resolve both, then compare path parts
+def safe_join(base, name):
+    root = base.resolve()
+    target = (root / name).resolve()
+    if not target.is_relative_to(root):
+        raise ValueError("path escapes the base directory")
+    return target
+```
+
+**Opening text files without `encoding`.** The same code reads a file correctly on one machine and garbles it, or raises `UnicodeDecodeError`, on another whose locale encoding differs.
 
 ## Security note
 

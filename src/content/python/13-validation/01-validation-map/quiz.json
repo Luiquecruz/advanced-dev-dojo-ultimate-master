@@ -3,7 +3,7 @@
     "question": "A handler does `payload: OrderPayload = json.loads(body)` where `OrderPayload` is a `TypedDict`. What has been checked at runtime?",
     "options": [
       "The keys, but not the value types",
-      "Nothing: the annotation is metadata, like `as OrderPayload` in TypeScript",
+      "Nothing: the annotation is metadata for a static checker",
       "Both keys and value types",
       "Only that the body is a JSON object"
     ],
@@ -16,21 +16,21 @@
       "In every function that reads a field, just in case",
       "Only in the database layer",
       "Once, at the boundary where it enters, so the code behind it only receives valid objects",
-      "Nowhere, if the client is written in TypeScript"
+      "Nowhere, if the client is the company's own mobile app"
     ],
     "answer": 2,
     "explanation": "Parse, don't validate: one conversion at the edge removes the need to re-check later and gives one place for precise error reports."
   },
   {
-    "question": "Which Pydantic behavior differs from a plain Zod `z.object({ id: z.number() })`?",
+    "question": "A model declares `id: int` and validates `{\"id\": \"17\"}` with the default settings. What happens?",
     "options": [
-      "Pydantic converts `\"17\"` to `17` by default, while `z.number()` rejects the string",
-      "Pydantic never reports the path of an error",
-      "Zod has no way to reject unknown keys",
-      "Pydantic needs a separate type definition next to the schema"
+      "`id` becomes the integer `17`: the default lax mode converts numeric strings",
+      "`ValidationError`, because a string is not an `int`",
+      "`id` stays the string `\"17\"`, as in a dataclass",
+      "`TypeError` from the interpreter"
     ],
     "answer": 0,
-    "explanation": "Pydantic's default lax mode coerces numeric strings; Zod needs `z.coerce.number()`. Both report error paths, and in Pydantic the class is both schema and type."
+    "explanation": "Pydantic runs in lax mode unless told otherwise, so an unambiguous conversion such as `\"17\"` to `17` is made. Strict mode (lesson 03) would report `int_type` instead."
   },
   {
     "question": "A service builds `Invoice` objects only from values its own code computed. What does it need?",

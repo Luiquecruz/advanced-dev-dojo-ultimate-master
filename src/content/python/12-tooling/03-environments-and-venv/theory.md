@@ -26,22 +26,6 @@ Three lookups make it work, and each one is plain logic you can model:
 2. **The interpreter** looks for `pyvenv.cfg` next to its executable or one directory up. When it finds one, `sys.prefix` becomes that directory and `sys.base_prefix` stays the base install.
 3. **The `site` module** adds `{sys.prefix}/lib/python3.14/site-packages` to `sys.path`, plus the base installation's site-packages only when `include-system-site-packages` is true.
 
-## Coming from TypeScript and JavaScript
-
-Node resolves a package from the **importing file's location**: `require("express")` in `/srv/api/src/app.js` tries `/srv/api/src/node_modules`, then `/srv/api/node_modules`, then `/srv/node_modules`, whatever `node` binary runs it. npm scripts and `npx` also prefer `node_modules/.bin` for commands.
-
-```ts
-// /srv/api/src/server.ts: found by walking up from this file, no activation needed
-import express from "express";
-```
-
-```py
-# /srv/api/server.py
-import fastapi   # found only if the *running interpreter's* sys.path holds the environment's site-packages
-```
-
-The habit that breaks: **expecting the project's `.venv` to be picked up because it sits in the folder**. `cd /srv/api && python server.py` runs the first `python` on `PATH`. Without activation that is `/usr/bin/python3`, whose `sys.path` has never heard of `.venv`, so the import fails with `ModuleNotFoundError` while the package is installed two directories away. The same happens to `pytest`: an unactivated `.venv/bin/pytest` is not on `PATH`, so the shell finds the global one or nothing. Run `.venv/bin/python server.py`, activate first, or use `uv run server.py`.
-
 ## How it works
 
 **`PATH` resolution.** A command name without a slash is looked up in each `PATH` directory from left to right. The first directory that holds an executable with that name wins and shadows every later one. A name containing a slash (`/srv/api/.venv/bin/pytest`) is used as a path and `PATH` is not searched at all. `source .venv/bin/activate` only prepends `.venv/bin` to `PATH`, sets `VIRTUAL_ENV` and changes the prompt; `deactivate` restores `PATH`. Since activation is optional, the venv documentation warns that `VIRTUAL_ENV` cannot tell whether a virtual environment is in use: compare the prefixes.
@@ -61,6 +45,25 @@ uv venv                                # creates .venv; uv pip install, uv sync 
 Scripts installed in an environment start with a shebang holding its absolute path (`#!/srv/api/.venv/bin/python`), so they run in the right environment from anywhere, and the environment breaks if the folder is moved or copied.
 
 > **Status as of November 2026:** `venv` has been in the standard library since Python 3.3 (PEP 405, Final). Since 3.13 it writes a `.gitignore` holding `*` inside the environment, and since 3.14 the interpreter sets `sys.prefix` for an environment during path initialization instead of in `site`. PEP 668 (Final) lets Linux distributions mark their Python as externally managed, so `pip install` outside an environment fails with `externally-managed-environment`. uv 0.13.7 (3 November 2026) creates `.venv` with `uv venv`, and `uv run` and `uv sync` create or update the project's `.venv` next to `pyproject.toml`. Sources: docs.python.org (venv, site), peps.python.org, docs.astral.sh/uv and the uv release history on pypi.org.
+
+## Common mistakes
+
+**Expecting the project's `.venv` to be used because it sits in the folder.** `cd /srv/api && python server.py` runs the first `python` on `PATH`. Without activation that is `/usr/bin/python3`, whose `sys.path` has never heard of `.venv`, so `import fastapi` fails with `ModuleNotFoundError` while the package is installed two directories away. An unactivated `.venv/bin/pytest` is not on `PATH` either, so the shell finds the global one or nothing, and a bare `pip install` installs into whichever interpreter owns the first `pip` on `PATH`. In code, the mistake is looking a command up among every executable that exists instead of along `PATH`:
+
+```py
+# wrong: finds .venv/bin/pytest just because it exists
+def resolve_command(name, path_dirs, files):
+    return next((path for path in files if path.endswith("/" + name)), None)
+
+# right: only the PATH directories, left to right
+def resolve_command(name, path_dirs, files):
+    for directory in path_dirs:
+        if f"{directory}/{name}" in files:
+            return f"{directory}/{name}"
+    return None
+```
+
+Run `.venv/bin/python server.py` and `.venv/bin/python -m pip install ...`, activate first, or use `uv run`.
 
 ## When to choose it
 

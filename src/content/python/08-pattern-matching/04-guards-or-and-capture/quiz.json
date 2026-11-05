@@ -35,7 +35,7 @@
   {
     "question": "A block does `if role is Role.ADMIN: return \"delete\"` and nothing else. A guest request matches that case's pattern. Where does control go?",
     "options": [
-      "To the next case, like a `switch` without `break`",
+      "To the next case, as if the pattern had not matched",
       "Past the end of the match statement: once a block runs, no other case is tried",
       "Back to the first case",
       "It raises `MatchError`"

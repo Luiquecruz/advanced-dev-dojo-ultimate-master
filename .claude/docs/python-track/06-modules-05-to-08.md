@@ -127,30 +127,34 @@ Standard-library tour (`re`, `pathlib`, `decimal`, `datetime`, `json`, `enum`, `
 
 ### 03-pathlib-and-io (P, I)
 - Concept: `PurePosixPath` vs `Path`, `/` operator, `read_text/write_text`, `StringIO/BytesIO`, text vs binary modes, encoding argument, `tempfile`.
+- Common mistake: checking that a path stays inside a base directory with `str.startswith` on unresolved paths, which lets a sibling directory with the same prefix, `..` and symbolic links through; resolve both paths and use `is_relative_to()`.
 - Challenge: `build_path(*parts)` with `PurePosixPath`; `write_report(directory, rows)` writes CSV to a `Path` under the given directory and returns the path; `read_report(path)` returns rows; `copy_stream(source, target, chunk_size)` between `BytesIO` objects.
 - Tests use `/tmp/dojo-<unique>`; paths, round trip, chunking.
 - Notes: Pyodide file system is in memory.
 
 ### 04-numbers-decimal-and-fractions (P, I)
 - Concept: binary floating point error, `Decimal` contexts and `quantize`, `Fraction`, `round` (banker's), integer arbitrary precision, `//` and `%` with negatives.
-- Common mistake: money in `float` compared with `==` (`0.1 + 0.2 == 0.3` is `False`); use `Decimal` built from strings (`Decimal("0.10")`, not `Decimal(0.1)`), and `math.isclose` when floats must be compared. `round` rounds halves to even.
+- Common mistake: splitting or rounding money with floats (`total / people`, then rounding each share), which loses or invents cents; split integer cents with `divmod` and give the remainder to the first shares, or use `Decimal` built from strings (`Decimal("0.10")`, not `Decimal(0.1)`). `round` rounds halves to even.
 - Challenge: `split_bill(total_cents, people)` returns a list of ints summing exactly to total, distributing remainder from the first; `round_money(value)` → `Decimal` rounded `ROUND_HALF_UP`; `exact_ratio(text)` → `Fraction`.
 - Tests: sums; `0.1 + 0.2 != 0.3` documented via a test on `math.isclose`; rounding of 2.675 as Decimal vs float.
 
 ### 05-dates-and-times (P, I)
 - Concept: aware vs naive `datetime`, `timezone.utc`, `timedelta`, `fromisoformat`, `strftime`, never compare naive with aware.
+- Common mistake: adding `timedelta(days=30)` for a month, which drifts away from the calendar (January 31 plus one month becomes March 2); shift the month index and clamp the day with `calendar.monthrange`.
 - Challenge: `to_utc(text)` parses ISO text (with offset required, `ValueError` otherwise); `add_months(date, n)` clamping end of month; `age_in_days(start, end)`; clocks injected.
 - Tests: offsets normalize; naive input rejected; Jan 31 + 1 month = Feb 28/29; negative months.
 - Notes: do not use `zoneinfo` (no tz data in Pyodide by default).
 
 ### 06-json-and-serialization (P, I)
 - Concept: `json.dumps/loads`, `default=`, `object_hook`, `sort_keys`, `separators`, what is lossy (tuples → lists, int keys → strings, `NaN`).
+- Common mistake: ending `JSONEncoder.default` with `return str(o)`, which turns every unknown object into text inside the contract; handle the intended types and defer the rest to `super().default(o)`, which raises `TypeError`.
 - Challenge: `class DojoEncoder(json.JSONEncoder)` handling `datetime` (ISO), `Decimal` (string), dataclasses; `dumps_stable(value)` sorted keys, compact separators; `loads_with_decimals(text)` using `parse_float=Decimal`.
 - Tests: round trips; stable bytes for dict order; unknown types raise `TypeError`; floats become `Decimal`.
 - Notes: comes after 04-numbers-decimal-and-fractions and 05-dates-and-times, which teach the `Decimal` and aware `datetime` values the encoder handles.
 
 ### 07-enums (P, I)
 - Concept: `Enum`, `auto`, `StrEnum`, `IntEnum` pitfalls, `Flag`, `_missing_`, members are singletons compared with `is`.
+- Common mistake: numbering `Flag` members 1, 2, 3, which makes `DELETE` (3) an alias of `READ | WRITE`; use `auto()`, which gives one bit per member.
 - Challenge: `Status(StrEnum)` with `parse(text)` classmethod using `_missing_` for case-insensitive lookup; `Permission(Flag)` with `READ|WRITE`; `describe(flags)` returns sorted member names.
 - Tests: parsing; invalid raises `ValueError`; flag composition and membership; `IntEnum` equality with int documented.
 
@@ -163,6 +167,7 @@ Standard-library tour (`re`, `pathlib`, `decimal`, `datetime`, `json`, `enum`, `
 ### v2 backlog — 09-argparse-and-cli (P, I)
 Deferred: no `sys.argv` or shell in the sandbox, so the challenge would teach argparse through a stand-in. Spec kept for v2.
 - Concept: `ArgumentParser`, subcommands, types, defaults, `parse_args(argv)`, exit behavior (`SystemExit`), `main(argv)` returning an exit code.
+- Common mistake: letting the `SystemExit` that `parse_args` raises on bad input or `--help` escape from `main`; catch it and return its code.
 - Challenge: `build_parser()` with subcommands `add` and `list`; `main(argv, out)` returns 0/2 and writes to the `out` stream.
 - Tests: parsing results; unknown command raises `SystemExit` with code 2 (caught as `BaseException`); output captured.
 
@@ -179,16 +184,17 @@ Deferred ([03-curriculum.md](03-curriculum.md) "v2 backlog"). Spec kept for v2; 
 Question: when does `match` express intent better than `if/elif`, dict dispatch or polymorphism?
 
 ### 01-matching-map (Q, B)
-`match` is destructuring plus dispatch, not `switch`. Quiz: capture-vs-compare pitfalls.
+`match` is destructuring plus dispatch. Quiz: capture-vs-compare pitfalls.
 
 ### 02-sequence-and-mapping-patterns (P, I)
 - Concept: sequence patterns with `*rest`, mapping patterns (extra keys allowed), literals, wildcard, nested patterns.
-- Common mistake: expecting a mapping pattern to reject extra keys (`case {"type": "click"}` also matches a dict with more keys), or a sequence pattern to match a `str` (it never does); patterns check structure and bind names, they do not compare whole values.
+- Common mistake: matching `tokens[0]` and indexing the rest, which accepts extra tokens and raises `IndexError` for missing ones; match the whole value, so the pattern checks the length too. A mapping pattern accepts extra keys and a sequence pattern never matches a `str`.
 - Challenge: `parse_command(tokens)` → dict for `["move", x, y]`, `["say", *words]`, `["quit"]`, anything else → `ValueError`; `handle_event(event)` for mapping events `{"type": "click", "pos": (x, y)}` and `{"type": "key", "key": k}`.
 - Tests: each shape; extra keys tolerated; unknown shape raises.
 
 ### 03-class-patterns (P, I)
 - Concept: class patterns, `__match_args__`, dataclass auto `__match_args__`, positional vs keyword sub-patterns.
+- Common mistake: `case Square:` without parentheses, a capture pattern that matches every value instead of checking the type (before another case it is a `SyntaxError`); write `case Square():`.
 - Challenge: dataclasses `Circle`, `Rectangle`, `Square`; `area(shape)`; `describe(event)` for custom `__match_args__`; unknown type raises `TypeError`.
 - Tests: all shapes; positional vs keyword patterns; custom match args class.
 
@@ -200,6 +206,7 @@ Question: when does `match` express intent better than `if/elif`, dict dispatch 
 
 ### 05-walrus-and-loop-else (P, I)
 - Concept: `:=` in `while`/comprehensions/conditions, `for … else`, `try … else`, conditional expressions.
+- Common mistake: an `else` indented under the `if` inside the loop, which runs for the first item that does not match and ends the search; write the loop's `else` at the level of `for`.
 - Challenge: `read_chunks(read, size)` with `while chunk := read(size)`; `find_first(items, predicate)` using `for … else` returning `(index, item)` or `None`; `parse_pairs(lines)` with a walrus in a comprehension filter.
 - Tests: chunk boundaries with an empty final read; `for/else` not triggered by `break`; comprehension with walrus keeps parsed values.
 

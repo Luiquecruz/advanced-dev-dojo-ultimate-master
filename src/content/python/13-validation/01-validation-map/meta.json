@@ -1,12 +1,11 @@
 {
   "title": "Map: Validation with Pydantic v2",
-  "summary": "A guide to runtime validation for TypeScript developers: why annotations never check data, why untrusted input is parsed once at the boundary, how Pydantic compares with Zod, the path through this module and the validation decision it ends with.",
+  "summary": "A guide to runtime validation: why annotations never check data, why untrusted input is parsed once at the boundary, what a Pydantic model adds over a dataclass, the path through this module and the validation decision it ends with.",
   "level": "beginner",
   "tags": ["established", "core", "theory"],
   "resources": [
     { "label": "Pydantic 2.12: Models", "url": "https://pydantic.dev/docs/validation/2.12/concepts/models/" },
     { "label": "Alexis King: Parse, don't validate", "url": "https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/" },
-    { "label": "Zod: Basic usage", "url": "https://zod.dev/basics" },
     { "label": "OWASP Input Validation Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html" }
   ]
 }

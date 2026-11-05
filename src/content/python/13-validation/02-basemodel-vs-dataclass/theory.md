@@ -23,31 +23,41 @@ except ValidationError as error:
     # [(('id',), 'int_parsing'), (('email',), 'missing')]
 ```
 
-Both classes have the same annotations. Only the model reads them at runtime to build a validator.
-
-## Coming from TypeScript and JavaScript
-
-The habit that breaks is **trusting the annotation**, the Python version of a cast:
-
-```ts
-const user = JSON.parse(body) as User;           // compiles, checks nothing
-const parsed = UserSchema.parse(JSON.parse(body)); // Zod: parse, don't validate
-```
-
-A dataclass is the `as User` line: `UserRecord(**payload)` type-checks in your editor and accepts `"42"`, `None` or a nested dict at runtime. `BaseModel` is the Zod line: the class is the schema *and* the type, so there is no `z.infer` step. Two differences from Zod matter:
-
-- **Unknown keys.** `z.object()` strips unknown keys; a Pydantic model ignores them by default too. Neither fails, so a client can send `"is_admin": true` and you never hear about it. `z.strictObject()` rejects them; in Pydantic it is `model_config = ConfigDict(extra="forbid")`, which reports each one as `extra_forbidden`.
-- **Coercion.** Zod rejects `"42"` for `z.number()` unless you write `z.coerce.number()`. Pydantic's default **lax mode** converts it. The next lesson is about when that is right.
+Both classes have the same annotations. Only the model reads them at runtime to build a validator. `UserRecord(**payload)` passes a static checker in your editor and still accepts `"42"`, `None` or a nested dict at runtime: a dataclass trusts its caller.
 
 ## How it works
 
 - `User.model_validate(data)` validates a dict (or any object, with `from_attributes=True`); `User(id=..., email=...)` validates keyword arguments the same way. `User.model_validate_json(text)` parses and validates JSON in one pass.
 - **Errors are data.** `error.errors()` returns one dict per problem: `type` (a stable code such as `int_parsing`, `missing`, `extra_forbidden`), `loc` (a tuple path such as `("tags", 1)`), `msg` (human text that can change between versions) and `input` (the rejected value). Code that reacts to errors reads `type` and `loc`, never `msg`. `error.error_count()` gives the total: validation does not stop at the first failure.
+- **Unknown keys are ignored by default.** A model built with no config drops keys it does not declare, so a client can send `"is_admin": true` and nothing reports it. `model_config = ConfigDict(extra="forbid")` turns each one into an `extra_forbidden` error; `extra="allow"` keeps them on the instance.
+- **Coercion is on by default.** The default **lax mode** converts `"42"` to `42` for an `int` field. The next lesson is about when that is right and when a field must be strict.
 - **Defaults are copied.** `tags: list[str] = []` is safe on a model: Pydantic copies a mutable default for every instance. On a dataclass the same line raises `ValueError: mutable default ... use default_factory`, and in a plain function signature it is the shared-default bug of module 03.
 - **Dumping.** `model_dump()` returns a new dict; `include=`/`exclude=` choose fields. It never exposes the model's own `__dict__`, so editing the result leaves the model intact.
 - **`model_construct()` skips validation.** It exists to rebuild models from data you validated earlier. Called on request data, it gives you an object that *looks* validated and holds `id="42"`, a missing field or an extra `is_admin`: never use it on untrusted input.
 
 Pitfall: a validated model is not frozen. `user.id = "x"` is accepted unless the config sets `validate_assignment=True` or `frozen=True`.
+
+## Common mistakes
+
+**Expecting a dataclass to validate its input.** The annotations of a dataclass are labels: the generated `__init__` stores whatever it receives, so bad data travels on and fails far from the request that brought it:
+
+```py
+# wrong: the annotation is never checked, so "42" stays a string
+@dataclass
+class User:
+    id: int
+    email: str
+
+User(**{"id": "42", "email": "ada@example.com"}).id     # '42'
+
+# right: the model parses, coerces and reports every problem at the edge
+class User(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    id: int
+    email: str
+
+User.model_validate({"id": "42", "email": "ada@example.com"}).id   # 42
+```
 
 ## Legacy vs modern
 

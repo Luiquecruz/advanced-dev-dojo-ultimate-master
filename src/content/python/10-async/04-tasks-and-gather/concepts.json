@@ -1,6 +1,6 @@
 [
   { "term": "`asyncio.gather`", "description": "Runs awaitables concurrently and returns their results in argument order. The first error propagates; the other tasks keep running." },
-  { "term": "`return_exceptions=True`", "description": "Makes `gather` return exceptions as items of the result list instead of raising, like `Promise.allSettled`." },
+  { "term": "`return_exceptions=True`", "description": "Makes `gather` return exceptions as items of the result list instead of raising, so partial results survive a failure." },
   { "term": "`asyncio.wait`", "description": "Waits on a set of tasks and returns `(done, pending)` without raising or cancelling anything; `return_when` picks the condition." },
   { "term": "`Task.cancel()`", "description": "Requests cancellation: `CancelledError` is raised inside the task at its next `await`, so cleanup still runs." },
   { "term": "Task reference", "description": "The event loop keeps only weak references to tasks; keep a strong one (a variable, a set, a group) until the task is done." }

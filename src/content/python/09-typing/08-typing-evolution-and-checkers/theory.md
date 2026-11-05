@@ -27,25 +27,33 @@ def modern(tags: list[str] | None = None) -> None: ...      # same meaning
 
 A checker parses your code and its dependencies **without running them**, infers types, and reports calls, returns and attribute accesses that do not fit. It runs in the editor (language server) and in CI. It never runs inside your program, and **none runs in this sandbox**: every challenge in this module tested runtime introspection (`get_type_hints`, `__type_params__`, key sets, overload registries, protocol `isinstance`), not type checking. On a real project, add the checker as a CI step.
 
-Coming from TypeScript, the mapping is close:
+What a checker reports, on code that runs without any error until the bad value arrives:
 
-| TypeScript | Python |
+| Code | What the checker reports |
 | --- | --- |
-| `tsc` with `"strict": true` | mypy `--strict`, pyright `"typeCheckingMode": "strict"` |
-| `any` | `Any`: switches checking off, in both directions |
-| `unknown` | `object`: accepts everything, allows only what every object supports |
-| `.d.ts` files, DefinitelyTyped, `@types/x` | `.pyi` stub files, typeshed, `types-x` packages |
-| types ship in `package.json` `"types"` | a `py.typed` marker file in the package (PEP 561) |
+| `ship("A-17")` where `def ship(order_id: int)` | an argument of the wrong type |
+| `def find(...) -> str \| None` and then `find(x).upper()` | an attribute access on a value that may be `None` |
+| `def total(...) -> int: return "0"` | a return value that does not match the annotation |
+| `user.nmae` | an attribute the class does not have |
+| `def page(size: int = None)` | a default that does not fit the annotation |
+| `match` over a closed union with a missing case before `assert_never` | an unhandled variant |
 
-The big difference: `tsc` is usually part of the build and blocks it. A Python program with type errors still runs, so the checker only protects you if CI fails on its report.
+The vocabulary you meet in its settings and messages:
+
+- `Any` switches checking off, in both directions: everything is accepted from it and passed to it. `object` accepts every value but allows only what every object supports, so you narrow it first.
+- A **stub file** (`.pyi`) holds signatures only, for untyped or compiled code; **typeshed** collects stubs for the standard library and popular packages, published as `types-x` packages.
+- A **`py.typed`** marker file (PEP 561) tells checkers that an installed package ships inline annotations.
+- **Strict mode** (mypy `--strict`, pyright `"typeCheckingMode": "strict"`) requires annotations everywhere and rejects implicit `Any`.
+
+A Python program with type errors still runs, so the checker only protects you if CI fails on its report.
 
 ## The checkers
 
 - **mypy**: the first Python type checker (PEP 484 grew out of it), configurable per module, with plugins (Django, Pydantic) and incremental caching.
-- **pyright**: Microsoft's checker written in TypeScript; it powers Pylance in VS Code and is known for fast, precise inference.
-- **ty** (Astral, the makers of uv and ruff) and **pyrefly** (Meta): newer checkers written in Rust, aimed at very large codebases and editor speed.
+- **pyright**: Microsoft's checker; it powers Pylance in VS Code and is known for fast, precise inference.
+- **ty** (Astral, the makers of uv and ruff) and **pyrefly** (Meta): newer checkers built as compiled native tools, aimed at very large codebases and editor speed.
 
-> **Status as of November 2026:** mypy 2.4.1 (released 2026-10-28, [PyPI](https://pypi.org/project/mypy/)), pyright 1.1.414 (2026-09-09, [npm](https://www.npmjs.com/package/pyright)), pyrefly 1.4.0 (2026-10-15, [PyPI](https://pypi.org/project/pyrefly/); 1.0, the first stable release, shipped on 2026-05-12) and ty 0.0.97 (2026-11-04, [PyPI](https://pypi.org/project/ty/), still classified Beta). Versions move monthly or faster; check each project's changelog before pinning.
+> **Status as of November 2026:** mypy 2.4.1 (released 2026-10-28, [PyPI](https://pypi.org/project/mypy/)), pyright 1.1.414 (2026-09-09; the `pyright` package on [PyPI](https://pypi.org/project/pyright/) wraps the same release), pyrefly 1.4.1 (2026-11-05, [PyPI](https://pypi.org/project/pyrefly/); 1.0, the first stable release, shipped on 2026-05-12) and ty 0.0.98 (2026-11-05, [PyPI](https://pypi.org/project/ty/), still classified Beta). Versions move monthly or faster; check each project's changelog before pinning.
 
 Each checker infers a little differently, and new releases find new errors in unchanged code. Pin the checker version in your lock file and upgrade it on purpose, in its own change.
 

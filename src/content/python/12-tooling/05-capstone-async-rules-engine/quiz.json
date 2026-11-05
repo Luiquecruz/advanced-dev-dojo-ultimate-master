@@ -8,7 +8,7 @@
       "They are paused until the next event reuses them"
     ],
     "answer": 1,
-    "explanation": "`asyncio.wait` only reports which tasks finished, like `Promise.race`. Nothing cancels the rest. `asyncio.timeout` around a `TaskGroup` cancels every unfinished task and waits for its cleanup before the code after the block runs."
+    "explanation": "`asyncio.wait` only reports which tasks finished. Nothing cancels the rest. `asyncio.timeout` around a `TaskGroup` cancels every unfinished task and waits for its cleanup before the code after the block runs."
   },
   {
     "question": "A rule wrapper uses `except BaseException as error: errors.append(error)`. The event hits its deadline while one rule is waiting. What does the evaluation do?",

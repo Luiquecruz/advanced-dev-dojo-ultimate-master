@@ -24,18 +24,9 @@ class Transfer(BaseModel):
 print(Transfer(amount_cents=500, currency="eur", source="A", target="B").currency)   # EUR
 ```
 
-## Coming from TypeScript and JavaScript
-
-The Zod equivalents are `z.number().int().positive().max(...)`, `.regex()`, `.transform()` and `.refine()`/`.superRefine()` on the object:
-
-```ts
-const Signup = z.object({ password: z.string().min(12), confirm: z.string() })
-  .refine((v) => v.password === v.confirm, { path: ["confirm"], message: "mismatch" });
-```
-
-Two habits break. First, **validating after construction**: building the object, then calling `check(signup)` somewhere in the handler, the way a JS codebase often validates a plain object late. In Pydantic the rule belongs inside the model, so no code can hold an unchecked `Signup` and every error lands in the same `ValidationError`. Second, **echoing errors**: a Zod 4 issue carries `code`, `path` and `message`, and leaves out the rejected value unless you ask for it. A Pydantic error dict includes `input` by default, and `str(error)` prints `input_value=...`. Return `error.errors()` to a client and you may send a password back.
-
 ## How it works
+
+**Rules live in the model.** Building the object first and calling `check(signup)` somewhere in the handler leaves a window where code holds an unchecked `Signup`, and splits the errors between a `ValidationError` and whatever the check raises. Inside the model, no code can hold an invalid instance, and every problem lands in the same `ValidationError`.
 
 **Order of execution.** `mode="before"` model validators receive the raw input, of *any* type: a dict, a list, a string. Then each field runs its before validators, the type and constraint checks, and its after validators (the default `mode`). `mode="after"` model validators run last, and **only when every field is valid**: a model rule never sees half-validated data.
 
@@ -45,7 +36,23 @@ Two habits break. First, **validating after construction**: building the object,
 
 **Before validators must not mutate.** `data` may be the caller's own dict. Copy it before renaming keys, and return non-dict input untouched so the normal `model_type` error reports it instead of an `AttributeError`.
 
-**Safe error reports.** `error.errors(include_input=False, include_url=False, include_context=False)` keeps `type`, `loc` and `msg`. `ConfigDict(hide_input_in_errors=True)` only hides the input in `str(error)`; `errors()` still returns it. Never put the value into your own messages either: `f"{value!r} is not an email"` leaks it.
+**Safe error reports.** `error.errors(include_input=False, include_url=False, include_context=False)` keeps `type`, `loc` and `msg`, and the result survives `json.dumps`. Never put the value into your own messages either: `f"{value!r} is not an email"` leaks it.
+
+## Common mistakes
+
+**Returning `error.errors()` to the client unchanged.** Each error dict carries the rejected value under `input`, and `str(error)` prints `input_value=...`, so a 422 response sends the password back to whoever made the request, and into every log that records responses:
+
+```py
+# wrong: every error dict includes "input", the rejected password among them
+except ValidationError as error:
+    return error.errors()
+
+# right: keep type, loc and msg; drop the input, the URL and the context
+except ValidationError as error:
+    return error.errors(include_input=False, include_url=False, include_context=False)
+```
+
+`ConfigDict(hide_input_in_errors=True)` is not the fix: it hides the input in `str(error)` only.
 
 ## Legacy vs modern
 

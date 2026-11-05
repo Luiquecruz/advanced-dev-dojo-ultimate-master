@@ -14,49 +14,51 @@ async def main():
 asyncio.run(main())
 ```
 
-## Coming from TypeScript and JavaScript
+Each argument of `gather` is a coroutine object, a paused call; `gather` turns each one into a task, so they all start before the first one finishes.
 
-The combinators map almost one to one, with one difference that changes how you write them: **Python tasks can be cancelled, JavaScript promises cannot**.
+## How it works
 
-| JavaScript | asyncio | What happens to the others |
+Three combinators cover most needs. They differ in what they do with the other tasks when one finishes or fails:
+
+| Combinator | Returns | What happens to the others |
 | --- | --- | --- |
-| `Promise.all(ps)` | `gather(*aws)` | first error propagates; the others **keep running** |
-| `Promise.allSettled(ps)` | `gather(*aws, return_exceptions=True)` | exceptions come back as values in the list |
-| `Promise.race(ps)` | `wait(tasks, return_when=FIRST_COMPLETED)` | returns `(done, pending)`; pending tasks keep running until you cancel them |
+| `gather(*aws)` | values in argument order | the first error propagates at once; the others **keep running** |
+| `gather(*aws, return_exceptions=True)` | values and exception objects, in argument order | nothing is raised; every task runs to the end |
+| `wait(tasks, return_when=FIRST_COMPLETED)` | `(done, pending)` sets of tasks | the pending tasks **keep running** until you cancel them |
+| `as_completed(aws)` | results in finishing order | the rest keep running while you process each one |
 
-The habit that breaks is porting `Promise.race` literally. In JavaScript the losing promises cannot be stopped, so nobody tries. In Python they are tasks that keep holding connections, timers and memory until you cancel them:
-
-```ts
-const fastest = await Promise.race([primary(), replica()]);  // the loser keeps running, nothing to do about it
-```
-
-```py
-tasks = [asyncio.create_task(primary()), asyncio.create_task(replica())]
-done, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
-for task in pending:
-    task.cancel()                                     # request cancellation
-await asyncio.gather(*pending, return_exceptions=True)  # wait until they actually stopped
-fastest = done.pop().result()
-```
-
-`cancel()` only *requests* cancellation: the task receives `CancelledError` at its next `await` and may run `finally` blocks first. Awaiting the cancelled tasks is how you know the cleanup is over.
-
-The second habit is fire-and-forget. A JavaScript promise stays alive until it settles. The asyncio event loop keeps only **weak references** to tasks, so a task nobody references can be garbage collected before it finishes:
+- **`gather`** wraps plain coroutines in tasks. With `return_exceptions=True`, each failure takes its place in the result list as an exception object, so you split values from errors by type.
+- **`wait`** raises nothing. Since Python 3.11 it refuses bare coroutines: create the tasks yourself, which is also how you keep references to cancel them.
+- **`as_completed`** also works with `async for` since 3.13, yielding the original tasks.
+- **Results and errors** live on the task: `task.result()` returns the value or re-raises the exception; `task.exception()` returns it without raising.
+- **`cancel()` only requests cancellation**: the task receives `CancelledError` at its next `await` and may run `finally` blocks first. Awaiting the cancelled tasks is how you know the cleanup is over.
+- **The loop keeps only weak references to tasks.** A task nobody references can be garbage collected before it finishes, so keep fire-and-forget tasks in a set:
 
 ```py
-asyncio.create_task(send_metrics())        # may vanish mid-flight
 background = set()
 task = asyncio.create_task(send_metrics())
 background.add(task)                        # strong reference
 task.add_done_callback(background.discard)  # drop it when done
 ```
 
-## How it works
+## Common mistakes
 
-- **`gather`** wraps plain coroutines in tasks. Without `return_exceptions`, the first exception is raised in the awaiting task at once; the other tasks are **not** cancelled. With `return_exceptions=True`, nothing is raised: each failure takes its place in the result list as an exception object, so you can split values from errors by type.
-- **`wait(tasks, return_when=...)`** returns two sets of tasks and raises nothing. Since Python 3.11 it refuses bare coroutines: create the tasks yourself, which is also how you keep references to cancel them.
-- **`as_completed(aws)`** yields results in finishing order. Since 3.13 it also works with `async for`, yielding the original tasks.
-- **Results and errors** live on the task: `task.result()` returns the value or re-raises the exception; `task.exception()` returns it without raising.
+**Taking the winner of a race and leaving the losers running.** After `wait(..., FIRST_COMPLETED)` the pending tasks still hold connections, timers and memory, and a `cancel()` that is never awaited returns before their cleanup has run.
+
+```py
+# wrong: the replica keeps running in the background
+done, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+fastest = done.pop().result()
+
+# right: cancel the losers and wait until they have stopped
+done, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+for task in pending:
+    task.cancel()
+await asyncio.gather(*pending, return_exceptions=True)
+fastest = done.pop().result()
+```
+
+`return_exceptions=True` on that last `gather` collects each `CancelledError` instead of raising it.
 
 ## Legacy vs modern
 

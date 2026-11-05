@@ -1,6 +1,6 @@
 {
   "title": "Async Iterators and Context Managers",
-  "summary": "async for and async with await inside loops and cleanup, but break does not close an async generator the way it does in JavaScript. Build a lazy paginator, close generators deterministically with aclosing, and write a connection that always closes.",
+  "summary": "async for and async with await inside loops and cleanup, but break does not close an async generator: its finally waits for aclose(). Build a lazy paginator, close generators deterministically with aclosing, and write a connection that always closes.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

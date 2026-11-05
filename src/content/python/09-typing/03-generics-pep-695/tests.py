@@ -66,6 +66,7 @@ def _():
     assert swapped == (2, 1)
 
 
+# beginner mistake: a bound T: int | str where the constraint list T: (int, str) was meant
 @test("Box's type parameter is constrained to exactly int or str")
 def _():
     params = mod.Box.__type_params__

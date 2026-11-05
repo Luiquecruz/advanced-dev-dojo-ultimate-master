@@ -15,33 +15,23 @@ retry(lambda: "ok", attempts="3")   # TypeError raised by range(), not by the an
 
 The objects are real: `list[str]` is a `types.GenericAlias` whose `__origin__` is `list`, and `float | None` is a `typing.Union` object. That is why runtime code can read them.
 
-## Coming from TypeScript and JavaScript
+## How it works
 
-Most TypeScript shapes have a direct spelling:
-
-```ts
-function countWords(items: string[], limit?: number): Record<string, number> { ... }
-function merge(base: Record<string, number>, ...overrides: Record<string, number>[]): Record<string, number> { ... }
-const apply = (values: number[], transform: (value: number) => number): number[] => values.map(transform);
-```
+The common shapes, written the modern way:
 
 ```py
+from collections.abc import Callable
+
 def count_words(items: list[str], limit: int | None = None) -> dict[str, int]: ...
-def merge(base: dict[str, int], *overrides: dict[str, int]) -> dict[str, int]: ...
+def merge(base: dict[str, int], *overrides: dict[str, int], strict: bool = False) -> dict[str, int]: ...
 def apply_all(values: list[int], transform: Callable[[int], int]) -> list[int]: ...
 ```
 
-Two habits break:
-
-- **`limit?: number` is not `limit: int = None`.** In TypeScript the `?` adds `undefined` to the type. In Python a default value never changes the annotation: `limit: int = None` declares `int`, and since Python 3.11 `get_type_hints` returns `int`, not `int | None`. Write the `None` into the type.
-- **Rest parameters annotate the element, not the array.** `...overrides: Record<string, number>[]` annotates the array; `*overrides: dict[str, int]` annotates **each** argument (`overrides` itself is a `tuple`). The same holds for `**options: str`, where each value is a `str`.
-
-And where TypeScript returns `this` for chaining, Python writes `-> Self` (PEP 673, Python 3.11): the result is the class of the receiver, so a subclass keeps its own type.
-
-## How it works
-
 - `function.__annotations__` (or `cls.__annotations__`) is the raw dict of evaluated annotations. A variable annotation in a class body (`name: str`) is recorded there without creating a class attribute.
 - `typing.get_type_hints(obj)` is the consumer-friendly view: it resolves string annotations and forward references, turns `None` into `NoneType`, merges base classes for a class, and strips `Annotated` extras unless `include_extras=True`. Prefer it whenever code reads annotations.
+- **A default never changes the annotation.** `limit: int = None` declares `int`, and since Python 3.11 `get_type_hints` returns `int`, not `int | None`. When `None` is a valid value, it belongs in the type.
+- **Variadic parameters annotate one element.** `*overrides: dict[str, int]` says that **each** extra argument is a `dict[str, int]`; `overrides` itself is a `tuple`. In the same way, `**options: str` makes every keyword value a `str`.
+- `-> Self` (PEP 673, Python 3.11) means "the class of the receiver": a method that returns `self` keeps a subclass's own type, so chained calls on a subclass stay typed as that subclass.
 - Equality is structural: `get_type_hints(f)["items"] == list[str]` is true. `typing.List[str] == list[str]` is **false** (different alias classes). `typing.Optional[int] == int | None` is true (on 3.14 both spellings even build the same `typing.Union` class), so only a look at the source can tell the old spelling apart.
 - `Callable[[int], int]` lists the parameter types, then the result; `Callable[..., str]` accepts any arguments.
 
@@ -49,6 +39,20 @@ Pitfalls:
 
 - An annotation is not a conversion: `count: int` does not turn `"3"` into `3`.
 - `typing.Callable[[int], int] == collections.abc.Callable[[int], int]` is false; pick the `collections.abc` one.
+
+## Common mistakes
+
+**A `None` default without `None` in the type.** The function works, because nothing checks the annotation, but every reader of the annotations is told `None` is not allowed: a checker reports the default itself as an error, and a validator or schema built from `get_type_hints` rejects `None` or marks the field as required.
+
+```py
+# wrong: the annotation says int, the default says None
+def count_words(items: list[str], limit: int = None) -> dict[str, int]: ...
+
+# right: None is part of the type
+def count_words(items: list[str], limit: int | None = None) -> dict[str, int]: ...
+```
+
+The second slip is annotating the collection on a variadic parameter: `*overrides: tuple[dict[str, int], ...]` declares that each extra argument is itself a tuple.
 
 ## Legacy vs modern
 

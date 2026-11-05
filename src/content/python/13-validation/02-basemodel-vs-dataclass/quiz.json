@@ -30,7 +30,7 @@
       "It overrides a class attribute of the same name"
     ],
     "answer": 0,
-    "explanation": "The default is `extra=\"ignore\"`, like Zod's `z.object()` stripping keys. `ConfigDict(extra=\"forbid\")` turns each unknown key into an error; `\"allow\"` keeps them."
+    "explanation": "The default is `extra=\"ignore\"`, which drops unknown keys without a word. `ConfigDict(extra=\"forbid\")` turns each unknown key into an error; `\"allow\"` keeps them."
   },
   {
     "question": "Why is `User.model_construct(**request_json)` dangerous in a request handler?",

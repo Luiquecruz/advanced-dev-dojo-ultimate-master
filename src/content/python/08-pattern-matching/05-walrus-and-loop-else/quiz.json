@@ -46,7 +46,7 @@
   {
     "question": "After `results = [y for x in [1, 2, 3] if (y := x * 10) > 15]` at module level, what are `results` and `y`?",
     "options": [
-      "`[20, 30]` and `y` is undefined outside the comprehension",
+      "`[20, 30]` and `y` does not exist outside the comprehension",
       "`[20, 30]` and `y == 30`",
       "`[10, 20, 30]` and `y == 30`",
       "A `SyntaxError`"

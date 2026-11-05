@@ -1,6 +1,6 @@
 {
   "title": "Protocols and Structural Typing",
-  "summary": "Python classes are nominal; Protocol opts into TypeScript-style structural matching. Replace a base class and an ABC with runtime-checkable protocols so widgets and resources from any team match by shape, and learn what isinstance can and cannot check.",
+  "summary": "Python classes are nominal; Protocol opts into structural matching by shape. Replace a base class and an ABC with runtime-checkable protocols so widgets and resources from any team match by shape, and learn what isinstance can and cannot check.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

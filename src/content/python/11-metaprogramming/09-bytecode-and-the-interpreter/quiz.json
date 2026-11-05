@@ -30,7 +30,7 @@
       "It breaks silently on upgrades, because bytecode changes every minor release (3.14 added `LOAD_FAST_BORROW` and `LOAD_SMALL_INT` and folded `BINARY_SUBSCR` into `BINARY_OP`); analyze the source with `ast` instead"
     ],
     "answer": 3,
-    "explanation": "The `dis` docs promise nothing across versions. `ast` describes what the code says, `inspect` describes callables, and `sys.monitoring` gives stable runtime hooks."
+    "explanation": "The `dis` docs guarantee nothing across versions. `ast` describes what the code says, `inspect` describes callables, and `sys.monitoring` gives stable runtime hooks."
   },
   {
     "question": "A container image runs `python -m compileall` with Python 3.13 at build time, but the runtime image uses Python 3.14 on a read-only filesystem. What happens at startup?",

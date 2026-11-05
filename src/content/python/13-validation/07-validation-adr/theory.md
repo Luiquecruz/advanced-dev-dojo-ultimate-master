@@ -4,9 +4,9 @@ This module answered one question: **when does data need runtime parsing instead
 
 The checkpoint turns those mechanisms into the validation strategy of a small system: an **Architecture Decision Record** plus a **plan** whose numbers come from the briefing.
 
-## Coming from TypeScript and JavaScript
+## Parse at the edge, trust inside
 
-A TypeScript team would write the same architecture with Zod: `schema.parse` at the HTTP edge, `z.toJSONSchema()` for partner documentation, and plain TypeScript types inside, erased at runtime and trusted because the edge parsed. Python has the same shape with one difference: the inside is not erased. A frozen dataclass is a real object a checker can verify statically and nobody can mutate, and between services, where TypeScript would parse again with Zod, Python validates the message with a strict `TypeAdapter` or model.
+The architecture has the same shape at every scale: parse at the edge, then pass typed objects inside. Inside, the guarantee does not rest on trust alone: a frozen dataclass is a real object that a checker can verify statically and nobody can mutate after parsing. Between services, each receiving service validates the message again with a strict `TypeAdapter` or model, because another team's code is outside its control.
 
 ## The decision checklist
 

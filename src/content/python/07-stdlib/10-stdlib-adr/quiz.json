@@ -8,7 +8,7 @@
       "`0.015` and `Decimal(\"0.015\")`"
     ],
     "answer": 2,
-    "explanation": "The float product is the nearest double to 0.015, which is just below it, so `round` goes down. `Decimal` multiplies exactly and `ROUND_HALF_UP` takes the half cent up. Over 2.4 million lines that is 24 000 EUR."
+    "explanation": "The float product is the nearest binary float to 0.015, which is just below it, so `round` goes down. `Decimal` multiplies exactly and `ROUND_HALF_UP` takes the half cent up. Over 2.4 million lines that is 24 000 EUR."
   },
   {
     "question": "Offices report times in `+00:00`, `-05:00`/`-04:00` (daylight saving) and `-04:00`/`-03:00`. How many distinct UTC offsets must the tool handle, and what follows?",
@@ -33,7 +33,7 @@
     "explanation": "Limits count bytes. `ü` is one character but two bytes in UTF-8, and six characters (`\\u00fc`) with `ensure_ascii=True`. Measure the encoding the contract specifies."
   },
   {
-    "question": "Carriers upload usage files to a shared folder, and three teams in different languages read the export. Which serialization fits?",
+    "question": "Carriers upload usage files to a shared folder, and three teams read the export, only one of them with Python. Which serialization fits?",
     "options": [
       "JSON through a `json.JSONEncoder` subclass that handles `Decimal` and `datetime` and raises `TypeError` on anything else",
       "`pickle`, because it keeps `Decimal` and `datetime` types",

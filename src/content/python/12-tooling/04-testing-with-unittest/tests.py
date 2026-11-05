@@ -85,6 +85,7 @@ def _():
     assert caught, "no test noticed that quote(250, 0) no longer raises InvalidQuote"
 
 
+# beginner mistake: patching rates.fetch_rate, where the function is defined, so quote still calls the real service
 @test("the suite fails when the conversion ignores the rate or asks for the wrong currency, and never calls the real fetch_rate")
 def _():
     ignored = run_mutant("ignored rate")

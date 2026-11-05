@@ -23,26 +23,6 @@ def area(shape):
             raise TypeError(f"unsupported shape: {type(shape).__name__}")
 ```
 
-## Coming from TypeScript and JavaScript
-
-TypeScript narrows a union with a tag (`switch (shape.kind)`) or with `instanceof` in an `if` chain, and destructuring reads any property by name. Two habits break:
-
-```ts
-if (shape instanceof Square) return shape.side ** 2;   // no parentheses needed
-const { x, y } = click;                                  // works on any object
-```
-
-```py
-match shape:
-    case Circle(radius=r):
-        return math.pi * r**2
-    case Square:                 # not a type check: a capture that matches anything
-        return shape.side**2     # "hexagon" now fails with AttributeError
-```
-
-- `case Square:` without parentheses is a **capture pattern**: it binds the subject to a new local variable called `Square`. Followed by another case it is a `SyntaxError` ("name capture 'Square' makes remaining patterns unreachable"). As the last case it compiles and silently accepts every value, so the `TypeError` for unknown shapes never happens. The type check is `case Square():`.
-- Positional sub-patterns are not constructor-order destructuring. `Click(x, y)` works only when `Click.__match_args__` says which attributes positions 1 and 2 mean. A plain class has no `__match_args__`, and the match raises `TypeError: Click() accepts 0 positional sub-patterns (2 given)` when it reaches that case.
-
 ## How it works
 
 For `case Cls(p1, p2, key=p3):` Python:
@@ -51,7 +31,7 @@ For `case Cls(p1, p2, key=p3):` Python:
 2. Maps the positional sub-patterns to attribute names through `Cls.__match_args__`, a tuple of strings. More positional sub-patterns than names raises `TypeError`.
 3. Reads each attribute. An `AttributeError` makes the case fail quietly; any other exception propagates. Each value must then match its sub-pattern.
 
-Keyword sub-patterns work on any class, with or without `__match_args__`. Positional ones come first, and a positional plus a keyword sub-pattern for the same attribute raise `TypeError`.
+Positional sub-patterns do not follow the order of the constructor's parameters: `Click(x, y)` works only when `Click.__match_args__` says which attributes positions 1 and 2 mean. A plain class has no `__match_args__`, and the match raises `TypeError: Click() accepts 0 positional sub-patterns (2 given)` when it reaches that case. Keyword sub-patterns work on any class, with or without `__match_args__`. Positional ones come first, and a positional plus a keyword sub-pattern for the same attribute raise `TypeError`.
 
 **Dataclasses generate `__match_args__`** (the `match_args` parameter, added in Python 3.10 and true by default) from the non-keyword-only parameters of the generated `__init__`, in field order. Fields marked `kw_only` or placed after `KW_ONLY` are left out, and a class that already defines `__match_args__` keeps its own. For a plain class, write it by hand and list only the attributes with a natural order:
 
@@ -75,6 +55,29 @@ Pitfalls:
 
 - Order matters with inheritance: `case Base():` placed before `case Derived():` catches the derived instances first.
 - `__match_args__` is public API. Reordering it silently changes the meaning of every positional pattern written against the class.
+
+## Common mistakes
+
+**Writing `case Square:` without parentheses.** A bare name is a **capture pattern**, not a type check: it binds the subject to a new local variable called `Square` and matches every value. Followed by another case it is a `SyntaxError` ("name capture 'Square' makes remaining patterns unreachable"); as the last case it compiles and silently accepts anything:
+
+```py
+# wrong: area("hexagon") raises AttributeError instead of TypeError,
+# and any object with a side attribute counts as a square
+match shape:
+    case Circle(radius=r):
+        return math.pi * r**2
+    case Square:
+        return shape.side**2
+
+# right: parentheses make it an isinstance check, and the wildcard refuses the rest
+match shape:
+    case Circle(radius=r):
+        return math.pi * r**2
+    case Square(side=s):
+        return s**2
+    case _:
+        raise TypeError(f"unsupported shape: {type(shape).__name__}")
+```
 
 ## When to choose it
 

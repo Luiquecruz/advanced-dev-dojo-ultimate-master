@@ -82,6 +82,7 @@ async def _():
     assert result == "quick"
 
 
+# beginner mistake: returning the winner without cancelling and awaiting the pending tasks, so the losers keep running
 @test("first_done cancels the other coroutines and waits for them before returning")
 async def _():
     recorder = []
