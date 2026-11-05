@@ -88,6 +88,8 @@ elif total < 2000:     # never reached
 
 if total < 2000:       # right: narrowest first
     cost = 595
+elif total < 5000:
+    cost = 395
 elif total < 10000:
     cost = 195
 ```

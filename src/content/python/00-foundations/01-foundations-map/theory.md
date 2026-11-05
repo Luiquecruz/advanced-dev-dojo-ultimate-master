@@ -18,14 +18,14 @@ Text after `#` is a **comment**: Python ignores it, people read it.
 
 Every practice lesson has a challenge with two files:
 
-- `main.py` holds the functions you write. The **tests** import it and check each function. A test passes when the function gives back the right value.
+- `main.py` holds the functions you write. The **tests** import it and check each function.
 - `demo.py` is a short script that uses your functions. The **Run** button executes it and shows what it prints, so you can watch your code work before you run the tests.
 
 In the starter code, a comment inside each function says what is left to write.
 
 ## `return` versus `print`
 
-`print(value)` shows a value on the screen and gives nothing back. `return value` ends a function and hands the value to whoever called it. Tests check returned values, so a function that prints its answer instead of returning it fails, even when the screen looks right.
+`print(value)` shows a value on the screen and gives nothing back. `return value` ends a function and hands the value to whoever called it. Tests usually check the returned value, sometimes the printed output, so a function that prints its answer instead of returning it fails, even when the screen looks right.
 
 ## Reading an error
 

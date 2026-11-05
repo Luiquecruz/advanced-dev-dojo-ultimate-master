@@ -21,7 +21,7 @@ Teach the **mental model of Python 3.14** to learners with no prior programming 
 | Module 00 | `00-foundations`, "Foundations: Python from Zero", `"optional": true`: a map and 8 practice lessons for learners who have never programmed; the challenge of its last lesson is the skip test | Counts toward progress only once started, so experienced learners still reach 100% ([14-module-00-foundations.md](14-module-00-foundations.md)) |
 | Releases | **MVP = modules 01–04** (36 lessons, first release); Core = 01–08 (65); Advanced = 09–12 (29) | Ship a coherent slice early, re-plan from measured velocity |
 | Visibility | `TRACK_FLAGS.python = false` until the MVP gate (G4) | No half-built track in the carousel |
-| Module shape | Map (quiz) → practice lessons → closing lesson. ADR checkpoints **only in modules 01, 02, 04, 06, 09, 10**; modules 03 and 05 close with a code integration challenge | ADRs only where a real architectural decision exists (D3) |
+| Module shape | Map (quiz) → practice lessons → closing lesson. ADR checkpoints close every module except 00 (it ends with the skip-test challenge) and 12 (it ends with the capstone): 12 ADRs, placed after the module's code integration challenge when there is one ([03-curriculum.md](03-curriculum.md)) | Each ADR has a computed field tied to a real architectural decision (D3) |
 | ADR format | Every `PLAN` has a numeric field computed from the briefing; briefing numbers coherent; test names neutral | Enum-only plans can be brute-forced and test names leaked answers ([02-content-standards.md](02-content-standards.md)) |
 | Source checks | `ast`, never regex over raw text | Regex matches comments and docstrings (D7) |
 | Annotations | Allowed in solutions from module 03; `01-functions-map` states they are not enforced at runtime | Matches modern Python and teaches early that hints are not checked at runtime (D5) |
@@ -86,7 +86,7 @@ All 94 planned lessons are on `main`; `npm run verify` passes with every Python 
 | `tests/tests.py`, `solution/solution.py` | `tests.py` next to `starter/` and `solution/`, both with `main.py` | Loader contract |
 | `assert_equal` helper injected | Not needed | `dojo_harness.py` introspects comparisons |
 | 20 stand-alone quiz lessons | Quiz inside practice lessons; quiz-only lessons for theory topics | CONTENT_GUIDE |
-| One capstone ADR | Six module ADRs with computed fields, plus a code capstone with a short ADR | AI Engineering pattern, limited to modules with a real decision |
+| One capstone ADR | Twelve module ADRs with computed fields, plus a code capstone with a short ADR | AI Engineering pattern, each tied to a real decision |
 | mypy challenges (`type_check()`) | Runtime-checkable typing challenges (`get_type_hints`, `Protocol`, `TypedDict`) | mypy does not run in Pyodide |
 | `asyncio.to_thread`, `venv` and `sys.prefix` challenges | Theory/quiz or injected-dependency challenges | Pyodide has no threads and no real venv |
 | `dis` opcode-count and `256 is 256` asserts | Behavioral asserts only | Implementation details vary by version and compile-time folding |

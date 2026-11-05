@@ -21,7 +21,7 @@ sorted(words, key=len)     # ['fig', 'pear', 'apple']: by length
 
 **`lambda`** writes a small function without a name, made of a single expression: `lambda score: -score` takes a number and returns it with the opposite sign. It is handy for a `key`: `sorted([7, 9, 4], key=lambda score: -score)` gives `[9, 7, 4]`, largest first. When the function needs more than one expression, use `def`.
 
-**Returning a function.** A function can build another function and return it. The inner function **remembers** the values around it when it was created, so each call of the outer function gives a different one:
+**Returning a function.** A function can build another function and return it. The inner function keeps access to the names around it, such as `greeting`, and reads them when it is called, so each call of the outer function gives a different one:
 
 ```py
 def make_greeter(greeting):
@@ -33,7 +33,7 @@ hello = make_greeter("hello")
 hello("ana")               # 'hello, ana'
 ```
 
-Module 03 explains exactly what an inner function remembers (closures).
+Module 03 explains exactly how an inner function keeps those names (closures).
 
 **Any number of arguments.** A parameter written `*amounts` collects every extra positional argument into a tuple; parameters after it can only be passed by keyword. `**options` collects extra keyword arguments into a dict (lesson 07). Module 03 covers the full rules:
 

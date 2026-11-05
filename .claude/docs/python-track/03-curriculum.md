@@ -19,12 +19,12 @@ This table is the source for the `## Python` section of [CURRICULUM.md](../CURRI
 
 ```
 (foundations, optional) → object-model → collections → functions → classes → iteration → context-and-errors → stdlib
-        → pattern-matching → typing → async → metaprogramming → tooling (+capstone)
+        → pattern-matching → typing → async → metaprogramming → tooling (+capstone) → validation
 ```
 
 Every module depends only on earlier ones. Module 00 teaches the basics that modules 01–13 assume (values, loops, functions, strings and lists, dicts and sets, exceptions, classes); a learner who solves the challenge of `00-foundations/09-classes-and-objects` without the hints starts at module 01, and the optional module counts toward progress only once a lesson with a challenge other than that last one is complete (lessons 02 to 08; the quiz-only map does not start it). Typing sits after classes and iteration because `Protocol`, descriptors and generics assume the data model. Annotations still appear in solutions from module 03 on, and `01-functions-map` states that they are not enforced at runtime. Async comes after typing and context managers (`async with`, `ExceptionGroup`). Metaprogramming comes after everything it hooks into. Inside a module the intended progression is the same: a lesson uses only what earlier lessons taught, so dataclasses come before `__slots__` (a `slots=True` dataclass), exception hierarchies and chaining before the `with` protocol, numbers and dates before `json` (encoders for `Decimal` and aware `datetime`), and async iterators and context managers before tasks and task groups (`async with`). Two lessons use something module 07 teaches and explain it where it is used: `03-chaining-and-notes` introduces `json.loads` and `json.JSONDecodeError` in its theory, and `05-contextmanager-decorator` describes `io.StringIO` in its challenge.
 
-ADR checkpoints close every module except 00, which ends with the skip-test challenge, and 12, which closes the track with the capstone. In v1 only modules 01, 02, 04, 06, 09 and 10 had one; v2 adds the ADRs of modules 03, 05, 07, 08, 11 and 13, each placed after the module's code integration challenge when there is one.
+ADR checkpoints close every module except 00, which ends with the skip-test challenge, and 12, which ends with the capstone. In v1 only modules 01, 02, 04, 06, 09 and 10 had one; v2 adds the ADRs of modules 03, 05, 07, 08, 11 and 13, each placed after the module's code integration challenge when there is one.
 
 ## 00-foundations — Foundations: Python from Zero (9)
 

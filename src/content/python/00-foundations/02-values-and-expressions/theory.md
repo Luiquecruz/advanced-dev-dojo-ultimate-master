@@ -61,7 +61,7 @@ name = "mug"
 f"{name!r}"                # "'mug'", with quotes
 ```
 
-**Functions in the challenge.** The challenge gives you small **functions**: named pieces of code that receive values (parameters) and hand back a result with `return`. Lesson 04 explains them; for now, fill in the expression after `return`:
+**Functions in the challenge.** The challenge gives you small **functions**: named pieces of code that receive values (parameters) and hand back a result with `return`. Lesson 04 explains them; for now, fill in the expression after `return`. `print_receipt` is the exception: it calls `print` twice and has no `return`, so it gives back `None`:
 
 ```py
 def line_total(price_cents, quantity):

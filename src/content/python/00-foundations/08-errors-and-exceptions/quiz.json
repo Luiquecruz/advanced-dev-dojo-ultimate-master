@@ -46,12 +46,12 @@
   {
     "question": "When does the `else` block of a `try` statement run?",
     "options": [
-      "Only when the `try` block raised no exception",
+      "When the `try` block finishes normally: no exception and no `return`, `break` or `continue`",
       "Only when an `except` clause ran",
       "Always, like `finally`",
       "Only when no `except` clause matched"
     ],
     "answer": 0,
-    "explanation": "`else` runs after a `try` block that finished without an exception. Code placed there is not covered by the `except` clauses, so its own errors are not caught by mistake."
+    "explanation": "`else` runs only when control reaches the end of the `try` block: no exception was raised and no `return`, `break` or `continue` left it early. Code placed there is not covered by the `except` clauses, so its own errors are not caught by mistake."
   }
 ]

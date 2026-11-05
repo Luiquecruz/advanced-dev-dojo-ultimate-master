@@ -14,7 +14,7 @@ print(len(scores))      # 4
 
 ## How it works
 
-**String methods return new strings.** A string never changes after it is created (it is *immutable*), so every method hands back a new string and leaves the original alone:
+**String methods never change the string.** A string never changes after it is created (it is *immutable*): methods that transform text hand back a new string and leave the original alone, and others return a different kind of value, such as `True` from `startswith` or a list from `split`:
 
 ```py
 raw = "  Hello, World!  "

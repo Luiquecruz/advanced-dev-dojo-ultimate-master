@@ -1,6 +1,6 @@
 def apply_discount(price_cents, percent=0):
     """Return the price after the discount, in whole cents."""
-    # TODO: make 10 the default percent and return the discounted price, rounded down.
+    # TODO: make 10 the default percent and subtract the discount, rounded down to whole cents.
     return price_cents
 
 

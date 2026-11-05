@@ -8,7 +8,7 @@
       "Nothing until every test passes"
     ],
     "answer": 1,
-    "explanation": "Run executes `demo.py` and shows its output. The tests import `main.py` and check the values your functions return."
+    "explanation": "Run executes `demo.py` and shows its output. The tests import `main.py` and check what your functions do."
   },
   {
     "question": "A function computes the right total and shows it with `print(total)`, but the test fails. Why?",
@@ -19,7 +19,7 @@
       "The total must be written as text"
     ],
     "answer": 2,
-    "explanation": "`print` shows a value and gives nothing back. Tests check what the function returns, so the function must end with `return total`."
+    "explanation": "`print` shows a value and gives nothing back. This test checks what the function returns, so the function must end with `return total`."
   },
   {
     "question": "A traceback ends with `NameError: name 'totl' is not defined`. Where do you start reading?",

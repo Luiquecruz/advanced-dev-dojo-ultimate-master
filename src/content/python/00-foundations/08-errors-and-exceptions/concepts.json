@@ -2,6 +2,6 @@
   { "term": "Traceback", "description": "The report Python prints for an unhandled exception: read it from the last line, which names the type and message, up through the calls that led there." },
   { "term": "`raise`", "description": "`raise ValueError(\"message\")` stops the function and sends the exception to the caller; a bare `raise` inside `except` re-raises the current one." },
   { "term": "`try` / `except`", "description": "Runs a block and handles the exceptions whose type matches a clause; a tuple such as `except (ValueError, TypeError):` handles several." },
-  { "term": "`else` and `finally`", "description": "`else` runs only when the `try` block raised nothing; `finally` runs in every case, even after `return` or an unhandled exception." },
+  { "term": "`else` and `finally`", "description": "`else` runs only when the `try` block finishes normally, with no exception and no early `return`, `break` or `continue`; `finally` runs in every case, even after `return` or an unhandled exception." },
   { "term": "Catch-all", "description": "`except Exception:` or a bare `except:` also swallows bugs; catch the specific types you know how to handle." }
 ]

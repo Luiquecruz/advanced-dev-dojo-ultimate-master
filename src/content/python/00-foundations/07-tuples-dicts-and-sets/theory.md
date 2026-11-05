@@ -13,7 +13,7 @@ print("python" in tags)                 # True
 
 **Tuples** are made by the commas; the parentheses only group them. A tuple can be indexed and sliced like a list, but it cannot be changed, which makes it the right shape for values that belong together, such as two results returned by one function. Unpack it into names with `name, price = pair`. A tuple with one item needs a trailing comma: `("tea",)`. Tuples compare item by item: `(2, "b") < (2, "c")` because the first items tie and `"b"` comes before `"c"`.
 
-**Dicts** find a value by its key. Keys must be values that never change, such as strings, numbers or tuples; a list cannot be a key.
+**Dicts** find a value by its key. Keys must be *hashable*: values that never change, such as strings, numbers, or tuples whose items are hashable too. A list cannot be a key, and neither can a tuple that holds a list.
 
 ```py
 stock = {"tea": 3}

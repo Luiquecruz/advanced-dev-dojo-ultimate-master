@@ -8,7 +8,12 @@ def init_calls_super(class_name):
             for method in node.body:
                 if isinstance(method, ast.FunctionDef) and method.name == "__init__":
                     return any(
-                        isinstance(inner, ast.Call) and isinstance(inner.func, ast.Name) and inner.func.id == "super"
+                        isinstance(inner, ast.Call)
+                        and isinstance(inner.func, ast.Attribute)
+                        and inner.func.attr == "__init__"
+                        and isinstance(inner.func.value, ast.Call)
+                        and isinstance(inner.func.value.func, ast.Name)
+                        and inner.func.value.func.id == "super"
                         for inner in ast.walk(method)
                     )
     return False

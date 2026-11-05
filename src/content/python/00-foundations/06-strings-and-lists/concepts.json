@@ -1,7 +1,7 @@
 [
   { "term": "Index", "description": "The position of an item, counted from 0; a negative index counts from the end, so `text[-1]` is the last character." },
   { "term": "Slice", "description": "`seq[start:stop:step]` copies part of a sequence, from `start` up to but not including `stop`; it never raises `IndexError`." },
-  { "term": "Immutable string", "description": "A `str` never changes: `strip`, `lower`, `replace` and the other methods return a new string." },
+  { "term": "Immutable string", "description": "A `str` never changes: `strip`, `lower` and `replace` return a new string, and no method changes the original." },
   { "term": "`sort()` versus `sorted()`", "description": "`items.sort()` reorders the list itself and returns `None`; `sorted(items)` returns a new list and leaves `items` alone." },
   { "term": "List comprehension", "description": "`[expression for item in iterable if condition]` builds a list in one expression, like a loop that only appends." }
 ]
