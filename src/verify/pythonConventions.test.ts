@@ -139,8 +139,10 @@ function checkResources(lesson: Lesson, kind: Kind): Violation[] {
     seen.add(url);
   }
   if (kind === 'adr') {
-    const urls = lesson.resources.map((resource) => resource.url).join(' ');
-    if (!urls.includes('cognitect.com') || !urls.includes('adr.github.io/madr')) {
+    const urls = lesson.resources.flatMap((resource) => (URL.canParse(resource.url) ? [new URL(resource.url)] : []));
+    const citesNygard = urls.some((url) => url.hostname === 'cognitect.com' || url.hostname.endsWith('.cognitect.com'));
+    const citesMadr = urls.some((url) => url.hostname === 'adr.github.io' && url.pathname.startsWith('/madr'));
+    if (!citesNygard || !citesMadr) {
       violations.push({ rule: 'adr-resources', detail: 'ADR resources must cite Nygard (cognitect.com) and MADR (adr.github.io/madr)' });
     }
   }

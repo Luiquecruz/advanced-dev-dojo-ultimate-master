@@ -94,7 +94,7 @@ learner actions ─► progress.* (entities/progress) ─► localStorage + useP
 The app never imports lesson files directly. `plugins/contentPlugin.ts` reads `src/content/<track>/**`, runs `buildTracks` and `splitCatalog`, and serves two kinds of virtual modules:
 
 - `virtual:dojo-content`: the catalog (track meta, modules and `LessonEntry` items with `hasChallenge`/`hasQuiz`) plus `lessonLoaders`, one dynamic import per lesson. It is the only content in the initial load.
-- `virtual:dojo-content/lesson/<track>/<lesson>`: the lesson body (theory, concepts, variants, quiz, resources), one chunk per lesson.
+- `virtual:dojo-content/lesson/<track>/<lesson>`: the lesson body (theory, concepts, variants, quiz, resources), one chunk per lesson. Both are generated as JavaScript by `plugins/contentPlugin.ts`; every value goes through `jsLiteral` (JSON with `<`, `>`, `/`, U+2028 and U+2029 escaped), so lesson text can never close a string or a script context in the generated code.
 
 `loadLesson(entry)` (`content/index.ts`) imports the body once and caches the promise; `restoreLesson` rebuilds `challenge` as `variants[0]`. `pages/lesson/LessonRoute.tsx` lazy-loads `LessonPage` (Monaco, engines, runner) and the lesson body in parallel, suspends on them and shows the lesson title meanwhile; when the coordinator focused that placeholder title, focus moves to the real `[data-activity-title]` once the page mounts. Everything outside the lesson screen works on `LessonEntry` (`isLessonComplete`, `summarizeTrack`, curriculum, carousel). In dev, a change under `src/content/<track>/` invalidates the virtual modules and reloads the page. `src/verify` builds full tracks from `content/allContent.ts` (eager glob), and `content.test.ts` checks that the served catalog matches them.
 
@@ -164,7 +164,7 @@ for each test:  beforeEach → evaluateProject(compiled, entry, registry) → bu
 - `shared/compile.ts`: `transpile()` uses TypeScript `transpileModule` (TS/TSX/JS/JSX → CommonJS, decorators enabled) and injects a loop guard into every loop. Extra AST transforms are passed through `transformers`.
 - `shared/project.ts`: `compileProject()` and `evaluateProject()` implement a tiny CommonJS loader. Bare imports resolve through the adapter **registry**; relative imports resolve between project files (`.ts`, `.tsx`, `.js`, `.jsx`, `.vue`).
 - `shared/testRunner.ts`: `runTests(adapter, { files, entry, tests })` evaluates the project **fresh for every test**, resets the fake API and DOM, and injects the shared globals (`expect`, `fn`, `mod`, `modules`, `require`, `source`, `sources`, `sleep`, `mockApi`, ...) plus `adapter.createScope(project)`.
-- `sandbox/sandbox.ts`: picks the engine from `?engine=`, installs the loop guard and fake API, forwards `console` to the parent in preview mode, and answers `preview` / `run-tests` messages (`sandbox/protocol.ts`).
+- `sandbox/sandbox.ts`: picks the engine from `?engine=` (only the engines it registers: any other value, such as `constructor`, throws before anything loads), installs the loop guard and fake API, forwards `console` to the parent in preview mode, and answers `preview` / `run-tests` messages (`sandbox/protocol.ts`).
 - `features/lesson/runner.ts`: the UI side. Test runs create a hidden iframe per run (`mode=test`); the preview uses a persistent iframe (`mode=preview`) that re-renders on edits.
 
 ### The `FrameworkAdapter` contract

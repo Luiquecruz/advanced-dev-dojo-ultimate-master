@@ -196,9 +196,28 @@ export function randomUUID(): string {
   return globalThis.crypto.randomUUID();
 }
 
+const MAX_RANDOM_INT_RANGE = 2 ** 48;
+
+/**
+ * Uniform integer in `[minimum, maximum)` like Node's `crypto.randomInt`: rejection sampling over the smallest bit mask
+ * that covers the range, so every value is equally likely (scaling a random float would favour some values).
+ */
 export function randomInt(minimum: number, maximum?: number): number {
   const [low, high] = maximum === undefined ? [0, minimum] : [minimum, maximum];
-  return low + Math.floor((globalThis.crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32) * (high - low));
+  if (!Number.isSafeInteger(low) || !Number.isSafeInteger(high)) {
+    throw new TypeError('The "min" and "max" arguments must be safe integers');
+  }
+  const range = high - low;
+  if (range <= 0 || range >= MAX_RANDOM_INT_RANGE) {
+    throw new RangeError(`The value of "max" is out of range. It must be greater than the value of "min" (${low}) and the range must be less than 2^48`);
+  }
+  const mask = (1n << BigInt((range - 1).toString(2).length)) - 1n;
+  for (;;) {
+    const candidate = globalThis.crypto.getRandomValues(new BigUint64Array(1))[0] & mask;
+    if (candidate < BigInt(range)) {
+      return low + Number(candidate);
+    }
+  }
 }
 
 export function timingSafeEqual(first: Uint8Array, second: Uint8Array): boolean {

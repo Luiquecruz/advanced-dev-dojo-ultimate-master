@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { createHash, createHmac, pbkdf2Sync, timingSafeEqual } from './crypto';
+import { createHash, createHmac, pbkdf2Sync, randomInt, timingSafeEqual } from './crypto';
 import * as fs from './fs';
 import { createServer, requestFetchHandler, requestServer } from './http';
 import { installNodeFetch, resetNodeRuntime } from './index';
@@ -182,5 +182,32 @@ main();`,
       console.log = original;
     }
     expect(lines).toContain('Delayed answer 9');
+  });
+});
+
+describe('crypto.randomInt', () => {
+  it('stays in [min, max) and accepts the one-argument form', () => {
+    for (let draw = 0; draw < 2000; draw++) {
+      const value = randomInt(-3, 4);
+      expect(Number.isInteger(value) && value >= -3 && value < 4).toBe(true);
+      expect(randomInt(1)).toBe(0);
+    }
+  });
+
+  it('rejects ranges Node rejects', () => {
+    expect(() => randomInt(5, 5)).toThrow(RangeError);
+    expect(() => randomInt(0, 2 ** 48)).toThrow(RangeError);
+    expect(() => randomInt(0.5, 3)).toThrow(TypeError);
+  });
+
+  it('draws every value of a non power-of-two range about equally often', () => {
+    const counts = [0, 0, 0];
+    for (let draw = 0; draw < 30000; draw++) {
+      counts[randomInt(3)]++;
+    }
+    for (const count of counts) {
+      expect(count).toBeGreaterThan(9000);
+      expect(count).toBeLessThan(11000);
+    }
   });
 });
