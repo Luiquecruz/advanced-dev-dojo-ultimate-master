@@ -35,6 +35,7 @@ const RULES = [
   { pattern: /^(package\.json|vite\.config\.ts|tsconfig\.json|index\.html|plugins\/|scripts\/)/, docs: [README, AGENT_GUIDE, CONTENT_GUIDE] },
   { pattern: /^\.claude\/(settings\.json|hooks\/)/, docs: [CONTRIBUTING] },
   { pattern: /^(\.github\/|netlify\.toml$|\.nvmrc$)/, docs: [CONTRIBUTING, README] },
+  { pattern: /^\.coderabbit\.yaml$/, docs: [CONTRIBUTING] },
 ];
 
 /**

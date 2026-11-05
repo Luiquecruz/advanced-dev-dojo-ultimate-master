@@ -69,6 +69,22 @@ Netlify builds `main` on every push (Git integration) with `npm run build` and p
 
 Netlify does not wait for GitHub Actions: a push to `main` deploys even when CI fails. To deploy only tested code, protect `main` on GitHub (require pull requests and the `checks` and `verify` jobs) so changes reach `main` only through a green pull request; Netlify deploy previews then show each pull request before merge.
 
+## Code review (CodeRabbit)
+
+CodeRabbit reviews every non-draft pull request against `main`. Its configuration is `.coderabbit.yaml` at the repository root (schema `https://coderabbit.ai/integrations/schema.v2.json`); the file wins over the repository and organization settings in the CodeRabbit UI (only organization global overrides rank above it), so change it here, not in the UI. `@coderabbitai configuration` in a pull request prints the resolved configuration with the source of each value. Its review is advice: CI and a human reviewer decide the merge, and CodeRabbit is not a required check.
+
+| Setting | Value | Why |
+| --- | --- | --- |
+| `language`, `profile` | `en-US`, `chill` | the project is in English; content pull requests touch hundreds of files, so only real issues are reported |
+| `auto_review` | non-draft pull requests, incremental on each push; skipped when the title has `WIP` or `[skip review]` | review once the author asks for it |
+| `path_filters` | skip `package-lock.json`, `dist/`, `vendor/`, `__pycache__/` | generated or downloaded files |
+| `path_instructions` | per area: lessons, Python lessons, engines and sandbox, verify, shared, UI layers, tokens, workflows, `netlify.toml`, docs | the project rules that apply to each folder |
+| `pre_merge_checks` | title in conventional commit format, description present, two custom checks (lessons listed in `CURRICULUM.md`, new track registered everywhere), all as warnings; docstring coverage off | the checks CI cannot express; docs sync stays in `.github/workflows/docs-sync.yml` |
+| `tools` | on: `shellcheck`, `actionlint`, `zizmor`, `yamllint`, `gitleaks`, `trufflehog`, `osvScanner`, GitHub checks. Off: `ruff`, `pylint`, `flake8`, `biome`, `eslint`, `oxc`, `reactDoctor`, `stylelint`, `markdownlint`, `languagetool` | lesson starters are incomplete on purpose and the project has no linter config, so linters would only add noise |
+| `knowledge_base` | learnings kept to this repository; guidelines: `.claude/CLAUDE.md` (detected by default), this file, `ARCHITECTURE.md` (code), `CONTENT_GUIDE.md` (content, engines, verify), Python content standards and working agreement (Python track) | reviews follow the same rules as authors and Claude Code |
+
+`path_instructions` and `custom_checks` restate rules that live in `.claude/CLAUDE.md`, `ARCHITECTURE.md`, `CONTENT_GUIDE.md` and `.github/workflows/ci.yml`: when one of those rules changes, update `.coderabbit.yaml` in the same change. Teach CodeRabbit in the pull request (`@coderabbitai` replies); its learnings stay in this repository. Rules that apply to everyone belong in the documents above, not in learnings or personal settings.
+
 ## Documentation upkeep
 
 Documentation is incremental: every change that alters behavior, structure, commands, conventions or the curriculum updates the matching document in the same change, not in a later pass. Describe the current state (what exists and how to use it), not a changelog.
@@ -88,6 +104,8 @@ Documentation is incremental: every change that alters behavior, structure, comm
 | `package.json` scripts, `vite.config.ts`, `plugins/`, `scripts/`, `index.html` | `README.md` "Run", `.claude/CLAUDE.md` "Commands" |
 | `.claude/settings.json`, `.claude/hooks/` | this file, "Harness" |
 | `.github/`, `netlify.toml`, `.nvmrc` | this file, "CI and deploy"; `README.md` "Requirements" for the Node version |
+| `.coderabbit.yaml` | this file, "Code review (CodeRabbit)" |
+| a rule restated in `.coderabbit.yaml` (layers, performance, accessibility, lesson contract, sandbox isolation, new track steps) | the matching `path_instructions` or `custom_checks` entry in `.coderabbit.yaml` |
 | a convention or workflow rule | this file |
 
 Tests keep part of this honest: `curriculum.test.ts` (lessons ↔ `CURRICULUM.md`), `trackPresentation.test.ts` (accents), `architecture.test.ts` (layer rules).

@@ -54,6 +54,7 @@ One track or lesson: `npx vitest run src/verify/<track>.test.ts`, `LESSON=<track
 | `scripts/` | authoring scripts (Python track scaffolding and curriculum sync) |
 | `.claude/` | documentation, specs and the shared Claude Code harness |
 | `.github/`, `netlify.toml` | CI workflow, Dependabot, pull request template, Netlify build, headers and SPA fallback |
+| `.coderabbit.yaml` | CodeRabbit review configuration (path instructions, pre-merge checks, tools) |
 
 ## Contributing
 
