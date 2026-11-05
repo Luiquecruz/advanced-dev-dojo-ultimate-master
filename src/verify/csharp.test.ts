@@ -30,7 +30,7 @@ const DOCUMENTATION_HOSTS = new Set([
  * the track legitimately names JavaScript (the SignalR client) and Python (Aspire's polyglot hosting).
  */
 const PHP_BRIDGE =
-  /\bPHP|\bphp\b|\.php\b|\.phtml\b|php\.ini|PSR-\d+|[Mm]agento|Adminhtml|routes\.xml|\bFPM\b|Composer|composer\.(json|lock)|composer install|di\.xml|crontab\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Guzzle|Monolog|Packagist|Zend|Laminas|\bPsalm\b|\bRector\b|Laravel|Symfony|Doctrine|Eloquent|[Oo][Pp]cache|Xdebug/;
+  /\bPHP|\bphp\b|\.php\b|\.phtml\b|php\.ini|PSR-\d+|[Mm]agento|Adminhtml|routes\.xml|\bFPM\b|Composer|composer\.(json|lock)|composer install|di\.xml|crontab\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Guzzle|Monolog|Packagist|Zend|Laminas|\bPsalm\b|\bRector\b|Laravel|Symfony|Doctrine|Eloquent|[Oo][Pp]cache|Xdebug|phpunit|\$\w+->\w+|::get\b|(webapi|events|system|acl|module)\.xml|<preference\b|<virtualType\b|shared="false"|\bEAV\b|sales_order_\w+|Update by Schedule|around plugin/;
 /** An `Assert.ThrowsAsync` that is not awaited returns a task nobody observes, so the test passes even when nothing throws. */
 const UNAWAITED_THROWS_ASYNC = /(?<!\bawait\s+)Assert\.ThrowsAsync\b/;
 
@@ -234,7 +234,11 @@ describe('csharp track', () => {
   });
 
   it('matches PHP ecosystem names and leaves .NET facts alone', () => {
-    const caught = ['used to PSR-3', "PHPUnit's setUp()", 'php -S 127.0.0.1:8081 legacy.php', 'Controller/Adminhtml/Product/Save.php', 'bin/magento cron:run', 'Monolog channels'];
+    const caught = ['used to PSR-3', "PHPUnit's setUp()", 'php -S 127.0.0.1:8081 legacy.php', 'Controller/Adminhtml/Product/Save.php', 'bin/magento cron:run', 'Monolog channels',
+      '`vendor/bin/phpunit`', '`$this->assertSame()`', '`webapi.xml` REST routes', 'pointing at `ProductRepositoryInterface::get`',
+      'There is no `$request->getParam()`', '`<preference for="I" type="C"/>`', '`shared="false"` or the default', '`<virtualType>`',
+      'before/after/around plugins', 'rebuilt from the EAV write tables', 'The `sales_order_place_after` observer', '"Update by Schedule" makes',
+      'declared in events.xml', 'a field in system.xml'];
     const allowed = ['the SignalR JavaScript client', "Aspire's polyglot hosting runs Python apps", 'ILogger<T> categories', 'dotnet test --logger trx'];
     expect(caught.filter((text) => !PHP_BRIDGE.test(text))).toEqual([]);
     expect(allowed.filter((text) => PHP_BRIDGE.test(text))).toEqual([]);

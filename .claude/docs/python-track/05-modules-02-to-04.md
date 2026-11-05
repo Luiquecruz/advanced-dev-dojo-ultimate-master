@@ -6,7 +6,7 @@ Format per lesson: **Concept**, **Common mistake** (the one the `# beginner mist
 
 # 02-collections — Collections and Data Protocols
 
-Question: which container and which protocol fits this data, and what does the type promise about order, uniqueness, hashing and mutation?
+Question: which container and which protocol fits this data, and what does the type guarantee about order, uniqueness, hashing and mutation?
 
 ### 01-collections-map (Q, B)
 Map of list/tuple/dict/set/frozenset/deque/Counter, the sequence/mapping/set protocols, text vs bytes. Quiz: pick the container for four scenarios.

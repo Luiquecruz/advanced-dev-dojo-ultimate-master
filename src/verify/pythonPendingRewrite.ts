@@ -30,7 +30,7 @@ export const PYTHON_PENDING_REWRITE: Record<string, readonly string[]> = {
   'python/decorators-and-wraps': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
   'python/parameterized-decorators': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
   'python/callables-partial-and-cache': ['theory-no-bridge', 'theory-common-mistakes', 'theory-order', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
-  'python/client-middleware-stack': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
+  'python/client-middleware-stack': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'resources-host', 'tests-beginner-mistake'],
   'python/classes-map': ['theory-no-bridge', 'theory-fences', 'no-bridge'],
   'python/new-and-init': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
   'python/properties': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],

@@ -34,9 +34,9 @@ const FENCES = ['py', 'text', 'bash', 'toml', 'json'];
  * C is not listed: CPython and its extension modules are written in it, so "C extension" and "the C API" are Python terms.
  */
 const BRIDGE =
-  /\bJavaScript\b|\bTypeScript\b|\bJS\b|\bTS\b|Node\.js|Node developer|\bnpm\b|\bnpx\b|\bpnpm\b|\byarn\b|\bDeno\b|\bBun\b|package\.json|node_modules|\btsc\b|`[!=]==`|[\w)\]]\s*[!=]==\s*[\w([-]|[\w)\]]\s*[!=]==\s+["']|(?<!["'])\?\?=?(?!["'])|Object\.groupBy|Object\.seal|Object\.freeze|structuredClone|Symbol\.dispose|new Proxy|console\.log|TC39|ECMAScript|\bES20\d\d\b|ESLint|Prettier|\bBiome\b|\bZod\b|\blodash\b|Vitest|\bJest\b|\b[Pp]romises?\b|\bPHP|Magento|\bRust\b|\bJava\b|\bGolang\b|\bRuby\b|\bKotlin\b|\bSwift\b|C\+\+|C#/;
+  /\bJavaScript\b|\bTypeScript\b|\bJS\b|\bTS\b|Node\.js|Node developer|\bnpm\b|\bnpx\b|\bpnpm\b|\byarn\b|\bDeno\b|\bBun\b|package\.json|node_modules|\btsc\b|`[!=]==`|[\w)\]]\s*[!=]==\s*[\w([-]|[\w)\]]\s*[!=]==\s+["']|(?<!["'])\?\?=?(?!["'])|Object\.groupBy|Object\.seal|Object\.freeze|structuredClone|Symbol\.dispose|new Proxy|console\.log|TC39|ECMAScript|\bES20\d\d\b|ESLint|Prettier|\bBiome\b|\bZod\b|\blodash\b|Vitest|\bJest\b|\b[Pp]romises?\b|\bPHP|Magento|\bRust\b|\bJava\b|\bGolang\b|\bRuby\b|\bKotlin\b|\bSwift\b|C\+\+|C#|Node['’]s\b|\bNode (scripts?|returns|developers?)\b|\bES modules?\b|\bAxios\b|\bExpress\b|JSON\.(parse|stringify)|\binstanceof\b|\btypeof\b|AggregateError|\bprocess\.(argv|exit)\b|Object\.(assign|keys|entries|fromEntries)\b|`(var|let|const|undefined)`|\bArray (methods|chains)\b|Array\.from|extends Array|\bV8\b/;
 /** Hosts of other languages' documentation; a Python lesson cites docs.python.org, the PEPs and the libraries it teaches. */
-const BLOCKED_HOSTS = ['developer.mozilla.org', 'nodejs.org', 'zod.dev', 'typescriptlang.org', 'vitest.dev'];
+const BLOCKED_HOSTS = ['developer.mozilla.org', 'nodejs.org', 'zod.dev', 'typescriptlang.org', 'vitest.dev', 'axios-http.com', 'expressjs.com'];
 const BEGINNER_MISTAKE = /^# beginner mistake: (.*)$/;
 
 /**
@@ -461,8 +461,11 @@ describe('python track conventions', () => {
   });
 
   it('matches other-language names and leaves Python text alone', () => {
-    const caught = ['ESLint + Prettier', '`??` replaces only `null`', 'opt-in since ES2022', 'if (a === b)', 'a !== b', 'written in Rust', 'z.object with Zod'];
-    const allowed = ['print("=== Report ===")', '======================================================================', 'country == "??"', 'a C extension releases the GIL', 'undefined names raise NameError'];
+    const caught = ['ESLint + Prettier', '`??` replaces only `null`', 'opt-in since ES2022', 'if (a === b)', 'a !== b', 'written in Rust', 'z.object with Zod',
+      "Node's `path.join` would concatenate", 'as Node returns', 'ES module bindings are live', 'behaves like `var`, not `let`', 'Axios interceptors and Express middleware',
+      'Node scripts read `process.argv`', '`JSON.parse` and `JSON.stringify`', '`instanceof` checks', 'an `AggregateError`', 'Array methods', 'Array chains',
+      '`Object.assign`', 'the `null` / `undefined` row', 'V8 optimizes', 'class Stack extends Array'];
+    const allowed = ['print("=== Report ===")', '======================================================================', 'country == "??"', 'a C extension releases the GIL', 'undefined names raise NameError', 'the JSON Schema `null` type', 'isinstance(value, int)', 'subprocess.run([sys.executable])', 'sys.argv[1:]', 'express the rule as a function'];
     expect(caught.filter((text) => !BRIDGE.test(text))).toEqual([]);
     expect(allowed.filter((text) => BRIDGE.test(text))).toEqual([]);
   });

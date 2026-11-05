@@ -6,7 +6,7 @@ Same per-lesson format and shared requirements as [05-modules-02-to-04.md](05-mo
 
 # 09-typing — Type Hints and Static Typing
 
-Question: what do annotations promise, who checks them, and what happens to them at runtime?
+Question: what do annotations guarantee, who checks them, and what happens to them at runtime?
 
 Constraint: no type checker runs in the browser. Every typing challenge asserts **runtime-visible artifacts** (`get_type_hints`, `__annotations__`, `__type_params__`, `__required_keys__`, `isinstance` with runtime-checkable protocols, `get_overloads`) or implements a small runtime consumer of annotations.
 
@@ -77,7 +77,7 @@ Constraints:
 Cooperative concurrency, event loop, coroutines vs tasks, and why calling a coroutine function runs nothing until it is awaited or scheduled.
 
 ### 02-event-loop-mental-model (P, I)
-- Concept: calling `async def` returns a coroutine that has not started; `await` yields control; `asyncio.run`; tasks start when scheduled; no unhandled promise: a never-awaited coroutine warns.
+- Concept: calling `async def` returns a coroutine that has not started; `await` yields control; `asyncio.run`; tasks start when scheduled; no silent failure: a never-awaited coroutine warns.
 - Common mistake: calling an `async def` function without `await` and expecting it to run; the call only creates a coroutine object, nothing runs, and Python warns `coroutine ... was never awaited`. Await it, or wrap it in a task.
 - Challenge: `async def fetch(name, recorder)` appending `start:name`/`end:name` with `await asyncio.sleep(0)` between; `run_sequential(names, recorder)`; `run_concurrent(names, recorder)` via tasks; `lazy_coroutine(recorder)` returning an unstarted coroutine.
 - Tests: event order lists for sequential and concurrent runs; `inspect.iscoroutine`; recorder empty before awaiting the coroutine.
@@ -200,7 +200,7 @@ Project lifecycle map: layout (`src/` vs flat), `pyproject.toml`, environments, 
 ### 02-packaging-and-environments (Q, I)
 Quiz lesson, 5–6 questions. One dated `**Status as of**` block; cite packaging.python.org, the PEPs and the Astral docs.
 - `pyproject.toml`: `[project]` metadata (PEP 621), `[build-system]` (PEP 517/518), `[dependency-groups]` (PEP 735), `[tool.*]`; versus `setup.py`/`requirements.txt`/`package.json`.
-- Environments: a virtual environment is a directory plus `PATH` ordering, `sys.prefix` vs `sys.base_prefix`, `pyvenv.cfg`; contrast with per-project `node_modules`.
+- Environments: a virtual environment is a directory plus `PATH` ordering, `sys.prefix` vs `sys.base_prefix`, `pyvenv.cfg`; common mistake: installing with a `pip` that belongs to another interpreter because the environment was not activated (`python -m pip` names the interpreter explicitly).
 - Resolvers and lockfiles: `uv.lock`, `uv run`, `uv sync`, Python version management, vs pip/poetry/pip-tools; PEP 751 `pylock.toml` status.
 - Distribution: sdist vs wheel, build backends (setuptools, hatchling, flit, uv_build), PyPI, trusted publishing, versioning.
 

@@ -70,8 +70,6 @@ The research is refreshed by hand when the curriculum is revisited, not on a tim
 
 ## Later (not in v1)
 
-- Trim the repeated PHP-FPM lifecycle recap in the "Coming from PHP/Magento" sections (about 20 lessons): a low finding of the final review.
-
 - Compile the theory snippets in CI (extract the `csharp` fences into a scratch project and run `dotnet build`). This needs the .NET SDK in CI.
 - Register `python` highlighting in `src/shared/ui/Markdown.tsx`: Python lessons render code fences unhighlighted today (found while adding C#).
 

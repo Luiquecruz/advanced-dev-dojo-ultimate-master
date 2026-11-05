@@ -17,7 +17,7 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 ## 01-python-map — Python Track Map (Q, beginner)
 
 - Tags: `["established", "core", "theory"]`. No challenge; `quiz.json` with 4 questions.
-- Theory (250–500 words): how the track works (theory, challenge, hints, quiz, ADR per module), the 13-module path, who it is for (learners with no prior programming language), the Pyodide runtime (CPython 3.14 in the browser, first load about 12 MB), what the browser cannot run (threads, network, real venv: taught in theory), maturity tags, the `**Status as of**` convention.
+- Theory (200–500 words): how the track works (theory, challenge, hints, quiz, ADR per module), the 13-module path, who it is for (learners with no prior programming language), the Pyodide runtime (CPython 3.14 in the browser, first load about 12 MB), what the browser cannot run (threads, network, real venv: taught in theory), maturity tags, the `**Status as of**` convention.
 - Key idea (a map has no `## Common mistakes`): names bind to objects, everything is an object, and protocols (dunder methods) drive much of the syntax.
 - Quiz topics: what the Run button does, which topics are theory-only in the browser, what an ADR checkpoint is, where the track starts.
 - Resources: docs.python.org tutorial, Language Reference data model, peps.python.org/pep-0008.

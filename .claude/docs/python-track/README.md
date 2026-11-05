@@ -6,7 +6,7 @@ The track began as a NotebookLM draft; the departures from that draft are listed
 
 ## Goal
 
-Teach the **mental model of Python 3.14** to developers who already know TypeScript/JavaScript: how the object model, protocols and runtime behave, which JS habits break, and when to choose each feature. It is not interview preparation and not "Python for data science". No algorithm puzzles: every challenge implements real language behavior (a descriptor, a context manager, a protocol, a decorator, a task group).
+Teach the **mental model of Python 3.14** to learners with no prior programming language: how the object model, protocols and runtime behave, which mistakes each feature invites, and when to choose each feature. It is not interview preparation and not "Python for data science". No algorithm puzzles: every challenge implements real language behavior (a descriptor, a context manager, a protocol, a decorator, a task group).
 
 ## Decisions
 
