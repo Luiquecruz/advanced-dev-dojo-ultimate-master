@@ -14,7 +14,7 @@ def init_calls_super(class_name):
     return False
 
 
-@test("deposit and withdraw change the balance, return it and record the signed amounts, and recent lists the newest first")
+@test("deposit and withdraw change the balance, return it and record the signed amounts")
 def _():
     account = mod.BankAccount("Ada", 100)
     after_deposit = account.deposit(50)
@@ -24,13 +24,6 @@ def _():
     assert account.balance == 120
     assert account.owner == "Ada"
     assert account.history == [50, -30]
-    newest = account.recent(1)
-    assert newest == [-30]
-    both = account.recent(5)
-    assert both == [-30, 50]
-    assert both is not account.history
-    nothing = account.recent(0)
-    assert nothing == []
 
 
 @test("deposit and withdraw reject zero and negative amounts with ValueError and change nothing")
@@ -58,7 +51,7 @@ async def _():
 
 
 # beginner mistake: writing history = [] in the class body, so every account shares one list
-@test("each account keeps its own history")
+@test("each account keeps its own history, and recent returns its newest entries first as a new list")
 def _():
     first = mod.BankAccount("Ada")
     second = mod.BankAccount("Grace")
@@ -66,6 +59,14 @@ def _():
     assert first.history == [10]
     assert second.history == []
     assert first.history is not second.history
+    first.withdraw(4)
+    newest = first.recent(1)
+    assert newest == [-4]
+    both = first.recent(5)
+    assert both == [-4, 10]
+    assert both is not first.history
+    nothing = first.recent(0)
+    assert nothing == []
 
 
 @test("SavingsAccount sets up the parent's attributes through super and deposits its interest")
