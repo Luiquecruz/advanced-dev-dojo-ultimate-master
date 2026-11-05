@@ -124,16 +124,10 @@ export function stripScriptComments(code: string, fileName = 'file.tsx'): string
 }
 
 function naiveStrip(code: string): string {
-  let previous: string;
-  let current = code;
-  do {
-    previous = current;
-    current = previous
-      .replace(/<!--[\s\S]*?-->/g, '')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/(^|[^:'"`])\/\/.*$/gm, '$1');
-  } while (current !== previous);
-  return current;
+  return code
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|[^:'"`])\/\/.*$/gm, '$1');
 }
 
 /**
