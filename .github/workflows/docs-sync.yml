@@ -9,22 +9,32 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: docs-sync-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
   docs:
-    name: Docs sync
+    # A label other than docs:none cannot change the verdict. Its run gets its own name and concurrency group and does
+    # nothing: Dependabot adds several labels in a row, and a run under the same name would cancel the docs:none run or
+    # replace the "Docs sync" check (a skipped job would publish a skipped "Docs sync" and hide an earlier warning).
+    name: ${{ github.event_name == 'pull_request' && (github.event.action == 'labeled' || github.event.action == 'unlabeled') && github.event.label.name != 'docs:none' && 'Docs sync (label event, ignored)' || 'Docs sync' }}
+    concurrency:
+      group: docs-sync-${{ github.event_name == 'pull_request' && github.ref || github.sha }}${{ github.event_name == 'pull_request' && (github.event.action == 'labeled' || github.event.action == 'unlabeled') && github.event.label.name != 'docs:none' && '-ignored' || '' }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     continue-on-error: true
+    env:
+      IGNORED_LABEL_EVENT: ${{ github.event_name == 'pull_request' && (github.event.action == 'labeled' || github.event.action == 'unlabeled') && github.event.label.name != 'docs:none' }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - if: env.IGNORED_LABEL_EVENT == 'true'
+        env:
+          LABEL: ${{ github.event.label.name }}
+        run: echo "The label \"$LABEL\" does not affect the docs sync check; the \"Docs sync\" check keeps its verdict."
+      - if: env.IGNORED_LABEL_EVENT != 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           fetch-depth: 0
       - name: Check documents of changed areas
+        if: env.IGNORED_LABEL_EVENT != 'true'
         env:
           DOCS_SYNC_BASE: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
           # The waiver applies only to the run started by adding docs:none itself (it checks the head commit of that moment)

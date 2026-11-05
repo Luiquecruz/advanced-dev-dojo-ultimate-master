@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'node:path';
@@ -38,6 +39,19 @@ function vendoredFiles(): Record<string, { path: string; contentType: string }> 
 }
 
 /**
+ * Short hash of every file served under `pyodide/`, by published name and content. index.html carries it in
+ * `<meta name="dojo-pyodide">`, because no hashed entry asset names these files: without it, a deploy that changes only
+ * `pyodide/` (a wheel update) would look like the previous build to the deploy smoke test.
+ */
+function pyodideFilesHash(files: Record<string, string>): string {
+  const hash = createHash('sha256');
+  for (const fileName of Object.keys(files).sort()) {
+    hash.update(fileName).update('\0').update(readFileSync(files[fileName])).update('\0');
+  }
+  return hash.digest('hex').slice(0, 16);
+}
+
+/**
  * Serves the Pyodide runtime files from `node_modules/pyodide` at `<base>pyodide/` in dev and copies them there in the build,
  * so the Python worker loads a pinned runtime from the app's own origin. The vendored package wheels and their licenses are served and copied the same way.
  */
@@ -45,12 +59,20 @@ export function pyodidePlugin(): Plugin {
   const packageDirectory = dirname(createRequire(import.meta.url).resolve('pyodide/package.json'));
   const vendored = vendoredFiles();
   let base = '/';
+  let filesHash: string | undefined;
 
   return {
     name: 'dojo-pyodide',
     config: () => ({ optimizeDeps: { exclude: ['pyodide'] } }),
     configResolved(config) {
       base = config.base;
+    },
+    transformIndexHtml() {
+      filesHash ??= pyodideFilesHash({
+        ...Object.fromEntries(Object.keys(RUNTIME_FILES).map((fileName) => [fileName, join(packageDirectory, fileName)])),
+        ...Object.fromEntries(Object.entries(vendored).map(([fileName, file]) => [fileName, file.path])),
+      });
+      return [{ tag: 'meta', attrs: { name: 'dojo-pyodide', content: filesHash }, injectTo: 'head' }];
     },
     configureServer(server) {
       server.middlewares.use(`${base}pyodide`, (request, response, next) => {
