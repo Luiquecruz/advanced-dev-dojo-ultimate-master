@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { trackById } from '../content/allContent';
 import type { Lesson } from '../content/types';
+import { PYTHON_PENDING_REWRITE } from './pythonPendingRewrite';
 
 /**
  * Definition of Done for the Python track (.claude/docs/python-track/02-content-standards.md and
@@ -22,14 +23,23 @@ const MATURITY = ['established', 'emerging', 'hype-watch'];
 const META_KEYS = new Set(['title', 'summary', 'level', 'tags', 'entry', 'run', 'resources']);
 const MONTHS = 'January|February|March|April|May|June|July|August|September|October|November|December';
 const STATUS = new RegExp(`^> \\*\\*Status as of (${MONTHS}) \\d{4}:\\*\\*`);
-const JS_CONTRAST = '## Coming from TypeScript and JavaScript';
+const COMMON_MISTAKES = '## Common mistakes';
 const CLOSING = '## When to choose it';
+const FENCES = ['py', 'text', 'bash', 'toml', 'json'];
+/** Comparisons with another language (02-content-standards.md "No bridges"): the track assumes no prior programming language. */
+const BRIDGE =
+  /\bJavaScript\b|\bTypeScript\b|\bJS\b|\bTS\b|Node\.js|Node developer|\bnpm\b|\bnpx\b|package\.json|node_modules|\btsc\b|===|!==|Object\.groupBy|Object\.seal|Object\.freeze|structuredClone|Symbol\.dispose|TC39|ECMAScript|Vitest|\bJest\b|\b[Pp]romises?\b|\bPHP\b|Magento/;
+/** Hosts of other languages' documentation; a Python lesson cites docs.python.org, the PEPs and the libraries it teaches. */
+const BLOCKED_HOSTS = ['developer.mozilla.org', 'nodejs.org', 'zod.dev', 'typescriptlang.org', 'vitest.dev'];
+const BEGINNER_MISTAKE = /^# beginner mistake: (.*)$/;
 
 /**
  * Existing content that breaks a rule, reported to the author instead of being edited here.
  * Keys are `<lesson key>#<rule>`; remove an entry as soon as the lesson is fixed (a stale entry fails the suite).
  */
 const KNOWN_EXCEPTIONS: Record<string, string> = {};
+
+const pending = (lesson: Lesson, rule: string) => PYTHON_PENDING_REWRITE[lesson.key]?.includes(rule) ?? false;
 
 const track = trackById.get('python');
 const filter = process.env.LESSON;
@@ -70,6 +80,59 @@ function secondLevelHeadings(markdown: string): string[] {
     }
   }
   return headings;
+}
+
+/** The text of a `##` section up to the next `##` heading outside a code fence, or undefined when the section is missing. */
+function sectionOf(markdown: string, heading: string): string | undefined {
+  const lines = markdown.split('\n');
+  const start = lines.findIndex((line) => line.trim() === heading);
+  if (start === -1) {
+    return undefined;
+  }
+  const body: string[] = [];
+  let fenced = false;
+  for (const line of lines.slice(start + 1)) {
+    if (line.trimStart().startsWith('```')) {
+      fenced = !fenced;
+    }
+    if (!fenced && /^## /.test(line)) {
+      break;
+    }
+    body.push(line);
+  }
+  return body.join('\n');
+}
+
+/** Every text a learner reads or edits in a lesson, labelled by where it comes from. */
+function learnerTexts(lesson: Lesson): Array<[string, string]> {
+  const meta = rawMeta(lesson);
+  const texts: Array<[string, string]> = [
+    ['theory.md', lesson.theory],
+    ['meta.json', `${String(meta.title ?? '')}\n${lesson.summary}\n${lesson.resources.map(({ label, url }) => `${label} ${url}`).join('\n')}`],
+    ['concepts.json', lesson.concepts.map(({ term, description }) => `${term} ${description}`).join('\n')],
+    ['quiz.json', lesson.quiz.map(({ question, options, explanation }) => [question, ...options, explanation].join('\n')).join('\n')],
+  ];
+  const challenge = lesson.challenge;
+  if (challenge) {
+    texts.push(['challenge.md', challenge.instructions], ['hints.md', challenge.hints.join('\n')], ['approach.md', challenge.approach], ['tests.py', challenge.tests]);
+    for (const [side, files] of [['starter', challenge.starter], ['solution', challenge.solution]] as const) {
+      Object.entries(files).forEach(([name, text]) => texts.push([`${side}/${name}`, text]));
+    }
+  }
+  return texts;
+}
+
+function checkBridges(lesson: Lesson): Violation[] {
+  return learnerTexts(lesson).flatMap(([file, text]) => {
+    const match = BRIDGE.exec(text);
+    return match ? [{ rule: 'no-bridge', detail: `${file} compares with another language ("${match[0]}" in "${lineAround(text, match.index)}")` }] : [];
+  });
+}
+
+function lineAround(text: string, index: number): string {
+  const start = text.lastIndexOf('\n', index) + 1;
+  const end = text.indexOf('\n', index);
+  return text.slice(start, end === -1 ? undefined : end).trim().slice(0, 80);
 }
 
 function testNames(tests: string): { names: string[]; dynamic: number } {
@@ -137,6 +200,10 @@ function checkResources(lesson: Lesson, kind: Kind): Violation[] {
       violations.push({ rule: 'resources-unique', detail: `duplicate URL ${url}` });
     }
     seen.add(url);
+    const blocked = BLOCKED_HOSTS.find((host) => parsed.hostname === host || parsed.hostname.endsWith(`.${host}`));
+    if (blocked) {
+      violations.push({ rule: 'resources-host', detail: `${url} documents another language; cite docs.python.org, a PEP or the library's own docs` });
+    }
   }
   if (kind === 'adr') {
     const urls = lesson.resources.flatMap((resource) => (URL.canParse(resource.url) ? [new URL(resource.url)] : []));
@@ -153,14 +220,14 @@ function checkTheory(lesson: Lesson, kind: Kind): Violation[] {
   const violations: Violation[] = [];
   const theory = lesson.theory;
   const count = words(theory);
-  const [min, max] = kind === 'map' ? [200, 500] : [250, 1000];
+  const [min, max] = kind === 'map' ? [200, 500] : kind === 'practice' || kind === 'capstone' ? [300, 1000] : [250, 1000];
   if (count < min || count > max) {
     violations.push({ rule: 'theory-length', detail: `theory has ${count} words, expected ${min}-${max}` });
   }
   const fences = [...theory.matchAll(/^```(\S*)/gm)].map((match) => match[1]).filter(Boolean);
-  const wrong = fences.filter((language) => !['py', 'ts', 'text', 'bash', 'toml', 'json'].includes(language));
+  const wrong = fences.filter((language) => !FENCES.includes(language));
   if (wrong.length > 0) {
-    violations.push({ rule: 'theory-fences', detail: `use py/ts fences, found ${[...new Set(wrong)].join(', ')}` });
+    violations.push({ rule: 'theory-fences', detail: `use ${FENCES.join('/')} fences, found ${[...new Set(wrong)].join(', ')}` });
   }
   theory
     .split('\n')
@@ -170,15 +237,28 @@ function checkTheory(lesson: Lesson, kind: Kind): Violation[] {
   if (/\bTODO\b/.test(theory)) {
     violations.push({ rule: 'no-todo', detail: 'theory.md still holds TODO text' });
   }
-  if (kind !== 'practice') {
+  const headings = secondLevelHeadings(theory);
+  const bridges = headings.filter((heading) => heading.startsWith('## Coming from'));
+  if (bridges.length > 0) {
+    violations.push({ rule: 'theory-no-bridge', detail: `remove the bridge section ${bridges.join(', ')}` });
+  }
+  if (kind !== 'practice' && kind !== 'capstone') {
     return violations;
   }
-  const headings = secondLevelHeadings(theory);
-  if (!headings.includes(JS_CONTRAST)) {
-    violations.push({ rule: 'theory-js-contrast', detail: `practice theory needs a "${JS_CONTRAST}" section` });
+  const mistakes = sectionOf(theory, COMMON_MISTAKES);
+  if (mistakes === undefined) {
+    violations.push({ rule: 'theory-common-mistakes', detail: `${kind} theory needs a "${COMMON_MISTAKES}" section` });
+  } else {
+    const count = words(mistakes);
+    if (count < 40 || count > 250) {
+      violations.push({ rule: 'theory-common-mistakes', detail: `"${COMMON_MISTAKES}" has ${count} words, expected 40-250` });
+    }
+    if (!/^```py\s*$/m.test(mistakes) || !/\*\*[^*\n]+\*\*/.test(mistakes)) {
+      violations.push({ rule: 'theory-common-mistakes', detail: `"${COMMON_MISTAKES}" needs the wrong code and the fix in a py fence and the mistake in bold` });
+    }
   }
   if (headings.at(-1) !== CLOSING) {
-    violations.push({ rule: 'theory-closing', detail: `practice theory must end with "${CLOSING}", last section is "${headings.at(-1) ?? 'none'}"` });
+    violations.push({ rule: 'theory-closing', detail: `${kind} theory must end with "${CLOSING}", last section is "${headings.at(-1) ?? 'none'}"` });
   }
   return violations;
 }
@@ -270,6 +350,9 @@ function checkChallenge(lesson: Lesson, kind: Kind): Violation[] {
   if (total < 3 || total > 6) {
     violations.push({ rule: 'tests-count', detail: `tests.py needs 3-6 tests, found ${total}` });
   }
+  if (kind === 'practice' || kind === 'capstone') {
+    violations.push(...checkBeginnerMistake(challenge.tests));
+  }
   for (const file of ['challenge.md', 'hints.md', 'approach.md', 'tests.py']) {
     const path = resolve(directory, file);
     if (existsSync(path) && /\bTODO\b/.test(readFileSync(path, 'utf8'))) {
@@ -277,6 +360,23 @@ function checkChallenge(lesson: Lesson, kind: Kind): Violation[] {
     }
   }
   return violations;
+}
+
+/** One test carries `# beginner mistake: <text>` on the line right above its `@test`. */
+function checkBeginnerMistake(tests: string): Violation[] {
+  const lines = tests.split('\n');
+  const markers = lines.flatMap((line, index) => {
+    const match = BEGINNER_MISTAKE.exec(line.trimEnd());
+    return match ? [{ text: match[1].trim(), next: lines[index + 1] ?? '' }] : [];
+  });
+  if (markers.length !== 1) {
+    return [{ rule: 'tests-beginner-mistake', detail: `tests.py needs exactly one "# beginner mistake: <text>" line above a @test, found ${markers.length}` }];
+  }
+  const [marker] = markers;
+  if (!marker.next.startsWith('@test(') || marker.text.length < 10) {
+    return [{ rule: 'tests-beginner-mistake', detail: 'the "# beginner mistake:" line names the mistake and sits right above its @test' }];
+  }
+  return [];
 }
 
 function violationsOf(lesson: Lesson): Violation[] {
@@ -287,12 +387,13 @@ function violationsOf(lesson: Lesson): Violation[] {
     ...checkTheory(lesson, kind),
     ...checkQuiz(lesson, kind),
     ...checkChallenge(lesson, kind),
+    ...checkBridges(lesson),
   ];
 }
 
 function unexpected(lesson: Lesson): string[] {
   return violationsOf(lesson)
-    .filter((violation) => !(`${lesson.key}#${violation.rule}` in KNOWN_EXCEPTIONS))
+    .filter((violation) => !(`${lesson.key}#${violation.rule}` in KNOWN_EXCEPTIONS) && !pending(lesson, violation.rule))
     .map((violation) => `${violation.rule}: ${violation.detail}`);
 }
 
@@ -335,6 +436,15 @@ describe('python track conventions', () => {
       const [lessonKey, rule] = key.split('#');
       const lesson = lessons.find((candidate) => candidate.key === lessonKey);
       return !lesson || !violationsOf(lesson).some((violation) => violation.rule === rule);
+    });
+    expect(stale).toEqual([]);
+  });
+
+  it('keeps the pending rewrite list honest', () => {
+    const stale = Object.entries(PYTHON_PENDING_REWRITE).flatMap(([lessonKey, rules]) => {
+      const lesson = lessons.find((candidate) => candidate.key === lessonKey);
+      const broken = new Set(lesson ? violationsOf(lesson).map((violation) => violation.rule) : []);
+      return rules.filter((rule) => !broken.has(rule)).map((rule) => `${lessonKey}#${rule}`);
     });
     expect(stale).toEqual([]);
   });

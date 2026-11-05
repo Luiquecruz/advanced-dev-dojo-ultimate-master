@@ -28,6 +28,7 @@ The review found four problems in the 115-lesson plan, and all four are addresse
 | D7 | **Source checks use `ast`, never regex over raw text.** | `re.search(r"\bglobal\b", source)` fails a correct solution whose comment or docstring says "global". | 02, 07 |
 | D8 | **`TRACK_FLAGS.python = false`** until gate G4 (MVP, modules 01–04). | A half-built track in the carousel is a worse first impression than no track. | `src/content/featureFlags.ts` (done by the PO), README |
 | D9 | **Any change to `dojo_harness.py` or the Python worker runs both suites** (`python` and `ai-engineering`). | One engine serves two tracks and more than 130 lessons. | README |
+| D10 | **No bridges (November 2026, supersedes the "Coming from TypeScript/JavaScript" section and the JS-habit trap test).** The track assumes no prior programming language: no lesson file compares Python with another language, practice lessons and the capstone have `## Common mistakes`, and the trap test becomes the `# beginner mistake:` test, one per practice lesson. No exceptions for factual mentions. | Learners arrive without JavaScript; the tests already asserted Python behavior, so they stay and only lose their JS framing | [02](02-content-standards.md) "No bridges" and "Challenge rules", [11](11-working-agreement.md), `pythonConventions.test.ts` |
 
 ### v1 scope (94 lessons)
 
@@ -56,8 +57,8 @@ A lesson is done when a reviewer who did not write it can answer "yes" to every 
 
 **Challenge**
 
-- It builds or repairs a language mechanism, never an algorithm. Someone who knows only JS would get it wrong the way the theory predicts.
-- **Trap test:** at least one test fails the typical JS-habit implementation named in the theory (aliasing instead of copying, `==` for identity, `dict` subclass for a mapping, mutable default). The reviewer writes that wrong version and confirms the test catches it.
+- It builds or repairs a language mechanism, never an algorithm. A newcomer who skipped the theory would get it wrong the way `## Common mistakes` predicts.
+- **Beginner-mistake test:** at least one test fails the most common wrong implementation a newcomer writes for this mechanism (aliasing instead of copying, `==` for identity, `dict` subclass for a mapping, mutable default). That mistake is named in bold in `## Common mistakes` and marked `# beginner mistake: <text>` on the line above its `@test`; the test name states the correct behavior. The reviewer writes the wrong version once and confirms that this test fails on it and that the solution passes.
 - The starter imports cleanly. It fails by assertion, not by `NameError`/`ImportError`, and every `# TODO` maps to at least one failing test.
 - 3–6 tests. Each name is a sentence of the contract and **does not reveal the answer** ("the sharing choice fits the read volume", not "copy-on-read is ruled out").
 - Assertions follow the harness's introspectable shape (compute into a local, then compare), so a failure prints `left:`/`right:`.
@@ -67,8 +68,8 @@ A lesson is done when a reviewer who did not write it can answer "yes" to every 
 
 **Theory and quiz**
 
-- 250–1000 words, template order, ending with `## When to choose it` that names a concrete alternative.
-- The JS/TS snippet is the real idiom a TS developer would write, not a strawman.
+- 300–1000 words for practice lessons (250–1000 for quiz lessons and ADRs, 200–500 for maps), template order, ending with `## When to choose it` that names a concrete alternative.
+- `## Common mistakes` shows the wrong code a newcomer really writes next to the fix, not a strawman, and no lesson file compares Python with another language.
 - Every volatile fact sits in a dated `**Status as of**` block, checked against docs.python.org or the PEP, and differences from 3.15 are flagged.
 - Quiz questions ask for predictions or decisions. Explanations name the mechanism. Answer indexes vary.
 

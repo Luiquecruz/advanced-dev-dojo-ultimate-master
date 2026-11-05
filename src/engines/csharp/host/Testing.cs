@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dojo;
 
@@ -106,6 +107,23 @@ public static class Assert
         try
         {
             action();
+        }
+        catch (TException exception)
+        {
+            return exception;
+        }
+        catch (Exception exception)
+        {
+            throw Failure(message, $"expected {typeof(TException).Name}, got {exception.GetType().Name}: {exception.Message}");
+        }
+        throw Failure(message, $"expected {typeof(TException).Name}, nothing was thrown");
+    }
+
+    public static async Task<TException> ThrowsAsync<TException>(Func<Task> action, string? message = null) where TException : Exception
+    {
+        try
+        {
+            await action();
         }
         catch (TException exception)
         {

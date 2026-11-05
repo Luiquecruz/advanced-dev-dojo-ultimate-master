@@ -124,6 +124,57 @@ describe('fixture challenge', () => {
   }, 60000);
 });
 
+describe('Assert.ThrowsAsync', () => {
+  it('returns the awaited exception, derived types included, and fails on a wrong type, a sync-only check or no exception', async () => {
+    const report = await grade(`
+using Dojo;
+using System.Threading;
+
+public static class AsyncAssertTests
+{
+    [Test("catches the exception of an awaited task")]
+    public static async Task Awaited()
+    {
+        var error = await Assert.ThrowsAsync<InvalidOperationException>(async () => { await Task.Yield(); throw new InvalidOperationException("closed"); });
+        Assert.Equal("closed", error.Message);
+    }
+
+    [Test("catches an exception thrown before the first await")]
+    public static async Task Synchronous()
+    {
+        await Assert.ThrowsAsync<ArgumentException>(() => throw new ArgumentNullException("value"));
+    }
+
+    [Test("catches the cancellation of a CancelAfter timeout")]
+    public static async Task CancelAfter()
+    {
+        using var source = new CancellationTokenSource();
+        source.CancelAfter(TimeSpan.FromMilliseconds(20));
+        var error = await Assert.ThrowsAsync<OperationCanceledException>(() => Task.Delay(TimeSpan.FromSeconds(3), source.Token));
+        Assert.True(error is TaskCanceledException);
+        Assert.Equal(source.Token, error.CancellationToken);
+    }
+
+    [Test("fails on another exception type")]
+    public static async Task WrongType() =>
+        await Assert.ThrowsAsync<ArgumentException>(async () => { await Task.Yield(); throw new InvalidOperationException("closed"); });
+
+    [Test("fails when nothing is thrown")]
+    public static async Task Nothing() => await Assert.ThrowsAsync<InvalidOperationException>(() => Task.Delay(1));
+}`);
+    expect(report.compileError).toBeUndefined();
+    expect(outcomes(report)).toEqual([
+      ['catches the exception of an awaited task', true],
+      ['catches an exception thrown before the first await', true],
+      ['catches the cancellation of a CancelAfter timeout', true],
+      ['fails on another exception type', false],
+      ['fails when nothing is thrown', false],
+    ]);
+    expect(report.results[3].error).toContain('expected ArgumentException, got InvalidOperationException: closed');
+    expect(report.results[4].error).toContain('expected InvalidOperationException, nothing was thrown');
+  }, 60000);
+});
+
 describe('per-test wall-clock limit', () => {
   it.each([
     ['sync infinite loop', 'public static void Hangs() => Lesson.Spin();'],

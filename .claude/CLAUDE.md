@@ -125,7 +125,7 @@ The visual/motion spec lives in `.claude/specs/` (Portuguese; phases 1 scene, 2 
 
 ## Writing lessons
 
-Follow `.claude/docs/CONTENT_GUIDE.md` and `.claude/docs/CURRICULUM.md`. The verify suites enforce: the solution passes every test, the starter fails at least one, at least 2 hints separated by `---`, a non-trivial `approach.md`, theory over 200 characters, a challenge or a quiz in every lesson, and a `✓` in CURRICULUM.md for every written lesson. Write `meta.json` last. Check library APIs against the type definitions in `node_modules` instead of relying on memory.
+Follow `.claude/docs/CONTENT_GUIDE.md` and `.claude/docs/CURRICULUM.md`. The verify suites enforce: the solution passes every test, the starter fails at least one, at least 2 hints separated by `---`, a non-trivial `approach.md`, theory over 200 characters, a challenge or a quiz in every lesson, and a `✓` in CURRICULUM.md for every written lesson. Write `meta.json` last. Check library APIs against the type definitions in `node_modules` instead of relying on memory. C# and Python lessons assume no prior programming language: no comparison with another language, a `## Common mistakes` section, and in Python practice lessons one `# beginner mistake:` test (`csharp.test.ts` and `pythonConventions.test.ts` enforce it; lessons not yet rewritten sit in `src/verify/csharpPendingRewrite.ts` / `pythonPendingRewrite.ts`, and a stale entry fails).
 
 ## Adding a track
 

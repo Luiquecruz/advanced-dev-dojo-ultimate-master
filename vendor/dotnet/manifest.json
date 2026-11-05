@@ -1,7 +1,7 @@
 {
   "dotnet": "10.0.14",
   "roslyn": "5.9.0",
-  "version": "79969882530b9991",
+  "version": "7d85364e60ae6bbe",
   "packages": [
     {
       "id": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
@@ -89,7 +89,7 @@
       "DojoHost.cs": "0d34e6ebe327429787f4d14d5c0dcae6ad3d61f2b299f78c767680bd00f4e1d3",
       "Harness.cs": "e84f4111f4404dd4087e7fc43438d305e7d77deff53d5108a4d50d995586f193",
       "Json.cs": "a4a9a9eef6ee5de06d3638d08a11e5700a80779e0394d8083b6fd11a50fdfff7",
-      "Testing.cs": "421bc8f645a73f379bf09b7e09bb6bb39d48d6733f803b6eaebd25bdab731df9"
+      "Testing.cs": "304a94efe73375a622e753d6352cc3a95823936a17be10dad156b9e2062c9d56"
     }
   },
   "build": {
@@ -98,9 +98,9 @@
   },
   "size": {
     "files": 57,
-    "bytes": 26646410,
-    "brotli": 8619211,
-    "brotli11": 7578323,
+    "bytes": 26649482,
+    "brotli": 8620808,
+    "brotli11": 7579867,
     "brotliQuality": 5,
     "budget": 8912896
   },
@@ -108,10 +108,10 @@
     {
       "path": "assemblies/Dojo.Testing.wasm",
       "role": "assembly",
-      "sha256": "514eae79c42ae5e62acb590ed3a95b2f60796e260863d8f5fcdc7950bc82e4b4",
-      "bytes": 7445,
-      "brotli": 3263,
-      "brotli11": 3003
+      "sha256": "0323da95d01961f5d353064c8b9b4b0c2a9f76a90b7b9ef09e48b647ea44b323",
+      "bytes": 8981,
+      "brotli": 4056,
+      "brotli11": 3766
     },
     {
       "path": "assemblies/DojoHost.wasm",
@@ -444,10 +444,10 @@
     {
       "path": "ref/Dojo.Testing.wasm",
       "role": "reference",
-      "sha256": "242aaba814bc66b03abd25964e379c151bf8bcea0ed176771033e08e1417c849",
-      "bytes": 7699,
-      "brotli": 3312,
-      "brotli11": 3054
+      "sha256": "24e4a2e9e5a1d775947219fab637e58bbd686e3b05a844188101f6ae7af28efe",
+      "bytes": 9235,
+      "brotli": 4116,
+      "brotli11": 3835
     },
     {
       "path": "ref/System.Collections.Concurrent.wasm",
