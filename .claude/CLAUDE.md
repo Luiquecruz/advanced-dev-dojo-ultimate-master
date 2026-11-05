@@ -17,6 +17,7 @@ npm run docs:check                                             # changed areas w
 npx vitest run src/verify/<track>.test.ts                      # one track (typescript, react, react-state, architecture, ai-engineering, node, python, vue, angular)
 npm run python:new -- <NN-module> <NN-lesson-id>               # scaffold a Python track lesson (writes meta.json.draft)
 npm run python:curriculum                                      # regenerate the Python section of CURRICULUM.md (-- --check to verify)
+npm run python:vendor                                          # download the pinned Pyodide packages (runs as postinstall; -- --check to verify)
 LESSON=use-effect npx vitest run src/verify/react.test.ts      # lessons whose id contains "use-effect"
 LESSON=use-effect npx vitest run src/verify/content.test.ts    # structure checks only
 LESSON=react/use-effect npx vitest run src/verify/react.test.ts # one exact lesson (track/id)
