@@ -1,6 +1,8 @@
 **Question this module answers:** which container fits this data, and what does its type guarantee about order, uniqueness, hashing and mutation?
 
-**You need:** module 01 (names and aliasing, mutable versus immutable, hashing, shallow and deep copies).
+## Prerequisites
+
+Module 01 (names and aliasing, mutable versus immutable, hashing, shallow and deep copies).
 
 ## The containers at a glance
 

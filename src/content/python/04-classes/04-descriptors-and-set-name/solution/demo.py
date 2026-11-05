@@ -16,7 +16,7 @@ class Shipment:
     @LazyAttribute
     def total_cents(self):
         print("  computing total...")
-        return sum(item.quantity * item.unit_cents for item in self.items)
+        return sum([item.quantity * item.unit_cents for item in self.items])
 
 
 items = [LineItem(quantity=3, unit_cents=250), LineItem(quantity=1, unit_cents=1999)]

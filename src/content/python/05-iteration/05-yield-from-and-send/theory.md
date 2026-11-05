@@ -43,8 +43,12 @@ def flatten(items):
             yield item
 
 # right: rule out text before asking "is it iterable?"
-def is_container(item):
-    return isinstance(item, Iterable) and not isinstance(item, (str, bytes))
+def flatten(items):
+    for item in items:
+        if isinstance(item, Iterable) and not isinstance(item, (str, bytes)):
+            yield from flatten(item)
+        else:
+            yield item
 ```
 
 ## When to choose it

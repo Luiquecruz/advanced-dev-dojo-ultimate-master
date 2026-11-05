@@ -1,6 +1,6 @@
 class Basket:
     def __init__(self, items=None):
-        self.items = list(items or [])
+        self.items = [] if items is None else list(items)
 
     # TODO: make an empty basket falsy by implementing the sized-collection protocol.
 

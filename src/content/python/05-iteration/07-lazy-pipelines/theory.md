@@ -34,6 +34,22 @@ Write each stage as a list comprehension instead and the shape inverts: every st
 
 ## Common mistakes
 
+**Closing the source after the loop instead of in `finally`.** Code placed after `yield from` runs only when the input is exhausted. When the consumer calls `close()`, Python raises `GeneratorExit` at the paused `yield`, the stage stops there, and the line after the loop never runs; the same happens when a stage raises. Put the cleanup in `finally`, which runs on all three exits:
+
+```py
+# wrong: an early close() or an error skips source.close()
+def pipeline(source):
+    yield from chunked(only_errors(parse(source)), 100)
+    source.close()
+
+# right: finally runs on exhaustion, on an error and on close()
+def pipeline(source):
+    try:
+        yield from chunked(only_errors(parse(source)), 100)
+    finally:
+        source.close()
+```
+
 **Expecting `break` to close the pipeline.** Leaving a `for` loop early only stops pulling. The generator stays paused at its `yield`, its `finally` has not run, and the source it opened is still open until someone calls `close()` or the object is garbage collected. Close what you stop reading:
 
 ```py
@@ -49,8 +65,6 @@ for chunk in chunks:
     break
 chunks.close()
 ```
-
-The same applies inside the stage: cleanup written after the loop, without `try`/`finally`, runs only when the input is exhausted.
 
 ## When to choose it
 

@@ -47,7 +47,7 @@
     "question": "`class Money:` defines `@classmethod def zero(cls): return cls(0)`. `class Euro(Money)` adds nothing. What does `Euro.zero()` return?",
     "options": [
       "A `Money` instance",
-      "An `Euro` instance, because `cls` is the class the method was called on",
+      "A `Euro` instance, because `cls` is the class the method was called on",
       "A `TypeError`: classmethods cannot be inherited",
       "The `Money` class itself"
     ],

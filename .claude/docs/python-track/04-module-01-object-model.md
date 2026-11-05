@@ -35,13 +35,13 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 - Tests (5):
   1. `add_item` mutates the list passed in (`caller_list` contains the item afterwards).
   2. `add_item` returns the same object (`result is cart`).
-  3. `snapshot` is a different object and stays unchanged after the cart grows.
+  3. `snapshot` is a different object and stays unchanged after the cart grows (the `# beginner mistake:` test: returning the cart itself).
   4. `merge_carts` does not mutate inputs and returns a third object.
   5. `empty_carts(3)` returns three lists where appending to the first leaves the others empty.
 - Hints: (1) "Which operation changes the object a name points to, and which changes the name?" `list.append`/`extend` mutate; `+` builds a new list. (2) `list(cart)` and `cart.copy()` both build a new list; `[[] for _ in range(count)]` runs the expression once per element.
 - Approach steps: identify each function's required identity contract (same object / new object), choose mutation or construction accordingly, check inputs after the call.
 - Demo (`demo.py`): builds two carts, shows that `snapshot` keeps old state, prints sizes with `id` comparisons expressed as `is` booleans (never raw ids).
-- Quiz (4): `b = a; b.append(1)`, `a += [1]` vs `a = a + [1]` after aliasing, `[[0]] * 3`, mutating through a function parameter.
+- Quiz (4): `b = a; b += [2]` after aliasing, `b = b + [2]` after aliasing, `[[0] * 2] * 2` with one item changed, `items = sorted(items)` inside a function (the caller's list is unchanged).
 - Facts to verify: none volatile; cite the data model reference.
 
 ## 03-mutability-and-hashing — Mutable, Immutable and Hashable (P, beginner)
@@ -51,10 +51,10 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 - Challenge: **`freeze` and `cache_key`** (`main.py`).
   - `freeze(value)`: returns a hashable, immutable equivalent: `list`/`tuple` → `tuple` (recursively), `set` → `frozenset`, `dict` → `frozenset` of `(key, frozen_value)` pairs, scalars (`int`, `float`, `str`, `bytes`, `bool`, `None`) unchanged. Any other type raises `TypeError` whose message contains the type name. The input is never modified.
   - `cache_key(args, kwargs)`: returns `(freeze(args), freeze(kwargs))`, a hashable key that is equal for equal arguments whatever the keyword order.
-- Tests (6): freeze is hashable for nested lists and dicts (the `# beginner mistake:` test: freezing only the outer container); equal nested data freezes equal whatever the key order; the input is unchanged; a set becomes a `frozenset`; unsupported type raises `TypeError` naming the type; `cache_key` finds equal calls in a dict and misses different ones.
+- Tests (6): freeze is hashable for nested lists and dicts (the `# beginner mistake:` test: freezing only the outer container); equal nested data freezes equal whatever the key order; the input is unchanged; a set becomes a `frozenset`; unsupported type raises `TypeError` naming the type; `cache_key` finds equal calls in a dict, misses different ones, and is hashable and equal for nested keyword values (a list and a dict) in either keyword order.
 - Hints: (1) recursion: freeze children first, then wrap. (2) dict order is insertion order but `frozenset` ignores order, which is what makes `{"a":1,"b":2}` equal `{"b":2,"a":1}`.
 - Demo: freezes a config, uses it as a cache key, prints cache hits.
-- Quiz (5): hashability of `tuple` with a list inside, why `list` is unhashable, mutating a key object, `frozenset`, string concatenation in loops (use `str.join`).
+- Quiz (5): hashability of `tuple` with a list inside, why `list` and `dict` are unhashable, `frozenset` equality ignores order, fixing `lookup[[1, 2]]` with a `tuple` key, building one string from many lines (use `str.join`).
 - Facts: none volatile; PEP 8 not needed.
 
 ## 04-scope-and-nonlocal — Scope: LEGB, global and nonlocal (P, intermediate)
@@ -65,10 +65,10 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
   - `make_counter(start=0, step=1)`: returns `(next_value, reset)`. Each call to `next_value()` returns the current value, then advances by `step`. `reset()` returns the counter to `start`. Two counters are independent.
   - `make_history(limit)`: returns `(record, entries)` where `record(value)` appends to a bounded history and `entries()` returns a tuple of the last `limit` values (oldest first), sharing state through the enclosing scope.
   - The solution must not use `global`; the source check forbids the word `global` and requires `nonlocal` in `make_counter`.
-- Tests (5): counter sequence for start/step; two counters independent; `reset` restores `start`; history respects the limit and returns a tuple; source uses `nonlocal` and not `global`.
+- Tests (6): counter sequence for start/step; defaults `start=0`, `step=1`; two counters independent; `reset` restores `start` (the `# beginner mistake:` test: assigning in `reset` without `nonlocal`); history respects the limit and returns a tuple; source uses `nonlocal` and not `global` (checked with `ast`).
 - Hints: (1) assignment inside the inner function creates a *local* name; read-only access works without `nonlocal`. (2) for the history, mutating a list in the enclosing scope needs no `nonlocal`, rebinding does.
 - Demo: two counters side by side, a history recording events.
-- Quiz (5): predict `UnboundLocalError` snippet, comprehension scope, closure over loop variable (forward reference to module 03), `global` vs parameter passing, class-body scope not visible to methods.
+- Quiz (5): predict the `UnboundLocalError` snippet, comprehension variable not visible at module level, `if` blocks do not create a scope, which declaration rebinds an enclosing variable (`nonlocal`), class-body scope not visible to methods.
 - Facts: scope rules unchanged since Python 3.0; PEP 709 inlined comprehensions in 3.12 (behavior preserved): verify wording in the reference before citing.
 
 ## 05-shallow-vs-deep-copy — Shallow and Deep Copies (P, intermediate)
@@ -79,10 +79,10 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
   - `clone_config(config, **overrides)`: returns a deep copy of `config` with top-level `overrides` applied; the original and its nested dicts/lists are never shared with the result. Cyclic structures (a dict that contains itself) are cloned preserving the cycle.
   - `with_defaults(config, defaults)`: returns a new dict where missing keys are filled from `defaults` *without* aliasing mutable defaults (appending to a list in the result must not change `defaults`).
   - `diff_shared(first, second)`: returns the sorted list of top-level keys whose values are the *same object* (`is`) in both dicts (diagnostic helper for shallow copies).
-- Tests (6): nested dict isolation after mutating the clone; overrides applied; cyclic input cloned with `clone["self"] is clone`; `with_defaults` does not alias defaults; `diff_shared` of a shallow copy lists nested keys; `diff_shared` of a deep copy is empty.
+- Tests (6): nested dict and list isolation after mutating the clone (the `# beginner mistake:` test: a shallow copy); overrides applied; cyclic input cloned with `clone["self"] is clone`; `with_defaults` does not alias defaults; `diff_shared` of a shallow copy lists nested keys; `diff_shared` of a deep copy is empty.
 - Hints: (1) `copy.deepcopy` already handles cycles; do not write recursion yourself. (2) For `with_defaults`, deep-copy the *default* before inserting it.
 - Demo: shallow vs deep copy of a settings dict, prints which keys are shared.
-- Quiz (4): effect of `copy.copy` on nested list, `copy.deepcopy` with a cycle, `list(a)` vs `a[:]`, copying a class instance with `__dict__`.
+- Quiz (4): effect of `a.copy()` on a nested list, `copy.deepcopy` with a cycle, which pair builds equivalent shallow copies (`list(a)` and `a[:]`), why `{**defaults, **config}` shares a mutable default.
 - Facts: none.
 
 ## 06-identity-equality-and-interning — `is` vs `==` (P, intermediate)
@@ -93,10 +93,10 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
   - `MISSING = object()` module-level sentinel and `lookup(mapping, key, default=MISSING)`: returns the value; if the key is absent and `default is MISSING` raises `KeyError(key)`; otherwise returns `default` (so `default=None` is a legitimate return value).
   - `class Money` with `amount: int` (cents) and `currency: str`: equality and hashing based on both fields, `Money(100, "EUR") == Money(100, "EUR")`, hashes equal, usable in sets; comparison with a non-`Money` returns `NotImplemented` (so `Money(1, "EUR") == 1` is `False` without raising).
   - `same_amount(first, second)`: returns `True` when the two `Money` have equal `amount` regardless of currency; it must use `==` on amounts. A source check (with `ast`) forbids `==`/`!=` with `None` and `is` comparisons with literals.
-- Tests (6): `lookup` returns present value; missing key with no default raises `KeyError`; missing with `default=None` returns `None`; equal `Money` objects compare equal and hash equal; a set of two equal `Money` has length 1; `Money(1, "EUR") == 1` is `False`; `same_amount` on large amounts built at run time (`int("250000")`), the `# beginner mistake:` test, so an `is` comparison fails; source check.
+- Tests (6): `lookup` returns a present value, even a falsy one; a missing key with no default raises `KeyError`, while `default=None` and a stored `None` both return `None`; equal `Money` objects compare and hash equal, are distinct objects and collapse in a set; `Money(1, "EUR") == 1` is `False` and `!=` is `True`; `same_amount` on large amounts built at run time (`int("250000")`), the `# beginner mistake:` test, so an `is` comparison fails; source check (with `ast`) for `== None` and `is` with literals.
 - Hints: (1) a fresh `object()` is a unique sentinel that no caller can pass by accident. (2) `@dataclass(frozen=True)` is allowed but writing `__eq__` and `__hash__` by hand is the point of the lesson; either passes the tests.
 - Demo: sentinel vs `None`, interning demo printing `a == b` and noting in text that `is` results for ints are implementation-defined (the demo never prints an `is` on ints or strings).
-- Quiz (5): `x is None` vs `x == None`, why `[] is []` is `False`, `256 is 256` and why not to rely on it, `__eq__` without `__hash__`, `float('nan') == float('nan')`.
+- Quiz (5): `x is None` as the absence check, why `[] is []` is `False`, `count is 1000` and why to use `==`, `__eq__` without `__hash__`, `float('nan') == float('nan')`.
 - Facts: CPython 3.14 emits `SyntaxWarning` for `is` with a literal: verify in the 3.14 docs before stating it as dated fact; the small-int cache range (-5 to 256) is an implementation detail, say so.
 
 ## 07-truthiness-and-bool — Truthiness and `__bool__` (P, beginner)
@@ -108,10 +108,10 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
   - `class Quota(limit, used)`: defines `__bool__` as "has remaining capacity" (`used < limit`); `len` is not defined (`len(Quota(1, 0))` raises `TypeError`).
   - `coalesce(*values)`: returns the first value that is not `None` (keeps `0`, `""`, `[]`, `False`); returns `None` when all are `None` or no values are given.
   - `first_truthy(*values, default=None)`: returns the first truthy value or `default`.
-- Tests (6): `Basket` falsy/truthy; `Quota` bool by remaining capacity; `len(Quota(...))` raises `TypeError`; `coalesce(None, 0, 5) == 0`; `coalesce()` is `None`; `first_truthy(0, "", [], "x") == "x"` and the default path.
+- Tests (5): `Basket` falsy/truthy; `Quota` bool by remaining capacity; `len(Quota(...))` raises `TypeError`; `coalesce` keeps `0`, `""` and `[]` and returns `None` for all-`None` or no values (the `# beginner mistake:` test: testing truthiness instead of `is not None`); `first_truthy(0, "", [], "x") == "x"` and the default path.
 - Hints: (1) `__bool__` wins over `__len__` when both exist. (2) `coalesce` needs `is None`, not truthiness.
 - Demo: counts how many settings use falsy-but-valid values like `0` and `""`.
-- Quiz (4): `[] or "default"`, `0 or None`, what `x or 0` returns when `x` is `0` versus `None` and the `is None` fix, truthiness of a custom class with no dunders.
+- Quiz (4): `[] or "default"`, `0 or None`, which expression replaces only `None` with `0` (`0 if value is None else value`), truthiness of a custom class with no `__bool__` or `__len__`.
 - Facts: none volatile.
 
 ## 08-object-model-adr — Checkpoint: Shared Value Objects ADR (A, intermediate)

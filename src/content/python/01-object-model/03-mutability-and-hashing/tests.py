@@ -39,11 +39,15 @@ async def _():
     assert "Widget" in str(error)
 
 
-@test("cache_key gives equal keys for equal arguments, whatever the keyword order")
+@test("cache_key gives equal keys for equal arguments, whatever the keyword order or nesting")
 def _():
     cache = {}
     cache[mod.cache_key(([1, 2],), {"scale": 2, "unit": "EUR"})] = 6
     same = mod.cache_key(([1, 2],), {"unit": "EUR", "scale": 2})
     other = mod.cache_key(([1, 3],), {"scale": 2, "unit": "EUR"})
+    nested = mod.cache_key((), {"tags": ["a", "b"], "limits": {"max": 3}})
+    nested_twin = mod.cache_key((), {"limits": {"max": 3}, "tags": ["a", "b"]})
     assert same in cache
     assert other not in cache
+    assert type(hash(nested)) is int
+    assert nested == nested_twin

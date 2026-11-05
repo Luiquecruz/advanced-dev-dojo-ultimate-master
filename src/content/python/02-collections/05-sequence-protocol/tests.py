@@ -45,3 +45,4 @@ def _():
     assert len(deck) == 2
     methods = [node.name for node in ast.walk(ast.parse(source)) if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))]
     assert "__iter__" not in methods
+    assert "__iter__" not in vars(mod.Deck)

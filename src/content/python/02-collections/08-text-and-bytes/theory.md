@@ -18,7 +18,7 @@ Mixing them fails loudly: `"a" + b"b"` raises `TypeError`. Always pass the encod
 
 ## How it works
 
-`encode` turns text into bytes and `decode` turns bytes back into text, both with a named encoding. UTF-8 uses 1 byte for ASCII characters and 2 to 4 bytes for every other code point, so the byte length of a text is usually larger than its `len`. Decoding checks that the bytes form valid characters in that encoding:
+`encode` turns text into bytes and `decode` turns bytes back into text, both with a named encoding. UTF-8 uses 1 byte for ASCII characters and 2 to 4 bytes for every other code point, so the byte length of a text is at least its `len`, and larger as soon as it holds a non-ASCII character. Decoding checks that the bytes form valid characters in that encoding:
 
 ```py
 b"caf\xe9".decode("utf-8")                       # UnicodeDecodeError

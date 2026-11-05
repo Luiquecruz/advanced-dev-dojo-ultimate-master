@@ -70,7 +70,7 @@ def current_level():
     return config.LEVEL
 ```
 
-**Fixing a cycle by moving the import to the bottom of the file.** It passes while `main` is imported first and fails as soon as something imports the plugin module first. Move the shared registry down instead.
+**Fixing a cycle by moving the import to the bottom of the file.** It passes while `main` is imported first and fails as soon as something imports the plugin module first. Move the shared registry into the lower-level module that both import (here `registry.py`), so the dependency points one way.
 
 ## When to choose it
 

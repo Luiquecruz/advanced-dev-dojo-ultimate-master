@@ -1,6 +1,6 @@
 class Basket:
     def __init__(self, items=None):
-        self.items = list(items or [])
+        self.items = [] if items is None else list(items)
 
     def __len__(self):
         return len(self.items)

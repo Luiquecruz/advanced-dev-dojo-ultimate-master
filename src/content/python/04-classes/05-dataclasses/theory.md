@@ -72,6 +72,8 @@ def with_price(product, price_cents):
 
 Keep `object.__setattr__` for the one place the generated `__init__` needs it: normalizing a field inside `__post_init__`.
 
+Rebuilding by hand, `Product(product.name, price_cents, product.tags)`, does validate, but it names every field: when a field with a default is added to the class later, the hand-written call silently resets it to that default. `replace` carries over every field you do not name, so it keeps working as the class grows.
+
 ## When to choose it
 
 - **`@dataclass`** for classes that are mainly data with a few methods: records, configuration, value objects, messages.
