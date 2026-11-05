@@ -55,6 +55,15 @@ Acceptance for every module:
 | V3 | CI/CD | The pull request CI is green, including the smoke test against the Deploy Preview; the state is recorded (CI passed is not a deploy) | done | PR #17 at `c0e65cc`: 28 checks passed and 4 skipped, merge state CLEAN. The first run failed CodeQL on a URL substring check in the suite (fixed in `c0e65cc`). The Netlify Deploy Preview was built and smoke-tested. Production is not deployed: it follows the merge. CodeRabbit skipped the PR (302 files, over its 300-file limit); the independent agent reviews stand in for it |
 | V4 | Enable | `TRACK_FLAGS.csharp = true` once C01–C13 and V1–V2 are done | done | flag on; README, CURRICULUM and `index.html` updated |
 
+## Market alignment and ongoing work
+
+The research is refreshed by hand when the curriculum is revisited, not on a timer: the goal is to stay aligned with the market.
+
+| ID | Item | Acceptance criteria | When | Status |
+| --- | --- | --- | --- | --- |
+| T1 | Trend snapshot | Repeat round 2's collection (same sources, vocabulary and dedup rules as 08-market-research-v2.md) and compare frequencies per competency against both rounds. Report only changes larger than the sampling noise. Re-check the curriculum's priorities, especially legacy (30%), cloud and messaging | at the next curriculum revision; 60–90 days after a round gives a meaningful comparison | todo |
+| E1 | C# engine and challenges | Phase 1: an engine meeting the conditions of 04-engine-spike.md §10, with independent security and platform reviews. Phase 2: module 02 pilot challenges behind an approval gate, then module by module, and the practice projects as challenges where they fit. Every pull request stays under 300 files | started 2026-11-05 | doing |
+
 ## Later (not in v1)
 
 - Trim the repeated PHP-FPM lifecycle recap in the "Coming from PHP/Magento" sections (about 20 lessons): a low finding of the final review.

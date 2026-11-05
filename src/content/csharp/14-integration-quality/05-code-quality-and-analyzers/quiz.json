@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Your Magento project ran PHPStan as a separate Composer tool in the pipeline. What is the closest equivalent for a new .NET 10 service?",
+    "options": [
+      "Install a static analysis NuGet package, because .NET has no analysis by default",
+      "Run a separate analysis tool after `dotnet build`, because the compiler does not check quality",
+      "Use the SDK's built-in analyzers, already running in `dotnet build`, tuned with `AnalysisLevel` and `.editorconfig`",
+      "Rely on unit tests, because analyzers only check formatting"
+    ],
+    "answer": 2,
+    "explanation": "The code quality analyzers ship with the .NET SDK and are enabled for projects targeting .NET 5 or later, so they run in every build and in the IDE. You configure them instead of installing a separate tool. Third-party analyzer packages exist, but they plug into the same compiler pipeline. Analyzers check reliability, security and performance, not only formatting."
+  },
+  {
+    "question": "A build that passed yesterday now fails with new `CA` errors. Nobody changed the code, but the build agent got a newer .NET SDK. The project has `TreatWarningsAsErrors` and no `AnalysisLevel`. Why?",
+    "options": [
+      "`AnalysisLevel` defaults to `latest`, so the new SDK enabled new rules as warnings, now errors",
+      "The new SDK always switches `AnalysisMode` to `All`",
+      "`TreatWarningsAsErrors` only applies to rules added after the project was created",
+      "The newer SDK ignores `.editorconfig` until the cache is cleared"
+    ],
+    "answer": 0,
+    "explanation": "With no `AnalysisLevel`, the default `latest` follows the SDK, and new releases can enable new rules. Combined with warnings as errors, that breaks the build. Pin `AnalysisLevel` (for example `10`) or pin the SDK in `global.json`, and upgrade rules deliberately. The SDK does not change your mode, and `.editorconfig` is read on every build."
+  },
+  {
+    "question": "Which snippet does the compiler or a default analyzer flag, even though it compiles?",
+    "options": [
+      "`logger.LogInformation(\"Order {OrderId} placed\", order.Id);`",
+      "`logger.LogInformation(\"Order {OrderId} for {Sku}\", order.Id);`",
+      "`var total = items.Sum(i => i.Price);`",
+      "`await using var scope = provider.CreateAsyncScope();`"
+    ],
+    "answer": 1,
+    "explanation": "`CA2017`, a warning by default, reports that the message template has two placeholders but only one argument, which writes a broken structured log. The first option is the correct form of the same call. The other two snippets are ordinary, correct code."
+  },
+  {
+    "question": "You inherit a solution with 900 warnings and want `TreatWarningsAsErrors` on. What is the most sustainable approach?",
+    "options": [
+      "Turn it on today and let developers fix warnings as their builds fail",
+      "Add `#pragma warning disable` at the top of every file, then turn it on",
+      "Set `AnalysisMode` to `All` first so all problems are visible at once",
+      "Pin `AnalysisLevel`, fix or configure the current warnings in `.editorconfig` with reasons, then enable it"
+    ],
+    "answer": 3,
+    "explanation": "A ratchet keeps the build green: freeze the rule set, clean up or deliberately downgrade existing warnings in configuration, then make every new warning a failure. Turning it on at once blocks everybody, file-level pragmas hide problems without a reason, and `All` adds hundreds more warnings to the pile."
+  },
+  {
+    "question": "Why does the pipeline run `dotnet format --verify-no-changes` instead of `dotnet format`?",
+    "options": [
+      "`--verify-no-changes` is faster because it skips analyzers",
+      "Plain `dotnet format` only works on Windows agents",
+      "It fails the job when a file does not match the style, without the CI agent rewriting files nobody commits",
+      "It formats the files and commits the result back to the branch"
+    ],
+    "answer": 2,
+    "explanation": "With `--verify-no-changes`, `dotnet format` makes no changes and exits with a non-zero code if any file would be formatted, which turns style into a pass/fail check. Plain `dotnet format` would rewrite files on the agent, where nobody commits them, so the job would pass and the repository stays unformatted. The option does not skip analyzers, and it commits nothing."
+  }
+]

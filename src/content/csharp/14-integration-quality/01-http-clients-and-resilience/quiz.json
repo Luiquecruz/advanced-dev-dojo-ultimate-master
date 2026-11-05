@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In a Magento module you built a new Guzzle client per call and it was fine. You port the ERP integration to an ASP.NET Core API and write `using var http = new HttpClient();` inside `GetStockAsync`. Under load, what goes wrong?",
+    "options": [
+      "Nothing: `using` disposes the client, which closes the socket immediately",
+      "Requests serialize, because each `HttpClient` allows one request at a time",
+      "Sockets linger after each disposal and the long-running process can exhaust them",
+      "The JSON serializer is recreated per call, which is the main cost"
+    ],
+    "answer": 2,
+    "explanation": "Disposing an `HttpClient` disposes its handler, and the operating system keeps closed connections around for a while. A PHP-FPM worker dies after the request, but a .NET API keeps creating connections and runs out of ports. Get clients from `IHttpClientFactory`, which pools the handlers. `using` does close the client, but the socket is not released immediately, which is the whole problem."
+  },
+  {
+    "question": "`StockCache` is registered as a singleton and takes the typed client `ErpClient` in its constructor. What is the risk?",
+    "options": [
+      "None: typed clients are singletons too, so the lifetimes match",
+      "The captured client keeps one handler forever and stops reacting to DNS changes",
+      "Scope validation throws at startup because typed clients are scoped",
+      "Every call through the singleton creates a new connection pool"
+    ],
+    "answer": 1,
+    "explanation": "Typed clients are registered as transient and are meant to be short-lived. A singleton captures one instance, and with it one handler, so the factory can never rotate it. Fixes: inject `IHttpClientFactory` and create clients when needed, or use `SocketsHttpHandler` with `PooledConnectionLifetime`. Typed clients are not scoped, so scope validation does not catch this."
+  },
+  {
+    "question": "With `AddStandardResilienceHandler()` and no options, a `POST /payments` call times out after 10 seconds. What happens next?",
+    "options": [
+      "The handler gives up, because retries are disabled for `POST` by default",
+      "The circuit breaker opens at once, because a timeout counts as a full outage",
+      "The total timeout aborts the call, because 10 seconds exceeds the budget",
+      "The handler retries the `POST`, which may charge the customer twice"
+    ],
+    "answer": 3,
+    "explanation": "The 10-second attempt timeout throws `TimeoutRejectedException`, which the retry handles, and by default the standard handler retries every HTTP method. If the provider had processed the first attempt, the retry duplicates it. Use `options.Retry.DisableForUnsafeHttpMethods()` or make the call idempotent with a key. The breaker only opens at a 10% failure ratio over at least 100 calls, and the total budget is 30 seconds."
+  },
+  {
+    "question": "Which component is the .NET counterpart of a Guzzle `Middleware::mapRequest` that adds an API key header?",
+    "options": [
+      "A `DelegatingHandler` registered as transient and added with `AddHttpMessageHandler<T>()`",
+      "An ASP.NET Core middleware added with `app.Use(...)` in `Program.cs`",
+      "An endpoint filter on the minimal API that calls the external service",
+      "A `DefaultRequestHeaders` entry set inside each typed client method"
+    ],
+    "answer": 0,
+    "explanation": "A `DelegatingHandler` sits in the outgoing `HttpClient` pipeline and sees every request, just like a Guzzle middleware in a `HandlerStack`. ASP.NET Core middleware and endpoint filters handle incoming requests to your own API, not outgoing calls. Setting `DefaultRequestHeaders` per call mutates shared state on the client and is not thread-safe."
+  },
+  {
+    "question": "A teammate adds `AddStandardResilienceHandler()` to a client that already has a custom `AddResilienceHandler(\"erp\", ...)` pipeline, \"for extra safety\". What does Microsoft recommend?",
+    "options": [
+      "Keep both: each handler protects a different failure type",
+      "Keep both, but put the standard handler first so it runs outermost",
+      "Use one resilience handler per client; customize one pipeline instead of stacking",
+      "Replace both with `SetHandlerLifetime`, which already retries failed connections"
+    ],
+    "answer": 2,
+    "explanation": "The HTTP resilience docs say to add one resilience handler and avoid stacking: stacked retries multiply attempts and timeouts interact in surprising ways. Customize the standard handler's options or build one custom pipeline, and use `RemoveAllResilienceHandlers()` to override a default. Ordering the stacked handlers does not remove the multiplied retries, and handler lifetime has nothing to do with retries."
+  },
+  {
+    "question": "The ERP returns `429 Too Many Requests` with `Retry-After: 20`. How does the standard handler's retry behave by default?",
+    "options": [
+      "It ignores 429, because only 5xx responses are treated as transient",
+      "It retries immediately three times, since 429 is not a server error",
+      "It opens the circuit breaker, because 429 always means the dependency is down",
+      "It treats 429 as transient and uses the `Retry-After` value for the delay"
+    ],
+    "answer": 3,
+    "explanation": "The standard retry and circuit breaker handle 5xx, 408 and 429, and `HttpRetryStrategyOptions.ShouldRetryAfterHeader` defaults to `true`, so the delay comes from `Retry-After`. Note that a 20-second wait still has to fit in the 30-second total timeout. The breaker counts failures over a sampling window; a single 429 does not open it."
+  }
+]

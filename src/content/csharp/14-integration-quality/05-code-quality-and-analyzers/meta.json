@@ -1,0 +1,28 @@
+{
+  "title": "Code Quality and Analyzers",
+  "summary": "Enforce correctness and style with the SDK's Roslyn analyzers, AnalysisLevel and .editorconfig severities, adopt warnings as errors gradually, and check formatting in CI with dotnet format.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "deepening",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Overview of .NET source code analysis",
+      "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview"
+    },
+    {
+      "label": "Configuration options for code analysis",
+      "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-options"
+    },
+    {
+      "label": "C# compiler options to report errors and warnings",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/errors-warnings"
+    },
+    {
+      "label": "dotnet format",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-format"
+    }
+  ]
+}
