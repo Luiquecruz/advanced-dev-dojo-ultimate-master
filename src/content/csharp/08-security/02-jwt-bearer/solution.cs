@@ -92,7 +92,7 @@ public sealed class ClaimsValidator(string issuer, string audience, TimeSpan clo
         }
 
         DateTimeOffset now = clock.GetUtcNow();
-        if (now > claims.Expires + clockSkew)
+        if (now - clockSkew > claims.Expires)
         {
             return TokenCheck.Expired;
         }
