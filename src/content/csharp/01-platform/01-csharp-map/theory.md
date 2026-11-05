@@ -85,7 +85,7 @@ string freeing = await File.ReadAllTextAsync("products.csv");    // the thread r
 
 ## Common mistakes
 
-- **Skipping module 00 without the test.** Learners who skip it and cannot solve the 00/07 challenge stall in 02/01, where methods, lists and classes are assumed. Try that challenge first; if you need help with it, work through module 00.
+- **Skipping module 00 without the test.** Learners who skip it and cannot solve the 00/07 challenge stall in 02/01, where methods, collections and classes are assumed. Try that challenge first; if you need help with it, work through module 00.
 - **Keeping one user's data in a static field or singleton.** Every concurrent request shares it, so one customer sees another customer's cart. Per-request data belongs in a scoped service (05/02) or a parameter.
 - **Copying an old sample.** Code with a `Startup` class, `System.Web` or `web.config` was written for .NET Framework or early ASP.NET Core and often fails to compile on .NET 10. Check the date and target framework (01/03).
 - **Blocking on `.Result` in a web app.** It works on your laptop and starves the thread pool under load, so requests queue. Use `await`.

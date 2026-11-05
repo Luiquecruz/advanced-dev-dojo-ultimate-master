@@ -1,4 +1,4 @@
-A sign-up form for a race sends names and ages as text, and a method somebody else wrote has a bug. This challenge uses the whole module: complete `Ages.Parse`, find and fix the bug in `Ages.CountAdults`, and finish the `SignUpList` class that keeps the sign-ups.
+A sign-up form for a race sends names and ages as text, and a method somebody else wrote has a bug. This challenge combines most of the module: parsing text, a loop over an array, a dictionary inside a class, string cleaning, a tuple and exceptions. Complete `Ages.Parse`, find and fix the bug in `Ages.CountAdults`, and finish the `SignUpList` class that keeps the sign-ups.
 
 ## `Ages.Parse`
 
