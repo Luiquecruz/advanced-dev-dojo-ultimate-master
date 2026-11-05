@@ -9,7 +9,15 @@ export function initSentry(): void {
   Sentry.init({
     dsn,
     environment: import.meta.env.MODE,
-    integrations: [Sentry.browserTracingIntegration()],
+    integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
     tracesSampleRate: import.meta.env.PROD ? 0.1 : 1,
+    replaysSessionSampleRate: 0,
+    replaysOnErrorSampleRate: 1,
   });
 }
+
+export const reactRootErrorHandlers = {
+  onUncaughtError: Sentry.reactErrorHandler(),
+  onCaughtError: Sentry.reactErrorHandler(),
+  onRecoverableError: Sentry.reactErrorHandler(),
+};
