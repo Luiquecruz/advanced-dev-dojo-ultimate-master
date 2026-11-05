@@ -66,7 +66,7 @@ app.MapGrpcService<StockService>();
 
 The field numbers (`= 1`, `= 2`) are the wire contract. Never reuse or renumber them; add new fields with new numbers so old clients keep working.
 
-The client project generates its own stub from the same `.proto`: it references `Google.Protobuf`, `Grpc.Tools` and `Grpc.Net.ClientFactory` and adds `<Protobuf Include="Protos\stock.proto" GrpcServices="Client" />`, which generates `Stock.StockClient`. `Grpc.Net.ClientFactory` registers that client through `IHttpClientFactory`, so everything from lesson 01 applies:
+The client project generates its own stub from the same `.proto`: it references `Google.Protobuf`, `Grpc.Tools` and `Grpc.Net.ClientFactory` and adds `<Protobuf Include="Protos\stock.proto" GrpcServices="Client" />`, which generates `Stock.StockClient`. `Grpc.Net.ClientFactory` registers that client through `IHttpClientFactory`, so everything from module 10 lesson 05 applies:
 
 ```csharp
 using Catalog.Grpc;
@@ -81,7 +81,7 @@ var reply = await client.GetLevelAsync(
     cancellationToken: ct);
 ```
 
-gRPC has **no default deadline**: without one, a call can wait forever. When the deadline passes, the client throws an `RpcException` with `StatusCode.DeadlineExceeded`, and the server's `context.CancellationToken` fires, which is why the service passes it on. If you add resilience handlers to every client (lesson 01, Aspire ServiceDefaults), their HTTP timeouts also cut gRPC calls made through `AddGrpcClient`, but set a deadline explicitly anyway: it reaches the server, an HTTP timeout does not.
+gRPC has **no default deadline**: without one, a call can wait forever. When the deadline passes, the client throws an `RpcException` with `StatusCode.DeadlineExceeded`, and the server's `context.CancellationToken` fires, which is why the service passes it on. If you add resilience handlers to every client (module 10 lesson 05, Aspire ServiceDefaults), their HTTP timeouts also cut gRPC calls made through `AddGrpcClient`, but set a deadline explicitly anyway: it reaches the server, an HTTP timeout does not.
 
 ## A SignalR hub
 

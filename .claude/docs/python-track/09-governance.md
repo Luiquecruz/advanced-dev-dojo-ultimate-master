@@ -26,7 +26,7 @@ The review found four problems in the 115-lesson plan, and all four are addresse
 | D5 | **Annotations are allowed in solutions from module 03 on**, and `01-functions-map` has an "Annotations are not enforced" section. Typing challenges stay runtime-checkable and say they test introspection, not type checking. | Matches modern Python and corrects the TS prior ("types are checked") early. | 02, 05, 07 |
 | D6 | **`03-functions/02-modules-and-imports`** (P, B) is added. Finders and loaders move to `11-metaprogramming/07-import-system-internals`. | Imports are a day-one concern, and the harness already supports multi-file projects. | 03, 05, 07 |
 | D7 | **Source checks use `ast`, never regex over raw text.** | `re.search(r"\bglobal\b", source)` fails a correct solution whose comment or docstring says "global". | 02, 07 |
-| D8 | **`TRACK_FLAGS.python = false`** until gate G4 (MVP, modules 01–04). | A half-built track in the carousel is a worse first impression than no track. | `src/content/featureFlags.ts` (done by the PO), README |
+| D8 | The track stayed hidden (`TRACK_FLAGS.python = false`) while it was incomplete; it is now visible (`TRACK_FLAGS.python = true`). | A half-built track in the carousel is a worse first impression than no track. | `src/content/featureFlags.ts` (done by the PO), README |
 | D9 | **Any change to `dojo_harness.py` or the Python worker runs both suites** (`python` and `ai-engineering`). | One engine serves two tracks and more than 130 lessons. | README |
 
 ### v1 scope (94 lessons)

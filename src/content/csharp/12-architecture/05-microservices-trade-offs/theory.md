@@ -59,7 +59,7 @@ internal sealed class InventoryClient(HttpClient http)
 internal sealed record StockResponse(string Sku, int Available);
 ```
 
-Keep a trailing slash on the base address so relative paths such as `stock/...` append to it. The handler's default timeouts and retries are the ones from module 04 lesson 04; what matters here is that those retries apply to every HTTP method, so a call with side effects needs `DisableForUnsafeHttpMethods()` or an idempotent endpoint. Even with all of that, the caller must decide what "inventory is down" means for checkout. That decision is business logic, not plumbing.
+Keep a trailing slash on the base address so relative paths such as `stock/...` append to it. The typed client, `AddStandardResilienceHandler` and its default timeouts and retries are taught in module 10 lesson 05; what matters here is that those retries apply to every HTTP method, so a call with side effects needs `DisableForUnsafeHttpMethods()` or an idempotent endpoint. Even with all of that, the caller must decide what "inventory is down" means for checkout. That decision is business logic, not plumbing.
 
 ## Decision criteria
 

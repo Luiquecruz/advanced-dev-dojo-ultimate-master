@@ -87,7 +87,7 @@ Ownership decides. You dispose what you create with `new` (or get from a factory
 
 Two classic exceptions to "dispose everything":
 
-- `HttpClient` implements `IDisposable` but is designed for reuse. Creating and disposing one per call leaves sockets in `TIME_WAIT` and can exhaust them; get clients from `IHttpClientFactory` instead.
+- `HttpClient` implements `IDisposable` but is designed for reuse. Creating and disposing one per call leaves sockets in `TIME_WAIT` and can exhaust them; get clients from `IHttpClientFactory` instead (module 10, lesson 05).
 - `CancellationTokenSource` is disposable and easy to forget; the next lesson creates one per timeout, and each needs a `using`.
 
 ## In practice

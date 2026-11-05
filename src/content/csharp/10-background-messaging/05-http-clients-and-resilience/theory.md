@@ -6,7 +6,7 @@ After this lesson you can call an external API from a .NET service the way produ
 
 A Magento integration (an ERP, a payment provider, a shipping API) usually wraps Guzzle: a client class under `Model/Api`, a `HandlerStack` with `Middleware::retry`, `Middleware::mapRequest` to add the auth header, and `Middleware::log`. Each PHP-FPM request builds the client, sends a few calls and dies, so a badly managed client costs little.
 
-The ideas transfer almost one to one: a `DelegatingHandler` is a Guzzle middleware, and the resilience handler is your retry middleware with a timeout and a circuit breaker added. The trap is the lifetime. A .NET API is one long-running process. `new HttpClient()` per call leaks sockets (module 04 lesson 02), and one static client kept forever never sees DNS changes. Retries also cost more: a .NET process serves many requests at once, so three retries per call during an outage triple the load on a dependency that is already struggling.
+In .NET the same pieces exist: a `DelegatingHandler` is outgoing middleware that sees every request a client sends, and the resilience handler adds retries, a timeout and a circuit breaker to that pipeline. The trap is the lifetime. A .NET API is one long-running process. `new HttpClient()` per call leaks sockets (module 04 lesson 03), and one static client kept forever never sees DNS changes. Retries also cost more: a .NET process serves many requests at once, so three retries per call during an outage triple the load on a dependency that is already struggling.
 
 ## Typed clients
 
@@ -77,7 +77,7 @@ builder.Services.AddHttpClient<ErpClient>(/* ... */)
     });
 ```
 
-You met these defaults in module 04 lesson 04 and the handler in module 12 lesson 05; this section explains them. One call adds five strategies, outermost first: a rate limiter (1,000 concurrent permits, no queue), a 30-second total timeout, a retry (three retries, exponential backoff with jitter, 2-second base delay), a circuit breaker (opens at a 10% failure ratio with at least 100 calls in 30 seconds, for 5 seconds) and a 10-second timeout per attempt. Retries and the breaker react to `HttpRequestException`, Polly's `TimeoutRejectedException`, 5xx, 408 and 429, and the retry honors a `Retry-After` header by default (`ShouldRetryAfterHeader`). Microsoft's guidance is one resilience handler per client: do not stack two. For your own mix of strategies use `AddResilienceHandler("name", builder => ...)`, and `AddStandardHedgingHandler()` sends parallel attempts for slow reads.
+You met these defaults in module 04 lesson 04; this section explains them, and module 12 lesson 05 uses the same handler between services. One call adds five strategies, outermost first: a rate limiter (1,000 concurrent permits, no queue), a 30-second total timeout, a retry (three retries, exponential backoff with jitter, 2-second base delay), a circuit breaker (opens at a 10% failure ratio with at least 100 calls in 30 seconds, for 5 seconds) and a 10-second timeout per attempt. Retries and the breaker react to `HttpRequestException`, Polly's `TimeoutRejectedException`, 5xx, 408 and 429, and the retry honors a `Retry-After` header by default (`ShouldRetryAfterHeader`). Microsoft's guidance is one resilience handler per client: do not stack two. For your own mix of strategies use `AddResilienceHandler("name", builder => ...)`, and `AddStandardHedgingHandler()` sends parallel attempts for slow reads.
 
 ## When a retry is unsafe
 

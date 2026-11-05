@@ -53,7 +53,7 @@ The runtime checks `catch` clauses top to bottom, so order them from the most de
 An exception filter (`when`) decides whether a clause handles the exception. The filter runs before the stack is unwound, so when it returns `false` the exception continues with its original stack trace intact:
 
 ```csharp
-// ... inside an async method; StockUnavailableException is a custom type
+// ... inside an async method (async and await: lesson 02); StockUnavailableException is a custom type
 try
 {
     await stockClient.ReserveAsync(sku, quantity, cancellationToken);
@@ -72,7 +72,7 @@ catch (Exception ex) when (ex is not OperationCanceledException)
 
 Two rules hide in that snippet. `throw;` rethrows the caught exception and keeps its stack trace; `throw ex;` restarts the trace at the current method (code analysis rule CA2200 flags it). Wrapping in a new exception is fine when you pass the original as `innerException`. And cancellation is not a failure: excluding `OperationCanceledException` keeps a client disconnect from being logged as an error. Catch `OperationCanceledException` rather than its subclass `TaskCanceledException`.
 
-`finally` runs whether the block completes, returns or throws. For anything that implements `IDisposable`, prefer `using` (next lesson); the compiler turns it into `try`/`finally` for you.
+`finally` runs whether the block completes, returns or throws. For anything that implements `IDisposable`, prefer `using` (lesson 03); the compiler turns it into `try`/`finally` for you.
 
 ## Results: when failure is expected
 
@@ -89,7 +89,7 @@ public abstract record ReserveResult
     public sealed record OutOfStock(string Sku, int Available) : ReserveResult;
 }
 
-// In a minimal API endpoint:
+// In a minimal API endpoint (await is explained in lesson 02):
 ReserveResult result = await reservations.TryReserveAsync(sku, quantity, cancellationToken);
 
 return result switch

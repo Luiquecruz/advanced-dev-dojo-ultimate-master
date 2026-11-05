@@ -25,7 +25,7 @@ dotnet-counters monitor --process-id 1234 --refresh-interval 3 --counters System
 
 On .NET 9 and later, `System.Runtime` shows `System.Diagnostics.Metrics` instruments with OpenTelemetry-style names. What to read:
 
-- `dotnet.gc.collections` by generation and `dotnet.gc.heap.total_allocated`: a high gen 2 count or a fast-growing allocation total points to lesson 03's problems.
+- `dotnet.gc.collections` by generation and `dotnet.gc.heap.total_allocated`: a high gen 2 count or a fast-growing allocation total points to lesson 02's problems.
 - `dotnet.gc.last_collection.heap.size`: if it keeps climbing between collections under steady load, something holds references.
 - `dotnet.thread_pool.queue.length` and `dotnet.thread_pool.thread.count`: the starvation signature from module 04 lesson 05.
 - `dotnet.exceptions`: thousands per second means exceptions used for control flow, or a failing dependency.

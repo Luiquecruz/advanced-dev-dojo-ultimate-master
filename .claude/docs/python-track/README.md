@@ -19,7 +19,7 @@ Teach the **mental model of Python 3.14** to developers who already know TypeScr
 | Runtime | Python **3.14** (Pyodide `314.0.7`, CPython 3.14.2, pinned exactly), although 3.15 is current since October 2026; 3.15 differences only in dated `**Status as of**` blocks | The runtime decides what learners can run |
 | Scope | **v1: 12 modules, 94 lessons**; lessons cut from the 115-lesson plan are deferred to the [v2 backlog](03-curriculum.md#v2-backlog), not dropped | Approved in [09-governance.md](09-governance.md) (D2) |
 | Releases | **MVP = modules 01–04** (36 lessons, first release); Core = 01–08 (65); Advanced = 09–12 (29) | Ship a coherent slice early, re-plan from measured velocity |
-| Visibility | `TRACK_FLAGS.python = false` until the MVP gate (G4) | No half-built track in the carousel |
+| Visibility | `TRACK_FLAGS.python = true` (`src/content/featureFlags.ts`) since the November 2026 release; the G4 learner session is still to run (see Release below) | No half-built track in the carousel |
 | Module shape | Map (quiz) → practice lessons → closing lesson. ADR checkpoints **only in modules 01, 02, 04, 06, 09, 10**; modules 03 and 05 close with a code integration challenge | ADRs only where a real architectural decision exists (D3) |
 | ADR format | Every `PLAN` has a numeric field computed from the briefing; briefing numbers coherent; test names neutral | Enum-only plans can be brute-forced and test names leaked answers ([02-content-standards.md](02-content-standards.md)) |
 | Source checks | `ast`, never regex over raw text | Regex matches comments and docstrings (D7) |

@@ -63,7 +63,7 @@ IEnumerable<Product> GetActive(string connectionString)
 foreach (var p in GetActive(cs)) { } // ObjectDisposedException: the context is gone
 ```
 
-Return `await query.ToListAsync()` from such a method (`await` is explained in lesson 04/03; read it as "wait for the result without blocking"), or let the caller own the context (in ASP.NET Core the DI container does, per request; module 05).
+Return `await query.ToListAsync()` from such a method (`await` is explained in lesson 04/02; read it as "wait for the result without blocking"), or let the caller own the context (in ASP.NET Core the DI container does, per request; module 05).
 
 ## `IEnumerable<T>` versus `IQueryable<T>`
 

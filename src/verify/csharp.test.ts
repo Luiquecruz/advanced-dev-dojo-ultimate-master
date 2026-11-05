@@ -39,6 +39,12 @@ const track = trackById.get('csharp');
 const lessons: Lesson[] = track ? track.modules.flatMap((module) => module.lessons) : [];
 const kindOf = (lesson: Lesson) => (lesson.tags.includes('project') ? 'project' : 'theory');
 const eachLesson = lessons.map((lesson) => [lesson.key, lesson] as const);
+/** Modules outside the core tier, by module id (05-curriculum.md); every other module is core. */
+const MODULE_TIERS: Record<string, string> = { architecture: 'deepening', legacy: 'legacy', 'integration-quality': 'deepening' };
+const tierOfModule = (moduleId: string) => MODULE_TIERS[moduleId] ?? 'core';
+const eachLessonTier = (track ? track.modules : []).flatMap((module) =>
+  module.lessons.map((lesson) => [lesson.key, lesson, tierOfModule(module.id)] as const),
+);
 
 describe('csharp track', () => {
   it('runs on the C# engine', () => {
@@ -55,6 +61,10 @@ describe('csharp track', () => {
     expect(STATUS_TAGS).toContain(lesson.tags[0]);
     expect(TIER_TAGS).toContain(lesson.tags[1]);
     expect(KIND_TAGS).toContain(lesson.tags[2]);
+  });
+
+  it.each(eachLessonTier)('%s has the tier tag of its module', (_, lesson, tier) => {
+    expect(lesson.tags[1]).toBe(tier);
   });
 
   it.each(eachLesson)('%s follows the theory template', (_, lesson) => {

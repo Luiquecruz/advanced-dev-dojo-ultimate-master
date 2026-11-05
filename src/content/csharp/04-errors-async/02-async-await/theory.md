@@ -23,7 +23,7 @@ app.MapGet("/products/{sku}", async (string sku, CatalogDbContext db, Cancellati
 });
 ```
 
-While SQL Server runs the query, no thread is blocked by this request. A `Task<T>` is the object that represents the pending operation and its eventual result or exception. Conventions: return `Task` or `Task<T>`, suffix the method name with `Async`, and accept a `CancellationToken` (next lesson).
+While SQL Server runs the query, no thread is blocked by this request. A `Task<T>` is the object that represents the pending operation and its eventual result or exception. Conventions: return `Task` or `Task<T>`, suffix the method name with `Async`, and accept a `CancellationToken` (lesson 04).
 
 "Async all the way" follows from this. Microsoft's rule is that the entire call stack is asynchronous so the request can benefit; one synchronous blocking call in the chain cancels the benefit for that request.
 
@@ -77,7 +77,7 @@ public async Task<ActionResult<Product>> Get(string sku, CancellationToken cance
 
 `ValueTask<T>` is a struct that can hold a result without allocating a `Task` when the operation often completes synchronously, for example a cache hit. Microsoft's API docs are explicit: the default return type for any asynchronous method should be `Task` or `Task<T>`, and `ValueTask<T>` is for when performance analysis proves it worthwhile. A `ValueTask` must be awaited only once; never await it twice, call `AsTask()` twice, or read `.Result` before it completes.
 
-You will meet `ValueTask` mostly as a consumer: `IAsyncDisposable.DisposeAsync`, channel readers and some stream APIs return it. Just await it once.
+You will meet `ValueTask` mostly as a consumer: `IAsyncDisposable.DisposeAsync` (the async cleanup method, lesson 03), channel readers and some stream APIs return it. Just await it once.
 
 ## In practice
 
@@ -89,7 +89,7 @@ You will meet `ValueTask` mostly as a consumer: `IAsyncDisposable.DisposeAsync`,
 ## Status as of 2026-11-05
 
 - The ASP.NET Core best-practices page (`aspnetcore-10.0` view, updated 2026-11-03) still lists "Do not block asynchronous execution by calling `Task.Wait` or `Task<TResult>.Result`" as its first performance rule.
-- The ConfigureAwait FAQ is a 2019-12-11 blog post; its guidance still matches the current `IAsyncDisposable` docs, which use `ConfigureAwait(false)` in library-style samples.
+- The ConfigureAwait FAQ is a 2019-12-11 blog post; its guidance still matches the current `IAsyncDisposable` docs (lesson 03), which use `ConfigureAwait(false)` in library-style samples.
 
 ## Check yourself
 
