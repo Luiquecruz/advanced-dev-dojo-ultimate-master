@@ -1,6 +1,6 @@
 {
   "title": "Map: How This Track Works",
-  "summary": "How the C# track is organized (theory, quizzes, local practice projects), where each Magento concept lands in .NET, and the three mindset shifts from PHP: compile-time types, one long-running process, and not blocking threads.",
+  "summary": "Where to start the C# track (the optional fundamentals module and its skip rule), how it is organized (theory, quizzes, graded challenges in the browser, local practice projects), which module teaches each part of a backend job, and three ideas the track builds on: compile-time types, one long-running process, and not blocking threads.",
   "level": "beginner",
   "tags": [
     "recommended",

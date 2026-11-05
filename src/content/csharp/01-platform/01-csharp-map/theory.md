@@ -1,62 +1,64 @@
 # Map: How This Track Works
 
-After this lesson you can explain how the track is organized (theory, quizzes, local projects), where each Magento concept lands in .NET, and the three habits from PHP that will mislead you most often.
+After this lesson you can say where to start the track, how it is organized (an optional fundamentals module, then theory, quizzes, graded challenges and local projects), which module teaches each part of a backend job, and the three ideas the rest of the track builds on: types checked before the program runs, one long-running process, and waiting without blocking a thread.
 
-## Coming from PHP/Magento
+You need: no earlier lesson. If you have never written a program, start with module 00 (00/01, your first program) and come back here after 00/07.
 
-Most of what you know transfers. You already build HTTP backends, write SQL, use an ORM with repositories, configure a DI container with constructor injection (`di.xml` preferences, generated factories), run cron jobs and queue consumers, and manage packages with Composer. All of these exist in .NET under other names.
+## Where to start
 
-The trap is the runtime model. Under PHP-FPM, Magento boots, serves one request and discards every object it created. A singleton in Magento lives for one request because the process forgets it. An ASP.NET Core application is a single long-running process that serves thousands of requests at the same time on a shared pool of threads. The same code that was harmless in PHP (a static cache, a "per request" singleton, a blocking call) becomes a shared-state bug or a capacity problem. The three mindset shifts below follow from that.
+Module 00, **Programming Fundamentals with C#**, is for people who have never programmed. Its seven lessons, each with a graded challenge, teach variables, methods, decisions and loops, text, collections, classes, and errors and tests. Every later module assumes them.
+
+The skip rule is a single test: open the challenge of 00/07 (errors and tests). If you can solve it without help, start here at module 01. If you cannot, work through module 00 from 00/01. Module 00 is optional: a learner who skips it can still reach 100% of the track, and a learner who works through it has it counted in their progress.
 
 ## How the track works
 
-The track has 14 modules and 73 lessons in three tiers:
+The track has 15 modules and 80 lessons in four tiers:
 
+- **Fundamentals (module 00, optional):** programming from zero, in C#.
 - **Core (modules 01–11):** the platform, the language, LINQ, async, ASP.NET Core, Web APIs, data access, security, testing, background work, messaging and HTTP clients, delivery.
 - **Deepening (modules 12 and 14):** application architecture; integration, performance and quality.
 - **Legacy (module 13):** .NET Framework code and incremental migration.
 
-Every lesson is theory plus a graded quiz. There is no C# runtime in this browser app, so there are no code challenges; the quiz result is what the app records in your progress. Seven practice projects (P1–P7) close modules 03, 06, 07, 09, 10, 11 and 13. You build them on your own machine with the .NET 10 SDK, and Docker from P3 on, and you check them yourself against acceptance criteria such as `dotnet test` passing or an HTTP request returning 409.
+Every lesson has theory and a graded quiz. 26 lessons also have a graded C# challenge: all seven of module 00, and 19 in modules 02–04, 08–10, 12 and 14. A challenge runs in this browser: the first time you open one, the app downloads the .NET runtime and the C# compiler. **Run** executes your program and prints its output; **Run tests** grades your code against the lesson's tests. The app records passed quizzes and challenges in your progress.
 
-The hello-world below needs only the SDK; it is a file-based app, which lesson 01/02 introduces:
+Seven practice projects (P1–P7) close modules 03, 06, 07, 09, 10, 11 and 13; you build them on your machine with the .NET 10 SDK, and Docker from P3 on, and you check them yourself against acceptance criteria such as `dotnet test` passing or an HTTP request returning 409. The hello-world below needs only the SDK; it is a file-based app, which lesson 01/02 introduces:
 
 ```csharp
 // hello.cs: run with `dotnet run hello.cs` (.NET 10 SDK, no project file needed)
 Console.WriteLine($"Hello from {System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription}");
 ```
 
-Each lesson links the official Microsoft documentation for its topic; the lessons are the source of truth for current APIs. The track itself is in English: in the convenience sample of 69 job postings behind this curriculum (postings dated 2026-10-06 to 2026-11-05; not a market statistic), English was an explicit requirement in 20% of the postings and 34% of the international ones.
+## The map: a backend job in .NET
 
-## The map: Magento to .NET
-
-| Magento / PHP | .NET | Where |
+| Part of the job | In .NET | Where |
 | --- | --- | --- |
-| Composer, `composer.json`, Packagist | NuGet, `<PackageReference>` in `.csproj`, nuget.org | 01/04 |
-| PHP-FPM behind nginx | Kestrel inside a long-running ASP.NET Core host | 05/01 |
-| `di.xml`, ObjectManager | `IServiceCollection` in `Program.cs`, lifetimes | 05/02 |
-| `env.php`, `config.php` | `appsettings.json`, environment variables, Options | 05/03 |
-| Plugins and observers | Middleware, endpoint filters, decorators | 05/05, 06/03 |
-| `webapi.xml` REST routes | Minimal APIs or controllers | 06/01 |
-| Resource models and collections | EF Core `DbContext` and LINQ | 07/02 |
-| `db_schema.xml`, data patches | EF Core migrations | 07/03 |
-| `crontab.xml`, `queue_consumer.xml` | `BackgroundService`, message brokers | 10 |
-| PHPUnit | xUnit v3, `WebApplicationFactory` | 09 |
+| Use other people's libraries | NuGet packages, `<PackageReference>` in `.csproj` | 01/04 |
+| Run a web server | Kestrel inside a long-running ASP.NET Core host | 05/01 |
+| Give each class what it needs | `IServiceCollection` in `Program.cs`, service lifetimes | 05/02 |
+| Read settings and secrets | `appsettings.json`, environment variables, Options | 05/03 |
+| Run code around every request | Middleware, endpoint filters, decorators | 05/05, 06/03 |
+| Expose HTTP endpoints | Minimal APIs or controllers | 06/01 |
+| Read and write a database | EF Core `DbContext` with LINQ, or Dapper with SQL | 07/02, 07/05 |
+| Change the database schema | EF Core migrations | 07/03 |
+| Work outside a request | `BackgroundService`, schedulers, message brokers | 10 |
+| Call other services | `HttpClient` with resilience | 10/05 |
+| Test the code | xUnit v3, `WebApplicationFactory` | 09 |
 
-The biggest structural difference is visible in the first file of any web project. Composition is C# code in `Program.cs`, not XML merged from many modules:
+Composition is ordinary C# code in `Program.cs`, read from top to bottom:
 
 ```csharp
 // Program.cs of a project created with `dotnet new web`
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSingleton(TimeProvider.System); // explicit registration, read top to bottom
+builder.Services.AddSingleton(TimeProvider.System); // explicit registration
 
 var app = builder.Build();
 app.MapGet("/now", (TimeProvider clock) => clock.GetUtcNow());
 app.Run();
 ```
 
-## Three mindset shifts
+## Three ideas the rest of the track builds on
 
-**1. Types are checked before the program runs.** PHP checks declared types when a function is called and, without `declare(strict_types=1)`, coerces scalars. The C# compiler rejects a type error at build time, so a whole class of runtime checks disappears. The cost is that you must declare what you mean; module 02 teaches how.
+**1. Types are checked before the program runs.** The compiler rejects a value of the wrong type at build time, so the program never starts with that mistake in it. Module 02 goes deeper.
 
 ```csharp
 decimal total = new List<decimal> { 19.90m, 5m }.Sum();
@@ -64,7 +66,7 @@ decimal total = new List<decimal> { 19.90m, 5m }.Sum();
 Console.WriteLine(total);
 ```
 
-**2. One process serves every request.** Anything static or registered as a singleton is shared by all concurrent requests and lives until the process stops. A counter that would reset in PHP keeps growing here, and two requests can write it at the same moment:
+**2. One process serves every request.** An ASP.NET Core application starts once and serves thousands of requests at the same time. Anything static, or registered as a singleton, is shared by all of them and lives until the process stops. Two requests can change it at the same moment:
 
 ```csharp
 // Program.cs of a project created with `dotnet new web`
@@ -74,22 +76,26 @@ app.MapGet("/", () => $"Request number {Interlocked.Increment(ref requests)}");
 app.Run();
 ```
 
-**3. Waiting must not block a thread.** In PHP-FPM a blocked worker only blocks its own request. In ASP.NET Core, threads come from a shared pool; a thread blocked on I/O is capacity taken from every other request. `await` releases the thread while the operating system does the work. Blocking on `.Result` in ASP.NET Core starves the thread pool under load; module 04 explains why.
+**3. Waiting must not block a thread.** Requests run on a shared pool of threads. A thread blocked while a file or database answers is capacity taken from every other request. `await` releases the thread while the operating system does the work; module 04 explains how.
 
 ```csharp
 string blocking = File.ReadAllTextAsync("products.csv").Result; // holds a thread until the read ends
 string freeing = await File.ReadAllTextAsync("products.csv");    // the thread returns to the pool meanwhile
 ```
 
+## Common mistakes
+
+- **Skipping module 00 without the test.** Learners who skip it and cannot solve the 00/07 challenge stall in 02/01, where methods, lists and classes are assumed. Try that challenge first; if you need help with it, work through module 00.
+- **Keeping one user's data in a static field or singleton.** Every concurrent request shares it, so one customer sees another customer's cart. Per-request data belongs in a scoped service (05/02) or a parameter.
+- **Copying an old sample.** Code with a `Startup` class, `System.Web` or `web.config` was written for .NET Framework or early ASP.NET Core and often fails to compile on .NET 10. Check the date and target framework (01/03).
+- **Blocking on `.Result` in a web app.** It works on your laptop and starves the thread pool under load, so requests queue. Use `await`.
+
 ## In practice
 
-- **Read modules 01–04 before ASP.NET Core.** It is tempting to jump to APIs because that is what you build in Magento. Without the type system, LINQ and async, the framework code reads like magic and you copy it without knowing what breaks.
-- **Check the date and target framework of anything you copy.** Many answers online were written for .NET Framework (C# 7.3, `System.Web`, `web.config`) or early ASP.NET Core (a `Startup` class); what changed since then is in 01/03. If a sample does not compile on .NET 10, the sample is old.
-- **Do not port Magento patterns one to one.** Resolving services from `IServiceProvider` everywhere is the ObjectManager anti-pattern again; generic repositories over EF Core usually add a layer without adding value. The lessons name these cases as they come up.
-- **Read the tags.** Each lesson is tagged with a status (`recommended`, `established`, `legacy`, `context`), a tier (`core`, `deepening`, `legacy`) and a kind (`theory`, `project`). A `legacy` topic is something you will meet in existing code, not something to start a new project with.
-- **Install the SDK by P1,** which closes module 03.
-
-Dated facts (versions, support dates, licence changes) live in a `Status as of` section with the date they were checked, so you can see how old a claim is.
+- **Read modules 01–04 before ASP.NET Core.** Without the type system, LINQ and async, framework code reads like magic and you copy it without knowing what breaks.
+- **Read the tags.** Each lesson is tagged with a status (`recommended`, `established`, `legacy`, `context`), a tier (`core`, `deepening`, `legacy`) and a kind (`theory`, `project`). A `legacy` topic is one you meet in existing code, not one to start new projects with.
+- **Install the SDK by P1,** which closes module 03. The in-browser challenges need nothing installed.
+- **Look for the date.** Facts that age live in a `Status as of` section with the date they were checked, and each lesson links the official Microsoft documentation for its topic.
 
 ## Status as of 2026-11-05
 
@@ -98,7 +104,7 @@ Dated facts (versions, support dates, licence changes) live in a `Status as of` 
 
 ## Check yourself
 
-1. Which Magento object would become a shared-state bug if you ported it unchanged into an ASP.NET Core singleton, and why did it work in Magento?
-2. Where does a dependency registration live in a .NET web app, and what replaces the merging of many `di.xml` files?
-3. What does the app record when you finish a lesson of this track, and how are the practice projects checked?
-4. Why does a blocked thread cost more in ASP.NET Core than a blocked PHP-FPM worker?
+1. How do you decide whether to start at module 00 or at module 01?
+2. Why does a counter kept in a static field of a web app keep growing, and what can go wrong when two requests change it at once?
+3. What does the app record when you finish a lesson, and how are the practice projects checked?
+4. Why does a thread blocked on I/O cost capacity for every other request?

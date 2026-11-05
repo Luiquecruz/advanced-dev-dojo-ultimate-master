@@ -1,0 +1,68 @@
+[
+  {
+    "question": "`var mug = new Product(\"Mug\", 9.50m); var pen = new Product(\"Pen\", 1.25m);` Then `mug.Discount(10)` lowers the price of `mug`. What is the price of `pen` now?",
+    "options": [
+      "`1.25m`, because each object made with `new` has its own instance data",
+      "`1.125m`, because a method called on one object of a class runs on every object of it",
+      "`9.50m`, because `pen` was created after `mug` and copied its values",
+      "It depends on the order the objects were created in"
+    ],
+    "answer": 0,
+    "explanation": "`new` creates a separate object each time, and `Discount` changes the price of the object it is called on, `mug`. `pen` keeps `1.25m`. The tempting answer describes a `static` member, which belongs to the class and is shared; instance members are not. Objects never copy each other's values just because they share a class."
+  },
+  {
+    "question": "A class declares `private static decimal balance;`, and `Deposit` adds to it. Two accounts are created and 100 is deposited into the first one. What does the second account report?",
+    "options": [
+      "`0`, because each account starts with its own balance of `0`",
+      "`100`, because a `static` field is one value shared by every account",
+      "`200`, because the deposit is applied once per account",
+      "The code does not compile, because an instance method cannot change a `static` field"
+    ],
+    "answer": 1,
+    "explanation": "A `static` field belongs to the class, so there is only one `balance` for the whole program, and every account reads the same value: 100. Starting at `0` per account is what an instance field (without `static`) would do. Instance methods may read and write static fields, so it compiles, which is why this bug survives until the numbers look wrong."
+  },
+  {
+    "question": "Which property declaration lets every piece of code read `Balance`, but only the methods of the class change it?",
+    "options": [
+      "`public decimal Balance { get; set; }`",
+      "`private decimal Balance { get; set; }`",
+      "`public decimal Balance { get; private set; }`",
+      "`public decimal Balance;`"
+    ],
+    "answer": 2,
+    "explanation": "`{ get; private set; }` makes reading public and writing private to the class, so outside code gets a compile error when it assigns `Balance`. `{ get; set; }` lets anyone write it, which is the most tempting choice because it is the most common shape. `private` on the whole property hides reading too, and a public field has no access control at all."
+  },
+  {
+    "question": "`Product? found = Find(\"BAG\");` returns `null` because no product matches. What does `Console.WriteLine(found.Name);` do?",
+    "options": [
+      "It prints an empty line, because a missing object has empty properties",
+      "It prints `null`",
+      "The compiler refuses to build the program",
+      "It throws `NullReferenceException`, because there is no object to read `Name` from"
+    ],
+    "answer": 3,
+    "explanation": "`null` means the variable refers to no object, so reading a member through it throws `NullReferenceException` when the line runs. Printing an empty line is tempting, but there is no object whose `Name` could be empty. With nullable checks on, the compiler only warns about the possible `null` (02/02), it does not refuse to build. Check with `if (found is null)` first."
+  },
+  {
+    "question": "Why is `enum OrderStatus { Pending, Paid, Shipped }` a better type for an order's status than a `string`?",
+    "options": [
+      "An enum takes less memory, which is its main reason to exist",
+      "A misspelled status such as `OrderStatus.Shiped` is a compile error, while the string `\"Shiped\"` is accepted and fails only later, if at all",
+      "An enum can hold any number of values added while the program runs",
+      "Strings cannot be compared in a `switch` statement, enums can"
+    ],
+    "answer": 1,
+    "explanation": "The compiler knows every name of an enum, so a typo stops the build, and code completion lists the valid choices. A string accepts any text, so `\"Shiped\"` is stored and silently matches nothing. An enum's set of names is fixed when you write the code, not at run time. A `switch` works on strings too; memory is not the reason to choose an enum."
+  },
+  {
+    "question": "A constructor is written as `public Product(string name) { name = name; }`, and the class has a field `private string name = \"\";`. What is the value of the field after `new Product(\"Mug\")`?",
+    "options": [
+      "`\"Mug\"`, because the constructor assigns it",
+      "`null`, because the constructor clears the field",
+      "`\"\"`, because `name = name` assigns the parameter to itself and never touches the field",
+      "The program throws `InvalidOperationException` when the constructor runs"
+    ],
+    "answer": 2,
+    "explanation": "Inside the constructor, `name` means the parameter, so `name = name` copies the parameter onto itself; the compiler only warns. The field keeps its initial `\"\"`. The tempting answer `\"Mug\"` is what the line was meant to do. Write `this.name = name`, or call the field `_name` so the two names never collide."
+  }
+]

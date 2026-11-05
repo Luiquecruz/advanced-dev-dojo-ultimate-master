@@ -1,0 +1,10 @@
+[
+  { "term": "Compiler", "description": "The tool that checks C# source code and translates it into a form the .NET runtime can execute; a program runs only once it compiles." },
+  { "term": "Compile error", "description": "A problem the compiler reports before anything runs, with a `CS` code, a file position and a message, such as `CS1002: ; expected`." },
+  { "term": "Top-level statements", "description": "Statements written directly in a file, outside any class, that run from top to bottom when the program starts." },
+  { "term": "Variable", "description": "A named place that holds a value of one fixed type; its value can change, its type cannot." },
+  { "term": "`var`", "description": "A keyword that lets the compiler infer a variable's type from the value assigned to it; the type is still fixed at compile time." },
+  { "term": "`decimal`", "description": "A number type that stores decimal digits exactly, used for money and written with the `m` suffix, as in `19.99m`." },
+  { "term": "Integer division", "description": "Division of two whole-number values, which drops the fraction, so `7 / 2` is `3`; cast one side to `double` to keep it." },
+  { "term": "Interpolated string", "description": "A string that starts with `$`, in which each `{expression}` is evaluated and inserted as text." }
+]

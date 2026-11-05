@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What does this line print?\n\n```csharp\nConsole.WriteLine(7 / 2);\n```",
+    "options": [
+      "`3.5`",
+      "`3`",
+      "`4`",
+      "Nothing: it does not compile, because 7 is not divisible by 2"
+    ],
+    "answer": 1,
+    "explanation": "Both `7` and `2` are `int`, so this is integer division and the fraction is dropped: the result is `3`. The tempting `3.5` needs at least one side to be a `double`, as in `7 / 2.0` or `(double)7 / 2`. The result is not rounded up to `4`; the fraction is simply cut off."
+  },
+  {
+    "question": "A learner writes `decimal price = 19.99;`. What happens?",
+    "options": [
+      "It compiles, and `price` holds exactly 19.99",
+      "It compiles, and `price` holds a rounded approximation of 19.99",
+      "It compiles, but the program stops with an error when this line runs",
+      "It does not compile: `19.99` is a `double`, and the compiler asks for the `m` suffix (CS0664)"
+    ],
+    "answer": 3,
+    "explanation": "A number with a decimal point is a `double` unless it ends in `m`, and C# does not silently convert a `double` to a `decimal`, so the compiler reports CS0664 and nothing runs. Writing `19.99m` makes it a `decimal` literal. The tempting \"it compiles\" answers assume the compiler converts for you; C# has no implicit conversion between `double` and `decimal`."
+  },
+  {
+    "question": "What does this line print?\n\n```csharp\nConsole.WriteLine(\"Total: \" + 2 + 3);\n```",
+    "options": [
+      "`Total: 23`",
+      "`Total: 5`",
+      "`Total: 2 3`",
+      "It does not compile, because text and numbers cannot be added"
+    ],
+    "answer": 0,
+    "explanation": "`+` runs from left to right. `\"Total: \" + 2` is the text `\"Total: 2\"`, and adding `3` to text appends it, giving `Total: 23`. `Total: 5` would need the numbers added first: `\"Total: \" + (2 + 3)` or `$\"Total: {2 + 3}\"`."
+  },
+  {
+    "question": "Which type should hold the price of a product in a shop?",
+    "options": [
+      "`double`, because prices have a fraction",
+      "`int`, storing the price in whole units and dropping the cents",
+      "`decimal`, because it stores decimal digits exactly",
+      "`string`, because prices are printed on receipts"
+    ],
+    "answer": 2,
+    "explanation": "`decimal` stores decimal fractions exactly, so sums such as 0.10 + 0.20 are exactly 0.30. The tempting `double` stores numbers in binary and gives `0.30000000000000004` for `0.1 + 0.2`, small errors that add up across many prices. A `string` cannot be calculated with at all."
+  },
+  {
+    "question": "`int stock = 5;` What is the value of `bool canShip = stock > 0 && stock >= 10;`?",
+    "options": [
+      "`true`, because `stock > 0` is true",
+      "`false`, because `&&` needs both sides to be true and `stock >= 10` is false",
+      "`5`, because `&&` returns the last value it checked",
+      "It does not compile, because two comparisons cannot be combined"
+    ],
+    "answer": 1,
+    "explanation": "`&&` is `true` only when both sides are `true`; `5 >= 10` is `false`, so the whole expression is `false`. The tempting `true` describes `||`, which needs only one side to be `true`. Comparisons and `&&` always produce a `bool`, never a number."
+  },
+  {
+    "question": "In a challenge, line 1 of the top-level statements in `Program.cs` is missing its semicolon, and the methods below it are correct. What happens when you press **Run tests**?",
+    "options": [
+      "The tests pass, because they ignore the top-level statements",
+      "Only the first test fails, because the error is on line 1",
+      "The tests pass, and the console shows a warning about the semicolon",
+      "Every test fails: the file does not compile, and the report shows the CS1002 error with its line and column"
+    ],
+    "answer": 3,
+    "explanation": "The tests ignore what the top-level statements *do*, but the whole file is compiled with the tests, and a program that does not compile cannot run at all. The report shows `error CS1002: ; expected` with its position, and fixing it lets the tests run. The tempting \"the tests pass\" answer confuses ignoring the statements at run time with skipping them at compile time."
+  }
+]

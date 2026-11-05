@@ -1,0 +1,10 @@
+[
+  { "term": "Method", "description": "A named piece of work with parameters, a return type and a body, called by its name with one argument per parameter." },
+  { "term": "Parameter and argument", "description": "A parameter is a named input in the method's declaration; an argument is the value passed for it at a call." },
+  { "term": "Return type and `void`", "description": "The type of the value a method hands back with `return`; `void` means the method returns no value." },
+  { "term": "Expression-bodied method", "description": "A method whose body is a single expression written after `=>`, with no braces and no `return` keyword." },
+  { "term": "Scope", "description": "The region of code where a name exists; a variable declared inside a method cannot be used outside its braces." },
+  { "term": "Overload", "description": "One of several methods with the same name but different parameter lists, chosen by the compiler from the arguments." },
+  { "term": "Optional and named arguments", "description": "A parameter with a default value may be left out at a call, and a named argument such as `rate: 0.06m` passes a value by parameter name in any order." },
+  { "term": "Lambda expression", "description": "A method without a name written as a value, such as `x => x * 2`, with parameters left of `=>` and the result on the right." }
+]

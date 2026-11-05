@@ -4,6 +4,6 @@
   "title": "C# and .NET",
   "shortTitle": "C#",
   "monogram": "C#",
-  "description": "C# and .NET 10 for backend developers coming from PHP/Magento: the language and runtime, LINQ, async, ASP.NET Core APIs, EF Core and Dapper, security, testing, background work and messaging, containers, CI/CD and observability, architecture, and maintaining and migrating legacy .NET Framework code. Theory and quizzes, with practice projects to build locally.",
+  "description": "C# and .NET 10 backend development, from programming fundamentals to production.",
   "version": ".NET 10 LTS, C# 14"
 }

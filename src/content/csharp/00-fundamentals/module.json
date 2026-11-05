@@ -1,0 +1,5 @@
+{
+  "title": "Programming Fundamentals with C#",
+  "description": "For people who have never programmed: values and variables, methods, decisions and loops, text, arrays, lists and dictionaries, classes and objects, errors and tests. If you can solve the challenge of its last lesson, start at module 01.",
+  "optional": true
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What does this program print?\n\n```csharp\ndecimal total = 24.1879m;\nMath.Round(total, 2);\nConsole.WriteLine(total);\n```",
+    "options": [
+      "`24.19`",
+      "`24.18`",
+      "`24.1879`",
+      "Nothing: a call whose result is not used does not compile"
+    ],
+    "answer": 2,
+    "explanation": "`Math.Round` returns a new rounded value; it does not change `total`. The call on line 2 compiles, but its result is thrown away, so `total` still holds `24.1879`. The tempting `24.19` is what `total = Math.Round(total, 2);` would print."
+  },
+  {
+    "question": "Which declaration makes `Prices.WithTax(100m)` and `Prices.WithTax(rate: 0.06m, net: 50m)` both compile?",
+    "options": [
+      "`public static decimal WithTax(decimal net, decimal rate = 0.21m)`",
+      "`public static decimal WithTax(decimal rate = 0.21m, decimal net)`",
+      "`public static decimal WithTax(decimal amount, decimal percent = 0.21m)`",
+      "`public static void WithTax(decimal net, decimal rate = 0.21m)`"
+    ],
+    "answer": 0,
+    "explanation": "The first call needs `rate` to be optional, and the named call needs parameters called exactly `net` and `rate`. Putting the optional parameter first fails with CS1737, because optional parameters come after the required ones. Renaming the parameters breaks the named call, and a `void` method returns no value to use."
+  },
+  {
+    "question": "A class has `static double Area(double width, double height)` and `static double Area(double side)`. Which method does `Area(5)` call?",
+    "options": [
+      "The two-parameter method, with `height` set to 0",
+      "`Area(double side)`, because the compiler chooses the overload whose parameters match the arguments",
+      "Neither: two methods with the same name cause a compile error",
+      "The method declared first in the class"
+    ],
+    "answer": 1,
+    "explanation": "These are overloads: the same name with different parameter lists. The compiler picks the one that matches the call, and one argument matches `Area(double side)`. Overloads are legal as long as the parameter lists differ; two methods that differ only in their return type are the case that fails, with CS0111."
+  },
+  {
+    "question": "A learner writes this method, and a test that checks `Total(2m, 3)` fails. Why?\n\n```csharp\npublic static void Total(decimal price, int quantity)\n{\n    Console.WriteLine(price * quantity);\n}\n```",
+    "options": [
+      "`Console.WriteLine` cannot print a `decimal`",
+      "The multiplication needs a cast, because `price` and `quantity` have different types",
+      "The method must be called with named arguments",
+      "The method prints the result instead of returning it, so the test receives no value; it should return `decimal`"
+    ],
+    "answer": 3,
+    "explanation": "A `void` method returns nothing, so the test has no value to compare: a test that uses its result does not even compile. Declare `decimal` as the return type and `return price * quantity;`. The multiplication itself is fine: an `int` converts to `decimal` automatically."
+  },
+  {
+    "question": "What does this print?\n\n```csharp\nint stock = 5;\nReset(stock);\nConsole.WriteLine(stock);\n\nstatic void Reset(int quantity)\n{\n    quantity = 0;\n}\n```",
+    "options": [
+      "`0`, because `Reset` sets the stock to zero",
+      "Nothing: a parameter cannot be assigned inside the method",
+      "`5`, because the parameter is a copy of the argument",
+      "`0`, because `Reset` is declared with `static`"
+    ],
+    "answer": 2,
+    "explanation": "The argument's value is copied into the parameter `quantity`, and assigning to `quantity` changes only that copy, so `stock` is still `5`. The tempting `0` assumes the method works on the caller's variable. To change it, return the new value and assign it at the call site, as in `stock = Reset(stock);` with a method that returns an `int`."
+  },
+  {
+    "question": "`Func<int, int> twice = x => x * 2;` What does `twice(7)` return, and what is `x => x * 2`?",
+    "options": [
+      "`14`; it is a lambda expression, a method without a name that takes `x` and returns `x * 2`",
+      "`7`; the lambda only declares `x` and does not compute anything until it is named",
+      "`14`; it is a comparison that checks whether `x` is greater than or equal to `x * 2`",
+      "It does not compile, because a method must be declared with a name"
+    ],
+    "answer": 0,
+    "explanation": "`x => x * 2` is a lambda expression: its parameter is on the left of `=>` and its result on the right, and `twice(7)` calls it with `x = 7`, returning `14`. The tempting comparison reading confuses `=>` with `>=`. `Func<int, int>` is the type of a method that takes an `int` and returns an `int`."
+  }
+]

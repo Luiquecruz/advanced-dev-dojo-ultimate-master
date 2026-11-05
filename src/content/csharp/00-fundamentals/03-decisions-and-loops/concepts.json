@@ -1,0 +1,10 @@
+[
+  { "term": "`if` / `else if` / `else`", "description": "A statement that runs the first block whose condition is `true`, checking the conditions from top to bottom." },
+  { "term": "Guard clause", "description": "An `if` at the start of a method that returns early for a special case, so the rest of the method handles only the normal case." },
+  { "term": "Conditional operator `?:`", "description": "An expression that picks one of two values, as in `count == 1 ? \"item\" : \"items\"`." },
+  { "term": "`switch` statement", "description": "A statement that compares one value against constant `case` labels, where every section must end with `break` or `return`." },
+  { "term": "`while` and `for` loops", "description": "Loops that repeat a block while a condition is `true`; `for` puts the start, the condition and the step in one line." },
+  { "term": "`foreach` loop", "description": "A loop that visits every element of an array or collection in order, without an index." },
+  { "term": "Array", "description": "A fixed number of values of one type, such as `int[]`, read by an index from `0` to `Length - 1`." },
+  { "term": "Off-by-one error", "description": "A loop or comparison that is wrong by one step, such as `i <= values.Length`, which reads past the end of an array." }
+]

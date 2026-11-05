@@ -1,0 +1,68 @@
+[
+  {
+    "question": "The rule is \"orders of 100 or more ship free\". Which condition implements it?",
+    "options": [
+      "`total > 100m`",
+      "`total >= 100m`",
+      "`total == 100m`",
+      "`total >= 99m`"
+    ],
+    "answer": 1,
+    "explanation": "\"100 or more\" includes 100 itself, which is `>=`. The tempting `total > 100m` gives the same answer for every total except exactly 100, so it passes most quick checks and fails at the boundary. Always test the boundary value itself."
+  },
+  {
+    "question": "`int[] values = [4, 8, 15];` What happens when this loop runs?\n\n```csharp\nfor (int i = 0; i <= values.Length; i++)\n{\n    Console.WriteLine(values[i]);\n}\n```",
+    "options": [
+      "It prints 4, 8 and 15",
+      "It prints 8 and 15, because indexes start at 1",
+      "It prints 4, 8 and 15, then stops with an `IndexOutOfRangeException`",
+      "It does not compile, because `<=` cannot compare with `Length`"
+    ],
+    "answer": 2,
+    "explanation": "Indexes run from 0 to `Length - 1`, here 0 to 2. With `<=`, the loop also runs with `i == 3` and reads `values[3]`, which does not exist, so the program stops with `IndexOutOfRangeException` after printing the three values. Write `i < values.Length`, or use `foreach`."
+  },
+  {
+    "question": "What does this method return for `Band(120m)`?\n\n```csharp\nstatic string Band(decimal total)\n{\n    if (total >= 50m) { return \"reduced\"; }\n    if (total >= 100m) { return \"free\"; }\n    return \"standard\";\n}\n```",
+    "options": [
+      "`\"reduced\"`, because the first condition that holds returns",
+      "`\"free\"`, because 120 is at least 100",
+      "`\"standard\"`, because both conditions hold and cancel each other",
+      "Both `\"reduced\"` and `\"free\"`, one after the other"
+    ],
+    "answer": 0,
+    "explanation": "The checks run from top to bottom and `return` ends the method at the first one that holds: 120 is at least 50, so the method returns `\"reduced\"` and never reaches the `>= 100m` check. The tempting `\"free\"` is right only when the more specific check comes first."
+  },
+  {
+    "question": "What does this print?\n\n```csharp\nint total = 0;\nfor (int i = 1; i <= 5; i++)\n{\n    if (i == 3) { continue; }\n    if (i == 5) { break; }\n    total += i;\n}\nConsole.WriteLine(total);\n```",
+    "options": [
+      "`15`",
+      "`3`",
+      "`12`",
+      "`7`"
+    ],
+    "answer": 3,
+    "explanation": "The loop adds 1 and 2, `continue` skips 3, it adds 4, and `break` leaves the loop at 5 before adding it: 1 + 2 + 4 = 7. The tempting `12` treats `break` like `continue` and adds 5; `15` ignores both."
+  },
+  {
+    "question": "Which line chooses the word for a count, printing `1 item` but `3 items`?",
+    "options": [
+      "`string label = count == 1 ? \"item\" : \"items\";`",
+      "`string label = count = 1 ? \"item\" : \"items\";`",
+      "`string label = count == 1 : \"item\" ? \"items\";`",
+      "`string label = if (count == 1) \"item\" else \"items\";`"
+    ],
+    "answer": 0,
+    "explanation": "The conditional operator is `condition ? valueIfTrue : valueIfFalse`, and the condition compares with `==`. A single `=` assigns, and `count = 1` is an `int`, not a `bool`, so the second line does not compile (CS0029). `if` is a statement, not a value, so it cannot sit on the right of `=`."
+  },
+  {
+    "question": "`static int Average(int[] values) => SumOf(values) / values.Length;`, where `SumOf` adds up the values and returns an `int`. What happens when it is called with an empty array `[]`?",
+    "options": [
+      "It returns `0`, the average of nothing",
+      "It stops with a `DivideByZeroException`, because the `int` division divides by a `Length` of 0",
+      "It returns `NaN`, which means \"not a number\"",
+      "It does not compile, because an array can never be empty"
+    ],
+    "answer": 1,
+    "explanation": "An empty array has `Length` 0, and dividing an `int` by zero throws `DivideByZeroException`. The tempting `NaN` is what a `double` division `0.0 / 0` gives, which is no better as an answer. Check `values.Length == 0` first and return a value you chose."
+  }
+]

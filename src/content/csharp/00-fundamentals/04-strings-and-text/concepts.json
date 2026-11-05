@@ -1,0 +1,10 @@
+[
+  { "term": "String immutability", "description": "A `string` never changes after it is created; methods such as `Trim` and `Replace` return a new string that you must store." },
+  { "term": "`StringComparison`", "description": "An argument that says how two strings are compared, such as `Ordinal` for exact characters or `OrdinalIgnoreCase` to ignore case." },
+  { "term": "`Split` and `string.Join`", "description": "`Split` cuts a string into an array at a separator, and `string.Join` glues an array back together with a separator between the elements." },
+  { "term": "`StringBuilder`", "description": "A class in `System.Text` that builds long text in one growing buffer instead of creating a new string for every piece." },
+  { "term": "`TryParse`", "description": "A method that converts text to a number without throwing, returning `false` when the text is not a valid number." },
+  { "term": "`out` parameter", "description": "A parameter through which a method hands back a second result, written into the variable named at the call, as in `out int quantity`." },
+  { "term": "Culture", "description": "The conventions for writing numbers and dates in a language and region; `CultureInfo.InvariantCulture` is a fixed culture that writes `19.90` on every machine." },
+  { "term": "Format string", "description": "A short code such as `F2` or `N2` that says how a number becomes text, passed to `ToString` or after a colon in an interpolated string." }
+]

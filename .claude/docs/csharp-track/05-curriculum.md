@@ -1,9 +1,10 @@
 # C# Track — Curriculum
 
-14 modules and 73 lessons, all with theory + quiz ([06-content-standards.md](06-content-standards.md)); the 19 lessons marked "theory + challenge" (02/01–02/05, 03/01–03/03, 04/01–04/05, 08/02, 09/02, 10/04, 12/03, 12/04, 14/02) also have a graded C# challenge on the in-browser engine.
+15 modules and 80 lessons, all with theory + quiz ([06-content-standards.md](06-content-standards.md)); the 26 lessons marked "theory + challenge" (00/01–00/07, 02/01–02/05, 03/01–03/03, 04/01–04/05, 08/02, 09/02, 10/04, 12/03, 12/04, 14/02) also have a graded C# challenge on the in-browser engine. Module 00 is optional (`"optional": true` in its `module.json`): it teaches programming from zero, and a learner who can solve the 00/07 challenge without help starts at module 01.
 
 | Tier | Modules | Lessons |
 | --- | --- | --- |
+| **Fundamentals** (optional): programming from zero | 00 | 7 |
 | **Core**: what a backend job needs | 01–11 | 58 |
 | **Deepening** | 12 architecture, 14 integration, performance and quality | 10 |
 | **Legacy** | 13 .NET Framework and migration | 5 |
@@ -14,6 +15,7 @@ The market percentages below come from the convenience sample of 69 postings in 
 
 ## Why this order
 
+- **00, fundamentals, for learners who have never programmed.** Values, methods, decisions and loops, text, collections, classes, errors and tests, each with a graded challenge, so module 01 on can assume them. Learners who already program take the 00/07 challenge as the skip test.
 - **01–04, the language and the runtime, before any framework.** Every later module relies on static typing, value versus reference semantics, LINQ and a long-running async runtime, so they come first.
 - **05–06, ASP.NET Core and APIs.** REST/Web API is named in 64% of postings.
 - **07, data.** SQL Server appears in 57%, EF Core in 35% and Dapper in 12%. Data comes after APIs, so that the projects have an API to persist.
@@ -30,9 +32,11 @@ The market percentages below come from the convenience sample of 69 postings in 
 **Effort assumptions.** The learner studies 8–10 hours a week.
 - A theory lesson takes about 25–35 minutes to read and to answer its quiz.
 - A project takes 6–12 hours, depending on its size.
+- A module 00 lesson, read and solved from zero, takes about an hour.
 
 | Tier | Lessons | Projects | Estimate | Weeks at 8–10 h |
 | --- | --- | --- | --- | --- |
+| Fundamentals 00 (optional) | 7 (all with a challenge) | none | ≈ 7 × 1 h = **≈ 7 h** | 1 |
 | Core 01–11 | 58 (6 of them projects) | P1–P6, ≈ 55 h | ≈ 26 h of lessons + 55 h = **≈ 81 h** | 8–10 |
 | Deepening 12, 14 | 10 | none | ≈ 5 h | 1 |
 | Legacy 13 | 5 (1 project) | P7, ≈ 8 h | ≈ 2 h + 8 h = **≈ 10 h** | 1–1.5 |
@@ -44,11 +48,28 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 - **Done when**: the completion criteria. Every quiz of the module answered correctly and every graded challenge passed in the app, both recorded in progress, plus the module project's acceptance criteria, where there is one.
 - **Official**: Microsoft documentation, from [02-ecosystem-and-legacy.md](02-ecosystem-and-legacy.md).
 
+### 00-fundamentals — Programming Fundamentals with C# (optional)
+
+For learners who have never programmed. Every lesson is `beginner`, tagged `recommended`, `core`, `theory`, and has a graded challenge. 00/01 states the skip rule in its first paragraph and 01/01 repeats it: a learner who can solve the 00/07 challenge without help starts at module 01.
+
+| Lesson | Kind | Outcome | Competency |
+| --- | --- | --- | --- |
+| 01-first-program | theory + challenge | Writes a short program with variables, the built-in number, `bool`, `char` and `string` types, arithmetic (integer division, `%`), comparisons and interpolated strings; reads a compile error; tells **Run** from **Run tests** | C# |
+| 02-methods | theory + challenge | Declares and calls `static` methods with parameters and return values, `=>` bodies, overloads, optional and named arguments and local functions; reads `x => x * 2` as a method without a name | C# |
+| 03-decisions-and-loops | theory + challenge | Uses `if`, `switch`, `?:`, `while`, `for`, `foreach`, `break` and `continue`, avoids off-by-one errors and walks a first `int[]` | C# |
+| 04-strings-and-text | theory + challenge | Takes text apart and cleans it, splits and joins, builds it with `StringBuilder`, parses numbers with `TryParse` and `out`, formats numbers with `InvariantCulture` | C# |
+| 05-arrays-lists-dictionaries | theory + challenge | Uses arrays, `List<T>`, collection expressions, `Dictionary<TKey,TValue>` with `TryGetValue`, and tuples with deconstruction | C# |
+| 06-classes-and-objects | theory + challenge | Writes a class with fields, a constructor, properties and instance and `static` members; handles `null`; uses an `enum` and namespaces | C#, SOLID 54% |
+| 07-errors-and-testing | theory + challenge | Tells compile errors from exceptions, reads a stack trace, throws and catches exceptions, writes guard clauses, and reads a test as arrange, act, assert; the challenge is the skip test | C#, unit testing 55% |
+
+- **Official:** C# fundamentals tutorials and the C# language reference.
+- **Done when:** the quizzes and the module's challenges are passed. Optional: a learner who skips the module still reaches 100% of the track.
+
 ### 01-platform — The .NET Platform (core)
 
 | Lesson | Kind | Outcome | Competency (market) |
 | --- | --- | --- | --- |
-| 01-csharp-map | theory | Explains how the track works (quiz lessons, local projects with the SDK), where each backend job lives in .NET and the three ideas the rest of the track builds on | orientation |
+| 01-csharp-map | theory | Explains where to start (module 00 and its skip rule), how the track works (quizzes, graded challenges in the browser, local projects with the SDK), where each backend job lives in .NET and the three ideas the rest of the track builds on | orientation |
 | 02-runtime-sdk-and-cli | theory | Explains the CLR, JIT, SDK versus runtime, `dotnet new/build/run/test` and the solution/project layout | C# 91% |
 | 03-versions-and-support | theory | Picks a target framework: LTS versus STS, .NET 10 as the current LTS and what changed since .NET 6/8 | .NET version named 23% |
 | 04-nuget-and-project-files | theory | Reads a `.csproj`, adds packages, uses central package management and checks a package's licence | C#, CI/CD |
@@ -247,7 +268,7 @@ Each project builds on the previous one, without extra architecture. Acceptance 
 
 | Competency (sample share) | Lessons | Check |
 | --- | --- | --- |
-| C# language (91%) | 01/02–04, 02/*, 03/01–03 | quizzes 01–03, P1 |
+| C# language (91%) | 00/* (optional), 01/02–04, 02/*, 03/01–03 | quizzes and challenges 00–03, P1 |
 | Web API/REST (64%), MVC (23%) | 05/*, 06/01–04 | quizzes 05–06, P2 |
 | SQL Server (57%), PostgreSQL (20%) | 07/01, 07/06 | quiz 07, P3 |
 | EF Core (35%), Dapper (12%) | 03/03, 07/02–05 | quiz 07, P3 |
@@ -267,6 +288,6 @@ Each project builds on the previous one, without extra architecture. Acceptance 
 | AI in .NET apps (AI-assisted development 29%, adjacent) | 14/05 | quiz 14 |
 | Legacy .NET-era technology (30%), migration (13%) | 13/* | quiz 13, P7 |
 | .NET versions and support (23%) | 01/03 | quiz 01 |
-| English (20%; 34% international) | Every lesson is in English, and 01/01 says so | not graded |
+| English (20%; 34% international) | Every lesson is in English | not graded |
 
 Not covered on purpose: frontend frameworks (Angular 23%, React 22%) and Blazor (0% in the sample). These are other tracks or are not backend. AI-assisted development (29%) is the subject of the AI Engineering track.

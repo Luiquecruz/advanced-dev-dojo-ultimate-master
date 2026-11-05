@@ -1,0 +1,14 @@
+{
+  "title": "Working with Text",
+  "summary": "Strings as sequences of characters, immutability, Trim, Replace, Substring and case, comparing with StringComparison, Split and string.Join, StringBuilder, TryParse and out parameters, cultures and the invariant culture, and format strings.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "C# programming guide: Strings", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/strings/" },
+    { "label": ".NET: Best practices for comparing strings", "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-strings" },
+    { "label": ".NET: Parsing numeric strings", "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/parsing-numeric" },
+    { "label": ".NET: Standard numeric format strings", "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings" },
+    { "label": ".NET API: StringBuilder class", "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder" },
+    { "label": ".NET API: Int32.TryParse", "url": "https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse" }
+  ]
+}
