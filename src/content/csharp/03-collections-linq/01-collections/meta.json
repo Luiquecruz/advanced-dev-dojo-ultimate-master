@@ -1,6 +1,6 @@
 {
   "title": "Collections: Choosing the Right Container",
-  "summary": "Pick List, Dictionary and HashSet for the job, choose comparers on purpose, and tell read-only views from immutable and frozen collections; what changes from PHP's all-in-one array.",
+  "summary": "Pick List, Dictionary and HashSet for the job, choose comparers on purpose, avoid the missing-key and ordering traps, and tell read-only views from immutable and frozen collections.",
   "level": "beginner",
   "tags": [
     "recommended",

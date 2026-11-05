@@ -2,17 +2,19 @@
 
 After this lesson you can pass a `CancellationToken` from an endpoint down to the database and HTTP calls, create your own tokens with a deadline, combine tokens, and choose the right timeout layer: per call, per outgoing HTTP client, or per incoming request.
 
-## Coming from PHP/Magento
+You need: 04/01 (exception filters with `when`), 04/02 (`async` and `await`), 04/03 (`using` and `IDisposable`) and 02/04 (`Func<T, TResult>` and lambdas).
 
-PHP has nothing like a cancellation token. The closest tools are blunt: `max_execution_time` kills a script that runs too long, and the PHP manual notes that on Linux it counts only the script's own execution, not time spent in database queries or stream operations. The wall-clock backstop is PHP-FPM's `request_terminate_timeout` pool setting, which kills the worker process after a fixed time, mid-query or mid-write. Either way the tool is to kill the worker, not to ask the code to stop.
+## Why cancellation is explicit
 
-.NET makes cancellation an explicit, cooperative contract. The trap for a PHP developer is to ignore the token parameter because nothing forces you to use it. The code compiles and works in development, but when a client disconnects or a deadline passes, the work keeps running: queries finish for nobody, outgoing calls pile up, and the long-running process carries the load. Passing the token through every layer is what makes "the user gave up" actually stop the work.
+Work often stops being useful before it finishes: the user closes the browser tab, a deadline passes, the application shuts down. .NET never kills running code for you. Cancellation is a cooperative contract: the code that wants the work stopped sends a signal, and the code doing the work checks that signal and stops itself.
+
+Nothing forces you to take part. A method that ignores its token compiles and works in development, but when a client disconnects, the work keeps running: queries finish for nobody, outgoing calls pile up, and a long-running server carries the load. Passing the token through every layer is what makes "the user gave up" actually stop the work.
 
 ## The model: source, token, listener
 
 Cancellation has two halves. A `CancellationTokenSource` is the object that can request cancellation. Its `Token` property is a lightweight `CancellationToken` struct you pass to anything that should stop when asked. Only the source can cancel; listeners can only observe. A token cannot be reset, so one token represents one operation.
 
-Cancellation is cooperative: nothing kills your code. Every async .NET API that accepts a token (EF Core's `ToListAsync`, `HttpClient.GetAsync`, `Task.Delay`, `Stream.ReadAsync`) checks it and throws `OperationCanceledException` when it is cancelled. In your own loops, call `ThrowIfCancellationRequested()`:
+Every async .NET API that accepts a token (EF Core's `ToListAsync`, `HttpClient.GetAsync`, `Task.Delay`, `Stream.ReadAsync`) checks it and throws `OperationCanceledException` when it is cancelled. In your own loops, call `ThrowIfCancellationRequested()`:
 
 ```csharp
 public async Task<int> ReindexAsync(IReadOnlyList<int> productIds, CancellationToken cancellationToken)
@@ -28,24 +30,22 @@ public async Task<int> ReindexAsync(IReadOnlyList<int> productIds, CancellationT
 }
 ```
 
-The parameter conventionally comes last, is named `cancellationToken`, and is passed to every awaitable call inside. Library code often gives it a default (`CancellationToken cancellationToken = default`) so callers that cannot cancel pass nothing.
+The parameter conventionally comes last, is named `cancellationToken`, and is passed to every awaitable call inside. Library code often gives it a default (`CancellationToken cancellationToken = default`) so callers that cannot cancel pass nothing; `CancellationToken.None` is that "never cancelled" token.
 
 ## Where tokens come from in ASP.NET Core
 
-You rarely create the first token. In a minimal API handler or a controller action, a `CancellationToken` parameter is bound automatically to `HttpContext.RequestAborted`, which is cancelled when the client disconnects:
+You rarely create the first token. In a web endpoint (module 05 and module 06), a `CancellationToken` parameter is bound automatically to `HttpContext.RequestAborted`, which is cancelled when the client disconnects:
 
 ```csharp
 app.MapGet("/orders/{customerId:int}", async (int customerId, OrderStore store, CancellationToken cancellationToken) =>
     Results.Ok(await store.ListForCustomerAsync(customerId, cancellationToken)));
 ```
 
-From there, the job is plumbing: every service method takes the token and hands it on. In a `BackgroundService`, the `stoppingToken` passed to `ExecuteAsync` plays the same role for application shutdown (module 10).
+From there, the job is plumbing: every service method takes the token and hands it on. In a background worker (module 10), the `stoppingToken` passed to `ExecuteAsync` plays the same role for application shutdown.
 
 ## Deadlines you create yourself
 
-To put a time limit on an operation, create a source with a delay and dispose it when done; `CancellationTokenSource` is `IDisposable`.
-
-When you also have a caller's token, link the two so either one cancels the work:
+To put a time limit on an operation, create a source with a delay and dispose it when done; `CancellationTokenSource` is `IDisposable`. When you also have a caller's token, link the two so either one cancels the work:
 
 ```csharp
 public async Task<Quote> GetShippingQuoteAsync(Cart cart, CancellationToken cancellationToken)
@@ -65,7 +65,7 @@ public async Task<Quote> GetShippingQuoteAsync(Cart cart, CancellationToken canc
 }
 ```
 
-The exception filter tells the two causes apart: if the caller's token is not cancelled, the timeout fired. If the client disconnected, the exception propagates, which is what the caller expects. `CancelAfter` restarts the countdown if called again before it fires.
+The exception filter tells the two causes apart: if the caller's token is not cancelled, the deadline fired. If the client disconnected, the exception propagates, which is what the caller expects. Instead of a fallback, a method can also turn its own deadline into `throw new TimeoutException("...", ex)`, so callers can tell "too slow" from "cancelled". `CancelAfter` restarts the countdown if called again before it fires.
 
 `Task.WaitAsync(TimeSpan)` is a different tool: it stops *waiting* after the timeout and throws `TimeoutException`, but the underlying operation is not cancelled and keeps running. Use it only around APIs that take no token.
 
@@ -73,7 +73,7 @@ The exception filter tells the two causes apart: if the caller's token is not ca
 
 Three layers usually exist in a backend, and they should be set deliberately:
 
-- **Outgoing HTTP.** `HttpClient.Timeout` defaults to 100 seconds for every request on that client. On .NET 5 and later a timeout surfaces as an `OperationCanceledException` whose inner exception is a `TimeoutException`. With `IHttpClientFactory`, the `Microsoft.Extensions.Http.Resilience` package's `AddStandardResilienceHandler()` adds a pipeline whose defaults include a rate limiter of 1,000 concurrent requests, a 30-second total timeout, three retries with exponential backoff, a circuit breaker and a 10-second timeout per attempt. When both a client timeout and a token deadline apply, the shorter one wins. `IHttpClientFactory` and the resilience handler are taught in module 10, lesson 05.
+- **Outgoing HTTP.** `HttpClient`, the class that sends HTTP requests (module 10, lesson 05), has a `Timeout` that defaults to 100 seconds for every request on that client. On .NET 5 and later a timeout surfaces as an `OperationCanceledException` whose inner exception is a `TimeoutException`. The `Microsoft.Extensions.Http.Resilience` package's `AddStandardResilienceHandler()` adds a pipeline whose defaults include a rate limiter of 1,000 concurrent requests, a 30-second total timeout, three retries with exponential backoff, a circuit breaker and a 10-second timeout per attempt. When both a client timeout and a token deadline apply, the shorter one wins.
 - **Incoming requests.** ASP.NET Core applies no request timeout by default. The request timeouts middleware (`AddRequestTimeouts` + `UseRequestTimeouts`, then `WithRequestTimeout` or `[RequestTimeout]` per endpoint, or a default policy) cancels `HttpContext.RequestAborted` when the limit is hit; if the app does not produce a response, the default is a 504. It does not trigger with a debugger attached, so test timeouts without one.
 - **Database.** Pass the token to EF Core or ADO.NET calls so a cancelled request also cancels the query; providers have their own command timeout setting as a backstop.
 
@@ -85,13 +85,19 @@ app.UseRequestTimeouts();
 app.MapGet("/reports/sales", BuildSalesReportAsync).WithRequestTimeout(TimeSpan.FromSeconds(30));
 ```
 
+## Common mistakes
+
+- **Accepting a token and not forwarding it.** An endpoint that takes a token but calls `ToListAsync()` without it cancels nothing: the query runs to the end after the client is gone. Pass the token to every call that accepts one.
+- **Mistaking `WaitAsync` for cancellation.** It throws `TimeoutException`, but the operation keeps running in the background. Give the operation a linked token with `CancelAfter`.
+- **Logging cancellation as an error.** A client disconnect becomes an "Unexpected failure" alert. Catch `OperationCanceledException` only where you can act, and log it quietly.
+- **Forgetting to dispose a `CancellationTokenSource`.** It holds resources until it is disposed: the timer behind `CancelAfter`, and for a linked source its registration on the caller's token. Created per call, the leftovers pile up. Create it with `using`.
+
 ## In practice
 
-- **Accept and forward the token everywhere** on an async path. An endpoint that takes a token but calls `ToListAsync()` without it cancels nothing.
-- **Treat cancellation as an outcome, not an error.** Catch `OperationCanceledException` (not `TaskCanceledException`) only where you can do something useful, and do not log a client disconnect as an error.
+- **Accept and forward the token everywhere** on an async path, down to the last call.
+- **Treat cancellation as an outcome, not an error.** Catch `OperationCanceledException` (not its subclass `TaskCanceledException`) so every kind of cancellation is handled.
 - **Order the deadlines.** A per-attempt timeout shorter than the total timeout, shorter than the incoming request timeout, keeps retries meaningful.
-- **Do not cancel half-finished writes blindly.** Before the point of no return (a payment captured, a message published), consider passing `CancellationToken.None` so the operation completes consistently.
-- **Usual mistakes:** not forwarding the token, forgetting to dispose a `CancellationTokenSource`, relying on the 100-second `HttpClient` default, `Task.WaitAsync` mistaken for real cancellation, and retrying non-idempotent `POST` calls automatically.
+- **Do not cancel half-finished writes blindly.** Before the point of no return (a payment captured, a message published), consider passing `CancellationToken.None` so the operation completes consistently. Do not retry non-idempotent `POST` calls automatically.
 
 ## Status as of 2026-11-05
 

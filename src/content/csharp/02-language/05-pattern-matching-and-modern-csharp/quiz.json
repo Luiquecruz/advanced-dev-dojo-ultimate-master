@@ -30,7 +30,7 @@
       "A parameter in scope in the whole class; methods may reassign it"
     ],
     "answer": 3,
-    "explanation": "Primary constructor parameters on classes stay parameters: the compiler captures them in a hidden private field when members use them, and they are not read-only. The first option describes records only. The second is the PHP constructor-promotion `private readonly` intuition, which C# does not apply to classes."
+    "explanation": "Primary constructor parameters on classes stay parameters: the compiler captures them in a hidden private field when members use them, and they are not read-only. The first option describes records only. The second option is the intuitive reading, but C# does not make class primary constructor parameters `readonly`; copy one into a `private readonly` field when it must never change."
   },
   {
     "question": "`args` is `[\"products.csv\", \"--dry-run\"]`. What does this return?\n\n```csharp\nargs switch\n{\n    [] => \"usage\",\n    [var file] => $\"import {file}\",\n    [var file, \"--dry-run\"] => $\"check {file}\",\n    [_, .. var rest] => \"unknown\",\n}\n```",
@@ -52,7 +52,7 @@
       "It falls through to the first arm, like a C `switch` without `break`"
     ],
     "answer": 2,
-    "explanation": "C# enums are backed by integers, so any `int` can be cast to the enum, and a switch covering only the named values is not exhaustive. The compiler warns, but the code still builds, and an unmatched value throws at run time. That is why the lesson recommends a final `_` arm. PHP enums cannot hold an undeclared value (`from()` throws `ValueError`), but C# enums can, which is why a C# switch over an enum is never exhaustive without `_`."
+    "explanation": "C# enums are backed by integers, so any `int` can be cast to the enum, and a switch covering only the named values is not exhaustive. The compiler warns, but the code still builds, and an unmatched value throws at run time. That is why the lesson recommends a final `_` arm. The second option is tempting because the compiler does notice the gap, but it reports a warning, not an error."
   },
   {
     "question": "`IEnumerable<int> ids = [.. LoadIds(), 99];` When does `LoadIds()` run and get enumerated?",

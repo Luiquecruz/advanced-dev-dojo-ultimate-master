@@ -2,13 +2,7 @@
 
 Build a .NET 10 console app that reads a CSV of products, validates every row without stopping at the first bad one, and prints a deterministic report computed with LINQ. It is the first of seven practice projects: you build it locally with the .NET 10 SDK, and later projects reuse its parser (P4 adds unit tests for it).
 
-## Coming from PHP/Magento
-
-You have probably written this as a Magento import script or a `bin/magento` command: `fopen` + `fgetcsv` in a loop, `is_numeric` checks, an `$errors[]` array and a summary at the end. The shape is the same here; three things differ:
-
-- **Parsing is typed and explicit.** `decimal.TryParse` returns `false` instead of coercing `"12abc"` to `12` the way PHP's `(float)` cast does. The result is a `decimal`, the type for money; `double` is binary floating point and cannot represent `0.10` exactly.
-- **Culture matters.** `decimal.TryParse(text, out var price)` uses the machine's current culture, and its default style (`NumberStyles.Number`) allows thousands separators. On a `pt-BR` machine `.` is the thousands separator, so `"19.90"` parses successfully as `1990`: the row passes validation with a price 100 times too high, which is worse than a rejected row. That is why the helper below passes an explicit style without `AllowThousands`. Pass `CultureInfo.InvariantCulture` to parse and to format, so the report is the same everywhere.
-- **`File.ReadLines` streams.** It returns an `IEnumerable<string>` that reads lazily (lesson 03), like iterating `fgetcsv`, while `File.ReadAllLines` loads the whole file into an array first.
+You need: 03/01 (collections and comparers), 03/02 (LINQ operators), 03/03 (streaming and multiple enumeration), 00/04 (`TryParse` and the invariant culture), 02/01 (value and reference types) and 01/02 (`dotnet new`, `dotnet run`).
 
 ## Goal
 
@@ -30,7 +24,13 @@ You have probably written this as a Magento import script or a `bin/magento` com
   - top 5 by stock value, descending, ties broken by SKU with ordinal comparison;
   - invalid rows in line order.
 - **Output** formatted with `CultureInfo.InvariantCulture` and fixed decimals (`ToString("0.00", CultureInfo.InvariantCulture)`).
+- **Streaming input**: read the file with `File.ReadLines`, which returns a lazily read `IEnumerable<string>` (lesson 03), not `File.ReadAllLines`, which loads the whole file into an array first.
 - **Exit codes**: `0` after a report (even with invalid rows), `1` with a usage message when the argument is missing or the file does not exist.
+
+Parsing is where an importer goes wrong quietly, so the rules are explicit:
+
+- **Typed parsing, no exceptions.** `decimal.TryParse` returns `false` for `"12abc"` instead of guessing a number, so the row is reported and the import goes on. Prices are `decimal`, the type for money; `double` is binary floating point and cannot represent `0.10` exactly.
+- **The culture changes the meaning of `.`.** `decimal.TryParse(text, out var price)` uses the machine's current culture, and its default style (`NumberStyles.Number`) allows thousands separators. On a `pt-BR` (Brazilian Portuguese) machine `.` is the thousands separator, so `"19.90"` parses successfully as `1990`: the row passes validation with a price 100 times too high, which is worse than a rejected row. Pass `CultureInfo.InvariantCulture` and an explicit style without `AllowThousands`, as the helper below does, and format the output with the invariant culture too, so the report is the same everywhere.
 
 A parsing helper in this style keeps the rules readable:
 
@@ -73,7 +73,7 @@ static bool TryParsePrice(string text, out decimal price) =>
 
 ## Where to get help
 
-- Lessons of this track: 03/01 (collections, `HashSet<T>` and comparers), 03/02 (LINQ operators and the empty-sequence rules), 03/03 (streaming and multiple enumeration), 02/01 (value and reference types), 02/02 (nullable reference types) and 01/02 (`dotnet new`, `dotnet run`).
+- Lessons of this track: 03/01 (collections, `HashSet<T>` and comparers), 03/02 (LINQ operators and the empty-sequence rules), 03/03 (streaming and multiple enumeration), 02/01 (value and reference types), 02/02 (nullable reference types), 00/04 (`TryParse` and format strings) and 01/02 (`dotnet new`, `dotnet run`).
 - Microsoft docs: `File.ReadLines`, `decimal.TryParse` with `NumberStyles` and `IFormatProvider`, and the `dotnet run` command, linked in the resources.
 
 ## Check yourself

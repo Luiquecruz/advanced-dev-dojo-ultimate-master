@@ -1,0 +1,6 @@
+1. Decide the container per job. "Stock per SKU" is a lookup by key, so `Inventory` keeps a private `Dictionary<string, int>`. "Have I seen this SKU?" is membership, so `Duplicates` uses a `HashSet<string>`.
+2. SKUs ignore case, so both are created with `StringComparer.OrdinalIgnoreCase`. Without it `A-1` and `a-1` become two entries and the duplicate goes unnoticed.
+3. `StockOf` reads with `TryGetValue` and falls back to `0`, because the indexer throws `KeyNotFoundException` for a SKU that was never received. `Receive` adds `StockOf(sku) + quantity` back through the indexer, which adds or overwrites.
+4. `TryTake` also reads with `TryGetValue`. When the SKU is missing or the stock is smaller than the quantity it returns `false` before touching the dictionary, so a failed take neither goes negative nor creates an entry.
+5. `Snapshot` copies the dictionary. A dictionary is a reference type: returning the field, or a read-only view over it, hands the caller the live object, and later receipts would show up in a snapshot taken earlier.
+6. `Duplicates` loops once over the input and adds each SKU to the set; when `Add` returns `false`, the SKU was seen before and goes into the result list in that order.

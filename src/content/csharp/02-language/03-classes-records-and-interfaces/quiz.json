@@ -1,25 +1,25 @@
 [
   {
-    "question": "In Magento you change `ProductRepository::save()` with a plugin. In C#, `ProductRepository.Save` is a plain public method of a non-sealed class. You write `class AuditedRepository : ProductRepository` with `public override void Save(...)`. What happens?",
+    "question": "`ProductRepository.Save` is a plain public method of a non-sealed class. To add auditing, you write `class AuditedRepository : ProductRepository` with `public override void Save(...)`. What happens?",
     "options": [
       "It works: every public method of a non-sealed class can be overridden",
       "It compiles, but callers keep running the base `Save` instead of yours",
-      "The runtime generates an interceptor around `Save`, as Magento does",
+      "The runtime wraps `Save` with your version automatically, because the class is not sealed",
       "It fails to compile, because `Save` is not `virtual`"
     ],
     "answer": 3,
-    "explanation": "C# methods are non-virtual by default, so `override` is a compile error unless the base declares `virtual`. Magento's plugins rely on generated subclasses that wrap any public, non-final, non-static method; C# code replaces behavior through an `IProductRepository` interface with a decorating implementation registered in DI. Hiding the method with `new` would compile, but callers holding a `ProductRepository` reference would still call the base method, which is the trap behind the second option."
+    "explanation": "C# methods are non-virtual by default, so `override` is a compile error (CS0506) unless the base declares `virtual`. C# code adds behavior around a method through an `IProductRepository` interface with a decorating implementation registered in DI. Hiding the method with `new` would compile, but callers holding a `ProductRepository` reference would still call the base method, which is the trap behind the second option."
   },
   {
     "question": "`public record ProductDto(string Sku, decimal Price);` What does `new ProductDto(\"A\", 1m) == new ProductDto(\"A\", 1m)` return, and what would it return if `ProductDto` were a plain `class` with the same properties?",
     "options": [
       "`true` for the record (value equality), `false` for the class",
       "`false` for both, because they are two different objects in memory",
-      "`true` for both, because C# compares properties like PHP's `==`",
+      "`true` for both, because `==` compares the properties of any two objects",
       "The class version does not compile, because classes cannot be compared with `==`"
     ],
     "answer": 0,
-    "explanation": "Records synthesize `==` and `Equals` from their data, while a class's default `==` asks whether both variables refer to the same object. Expecting PHP's `==` (property comparison) on plain classes is the trap behind the third option."
+    "explanation": "Records synthesize `==` and `Equals` from their data, while a class's default `==` asks whether both variables refer to the same object. Expecting `==` to compare properties on plain classes is the trap behind the third option; it is a mistake named in this lesson."
   },
   {
     "question": "`var copy = original with { Price = 29m };` where `original` is a record with a `List<string> Tags` property. You then call `copy.Tags.Add(\"sale\")`. What does `original.Tags` contain?",
@@ -63,6 +63,6 @@
       "Neither: default interface members require `override` in the class"
     ],
     "answer": 0,
-    "explanation": "A default interface member is reachable only through the interface type, so `bag.Describe()` on a `Bag` variable does not compile. This differs from a PHP trait, whose methods become part of the class, which is why the second option looks right to PHP developers."
+    "explanation": "A default interface member is reachable only through the interface type, so `bag.Describe()` on a `Bag` variable does not compile. The member does not become part of the class, which is why the second option, the intuitive one, is wrong."
   }
 ]

@@ -338,19 +338,19 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 
 ## C# and .NET (`src/content/csharp`)
 
-Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"engine": "csharp"`, [csharp-engine.md](csharp-engine.md)): every lesson written so far is theory + quiz, practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK, and lessons gain graded C# challenges one by one. 14 modules, 73 lessons: core 01–11, deepening 12 and 14, legacy 13. Enabled (`TRACK_FLAGS.csharp = true`) once every module was written, cross-reviewed and verified and the whole track passed an independent final review.
+Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"engine": "csharp"`, [csharp-engine.md](csharp-engine.md)): every lesson is theory + quiz, lessons marked **(challenge)** also have a graded C# challenge (added lesson by lesson), and practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK. 14 modules, 73 lessons: core 01–11, deepening 12 and 14, legacy 13. Enabled (`TRACK_FLAGS.csharp = true`) once every module was written, cross-reviewed and verified and the whole track passed an independent final review.
 
 ### 01-platform — The .NET Platform for PHP Developers
 01-csharp-map ✓ · 02-runtime-sdk-and-cli ✓ · 03-versions-and-support ✓ · 04-nuget-and-project-files ✓
 
 ### 02-language — C# Language Essentials
-01-types-and-values ✓ · 02-nullable-reference-types ✓ · 03-classes-records-and-interfaces ✓ · 04-generics-and-delegates ✓ · 05-pattern-matching-and-modern-csharp ✓
+01-types-and-values **(challenge)** ✓ · 02-nullable-reference-types **(challenge)** ✓ · 03-classes-records-and-interfaces **(challenge)** ✓ · 04-generics-and-delegates **(challenge)** ✓ · 05-pattern-matching-and-modern-csharp **(challenge)** ✓
 
 ### 03-collections-linq — Collections and LINQ
-01-collections ✓ · 02-linq-fundamentals ✓ · 03-deferred-execution-and-iqueryable ✓ · 04-project-cli-catalog **(project)** ✓
+01-collections **(challenge)** ✓ · 02-linq-fundamentals **(challenge)** ✓ · 03-deferred-execution-and-iqueryable **(challenge)** ✓ · 04-project-cli-catalog **(project)** ✓
 
 ### 04-errors-async — Errors, Resources and Async
-01-exceptions-and-results ✓ · 02-async-await ✓ · 03-disposal-and-using ✓ · 04-cancellation-and-timeouts ✓ · 05-concurrency-and-the-thread-pool ✓
+01-exceptions-and-results **(challenge)** ✓ · 02-async-await **(challenge)** ✓ · 03-disposal-and-using **(challenge)** ✓ · 04-cancellation-and-timeouts **(challenge)** ✓ · 05-concurrency-and-the-thread-pool **(challenge)** ✓
 
 ### 05-aspnet-core — ASP.NET Core Fundamentals
 01-host-and-program ✓ · 02-dependency-injection ✓ · 03-configuration-and-options ✓ · 04-logging ✓ · 05-middleware-pipeline ✓

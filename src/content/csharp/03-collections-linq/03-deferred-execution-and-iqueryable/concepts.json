@@ -1,10 +1,10 @@
 [
-  { "term": "Deferred execution", "description": "A query operator stores what to do and runs only when its result is enumerated, so it sees the source as it is at that moment." },
-  { "term": "Immediate execution", "description": "Operators that return a single value or a materialized collection, such as `Count`, `First` and `ToList`, run the query as soon as they are called." },
-  { "term": "Streaming and non-streaming operators", "description": "Streaming operators such as `Where` yield elements as they read them, while non-streaming ones such as `OrderBy` and `GroupBy` must read the whole source first." },
-  { "term": "Multiple enumeration", "description": "Enumerating the same deferred sequence more than once, which repeats its work and side effects each time and is flagged by analyzer rule CA1851." },
-  { "term": "Materialization", "description": "Running a query once and storing its results with `ToList`, `ToArray`, `ToDictionary` or an async equivalent." },
-  { "term": "Expression tree", "description": "A data structure describing a lambda, which the compiler builds for `IQueryable<T>` queries so a provider can translate them, for example into SQL." },
-  { "term": "`IQueryable<T>`", "description": "A sequence backed by a query provider such as EF Core, whose operators compose a translated query instead of running delegates in memory." },
-  { "term": "Client evaluation", "description": "EF Core running part of a query in the application: allowed in the final `Select`, and an exception anywhere else since EF Core 3.0 unless you switch explicitly with `AsEnumerable`." }
+  {"term": "Deferred execution", "description": "A query operator stores what to do and runs only when its result is enumerated, so it sees the source as it is at that moment, while `Count`, `First` and `ToList` run at once."},
+  {"term": "Streaming and non-streaming operators", "description": "Streaming operators such as `Where` yield elements as they read them, while non-streaming ones such as `OrderBy` and `GroupBy` must read the whole source first."},
+  {"term": "Iterator", "description": "A method that returns `IEnumerable<T>` and uses `yield return`, whose body runs only as elements are requested and starts again on every new enumeration."},
+  {"term": "Multiple enumeration", "description": "Enumerating the same deferred sequence more than once, which repeats its work and side effects each time and is flagged by analyzer rule CA1851."},
+  {"term": "Materialization", "description": "Running a query once and storing its results with `ToList`, `ToArray`, `ToDictionary` or an async equivalent."},
+  {"term": "Expression tree", "description": "A data structure describing a lambda, which the compiler builds for `IQueryable<T>` queries so a provider can translate them, for example into SQL."},
+  {"term": "`IQueryable<T>`", "description": "A sequence backed by a query provider such as EF Core, whose operators compose a translated query instead of running delegates in memory."},
+  {"term": "Client evaluation", "description": "EF Core running part of a query in the application: allowed in the final `Select`, and an exception anywhere else since EF Core 3.0 unless you switch explicitly with `AsEnumerable`."}
 ]

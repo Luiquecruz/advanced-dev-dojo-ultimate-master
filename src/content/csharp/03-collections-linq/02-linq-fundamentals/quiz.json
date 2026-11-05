@@ -1,14 +1,14 @@
 [
   {
-    "question": "A PHP developer writes `var cheap = products.Where(p => p.Price < 10);` expecting it to work like `array_filter`. Which statement is accurate?",
+    "question": "`var cheap = products.Where(p => p.Price < 10);` runs over a `List<Product>`. Which statement is accurate?",
     "options": [
-      "`cheap` is a new `List<Product>` holding the filtered products, exactly like the array `array_filter` returns",
+      "`cheap` is a new `List<Product>` that already holds the filtered products",
       "`Where` removes the expensive products from `products` in place",
       "`cheap` is a query that has not run yet; it filters when it is enumerated, and `ToList()` stores the result",
-      "`Where` only compiles against EF Core sources, so an in-memory list needs `array_filter`-style loops"
+      "`Where` only compiles against EF Core sources, so an in-memory list needs a `foreach` loop instead"
     ],
     "answer": 2,
-    "explanation": "`Where` returns an `IEnumerable<Product>` describing the filter; nothing runs until something enumerates it, and `ToList()` is how you get a stored result. The tempting answer carries over PHP's eager `array_filter`. LINQ never mutates its source, and the same operators work on in-memory collections (LINQ to Objects) and on EF Core."
+    "explanation": "`Where` returns an `IEnumerable<Product>` describing the filter; nothing runs until something enumerates it, and `ToList()` is how you get a stored result. The tempting answer assumes the filter runs on the spot and returns a list. LINQ never changes its source, and the same operators work on in-memory collections (LINQ to Objects) and on EF Core."
   },
   {
     "question": "Prices are `decimal`. What does `products.Where(p => p.Category == \"gifts\").Max(p => p.Price)` do when there are no gift products?",
@@ -38,10 +38,10 @@
       "`Join` is an inner join, so lines without a product vanish from the report; `LeftJoin` keeps them and passes `null` for the missing product",
       "`Join` throws `KeyNotFoundException` on the first unknown SKU; wrap it in `try`/`catch`",
       "`Join` returns the unknown lines with a default `Product`; check for an empty name",
-      "Nothing goes wrong; `Join` is a left outer join by default, like `LEFT JOIN` in MySQL"
+      "Nothing goes wrong; `Join` keeps lines without a product and passes `null` for it"
     ],
     "answer": 0,
-    "explanation": "`Join` implements an inner join: only elements with a match in the other sequence are returned, so unknown SKUs drop out silently. .NET 10 adds `LeftJoin`, whose result selector receives a nullable inner element, so `product?.Name ?? \"(unknown SKU)\"` works. Before .NET 10 the same result needed `GroupJoin` with `DefaultIfEmpty`. `Join` never throws for a missing key."
+    "explanation": "`Join` implements an inner join: only elements with a match in the other sequence are returned, so unknown SKUs drop out silently. Keeping unmatched elements with `null` is exactly what .NET 10's `LeftJoin` adds, so `product?.Name ?? \"(unknown SKU)\"` works there. Before .NET 10 the same result needed `GroupJoin` with `DefaultIfEmpty`. `Join` never throws for a missing key."
   },
   {
     "question": "What does `products.GroupBy(p => p.Category)` return?",

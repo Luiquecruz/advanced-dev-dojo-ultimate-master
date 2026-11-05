@@ -2,15 +2,7 @@
 
 Every C# type is either a value type or a reference type, and that one fact decides what an assignment, a method call or a collection read does to your data. After this lesson you can predict whether a line of code copies data or shares it, for structs, classes, arrays, lists and strings. You will also know what boxing is and why a mutable struct inside a `List<T>` causes trouble.
 
-## Coming from PHP/Magento
-
-PHP has two copy rules. Scalars and **arrays** are copied on assignment and when passed to a function (copy-on-write). Objects are handles: `$b = $a` shares the object. C# keeps the object rule and drops the array rule:
-
-- A `class` instance behaves like a PHP object. Assignment copies the reference, so both variables see one object.
-- **Arrays and `List<T>` are classes.** Passing a `List<Product>` to a method hands over the same list. If the method calls `Add` or `Clear`, the caller sees the change. In PHP, passing `$items` to a function gave the function its own copy. This is the trap that catches Magento developers most often.
-- A `struct` behaves like a PHP array: assignment copies the whole value.
-
-Equality changes too. PHP `==` compares object properties and `===` compares identity. In C#, `==` on a class compares identity, unless the type defines its own `==`, as `string` and records do.
+You need: module 00, in particular 00/05 (arrays, `List<T>`, dictionaries) and 00/06 (classes, fields and properties).
 
 ## Value types and reference types
 
@@ -20,7 +12,7 @@ A variable of a value type *contains* the instance. A variable of a reference ty
 | --- | --- |
 | `int`, `long`, `decimal`, `double`, `bool`, `char` | `class`, `record` (record class) |
 | `struct`, `record struct`, `enum` | `interface`, `delegate` |
-| `DateTime`, `Guid`, tuples such as `(int, string)` | arrays, `string`, `object` |
+| `DateTime`, `Guid`, tuples such as `(int, string)` | arrays, `List<T>`, `string`, `object` |
 
 ```csharp
 var a = new Money { Amount = 10m, Currency = "EUR" };
@@ -41,7 +33,7 @@ public struct Money
 
 public class Cart
 {
-    public List<string> Skus { get; } = [];
+    public List<string> Skus { get; } = [];   // [] is an empty collection expression (00/05)
 }
 ```
 
@@ -49,7 +41,7 @@ Think in terms of copy versus share, not stack versus heap. Where the runtime st
 
 ## Passing arguments
 
-C# passes every argument **by value** by default. For a struct, the method gets a copy of the value. For a class, the method gets a copy of the *reference*, so it can change the object but cannot make the caller's variable point somewhere else:
+C# passes every argument **by value** by default. For a struct, the method gets a copy of the value. For a class, the method gets a copy of the *reference*, so it can change the object but cannot make the caller's variable point somewhere else. Arrays and `List<T>` are classes: a method that receives your list shares it with you.
 
 ```csharp
 static void AddFreeGift(List<string> skus) => skus.Add("GIFT-01");  // the caller sees the new item
@@ -81,7 +73,7 @@ first.Amount = 6m;           // changes the local copy only
 prices[0] = first;           // write the copy back
 ```
 
-The fix is to make structs immutable, so that "change" always means "create a new value":
+The fix is to make structs immutable, so that "change" always means "create a new value". A `readonly record struct` does that, and `with` copies it with one property changed (both in lesson 03):
 
 ```csharp
 public readonly record struct Price(decimal Amount, string Currency);
@@ -105,16 +97,22 @@ int back = (int)boxed;     // unboxing needs the exact type
 
 Boxing costs an allocation, and the unboxing cast has a smaller cost of its own. In a hot loop that adds garbage-collector pressure. Generic collections such as `List<int>` and `Dictionary<string, int>` store values without boxing. The old non-generic `ArrayList` and `Hashtable` boxed every `int` you stored; you still meet them in legacy .NET Framework code.
 
+## Common mistakes
+
+- **Expecting a method to get its own copy of a list.** The method's `Add`, `Clear` or `Sort` changes the caller's list too, and the caller sees data it never wrote. Copy first (`new List<string>(skus)`) when the method must not touch the original.
+- **Changing a struct you read from a list or a `foreach`.** You change a copy, so the update is silently lost (or the compiler stops you with CS1612). Write the changed copy back by index, or make the struct `readonly`.
+- **Comparing two class instances with `==` to compare data.** Two objects with equal fields give `false`, because `==` asks "same object?". Use a record (lesson 03) or compare the fields you mean.
+- **Unboxing to the wrong type.** `(long)boxed` on a boxed `int` throws `InvalidCastException`. Unbox to the exact type first: `(long)(int)boxed`.
+
 ## In practice
 
 - **Default to `class`.** Microsoft's design guidelines say to avoid a struct unless the type represents a single value, is small (under 16 bytes), is immutable, and is rarely boxed. Coordinates such as two `double` values and wrapped identifiers fit. A `Money` with a `decimal` (16 bytes on its own) and a currency `string` is already past the size guideline, so a team that makes it a struct accepts that trade-off knowingly. Entities, services and DTOs do not.
 - **If you write a struct, make it `readonly`** (`readonly struct` or `readonly record struct`). Mutable structs produce lost updates that look like compiler bugs.
-- **Do not hand out your internal lists.** A method that returns a `List<T>` field lets callers change your state. Return `IReadOnlyList<T>` or a copy. Collection choices come in 03/01.
-- **Be careful with `==` on classes.** It means "same object" unless the type says otherwise. Records (lesson 03) give you value equality on purpose.
-- When you port PHP code that relied on array copy semantics, look for every place an array or list crosses a method boundary and decide whether the callee may change it.
+- **Do not hand out your internal lists.** A method that returns a `List<T>` field lets callers change your state. Return a copy, or the list as `IReadOnlyList<T>`, an interface that offers reading and indexing but no `Add` or `Remove`. Collection choices come in 03/01.
+- **Watch every list that crosses a method boundary.** Decide whether the callee may change it, and say so with the parameter type.
 
 ## Check yourself
 
-1. A PHP function sorted an array argument without affecting the caller. You port it to C# with a `List<int>` parameter. What changes, and how do you keep the old behavior?
+1. A method calls `Sort()` on its `List<int>` parameter. What does the caller's list look like afterwards, and how would you sort without touching it?
 2. Why does `prices[0].Amount = 6m` fail to compile for a `List<Money>` of structs, but work when `Money` is a class?
 3. Where does boxing happen when you pass an `int` to a method whose parameter is `object`, and how do generics avoid it?

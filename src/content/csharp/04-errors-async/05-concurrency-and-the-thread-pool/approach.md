@@ -1,0 +1,5 @@
+1. Run the starter's `GetAsync` with three callers that arrive before the first token comes back: each one sees no token and calls the issuer, so the identity server gets three requests. That is the first test.
+2. Turn the refresh into a critical section that can contain `await`: a `lock` cannot, a `SemaphoreSlim(1, 1)` can. Decide what each waiting caller does when it finally gets in: the token is probably there by now, so check again before issuing.
+3. Walk the failure path. If the issuer throws and nobody calls `Release`, the semaphore stays taken and every later caller waits forever. `finally` makes the release unconditional.
+4. Check the waiting caller's token: passing it to `WaitAsync` lets that caller stop waiting, while the caller that holds the semaphore keeps going.
+5. For `RunAllAsync`, see that the starter starts every job at once. A semaphore with `maxConcurrency` slots turns "start everything" into "start everything, but let only N past the gate". `Task.WhenAll` still returns the results in the order the tasks were created, which is the order of `jobs`.

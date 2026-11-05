@@ -2,11 +2,9 @@
 
 After this lesson you can explain what happens between a `.cs` file and running machine code (compiler, CIL, CLR, JIT), tell the SDK from the runtime and say which one a server needs, create a solution with the `dotnet` CLI, and choose between `dotnet run`, `dotnet build` and `dotnet publish`.
 
-## Coming from PHP/Magento
+In .NET the build step is mandatory: it turns your source files into compiled files, and those compiled files are what you deploy. So "which .NET?" is two questions: which **SDK** builds the code on your machine and in CI, and which **runtime** runs it in production.
 
-PHP compiles each script to opcodes when it runs (OPcache keeps them in memory) and you deploy source files. Magento adds build-like steps (`setup:di:compile`, static content deploy), but the PHP files themselves are what the server executes. "Which PHP?" is one question with one answer.
-
-In .NET the build is mandatory and produces a different artifact: compiled assemblies (`.dll` files) plus their dependencies. You deploy the published output, not the source tree, and you never run `git pull` followed by `dotnet run` on a server. "Which .NET?" splits into two questions: which **SDK** builds the code on your machine and in CI, and which **runtime** runs it in production.
+You need: 01/01, the map of this track. If you have never written a program, work through module 00 first.
 
 ## From C# to machine code
 
@@ -65,7 +63,7 @@ Since .NET 10 the CLI uses noun-first forms (`dotnet package add`, `dotnet refer
 
 A **project** (`.csproj`) compiles to one assembly. A **solution** (`.slnx`, XML since .NET 10; older repositories use `.sln`) only lists projects so tools can build them together. Project references go one way and cannot form cycles. `bin/` and `obj/` hold build output and restore state; keep them out of Git (`dotnet new gitignore`).
 
-The assembly is also a visibility boundary that the compiler enforces. A Magento module separates code by convention; a .NET project can hide types with `internal`:
+The assembly is also a visibility boundary that the compiler enforces: a project can hide a type from every other project by marking it `internal`.
 
 ```csharp
 // src/Catalog.Core/PriceRules.cs
@@ -100,12 +98,18 @@ using Spectre.Console;
 AnsiConsole.MarkupLine("[green]Import finished[/]");
 ```
 
+## Common mistakes
+
+- **Running `dotnet run` on a production server.** It needs the SDK there, builds a Debug configuration from source on every start and resolves packages from that machine's cache, so production runs code nobody tested in that form. Deploy the output of `dotnet publish -c Release` and start it with `dotnet <app>.dll`.
+- **Installing only the runtime on a developer machine.** `dotnet build` then fails because no SDK is found. Install the SDK; it includes the matching runtime.
+- **Publishing self-contained and never redeploying.** The bundled runtime never takes the security patches installed on the server, so the app keeps running a vulnerable runtime. Publish framework-dependent, or rebuild and redeploy on every runtime patch.
+- **Committing `bin/` and `obj/`.** Stale build output from one machine breaks restores and builds on another. Ignore both folders with `dotnet new gitignore`.
+
 ## In practice
 
 - **CI runs the same CLI.** A typical pipeline is `dotnet restore`, `dotnet build --no-restore -c Release`, `dotnet test --no-build -c Release`, `dotnet publish -c Release`. `build` and `test` default to Debug while `publish` defaults to Release on .NET 8 and later, so pass `-c Release` to all three, or you test one configuration and ship another. Module 11 builds the pipeline.
 - **Pin the SDK, not the runtime patch.** Teams pin the SDK version with `global.json` (next lesson) and let framework-dependent apps take runtime patches automatically.
-- **Keep the solution small.** One API, one or two libraries and a test project is enough for most services. Splitting every Magento-style module into its own project multiplies build time and references without adding safety.
-- **Usual mistakes:** running `dotnet run` in production; committing `bin/` and `obj/`; installing only the runtime on a developer machine and then wondering why `dotnet build` fails; publishing self-contained by default and then never redeploying for runtime security patches.
+- **Keep the solution small.** One API, one or two libraries and a test project is enough for most services. Splitting every feature into its own project multiplies build time and references without adding safety.
 
 ## Check yourself
 

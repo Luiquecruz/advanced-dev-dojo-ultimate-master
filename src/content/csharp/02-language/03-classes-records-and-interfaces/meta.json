@@ -1,6 +1,6 @@
 {
   "title": "Classes, Records, Structs and Interfaces",
-  "summary": "Properties with `init`, `required` and the C# 14 `field` keyword, access modifiers and `internal`, non-virtual-by-default inheritance, records with value equality and `with`, interfaces as DI seams, and how to choose among them.",
+  "summary": "Properties with `init`, `required` and the C# 14 `field` keyword, access modifiers and `internal`, non-virtual-by-default inheritance, records with value equality and `with`, interfaces as DI seams, attributes, and how to choose among them.",
   "level": "beginner",
   "tags": [
     "recommended",

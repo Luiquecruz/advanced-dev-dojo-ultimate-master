@@ -1,0 +1,5 @@
+1. Sort every failure in the task into two groups: outcomes a caller must handle every day (not enough stock) and signs that something is broken (a blank SKU, a `null` line, a malformed line from another system). The first group becomes a return value, the second an exception.
+2. In `Reserve`, validate the arguments before touching the dictionary, so a rejected call has no side effects. Then decide between the two result records, and change the stock only on the success path.
+3. Give `ImportException` its constructors, then write `ParseLine` from the outside in: the `null` check, the shape of the line, the number, the range. Wrap only the call that can throw the exception you want to translate, and pass the original as `inner` so the cause stays visible.
+4. Check what an exception filter buys you: one clause for two exception types, and every other exception passes by untouched.
+5. In `ImportAll`, decide which exception means "this line is bad, carry on". Catching `Exception` here would turn a bug in the caller into one more line in `Errors`; the last test checks that it escapes instead.

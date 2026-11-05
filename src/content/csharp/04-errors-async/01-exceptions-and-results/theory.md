@@ -2,13 +2,15 @@
 
 After this lesson you can throw the right exception type, catch only what you can handle, filter with `when`, rethrow without losing the stack trace, and decide when an expected failure should be a return value (a result type or a `Try*` method) instead of an exception.
 
-## Coming from PHP/Magento
+You need: 00/07 (`throw`, `try`/`catch`/`finally`, reading a stack trace), 00/04 (`int.TryParse`), 02/03 (records and inheritance) and 02/05 (`switch` expressions and type patterns).
 
-A lot transfers. PHP has `try`/`catch`/`finally`, exception hierarchies and, since PHP 8, `throw` as an expression. Magento code throws `LocalizedException` or `NoSuchEntityException` from a repository and lets the controller turn it into a message. C# works the same way: every exception derives from `System.Exception`, and `catch` clauses match by type.
+## Why the choice matters on a server
 
-The trap is the lifetime of the process. In PHP-FPM an uncaught exception ends one request and the worker starts the next request fresh. An ASP.NET Core app is one long-running process that serves every request. The framework still turns an unhandled exception in a request into a 500 response, but a `catch` that swallows an error and leaves a singleton or a static cache half-updated corrupts state for every request after it, until the process restarts. "Catch, log and continue" is far more dangerous here than in PHP.
+An exception travels up the call stack until a `catch` clause handles it. If nothing does, a console program ends, and a web framework turns the failure into an error response (a 500, module 06). Two facts make the choice between throwing and returning more important in a backend than in a short script.
 
-The second trap is cost. Microsoft's ASP.NET Core best practices say throwing and catching is slow relative to other control flow and must not be used for normal program flow, especially in hot code paths. A Magento habit such as "throw `NoSuchEntityException` and catch it to mean 'not found'" in a loop is a performance bug in .NET.
+First, a web API is one long-running process that serves every request (module 05). Objects shared between requests, such as a cache, live as long as the process. A `catch` that swallows an error and leaves that cache half-updated corrupts every later request until the process restarts.
+
+Second, exceptions are expensive. Microsoft's ASP.NET Core best practices say throwing and catching is slow relative to other code flow and must not be used for normal program flow, especially in hot code paths. Using an exception to mean "not found" inside a loop is a performance bug.
 
 ## Throwing: pick an existing type first
 
@@ -29,6 +31,8 @@ public Order AddLine(string sku, int quantity)
 }
 ```
 
+`ThrowIfNullOrWhiteSpace` throws `ArgumentNullException` for `null` and `ArgumentException` for a blank string; both `ArgumentNullException` and `ArgumentOutOfRangeException` derive from `ArgumentException`.
+
 Never throw `Exception`, `SystemException`, `NullReferenceException` or `IndexOutOfRangeException` yourself. Create a custom type only when callers need to catch it specifically or read extra data. Name it with an `Exception` suffix, give it the three usual constructors, and add properties only when code will read them:
 
 ```csharp
@@ -44,33 +48,34 @@ public class OutOfStockException : Exception
 // throw new OutOfStockException($"SKU {sku} is out of stock.") { Sku = sku };
 ```
 
-`Message` is for developers and logs. Keep secrets and personal data out of it.
+`: base(message)` passes the arguments on to the constructor of `Exception`, which stores them in `Message` and `InnerException`. `Message` is for developers and logs. Keep secrets and personal data out of it.
 
 ## Catching: narrow, filtered, rethrown correctly
 
-The runtime checks `catch` clauses top to bottom, so order them from the most derived type to the least derived. Catch only what you can recover from; let the rest travel up to the framework's error handling.
+The runtime checks `catch` clauses top to bottom, so order them from the most derived type to the least derived. Catch only what you can recover from; let the rest travel up to the code that handles errors for the whole program.
 
 An exception filter (`when`) decides whether a clause handles the exception. The filter runs before the stack is unwound, so when it returns `false` the exception continues with its original stack trace intact:
 
 ```csharp
-// ... inside an async method (async and await: lesson 02); StockUnavailableException is a custom type
+// IsTransient is your own check, for example "the file is locked by another process"
 try
 {
-    await stockClient.ReserveAsync(sku, quantity, cancellationToken);
+    File.WriteAllText(path, report);
 }
-catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
+catch (IOException ex) when (IsTransient(ex))
 {
-    logger.LogWarning(ex, "Stock service unavailable while reserving {Sku}", sku);
-    throw new StockUnavailableException("The stock service is unavailable.", ex);
+    retryLater = true;
 }
-catch (Exception ex) when (ex is not OperationCanceledException)
+catch (Exception ex)
 {
-    logger.LogError(ex, "Reservation failed for {Sku}", sku);
+    Console.Error.WriteLine($"Saving {path} failed: {ex.Message}");
     throw;
 }
 ```
 
-Two rules hide in that snippet. `throw;` rethrows the caught exception and keeps its stack trace; `throw ex;` restarts the trace at the current method (code analysis rule CA2200 flags it). Wrapping in a new exception is fine when you pass the original as `innerException`. And cancellation is not a failure: excluding `OperationCanceledException` keeps a client disconnect from being logged as an error. Catch `OperationCanceledException` rather than its subclass `TaskCanceledException`.
+`throw;` rethrows the caught exception and keeps its stack trace; `throw ex;` restarts the trace at the current method (code analysis rule CA2200 flags it). Wrapping is fine when you pass the original as `inner`: `throw new ReportException("Saving failed.", ex);` keeps the cause in `InnerException`.
+
+Later in this module you meet `OperationCanceledException`, which means a caller cancelled the work (lesson 04). It is an expected outcome, so a catch-all that logs errors usually excludes it with `when (ex is not OperationCanceledException)`.
 
 `finally` runs whether the block completes, returns or throws. For anything that implements `IDisposable`, prefer `using` (lesson 03); the compiler turns it into `try`/`finally` for you.
 
@@ -89,26 +94,30 @@ public abstract record ReserveResult
     public sealed record OutOfStock(string Sku, int Available) : ReserveResult;
 }
 
-// In a minimal API endpoint (await is explained in lesson 02):
-ReserveResult result = await reservations.TryReserveAsync(sku, quantity, cancellationToken);
+ReserveResult result = reservations.TryReserve(sku, quantity);
 
-return result switch
+string message = result switch
 {
-    ReserveResult.Reserved reserved => Results.Ok(reserved),
-    ReserveResult.OutOfStock outOfStock => Results.Conflict(outOfStock),
-    _ => throw new UnreachableException()
+    ReserveResult.Reserved reserved => $"Reservation {reserved.ReservationId} confirmed.",
+    ReserveResult.OutOfStock outOfStock => $"Only {outOfStock.Available} of {outOfStock.Sku} left.",
+    _ => throw new UnreachableException() // System.Diagnostics
 };
 ```
 
-The `switch` expression forces the endpoint to decide what each outcome means in HTTP. The compiler cannot yet prove the hierarchy is closed, hence the discard arm with `UnreachableException`.
+The `switch` expression forces the caller to decide what each outcome means; in a web API (module 06) each arm becomes a response such as 200 OK or 409 Conflict. The compiler cannot yet prove the hierarchy is closed, hence the discard arm with `UnreachableException`.
+
+## Common mistakes
+
+- **Throwing for a routine outcome.** A lookup that throws `KeyNotFoundException` for every missing SKU, caught in a 10,000-row import, makes the import slow and the logs noisy. Return `null`, a `Try*` result or a result type.
+- **`throw ex;` instead of `throw;`.** The stack trace now starts in the rethrowing method, so the line that actually failed is gone from the log. Write `throw;`, or wrap the exception and pass it as `inner`.
+- **A catch-all that swallows.** `catch (Exception) { }`, or catch, log and continue, also hides bugs such as `NullReferenceException` and can leave shared state half-updated for every later request. Catch only the types you can handle.
 
 ## In practice
 
 - **Decide by frequency.** If the condition happens routinely (validation, lookups, business rules), return it. If it signals something broken, throw it. Microsoft's guidance uses the same test: exceptions for events that do not occur often.
-- **Validate arguments with the throw helpers** at public entry points, and let a single global handler turn unhandled exceptions into Problem Details responses (module 06, lesson 03). Do not wrap every controller action in `try`/`catch`.
-- **Do not catch `Exception` to log and continue** in shared code. Log once, at the boundary that handles the error, or you get the same failure five times in the logs.
-- **Callers expect no side effects** when a method throws. If you have done half the work, undo it before rethrowing, or use a transaction.
-- **Usual mistakes:** `throw ex;`, empty `catch { }` blocks, using exceptions for "not found" in a loop, treating `OperationCanceledException` as an error, and exception messages that leak connection strings or customer data.
+- **Validate arguments with the throw helpers** at public entry points, and let a single global handler turn unhandled exceptions into error responses (module 06, lesson 03). Do not wrap every endpoint in `try`/`catch`.
+- **Log once, at the boundary that handles the error**, or you get the same failure five times in the logs.
+- **Callers expect no side effects** when a method throws. If you have done half the work, undo it before rethrowing, or use a transaction (module 07).
 
 ## Status as of 2026-11-05
 
@@ -117,7 +126,7 @@ The `switch` expression forces the endpoint to decide what each outcome means in
 
 ## Check yourself
 
-1. A repository method is called 10,000 times in an import job and often finds no row. Should "not found" be an exception or a return value, and why?
+1. A lookup method is called 10,000 times in an import job and often finds no row. Should "not found" be an exception or a return value, and why?
 2. What is the observable difference in the logs between `throw;` and `throw ex;`?
-3. Why does `catch (Exception ex) when (ex is not OperationCanceledException)` matter in a web API?
-4. In PHP-FPM a swallowed exception affects one request. What can it affect in ASP.NET Core?
+3. Why can a swallowed exception in a shared cache affect requests that come long after the one that failed?
+4. When is wrapping an exception in your own type better than letting the original travel up?

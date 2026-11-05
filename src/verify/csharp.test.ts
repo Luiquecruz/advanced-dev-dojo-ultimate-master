@@ -33,6 +33,9 @@ const PHP_BRIDGE =
   /\bPHP|\bphp\b|\.php\b|\.phtml\b|php\.ini|PSR-\d+|[Mm]agento|Adminhtml|routes\.xml|\bFPM\b|Composer|composer\.(json|lock)|composer install|di\.xml|crontab\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Guzzle|Monolog|Packagist|Zend|Laminas|\bPsalm\b|\bRector\b|Laravel|Symfony|Doctrine|Eloquent|[Oo][Pp]cache|Xdebug|phpunit|\$\w+->\w+|::get\b|(webapi|events|system|acl|module)\.xml|<preference\b|<virtualType\b|shared="false"|\bEAV\b|sales_order_\w+|Update by Schedule|[Aa]round plugin|[Pp]lugins and observers|[Nn]o plugins\b|without plugins|like a plugin|a plugin intercepts|[Pp]lugins that intercept|setup:[\w:-]+|getSize\(\)|count\(\$\w+\)/;
 /** An `Assert.ThrowsAsync` that is not awaited returns a task nobody observes, so the test passes even when nothing throws. */
 const UNAWAITED_THROWS_ASYNC = /(?<!\bawait\s+)Assert\.ThrowsAsync\b/;
+const TEST_ATTRIBUTE = /\[Test\(/g;
+/** The test that catches the most common wrong implementation, marked on the line above its `[Test("…")]`. */
+const BEGINNER_MISTAKE = /^[ \t]*\/\/ beginner mistake: \S.*\n[ \t]*\[Test\(/gm;
 
 interface Violation {
   rule: string;
@@ -173,8 +176,23 @@ function bridgeViolations(lesson: Lesson): Violation[] {
 }
 
 function testViolations(lesson: Lesson): Violation[] {
-  const tests = lesson.challenge?.tests ?? '';
-  return UNAWAITED_THROWS_ASYNC.test(tests) ? [{ rule: 'tests-await-throws-async', detail: 'tests.cs calls Assert.ThrowsAsync without await' }] : [];
+  if (!lesson.challenge) {
+    return [];
+  }
+  const tests = lesson.challenge.tests;
+  const violations: Violation[] = [];
+  if (UNAWAITED_THROWS_ASYNC.test(tests)) {
+    violations.push({ rule: 'tests-await-throws-async', detail: 'tests.cs calls Assert.ThrowsAsync without await' });
+  }
+  const count = (tests.match(TEST_ATTRIBUTE) ?? []).length;
+  if (count < 3 || count > 6) {
+    violations.push({ rule: 'tests-count', detail: `tests.cs has ${count} tests, expected 3–6` });
+  }
+  const marked = (tests.match(BEGINNER_MISTAKE) ?? []).length;
+  if (marked !== 1) {
+    violations.push({ rule: 'tests-beginner-mistake', detail: `tests.cs marks ${marked} tests with "// beginner mistake:" on the line above [Test], expected 1` });
+  }
+  return violations;
 }
 
 function violationsOf(lesson: Lesson): Violation[] {

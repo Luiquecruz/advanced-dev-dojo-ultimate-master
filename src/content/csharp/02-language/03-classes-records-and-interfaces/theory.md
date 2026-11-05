@@ -2,15 +2,7 @@
 
 C# gives you four ways to declare a type: `class`, `record`, `struct` and `interface`. Choosing well decides how your objects are compared, copied, extended and replaced in tests. After this lesson you can write properties instead of getter and setter methods, pick the right access modifier, and choose between a class, a record, a struct and an interface for a given job.
 
-## Coming from PHP/Magento
-
-Much transfers: classes, abstract classes, single inheritance, interfaces, `readonly` properties. Magento's `Api/Data/ProductInterface` with `getSku()`/`setSku()` pairs becomes a C# interface or class with a `Sku` **property**.
-
-Three differences cause real bugs:
-
-- **Methods are not overridable by default.** In PHP any non-`final` public method can be overridden, and Magento's interceptors (plugins) depend on that: generated subclasses wrap any public, non-final, non-static method. In C#, a method must be marked `virtual` before a subclass can `override` it. The way to replace behavior is an interface plus dependency injection (05/02), not a subclass.
-- **Defaults are private.** A member without a modifier is `private`. A top-level type without one is `internal`, visible only inside its own project (assembly). PHP has no `internal`.
-- **No traits.** Shared behavior comes from a base class, composition, extension members (lesson 05) or default interface members.
+You need: 00/06 (classes, constructors and properties), 02/01 (copy or share) and 02/02 (`?` on reference types).
 
 ## Properties
 
@@ -53,7 +45,7 @@ var bag = new Product { Sku = "24-MB01", Name = "Joust Duffle Bag", Price = 34m 
 
 ## Classes and inheritance
 
-A class has reference semantics and identity: two `Customer` objects with the same data are still two customers. Inheritance is single. `abstract` members must be implemented, `virtual` members may be overridden, and `sealed` forbids further derivation:
+A class has reference semantics and identity: two `Customer` objects with the same data are still two customers. Inheritance is single. `abstract` members must be implemented, `virtual` members may be overridden, and `sealed` forbids further derivation. A method without `virtual` (or `abstract`) **cannot** be overridden:
 
 ```csharp
 public abstract class ShippingMethod
@@ -73,7 +65,7 @@ public sealed class FlatRate : ShippingMethod
 }
 ```
 
-Many teams mark classes `sealed` by default and open them only on purpose. That is the opposite of the Magento habit of leaving everything extensible.
+Many teams mark classes `sealed` by default and open them only on purpose. To swap behavior, code depends on an interface (below) rather than on a subclass.
 
 ## Records: data with value equality
 
@@ -89,13 +81,13 @@ Console.WriteLine(onSale);              // ProductDto { Sku = 24-MB01, Name = Jo
 public record ProductDto(string Sku, string Name, decimal Price);
 ```
 
-The positional form `record ProductDto(...)` generates public `init` properties, a constructor and `Deconstruct`. Immutability is **shallow**: a record holding a `List<T>` still lets anyone change the list, and `with` copies the reference, not the list.
+The positional form `record ProductDto(...)` generates public `init` properties, a constructor and `Deconstruct`. Immutability is **shallow**: `with` copies a list's reference, not the list.
 
-Use records for DTOs, API requests and responses, messages, events and value objects. Do not use them as EF Core entities. Microsoft's record documentation says records are not appropriate as entity types, because EF Core relies on reference equality to track one instance per entity.
+Use records for DTOs, API requests and responses, messages, events and value objects, but not for EF Core entities.
 
 ## Structs and record structs
 
-A `struct` is a value type and is copied on assignment (lesson 01). `record struct` adds the record conveniences, and `readonly record struct` makes it immutable. Use one for small single values such as a `Coordinates(double Latitude, double Longitude)` pair or a wrapped `Guid` id, not for entities. A `Money(decimal Amount, string Currency)` is about 24 bytes on 64-bit, past the 16-byte guideline from lesson 01; teams that still make it a `readonly record struct` accept the larger copies knowingly.
+A `struct` is a value type and is copied on assignment (lesson 01). `record struct` adds the record conveniences, and `readonly record struct` makes it immutable. Use one for small single values such as a `Coordinates(double Latitude, double Longitude)` pair or a wrapped `Guid` id, not for entities.
 
 ## Interfaces: contracts and seams
 
@@ -115,7 +107,36 @@ public sealed class SqlProductRepository : IProductRepository
 }
 ```
 
-Services in ASP.NET Core depend on interfaces such as `IProductRepository` and receive the implementation from the DI container. That is how you swap implementations and fake them in tests, where Magento would use a `di.xml` preference. An interface can also carry a **default implementation** of a member. That member is callable only through the interface type, and it cannot store state. It exists mainly to evolve a published interface without breaking its implementers.
+Services in ASP.NET Core depend on interfaces such as `IProductRepository` and receive the implementation from the dependency injection container (05/02). That is how you swap implementations and fake them in tests. An interface can also carry a **default implementation** of a member. That member is callable only through the interface type, and it cannot store state. It exists mainly to evolve a published interface without breaking its implementers.
+
+## Attributes
+
+Square brackets before a declaration attach an **attribute**: metadata that the compiler, a framework or a tool reads. An attribute does nothing by itself; something has to look for it.
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+
+public sealed class SignupRequest
+{
+    [Required, EmailAddress]      // checked by request validation (06/02)
+    public string? Email { get; init; }
+
+    [Range(1, 10)]                // a validator rejects 0 or 11
+    public int Seats { get; init; }
+
+    [Obsolete("Use Email.")]      // the compiler warns wherever Mail is used
+    public string? Mail { get; init; }
+}
+```
+
+You will meet many more, such as `[Test]` in this app's tests and `[JsonPropertyName]` for JSON.
+
+## Common mistakes
+
+- **Writing `override` on a method that is not `virtual`.** The build fails with CS0506; hiding it with `new` compiles, but callers holding the base type still run the base method. Depend on an interface and wrap the implementation instead.
+- **Comparing two class instances with `==` to compare data.** Equal fields still give `false`, because `==` asks "same object?". Use a record, or compare the fields you mean.
+- **Expecting `with` to deep-copy.** A record holding a `List<T>` shares that list with its copy, so `copy.Tags.Add(...)` changes the original too. Use an immutable or read-only collection.
+- **Making an EF Core entity a record.** EF Core relies on reference equality to keep one instance per entity, which value equality and `with` copies undermine; Microsoft calls records inappropriate as entity types. Keep entities as classes.
 
 ## In practice
 
@@ -126,16 +147,11 @@ Services in ASP.NET Core depend on interfaces such as `IProductRepository` and r
 | a tiny immutable value such as coordinates or a wrapped id | `readonly record struct` |
 | a capability or a dependency other code should not bind to concretely | `interface` |
 
-Usual mistakes:
-
-- Creating an interface for every class "just in case". Add one when there is a second implementation, a test seam or a boundary between projects.
-- Writing `GetSku()`/`SetSku()` methods. Use properties.
-- Relying on `==` between two class instances to compare data. It compares identity. Use a record, or compare the fields you mean.
-- Building deep inheritance trees to share code. Prefer composition: inject a collaborator.
+Add an interface when there is a second implementation, a test seam or a boundary between projects, not for every class "just in case". Write properties, not `GetSku()`/`SetSku()` methods, and prefer composition (inject a collaborator) over deep inheritance trees.
 
 ## Check yourself
 
-1. A Magento plugin wraps `ProductRepository::save()`. Why can't you do the same in C# by subclassing a class with a non-virtual `Save`, and what do you do instead?
+1. You want to add logging around `ProductRepository.Save`, a non-virtual method. Why does a subclass not work, and what do you do instead?
 2. When are two `record` instances equal, and when are two `class` instances equal?
 3. Why is `init` combined with `required` often better than a constructor with eight parameters for a DTO?
 4. Why should an EF Core entity not be a record?

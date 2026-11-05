@@ -1,6 +1,6 @@
 {
   "title": "NuGet and Project Files",
-  "summary": "Reading an SDK-style .csproj, adding packages with the dotnet CLI, how NuGet resolves versions (and why it is not Composer), central package management, lock files, NuGet Audit and checking a package's licence.",
+  "summary": "Reading an SDK-style .csproj, adding packages with the dotnet CLI, how NuGet resolves versions, central package management, lock files, NuGet Audit and checking a package's licence.",
   "level": "intermediate",
   "tags": ["recommended", "core", "theory"],
   "resources": [

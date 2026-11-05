@@ -1,5 +1,5 @@
 [
-  { "term": "Property", "description": "A member read and written like a field but backed by `get`/`set`/`init` accessors, replacing PHP-style getter and setter methods." },
+  { "term": "Property", "description": "A member read and written like a field but backed by `get`/`set`/`init` accessors, replacing separate getter and setter methods." },
   { "term": "`init` and `required`", "description": "`init` allows assignment only during construction, and `required` makes the compiler reject any object initializer that does not set the member." },
   { "term": "`field` keyword", "description": "C# 14 syntax that refers to a property's compiler-generated backing field, so one accessor can add logic without a hand-written private field." },
   { "term": "`internal`", "description": "An access level that limits a type or member to its own assembly (project), and the default for top-level types." },

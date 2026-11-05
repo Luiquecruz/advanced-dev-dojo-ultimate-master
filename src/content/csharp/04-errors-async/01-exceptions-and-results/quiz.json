@@ -22,7 +22,7 @@
     "explanation": "An exception filter is evaluated before unwinding; a `false` filter means this clause never catches the exception and the original stack is preserved. Thinking the two are equivalent is the common mistake: the `if` version catches first, so the stack is already unwound before it decides to rethrow."
   },
   {
-    "question": "Coming from Magento, you throw `NoSuchEntityException` from `GetBySku` and catch it in a 50,000-row import to mean \"create the product\". What is the better C# design?",
+    "question": "A 50,000-row import calls `GetBySku`, which throws `KeyNotFoundException` when the product does not exist yet, and catches it to mean \"create the product\". What is the better C# design?",
     "options": [
       "Keep the exception; in .NET 10 throwing is cheap enough for a 50,000-row loop",
       "Catch `Exception` around the call, so any lookup failure also means \"create\"",
@@ -30,7 +30,7 @@
       "Add a `TryGetBySku` that returns `false` or `null` for a routine \"not found\""
     ],
     "answer": 3,
-    "explanation": "Microsoft's guidance is to use exceptions for rare, unexpected conditions and to check routine ones in code, for example with a `Try*` method or a nullable return. A more specific exception type is tempting because it mirrors Magento repositories, but it is still an exception per missing row: slow in a loop, and still control flow by `catch`."
+    "explanation": "Microsoft's guidance is to use exceptions for rare, unexpected conditions and to check routine ones in code, for example with a `Try*` method or a nullable return. A more specific exception type is tempting because the `catch` reads better, but it is still an exception per missing row: slow in a loop, and still control flow by `catch`."
   },
   {
     "question": "Your order method receives `quantity = 0`. Which line follows .NET guidance?",
@@ -44,7 +44,7 @@
     "explanation": "The static throw helpers throw the specific argument exception with the parameter name, which is what Microsoft recommends for argument validation. `InvalidOperationException` is the tempting choice, but it signals that the object is in the wrong state, not that an argument is invalid; `Debug.Assert` is removed from Release builds, and the guidance says never to throw `System.Exception` yourself."
   },
   {
-    "question": "A singleton price cache catches every exception while refreshing, logs it and returns, leaving half the dictionary updated. Why is this worse in ASP.NET Core than in PHP-FPM?",
+    "question": "A singleton price cache catches every exception while refreshing, logs it and returns, leaving half the dictionary updated. Why is this worse in an ASP.NET Core API than in a console tool that runs once and exits?",
     "options": [
       "It is not worse; ASP.NET Core also discards service state after every response",
       "The half-updated singleton keeps serving every later request until a restart",
@@ -52,7 +52,7 @@
       "The swallowed exception stays pending on that thread and fails its next request"
     ],
     "answer": 1,
-    "explanation": "An ASP.NET Core host keeps singletons and statics alive across all requests, so corrupted state persists. Assuming the platform resets state is the PHP habit: in PHP-FPM each request starts fresh, which is exactly why swallowing errors was less harmful there."
+    "explanation": "An ASP.NET Core host is one long-running process that keeps singletons and statics alive across all requests, so the corrupted state persists until a restart. Assuming the platform resets state after each response is the tempting mistake: only scoped services are recreated per request, and a console tool that exits simply takes its broken state with it."
   },
   {
     "question": "An endpoint calls a service that can return `Reserved` or `OutOfStock`. Why model this as a result type instead of throwing `OutOfStockException`?",

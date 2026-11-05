@@ -16,13 +16,13 @@ src/content/csharp/<NN-module>/<NN-lesson>/
 └── quiz.json       5–6 questions
 ```
 
-- **Challenge files are optional.** A lesson may add a graded C# challenge (`challenge.md`, `starter.cs`, `solution.cs`, `tests.cs`, `hints.md`, `approach.md`) on the C# engine, in the format of CONTENT_GUIDE.md "C# engine" and with the steps of [csharp-engine.md](../csharp-engine.md) "Giving a lesson a C# challenge"; `src/verify/csharp.test.ts` grades it. The theory and quiz files above stay required.
+- **Challenge files are optional.** A lesson may add a graded C# challenge (`challenge.md`, `starter.cs`, `solution.cs`, `tests.cs`, `hints.md`, `approach.md`) on the C# engine, in the format of CONTENT_GUIDE.md "C# engine" and with the steps of [csharp-engine.md](../csharp-engine.md) "Giving a lesson a C# challenge"; `src/verify/csharp.test.ts` grades it. The theory and quiz files above stay required. A challenge has 3–6 tests named as requirements; exactly one is marked `// beginner mistake: <the mistake>` on the line above its `[Test("…")]`, the most common wrong implementation a newcomer writes (ideally a mistake named in `## Common mistakes`), `csharp.test.ts` checks the count and the marker; the author grades that wrong version once to confirm that this test fails on it while the solution passes. Starters and solutions use only what the lesson and earlier lessons teach: no LINQ before 03/02, no primary constructor on a class before 02/05. Mark the lesson **(challenge)** in CURRICULUM.md.
 - Lesson ids are unique in the track and listed in [05-curriculum.md](05-curriculum.md). Folder prefixes set the order.
 - `meta.json` `level`: `beginner` | `intermediate` | `advanced`. `tags` hold three entries: status (`recommended`, `established`, `legacy` or `context`, matching classes 1–4 of [02-ecosystem-and-legacy.md](02-ecosystem-and-legacy.md)), tier (`core`, `deepening` or `legacy`) and kind (`theory` or `project`).
 
 ## Theory template (`theory.md`)
 
-500–1,300 words for a theory lesson, 400–1,300 for a project lesson (an exception to the CONTENT_GUIDE's 250–900 words, recorded there in "C# track": with no challenge, the theory and the quiz carry the whole lesson). Headings in this order:
+500–1,300 words for a theory lesson, 400–1,300 for a project lesson (an exception to the CONTENT_GUIDE's 250–900 words, recorded there in "C# track": most lessons have no challenge, so the theory and the quiz carry the lesson). Headings in this order:
 
 1. `# <title>`: one paragraph on what the learner will be able to do after the lesson, then a `You need:` line naming the earlier lessons it builds on.
 2. Concept sections (`##`), each with a short C# snippet in a ```` ```csharp ```` block (highlighted by the app; `sql` and `bash` fences too). Snippets must compile on .NET 10 / C# 14 as written; mark partial snippets with `// ...`. Prefer real ASP.NET Core and EF Core APIs over toy code. There is no automated compile check in v1 (no SDK in CI): authors check every API against its learn.microsoft.com page and the cross-review re-checks it.

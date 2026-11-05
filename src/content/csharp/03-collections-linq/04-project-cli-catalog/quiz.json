@@ -19,18 +19,18 @@
       "`double.TryParse` does not exist"
     ],
     "answer": 1,
-    "explanation": "Money needs exact decimal fractions; `double` stores binary fractions, so `0.1 + 0.2` is not exactly `0.3` and totals drift. The other options are false: `double` has a huge range, `Sum` has `double` and `int` overloads, and `double.TryParse` exists. PHP's `float` has the same binary problem."
+    "explanation": "Money needs exact decimal fractions; `double` stores binary fractions, so `0.1 + 0.2` is not exactly `0.3` and totals drift. The other options are false: `double` has a huge range, `Sum` has `double` and `int` overloads, and `double.TryParse` exists."
   },
   {
-    "question": "A PHP version of the importer does `(float) $row[2]`, so `\"12abc\"` silently becomes `12`. What does the C# version with `decimal.TryParse` do with `\"12abc\"`?",
+    "question": "A price cell holds `\"12abc\"`. What does `decimal.TryParse` with the invariant culture do with it?",
     "options": [
-      "Returns `true` and `12`, like the PHP cast",
+      "Returns `true` and `12`, keeping the digits it could read",
       "Throws `FormatException`, which stops the import at the first bad row unless you wrap it in `try`",
       "Returns `true` and `0`",
       "Returns `false`, so the row can be reported as invalid while the import continues"
     ],
     "answer": 3,
-    "explanation": "`TryParse` rejects input that is not entirely a number in the allowed style and returns `false`, which is what makes \"invalid rows are listed and do not stop the import\" easy. `FormatException` is thrown by `decimal.Parse`, not `TryParse`. PHP's numeric-prefix coercion has no equivalent here, which is a feature for an importer."
+    "explanation": "`TryParse` rejects input that is not entirely a number in the allowed style and returns `false`, which is what makes \"invalid rows are listed and do not stop the import\" easy. `FormatException` is thrown by `decimal.Parse`, not `TryParse`. There is no partial parsing of a leading number, which is a feature for an importer: a damaged cell is reported instead of becoming a wrong price."
   },
   {
     "question": "The code is `File.ReadLines(path).Skip(1).Select((line, index) => (line, Number: index + 1))`. Row `B-2` is on the third line of the file. Which number does the report print for it?",

@@ -3,12 +3,12 @@
     "question": "A project declares `<PackageReference Include=\"Contoso.Pdf\" Version=\"2.0.0\" />`. nuget.org has 2.0.0, 2.4.1 and 3.0.0. Which version does restore resolve?",
     "options": [
       "3.0.0, because NuGet takes the newest release on every restore",
-      "2.4.1, because `2.0.0` behaves like Composer's `^2.0`",
+      "2.4.1, because NuGet takes the newest release of the same major version",
       "2.0.0: the value is a minimum, and NuGet prefers the lowest",
       "Restore fails, because a plain version is not a valid range"
     ],
     "answer": 2,
-    "explanation": "A plain version is an inclusive minimum (x ≥ 2.0.0), and NuGet's lowest-applicable-version rule picks 2.0.0. Composer's caret constraint resolves to the highest compatible release, which is why the second option is the PHP developer's trap. An exact match would be written `[2.0.0]`."
+    "explanation": "A plain version is an inclusive minimum (x ≥ 2.0.0), and NuGet's lowest-applicable-version rule picks 2.0.0. The second option describes a \"compatible with 2.x, newest wins\" range, which NuGet does not apply to a plain version; restores do not drift to newer releases by themselves. An exact match would be written `[2.0.0]`."
   },
   {
     "question": "You add a new file `Services/PriceRules.cs` to an SDK-style project. What else must you do for it to be compiled?",

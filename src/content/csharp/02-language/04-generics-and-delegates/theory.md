@@ -2,13 +2,7 @@
 
 Generics let one type or method work with many types while the compiler still checks every use. Delegates let you pass behavior around as a value. Together they are behind `List<T>`, LINQ, ASP.NET Core minimal APIs and most of the .NET library. After this lesson you can write a generic type with constraints, use `Func` and `Action` with lambdas, predict what a closure captures, and decide when a C# event is the right tool.
 
-## Coming from PHP/Magento
-
-**PHP has no runtime generics.** A Magento collection holds `DataObject`s, and `@template T` / `@return T[]` in PHPDoc are checked only by PHPStan or Psalm. C# generics are part of the type system and the runtime: a `List<Product>` rejects a `Customer` at compile time, and `typeof(T)` is known at run time. There is no type erasure.
-
-**Closures capture differently.** PHP's `function () use ($limit)` and `fn` arrow functions copy the variable's value when the closure is created, unless you write `use (&$limit)`. A C# lambda captures the **variable itself**. If the variable changes later, the lambda sees the new value. This is the trap of this lesson.
-
-**Events are not `events.xml`.** A Magento event is a global string such as `sales_order_place_after`. Anything can dispatch it, and observers are wired in XML. A C# `event` is a typed member of one object. You subscribe to that particular instance, and handlers run synchronously in the raiser's call stack.
+You need: 00/02 (methods, and `x => x * 2` as a method without a name), 02/01 (copy or share) and 02/03 (interfaces and classes).
 
 ## Generic types and methods
 
@@ -36,7 +30,7 @@ public static class Compare
 // var higher = Compare.Max(3, 7);   // T inferred as int
 ```
 
-Without a constraint, the compiler knows only that `T` is an `object`. Constraints unlock members and say what callers may pass:
+Generics are real at run time: a `List<Product>` rejects a `Customer` at compile time, and `typeof(T)` names the actual type inside generic code. Without a constraint, the compiler knows only that `T` is an `object`. Constraints unlock members and say what callers may pass:
 
 | Constraint | Means |
 | --- | --- |
@@ -60,7 +54,7 @@ Func<decimal, decimal> addVat = net => net * 1.21m;
 Action<string> log = message => Console.WriteLine(message);
 Func<string, int> parse = int.Parse;            // a method group works too
 
-decimal Total(IEnumerable<decimal> lines, Func<decimal, decimal> tax) => lines.Sum(tax);
+decimal Total(IEnumerable<decimal> lines, Func<decimal, decimal> tax) => lines.Sum(tax); // LINQ's Sum calls tax per line (03/02)
 
 log($"Total: {Total([10m, 20m], addVat)}");      // Total: 36.30 (36,30 in pt-BR culture)
 ```
@@ -96,7 +90,7 @@ foreach (var action in actions)
 
 ## Events
 
-An event is a delegate field that outsiders can only subscribe to (`+=`) and unsubscribe from (`-=`). Only the declaring class can raise it. The .NET convention is `EventHandler<TEventArgs>`:
+An event is a delegate field that outsiders can only subscribe to (`+=`) and unsubscribe from (`-=`). Only the declaring class can raise it, and it belongs to one object: you subscribe to that instance, not to a global name. The .NET convention is `EventHandler<TEventArgs>`:
 
 ```csharp
 var checkout = new Checkout();
@@ -122,15 +116,21 @@ public sealed class Checkout
 
 `?.Invoke` matters: with no subscribers the event field is `null`. Handlers run one after another on the raiser's thread, and an exception in a handler propagates into `PlaceOrder`. The publisher holds a reference to every subscriber, so a long-lived publisher keeps forgotten subscribers in memory until they unsubscribe.
 
+## Common mistakes
+
+- **Capturing a `for` loop variable.** Every lambda shares the one `i`, so all of them see its final value (`333` instead of `012`). Copy it into a local declared inside the loop and capture that.
+- **Raising an event with `OrderPlaced.Invoke(...)`.** With no subscriber the field is `null`, and the raise throws `NullReferenceException`. Use `OrderPlaced?.Invoke(...)`.
+- **Never unsubscribing from a long-lived publisher.** The publisher keeps every handler, and everything the handler captured, in memory. Unsubscribe with `-=` when the subscriber is done.
+- **Using `==` on a `T` constrained to `class`.** It compares references, so two equal values compare as different. Constrain to `IEquatable<T>` and call `Equals`.
+
 ## In practice
 
 - **Generics:** reach for them when the same logic applies to several types and the type matters to the caller (repositories, result wrappers, caches). Do not make a class generic for a single use.
 - **`Func`/`Action`:** use them for small pluggable behavior and callbacks. When the behavior has a name, dependencies and tests of its own, an interface injected through DI reads better.
 - **Events:** they suit in-process notifications inside one component, such as UI controls or a library raising "progress changed". For application-wide reactions in a backend ("an order was placed, send an email"), C# events are a poor fit: they are synchronous, tied to one instance and lost on a crash. Teams call a service directly, publish a domain event (12/03) or put a message on a broker (module 10).
-- Watch for closures over loop variables and over large objects stored in long-lived delegates.
 
 ## Check yourself
 
 1. Why does `InMemoryRepository<T>` need `where T : IEntity` before `item.Id` compiles?
 2. Rewrite the `for` loop example so that it prints `012`, and explain why `foreach` does not have the problem.
-3. A Magento observer listens to `checkout_submit_all_after`. Why is a C# `event` on a `Checkout` object not the equivalent in an ASP.NET Core API, and what would you use?
+3. An ASP.NET Core API must send a confirmation email after every order. Why is a C# `event` on a `Checkout` object a poor fit, and what would you use?
