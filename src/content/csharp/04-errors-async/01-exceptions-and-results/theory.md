@@ -53,7 +53,7 @@ The runtime checks `catch` clauses top to bottom, so order them from the most de
 An exception filter (`when`) decides whether a clause handles the exception. The filter runs before the stack is unwound, so when it returns `false` the exception continues with its original stack trace intact:
 
 ```csharp
-// ... inside an async method; StockUnavailableException is a custom type
+// ... inside an async method (async and await: lesson 02); StockUnavailableException is a custom type
 try
 {
     await stockClient.ReserveAsync(sku, quantity, cancellationToken);
@@ -89,7 +89,7 @@ public abstract record ReserveResult
     public sealed record OutOfStock(string Sku, int Available) : ReserveResult;
 }
 
-// In a minimal API endpoint:
+// In a minimal API endpoint (await is explained in lesson 02):
 ReserveResult result = await reservations.TryReserveAsync(sku, quantity, cancellationToken);
 
 return result switch
