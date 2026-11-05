@@ -16,6 +16,8 @@ The Python engine already exists (Pyodide in a Web Worker, `dojo_harness.py`, `b
 
 ### 1. `track.json`
 
+The file as it stands. Its description still names other languages: the Python module-zero PR rewrites it without them and removes `'track:python'` from `PYTHON_PENDING_HEADERS` (`src/verify/pythonPendingRewrite.ts`) in the same change ([02-content-standards.md](02-content-standards.md) "No bridges").
+
 ```json
 {
   "engine": "python",

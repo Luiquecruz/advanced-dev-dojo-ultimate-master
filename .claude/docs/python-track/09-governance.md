@@ -6,7 +6,7 @@ CTO review of the Python track specs ([README](README.md), [01](01-platform-and-
 
 ## Verdict
 
-The foundation is sound. The repo-native format, the decision to reuse the Pyodide harness, the anti-LeetCode rule and the "Coming from TypeScript/JavaScript" section are the right calls, and the written lessons meet them: `04-scope-and-nonlocal` and `07-custom-mapping` are mechanism challenges with behavioral tests and a clear JS contrast.
+The foundation is sound. The repo-native format, the decision to reuse the Pyodide harness and the anti-LeetCode rule are the right calls: `04-scope-and-nonlocal` and `07-custom-mapping` are mechanism challenges with behavioral tests. The track assumes no prior programming language (D10), so no lesson compares Python with another one.
 
 The review found four problems in the 115-lesson plan, and all four are addressed by the decisions below:
 
@@ -23,11 +23,12 @@ The review found four problems in the 115-lesson plan, and all four are addresse
 | D2 | **v1 has 94 lessons in 12 modules** (table below). MVP = modules 01–04, Core = 01–08, Advanced = 09–12. Cut lessons, module 13 included, go to the **v2 backlog**. | Cuts quiz-only and unverifiable lessons, merges near-duplicates, keeps every mechanism a TS developer actually trips on. Nothing is lost. | 03, README |
 | D3 | **ADR checkpoints only in modules 01, 02, 04, 06, 09 and 10.** Each `PLAN` has at least one numeric field computed from the briefing, the briefing arithmetic is coherent, and test names are neutral. Modules 03 and 05 close with a code integration challenge (`10-client-middleware-stack`, `07-lazy-pipelines`). | Decision training keeps its value without the fatigue of a form per module, and computed fields make guessing more expensive than reasoning. | 02, 05–07 |
 | D4 | **The capstone is a code challenge plus a short ADR**: the engine in `main.py` (Protocol rules, `TaskGroup` under a `Semaphore`, `asyncio.timeout`, `ExceptionGroup` with notes, bounded `Queue`, drain on shutdown) plus `adr.py` with per-worker numbers that are physically coherent and computed fields (workers, limits, queue size, pool size). The async ADR is rescaled the same way. | A capstone should prove the learner can build the thing, and every part runs in Pyodide's asyncio. | 08, 07 |
-| D5 | **Annotations are allowed in solutions from module 03 on**, and `01-functions-map` has an "Annotations are not enforced" section. Typing challenges stay runtime-checkable and say they test introspection, not type checking. | Matches modern Python and corrects the TS prior ("types are checked") early. | 02, 05, 07 |
+| D5 | **Annotations are allowed in solutions from module 03 on**, and `01-functions-map` has an "Annotations are not enforced" section. Typing challenges stay runtime-checkable and say they test introspection, not type checking. | Matches modern Python and corrects early the belief that hints are checked at runtime. | 02, 05, 07 |
 | D6 | **`03-functions/02-modules-and-imports`** (P, B) is added. Finders and loaders move to `11-metaprogramming/07-import-system-internals`. | Imports are a day-one concern, and the harness already supports multi-file projects. | 03, 05, 07 |
 | D7 | **Source checks use `ast`, never regex over raw text.** | `re.search(r"\bglobal\b", source)` fails a correct solution whose comment or docstring says "global". | 02, 07 |
 | D8 | The track stayed hidden (`TRACK_FLAGS.python = false`) while it was incomplete; it is now visible (`TRACK_FLAGS.python = true`). | A half-built track in the carousel is a worse first impression than no track. | `src/content/featureFlags.ts` (done by the PO), README |
 | D9 | **Any change to `dojo_harness.py` or the Python worker runs both suites** (`python` and `ai-engineering`). | One engine serves two tracks and more than 130 lessons. | README |
+| D10 | **No bridges (November 2026, supersedes the "Coming from TypeScript/JavaScript" section and the JS-habit trap test).** The track assumes no prior programming language: no lesson file compares Python with another language, practice lessons and the capstone have `## Common mistakes`, and the trap test becomes the `# beginner mistake:` test, one per practice lesson. No exceptions for factual mentions, except C as CPython's implementation language ("C extension", "the C API"). | Learners arrive without JavaScript; the tests already asserted Python behavior, so they stay and only lose their JS framing | [02](02-content-standards.md) "No bridges" and "Challenge rules", [11](11-working-agreement.md), `pythonConventions.test.ts` |
 
 ### v1 scope (94 lessons)
 
@@ -56,8 +57,8 @@ A lesson is done when a reviewer who did not write it can answer "yes" to every 
 
 **Challenge**
 
-- It builds or repairs a language mechanism, never an algorithm. Someone who knows only JS would get it wrong the way the theory predicts.
-- **Trap test:** at least one test fails the typical JS-habit implementation named in the theory (aliasing instead of copying, `==` for identity, `dict` subclass for a mapping, mutable default). The reviewer writes that wrong version and confirms the test catches it.
+- It builds or repairs a language mechanism, never an algorithm. A newcomer who skipped the theory would get it wrong the way `## Common mistakes` predicts.
+- **Beginner-mistake test:** at least one test fails the most common wrong implementation a newcomer writes for this mechanism (aliasing instead of copying, `==` for identity, `dict` subclass for a mapping, mutable default). That mistake is named in bold in `## Common mistakes` and marked `# beginner mistake: <text>` on the line above its `@test`; the test name states the correct behavior. The reviewer writes the wrong version once and confirms that this test fails on it and that the solution passes.
 - The starter imports cleanly. It fails by assertion, not by `NameError`/`ImportError`, and every `# TODO` maps to at least one failing test.
 - 3–6 tests. Each name is a sentence of the contract and **does not reveal the answer** ("the sharing choice fits the read volume", not "copy-on-read is ruled out").
 - Assertions follow the harness's introspectable shape (compute into a local, then compare), so a failure prints `left:`/`right:`.
@@ -67,8 +68,8 @@ A lesson is done when a reviewer who did not write it can answer "yes" to every 
 
 **Theory and quiz**
 
-- 250–1000 words, template order, ending with `## When to choose it` that names a concrete alternative.
-- The JS/TS snippet is the real idiom a TS developer would write, not a strawman.
+- 300–1000 words for practice lessons (250–1000 for quiz lessons and ADRs, 200–500 for maps), template order, ending with `## When to choose it` that names a concrete alternative.
+- `## Common mistakes` shows the wrong code a newcomer really writes next to the fix, not a strawman, and no lesson file compares Python with another language.
 - Every volatile fact sits in a dated `**Status as of**` block, checked against docs.python.org or the PEP, and differences from 3.15 are flagged.
 - Quiz questions ask for predictions or decisions. Explanations name the mechanism. Answer indexes vary.
 
@@ -87,9 +88,9 @@ A lesson is done when a reviewer who did not write it can answer "yes" to every 
 | --- | --- | --- | --- |
 | G0 Platform | Before content, plus hardening now | `typecheck`, `test`, `build` green; accent passes `trackPresentation.test.ts`; Python pinned exactly; SRE hardening items (R6, R7, R8) planned or done | SRE |
 | G1 Pilot | Module 01 | Done. Verified, and reviewed in the browser | Python + PM |
-| G2 Standards lock | End of module 02 | Quality bar audit on all 17 lessons (trap tests added, regex checks moved to `ast`, module 01/02 ADRs with computed fields and neutral names); **velocity measured** (hours per practice lesson, per ADR) | CTO |
+| G2 Standards lock | End of module 02 | Quality bar audit on all 17 lessons (beginner-mistake tests added, regex checks moved to `ast`, module 01/02 ADRs with computed fields and neutral names); **velocity measured** (hours per practice lesson, per ADR) | CTO |
 | G3 Re-plan | End of module 03 | Delivery forecast for the 94 lessons from measured velocity; Core/Advanced cut line confirmed; Python `verify` duration recorded against the budget (R6) | PM + SM |
-| G4 MVP release | Modules 01–04 complete (36 lessons) | `TRACK_FLAGS.python` enabled; one learner session outside the team (a TS developer) records the confusing points; carousel and `?debug=perf` checked with 9 tracks | PM + Python |
+| G4 MVP release | Modules 01–04 complete (36 lessons) | `TRACK_FLAGS.python` enabled; one learner session outside the team (a learner with no prior programming language) records the confusing points; carousel and `?debug=perf` checked with 9 tracks | PM + Python |
 | G5 Core release | Modules 05–08 complete (65 lessons) | Full `verify` green; feedback from G4 folded in | PM + CTO |
 | G6 Async spike | Before writing module 10 or the capstone (can run in parallel any time earlier) | `TaskGroup`, `asyncio.timeout`, `Queue` (with `shutdown`), `Semaphore`, cancellation, `ExceptionGroup`/`except*` and `loop.time()` resolution proven under Pyodide's WebLoop in the harness and in **Run**; the demo entry point for async lessons decided | Python + SRE |
 | G7 Advanced release | Modules 09–12 + capstone (94 lessons) | CTO redoes the capstone and async ADR arithmetic; full `verify` green; `Status as of` blocks re-dated | CTO |
@@ -111,7 +112,7 @@ Likelihood and impact: H high, M medium, L low.
 | R8 | Learner Python can `import js` / `pyodide.http` from the worker and reach the network or same-origin storage, so the "never call real models" rule is bypassable and tests can be gamed via JS | L | L | Security | No secrets or backend exist, so the impact is low. Documented in [12-security-review.md](12-security-review.md). Optionally block `js`, `pyodide_js` and `micropip` imports in test mode | Hardening |
 | R9 | Harness changes for the Python track break the 122 AI Engineering lessons that share the engine | M | H | SRE | D9: both suites run on any engine change | Approved |
 | R10 | Volatile facts go stale (free-threading status, JIT, 3.15 changes such as the UTF-8 mode default; verify before citing) | M | M | Python | Dated blocks only. Re-verify all of them at G7 and on every Pyodide upgrade | Open |
-| R11 | Runtime-introspection typing challenges teach that hints are validated at runtime, which reinforces the wrong TS prior | M | M | Python | D5. Theory states the checker gap explicitly. The typing ADR names a checker in CI | Rule in 05, 07 |
+| R11 | Runtime-introspection typing challenges teach that hints are validated at runtime, which reinforces the belief that hints are checked at runtime | M | M | Python | D5. Theory states the checker gap explicitly. The typing ADR names a checker in CI | Rule in 05, 07 |
 | R12 | Regex source checks fail correct solutions (comments, docstrings, strings) | H | L | Python | D7 (`ast`). Fix `04-scope-and-nonlocal` and the `ast` rule at G2 | Rule in 02; lesson fix pending |
 | R13 | Accent uses the last 30° hue band. The next track forces a rule change in `trackPresentation.test.ts` | H | L | PM | Raise it before the next track proposal, not during it | Open |
 | R14 | The track was publicly visible while incomplete | H | M | PM | D8 | Closed: flag set |
@@ -124,7 +125,7 @@ All eight recommendations are approved and applied.
 1. **`08-module-13-and-capstone.md` → "Capstone":** per-worker coherent numbers, an engine code challenge plus `adr.py`, and computed capacity fields (D4, R2). Applied.
 2. **`03-curriculum.md`:** the 94-lesson tables, releases, totals and the v2 backlog (D2). Applied. The format stays parseable by `scripts/python-track/sync-curriculum.mjs` and `new-lesson.mjs`, and backlog rows use `module/lesson` paths so the scripts ignore them.
 3. **`02-content-standards.md` → "ADR checkpoint format" and "Module shape":** the ADR modules, the computed-field rule, briefing coherence and neutral test names (D3, R3). Applied.
-4. **`02-content-standards.md` → "Test conventions" and "Challenge rules":** `ast` source checks, trap test, "starter fails by assertion" (D7). Applied.
+4. **`02-content-standards.md` → "Test conventions" and "Challenge rules":** `ast` source checks, the beginner-mistake test (D10), "starter fails by assertion" (D7). Applied.
 5. **`02-content-standards.md` → "Challenge rules" and `05-modules-02-to-04.md` → "03-functions":** annotations from module 03, the "Annotations are not enforced" map section, and `02-modules-and-imports` (D5, D6). Applied.
 6. **`07-modules-09-to-12.md` → "10-async" constraints and `02-content-standards.md`:** gate G6, no `asyncio.run` in learner code, 50 ms sleep ceiling everywhere (R1). Applied. The matching line in [01-platform-and-engine.md](01-platform-and-engine.md) "Risks" (100 ms) is left for its owner.
 7. **`README.md` → "Decisions" and "Phases":** decisions table, gates G0–G8, flag rule, cross-suite rule, 3.14 vs 3.15 (D1, D8, D9). Applied.

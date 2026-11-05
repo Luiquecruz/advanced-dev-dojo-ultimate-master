@@ -17,15 +17,15 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 ## 01-python-map — Python Track Map (Q, beginner)
 
 - Tags: `["established", "core", "theory"]`. No challenge; `quiz.json` with 4 questions.
-- Theory (250–500 words): how the track works (theory, challenge, hints, quiz, ADR per module), the 13-module path, who it is for (TypeScript/JavaScript developers), the Pyodide runtime (CPython 3.14 in the browser, first load about 12 MB), what the browser cannot run (threads, network, real venv: taught in theory), maturity tags, the `**Status as of**` convention.
-- Contrast: Python is not "JavaScript with indentation": names bind to objects, everything is an object, protocols (dunder methods) replace many JS keywords.
+- Theory (200–500 words): how the track works (theory, challenge, hints, quiz, ADR per module), the 13-module path, who it is for (learners with no prior programming language), the Pyodide runtime (CPython 3.14 in the browser, first load about 12 MB), what the browser cannot run (threads, network, real venv: taught in theory), maturity tags, the `**Status as of**` convention.
+- Key idea (a map has no `## Common mistakes`): names bind to objects, everything is an object, and protocols (dunder methods) drive much of the syntax.
 - Quiz topics: what the Run button does, which topics are theory-only in the browser, what an ADR checkpoint is, where the track starts.
 - Resources: docs.python.org tutorial, Language Reference data model, peps.python.org/pep-0008.
 
 ## 02-names-and-references — Names Are Labels, Not Boxes (P, beginner)
 
 - Concept: assignment binds a name to an object; it never copies. Passing an argument binds a new name to the same object. `+=` on a list mutates in place, `x = x + [..]` rebinds.
-- Contrast with JS: JS objects behave the same, but Python makes it visible for *every* type; the surprise for JS developers is `+=` on lists, aliasing through default values and function arguments, and `a = b = []`.
+- Common mistake: expecting `b = a` to copy a list, so appending through `b` also changes `a`; the same aliasing hides in `+=` on lists, in default values and function arguments, and in `a = b = []`.
 - Challenge: **repair the aliasing bugs in a small cart module** (`main.py`).
   - `add_item(cart, item)`: must add `item` to the caller's list and return that same list. Starter rebinds locally (`cart = cart + [item]`).
   - `snapshot(cart)`: returns a new list with the same items; later changes to the cart must not appear in the snapshot. Starter returns `cart`.
@@ -47,7 +47,7 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 ## 03-mutability-and-hashing — Mutable, Immutable and Hashable (P, beginner)
 
 - Concept: mutable and immutable types; why only hashable (effectively immutable) objects can be dict keys or set members; `tuple` is immutable but may hold mutable items, so it may be unhashable.
-- Contrast: JS `Map` accepts any key by reference identity; Python dict keys use `__hash__` and `__eq__`. JS strings are immutable like Python's; arrays/objects are mutable like lists/dicts. `Object.freeze` is shallow and is not hashing.
+- Common mistake: using a list, or a tuple that holds a list, as a dict key or set member, which raises `TypeError: unhashable type: 'list'`; convert it to a `tuple` or `frozenset` first, recursively.
 - Challenge: **`freeze` and `memoize_by_value`** (`main.py`).
   - `freeze(value)`: returns a hashable, immutable equivalent: `list`/`tuple` → `tuple` (recursively), `set` → `frozenset`, `dict` → `frozenset` of `(key, frozen_value)` pairs, scalars (`int`, `float`, `str`, `bytes`, `bool`, `None`) unchanged. Any other type raises `TypeError` whose message contains the type name. The input is never modified.
   - `memoize_by_value(function)`: returns a wrapper that caches results by `freeze(args)` and `freeze(sorted kwargs items)`, so calls with equal lists or dicts reuse the cache. The wrapper exposes `calls` (number of real executions of `function`).
@@ -60,7 +60,7 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 ## 04-scope-and-nonlocal — Scope: LEGB, global and nonlocal (P, intermediate)
 
 - Concept: names resolve Local → Enclosing → Global → Built-in at *compile time per function*; assignment inside a function makes the name local for the whole function (`UnboundLocalError`); `nonlocal` and `global` rebind outer names.
-- Contrast: JS `let/const/var` and block scope versus Python function scope with no block scope (`if`/`for` do not create scopes; comprehension variables do not leak since Python 3). Closures capture variables, not values.
+- Common mistake: assigning to an outer name inside a nested function without `nonlocal`, which makes the name local for the whole function and raises `UnboundLocalError` at the first read. `if` and `for` blocks do not create scopes, and closures capture variables, not values.
 - Challenge: **stateful closures without classes or globals** (`main.py`).
   - `make_counter(start=0, step=1)`: returns `(next_value, reset)`. Each call to `next_value()` returns the current value, then advances by `step`. `reset()` returns the counter to `start`. Two counters are independent.
   - `make_history(limit)`: returns `(record, entries)` where `record(value)` appends to a bounded history and `entries()` returns a tuple of the last `limit` values (oldest first), sharing state through the enclosing scope.
@@ -74,7 +74,7 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 ## 05-shallow-vs-deep-copy — Shallow and Deep Copies (P, intermediate)
 
 - Concept: `list.copy()`, `dict.copy()`, slicing, `copy.copy`, `dict(d)` and `{**d}` are shallow; `copy.deepcopy` copies recursively and preserves cycles via a memo; `__copy__`/`__deepcopy__` customize it.
-- Contrast: `{...obj}`, `[...arr]` and `Object.assign` are shallow like Python; `structuredClone` is the JS deep copy (and drops functions/classes), while `deepcopy` follows object protocols.
+- Common mistake: `copy.copy`, `dict.copy()` or `{**config}` on a nested config, so both copies share the inner lists and dicts; use `copy.deepcopy`, which also preserves cycles through its memo.
 - Challenge: **configuration cloning** (`main.py`).
   - `clone_config(config, **overrides)`: returns a deep copy of `config` with top-level `overrides` applied; the original and its nested dicts/lists are never shared with the result. Cyclic structures (a dict that contains itself) are cloned preserving the cycle.
   - `with_defaults(config, defaults)`: returns a new dict where missing keys are filled from `defaults` *without* aliasing mutable defaults (appending to a list in the result must not change `defaults`).
@@ -88,7 +88,7 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 ## 06-identity-equality-and-interning — `is` vs `==` (P, intermediate)
 
 - Concept: `==` calls `__eq__`; `is` compares object identity; `is` is for singletons (`None`, `True`, `False`, sentinels). CPython caches small ints and interns some strings, an implementation detail that must never be relied on. Defining `__eq__` without `__hash__` makes a class unhashable; equal objects must hash equal.
-- Contrast: JS `===` compares primitives by value and objects by identity, so `===` is closer to Python's `==` for primitives and `is` for objects; Python has no `==`/`===` coercion split.
+- Common mistake: `is` to compare values (`count is 1000`, `role is "admin"`), which may work for cached small ints and interned strings and fails elsewhere; use `==` for values and `is` only for `None`, `True`, `False` and sentinels.
 - Challenge: **a value object and a sentinel lookup** (`main.py`).
   - `MISSING = object()` module-level sentinel and `lookup(mapping, key, default=MISSING)`: returns the value; if the key is absent and `default is MISSING` raises `KeyError(key)`; otherwise returns `default` (so `default=None` is a legitimate return value).
   - `class Money` with `amount: int` (cents) and `currency: str`: equality and hashing based on both fields, `Money(100, "EUR") == Money(100, "EUR")`, hashes equal, usable in sets; comparison with a non-`Money` returns `NotImplemented` (so `Money(1, "EUR") == 1` is `False` without raising).
@@ -102,7 +102,7 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 ## 07-truthiness-and-bool — Truthiness and `__bool__` (P, beginner)
 
 - Concept: every object is truthy unless `__bool__` returns `False` or `__len__` returns 0; empty containers, `0`, `0.0`, `""`, `None` are falsy. `if not items` is idiomatic emptiness; `if x is None` is the check for absence. `and`/`or` return operands, not booleans.
-- Contrast: JS falsy set (`0`, `""`, `null`, `undefined`, `NaN`) differs: `[]` and `{}` are truthy in JS and falsy in Python; `||` and `??` versus `or` (no `??` equivalent, use `is None`).
+- Common mistake: `value or default` to fill a missing value, which also replaces `0`, `""`, `[]` and `False`; test `value is None` when only `None` means missing.
 - Challenge: **truthiness protocol and safe fallbacks** (`main.py`).
   - `class Basket`: wraps a list; defines `__len__` only; `bool(Basket())` is `False` when empty and `True` otherwise.
   - `class Quota(limit, used)`: defines `__bool__` as "has remaining capacity" (`used < limit`); `len` is not defined (`len(Quota(1, 0))` raises `TypeError`).
@@ -111,7 +111,7 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 - Tests (6): `Basket` falsy/truthy; `Quota` bool by remaining capacity; `len(Quota(...))` raises `TypeError`; `coalesce(None, 0, 5) == 0`; `coalesce()` is `None`; `first_truthy(0, "", [], "x") == "x"` and the default path.
 - Hints: (1) `__bool__` wins over `__len__` when both exist. (2) `coalesce` needs `is None`, not truthiness.
 - Demo: counts how many settings use falsy-but-valid values like `0` and `""`.
-- Quiz (4): `[] or "default"`, `0 or None`, `None ?? 0` equivalent in Python, truthiness of a custom class with no dunders.
+- Quiz (4): `[] or "default"`, `0 or None`, what `x or 10` returns when `x` is `0` versus `None` and the `is None` fix, truthiness of a custom class with no dunders.
 - Facts: none volatile.
 
 ## 08-object-model-adr — Checkpoint: Shared Value Objects ADR (A, intermediate)

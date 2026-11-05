@@ -6,9 +6,9 @@ Status as of November 2026: milestones M0–M5 are complete. All 94 lessons of m
 
 ## Learner value
 
-> A TypeScript/JavaScript developer who finishes the track can predict what Python code does before running it (names, mutability, protocols, scopes, async scheduling), knows which JS habit each feature breaks, and can defend a design choice in an ADR. All of it in the browser, with no install.
+> A learner who finishes the track, with no prior programming language, can predict what Python code does before running it (names, mutability, protocols, scopes, async scheduling), knows the common mistake each feature invites, and can defend a design choice in an ADR. All of it in the browser, with no install.
 
-What makes it different from a generic Python course: every lesson contrasts with JS/TS, every challenge builds a language mechanism (not a puzzle), and every module ends with a decision, not a recap.
+What makes it different from a generic Python course: every lesson names the mistake its feature invites and a test that catches it, every challenge builds a language mechanism (not a puzzle), and every module ends with a decision, not a recap.
 
 ## Success metrics
 
@@ -48,7 +48,7 @@ Each milestone ends with `npm run typecheck`, `npm run test`, `npm run verify` g
 | Milestone | Scope | Lessons | Exit criteria | Why in this position |
 | --- | --- | --- | --- | --- |
 | **M0** Foundation | finish module 2 (`09-collections-adr`); scaffolder, conventions test, curriculum count test; Pyodide feature spike for modules 9–12 | 1 (+16 done) | modules 1–2 verified; `PY-T01..T03` merged; `PY-S01` report recorded in this file | Tooling first makes every later lesson cheaper; the spike de-risks the advanced half before authors are assigned |
-| **M1** Callables and classes (MVP) | 03-functions, 04-classes | 20 | 37 lessons verified; MVP checklist below passed | Functions and classes are where JS habits break the hardest (mutable defaults, late binding, descriptors, MRO); with modules 1–2 they form a coherent "Python data model for TS devs" product |
+| **M1** Callables and classes (MVP) | 03-functions, 04-classes | 20 | 37 lessons verified; MVP checklist below passed | Functions and classes hold the mistakes newcomers make most often (mutable defaults, late binding, descriptors, MRO); with modules 1–2 they form a coherent "Python data model" product |
 | **M2** Protocols in motion | 05-iteration, 06-context-and-errors | 17 | 54 lessons verified | Generators and context managers are prerequisites of async (`async with`, `ExceptionGroup`) |
 | **M3** Everyday Python | 07-stdlib, 08-pattern-matching | 16 | 70 lessons verified | Low risk, high reuse value; independent of the advanced half |
 | **M4** Typing and async | 09-typing, 10-async | 20 | 90 lessons verified; async tests deterministic (10 consecutive verify runs without a flaky failure) | Highest Pyodide risk, gated by `PY-S01`; typing precedes async because the capstone uses protocols |
@@ -94,7 +94,7 @@ Sizes in author-hours: **S** ≤ 2 h, **M** 2–6 h, **L** 6–12 h. Module rows
 | PY-S02 | Pydantic wheels in Pyodide | 13-validation | spike | L | — | answers the 5 questions of [08](08-module-13-and-capstone.md): wheel names, versions and total size for `pyodide@314.0.7`; served from the app origin with zero CDN requests (Network panel); loaded only for the Python track (startup time of a module 1 lesson unchanged within 10%); loads under `npm run verify`; decision recorded in ARCHITECTURE.md |
 | PY-S03 | Async determinism budget | 10-async | spike | S | PY-S01 | 20 consecutive runs of a sample `TaskGroup` + `asyncio.timeout` test with delays ≤ 50 ms show 0 failures in Node and browser |
 | PY-T01 | Lesson scaffolder | all | tooling | M | — | `node scripts/new-python-lesson.mjs <module> <NN-lesson> --kind P|Q|A` creates the folder with `theory.md` (template headings, `## When to choose it` last), `challenge.md`, `starter/main.py` with `# TODO`, `solution/main.py`, `tests.py` with one `@test`, `hints.md` with `---`, `approach.md`, `quiz.json` skeleton, and **no** `meta.json`; refuses to overwrite an existing folder; generated folder is ignored by the loader until `meta.json` exists |
-| PY-T02 | Python conventions test | all | tooling | M | — | `src/verify/pythonConventions.test.ts` fails when: a challenge lesson lacks `entry`; a lesson with `demo.py` lacks `run`; theory does not end with `## When to choose it`; theory lacks a `ts` fence; a `Status as of` blockquote has no month and year; tags do not start with a maturity tag; `tests.py` has fewer than 3 or more than 6 `@test`, or duplicate names; `quiz.json` has fewer than 4 or more than 6 questions or every answer at the same index; an ADR lesson does not export `ADR` and `PLAN`; each rule covered by a fixture that must fail |
+| PY-T02 | Python conventions test | all | tooling | M | — | `src/verify/pythonConventions.test.ts` fails when: a challenge lesson lacks `entry`; a lesson with `demo.py` lacks `run`; theory does not end with `## When to choose it`; theory uses a fence other than `py`, `text`, `bash`, `toml` or `json`; a `Status as of` blockquote has no month and year; tags do not start with a maturity tag; `tests.py` has fewer than 3 or more than 6 `@test`, or duplicate names; `quiz.json` has fewer than 4 or more than 6 questions or every answer at the same index; an ADR lesson does not export `ADR` and `PLAN`; each rule covered by a fixture that must fail |
 | PY-T03 | Curriculum count test | all | tooling | S | — | a test recomputes module sizes and kind totals from the folders and from CURRICULUM.md and fails when they diverge from [03-curriculum.md](03-curriculum.md) for written modules |
 | PY-T04 | Per-module verify filter | all | tooling | S | — | `LESSON=python/<module-id>` (or a documented equivalent) runs one module only; documented in CONTENT_GUIDE.md |
 | PY-T05 | Local progress debug panel | app | tooling | M | — | `?debug=progress` shows, for the current track, the funnel (visited/quiz/challenge per module) and drop-off lesson from `ProgressState`; no new storage keys; hidden without the query param |
@@ -110,7 +110,7 @@ Sizes in author-hours: **S** ≤ 2 h, **M** 2–6 h, **L** 6–12 h. Module rows
 | PY-C03 | Functions and callables | 03-functions (10) | lesson | L ×10 (≈ 42 h) | PY-T01, PY-T02 | 10 lessons, each verify green and convention test green; browser pass; `✓` × 10 |
 | PY-C04 | Classes and descriptors | 04-classes (10) | lesson | ≈ 48 h | PY-T01, PY-T02 | as PY-C03; descriptors and `__set_name__` tests cover get/set/delete |
 | PY-C05 | Iterators and generators | 05-iteration (8) | lesson | ≈ 36 h | PY-T02 | as PY-C03; no test relies on exhausting an infinite iterator without `islice` |
-| PY-C06 | Context managers and exceptions | 06-context-and-errors (9) | lesson | ≈ 42 h | PY-T02 | as PY-C03; JS `using` status dated in theory |
+| PY-C06 | Context managers and exceptions | 06-context-and-errors (9) | lesson | ≈ 42 h | PY-T02 | as PY-C03 |
 | PY-C07 | Standard library in practice | 07-stdlib (10) | lesson | ≈ 40 h | PY-T02 | as PY-C03; no `zoneinfo`, `pathlib` only on the in-memory FS |
 | PY-C08 | Pattern matching | 08-pattern-matching (6) | lesson | ≈ 22 h | PY-T02 | as PY-C03 |
 | PY-C09 | Type hints | 09-typing (10) | lesson | ≈ 40 h | PY-S01 | as PY-C03; no challenge depends on mypy or pyright |
@@ -124,7 +124,7 @@ Total content estimate: ≈ 430 author-hours for modules 3–13 at the target ra
 
 ## Cut line
 
-**MVP = modules 1–4 (37 lessons, M0 + M1).** It already answers one coherent question: *how does Python's object and data model differ from JavaScript's?* Names and mutability, collections and protocols, callables, classes and descriptors, each closing with an ADR. A learner can finish it in a few evenings and it does not touch any high-risk Pyodide area.
+**MVP = modules 1–4 (37 lessons, M0 + M1).** It already answers one coherent question: *how does Python's object and data model behave?* Names and mutability, collections and protocols, callables, classes and descriptors, each closing with an ADR. A learner can finish it in a few evenings and it does not touch any high-risk Pyodide area.
 
 MVP ships when:
 

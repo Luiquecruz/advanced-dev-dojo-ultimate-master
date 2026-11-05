@@ -53,7 +53,7 @@ Acceptance for every module:
 | ID | Item | Acceptance criteria | Status | Evidence |
 | --- | --- | --- | --- | --- |
 | V1 | Browser check | The track appears on the home carousel with its accent; navigation works (curriculum → lesson → Learn → Quiz → next); quiz completion persists across a reload; the console has no errors; screenshots taken | done | 2026-11-05, Chromium on `npm run dev`: 8th card "C# and .NET", accent `rgb(255, 122, 127)`; lesson tabs Learn + Quiz and no editor; `csharp` blocks highlighted; a 6/6 quiz still shows 6/6 after a reload, and localStorage has `quizzes["csharp/csharp-map"] = true`; Next lesson works; the curriculum shows "1/67 lessons complete"; no console errors |
-| V2 | Final independent review | The whole track (content, suite, docs, CI) has no open high or medium findings | done | three lenses (accuracy, with 26 lessons sampled and 268 URLs requested; pedagogy; platform): 3 high, 8 medium, 13 low. All high and medium fixed: P3–P6 chain coherence, the Identity rehash, the suite now enforces heading order and Check yourself count (mutation-checked), docs counts. One low left open: about 20 lessons re-explain the PHP-FPM lifecycle in their Coming from section |
+| V2 | Final independent review | The whole track (content, suite, docs, CI) has no open high or medium findings | done | three lenses (accuracy, with 26 lessons sampled and 268 URLs requested; pedagogy; platform): 3 high, 8 medium, 13 low. All high and medium fixed: P3–P6 chain coherence, the Identity rehash, the suite now enforces heading order and Check yourself count (mutation-checked), docs counts. One low left open: about 20 lessons re-explain the PHP-FPM lifecycle in their Coming from section; superseded: the Coming from sections are removed by the no-bridge rewrite (PR4/PR5) |
 | V3 | CI/CD | The pull request CI is green, including the smoke test against the Deploy Preview; the state is recorded (CI passed is not a deploy) | doing | Split into stacked pull requests under the 300-file review limit: #18 (part 1, base `main`) and #19 (part 2, base #18), both reviewed by CodeRabbit. #18 is green at `cecf69d`, including the Deploy Preview smoke test. #19 is green at `8e39269` except the smoke test, skipped while it is stacked: Netlify previews exist only for pull requests against `main`. Remaining: after #18 merges, #19 retargets to `main`, gets `main` merged in, and its CI and smoke test run again. Production deploys only after that merge |
 | V4 | Enable | `TRACK_FLAGS.csharp = true` once C01–C13 and V1–V2 are done | done | flag on; README, CURRICULUM and `index.html` updated |
 
@@ -69,8 +69,6 @@ The research is refreshed by hand when the curriculum is revisited, not on a tim
 | E1 | C# engine and challenges | Phase 1: an engine meeting the conditions of 04-engine-spike.md §10, with independent security and platform reviews. Phase 2: module 02 pilot challenges behind an approval gate, then module by module, and the practice projects as challenges where they fit. Every pull request stays under 300 files | started 2026-11-05 | doing |
 
 ## Later (not in v1)
-
-- Trim the repeated PHP-FPM lifecycle recap in the "Coming from PHP/Magento" sections (about 20 lessons): a low finding of the final review.
 
 - Compile the theory snippets in CI (extract the `csharp` fences into a scratch project and run `dotnet build`). This needs the .NET SDK in CI.
 - Register `python` highlighting in `src/shared/ui/Markdown.tsx`: Python lessons render code fences unhighlighted today (found while adding C#).

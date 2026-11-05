@@ -70,21 +70,21 @@ TODO: the model. What Python does, in two or three sentences, then a runnable ex
 # TODO: runnable example
 \`\`\`
 
-## Coming from TypeScript and JavaScript
-
-TODO: the exact JS/TS habit that breaks here. Name the mistake and show both sides.
-
-\`\`\`ts
-// TODO: the JavaScript habit
-\`\`\`
-
-\`\`\`py
-# TODO: the Python equivalent
-\`\`\`
-
 ## How it works
 
 TODO: the mechanism (data model hook, protocol, bytecode behavior) and its pitfalls.
+
+## Common mistakes
+
+TODO: 40-250 words. The mistake a newcomer makes most often with this mechanism, in **bold**, what happens at runtime and the fix. The test marked \`# beginner mistake:\` in tests.py catches it.
+
+\`\`\`py
+# TODO: the wrong version
+\`\`\`
+
+\`\`\`py
+# TODO: the fix
+\`\`\`
 
 > **Status as of November 2026:** TODO: volatile facts only (versions, PEP status), each verified against docs.python.org or the PEP. Delete this line if the lesson has none.
 
@@ -95,15 +95,11 @@ TODO: when to use it, when to avoid it, and the alternative. This section is alw
 
 const theoryMap = (title) => `# TODO: ${title}
 
-TODO: what this module answers (250-500 words in total).
+TODO: what this module answers (200-500 words in total).
 
 ## Prerequisites
 
 TODO: the earlier modules and ideas this one assumes.
-
-## Coming from TypeScript and JavaScript
-
-TODO: the habits from JS/TS that this module corrects.
 
 ## The path
 
@@ -225,7 +221,8 @@ PLAN = {
 }
 `;
 
-const testsPractice = `@test("TODO: first behavior, written as a sentence")
+const testsPractice = `# beginner mistake: TODO: the mistake named in bold in ## Common mistakes
+@test("TODO: first behavior, written as a sentence")
 def _():
     result = mod.todo_function(1)
     assert result == 1

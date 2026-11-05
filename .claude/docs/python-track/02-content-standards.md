@@ -1,6 +1,10 @@
 # Content Standards — Python Track
 
-Applies to every lesson under `src/content/python/`. It restates [CONTENT_GUIDE.md](../CONTENT_GUIDE.md) for a single-language Python track and adds the rules that are specific to teaching Python to TypeScript/JavaScript developers.
+Applies to every lesson under `src/content/python/`. It restates [CONTENT_GUIDE.md](../CONTENT_GUIDE.md) for a single-language Python track and adds the rules that are specific to it.
+
+## No bridges
+
+The track is written for a learner with no prior programming language. No lesson file (theory, quiz, concepts, `meta.json`, `challenge.md`, hints, approach, `tests.py`, starter or solution), and neither `track.json` nor a `module.json` title or description, explains Python by comparison with another language: no `## Coming from` section, no `ts` fences, and none of the names `pythonConventions.test.ts` rejects. The full list is the `BRIDGE` constant; among others: other languages (`JavaScript`, `TypeScript`, `JS`, `TS`, `PHP` and every word starting with it, `Magento`, Rust, Java, `Golang`, Ruby, Kotlin, Swift, C++, C#), their runtimes and tools (`Node.js`, `Node developer`, `Node's` before one of its APIs (`Node's path`, `Node's fs`, `Node's event loop`), `Node scripts`, V8, Deno, Bun, `npm`, `npx`, `pnpm`, `yarn`, `package.json`, `node_modules`, `tsc`, ESLint, Prettier, Biome, Zod, lodash, Axios, Express (`Express.js`, Express middleware, app or server; the English verb passes), Vitest, Jest, TC39, ECMAScript, `ES2022` and the other ES years), their syntax and APIs (`===` and `!==` between operands or alone in backticks, `??` outside a string literal, `Object.groupBy`, `Object.seal`, `Object.freeze`, `structuredClone`, `Symbol.dispose`, `new Proxy`, `console.log`, `JSON.parse`, `JSON.stringify`, `instanceof`, `typeof`, `AggregateError`, `process.argv`, `process.exit`, `Object.assign` and its siblings, `Array.from`, `Array.isArray`, `array.includes`, `.shift()`, `.prototype.`, "Array methods", ES modules, `exports` and `require` in backticks, spread (`{ ...defaults }`, `...rest: T`), `Record<`, `using x = new`, `x == null`, `catch (error)`, "options object", "object destructuring", and `var`, `let`, `const`, `undefined`, `Array`, `Map`, `this`, `function*`, `some`, `switch` or `catch` in backticks), and the word `promise`, which names a JavaScript type: write "guarantee" or "commit to" for the English verb. A banner such as `=== Report ===` or a string such as `"??"` is not a match, and neither are Python names that look alike: a `Node` class, `str.find`, `ExitStack.push()` or a `push` method of your own, `match`/`case` and `except`. Resources never point at another language's documentation (MDN, nodejs.org, zod.dev, typescriptlang.org, vitest.dev, axios-http.com, expressjs.com, and the `github.com/tc39` proposals: `BLOCKED_HOSTS` and `BLOCKED_PATHS`). There are no exceptions for factual tool or interop mentions: say "a browser client" rather than naming its language, and "a compiled extension" rather than the language a library is written in. The one language a lesson may name is C, because CPython and its extension modules are written in it: "C extension" and "the C API" are Python terms. The mistake a comparison used to carry stays, in Python terms, in `## Common mistakes`.
 
 ## Lesson folder
 
@@ -27,7 +31,7 @@ src/content/python/<NN-module>/<NN-lesson-id>/
 
 ## Module shape
 
-1. `01-<module>-map` **(quiz)**: what the module answers, prerequisites, path, the decision it ends with. Theory 250–500 words plus a 4-question quiz. Module 1 opens with `01-python-map` for the whole track.
+1. `01-<module>-map` **(quiz)**: what the module answers, prerequisites, path, the decision it ends with. Theory 200–500 words plus a 4-question quiz. Module 1 opens with `01-python-map` for the whole track.
 2. Practice lessons (3–9) and optional quiz-only lessons for theory topics.
 3. The closing lesson, one of:
    - `NN-<module>-adr` checkpoint, **only in modules 01, 02, 04, 06, 09 and 10**: briefing, exported `ADR` and `PLAN`, tests for structure and coherence with the briefing.
@@ -37,17 +41,19 @@ src/content/python/<NN-module>/<NN-lesson-id>/
 
 ## Theory template
 
-250–1000 words (maps may be shorter). In this order:
+Word limits: practice lessons and the capstone 300–1,000, maps 200–500, quiz-only theory lessons and ADRs 250–1,000. Practice lessons and the capstone follow this order:
 
-1. **The model**: what Python does, with a runnable example.
-2. **Coming from TypeScript/JavaScript**: the exact habit that breaks and the equivalent JS snippet, side by side. Name the mistake.
-3. **How it works**: the mechanism (data model hook, protocol, bytecode behavior), pitfalls.
-4. **Legacy vs modern** when an API evolved (`typing.List` → `list[str]`, `asyncio.gather` → `TaskGroup`).
+1. **The model**: what Python does, with a runnable example. The lesson page already shows the `meta.json` title as its heading, so most theories open straight with this paragraph; a `# <title>` line is optional and no suite checks it.
+2. `## How it works`: the mechanism (data model hook, protocol, bytecode behavior), pitfalls.
+3. `## Common mistakes`: 40–250 words. The mistake a newcomer makes most often with this mechanism, named in **bold**, what happens at runtime, and the wrong code next to the fix in a `py` fence. The test marked `# beginner mistake:` catches exactly that mistake.
+4. Optional sections, such as **legacy vs modern** when an API evolved (`typing.List` → `list[str]`, `asyncio.gather` → `TaskGroup`).
 5. **`## When to choose it`**: when to use, when to avoid, and the alternative. Always last.
+
+Maps have no `## Coming from` section either: they state the prerequisites inside the track.
 
 One blockquote starting `**Status as of <Month YYYY>:**` holds volatile facts (versions, PEP status, free-threading, JIT). Today is November 2026: date the facts at writing time and verify each against docs.python.org or the PEP, never from memory.
 
-Code fences: `py` for Python and `ts` for the JS/TS contrast.
+Code fences: `py`, `text`, `bash`, `toml` and `json`.
 
 ## Challenge rules
 
@@ -55,7 +61,14 @@ Code fences: `py` for Python and `ts` for the JS/TS contrast.
 - `challenge.md` names every function, class, parameter and exception the tests rely on. The tests are the contract.
 - Starter compiles, fails at least one test, and marks every place to write code with `# TODO: ...` comments.
 - 3–6 tests per challenge, each a sentence. Tests assert behavior: return values, state, raised exception types and messages' *key words*, identity where identity is the lesson. Never assert printed text exactly, bytecode, `id()` values, or `is` on ints and strings that the compiler may fold.
-- **Trap test**: at least one test fails the typical JS-habit implementation named in the theory's "Coming from TypeScript and JavaScript" section (aliasing instead of copying, `==` for identity, a `dict` subclass for a mapping, a mutable default). The reviewer writes that wrong version once and confirms the test catches it.
+- **Beginner-mistake test**: at least one test fails the most common wrong implementation a newcomer writes for this mechanism (aliasing instead of copying, `==` for identity, a `dict` subclass for a mapping, a mutable default). That mistake is named in bold in `## Common mistakes`, and exactly one test carries `# beginner mistake: <the mistake>` on the line right above its `@test`. The test name states the correct behavior, not the mistake. The reviewer writes the wrong version once and confirms that this test fails on it and that the solution passes. Practice lessons and the capstone need it; ADRs do not.
+
+  ```py
+  # beginner mistake: copy.copy for a nested config, so both copies share the inner lists
+  @test("a deep copy leaves the original's nested lists untouched")
+  def _():
+      ...
+  ```
 - The starter imports cleanly and fails by assertion, not by `NameError`/`ImportError`/`SyntaxError`; every `# TODO` maps to at least one failing test.
 - Starters and solutions follow PEP 8 and keep docstrings short. **Type annotations**: modules 01–02 stay unannotated (the lessons are about runtime objects). From module 03 on, solutions may annotate public functions and classes the way modern Python is written, and starters keep the same signatures. Annotations never replace a runtime check the tests rely on, and no test depends on annotations except in module 09. Use builtin generics and `X | None`, never `typing.List`/`Optional`.
 - Demos (`demo.py`) import the learner's functions, run a realistic scenario and print results. They are outside the entry's import graph, never run during tests, and must print at least one line and exit 0. Not every lesson needs a demo; lessons about output-less mechanisms may omit `run`.
@@ -130,10 +143,11 @@ The last lesson of every module except 12 (which ends with the capstone). `entry
 ## Verification checklist per lesson
 
 - [ ] Solution passes every test; starter fails at least one (`npm run verify` enforces), by assertion and not by import error.
-- [ ] A trap test catches the JS-habit implementation; source checks use `ast`.
+- [ ] Practice lessons and the capstone: the `# beginner mistake:` test fails on the wrong version named in `## Common mistakes` (ADRs and quiz-only lessons have none). Source checks use `ast`.
 - [ ] ADR only: a computed numeric field, coherent briefing arithmetic, neutral test names.
 - [ ] At least 2 hints separated by `---`; non-trivial `approach.md`; theory over 200 characters.
-- [ ] Theory has the JS/TS contrast and ends with `## When to choose it`.
+- [ ] Practice lessons and the capstone: theory has `## How it works` before `## Common mistakes` and ends with `## When to choose it` (maps and ADRs are exempt). No theory compares with another language.
 - [ ] Volatile facts dated and verified.
 - [ ] `✓` added to `CURRICULUM.md`; `meta.json` written last.
+- [ ] `pythonConventions.test.ts` passes. A lesson written before these rules is listed in `src/verify/pythonPendingRewrite.ts` with the rules it still breaks; its rewrite removes the entry (a stale entry fails the suite). Track and module texts that still compare with another language sit in its `PYTHON_PENDING_HEADERS`.
 - [ ] Checked in the browser (Pyodide) at least once per module: starter fails, solution passes, Run demo prints.

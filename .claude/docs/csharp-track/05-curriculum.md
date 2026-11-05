@@ -14,18 +14,18 @@ The market percentages below come from the convenience sample of 69 postings in 
 
 ## Why this order
 
-- **01–04, the language and the runtime, before any framework.** A PHP developer's main gaps are static typing, value versus reference semantics, LINQ and a long-running async runtime.
+- **01–04, the language and the runtime, before any framework.** Every later module relies on static typing, value versus reference semantics, LINQ and a long-running async runtime, so they come first.
 - **05–06, ASP.NET Core and APIs.** REST/Web API is named in 64% of postings.
 - **07, data.** SQL Server appears in 57%, EF Core in 35% and Dapper in 12%. Data comes after APIs, so that the projects have an API to persist.
 - **08–09, security and tests, on the API learners already have.** Unit testing appears in 55% and security in 42%.
-- **10, background work and messaging.** Messaging appears in 51% and maps directly to Magento queue consumers and cron. Calling external APIs with resilience sits here too, before modules 11 and 12 rely on it.
+- **10, background work and messaging.** Messaging appears in 51%, and queue consumers and scheduled jobs are how most backends do work outside a request. Calling external APIs with resilience sits here too, before modules 11 and 12 rely on it.
 - **11, delivery: Docker, CI/CD, cloud and observability.** Docker appears in 42%, CI/CD in 54% and cloud in 67%. This module closes the core.
 - **12, architecture.** SOLID and patterns appear in 54% and microservices in 38%, but this is judgment learned after the mechanics.
 - **13, legacy.** Legacy technology appears in 30% of postings. It is a separate tier because it is needed for maintenance and migration roles, not for new code.
 
 ## Prerequisites and effort
 
-**Prerequisites for the track.** You can already build HTTP backends in PHP, have used an ORM, a DI container, SQL, Git and a message queue or cron, and read technical English. No C# is assumed. For the projects you also need the .NET 10 SDK and Docker (`docker run` and `docker compose` for PostgreSQL, RabbitMQ and Testcontainers from P3 on; module 11 teaches containers for your own app). Git (58% of postings) and agile practice (45%) are assumed, not taught.
+**Prerequisites for the track.** No prior programming language is assumed: the track teaches C#, HTTP, SQL, dependency injection and messaging from the lesson that first needs them. You read technical English. For the projects you also need the .NET 10 SDK and Docker (`docker run` and `docker compose` for PostgreSQL, RabbitMQ and Testcontainers from P3 on; module 11 teaches containers for your own app). Git (58% of postings) and agile practice (45%) are assumed, not taught.
 
 **Effort assumptions.** The learner studies 8–10 hours a week.
 - A theory lesson takes about 25–35 minutes to read and to answer its quiz.
@@ -44,11 +44,11 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 - **Done when**: the completion criteria. Every quiz of the module answered correctly in the app, which is recorded in progress, plus the module project's acceptance criteria, where there is one.
 - **Official**: Microsoft documentation, from [02-ecosystem-and-legacy.md](02-ecosystem-and-legacy.md).
 
-### 01-platform — The .NET Platform for PHP Developers (core)
+### 01-platform — The .NET Platform for PHP Developers (core; the title follows `module.json`, renamed to "The .NET Platform" in the module 05–14 rewrite PR)
 
 | Lesson | Kind | Outcome | Competency (market) |
 | --- | --- | --- | --- |
-| 01-csharp-map | theory | Explains how the track works (quiz lessons, local projects with the SDK), the PHP-to-.NET map and the three biggest mindset shifts | orientation |
+| 01-csharp-map | theory | Explains how the track works (quiz lessons, local projects with the SDK), where each backend job lives in .NET and the three ideas the rest of the track builds on | orientation |
 | 02-runtime-sdk-and-cli | theory | Explains the CLR, JIT, SDK versus runtime, `dotnet new/build/run/test` and the solution/project layout | C# 91% |
 | 03-versions-and-support | theory | Picks a target framework: LTS versus STS, .NET 10 as the current LTS and what changed since .NET 6/8 | .NET version named 23% |
 | 04-nuget-and-project-files | theory | Reads a `.csproj`, adds packages, uses central package management and checks a package's licence | C#, CI/CD |
@@ -98,11 +98,11 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 
 | Lesson | Kind | Outcome | Competency |
 | --- | --- | --- | --- |
-| 01-host-and-program | theory | Explains the generic host, `Program.cs` and a long-running process versus PHP-FPM | Web API 64% |
-| 02-dependency-injection | theory | Registers services with the right lifetime and spots captive dependencies; compares with `di.xml` | SOLID |
-| 03-configuration-and-options | theory | Layers `appsettings` with environment variables and binds validated options; compares with `env.php` | Web API |
+| 01-host-and-program | theory | Explains the generic host, `Program.cs` and why one long-running process serves every request | Web API 64% |
+| 02-dependency-injection | theory | Registers services with the right lifetime and spots captive dependencies (a singleton holding a scoped service); wraps a service in a decorator registered by hand | SOLID |
+| 03-configuration-and-options | theory | Layers `appsettings` with environment variables, binds validated options and keeps secrets out of `appsettings.json` | Web API |
 | 04-logging | theory | Writes structured logs with `ILogger`, message templates, levels and scopes (export and tracing come in 11/04) | observability 39% |
-| 05-middleware-pipeline | theory | Orders middleware and writes custom middleware; compares with Magento plugins and observers | Web API |
+| 05-middleware-pipeline | theory | Orders middleware and writes custom middleware: headers set before the body starts, scoped services taken in `InvokeAsync`, not the constructor | Web API |
 
 - **Official:** ASP.NET Core fundamentals, DI, options, logging, middleware.
 - **Done when:** the quizzes are passed.
@@ -126,11 +126,11 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 | --- | --- | --- | --- |
 | 01-relational-sql-for-dotnet | theory | Connects with `Microsoft.Data.SqlClient`/Npgsql, writes parameterized SQL and knows that `System.Data.SqlClient` is deprecated | SQL Server 57%, PostgreSQL 20% |
 | 02-ef-core-basics | theory | Maps entities with a `DbContext` and queries with LINQ translated to SQL | EF Core 35% |
-| 03-ef-core-migrations | theory | Creates, reviews and applies migrations; compares with `db_schema.xml` | EF Core |
+| 03-ef-core-migrations | theory | Creates, reviews and applies migrations, and catches the rename that the generated code turns into a dropped column | EF Core |
 | 04-tracking-and-performance | theory | Avoids N+1, uses no-tracking queries, projections and split queries | EF Core, query tuning 29% |
 | 05-dapper-and-ado-net | theory | Writes Dapper queries, calls stored procedures, and decides when Dapper beats EF Core | Dapper 12%, stored procedures 29% |
 | 06-transactions-and-concurrency | theory | Uses transactions and optimistic concurrency tokens | SQL |
-| 07-caching-redis-and-nosql | theory | Uses `IMemoryCache`, `IDistributedCache` with Redis and HybridCache, and knows when a document or key-value store fits better than SQL; compares with Magento's Redis and Varnish | NoSQL 33%, Redis/caching 14% |
+| 07-caching-redis-and-nosql | theory | Uses `IMemoryCache`, `IDistributedCache` with Redis and HybridCache, and knows when a document or key-value store fits better than SQL | NoSQL 33%, Redis/caching 14% |
 | 08-project-catalog-persistence | project | **P3** persist the catalog | EF Core, SQL |
 
 - **Official:** EF Core docs, efficient querying, migrations.
@@ -166,11 +166,11 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 
 | Lesson | Kind | Outcome | Competency |
 | --- | --- | --- | --- |
-| 01-hosted-services | theory | Writes a `BackgroundService` that creates a scope per unit of work; compares with Magento cron and queue consumers | background jobs 13% |
+| 01-hosted-services | theory | Writes a `BackgroundService` that creates a scope per unit of work and handles an `ExecuteAsync` that throws | background jobs 13% |
 | 02-scheduling-with-hangfire-and-quartz | theory | Picks between a hosted service, Hangfire and Quartz.NET for scheduled jobs | background jobs |
 | 03-message-brokers | theory | Explains queues, topics and partitions in RabbitMQ, Kafka and Azure Service Bus | messaging 51% |
 | 04-reliable-messaging | theory | Designs for at-least-once delivery: idempotent consumers, retries, dead letters, the outbox; knows the MassTransit v9 licence | messaging |
-| 05-http-clients-and-resilience | theory | Calls external APIs with `IHttpClientFactory` and typed clients, adds the standard resilience handler (`Microsoft.Extensions.Http.Resilience`: timeout, retry, circuit breaker), and knows when a retry is unsafe; compares with Guzzle middlewares in Magento integrations | integrations, messaging 51% (reliability) |
+| 05-http-clients-and-resilience | theory | Calls external APIs with `IHttpClientFactory` and typed clients, adds the standard resilience handler (`Microsoft.Extensions.Http.Resilience`: timeout, retry, circuit breaker), and knows when a retry is unsafe | integrations, messaging 51% (reliability) |
 | 06-project-order-worker | project | **P5** order processing worker | messaging |
 
 - **Official:** hosted services, Worker Service, `IHttpClientFactory`, HTTP resilience.

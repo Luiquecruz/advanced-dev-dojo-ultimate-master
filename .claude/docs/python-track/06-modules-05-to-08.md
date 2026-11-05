@@ -13,13 +13,13 @@ Iterable vs iterator, generators, itertools, laziness. Quiz: exhaustion predicti
 
 ### 02-iterator-protocol (P, I)
 - Concept: `__iter__`/`__next__`, `StopIteration`, iterable vs iterator, `iter()`/`next()`, re-iterable containers return a fresh iterator.
-- Contrast: JS `Symbol.iterator`, `{ value, done }` result objects vs `StopIteration`.
+- Common mistake: a container whose `__iter__` returns `self`, so a second loop over it is empty; a re-iterable container returns a fresh iterator from each `__iter__` call.
 - Challenge: `class Paginator(pages)` re-iterable (each `for` restarts); `class LineReader(lines)` a one-shot iterator (iterator is its own iterable); `is_iterator(obj)` and `is_reiterable(obj)` helpers using `iter(obj) is obj`.
 - Tests: two loops over `Paginator` both see all items; second loop over `LineReader` is empty; `next()` past the end raises `StopIteration`; helper truth table.
 
 ### 03-generators (P, B)
 - Concept: `yield` suspends the frame; generator objects are iterators; laziness; `return` inside generators.
-- Contrast: JS `function*` is the same idea; Python generators are the default tool for lazy pipelines.
+- Common mistake: building and returning a full list where the function should `yield`, so the pipeline reads the whole input before the first item and cannot stop early; and looping twice over one generator, whose second pass is empty.
 - Challenge: `read_blocks(lines)` yields lists of lines separated by blank lines; `take(count, iterable)` yields at most `count` items without consuming more; `id_sequence(prefix)` infinite `prefix-1`, `prefix-2`…
 - Tests: block splitting incl. trailing block; `take` stops consuming (a counting source proves it); infinite sequence first three; generator is not a list (`inspect.isgenerator`).
 
@@ -62,7 +62,7 @@ Question: who releases the resource when something fails, and what does an excep
 
 ### 02-exception-hierarchies (P, B)
 - Concept: `BaseException` vs `Exception`, domain exceptions, `except` ordering by specificity, `LookupError`/`OSError` families, `else`/`finally`.
-- Contrast: JS can throw anything; Python only `BaseException` instances; errors are typed.
+- Common mistake: deriving a domain error from `BaseException`, so `except Exception` does not catch it, or catching with a bare `except:`, which also swallows `KeyboardInterrupt` and `SystemExit`; derive domain errors from `Exception` and order `except` clauses from the most specific to the most general.
 - Challenge: `AppError` → `ValidationError`, `NotFoundError`, `ConflictError` (with `status` class attribute); `exit_status(error)` returning the nearest `status` via MRO; `parse_age(text)` raising `ValidationError` with a message.
 - Tests: subclass relationships; `except AppError` catches children; status resolution; `Exception` not `BaseException` ancestry.
 - Notes: first practice lesson of the module, before chaining and the `with` lessons, which raise and catch these exceptions.
@@ -75,7 +75,7 @@ Question: who releases the resource when something fails, and what does an excep
 
 ### 04-with-protocol (P, I)
 - Concept: `__enter__`/`__exit__(exc_type, exc, tb)`, return value controls suppression, `with` with multiple items.
-- Contrast: JS has `try/finally` and `using` (explicit resource management, stage 3/ES2026: verify status) but no protocol-based `with`.
+- Common mistake: an `__exit__` that returns a truthy value by accident (`return True`, or a non-empty object), which suppresses every exception raised in the block; return `None` or `False` unless suppression is the point.
 - Challenge: `class Timer(clock)` records `elapsed` using an injected clock; `class Transaction(store)` commits on success and rolls back on exception, re-raising; `__enter__` returns the object.
 - Tests: elapsed from fake clock; commit and rollback flags; exception propagates; exit receives exception info.
 - Notes: verify the current `using` proposal status and date it.
@@ -98,7 +98,7 @@ Question: who releases the resource when something fails, and what does an excep
 
 ### 08-exception-groups (P, Ad)
 - Concept: `ExceptionGroup`, `except*`, `split`/`subgroup`, nesting, why concurrency created them.
-- Contrast: `AggregateError`/`Promise.allSettled`.
+- Common mistake: catching an `ExceptionGroup` with a plain `except ValueError:`, which does not match the group; use `except*` (or `split`/`subgroup`), and expect unmatched members to re-raise as a group.
 - Challenge: `validate_all(record, rules)` collects every failed rule in an `ExceptionGroup("validation failed", errors)`; `handle(group)` with `except*` returning counts per type; `only(group, type)` using `subgroup`.
 - Tests: all errors collected; `except*` handles two types separately; unmatched types re-raise as group; empty errors raise nothing.
 - Notes: PEP 654 (3.11).
@@ -113,14 +113,14 @@ Question: who releases the resource when something fails, and what does an excep
 
 # 07-stdlib — Standard Library in Practice
 
-Question: which batteries replace which npm packages, and which defaults lose data silently?
+Question: which standard-library module does each everyday job, and which defaults lose data silently?
 
 ### 01-stdlib-map (Q, B)
-Standard-library tour for JS developers (`re`, `pathlib`, `decimal`, `datetime`, `json`, `enum`, `logging`, `argparse`) and the npm equivalent of each. It ends with `10-stdlib-adr`.
+Standard-library tour (`re`, `pathlib`, `decimal`, `datetime`, `json`, `enum`, `logging`, `argparse`) as a "task → module" table. It ends with `10-stdlib-adr`.
 
 ### 02-regular-expressions (P, I)
 - Concept: `re.compile`, groups and named groups, `match` vs `search` vs `fullmatch`, greedy vs lazy, `VERBOSE`, `sub` with function, raw strings.
-- Contrast: JS regex literals, no named-group `(?<n>)` difference (Python `(?P<n>)`), `fullmatch` vs anchors.
+- Common mistake: `re.match` to validate a whole string, which anchors only at the start (`re.match(r"\d+", "12abc")` matches); use `re.fullmatch`. A greedy `.*` runs to the last possible match: use `.*?` for the shortest. Write patterns as raw strings and named groups as `(?P<name>...)`.
 - Challenge: `parse_log_line(line)` → dict via named groups, `None` if no match; `mask_emails(text)` with `sub` and a callback keeping the first character and domain; `extract_ids(text)` using `finditer`.
 - Tests: fixtures including no-match; lazy quantifier case; masks multiple emails.
 
@@ -132,7 +132,7 @@ Standard-library tour for JS developers (`re`, `pathlib`, `decimal`, `datetime`,
 
 ### 04-numbers-decimal-and-fractions (P, I)
 - Concept: binary floating point error, `Decimal` contexts and `quantize`, `Fraction`, `round` (banker's), integer arbitrary precision, `//` and `%` with negatives.
-- Contrast: JS has only IEEE doubles (`Number`) and `BigInt`.
+- Common mistake: money in `float` compared with `==` (`0.1 + 0.2 == 0.3` is `False`); use `Decimal` built from strings (`Decimal("0.10")`, not `Decimal(0.1)`), and `math.isclose` when floats must be compared. `round` rounds halves to even.
 - Challenge: `split_bill(total_cents, people)` returns a list of ints summing exactly to total, distributing remainder from the first; `round_money(value)` → `Decimal` rounded `ROUND_HALF_UP`; `exact_ratio(text)` → `Fraction`.
 - Tests: sums; `0.1 + 0.2 != 0.3` documented via a test on `math.isclose`; rounding of 2.675 as Decimal vs float.
 
@@ -155,7 +155,7 @@ Standard-library tour for JS developers (`re`, `pathlib`, `decimal`, `datetime`,
 
 ### 08-logging (P, I)
 - Concept: loggers, handlers, formatters, levels, propagation, `extra`, configure once, library vs application logging.
-- Contrast: `console.log` vs the logging tree.
+- Common mistake: adding a handler on every call, or to both a logger and one of its ancestors, so each record is emitted twice or more (a repeated `logging.basicConfig` is a no-op once the root logger has handlers, unless `force=True`); configure logging once at program start, and in a library only call `logging.getLogger(__name__)`, never configure the root logger.
 - Challenge: `configure_logger(name, stream, level)` idempotent (calling twice adds one handler); `log_event(logger, event, **fields)` adds fields in the record; capturing through a `StringIO` handler.
 - Tests: single handler after two configs; level filtering; format contains level and message; fields attached to the record via `extra`.
 
@@ -182,7 +182,7 @@ Question: when does `match` express intent better than `if/elif`, dict dispatch 
 
 ### 02-sequence-and-mapping-patterns (P, I)
 - Concept: sequence patterns with `*rest`, mapping patterns (extra keys allowed), literals, wildcard, nested patterns.
-- Contrast: JS `switch` compares by `===`; Python patterns bind names and check structure.
+- Common mistake: expecting a mapping pattern to reject extra keys (`case {"type": "click"}` also matches a dict with more keys), or a sequence pattern to match a `str` (it never does); a bare name captures the subject without comparing it, while literal and dotted value patterns compare it with a value.
 - Challenge: `parse_command(tokens)` → dict for `["move", x, y]`, `["say", *words]`, `["quit"]`, anything else → `ValueError`; `handle_event(event)` for mapping events `{"type": "click", "pos": (x, y)}` and `{"type": "key", "key": k}`.
 - Tests: each shape; extra keys tolerated; unknown shape raises.
 
@@ -193,7 +193,7 @@ Question: when does `match` express intent better than `if/elif`, dict dispatch 
 
 ### 04-guards-or-and-capture (P, I)
 - Concept: guards (`if`), or-patterns (`|`), `as` capture, value patterns (`Color.RED`, dotted names) vs capture names, order matters.
-- Contrast: bare names capture, they do not compare (`case DEFAULT:` binds).
+- Common mistake: `case DEFAULT:` with a bare name, which captures any value into `DEFAULT` instead of comparing with it (before the last case it is a `SyntaxError`, because it makes the remaining patterns unreachable); compare with a dotted name (`Color.RED`, `settings.DEFAULT`) or use a guard.
 - Challenge: `route(request)` returning handler names for `("GET", "/users")`, `("GET", "/users", id)`, methods in or-patterns, version prefix capture, guard on role.
 - Tests: route table fixtures; guard fallthrough; first match wins; a test proving a bare-name `case` captures anything (documented through the starter bug).
 

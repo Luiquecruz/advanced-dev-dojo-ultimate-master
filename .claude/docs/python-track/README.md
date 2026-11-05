@@ -6,14 +6,14 @@ The track began as a NotebookLM draft; the departures from that draft are listed
 
 ## Goal
 
-Teach the **mental model of Python 3.14** to developers who already know TypeScript/JavaScript: how the object model, protocols and runtime behave, which JS habits break, and when to choose each feature. It is not interview preparation and not "Python for data science". No algorithm puzzles: every challenge implements real language behavior (a descriptor, a context manager, a protocol, a decorator, a task group).
+Teach the **mental model of Python 3.14** to learners with no prior programming language: how the object model, protocols and runtime behave, which mistakes each feature invites, and when to choose each feature. It is not interview preparation and not "Python for data science". No algorithm puzzles: every challenge implements real language behavior (a descriptor, a context manager, a protocol, a decorator, a task group).
 
 ## Decisions
 
 | Decision | Choice | Reason |
 | --- | --- | --- |
 | Shape | Own track, `id: python`, `"engine": "python"`, single language | The language selector serves the same content in two languages; here the content is the language |
-| Audience | Mid/senior developers coming from TypeScript/JavaScript | Every lesson contrasts with JS/TS and names the typical mistake |
+| Audience | Learners with no prior programming language | No lesson compares with another language; practice lessons name the typical mistake in `## Common mistakes` and catch it with the `# beginner mistake:` test |
 | Accent | `#62e868`-class green at 123° hue | Only band that satisfies the existing 30° rule without changing tests ([01-platform-and-engine.md](01-platform-and-engine.md)) |
 | Test runner | Existing Pyodide harness (`@test`, plain `assert`, introspected `left/right` failure output) | No second runner and no `assert_equal` helper: the harness already prints both sides of a failed comparison |
 | Runtime | Python **3.14** (Pyodide `314.0.7`, CPython 3.14.2, pinned exactly), although 3.15 is current since October 2026; 3.15 differences only in dated `**Status as of**` blocks | The runtime decides what learners can run |
@@ -23,7 +23,7 @@ Teach the **mental model of Python 3.14** to developers who already know TypeScr
 | Module shape | Map (quiz) → practice lessons → closing lesson. ADR checkpoints **only in modules 01, 02, 04, 06, 09, 10**; modules 03 and 05 close with a code integration challenge | ADRs only where a real architectural decision exists (D3) |
 | ADR format | Every `PLAN` has a numeric field computed from the briefing; briefing numbers coherent; test names neutral | Enum-only plans can be brute-forced and test names leaked answers ([02-content-standards.md](02-content-standards.md)) |
 | Source checks | `ast`, never regex over raw text | Regex matches comments and docstrings (D7) |
-| Annotations | Allowed in solutions from module 03; `01-functions-map` states they are not enforced at runtime | Matches modern Python and corrects the TS prior early (D5) |
+| Annotations | Allowed in solutions from module 03; `01-functions-map` states they are not enforced at runtime | Matches modern Python and corrects early the belief that hints are checked at runtime (D5) |
 | Quizzes | `quiz.json` inside practice lessons; quiz-only lessons only for theory topics (maps, tooling, landscape, runtime facts) | CONTENT_GUIDE convention |
 | Capstone | Async rules engine **code challenge** (`main.py`) plus a short `adr.py`, per-worker numbers that are physically coherent (`12-tooling/04`) | A capstone proves the learner can build it; the 115-plan numbers certified an impossible design (D4) |
 | Bonus | Module 13 (Pydantic v2) is in the v2 backlog, gated on the packaging spike (G8) | Needs `pydantic-core` wheels served by the app ([08-module-13-and-capstone.md](08-module-13-and-capstone.md)) |
@@ -54,7 +54,7 @@ Each phase ends at a gate defined in [09-governance.md](09-governance.md) "Appro
 
 1. **Platform** (G0): register the track, accent, verify suite, docs (see 01), and platform hardening (SRE). Exit: `npm run typecheck`, `npm run test`, `npm run build` green.
 2. **Pilot** (G1): module 01 complete and verified (see 04).
-3. **Standards lock** (G2): module 02 complete and all lessons audited against the quality bar (trap tests, `ast` checks, ADR computed fields).
+3. **Standards lock** (G2): module 02 complete and all lessons audited against the quality bar (beginner-mistake tests, `ast` checks, ADR computed fields).
 4. **MVP** (G3 re-plan after module 03, G4 release): modules 03–04, then `TRACK_FLAGS.python` is enabled.
 5. **Core** (G5): modules 05–08.
 6. **Advanced** (G6 asyncio spike before module 10, G7 release): modules 09–12 including the capstone.

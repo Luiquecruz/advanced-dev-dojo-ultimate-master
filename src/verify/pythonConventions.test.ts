@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { trackById } from '../content/allContent';
 import type { Lesson } from '../content/types';
+import { PYTHON_PENDING_HEADERS, PYTHON_PENDING_REWRITE } from './pythonPendingRewrite';
 
 /**
  * Definition of Done for the Python track (.claude/docs/python-track/02-content-standards.md and
@@ -22,14 +23,31 @@ const MATURITY = ['established', 'emerging', 'hype-watch'];
 const META_KEYS = new Set(['title', 'summary', 'level', 'tags', 'entry', 'run', 'resources']);
 const MONTHS = 'January|February|March|April|May|June|July|August|September|October|November|December';
 const STATUS = new RegExp(`^> \\*\\*Status as of (${MONTHS}) \\d{4}:\\*\\*`);
-const JS_CONTRAST = '## Coming from TypeScript and JavaScript';
+const HOW_IT_WORKS = '## How it works';
+const COMMON_MISTAKES = '## Common mistakes';
 const CLOSING = '## When to choose it';
+const FENCES = ['py', 'text', 'bash', 'toml', 'json'];
+/**
+ * Comparisons with another language and names from another ecosystem (02-content-standards.md "No bridges"): the track assumes no
+ * prior programming language. `===` and `!==` count only between operands or alone in backticks, so a `=== Report ===` or `=====`
+ * banner passes; `??` counts outside a string literal.
+ * C is not listed: CPython and its extension modules are written in it, so "C extension" and "the C API" are Python terms.
+ */
+const BRIDGE =
+  /\bJavaScript\b|\bTypeScript\b|\bJS\b|\bTS\b|Node\.js|Node developer|\bnpm\b|\bnpx\b|\bpnpm\b|\byarn\b|\bDeno\b|\bBun\b|package\.json|node_modules|\btsc\b|`[!=]==`|[\w)\]]\s*[!=]==\s*[\w([-]|[\w)\]]\s*[!=]==\s+["']|(?<!["'])\?\?=?(?!["'])|Object\.groupBy|Object\.seal|Object\.freeze|structuredClone|Symbol\.dispose|new Proxy|console\.log|TC39|ECMAScript|\bES20\d\d\b|ESLint|Prettier|\bBiome\b|\bZod\b|\blodash\b|Vitest|\bJest\b|\b[Pp]romises?\b|\bPHP|Magento|\bRust\b|\bJava\b|\bGolang\b|\bRuby\b|\bKotlin\b|\bSwift\b|C\+\+|C#|Node['’]s (`|path|fs|process|module|event loop)|\bNode (scripts?|developers?)\b|\bES modules?\b|\bAxios\b|\bExpress(\.js| middleware| app| server)|`(exports|require|module\.exports)`|JSON\.(parse|stringify)|\binstanceof\b|\btypeof\b|AggregateError|\bprocess\.(argv|exit)\b|Object\.(assign|keys|entries|fromEntries)\b|`(var|let|const|undefined)`|\bArray (methods|chains)\b|Array\.from|extends Array|\bV8\b|`(Array|Map)`|Array\.isArray|array\.includes|[Oo]ptions objects?\b|object destructuring|\{ ?\.\.\.\w|\.\.\.\w+: |Record<|\.prototype\.|`this`|`function\*`|`some`|\.shift\(\)|\busing \w+ = new\b|== null\b|`switch`|`catch`|catch \(\w+\)/;
+/** Hosts of other languages' documentation; a Python lesson cites docs.python.org, the PEPs and the libraries it teaches. */
+const BLOCKED_HOSTS = ['developer.mozilla.org', 'nodejs.org', 'zod.dev', 'typescriptlang.org', 'vitest.dev', 'axios-http.com', 'expressjs.com'];
+/** Paths on a shared host that document another language (`<host><path>` prefixes). */
+const BLOCKED_PATHS = ['github.com/tc39/'];
+const BEGINNER_MISTAKE = /^# beginner mistake: (.*)$/;
 
 /**
  * Existing content that breaks a rule, reported to the author instead of being edited here.
  * Keys are `<lesson key>#<rule>`; remove an entry as soon as the lesson is fixed (a stale entry fails the suite).
  */
 const KNOWN_EXCEPTIONS: Record<string, string> = {};
+
+const pending = (lesson: Lesson, rule: string) => PYTHON_PENDING_REWRITE[lesson.key]?.includes(rule) ?? false;
 
 const track = trackById.get('python');
 const filter = process.env.LESSON;
@@ -70,6 +88,59 @@ function secondLevelHeadings(markdown: string): string[] {
     }
   }
   return headings;
+}
+
+/** The text of a `##` section up to the next `##` heading outside a code fence, or undefined when the section is missing. */
+function sectionOf(markdown: string, heading: string): string | undefined {
+  const lines = markdown.split('\n');
+  const start = lines.findIndex((line) => line.trim() === heading);
+  if (start === -1) {
+    return undefined;
+  }
+  const body: string[] = [];
+  let fenced = false;
+  for (const line of lines.slice(start + 1)) {
+    if (line.trimStart().startsWith('```')) {
+      fenced = !fenced;
+    }
+    if (!fenced && /^## /.test(line)) {
+      break;
+    }
+    body.push(line);
+  }
+  return body.join('\n');
+}
+
+/** Every text a learner reads or edits in a lesson, labelled by where it comes from. */
+function learnerTexts(lesson: Lesson): Array<[string, string]> {
+  const meta = rawMeta(lesson);
+  const texts: Array<[string, string]> = [
+    ['theory.md', lesson.theory],
+    ['meta.json', `${String(meta.title ?? '')}\n${lesson.summary}\n${lesson.resources.map(({ label, url }) => `${label} ${url}`).join('\n')}`],
+    ['concepts.json', lesson.concepts.map(({ term, description }) => `${term} ${description}`).join('\n')],
+    ['quiz.json', lesson.quiz.map(({ question, options, explanation }) => [question, ...options, explanation].join('\n')).join('\n')],
+  ];
+  const challenge = lesson.challenge;
+  if (challenge) {
+    texts.push(['challenge.md', challenge.instructions], ['hints.md', challenge.hints.join('\n')], ['approach.md', challenge.approach], ['tests.py', challenge.tests]);
+    for (const [side, files] of [['starter', challenge.starter], ['solution', challenge.solution]] as const) {
+      Object.entries(files).forEach(([name, text]) => texts.push([`${side}/${name}`, text]));
+    }
+  }
+  return texts;
+}
+
+function checkBridges(lesson: Lesson): Violation[] {
+  return learnerTexts(lesson).flatMap(([file, text]) => {
+    const match = BRIDGE.exec(text);
+    return match ? [{ rule: 'no-bridge', detail: `${file} compares with another language ("${match[0]}" in "${lineAround(text, match.index)}")` }] : [];
+  });
+}
+
+function lineAround(text: string, index: number): string {
+  const start = text.lastIndexOf('\n', index) + 1;
+  const end = text.indexOf('\n', index);
+  return text.slice(start, end === -1 ? undefined : end).trim().slice(0, 80);
 }
 
 function testNames(tests: string): { names: string[]; dynamic: number } {
@@ -137,6 +208,11 @@ function checkResources(lesson: Lesson, kind: Kind): Violation[] {
       violations.push({ rule: 'resources-unique', detail: `duplicate URL ${url}` });
     }
     seen.add(url);
+    const blocked = BLOCKED_HOSTS.find((host) => parsed.hostname === host || parsed.hostname.endsWith(`.${host}`))
+      ?? BLOCKED_PATHS.find((prefix) => `${parsed.hostname}${parsed.pathname}`.startsWith(prefix));
+    if (blocked) {
+      violations.push({ rule: 'resources-host', detail: `${url} documents another language; cite docs.python.org, a PEP or the library's own docs` });
+    }
   }
   if (kind === 'adr') {
     const urls = lesson.resources.flatMap((resource) => (URL.canParse(resource.url) ? [new URL(resource.url)] : []));
@@ -153,14 +229,14 @@ function checkTheory(lesson: Lesson, kind: Kind): Violation[] {
   const violations: Violation[] = [];
   const theory = lesson.theory;
   const count = words(theory);
-  const [min, max] = kind === 'map' ? [200, 500] : [250, 1000];
+  const [min, max] = kind === 'map' ? [200, 500] : kind === 'practice' || kind === 'capstone' ? [300, 1000] : [250, 1000];
   if (count < min || count > max) {
     violations.push({ rule: 'theory-length', detail: `theory has ${count} words, expected ${min}-${max}` });
   }
   const fences = [...theory.matchAll(/^```(\S*)/gm)].map((match) => match[1]).filter(Boolean);
-  const wrong = fences.filter((language) => !['py', 'ts', 'text', 'bash', 'toml', 'json'].includes(language));
+  const wrong = fences.filter((language) => !FENCES.includes(language));
   if (wrong.length > 0) {
-    violations.push({ rule: 'theory-fences', detail: `use py/ts fences, found ${[...new Set(wrong)].join(', ')}` });
+    violations.push({ rule: 'theory-fences', detail: `use ${FENCES.join('/')} fences, found ${[...new Set(wrong)].join(', ')}` });
   }
   theory
     .split('\n')
@@ -170,15 +246,33 @@ function checkTheory(lesson: Lesson, kind: Kind): Violation[] {
   if (/\bTODO\b/.test(theory)) {
     violations.push({ rule: 'no-todo', detail: 'theory.md still holds TODO text' });
   }
-  if (kind !== 'practice') {
+  const headings = secondLevelHeadings(theory);
+  const bridges = headings.filter((heading) => heading.startsWith('## Coming from'));
+  if (bridges.length > 0) {
+    violations.push({ rule: 'theory-no-bridge', detail: `remove the bridge section ${bridges.join(', ')}` });
+  }
+  if (kind !== 'practice' && kind !== 'capstone') {
     return violations;
   }
-  const headings = secondLevelHeadings(theory);
-  if (!headings.includes(JS_CONTRAST)) {
-    violations.push({ rule: 'theory-js-contrast', detail: `practice theory needs a "${JS_CONTRAST}" section` });
+  const mistakes = sectionOf(theory, COMMON_MISTAKES);
+  if (mistakes === undefined) {
+    violations.push({ rule: 'theory-common-mistakes', detail: `${kind} theory needs a "${COMMON_MISTAKES}" section` });
+  } else {
+    const count = words(mistakes);
+    if (count < 40 || count > 250) {
+      violations.push({ rule: 'theory-common-mistakes', detail: `"${COMMON_MISTAKES}" has ${count} words, expected 40-250` });
+    }
+    if (!/^```py\s*$/m.test(mistakes) || !/\*\*[^*\n]+\*\*/.test(mistakes)) {
+      violations.push({ rule: 'theory-common-mistakes', detail: `"${COMMON_MISTAKES}" needs the wrong code and the fix in a py fence and the mistake in bold` });
+    }
+  }
+  const mechanism = headings.indexOf(HOW_IT_WORKS);
+  const mistakesAt = headings.indexOf(COMMON_MISTAKES);
+  if (mechanism === -1 || (mistakesAt !== -1 && mistakesAt < mechanism)) {
+    violations.push({ rule: 'theory-order', detail: `${kind} theory needs "${HOW_IT_WORKS}" before "${COMMON_MISTAKES}"` });
   }
   if (headings.at(-1) !== CLOSING) {
-    violations.push({ rule: 'theory-closing', detail: `practice theory must end with "${CLOSING}", last section is "${headings.at(-1) ?? 'none'}"` });
+    violations.push({ rule: 'theory-closing', detail: `${kind} theory must end with "${CLOSING}", last section is "${headings.at(-1) ?? 'none'}"` });
   }
   return violations;
 }
@@ -270,6 +364,9 @@ function checkChallenge(lesson: Lesson, kind: Kind): Violation[] {
   if (total < 3 || total > 6) {
     violations.push({ rule: 'tests-count', detail: `tests.py needs 3-6 tests, found ${total}` });
   }
+  if (kind === 'practice' || kind === 'capstone') {
+    violations.push(...checkBeginnerMistake(challenge.tests));
+  }
   for (const file of ['challenge.md', 'hints.md', 'approach.md', 'tests.py']) {
     const path = resolve(directory, file);
     if (existsSync(path) && /\bTODO\b/.test(readFileSync(path, 'utf8'))) {
@@ -277,6 +374,23 @@ function checkChallenge(lesson: Lesson, kind: Kind): Violation[] {
     }
   }
   return violations;
+}
+
+/** One test carries `# beginner mistake: <text>` on the line right above its `@test`. */
+function checkBeginnerMistake(tests: string): Violation[] {
+  const lines = tests.split('\n');
+  const markers = lines.flatMap((line, index) => {
+    const match = BEGINNER_MISTAKE.exec(line.trimEnd());
+    return match ? [{ text: match[1].trim(), next: lines[index + 1] ?? '' }] : [];
+  });
+  if (markers.length !== 1) {
+    return [{ rule: 'tests-beginner-mistake', detail: `tests.py needs exactly one "# beginner mistake: <text>" line above a @test, found ${markers.length}` }];
+  }
+  const [marker] = markers;
+  if (!marker.next.startsWith('@test(') || marker.text.length < 10) {
+    return [{ rule: 'tests-beginner-mistake', detail: 'the "# beginner mistake:" line names the mistake and sits right above its @test' }];
+  }
+  return [];
 }
 
 function violationsOf(lesson: Lesson): Violation[] {
@@ -287,14 +401,27 @@ function violationsOf(lesson: Lesson): Violation[] {
     ...checkTheory(lesson, kind),
     ...checkQuiz(lesson, kind),
     ...checkChallenge(lesson, kind),
+    ...checkBridges(lesson),
   ];
 }
 
 function unexpected(lesson: Lesson): string[] {
   return violationsOf(lesson)
-    .filter((violation) => !(`${lesson.key}#${violation.rule}` in KNOWN_EXCEPTIONS))
+    .filter((violation) => !(`${lesson.key}#${violation.rule}` in KNOWN_EXCEPTIONS) && !pending(lesson, violation.rule))
     .map((violation) => `${violation.rule}: ${violation.detail}`);
 }
+
+/** The track and module titles and descriptions the carousel and the module headers show, keyed like PYTHON_PENDING_HEADERS. */
+const headerTexts: Array<[string, string]> = track
+  ? [
+      [`track:${track.id}`, `${track.title}\n${track.description}`],
+      ...track.modules.map((module): [string, string] => [`module:${track.id}/${module.id}`, `${module.title}\n${module.description}`]),
+    ]
+  : [];
+const headerBridges = new Map(headerTexts.flatMap(([key, text]) => {
+  const match = BRIDGE.exec(text);
+  return match ? [[key, match[0]] as const] : [];
+}));
 
 describe('python track conventions', () => {
   it('loads the python track', () => {
@@ -330,11 +457,42 @@ describe('python track conventions', () => {
     expect(caches).toEqual([]);
   });
 
+  it('compares with no other language in the track and module titles and descriptions', () => {
+    const unexpected = [...headerBridges].filter(([key]) => !PYTHON_PENDING_HEADERS[key]?.includes('no-bridge')).map(([key, name]) => `${key} names "${name}"`);
+    const stale = Object.entries(PYTHON_PENDING_HEADERS).flatMap(([key, rules]) => rules.filter((rule) => rule !== 'no-bridge' || !headerBridges.has(key)).map((rule) => `${key}#${rule}`));
+    expect({ unexpected, stale }).toEqual({ unexpected: [], stale: [] });
+  });
+
+  it('matches other-language names and leaves Python text alone', () => {
+    const caught = ['ESLint + Prettier', '`??` replaces only `null`', 'opt-in since ES2022', 'if (a === b)', 'a !== b', 'written in Rust', 'z.object with Zod',
+      "Node's `path.join` would concatenate", 'ES module bindings are live', 'behaves like `var`, not `let`', 'Axios interceptors and Express middleware',
+      'Node scripts read `process.argv`', '`JSON.parse` and `JSON.stringify`', '`instanceof` checks', 'an `AggregateError`', 'Array methods', 'Array chains',
+      '`Object.assign`', 'the `null` / `undefined` row', 'V8 optimizes', 'class Stack extends Array', 'when two modules `require` each other',
+      '`Array` does everything', '`Map` and plain objects become one `dict`', 'no object destructuring syntax', '`array.includes(x)`', '`{ ...defaults, ...env, ...cli }`',
+      'Options objects', 'the equivalent of the options object', 'no `this` to lose', '`{...product, priceCents: 700}`', '`Parent.prototype.save.call(this, log)`',
+      '`function*`', '`find` and `some` short-circuit', '`using held = new Lock()`', '`using tx = new X()`', '`x == null`', 'like a `switch` without `break`',
+      '`...overrides: Record<string, number>[]`', 'The Python twin of `Array.isArray`', 'the `catch` clause', '`jobs.push(job)` and `jobs.shift()`', '`catch (error)`'];
+    const allowed = ['print("=== Report ===")', '======================================================================', 'country == "??"', 'a C extension releases the GIL', 'undefined names raise NameError', 'the JSON Schema `null` type', 'isinstance(value, int)', 'subprocess.run([sys.executable])', 'sys.argv[1:]', 'express the rule as a function',
+      'Express the rule as a guard', "a Node's children list", '`Node.add(child)` returns `self`', 'match command:\n    case ["go", direction]:', 'a `match` statement with `case` patterns',
+      'except ValueError as error:', 'the `except` clause', 'with Lock() as held:', 'x is None', '{**defaults, **env}', 'def f(*args, **kwargs): ...', 'dict[str, int]', '`str.find` returns -1', '`find` returns -1 when the text is missing', '`stack.push(exit_function)`', 'jobs.push("build")', 'an options dataclass'];
+    expect(caught.filter((text) => !BRIDGE.test(text))).toEqual([]);
+    expect(allowed.filter((text) => BRIDGE.test(text))).toEqual([]);
+  });
+
   it('keeps the known exceptions list honest', () => {
     const stale = Object.keys(KNOWN_EXCEPTIONS).filter((key) => {
       const [lessonKey, rule] = key.split('#');
       const lesson = lessons.find((candidate) => candidate.key === lessonKey);
       return !lesson || !violationsOf(lesson).some((violation) => violation.rule === rule);
+    });
+    expect(stale).toEqual([]);
+  });
+
+  it('keeps the pending rewrite list honest', () => {
+    const stale = Object.entries(PYTHON_PENDING_REWRITE).flatMap(([lessonKey, rules]) => {
+      const lesson = lessons.find((candidate) => candidate.key === lessonKey);
+      const broken = new Set(lesson ? violationsOf(lesson).map((violation) => violation.rule) : []);
+      return rules.filter((rule) => !broken.has(rule)).map((rule) => `${lessonKey}#${rule}`);
     });
     expect(stale).toEqual([]);
   });
