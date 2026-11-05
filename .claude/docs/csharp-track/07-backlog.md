@@ -20,7 +20,7 @@ Each item is done only when its evidence is recorded in the **Evidence** column.
 | P2 | Track registration | `src/content/csharp/track.json` (`order` 10, monogram `C#`), one `module.json` per module, `TRACK_FLAGS.csharp` | done | 13 modules and 67 lessons loaded; 8th card on the home carousel |
 | P3 | Track conventions suite | `src/verify/csharp.test.ts`: no challenge files; resources include learn.microsoft.com; balta.io links use slugs from the catalog; quiz has 5–6 questions with 4 options and an explanation; theory has the required headings and length | done | runs 6 checks per lesson; full `npm run verify` 3,383/3,383 |
 | P6 | Code highlighting | `csharp`/`cs` fences highlighted, and the `sql` alias that was missing | done | `src/shared/ui/Markdown.test.ts` 4/4 |
-| P4 | CI coverage | The verify matrix picks `csharp` up from `track.json`; the CI run is green | doing | the matrix lists suites from `src/content/*/track.json`, so `Verify csharp` runs; CI result recorded in V3 |
+| P4 | CI coverage | The verify matrix picks `csharp` up from `track.json`; the CI run is green | done | `Verify csharp` ran and passed on PR #17 |
 | P5 | Docs | README tracks table, CURRICULUM section, CONTENT_GUIDE note on quiz-only tracks, `index.html` meta description | done | README (row, 722 lessons in 10 tracks), CURRICULUM, CONTENT_GUIDE "C# track" and fences, ARCHITECTURE accents, CLAUDE.md, `index.html`; `npm run docs:check` clean |
 
 ## Content (one item per module)
@@ -53,7 +53,7 @@ Acceptance for every module:
 | --- | --- | --- | --- | --- |
 | V1 | Browser check | The track appears on the home carousel with its accent; navigation works (curriculum → lesson → Learn → Quiz → next); quiz completion persists across a reload; the console has no errors; screenshots taken | done | 2026-11-05, Chromium on `npm run dev`: 8th card "C# and .NET", accent `rgb(255, 122, 127)`; lesson tabs Learn + Quiz and no editor; `csharp` blocks highlighted; a 6/6 quiz still shows 6/6 after a reload, and localStorage has `quizzes["csharp/csharp-map"] = true`; Next lesson works; the curriculum shows "1/67 lessons complete"; no console errors |
 | V2 | Final independent review | The whole track (content, suite, docs, CI) has no open high or medium findings | done | three lenses (accuracy, with 26 lessons sampled and 268 URLs requested; pedagogy; platform): 3 high, 8 medium, 13 low. All high and medium fixed: P3–P6 chain coherence, the Identity rehash, the suite now enforces heading order, Check yourself count and balta.io prefix+slug (mutation-checked), docs counts. One low left open: about 20 lessons re-explain the PHP-FPM lifecycle in their Coming from section |
-| V3 | CI/CD | The pull request CI is green, including the smoke test against the Deploy Preview; the state is recorded (CI passed is not a deploy) | todo | |
+| V3 | CI/CD | The pull request CI is green, including the smoke test against the Deploy Preview; the state is recorded (CI passed is not a deploy) | done | PR #17 at `c0e65cc`: 28 checks passed and 4 skipped, merge state CLEAN. The first run failed CodeQL on a URL substring check in the suite (fixed in `c0e65cc`). The Netlify Deploy Preview was built and smoke-tested. Production is not deployed: it follows the merge. CodeRabbit skipped the PR (302 files, over its 300-file limit); the independent agent reviews stand in for it |
 | V4 | Enable | `TRACK_FLAGS.csharp = true` once C01–C13 and V1–V2 are done | done | flag on; README, CURRICULUM and `index.html` updated |
 
 ## Later (not in v1)
