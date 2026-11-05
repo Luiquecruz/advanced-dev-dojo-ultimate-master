@@ -53,10 +53,12 @@ Scripts installed in an environment start with a shebang holding its absolute pa
 ```py
 import shutil
 
-# without activation: .venv/bin is not searched, so the global pytest or None
-shutil.which("pytest", path="/usr/local/bin:/usr/bin")    # '/usr/bin/pytest' or None
+# wrong: any executable with that name counts, so an unactivated .venv/bin/pytest is "found"
+def find_command(name, executables):
+    return next((path for path in executables if path.endswith("/" + name)), None)
 
 # right: only the PATH directories count, left to right; activation puts .venv/bin first
+shutil.which("pytest", path="/usr/local/bin:/usr/bin")                      # '/usr/bin/pytest' or None
 shutil.which("pytest", path="/srv/api/.venv/bin:/usr/local/bin:/usr/bin")   # '/srv/api/.venv/bin/pytest'
 ```
 

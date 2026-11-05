@@ -23,14 +23,14 @@ Three combinators cover most needs. They differ in what they do with the other t
 | Combinator | Returns | What happens to the others |
 | --- | --- | --- |
 | `gather(*aws)` | values in argument order | the first error propagates at once; the others **keep running** |
-| `gather(*aws, return_exceptions=True)` | values and exception objects, in argument order | nothing is raised; every task runs to the end |
+| `gather(*aws, return_exceptions=True)` | values and exception objects, in argument order a failing task raises nothing; every task runs to the end, unless the `gather` itself is cancelled |
 | `wait(tasks, return_when=FIRST_COMPLETED)` | `(done, pending)` sets of tasks | the pending tasks **keep running** until you cancel them |
 | `as_completed(aws)` | awaitables in finishing order; await each one for its result | the rest keep running while you process each one |
 
 - **`gather`** wraps plain coroutines in tasks. With `return_exceptions=True`, each failure takes its place in the result list as an exception object, so you split values from errors by type.
 - **`wait`** raises nothing. Since Python 3.11 it refuses bare coroutines: create the tasks yourself, which is also how you keep references to cancel them.
 - **`as_completed`** also works with `async for` since 3.13, yielding the original tasks.
-- **Results and errors** live on the task: `task.result()` returns the value or re-raises the exception; `task.exception()` returns it without raising.
+- **Results and errors** live on the task: `task.result()` returns the value or re-raises the exception; `task.exception()` returns it without raising. On a cancelled task both raise `CancelledError`, so check `task.cancelled()` first.
 - **`cancel()` only requests cancellation**: the task receives `CancelledError` at its next `await` and may run `finally` blocks first. Awaiting the cancelled tasks is how you know the cleanup is over.
 - **The loop keeps only weak references to tasks.** A task nobody references can be garbage collected before it finishes, so keep fire-and-forget tasks in a set:
 

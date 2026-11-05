@@ -6,7 +6,7 @@ The checkpoint turns those mechanisms into the validation strategy of a small sy
 
 ## Parse at the edge, typed objects inside
 
-The architecture has the same shape at every scale: parse at the edge, then pass typed objects inside. Inside, the guarantee does not rest on trust alone: a frozen dataclass is a real object that a checker can verify statically and nobody can mutate after parsing. Between services, each receiving service validates the message again with a strict `TypeAdapter` or model, because another team's code is outside its control.
+The architecture has the same shape at every scale: parse at the edge, then pass typed objects inside. Inside, the guarantee does not rest on trust alone: a frozen dataclass is a real object that a checker can verify statically and whose fields nobody can reassign after parsing; a nested `list` or `dict` stays mutable, so store tuples and frozensets when the contract must not change. Between services, each receiving service validates the message again with a strict `TypeAdapter` or model, because another team's code is outside its control.
 
 ## The decision checklist
 

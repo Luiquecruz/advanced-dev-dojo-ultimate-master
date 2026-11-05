@@ -43,7 +43,7 @@ The vocabulary you meet in its settings and messages:
 - `Any` switches checking off, in both directions: everything is accepted from it and passed to it. `object` accepts every value but allows only what every object supports, so you narrow it first.
 - A **stub file** (`.pyi`) holds signatures only, for untyped or compiled code; **typeshed** collects stubs for the standard library and popular packages, published as `types-x` packages.
 - A **`py.typed`** marker file (PEP 561) tells checkers that an installed package ships inline annotations.
-- **Strict mode** (mypy `--strict`, pyright `"typeCheckingMode": "strict"`) requires annotations everywhere and rejects implicit `Any`.
+- **Strict mode** (mypy `--strict`, pyright `"typeCheckingMode": "strict"`) requires annotations everywhere and rejects the implicit `Any` of missing annotations and bare generics such as `list`; an `Any` that a library returns, as `json.loads` does, still passes.
 
 A Python program with type errors still runs, so the checker only protects you if CI fails on its report.
 

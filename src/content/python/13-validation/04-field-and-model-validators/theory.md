@@ -26,7 +26,7 @@ print(Transfer(amount_cents=500, currency="eur", source="A", target="B").currenc
 
 ## How it works
 
-**Rules live in the model.** Building the object first and calling `check(signup)` somewhere in the handler leaves a window where code holds an unchecked `Signup`, and splits the errors between a `ValidationError` and whatever the check raises. Inside the model, no code can hold an invalid instance, and every problem lands in the same `ValidationError`.
+**Rules live in the model.** Building the object first and calling `check(signup)` somewhere in the handler leaves a window where code holds an unchecked `Signup`, and splits the errors between a `ValidationError` and whatever the check raises. Inside the model, every instance built by validation has passed the rules, and every problem lands in the same `ValidationError`. `model_construct()` skips validation, and so does assigning a field unless the model sets `validate_assignment=True`.
 
 **Order of execution.** `mode="before"` model validators receive the raw input, of *any* type: a dict, a list, a string. Then each field runs its before validators, the type and constraint checks, and its after validators (the default `mode`). `mode="after"` model validators run last, and **only when every field is valid**: a model rule never sees half-validated data.
 
