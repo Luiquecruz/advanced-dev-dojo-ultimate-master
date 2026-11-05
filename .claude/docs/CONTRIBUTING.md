@@ -20,16 +20,19 @@ Parallel work on the same machine uses git worktrees under `.claude/worktrees/` 
 
 ### Commits
 
-Conventional commits, short and objective, one subject line naming what changed:
+Conventional commits, short and objective, one subject line naming what changed. Pull request titles follow the same format (CodeRabbit's title check enforces it as a warning, rule in `.coderabbit.yaml` `pre_merge_checks.title`):
 
 ```
-feat(ai-engineering): Python variants for the governance module
+feat(python): add module 11 metaprogramming
 fix(engines): keep nested None as JSON null in Python fake model replies
 docs(curriculum): mark AI Engineering modules 12-13 written
-perf(content): load lesson bodies and lesson screen on demand
+ci: waive docs sync only when docs:none itself is added
 ```
 
-Types used: `feat`, `fix`, `docs`, `perf`, `refactor`, `test`, `chore`. The scope is a track id (`react`, `node`, `ai-engineering`...) or an area (`engines`, `routing`, `verify`, `content`, `curriculum`, `scene`, `motion`). A body, when needed, is a list of what changed.
+- Types: `feat`, `fix`, `docs`, `perf`, `refactor`, `test`, `chore`, `ci`.
+- Scope (optional): a track id (`typescript`, `react`, `react-state`, `architecture`, `ai-engineering`, `node`, `python`, `vue`, `angular`) or an area (`engines`, `sandbox`, `verify`, `content`, `curriculum`, `lesson`, `routing`, `scene`, `motion`, `ui`, `deps`, `ci`, `review`, `docs`, `harness`). A new scope is added to this list and to `.coderabbit.yaml` in the same change.
+- Subject: starts with a lowercase imperative verb (`add`, `fix`, `remove`, `update`, `mark`...); product and language names keep their casing after it. No trailing period.
+- A body, when needed, is a list of what changed.
 
 ### Checks before a pull request
 
@@ -92,6 +95,22 @@ Setup, once, by a repository admin:
 4. Settings → Code security: enable **secret scanning** and **push protection** (free for public repositories), so GitHub blocks a push that contains a known provider key before it reaches the history.
 5. Code scanning: `security.yml` is an advanced CodeQL setup; if CodeQL default setup is enabled in Settings → Code security, switch it off, or the `codeql` jobs fail.
 
+## Code review (CodeRabbit)
+
+CodeRabbit reviews every non-draft pull request against `main`. Its configuration is `.coderabbit.yaml` at the repository root (schema `https://coderabbit.ai/integrations/schema.v2.json`); the file wins over the repository and organization settings in the CodeRabbit UI (only organization global overrides rank above it), so change it here, not in the UI. `@coderabbitai configuration` in a pull request prints the resolved configuration with the source of each value. Its review is advice: CI and a human reviewer decide the merge, and CodeRabbit is not a required check.
+
+| Setting | Value | Why |
+| --- | --- | --- |
+| `language`, `profile` | `en-US`, `chill` | the project is in English; content pull requests touch hundreds of files, so only real issues are reported |
+| `auto_review` | non-draft pull requests, incremental on each push; skipped when the title has `[WIP]` or `[skip review]` | review once the author asks for it |
+| `path_filters` | skip `dist/`, `vendor/`, `__pycache__/`; keep `package-lock.json` for `osvScanner` | omit generated or downloaded files while retaining resolved dependencies for security scanning |
+| `path_instructions` | per area: lessons, Python lessons, engines and sandbox, verify, shared, UI layers, tokens, workflows, `netlify.toml`, docs | the project rules that apply to each folder |
+| `pre_merge_checks` | title in conventional commit format, description present, two custom checks (lessons listed in `CURRICULUM.md`, new track registered everywhere), all as warnings; docstring coverage off | the checks CI cannot express; docs sync stays in `.github/workflows/docs-sync.yml` |
+| `tools` | on: `shellcheck`, `actionlint`, `zizmor`, `yamllint`, `gitleaks`, `trufflehog`, `osvScanner`, GitHub checks. Off: `ruff`, `pylint`, `flake8`, `biome`, `eslint`, `oxc`, `reactDoctor`, `stylelint`, `markdownlint`, `languagetool` | lesson starters are incomplete on purpose and the project has no linter config, so linters would only add noise |
+| `knowledge_base` | learnings kept to this repository; guidelines: `.claude/CLAUDE.md` and this file (repository-wide), `ARCHITECTURE.md` (code), `CONTENT_GUIDE.md` (content, engines, verify), Python content standards and working agreement (Python track) | reviews follow the same rules as authors and Claude Code |
+
+`path_instructions` and `custom_checks` restate rules that live in `.claude/CLAUDE.md`, `ARCHITECTURE.md`, `CONTENT_GUIDE.md` and `.github/workflows/ci.yml`: when one of those rules changes, update `.coderabbit.yaml` in the same change. Teach CodeRabbit in the pull request (`@coderabbitai` replies); its learnings stay in this repository. Rules that apply to everyone belong in the documents above, not in learnings or personal settings.
+
 ## Documentation upkeep
 
 Documentation is incremental: every change that alters behavior, structure, commands, conventions or the curriculum updates the matching document in the same change, not in a later pass. Describe the current state (what exists and how to use it), not a changelog.
@@ -112,6 +131,8 @@ Documentation is incremental: every change that alters behavior, structure, comm
 | `.claude/settings.json`, `.claude/hooks/` | this file, "Harness" |
 | `.github/`, `netlify.toml`, `.nvmrc` | this file, "CI and deploy"; `README.md` "Requirements" for the Node version |
 | `eslint.config.js`, `pyproject.toml`, `tests/python/` | this file, "Checks before a pull request"; `README.md`; `.claude/CLAUDE.md` "Commands" |
+| `.coderabbit.yaml` | this file, "Code review (CodeRabbit)" |
+| a rule restated in `.coderabbit.yaml` (layers, performance, accessibility, lesson contract, sandbox isolation, new track steps) | the matching `path_instructions` or `custom_checks` entry in `.coderabbit.yaml` |
 | a convention or workflow rule | this file |
 
 Tests keep part of this honest: `curriculum.test.ts` (lessons ↔ `CURRICULUM.md`), `trackPresentation.test.ts` (accents), `architecture.test.ts` (layer rules).
@@ -141,6 +162,6 @@ In CI the check runs in its own workflow (`.github/workflows/docs-sync.yml`) on 
 | `.claude/settings.local.json` | personal overrides (ignored by git) |
 | `.claude/worktrees/` | local worktrees (ignored by git) |
 
-The `Stop` hook runs when Claude finishes a turn. When a documented area changed without its documents, it blocks the stop once with the list of files and documents, so Claude updates the docs (or states that nothing documented changed) before handing back. The same set of uncovered files is reported only once; the state lives in `.git/dev-dojo-docs-sync`. Review or disable hooks with `/hooks`; personal settings go in `.claude/settings.local.json` or `~/.claude/settings.json`, never in the shared file.
+The `Stop` hook runs when Claude finishes a turn. When a documented area changed without its documents, it blocks the stop once with the list of files and documents, so Claude updates the docs (or states that nothing documented changed) before handing back. Changes to `.coderabbit.yaml` are covered by an update to this file. The same set of uncovered files is reported only once; the state lives in `.git/dev-dojo-docs-sync`. Review or disable hooks with `/hooks`; personal settings go in `.claude/settings.local.json` or `~/.claude/settings.json`, never in the shared file.
 
 Personal Claude Code rules (`~/.claude/CLAUDE.md`, memory) are not shared. Anything the whole team must follow belongs in `.claude/CLAUDE.md` or this file.

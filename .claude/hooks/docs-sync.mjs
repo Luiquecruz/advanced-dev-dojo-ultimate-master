@@ -36,6 +36,7 @@ const RULES = [
   { pattern: /^(eslint\.config\.js|pyproject\.toml|tests\/python\/)/, docs: [CONTRIBUTING, README, AGENT_GUIDE] },
   { pattern: /^\.claude\/(settings\.json|hooks\/)/, docs: [CONTRIBUTING] },
   { pattern: /^(\.github\/|netlify\.toml$|\.nvmrc$)/, docs: [CONTRIBUTING, README] },
+  { pattern: /^\.coderabbit\.yaml$/, docs: [CONTRIBUTING] },
 ];
 
 /**

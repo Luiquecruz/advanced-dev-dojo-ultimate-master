@@ -108,6 +108,7 @@ npm run python:vendor                              # download and verify the pin
 | `vendor/pyodide-packages/` | `manifest.json` of the Pyodide packages; the wheels are downloaded on install and git-ignored |
 | `.claude/` | documentation, specs and the shared Claude Code harness |
 | `.github/`, `netlify.toml` | workflows, Dependabot, pull request template, Netlify headers and SPA fallback |
+| `.coderabbit.yaml` | CodeRabbit review configuration (path instructions, pre-merge checks, tools) |
 
 ## Limitations
 
