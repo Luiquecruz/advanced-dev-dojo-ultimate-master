@@ -111,7 +111,7 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 - Tests (5): `Basket` falsy/truthy; `Quota` bool by remaining capacity; `len(Quota(...))` raises `TypeError`; `coalesce` keeps `0`, `""` and `[]` and returns `None` for all-`None` or no values (the `# beginner mistake:` test: testing truthiness instead of `is not None`); `first_truthy(0, "", [], "x") == "x"` and the default path.
 - Hints: (1) `__bool__` wins over `__len__` when both exist. (2) `coalesce` needs `is None`, not truthiness.
 - Demo: counts how many settings use falsy-but-valid values like `0` and `""`.
-- Quiz (4): `[] or "default"`, `0 or None`, which expression replaces only `None` with `0` (`0 if value is None else value`), truthiness of a custom class with no `__bool__` or `__len__`.
+- Quiz (4): `[] or "default"`, `0 or None`, which expression replaces only `None` with `0` (`value or 0` returns `0` for both `0` and `None`, and also for `""` and `[]`; the fix tests `is None`: `0 if value is None else value`), truthiness of a custom class with no `__bool__` or `__len__`.
 - Facts: none volatile.
 
 ## 08-object-model-adr — Checkpoint: Shared Value Objects ADR (A, intermediate)

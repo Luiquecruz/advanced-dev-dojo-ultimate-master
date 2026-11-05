@@ -54,12 +54,12 @@ describe('content structure', () => {
     expect(numbers.length).toBe(new Set(numbers).size);
   });
 
-  it.each(tracks.map((track) => [track.id, track] as const))('%s marks only a module zero as optional, built to count by its middle lessons', (_, track) => {
+  it.each(tracks.map((track) => [track.id, track] as const))('%s marks only a module zero as optional, startable by a challenge before its skip test', (_, track) => {
     track.modules
       .filter((module) => module.optional)
       .forEach((module) => {
         expect(module.number, `${track.id}/${module.id} is optional but not numbered 0`).toBe(0);
-        expect(module.lessons.length, `${track.id}/${module.id} needs a lesson between its first and its last`).toBeGreaterThanOrEqual(3);
+        expect(module.lessons.slice(0, -1).some((lesson) => Boolean(lesson.challenge)), `${track.id}/${module.id} needs a challenge lesson before its last, or it can never start counting`).toBe(true);
         expect(Boolean(module.lessons.at(-1)?.challenge), `${track.id}/${module.id} ends without the challenge that serves as the skip test`).toBe(true);
       });
   });
