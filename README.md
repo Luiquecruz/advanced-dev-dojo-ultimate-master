@@ -27,7 +27,7 @@ CI runs on GitHub Actions (`.github/workflows/ci.yml`) and `main` deploys to Net
 ## Run
 
 ```bash
-npm install
+npm install          # also downloads the pinned Pyodide packages (postinstall)
 npm run dev          # http://localhost:5173
 npm run build        # production build in dist/ (needs an SPA fallback to index.html when hosted)
 npm run preview      # serve the production build

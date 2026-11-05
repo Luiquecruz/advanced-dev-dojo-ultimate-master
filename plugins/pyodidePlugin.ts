@@ -24,7 +24,11 @@ function vendoredFiles(): Record<string, { path: string; contentType: string }> 
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as { packages: { file: string }[] };
   const files: Record<string, { path: string; contentType: string }> = {};
   for (const { file } of manifest.packages) {
-    files[file] = { path: join(VENDOR_DIRECTORY, file), contentType: 'application/zip' };
+    const path = join(VENDOR_DIRECTORY, file);
+    if (!existsSync(path)) {
+      throw new Error(`Missing Pyodide package ${file}: run \`npm install\` or \`npm run python:vendor\` (it downloads the packages pinned in vendor/pyodide-packages/manifest.json).`);
+    }
+    files[file] = { path, contentType: 'application/zip' };
   }
   const licenses = join(VENDOR_DIRECTORY, 'licenses');
   for (const file of existsSync(licenses) ? readdirSync(licenses) : []) {
