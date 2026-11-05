@@ -20,10 +20,12 @@ import warnings
 import _dojo_ai_bridge
 from dojo_ai.testing import fake_model, for_each_seed, respond
 
-APP_DIRECTORY = "/app"
+# Pyodide gets an explicit environment without these, so it always uses /app, /tmp and ~. The CPython test suite
+# (tests/python) points them at temporary directories: restore() deletes new entries in the scratch directories.
+APP_DIRECTORY = os.environ.get("DOJO_APP_DIRECTORY", "/app")
 TESTS_FILE = "tests.py"
 TEST_TIMEOUT_SECONDS = 4
-SCRATCH_DIRECTORIES = ("/tmp", os.path.expanduser("~"))
+SCRATCH_DIRECTORIES = tuple(os.environ["DOJO_SCRATCH_DIRECTORIES"].split(os.pathsep)) if "DOJO_SCRATCH_DIRECTORIES" in os.environ else ("/tmp", os.path.expanduser("~"))
 PRELOADED_MODULES = (
     "abc", "bisect", "collections", "contextlib", "copy", "dataclasses", "datetime", "decimal", "enum", "fractions",
     "functools", "heapq", "io", "itertools", "math", "operator", "pathlib", "re", "statistics", "string", "tempfile",

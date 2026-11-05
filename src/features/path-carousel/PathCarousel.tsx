@@ -45,13 +45,15 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
   const viewportRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef(active);
-  const initialActive = useRef(active);
+  const [initialActive] = useState(active);
   const [fit, setFit] = useState(1);
   const { gyroSupported, gyroStatus, toggleGyro } = useTiltGroup(viewportRef);
   const count = tracks.length;
   const state = useProgress();
   const percents = useMemo(() => tracks.map((track) => summarizeTrack(track, state).percent), [tracks, state]);
-  activeRef.current = active;
+  useLayoutEffect(() => {
+    activeRef.current = active;
+  });
   const go = (index: number) => onActiveChange(wrapIndex(index, count));
 
   useLayoutEffect(() => {
@@ -110,10 +112,12 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
   };
 
   return (
+    // eslint-disable-next-line jsx-a11y-x/no-noninteractive-element-interactions -- arrow keys are delegated from the focused card to the carousel region
     <section aria-roledescription="carousel" aria-label="Learning paths" onKeyDown={onKeyDown} className="relative flex h-full min-h-0 flex-col">
       <div className="relative min-h-0 flex-1 max-wide:-mx-4 max-wide:max-h-[660px]">
         <div
           ref={viewportRef}
+          role="presentation"
           onClick={onViewportClick}
           onPointerMove={onViewportPointerMove}
           onPointerLeave={() => delete viewportRef.current!.dataset.side}
@@ -141,7 +145,7 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
                 >
                   <div
                     className="h-full animate-card-in [--slide-distance:inherit] motion-reduce:animate-none"
-                    style={{ animationDelay: `${ENTER_BASE_DELAY_MS + Math.abs(circularOffset(index, initialActive.current, count)) * ENTER_STEP_MS}ms` }}
+                    style={{ animationDelay: `${ENTER_BASE_DELAY_MS + Math.abs(circularOffset(index, initialActive, count)) * ENTER_STEP_MS}ms` }}
                   >
                     <PathCard track={track} active={isActive} />
                   </div>

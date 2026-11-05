@@ -17,10 +17,9 @@ export function CurriculumDrawer({ track, currentKey, onClose }: { track: Track;
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 bg-[rgb(3_6_12/0.6)] backdrop-blur-[2px]" onClick={onClose}>
+    <div role="presentation" className="fixed inset-0 z-50 bg-[rgb(3_6_12/0.6)] backdrop-blur-[2px]" onClick={(event) => event.target === event.currentTarget && onClose()}>
       <aside
         className="absolute inset-y-0 left-0 flex w-[min(460px,100vw)] animate-slide-in flex-col border-r border-line bg-panel shadow-float"
-        onClick={(event) => event.stopPropagation()}
         aria-label={`${track.title} curriculum`}
       >
         <header className="flex items-center gap-3 border-b border-line px-4 py-3.5">

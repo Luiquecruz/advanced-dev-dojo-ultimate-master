@@ -6,6 +6,7 @@ How to set up the project, ship a change and keep the documentation in step with
 
 - Node.js 26 (pinned in `.nvmrc`, used by CI and Netlify; `nvm use` picks it up) and npm. Older versions may build the app but fail the Python verify suites: the sandboxed child process (`src/verify/pythonSandbox.ts`) passes `--disable-sigusr1`, which Node 22.13 rejects.
 - `npm install`, then `npm run dev` (http://localhost:5173). `npm install` needs network: its `postinstall` (`scripts/python-track/vendor-packages.mjs`) downloads the Pydantic wheels into `vendor/pyodide-packages/` (git-ignored, like `node_modules`; only `manifest.json` is committed) and checks them against `pyodide-lock.json`. When they are already present and match, it uses no network. After `npm ci --ignore-scripts`, run `npm run python:vendor` before building or verifying; the build fails with `Missing Pyodide package …` otherwise.
+- Python 3.14 for the CPython test suite (`tests/python`), optional locally and always run in CI: `python3 -m venv .venv && .venv/bin/pip install --require-hashes -r tests/python/requirements.txt`, then `.venv/bin/python -m pytest` (or `uv venv --python 3.14 .venv && uv pip install --python .venv/bin/python --require-hashes -r tests/python/requirements.txt`).
 - No backend, no environment variables, no API keys: grading, previews, the fake REST API and the fake model all run in the browser. The Python engine loads Pyodide from `node_modules/pyodide`, served by `plugins/pyodidePlugin.ts`.
 
 ## Workflow
@@ -33,13 +34,19 @@ Types used: `feat`, `fix`, `docs`, `perf`, `refactor`, `test`, `chore`. The scop
 ### Checks before a pull request
 
 ```bash
+npm run lint                                         # ESLint (eslint.config.js)
 npm run typecheck
 npm run test                                         # unit + architecture rules
 npx vitest run src/verify/<track>.test.ts            # tracks whose lessons or engine changed
 npm run verify                                       # every lesson, when an engine or shared runner changed
 npm run build
 npm run docs:check                                   # documents updated for every documented area that changed
+.venv/bin/python -m pytest                           # Python lessons and harness on CPython, when Python lessons or the harness changed
 ```
+
+**Lint.** `eslint.config.js` (ESLint 10 flat config): `@eslint/js` and `typescript-eslint` recommended everywhere, `eslint-plugin-react-hooks` and `eslint-plugin-jsx-a11y-x` recommended on `src/**/*.tsx`. `jsx-a11y-x` is the maintained fork of `eslint-plugin-jsx-a11y`, which has had no release since 2024 and does not support ESLint 10. Lesson folders (`src/content/*/**`) are not linted: starters are broken on purpose. `no-explicit-any` is off in `src/engines/`, which implements untyped runtime surfaces (Jest-like `expect`, the CommonJS loader, Node built-ins). An `eslint-disable-next-line` always names the rule and a reason after `--`. Dialog backdrops are `role="presentation"` and close on `event.target === event.currentTarget`; every dialog also closes on Escape.
+
+**Python on CPython.** `tests/python` grades every Python challenge (Python track lessons and the `variants/python` of AI Engineering) with the real harness (`dojo_harness.py`) under CPython 3.14: the solution passes every test and the starter fails one, the same contract `npm run verify` checks under Pyodide, so a lesson cannot teach a Pyodide quirk as Python behavior. Each project runs in a fresh `python -s -P` child (hash seed 0, like Pyodide) (`tests/python/run_lesson.py`) whose `DOJO_APP_DIRECTORY` and `DOJO_SCRATCH_DIRECTORIES` point at a temporary directory; the runner refuses to start without them, because the harness deletes new files in its scratch directories (`/tmp` and `~` in Pyodide). `tests/python/stubs/` stands in for `js`, `pyodide.ffi` and the fake model bridge; lessons that use the fake model (`dojo_ai`) are skipped, since it runs only in Pyodide. `tests/python/test_harness.py` covers test discovery, failure messages, isolation between tests and the runner's guard. Dependencies are locked with hashes in `tests/python/requirements.txt` (generated from `requirements.in`, command in its header); Pydantic and its dependencies match the wheels vendored for Pyodide.
 
 Python track lessons follow their own process (scaffold, Definition of Ready and Done, WIP limits, review checklist) in [python-track/11-working-agreement.md](python-track/11-working-agreement.md).
 
@@ -47,27 +54,41 @@ UI, motion and scene changes are also checked in a real browser (jsdom has no la
 
 ## CI and deploy
 
-### GitHub Actions (`.github/workflows/ci.yml`)
+### GitHub Actions
 
-Runs on every pull request, on every push to `main` and by hand (`workflow_dispatch`). Node comes from `.nvmrc`, npm downloads are cached.
+Workflows run on every pull request, on every push to `main` and by hand (`workflow_dispatch`); Security also runs weekly. Node comes from `.nvmrc`; npm, pip and the Pyodide packages are cached (the cache is safe: postinstall re-verifies every wheel against `pyodide-lock.json`). A pushed commit on a pull request cancels the run still going for the previous one.
 
-| Job | Runs | Fails the run |
-| --- | --- | --- |
-| `checks` | `npm run typecheck`, `npm run test`, `vite build` | yes |
-| `verify` (matrix) | one job per track suite (`src/verify/<track>.test.ts`) plus `structure` (every other `src/verify/*.test.ts`: content, curriculum, track presentation, Python conventions and sandbox) and `npm run python:curriculum -- --check` | yes, each suite reports on its own (`fail-fast: false`) |
-| `docs` | `docs-sync.mjs --check` against the PR base or the previous `main` commit | no, shows a warning |
+| Workflow | Job | Runs | Fails the run |
+| --- | --- | --- | --- |
+| `ci.yml` | `checks` | `npm run lint`, `npm run typecheck`, `npm run test`, `vite build`, `npm run smoke:worker-csp` (the build under `vite preview`); uploads `dist/` as the `dist` artifact | yes |
+| `ci.yml` | `verify` (matrix) | one job per track suite (`src/verify/<track>.test.ts`) plus `structure` (every other `src/verify/*.test.ts`: content, curriculum, track presentation, Python conventions and sandbox) and `npm run python:curriculum -- --check` | yes, each suite reports on its own (`fail-fast: false`) |
+| `ci.yml` | `python` | `python -m pytest` on CPython 3.14 (see "Python on CPython") | yes |
+| `ci.yml` | `workflows` | `actionlint` (with shellcheck) on every workflow | yes |
+| `ci.yml` | `deploy` | pushes to `main` only, after all of the above: deploys the `dist` artifact to Netlify production | yes; skipped with a notice when the Netlify secrets are missing |
+| `ci.yml` | `smoke` | `npm run smoke:worker-csp -- --url <production> --dist dist` against the deploy just made: worker CSP header, page without it, SPA fallback, Pyodide files and wheels | yes |
+| `security.yml` | `npm-audit` | `npm audit --audit-level=moderate` | yes |
+| `security.yml` | `osv-scan` / `osv-scan-pr` | OSV-Scanner over `package-lock.json` and `tests/python/requirements.txt` (on pull requests, only vulnerabilities the pull request adds); results go to code scanning | yes |
+| `security.yml` | `codeql` (matrix) | CodeQL for `javascript-typescript`, `python` and `actions` (lessons excluded); results go to code scanning | yes, on findings |
+| `docs-sync.yml` | `docs` | `docs-sync.mjs --check` against the PR base or the previous `main` commit | no, shows a warning |
 
-A new track needs its id in the `verify` matrix and in the `structure` exclusion list of the workflow. A pushed commit on a pull request cancels the run still going for the previous one. `.github/dependabot.yml` opens a monthly grouped PR for action versions; npm dependencies are updated by hand, because lessons and `CONTENT_GUIDE.md` "Installed versions" depend on exact library versions (Pyodide is pinned on purpose). `npm audit` must stay clean: a vulnerable transitive dependency whose parent has no fixed release yet is pinned in `overrides` in `package.json`, scoped to that parent (`monaco-editor` → `dompurify`, `js-beautify`/`editorconfig` → `glob`, `minimatch`); remove the entry once the parent ships a fixed range. Never run `npm audit fix --force`: it downgrades direct dependencies (it moved `@vue/test-utils` back to 2.4).
+Pinning: GitHub's own actions (`actions/*`, `github/codeql-action`) use their major tag; third-party code is pinned to an immutable reference with the version in a comment: the OSV reusable workflows by commit SHA, the actionlint image by digest, `netlify-cli` by exact version. A new track needs its id in the `verify` matrix and in the `structure` exclusion list of `ci.yml`. `.github/dependabot.yml` opens a monthly grouped PR for action versions; npm dependencies are updated by hand, because lessons and `CONTENT_GUIDE.md` "Installed versions" depend on exact library versions (Pyodide is pinned on purpose), and the Python test lock follows the vendored Pyodide wheels. `npm audit` must stay clean: a vulnerable transitive dependency whose parent has no fixed release yet is pinned in `overrides` in `package.json`, scoped to that parent (`monaco-editor` → `dompurify`, `js-beautify`/`editorconfig` → `glob`, `minimatch`; the ESLint toolchain → `minimatch` 11, for GHSA-g3hv-75wg-m249); remove the entry once the parent ships a fixed range. Never run `npm audit fix --force`: it downgrades direct dependencies (it moved `@vue/test-utils` back to 2.4).
 
 ### Netlify (`netlify.toml`)
 
-Netlify builds `main` on every push (Git integration) with `npm run build` and publishes `dist/`. `netlify.toml` holds what the host must provide:
+`netlify.toml` holds what the host must provide:
 
 - SPA fallback: every path without a file rewrites to `/index.html` (routing uses `BrowserRouter`).
-- `Content-Security-Policy` on `/assets/python.worker-*`, the same value as `PYTHON_WORKER_CSP` in `plugins/pythonWorkerCspPlugin.ts`; keep both in sync.
+- `Content-Security-Policy` on `/assets/python.worker-*`, the same value as `PYTHON_WORKER_CSP` in `plugins/pythonWorkerCspPlugin.ts`; keep both in sync. The `smoke` job checks it on every deploy.
 - Long-lived cache on `/assets/*` (hashed file names).
 
-Netlify does not wait for GitHub Actions: a push to `main` deploys even when CI fails. To deploy only tested code, protect `main` on GitHub (require pull requests and the `checks` and `verify` jobs) so changes reach `main` only through a green pull request; Netlify deploy previews then show each pull request before merge.
+Production deploys go through the `deploy` job, so only code that passed every check on `main` is published. The token must stay out of reach of pull requests: GitHub runs a pull request's own copy of `ci.yml`, so a repository secret would be readable by any branch that edits the workflow. It therefore lives only on the `production` environment, whose deployment branches are limited to `main`, and CI never deploys pull requests. The job also never installs or runs repository code: it checks out `netlify.toml` alone (sparse checkout), downloads the `dist` artifact that `checks` built and runs a pinned `netlify-cli deploy --no-build --prod` from a directory outside the checkout that holds only `dist/` and `netlify.toml`, so no project `.npmrc` or `package.json` can steer `npx`. Pull requests get the same layout check from `checks` (`smoke:worker-csp` under `vite preview`).
+
+Setup, once, by a repository admin:
+
+1. Netlify: create a personal access token and note the site id (Site configuration → General); in Build & deploy → Continuous deployment, **stop builds**, so Netlify no longer builds and publishes every push on its own. This also stops Netlify's deploy previews; there are no per-pull-request previews.
+2. GitHub: Settings → Environments → `production`: under deployment branches allow only `main`, then add the `NETLIFY_AUTH_TOKEN` and `NETLIFY_SITE_ID` **environment** secrets (never repository secrets). Without them `deploy` and `smoke` are skipped with a notice and the rest of CI is unaffected.
+3. GitHub: protect `main` (Settings → Branches): require a pull request and the status checks `Lint, typecheck, unit tests, build`, every `Verify <suite>`, `Python lessons on CPython (pytest)`, `Lint workflows (actionlint)`, `npm audit` and the CodeQL and OSV jobs.
+4. Code scanning: `security.yml` is an advanced CodeQL setup; if CodeQL default setup is enabled in Settings → Code security, switch it off, or the `codeql` jobs fail.
 
 ## Documentation upkeep
 
@@ -88,6 +109,7 @@ Documentation is incremental: every change that alters behavior, structure, comm
 | `package.json` scripts, `vite.config.ts`, `plugins/`, `scripts/`, `index.html` | `README.md` "Run", `.claude/CLAUDE.md` "Commands" |
 | `.claude/settings.json`, `.claude/hooks/` | this file, "Harness" |
 | `.github/`, `netlify.toml`, `.nvmrc` | this file, "CI and deploy"; `README.md` "Requirements" for the Node version |
+| `eslint.config.js`, `pyproject.toml`, `tests/python/` | this file, "Checks before a pull request"; `README.md`; `.claude/CLAUDE.md` "Commands" |
 | a convention or workflow rule | this file |
 
 Tests keep part of this honest: `curriculum.test.ts` (lessons ↔ `CURRICULUM.md`), `trackPresentation.test.ts` (accents), `architecture.test.ts` (layer rules).
