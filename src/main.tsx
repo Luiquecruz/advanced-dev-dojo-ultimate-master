@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 import { App } from './app/App';
-import { initSentry } from './app/monitoring/sentry';
+import { initSentry, reactRootErrorHandlers } from './app/monitoring/sentry';
 import { legacyHashRedirect } from '@/shared/routing/route';
 import './app/styles.css';
 
@@ -13,7 +13,7 @@ if (legacyPath) {
   history.replaceState(null, '', legacyPath);
 }
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById('root')!, reactRootErrorHandlers).render(
   <StrictMode>
     <BrowserRouter basename={import.meta.env.BASE_URL} useTransitions={false}>
       <App />
