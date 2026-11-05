@@ -1,0 +1,32 @@
+{
+  "title": "Diagnostics in Production",
+  "summary": "Investigate slow, CPU-bound or leaking .NET processes with dotnet-counters, dotnet-trace, dotnet-gcdump and dotnet-dump, including from a sidecar when the app runs in a container.",
+  "level": "advanced",
+  "tags": [
+    "recommended",
+    "deepening",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "dotnet-counters",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters"
+    },
+    {
+      "label": "dotnet-trace",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-trace"
+    },
+    {
+      "label": "dotnet-dump",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-dump"
+    },
+    {
+      "label": "Collect diagnostics in Linux containers",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/diagnostics-in-containers"
+    },
+    {
+      "label": "Debug a memory leak in .NET",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/debug-memory-leak"
+    }
+  ]
+}

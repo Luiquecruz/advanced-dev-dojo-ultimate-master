@@ -1,0 +1,28 @@
+{
+  "title": "AI in .NET Apps",
+  "summary": "Call language models through Microsoft.Extensions.AI and IChatClient, keep the provider swappable, add caching, telemetry and tool calling as middleware, and know when the Microsoft Agent Framework is worth it.",
+  "level": "advanced",
+  "tags": [
+    "recommended",
+    "deepening",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft.Extensions.AI libraries",
+      "url": "https://learn.microsoft.com/en-us/dotnet/ai/microsoft-extensions-ai"
+    },
+    {
+      "label": "Use the IChatClient interface",
+      "url": "https://learn.microsoft.com/en-us/dotnet/ai/ichatclient"
+    },
+    {
+      "label": "The .NET AI ecosystem",
+      "url": "https://learn.microsoft.com/en-us/dotnet/ai/dotnet-ai-ecosystem"
+    },
+    {
+      "label": "Microsoft Agent Framework overview",
+      "url": "https://learn.microsoft.com/en-us/agent-framework/overview/agent-framework-overview"
+    }
+  ]
+}

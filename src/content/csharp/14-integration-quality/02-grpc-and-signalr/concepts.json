@@ -1,0 +1,9 @@
+[
+  { "term": "gRPC", "description": "A contract-first RPC framework over HTTP/2 with binary Protobuf messages, generated clients and unary or streaming calls." },
+  { "term": "`.proto` file", "description": "The Protobuf contract that defines services and messages, compiled by `Grpc.Tools` into a service base class and a client at build time." },
+  { "term": "Field number", "description": "The numeric tag of a Protobuf field that identifies it on the wire, which must never be reused or changed once published." },
+  { "term": "Deadline", "description": "The UTC time by which a gRPC call must finish; there is no default, and exceeding it throws `DeadlineExceeded` on the client and cancels the server's token." },
+  { "term": "SignalR hub", "description": "A server class whose public methods clients call and through which the server pushes messages to all clients, groups or users over persistent connections." },
+  { "term": "`IHubContext<THub>`", "description": "The service used to send hub messages from code outside the hub, such as a background worker." },
+  { "term": "Backplane", "description": "A shared channel, such as Redis or Azure SignalR Service, that forwards hub messages between server instances so every connected client receives them." }
+]

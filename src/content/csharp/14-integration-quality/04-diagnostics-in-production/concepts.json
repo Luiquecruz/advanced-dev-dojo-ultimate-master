@@ -1,0 +1,9 @@
+[
+  { "term": "Diagnostic port", "description": "The IPC channel, a Unix domain socket in `/tmp` on Linux, through which the `dotnet-*` tools ask the runtime for counters, traces and dumps." },
+  { "term": "`dotnet-counters`", "description": "A tool that shows live runtime and ASP.NET Core metrics such as GC collections, heap size, thread-pool queue length and exception rate." },
+  { "term": "`dotnet-trace`", "description": "A tool that records an EventPipe trace of a running process, by default with GC, JIT and exception events plus sampled thread stacks." },
+  { "term": "`dotnet-gcdump`", "description": "A tool that captures only the managed heap graph, small to store but triggering a full gen 2 collection when collected." },
+  { "term": "`dotnet-dump`", "description": "A tool that collects a full or heap process dump and analyzes it with SOS commands, without a native debugger." },
+  { "term": "`gcroot`", "description": "The SOS command that shows the chain of references from a GC root, such as a static field, to an object that is kept alive." },
+  { "term": "Sidecar diagnostics", "description": "Running the tools in a second container that shares the app's process namespace and `/tmp` directory, so the app image needs no tools." }
+]

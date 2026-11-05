@@ -9,6 +9,7 @@ Each item is done only when its evidence is recorded in the **Evidence** column.
 | R1 | Market research | Real postings with dates and URLs; BR versus international; competency frequency; limits | done | [01-market-research.md](01-market-research.md): 69 postings; independent review fixed |
 | R2 | Ecosystem and legacy | Official sources; classification 1–4; available, supported and adopted kept apart | done | [02-ecosystem-and-legacy.md](02-ecosystem-and-legacy.md); review verdict "sound", low findings fixed |
 | R4 | Engine spike | Measured feasibility and a GO/NO-GO verdict | done | [04-engine-spike.md](04-engine-spike.md): GO-WITH-CONDITIONS, prototype graded 3/3 |
+| R6 | Market research round 2 | Wider sample, adoption apart from demand, salaries where stated, change from round 1 | done | [08-market-research-v2.md](08-market-research-v2.md): 198 postings; independent review (7 findings) fixed |
 | R5 | Plan | Sequence, outcomes, official materials, projects, effort, traceability; coherence review | done | [05-curriculum.md](05-curriculum.md), [06-content-standards.md](06-content-standards.md); independent coherence review "ready-after-fixes": 3 high, 11 medium, 13 low, all applied |
 
 ## Platform
@@ -44,6 +45,7 @@ Acceptance for every module:
 | C10 | 10-background-messaging | 5 | done | written, cross-reviewed (findings fixed), suites green |
 | C11 | 11-delivery | 6 | done | written, cross-reviewed (findings fixed), suites green |
 | C12 | 12-architecture | 5 | done | written, cross-reviewed (findings fixed), suites green |
+| C14 | 14-integration-quality | 6 | done | written, reviewed (8 findings: 7 fixed; the challenge request is tracked in E1), each lesson ends with a local exercise; suites green |
 | C13 | 13-legacy | 5 | done | written, cross-reviewed (findings fixed), suites green |
 
 ## Release
@@ -54,6 +56,17 @@ Acceptance for every module:
 | V2 | Final independent review | The whole track (content, suite, docs, CI) has no open high or medium findings | done | three lenses (accuracy, with 26 lessons sampled and 268 URLs requested; pedagogy; platform): 3 high, 8 medium, 13 low. All high and medium fixed: P3–P6 chain coherence, the Identity rehash, the suite now enforces heading order and Check yourself count (mutation-checked), docs counts. One low left open: about 20 lessons re-explain the PHP-FPM lifecycle in their Coming from section |
 | V3 | CI/CD | The pull request CI is green, including the smoke test against the Deploy Preview; the state is recorded (CI passed is not a deploy) | doing | Split into stacked pull requests under the 300-file review limit: #18 (part 1, base `main`) and #19 (part 2, base #18), both reviewed by CodeRabbit. #18 is green at `cecf69d`, including the Deploy Preview smoke test. #19 is green at `8e39269` except the smoke test, skipped while it is stacked: Netlify previews exist only for pull requests against `main`. Remaining: after #18 merges, #19 retargets to `main`, gets `main` merged in, and its CI and smoke test run again. Production deploys only after that merge |
 | V4 | Enable | `TRACK_FLAGS.csharp = true` once C01–C13 and V1–V2 are done | done | flag on; README, CURRICULUM and `index.html` updated |
+
+## Market alignment and ongoing work
+
+The research is refreshed by hand when the curriculum is revisited, not on a timer: the goal is to stay aligned with the market.
+
+| ID | Item | Acceptance criteria | When | Status |
+| --- | --- | --- | --- | --- |
+| T1 | Trend snapshot | Repeat round 2's collection (same sources, vocabulary and dedup rules as 08-market-research-v2.md) and compare frequencies per competency against both rounds. Report only changes larger than the sampling noise. Re-check the curriculum's priorities, especially legacy (30%), cloud and messaging | at the next curriculum revision; 60–90 days after a round gives a meaningful comparison | todo |
+| M1 | Microsoft Learn baseline | Map the official Microsoft Learn training (the "Get started with C#" series, the ASP.NET Core learning paths, the active C# Applied Skills credential) onto the modules. Extract the topics they treat as the minimum, and add quiz questions and, once E1 lands, challenges for any gap. Check the content licence before reusing text: write our own lessons, and link and attribute the source. Certifications change (AZ-204 and the ASP.NET Core Applied Skills were retired in 2026), so record the date each status was checked | after the open pull requests merge | todo |
+| S1 | Sequence audit and reorganization (C# and Python) | Every lesson declares the concepts it introduces and the ones it uses. A test fails when a lesson uses a concept that only a later lesson introduces, or one that no lesson introduces. Then reorder modules and lessons so the tracks read in a clean order (renumber folders, update CURRICULUM.md and the progress keys), and re-run verify and a browser check of progress. The same audit runs on the Python track (python-track/10-roadmap-and-backlog.md) | after the open pull requests merge; large, expect many changes | todo |
+| E1 | C# engine and challenges | Phase 1: an engine meeting the conditions of 04-engine-spike.md §10, with independent security and platform reviews. Phase 2: module 02 pilot challenges behind an approval gate, then module by module, and the practice projects as challenges where they fit. Every pull request stays under 300 files | started 2026-11-05 | doing |
 
 ## Later (not in v1)
 

@@ -1,0 +1,9 @@
+[
+  { "term": "`IHttpClientFactory`", "description": "The factory that creates short-lived `HttpClient` instances over pooled, periodically recycled message handlers, avoiding both socket exhaustion and stale DNS." },
+  { "term": "Typed client", "description": "A class registered with `AddHttpClient<T>` that receives a configured `HttpClient` in its constructor, is registered as transient and wraps one external API." },
+  { "term": "`DelegatingHandler`", "description": "Outgoing HTTP middleware that wraps the next handler, registered as transient and added with `AddHttpMessageHandler<T>()`, the .NET counterpart of a Guzzle middleware." },
+  { "term": "Standard resilience handler", "description": "`AddStandardResilienceHandler()` adds a rate limiter, a 30-second total timeout, three retries, a circuit breaker and a 10-second attempt timeout to a client." },
+  { "term": "Circuit breaker", "description": "A strategy that stops calling a failing dependency for a break period once the failure ratio crosses a threshold, so callers fail fast instead of piling up." },
+  { "term": "Unsafe method retry", "description": "Retrying a request with side effects such as `POST`, which can duplicate work unless the endpoint is idempotent; `DisableForUnsafeHttpMethods()` switches it off." },
+  { "term": "Handler lifetime", "description": "How long the factory reuses a message handler before recycling it, two minutes by default and set with `SetHandlerLifetime`." }
+]

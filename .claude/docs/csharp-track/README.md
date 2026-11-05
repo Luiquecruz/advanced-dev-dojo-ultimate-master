@@ -16,7 +16,7 @@ Make a backend developer coming from **PHP/Magento** productive in a modern C#/.
 | Baseline | **.NET 10 LTS + C# 14** | .NET 8 and 9 reach end of support on 2026-11-10, leaving .NET 10 as the supported LTS ([02-ecosystem-and-legacy.md](02-ecosystem-and-legacy.md) §1). .NET 11 (STS) appears only in dated **Status as of 2026-11-05** blocks. Postings name .NET 6–9, so lessons say what changed since .NET 6/8 |
 | Audience | Backend developers from PHP/Magento | Each lesson has a "Coming from PHP/Magento" section with what transfers and the trap |
 | Accent | `#ff7a7f` (coral, ≈ 358°) | The hue rule now counts only the tracks shown to learners. C# takes the band of the hidden Angular track. Enabling Angular fails `trackPresentation.test.ts` and forces a new choice ([ARCHITECTURE.md](../ARCHITECTURE.md) "Track presentation") |
-| Scope | 13 modules, 67 lessons: core 01–11, deepening 12, legacy 13 | Core = what the [market sample](01-market-research.md) asks for in most postings. Architecture and legacy are separate so that a learner can stop after the core |
+| Scope | 14 modules, 73 lessons: core 01–11, deepening 12 and 14, legacy 13 | Core = what the [market sample](01-market-research.md) asks for in most postings. Architecture and legacy are separate so that a learner can stop after the core |
 | Practice | 7 progressive projects, each described in the closing lesson of a module with features and acceptance criteria | The goal requires described projects; they are larger than a graded challenge (ASP.NET Core, databases, containers) and run locally |
 | Visibility | `TRACK_FLAGS.csharp = true` since the release: every module was written, cross-reviewed and verified, and the whole track passed an independent final review (it was `false` while the modules were written) | No half-built track in the carousel |
 | Language | English | Project rule |
@@ -27,6 +27,7 @@ Make a backend developer coming from **PHP/Magento** productive in a modern C#/.
 | --- | --- |
 | [01-market-research.md](01-market-research.md) | 69 postings (37 BR, 32 international), competency frequency, BR vs international, limits |
 | [02-ecosystem-and-legacy.md](02-ecosystem-and-legacy.md) | Versions and support, ASP.NET Core, data, async, testing, messaging, delivery, architecture, legacy and migration, with classification 1–4 |
+| [08-market-research-v2.md](08-market-research-v2.md) | Round 2: 198 postings (129 new), adoption data (surveys, NuGet downloads) kept apart from demand, stated salary ranges, what changed from round 1 |
 | [04-engine-spike.md](04-engine-spike.md) | Feasibility of grading C# in the browser (.NET 10 WASM + Roslyn), sizes, timing, CSP, security, conditions |
 | [05-curriculum.md](05-curriculum.md) | Modules and lessons, outcomes, prerequisites, official materials, projects, completion criteria, effort, traceability matrix |
 | [06-content-standards.md](06-content-standards.md) | Lesson contract for this track: theory template, quiz rules, resources, dated facts |

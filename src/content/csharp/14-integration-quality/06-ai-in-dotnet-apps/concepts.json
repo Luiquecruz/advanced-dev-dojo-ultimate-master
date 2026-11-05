@@ -1,0 +1,8 @@
+[
+  { "term": "`IChatClient`", "description": "The `Microsoft.Extensions.AI` abstraction for chat models, with `GetResponseAsync` and `GetStreamingResponseAsync`, implemented by provider libraries." },
+  { "term": "`ChatClientBuilder` pipeline", "description": "A chain of delegating chat clients added with `Use*` calls, such as caching, function invocation, logging and OpenTelemetry, wrapped around a provider client." },
+  { "term": "Provider adapter", "description": "A library that exposes a vendor SDK as an `IChatClient`, such as `AsIChatClient()` in `Microsoft.Extensions.AI.OpenAI`." },
+  { "term": "Tool calling", "description": "Letting the model request a .NET method described with `AIFunctionFactory.Create`, which `UseFunctionInvocation()` runs before returning the final answer." },
+  { "term": "Stateless chat", "description": "A service that keeps no conversation, so the caller sends the full message history, including earlier responses, on every request." },
+  { "term": "Microsoft Agent Framework", "description": "The successor of Semantic Kernel and AutoGen for multi-step, goal-directed agents and workflows, built on the same provider abstractions." }
+]

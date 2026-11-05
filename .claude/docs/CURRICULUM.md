@@ -338,7 +338,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 
 ## C# and .NET (`src/content/csharp`)
 
-Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"engine": "csharp"`, [csharp-engine.md](csharp-engine.md)): every lesson written so far is theory + quiz, practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK, and lessons gain graded C# challenges one by one. 13 modules, 67 lessons: core 01–11, deepening 12, legacy 13. Enabled (`TRACK_FLAGS.csharp = true`) once every module was written, cross-reviewed and verified and the whole track passed an independent final review.
+Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"engine": "csharp"`, [csharp-engine.md](csharp-engine.md)): every lesson written so far is theory + quiz, practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK, and lessons gain graded C# challenges one by one. 14 modules, 73 lessons: core 01–11, deepening 12 and 14, legacy 13. Enabled (`TRACK_FLAGS.csharp = true`) once every module was written, cross-reviewed and verified and the whole track passed an independent final review.
 
 ### 01-platform — The .NET Platform for PHP Developers
 01-csharp-map ✓ · 02-runtime-sdk-and-cli ✓ · 03-versions-and-support ✓ · 04-nuget-and-project-files ✓
@@ -378,3 +378,6 @@ Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"en
 
 ### 13-legacy — Legacy .NET and Migration
 01-net-framework-landscape ✓ · 02-aspnet-mvc5-and-web-api-2 ✓ · 03-web-forms-and-wcf ✓ · 04-migration-strategies ✓ · 05-project-legacy-migration **(project)** ✓
+
+### 14-integration-quality — Integration, Performance and Quality
+01-http-clients-and-resilience ✓ · 02-grpc-and-signalr ✓ · 03-performance-and-memory ✓ · 04-diagnostics-in-production ✓ · 05-code-quality-and-analyzers ✓ · 06-ai-in-dotnet-apps ✓
