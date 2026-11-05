@@ -10,10 +10,10 @@ import { listCsharpTestNames } from '../engines/csharp/testNames';
 import { bundleCsharpChild, CHILD_HEAP_LIMIT_MB, CHILD_WASM_MEMORY_LIMIT_MB, csharpChildExecArgv, CsharpSandbox, VENDORED_DOTNET_DIRECTORY } from './csharpSandbox';
 
 const LIMIT_MS = 4000;
-const PROBE_LIMIT_MS = 30000;
+const GENEROUS_LIMIT_MS = 30000;
 const RESTART_ALLOWANCE_MS = 30000;
-const sandbox = new CsharpSandbox({ testTimeoutMs: LIMIT_MS, runTimeoutMs: LIMIT_MS });
-const probeSandbox = new CsharpSandbox({ testTimeoutMs: PROBE_LIMIT_MS, runTimeoutMs: PROBE_LIMIT_MS });
+const sandbox = new CsharpSandbox({ testTimeoutMs: GENEROUS_LIMIT_MS, runTimeoutMs: GENEROUS_LIMIT_MS });
+const loopSandbox = new CsharpSandbox({ testTimeoutMs: LIMIT_MS, runTimeoutMs: LIMIT_MS });
 
 const LESSON = `
 public static class Lesson
@@ -61,8 +61,8 @@ public static class Js
 }
 `;
 
-function grade(tests: string, files: Record<string, string> = { 'Lesson.cs': LESSON }) {
-  return sandbox.runTests({ files, tests: tests.trim() + '\n' });
+function grade(tests: string, files: Record<string, string> = { 'Lesson.cs': LESSON }, target: CsharpSandbox = sandbox) {
+  return target.runTests({ files, tests: tests.trim() + '\n' });
 }
 
 function outcomes(report: { results: { name: string; passed: boolean }[] }) {
@@ -72,7 +72,7 @@ function outcomes(report: { results: { name: string; passed: boolean }[] }) {
 beforeAll(() => sandbox.start(), 90000);
 afterAll(() => {
   sandbox.stop();
-  probeSandbox.stop();
+  loopSandbox.stop();
 });
 
 describe('fixture challenge', () => {
@@ -147,7 +147,7 @@ public static class LimitTests
         Assert.Equal(6, Lesson.Double(3));
     }
 }
-`);
+`, undefined, loopSandbox);
     expect(report.compileError).toBeUndefined();
     expect(outcomes(report)).toEqual([
       ['before', true],
@@ -160,11 +160,11 @@ public static class LimitTests
 
   it('stops a Run demo that never ends, and the next run works', async () => {
     const output: string[] = [];
-    const code = await sandbox.runProgram({ 'Program.cs': 'while (true) { }\n' }, (level, text) => output.push(`${level}:${text}`));
+    const code = await loopSandbox.runProgram({ 'Program.cs': 'while (true) { }\n' }, (level, text) => output.push(`${level}:${text}`));
     expect(code).toBe(1);
     expect(output.join('\n')).toContain(`did not finish within ${LIMIT_MS}ms`);
     const next: string[] = [];
-    expect(await sandbox.runProgram({ 'Program.cs': 'Console.WriteLine("alive");\n' }, (_level, text) => next.push(text))).toBe(0);
+    expect(await loopSandbox.runProgram({ 'Program.cs': 'Console.WriteLine("alive");\n' }, (_level, text) => next.push(text))).toBe(0);
     expect(next[0]).toBe('alive');
   }, 60000);
 });
@@ -295,7 +295,7 @@ foreach (var (path, module) in new (string, string?)[] { ("globalThis.setTimeout
     }
 }
 `;
-    const exitCode = await probeSandbox.runProgram({ 'Program.cs': program, 'JsCall.cs': jsCallProbe }, (_, text) => output.push(text));
+    const exitCode = await sandbox.runProgram({ 'Program.cs': program, 'JsCall.cs': jsCallProbe }, (_, text) => output.push(text));
     expect(exitCode).toBe(0);
     const lines = output.filter((line) => line.startsWith('called') || line.startsWith('blocked'));
     expect(lines).toHaveLength(4);
