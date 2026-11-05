@@ -123,6 +123,10 @@ npm run python:vendor                              # download and verify the pin
 - Progress lives in the browser (`localStorage`); there are no accounts or sync between devices.
 - The Vue and Angular tracks are hidden until their lessons are complete.
 
+## Security
+
+Report vulnerabilities privately, as described in [SECURITY.md](SECURITY.md).
+
 ## Contributing
 
 Read [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md) before the first change: branches, commit format, checks before a pull request, and the documentation upkeep rule (every change updates the documents that describe it, in the same change).
