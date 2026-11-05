@@ -9,6 +9,7 @@ import { moduleNumberLabel, TrackLogo } from '@/entities/track';
 import { ChartIcon, CheckIcon, ChevronRightIcon, CircleIcon, HalfCircleIcon } from '@/shared/ui/icons';
 import { buttonClass, tagClass } from '@/shared/ui/classNames';
 import { GlowBorder } from '@/shared/ui/GlowBorder';
+import { stageLine } from './stageLine';
 
 const TIMELINE_SIZE = 5;
 
@@ -27,13 +28,7 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
   const state = useProgress();
   const summary = useMemo(() => summarizeTrack(track, state), [track, state]);
   const status = STATUS[summary.status];
-  const currentModule = summary.modules[summary.currentModuleIndex].module;
-  const stage =
-    summary.status === 'completed'
-      ? `All ${summary.lastStageNumber} stages done`
-      : currentModule.optional
-        ? `Optional module ${moduleNumberLabel(currentModule)} · ${currentModule.title}`
-        : `Stage ${currentModule.number} of ${summary.lastStageNumber} · ${currentModule.title}`;
+  const stage = stageLine(summary);
 
   return (
     <article
