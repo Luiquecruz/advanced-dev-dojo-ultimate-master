@@ -17,8 +17,8 @@ From a clean clone, one command starts the whole system locally, and one pull re
 
 ## Features
 
-- **Images.** A container image for `Catalog.Api` and one for `Orders.Worker`, built with `dotnet publish /t:PublishContainer` or a multi-stage Dockerfile (lesson 01). Both run as non-root; the API listens on 8080.
-- **Compose.** A `compose.yaml` with the API, the worker, PostgreSQL, RabbitMQ and an OTLP backend, for example the standalone Aspire dashboard (`mcr.microsoft.com/dotnet/aspire-dashboard`) or Jaeger. Health-gated start-up uses `depends_on` with `condition: service_healthy`.
+- **Images.** A container image for `Catalog.Api` and one for `Orders.Worker`, each from a multi-stage Dockerfile (lesson 01) that `compose.yaml` references with `build:`. Compose cannot run `dotnet publish /t:PublishContainer`, so the Dockerfiles are what make criterion 2 work from a clean clone; the pipeline may still publish with `/t:PublishContainer` (lesson 02) as long as its images also meet criterion 3. Both run as non-root; the API listens on 8080.
+- **Compose.** A `compose.yaml` with the API, the worker, PostgreSQL, RabbitMQ and an OTLP backend that accepts traces, metrics and logs, for example the standalone Aspire dashboard (`mcr.microsoft.com/dotnet/aspire-dashboard`). Jaeger stores traces only, so if you choose it, add a metrics and a logs backend (for example Prometheus and Loki behind an OpenTelemetry Collector) for criterion 6. Health-gated start-up uses `depends_on` with `condition: service_healthy`.
 - **Pipeline.** GitHub Actions (or Azure DevOps): restore with `--locked-mode`, build, test (unit, `WebApplicationFactory` and Testcontainers tests from P4), and publish both images tagged with the commit SHA on `main` only (lesson 02).
 - **Tracing and metrics.** OpenTelemetry in both apps with OTLP export configured by `OTEL_EXPORTER_OTLP_ENDPOINT`, ASP.NET Core and `HttpClient` instrumentation, an `ActivitySource` per app registered with `AddSource`, and context injected into and extracted from the RabbitMQ message headers (lesson 04). Add one custom counter, such as `orders.placed`.
 - **Health.** `/health/live` with no dependency checks and `/health/ready` (or `/health`) with `AddDbContextCheck<CatalogDbContext>()`.
@@ -44,7 +44,7 @@ public static class Telemetry
 
 ## Suggested steps
 
-1. Add the container properties (or a Dockerfile) to both projects and run each image alone with `docker run -p 5000:8080`.
+1. Add a Dockerfile to both projects and run each image alone with `docker run -p 5000:8080`.
 2. Write `compose.yaml` for PostgreSQL and RabbitMQ with health checks, then add the API and worker with connection strings in environment variables (`ConnectionStrings__Catalog`). User secrets are not loaded in a container, so pass the bearer settings the same way: `Authentication__Schemes__Bearer__ValidIssuer` and `__ValidAudiences__0` from `appsettings.Development.json`, and `__SigningKeys__0__Issuer` plus `__SigningKeys__0__Value` (the key `dotnet user-jwts key` prints) from an uncommitted `.env` file. Tokens from `dotnet user-jwts create` then work against the container.
 3. Add the OTLP backend to Compose and set `OTEL_EXPORTER_OTLP_ENDPOINT` and `OTEL_SERVICE_NAME` on both apps.
 4. Wire OpenTelemetry in the API, check you see request spans, then add the custom `ActivitySource` and counter.

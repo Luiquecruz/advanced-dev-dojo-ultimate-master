@@ -91,7 +91,7 @@ Usual mistakes: assuming "4.8 is supported" means "4.8 is a fine target for new 
 
 ## Status as of 2026-11-05
 
-- .NET Framework 4.8 (released 2019-04-18) and 4.8.1 (2022-08-09) follow the lifecycle of their Windows version; 4.8.1 is supported on Windows 10 20H2 and later, Windows 11, and Windows Server 2022 and 2025.
+- .NET Framework 4.8 (released 2019-04-18) and 4.8.1 (2022-08-09) follow the lifecycle of their Windows version; 4.8.1 can be installed on Windows 10 20H2 and later, Windows 11, and Windows Server 2022 and 2025, but it is supported only while that Windows version is (20H2 itself has long been out of support).
 - .NET Framework 4.6.2 ends on 2027-01-12 (Pacific time); 3.5 SP1, a standalone product since Windows 10 1809 and Server 2019, ends on 2029-01-09.
 - .NET 10 is the current LTS (supported until 2028-11-14); .NET 8 and 9 end on 2026-11-10.
 

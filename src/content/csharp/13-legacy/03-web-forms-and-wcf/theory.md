@@ -45,7 +45,7 @@ public partial class Products : System.Web.UI.Page
 Three ideas explain most Web Forms code:
 
 - **Postback.** The whole page is one `<form runat="server">`. Clicking the button posts the form back to the same URL, and the server raises `SearchButton_Click`.
-- **View state.** Before rendering, the page serializes control state into a hidden `__VIEWSTATE` field; on the postback it restores it. That is how `SearchBox.Text` "remembers" its value, and also why some pages send hundreds of kilobytes of hidden data.
+- **View state.** Before rendering, the page serializes control state into a hidden `__VIEWSTATE` field; on the postback it restores it. That is how a `Label`'s text or a `GridView`'s rows survive a postback, and why some pages send hundreds of kilobytes of hidden data. `SearchBox.Text` is different: a `TextBox` reads its value from the posted form data (it implements `IPostBackDataHandler`), so it keeps the user's input even with view state disabled.
 - **Page life cycle.** Each request runs a fixed sequence: `PreInit`, `Init`, view state and post data loaded, `Load`, then the control events (`Click`), `PreRender`, view state saved, `Render`, `Unload`. Bugs come from code in the wrong stage, such as a value set in `Init` that is overwritten when view state is restored before `Load`, or binding data on every `Load` and losing the user's input.
 
 Also expect `.ascx` user controls, master pages (`.master`), `UpdatePanel` partial postbacks and data source controls (`SqlDataSource`) with SQL in the markup.

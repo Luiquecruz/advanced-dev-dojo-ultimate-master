@@ -24,7 +24,7 @@ A catalog API where reads are public, writes need an `admin` role, abusive clien
 
 ## Acceptance criteria
 
-1. `dotnet user-jwts create` and `dotnet user-jwts create --role admin` each print a token. With the API running:
+1. From the solution root, `dotnet user-jwts create --project src/Catalog.Api` and `dotnet user-jwts create --project src/Catalog.Api --role admin` each print a token (without `--project`, the tool looks for a project in the current directory). With the API running:
    - `POST /products` with no `Authorization` header returns **401**.
    - The same request with the token created without `--role admin` returns **403**.
    - The same request with the admin token and a valid body returns **201** with a `Location` header.
@@ -38,7 +38,7 @@ A catalog API where reads are public, writes need an `admin` role, abusive clien
 ## Suggested steps
 
 1. Add the `Microsoft.AspNetCore.Authentication.JwtBearer` package, register authentication and the `admin` policy, and call `RequireAuthorization("admin")` on a route group holding the write endpoints.
-2. Run `dotnet user-jwts create --role admin` and check criterion 1 by hand with `curl -i -H "Authorization: Bearer <token>"`.
+2. Run `dotnet user-jwts create --project src/Catalog.Api --role admin` and check criterion 1 by hand with `curl -i -H "Authorization: Bearer <token>"`.
 3. Add `AddRateLimiter` with a named fixed-window policy partitioned by user, `UseRateLimiter()` after authentication and routing, and `RequireRateLimiting` on the write group.
 4. Create the solution and `Catalog.Core` with `dotnet new classlib` (as in 01/02), move the parser into it, add the three existing projects with `dotnet sln add`, and check that `dotnet run -- products.csv` in the importer prints the same report as before. Then create `Catalog.UnitTests` from the `xunit3` template, reference `Catalog.Core`, and write the parser theories first: they are the quickest feedback.
 5. Create `Catalog.IntegrationTests` with the Web SDK and `Microsoft.AspNetCore.Mvc.Testing`. Write the 401/403/201 tests with a test authentication handler registered in `ConfigureTestServices`.

@@ -28,8 +28,10 @@ dotnet publish src/Catalog.Api --os linux --arch x64 /t:PublishContainer \
 `--no-restore` and `--no-build` stop each step from redoing the previous one. `--locked-mode` fails the restore if `packages.lock.json` does not match the project, the NuGet equivalent of `composer install` refusing a stale `composer.lock`. Enable the lock file with `<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>`. Pin the SDK too, with a `global.json` at the repository root, so CI and laptops compile with the same SDK:
 
 ```json
-{ "sdk": { "version": "10.0.100", "rollForward": "latestFeature" } }
+{ "sdk": { "version": "10.0.100", "rollForward": "disable" } }
 ```
+
+`disable` makes `setup-dotnet` install exactly that SDK and makes every machine use it, which lock files need (lesson 01/04). A `latest*` policy such as `latestFeature` lets `setup-dotnet` install the newest allowed band, so the SDK could change between runs without a commit; with `disable`, an SDK upgrade is an explicit change to `global.json`.
 
 ## Stamp the build into the binary
 
