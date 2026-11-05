@@ -4,7 +4,7 @@
 // plus the vendored wheels are served from the app's origin.
 // Usage: npm run smoke:worker-csp                                  builds the app and checks it under `vite preview`
 //        npm run smoke:worker-csp -- --url <origin> --dist <dir>   checks a deployed build (CI runs it on each Netlify deploy)
-//        add --build-only to only check that <origin> serves this build's entry assets (exit 3 when another build is live)
+//        add --build-only to only check that <origin> serves this build's index.html (exit 3 while another build is live)
 import { createHash } from 'node:crypto';
 import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -39,36 +39,47 @@ function workerFile(outDir) {
 }
 
 /**
- * Entry assets the build's index.html references by content hash; a page that references all of them is this build's page.
+ * The build's index.html, its hashed entry assets and a predicate telling whether a served page is this build's page.
+ * Same build, not just a healthy one: an older deploy still live would pass every other check. The served HTML must
+ * contain every line of this build's index.html in order (the host may inject its own lines, such as a comment, but a
+ * changed or removed line fails, a new meta description included) plus the root element the app mounts on.
  */
-function entryAssetsOf(outDir) {
-  return [...readFileSync(join(outDir, 'index.html'), 'utf8').matchAll(/(?:src|href)="\/(assets\/[^"]+)"/g)].map((match) => match[1]);
+function buildPage(outDir) {
+  const html = readFileSync(join(outDir, 'index.html'), 'utf8');
+  const lines = html.split('\n').map((line) => line.trim()).filter(Boolean);
+  const entryAssets = [...html.matchAll(/(?:src|href)="\/(assets\/[^"]+)"/g)].map((match) => match[1]);
+  const isThisBuild = (served) => {
+    let cursor = 0;
+    for (const line of lines) {
+      const found = served.indexOf(line, cursor);
+      if (found === -1) return false;
+      cursor = found + line.length;
+    }
+    return served.includes('<div id="root"');
+  };
+  return { html, entryAssets, isThisBuild };
 }
 
 /**
- * Whether the origin's page references every entry asset of the build in outDir.
+ * Whether the origin's page is this build's page; false while another build is live or the origin is unreachable.
  */
 async function servesBuild(origin, outDir) {
-  const entryAssets = entryAssetsOf(outDir);
+  const { isThisBuild } = buildPage(outDir);
   try {
     const page = await fetch(`${origin}/`, { cache: 'no-store' });
-    const html = await page.text();
-    return page.ok && entryAssets.length > 0 && entryAssets.every((asset) => html.includes(`/${asset}`));
+    return page.ok && isThisBuild(await page.text());
   } catch {
     return false;
   }
 }
 
 async function checkServed(origin, outDir, worker) {
-  // index.html names the entry assets by content hash: a page that references exactly those files, served byte for byte,
-  // proves this is the same build (an older deploy would otherwise pass every other check when only the app's HTML or
-  // JavaScript changed). The HTML itself is not compared byte for byte: the host may inject comments into it.
-  const entryAssets = entryAssetsOf(outDir);
+  const { html: buildHtml, entryAssets, isThisBuild } = buildPage(outDir);
   expect(entryAssets.length > 0, 'the build index.html references no /assets/ files');
-  const referencesThisBuild = (html) => entryAssets.every((asset) => html.includes(`/${asset}`));
+  expect(buildHtml.includes('<div id="root"'), 'the build index.html has no <div id="root"> (src/main.tsx mounts the app there)');
   const page = await fetch(`${origin}/`);
   expect(page.ok, `GET / returned ${page.status}`);
-  expect(referencesThisBuild(await page.text()), 'GET / does not reference this build\'s entry assets (an older deploy is still live)');
+  expect(isThisBuild(await page.text()), "GET / does not serve this build's index.html (an older deploy is still live, or the root element is missing)");
   for (const asset of entryAssets) {
     const response = await fetch(`${origin}/${asset}`);
     expect(response.ok && sha256(Buffer.from(await response.arrayBuffer())) === sha256(readFileSync(join(outDir, asset))), `/${asset} does not match the build`);
@@ -83,7 +94,7 @@ async function checkServed(origin, outDir, worker) {
   }
   for (const route of ['/python', '/python/python-map', '/ai-engineering/calling-a-model']) {
     const response = await fetch(`${origin}${route}`);
-    expect(response.ok && referencesThisBuild(await response.text()), `${route} must fall back to this build's index.html (got ${response.status})`);
+    expect(response.ok && isThisBuild(await response.text()), `${route} must fall back to this build's index.html (got ${response.status})`);
   }
   // Every file the build put under pyodide/ (runtime, loader, lock, wheels, licenses), compared byte for byte: the host's
   // SPA fallback answers a missing file with index.html and status 200.
