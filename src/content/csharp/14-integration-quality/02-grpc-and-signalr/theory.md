@@ -66,7 +66,7 @@ app.MapGrpcService<StockService>();
 
 The field numbers (`= 1`, `= 2`) are the wire contract. Never reuse or renumber them; add new fields with new numbers so old clients keep working.
 
-On the client side, `Grpc.Net.ClientFactory` registers the generated client through `IHttpClientFactory`, so everything from lesson 01 applies:
+The client project generates its own stub from the same `.proto`: it references `Google.Protobuf`, `Grpc.Tools` and `Grpc.Net.ClientFactory` and adds `<Protobuf Include="Protos\stock.proto" GrpcServices="Client" />`, which generates `Stock.StockClient`. `Grpc.Net.ClientFactory` registers that client through `IHttpClientFactory`, so everything from lesson 01 applies:
 
 ```csharp
 using Catalog.Grpc;
