@@ -129,6 +129,6 @@ public static class PerformanceAndMemoryTests
         Assert.Throws<IOException>(() => Checksum.Compute(new FailingStream(), failing));
         Assert.Equal(1, failing.Rents);
         Assert.Equal(1, failing.Returns);
-        Assert.True(failing.ReturnedTheRentedArray, "Return should receive the array that Rent handed out when reading throws");
+        Assert.True(failing.ReturnedTheRentedArray, "after a read fails, Return should still receive the array that Rent handed out");
     }
 }
