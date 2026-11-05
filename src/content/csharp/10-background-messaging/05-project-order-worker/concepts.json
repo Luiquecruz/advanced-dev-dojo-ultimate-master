@@ -1,0 +1,8 @@
+[
+  { "term": "Message contract", "description": "The `OrderPlaced` record shared by the API and the worker, which defines what a message carries and changes only in backward-compatible ways." },
+  { "term": "MessageId", "description": "The producer-assigned id stored with the order and set on every publish, which the consumer uses as its deduplication key." },
+  { "term": "Delivery limit policy", "description": "A RabbitMQ policy that sets `delivery-limit` and `dead-letter-exchange` on the quorum queue, so failing messages move to the dead-letter queue after a fixed number of attempts." },
+  { "term": "Reject versus nack", "description": "In RabbitMQ 4.3 and later, `BasicRejectAsync` counts towards a quorum queue's delivery limit and `BasicNackAsync` does not." },
+  { "term": "Prefetch count", "description": "The number of unacknowledged messages RabbitMQ sends to one consumer at a time, set with `BasicQosAsync`, which bounds in-flight work per worker." },
+  { "term": "Scope id", "description": "A GUID created by a scoped service and logged for each message, which proves that every message gets its own DI scope and `DbContext`." }
+]

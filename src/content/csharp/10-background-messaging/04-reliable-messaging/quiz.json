@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Ported from Magento, an endpoint does `await db.SaveChangesAsync(ct);` and then `await publisher.PublishAsync(orderPlaced, ct);`. The broker is unreachable for 30 seconds during a deploy. What is the failure?",
+    "options": [
+      "Orders saved in that window are never announced, so no stock is reserved",
+      "The database transaction rolls back automatically, because the publish threw",
+      "The broker client buffers the messages on disk and sends them when it reconnects",
+      "The order is saved twice when the client retries the request"
+    ],
+    "answer": 0,
+    "explanation": "The save and the publish are two separate writes with no shared transaction, so a failed publish leaves a committed order that no consumer hears about. The save already committed, so nothing rolls back, and broker clients do not durably buffer unsent messages for you. The transactional outbox fixes this by saving the message with the order."
+  },
+  {
+    "question": "With an outbox, the relay publishes a message and then crashes before setting `PublishedAtUtc`. What happens, and what must the system have?",
+    "options": [
+      "The message is lost, so the outbox needs a second outbox to track publishes",
+      "The broker notices the crash and discards the first copy when the second arrives",
+      "Nothing happens: the relay remembers in memory which rows it already sent",
+      "The relay sends it again after restart, so consumers must be idempotent"
+    ],
+    "answer": 3,
+    "explanation": "The row is still unpublished in the database, so the next relay run sends it again. The outbox guarantees at-least-once publishing, not exactly-once, which is why consumers deduplicate by message id. The relay's memory is gone after the crash, and the broker cannot know that the second copy is a duplicate unless a feature like Service Bus duplicate detection is on."
+  },
+  {
+    "question": "Which consumer design is idempotent under concurrent redelivery of the same `OrderPlaced` message to two instances?",
+    "options": [
+      "Check a Redis key for the message id first, and set the key after the stock update has committed",
+      "Insert the id into an inbox table with a unique key, in the stock update's transaction",
+      "Use `prefetchCount: 1` on every instance, so only one of them can hold the message",
+      "Turn on the broker's exactly-once setting, so a duplicate delivery never arrives"
+    ],
+    "answer": 1,
+    "explanation": "Writing the marker and the side effect in one transaction, with a unique key, makes the database the single arbiter: one insert wins and the other fails. The Redis option is a check-then-set race, and setting the key after the commit leaves a crash window. Prefetch only limits unacknowledged messages per consumer, and redeliveries still happen."
+  },
+  {
+    "question": "A consumer receives an `OrderPlaced` message whose SKU does not exist in the catalog. With Azure Service Bus and default settings, what is the best handling?",
+    "options": [
+      "Throw, and let the message be redelivered 10 times before it is dead-lettered",
+      "Complete the message and log a warning, so the rest of the queue keeps moving",
+      "`DeadLetterMessageAsync` with a reason: a retry cannot fix the data",
+      "Abandon the message in a loop until someone adds the missing SKU to the catalog"
+    ],
+    "answer": 2,
+    "explanation": "An unknown SKU is a permanent failure, so retries waste 10 deliveries (the default `MaxDeliveryCount`) before the broker dead-letters it anyway. Dead-lettering explicitly records why and keeps the message for repair. Completing it silently loses an order, and abandoning in a loop just burns delivery counts."
+  },
+  {
+    "question": "On RabbitMQ 4.4 with a quorum queue, `delivery-limit` 3 and a dead-letter exchange configured by policy, a consumer handles every failure with `BasicNackAsync(tag, multiple: false, requeue: true)`. What happens to a poison message?",
+    "options": [
+      "It is dead-lettered after the fourth failed delivery, as the policy requires",
+      "It is requeued forever, because since 4.3 a nack does not raise the delivery count",
+      "It is dropped after the first nack, because requeue is ignored on quorum queues",
+      "The policy is ignored, because delivery limits only apply to classic queues"
+    ],
+    "answer": 1,
+    "explanation": "In RabbitMQ 4.3 and later, quorum queues count genuine failures only: `basic.reject` and consumer crashes increment the delivery count, `basic.nack` does not. The tempting first option is what happens if the consumer uses `BasicRejectAsync(tag, requeue: true)` instead. Delivery limits are a quorum queue feature."
+  },
+  {
+    "question": "A team wants an outbox, retries and an inbox on RabbitMQ and proposes adding the latest MassTransit package. Which statement is accurate as of 2026-11-05?",
+    "options": [
+      "MassTransit 9.x is MIT-licensed, like the Azure SDK and the RabbitMQ client",
+      "9.x is a commercial product that must be licensed; earlier versions remain open source",
+      "MassTransit was deprecated by Microsoft and replaced by `Microsoft.Extensions.Messaging`",
+      "MassTransit 9.x is free for production use in teams below 5 developers"
+    ],
+    "answer": 1,
+    "explanation": "The NuGet page for 9.2.5 says MassTransit is a commercial product that must be licensed, while earlier versions remain under a permissive open-source licence. MassTransit was never a Microsoft package, and no free tier was verified for this lesson. The choice is the team's: licence it, stay on v8 with its support caveat, or implement the patterns directly."
+  }
+]

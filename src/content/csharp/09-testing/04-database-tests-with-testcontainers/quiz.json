@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A tutorial replaces the PostgreSQL provider with `UseInMemoryDatabase` in every test \"for speed\". What is Microsoft's position on that?",
+    "options": [
+      "It is the recommended default for tests, because it needs no setup",
+      "It is deprecated and was removed from EF Core 10, so it no longer compiles",
+      "It is highly discouraged as a fake and kept only for legacy applications",
+      "It is fine as long as you also turn on its SQLite compatibility mode"
+    ],
+    "answer": 2,
+    "explanation": "The EF Core testing guide says using the in-memory provider as a fake is highly discouraged and that it is only supported for legacy applications; it ignores transactions, cannot run raw SQL and is generally slower than SQLite in-memory, so test against your production database engine. It is not deprecated, so 'removed' is wrong, and there is no SQLite compatibility mode."
+  },
+  {
+    "question": "A search uses `EF.Functions.ILike(p.Name, \"%shirt%\")`. Where can a test of that query actually run?",
+    "options": [
+      "Only against PostgreSQL, for example in a Testcontainers PostgreSQL container",
+      "On SQLite in memory, which supports the same text functions as PostgreSQL",
+      "On the EF Core in-memory provider, which evaluates the call in C#",
+      "On any provider, because EF Core translates `ILike` into `LIKE` everywhere"
+    ],
+    "answer": 0,
+    "explanation": "`ILike` is a provider-specific function of Npgsql and translates to PostgreSQL's `ILIKE`. Provider-specific functions fail on SQLite and on the in-memory provider, which is exactly the class of bug a fake cannot catch. EF Core does not rewrite it for other providers."
+  },
+  {
+    "question": "Coming from Magento, which .NET technique corresponds to `@magentoDbIsolation enabled`?",
+    "options": [
+      "Creating a new Docker container for every test in the class",
+      "Running each test in a transaction that is rolled back on dispose",
+      "Calling `EnsureDeleted` and `EnsureCreated` before every test",
+      "Marking the test class with `[Collection]` so it runs on its own"
+    ],
+    "answer": 1,
+    "explanation": "Magento's annotation wraps a test in a transaction and rolls it back; the EF Core docs recommend the same for tests that write. A container or a full drop-and-create per test also isolates, but costs seconds per test. `[Collection]` only controls parallelism."
+  },
+  {
+    "question": "Why does the factory call `db.Database.MigrateAsync()` instead of `EnsureCreatedAsync()` after the container starts?",
+    "options": [
+      "`EnsureCreatedAsync` does not work with PostgreSQL databases in containers",
+      "`MigrateAsync` runs the real migrations, so the tests prove them too",
+      "`MigrateAsync` is the only one of the two that works with Testcontainers",
+      "`EnsureCreatedAsync` deletes the existing data before it builds the schema"
+    ],
+    "answer": 1,
+    "explanation": "`EnsureCreated` builds the schema straight from the current model and bypasses migrations, so a broken or missing migration would go unnoticed. `MigrateAsync` runs the same migrations production will run. `EnsureCreated` does work with PostgreSQL in a container and does not delete data; the choice is about what the tests prove."
+  },
+  {
+    "question": "Four test classes send `POST` requests through the API, so the data is committed. They share one Testcontainers database and fail intermittently. Which fix matches the EF Core guidance?",
+    "options": [
+      "Run them in one xUnit collection and reset data after each test, or split databases",
+      "Switch those four classes to the in-memory provider, which isolates each context",
+      "Add a short `Thread.Sleep` between requests so each write finishes first",
+      "Increase the PostgreSQL connection pool size so requests stop waiting"
+    ],
+    "answer": 0,
+    "explanation": "Tests that commit cannot use transaction rollback for isolation, so they need cleanup between tests and no parallel overlap, or separate databases so they can run in parallel. Sleeping only hides the race, the pool size is unrelated, and the in-memory provider would stop testing the real database."
+  },
+  {
+    "question": "Where should a P3 rule such as \"a discount can never exceed 50%\" be tested?",
+    "options": [
+      "In a Testcontainers test, because every test should hit the real database",
+      "Only in an HTTP test through `WebApplicationFactory`, where the rule is used",
+      "Nowhere, because a database check constraint already enforces the rule",
+      "In a unit test of the pricing code, because the rule needs no database"
+    ],
+    "answer": 3,
+    "explanation": "Real-database tests are for what only the database can prove: translation, migrations, constraints and concurrency. A pure business rule belongs in a fast unit test; running it against a container adds seconds and teaches nothing new. A database constraint may back it up, but the rule still needs a test that states it."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "DbContext", "description": "The EF Core session that holds the model, the connection and the change tracker for one unit of work." },
+  { "term": "DbSet<T>", "description": "The queryable set of one entity type on a context, the starting point for LINQ queries and for `Add` and `Remove`." },
+  { "term": "Conventions", "description": "The default mapping rules, such as `Id` as primary key and `CategoryId` plus a navigation as a foreign key, that the Fluent API or attributes override." },
+  { "term": "Fluent API", "description": "Mapping configuration written in `OnModelCreating` with `ModelBuilder`, such as lengths, precision and indexes." },
+  { "term": "Change tracker", "description": "The part of the context that snapshots loaded entities and turns their changes into `INSERT`, `UPDATE` and `DELETE` statements on `SaveChangesAsync`." },
+  { "term": "Unit of work", "description": "The pattern EF Core follows: collect every change during a business operation and write them together in one `SaveChangesAsync` call." },
+  { "term": "Scoped lifetime", "description": "The DI lifetime `AddDbContext` uses, so each HTTP request gets its own context that is disposed when the request ends." }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Multi-stage build", "description": "A Dockerfile with a build stage on the `sdk` image and a final stage that copies only the published output into a runtime image." },
+  { "term": "`aspnet` image", "description": "The Microsoft image with the ASP.NET Core and .NET runtimes, used as the base of a web API's final stage." },
+  { "term": "Chiseled image", "description": "A distroless Ubuntu variant (`10.0-noble-chiseled`) with only the packages .NET needs, a non-root user by default, and no shell or package manager." },
+  { "term": "`ASPNETCORE_HTTP_PORTS`", "description": "The environment variable the .NET 8+ images set to `8080`, so Kestrel listens on an unprivileged port and the app can run as the `app` user." },
+  { "term": "SDK container publish", "description": "`dotnet publish /t:PublishContainer` builds an OCI image from MSBuild properties such as `ContainerRepository` and `ContainerFamily`, with no Dockerfile." },
+  { "term": "`ContainerFamily`", "description": "An MSBuild property appended to the inferred base image tag, for example `noble-chiseled` or `alpine`." },
+  { "term": "`depends_on` with `service_healthy`", "description": "A Compose setting that waits for a dependency's health check to pass before starting the dependent service." }
+]

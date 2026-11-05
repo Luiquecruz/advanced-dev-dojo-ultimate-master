@@ -38,13 +38,13 @@ Acceptance for every module:
 | C04 | 04-errors-async | 5 | done | written, cross-reviewed (findings fixed), suites green |
 | C05 | 05-aspnet-core | 5 | done | written, cross-reviewed (findings fixed), suites green |
 | C06 | 06-web-apis | 5 | done | written, cross-reviewed (findings fixed), suites green |
-| C07 | 07-data | 8 | doing | written and reviewed; ships in the second pull request |
-| C08 | 08-security | 5 | doing | written and reviewed; ships in the second pull request |
-| C09 | 09-testing | 5 | doing | written and reviewed; ships in the second pull request |
-| C10 | 10-background-messaging | 5 | doing | written and reviewed; ships in the second pull request |
-| C11 | 11-delivery | 6 | doing | written and reviewed; ships in the second pull request |
-| C12 | 12-architecture | 5 | doing | written and reviewed; ships in the second pull request |
-| C13 | 13-legacy | 5 | doing | written and reviewed; ships in the second pull request |
+| C07 | 07-data | 8 | done | written, cross-reviewed (findings fixed), suites green |
+| C08 | 08-security | 5 | done | written, cross-reviewed (findings fixed), suites green |
+| C09 | 09-testing | 5 | done | written, cross-reviewed (findings fixed), suites green |
+| C10 | 10-background-messaging | 5 | done | written, cross-reviewed (findings fixed), suites green |
+| C11 | 11-delivery | 6 | done | written, cross-reviewed (findings fixed), suites green |
+| C12 | 12-architecture | 5 | done | written, cross-reviewed (findings fixed), suites green |
+| C13 | 13-legacy | 5 | done | written, cross-reviewed (findings fixed), suites green |
 
 ## Release
 
@@ -53,7 +53,7 @@ Acceptance for every module:
 | V1 | Browser check | The track appears on the home carousel with its accent; navigation works (curriculum → lesson → Learn → Quiz → next); quiz completion persists across a reload; the console has no errors; screenshots taken | done | 2026-11-05, Chromium on `npm run dev`: 8th card "C# and .NET", accent `rgb(255, 122, 127)`; lesson tabs Learn + Quiz and no editor; `csharp` blocks highlighted; a 6/6 quiz still shows 6/6 after a reload, and localStorage has `quizzes["csharp/csharp-map"] = true`; Next lesson works; the curriculum shows "1/67 lessons complete"; no console errors |
 | V2 | Final independent review | The whole track (content, suite, docs, CI) has no open high or medium findings | done | three lenses (accuracy, with 26 lessons sampled and 268 URLs requested; pedagogy; platform): 3 high, 8 medium, 13 low. All high and medium fixed: P3–P6 chain coherence, the Identity rehash, the suite now enforces heading order and Check yourself count (mutation-checked), docs counts. One low left open: about 20 lessons re-explain the PHP-FPM lifecycle in their Coming from section |
 | V3 | CI/CD | The pull request CI is green, including the smoke test against the Deploy Preview; the state is recorded (CI passed is not a deploy) | done | PR #17 at `c0e65cc`: 28 checks passed and 4 skipped, merge state CLEAN. The first run failed CodeQL on a URL substring check in the suite (fixed in `c0e65cc`). The Netlify Deploy Preview was built and smoke-tested. Production is not deployed: it follows the merge. CodeRabbit skipped the PR (302 files, over its 300-file limit); the independent agent reviews stand in for it |
-| V4 | Enable | `TRACK_FLAGS.csharp = true` once C01–C13 and V1–V2 are done | doing | flag, README, CURRICULUM and `index.html` change in the second pull request |
+| V4 | Enable | `TRACK_FLAGS.csharp = true` once C01–C13 and V1–V2 are done | done | flag on; README, CURRICULUM and `index.html` updated |
 
 ## Later (not in v1)
 

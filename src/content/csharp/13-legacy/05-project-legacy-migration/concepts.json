@@ -1,0 +1,8 @@
+[
+  { "term": "Gateway app", "description": "The new ASP.NET Core app that clients call, which serves migrated routes itself and forwards the rest." },
+  { "term": "MapForwarder", "description": "The YARP direct-forwarding API that sends requests matching a route pattern to a fixed destination URL." },
+  { "term": "Route order", "description": "The endpoint priority set with `WithOrder`, which makes the catch-all fallback the last candidate after every local route." },
+  { "term": "Route constraint", "description": "A rule such as `{id:int}` that a route value must satisfy, so non-matching requests fall through to other endpoints." },
+  { "term": "Provenance header", "description": "A response header such as `X-Served-By` that lets tests and humans see which app answered a request." },
+  { "term": "Side door", "description": "Direct network access to the legacy app that bypasses the proxy, closed by binding the old app to a private address." }
+]

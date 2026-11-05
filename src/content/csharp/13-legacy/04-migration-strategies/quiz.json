@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A large MVC 5 store must stay online during its move to .NET 10 and uses `System.Web` everywhere. Which approach matches Microsoft's guidance?",
+    "options": [
+      "An incremental migration with YARP in front of the old app, moving one route at a time",
+      "An in-place migration in a long-lived branch, merged and deployed on launch night",
+      "A first move to ASP.NET Core 2.3 on .NET Framework, then a second move to .NET 10",
+      "(deprecated) .NET Upgrade Assistant run on the whole solution, deploying its output"
+    ],
+    "answer": 0,
+    "explanation": "Staying in production with heavy `System.Web` use is exactly when Microsoft recommends the incremental Strangler Fig approach. ASP.NET Core 2.3 on .NET Framework used to be a stepping stone, but Microsoft no longer recommends it and its support ends on 2027-04-13. Upgrade Assistant is deprecated, and no tool's output is ready to deploy unreviewed."
+  },
+  {
+    "question": "In the proxy app, `app.MapForwarder(\"/{**catch-all}\", legacyUrl).WithOrder(int.MaxValue)` is registered. A request for `/api/products/5` arrives and the new app also maps `GET /api/products/{id:int}`. Who answers?",
+    "options": [
+      "The legacy app, because the catch-all pattern matches every possible path",
+      "Both: YARP sends the request to both apps and returns the first response",
+      "The new app: its specific route outranks the lowest-priority fallback",
+      "Neither: two matching endpoints cause an `AmbiguousMatchException` at run time"
+    ],
+    "answer": 2,
+    "explanation": "`WithOrder(int.MaxValue)` makes the fallback the last candidate, so any route the new app defines takes precedence. The catch-all does match every path, which is why the first option is tempting, but order decides between candidates, so there is no ambiguity."
+  },
+  {
+    "question": "Logged-in users of the old app are asked to log in again whenever a request reaches a migrated endpoint. Which part of the plan was skipped?",
+    "options": [
+      "Upgrading the shared libraries in postorder before moving the endpoint",
+      "Sharing authentication between both apps, such as remote authentication",
+      "Converting both projects to SDK-style so they share one cookie format",
+      "Adding `ShortCircuit()` to the fallback so cookies pass through untouched"
+    ],
+    "answer": 1,
+    "explanation": "Cross-cutting concerns such as authentication and session must be shared while both apps run; the System.Web adapters' remote authentication lets the ASP.NET Core app defer sign-in to the old app. `ShortCircuit()` only skips middleware for forwarded requests and does nothing for migrated ones."
+  },
+  {
+    "question": "The solution has `Web` (MVC 5) → `Orders` → `Pricing` → `Common`. The next route to migrate needs `Orders`. In which order do you upgrade the libraries?",
+    "options": [
+      "`Web`, then `Orders`, then `Pricing`, then `Common`, following the call chain",
+      "Only `Orders`, leaving `Pricing` and `Common` on .NET Framework for now",
+      "All four together in a single pull request, so nothing is half-migrated",
+      "`Common`, `Pricing`, then `Orders`; `Web` is replaced route by route"
+    ],
+    "answer": 3,
+    "explanation": "Microsoft prescribes postorder depth-first order: leaves first, so each library's dependencies are already compatible when it moves, and the main app last. Upgrading only `Orders` fails because a `netstandard2.0` or `net10.0` library cannot reference a project that only targets .NET Framework."
+  },
+  {
+    "question": "A shared library takes a `System.Web.HttpContext` parameter in 200 places. What do the System.Web adapters let you do?",
+    "options": [
+      "Swap `System.Web` for the adapters package and multi-target the library",
+      "Run the library's Web Forms pages and controls inside ASP.NET Core",
+      "Keep the real `System.Web.dll` running on Linux inside ASP.NET Core",
+      "Convert every `HttpContext` method automatically into minimal API endpoints"
+    ],
+    "answer": 0,
+    "explanation": "`Microsoft.AspNetCore.SystemWebAdapters` provides the `System.Web` API surface for libraries, so the same library compiles for .NET Framework and ASP.NET Core callers; ASP.NET Core passes its `HttpContext` through an implicit conversion or `AsSystemWeb()`. The adapters do not bring Web Forms or the real `System.Web.dll` to modern .NET."
+  },
+  {
+    "question": "A teammate proposes starting the migration with .NET Upgrade Assistant because a 2021 blog post recommends it. What do you answer?",
+    "options": [
+      "Fine: it is still Microsoft's primary tool for .NET Framework migrations",
+      "It is deprecated; Microsoft points to the Copilot modernization agent",
+      "It only supports Web Forms projects, so it cannot help with MVC 5 at all",
+      "No tool can help, because every migration step must be done by hand"
+    ],
+    "answer": 1,
+    "explanation": "Microsoft's docs state that Upgrade Assistant is officially deprecated and say to use the GitHub Copilot modernization chat agent instead (Visual Studio 2026 or 2022 17.14.16+); either tool's output still needs review. 'Still the primary tool' is the tempting answer because Upgrade Assistant is still documented and installable."
+  }
+]

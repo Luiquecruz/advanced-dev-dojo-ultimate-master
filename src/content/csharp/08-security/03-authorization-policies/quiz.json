@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An app sets a fallback policy that requires an authenticated user. Which endpoint can an anonymous caller reach?",
+    "options": [
+      "`app.MapGet(\"/products\", ...)` with no authorization metadata",
+      "`app.MapGet(\"/products\", ...).RequireAuthorization()`",
+      "`app.MapGet(\"/health\", ...).AllowAnonymous()`",
+      "None: a fallback policy also overrides `AllowAnonymous()`"
+    ],
+    "answer": 2,
+    "explanation": "The fallback policy applies to endpoints without authorization metadata, so the first endpoint now requires a signed-in user. `RequireAuthorization()` uses the default policy, which also requires one. `AllowAnonymous()` tells the authorization middleware not to enforce a failure, which is how intentionally public endpoints opt out."
+  },
+  {
+    "question": "A controller action has `[Authorize(Roles = \"Admin,Editor\")]`. The token carries the role claim `admin`. What happens?",
+    "options": [
+      "Denied: role names are compared case-sensitively, so the claim `admin` does not match `Admin`",
+      "Access is granted: role names are compared case-insensitively, like policy names",
+      "Access is denied because the user must have both `Admin` and `Editor`",
+      "Access is granted because any authenticated user passes a roles check"
+    ],
+    "answer": 0,
+    "explanation": "Role names are compared case-sensitively, so `Admin` and `admin` are different roles; only policy name lookup is case-insensitive. A comma-separated list means any one of the roles (OR); requiring both needs two attributes or a chained policy."
+  },
+  {
+    "question": "The `BuildingEntry` requirement has two registered handlers: `BadgeHandler` calls `context.Succeed(requirement)`, `StickerHandler` does nothing. The policy contains only this requirement. What is the result?",
+    "options": [
+      "Denied, because every registered handler must succeed for the requirement",
+      "Granted: handlers for one requirement combine with OR, and doing nothing is not a failure",
+      "It depends on the order in which the two handlers were registered",
+      "Denied, because `StickerHandler` must call `context.Fail()` or `context.Succeed()`"
+    ],
+    "answer": 1,
+    "explanation": "A requirement is met when any of its handlers succeeds, and a handler that does nothing is not a failure; it leaves the decision to the others. Only `context.Fail()` forces a denial. Handler order is not guaranteed and must not matter. Requirements in a policy are the ones that combine with AND."
+  },
+  {
+    "question": "Coming from Magento's `<resource ref=\"self\"/>`, a developer protects `GET /orders/{id}` with `.RequireAuthorization()` only. What is the vulnerability?",
+    "options": [
+      "None: `RequireAuthorization()` already checks that the order belongs to the caller",
+      "Anonymous callers can read orders because `RequireAuthorization()` needs a policy name",
+      "The endpoint returns 403 to every caller because no role is specified",
+      "Any signed-in customer can read any order just by changing the id in the URL"
+    ],
+    "answer": 3,
+    "explanation": "`RequireAuthorization()` only applies the default policy, an authenticated user. ASP.NET Core has no equivalent of Magento's `self`, so the endpoint must load the order and check ownership, for example with `IAuthorizationService.AuthorizeAsync(user, order, \"SameOwner\")` or a query filtered by the caller's id. This is Broken Object Level Authorization, API1 in the OWASP API Security Top 10 (2023)."
+  },
+  {
+    "question": "Why can't you implement \"only the author may edit this document\" with an attribute such as `[Authorize(Policy = \"SameAuthor\")]` alone?",
+    "options": [
+      "Attributes cannot reference policies whose requirements have custom handlers",
+      "The attribute runs before the document is loaded, so there is no resource to compare",
+      "Policies can only check roles and scopes, never arbitrary claims such as an author id",
+      "The policy and its handler would have to be registered as transient services"
+    ],
+    "answer": 1,
+    "explanation": "Microsoft's resource-based authorization guidance states that attribute evaluation happens before data binding and before any code that loads the resource. The fix is imperative authorization: load the document, then call `AuthorizeAsync(user, document, \"SameAuthor\")` with a handler derived from `AuthorizationHandler<TRequirement, TResource>`. Policies can use claims, custom requirements and handlers freely."
+  },
+  {
+    "question": "A policy is defined as `policy.RequireRole(\"admin\").RequireClaim(\"tenant\", \"br\")`. Which user passes?",
+    "options": [
+      "A user with role `admin` and claim `tenant = br`",
+      "A user with role `admin` and claim `tenant = pt`",
+      "A user with claim `tenant = br` and no role",
+      "Any user with either the role or the claim"
+    ],
+    "answer": 0,
+    "explanation": "Every requirement added to one policy must pass (AND), so the user needs both the `admin` role and the `tenant` claim with value `br`. To express OR between different rules, use several handlers for one requirement or a `RequireAssertion` that combines the checks."
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "title": "API Hardening",
+  "summary": "Enforce HTTPS the way an API should, configure CORS without weakening the API, add rate limiting that holds behind a load balancer, keep secrets out of the repository, and review endpoints against the OWASP API Security Top 10 (2023).",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: Enforce HTTPS in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl"
+    },
+    {
+      "label": "Microsoft Learn: Enable Cross-Origin Requests (CORS)",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/cors"
+    },
+    {
+      "label": "Microsoft Learn: Rate limiting middleware in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit"
+    },
+    {
+      "label": "Microsoft Learn: Safe storage of app secrets in development",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets"
+    },
+    {
+      "label": "OWASP API Security Top 10 (2023)",
+      "url": "https://api-security.owasp.org/editions/2023/en/0x11-t10"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Aspire",
+  "summary": "Orchestrate an API, a worker, PostgreSQL and RabbitMQ locally with an Aspire AppHost, use service defaults and the dashboard, know the limits of publish and deploy, and plan for latest-release-only support.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "What is Aspire?", "url": "https://aspire.dev/get-started/what-is-aspire/" },
+    { "label": "Aspire support policy", "url": "https://aspire.dev/support/" },
+    { "label": "Aspire CLI overview", "url": "https://aspire.dev/reference/cli/overview/" },
+    { "label": "Set up PostgreSQL in the AppHost", "url": "https://aspire.dev/integrations/databases/postgres/postgres-host/" },
+    { "label": "OpenTelemetry in Aspire and reusing service defaults (.NET observability)", "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/observability-with-otel" }
+  ]
+}

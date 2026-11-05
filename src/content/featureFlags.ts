@@ -6,7 +6,7 @@ export const TRACK_FLAGS: Readonly<Record<string, boolean>> = {
   angular: false,
   'ai-engineering': true,
   python: true,
-  csharp: false,
+  csharp: true,
 };
 
 /**

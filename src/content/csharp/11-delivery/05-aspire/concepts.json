@@ -1,0 +1,9 @@
+[
+  { "term": "Aspire", "description": "A code-first orchestration and observability layer that runs a distributed app locally and can generate deployment artifacts; it is not a production runtime." },
+  { "term": "AppHost", "description": "The project whose code declares resources (containers, projects) and their references, started with `aspire run`." },
+  { "term": "`WithReference` / `WaitFor`", "description": "AppHost calls that inject a resource's connection information into a project and delay its start until the resource is healthy." },
+  { "term": "Hosting and client integrations", "description": "Hosting packages such as `Aspire.Hosting.PostgreSQL` add resources to the AppHost; client packages such as `Aspire.Npgsql.EntityFrameworkCore.PostgreSQL` consume them in the apps." },
+  { "term": "Service defaults", "description": "A template project you own that adds OpenTelemetry, health checks, service discovery and `HttpClient` resilience through `AddServiceDefaults()`." },
+  { "term": "Aspire dashboard", "description": "A developer tool that receives OTLP and shows resources, logs, traces and metrics; also available as a standalone container." },
+  { "term": "Latest-release support", "description": "Microsoft supports only the newest Aspire release, so support for a version ends when the next minor or major ships." }
+]

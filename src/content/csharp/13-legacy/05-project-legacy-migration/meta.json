@@ -1,0 +1,28 @@
+{
+  "title": "Project P7: Migrate One Endpoint Incrementally",
+  "summary": "Put an ASP.NET Core 10 gateway with YARP in front of a legacy app, move one endpoint, forward the rest, and prove with curl and dotnet test which app answers each route.",
+  "level": "advanced",
+  "tags": [
+    "recommended",
+    "legacy",
+    "project"
+  ],
+  "resources": [
+    {
+      "label": "Get started with YARP",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/getting-started"
+    },
+    {
+      "label": "Remote app setup (fallback to the legacy app)",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/inc/remote-app-setup"
+    },
+    {
+      "label": "Get started with incremental ASP.NET to ASP.NET Core migration",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/start"
+    },
+    {
+      "label": "Get Started with ASP.NET Web API 2 (for the Windows legacy app)",
+      "url": "https://learn.microsoft.com/en-us/aspnet/web-api/overview/getting-started-with-aspnet-web-api/tutorial-your-first-web-api"
+    }
+  ]
+}

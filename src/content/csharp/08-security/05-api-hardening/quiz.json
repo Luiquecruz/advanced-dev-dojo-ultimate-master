@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An API that receives bearer tokens is reachable over HTTP and HTTPS and calls `app.UseHttpsRedirection()`. What does Microsoft recommend instead?",
+    "options": [
+      "Add `[RequireHttps]` to every controller so clients are redirected",
+      "Add `app.UseHsts()` so API clients remember to use HTTPS",
+      "Keep the redirect; API clients always follow 307 redirects to HTTPS",
+      "Do not listen on HTTP at all, or reject HTTP requests with 400"
+    ],
+    "answer": 3,
+    "explanation": "By the time a redirect is sent, the client has already sent its token over HTTP, and many API clients don't follow redirects. Microsoft's guidance is that API projects either don't listen on HTTP or reject HTTP with 400, and it warns against `RequireHttpsAttribute` on APIs. HSTS is a browser-only instruction that mobile apps and services ignore."
+  },
+  {
+    "question": "A teammate configures `policy.AllowAnyOrigin().AllowCredentials()` so the storefront SPA can send its cookie. What happens?",
+    "options": [
+      "It works and is safe, because the session cookie is `HttpOnly` and `Secure`",
+      "It is insecure and rejected as an invalid CORS response; use `WithOrigins`",
+      "It blocks all requests from non-browser clients such as `curl` and mobile apps",
+      "It is only a problem if the API also uses JWT bearer authentication"
+    ],
+    "answer": 1,
+    "explanation": "Microsoft's CORS documentation calls `AllowAnyOrigin` plus `AllowCredentials` insecure (it enables cross-site request forgery) and the service refuses it with an invalid CORS response. CORS only affects browsers reading responses; `curl` and servers ignore it entirely, which is also why CORS never protects an API."
+  },
+  {
+    "question": "A fixed-window policy allows 100 requests per minute per user. The API runs on three instances behind a load balancer. How many requests per minute can one user get through?",
+    "options": [
+      "100, because the middleware shares counters through the distributed cache",
+      "About 33, because the limit is split across instances",
+      "Up to 300, because each instance keeps its own in-memory counters",
+      "Unlimited, because rate limiting is disabled behind a load balancer"
+    ],
+    "answer": 2,
+    "explanation": "The rate limiting middleware keeps counters in memory per instance, so the effective limit is the configured limit times the number of instances. For a single global limit, use an API gateway or a custom limiter backed by a shared store. The middleware does not use `IDistributedCache`."
+  },
+  {
+    "question": "Clients report `503 Service Unavailable` during traffic peaks, and monitoring shows the servers are healthy. Rate limiting was added with default options. What is the likely cause and fix?",
+    "options": [
+      "The rate limiter's default rejection status is 503; set it to 429 and add `Retry-After`",
+      "Kestrel returns 503 when more than 100 connections are open; raise the connection limit",
+      "The concurrency limiter crashed under load; switch to a token bucket limiter",
+      "`UseRateLimiter` was called before `UseRouting`, which makes every request fail with 503"
+    ],
+    "answer": 0,
+    "explanation": "`RateLimiterOptions.RejectionStatusCode` defaults to `Status503ServiceUnavailable`, which looks like an outage to clients and monitoring. `429 Too Many Requests` with a `Retry-After` header tells clients to back off. Calling `UseRateLimiter` before `UseRouting` only means endpoint-specific policies are not applied; it does not turn every request into a 503."
+  },
+  {
+    "question": "Coming from Magento's `env.php`, a developer puts the production database password in `appsettings.Production.json` and plans `dotnet user-secrets` for local work. What is the correct assessment?",
+    "options": [
+      "Both are fine: `appsettings.Production.json` is encrypted when the app is published",
+      "Both are wrong: user secrets are encrypted, so `IConfiguration` cannot read them",
+      "`appsettings.Production.json` is fine as long as the repository is private",
+      "Only the user secrets part is right; production secrets belong in a managed store"
+    ],
+    "answer": 3,
+    "explanation": "Microsoft says never to store passwords in source code or configuration files and to read production secrets through a controlled means like Azure Key Vault. The Secret Manager keeps values unencrypted in the user profile and is loaded only in Development, which makes it right for local work and wrong for production. A private repository still keeps the password in its history and in every clone."
+  },
+  {
+    "question": "A customer changes `GET /customers/1001/orders` to `GET /customers/1002/orders` and sees another customer's orders. Which OWASP API Security Top 10 (2023) risk is this, and what fixes it?",
+    "options": [
+      "API4 Unrestricted Resource Consumption; add rate limiting per user",
+      "API1 Broken Object Level Authorization; check ownership of the object",
+      "API8 Security Misconfiguration; tighten the CORS policy to known origins",
+      "API2 Broken Authentication; shorten the token lifetime and rotate keys"
+    ],
+    "answer": 1,
+    "explanation": "Accessing another user's object by changing an id is Broken Object Level Authorization, API1:2023. The fix is an ownership check (resource-based authorization or a query filtered by the caller's id). Rate limiting only slows the enumeration, CORS does not affect a signed-in client, and the caller's authentication is valid, so token lifetime is irrelevant."
+  }
+]

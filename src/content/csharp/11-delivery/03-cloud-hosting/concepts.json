@@ -1,0 +1,10 @@
+[
+  { "term": "Azure App Service", "description": "A managed host for web apps and APIs from code or a custom container, with staging slots, autoscale and managed certificates." },
+  { "term": "Azure Container Apps", "description": "A serverless container platform built on Kubernetes that scales on traffic or KEDA events, often to zero, without exposing the Kubernetes API." },
+  { "term": "ECS on Fargate", "description": "AWS's container service running tasks without servers to manage; ECS Express Mode provisions the service, load balancer and scaling from an image and two IAM roles." },
+  { "term": "Revision", "description": "An immutable version of a container app; Container Apps can split traffic between revisions for blue/green or A/B releases." },
+  { "term": "Liveness probe", "description": "A Kubernetes check whose repeated failure makes the kubelet restart the container." },
+  { "term": "Readiness probe", "description": "A Kubernetes check whose failure removes the Pod from its Services' endpoints until it recovers, without a restart." },
+  { "term": "Forwarded headers", "description": "`X-Forwarded-For` and `X-Forwarded-Proto` set by a proxy, applied by `UseForwardedHeaders` so the app sees the original scheme and client IP." },
+  { "term": "Per-instance state", "description": "Memory caches, rate-limiter counters, local files and hosted-service schedules that exist separately in every replica of a long-running app." }
+]

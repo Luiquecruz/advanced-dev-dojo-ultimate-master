@@ -1,0 +1,9 @@
+[
+  { "term": ".NET Framework", "description": "The original Windows-only implementation of .NET, versions 1.0 to 4.8.1, installed as part of Windows and no longer receiving new features." },
+  { "term": "Modern .NET", "description": ".NET 5 and later (today .NET 10), the cross-platform line that grew out of .NET Core and receives all new features." },
+  { "term": "Component lifecycle", "description": "The support model of .NET Framework 4.5.2 and later: a version is supported for as long as the Windows version it is installed on." },
+  { "term": "Target framework moniker (TFM)", "description": "The token in a project file that names the target, such as `net48`, `netstandard2.0` or `net10.0`." },
+  { "term": "SDK-style project", "description": "The short `.csproj` format that starts with `<Project Sdk=\"...\">`, uses `PackageReference` and is required by modern .NET." },
+  { "term": ".NET Standard 2.0", "description": "The last API specification implemented by .NET Framework, used for libraries shared between a .NET Framework app and a modern .NET app." },
+  { "term": "Multi-targeting", "description": "Building one project for several TFMs with `<TargetFrameworks>`, branching code with symbols such as `NETFRAMEWORK` and `NET10_0_OR_GREATER`." }
+]

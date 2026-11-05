@@ -1,0 +1,9 @@
+[
+  { "term": "Build once, deploy many", "description": "The pipeline produces one image tagged with the commit, and every environment deploys that same digest with its own configuration." },
+  { "term": "`--no-restore` / `--no-build`", "description": "CLI flags that stop `dotnet build` and `dotnet test` from repeating the previous step, keeping the pipeline fast and each step's output explicit." },
+  { "term": "`packages.lock.json`", "description": "The NuGet lock file enabled by `RestorePackagesWithLockFile`; `dotnet restore --locked-mode` fails when it does not match the project." },
+  { "term": "`global.json`", "description": "A file that pins the .NET SDK version for a repository, read by `actions/setup-dotnet` and by `UseDotNet@2` with `useGlobalJson`." },
+  { "term": "`actions/setup-dotnet`", "description": "The GitHub Action that installs the .NET SDK on a runner and can cache NuGet packages keyed by the lock file." },
+  { "term": "`UseDotNet@2` and `DotNetCoreCLI@2`", "description": "Azure Pipelines tasks that install the SDK and wrap `dotnet` CLI commands, publishing test results to the run summary." },
+  { "term": "OIDC federation", "description": "A CI login to a cloud provider with a short-lived token issued per run, instead of long-lived keys stored as secrets." }
+]
