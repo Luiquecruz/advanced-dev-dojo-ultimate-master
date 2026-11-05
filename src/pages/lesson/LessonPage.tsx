@@ -56,6 +56,15 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
     progress.visit(track.id, lesson.key);
   }, [track.id, lesson.key]);
 
+  useEffect(() => {
+    if (!solutionOpen) {
+      return;
+    }
+    const onKey = (event: KeyboardEvent) => event.key === 'Escape' && setSolutionOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [solutionOpen]);
+
   const appendConsole = useCallback((entry: ConsoleEntry) => {
     setConsoleEntries((current) => [...current.slice(-MAX_CONSOLE_ENTRIES + 1), entry]);
   }, []);
@@ -310,13 +319,16 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
 
       {drawerOpen && <CurriculumDrawer track={track} currentKey={lesson.key} onClose={() => setDrawerOpen(false)} />}
       {solutionOpen && challenge && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-[rgb(3_6_12/0.6)] p-6 backdrop-blur-[2px]" onClick={() => setSolutionOpen(false)}>
+        <div
+          role="presentation"
+          className="fixed inset-0 z-50 grid place-items-center bg-[rgb(3_6_12/0.6)] p-6 backdrop-blur-[2px]"
+          onClick={(event) => event.target === event.currentTarget && setSolutionOpen(false)}
+        >
           <div
             className="flex max-h-[88vh] w-[min(820px,100%)] flex-col rounded-[14px] border border-line-strong bg-panel shadow-float"
             role="dialog"
             aria-modal="true"
             aria-label="Solution"
-            onClick={(event) => event.stopPropagation()}
           >
             <header className="flex items-center justify-between gap-2.5 px-4.5 py-3.5">
               <h2 className="m-0 text-lg font-semibold">Reference solution</h2>
@@ -383,9 +395,9 @@ interface LessonStepLinkProps {
 function LessonStepLink({ trackId, lessonId, title, children }: LessonStepLinkProps) {
   if (!lessonId) {
     return (
-      <a className={iconButtonClass(true)} title={title} aria-disabled="true">
+      <span role="link" className={iconButtonClass(true)} title={title} aria-disabled="true">
         {children}
-      </a>
+      </span>
     );
   }
   return (

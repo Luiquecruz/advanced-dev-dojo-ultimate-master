@@ -1,0 +1,5 @@
+# Python tooling for the CPython test suite only; the app runs Python in Pyodide (src/engines/python).
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
+pythonpath = ["tests/python"]
+addopts = "-ra"

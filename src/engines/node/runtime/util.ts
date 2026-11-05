@@ -175,6 +175,7 @@ export function styleText(_format: string | string[], text: string): string {
 }
 
 export function stripVTControlCharacters(text: string): string {
+  // eslint-disable-next-line no-control-regex -- ANSI SGR sequences start with ESC
   return text.replace(/\u001b\[[0-9;]*m/g, '');
 }
 

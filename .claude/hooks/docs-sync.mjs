@@ -33,6 +33,7 @@ const RULES = [
   { pattern: /^src\/(app|pages|features|entities|shared)\//, docs: [ARCHITECTURE, AGENT_GUIDE] },
   { pattern: /^src\/[^/]+\.tsx?$/, docs: [ARCHITECTURE, AGENT_GUIDE] },
   { pattern: /^(package\.json|vite\.config\.ts|tsconfig\.json|index\.html|plugins\/|scripts\/)/, docs: [README, AGENT_GUIDE, CONTENT_GUIDE] },
+  { pattern: /^(eslint\.config\.js|pyproject\.toml|tests\/python\/)/, docs: [CONTRIBUTING, README, AGENT_GUIDE] },
   { pattern: /^\.claude\/(settings\.json|hooks\/)/, docs: [CONTRIBUTING] },
   { pattern: /^(\.github\/|netlify\.toml$|\.nvmrc$)/, docs: [CONTRIBUTING, README] },
   { pattern: /^\.coderabbit\.yaml$/, docs: [CONTRIBUTING] },

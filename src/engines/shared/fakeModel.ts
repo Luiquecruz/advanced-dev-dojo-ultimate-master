@@ -442,7 +442,7 @@ export function createFakeModelProvider({ wait }: { wait: Wait }) {
       try {
         await run(seed);
       } catch (error) {
-        throw new Error(`Failed with seed ${seed}: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`Failed with seed ${seed}: ${error instanceof Error ? error.message : String(error)}`, { cause: error });
       }
     }
   };

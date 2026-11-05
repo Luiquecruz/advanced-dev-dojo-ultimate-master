@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { EngineId, ProjectFiles } from '@/content';
 import type { SandboxRequest, SandboxResponse } from '@/sandbox/protocol';
 import { sandboxUrl } from './runner';
@@ -23,18 +23,21 @@ const PREVIEW_DEBOUNCE_MS = 700;
  */
 export function PreviewFrame({ engine, files, entry, reloadKey, onConsole }: PreviewFrameProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [ready, setReady] = useState(false);
+  const frameKey = `${engine}-${reloadKey}`;
+  const [readyFrame, setReadyFrame] = useState<string | null>(null);
+  const ready = readyFrame === frameKey;
   const onConsoleRef = useRef(onConsole);
-  onConsoleRef.current = onConsole;
+  useLayoutEffect(() => {
+    onConsoleRef.current = onConsole;
+  });
 
   useEffect(() => {
-    setReady(false);
     const onMessage = (event: MessageEvent<SandboxResponse>) => {
       if (event.source !== iframeRef.current?.contentWindow) {
         return;
       }
       if (event.data.type === 'ready') {
-        setReady(true);
+        setReadyFrame(frameKey);
       }
       if (event.data.type === 'console') {
         onConsoleRef.current({ level: event.data.level, text: event.data.text });
@@ -42,7 +45,7 @@ export function PreviewFrame({ engine, files, entry, reloadKey, onConsole }: Pre
     };
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
-  }, [engine, reloadKey]);
+  }, [frameKey]);
 
   useEffect(() => {
     if (!ready) {
@@ -58,7 +61,7 @@ export function PreviewFrame({ engine, files, entry, reloadKey, onConsole }: Pre
   return (
     <div className="absolute inset-0">
       {!ready && <div className="absolute inset-0 grid place-items-center bg-panel text-[13px] text-ink-muted">Starting {engine} sandbox…</div>}
-      <iframe key={`${engine}-${reloadKey}`} ref={iframeRef} title="Preview" src={sandboxUrl(engine, 'preview')} className="size-full border-none bg-white" />
+      <iframe key={frameKey} ref={iframeRef} title="Preview" src={sandboxUrl(engine, 'preview')} className="size-full border-none bg-white" />
     </div>
   );
 }
