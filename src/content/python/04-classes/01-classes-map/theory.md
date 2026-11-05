@@ -1,5 +1,9 @@
 **Question this module answers:** where does an attribute really live, and which hook runs when you read, write or create one?
 
+## Prerequisites
+
+Module 01 (names, identity and hashing), module 02 (protocols and `MutableMapping`) and module 03 (functions, closures and decorators, which `property` and `classmethod` build on).
+
 ## Two namespaces, one lookup
 
 Every instance has its own namespace (`obj.__dict__`), and so does its class (`Cls.__dict__`). Reading `obj.name` searches them in a fixed order:

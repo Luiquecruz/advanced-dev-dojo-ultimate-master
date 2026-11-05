@@ -50,11 +50,12 @@ def pipeline(source):
         source.close()
 ```
 
-**Expecting `break` to close the pipeline.** Leaving a `for` loop early only stops pulling. The generator stays paused at its `yield`, its `finally` has not run, and the source it opened is still open until someone calls `close()` or the object is garbage collected. Close what you stop reading:
+**Expecting `break` to close the pipeline.** Leaving a `for` loop early only stops pulling. While something still refers to the generator (a name, an attribute, a list), it stays paused at its `yield`, its `finally` has not run, and the source it opened is still open. CPython finalizes a generator that nothing refers to at once, but code should not rely on that. Close what you stop reading:
 
 ```py
-# wrong: the pipeline is paused and the source is still open
-for chunk in pipeline(source):
+# wrong: chunks is still paused while the name holds it, so the source stays open
+chunks = pipeline(source)
+for chunk in chunks:
     send(chunk)
     break
 

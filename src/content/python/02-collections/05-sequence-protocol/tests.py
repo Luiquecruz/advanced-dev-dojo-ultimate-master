@@ -37,7 +37,7 @@ async def _():
     assert isinstance(type_error, TypeError)
 
 
-@test("the Deck owns its cards and the source does not define __iter__")
+@test("the Deck owns its cards, does not inherit from list and no class in its MRO defines __iter__")
 def _():
     cards = ["a", "b"]
     deck = mod.Deck(cards)
@@ -45,4 +45,5 @@ def _():
     assert len(deck) == 2
     methods = [node.name for node in ast.walk(ast.parse(source)) if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))]
     assert "__iter__" not in methods
-    assert "__iter__" not in vars(mod.Deck)
+    assert not issubclass(mod.Deck, list)
+    assert all("__iter__" not in vars(klass) for klass in mod.Deck.__mro__[:-1])
