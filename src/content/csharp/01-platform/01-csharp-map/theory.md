@@ -36,7 +36,7 @@ Console.WriteLine($"Hello from {System.Runtime.InteropServices.RuntimeInformatio
 | Run a web server | Kestrel inside a long-running ASP.NET Core host | 05/01 |
 | Give each class what it needs | `IServiceCollection` in `Program.cs`, service lifetimes | 05/02 |
 | Read settings and secrets | `appsettings.json`, environment variables, Options | 05/03 |
-| Run code around every request | Middleware, endpoint filters, decorators | 05/05, 06/03 |
+| Run code around requests and calls | Middleware, endpoint filters, decorators | 05/05, 06/03 |
 | Expose HTTP endpoints | Minimal APIs or controllers | 06/01 |
 | Read and write a database | EF Core `DbContext` with LINQ, or Dapper with SQL | 07/02, 07/05 |
 | Change the database schema | EF Core migrations | 07/03 |

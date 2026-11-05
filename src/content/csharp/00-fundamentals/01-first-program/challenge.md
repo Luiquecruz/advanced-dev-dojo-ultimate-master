@@ -1,4 +1,4 @@
-A small shop prints a receipt line for every item it sells. Finish the five methods of `Receipt` in `Program.cs` so that each one returns the right value. Each method is a named piece of work: it receives the values written in its parentheses (its *parameters*) and gives back one result with `return`. Lesson 00/02 explains methods properly; here you only write the expression after `return`.
+A small shop prints a receipt line for every item it sells. Finish the six methods of `Receipt` in `Program.cs` so that each one returns the right value. Each method is a named piece of work: it receives the values written in its parentheses (its *parameters*) and gives back one result with `return`. Lesson 00/02 explains methods properly; here you only write the expression after `return`.
 
 The top-level statements at the top of the file print a few results when you press **Run**. Change them as you like: the tests ignore them and call the methods directly.
 
