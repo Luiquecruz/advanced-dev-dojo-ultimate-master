@@ -10,8 +10,10 @@ import { listCsharpTestNames } from '../engines/csharp/testNames';
 import { bundleCsharpChild, CHILD_HEAP_LIMIT_MB, CHILD_WASM_MEMORY_LIMIT_MB, csharpChildExecArgv, CsharpSandbox, VENDORED_DOTNET_DIRECTORY } from './csharpSandbox';
 
 const LIMIT_MS = 4000;
+const PROBE_LIMIT_MS = 30000;
 const RESTART_ALLOWANCE_MS = 30000;
 const sandbox = new CsharpSandbox({ testTimeoutMs: LIMIT_MS, runTimeoutMs: LIMIT_MS });
+const probeSandbox = new CsharpSandbox({ testTimeoutMs: PROBE_LIMIT_MS, runTimeoutMs: PROBE_LIMIT_MS });
 
 const LESSON = `
 public static class Lesson
@@ -68,7 +70,10 @@ function outcomes(report: { results: { name: string; passed: boolean }[] }) {
 }
 
 beforeAll(() => sandbox.start(), 90000);
-afterAll(() => sandbox.stop());
+afterAll(() => {
+  sandbox.stop();
+  probeSandbox.stop();
+});
 
 describe('fixture challenge', () => {
   it('passes every test with the solution', async () => {
@@ -290,7 +295,7 @@ foreach (var (path, module) in new (string, string?)[] { ("globalThis.setTimeout
     }
 }
 `;
-    const exitCode = await sandbox.runProgram({ 'Program.cs': program, 'JsCall.cs': jsCallProbe }, (_, text) => output.push(text));
+    const exitCode = await probeSandbox.runProgram({ 'Program.cs': program, 'JsCall.cs': jsCallProbe }, (_, text) => output.push(text));
     expect(exitCode).toBe(0);
     const lines = output.filter((line) => line.startsWith('called') || line.startsWith('blocked'));
     expect(lines).toHaveLength(4);
