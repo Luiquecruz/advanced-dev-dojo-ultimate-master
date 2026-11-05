@@ -307,16 +307,16 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-functions-map **(quiz)** ✓ · 02-modules-and-imports ✓ · 03-args-and-kwargs ✓ · 04-positional-and-keyword-only ✓ · 05-mutable-default-arguments ✓ · 06-closures-and-late-binding ✓ · 07-decorators-and-wraps ✓ · 08-parameterized-decorators ✓ · 09-callables-partial-and-cache ✓ · 10-client-middleware-stack ✓ · 11-functions-adr ✓
 
 ### 04-classes — Classes, Attributes and Descriptors
-01-classes-map **(quiz)** ✓ · 02-new-and-init ✓ · 03-properties ✓ · 04-descriptors-and-set-name ✓ · 05-slots ✓ · 06-dataclasses ✓ · 07-data-model-methods ✓ · 08-inheritance-and-mro ✓ · 09-classes-adr ✓
+01-classes-map **(quiz)** ✓ · 02-new-and-init ✓ · 03-properties ✓ · 04-descriptors-and-set-name ✓ · 05-dataclasses ✓ · 06-slots ✓ · 07-data-model-methods ✓ · 08-inheritance-and-mro ✓ · 09-classes-adr ✓
 
 ### 05-iteration — Iterators and Generators
 01-iteration-map **(quiz)** ✓ · 02-iterator-protocol ✓ · 03-generators ✓ · 04-generator-expressions-and-laziness ✓ · 05-yield-from-and-send ✓ · 06-itertools ✓ · 07-lazy-pipelines ✓ · 08-iteration-adr ✓
 
 ### 06-context-and-errors — Context Managers and Exceptions
-01-context-errors-map **(quiz)** ✓ · 02-with-protocol ✓ · 03-contextmanager-decorator ✓ · 04-suppressing-and-handling-in-exit ✓ · 05-exitstack ✓ · 06-exception-hierarchies ✓ · 07-chaining-and-notes ✓ · 08-exception-groups ✓ · 09-context-errors-adr ✓
+01-context-errors-map **(quiz)** ✓ · 02-exception-hierarchies ✓ · 03-chaining-and-notes ✓ · 04-with-protocol ✓ · 05-contextmanager-decorator ✓ · 06-suppressing-and-handling-in-exit ✓ · 07-exitstack ✓ · 08-exception-groups ✓ · 09-context-errors-adr ✓
 
 ### 07-stdlib — Standard Library in Practice
-01-stdlib-map **(quiz)** ✓ · 02-json-and-serialization ✓ · 03-regular-expressions ✓ · 04-pathlib-and-io ✓ · 05-numbers-decimal-and-fractions ✓ · 06-dates-and-times ✓ · 07-enums ✓ · 08-logging ✓ · 09-argparse-and-cli ✓ · 10-stdlib-adr ✓
+01-stdlib-map **(quiz)** ✓ · 02-regular-expressions ✓ · 03-pathlib-and-io ✓ · 04-numbers-decimal-and-fractions ✓ · 05-dates-and-times ✓ · 06-json-and-serialization ✓ · 07-enums ✓ · 08-logging ✓ · 09-argparse-and-cli ✓ · 10-stdlib-adr ✓
 
 ### 08-pattern-matching — Pattern Matching and Control Flow
 01-matching-map **(quiz)** ✓ · 02-sequence-and-mapping-patterns ✓ · 03-class-patterns ✓ · 04-guards-or-and-capture ✓ · 05-walrus-and-loop-else ✓ · 06-matching-adr ✓
@@ -325,7 +325,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 01-typing-map **(quiz)** ✓ · 02-modern-annotation-syntax ✓ · 03-generics-pep-695 ✓ · 04-protocols ✓ · 05-typeddict-and-literals ✓ · 06-overloads-and-narrowing ✓ · 07-runtime-annotations ✓ · 08-typing-evolution-and-checkers **(quiz)** ✓ · 09-typing-adr ✓
 
 ### 10-async — Async and Concurrency
-01-async-map **(quiz)** ✓ · 02-event-loop-mental-model ✓ · 03-tasks-and-gather ✓ · 04-task-groups ✓ · 05-timeouts-and-cancellation ✓ · 06-queues-locks-semaphores ✓ · 07-async-iterators-and-context ✓ · 08-blocking-threads-and-the-gil **(quiz)** ✓ · 09-async-adr ✓
+01-async-map **(quiz)** ✓ · 02-event-loop-mental-model ✓ · 03-async-iterators-and-context ✓ · 04-tasks-and-gather ✓ · 05-task-groups ✓ · 06-timeouts-and-cancellation ✓ · 07-queues-locks-semaphores ✓ · 08-blocking-threads-and-the-gil **(quiz)** ✓ · 09-async-adr ✓
 
 ### 11-metaprogramming — Metaprogramming and Internals
 01-metaprogramming-map **(quiz)** ✓ · 02-init-subclass-registries ✓ · 03-dynamic-classes ✓ · 04-attribute-hooks ✓ · 05-metaclasses ✓ · 06-inspect-and-signatures ✓ · 07-import-system-internals ✓ · 08-frames-and-tracebacks ✓ · 09-bytecode-and-the-interpreter **(quiz)** ✓ · 10-metaprogramming-adr ✓

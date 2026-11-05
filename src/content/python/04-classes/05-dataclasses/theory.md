@@ -19,7 +19,7 @@ The options you will use most:
 | --- | --- |
 | `frozen=True` | assignment raises `FrozenInstanceError`; with `eq` the class gets a `__hash__` |
 | `order=True` | `<`, `<=`, `>`, `>=` comparing the fields in definition order |
-| `slots=True` | generated `__slots__` (previous lesson) |
+| `slots=True` | generated `__slots__` (next lesson) |
 | `kw_only=True` | every field must be passed by keyword |
 
 `field()` tunes one field: `default_factory` for mutable defaults, `compare=False` to leave it out of equality, ordering and hashing, `repr=False`, `kw_only=True`.

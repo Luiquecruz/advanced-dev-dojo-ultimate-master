@@ -1,7 +1,7 @@
 The async versions of two familiar protocols let a loop or a `with` block **await** in the middle:
 
 - **Async iteration**: `async for` calls `__aiter__` once and `await`s `__anext__()` for each item, until `StopAsyncIteration`. An `async def` containing `yield` is an **async generator** (PEP 525) that implements both for you.
-- **Async context managers**: `async with` awaits `__aenter__()` on the way in and `__aexit__(exc_type, exc, traceback)` on the way out, on success, error and cancellation alike.
+- **Async context managers**: `async with` awaits `__aenter__()` on the way in and `__aexit__(exc_type, exc, traceback)` on the way out, on success, error and cancellation (lesson 06) alike.
 
 ```py
 import asyncio

@@ -72,9 +72,9 @@ Test names describe behavior, never a plan value.
 
 ---
 
-# v2 backlog — 13-validation — Validation with Pydantic v2
+# 13-validation — Validation with Pydantic v2
 
-Deferred out of v1 ([03-curriculum.md](03-curriculum.md) "v2 backlog"). It returns only after the spike below passes **gate G8** in [09-governance.md](09-governance.md). Until then no folder `src/content/python/13-validation/` exists, and the module has no heading in the curriculum plan.
+Written: the spike below passed **gate G8** in [09-governance.md](09-governance.md), and the module lives in `src/content/python/13-validation/`. The spike is kept as the record of why the Pydantic wheels are vendored.
 
 Question: when does a data model need runtime parsing and validation instead of type hints and dataclasses?
 

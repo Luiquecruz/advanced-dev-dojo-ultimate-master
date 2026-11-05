@@ -82,32 +82,33 @@ Cooperative concurrency, event loop, coroutines vs tasks, comparison with JS pro
 - Challenge: `async def fetch(name, recorder)` appending `start:name`/`end:name` with `await asyncio.sleep(0)` between; `run_sequential(names, recorder)`; `run_concurrent(names, recorder)` via tasks; `lazy_coroutine(recorder)` returning an unstarted coroutine.
 - Tests: event order lists for sequential and concurrent runs; `inspect.iscoroutine`; recorder empty before awaiting the coroutine.
 
-### 03-tasks-and-gather (P, I)
+### 03-async-iterators-and-context (P, I)
+- Concept: `async for`, async generators, `aclosing`, `async with`, `__aenter__/__aexit__`, async comprehensions.
+- Challenge: `paginate(fetch_page)` async generator over pages until `None`; `class AsyncConnection` async context manager recording `open/close`; `collect(async_iterable)`.
+- Tests: all pages; closed on error; `async for` consumption order; `aclosing` closes the generator early.
+- Notes: comes right after the event loop, because lessons 05 to 07 use `async with` (task groups, `asyncio.timeout()`, locks and semaphores).
+
+### 04-tasks-and-gather (P, I)
 - Concept: `create_task`, `gather(return_exceptions=)`, result order, `wait`, `as_completed`, task references (garbage collection of un-referenced tasks).
 - Challenge: `fetch_all(sources)` concurrently preserving input order; `fetch_settled(sources)` returning `(results, errors)` using `return_exceptions=True`; `first_done(coros)`.
 - Tests: ordering; errors captured without losing successes; concurrency proven by recorder (starts before first end).
 
-### 04-task-groups (P, I)
+### 05-task-groups (P, I)
 - Concept: structured concurrency, `TaskGroup` (3.11), automatic cancellation of siblings on error, errors surface as `ExceptionGroup`, comparison with `gather`.
 - Contrast: `Promise.all` leaves siblings running; `TaskGroup` cancels them.
 - Challenge: `process_batch(items, handler)` runs handlers in a group and returns results; on failure siblings are cancelled and `ExceptionGroup` propagates; `handle_failures(...)` with `except*`.
 - Tests: all results; sibling cancellation flags set; `ExceptionGroup` contains the original error type; `except*` handler count.
 - Notes: `TaskGroup` is 3.11 (not PEP 654, which defines `ExceptionGroup`).
 
-### 05-timeouts-and-cancellation (P, Ad)
+### 06-timeouts-and-cancellation (P, Ad)
 - Concept: `asyncio.timeout()` (3.11), `wait_for`, `CancelledError` is a `BaseException`, re-raise it, cleanup with `finally`, `asyncio.shield`.
 - Challenge: `with_deadline(coroutine_factory, seconds)` returns the result or raises `TimeoutError`; `worker(recorder)` records `cleanup` in `finally` when cancelled; `shielded_commit(commit, recorder)`.
 - Tests: timeout path; no timeout path; cleanup recorded on cancel; `CancelledError` not swallowed (source check for bare `except Exception` swallowing is not used: behavior test instead).
 
-### 06-queues-locks-semaphores (P, Ad)
+### 07-queues-locks-semaphores (P, Ad)
 - Concept: `asyncio.Queue(maxsize)`, backpressure, `join/task_done`, `Queue.shutdown` (3.13), `Lock` for read-modify-write across `await`, `Semaphore` for concurrency limits.
 - Challenge: `run_pipeline(items, handler, workers, queue_size)`; `limited_gather(coroutine_factories, limit)` recording maximum concurrent runs; `SafeCounter` using a `Lock` across an `await`.
 - Tests: all items processed once; observed maximum concurrency ≤ limit; counter exact under concurrent increments (and the unlocked starter loses updates).
-
-### 07-async-iterators-and-context (P, I)
-- Concept: `async for`, async generators, `aclosing`, `async with`, `__aenter__/__aexit__`, async comprehensions.
-- Challenge: `paginate(fetch_page)` async generator over pages until `None`; `class AsyncConnection` async context manager recording `open/close`; `collect(async_iterable)`.
-- Tests: all pages; closed on error; `async for` consumption order; `aclosing` closes the generator early.
 
 ### 08-blocking-threads-and-the-gil (Q, Ad)
 Quiz lesson merging the 115-plan lessons `08-blocking-and-threads` and `09-threads-processes-and-the-gil` (5–6 questions).
@@ -170,17 +171,17 @@ Moved from `12-tooling/05-modules-and-the-import-system` (115 plan). The beginne
 - Tests: import a module and a package submodule with correct `__name__` and `__spec__.name`; module cached in `sys.modules`; relative import inside the package; uninstall removes the finder and a missing module raises `ModuleNotFoundError`.
 - Notes: verify custom finders work in Pyodide and that tests clean `sys.meta_path` and `sys.modules` (the harness reuses one interpreter).
 
-### v2 backlog — 07-frames-and-tracebacks (P, E)
-Deferred: frame lifetime and `f_locals` behavior are CPython details that are unstable to assert in Pyodide. Spec kept for v2.
+### 08-frames-and-tracebacks (P, E)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. Frame lifetime and `f_locals` behavior are CPython details, so tests assert only what is stable in Pyodide.
 - Concept: frames (`inspect.currentframe`, `f_back`, `f_code`, `f_locals`), `traceback.TracebackException`, `sys.exc_info`, why frames are CPython details.
 - Challenge: `caller_name()` returns the name of the calling function; `format_chain(error)` returns the list of exception type names following `__cause__`/`__context__`; `locals_of_caller()` snapshot.
 - Tests: nested calls; chain of three errors; frame references not kept alive (documented with a weakref test only if verified stable in Pyodide).
 
-### v2 backlog — 08-bytecode-and-the-interpreter (Q, E)
-Deferred: conflicts with the no-`dis` rule and its facts move every release. Spec kept for v2. Quiz lesson. `dis`, compile pipeline, adaptive specialization (PEP 659), JIT (PEP 744), why bytecode is not a stable API. No challenge asserting opcode counts.
+### 09-bytecode-and-the-interpreter (Q, E)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. Quiz lesson with no challenge, because the no-`dis` rule applies to graded code and bytecode facts move every release. `dis`, compile pipeline, adaptive specialization (PEP 659), JIT (PEP 744), why bytecode is not a stable API. No challenge asserting opcode counts.
 
-### v2 backlog — 09-metaprogramming-adr (A, Ad)
-Deferred ([03-curriculum.md](03-curriculum.md) "v2 backlog"): module 11 ends with `07-import-system-internals`, and the hook ladder is taught in the map. Spec kept for v2; a v2 version must add a computed field.
+### 10-metaprogramming-adr (A, Ad)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. It closes module 11; its computed fields (plugin counts and import time) decide whether discovery and loading fit the startup budget.
 - Briefing: an internal plugin framework with 60 plugins, discovery at import, config validation at class creation, 12 plugin authors across teams, requirement for good error messages, Python 3.12+.
 - `PLAN`: `registration` (`init_subclass`|`metaclass`|`decorator`|`entry_points`), `validation_time` (`class_creation`|`first_use`), `attribute_hooks` (`none`|`getattr`|`getattribute`), `metaclass_needed` bool, `rejected`.
 - Coherence: class-creation validation needs `init_subclass` or `metaclass`; `metaclass_needed` is false when `init_subclass` suffices; `getattribute` only with justification (a `reason` field ≥ 30 characters).
@@ -203,6 +204,13 @@ Quiz lesson, 5–6 questions. One dated `**Status as of**` block; cite packaging
 - Resolvers and lockfiles: `uv.lock`, `uv run`, `uv sync`, Python version management, vs pip/poetry/pip-tools; PEP 751 `pylock.toml` status.
 - Distribution: sdist vs wheel, build backends (setuptools, hatchling, flit, uv_build), PyPI, trusted publishing, versioning.
 
+### 03-environments-and-venv (P, I)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. The challenge models the venv mechanism with pure functions over prefixes, since the sandbox has no real environments.
+- Concept: a virtual environment is a directory plus `PATH` ordering and `sys.prefix` vs `sys.base_prefix`; `pyvenv.cfg`.
+- Contrast: `node_modules` per project vs environments referenced by interpreter.
+- Challenge (pure functions): `is_virtualenv(prefix, base_prefix)`; `resolve_command(name, path_dirs, files)` returns the first matching executable path honoring PATH order; `parse_pyvenv_cfg(text)` → dict.
+- Tests: detection; PATH shadowing (venv `bin` before system); missing command returns `None`; cfg parsing with comments and spaces.
+
 ### 04-testing-with-unittest (P, I)
 - Concept: `unittest.TestCase`, `setUp`/`tearDown`, `assertRaises` as a context manager, `subTest`, `unittest.mock` (`Mock`, `patch` as a context manager, `side_effect`, `assert_called_once_with`), running a suite programmatically with `unittest.TestLoader` and `TextTestRunner`; how pytest fixtures and `parametrize` map onto these (theory only, pytest is not installed); how Dev Dojo's own harness relates.
 - Contrast: Jest/Vitest `describe`/`it`/`expect` and `vi.mock` module mocking vs `patch` on the name where it is looked up (the classic "patch where it is used, not where it is defined" mistake).
@@ -212,10 +220,3 @@ Quiz lesson, 5–6 questions. One dated `**Status as of**` block; cite packaging
 
 ### 05-capstone-async-rules-engine (C, Ad)
 Specified in [08-module-13-and-capstone.md](08-module-13-and-capstone.md): a code challenge (`main.py`, the engine) plus a short `adr.py`.
-
-### v2 backlog — 03-environments-and-venv (P, I)
-Deferred: the challenge simulated venv with pure functions over fake prefixes, which teaches the mechanism poorly; the concepts live in `02-packaging-and-environments`. Spec kept for v2.
-- Concept: a virtual environment is a directory plus `PATH` ordering and `sys.prefix` vs `sys.base_prefix`; `pyvenv.cfg`.
-- Contrast: `node_modules` per project vs environments referenced by interpreter.
-- Challenge (pure functions): `is_virtualenv(prefix, base_prefix)`; `resolve_command(name, path_dirs, files)` returns the first matching executable path honoring PATH order; `parse_pyvenv_cfg(text)` → dict.
-- Tests: detection; PATH shadowing (venv `bin` before system); missing command returns `None`; cfg parsing with comments and spaces.

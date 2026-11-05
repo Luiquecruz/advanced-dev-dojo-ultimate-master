@@ -144,8 +144,8 @@ Code integration challenge that closes the module. It reuses the briefing of the
 - Tests: a cache hit skips every inner layer (call counter); a call that fails twice and then succeeds produces 3 inner calls but 1 metrics sample; an expired token is refreshed exactly once; the composed function keeps `__name__` and `__wrapped__` chain; no module-level mutable state (two clients built side by side do not share counters).
 - Notes: no real time; the clock is injected. Keep 5 tests.
 
-### v2 backlog — 10-functions-adr (A, I)
-Deferred ([03-curriculum.md](03-curriculum.md) "v2 backlog"). Spec kept for v2:
+### 11-functions-adr (A, I)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. Spec:
 - Briefing: internal HTTP SDK used by 9 teams: logging, retries, auth refresh, metrics, caching and rate limits on every call; teams want to add behavior without editing the client; errors must keep the original function names in traces; tests need deterministic clocks.
 - `PLAN`: `mechanism` (`decorators`|`callable_pipeline`|`subclassing`|`dependency_injection`), `order` (list of cross-cutting concerns outermost → innermost), `metadata_preserved` bool, `time_source` (`injected_clock`|`system_clock`), `state_location` (`closure`|`instance`|`global`), `rejected`.
 - Coherence: `order` fixed by the briefing; `metadata_preserved` is `true`; `time_source` is `injected_clock`; `state_location` is not `global`; `mechanism` is not `subclassing` when 9 teams add behavior independently. A v2 version must add a computed field (for example the worst-case attempts per client call from the retry and auth settings).
@@ -180,17 +180,17 @@ Merges the 115-plan lessons `04-descriptors` and `05-set-name`: `__set_name__` i
 - Tests: instance isolation (two objects, different values) and class access returns the descriptor; lazy computed once and assignment overrides it; invalid value raises with the attribute name in the message; `fields()` order and two models independent.
 - Notes: PEP 487 (3.6). Advanced level: budget 30–45 minutes; split again only if review time exceeds that.
 
-### 05-slots (P, I)
-- Concept: `__slots__` removes `__dict__`, blocks new attributes, saves memory; subclasses without `__slots__` regain `__dict__`; `dataclass(slots=True)`.
-- Challenge: `class Point3D` with slots; a slotted child; `@dataclass(slots=True) class Pixel`.
-- Tests: no `__dict__`; assigning an unknown attribute raises `AttributeError`; child without slots has `__dict__`; dataclass slots instance has no `__dict__`.
-- Notes: do not assert byte sizes.
-
-### 06-dataclasses (P, I)
+### 05-dataclasses (P, I)
 - Concept: `@dataclass` options (`frozen`, `order`, `slots`, `kw_only`), `field`, `__post_init__`, `InitVar`, `replace`, `asdict`.
 - Contrast: TS interfaces/classes with parameter properties; dataclasses generate methods at class-creation time.
 - Challenge: `@dataclass(frozen=True, order=True) class Product` with validation in `__post_init__` and `tags` default factory; `with_price(product, price)` using `replace`.
 - Tests: frozen assignment raises `FrozenInstanceError`; ordering by fields; validation; tags not shared; `replace` keeps other fields.
+
+### 06-slots (P, I)
+- Concept: `__slots__` removes `__dict__`, blocks new attributes, saves memory; subclasses without `__slots__` regain `__dict__`; `dataclass(slots=True)`.
+- Challenge: `class Point3D` with slots; a slotted child; `@dataclass(slots=True) class Pixel`.
+- Tests: no `__dict__`; assigning an unknown attribute raises `AttributeError`; child without slots has `__dict__`; dataclass slots instance has no `__dict__`.
+- Notes: do not assert byte sizes. Comes after 05-dataclasses, so `@dataclass(slots=True)` uses a decorator already taught.
 
 ### 07-data-model-methods (P, I)
 - Concept: `__repr__`/`__str__`/`__format__`, `__eq__`/`__hash__`, `__lt__` with `total_ordering`, `NotImplemented`, `__bool__`, `__add__`/`__radd__`.

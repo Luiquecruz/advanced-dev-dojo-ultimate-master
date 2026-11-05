@@ -1,4 +1,4 @@
 {
   "title": "Async and Concurrency",
-  "description": "What runs concurrently, what blocks everyone, and who owns cancellation: coroutines and the event loop, tasks and gather, task groups and except*, timeouts and cancellation, queues, locks and semaphores, async iterators and context managers, then blocking calls, threads and the GIL."
+  "description": "What runs concurrently, what blocks everyone, and who owns cancellation: coroutines and the event loop, async iterators and context managers, tasks and gather, task groups and except*, timeouts and cancellation, queues, locks and semaphores, then blocking calls, threads and the GIL."
 }

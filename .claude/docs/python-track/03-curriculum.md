@@ -21,7 +21,7 @@ object-model → collections → functions → classes → iteration → context
         → pattern-matching → typing → async → metaprogramming → tooling (+capstone)
 ```
 
-Every module depends only on earlier ones. Typing sits after classes and iteration because `Protocol`, descriptors and generics assume the data model. Annotations still appear in solutions from module 03 on, and `01-functions-map` states that they are not enforced at runtime. Async comes after typing and context managers (`async with`, `ExceptionGroup`). Metaprogramming comes after everything it hooks into.
+Every module depends only on earlier ones. Typing sits after classes and iteration because `Protocol`, descriptors and generics assume the data model. Annotations still appear in solutions from module 03 on, and `01-functions-map` states that they are not enforced at runtime. Async comes after typing and context managers (`async with`, `ExceptionGroup`). Metaprogramming comes after everything it hooks into. Inside a module the intended progression is the same: a lesson uses only what earlier lessons taught, so dataclasses come before `__slots__` (a `slots=True` dataclass), exception hierarchies and chaining before the `with` protocol, numbers and dates before `json` (encoders for `Decimal` and aware `datetime`), and async iterators and context managers before tasks and task groups (`async with`). Two current exceptions break it: `03-chaining-and-notes` uses `json.loads` and `json.JSONDecodeError`, and `05-contextmanager-decorator` uses `io.StringIO`, both taught in module 07; the module 06 rewrite explains them in place.
 
 ADR checkpoints close every module except 12, which closes the track with the capstone. In v1 only modules 01, 02, 04, 06, 09 and 10 had one; v2 adds the ADRs of modules 03, 05, 07, 08, 11 and 13, each placed after the module's code integration challenge when there is one.
 
@@ -76,8 +76,8 @@ ADR checkpoints close every module except 12, which closes the track with the ca
 | 02-new-and-init | P | I |
 | 03-properties | P | I |
 | 04-descriptors-and-set-name | P | Ad |
-| 05-slots | P | I |
-| 06-dataclasses | P | I |
+| 05-dataclasses | P | I |
+| 06-slots | P | I |
 | 07-data-model-methods | P | I |
 | 08-inheritance-and-mro | P | Ad |
 | 09-classes-adr | A | Ad |
@@ -100,12 +100,12 @@ ADR checkpoints close every module except 12, which closes the track with the ca
 | Lesson | Kind | Level |
 | --- | --- | --- |
 | 01-context-errors-map | Q | B |
-| 02-with-protocol | P | I |
-| 03-contextmanager-decorator | P | I |
-| 04-suppressing-and-handling-in-exit | P | Ad |
-| 05-exitstack | P | Ad |
-| 06-exception-hierarchies | P | B |
-| 07-chaining-and-notes | P | I |
+| 02-exception-hierarchies | P | B |
+| 03-chaining-and-notes | P | I |
+| 04-with-protocol | P | I |
+| 05-contextmanager-decorator | P | I |
+| 06-suppressing-and-handling-in-exit | P | Ad |
+| 07-exitstack | P | Ad |
 | 08-exception-groups | P | Ad |
 | 09-context-errors-adr | A | I |
 
@@ -114,11 +114,11 @@ ADR checkpoints close every module except 12, which closes the track with the ca
 | Lesson | Kind | Level |
 | --- | --- | --- |
 | 01-stdlib-map | Q | B |
-| 02-json-and-serialization | P | I |
-| 03-regular-expressions | P | I |
-| 04-pathlib-and-io | P | I |
-| 05-numbers-decimal-and-fractions | P | I |
-| 06-dates-and-times | P | I |
+| 02-regular-expressions | P | I |
+| 03-pathlib-and-io | P | I |
+| 04-numbers-decimal-and-fractions | P | I |
+| 05-dates-and-times | P | I |
+| 06-json-and-serialization | P | I |
 | 07-enums | P | I |
 | 08-logging | P | I |
 | 09-argparse-and-cli | P | I |
@@ -155,11 +155,11 @@ ADR checkpoints close every module except 12, which closes the track with the ca
 | --- | --- | --- |
 | 01-async-map | Q | B |
 | 02-event-loop-mental-model | P | I |
-| 03-tasks-and-gather | P | I |
-| 04-task-groups | P | I |
-| 05-timeouts-and-cancellation | P | Ad |
-| 06-queues-locks-semaphores | P | Ad |
-| 07-async-iterators-and-context | P | I |
+| 03-async-iterators-and-context | P | I |
+| 04-tasks-and-gather | P | I |
+| 05-task-groups | P | I |
+| 06-timeouts-and-cancellation | P | Ad |
+| 07-queues-locks-semaphores | P | Ad |
 | 08-blocking-threads-and-the-gil | Q | Ad |
 | 09-async-adr | A | Ad |
 
