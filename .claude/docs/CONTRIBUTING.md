@@ -118,7 +118,7 @@ When rolling back from the UI is not possible, step 3 alone also restores produc
 
 ## Code review (CodeRabbit)
 
-CodeRabbit reviews every non-draft pull request against `main`. Its configuration is `.coderabbit.yaml` at the repository root (schema `https://coderabbit.ai/integrations/schema.v2.json`); the file wins over the repository and organization settings in the CodeRabbit UI (only organization global overrides rank above it), so change it here, not in the UI. `@coderabbitai configuration` in a pull request prints the resolved configuration with the source of each value. Its review is advice: CI and a human reviewer decide the merge, and CodeRabbit is not a required check.
+CodeRabbit reviews every non-draft pull request, whatever its base branch (`main` or, for stacked parts, the previous part's branch). Its configuration is `.coderabbit.yaml` at the repository root (schema `https://coderabbit.ai/integrations/schema.v2.json`); the file wins over the repository and organization settings in the CodeRabbit UI (only organization global overrides rank above it), so change it here, not in the UI. `@coderabbitai configuration` in a pull request prints the resolved configuration with the source of each value. Its review is advice: CI and a human reviewer decide the merge, and CodeRabbit is not a required check.
 
 | Setting | Value | Why |
 | --- | --- | --- |
