@@ -23,7 +23,7 @@ Teach the **mental model of Python 3.14** to learners with no prior programming 
 | Module shape | Map (quiz) → practice lessons → closing lesson. ADR checkpoints **only in modules 01, 02, 04, 06, 09, 10**; modules 03 and 05 close with a code integration challenge | ADRs only where a real architectural decision exists (D3) |
 | ADR format | Every `PLAN` has a numeric field computed from the briefing; briefing numbers coherent; test names neutral | Enum-only plans can be brute-forced and test names leaked answers ([02-content-standards.md](02-content-standards.md)) |
 | Source checks | `ast`, never regex over raw text | Regex matches comments and docstrings (D7) |
-| Annotations | Allowed in solutions from module 03; `01-functions-map` states they are not enforced at runtime | Matches modern Python and corrects the TS prior early (D5) |
+| Annotations | Allowed in solutions from module 03; `01-functions-map` states they are not enforced at runtime | Matches modern Python and corrects early the belief that hints are checked at runtime (D5) |
 | Quizzes | `quiz.json` inside practice lessons; quiz-only lessons only for theory topics (maps, tooling, landscape, runtime facts) | CONTENT_GUIDE convention |
 | Capstone | Async rules engine **code challenge** (`main.py`) plus a short `adr.py`, per-worker numbers that are physically coherent (`12-tooling/04`) | A capstone proves the learner can build it; the 115-plan numbers certified an impossible design (D4) |
 | Bonus | Module 13 (Pydantic v2) is in the v2 backlog, gated on the packaging spike (G8) | Needs `pydantic-core` wheels served by the app ([08-module-13-and-capstone.md](08-module-13-and-capstone.md)) |

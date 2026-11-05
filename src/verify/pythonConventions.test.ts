@@ -34,9 +34,11 @@ const FENCES = ['py', 'text', 'bash', 'toml', 'json'];
  * C is not listed: CPython and its extension modules are written in it, so "C extension" and "the C API" are Python terms.
  */
 const BRIDGE =
-  /\bJavaScript\b|\bTypeScript\b|\bJS\b|\bTS\b|Node\.js|Node developer|\bnpm\b|\bnpx\b|\bpnpm\b|\byarn\b|\bDeno\b|\bBun\b|package\.json|node_modules|\btsc\b|`[!=]==`|[\w)\]]\s*[!=]==\s*[\w([-]|[\w)\]]\s*[!=]==\s+["']|(?<!["'])\?\?=?(?!["'])|Object\.groupBy|Object\.seal|Object\.freeze|structuredClone|Symbol\.dispose|new Proxy|console\.log|TC39|ECMAScript|\bES20\d\d\b|ESLint|Prettier|\bBiome\b|\bZod\b|\blodash\b|Vitest|\bJest\b|\b[Pp]romises?\b|\bPHP|Magento|\bRust\b|\bJava\b|\bGolang\b|\bRuby\b|\bKotlin\b|\bSwift\b|C\+\+|C#|Node['’]s\b|\bNode (scripts?|returns|developers?)\b|\bES modules?\b|\bAxios\b|\bExpress\b|JSON\.(parse|stringify)|\binstanceof\b|\btypeof\b|AggregateError|\bprocess\.(argv|exit)\b|Object\.(assign|keys|entries|fromEntries)\b|`(var|let|const|undefined)`|\bArray (methods|chains)\b|Array\.from|extends Array|\bV8\b/;
+  /\bJavaScript\b|\bTypeScript\b|\bJS\b|\bTS\b|Node\.js|Node developer|\bnpm\b|\bnpx\b|\bpnpm\b|\byarn\b|\bDeno\b|\bBun\b|package\.json|node_modules|\btsc\b|`[!=]==`|[\w)\]]\s*[!=]==\s*[\w([-]|[\w)\]]\s*[!=]==\s+["']|(?<!["'])\?\?=?(?!["'])|Object\.groupBy|Object\.seal|Object\.freeze|structuredClone|Symbol\.dispose|new Proxy|console\.log|TC39|ECMAScript|\bES20\d\d\b|ESLint|Prettier|\bBiome\b|\bZod\b|\blodash\b|Vitest|\bJest\b|\b[Pp]romises?\b|\bPHP|Magento|\bRust\b|\bJava\b|\bGolang\b|\bRuby\b|\bKotlin\b|\bSwift\b|C\+\+|C#|Node['’]s (`|path|fs|process|module|event loop)|\bNode (scripts?|developers?)\b|\bES modules?\b|\bAxios\b|\bExpress(\.js| middleware| app| server)|`(exports|require|module\.exports)`|JSON\.(parse|stringify)|\binstanceof\b|\btypeof\b|AggregateError|\bprocess\.(argv|exit)\b|Object\.(assign|keys|entries|fromEntries)\b|`(var|let|const|undefined)`|\bArray (methods|chains)\b|Array\.from|extends Array|\bV8\b|`(Array|Map)`|Array\.isArray|array\.includes|[Oo]ptions objects?\b|object destructuring|\{ ?\.\.\.\w|\.\.\.\w+: |Record<|\.prototype\.|`this`|`function\*`|`some`|\.shift\(\)|\busing \w+ = new\b|== null\b|`switch`|`catch`|catch \(\w+\)/;
 /** Hosts of other languages' documentation; a Python lesson cites docs.python.org, the PEPs and the libraries it teaches. */
 const BLOCKED_HOSTS = ['developer.mozilla.org', 'nodejs.org', 'zod.dev', 'typescriptlang.org', 'vitest.dev', 'axios-http.com', 'expressjs.com'];
+/** Paths on a shared host that document another language (`<host><path>` prefixes). */
+const BLOCKED_PATHS = ['github.com/tc39/'];
 const BEGINNER_MISTAKE = /^# beginner mistake: (.*)$/;
 
 /**
@@ -206,7 +208,8 @@ function checkResources(lesson: Lesson, kind: Kind): Violation[] {
       violations.push({ rule: 'resources-unique', detail: `duplicate URL ${url}` });
     }
     seen.add(url);
-    const blocked = BLOCKED_HOSTS.find((host) => parsed.hostname === host || parsed.hostname.endsWith(`.${host}`));
+    const blocked = BLOCKED_HOSTS.find((host) => parsed.hostname === host || parsed.hostname.endsWith(`.${host}`))
+      ?? BLOCKED_PATHS.find((prefix) => `${parsed.hostname}${parsed.pathname}`.startsWith(prefix));
     if (blocked) {
       violations.push({ rule: 'resources-host', detail: `${url} documents another language; cite docs.python.org, a PEP or the library's own docs` });
     }
@@ -462,10 +465,16 @@ describe('python track conventions', () => {
 
   it('matches other-language names and leaves Python text alone', () => {
     const caught = ['ESLint + Prettier', '`??` replaces only `null`', 'opt-in since ES2022', 'if (a === b)', 'a !== b', 'written in Rust', 'z.object with Zod',
-      "Node's `path.join` would concatenate", 'as Node returns', 'ES module bindings are live', 'behaves like `var`, not `let`', 'Axios interceptors and Express middleware',
+      "Node's `path.join` would concatenate", 'ES module bindings are live', 'behaves like `var`, not `let`', 'Axios interceptors and Express middleware',
       'Node scripts read `process.argv`', '`JSON.parse` and `JSON.stringify`', '`instanceof` checks', 'an `AggregateError`', 'Array methods', 'Array chains',
-      '`Object.assign`', 'the `null` / `undefined` row', 'V8 optimizes', 'class Stack extends Array'];
-    const allowed = ['print("=== Report ===")', '======================================================================', 'country == "??"', 'a C extension releases the GIL', 'undefined names raise NameError', 'the JSON Schema `null` type', 'isinstance(value, int)', 'subprocess.run([sys.executable])', 'sys.argv[1:]', 'express the rule as a function'];
+      '`Object.assign`', 'the `null` / `undefined` row', 'V8 optimizes', 'class Stack extends Array', 'when two modules `require` each other',
+      '`Array` does everything', '`Map` and plain objects become one `dict`', 'no object destructuring syntax', '`array.includes(x)`', '`{ ...defaults, ...env, ...cli }`',
+      'Options objects', 'the equivalent of the options object', 'no `this` to lose', '`{...product, priceCents: 700}`', '`Parent.prototype.save.call(this, log)`',
+      '`function*`', '`find` and `some` short-circuit', '`using held = new Lock()`', '`using tx = new X()`', '`x == null`', 'like a `switch` without `break`',
+      '`...overrides: Record<string, number>[]`', 'The Python twin of `Array.isArray`', 'the `catch` clause', '`jobs.push(job)` and `jobs.shift()`', '`catch (error)`'];
+    const allowed = ['print("=== Report ===")', '======================================================================', 'country == "??"', 'a C extension releases the GIL', 'undefined names raise NameError', 'the JSON Schema `null` type', 'isinstance(value, int)', 'subprocess.run([sys.executable])', 'sys.argv[1:]', 'express the rule as a function',
+      'Express the rule as a guard', "a Node's children list", '`Node.add(child)` returns `self`', 'match command:\n    case ["go", direction]:', 'a `match` statement with `case` patterns',
+      'except ValueError as error:', 'the `except` clause', 'with Lock() as held:', 'x is None', '{**defaults, **env}', 'def f(*args, **kwargs): ...', 'dict[str, int]', '`str.find` returns -1', '`find` returns -1 when the text is missing', '`stack.push(exit_function)`', 'jobs.push("build")', 'an options dataclass'];
     expect(caught.filter((text) => !BRIDGE.test(text))).toEqual([]);
     expect(allowed.filter((text) => BRIDGE.test(text))).toEqual([]);
   });

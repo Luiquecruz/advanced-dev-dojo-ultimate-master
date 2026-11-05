@@ -49,7 +49,7 @@ export const PYTHON_PENDING_REWRITE: Record<string, readonly string[]> = {
   'python/context-errors-map': ['theory-no-bridge', 'theory-fences', 'no-bridge'],
   'python/exception-hierarchies': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
   'python/chaining-and-notes': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'resources-host', 'tests-beginner-mistake'],
-  'python/with-protocol': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
+  'python/with-protocol': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'resources-host', 'tests-beginner-mistake'],
   'python/contextmanager-decorator': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
   'python/suppressing-and-handling-in-exit': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'tests-beginner-mistake'],
   'python/exitstack': ['theory-no-bridge', 'theory-common-mistakes', 'theory-fences', 'no-bridge', 'resources-host', 'tests-beginner-mistake'],

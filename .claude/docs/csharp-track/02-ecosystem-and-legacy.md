@@ -1,6 +1,6 @@
 # C#/.NET ecosystem and legacy map
 
-Research date: **2026-11-05**. Audience: a backend developer coming from PHP/Magento. Scope: what exists, who supports it until when, and what to teach first. Market adoption is covered in a separate document; here, "adopted" is filled only when this research collected evidence, otherwise it reads "no evidence collected here".
+Research date: **2026-11-05**. Audience of this research: the course author, a backend developer coming from PHP/Magento; the lessons assume no prior programming language (06-content-standards.md "No bridges"). Scope: what exists, who supports it until when, and what to teach first. Market adoption is covered in a separate document; here, "adopted" is filled only when this research collected evidence, otherwise it reads "no evidence collected here".
 
 ## How to read this document
 
@@ -213,6 +213,8 @@ Track implication: teach the patterns (mediator, mapping, message bus) with plai
 | Next (not GA on research date) | .NET 11, C# 15 (unions, closed hierarchies), EF Core 11 |
 
 ## 12. PHP/Magento to C#/.NET: transferable concepts and traps
+
+> This table is the author's background research, not lesson material. Lessons carry its traps as `## Common mistakes` in C# terms and never name the PHP column.
 
 The Magento / PHP column is the author's background knowledge (for example, the PHP-FPM request lifecycle) and has no source unless a link is given. The .NET column and the traps link to the Microsoft pages they rely on.
 

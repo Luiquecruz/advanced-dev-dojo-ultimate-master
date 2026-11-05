@@ -30,7 +30,7 @@ const DOCUMENTATION_HOSTS = new Set([
  * the track legitimately names JavaScript (the SignalR client) and Python (Aspire's polyglot hosting).
  */
 const PHP_BRIDGE =
-  /\bPHP|\bphp\b|\.php\b|\.phtml\b|php\.ini|PSR-\d+|[Mm]agento|Adminhtml|routes\.xml|\bFPM\b|Composer|composer\.(json|lock)|composer install|di\.xml|crontab\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Guzzle|Monolog|Packagist|Zend|Laminas|\bPsalm\b|\bRector\b|Laravel|Symfony|Doctrine|Eloquent|[Oo][Pp]cache|Xdebug|phpunit|\$\w+->\w+|::get\b|(webapi|events|system|acl|module)\.xml|<preference\b|<virtualType\b|shared="false"|\bEAV\b|sales_order_\w+|Update by Schedule|around plugin/;
+  /\bPHP|\bphp\b|\.php\b|\.phtml\b|php\.ini|PSR-\d+|[Mm]agento|Adminhtml|routes\.xml|\bFPM\b|Composer|composer\.(json|lock)|composer install|di\.xml|crontab\.xml|db_schema\.xml|Warden|DDEV|ObjectManager|Guzzle|Monolog|Packagist|Zend|Laminas|\bPsalm\b|\bRector\b|Laravel|Symfony|Doctrine|Eloquent|[Oo][Pp]cache|Xdebug|phpunit|\$\w+->\w+|::get\b|(webapi|events|system|acl|module)\.xml|<preference\b|<virtualType\b|shared="false"|\bEAV\b|sales_order_\w+|Update by Schedule|[Aa]round plugin|[Pp]lugins and observers|[Nn]o plugins\b|without plugins|like a plugin|a plugin intercepts|[Pp]lugins that intercept|setup:[\w:-]+|getSize\(\)|count\(\$\w+\)/;
 /** An `Assert.ThrowsAsync` that is not awaited returns a task nobody observes, so the test passes even when nothing throws. */
 const UNAWAITED_THROWS_ASYNC = /(?<!\bawait\s+)Assert\.ThrowsAsync\b/;
 
@@ -238,8 +238,12 @@ describe('csharp track', () => {
       '`vendor/bin/phpunit`', '`$this->assertSame()`', '`webapi.xml` REST routes', 'pointing at `ProductRepositoryInterface::get`',
       'There is no `$request->getParam()`', '`<preference for="I" type="C"/>`', '`shared="false"` or the default', '`<virtualType>`',
       'before/after/around plugins', 'rebuilt from the EAV write tables', 'The `sales_order_place_after` observer', '"Update by Schedule" makes',
-      'declared in events.xml', 'a field in system.xml'];
-    const allowed = ['the SignalR JavaScript client', "Aspire's polyglot hosting runs Python apps", 'ILogger<T> categories', 'dotnet test --logger trx'];
+      'declared in events.xml', 'a field in system.xml', 'Around plugins wrap the call', '| Plugins and observers | Middleware, endpoint filters, decorators |',
+      'the .NET version of `count($collection)` versus `getSize()`', 'Like `setup:upgrade`, it connects', 'Nothing runs `setup:upgrade` for you',
+      '## No plugins: decorators instead', 'every call of `ICartService` without plugins', 'intercepts each public method, like a plugin',
+      'the way a plugin intercepts any public method', 'Plugins that intercept any public method of another module'];
+    const allowed = ['the SignalR JavaScript client', "Aspire's polyglot hosting runs Python apps", 'ILogger<T> categories', 'dotnet test --logger trx',
+      'creates a second `AppDomain` to isolate plugins', '.WithManagementPlugin()', '// ... builder setup:', 'items.Count()'];
     expect(caught.filter((text) => !PHP_BRIDGE.test(text))).toEqual([]);
     expect(allowed.filter((text) => PHP_BRIDGE.test(text))).toEqual([]);
     expect(['await Assert.ThrowsAsync<E>(() => run())', 'public static void X() => Assert.ThrowsAsync<E>(() => run());'].map((text) => UNAWAITED_THROWS_ASYNC.test(text))).toEqual([false, true]);
