@@ -21,7 +21,11 @@ const engines: Record<FrameworkEngine, () => Promise<EngineModule>> = {
 
 const params = new URLSearchParams(location.search);
 const mode = params.get('mode') ?? 'preview';
-const engineName = (params.get('engine') ?? 'react') as FrameworkEngine;
+const requestedEngine = params.get('engine') ?? 'react';
+if (!Object.hasOwn(engines, requestedEngine)) {
+  throw new Error(`Unknown sandbox engine "${requestedEngine}"`);
+}
+const engineName = requestedEngine as FrameworkEngine;
 
 installLoopGuard(window);
 installFakeApi(window, { delay: mode === 'test' ? 30 : 400 });

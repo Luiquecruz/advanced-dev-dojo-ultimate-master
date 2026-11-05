@@ -41,13 +41,21 @@ function readSources(contentRoot: string): ContentSources {
   return sources;
 }
 
+/**
+ * JavaScript literal of a JSON value that is safe to splice into generated code: `<`, `>`, `/` and the U+2028/U+2029
+ * line separators are escaped, so no value can close a script context or a string.
+ */
+function jsLiteral(value: unknown): string {
+  return JSON.stringify(value).replace(/[<>/\u2028\u2029]/g, (character) => `\\u${character.charCodeAt(0).toString(16).padStart(4, '0')}`);
+}
+
 function catalogModule({ catalog }: ContentBundle): string {
   const loaders = catalog
     .flatMap((track) => track.lessons)
-    .map((lesson) => `  ${JSON.stringify(lesson.key)}: () => import(${JSON.stringify(`${LESSON_PREFIX}${lesson.key}`)}),`)
+    .map((lesson) => `  ${jsLiteral(lesson.key)}: () => import(${jsLiteral(`${LESSON_PREFIX}${lesson.key}`)}),`)
     .join('\n');
   const tracks = catalog.map(({ lessons, ...track }) => track);
-  return `export const tracks = ${JSON.stringify(tracks)};\nexport const lessonLoaders = {\n${loaders}\n};\n`;
+  return `export const tracks = ${jsLiteral(tracks)};\nexport const lessonLoaders = {\n${loaders}\n};\n`;
 }
 
 /**
@@ -84,7 +92,7 @@ export function contentPlugin(): Plugin {
       if (!lesson) {
         this.error(`Unknown lesson module "${virtualId}"`);
       }
-      return { code: `export default ${JSON.stringify(lesson)};\n`, map: { mappings: '' } };
+      return { code: `export default ${jsLiteral(lesson)};\n`, map: { mappings: '' } };
     },
     configureServer(server) {
       const isTrackFile = (file: string) => {
