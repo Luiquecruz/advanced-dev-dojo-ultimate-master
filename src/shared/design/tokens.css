@@ -114,6 +114,11 @@
   --accent-rgb: 98 232 105;
 }
 
+[data-trail='csharp'] {
+  --accent: #ff7a7f;
+  --accent-rgb: 255 122 127;
+}
+
 @theme {
   --color-void: #0a0f18;
   --color-panel: #121c2a;

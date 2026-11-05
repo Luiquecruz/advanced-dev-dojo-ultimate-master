@@ -1,0 +1,9 @@
+[
+  { "term": "OpenAPI document", "description": "A JSON or YAML description of every operation, parameter and response of an HTTP API that tools use to render docs and generate clients." },
+  { "term": "`Microsoft.AspNetCore.OpenApi`", "description": "The first-party package whose `AddOpenApi` and `MapOpenApi` generate and serve the document, at `/openapi/v1.json` by default." },
+  { "term": "OpenAPI 3.1", "description": "The specification version that .NET 10 generates by default, aligned with JSON Schema draft 2020-12, so nullable types appear as a `type` array with `null`." },
+  { "term": "Transformer", "description": "A document, operation or schema callback registered on `OpenApiOptions` that edits the generated document, for example to set the title or a security scheme." },
+  { "term": "Breaking change", "description": "A contract change that can fail an existing client, such as removing or renaming a field, changing its type or making an input required." },
+  { "term": "`Asp.Versioning.Http`", "description": "The MIT-licensed package from the `dotnet` organization that adds API versioning to minimal APIs through version sets such as `NewVersionedApi().MapGroup(...).HasApiVersion(1.0)`." },
+  { "term": "Build-time generation", "description": "Writing the OpenAPI file during `dotnet build` with `Microsoft.Extensions.ApiDescription.Server` and `OpenApiGenerateDocumentsOnBuild`, so the contract can be diffed in reviews." }
+]

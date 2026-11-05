@@ -1,0 +1,68 @@
+[
+  {
+    "question": "With lazy-loading proxies enabled, `foreach (var order in orders) total += order.Lines.Sum(l => l.Quantity);` runs over 50 orders. How many SQL statements does it send, and what is the fix?",
+    "options": [
+      "One, because EF Core batches the navigation loads of a loop into a single statement automatically",
+      "Two: one for the orders and one that loads the lines of all 50 orders the first time `Lines` is read",
+      "51; use `Include` or compute the sum in a `Select` projection",
+      "None extra, because the proxies load each order's lines together with the order itself"
+    ],
+    "answer": 2,
+    "explanation": "One query loads the orders and each first access to `order.Lines` triggers its own query, the same N+1 you get from a repository call inside a Magento `foreach`. Microsoft recommends avoiding lazy loading for this reason. EF Core does not batch lazy loads into one statement."
+  },
+  {
+    "question": "A read-only endpoint lists 20 products with their category name and price. Which query is the best default?",
+    "options": [
+      "`db.Products.Include(p => p.Category).Take(20).ToListAsync()`, then map the entities to DTOs in C#",
+      "`db.Products.ToListAsync()`, then `.Where` and `.Take(20)` on the list in memory",
+      "A lazy-loaded query, so that categories are only loaded for rows that need them",
+      "`.OrderBy(p => p.Sku).Take(20).Select(p => new ProductRow(p.Sku, p.Price, p.Category.Name))`"
+    ],
+    "answer": 3,
+    "explanation": "A projection fetches only the needed columns, joins the category in the same statement, and produces untracked objects. `Include` also avoids N+1 but loads every column of both tables and tracks the entities; `ToListAsync()` first loads the whole table into memory."
+  },
+  {
+    "question": "When is `AsSplitQuery()` the right choice?",
+    "options": [
+      "When including several sibling collections would multiply the joined rows",
+      "Always, because several small queries are faster than one query with joins",
+      "When the query loads a single reference navigation such as `Product.Category`",
+      "When you need all the data to come from one consistent snapshot without opening a transaction"
+    ],
+    "answer": 0,
+    "explanation": "Split queries avoid the cartesian explosion of sibling collection joins. They cost one round trip per collection and give no consistency guarantee between statements, so they are not a default. One-to-one and reference navigations are always loaded with joins anyway."
+  },
+  {
+    "question": "What does `AsNoTracking()` change in a query?",
+    "options": [
+      "The query runs without a transaction and may read uncommitted rows, like SQL Server `NOLOCK`",
+      "EF Core skips snapshots and identity resolution for the results",
+      "The query is not written to the EF Core command log, which makes it cheaper",
+      "The query bypasses indexes and reads the table directly to avoid the tracking overhead"
+    ],
+    "answer": 1,
+    "explanation": "No-tracking only affects the change tracker: no snapshot, no identity resolution, so reads are cheaper, the same row referenced twice becomes two instances, and `SaveChangesAsync` will not see edits to those objects. It has nothing to do with isolation levels or uncommitted reads, which is a common confusion with SQL Server `NOLOCK`."
+  },
+  {
+    "question": "A tracked product with `Price = 10` is in the context. You run `ExecuteUpdateAsync` that sets every price in its category to `Price * 1.05`, then `product.Price += 1;` and `await db.SaveChangesAsync();`. What price is stored?",
+    "options": [
+      "`11.50`, because EF Core refreshes tracked entities after a bulk update",
+      "`11`, because the tracked instance still holds `10`",
+      "`10.50`, because the bulk update already ran and wins over tracked changes",
+      "Nothing; `SaveChangesAsync` throws because a tracked entity was bulk-updated"
+    ],
+    "answer": 1,
+    "explanation": "`ExecuteUpdateAsync` runs immediately and never touches the change tracker, so the tracked instance keeps `10` and saving `11` overwrites the database value of `10.50`. EF Core does not refresh tracked entities, which is why Microsoft advises against mixing bulk updates and tracked changes on the same rows."
+  },
+  {
+    "question": "An infinite-scroll endpoint uses `.OrderBy(p => p.Id).Skip(page * 20).Take(20)` and gets slower on deep pages. What does Microsoft recommend?",
+    "options": [
+      "Keyset pagination: `.Where(p => p.Id > lastId)` before `OrderBy` and `Take`",
+      "Increase the page size to 200 so that clients need ten times fewer requests to reach deep pages",
+      "Load all products once into memory at startup and page the list in C#",
+      "Add `AsSplitQuery()` so the database can run the skipped part separately"
+    ],
+    "answer": 0,
+    "explanation": "With `Skip` the database still processes every skipped row, so cost grows with depth, and concurrent inserts or deletes shift pages. Keyset pagination seeks directly past the last key, backed by an index on it. Loading everything into memory moves the cost to the app instead of removing it."
+  }
+]

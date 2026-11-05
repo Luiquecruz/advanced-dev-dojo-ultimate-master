@@ -1,0 +1,24 @@
+{
+  "title": "EF Core Basics",
+  "summary": "Mapping entities with a DbContext, registering it as a scoped unit of work, LINQ queries translated to SQL, and saving through the change tracker, compared with Magento repositories and resource models.",
+  "level": "beginner",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "DbContext lifetime, configuration and initialization",
+      "url": "https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/"
+    },
+    {
+      "label": "Client vs. server evaluation",
+      "url": "https://learn.microsoft.com/en-us/ef/core/querying/client-eval"
+    },
+    {
+      "label": "What's new in EF Core 10",
+      "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew"
+    }
+  ]
+}

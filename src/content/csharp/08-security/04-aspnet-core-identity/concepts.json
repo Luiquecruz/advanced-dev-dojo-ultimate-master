@@ -1,0 +1,9 @@
+[
+  { "term": "ASP.NET Core Identity", "description": "A membership library that stores users, passwords, roles, claims and logins through EF Core and signs users in to the same app; it is not an OpenID Connect server." },
+  { "term": "UserManager and SignInManager", "description": "The Identity services that manage user records and passwords (`UserManager<TUser>`) and check credentials, lockout and two-factor rules at sign-in (`SignInManager<TUser>`)." },
+  { "term": "IdentityDbContext", "description": "An EF Core `DbContext` base class that maps the Identity tables such as `AspNetUsers` and `AspNetRoles`." },
+  { "term": "MapIdentityApi", "description": "An extension that maps JSON endpoints such as `/register`, `/login` and `/refresh`, issuing cookies or opaque bearer tokens that are not standard JWTs." },
+  { "term": "Lockout", "description": "Identity's protection against password guessing, 5 failed attempts and 5 minutes by default, applied only when sign-in is called with `lockoutOnFailure: true`." },
+  { "term": "Security stamp", "description": "A per-user value that Identity changes after security-sensitive updates, so existing cookies are rejected at their next validation." },
+  { "term": "Passkey", "description": "A WebAuthn/FIDO2 credential bound to the site's domain, supported by Identity in .NET 10 as a primary, passwordless sign-in factor." }
+]

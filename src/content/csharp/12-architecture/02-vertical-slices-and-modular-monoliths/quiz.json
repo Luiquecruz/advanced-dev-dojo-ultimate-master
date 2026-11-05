@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In a modular monolith, the Ordering module needs the available stock of a SKU. Which approach keeps the module boundary intact?",
+    "options": [
+      "Ordering references the `Inventory` project and injects `InventoryDbContext` directly",
+      "Ordering maps `inventory.stock_items` in its own `DbContext` as a read-only entity",
+      "Ordering references `Inventory.Contracts` and calls `IStockReader`",
+      "Ordering calls Inventory's HTTP endpoint on localhost, as it would call a remote service"
+    ],
+    "answer": 2,
+    "explanation": "The contract project is the only public surface; the implementation and its tables stay internal to Inventory. Mapping the other module's table, even read-only, is the Magento habit of joining any table, and it silently removes the boundary. A localhost HTTP call adds network failure modes without any of the benefits of separate deployment."
+  },
+  {
+    "question": "Magento modules already have their own `di.xml`, `db_schema.xml` and controllers. What does a .NET modular monolith add that Magento modules lack?",
+    "options": [
+      "Each module can be deployed on its own, without redeploying the rest of the application",
+      "Compiler-enforced boundaries (`internal`, project references) and schema ownership",
+      "Each module runs in its own process, so a crash in one cannot take the others down",
+      "Plugins that intercept any public method of another module without changing its code"
+    ],
+    "answer": 1,
+    "explanation": "Both are one deployable with feature-shaped folders. The difference is enforcement: a .NET module hides its implementation behind `internal` and a contract project, and owns its schema. Separate deployment or processes would make it microservices, and plugins intercepting any public method are exactly the cross-module coupling a modular monolith forbids."
+  },
+  {
+    "question": "A slice returns `RouteGroupBuilder` from `MapCreateProduct` and `Program.cs` writes `products.MapCreateProduct().RequireAuthorization(\"admin\")`, where `products` is the `/products` group. What is the effect?",
+    "options": [
+      "Only the create endpoint requires the admin policy, because the call chains after `MapPost`",
+      "Nothing changes, because `RequireAuthorization` on a group is ignored at run time",
+      "It fails to compile, because `RouteGroupBuilder` has no `RequireAuthorization` method",
+      "Every endpoint in the `/products` group, including the public GET, requires admin"
+    ],
+    "answer": 3,
+    "explanation": "Metadata added to a group applies to every endpoint in it. To scope a policy to one endpoint, the slice should return the `RouteHandlerBuilder` from `MapPost` (or apply the policy itself). The chained call looks local to the create endpoint, but it runs on the group the slice returned; groups do support `RequireAuthorization`."
+  },
+  {
+    "question": "What is the main risk of vertical slices that Jimmy Bogard himself points out?",
+    "options": [
+      "Slices cannot share one `DbContext`, so each feature ends up with its own database",
+      "Slices force every request through MediatR, which adds a dependency and its licence",
+      "Without refactoring into domain types, shared rules get copied across slices",
+      "Routes get hard to find, because each endpoint is declared in a different folder"
+    ],
+    "answer": 2,
+    "explanation": "Slices remove the mandatory shared layers, so nothing stops two slices from re-implementing the same rule. The style assumes the team notices code smells and refactors. Slices can share a `DbContext` and need no mediator library: the lesson's slices call EF Core directly."
+  },
+  {
+    "question": "Why configure each module's `DbContext` with its own default schema and `MigrationsHistoryTable(\"__EFMigrationsHistory\", \"inventory\")`?",
+    "options": [
+      "So each module owns its tables and history, which move together if it is extracted",
+      "Because EF Core cannot run two `DbContext` types against one database otherwise",
+      "Because Npgsql requires every `DbContext` to use its own PostgreSQL schema",
+      "So EF Core can join tables across modules faster through schema-qualified names"
+    ],
+    "answer": 0,
+    "explanation": "The separate schema and history table make ownership explicit: the module's tables and its migration history sit together, so the boundary is visible and the module can move to its own database as a unit. EF Core and Npgsql do allow several contexts on one schema, even with a shared history table, since each context applies only its own migrations. The explicit `MigrationsHistoryTable` call is required here: `HasDefaultSchema` does not move `__EFMigrationsHistory`, which otherwise lands in the database default schema. The schema discourages cross-module joins rather than speeding them up, and only per-module roles and grants make the database refuse them."
+  },
+  {
+    "question": "Your codebase has three business capabilities, two teams, and boundaries that still change every few months. Which structure fits best?",
+    "options": [
+      "Microservices, one per capability, so each team deploys on its own from day one",
+      "A modular monolith: one deployment, one module per capability",
+      "A single project with `Models`, `Services` and `Controllers` folders shared by both teams",
+      "One shared `Common` project holding the entities that every capability depends on"
+    ],
+    "answer": 1,
+    "explanation": "A modular monolith gives teams ownership and enforced boundaries while keeping one deployment, and moving a boundary is a refactor, not a cross-service migration. Microservices with unstable boundaries mean distributed rewrites; a single folder-based project gives no ownership; a growing `Common` project couples everything."
+  }
+]

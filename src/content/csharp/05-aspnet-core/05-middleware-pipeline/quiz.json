@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A pipeline calls `app.UseAuthorization();` and then `app.UseAuthentication();`. Requests with a valid token to an endpoint that requires an authenticated user get 401. Why?",
+    "options": [
+      "Authorization runs before authentication has set the user, so it sees an anonymous user",
+      "The order is irrelevant because the framework sorts auth middleware; the token is expired",
+      "`UseAuthentication` must be the very last middleware, after the endpoints are mapped",
+      "Authorization only works with controllers, so minimal API endpoints always return 401"
+    ],
+    "answer": 0,
+    "explanation": "Middleware runs in the order of the code. Authorization needs the user that authentication establishes, so with this order it sees an anonymous user; the documentation requires authentication before authorization. The framework never reorders your middleware, and authorization works the same way for minimal APIs and controllers."
+  },
+  {
+    "question": "This middleware throws in production for some requests: `app.Use(async (ctx, next) => { await next(ctx); ctx.Response.Headers[\"X-Version\"] = \"1.4\"; });`. What is the cause?",
+    "options": [
+      "The indexer is read-only; headers must be added with `Response.Headers.Append`",
+      "`Response.Headers` is read-only inside middleware and can only be set by endpoints",
+      "Headers are sent once the body starts; set it before `next` or in `OnStarting`",
+      "The name must first be listed in the CORS policy's `WithExposedHeaders` to be set"
+    ],
+    "answer": 2,
+    "explanation": "ASP.NET Core does not buffer the response body, so the first write sends the headers and later changes throw. Registering `Response.OnStarting` or setting the header before `next` (or checking `HasStarted`) fixes it. Headers are writable in middleware, through the indexer or `Append`, as long as the response has not started; CORS only controls which headers browsers expose to scripts."
+  },
+  {
+    "question": "A convention-based middleware takes `CartDbContext` (registered as scoped) in its constructor. What happens?",
+    "options": [
+      "Each request gets a fresh context, because convention-based middleware is built per request",
+      "It becomes a captive dependency shared across requests; inject it into `InvokeAsync`",
+      "The compiler rejects scoped constructor parameters in classes that have `InvokeAsync`",
+      "The context is disposed after the first request, and the next request gets a new one"
+    ],
+    "answer": 1,
+    "explanation": "Convention-based middleware is constructed once at startup and has application lifetime, so a scoped constructor dependency would be captive: in Development scope validation throws at runtime, and in Production one instance is silently shared across requests. Extra `InvokeAsync` parameters are resolved per request, which is the documented place for scoped services. Only `IMiddleware` (factory-based) middleware is activated per request."
+  },
+  {
+    "question": "An exception is thrown inside a custom middleware registered before `app.UseExceptionHandler(\"/error\")`. What happens?",
+    "options": [
+      "The handler catches it, because `UseExceptionHandler` handles every exception in the app",
+      "The server swallows the exception, and the client gets an empty 200 response",
+      "The handler catches it and rethrows it to the client as a Problem Details 500",
+      "It never sees it, because the handler only wraps what is registered after it"
+    ],
+    "answer": 3,
+    "explanation": "The exception handler wraps only what comes after it in the pipeline, which is why it is registered first. Code before it is outside its try block, so the exception goes up to the server, which typically returns a 500 without your error handling or Problem Details. It is never silently turned into a 200."
+  },
+  {
+    "question": "A Magento module has an observer on `sales_order_place_after` that sends a confirmation email. Where does that logic belong in an ASP.NET Core API?",
+    "options": [
+      "In the order-placing code, by publishing an event or queueing background work",
+      "In a middleware that inspects every response body for a newly created order id",
+      "In a terminal middleware registered with `Run` at the end of the pipeline",
+      "In `Response.OnStarting`, so that the email is sent before the headers go out"
+    ],
+    "answer": 0,
+    "explanation": "Middleware handles HTTP concerns for broad sets of requests; it does not know when a domain event such as an order placement happened. The reaction belongs to the domain flow, ideally queued to background work (module 10) so the request stays fast. Microsoft's guidance is also not to run long tasks in custom middleware."
+  },
+  {
+    "question": "`app.Run(async ctx => await ctx.Response.WriteAsync(\"ok\"));` is followed by `app.UseRequestTiming();`. What does the timing middleware do?",
+    "options": [
+      "It wraps the `Run` delegate, because the pipeline orders middleware by type",
+      "It never runs, because `Run` is terminal and ends the pipeline before it",
+      "It runs only on the way out, after the `Run` delegate has written the response",
+      "It throws at startup, because `Run` must be the last call in `Program.cs`"
+    ],
+    "answer": 1,
+    "explanation": "`Run` delegates receive no `next`, so they end the pipeline and later registrations are never reached. Order follows the code, not types. Placing middleware after a terminal delegate is not an error at startup, which is why this bug can go unnoticed; to wrap the delegate, register the timing middleware before it."
+  }
+]

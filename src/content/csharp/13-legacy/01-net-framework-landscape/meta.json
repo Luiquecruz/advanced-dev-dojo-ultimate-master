@@ -1,0 +1,32 @@
+{
+  "title": "The .NET Framework Landscape",
+  "summary": ".NET Framework versus modern .NET, how to read a legacy project file, why 4.8.x follows the Windows lifecycle, what did not move to modern .NET, and what 'legacy .NET' means in a posting.",
+  "level": "beginner",
+  "tags": [
+    "legacy",
+    "legacy",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Lifecycle: .NET Framework",
+      "url": "https://learn.microsoft.com/en-us/lifecycle/products/microsoft-net-framework"
+    },
+    {
+      "label": "Lifecycle FAQ: .NET Framework",
+      "url": "https://learn.microsoft.com/en-us/lifecycle/faq/dotnet-framework"
+    },
+    {
+      "label": ".NET Framework technologies unavailable on .NET 6+",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/net-framework-tech-unavailable"
+    },
+    {
+      "label": "Target frameworks in SDK-style projects",
+      "url": "https://learn.microsoft.com/en-us/dotnet/standard/frameworks"
+    },
+    {
+      "label": ".NET Standard overview",
+      "url": "https://learn.microsoft.com/en-us/dotnet/standard/net-standard"
+    }
+  ]
+}

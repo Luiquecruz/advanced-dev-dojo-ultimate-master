@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A PHP developer writes `var cheap = products.Where(p => p.Price < 10);` expecting it to work like `array_filter`. Which statement is accurate?",
+    "options": [
+      "`cheap` is a new `List<Product>` holding the filtered products, exactly like the array `array_filter` returns",
+      "`Where` removes the expensive products from `products` in place",
+      "`cheap` is a query that has not run yet; it filters when it is enumerated, and `ToList()` stores the result",
+      "`Where` only compiles against EF Core sources, so an in-memory list needs `array_filter`-style loops"
+    ],
+    "answer": 2,
+    "explanation": "`Where` returns an `IEnumerable<Product>` describing the filter; nothing runs until something enumerates it, and `ToList()` is how you get a stored result. The tempting answer carries over PHP's eager `array_filter`. LINQ never mutates its source, and the same operators work on in-memory collections (LINQ to Objects) and on EF Core."
+  },
+  {
+    "question": "Prices are `decimal`. What does `products.Where(p => p.Category == \"gifts\").Max(p => p.Price)` do when there are no gift products?",
+    "options": [
+      "Returns `0`, the same result `Sum` gives for an empty sequence",
+      "Throws `InvalidOperationException`: the sequence has no elements",
+      "Returns `null`",
+      "Returns `decimal.MinValue`, the starting value of a running maximum over decimals"
+    ],
+    "answer": 1,
+    "explanation": "`Max`, `Min` and `Average` over a non-nullable numeric type throw `InvalidOperationException` when the source contains no elements. `Sum` is the operator that returns `0` for an empty sequence. To get `null` instead, project to a nullable type: `Max(p => (decimal?)p.Price)`."
+  },
+  {
+    "question": "SKUs must be unique. Which call looks up a product by SKU, returns `null` for an unknown SKU, and fails loudly if the data contains the same SKU twice?",
+    "options": [
+      "`products.First(p => p.Sku == sku)`",
+      "`products.FirstOrDefault(p => p.Sku == sku)`",
+      "`products.Where(p => p.Sku == sku).ToList()[0]`",
+      "`products.SingleOrDefault(p => p.Sku == sku)`"
+    ],
+    "answer": 3,
+    "explanation": "`SingleOrDefault` returns `default` (here `null`) for no match and throws when more than one element matches, so it encodes the uniqueness rule. `FirstOrDefault` also returns `null` when nothing matches, but it silently picks the first of several duplicates and hides the data problem. `First` and indexing `[0]` throw on an unknown SKU."
+  },
+  {
+    "question": "An order report must list every order line, showing \"(unknown SKU)\" when the product no longer exists. The code uses `orderLines.Join(products, l => l.Sku, p => p.Sku, ...)`. What goes wrong, and what fixes it on .NET 10?",
+    "options": [
+      "`Join` is an inner join, so lines without a product vanish from the report; `LeftJoin` keeps them and passes `null` for the missing product",
+      "`Join` throws `KeyNotFoundException` on the first unknown SKU; wrap it in `try`/`catch`",
+      "`Join` returns the unknown lines with a default `Product`; check for an empty name",
+      "Nothing goes wrong; `Join` is a left outer join by default, like `LEFT JOIN` in MySQL"
+    ],
+    "answer": 0,
+    "explanation": "`Join` implements an inner join: only elements with a match in the other sequence are returned, so unknown SKUs drop out silently. .NET 10 adds `LeftJoin`, whose result selector receives a nullable inner element, so `product?.Name ?? \"(unknown SKU)\"` works. Before .NET 10 the same result needed `GroupJoin` with `DefaultIfEmpty`. `Join` never throws for a missing key."
+  },
+  {
+    "question": "What does `products.GroupBy(p => p.Category)` return?",
+    "options": [
+      "A `Dictionary<string, List<Product>>` keyed by category",
+      "The products sorted by category, with the category name repeated on each one",
+      "A sequence of `IGrouping<string, Product>`, each with a `Key` and the products of that category",
+      "The number of products in each category"
+    ],
+    "answer": 2,
+    "explanation": "`GroupBy` produces one `IGrouping<TKey,TElement>` per distinct key; each group exposes `Key` and is itself enumerable, so you can call `g.Count()` or `g.Sum(...)` on it. It is not a dictionary (use `ToLookup` or `ToDictionary` for keyed access), it does not sort, and counting per key is `CountBy` (.NET 9+) or `g.Count()` in a `Select`."
+  },
+  {
+    "question": "An import loops over 20,000 order lines and calls `products.First(p => p.Sku == line.Sku)` for each one, with 50,000 products in a `List<Product>`. It is slow. What is the best fix?",
+    "options": [
+      "Replace `First` with `FirstOrDefault`, which stops earlier",
+      "Build `products.ToDictionary(p => p.Sku)` once before the loop and look each SKU up with `TryGetValue`",
+      "Sort the product list by SKU once before the loop, so that `First` finds each match after fewer comparisons",
+      "Rewrite the loop in query syntax, which the compiler optimizes better"
+    ],
+    "answer": 1,
+    "explanation": "Each `First` call scans the list, so the loop does up to 20,000 linear scans of 50,000 items. Building a dictionary once turns each lookup into a hash lookup, and `ToDictionary` also reports duplicate SKUs by throwing. `FirstOrDefault` scans the same way; it only changes what happens when nothing matches. Query syntax compiles to the same method calls, with no performance difference."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Authentication", "description": "The process of determining who the caller is; in ASP.NET Core it produces a `ClaimsPrincipal` through a registered handler." },
+  { "term": "Authorization", "description": "The process of deciding whether the authenticated caller may access a resource, evaluated by `IAuthorizationService` against policies." },
+  { "term": "Claim", "description": "A name-value pair about the subject, such as `sub`, `email` or `role`, that describes what the subject is rather than what it may do." },
+  { "term": "Authentication scheme", "description": "A name bound to one authentication handler and its options, such as `Bearer` for JWT bearer or `Cookies` for cookie authentication." },
+  { "term": "Challenge and forbid", "description": "The two failure actions of a handler: challenge for an unauthenticated caller (401 for bearer tokens) and forbid for an authenticated caller without permission (403)." },
+  { "term": "Resource server", "description": "The OAuth 2.0 role of an API that hosts protected resources and accepts access tokens issued by an authorization server." },
+  { "term": "OpenID Connect", "description": "An identity layer on top of OAuth 2.0 that adds the ID token, which tells the client who signed in and is never sent to an API." }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Layer versus tier", "description": "A layer is a logical split of code inside one application, while a tier is a separate physical deployment unit, so a three-project solution deployed as one web app is N-layer but single-tier." },
+  { "term": "N-layer architecture", "description": "UI depends on a business logic layer that depends on a data access layer, which makes the business rules depend at compile time on persistence details." },
+  { "term": "Clean Architecture", "description": "A structure where the Application Core defines the interfaces it needs and Infrastructure implements them, so every compile-time dependency points toward the core." },
+  { "term": "Port and adapter", "description": "A port is an interface owned by the core, such as `IProductRepository`, and an adapter is the infrastructure class that implements it with a concrete technology such as EF Core." },
+  { "term": "Project reference", "description": "A `<ProjectReference>` in a `.csproj` that lets one project use another's public types; the compiler rejects any use of a project you do not reference and any reference cycle." },
+  { "term": "Composition root", "description": "The single place, usually `Program.cs`, where interfaces are bound to implementations in the DI container." },
+  { "term": "internal", "description": "The C# access modifier that makes a type visible only inside its own assembly, used to keep adapters such as repository implementations out of reach of other projects." }
+]

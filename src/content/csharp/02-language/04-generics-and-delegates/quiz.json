@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In PHP, `$limit = 10; $isLow = fn($s) => $s < $limit; $limit = 3; $isLow(5);` returns `true`, because the arrow function copied `10`. What does the C# equivalent return?\n\n```csharp\nvar limit = 10;\nFunc<int, bool> isLow = s => s < limit;\nlimit = 3;\nConsole.WriteLine(isLow(5));\n```",
+    "options": [
+      "`True`, because the lambda copied `10` when it was created, as PHP's `fn` does",
+      "`False`, because the lambda captured `limit` and reads its current value",
+      "It does not compile, because captured variables must be `const` or `readonly`",
+      "`True`, because `limit = 3` declares a new variable that shadows the captured one"
+    ],
+    "answer": 1,
+    "explanation": "C# lambdas capture variables, not values, so the call sees `limit == 3` and `5 < 3` is false. The first option is PHP's `fn`/`use ($limit)` behavior; to get it in C#, copy the value into another local before creating the lambda."
+  },
+  {
+    "question": "What does this print?\n\n```csharp\nvar actions = new List<Action>();\nfor (var i = 0; i < 3; i++)\n    actions.Add(() => Console.Write(i));\nforeach (var a in actions) a();\n```",
+    "options": [
+      "`012`",
+      "`222`",
+      "`333`",
+      "`000`"
+    ],
+    "answer": 2,
+    "explanation": "A `for` loop has one variable `i` shared by all iterations. Every lambda captures that same variable, which is `3` when the loop exits. `012` is what a `foreach` loop gives, because `foreach` declares a fresh variable for each iteration."
+  },
+  {
+    "question": "`class Repository<T> { public void Save(T item) => Console.WriteLine(item.Id); }` fails to compile. Which change fixes it?",
+    "options": [
+      "Add `where T : IEntity`, with `IEntity` declaring `Id`",
+      "Add `where T : class`, so the compiler treats `T` as an object type",
+      "Add `where T : new()`, so `T` has a known constructor and members",
+      "Cast inside the method: `((dynamic)item).Id`"
+    ],
+    "answer": 0,
+    "explanation": "Without a constraint the compiler only knows `T` is an `object`, which has no `Id`. An interface constraint guarantees the member. `where T : class` is tempting but only says \"reference type\", which still has no `Id`. `dynamic` compiles but drops the compile-time checking that generics exist to give you."
+  },
+  {
+    "question": "Which delegate type fits a parameter that receives a product and returns whether it should be shown?",
+    "options": [
+      "`Action<Product, bool>`",
+      "`Func<bool, Product>`",
+      "`Action<Product>`",
+      "`Func<Product, bool>`"
+    ],
+    "answer": 3,
+    "explanation": "`Func`'s last type argument is the return type, so `Func<Product, bool>` takes a `Product` and returns a `bool`. `Func<bool, Product>` reverses them, a common slip. `Action` never returns a value, so neither `Action` option can return the decision."
+  },
+  {
+    "question": "A `Checkout` class raises `OrderPlaced` with `OrderPlaced?.Invoke(this, args)`. One subscriber's handler throws an exception. What happens?",
+    "options": [
+      "It is logged by the runtime, and the remaining handlers still run",
+      "It propagates to the raiser, and the handlers after it do not run",
+      "It is lost, because event handlers run on a background thread",
+      "The failing handler is unsubscribed automatically and the event retries"
+    ],
+    "answer": 1,
+    "explanation": "Event handlers are invoked synchronously, one after another, in the raiser's call stack, so an exception stops the invocation and reaches the raiser. The background-thread answer is tempting for developers who know asynchronous message queues, but plain C# events are in-process method calls."
+  },
+  {
+    "question": "In Magento, an observer on `sales_order_place_after` sends the confirmation email. In an ASP.NET Core API, why is a C# `event` on the `Checkout` object a poor replacement?",
+    "options": [
+      "Nothing is wrong: ASP.NET Core dispatches event handlers to a background queue automatically",
+      "Nothing is wrong if `Checkout` is a singleton, because every request then shares the handlers",
+      "It belongs to one instance, runs synchronously inside the request and is not durable",
+      "C# events cannot carry data, so the order would not reach the email handler"
+    ],
+    "answer": 2,
+    "explanation": "Magento events are global named hooks wired by configuration; a C# event is a member of one instance with in-process, synchronous handlers and no durability, so teams call a service, publish a domain event or use a message broker instead. ASP.NET Core does not queue event handlers, and a singleton only shares the handler list: the email still runs inside the request and is lost if the process stops. `EventArgs` subclasses do carry data, as `OrderPlacedEventArgs` does."
+  }
+]

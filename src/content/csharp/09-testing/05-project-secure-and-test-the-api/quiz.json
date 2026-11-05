@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A teammate replaces `RequireAuthorization(\"admin\")` on the write group with plain `RequireAuthorization()`. Which criterion-1 test is the first to catch it?",
+    "options": [
+      "`PostProduct_NoToken_Returns401`, because the token check moved to the policy",
+      "`PostProduct_AdminToken_Returns201`, because the admin role is no longer read",
+      "`PostProduct_NoRoleToken_Returns403`, because any signed-in user now passes",
+      "`GetProducts_NoToken_Returns200`, because reads now need a signed-in user"
+    ],
+    "answer": 2,
+    "explanation": "Plain `RequireAuthorization()` only demands an authenticated user, so the token without `--role admin` now gets 201 instead of 403. Anonymous requests still get 401, the admin still gets 201, and the reads are on another group, so those tests stay green. A suite without the no-role case would not notice the policy is gone."
+  },
+  {
+    "question": "Criterion 3 says `dotnet test` must pass with Docker running and no database installed. Which setup meets it?",
+    "options": [
+      "A connection string in `appsettings.Testing.json` pointing at a local PostgreSQL",
+      "A Testcontainers container started in `InitializeAsync`, with migrations applied",
+      "`UseInMemoryDatabase` for the HTTP tests and the P3 container for the others",
+      "A `docker compose up` step in the README that developers run before testing"
+    ],
+    "answer": 1,
+    "explanation": "The tests must bring their own database, which is what a container started by the factory does; step 8 proves it by stopping the P3 container. A local connection string needs an installed server, a manual compose step is outside `dotnet test`, and `UseInMemoryDatabase` breaks criterion 4, which a search for it would catch."
+  },
+  {
+    "question": "`CreateProduct_AdminToken_Returns201` passes alone but fails with 409 (SKU `TEST-1` already exists) when the whole suite runs against the shared Testcontainers database. What is the real defect?",
+    "options": [
+      "The unique index on SKU is too strict and should be dropped from the migration",
+      "The shared `WebApplicationFactory` keeps old rows and must be rebuilt per test",
+      "Another test in the same run already committed `TEST-1`; make test data unique",
+      "The rate limiter answers 409 instead of 429 because the window was exhausted"
+    ],
+    "answer": 2,
+    "explanation": "Each `dotnet test` starts a fresh container, so an earlier run cannot leave the row behind; the collision comes from another test that shares the container during the same run and wrote the same fixed SKU, which makes the result depend on test order (criterion 6). Unique SKUs (for example with a `Guid` suffix), or a reset between tests, fix it. Rebuilding the factory does not help because the rows live in the database, not in the factory, and removing the index weakens the product to make a bad test pass."
+  },
+  {
+    "question": "Which test belongs in `Catalog.UnitTests` rather than `Catalog.IntegrationTests`?",
+    "options": [
+      "`CsvParser_PriceIsNotANumber_ReturnsLineError`",
+      "`Report_TopFiveByStockValue_IsOneSqlStatement`",
+      "`UpdateStock_StaleRowVersion_Returns409`",
+      "`PostProduct_NoToken_Returns401ProblemDetails`"
+    ],
+    "answer": 0,
+    "explanation": "P1's CSV parser is pure code with no infrastructure, so a fast theory covers every bad row. The 401 test needs the HTTP pipeline, and the single-statement report and the stale row version need the real database engine; none of those can be proven by a unit test."
+  },
+  {
+    "question": "Your rate-limit test sends 11 writes in a 10-per-minute window and expects 429 on the eleventh, but receives a different status. What is the most likely fix?",
+    "options": [
+      "Add a global limiter as well, because named policies reject with 400",
+      "Set `RejectionStatusCode` to 429 instead of relying on the default",
+      "Remove the `admin` policy, because limiters skip authenticated endpoints",
+      "Send the writes with `Task.WhenAll`, since sequential calls reset the window"
+    ],
+    "answer": 1,
+    "explanation": "The default `RejectionStatusCode` is 503 Service Unavailable, as module 08/05 noted, so the project asks for `StatusCodes.Status429TooManyRequests` explicitly (or a status written in `OnRejected`). Named policies use the same rejection status as a global limiter, rate limiting works on authenticated endpoints, and a fixed window counts sequential requests just like parallel ones."
+  },
+  {
+    "question": "To speed up CI, a teammate swaps the Testcontainers database for `UseInMemoryDatabase` in the database tests. Which result do you get?",
+    "options": [
+      "Criterion 4 fails, and the database tests stop proving P3's behaviour: the provider runs no SQL and has no transactions",
+      "Every criterion still passes, because the in-memory provider applies the real migrations through `MigrateAsync`",
+      "Only criterion 3 fails, because Docker is no longer needed and `dotnet test` refuses to run without it",
+      "Criterion 6 fails, because the in-memory provider keeps rows between runs on disk"
+    ],
+    "answer": 0,
+    "explanation": "Criterion 4 bans the in-memory provider outright, and the reason is what it hides. It is not a relational database: raw SQL is unsupported (so the Dapper report cannot run against it), transactions are not supported, `MigrateAsync` is a relational API, and the conditional stock `UPDATE` and the row version are database behaviour it does not have. Microsoft's EF Core testing guide calls this use highly discouraged. This is the Magento habit of a 'fast' mocked resource model: green tests that never touched the engine production uses. Its data lives only in the process, so nothing persists on disk between runs."
+  }
+]

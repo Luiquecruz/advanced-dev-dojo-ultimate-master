@@ -8,8 +8,7 @@ import { csharpGrader } from './graders';
 /**
  * Verification of the C# track: the content standards of its theory and quiz lessons (.claude/docs/csharp-track/06-content-standards.md,
  * merged from the content branch's standards suite without its "no challenge" rule) and, through the C# engine, every challenge's
- * solution passing and starter failing. Until the track is merged into this branch, the standards block is skipped and the challenge
- * suite reports that no challenge matches.
+ * solution passing and starter failing.
  */
 
 const STATUS_TAGS = ['recommended', 'established', 'legacy', 'context'];
@@ -41,7 +40,7 @@ const lessons: Lesson[] = track ? track.modules.flatMap((module) => module.lesso
 const kindOf = (lesson: Lesson) => (lesson.tags.includes('project') ? 'project' : 'theory');
 const eachLesson = lessons.map((lesson) => [lesson.key, lesson] as const);
 
-describe.skipIf(!track)('csharp track', () => {
+describe('csharp track', () => {
   it('runs on the C# engine', () => {
     expect(track!.engine).toBe('csharp');
     expect(track!.modules.length).toBeGreaterThan(0);

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team used to Warden asks whether Aspire replaces their production hosting. What is the accurate answer?",
+    "options": [
+      "Yes: the AppHost process keeps running in production and supervises every service",
+      "No: it orchestrates local runs and can generate deployment artifacts for a platform",
+      "Yes, but only on Azure, where the AppHost is turned into a managed hosting service",
+      "No: Aspire is only a telemetry dashboard and cannot start containers or projects"
+    ],
+    "answer": 1,
+    "explanation": "Aspire's overview states it is not a cloud provider or production runtime. The AppHost starts containers and projects for development, and `aspire publish`/`deploy` turn the model into artifacts for a target platform such as Container Apps or Kubernetes. It does start containers locally, so the last option is wrong too."
+  },
+  {
+    "question": "The API's AppHost entry is `AddProject<Projects.Catalog_Api>(\"api\").WithReference(catalogDb)`, where `catalogDb` is `postgres.AddDatabase(\"catalogdb\")`. How should the API get its connection string?",
+    "options": [
+      "Hard-code the PostgreSQL container's host port in `appsettings.Development.json`",
+      "Call the AppHost over HTTP at start-up and ask it for the current connection string",
+      "Read the connection string named `catalogdb`, for example with `AddNpgsqlDbContext`",
+      "Use `Projects.Catalog_Api.ConnectionString`, a property the AppHost generates for it"
+    ],
+    "answer": 2,
+    "explanation": "`WithReference` injects configuration named after the resource. The app reads a standard connection string (`connectionName: \"catalogdb\"`), so it runs unchanged when production sets `ConnectionStrings__catalogdb`. The generated `Projects` types identify projects for the AppHost; they do not carry connection strings, and ports are assigned at run time."
+  },
+  {
+    "question": "After deploying the API (built from the Aspire template) to Kubernetes, the readiness probe on `/health` returns 404. Why?",
+    "options": [
+      "The template's `MapDefaultEndpoints()` maps `/health` and `/alive` only in Development",
+      "Kubernetes strips the `/health` prefix from probe requests before they reach the Pod",
+      "Health checks need the AppHost running next to the API to report the resource states",
+      "Chiseled images block request paths that start with `/health` unless they are allowed"
+    ],
+    "answer": 0,
+    "explanation": "The service defaults deliberately map health endpoints only in the Development environment, because exposing them has security implications. In production you map your own liveness and readiness endpoints, as in lesson 04. Health checks run inside the app and do not need the AppHost."
+  },
+  {
+    "question": "What does `WaitFor(messaging)` add on top of `WithReference(messaging)`?",
+    "options": [
+      "It wraps every RabbitMQ publish in a retry policy until the broker acknowledges it",
+      "It makes the worker block in production until RabbitMQ is reachable",
+      "Nothing; the two calls are aliases kept for compatibility with older AppHost code",
+      "It delays starting the project until the RabbitMQ resource reports healthy"
+    ],
+    "answer": 3,
+    "explanation": "`WithReference` passes connection information; `WaitFor` orders start-up on the resource's health, the AppHost version of Compose's `condition: service_healthy`, so the app does not crash while the broker boots. It is an orchestration setting for the AppHost run. It adds no retries to your code, and it does not exist in production, where the app still needs its own resilience."
+  },
+  {
+    "question": "Your team is on Aspire 13.4 and plans to skip upgrades for a year. Under Aspire's support policy, what is the consequence?",
+    "options": [
+      "None: each Aspire version is supported for three years, the same as a .NET LTS release",
+      "13.4 lost support when a newer release shipped; only the latest is supported",
+      "Support continues as long as the projects target .NET 10",
+      "Only the dashboard stops receiving fixes, while the hosting integrations stay supported"
+    ],
+    "answer": 1,
+    "explanation": "Microsoft supports only the latest Aspire release, so upgrades must be routine work. That model differs from .NET's LTS, which is the tempting wrong answer. The support boundary is the Aspire release, not the target framework or a component."
+  },
+  {
+    "question": "Which part of the Aspire template is the quickest way to configure OpenTelemetry even in an app that does not use the AppHost?",
+    "options": [
+      "The dashboard container, which instruments every app that sends telemetry to it",
+      "The `aspire deploy` command, which adds the OpenTelemetry packages while publishing",
+      "The service defaults project and its `ConfigureOpenTelemetry()` method",
+      "The `Projects` namespace generated in the AppHost"
+    ],
+    "answer": 2,
+    "explanation": "Microsoft's OpenTelemetry docs recommend reusing the service defaults project, which wires ASP.NET Core, `HttpClient` and runtime instrumentation and exports over OTLP when the endpoint is configured. The dashboard only receives telemetry; it instruments nothing."
+  }
+]

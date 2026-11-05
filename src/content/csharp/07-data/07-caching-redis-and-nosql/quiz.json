@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An API runs as three instances and caches product prices in `IMemoryCache`. An admin changes a price through instance A, which removes its entry. What do users see?",
+    "options": [
+      "The new price everywhere, because `IMemoryCache` entries are synchronized through the database",
+      "B and C serve the old price until their own entries expire",
+      "An error on B and C, because `IMemoryCache` cannot run on more than one instance at a time",
+      "The new price everywhere, because ASP.NET Core enables sticky sessions by default"
+    ],
+    "answer": 1,
+    "explanation": "`IMemoryCache` lives in one process, so each instance has its own copy and there is no cross-instance invalidation. In Magento every cache is out of process (Redis), so this trap is new. A distributed or hybrid cache with short local expiration is the usual fix; nothing enables sticky sessions for you."
+  },
+  {
+    "question": "100 requests miss the key `product:MUG-01` at the same moment. What is the difference between `IMemoryCache.GetOrCreateAsync` and `HybridCache.GetOrCreateAsync`?",
+    "options": [
+      "None; both run the factory exactly once and make the other 99 callers wait for it",
+      "None; both run the factory 100 times, and the last result to finish is the one cached",
+      "`HybridCache` runs the factory 100 times but stores only one result in Redis",
+      "`IMemoryCache` may run the factory per caller; `HybridCache` runs it once"
+    ],
+    "answer": 3,
+    "explanation": "Microsoft states that `IMemoryCache.GetOrCreate*` is not atomic and points to `HybridCache` for stampede protection: one caller runs the factory and the others wait for its result. That protection is per `HybridCache` instance, so other servers may still each run the factory once."
+  },
+  {
+    "question": "After `await cache.RemoveByTagAsync(\"products\")` on `HybridCache` with Redis, what actually happens?",
+    "options": [
+      "Older tagged entries read as misses; other servers' memory is not touched",
+      "Every key tagged `products` is deleted from Redis and from every server's memory layer",
+      "Nothing changes until the application restarts and rebuilds its tag index",
+      "Only entries whose key also starts with the prefix `products` are removed from Redis"
+    ],
+    "answer": 0,
+    "explanation": "The docs describe tag invalidation as logical, not a physical deletion: entries created before the call are treated as misses, the stored values remain until they expire, and invalidation reaches the current server and the secondary store but not other servers' memory. Expecting physical deletion everywhere is the Magento cache-clean mental model."
+  },
+  {
+    "question": "A service reads a `List<Product>` of tracked EF Core entities from `IMemoryCache` and a handler sets `product.Price = 0` on one of them for a preview. What is the bug?",
+    "options": [
+      "None, because `IMemoryCache` returns a serialized copy of the list to each reader",
+      "The change is saved to the database automatically by the next request's `SaveChangesAsync`",
+      "The cache holds references, so every later reader sees the change",
+      "`IMemoryCache` throws an exception the first time a cached object is modified"
+    ],
+    "answer": 2,
+    "explanation": "`IMemoryCache` keeps the object itself, not a serialized copy, so a mutation leaks to every request; cache immutable DTOs or copy before changing. Caching tracked entities adds a second problem: they belong to a disposed context. A distributed cache would hand out copies, which is why the bug appears only with the in-memory cache."
+  },
+  {
+    "question": "Why does the lesson set `LocalCacheExpiration` shorter than `Expiration` on `HybridCache` entries?",
+    "options": [
+      "Because the in-memory layer is slower than Redis, so entries should leave it sooner",
+      "Because `HybridCache` throws at registration when the two values are equal",
+      "It bounds how long other instances serve a stale local copy",
+      "To reduce Redis memory usage, since the local value is also counted against Redis"
+    ],
+    "answer": 2,
+    "explanation": "Removing a key clears the current server's memory and the distributed layer only. Other instances keep their local copy until `LocalCacheExpiration` passes, then read the fresh value from Redis or the factory. The memory layer is the fast one, not the slow one."
+  },
+  {
+    "question": "Which data is the best candidate to move from PostgreSQL to a document database such as Azure Cosmos DB?",
+    "options": [
+      "Order totals and stock levels that must change together in one transaction",
+      "A product document with variable attributes, read and written whole",
+      "The monthly financial report that joins ten tables for the finance team",
+      "The foreign keys that link customers to their orders and addresses"
+    ],
+    "answer": 1,
+    "explanation": "Document stores fit aggregates read and written as one unit with a variable shape, the case Magento solves with EAV. Multi-row transactions, joins and constraints are what relational databases are for. EF Core 10 JSON columns are also worth evaluating before adding a second database."
+  }
+]

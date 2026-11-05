@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A mobile app signs in through `POST /login` of `MapIdentityApi` without `useCookies`. The team then wants a separate reporting API to accept the same token with `AddJwtBearer`. What happens?",
+    "options": [
+      "It works, because Identity issues standard JWTs signed with the app's data protection key",
+      "It works only if both APIs share the same `appsettings.json` and signing key",
+      "It fails: Identity API tokens are proprietary, not standard JWTs other APIs can validate",
+      "It fails only because the refresh token must be sent instead of the access token"
+    ],
+    "answer": 2,
+    "explanation": "Microsoft states that the Identity API tokens aren't standard JSON Web Tokens and that the feature isn't intended to be a token server. Tokens for several APIs come from an identity provider that issues standard OAuth/OIDC tokens. Sharing configuration does not change the token format, and refresh tokens are never sent to APIs."
+  },
+  {
+    "question": "Lockout is configured with `MaxFailedAccessAttempts = 5`, yet a test with 50 wrong passwords never locks the account. The login code calls `PasswordSignInAsync(email, password, isPersistent: false, lockoutOnFailure: false)`. What is wrong?",
+    "options": [
+      "Failures only count towards lockout when `lockoutOnFailure` is `true`",
+      "Lockout only applies to user accounts created before the option was set",
+      "`MaxFailedAccessAttempts` must be at least 10 to take effect",
+      "Lockout is disabled unless `RequireConfirmedEmail` is `true`"
+    ],
+    "answer": 0,
+    "explanation": "Identity's lockout is applied by `PasswordSignInAsync` only when it is told to count failures; the scaffolded login page passes `false`, as its comment warns. `AllowedForNewUsers` defaults to `true`, so new users can be locked out, and lockout does not depend on e-mail confirmation."
+  },
+  {
+    "question": "Coming from Magento, a team plans one sign-in for the storefront API, the admin app and a partner portal, each a separate application. Which approach fits?",
+    "options": [
+      "Add `MapIdentityApi` to each app; they will share sign-in sessions automatically",
+      "Use ASP.NET Core Identity in one app and copy its `AspNetUsers` table to the others",
+      "Store users in Identity and issue cookies scoped to the parent domain",
+      "An OIDC/OAuth identity provider; each API validates its JWT access tokens"
+    ],
+    "answer": 3,
+    "explanation": "Single sign-on across several applications is the job of an identity provider (an OIDC/OAuth authorization server). Identity is a membership library for one app; copying tables or sharing cookies across apps duplicates the security logic and breaks as soon as apps live on different domains or clients are third parties."
+  },
+  {
+    "question": "A user signs out in a SPA that uses Identity API bearer tokens. The server calls `SignInManager.SignOutAsync()`. Can a copied access token still call the API?",
+    "options": [
+      "No, `SignOutAsync` revokes every bearer token issued to the user",
+      "Yes, until it expires (1 hour by default), because sign-out does not touch bearer tokens",
+      "No, because the refresh token is deleted, which also invalidates the access token",
+      "Yes, forever, because Identity API access tokens have no expiry"
+    ],
+    "answer": 1,
+    "explanation": "Microsoft documents that `SignOutAsync` clears cookie authentication but does not invalidate stateless bearer tokens; the access token stays valid until `BearerTokenExpiration` (1 hour by default) and the refresh token until `RefreshTokenExpiration` (14 days). The client must discard them, and real revocation needs extra server-side work."
+  },
+  {
+    "question": "Which statement about passkey support in ASP.NET Core Identity on .NET 10 is correct?",
+    "options": [
+      "They are a primary, passwordless factor, with UI only in the Blazor Web App template",
+      "Passkeys are added as a second factor next to the authenticator app in `/manage/2fa`",
+      "`MapIdentityApi` gained `/passkey/register` and `/passkey/login` endpoints for SPAs",
+      "Passkeys need a full WebAuthn library such as fido2-net-lib, because Identity only stores the public keys"
+    ],
+    "answer": 0,
+    "explanation": "The .NET 10 implementation supports passkey registration and passwordless sign-in, treats passkeys as a primary factor with no built-in 2FA use, ships UI only in the Blazor Web App template and does not validate attestation statements by default. `MapIdentityApi` lists no passkey endpoints. Third-party libraries are only needed for full WebAuthn features such as attestation validation."
+  },
+  {
+    "question": "You raise `PasswordHasherOptions.IterationCount` in production. What happens to users whose passwords were hashed with the old setting?",
+    "options": [
+      "They can no longer sign in until they reset their password through e-mail",
+      "Their stored hashes are all rehashed with the new count at the next startup",
+      "They still sign in, and each hash is upgraded on that user's next successful sign-in",
+      "The setting is ignored once any user exists in the database"
+    ],
+    "answer": 2,
+    "explanation": "Each Identity hash stores its own parameters, so `VerifyHashedPassword` still accepts old hashes; when the stored iteration count is lower than the configured one it returns `SuccessRehashNeeded`, and `UserManager` rehashes the password with the new count on that user's next successful sign-in. Nothing is rehashed at startup, since the server never knows the plain passwords."
+  }
+]

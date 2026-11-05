@@ -1,0 +1,9 @@
+[
+  { "term": "OpenTelemetry", "description": "A vendor-neutral standard and SDK that collects traces, metrics and logs from .NET's built-in APIs and exports them to any backend." },
+  { "term": "OTLP", "description": "The OpenTelemetry wire protocol; `UseOtlpExporter()` sends every signal to the endpoint in `OTEL_EXPORTER_OTLP_ENDPOINT`." },
+  { "term": "`ActivitySource` / `Activity`", "description": "The .NET tracing API: a source creates activities (spans), and `StartActivity` returns `null` when no listener such as `AddSource` is registered." },
+  { "term": "`Meter`", "description": "The .NET metrics API that creates counters and histograms, collected by OpenTelemetry once registered with `AddMeter`." },
+  { "term": "Context propagation", "description": "Carrying the trace id and parent span id across a process boundary, automatic for HTTP via `traceparent` and explicit inject/extract for broker messages." },
+  { "term": "Liveness and readiness endpoints", "description": "Health check endpoints where liveness runs no dependency checks and readiness checks dependencies such as the database, returning 503 when unhealthy." },
+  { "term": "Resource", "description": "The OpenTelemetry description of the emitting service, such as `service.name`, attached to every span, metric and log." }
+]

@@ -1,0 +1,32 @@
+{
+  "title": "Tracking and Query Performance",
+  "summary": "Logging the SQL EF Core sends, removing N+1 queries with Include and projections, split queries against cartesian explosion, no-tracking reads, ExecuteUpdate and keyset pagination.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Efficient querying",
+      "url": "https://learn.microsoft.com/en-us/ef/core/performance/efficient-querying"
+    },
+    {
+      "label": "Single vs. split queries",
+      "url": "https://learn.microsoft.com/en-us/ef/core/querying/single-split-queries"
+    },
+    {
+      "label": "Tracking vs. no-tracking queries",
+      "url": "https://learn.microsoft.com/en-us/ef/core/querying/tracking"
+    },
+    {
+      "label": "ExecuteUpdate and ExecuteDelete",
+      "url": "https://learn.microsoft.com/en-us/ef/core/saving/execute-insert-update-delete"
+    },
+    {
+      "label": "Simple logging with LogTo",
+      "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging"
+    }
+  ]
+}

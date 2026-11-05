@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A Magento module keeps a cache of the current customer's cart in a class registered as a shared instance. You port the class to ASP.NET Core and register it with `AddSingleton`. What happens?",
+    "options": [
+      "ASP.NET Core creates one singleton per request scope, so each customer keeps a separate cart",
+      "All concurrent requests share one instance until the process stops, so carts leak",
+      "The container creates one instance per thread, so carts mix only when two requests share a thread",
+      "The instance is shared, but ASP.NET Core resets its fields at the end of every request"
+    ],
+    "answer": 1,
+    "explanation": "An ASP.NET Core app is one long-running process, so a singleton lives until the process stops and every request gets the same instance. In Magento the shared instance only looked per-request because PHP-FPM discards everything after each request. The first option describes the scoped lifetime (module 05), which you must ask for explicitly; `AddSingleton` never behaves that way."
+  },
+  {
+    "question": "A Magento observer adds a security header to every HTTP response. Where does that behaviour belong in an ASP.NET Core app?",
+    "options": [
+      "A `BackgroundService` that inspects each response after it is sent",
+      "An Options class bound from `appsettings.json` with the header values",
+      "Middleware in the request pipeline, registered in `Program.cs`",
+      "A singleton service that the container calls after every endpoint"
+    ],
+    "answer": 2,
+    "explanation": "Cross-cutting request behaviour that Magento puts in plugins and observers becomes middleware (or endpoint filters) in ASP.NET Core, added to the pipeline in `Program.cs`. The container only creates what something asks for; it never calls a registered service on its own, so the last option would do nothing. A `BackgroundService` runs outside the request and cannot change a response."
+  },
+  {
+    "question": "In PHP without `declare(strict_types=1)`, passing `\"10\"` to a function that declares `int` works. What happens with the same call in C#?",
+    "options": [
+      "It compiles, and the call throws `InvalidCastException` at run time",
+      "It compiles, because C# coerces numeric strings unless strict mode is on",
+      "It compiles with a warning, and the string is parsed with `int.Parse`",
+      "The build fails: `string` does not convert implicitly to `int`"
+    ],
+    "answer": 3,
+    "explanation": "C# checks types at compile time, so the mismatch is reported (CS1503) before the program can run, and there is no per-file strict mode. The first option is the PHP strict-mode model, where a `TypeError` appears only when the call executes; in C# the call never gets that far."
+  },
+  {
+    "question": "Where do you register a service such as `TimeProvider` in a new ASP.NET Core web project?",
+    "options": [
+      "In `Program.cs`, with `builder.Services.AddSingleton(TimeProvider.System)`",
+      "In `appsettings.json`, under a `Services` section the host reads at startup",
+      "Nowhere: the container creates any public class on request, like the ObjectManager",
+      "With an `[Injectable]` attribute on the class, which the host scans at startup"
+    ],
+    "answer": 0,
+    "explanation": "Composition in .NET is explicit C# code on `builder.Services`, read top to bottom; there is no XML merge and no attribute scanning by default. The third option is tempting for a Magento developer because the ObjectManager can create almost any class, but the .NET container only resolves what was registered."
+  },
+  {
+    "question": "An endpoint calls `File.ReadAllTextAsync(path).Result`. The code works on your laptop but the API slows down badly under load in production. Why?",
+    "options": [
+      "`.Result` makes every request wait on one shared synchronization context",
+      "Each blocked call holds a pool thread while waiting, so the pool starves",
+      "Async file APIs are slower than sync ones, so `File.ReadAllText` would fix it",
+      "The file is read again on every call; it should be cached in a static field"
+    ],
+    "answer": 1,
+    "explanation": "Blocking on a task keeps a shared thread busy doing nothing; with many concurrent requests the pool runs out of threads and requests queue. `await` releases the thread while the I/O runs. Switching to the synchronous API, the third option, still blocks a thread per request and does not fix the starvation; ASP.NET Core has no synchronization context, which rules out the first."
+  },
+  {
+    "question": "You find a C# answer online that uses a `Startup` class, `System.Web` and `web.config`. What should you conclude first?",
+    "options": [
+      "It is the recommended structure for new .NET 10 APIs",
+      "It is current, but only for apps hosted in IIS rather than Kestrel",
+      "It was written for .NET Framework or early ASP.NET Core",
+      "It needs `<LangVersion>latest</LangVersion>` to compile on .NET 10"
+    ],
+    "answer": 2,
+    "explanation": "`System.Web` and `web.config` belong to .NET Framework, and a `Startup` class is the pre-.NET 6 ASP.NET Core pattern; current templates use top-level statements in `Program.cs`. The second option is tempting because `web.config` still appears when modern apps run behind IIS, but there it only configures the IIS module, and `System.Web` does not exist in modern .NET."
+  }
+]

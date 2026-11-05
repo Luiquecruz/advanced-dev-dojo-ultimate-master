@@ -1,0 +1,68 @@
+[
+  {
+    "question": "You stop the database container and `/health/ready` returns `503`, while `/health/live` still returns `200`. Is that a failure of acceptance criterion 4?",
+    "options": [
+      "Yes: both endpoints must fail whenever any dependency of the API is down",
+      "Yes: liveness should also return `503` so that the platform restarts the API",
+      "No: readiness drops it from traffic while liveness avoids a useless restart",
+      "No, but only because Compose ignores the health endpoints that the API exposes"
+    ],
+    "answer": 2,
+    "explanation": "Readiness reports whether the instance can serve now; liveness reports whether the process is stuck. A database outage is a readiness problem. If liveness failed too, an orchestrator would restart every replica in a loop. Compose's own health checks are for its services; the criterion tests your endpoints."
+  },
+  {
+    "question": "In the OTLP backend, the API's trace ends at the publish span and the worker's span appears as a separate trace. Which fix is most likely?",
+    "options": [
+      "Increase the RabbitMQ prefetch count on the worker's channel",
+      "Extract the context from the message headers and pass it as the span's parent",
+      "Register `AddHttpClientInstrumentation()` in the worker so it reads `traceparent`",
+      "Give the worker the same `OTEL_SERVICE_NAME` as the API so the spans are grouped"
+    ],
+    "answer": 1,
+    "explanation": "A broker hop only keeps the trace if the producer injects the context and the consumer extracts it and starts its span with `parent.ActivityContext` as the parent. `HttpClient` instrumentation does not apply to RabbitMQ messages. Sharing a service name would just mislabel the worker's telemetry."
+  },
+  {
+    "question": "Why does the workflow publish images only after a merge to `main`, tagged with the commit SHA?",
+    "options": [
+      "PRs are proven without pushing, and the SHA ties each container to one commit",
+      "Container registries reject images built from pull requests",
+      "`dotnet publish /t:PublishContainer` only works on the repository's default branch",
+      "Tagging with the SHA makes the pushed image smaller than tagging it with `latest`"
+    ],
+    "answer": 0,
+    "explanation": "PR runs must not push images, especially from forks, and one image per merged commit is the artifact you promote; the SHA tag ties every running container to one commit and one pipeline run. A tag does not change image size, and neither the SDK nor registries care which branch built an image."
+  },
+  {
+    "question": "`docker compose up --build` starts the API before PostgreSQL accepts connections, and the API exits on its first query. What change belongs in `compose.yaml`?",
+    "options": [
+      "Add `restart: always` to PostgreSQL so it recovers quickly",
+      "Publish PostgreSQL's port to the host so the API can reach it as soon as it starts",
+      "Connect the two services with `links:` so the API waits for the database container",
+      "A `pg_isready` health check and `depends_on` with `condition: service_healthy`"
+    ],
+    "answer": 3,
+    "explanation": "Plain `depends_on` only orders container start. A health check plus `service_healthy` makes Compose wait for readiness. Restarting the database or exposing its port does not delay the API, and `links:` only adds network aliases between services; it does not wait for readiness either."
+  },
+  {
+    "question": "Your API image is built on `aspnet:10.0` with a Dockerfile, and `docker inspect --format '{{.Config.User}}'` prints nothing. What does that mean for criterion 3?",
+    "options": [
+      "It passes: an empty user means the image falls back to its default `app` user",
+      "It passes, because Kestrel drops root privileges by itself after binding the port",
+      "It fails: the container runs as root; add `USER $APP_UID` or use a chiseled image",
+      "It fails only if the API listens on port 80, which needs root inside the container"
+    ],
+    "answer": 2,
+    "explanation": "An empty `Config.User` means root. The regular `aspnet` image provides the `app` user but does not switch to it; you opt in with `USER $APP_UID`. Chiseled images and SDK container publish default to it. Kestrel does not drop privileges by itself."
+  },
+  {
+    "question": "The API's spans reach the OTLP backend, but the worker shows nothing. In Magento, the New Relic agent covered every PHP process on the server. What is missing?",
+    "options": [
+      "The worker's own OpenTelemetry pipeline, with `AddSource` for its activity source",
+      "Nothing: the API's pipeline exports spans for every process",
+      "An APM agent package on the host, which .NET loads into every process like a PHP extension",
+      "A `traceparent` header on the worker's health endpoint so the backend can discover it"
+    ],
+    "answer": 0,
+    "explanation": "Each .NET process collects only what it registers. The worker is a separate host, so it needs `AddOpenTelemetry()`, `AddSource` for its source and an exporter pointed at the same endpoint. The API's pipeline lives in the API process and sees none of the worker's activities; there is no server-wide agent unless you install one deliberately."
+  }
+]

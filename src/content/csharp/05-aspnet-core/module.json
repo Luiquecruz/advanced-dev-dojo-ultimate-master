@@ -1,0 +1,4 @@
+{
+  "title": "ASP.NET Core Fundamentals",
+  "description": "The host and Program.cs, dependency injection lifetimes, configuration and options, logging, and the middleware pipeline, compared with Magento."
+}

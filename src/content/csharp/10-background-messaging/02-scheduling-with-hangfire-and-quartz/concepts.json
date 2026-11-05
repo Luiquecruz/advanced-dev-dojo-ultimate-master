@@ -1,0 +1,9 @@
+[
+  { "term": "Job storage", "description": "The shared database where Hangfire or a Quartz.NET persistent store keeps jobs, schedules and their state, so every instance sees the same work." },
+  { "term": "Fire-and-forget job", "description": "A Hangfire job enqueued with `IBackgroundJobClient.Enqueue` that runs once, soon, on any server connected to the storage." },
+  { "term": "Recurring job", "description": "A job with a stable id and a cron expression, created or replaced with `IRecurringJobManager.AddOrUpdate`, evaluated in UTC unless a time zone is given." },
+  { "term": "Automatic retry", "description": "Hangfire's global filter that retries a failed job, 10 attempts by default, before moving it to the `Failed` state." },
+  { "term": "Job and trigger", "description": "Quartz.NET's split between the `IJob` that does the work and the triggers (simple or cron) that decide when it fires." },
+  { "term": "Clustering", "description": "Quartz.NET nodes sharing a persistent store so that each trigger occurrence fires on exactly one node." },
+  { "term": "DisallowConcurrentExecution", "description": "A Quartz.NET attribute that prevents a new run of a job from starting while the previous run is still executing." }
+]

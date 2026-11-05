@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A `catch (Exception ex)` block logs the error and then runs `throw ex;`. What does the caller's log show?",
+    "options": [
+      "The original stack trace, because the rethrown object is the same exception instance",
+      "A trace that starts at the rethrowing method; the original frames are lost",
+      "An `AggregateException` whose inner exception holds the original stack trace",
+      "The original trace, plus a second trace appended for the rethrow"
+    ],
+    "answer": 1,
+    "explanation": "`throw ex;` updates the exception's `StackTrace`, so it restarts at the current method and the frames where the error really happened are lost; `throw;` keeps them. It is tempting to think the trace survives because the object is the same, but the runtime rewrites the trace when an exception object is thrown again."
+  },
+  {
+    "question": "What is the key runtime difference between `catch (IOException ex) when (IsTransient(ex))` and catching `IOException` and testing `IsTransient(ex)` inside the block with an `if` that rethrows?",
+    "options": [
+      "None at runtime; the compiler lowers the filter into the same catch-and-rethrow code",
+      "The filter can also catch exception types that the `catch` clause does not name",
+      "The filter runs before unwinding, so `false` leaves the exception untouched",
+      "The filter runs after the called methods' `finally` blocks, so their cleanup is done"
+    ],
+    "answer": 2,
+    "explanation": "An exception filter is evaluated before unwinding; a `false` filter means this clause never catches the exception and the original stack is preserved. Thinking the two are equivalent is the common mistake: the `if` version catches first, so the stack is already unwound before it decides to rethrow."
+  },
+  {
+    "question": "Coming from Magento, you throw `NoSuchEntityException` from `GetBySku` and catch it in a 50,000-row import to mean \"create the product\". What is the better C# design?",
+    "options": [
+      "Keep the exception; in .NET 10 throwing is cheap enough for a 50,000-row loop",
+      "Catch `Exception` around the call, so any lookup failure also means \"create\"",
+      "Throw a custom `ProductNotFoundException` so that the `catch` is more specific",
+      "Add a `TryGetBySku` that returns `false` or `null` for a routine \"not found\""
+    ],
+    "answer": 3,
+    "explanation": "Microsoft's guidance is to use exceptions for rare, unexpected conditions and to check routine ones in code, for example with a `Try*` method or a nullable return. A more specific exception type is tempting because it mirrors Magento repositories, but it is still an exception per missing row: slow in a loop, and still control flow by `catch`."
+  },
+  {
+    "question": "Your order method receives `quantity = 0`. Which line follows .NET guidance?",
+    "options": [
+      "`ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity);`",
+      "`throw new InvalidOperationException(\"Quantity must be positive\");`",
+      "`Debug.Assert(quantity > 0, \"Quantity must be positive\");`",
+      "`throw new Exception(\"Quantity must be positive\");`"
+    ],
+    "answer": 0,
+    "explanation": "The static throw helpers throw the specific argument exception with the parameter name, which is what Microsoft recommends for argument validation. `InvalidOperationException` is the tempting choice, but it signals that the object is in the wrong state, not that an argument is invalid; `Debug.Assert` is removed from Release builds, and the guidance says never to throw `System.Exception` yourself."
+  },
+  {
+    "question": "A singleton price cache catches every exception while refreshing, logs it and returns, leaving half the dictionary updated. Why is this worse in ASP.NET Core than in PHP-FPM?",
+    "options": [
+      "It is not worse; ASP.NET Core also discards service state after every response",
+      "The half-updated singleton keeps serving every later request until a restart",
+      "ASP.NET Core rethrows swallowed exceptions when the request ends, crashing the app",
+      "The swallowed exception stays pending on that thread and fails its next request"
+    ],
+    "answer": 1,
+    "explanation": "An ASP.NET Core host keeps singletons and statics alive across all requests, so corrupted state persists. Assuming the platform resets state is the PHP habit: in PHP-FPM each request starts fresh, which is exactly why swallowing errors was less harmful there."
+  },
+  {
+    "question": "An endpoint calls a service that can return `Reserved` or `OutOfStock`. Why model this as a result type instead of throwing `OutOfStockException`?",
+    "options": [
+      "Minimal APIs map only return values, so a thrown exception always becomes a 500",
+      "Exceptions cannot carry extra data such as the SKU, while a result type can",
+      "Out of stock is routine, and a result makes the caller map each outcome",
+      "Exceptions thrown in an `async` method are lost, so a result is the only option"
+    ],
+    "answer": 2,
+    "explanation": "Expected outcomes belong in the return type, so the endpoint decides what each one means in HTTP (for example 200 or 409) and nothing relies on a distant `catch`. The data distractor is tempting but false: exceptions carry data through custom properties, and exception handling middleware can map them to any status code; the reason to prefer a result is that the failure is routine."
+  }
+]

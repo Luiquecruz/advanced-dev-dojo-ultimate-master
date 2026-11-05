@@ -1,0 +1,9 @@
+[
+  { "term": "Route template", "description": "A pattern such as `/products/{sku}` whose named segments become route values that bind to handler parameters with the same name." },
+  { "term": "Route constraint", "description": "A suffix such as `{id:int}` that decides whether a route matches; a failed constraint means no match and a 404, so it is not a validation tool." },
+  { "term": "Binding source", "description": "The single place a parameter is read from (route, query, header, body, form or DI), chosen by an explicit `[From*]` attribute or by the inference rules." },
+  { "term": "`[AsParameters]`", "description": "An attribute that binds each property of a record or struct as if it were a separate handler parameter, without recursive model binding." },
+  { "term": "`AddValidation`", "description": "The .NET 10 registration that makes minimal APIs validate DataAnnotations on query, header and body values and return 400 before the handler runs." },
+  { "term": "`IValidatableObject`", "description": "An interface whose `Validate` method holds cross-field rules and runs only after every property attribute has passed." },
+  { "term": "`ThrowOnBadRequest`", "description": "A `RouteHandlerOptions` setting, `true` only in Development by default, that turns binding failures into `BadHttpRequestException` instead of a bare 400." }
+]

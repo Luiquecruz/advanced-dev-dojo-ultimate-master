@@ -1,0 +1,13 @@
+{
+  "title": "Cancellation and Timeouts",
+  "summary": "Pass a `CancellationToken` from the endpoint to the database and HTTP calls, create linked deadlines with `CancelAfter`, and set timeouts per call, per `HttpClient` and per incoming request.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Cancellation in managed threads (.NET)", "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/cancellation-in-managed-threads" },
+    { "label": "Request timeouts middleware in ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/timeouts" },
+    { "label": "HttpClient.Timeout property (API reference)", "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.timeout" },
+    { "label": "Build resilient HTTP apps (Microsoft.Extensions.Http.Resilience)", "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience" },
+    { "label": "PHP manual: set_time_limit and max_execution_time", "url": "https://www.php.net/manual/en/function.set-time-limit.php" }
+  ]
+}

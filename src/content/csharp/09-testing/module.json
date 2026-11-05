@@ -1,0 +1,4 @@
+{
+  "title": "Automated Testing",
+  "description": "xUnit, test doubles, integration tests with WebApplicationFactory, database tests with Testcontainers, and the secured and tested API project."
+}

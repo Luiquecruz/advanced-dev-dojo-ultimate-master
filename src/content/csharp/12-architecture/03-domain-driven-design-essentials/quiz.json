@@ -1,0 +1,68 @@
+[
+  {
+    "question": "You port a Magento order model to C# with `public` setters on every property and put the rules in `OrderService`. What does DDD call this, and what is the concrete risk?",
+    "options": [
+      "A rich domain model; no risk, because `OrderService` validates every change it makes",
+      "An anemic domain model; any code can set an invalid state, like a negative quantity",
+      "A transaction script; the risk is that EF Core change tracking slows down with setters",
+      "An aggregate; the risk is that EF Core cannot materialize entities with public setters"
+    ],
+    "answer": 1,
+    "explanation": "When rules live outside the entity and the setters are public, nothing stops a caller from bypassing the service. That is the anemic domain model antipattern named in Microsoft's tactical DDD guidance. The service only validates the changes that go through it, and EF Core maps public setters fine, so the problem is design, not mapping or speed."
+  },
+  {
+    "question": "An `Order` aggregate needs to know which customer placed it. How should it reference the `Customer` aggregate?",
+    "options": [
+      "Hold a `Guid CustomerId`, because other aggregates are referenced by identity only",
+      "Hold a `Customer` navigation property so the order can update loyalty points itself",
+      "Copy the full customer record into the order and update it whenever the customer changes",
+      "Make `Customer` a child entity of `Order`, so both are saved in one transaction"
+    ],
+    "answer": 0,
+    "explanation": "Referencing other aggregates by id keeps each aggregate small and its transaction boundary clear; changes to the customer then happen in their own transaction, often reacting to a domain event. A navigation that lets the order modify the customer merges two consistency boundaries."
+  },
+  {
+    "question": "With the `Money` record from the lesson (validation in `init` accessors that use `field`), what does `var m = new Money(5, \"EUR\") with { Amount = -1 };` do?",
+    "options": [
+      "It creates a `Money` with amount -1, because `with` copies the backing fields directly",
+      "It fails to compile, because `with` cannot set a property whose `init` uses `field`",
+      "It throws `ArgumentOutOfRangeException`, because `with` runs the `init` accessor",
+      "It returns the original object unchanged, because records are immutable once created"
+    ],
+    "answer": 2,
+    "explanation": "A `with` expression clones the record and then runs the `init` accessors for the listed members, so the check in `Amount`'s `init` runs. Putting the validation only in the constructor would let `with` bypass it, which is why the lesson validates in the accessor."
+  },
+  {
+    "question": "In EF Core 10, how should `Money` (no identity, compared by value) be mapped on `Order`?",
+    "options": [
+      "As its own entity with a shadow `Id` key, stored in a separate `Money` table",
+      "As an owned entity type with `OwnsOne`, the mapping EF Core 10 recommends for value objects",
+      "Not at all: value objects must be flattened into `decimal` and `string` properties first",
+      "As a complex type with `ComplexProperty(o => o.Total)`, in columns of `Orders`"
+    ],
+    "answer": 3,
+    "explanation": "Complex types have no key and value semantics, which matches a value object. Owned entity types still have a hidden identity and reference semantics; Microsoft now advises switching from them to complex types, which makes owned types the tempting but outdated answer."
+  },
+  {
+    "question": "`Order.Place()` adds an `OrderPlaced` event to a list. A handler that reserves stock must succeed or fail together with the order. When should it run?",
+    "options": [
+      "From `Place()` itself, which publishes the event to its handlers before it returns",
+      "In `SaveChangesAsync`, before `base.SaveChangesAsync`, so it shares the transaction",
+      "After the commit, in a background job that retries until the reservation succeeds",
+      "In the endpoint, after `SaveChangesAsync` returns, followed by a second save call"
+    ],
+    "answer": 1,
+    "explanation": "Dispatching right before the commit includes the handler's changes in the same transaction, so both succeed or both roll back. The e-book accepts one transaction across aggregates for side effects of the same command when the business requires it. Publishing from `Place()` runs side effects before anything is saved; anything after the commit needs eventual consistency and compensation, which this requirement rules out."
+  },
+  {
+    "question": "Which part of a typical store is the weakest candidate for aggregates and domain events?",
+    "options": [
+      "Stock reservation across warehouses with limited quantities",
+      "Order placement with payment and fulfilment states",
+      "An admin screen that edits CMS block content",
+      "Price calculation with tiered and customer-group discounts"
+    ],
+    "answer": 2,
+    "explanation": "DDD pays off where invariants are hard to keep. Editing a CMS block has almost no rules, so a DTO and a plain update are simpler. Stock, orders and pricing all have invariants that an aggregate can protect."
+  }
+]

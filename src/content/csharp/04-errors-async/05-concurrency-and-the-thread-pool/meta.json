@@ -1,0 +1,13 @@
+{
+  "title": "Concurrency and the Thread Pool",
+  "summary": "Diagnose thread-pool starvation caused by sync over async, protect shared state, and pick `Parallel.ForEach`, `Parallel.ForEachAsync`, `Channel<T>` or `IAsyncEnumerable<T>` for the work at hand.",
+  "level": "advanced",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Debug ThreadPool starvation (.NET diagnostics tutorial)", "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/debug-threadpool-starvation" },
+    { "label": "Channels (System.Threading.Channels)", "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/channels" },
+    { "label": "Parallel.ForEachAsync method (API reference)", "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.parallel.foreachasync" },
+    { "label": "Generate and consume async streams (C#)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/generate-consume-asynchronous-stream" },
+    { "label": "ASP.NET Core best practices: HttpContext and threads", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/best-practices" }
+  ]
+}

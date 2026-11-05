@@ -1,0 +1,4 @@
+{
+  "title": "Collections and LINQ",
+  "description": "Choosing collections, querying them with LINQ, deferred execution and IQueryable, and the first practice project: a console catalog importer."
+}

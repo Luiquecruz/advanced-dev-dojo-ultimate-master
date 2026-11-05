@@ -1,0 +1,11 @@
+{
+  "title": "The Middleware Pipeline",
+  "summary": "Read and order the ASP.NET Core request pipeline, short-circuit with Use and Run, write convention-based and factory-based middleware, and decide when middleware replaces a Magento plugin or observer and when it does not.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "ASP.NET Core middleware", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/" },
+    { "label": "Write custom ASP.NET Core middleware", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write" },
+    { "label": "ASP.NET Core Best Practices: headers and the response body", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/best-practices" }
+  ]
+}

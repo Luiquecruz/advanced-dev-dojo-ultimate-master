@@ -1,0 +1,32 @@
+{
+  "title": "Docker for .NET",
+  "summary": "Package an ASP.NET Core API as a container: multi-stage Dockerfiles, SDK container publish, chiseled images, the non-root user on port 8080, and docker compose with a database.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Run an ASP.NET Core app in Docker containers",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images"
+    },
+    {
+      "label": "Containerize an app with dotnet publish",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/containers/sdk-publish"
+    },
+    {
+      "label": "Containerize a .NET app reference (MSBuild properties)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/containers/publish-configuration"
+    },
+    {
+      "label": "Breaking change: default ASP.NET Core port changed from 80 to 8080",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/containers/8.0/aspnet-port"
+    },
+    {
+      "label": "Ubuntu Chiseled images (dotnet-docker)",
+      "url": "https://github.com/dotnet/dotnet-docker/blob/main/documentation/ubuntu-chiseled.md"
+    }
+  ]
+}

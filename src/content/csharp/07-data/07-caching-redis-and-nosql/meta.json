@@ -1,0 +1,13 @@
+{
+  "title": "Caching, Redis and NoSQL",
+  "summary": "IMemoryCache, IDistributedCache with Redis and HybridCache with stampede protection and tags, invalidation across instances, and when a document or key-value store fits better than SQL, compared with Magento's Redis and Varnish.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "HybridCache library in ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/hybrid" },
+    { "label": "Cache in-memory in ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/memory" },
+    { "label": "Distributed caching in ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed" },
+    { "label": "EF Core database providers (Cosmos DB, MongoDB and others)", "url": "https://learn.microsoft.com/en-us/ef/core/providers/" },
+    { "label": "EF Core Azure Cosmos DB provider", "url": "https://learn.microsoft.com/en-us/ef/core/providers/cosmos/" }
+  ]
+}

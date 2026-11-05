@@ -1,0 +1,28 @@
+{
+  "title": "Collections: Choosing the Right Container",
+  "summary": "Pick List, Dictionary and HashSet for the job, choose comparers on purpose, and tell read-only views from immutable and frozen collections; what changes from PHP's all-in-one array.",
+  "level": "beginner",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Selecting a collection class",
+      "url": "https://learn.microsoft.com/en-us/dotnet/standard/collections/selecting-a-collection-class"
+    },
+    {
+      "label": "Collections (C# reference)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/collections"
+    },
+    {
+      "label": "FrozenDictionary<TKey,TValue> API reference",
+      "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.frozen.frozendictionary-2?view=net-10.0"
+    },
+    {
+      "label": "ImmutableArray<T> API reference (when to prefer it over ImmutableList<T>)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutablearray-1?view=net-10.0"
+    }
+  ]
+}

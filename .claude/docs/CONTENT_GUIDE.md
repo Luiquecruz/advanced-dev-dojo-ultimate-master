@@ -15,7 +15,7 @@ All content is written in **English**.
 | File | Required | Purpose |
 | --- | --- | --- |
 | `meta.json` | yes | `{ "title", "summary", "level", "tags"?, "preview"?, "entry"?, "resources"? }`; `run` names the file the **Run** button executes instead of the entry (a demo that scripts the fake model); in multi-language tracks `entry` and `run` may be `{ "<language>": "<file>" }` |
-| `theory.md` | yes | The lesson. GitHub flavored Markdown with fenced code (`ts`, `tsx`, `jsx`, `vue`, `html`, `bash`, `css`, `json`, `sql`) |
+| `theory.md` | yes | The lesson. GitHub flavored Markdown with fenced code (`ts`, `tsx`, `jsx`, `vue`, `html`, `bash`, `css`, `json`, `sql`, `csharp`/`cs`); other fences render without highlighting |
 | `concepts.json` | recommended | Glossary cards `[{ "term", "description" }]` (Markdown allowed) |
 | `challenge.md` | for practice | The task: exact names, signatures, texts and behaviors the tests check |
 | `starter.<ext>` or `starter/` | with challenge | Code the editor starts with |
@@ -309,6 +309,10 @@ Conventions settled by the pilot module (`01-models`). The plan and module rules
 - **ADR checkpoints:** the last lesson of each module, following the React Architecture pattern: a briefing, an exported `adr` plus a module-specific plan object, tests for structure and coherence with the briefing.
 - **Tests:** use `captureError` to inspect errors and `toBeCloseTo` for costs instead of local helpers. Verify one lesson exactly with `LESSON=ai-engineering/<lesson-id>`.
 - **Resources:** canonical URLs that return 200 to `curl`; a few canonical domains block bots with 403 (openai.com, platform.openai.com, lmarena.ai): open those in a browser before citing them.
+
+## C# track (`csharp`)
+
+A track without a code engine: there is no C# runtime in the app, so every lesson is theory + quiz (`theory.md`, `concepts.json`, `quiz.json`, `meta.json`). Practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK. `track.json` declares `"engine": "typescript"` only because the loader requires an engine. A lesson without a challenge renders no workspace and boots no worker, and `src/verify/csharp.test.ts` fails if a challenge file appears, so the placeholder never grades C#. That suite also enforces the track's standards: tags (status, tier, kind), the theory headings (`## Coming from PHP/Magento` first) and 500–1,300 words of theory (more than the general 250–900, because the theory and the quiz carry the whole lesson), 5–6 quiz questions, and official resources (at least one learn.microsoft.com page). Spec and standards: `.claude/docs/csharp-track/` (`06-content-standards.md`). A future engine is assessed in `04-engine-spike.md`.
 
 ## TypeScript track tests (`tests.md`)
 

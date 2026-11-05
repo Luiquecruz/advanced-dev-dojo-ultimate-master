@@ -1,0 +1,28 @@
+{
+  "title": "Project P3: Persist the Catalog",
+  "summary": "Persist the P2 catalog API in PostgreSQL or SQL Server with EF Core migrations, a LINQ and a Dapper report, optimistic concurrency with 409, safe stock reservations and cached product reads.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "project"
+  ],
+  "resources": [
+    {
+      "label": "Applying migrations",
+      "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying"
+    },
+    {
+      "label": "Handling concurrency conflicts",
+      "url": "https://learn.microsoft.com/en-us/ef/core/saving/concurrency"
+    },
+    {
+      "label": "Efficient querying",
+      "url": "https://learn.microsoft.com/en-us/ef/core/performance/efficient-querying"
+    },
+    {
+      "label": "HybridCache library in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/hybrid"
+    }
+  ]
+}

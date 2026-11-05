@@ -1,0 +1,24 @@
+{
+  "title": "Vertical Slices and Modular Monoliths",
+  "summary": "Organize an ASP.NET Core app by feature with route groups, split a monolith into modules with contracts, `internal` implementations and a schema each, and choose between layers, slices and modules.",
+  "level": "advanced",
+  "tags": [
+    "established",
+    "deepening",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: On .NET Live, Clean Architecture, Vertical Slices, and Modular Monoliths (video)",
+      "url": "https://learn.microsoft.com/en-us/shows/on-dotnet/on-dotnet-live-clean-architecture-vertical-slices-and-modular-monoliths-oh-my"
+    },
+    {
+      "label": "Microsoft Learn: Route handlers and route groups in minimal APIs",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Jimmy Bogard: Vertical Slice Architecture (2018)",
+      "url": "https://www.jimmybogard.com/vertical-slice-architecture/"
+    }
+  ]
+}

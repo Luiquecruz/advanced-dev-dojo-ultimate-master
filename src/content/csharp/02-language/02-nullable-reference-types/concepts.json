@@ -1,0 +1,10 @@
+[
+  { "term": "Nullable reference type", "description": "A reference type annotated with `?` (such as `string?`) that tells the compiler `null` is an expected value; the annotation exists only at compile time." },
+  { "term": "Nullable value type", "description": "`T?` for a value type is `Nullable<T>`, a real runtime struct with `HasValue` and `Value`." },
+  { "term": "Nullable context", "description": "The `<Nullable>` project setting (or a `#nullable` directive) that decides whether annotations and warnings are on; new templates set it to `enable`." },
+  { "term": "Null-state", "description": "The compiler's per-expression verdict, not-null or maybe-null, updated by assignments, null checks and control flow." },
+  { "term": "Null-forgiving operator", "description": "The postfix `!` that silences a nullability warning for one expression without adding any runtime check." },
+  { "term": "Nullable analysis attributes", "description": "Attributes such as `[NotNullWhen(true)]` and `[MaybeNullWhen(false)]` that describe null contracts a plain `?` cannot express." },
+  { "term": "Null-conditional assignment", "description": "C# 14 syntax `a?.B = value` that performs the assignment only when `a` is not null and otherwise skips evaluating the right side." },
+  { "term": "`RespectNullableAnnotations`", "description": "A `System.Text.Json` option, available since .NET 9 and off by default, that throws when JSON supplies an explicit `null` for a non-nullable property." }
+]

@@ -1,0 +1,14 @@
+{
+  "title": "Reliable Messaging: Idempotency, Retries, Dead Letters and the Outbox",
+  "summary": "Design for at-least-once delivery with idempotent consumers and an inbox table, separate transient from poison failures, configure dead-letter queues, publish through a transactional outbox, and weigh MassTransit's commercial licence.",
+  "level": "advanced",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Idempotent Consumer pattern (Azure Architecture Center)", "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/idempotent-consumer" },
+    { "label": "Transactional Outbox pattern with Azure Cosmos DB (Azure Architecture Center; the overview applies to EF Core)", "url": "https://learn.microsoft.com/en-us/azure/architecture/databases/guide/transactional-out-box-cosmos" },
+    { "label": "Azure Service Bus dead-letter queues", "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues" },
+    { "label": "Azure Service Bus duplicate detection", "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/duplicate-detection" },
+    { "label": "RabbitMQ: quorum queues (poison message handling)", "url": "https://www.rabbitmq.com/docs/quorum-queues" },
+    { "label": "MassTransit on NuGet (licence statement)", "url": "https://www.nuget.org/packages/MassTransit" }
+  ]
+}

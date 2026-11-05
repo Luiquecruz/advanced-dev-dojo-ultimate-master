@@ -1,0 +1,9 @@
+[
+  { "term": "CIL", "description": "Common intermediate language, the CPU-independent instruction set the C# compiler emits into assemblies together with type metadata." },
+  { "term": "Assembly", "description": "The compiled output of one project, usually a .dll, which holds CIL and metadata and is the boundary that the internal access modifier enforces." },
+  { "term": "JIT and tiered compilation", "description": "The runtime compiles each method to native code on its first call, starting with quick code and recompiling hot methods with full optimization in the background." },
+  { "term": "SDK versus runtime", "description": "The SDK builds apps (CLI, compiler, MSBuild, NuGet, templates) and includes a runtime, while a server only needs the runtime to execute a framework-dependent app." },
+  { "term": "Shared framework", "description": "A runtime component installed once per machine, such as Microsoft.NETCore.App or Microsoft.AspNetCore.App, that framework-dependent apps load at startup." },
+  { "term": "Framework-dependent publish", "description": "The default publish mode, which ships only your assemblies and relies on an installed runtime that rolls forward to the newest security patch." },
+  { "term": "Native AOT", "description": "A publish mode that compiles everything to native code ahead of time, trading runtime code generation and some ASP.NET Core features for faster startup and lower memory." }
+]

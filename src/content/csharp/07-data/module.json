@@ -1,0 +1,4 @@
+{
+  "title": "Data Access",
+  "description": "SQL from .NET, EF Core mapping, migrations and performance, Dapper and stored procedures, transactions and concurrency, caching with Redis and when NoSQL fits, and the persistence project."
+}

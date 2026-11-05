@@ -1,0 +1,9 @@
+[
+  { "term": "At-least-once delivery", "description": "Acknowledging a message only after processing it, so nothing is lost but a crash before the acknowledgement causes a redelivery." },
+  { "term": "Idempotent consumer", "description": "A consumer for which processing the same message twice has the same effect as processing it once, usually by storing the message id with the side effect in one transaction." },
+  { "term": "Inbox table", "description": "A table of processed message ids, keyed by message id and consumer, written in the same transaction as the business change so duplicates are rejected." },
+  { "term": "Poison message", "description": "A message that fails every time it is processed, such as invalid data or a bug, and must be moved aside instead of retried forever." },
+  { "term": "Dead-letter queue", "description": "A queue that holds messages a broker or consumer gave up on, for inspection, repair and resubmission." },
+  { "term": "Transactional outbox", "description": "Saving outgoing messages in an outbox table in the same database transaction as the business data, then publishing them from a background relay." },
+  { "term": "Duplicate detection", "description": "An Azure Service Bus feature that drops sends repeating a `MessageId` within a time window, which reduces producer duplicates but does not make consumers idempotent." }
+]

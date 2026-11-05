@@ -1,0 +1,12 @@
+{
+  "title": "Integration Tests with WebApplicationFactory",
+  "summary": "Boot the real API in memory with WebApplicationFactory<Program>, test status codes and Problem Details over HTTP, replace external services, simulate users with a test authentication handler, and avoid state leaking through a shared host.",
+  "level": "intermediate",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "Microsoft Learn: Integration tests in ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-10.0" },
+    { "label": "Microsoft Learn: What's new in ASP.NET Core 10 (testing apps with top-level statements)", "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0" },
+    { "label": "Microsoft Learn: Testing in .NET (unit versus integration tests)", "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/" },
+    { "label": "xUnit.net: Shared context between tests (class fixtures)", "url": "https://xunit.net/docs/shared-context" }
+  ]
+}

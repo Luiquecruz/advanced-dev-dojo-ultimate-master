@@ -1,0 +1,14 @@
+{
+  "title": "Reading Web Forms and WCF",
+  "summary": "Web Forms pages, postbacks, view state and the page life cycle; WCF contracts, bindings and endpoints; and what runs on .NET 10: CoreWCF for the server side and the WCF Client with dotnet-svcutil for calling SOAP services.",
+  "level": "intermediate",
+  "tags": ["legacy", "legacy", "theory"],
+  "resources": [
+    { "label": "ASP.NET Page Life Cycle Overview (archived)", "url": "https://learn.microsoft.com/en-us/previous-versions/aspnet/ms178472(v=vs.100)" },
+    { "label": "Blazor for ASP.NET Web Forms Developers (e-book, edition v8.0)", "url": "https://learn.microsoft.com/en-us/dotnet/architecture/blazor-for-web-forms-developers/" },
+    { "label": "WCF dotnet-svcutil tool overview", "url": "https://learn.microsoft.com/en-us/dotnet/core/additional-tools/dotnet-svcutil-guide" },
+    { "label": "CoreWCF support policy", "url": "https://dotnet.microsoft.com/en-us/platform/support/policy/corewcf" },
+    { "label": "WCF Client support policy", "url": "https://dotnet.microsoft.com/en-us/platform/support/policy/wcf-client" },
+    { "label": "CoreWCF on GitHub", "url": "https://github.com/CoreWCF/CoreWCF" }
+  ]
+}

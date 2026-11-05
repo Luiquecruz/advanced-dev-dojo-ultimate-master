@@ -1,0 +1,8 @@
+[
+  { "term": "Storage interface", "description": "The `IProductStore` boundary between endpoints and data, which lets P3 swap the in-memory store for EF Core without touching the handlers." },
+  { "term": "`ConcurrentDictionary<TKey, TValue>`", "description": "A thread-safe dictionary suited to a singleton store that concurrent requests read and write." },
+  { "term": "Stable paging", "description": "Paging over an explicit order (`OrderBy` on SKU, then `Skip` and `Take`) so the same request always returns the same page." },
+  { "term": "`Location` header", "description": "The URL of a newly created resource, sent with a 201 response; `TypedResults.Created(uri, value)` sets it." },
+  { "term": "Acceptance criteria", "description": "Checkable requests with expected status codes and bodies that define when the project is done, independent of how it is written." },
+  { "term": "Seed data", "description": "Products inserted at startup so that paging, search and error cases can be exercised immediately." }
+]

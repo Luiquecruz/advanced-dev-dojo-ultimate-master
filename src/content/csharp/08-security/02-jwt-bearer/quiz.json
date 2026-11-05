@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Your API is configured with `options.Authority = \"https://login.example.com/\"`. How does it verify the signature of an incoming access token?",
+    "options": [
+      "It sends each token to the identity provider and asks whether it is valid",
+      "It checks it with the issuer's public keys, read from its metadata and cached",
+      "It uses a shared secret that must be copied from the identity provider into `appsettings.json`",
+      "It does not verify signatures; it only checks the `exp` claim"
+    ],
+    "answer": 1,
+    "explanation": "With `Authority` set, the handler reads the issuer's OpenID Connect metadata, finds the signing keys and verifies signatures locally with the public key. No call per request is made, which is why tokens cannot be revoked at the API. A shared secret is the PHP `firebase/php-jwt` habit; Microsoft recommends asymmetric keys, so the API never needs the issuer's secret."
+  },
+  {
+    "question": "An authorization check reads `context.User.FindFirst(\"sub\")` and always gets `null`, although the decoded token clearly contains `sub`. The handler uses default options. Why?",
+    "options": [
+      "Default claim mapping renamed `sub` to the long `ClaimTypes.NameIdentifier` URI",
+      "JWT bearer authentication never exposes the `sub` claim; it is only used internally by the handler",
+      "Claims are only populated after `UseAuthorization()` runs, and the check runs before it",
+      "The `sub` claim is encrypted and must be decrypted first"
+    ],
+    "answer": 0,
+    "explanation": "By default the handler maps well-known short claim names to long `ClaimTypes` URIs. Either read `ClaimTypes.NameIdentifier`, or set `MapInboundClaims = false` and keep the issuer's names; the second option also requires setting `NameClaimType` and `RoleClaimType` to the short names, or `User.Identity.Name` and role checks stop working. The handler populates the claims during authentication, before any authorization check runs, so ordering is not the issue."
+  },
+  {
+    "question": "A test creates a token that expires in 1 minute, waits 2 minutes and expects a 401, but the API still returns 200. Default validation parameters are used. What explains it?",
+    "options": [
+      "ASP.NET Core does not validate `exp` unless `ValidateLifetime` is set to `true`",
+      "The handler caches successful validations for 10 minutes",
+      "The default clock skew of 5 minutes still accepts the token after `exp`",
+      "`dotnet user-jwts` tokens never expire"
+    ],
+    "answer": 2,
+    "explanation": "`TokenValidationParameters.DefaultClockSkew` is 300 seconds, so expiry is checked with a five-minute tolerance. Lower `ClockSkew` in tests or when clocks are synchronized. Lifetime validation is on by default, and `dotnet user-jwts` tokens do expire (six months after `--not-before` unless `--expires-on` or `--valid-for` is given)."
+  },
+  {
+    "question": "Coming from Magento 2.4, which signs its own JWTs and revokes them through its database, a developer wants logout to invalidate the user's access token at your ASP.NET Core API immediately. The tokens come from an external identity provider. What is true?",
+    "options": [
+      "Calling `SignOutAsync` in the API revokes every JWT that was issued to that user",
+      "Setting `MapInboundClaims = false` makes the handler check the issuer's revocation list",
+      "The handler keeps validated tokens in `IMemoryCache`, so evicting that entry revokes the token",
+      "Nothing to revoke: the API checks the token by itself until `exp`; keep tokens short-lived"
+    ],
+    "answer": 3,
+    "explanation": "Magento can revoke because it is issuer and API at once and consults its own database on each request. A typical ASP.NET Core API only validates an external issuer's token (signature, issuer, audience, lifetime) and stores nothing, so there is no row to delete. Short lifetimes limit the damage, and revocation needs extra machinery such as introspection at the identity provider. `SignOutAsync` clears cookies, not bearer tokens, and the handler keeps no token cache."
+  },
+  {
+    "question": "Tokens issued for your `orders-api` are being accepted by your `catalog-api`, because both trust the same identity provider. What should you configure on `catalog-api`?",
+    "options": [
+      "Set `Audience` (or `ValidAudiences`) to the catalog API's identifier",
+      "Set `ValidateIssuer = false`, because both APIs share the same issuer anyway",
+      "Lower `ClockSkew` to zero so tokens for other APIs expire sooner",
+      "Turn on `MapInboundClaims` so the `aud` claim is mapped and compared"
+    ],
+    "answer": 0,
+    "explanation": "The `aud` claim says which API a token is for, and audience validation rejects tokens minted for a different API. Disabling issuer validation makes things worse, since any issuer would then be accepted. Clock skew and claim mapping have nothing to do with which API the token targets."
+  },
+  {
+    "question": "You run `dotnet user-jwts create --role admin` and call the API with plain `AddJwtBearer()` and no options. It works locally but rejects every token in staging. Why?",
+    "options": [
+      "`dotnet user-jwts` tokens are only accepted over HTTP, not over HTTPS in staging",
+      "The `--role` option is ignored outside the Development environment, so roles are dropped",
+      "Its issuer, audiences and key exist only in that machine's Development settings",
+      "Staging needs `UseAuthentication()` to be called before `UseRouting()`"
+    ],
+    "answer": 2,
+    "explanation": "`dotnet user-jwts` uses the user-secrets infrastructure for its key and updates `appsettings.Development.json` with `Authentication:Schemes:Bearer` settings. Other environments and machines have neither, so the tokens fail validation, which is the intended behavior for a development tool. The role claim is part of the token itself and is not environment-specific."
+  }
+]

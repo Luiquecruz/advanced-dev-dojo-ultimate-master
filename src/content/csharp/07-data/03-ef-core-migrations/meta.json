@@ -1,0 +1,24 @@
+{
+  "title": "EF Core Migrations",
+  "summary": "Creating, reviewing and applying EF Core migrations, the rename trap, data backfills, and choosing bundles, idempotent scripts or runtime migration for production, compared with Magento's db_schema.xml.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Migrations overview",
+      "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/"
+    },
+    {
+      "label": "Applying migrations",
+      "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying"
+    },
+    {
+      "label": "EF Core tools reference (.NET CLI)",
+      "url": "https://learn.microsoft.com/en-us/ef/core/cli/dotnet"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Coming from Magento, you throw a `ProductNotFoundException` from a minimal API handler and register nothing for it. The app calls `AddProblemDetails()` and `UseExceptionHandler()`. What does the client get in Production?",
+    "options": [
+      "404 Not Found, because the exception name contains \"NotFound\"",
+      "500 as Problem Details, with no exception message",
+      "400 Bad Request with the exception message in `detail`",
+      "The developer exception page with the stack trace"
+    ],
+    "answer": 1,
+    "explanation": "ASP.NET Core has no Magento-style mapping from exception types to statuses: an unhandled exception is a 500, written as a generic Problem Details body. You map exceptions yourself with `IExceptionHandler`, or better, return `TypedResults.NotFound()` for an expected outcome. The developer exception page only runs in Development."
+  },
+  {
+    "question": "A mobile client lost its connection after sending a request and retries it automatically. For which request does RFC 9110 make that retry safe by definition?",
+    "options": [
+      "`POST /orders` with the same JSON body as before",
+      "`POST /products/ABC/stock-reservations` for one unit",
+      "`PATCH /products/ABC` that increments stock by 5",
+      "`PUT /products/ABC` with the full product representation"
+    ],
+    "answer": 3,
+    "explanation": "RFC 9110 defines `PUT`, `DELETE` and the safe methods as idempotent: repeating them has the same intended effect as sending them once. `POST` is not idempotent, so a retried create can produce duplicates, and a `PATCH` that increments a value changes the result on every repeat."
+  },
+  {
+    "question": "Two `IExceptionHandler` classes are registered: `ValidationExceptionHandler`, then `OutOfStockExceptionHandler`. An `OutOfStockException` is thrown. What happens?",
+    "options": [
+      "Both handlers write a response, and the last one registered wins",
+      "Only the handler registered last runs, because it overrides the first",
+      "The first returns `false`, so the second handles it",
+      "Handlers run in parallel and the fastest one wins"
+    ],
+    "answer": 2,
+    "explanation": "The exception handler middleware calls handlers in registration order until one returns `true`. A handler that does not recognize the exception returns `false` and the next one is tried; if none returns `true`, the default Problem Details fallback is used. Handlers are singletons, so they must not keep per-request state."
+  },
+  {
+    "question": "A client program needs to react differently to \"out of stock\" and \"price changed\" errors, both returned as 409. Which Problem Details member should it switch on?",
+    "options": [
+      "`type`, a stable URI that identifies the problem type",
+      "`title`, because it is a short, fixed summary of the problem",
+      "`detail`, because it names the SKU and the cause",
+      "`instance`, because it is unique per error"
+    ],
+    "answer": 0,
+    "explanation": "RFC 9457 makes `type` the identifier of the problem type; `title` and `detail` are human-readable text that can change or be translated. `instance` identifies one occurrence, not a category. Tempting as it is to match on `title`, that breaks when someone fixes a typo."
+  },
+  {
+    "question": "Every endpoint under `/products` must reject requests without an `X-Store-Code` header, and the rule needs no data outside the request. Which tool fits best?",
+    "options": [
+      "A `try/catch` in each handler that checks the header",
+      "An `IExceptionHandler` that checks the header on every request",
+      "A route constraint on the group prefix that reads the header",
+      "An endpoint filter added to the `/products` route group"
+    ],
+    "answer": 3,
+    "explanation": "An endpoint filter on the group runs before each handler in that group and can short-circuit with a 400 Problem Details. Middleware would also see the header but applies to every request, including endpoints that do not need a store code. Exception handlers only see thrown exceptions, and route constraints cannot read headers."
+  },
+  {
+    "question": "After upgrading from .NET 8 to .NET 10, exceptions handled by your `IExceptionHandler` no longer appear as errors in the logs. Why?",
+    "options": [
+      "Logging is disabled by default in .NET 10 production builds",
+      "Handled exceptions no longer emit logs or metrics by default",
+      "`IExceptionHandler` is no longer called in .NET 10 minimal APIs",
+      "Problem Details responses replace log entries for handled errors"
+    ],
+    "answer": 1,
+    "explanation": "This is a documented .NET 10 behavior change: diagnostics are suppressed for handled exceptions, whereas .NET 8 and 9 always logged them. Restore the old behavior with `SuppressDiagnosticsCallback = context => false`, or log inside the handler. Logging itself is not disabled, and the handlers still run."
+  }
+]
