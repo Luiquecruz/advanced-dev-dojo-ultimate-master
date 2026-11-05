@@ -105,7 +105,13 @@ app.Lifetime.ApplicationStopping.Register(() =>
 app.Run();
 ```
 
-A deploy that kills the process without waiting for graceful shutdown cuts requests in half, so orchestrators give the process a grace period at least as long as the timeout.
+<!-- coderabbit-ai-generated:v1 -->
+
+<!-- coderabbit-ai-generated-section:v1:f9faccbd1b36a3bde0f8606589c87c0f5ae69d5a6d6490c771644f7902592f7c -->
+
+A deploy that kills the process without waiting for graceful shutdown cuts requests in half. Configure the orchestrator grace period explicitly to be longer than `HostOptions.ShutdownTimeout`, allowing time for shutdown signaling and cleanup; the orchestrator does not automatically match the host timeout.
+
+<!-- /coderabbit-ai-generated:v1 -->
 
 ## Common mistakes
 

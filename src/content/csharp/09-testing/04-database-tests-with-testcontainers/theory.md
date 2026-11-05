@@ -14,7 +14,13 @@ Microsoft's recommendation is plain: "We recommend that developers have good tes
 
 ## Docker in brief
 
-Docker runs a program from an **image** (a packaged file system with the program and everything it needs) as a **container**, an isolated process with its own network and files. `docker run postgres:18` starts a PostgreSQL server without installing one, and removing the container throws everything away. Lesson 11/01 builds images of your own; here you only need Docker installed and running.
+<!-- coderabbit-ai-generated:v1 -->
+
+<!-- coderabbit-ai-generated-section:v1:b99666c196dae55bad8816a2c5fd08cbf447d1f4eea65d1f48b90588de7b63d9 -->
+
+Docker runs a program from an **image** (a packaged file system with the program and everything it needs) as a **container**, an isolated process with its own network and files. `docker run -e POSTGRES_PASSWORD=local-test-only postgres:18` starts a PostgreSQL server without installing one, and removing the container throws everything away. Lesson 11/01 builds images of your own; here you only need Docker installed and running.
+
+<!-- /coderabbit-ai-generated:v1 -->
 
 ## What Testcontainers does
 

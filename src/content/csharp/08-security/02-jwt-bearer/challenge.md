@@ -8,12 +8,18 @@ Returns the bytes of one Base64URL segment: `-` and `_` instead of `+` and `/`, 
 
 Splits the token into its three parts, decodes the **payload** (the middle part) and parses it as JSON, then returns a `TokenClaims`:
 
+<!-- coderabbit-ai-generated:v1 -->
+
+<!-- coderabbit-ai-generated-section:v1:f7fc79b74014d126a9e37f03c98dcf93f11698fc8b681313658b104576661def -->
+
 - `Issuer` from `iss` and `Expires` from `exp`; both are required, so a missing one throws `FormatException`.
 - `Audiences` from `aud`, which is either one string or an array of strings. A token without `aud` has no audiences.
 - `Subject` from `sub` and `NotBefore` from `nbf`, or `null` when they are absent.
 - `exp` and `nbf` are NumericDate values, seconds since 1970-01-01 UTC.
 - Assume each claim that is present has its JSON type: strings for `iss`, `sub` and `aud` (or its items), whole seconds for `exp` and `nbf`. Real validators also reject wrong types; the tests do not send them.
-- A token that does not have exactly three parts throws `FormatException`.
+- A token that does not have exactly three parts, a non-object payload, or an `exp` or `nbf` whole-second value outside the `DateTimeOffset` range throws `FormatException`.
+
+<!-- /coderabbit-ai-generated:v1 -->
 
 ## `ClaimsValidator.Check(token)`
 

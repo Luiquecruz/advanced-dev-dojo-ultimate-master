@@ -50,12 +50,18 @@ Acceptance for every module:
 
 ## Release
 
+<!-- coderabbit-ai-generated:v1 -->
+
+<!-- coderabbit-ai-generated-section:v1:2dffef26b432801f0065a98474305f13d01c9af56b44a345a9d09465429de792 -->
+
 | ID | Item | Acceptance criteria | Status | Evidence |
 | --- | --- | --- | --- | --- |
 | V1 | Browser check | The track appears on the home carousel with its accent; navigation works (curriculum → lesson → Learn → Quiz → next); quiz completion persists across a reload; the console has no errors; screenshots taken | done | 2026-11-05, Chromium on `npm run dev`: 8th card "C# and .NET", accent `rgb(255, 122, 127)`; lesson tabs Learn + Quiz and no editor; `csharp` blocks highlighted; a 6/6 quiz still shows 6/6 after a reload, and localStorage has `quizzes["csharp/csharp-map"] = true`; Next lesson works; the curriculum shows "1/67 lessons complete"; no console errors |
-| V2 | Final independent review | The whole track (content, suite, docs, CI) has no open high or medium findings | done | three lenses (accuracy, with 26 lessons sampled and 268 URLs requested; pedagogy; platform): 3 high, 8 medium, 13 low. All high and medium fixed: P3–P6 chain coherence, the Identity rehash, the suite now enforces heading order and Check yourself count (mutation-checked), docs counts. The one low left open (about 20 lessons re-explained the PHP-FPM lifecycle in their Coming from section) is resolved: the no-bridge rewrite removed every Coming from section in modules 02–14; 01/01 is rewritten with module zero |
+| V2 | Final independent review | The whole track (content, suite, docs, CI) has no open high or medium findings | done | three lenses (accuracy, with 26 lessons sampled and 268 URLs requested; pedagogy; platform): 3 high, 8 medium, 13 low. All high and medium fixed: P3–P6 chain coherence, the Identity rehash, the suite now enforces heading order and Check yourself count (mutation-checked), docs counts. The low finding about repeated PHP-FPM lifecycle explanations is partially resolved: the no-bridge rewrite removed every Coming from section in modules 02–14. Lesson 01/01 still contains its Coming from PHP/Magento section and PHP-FPM lifecycle text; `csharp/csharp-map` remains pending under `theory-no-coming-from` and `no-php-bridge` in `csharpPendingRewrite.ts`, awaiting the module-zero rewrite |
 | V3 | CI/CD | The pull request CI is green, including the smoke test against the Deploy Preview; the state is recorded (CI passed is not a deploy) | doing | Split into stacked pull requests under the 300-file review limit: #18 (part 1, base `main`) and #19 (part 2, base #18), both reviewed by CodeRabbit. #18 is green at `cecf69d`, including the Deploy Preview smoke test. #19 is green at `8e39269` except the smoke test, skipped while it is stacked: Netlify previews exist only for pull requests against `main`. Remaining: after #18 merges, #19 retargets to `main`, gets `main` merged in, and its CI and smoke test run again. Production deploys only after that merge |
 | V4 | Enable | `TRACK_FLAGS.csharp = true` once C01–C13 and V1–V2 are done | done | flag on; README, CURRICULUM and `index.html` updated |
+
+<!-- /coderabbit-ai-generated:v1 -->
 
 ## Market alignment and ongoing work
 

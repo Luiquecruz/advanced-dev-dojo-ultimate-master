@@ -19,6 +19,10 @@ public static class Jwt
 
         using JsonDocument payload = JsonDocument.Parse(DecodeSegment(parts[1]));
         JsonElement claims = payload.RootElement;
+        if (claims.ValueKind != JsonValueKind.Object)
+        {
+            throw new FormatException("The token payload must be an object.");
+        }
 
         if (!claims.TryGetProperty("iss", out JsonElement iss) || iss.GetString() is not string issuer)
         {
@@ -47,10 +51,19 @@ public static class Jwt
 
         string? subject = claims.TryGetProperty("sub", out JsonElement sub) ? sub.GetString() : null;
         DateTimeOffset? notBefore = claims.TryGetProperty("nbf", out JsonElement nbf)
-            ? DateTimeOffset.FromUnixTimeSeconds(nbf.GetInt64())
+            ? ReadNumericDate(nbf)
             : null;
 
-        return new TokenClaims(issuer, audiences, subject, DateTimeOffset.FromUnixTimeSeconds(exp.GetInt64()), notBefore);
+        return new TokenClaims(issuer, audiences, subject, ReadNumericDate(exp), notBefore);
+    }
+    private static DateTimeOffset ReadNumericDate(JsonElement value)
+    {
+        if (!value.TryGetInt64(out long seconds) ||
+            seconds < -62135596800L || seconds > 253402300799L)
+        {
+            throw new FormatException("NumericDate is outside the DateTimeOffset range.");
+        }
+        return DateTimeOffset.FromUnixTimeSeconds(seconds);
     }
 }
 

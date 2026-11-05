@@ -62,6 +62,20 @@ public static class JwtTests
         ClaimsValidator validator = At(new DateTimeOffset(2025, 12, 31, 23, 30, 0, TimeSpan.Zero));
         Assert.Equal(TokenCheck.Valid, validator.Check(Token(Payload())));
         Assert.Equal(TokenCheck.Malformed, validator.Check("not-a-token"));
+        foreach (string payload in new[] { "[]", "null", "42", "true", "\"text\"" })
+        {
+            Assert.Throws<FormatException>(() => Jwt.ReadClaims(Token(payload)));
+            Assert.Equal(TokenCheck.Malformed, validator.Check(Token(payload)));
+        }
+        foreach (string seconds in new[] { "-62135596801", "253402300800", "9223372036854775808", "-9223372036854775809" })
+        {
+            string badExp = $$"""{"iss":"{{Issuer}}","aud":"catalog-api","exp":{{seconds}}}""";
+            string badNbf = $$"""{"iss":"{{Issuer}}","aud":"catalog-api","exp":{{Exp}},"nbf":{{seconds}}}""";
+            Assert.Throws<FormatException>(() => Jwt.ReadClaims(Token(badExp)));
+            Assert.Throws<FormatException>(() => Jwt.ReadClaims(Token(badNbf)));
+            Assert.Equal(TokenCheck.Malformed, validator.Check(Token(badExp)));
+            Assert.Equal(TokenCheck.Malformed, validator.Check(Token(badNbf)));
+        }
         Assert.Equal(TokenCheck.WrongIssuer, validator.Check(Token(Payload(iss: "https://login.example.com"))));
         Assert.Equal(TokenCheck.WrongAudience, validator.Check(Token(Payload(aud: "\"orders-api\""))));
         Assert.Equal(TokenCheck.WrongIssuer, validator.Check(Token(Payload(iss: "https://other.example.com/", aud: "\"orders-api\""))));

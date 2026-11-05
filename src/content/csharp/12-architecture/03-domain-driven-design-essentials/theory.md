@@ -124,30 +124,38 @@ modelBuilder.Entity<Order>(order =>
 });
 ```
 
+<!-- coderabbit-ai-generated:v1 -->
+
+<!-- coderabbit-ai-generated-section:v1:40d33ca0dfd6ca860dea5bd943658d0b1e3408725c7c6a38a8c68e90594e665b -->
+
 ## Domain events: record now, dispatch at save
 
-A **domain event** says something meaningful happened in the domain ("order placed", not "row inserted"). The aggregate only *records* it; the application dispatches it when the unit of work is saved. Microsoft's microservices e-book describes this deferred approach and the choice it forces: handlers that run *before* `SaveChangesAsync` share the transaction; handlers that run *after* need eventual consistency and compensation if they fail. The e-book accepts both.
+A **domain event** records a business fact, such as "order placed". Defer dispatch until save. Pre-save handlers must share the database transaction. E-mail handlers must enqueue outbox records in that transaction or send only after commit: failed saves cannot undo sent e-mail. Post-commit failures need recovery; an outbox supports retries (10/04).
 
 ```csharp
 public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
 {
     var orders = ChangeTracker.Entries<Order>().Select(e => e.Entity).ToList();
-    // ... dispatch orders.SelectMany(o => o.Events) to in-process handlers,
-    //     or write them to an outbox table in this same transaction (10/04)
+    // Dispatch events only to handlers writing through this DbContext.
+    // E-mail handlers add outbox records; the relay sends after commit.
     var written = await base.SaveChangesAsync(cancellationToken);
     orders.ForEach(o => o.ClearEvents());
     return written;
 }
 ```
 
-Events that leave the process (to another module or service) are **integration events**: published only after commit, through the outbox and a broker, as 10/04 taught.
+**Integration events** leave the process; publish them after commit through the outbox and broker (10/04).
+
+
 
 ## Common mistakes
 
 - **Handing out the internal list.** `public IReadOnlyList<OrderLine> Lines => _lines;` still returns the `List<OrderLine>`, so a caller casts it back and adds a line to a placed order. Return `_lines.AsReadOnly()`.
 - **Changing state before the last check.** `AddLine` appends the line, then the currency check throws, leaving a line the total does not include. Validate first, then mutate.
 - **Navigation properties into another aggregate.** An `Order.Customer` that updates loyalty points makes one save change two aggregates. Hold `CustomerId`.
-- **Dispatching events from the entity method.** Handlers run before the save, so a failed save leaves an e-mail sent for an order that does not exist. Record events; dispatch them at save.
+- **Dispatching events from the entity method.** Handlers run before the save, so a failed save leaves an e-mail sent for an order that does not exist. Record events; dispatch before save only for effects sharing the database transaction. Enqueue e-mail in the outbox or send it only after commit.
+
+<!-- /coderabbit-ai-generated:v1 -->
 
 ## In practice
 

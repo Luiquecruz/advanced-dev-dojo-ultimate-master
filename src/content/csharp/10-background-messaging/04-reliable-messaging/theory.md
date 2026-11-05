@@ -51,7 +51,15 @@ public async Task HandleAsync(OrderPlaced message, Guid messageId, CancellationT
 }
 ```
 
-The `AnyAsync` check handles the common case. Two instances can still pass it at the same moment; the composite key makes the second `SaveChangesAsync` fail with a `DbUpdateException` whose inner error is a unique violation (SQLSTATE `23505` in PostgreSQL), which you treat as a duplicate. The key includes the consumer name because each consumer of an event needs its own marker. Keep markers at least as long as the broker can still redeliver.
+<!-- coderabbit-ai-generated:v1 -->
+
+<!-- coderabbit-ai-generated-section:v1:48dcb41c7b0b26fa2845c90997a3a037f8a36d90cf040b427778c757bfdfe6d8 -->
+
+The `AnyAsync` check handles most duplicates. Concurrent consumers can both pass it; the composite key makes the second `SaveChangesAsync` fail with a unique-violation `DbUpdateException` (PostgreSQL SQLSTATE `23505`), treated as a duplicate. Consumer names give each consumer its own marker. Retain markers through broker redelivery and supported operator-initiated dead-letter replay windows. For replay after expiry, enforce a durable business idempotency key in the side-effect transaction to prevent reapplication.
+
+<!-- /coderabbit-ai-generated:v1 -->
+
+<!-- /coderabbit-ai-generated:v1 -->
 
 The id must be stable across redeliveries: a `MessageId` set by the producer, ideally derived from the business operation, never a delivery tag, a delivery count or a receive timestamp.
 

@@ -19,7 +19,7 @@
       "A recompile after the (deprecated) .NET Upgrade Assistant converts the `System.Web` calls"
     ],
     "answer": 1,
-    "explanation": "`System.Web`, `web.config` and IIS-only hosting do not exist on .NET 10, so the web layer is rewritten onto ASP.NET Core while the C# and most business logic carry over. The in-place upgrade fails because the app does not compile without `System.Web`; 'rewrite everything' is wrong too, because libraries can be retargeted and shared, and no tool converts `System.Web` automatically."
+    "explanation": "The `System.Web` configuration model is unavailable on .NET 10, so the web layer moves onto ASP.NET Core while the C# and most business logic carry over. ASP.NET Core on .NET 10 still uses a `web.config` file to configure ASP.NET Core Module when hosted on IIS; that is distinct from the obsolete `System.Web` configuration model. The in-place upgrade fails because the app does not compile without `System.Web`; 'rewrite everything' is wrong too, because libraries can be retargeted and shared, and no tool converts `System.Web` automatically."
   },
   {
     "question": "Which TFM should a shared business-logic library use so that both the legacy `net48` app and the new `net10.0` app can reference it during a migration?",

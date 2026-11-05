@@ -92,12 +92,19 @@ containers:
 
 The two endpoints are built in lesson 11/04. The difference matters: a database outage should fail readiness, not liveness. Otherwise Kubernetes restarts every replica in a loop while the database is down.
 
+<!-- coderabbit-ai-generated:v1 -->
+
+<!-- coderabbit-ai-generated-section:v1:0143469536beab8c18d37dc459f9fb98f7257e66413aa84842db65481f3fa70f -->
+
 ## Common mistakes
 
-- **A scheduled `BackgroundService` in every replica.** Three replicas send three nightly reports. Move the task to a scheduled job that runs once.
+- **A scheduled `BackgroundService` in every replica.** Schedule reports independently of API replicas. Require idempotent generation per scheduled date for retries or duplicate jobs; execution may repeat.
+
 - **Uploads on local disk.** Files saved under `/app/uploads` disappear when the replica is replaced and are missing on the others. Use blob or object storage.
 - **No forwarded headers behind a proxy.** The app sees `http` and the proxy's IP, so redirects go to `http://` and logs show one client. Add `UseForwardedHeaders` early.
 - **Liveness that checks the database.** A database outage restarts every Pod in a loop. Check dependencies in readiness only.
+
+<!-- /coderabbit-ai-generated:v1 -->
 
 ## In practice
 
