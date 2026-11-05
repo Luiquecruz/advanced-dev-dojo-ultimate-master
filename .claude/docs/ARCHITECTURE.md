@@ -259,7 +259,7 @@ Everything the UI shows about a track comes from two places:
 | `track.json` | `order` | position in the home carousel and the track list |
 | `tokens.css` | `[data-trail='<id>'] { --accent; --accent-rgb }` | every accent: buttons, borders, glow, scene particles, headline highlight |
 
-Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue`, `angular` and `csharp`). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
+Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue` and `angular`). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
 
 Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
 
