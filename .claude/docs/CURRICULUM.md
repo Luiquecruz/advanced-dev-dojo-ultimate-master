@@ -335,3 +335,46 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 
 ### 13-validation — Validation with Pydantic v2
 01-validation-map **(quiz)** ✓ · 02-basemodel-vs-dataclass ✓ · 03-lax-and-strict-modes ✓ · 04-field-and-model-validators ✓ · 05-serialization-and-json-schema ✓ · 06-pydantic-core-and-performance **(quiz)** ✓ · 07-validation-adr ✓
+
+## C# and .NET (`src/content/csharp`)
+
+Spec: `.claude/docs/csharp-track/`. Single-language track without a code engine (`"engine": "typescript"` is a placeholder): every lesson is theory + quiz, and practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK. 13 modules, 66 lessons: core 01–11, deepening 12, legacy 13. Hidden (`TRACK_FLAGS.csharp = false`) until every module is verified and reviewed.
+
+### 01-platform — The .NET Platform for PHP Developers
+01-csharp-map · 02-runtime-sdk-and-cli · 03-versions-and-support · 04-nuget-and-project-files
+
+### 02-language — C# Language Essentials
+01-types-and-values · 02-nullable-reference-types · 03-classes-records-and-interfaces · 04-generics-and-delegates · 05-pattern-matching-and-modern-csharp
+
+### 03-collections-linq — Collections and LINQ
+01-collections · 02-linq-fundamentals · 03-deferred-execution-and-iqueryable · 04-project-cli-catalog **(project)**
+
+### 04-errors-async — Errors, Resources and Async
+01-exceptions-and-results · 02-disposal-and-using · 03-async-await · 04-cancellation-and-timeouts · 05-concurrency-and-the-thread-pool
+
+### 05-aspnet-core — ASP.NET Core Fundamentals
+01-host-and-program · 02-dependency-injection · 03-configuration-and-options · 04-logging · 05-middleware-pipeline
+
+### 06-web-apis — Building Web APIs
+01-minimal-apis-and-controllers · 02-routing-binding-and-validation · 03-http-semantics-and-problem-details · 04-openapi-and-versioning · 05-project-catalog-api **(project)**
+
+### 07-data — Data Access
+01-relational-sql-for-dotnet · 02-ef-core-basics · 03-ef-core-migrations · 04-tracking-and-performance · 05-dapper-and-ado-net · 06-transactions-and-concurrency · 07-project-catalog-persistence **(project)**
+
+### 08-security — API Security
+01-authentication-concepts · 02-jwt-bearer · 03-authorization-policies · 04-aspnet-core-identity · 05-api-hardening
+
+### 09-testing — Automated Testing
+01-unit-testing-with-xunit · 02-test-doubles · 03-integration-tests-with-webapplicationfactory · 04-database-tests-with-testcontainers · 05-project-secure-and-test-the-api **(project)**
+
+### 10-background-messaging — Background Work and Messaging
+01-hosted-services · 02-scheduling-with-hangfire-and-quartz · 03-message-brokers · 04-reliable-messaging · 05-project-order-worker **(project)**
+
+### 11-delivery — Containers, CI/CD, Cloud and Observability
+01-docker-for-dotnet · 02-ci-cd-pipelines · 03-cloud-hosting · 04-observability · 05-aspire · 06-project-ship-it **(project)**
+
+### 12-architecture — Application Architecture
+01-layered-and-clean-architecture · 02-vertical-slices-and-modular-monoliths · 03-domain-driven-design-essentials · 04-cqrs-mediator-and-licensing · 05-microservices-trade-offs
+
+### 13-legacy — Legacy .NET and Migration
+01-net-framework-landscape · 02-aspnet-mvc5-and-web-api-2 · 03-web-forms-and-wcf · 04-migration-strategies · 05-project-legacy-migration **(project)**

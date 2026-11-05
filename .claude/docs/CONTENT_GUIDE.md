@@ -299,6 +299,10 @@ Conventions settled by the pilot module (`01-models`). The plan and module rules
 - **Tests:** use `captureError` to inspect errors and `toBeCloseTo` for costs instead of local helpers. Verify one lesson exactly with `LESSON=ai-engineering/<lesson-id>`.
 - **Resources:** canonical URLs that return 200 to `curl`; a few canonical domains block bots with 403 (openai.com, platform.openai.com, lmarena.ai): open those in a browser before citing them.
 
+## C# track (`csharp`)
+
+A track without a code engine: there is no C# runtime in the app, so every lesson is theory + quiz (`theory.md`, `concepts.json`, `quiz.json`, `meta.json`). Practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK. `track.json` declares `"engine": "typescript"` only because the loader requires an engine. A lesson without a challenge renders no workspace and boots no worker, and `src/verify/csharp.test.ts` fails if a challenge file appears, so the placeholder never grades C#. That suite also enforces the track's standards: tags (status, tier, kind), the theory headings (`## Coming from PHP/Magento` first), 5–6 quiz questions, official resources, and balta.io links whose slug is in `.claude/docs/csharp-track/03-balta-catalog.md`. Spec and standards: `.claude/docs/csharp-track/` (`06-content-standards.md`). A future engine is assessed in `04-engine-spike.md`.
+
 ## TypeScript track tests (`tests.md`)
 
 Learner code is a single `main.ts`. Each test is a `## <kind>: <name>` heading followed by one fenced block:
