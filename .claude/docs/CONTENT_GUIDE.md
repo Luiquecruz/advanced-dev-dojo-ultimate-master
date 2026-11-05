@@ -6,7 +6,7 @@ Each track is a folder in `src/content/<track>/`; the current tracks and their p
 src/content/<track>/<NN-module>/<NN-lesson-id>/
 ```
 
-Number prefixes define order and are stripped from ids. Lesson ids must be **unique inside a track**. Use kebab-case.
+Number prefixes define order and are stripped from ids. A module folder must have one: its prefix is also the module number the app shows (`Module.number`; `07-…` is shown as module 07, `00-…` as module 00), so lesson text that cites "module 07" names the folder `07-…`. Lesson ids must be **unique inside a track**. Use kebab-case.
 
 All content is written in **English**.
 
@@ -25,7 +25,7 @@ All content is written in **English**.
 | `approach.md` | with challenge | "Solution path": numbered reasoning steps, without pasting the full solution |
 | `variants/<language>/` | multi-language tracks | One challenge per language: `starter`, `solution`, `tests` and optional `challenge.md`/`hints.md`/`approach.md` overrides (see below) |
 | `quiz.json` | optional | `[{ "question", "options": [...], "answer": <index>, "explanation" }]` (Markdown allowed) |
-| `module.json` | per module | `{ "title", "description", "optional"? }`; `"optional": true` marks a module learners may skip (a module zero for people who have never programmed): each of its lessons counts toward track progress only once the learner completes it (a visit does not count), so skipping the module, or any part of it, still reaches 100% |
+| `module.json` | per module | `{ "title", "description", "optional"? }`; `"optional": true` marks a module learners may skip (a module zero for people who have never programmed): it counts toward track progress as a whole once the learner has started it, which means completing a lesson between its first and its last (or all of them); its first lesson (the map with the skip rule), its last (the skip test) and visits do not start it, so a learner who skips the module still reaches 100% |
 | `track.json` | per track | `{ "engine", "order", "title", "monogram", "shortTitle"?, "description", "version" }`, or `"languages": [...]` instead of `"engine"` for a multi-language track; the accent color lives in `src/shared/design/tokens.css` (rules in [ARCHITECTURE.md](ARCHITECTURE.md#track-presentation)) |
 
 - `level`: `beginner`, `intermediate`, `advanced` or `expert`.

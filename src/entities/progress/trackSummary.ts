@@ -18,34 +18,40 @@ export interface TrackSummary {
   status: TrackStatus;
   resumeLesson: LessonEntry;
   currentModuleIndex: number;
+  lastStageNumber: number;
   modules: ModuleProgress[];
 }
 
 /**
- * A lesson counts toward track progress if its module is required, or once it is complete when the module is optional.
+ * A required module always counts toward track progress; an optional one once it is complete or a lesson between its first and its last is complete.
  */
-function isLessonCounted(state: ProgressState, module: Module, lesson: LessonEntry): boolean {
-  return !module.optional || isLessonComplete(state, lesson);
+function isModuleCounted(state: ProgressState, module: Module): boolean {
+  if (!module.optional) {
+    return true;
+  }
+  const complete = (lesson: LessonEntry) => isLessonComplete(state, lesson);
+  return module.lessons.every(complete) || module.lessons.slice(1, -1).some(complete);
 }
 
 /**
  * Progress overview of a track: overall completion, the lesson to resume, the current stage (module) and per-module progress.
  */
 export function summarizeTrack(track: Track, state: ProgressState): TrackSummary {
-  const countedLessons = track.modules.flatMap((module) => module.lessons.filter((lesson) => isLessonCounted(state, module, lesson)));
+  const countedLessons = track.modules.filter((module) => isModuleCounted(state, module)).flatMap((module) => module.lessons);
   const done = countedLessons.filter((lesson) => isLessonComplete(state, lesson)).length;
   const total = countedLessons.length;
   const lastLesson = track.lessons.find((lesson) => lesson.id === state.lastLesson[track.id]);
+  const status: TrackStatus = total > 0 && done === total ? 'completed' : done > 0 || lastLesson ? 'in-progress' : 'not-started';
   const resumeLesson = lastLesson ?? track.lessons.find((lesson) => !isLessonComplete(state, lesson)) ?? track.lessons[0];
   const currentModuleIndex = track.modules.findIndex((module) => module.id === resumeLesson.moduleId);
   const modules = track.modules.map((module, index): ModuleProgress => {
     const moduleDone = module.lessons.filter((lesson) => isLessonComplete(state, lesson)).length;
     const complete = moduleDone === module.lessons.length;
-    const pending = module.optional ? 'optional' : 'upcoming';
-    return { module, index, done: moduleDone, total: module.lessons.length, state: index === currentModuleIndex && !complete ? 'current' : complete ? 'done' : pending };
+    const current = index === currentModuleIndex && !complete && status !== 'completed';
+    return { module, index, done: moduleDone, total: module.lessons.length, state: current ? 'current' : complete ? 'done' : module.optional ? 'optional' : 'upcoming' };
   });
-  const status: TrackStatus = total > 0 && done === total ? 'completed' : done > 0 || lastLesson ? 'in-progress' : 'not-started';
-  return { done, total, percent: total ? Math.round((done / total) * 100) : 0, status, resumeLesson, currentModuleIndex, modules };
+  const lastStageNumber = Math.max(0, ...track.modules.filter((module) => !module.optional).map((module) => module.number));
+  return { done, total, percent: total ? Math.round((done / total) * 100) : 0, status, resumeLesson, currentModuleIndex, lastStageNumber, modules };
 }
 
 /**

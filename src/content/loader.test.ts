@@ -100,11 +100,25 @@ describe('buildTracks', () => {
         },
       );
     const [track] = buildTracks(files(true), languages);
-    expect(track.modules.map((module) => [module.id, module.optional])).toEqual([
-      ['zero', true],
-      ['basics', false],
+    expect(track.modules.map((module) => [module.id, module.number, module.optional])).toEqual([
+      ['zero', 0, true],
+      ['basics', 1, false],
     ]);
     expect(() => buildTracks(files('yes'), languages)).toThrow('Module "node/00-zero" declares a non-boolean "optional"');
+  });
+
+  it('numbers modules by their folder prefix and rejects a module folder without one', () => {
+    const files = (moduleFolder: string) =>
+      sources(
+        { [`./node/${moduleFolder}/01-intro/challenge.md`]: 'Do it', [`./node/${moduleFolder}/01-intro/starter.ts`]: 'start' },
+        {
+          './node/track.json': { engine: 'node', title: 'Node.js', monogram: 'N', description: 'd', version: 'v' },
+          [`./node/${moduleFolder}/module.json`]: { title: 'Basics', description: 'd' },
+          [`./node/${moduleFolder}/01-intro/meta.json`]: lessonMeta,
+        },
+      );
+    expect(buildTracks(files('07-basics'), languages)[0].modules[0]).toMatchObject({ id: 'basics', number: 7 });
+    expect(() => buildTracks(files('basics'), languages)).toThrow('Module "node/basics" needs a numeric folder prefix');
   });
 
   it('rejects a track that declares an unknown language', () => {

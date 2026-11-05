@@ -140,7 +140,19 @@ export function buildTracks({ textFiles, jsonFiles }: ContentSources, languages:
       if (meta.optional !== undefined && typeof meta.optional !== 'boolean') {
         throw new Error(`Module "${trackId}/${segments[2]}" declares a non-boolean "optional"`);
       }
-      modules.set(`${segments[1]}/${segments[2]}`, { id: stripPrefix(segments[2]), trackId, title: meta.title, description: meta.description, optional: meta.optional ?? false, lessons: [] });
+      const prefix = /^(\d+)-/.exec(segments[2]);
+      if (!prefix) {
+        throw new Error(`Module "${trackId}/${segments[2]}" needs a numeric folder prefix`);
+      }
+      modules.set(`${segments[1]}/${segments[2]}`, {
+        id: stripPrefix(segments[2]),
+        number: Number(prefix[1]),
+        trackId,
+        title: meta.title,
+        description: meta.description,
+        optional: meta.optional ?? false,
+        lessons: [],
+      });
     }
     if (segments.length === 5 && segments[4] === 'meta.json') {
       lessonDirectories.add(segments.slice(0, 4).join('/'));
