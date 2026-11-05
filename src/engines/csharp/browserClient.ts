@@ -9,6 +9,10 @@ export const TEST_TIMEOUT_MS = 6000;
 const COMPILE_TIMEOUT_MS = 20000;
 const RUN_TIMEOUT_MS = 15000;
 const BOOT_TIMEOUT_MS = 90000;
+/** Longest wait for an idle moment before the prefetch starts anyway. */
+const PREFETCH_IDLE_TIMEOUT_MS = 3000;
+/** `navigator.connection.effectiveType` values too slow to download about 8 MiB the learner did not ask for yet. */
+const SLOW_CONNECTIONS = new Set(['slow-2g', '2g', '3g']);
 /** Longest console line passed to the page; the host already stops a run's console after 1,000,000 characters. */
 export const MAX_CONSOLE_TEXT = 10000;
 
@@ -29,7 +33,15 @@ type Outcome =
   | { kind: 'stopped'; index: number; total: number; name: string; error: string; collected: TestResult[] }
   | { kind: 'failed'; message: string; collected: TestResult[] };
 
+/** The part of the Network Information API (`navigator.connection`, Chromium only) the prefetch reads. */
+export interface ConnectionHints {
+  saveData?: boolean;
+  effectiveType?: string;
+}
+
 let spare: Runtime | undefined;
+/** Cancels the idle callback that will start the prefetched spare, while one is scheduled. */
+let cancelPrefetch: (() => void) | undefined;
 /** Whether a C# challenge is open: `warmUpCsharp` sets it, `disposeCsharp` clears it, and runs refill the spare only while it is set. */
 let wanted = false;
 let lastTimings: CsharpTimings | undefined;
@@ -87,10 +99,12 @@ function spawn(): Runtime {
 
 /**
  * Takes the warm runtime, or starts one. Every run gets a fresh worker, so files, static fields of the BCL and AppContext switches
- * written by one run never reach the next (spike findings C4, C5). The next spare starts only when the run is over (`refill`), so
- * two .NET runtimes never compete for the CPU and memory of a grade.
+ * written by one run never reach the next (spike findings C4, C5). The next spare starts only when the run is over (`refill`), and a
+ * prefetch still waiting for an idle moment is cancelled, so two .NET runtimes never compete for the CPU and memory of a grade.
  */
 function take(): Runtime {
+  cancelPrefetch?.();
+  cancelPrefetch = undefined;
   const runtime = spare ?? spawn();
   spare = undefined;
   return runtime;
@@ -170,18 +184,56 @@ function attempt(runtime: Runtime, files: ProjectFiles, tests: string, startAt: 
 }
 
 /**
- * Starts the .NET runtime ahead of the first test or run: downloads and checks the runtime files and warms Roslyn in one worker.
+ * Whether the runtime may be downloaded before the learner asks for a run: not when the browser asks to save data or reports a slow
+ * connection (then the first run downloads it). Browsers without `navigator.connection` prefetch.
  */
-export function warmUpCsharp(): void {
-  wanted = true;
-  spare ??= spawn();
+export function mayPrefetchCsharp(connection: ConnectionHints | undefined): boolean {
+  return !connection?.saveData && !SLOW_CONNECTIONS.has(connection?.effectiveType ?? '');
 }
 
 /**
- * Terminates the spare runtime, so a booted .NET runtime and Roslyn do not stay in memory after the learner leaves C# challenges.
+ * Runs `task` when the page is idle (at the latest after `PREFETCH_IDLE_TIMEOUT_MS`), so the download and the boot do not compete
+ * with the lesson's first render; Safari has no `requestIdleCallback` and waits a moment instead. Returns the cancel function.
+ */
+function whenIdle(task: () => void): () => void {
+  if (typeof requestIdleCallback === 'function') {
+    const handle = requestIdleCallback(task, { timeout: PREFETCH_IDLE_TIMEOUT_MS });
+    return () => cancelIdleCallback(handle);
+  }
+  const timer = setTimeout(task, 200);
+  return () => clearTimeout(timer);
+}
+
+/**
+ * Prefetches the .NET runtime for an open C# challenge: once the page is idle (the learner is usually reading the Learn tab) it
+ * downloads and checks the runtime files and warms Roslyn in one worker, so the first grade is warm. Nothing starts on a Save-Data
+ * or slow connection; the first test or run then starts the runtime itself.
+ */
+export function warmUpCsharp(): void {
+  wanted = true;
+  if (spare || cancelPrefetch) {
+    return;
+  }
+  const connection = (globalThis.navigator as { connection?: ConnectionHints } | undefined)?.connection;
+  if (!mayPrefetchCsharp(connection)) {
+    return;
+  }
+  cancelPrefetch = whenIdle(() => {
+    cancelPrefetch = undefined;
+    if (wanted) {
+      spare ??= spawn();
+    }
+  });
+}
+
+/**
+ * Cancels a scheduled prefetch and terminates the spare runtime, so a booted .NET runtime and Roslyn do not stay in memory after the
+ * learner leaves C# challenges.
  */
 export function disposeCsharp(): void {
   wanted = false;
+  cancelPrefetch?.();
+  cancelPrefetch = undefined;
   spare?.worker.terminate();
   spare = undefined;
 }

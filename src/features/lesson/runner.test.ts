@@ -16,6 +16,9 @@ class RecordingWorker {
   }
 }
 
+const idle: (() => void)[] = [];
+const flushIdle = () => idle.splice(0).forEach((task) => task());
+
 const OTHER_ENGINES: EngineId[] = ['typescript', 'react', 'vue', 'angular', 'node', 'python'];
 const csharpWorkers = () => created.filter((url) => url.includes('csharp.worker'));
 
@@ -23,6 +26,8 @@ let runner: typeof import('./runner');
 
 beforeAll(async () => {
   vi.stubGlobal('Worker', RecordingWorker);
+  vi.stubGlobal('requestIdleCallback', (task: () => void) => idle.push(task));
+  vi.stubGlobal('cancelIdleCallback', () => undefined);
   runner = await import('./runner');
 });
 afterAll(() => vi.unstubAllGlobals());
@@ -43,9 +48,11 @@ describe('prepareEngine', () => {
     expect(csharpWorkers()).toEqual([]);
   });
 
-  it('starts one C# worker, which downloads the runtime, when a C# challenge opens', () => {
+  it('starts one C# worker, which downloads the runtime, once the page is idle after a C# challenge opens', () => {
     runner.prepareEngine('csharp');
     runner.prepareEngine('csharp');
+    expect(csharpWorkers()).toHaveLength(0);
+    flushIdle();
     expect(csharpWorkers()).toHaveLength(1);
   });
 
@@ -54,6 +61,7 @@ describe('prepareEngine', () => {
     runner.prepareEngine(undefined);
     expect(terminated).toBe(before + 1);
     runner.prepareEngine('csharp');
+    flushIdle();
     expect(csharpWorkers()).toHaveLength(2);
   });
 });
