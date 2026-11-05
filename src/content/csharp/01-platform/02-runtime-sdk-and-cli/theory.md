@@ -102,7 +102,7 @@ AnsiConsole.MarkupLine("[green]Import finished[/]");
 
 ## In practice
 
-- **CI runs the same CLI.** A typical pipeline is `dotnet restore`, `dotnet build --no-restore`, `dotnet test --no-build`, `dotnet publish`. Module 11 builds it.
+- **CI runs the same CLI.** A typical pipeline is `dotnet restore`, `dotnet build --no-restore -c Release`, `dotnet test --no-build -c Release`, `dotnet publish -c Release`. `build` and `test` default to Debug while `publish` defaults to Release on .NET 8 and later, so pass `-c Release` to all three, or you test one configuration and ship another. Module 11 builds the pipeline.
 - **Pin the SDK, not the runtime patch.** Teams pin the SDK version with `global.json` (next lesson) and let framework-dependent apps take runtime patches automatically.
 - **Keep the solution small.** One API, one or two libraries and a test project is enough for most services. Splitting every Magento-style module into its own project multiplies build time and references without adding safety.
 - **Usual mistakes:** running `dotnet run` in production; committing `bin/` and `obj/`; installing only the runtime on a developer machine and then wondering why `dotnet build` fails; publishing self-contained by default and then never redeploying for runtime security patches.
