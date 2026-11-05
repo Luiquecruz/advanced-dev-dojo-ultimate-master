@@ -11,15 +11,15 @@
     "explanation": "Constraints take part in route matching: a failed constraint means no endpoint matches, so routing returns 404. The routing docs warn against using constraints as validation for exactly this reason. A 400 would come from binding a plain `int id` without the constraint, which is why the first option is tempting."
   },
   {
-    "question": "A handler is `app.MapGet(\"/products\", (ProductFilter filter) => ...)` where `ProductFilter` is a record with `Page` and `Search` properties, and the type has no `BindAsync` or `TryParse`. Why does it not bind from `?page=2&search=shoe`?",
+    "question": "A handler is `app.MapGet(\"/products\", (ProductFilter filter) => ...)` where `ProductFilter` is a record with `Page` and `Search` properties, and the type has no `BindAsync` or `TryParse`. Why does the app fail as soon as `GET /products?page=2&search=shoe` reaches routing?",
     "options": [
       "Records cannot be handler parameters unless they declare a `BindAsync` method",
       "Query string values bind only to `string` parameters, never to record properties",
-      "It is inferred as a JSON body, which `GET` never binds; use `[AsParameters]`",
+      "It is inferred as a body, which `GET` does not allow, so building the endpoint throws; use `[AsParameters]`",
       "Minimal APIs require `[FromQuery]` on every parameter"
     ],
     "answer": 2,
-    "explanation": "The inference rules send complex types to the body, and `GET`, `HEAD`, `OPTIONS` and `DELETE` do not bind a body implicitly. `[AsParameters]` binds each property as its own parameter, so `Page` and `Search` come from the query. Simple types such as `int page` are inferred from the query without any attribute, so the last option is wrong."
+    "explanation": "The inference rules send complex types to the body, and `GET`, `HEAD`, `OPTIONS` and `DELETE` do not allow an inferred body, so building the endpoints throws `InvalidOperationException` on the first request that reaches routing, and that breaks every route, not only `/products`. `[AsParameters]` binds each property as its own parameter, so `Page` and `Search` come from the query. Simple types such as `int page` are inferred from the query without any attribute, so the last option is wrong."
   },
   {
     "question": "A record parameter has `[Required]` and `[Range]` attributes, but invalid JSON bodies still reach the handler. What is the most likely cause on .NET 10?",

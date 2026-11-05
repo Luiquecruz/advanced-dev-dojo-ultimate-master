@@ -68,8 +68,13 @@ public static class JwtTests
 
         DateTimeOffset expired = DateTimeOffset.FromUnixTimeSeconds(Exp).AddHours(1);
         Assert.Equal(TokenCheck.WrongIssuer, At(expired).Check(Token(Payload(iss: "https://login.example.com"))));
+        Assert.Equal(TokenCheck.WrongAudience, At(expired).Check(Token(Payload(aud: "\"orders-api\""))));
         DateTimeOffset early = DateTimeOffset.FromUnixTimeSeconds(Nbf).AddHours(-1);
+        Assert.Equal(TokenCheck.WrongIssuer, At(early).Check(Token(Payload(iss: "https://login.example.com"))));
         Assert.Equal(TokenCheck.WrongAudience, At(early).Check(Token(Payload(aud: "\"orders-api\""))));
+
+        string backwards = Token($$"""{"iss":"{{Issuer}}","aud":"catalog-api","nbf":{{Exp}},"exp":{{Nbf}}}""");
+        Assert.Equal(TokenCheck.Expired, validator.Check(backwards));
     }
 
     [Test("Check accepts a token up to the clock skew after exp, and rejects it after that")]

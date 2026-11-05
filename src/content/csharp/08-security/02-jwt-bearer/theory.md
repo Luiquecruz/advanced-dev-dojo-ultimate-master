@@ -84,7 +84,7 @@ You can also configure the scheme from `appsettings.json`: minimal-API apps read
 ## Defaults that surprise
 
 - **Claim mapping.** By default (`MapInboundClaims = true`) the handler renames well-known short claims to long `ClaimTypes` URIs, so `sub` arrives as `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier`. Choose once per app: keep the mapping and use the `ClaimTypes` constants, or set `MapInboundClaims = false` and read the claims as the issuer sent them. The second option has a required half: `NameClaimType` and `RoleClaimType` still default to the long URIs, so set them to your issuer's short names, as the snippet above does. Without them `User.Identity.Name` is `null` and `IsInRole`, `RequireRole` and `[Authorize(Roles = ...)]` never match.
-- **Clock skew.** `TokenValidationParameters.DefaultClockSkew` is 5 minutes: a token counts as expired only when `exp` is more than five minutes in the past, and as not yet valid only when `nbf` is more than five minutes in the future. A test waiting for a one-minute token to expire "fails" because of it. Lower it when server clocks are synchronized.
+- **Clock skew.** `TokenValidationParameters.DefaultClockSkew` is 5 minutes: a token counts as expired only when `exp` is more than five minutes in the past, and as not yet valid only when `nbf` is more than five minutes in the future. Lower it when server clocks are synchronized.
 - **No revocation.** A stolen or logged-out token keeps working until it expires. Keep access tokens short-lived and let the client renew them through the identity provider; revocation at the API needs extra machinery (introspection or a deny list), which is the identity provider's area.
 
 ## Tokens for local development
