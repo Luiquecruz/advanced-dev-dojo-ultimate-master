@@ -34,15 +34,27 @@ function workerFile(outDir) {
 }
 
 async function checkServed(origin, outDir, worker) {
-  // index.html names the entry assets by content hash: a page that references exactly those files, served byte for byte,
-  // proves this is the same build (an older deploy would otherwise pass every other check when only the app's HTML or
-  // JavaScript changed). The HTML itself is not compared byte for byte: the host may inject comments into it.
-  const entryAssets = [...readFileSync(join(outDir, 'index.html'), 'utf8').matchAll(/(?:src|href)="\/(assets\/[^"]+)"/g)].map((match) => match[1]);
+  // Same build, not just a healthy one: an older deploy still live would pass every other check. The served HTML must
+  // contain every line of this build's index.html in order (the host may inject its own lines, such as a comment, but a
+  // changed or removed line fails, a new meta description included), and the hashed entry assets it names must match
+  // byte for byte.
+  const buildHtml = readFileSync(join(outDir, 'index.html'), 'utf8');
+  const buildLines = buildHtml.split('\n').map((line) => line.trim()).filter(Boolean);
+  const entryAssets = [...buildHtml.matchAll(/(?:src|href)="\/(assets\/[^"]+)"/g)].map((match) => match[1]);
   expect(entryAssets.length > 0, 'the build index.html references no /assets/ files');
-  const referencesThisBuild = (html) => entryAssets.every((asset) => html.includes(`/${asset}`));
+  expect(buildHtml.includes('<div id="root"'), 'the build index.html has no <div id="root"> (src/main.tsx mounts the app there)');
+  const isThisBuild = (html) => {
+    let cursor = 0;
+    for (const line of buildLines) {
+      const found = html.indexOf(line, cursor);
+      if (found === -1) return false;
+      cursor = found + line.length;
+    }
+    return html.includes('<div id="root"');
+  };
   const page = await fetch(`${origin}/`);
   expect(page.ok, `GET / returned ${page.status}`);
-  expect(referencesThisBuild(await page.text()), 'GET / does not reference this build\'s entry assets (an older deploy is still live)');
+  expect(isThisBuild(await page.text()), "GET / does not serve this build's index.html (an older deploy is still live, or the root element is missing)");
   for (const asset of entryAssets) {
     const response = await fetch(`${origin}/${asset}`);
     expect(response.ok && sha256(Buffer.from(await response.arrayBuffer())) === sha256(readFileSync(join(outDir, asset))), `/${asset} does not match the build`);
@@ -57,7 +69,7 @@ async function checkServed(origin, outDir, worker) {
   }
   for (const route of ['/python', '/python/python-map', '/ai-engineering/calling-a-model']) {
     const response = await fetch(`${origin}${route}`);
-    expect(response.ok && referencesThisBuild(await response.text()), `${route} must fall back to this build's index.html (got ${response.status})`);
+    expect(response.ok && isThisBuild(await response.text()), `${route} must fall back to this build's index.html (got ${response.status})`);
   }
   // Every file the build put under pyodide/ (runtime, loader, lock, wheels, licenses), compared byte for byte: the host's
   // SPA fallback answers a missing file with index.html and status 200.
