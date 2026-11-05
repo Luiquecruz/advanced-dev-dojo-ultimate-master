@@ -19,7 +19,7 @@
       "Concurrent writes can corrupt the `Dictionary`; use `ConcurrentDictionary`"
     ],
     "answer": 3,
-    "explanation": "In a long-running host a static field is shared by every request at the same time, and `Dictionary` is not thread-safe: concurrent writes can corrupt it silently, without any exception. Expecting a copy per request is the tempting mistake, but only scoped services are created per request; and `TryAdd` on `Dictionary` is no more atomic than the indexer."
+    "explanation": "In a long-running host a static field is shared by every request at the same time, and `Dictionary` is not thread-safe: concurrent writes can corrupt it, often silently; .NET throws `InvalidOperationException` only when it happens to detect the damage. Expecting a copy per request is the tempting mistake, but only scoped services are created per request; and `TryAdd` on `Dictionary` is no more atomic than the indexer."
   },
   {
     "question": "You need to refresh a shared access token with an `await identity.RequestTokenAsync(...)` call so that only one request refreshes at a time. Which construct fits?",

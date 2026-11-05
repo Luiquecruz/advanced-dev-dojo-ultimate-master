@@ -12,7 +12,7 @@ Calls `await indexOne(id, token)` for every id, in order, and returns how many p
 Runs `operation(token)` with a time limit of its own and returns its result.
 
 - Create a token source **linked** to `cancellationToken`, call `CancelAfter(timeout)` on it, and pass its token to the operation, so either the caller or the deadline can stop the work. Dispose the source.
-- When the **deadline** fires (the operation throws `OperationCanceledException` and the caller has not cancelled), throw `TimeoutException` with the `OperationCanceledException` as its inner exception. The operation's token must really be cancelled, so do not use `Task.WaitAsync`.
-- When the **caller** cancels, let the `OperationCanceledException` through unchanged: that is not a timeout.
+- When the **deadline** fires (the operation throws `OperationCanceledException`, your linked source is cancelled and the caller has not cancelled), throw `TimeoutException` with the `OperationCanceledException` as its inner exception. The operation's token must really be cancelled, so do not use `Task.WaitAsync`.
+- When the **caller** cancels, or the operation throws `OperationCanceledException` before your deadline fires, let it through unchanged: that is not your timeout.
 
 `System.Threading` is already imported at the top of the file.

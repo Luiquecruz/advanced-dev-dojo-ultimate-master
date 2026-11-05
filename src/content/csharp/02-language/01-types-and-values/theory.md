@@ -108,7 +108,7 @@ Boxing costs an allocation, and the unboxing cast has a smaller cost of its own.
 
 - **Default to `class`.** Microsoft's design guidelines say to avoid a struct unless the type represents a single value, is small (under 16 bytes), is immutable, and is rarely boxed. Coordinates such as two `double` values and wrapped identifiers fit. A `Money` with a `decimal` (16 bytes on its own) and a currency `string` is already past the size guideline, so a team that makes it a struct accepts that trade-off knowingly. Entities, services and DTOs do not.
 - **If you write a struct, make it `readonly`** (`readonly struct` or `readonly record struct`). Mutable structs produce lost updates that look like compiler bugs.
-- **Do not hand out your internal lists.** A method that returns a `List<T>` field lets callers change your state. Return a copy, or the list as `IReadOnlyList<T>`, an interface that offers reading and indexing but no `Add` or `Remove`. Collection choices come in 03/01.
+- **Do not hand out your internal lists.** A method that returns a `List<T>` field lets callers change your state. Return a copy, or a read-only wrapper (`list.AsReadOnly()`) typed as `IReadOnlyList<T>`, an interface that offers reading and indexing but no `Add` or `Remove`. Returning the field itself as `IReadOnlyList<T>` is not enough: a caller can cast it back to `List<T>`. Collection choices come in 03/01.
 - **Watch every list that crosses a method boundary.** Decide whether the callee may change it, and say so with the parameter type.
 
 ## Check yourself

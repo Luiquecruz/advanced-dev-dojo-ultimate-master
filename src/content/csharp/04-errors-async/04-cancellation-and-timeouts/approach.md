@@ -1,5 +1,5 @@
 1. Look at the starter's `RunAsync`: it hands `CancellationToken.None` to every call and never checks the token, so a cancelled caller changes nothing. That is the test "passes the caller's token to every call".
 2. Decide where the loop may stop. Checking before each product means a product that has started is finished, and no new one starts after the caller gave up.
 3. For `WithTimeoutAsync`, draw the two tokens: the caller's, and yours with a deadline. A linked source gives one token that is cancelled by either of them, and that is the token the operation must receive.
-4. When `OperationCanceledException` arrives, ask which token caused it. The caller's token answers the question: if it is not cancelled, your deadline fired, and the caller should see a `TimeoutException` that keeps the original as its inner exception.
+4. When `OperationCanceledException` arrives, ask which token caused it. Check both: if your linked source is cancelled and the caller's token is not, your deadline fired, and the caller should see a `TimeoutException` that keeps the original as its inner exception.
 5. Compare with `Task.WaitAsync`: it would also throw `TimeoutException`, but the operation's token would never be cancelled and the work would keep running. The timeout test checks the token for exactly that reason.

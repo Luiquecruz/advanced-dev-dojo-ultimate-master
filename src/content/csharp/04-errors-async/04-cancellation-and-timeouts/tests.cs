@@ -65,12 +65,14 @@ public static class CancellationTests
         Assert.True(error.InnerException is OperationCanceledException, "InnerException should be the OperationCanceledException");
     }
 
-    [Test("WithTimeoutAsync lets the caller's cancellation through as OperationCanceledException, not TimeoutException")]
+    [Test("WithTimeoutAsync lets the caller's cancellation, and any cancellation before its deadline, through as OperationCanceledException")]
     public static async Task DeadlineKeepsCallerCancellation()
     {
         using var caller = new CancellationTokenSource();
         caller.CancelAfter(TimeSpan.FromMilliseconds(30));
         await Assert.ThrowsAsync<OperationCanceledException>(() =>
             Deadline.WithTimeoutAsync(async token => { await Task.Delay(TimeSpan.FromSeconds(1), token); return 1; }, TimeSpan.FromSeconds(5), caller.Token));
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            Deadline.WithTimeoutAsync<int>(token => throw new OperationCanceledException("the client's own timeout"), TimeSpan.FromSeconds(5), CancellationToken.None));
     }
 }
