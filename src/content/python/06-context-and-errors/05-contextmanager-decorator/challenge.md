@@ -10,7 +10,7 @@ Write three context managers for a deployment script in `main.py`, each as a gen
 
 ## `captured_output()`
 
-- On enter, replace `sys.stdout` with a new `io.StringIO` and yield that `StringIO`, so `print` inside the block writes into it.
+- On enter, replace `sys.stdout` with a new `io.StringIO` (an in-memory text file: `write` appends to it and `getvalue()` returns everything written; module 07 covers `io`) and yield that `StringIO`, so `print` inside the block writes into it.
 - On exit, put the original `sys.stdout` back.
 
 ## `section(log, name)`
