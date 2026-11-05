@@ -127,6 +127,8 @@ public static class PerformanceAndMemoryTests
 
         var failing = new CountingPool();
         Assert.Throws<IOException>(() => Checksum.Compute(new FailingStream(), failing));
+        Assert.Equal(1, failing.Rents);
         Assert.Equal(1, failing.Returns);
+        Assert.True(failing.ReturnedTheRentedArray, "Return should receive the array that Rent handed out when reading throws");
     }
 }

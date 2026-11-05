@@ -85,7 +85,12 @@ public static class JwtTests
     {
         DateTimeOffset exp = DateTimeOffset.FromUnixTimeSeconds(Exp);
         Assert.Equal(TokenCheck.Valid, At(exp.AddMinutes(4).AddSeconds(59)).Check(Token(Payload())));
+        Assert.Equal(TokenCheck.Valid, At(exp.AddMinutes(5)).Check(Token(Payload())));
         Assert.Equal(TokenCheck.Expired, At(exp.AddMinutes(5).AddSeconds(1)).Check(Token(Payload())));
+
+        long maxExp = DateTimeOffset.MaxValue.ToUnixTimeSeconds();
+        string token = Token($$"""{"iss":"{{Issuer}}","aud":"catalog-api","exp":{{maxExp}}}""");
+        Assert.Equal(TokenCheck.Valid, At(DateTimeOffset.FromUnixTimeSeconds(Exp)).Check(token));
     }
 
     [Test("Check rejects a token whose nbf is more than the clock skew in the future")]
