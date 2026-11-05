@@ -4,6 +4,7 @@
 // plus the vendored wheels are served from the app's origin.
 // Usage: npm run smoke:worker-csp                                  builds the app and checks it under `vite preview`
 //        npm run smoke:worker-csp -- --url <origin> --dist <dir>   checks a deployed build (CI runs it on each Netlify deploy)
+//        add --build-only to only check that <origin> serves this build's entry assets (exit 3 when another build is live)
 import { createHash } from 'node:crypto';
 import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -14,9 +15,13 @@ import { build, preview } from 'vite';
 import { PYTHON_WORKER_CSP } from '../../plugins/pythonWorkerCspPlugin.ts';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const { values: options } = parseArgs({ options: { url: { type: 'string' }, dist: { type: 'string' } } });
+const { values: options } = parseArgs({ options: { url: { type: 'string' }, dist: { type: 'string' }, 'build-only': { type: 'boolean' } } });
 if (Boolean(options.url) !== Boolean(options.dist)) {
   console.error('--url and --dist go together: the deployed origin and the build directory that was deployed');
+  process.exit(2);
+}
+if (options['build-only'] && !options.url) {
+  console.error('--build-only needs --url and --dist');
   process.exit(2);
 }
 const failures = [];
@@ -33,11 +38,32 @@ function workerFile(outDir) {
   return worker;
 }
 
+/**
+ * Entry assets the build's index.html references by content hash; a page that references all of them is this build's page.
+ */
+function entryAssetsOf(outDir) {
+  return [...readFileSync(join(outDir, 'index.html'), 'utf8').matchAll(/(?:src|href)="\/(assets\/[^"]+)"/g)].map((match) => match[1]);
+}
+
+/**
+ * Whether the origin's page references every entry asset of the build in outDir.
+ */
+async function servesBuild(origin, outDir) {
+  const entryAssets = entryAssetsOf(outDir);
+  try {
+    const page = await fetch(`${origin}/`, { cache: 'no-store' });
+    const html = await page.text();
+    return page.ok && entryAssets.length > 0 && entryAssets.every((asset) => html.includes(`/${asset}`));
+  } catch {
+    return false;
+  }
+}
+
 async function checkServed(origin, outDir, worker) {
   // index.html names the entry assets by content hash: a page that references exactly those files, served byte for byte,
   // proves this is the same build (an older deploy would otherwise pass every other check when only the app's HTML or
   // JavaScript changed). The HTML itself is not compared byte for byte: the host may inject comments into it.
-  const entryAssets = [...readFileSync(join(outDir, 'index.html'), 'utf8').matchAll(/(?:src|href)="\/(assets\/[^"]+)"/g)].map((match) => match[1]);
+  const entryAssets = entryAssetsOf(outDir);
   expect(entryAssets.length > 0, 'the build index.html references no /assets/ files');
   const referencesThisBuild = (html) => entryAssets.every((asset) => html.includes(`/${asset}`));
   const page = await fetch(`${origin}/`);
@@ -79,7 +105,15 @@ function sha256(bytes) {
   return createHash('sha256').update(bytes).digest('hex');
 }
 
-if (options.url) {
+if (options['build-only']) {
+  const origin = options.url.replace(/\/$/, '');
+  if (await servesBuild(origin, resolve(options.dist))) {
+    console.log(`${origin} serves this build`);
+    process.exit(0);
+  }
+  console.log(`${origin} serves another build`);
+  process.exit(3);
+} else if (options.url) {
   const dist = resolve(options.dist);
   await checkServed(options.url.replace(/\/$/, ''), dist, workerFile(dist));
 } else {

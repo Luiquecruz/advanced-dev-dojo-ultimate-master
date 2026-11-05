@@ -85,7 +85,7 @@ Every pull request and every push to `main` runs on GitHub Actions:
 | Workflow | Checks |
 | --- | --- |
 | [CI](.github/workflows/ci.yml) | lint, typecheck, unit tests and build; lesson verification per track; Python lessons on CPython (pytest); workflow lint and security audit (actionlint, zizmor); production layout smoke test (worker CSP, SPA fallback, Pyodide files) under `vite preview`, then against the Netlify Deploy Preview of the pull request or the live site after a merge |
-| [Security](.github/workflows/security.yml) | `npm audit`; dependency review on pull requests; secret scan of the whole git history (gitleaks); OSV-Scanner over the npm and Python lockfiles; CodeQL for TypeScript, Python and the workflows. Also runs weekly |
+| [Security](.github/workflows/security.yml) | `npm audit` on `main`; dependency review on pull requests; secret scan of the whole git history (gitleaks); OSV-Scanner over the npm and Python lockfiles; CodeQL for TypeScript, Python and the workflows. Also runs weekly |
 | [Scorecard](.github/workflows/scorecard.yml) | OpenSSF Scorecard of the repository's security practices, behind the badge above |
 | [Docs sync](.github/workflows/docs-sync.yml) | warns when a documented area changes without its documents (`docs:none` label for reviewed exceptions) |
 

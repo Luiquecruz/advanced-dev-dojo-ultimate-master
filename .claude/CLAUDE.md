@@ -130,7 +130,7 @@ New tracks are coming; follow the checklist at the end of `.claude/docs/ARCHITEC
 
 1. `src/content/<id>/track.json`: `engine`, `order`, `title`, `monogram` (1–3 characters), `shortTitle` when the title is long (home backdrop word), `description`, `version`; then modules and lessons.
 2. `[data-trail='<id>']` accent rule in `src/shared/design/tokens.css`: AA on void, panel and elevated, AA under dark text, at least 30° of hue from every other accent (no 30° band is left: revisit the rule before adding a track). `trackPresentation.test.ts` checks it.
-3. `src/verify/<id>.test.ts` with `defineChallengeSuite`, the plan in CURRICULUM.md, new libraries registered in the engine `registry.ts` and listed in CONTENT_GUIDE.md.
+3. `src/verify/<id>.test.ts` with `defineChallengeSuite` (CI runs it as `Verify <id>`, listed from `track.json`; add the check to branch protection), the plan in CURRICULUM.md, new libraries registered in the engine `registry.ts` and listed in CONTENT_GUIDE.md.
 4. Name the track in the `index.html` meta description if it should appear there.
 
 A new engine also needs the registrations listed in ARCHITECTURE.md (`sandbox/protocol.ts`, `sandbox/sandbox.ts`, `content/types.ts` + `content/loader.ts`, `features/lesson/monacoSetup.ts`) and its id in the engine list of `src/verify/content.test.ts`.

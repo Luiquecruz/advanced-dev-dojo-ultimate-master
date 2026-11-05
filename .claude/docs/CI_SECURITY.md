@@ -18,7 +18,7 @@ Fork pull requests get no secrets and a read-only token from GitHub. Learner cod
 ```text
 pull request ─► ci.yml       checks (lint, typecheck, unit, build, smoke under vite preview) · verify (per track)
              │               python (pytest on CPython) · workflows (actionlint, zizmor) · smoke (Netlify Deploy Preview)
-             ├► security.yml npm audit · dependency review · gitleaks · OSV-Scanner · CodeQL
+             ├► security.yml dependency review · gitleaks · OSV-Scanner · CodeQL (npm audit on main and weekly)
              ├► docs-sync.yml (advisory)
              └► Netlify      Deploy Preview, built by Netlify from the pull request
                      │
@@ -88,8 +88,11 @@ merge to main ─► Netlify builds and publishes production ─► ci.yml smoke
 
 ### The deploy is checked, not assumed
 
-- **Decision.** The `smoke` job checks what Netlify actually serves against the `dist` artifact built from the same commit. On a pull request it checks the Deploy Preview, reading the URL from Netlify's commit status. After a merge it checks production, retrying until the new build is live. It verifies that the page and the SPA fallback reference this build's hashed entry assets and serve them byte for byte (an older deploy still live fails; the HTML itself is not compared, since the host injects comments into it), the worker Content-Security-Policy, that the page does not carry it, and every file under `pyodide/` byte for byte.
+- **Decision.** The `smoke` job checks what Netlify actually serves against a build of the commit Netlify built. On a pull request it builds the pull request head itself (CI's `dist` is the merge with `main`) and checks the Deploy Preview, reading the URL from Netlify's commit status. After a merge it checks production against the `dist` artifact. It first waits until the page references this build's hashed entry assets (`--build-only`), then runs the full check once: the page and the SPA fallback serve this build's entry assets byte for byte (the HTML itself is not compared, since the host injects comments into it), the worker Content-Security-Policy, that the page does not carry it, and every file under `pyodide/` byte for byte. On `main` it stops with a notice when a newer commit reaches `main` first, and a failure after the build is live prints the rollback steps (CONTRIBUTING.md "Rolling back production").
 - **Why.** The worker CSP (`script-src 'self' 'wasm-unsafe-eval'`, no `'unsafe-eval'`) is what stops learner Python from compiling JavaScript in the browser, and only the host can send it. A status check alone is not enough: the SPA fallback answers a missing file with `index.html` and status 200.
+
+- **Why the comparison works.** Netlify and CI build the same commit with the same Node version (`.nvmrc`) and lockfile, and the Vite build is deterministic: a local build of `main` references the same hashed assets that production serves.
+- **Why waiting and checking are separate.** Retrying the full check until it passes would turn a broken deploy into a 15-minute timeout with the wrong message; polling only for the build makes a real failure fail at once with its cause.
 
 ### Python tests on CPython isolate the harness
 

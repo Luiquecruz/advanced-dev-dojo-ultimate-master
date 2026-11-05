@@ -19,7 +19,10 @@ concurrency:
 jobs:
   npm-audit:
     name: npm audit
-    runs-on: ubuntu-latest
+    # Not on pull requests: a new advisory against a dependency already on main would fail every unrelated pull request.
+    # Pull requests get dependency-review and osv-scan-pr, which report only what the pull request adds.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -32,7 +35,7 @@ jobs:
 
   secrets:
     name: Secret scan (gitleaks, full history)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -47,7 +50,7 @@ jobs:
   dependency-review:
     name: Dependency review (new dependencies in this pull request)
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
       contents: read
@@ -77,7 +80,7 @@ jobs:
 
   codeql:
     name: CodeQL ${{ matrix.language }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     permissions:
       actions: read # read the workflow run, for the SARIF upload
