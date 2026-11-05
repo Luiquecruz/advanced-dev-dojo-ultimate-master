@@ -95,7 +95,7 @@ Two rules from the same page: use a separate deployment identity that can change
 ## Common mistakes
 
 - **Applying a generated migration unread.** A rename becomes `DropColumn` plus `AddColumn`, and every value in that column is deleted in production. Read `Up` before committing and use `RenameColumn` for renames.
-- **Migrating from every replica at startup.** Five containers start at once and race on the schema, and the app needs schema permissions it should not have. Run a bundle once, as a deploy job.
+- **Migrating from every replica at startup.** Five containers start at once; the migration lock makes the others wait, so startup stalls, a failed migration crashes every replica, and the app needs schema permissions it should not have. Run a bundle once, as a deploy job.
 - **`EnsureCreated()` on a database you will migrate.** It creates tables without the history table, so the next `database update` fails because the tables already exist. Use migrations from the first table on.
 
 ## In practice

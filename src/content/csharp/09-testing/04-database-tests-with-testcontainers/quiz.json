@@ -22,7 +22,7 @@
     "explanation": "`ILike` is a provider-specific function of Npgsql and translates to PostgreSQL's `ILIKE`. Provider-specific functions fail on SQLite and on the in-memory provider, which is exactly the class of bug a fake cannot catch. EF Core does not rewrite it for other providers."
   },
   {
-    "question": "Which technique isolates a test that writes to a shared test database, without the cost of a new database per test?",
+    "question": "Which technique isolates a test that writes through its own `DbContext` to a shared test database, without the cost of a new database per test?",
     "options": [
       "Creating a new Docker container for every test in the class",
       "Running each test in a transaction that is rolled back on dispose",

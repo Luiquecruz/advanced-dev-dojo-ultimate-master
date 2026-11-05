@@ -8,7 +8,7 @@
       "The SDK image ships no ASP.NET Core runtime, so the API fails to start until one is installed"
     ],
     "answer": 1,
-    "explanation": "An ASP.NET Core app is compiled ahead of time and then run from its published DLLs. A multi-stage build keeps the SDK in the build stage and copies only `/app` into `aspnet`, which is smaller and has fewer tools for an attacker. The tempting first option is wrong: .NET never reads source files at request time; `dotnet run` compiles them first, at every start."
+    "explanation": "An ASP.NET Core app is compiled ahead of time and then run from its published DLLs. A multi-stage build keeps the SDK in the build stage and copies only `/app` into `aspnet`, which is smaller and has fewer tools for an attacker. The tempting first option is wrong: .NET never reads source files at request time; `dotnet run` checks and builds the project first, at every start."
   },
   {
     "question": "You run `docker run -p 8000:80 catalog-api` on a .NET 10 image and `curl localhost:8000` gets \"connection reset\". Why?",
@@ -36,12 +36,12 @@
     "question": "Why does the Dockerfile copy the `.csproj` files and run `dotnet restore` before `COPY . .`?",
     "options": [
       "Because `dotnet publish` cannot restore packages by itself, so the restore must run first",
-      "To reuse the cached restore layer until the package references in the `.csproj` files change",
+      "To reuse the cached restore layer until a copied restore input, such as a `.csproj` file, changes",
       "Restoring first leaves the NuGet cache out of the final image",
       "Because the SDK needs the `.csproj` alone to find the target framework before the build"
     ],
     "answer": 1,
-    "explanation": "Each instruction is a cached layer. Code changes invalidate `COPY . .` and everything after it, but the restore layer stays cached while the `.csproj` files are unchanged. `dotnet publish` can restore on its own; the split exists for build speed, not correctness, and it does not change the final image size."
+    "explanation": "Each instruction is a cached layer. Code changes invalidate `COPY . .` and everything after it, but the restore layer stays cached while the files copied before it (the `.csproj` files and any `Directory.Packages.props`) are unchanged. `dotnet publish` can restore on its own; the split exists for build speed, not correctness, and it does not change the final image size."
   },
   {
     "question": "When is `dotnet publish /t:PublishContainer` the wrong choice and a Dockerfile the right one?",

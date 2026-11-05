@@ -51,7 +51,7 @@ public async Task HandleAsync(OrderPlaced message, Guid messageId, CancellationT
 }
 ```
 
-The `AnyAsync` check handles the common case. Two instances can still pass it at the same moment; the composite key makes the second `SaveChangesAsync` fail with a `DbUpdateException` whose inner error is a unique violation (SQLSTATE `23505` in PostgreSQL), which you treat as a duplicate. The key includes the consumer name because each consumer of an event needs its own marker. Keep markers at least as long as the broker can still redeliver.
+The `AnyAsync` check handles the common case. Two instances can still pass it at the same moment; the composite key makes the second `SaveChangesAsync` fail with a `DbUpdateException` whose inner error is a unique violation (SQLSTATE `23505` in PostgreSQL), which you treat as a duplicate. The key includes the consumer name because each consumer of an event needs its own marker. Keep markers as long as a message can come back, including a resubmitted dead letter.
 
 The id must be stable across redeliveries: a `MessageId` set by the producer, ideally derived from the business operation, never a delivery tag, a delivery count or a receive timestamp.
 
@@ -99,7 +99,7 @@ foreach (OutboxMessage message in batch)
 }
 ```
 
-`SaveChangesAsync` applies all tracked changes in one transaction by default, so the order and its message are saved together or not at all. The relay can still crash after publishing and before marking the row, so the message may be published twice; that is why the outbox **requires** idempotent consumers. Use the outbox row's `Id` as the broker `MessageId`, so Service Bus duplicate detection (10-minute window by default) can also drop resends. Several relay instances must not take the same rows: use row locking (`FOR UPDATE SKIP LOCKED` in PostgreSQL).
+`SaveChangesAsync` applies all tracked changes in one transaction by default, so the order and its message are saved together or not at all. The relay can still crash after publishing and before marking the row, so the message may be published twice; that is why the outbox **requires** idempotent consumers. Use the outbox row's `Id` as the broker `MessageId`, so Service Bus duplicate detection, if enabled when the queue was created (Standard or Premium), also drops resends. Several relay instances must not take the same rows: use row locking (`FOR UPDATE SKIP LOCKED` in PostgreSQL).
 
 ## Libraries and the MassTransit licence
 

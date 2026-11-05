@@ -8,7 +8,7 @@ You need: 10/01 (hosted services and `PeriodicTimer`), 05/02 (scoped services), 
 
 A **cron expression** says when a job runs, in five fields: minute, hour, day of month, month and day of week. `0 2 * * *` is 02:00 every day and `*/5 * * * *` is every five minutes; `*` means "any". The name comes from `cron`, the Unix scheduler. Quartz.NET adds a leading seconds field (below).
 
-A scheduler needs more than the expression: a record of what ran, when and whether it failed, retries, and coordination between instances. A `BackgroundService` with a `PeriodicTimer` (lesson 10/01) has none of these. Hangfire and Quartz.NET keep jobs and their state in a database that every instance shares.
+A scheduler needs more than the expression: a record of what ran, when and whether it failed, retries, and coordination between instances. A `BackgroundService` with a `PeriodicTimer` (lesson 10/01) has none of these. Hangfire keeps jobs and their state in a database that every instance shares; Quartz.NET does too once it has a persistent store and clustering, and keeps them in memory otherwise.
 
 The plain timer also runs once **per process**. Scale the API to three replicas and the nightly export runs three times. Container platforms make several instances the normal case, so decide this before the first deploy.
 

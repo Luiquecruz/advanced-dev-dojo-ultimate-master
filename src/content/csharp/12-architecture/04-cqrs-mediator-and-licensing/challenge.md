@@ -6,7 +6,7 @@ Split an ordering feature into a command side and a query side in `Program.cs`, 
 
 ## `GetOrderSummaryHandler`, the query side
 
-It depends on `IOrderReader` only, so it cannot write. `HandleAsync(GetOrderSummary query, ct)` returns an `OrderSummary(Id, Sku, Quantity, Total, Status)`, where `Total` is `Quantity * UnitPrice`, or `null` when no order has that id. It never saves.
+It depends on `IOrderReader` only, which has no `SaveChanges`, so it cannot save; the `Order` it reads is mutable, so it must not change it either. `HandleAsync(GetOrderSummary query, ct)` returns an `OrderSummary(Id, Sku, Quantity, Total, Status)`, where `Total` is `Quantity * UnitPrice`, or `null` when no order has that id. It never saves.
 
 ## `PlaceOrderValidator`
 
