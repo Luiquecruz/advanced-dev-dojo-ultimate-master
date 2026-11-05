@@ -60,40 +60,41 @@ Question: who releases the resource when something fails, and what does an excep
 ### 01-context-errors-map (Q, B)
 `with`, `finally`, exception hierarchy, chaining, groups. Quiz: order of `__exit__` and `finally`.
 
-### 02-with-protocol (P, I)
+### 02-exception-hierarchies (P, B)
+- Concept: `BaseException` vs `Exception`, domain exceptions, `except` ordering by specificity, `LookupError`/`OSError` families, `else`/`finally`.
+- Contrast: JS can throw anything; Python only `BaseException` instances; errors are typed.
+- Challenge: `AppError` → `ValidationError`, `NotFoundError`, `ConflictError` (with `status` class attribute); `exit_status(error)` returning the nearest `status` via MRO; `parse_age(text)` raising `ValidationError` with a message.
+- Tests: subclass relationships; `except AppError` catches children; status resolution; `Exception` not `BaseException` ancestry.
+- Notes: first practice lesson of the module, before chaining and the `with` lessons, which raise and catch these exceptions.
+
+### 03-chaining-and-notes (P, I)
+- Concept: `raise … from …`, `__cause__`, `__context__`, `from None`, `add_note`, `__notes__`.
+- Challenge: `load_config(text)` wraps `json.JSONDecodeError` into `ConfigError` with `from`; `reraise_hidden(function)` uses `from None`; `annotate(error, **context)` adds a note per key sorted.
+- Tests: `__cause__` identity; `__suppress_context__` true with `from None`; notes order; message untouched.
+- Notes: `add_note` 3.11 (PEP 678).
+
+### 04-with-protocol (P, I)
 - Concept: `__enter__`/`__exit__(exc_type, exc, tb)`, return value controls suppression, `with` with multiple items.
 - Contrast: JS has `try/finally` and `using` (explicit resource management, stage 3/ES2026: verify status) but no protocol-based `with`.
 - Challenge: `class Timer(clock)` records `elapsed` using an injected clock; `class Transaction(store)` commits on success and rolls back on exception, re-raising; `__enter__` returns the object.
 - Tests: elapsed from fake clock; commit and rollback flags; exception propagates; exit receives exception info.
 - Notes: verify the current `using` proposal status and date it.
 
-### 03-contextmanager-decorator (P, I)
+### 05-contextmanager-decorator (P, I)
 - Concept: `@contextmanager`, the single `yield`, `try/finally` around it, exceptions thrown in at the `yield`, `ContextDecorator`.
 - Challenge: `temporary_env(mapping, key, value)`; `captured_output()` yielding a `StringIO` and restoring `sys.stdout`; `section(log, name)` appending `enter:name` / `exit:name`.
 - Tests: restoration after normal exit and after an exception; nesting order; value yielded.
 
-### 04-suppressing-and-handling-in-exit (P, Ad)
+### 06-suppressing-and-handling-in-exit (P, Ad)
 - Concept: returning `True` swallows; `contextlib.suppress`; `ErrorCollector` pattern; never swallow `BaseException` subclasses by accident.
 - Challenge: `class Suppress(*types)`; `class ErrorCollector(*types)` collecting matching errors in `.errors` and suppressing them, letting others propagate; `run_all(callables)` using the collector and returning `(results, errors)`.
 - Tests: suppression only for listed types; others propagate; collector keeps order; `KeyboardInterrupt`-like `BaseException` subclass propagates.
 - Notes: `capture_error` in the harness catches `Exception` only; tests for `BaseException` use `try/except BaseException`.
 
-### 05-exitstack (P, Ad)
+### 07-exitstack (P, Ad)
 - Concept: `ExitStack`, `enter_context`, `callback`, `push`, `pop_all` (ownership transfer), cleanup order (LIFO).
 - Challenge: `open_all(openers)` opens every resource and closes already-opened ones if a later one fails; `class ResourcePool` using `ExitStack.pop_all()` for transfer to `close()`.
 - Tests: all closed after normal use; partial failure closes opened ones in reverse order; `pop_all` keeps them open until `close()`.
-
-### 06-exception-hierarchies (P, B)
-- Concept: `BaseException` vs `Exception`, domain exceptions, `except` ordering by specificity, `LookupError`/`OSError` families, `else`/`finally`.
-- Contrast: JS can throw anything; Python only `BaseException` instances; errors are typed.
-- Challenge: `AppError` → `ValidationError`, `NotFoundError`, `ConflictError` (with `status` class attribute); `exit_status(error)` returning the nearest `status` via MRO; `parse_age(text)` raising `ValidationError` with a message.
-- Tests: subclass relationships; `except AppError` catches children; status resolution; `Exception` not `BaseException` ancestry.
-
-### 07-chaining-and-notes (P, I)
-- Concept: `raise … from …`, `__cause__`, `__context__`, `from None`, `add_note`, `__notes__`.
-- Challenge: `load_config(text)` wraps `json.JSONDecodeError` into `ConfigError` with `from`; `reraise_hidden(function)` uses `from None`; `annotate(error, **context)` adds a note per key sorted.
-- Tests: `__cause__` identity; `__suppress_context__` true with `from None`; notes order; message untouched.
-- Notes: `add_note` 3.11 (PEP 678).
 
 ### 08-exception-groups (P, Ad)
 - Concept: `ExceptionGroup`, `except*`, `split`/`subgroup`, nesting, why concurrency created them.
@@ -117,34 +118,35 @@ Question: which batteries replace which npm packages, and which defaults lose da
 ### 01-stdlib-map (Q, B)
 Standard-library tour for JS developers (`json`, `re`, `pathlib`, `decimal`, `datetime`, `enum`, `logging`, and `argparse` as theory only) and the npm equivalent of each. The module has no ADR; it ends with `08-logging`.
 
-### 02-json-and-serialization (P, I)
-- Concept: `json.dumps/loads`, `default=`, `object_hook`, `sort_keys`, `separators`, what is lossy (tuples → lists, int keys → strings, `NaN`).
-- Challenge: `class DojoEncoder(json.JSONEncoder)` handling `datetime` (ISO), `Decimal` (string), dataclasses; `dumps_stable(value)` sorted keys, compact separators; `loads_with_decimals(text)` using `parse_float=Decimal`.
-- Tests: round trips; stable bytes for dict order; unknown types raise `TypeError`; floats become `Decimal`.
-
-### 03-regular-expressions (P, I)
+### 02-regular-expressions (P, I)
 - Concept: `re.compile`, groups and named groups, `match` vs `search` vs `fullmatch`, greedy vs lazy, `VERBOSE`, `sub` with function, raw strings.
 - Contrast: JS regex literals, no named-group `(?<n>)` difference (Python `(?P<n>)`), `fullmatch` vs anchors.
 - Challenge: `parse_log_line(line)` → dict via named groups, `None` if no match; `mask_emails(text)` with `sub` and a callback keeping the first character and domain; `extract_ids(text)` using `finditer`.
 - Tests: fixtures including no-match; lazy quantifier case; masks multiple emails.
 
-### 04-pathlib-and-io (P, I)
+### 03-pathlib-and-io (P, I)
 - Concept: `PurePosixPath` vs `Path`, `/` operator, `read_text/write_text`, `StringIO/BytesIO`, text vs binary modes, encoding argument, `tempfile`.
 - Challenge: `build_path(*parts)` with `PurePosixPath`; `write_report(directory, rows)` writes CSV to a `Path` under the given directory and returns the path; `read_report(path)` returns rows; `copy_stream(source, target, chunk_size)` between `BytesIO` objects.
 - Tests use `/tmp/dojo-<unique>`; paths, round trip, chunking.
 - Notes: Pyodide file system is in memory.
 
-### 05-numbers-decimal-and-fractions (P, I)
+### 04-numbers-decimal-and-fractions (P, I)
 - Concept: binary floating point error, `Decimal` contexts and `quantize`, `Fraction`, `round` (banker's), integer arbitrary precision, `//` and `%` with negatives.
 - Contrast: JS has only IEEE doubles (`Number`) and `BigInt`.
 - Challenge: `split_bill(total_cents, people)` returns a list of ints summing exactly to total, distributing remainder from the first; `round_money(value)` → `Decimal` rounded `ROUND_HALF_UP`; `exact_ratio(text)` → `Fraction`.
 - Tests: sums; `0.1 + 0.2 != 0.3` documented via a test on `math.isclose`; rounding of 2.675 as Decimal vs float.
 
-### 06-dates-and-times (P, I)
+### 05-dates-and-times (P, I)
 - Concept: aware vs naive `datetime`, `timezone.utc`, `timedelta`, `fromisoformat`, `strftime`, never compare naive with aware.
 - Challenge: `to_utc(text)` parses ISO text (with offset required, `ValueError` otherwise); `add_months(date, n)` clamping end of month; `age_in_days(start, end)`; clocks injected.
 - Tests: offsets normalize; naive input rejected; Jan 31 + 1 month = Feb 28/29; negative months.
 - Notes: do not use `zoneinfo` (no tz data in Pyodide by default).
+
+### 06-json-and-serialization (P, I)
+- Concept: `json.dumps/loads`, `default=`, `object_hook`, `sort_keys`, `separators`, what is lossy (tuples → lists, int keys → strings, `NaN`).
+- Challenge: `class DojoEncoder(json.JSONEncoder)` handling `datetime` (ISO), `Decimal` (string), dataclasses; `dumps_stable(value)` sorted keys, compact separators; `loads_with_decimals(text)` using `parse_float=Decimal`.
+- Tests: round trips; stable bytes for dict order; unknown types raise `TypeError`; floats become `Decimal`.
+- Notes: comes after 04-numbers-decimal-and-fractions and 05-dates-and-times, which teach the `Decimal` and aware `datetime` values the encoder handles.
 
 ### 07-enums (P, I)
 - Concept: `Enum`, `auto`, `StrEnum`, `IntEnum` pitfalls, `Flag`, `_missing_`, members are singletons compared with `is`.

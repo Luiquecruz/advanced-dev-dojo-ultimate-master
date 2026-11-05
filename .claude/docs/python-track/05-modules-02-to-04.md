@@ -180,17 +180,17 @@ Merges the 115-plan lessons `04-descriptors` and `05-set-name`: `__set_name__` i
 - Tests: instance isolation (two objects, different values) and class access returns the descriptor; lazy computed once and assignment overrides it; invalid value raises with the attribute name in the message; `fields()` order and two models independent.
 - Notes: PEP 487 (3.6). Advanced level: budget 30–45 minutes; split again only if review time exceeds that.
 
-### 05-slots (P, I)
-- Concept: `__slots__` removes `__dict__`, blocks new attributes, saves memory; subclasses without `__slots__` regain `__dict__`; `dataclass(slots=True)`.
-- Challenge: `class Point3D` with slots; a slotted child; `@dataclass(slots=True) class Pixel`.
-- Tests: no `__dict__`; assigning an unknown attribute raises `AttributeError`; child without slots has `__dict__`; dataclass slots instance has no `__dict__`.
-- Notes: do not assert byte sizes.
-
-### 06-dataclasses (P, I)
+### 05-dataclasses (P, I)
 - Concept: `@dataclass` options (`frozen`, `order`, `slots`, `kw_only`), `field`, `__post_init__`, `InitVar`, `replace`, `asdict`.
 - Contrast: TS interfaces/classes with parameter properties; dataclasses generate methods at class-creation time.
 - Challenge: `@dataclass(frozen=True, order=True) class Product` with validation in `__post_init__` and `tags` default factory; `with_price(product, price)` using `replace`.
 - Tests: frozen assignment raises `FrozenInstanceError`; ordering by fields; validation; tags not shared; `replace` keeps other fields.
+
+### 06-slots (P, I)
+- Concept: `__slots__` removes `__dict__`, blocks new attributes, saves memory; subclasses without `__slots__` regain `__dict__`; `dataclass(slots=True)`.
+- Challenge: `class Point3D` with slots; a slotted child; `@dataclass(slots=True) class Pixel`.
+- Tests: no `__dict__`; assigning an unknown attribute raises `AttributeError`; child without slots has `__dict__`; dataclass slots instance has no `__dict__`.
+- Notes: do not assert byte sizes. Comes after 05-dataclasses, so `@dataclass(slots=True)` uses a decorator already taught.
 
 ### 07-data-model-methods (P, I)
 - Concept: `__repr__`/`__str__`/`__format__`, `__eq__`/`__hash__`, `__lt__` with `total_ordering`, `NotImplemented`, `__bool__`, `__add__`/`__radd__`.

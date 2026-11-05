@@ -82,32 +82,33 @@ Cooperative concurrency, event loop, coroutines vs tasks, comparison with JS pro
 - Challenge: `async def fetch(name, recorder)` appending `start:name`/`end:name` with `await asyncio.sleep(0)` between; `run_sequential(names, recorder)`; `run_concurrent(names, recorder)` via tasks; `lazy_coroutine(recorder)` returning an unstarted coroutine.
 - Tests: event order lists for sequential and concurrent runs; `inspect.iscoroutine`; recorder empty before awaiting the coroutine.
 
-### 03-tasks-and-gather (P, I)
+### 03-async-iterators-and-context (P, I)
+- Concept: `async for`, async generators, `aclosing`, `async with`, `__aenter__/__aexit__`, async comprehensions.
+- Challenge: `paginate(fetch_page)` async generator over pages until `None`; `class AsyncConnection` async context manager recording `open/close`; `collect(async_iterable)`.
+- Tests: all pages; closed on error; `async for` consumption order; `aclosing` closes the generator early.
+- Notes: comes right after the event loop, because lessons 05 to 07 use `async with` (task groups, `asyncio.timeout()`, locks and semaphores).
+
+### 04-tasks-and-gather (P, I)
 - Concept: `create_task`, `gather(return_exceptions=)`, result order, `wait`, `as_completed`, task references (garbage collection of un-referenced tasks).
 - Challenge: `fetch_all(sources)` concurrently preserving input order; `fetch_settled(sources)` returning `(results, errors)` using `return_exceptions=True`; `first_done(coros)`.
 - Tests: ordering; errors captured without losing successes; concurrency proven by recorder (starts before first end).
 
-### 04-task-groups (P, I)
+### 05-task-groups (P, I)
 - Concept: structured concurrency, `TaskGroup` (3.11), automatic cancellation of siblings on error, errors surface as `ExceptionGroup`, comparison with `gather`.
 - Contrast: `Promise.all` leaves siblings running; `TaskGroup` cancels them.
 - Challenge: `process_batch(items, handler)` runs handlers in a group and returns results; on failure siblings are cancelled and `ExceptionGroup` propagates; `handle_failures(...)` with `except*`.
 - Tests: all results; sibling cancellation flags set; `ExceptionGroup` contains the original error type; `except*` handler count.
 - Notes: `TaskGroup` is 3.11 (not PEP 654, which defines `ExceptionGroup`).
 
-### 05-timeouts-and-cancellation (P, Ad)
+### 06-timeouts-and-cancellation (P, Ad)
 - Concept: `asyncio.timeout()` (3.11), `wait_for`, `CancelledError` is a `BaseException`, re-raise it, cleanup with `finally`, `asyncio.shield`.
 - Challenge: `with_deadline(coroutine_factory, seconds)` returns the result or raises `TimeoutError`; `worker(recorder)` records `cleanup` in `finally` when cancelled; `shielded_commit(commit, recorder)`.
 - Tests: timeout path; no timeout path; cleanup recorded on cancel; `CancelledError` not swallowed (source check for bare `except Exception` swallowing is not used: behavior test instead).
 
-### 06-queues-locks-semaphores (P, Ad)
+### 07-queues-locks-semaphores (P, Ad)
 - Concept: `asyncio.Queue(maxsize)`, backpressure, `join/task_done`, `Queue.shutdown` (3.13), `Lock` for read-modify-write across `await`, `Semaphore` for concurrency limits.
 - Challenge: `run_pipeline(items, handler, workers, queue_size)`; `limited_gather(coroutine_factories, limit)` recording maximum concurrent runs; `SafeCounter` using a `Lock` across an `await`.
 - Tests: all items processed once; observed maximum concurrency ≤ limit; counter exact under concurrent increments (and the unlocked starter loses updates).
-
-### 07-async-iterators-and-context (P, I)
-- Concept: `async for`, async generators, `aclosing`, `async with`, `__aenter__/__aexit__`, async comprehensions.
-- Challenge: `paginate(fetch_page)` async generator over pages until `None`; `class AsyncConnection` async context manager recording `open/close`; `collect(async_iterable)`.
-- Tests: all pages; closed on error; `async for` consumption order; `aclosing` closes the generator early.
 
 ### 08-blocking-threads-and-the-gil (Q, Ad)
 Quiz lesson merging the 115-plan lessons `08-blocking-and-threads` and `09-threads-processes-and-the-gil` (5–6 questions).

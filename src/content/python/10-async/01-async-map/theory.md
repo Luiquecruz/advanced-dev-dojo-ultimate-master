@@ -40,7 +40,7 @@ In CPython a program starts with `asyncio.run(main())`. In this sandbox a loop i
 
 ## The path
 
-The event loop and coroutines, tasks with `gather` and `wait`, task groups with `except*`, timeouts and cancellation, queues, locks and semaphores, async iterators and context managers, then a quiz on blocking calls, threads and the GIL. The module ends with an ADR.
+The event loop and coroutines, async iterators and context managers, tasks with `gather` and `wait`, task groups with `except*`, timeouts and cancellation, queues, locks and semaphores, then a quiz on blocking calls, threads and the GIL. The module ends with an ADR.
 
 ## When to choose it
 

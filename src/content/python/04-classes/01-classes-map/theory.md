@@ -35,7 +35,7 @@ class Account { static currency = "EUR"; }
 
 ## What this module covers
 
-`__new__` and `__init__`, properties, descriptors with `__set_name__`, `__slots__`, dataclasses, data model methods (`__repr__`, `__eq__`, `__hash__`, ordering and arithmetic), and cooperative multiple inheritance with `super()` and the MRO. It ends with an ADR for the domain model of an order system.
+`__new__` and `__init__`, properties, descriptors with `__set_name__`, dataclasses, `__slots__`, data model methods (`__repr__`, `__eq__`, `__hash__`, ordering and arithmetic), and cooperative multiple inheritance with `super()` and the MRO. It ends with an ADR for the domain model of an order system.
 
 ## When to choose it
 

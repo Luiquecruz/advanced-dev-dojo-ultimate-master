@@ -6,11 +6,11 @@ Python ships the tools a JavaScript project installs. Each one has a default tha
 
 | npm habit | Standard library | Lesson |
 | --- | --- | --- |
-| `JSON.parse`/`stringify`, superjson | `json` | 02 |
-| `RegExp` | `re` | 03 |
-| `path`, `fs` | `pathlib`, `io`, `tempfile` | 04 |
-| decimal.js, big.js | `decimal`, `fractions` | 05 |
-| date-fns, Luxon | `datetime` | 06 |
+| `RegExp` | `re` | 02 |
+| `path`, `fs` | `pathlib`, `io`, `tempfile` | 03 |
+| decimal.js, big.js | `decimal`, `fractions` | 04 |
+| date-fns, Luxon | `datetime` | 05 |
+| `JSON.parse`/`stringify`, superjson | `json` | 06 |
 | TS `enum`, string unions | `enum` | 07 |
 | `console.log`, pino | `logging` | 08 |
 | commander, yargs | `argparse` | lesson 09 |
@@ -30,7 +30,7 @@ The sandbox has no shell, so lesson 09 tests a CLI the way production code does:
 
 ## The path
 
-JSON encoders and decoders, regular expressions without catastrophic backtracking, paths that cannot escape a base directory, exact money, timezone-aware time, enums, logging that redacts secrets, a command-line interface built with `argparse`, and an ADR that chooses these defaults for a billing tool.
+Regular expressions without catastrophic backtracking, paths that cannot escape a base directory, exact money, timezone-aware time, JSON encoders and decoders, enums, logging that redacts secrets, a command-line interface built with `argparse`, and an ADR that chooses these defaults for a billing tool.
 
 ## When to choose it
 

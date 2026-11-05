@@ -67,8 +67,8 @@ finally:
 
 Read the consequences off the code:
 
-- **The return value of `__exit__` decides suppression.** True swallows the exception and execution continues after the `with`; false re-raises it. On a normal exit the return value is ignored. Return `False` explicitly: `return True` "to report success" swallows every error (lesson 04).
-- **If `__enter__` raises, `__exit__` never runs**, because the `try` has not started. An `__enter__` that acquires two things must release the first itself when the second fails (lesson 05 uses `ExitStack` for that).
+- **The return value of `__exit__` decides suppression.** True swallows the exception and execution continues after the `with`; false re-raises it. On a normal exit the return value is ignored. Return `False` explicitly: `return True` "to report success" swallows every error (lesson 06).
+- **If `__enter__` raises, `__exit__` never runs**, because the `try` has not started. An `__enter__` that acquires two things must release the first itself when the second fails (lesson 07 uses `ExitStack` for that).
 - **`__exit__` also runs for `BaseException`** such as `KeyboardInterrupt`, so a rollback covers them too.
 - **Raising inside `__exit__`** replaces the original exception, which survives only as `__context__` of the new one.
 - **Special method lookup**: `__enter__` and `__exit__` are found on the type. An object without them raises `TypeError: ... does not support the context manager protocol`.

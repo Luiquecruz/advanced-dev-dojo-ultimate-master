@@ -31,12 +31,12 @@ try {
 
 ## The path
 
-1. The `with` protocol: `__enter__`, `__exit__` and what its return value means.
-2. `@contextmanager`: a context manager written as a generator with one `yield`.
-3. Suppressing on purpose, and only the declared exception types.
-4. `ExitStack` for a number of resources known only at run time.
-5. Exception hierarchies for a domain.
-6. Chaining with `raise ... from` and context with `add_note`.
+1. Exception hierarchies for a domain.
+2. Chaining with `raise ... from` and context with `add_note`.
+3. The `with` protocol: `__enter__`, `__exit__` and what its return value means.
+4. `@contextmanager`: a context manager written as a generator with one `yield`.
+5. Suppressing on purpose, and only the declared exception types.
+6. `ExitStack` for a number of resources known only at run time.
 7. Exception groups and `except*`.
 8. The ADR: resources and errors of a payment-capture workflow.
 
