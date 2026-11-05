@@ -34,10 +34,9 @@ src/content/python/<NN-module>/<NN-lesson-id>/
 1. `01-<module>-map` **(quiz)**: what the module answers, prerequisites, path, the decision it ends with. Theory 200–500 words plus a 4-question quiz. Module 01 opens with `01-python-map` for the whole track (where to start, the skip rule, how the track works); the optional module 00 opens with `01-foundations-map`.
 2. Practice lessons (3–9) and optional quiz-only lessons for theory topics.
 3. The closing lesson, one of:
-   - `NN-<module>-adr` checkpoint, **only in modules 01, 02, 04, 06, 09 and 10**: briefing, exported `ADR` and `PLAN`, tests for structure and coherence with the briefing.
-   - A code integration challenge (practice lesson combining the module's mechanisms) in modules 03 and 05.
+   - `NN-<module>-adr` checkpoint, in modules 01–11 and 13: briefing, exported `ADR` and `PLAN`, tests for structure and coherence with the briefing. In modules 03 and 05 it follows a code integration challenge (a practice lesson combining the module's mechanisms).
    - The skip-test challenge in module 00 (`09-classes-and-objects`): a learner who solves it without the hints starts at module 01 ([14-module-00-foundations.md](14-module-00-foundations.md)).
-   - Nothing special elsewhere: the module ends with its last practice lesson, and the map's `## When to choose it` names the decision.
+   - The capstone in module 12 (item 4).
 4. The capstone (`12-tooling/05-capstone-async-rules-engine`) is a code challenge with a short `adr.py` ([08-module-13-and-capstone.md](08-module-13-and-capstone.md)).
 
 ## Theory template
@@ -130,7 +129,7 @@ Verify in Pyodide before writing any lesson whose challenge touches `asyncio`, `
 
 ## ADR checkpoint format
 
-The last lesson of every module except 12 (which ends with the capstone). `entry` is `adr.py`; starter and solution are `adr.py` with the same shape:
+The last lesson of every module except 00 (which ends with the skip test) and 12 (which ends with the capstone). `entry` is `adr.py`; starter and solution are `adr.py` with the same shape:
 
 - `ADR`: module-level dict `{ "id", "title", "status", "context", "decision", "alternatives", "consequences" }` with the same validation rules as the AI Engineering ADRs (`status: "accepted"`, `decision` starts with `We will`, at least two alternatives with distinct options and reasons, `consequences` with `positive` and `negative`).
 - `PLAN`: module-level dict (named `PLAN` in every module; the plan fields are listed per module) whose values must be coherent with the briefing's numbers and constraints.

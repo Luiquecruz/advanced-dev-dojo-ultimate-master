@@ -2,6 +2,6 @@ Start `word_counts` from an empty dict and loop over `text.lower().split()`. `co
 ---
 `counts.items()` gives `(word, count)` tuples. Sort them with `key=lambda pair: (-pair[1], pair[0])`: the minus sign puts high counts first and the word breaks ties. Finish with the slice `[:n]`.
 ---
-A set drops duplicates for you. Build it from the stripped, lower-cased tags that are not empty, then return `sorted(...)` of it, which is a list.
+A set drops duplicates for you. Start from `set()` and `add` each stripped, lower-cased tag that is not empty, then return `sorted(...)` of it, which is a list.
 ---
-`for name, number in phonebook.items():` gives both sides of each entry; store them the other way round in a new dict, or write the same thing as a dict comprehension: `{number: name for name, number in phonebook.items()}`.
+`for name, number in phonebook.items():` gives both sides of each entry; store them the other way round in a new dict with `numbers[number] = name`.

@@ -4,7 +4,7 @@ This track teaches **Python as a language, not as a tool for one job**: how its 
 
 Module 00, **Foundations: Python from Zero**, is for people who have never programmed. Its eight practice lessons teach values, loops, functions, text, collections, errors and classes; every later module assumes them.
 
-The skip rule is a single test: open the challenge of module 00, lesson 09 (Classes and Objects). If you can solve it without the hints, start here at module 01. Module 00 is optional: you can skip it and still reach 100% of the track. Its lessons count toward your progress once you complete one of its lessons 02 to 08.
+The skip rule is a single test: open the challenge of module 00, lesson 09 (Classes and Objects). If you can solve it without the hints, start here at module 01; skim module 00's lessons 05 and 08 first, because the challenge does not test `lambda`, recursion or `try/else/finally`. Module 00 is optional: you can skip it and still reach 100% of the track. Its lessons count toward your progress once you complete one of its lessons 02 to 08.
 
 ## How the track works
 

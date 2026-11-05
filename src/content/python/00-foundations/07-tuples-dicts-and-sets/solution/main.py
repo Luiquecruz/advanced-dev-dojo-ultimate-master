@@ -11,10 +11,16 @@ def top_words(counts, n):
 
 
 def unique_tags(tags):
-    cleaned = {tag.strip().lower() for tag in tags}
-    cleaned.discard("")
+    cleaned = set()
+    for tag in tags:
+        tag = tag.strip().lower()
+        if tag:
+            cleaned.add(tag)
     return sorted(cleaned)
 
 
 def invert(phonebook):
-    return {number: name for name, number in phonebook.items()}
+    numbers = {}
+    for name, number in phonebook.items():
+        numbers[number] = name
+    return numbers

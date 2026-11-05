@@ -13,6 +13,8 @@ def _():
     items = ["tea", "cake", "jam", "bread"]
     last_two = mod.last_items(items, 2)
     assert last_two == ["jam", "bread"]
+    all_four = mod.last_items(items, 5)
+    assert all_four == ["tea", "cake", "jam", "bread"]
     everything = mod.last_items(items, 10)
     assert everything == ["tea", "cake", "jam", "bread"]
     assert everything is not items

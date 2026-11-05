@@ -67,7 +67,7 @@ class InsufficientFunds(ValueError):
 
 `except ValueError` also catches an `InsufficientFunds`; `except InsufficientFunds` catches only it. The `pass` statement is an empty body: the class needs nothing beyond what it inherits.
 
-**A preview: more dunder methods.** Python calls `__len__` for `len(obj)` and `__eq__` for `a == b`. Without `__eq__`, two instances are equal only when they are the same object. Module 04, Classes, Attributes and Descriptors, shows how to write these and when a dataclass writes them for you.
+**A preview: more dunder methods.** Python calls `__len__` for `len(obj)` and `__eq__` for `a == b`. Without `__eq__`, two instances are equal only when they are the same object. Module 01 writes `__eq__` (identity and equality), module 02 writes `__len__` (sequence protocol), and module 04 shows when a dataclass writes them for you.
 
 ## Common mistakes
 

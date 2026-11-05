@@ -2,7 +2,7 @@ Build the first three tools of a small toolbox for a shop. Amounts are whole **c
 
 ## Functions
 
-- `apply_discount(price_cents, percent=10)`: returns the price after taking off `percent` per cent, rounded **down** to whole cents: `price_cents - price_cents * percent // 100`. When the caller leaves `percent` out, the discount is 10 per cent: `apply_discount(2000)` returns `1800`, and `apply_discount(2000, percent=25)` returns `1500`.
+- `apply_discount(price_cents, percent=10)`: returns the price after taking off `percent` per cent of it. The **discount** is rounded down to whole cents (`price_cents * percent // 100`) and then subtracted: `price_cents - price_cents * percent // 100`, so `apply_discount(999)` is `900` (a discount of 99 cents). When the caller leaves `percent` out, the discount is 10 per cent: `apply_discount(2000)` returns `1800`, and `apply_discount(2000, percent=25)` returns `1500`.
 - `stats(numbers)`: **returns** three values, `lowest, mean, highest`, where `mean` is the sum divided by the count (a `float`). `stats([2, 4, 9])` returns `(2, 5.0, 9)`. For an empty list it returns `(None, None, None)`.
 - `bounds(numbers)`: calls `stats`, unpacks its result and returns the text `"<lowest> to <highest>"`, such as `"2 to 9"`. For an empty list it returns `"no numbers"`.
 

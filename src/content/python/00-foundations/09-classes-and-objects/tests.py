@@ -1,4 +1,20 @@
-@test("deposit and withdraw change the balance, return it and record the signed amounts")
+import ast
+
+
+def init_calls_super(class_name):
+    tree = ast.parse(source)
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ClassDef) and node.name == class_name:
+            for method in node.body:
+                if isinstance(method, ast.FunctionDef) and method.name == "__init__":
+                    return any(
+                        isinstance(inner, ast.Call) and isinstance(inner.func, ast.Name) and inner.func.id == "super"
+                        for inner in ast.walk(method)
+                    )
+    return False
+
+
+@test("deposit and withdraw change the balance, return it and record the signed amounts, and recent lists the newest first")
 def _():
     account = mod.BankAccount("Ada", 100)
     after_deposit = account.deposit(50)
@@ -8,6 +24,13 @@ def _():
     assert account.balance == 120
     assert account.owner == "Ada"
     assert account.history == [50, -30]
+    newest = account.recent(1)
+    assert newest == [-30]
+    both = account.recent(5)
+    assert both == [-30, 50]
+    assert both is not account.history
+    nothing = account.recent(0)
+    assert nothing == []
 
 
 @test("deposit and withdraw reject zero and negative amounts with ValueError and change nothing")
@@ -47,6 +70,7 @@ def _():
 
 @test("SavingsAccount sets up the parent's attributes through super and deposits its interest")
 def _():
+    assert init_calls_super("SavingsAccount")
     savings = mod.SavingsAccount("Ada", 1000, rate_percent=3)
     assert isinstance(savings, mod.BankAccount)
     assert savings.owner == "Ada"
@@ -61,7 +85,7 @@ def _():
     assert small.history == []
 
 
-@test("repr shows how each account is created and total_balance adds every balance")
+@test("repr shows how each account is created and statement totals each owner in euros, owners in alphabetical order")
 def _():
     account = mod.BankAccount("Ada", 100)
     savings = mod.SavingsAccount("Grace", 1000, rate_percent=3)
@@ -69,7 +93,9 @@ def _():
     assert plain == "BankAccount('Ada', 100)"
     saving = repr(savings)
     assert saving == "SavingsAccount('Grace', 1000, rate_percent=3)"
-    total = mod.total_balance([account, savings])
-    assert total == 1100
-    nothing = mod.total_balance([])
-    assert nothing == 0
+    accounts = [mod.BankAccount("Grace", 250), mod.BankAccount("Ada", 100), mod.SavingsAccount("Ada", 1000)]
+    result = mod.statement(accounts)
+    assert result == {"Ada": "11.00", "Grace": "2.50"}
+    assert list(result) == ["Ada", "Grace"]
+    nothing = mod.statement([])
+    assert nothing == {}

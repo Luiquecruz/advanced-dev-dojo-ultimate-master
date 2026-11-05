@@ -1,4 +1,4 @@
-from main import BankAccount, InsufficientFunds, SavingsAccount, total_balance
+from main import BankAccount, InsufficientFunds, SavingsAccount, statement
 
 checking = BankAccount("Ada", 5000)
 savings = SavingsAccount("Ada", 10000, rate_percent=3)
@@ -14,4 +14,5 @@ savings.add_interest()
 
 print(checking, checking.history)
 print(savings, savings.history)
-print("total:", total_balance([checking, savings]))
+print("last two moves:", checking.recent(2))
+print("statement:", statement([checking, savings]))

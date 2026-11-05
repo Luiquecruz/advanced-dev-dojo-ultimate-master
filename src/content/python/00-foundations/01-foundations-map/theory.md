@@ -1,6 +1,6 @@
 **Question this module answers:** how do you write, run and test your first Python programs when you have never programmed before?
 
-**Skip rule:** if you already program, open lesson 09 (Classes and Objects). If you can solve its challenge without help, start at module 01. The module is optional: skipping it still lets you reach 100% of the track.
+**Skip rule:** if you already program, open lesson 09 (Classes and Objects). If you can solve its challenge without help, start at module 01, after skimming lessons 05 and 08 for `lambda`, recursion and `try/else/finally`, which the challenge does not test. The module is optional: skipping it still lets you reach 100% of the track.
 
 ## What a program is
 

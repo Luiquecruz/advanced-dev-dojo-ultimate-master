@@ -33,6 +33,7 @@ def apply_discount(price_cents, percent=10):
 
 apply_discount(2000)              # 1800, percent is 10
 apply_discount(2000, 25)          # 1500
+apply_discount(999)               # 900, the discount 99.9 is rounded down to 99
 ```
 
 **Keyword arguments.** A caller can name the parameter: `apply_discount(2000, percent=25)`. Named arguments make calls readable and can come in any order after the positional ones. Module 03 shows how a function can require them.

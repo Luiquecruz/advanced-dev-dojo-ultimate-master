@@ -22,6 +22,10 @@ class BankAccount:
         self.history.append(-amount)
         return self.balance
 
+    def recent(self, n):
+        # TODO: return the last n history entries as a new list, newest first.
+        return []
+
     def __repr__(self):
         # TODO: return a text such as BankAccount('Ada', 100).
         return "BankAccount"
@@ -39,6 +43,6 @@ class SavingsAccount(BankAccount):
     # TODO: override __repr__ to return a text such as SavingsAccount('Ada', 1000, rate_percent=3).
 
 
-def total_balance(accounts):
-    # TODO: add up the balance of every account.
-    return 0
+def statement(accounts):
+    # TODO: map each owner, in alphabetical order, to the total of their accounts as euros, such as "11.00".
+    return {}

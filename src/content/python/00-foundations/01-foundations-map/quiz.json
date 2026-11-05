@@ -41,6 +41,6 @@
       "Try the challenge of lesson 09; if you solve it without help, start at module 01"
     ],
     "answer": 3,
-    "explanation": "Lesson 09 combines what the module teaches. Solving its challenge without help shows you are ready for module 01."
+    "explanation": "Lesson 09 combines classes and exceptions with the lists, slicing, dicts, sorting and formatting of the earlier lessons. Solving its challenge without help shows you are ready for module 01; skim lessons 05 and 08 for `lambda`, recursion and `try/else/finally`, which it does not test."
   }
 ]

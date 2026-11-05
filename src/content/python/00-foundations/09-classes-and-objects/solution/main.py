@@ -24,6 +24,9 @@ class BankAccount:
         self.history.append(-amount)
         return self.balance
 
+    def recent(self, n):
+        return self.history[::-1][:n]
+
     def __repr__(self):
         return f"{type(self).__name__}({self.owner!r}, {self.balance!r})"
 
@@ -43,5 +46,11 @@ class SavingsAccount(BankAccount):
         return f"SavingsAccount({self.owner!r}, {self.balance!r}, rate_percent={self.rate_percent!r})"
 
 
-def total_balance(accounts):
-    return sum(account.balance for account in accounts)
+def statement(accounts):
+    totals = {}
+    for account in accounts:
+        totals[account.owner] = totals.get(account.owner, 0) + account.balance
+    result = {}
+    for owner in sorted(totals):
+        result[owner] = f"{totals[owner] / 100:.2f}"
+    return result

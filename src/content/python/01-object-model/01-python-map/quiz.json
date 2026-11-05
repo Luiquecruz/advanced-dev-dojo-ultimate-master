@@ -8,7 +8,7 @@
       "Skip it only after finishing every quiz in it"
     ],
     "answer": 1,
-    "explanation": "Lesson 09 combines everything module 00 teaches, so solving its challenge unaided shows you are ready. Module 00 is optional and counts toward progress only once you complete one of its lessons 02 to 08."
+    "explanation": "Lesson 09 combines classes and exceptions with the lists, slicing, dicts, sorting and formatting of module 00, so solving its challenge unaided shows you are ready; skim module 00's lessons 05 and 08 for `lambda`, recursion and `try/else/finally`, which it does not test. Module 00 is optional and counts toward progress only once you complete one of its lessons 02 to 08."
   },
   {
     "question": "You write `b = a` where `a` is a list. What does Python do?",

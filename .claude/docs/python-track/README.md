@@ -27,7 +27,7 @@ Teach the **mental model of Python 3.14** to learners with no prior programming 
 | Annotations | Allowed in solutions from module 03; `01-functions-map` states they are not enforced at runtime | Matches modern Python and corrects early the belief that hints are checked at runtime (D5) |
 | Quizzes | `quiz.json` inside practice lessons; quiz-only lessons only for theory topics (maps, tooling, landscape, runtime facts) | CONTENT_GUIDE convention |
 | Capstone | Async rules engine **code challenge** (`main.py`) plus a short `adr.py`, per-worker numbers that are physically coherent (`12-tooling/04`) | A capstone proves the learner can build it; the 115-plan numbers certified an impossible design (D4) |
-| Bonus | Module 13 (Pydantic v2) is in the v2 backlog, gated on the packaging spike (G8) | Needs `pydantic-core` wheels served by the app ([08-module-13-and-capstone.md](08-module-13-and-capstone.md)) |
+| Bonus | Module 13 (Pydantic v2) is written: its 7 lessons landed with the v2 backlog after the packaging spike (G8), taking the track to 110 lessons, and module 00 then to 119 | Needs `pydantic-core` wheels served by the app ([08-module-13-and-capstone.md](08-module-13-and-capstone.md)) |
 | Engine changes | Any change to `dojo_harness.py` or the Python worker runs both the `python` and `ai-engineering` suites | One engine serves two tracks (D9) |
 | Language | English everywhere | Project rule |
 
@@ -42,7 +42,7 @@ Teach the **mental model of Python 3.14** to learners with no prior programming 
 | [05-modules-02-to-04.md](05-modules-02-to-04.md) | Collections, functions, classes and descriptors |
 | [06-modules-05-to-08.md](06-modules-05-to-08.md) | Iteration, context and errors, standard library, pattern matching |
 | [07-modules-09-to-12.md](07-modules-09-to-12.md) | Typing, async, metaprogramming, tooling |
-| [08-module-13-and-capstone.md](08-module-13-and-capstone.md) | The async rules engine capstone (code + ADR) and the Pydantic module (v2 backlog) |
+| [08-module-13-and-capstone.md](08-module-13-and-capstone.md) | The async rules engine capstone (code + ADR) and the Pydantic module (module 13, written) |
 | [09-governance.md](09-governance.md) | CTO review: approved decisions, quality bar, gates G0–G8, risk register, spec changes |
 | [10-roadmap-and-backlog.md](10-roadmap-and-backlog.md) | PM roadmap: milestones, parallel authoring lanes, backlog with acceptance criteria, MVP cut line, open questions |
 | [11-working-agreement.md](11-working-agreement.md) | SM working agreement: Definition of Ready/Done, authoring workflow with `npm run python:new` and `npm run python:curriculum`, review checklist, roles |
@@ -60,7 +60,7 @@ Each phase ends at a gate defined in [09-governance.md](09-governance.md) "Appro
 4. **MVP** (G3 re-plan after module 03, G4 release): modules 03–04, then `TRACK_FLAGS.python` is enabled.
 5. **Core** (G5): modules 05–08.
 6. **Advanced** (G6 asyncio spike before module 10, G7 release): modules 09–12 including the capstone.
-7. **v2 backlog**: the deferred lessons, and module 13 after the Pydantic spike (G8).
+7. **v2 backlog** (done): the 9 restored lessons, and module 13 after the Pydantic spike (G8).
 
 Write `meta.json` last in every lesson. Update `CURRICULUM.md` in the same change as each lesson.
 

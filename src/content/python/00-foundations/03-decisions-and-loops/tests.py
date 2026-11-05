@@ -9,7 +9,7 @@ def calls_method(name):
     )
 
 
-# beginner mistake: checking the widest tier first, so small orders are charged the 50.00 price
+# beginner mistake: checking the widest tier first, so small orders are charged the 195-cent price of the 50.00 tier
 @test("shipping_cost charges each tier its own price")
 def _():
     assert mod.shipping_cost(1000) == 595
