@@ -34,10 +34,10 @@ Map of list/tuple/dict/set/frozenset/deque/Counter, the sequence/mapping/set pro
 
 ### 05-sequence-protocol (P, I)
 - Concept: implementing `__len__` and `__getitem__` gives indexing, slicing, iteration fallback, `in`, `reversed`; slice objects; `collections.abc.Sequence` mixins.
-- Common mistake: a `__getitem__` that handles only `int` keys, so `deck[1:3]` passes a `slice` object it cannot use; check `isinstance(key, slice)` and build a new `Deck` from the sliced list.
+- Common mistake: returning `self._cards[index]` for every index, so `deck[1:3]` comes back as a plain `list`; check `isinstance(index, slice)` and wrap the sliced list in a new `Deck`.
 - Challenge: `class Deck` over an internal list: `len`, int index (including negative), slices returning a new `Deck`, `IndexError` for out of range, `TypeError` for other key types; iteration works without defining `__iter__`.
-- Tests: length; negative index; slice returns `Deck` with right items; iteration order; `reversed(deck)`; bad index raises `IndexError`; the source defines no `__iter__` (checked with `ast`, not a regular expression), `Deck` is not a `list` subclass and no class in its MRO except `object` defines `__iter__` (so inheriting from `list` or `collections.abc.Sequence` fails).
-- Notes: optional second step: `class Deck(Sequence)` gives `index`/`count` for free.
+- Tests (5): length and positive/negative index; slicing returns a new `Deck` (the `# beginner mistake:` test); iteration, membership and `reversed`; `IndexError` for out of range and `TypeError` for other index types; the `Deck` owns a copy of its cards, its source defines no `__iter__` (checked with `ast`, not a regular expression), it is not a `list` subclass and no class in its MRO except `object` defines `__iter__` (so inheriting from `list` or `collections.abc.Sequence` fails).
+- Notes: after the challenge passes, the learner can try `class Deck(Sequence)` to get `index`/`count` for free; it is not graded and would fail the MRO test.
 
 ### 06-collections-module (P, I)
 - Concept: `deque(maxlen)`, `Counter` arithmetic, `defaultdict`, `ChainMap`, `namedtuple`/`OrderedDict` only as history.
