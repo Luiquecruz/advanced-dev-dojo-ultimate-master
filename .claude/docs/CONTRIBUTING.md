@@ -40,7 +40,7 @@ CodeRabbit reviews at most **300 changed files**; above that it skips the whole 
 
 1. Cut the work into parts that each build and pass the checks on their own: platform and docs first, then content in groups of modules. A track stays hidden (`TRACK_FLAGS`) until the part that completes it, and `CURRICULUM.md` marks only the lessons each part ships.
 2. Open the first part against `main` and each next part against the previous part's branch, so every diff shows only that part.
-3. Merge bottom-up. When a part merges and its branch is deleted, GitHub retargets the next pull request to `main`; merge `main` into it and re-run the checks before merging.
+3. Merge bottom-up. When a part merges and its branch is deleted, GitHub retargets the next pull request to `main`; merge `main` into it and re-run the checks before merging. Netlify builds Deploy Previews only for pull requests against `main`, so the `smoke` job of a stacked part is skipped until that retarget.
 
 ### Checks before a pull request
 
