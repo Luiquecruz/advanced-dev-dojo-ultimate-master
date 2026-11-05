@@ -4,9 +4,9 @@ After this lesson you can model a piece of business logic with entities, value o
 
 ## Coming from PHP/Magento
 
-A Magento model extends `AbstractModel`: it is a bag of data with `getData()`, `setData()` and magic getters, saved by a resource model. The rules live elsewhere: totals collectors compute quote totals, observers on `sales_order_place_after` react to orders, plugins adjust prices. Any code can call `$order->setStatus('complete')` or `$item->setQty(-3)`, and nothing in the model refuses.
+A Magento model extends `AbstractModel`: it is a bag of data with `getData()`, `setData()` and magic getters, saved by a resource model. The rules live elsewhere (totals collectors, observers on `sales_order_place_after`, price plugins). Any code can call `$order->setStatus('complete')` or `$item->setQty(-3)`, and nothing in the model refuses.
 
-Domain-driven design (DDD) moves the rules into the object that owns the data. An `Order` refuses a line with quantity zero and refuses changes after it is placed, because its setters are private and its methods check the rules. The trap for a Magento developer is to write EF Core entities the Magento way, with public setters on everything and the logic in a `OrderService`. Microsoft's Azure Architecture Center calls that the *anemic domain model* antipattern: it keeps the cost of DDD and loses the benefit.
+Domain-driven design (DDD) moves the rules into the object that owns the data. An `Order` refuses a line with quantity zero and refuses changes after it is placed, because its setters are private and its methods check the rules. The trap is writing EF Core entities the Magento way: public setters everywhere, logic in an `OrderService`. Microsoft's Azure Architecture Center calls that the *anemic domain model* antipattern: it keeps the cost of DDD and loses the benefit.
 
 ## Strategic DDD: bounded contexts and the ubiquitous language
 
@@ -81,7 +81,7 @@ public sealed class Order
     public Guid CustomerId { get; private set; } // another aggregate: an id, not a Customer object
     public OrderStatus Status { get; private set; } = OrderStatus.Draft;
     public Money Total { get; private set; } = null!;
-    public IReadOnlyList<OrderLine> Lines => _lines;
+    public IReadOnlyList<OrderLine> Lines => _lines.AsReadOnly();
     public IReadOnlyList<IDomainEvent> Events => _events;
 
     public void AddLine(string sku, int quantity, Money unitPrice)
@@ -95,6 +95,7 @@ public sealed class Order
 
     public void Place()
     {
+        if (Status != OrderStatus.Draft) throw new InvalidOperationException("The order is already placed.");
         if (_lines.Count == 0) throw new InvalidOperationException("An order needs at least one line.");
 
         Status = OrderStatus.Placed;
@@ -105,7 +106,7 @@ public sealed class Order
 }
 ```
 
-"Total equals the sum of the lines" cannot break: `AddLine` is the only way in, and it updates both.
+"Total equals the sum of the lines" cannot break: `AddLine` is the only way in, and it updates both. `Lines` returns a read-only wrapper, so a cast back to `List<OrderLine>` fails, and `Place` records `OrderPlaced` only once.
 
 ## Persisting it with EF Core 10
 
@@ -140,9 +141,9 @@ Events that leave the process (to another module or service) are **integration e
 
 ## In practice
 
-- **Use DDD where the rules are hard.** Pricing, stock reservation, payment states: yes. An admin screen that edits a CMS block: plain CRUD with a DTO is fine.
-- **Keep aggregates small.** "Customer with all orders" as one aggregate means every order change locks and loads the customer. Order and Customer are separate aggregates linked by `CustomerId`.
-- **Do not let EF Core shape the model.** Private setters, a private parameterless constructor and backing fields keep the API honest while EF Core still materializes the object.
+- **Use DDD where the rules are hard** (pricing, stock reservation, payment states). A CMS block editor is plain CRUD.
+- **Keep aggregates small.** "Customer with all orders" as one aggregate means every order change loads and locks the customer; link them by `CustomerId` instead.
+- **Do not let EF Core shape the model.** Private setters, a private constructor and backing fields keep the API honest; EF Core still materializes the object.
 - **Usual mistakes:** public setters plus an `OrderService` holding all rules; navigation properties from one aggregate into another; dispatching events from inside the entity method, so handlers run before the change is even saved.
 
 ## Status as of 2026-11-05

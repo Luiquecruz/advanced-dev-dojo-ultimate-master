@@ -52,7 +52,7 @@
       "So EF Core can join tables across modules faster through schema-qualified names"
     ],
     "answer": 0,
-    "explanation": "The separate schema and history table make ownership explicit: the module's tables and its migration history sit together, so the boundary is visible and the module can move to its own database as a unit. EF Core and Npgsql do allow several contexts on one schema, even with a shared history table, since each context applies only its own migrations; with `HasDefaultSchema` set, the history table already lands in that schema, so the explicit call mainly documents intent. The goal is to prevent cross-module joins, not speed them up."
+    "explanation": "The separate schema and history table make ownership explicit: the module's tables and its migration history sit together, so the boundary is visible and the module can move to its own database as a unit. EF Core and Npgsql do allow several contexts on one schema, even with a shared history table, since each context applies only its own migrations. The explicit `MigrationsHistoryTable` call is required here: `HasDefaultSchema` does not move `__EFMigrationsHistory`, which otherwise lands in the database default schema. The schema discourages cross-module joins rather than speeding them up, and only per-module roles and grants make the database refuse them."
   },
   {
     "question": "Your codebase has three business capabilities, two teams, and boundaries that still change every few months. Which structure fits best?",

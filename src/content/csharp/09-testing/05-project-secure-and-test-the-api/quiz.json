@@ -22,15 +22,15 @@
     "explanation": "The tests must bring their own database, which is what a container started by the factory does; step 8 proves it by stopping the P3 container. A local connection string needs an installed server, a manual compose step is outside `dotnet test`, and `UseInMemoryDatabase` breaks criterion 4, which a search for it would catch."
   },
   {
-    "question": "After a few runs, `CreateProduct_AdminToken_Returns201` starts failing with 409 because SKU `TEST-1` already exists. What is the real defect?",
+    "question": "`CreateProduct_AdminToken_Returns201` passes alone but fails with 409 (SKU `TEST-1` already exists) when the whole suite runs against the shared Testcontainers database. What is the real defect?",
     "options": [
       "The unique index on SKU is too strict and should be dropped from the migration",
       "The shared `WebApplicationFactory` keeps old rows and must be rebuilt per test",
-      "The test reuses a fixed SKU that an earlier run committed; make test data unique",
+      "Another test in the same run already committed `TEST-1`; make test data unique",
       "The rate limiter answers 409 instead of 429 because the window was exhausted"
     ],
     "answer": 2,
-    "explanation": "Acceptance criterion 6 demands a repeatable run. A fixed SKU written through HTTP is committed to the database, so the next run collides with it whatever happens to the factory. Unique SKUs (for example with a `Guid` suffix) plus cleanup, or a database per run, fix the test. Removing the index weakens the product to make a bad test pass."
+    "explanation": "Each `dotnet test` starts a fresh container, so an earlier run cannot leave the row behind; the collision comes from another test that shares the container during the same run and wrote the same fixed SKU, which makes the result depend on test order (criterion 6). Unique SKUs (for example with a `Guid` suffix), or a reset between tests, fix it. Rebuilding the factory does not help because the rows live in the database, not in the factory, and removing the index weakens the product to make a bad test pass."
   },
   {
     "question": "Which test belongs in `Catalog.UnitTests` rather than `Catalog.IntegrationTests`?",

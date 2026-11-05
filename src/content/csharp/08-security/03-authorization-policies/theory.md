@@ -30,7 +30,10 @@ builder.Services.AddAuthorizationBuilder()
         .RequireAuthenticatedUser()
         .Build())
     .AddPolicy("CatalogAdmin", policy => policy.RequireRole("admin"))
-    .AddPolicy("CatalogWriter", policy => policy.RequireClaim("scope", "catalog:write"));
+    .AddPolicy("CatalogWriter", policy => policy.RequireAssertion(context =>
+        context.User.FindAll("scope")
+            .SelectMany(claim => claim.Value.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+            .Contains("catalog:write")));
 
 var app = builder.Build();
 
@@ -56,7 +59,7 @@ Setting a fallback policy turns the model into "deny unless stated", which prote
 ## Roles, claims and policies
 
 - **Roles** are claims of the role type: role checks call `ClaimsPrincipal.IsInRole`, which looks for the identity's `RoleClaimType`. That type defaults to the long `ClaimTypes.Role` URI, so with `MapInboundClaims = false` (lesson 02) you must set `RoleClaimType = "role"`, as above, or every role check silently fails. `[Authorize(Roles = "admin,editor")]` means admin **or** editor; two `[Authorize]` attributes mean both. Role names are compared case-sensitively, so `Admin` is not `admin`. Policy names, in contrast, are looked up case-insensitively.
-- **Claims** carry any fact: a scope, a tenant, a department. `RequireClaim("scope", "catalog:write")` passes when the user has that claim with that value.
+- **Claims** carry any fact: a scope, a tenant, a department. `RequireClaim("scope", "catalog:write")` passes when the user has a claim whose whole value equals `catalog:write`. That works when the token carries scopes as a JSON array (one claim per scope, as `dotnet user-jwts --scope` does), but many identity providers send one space-separated string (`"catalog:read catalog:write"`, the RFC 9068 format), which never equals a single scope. The `CatalogWriter` policy above splits each `scope` claim, so it accepts both shapes.
 - A **policy** is a named set of requirements, and **all** of them must pass. `RequireRole("admin").RequireClaim("tenant", "br")` means admin and Brazilian tenant.
 
 Prefer named policies over role strings scattered across endpoints. The endpoint says *what* it needs ("CatalogWriter"); `Program.cs` says *how* that is decided, and you can change the rule in one place. Microsoft also notes that roles tend to multiply and to grow too large for a token, which is why claims and scopes scale better for APIs.

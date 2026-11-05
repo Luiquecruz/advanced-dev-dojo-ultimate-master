@@ -6,7 +6,7 @@ After this lesson you can organize an ASP.NET Core application by feature instea
 
 Magento is closer to a modular monolith than to a layered app. Each `app/code/Vendor/Module` folder carries its own `etc/di.xml`, `routes.xml`, `db_schema.xml`, controllers and models, and the whole store still ships as one deployment. What Magento does not give you is a boundary: every module shares one database, joins other modules' tables freely, and a plugin can intercept any public method of any other module. Over time, "modules" become a folder convention over one big ball of shared state.
 
-A .NET modular monolith keeps Magento's good part (one deployable, feature-shaped folders) and adds what was missing: each module is its own project, its internals are `internal`, other modules reach it only through a small public contract, and its tables live in its own schema. The compiler and the database schema enforce what Magento left to code review.
+A .NET modular monolith keeps Magento's good part (one deployable, feature-shaped folders) and adds what was missing: each module is its own project, its internals are `internal`, other modules reach it only through a small public contract, and its tables live in its own schema. The compiler enforces the code boundary that Magento left to code review, and the schema makes data ownership visible; the database only enforces it if each module connects with its own role and grants.
 
 ## Layers cut horizontally, slices cut vertically
 
@@ -89,7 +89,7 @@ public interface IStockReader
 }
 ```
 
-The module registers itself and keeps its tables in its own schema, including its own migrations history table:
+The module registers itself and keeps its tables in its own schema. The history table needs its own setting: `HasDefaultSchema` applies to the module's model, not to `__EFMigrationsHistory`, which EF Core places from the `MigrationsHistoryTable` option (the database default schema when it is not set):
 
 ```csharp
 using Inventory.Contracts;
@@ -122,7 +122,7 @@ internal sealed class InventoryDbContext(DbContextOptions<InventoryDbContext> op
 
 Rules that keep the boundary honest:
 
-- **No cross-module table access.** Ordering never queries `inventory.stock_items`; it calls `IStockReader` or reacts to an event. One physical database is fine; one shared schema is not.
+- **No cross-module table access.** Ordering never queries `inventory.stock_items`; it calls `IStockReader` or reacts to an event. One physical database is fine; one shared schema is not. With one `Main` connection string this is an application rule: a schema groups and qualifies tables but does not stop a role with privileges on it from reading them. To have the database enforce it, give each module its own role, granted only on its own schema.
 - **Internal by default.** Entities, `DbContext`, handlers: all `internal`. Tests reach them with `[assembly: InternalsVisibleTo("Inventory.Tests")]`.
 - **Talk in-process, asynchronously when you can.** A synchronous call through a contract is a method call. For "something happened" (an order placed), publish an event through an in-process dispatcher or the outbox from module 10, so the module could later move out of the process without rewriting its callers.
 

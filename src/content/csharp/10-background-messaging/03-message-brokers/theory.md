@@ -4,18 +4,18 @@ After this lesson you can explain how RabbitMQ, Apache Kafka and Azure Service B
 
 ## Coming from PHP/Magento
 
-Magento's message queue framework splits a queue into XML files: `communication.xml` names the topics and their payload, `queue_publisher.xml` says which exchange a topic is published to, `queue_topology.xml` declares exchanges and bindings, and `queue_consumer.xml` attaches a handler class to a queue. The connection is usually `db` (MySQL tables) or `amqp` (RabbitMQ); current versions also support `stomp` for ActiveMQ Artemis. So if you have run Magento on RabbitMQ, you have already used exchanges, bindings and queues.
+Magento's message queue framework splits a queue into XML files: `communication.xml` (topics and payloads), `queue_publisher.xml` (topic to exchange), `queue_topology.xml` (exchanges and bindings) and `queue_consumer.xml` (handler per queue). The connection is usually `db` (MySQL tables) or `amqp` (RabbitMQ); current versions also support `stomp` for ActiveMQ Artemis. So if you have run Magento on RabbitMQ, you have already used exchanges, bindings and queues.
 
 The trap is the word **topic**. In Magento it is the message name (`sales.order.placed`), used as a RabbitMQ routing key. In RabbitMQ a *topic exchange* routes by key patterns. In Kafka a topic is a partitioned, replayable log. In Service Bus a topic is a publish/subscribe entity with subscriptions. Same word, four different things.
 
-The other difference is the client. Magento hides the broker behind `PublisherInterface` and config. In .NET you usually call the broker's own client library directly, or use a messaging framework on top of it (lesson 04).
+The other difference is the client: Magento hides the broker behind `PublisherInterface`; in .NET you call the broker's client library directly, or a messaging framework on top of it (lesson 04).
 
 ## Two shapes of messaging
 
 - **Point-to-point (competing consumers).** One queue, many consumer instances; each message goes to one of them. This spreads work: "reserve stock for order 42".
 - **Publish/subscribe.** One published message, a copy for every interested subscriber. This announces facts: "order 42 was placed", consumed by stock, invoicing and e-mail independently.
 
-Every broker below supports both, with different building blocks.
+Every broker below supports both.
 
 ## RabbitMQ: exchanges, bindings, queues
 
@@ -44,9 +44,12 @@ consumer.ReceivedAsync += async (_, ea) =>
     await channel.BasicAckAsync(ea.DeliveryTag, multiple: false);
 };
 await channel.BasicConsumeAsync("stock.reserve", autoAck: false, consumer: consumer);
+
+Console.WriteLine("Consuming. Press Enter to stop.");
+Console.ReadLine();
 ```
 
-`RabbitMQ.Client` 7 is fully async (`CreateConnectionAsync`, `BasicPublishAsync`, `ReceivedAsync`); code written for 6.x uses `IModel` and synchronous methods. `prefetchCount` limits how many unacknowledged messages one consumer holds, which keeps work spread across instances. With `autoAck: true` the broker forgets the message as soon as it is sent, and a crash loses it.
+`RabbitMQ.Client` 7 is fully async (`CreateConnectionAsync`, `BasicPublishAsync`, `ReceivedAsync`); code written for 6.x uses `IModel` and synchronous methods. `BasicConsumeAsync` only registers the consumer; messages arrive while the channel stays open, so the sample waits before disposing it (a `BackgroundService` awaits `Task.Delay(Timeout.Infinite, stoppingToken)`). `prefetchCount` limits how many unacknowledged messages one consumer holds, which keeps work spread across instances. With `autoAck: true` the broker forgets the message as soon as it is sent, and a crash loses it.
 
 ## Kafka: a partitioned log
 
@@ -106,9 +109,12 @@ processor.ProcessErrorAsync += args =>
 };
 
 await processor.StartProcessingAsync();
+
+Console.ReadLine(); // until Enter
+await processor.StopProcessingAsync();
 ```
 
-`ServiceBusClient` is safe to keep as a singleton for the life of the app, which is Microsoft's recommendation. `DefaultAzureCredential` (passwordless, through Microsoft Entra ID) is recommended over connection strings in production.
+`StartProcessingAsync` returns at once; keep the app alive and call `StopProcessingAsync` on shutdown. Microsoft recommends one `ServiceBusClient` singleton per app. Prefer passwordless `DefaultAzureCredential` (Microsoft Entra ID) over connection strings in production.
 
 ## In practice
 
@@ -121,8 +127,8 @@ await processor.StartProcessingAsync();
 | Runs | self-hosted, containers, managed offerings | self-hosted, Confluent Cloud, managed offerings | Azure only |
 
 - Use **RabbitMQ** or **Service Bus** for commands and work queues: "do this once". Use **Kafka** for high-volume event streams that several systems read, or replay, at their own pace.
-- Pick the broker your platform already runs. A team on Azure rarely gains from self-hosting RabbitMQ; a team with Kafka for analytics may still want a queue for commands.
-- Keep one long-lived connection per process (RabbitMQ `IConnection`, Kafka producer, `ServiceBusClient`) instead of one per message.
+- Pick the broker your platform already runs; a team with Kafka for analytics may still want a queue for commands.
+- Keep one long-lived connection per process (RabbitMQ `IConnection`, Kafka producer, `ServiceBusClient`), not one per message.
 - Usual mistakes: auto-ack or auto-commit with work that must not be lost, expecting global order from several consumers, and one partition (or one queue consumer) for a workload that must scale.
 
 ## Status as of 2026-11-05
