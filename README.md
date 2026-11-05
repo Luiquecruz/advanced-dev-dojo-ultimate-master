@@ -49,7 +49,7 @@ npm run build        # production build in dist/ (needs an SPA fallback to index
 npm run preview      # serve the production build
 ```
 
-Error monitoring: Sentry (`@sentry/react`, `src/app/monitoring/sentry.ts`) starts in the app window only when `VITE_SENTRY_DSN` is set (copy `.env.example` to `.env.local`; on Netlify set it as a build environment variable, and keep the `VITE_SENTRY_DSN` repository variable equal to it, because the CI smoke test compares its own build with the deploy). The sandbox iframe and the workers run learner code and are not instrumented.
+Error monitoring: Sentry (`@sentry/react`, `src/app/monitoring/sentry.ts`: tracing, session replay on errors only and the React 19 root error handlers) starts in the app window only when `VITE_SENTRY_DSN` is set (copy `.env.example` to `.env.local`; on Netlify set it as a build environment variable). The sandbox iframe and the workers run learner code and are not instrumented. Source maps are uploaded to Sentry by `sentryVitePlugin` (`vite.config.ts`) only when `SENTRY_AUTH_TOKEN` is set in the build environment (a secret scoped to Builds on Netlify); the `.map` files are deleted from `dist/` after the upload, and without the token the build emits no source maps.
 
 Debug query params: `?debug=perf` shows the scene panel and `?tier=high|mid|low` forces a performance tier, e.g. `http://localhost:5173/typescript?debug=perf&tier=mid`.
 
