@@ -1,0 +1,46 @@
+[
+  {
+    "question": "`stock = {\"tea\": 3}`. What does `stock[\"milk\"]` do?",
+    "options": [
+      "Returns `None`",
+      "Returns `0`",
+      "Raises `KeyError`",
+      "Adds `\"milk\"` with the value `None`"
+    ],
+    "answer": 2,
+    "explanation": "Square brackets read an existing key and raise `KeyError` when it is missing. `stock.get(\"milk\")` returns `None` instead, and `stock.get(\"milk\", 0)` returns `0`."
+  },
+  {
+    "question": "What is the type of `empty = {}`?",
+    "options": [
+      "`dict`",
+      "`set`",
+      "`tuple`",
+      "`list`"
+    ],
+    "answer": 0,
+    "explanation": "Empty braces make an empty dict. An empty set is written `set()`."
+  },
+  {
+    "question": "What does `sorted([(\"tea\", 3), (\"cake\", 5), (\"jam\", 3)], key=lambda pair: (-pair[1], pair[0]))` return?",
+    "options": [
+      "`[('cake', 5), ('tea', 3), ('jam', 3)]`",
+      "`[('jam', 3), ('tea', 3), ('cake', 5)]`",
+      "`[('cake', 5), ('jam', 3), ('tea', 3)]`",
+      "`[('tea', 3), ('jam', 3), ('cake', 5)]`"
+    ],
+    "answer": 2,
+    "explanation": "The key is a tuple. `-pair[1]` puts the higher count first, and when two counts tie, `pair[0]` orders the words from A to Z, so `jam` comes before `tea`."
+  },
+  {
+    "question": "Which value can be a dict key?",
+    "options": [
+      "`[\"x\", 1]`, a list",
+      "`(\"x\", 1)`, a tuple",
+      "`{\"x\": 1}`, a dict",
+      "`{\"x\"}`, a set"
+    ],
+    "answer": 1,
+    "explanation": "Dict keys must not change, so a tuple of strings and numbers works. Lists, dicts and sets can change after they are created, and using one as a key raises `TypeError: unhashable type`."
+  }
+]

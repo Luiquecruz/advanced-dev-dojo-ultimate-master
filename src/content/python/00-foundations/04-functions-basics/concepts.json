@@ -1,0 +1,8 @@
+[
+  { "term": "Function", "description": "Named code created with `def`; its body runs each time the function is called." },
+  { "term": "Parameter and argument", "description": "A parameter is a name in the `def` line; an argument is the value the caller passes for it." },
+  { "term": "`return`", "description": "Ends the function and hands a value to the caller. Without it, the call gives back `None`." },
+  { "term": "Default and keyword argument", "description": "`percent=10` in the `def` line is used when the caller leaves it out; `percent=25` in a call names the parameter it sets." },
+  { "term": "Tuple unpacking", "description": "`low, high = pair` gives each value of a returned tuple its own name; `_` marks a value you ignore." },
+  { "term": "Local variable", "description": "A name created inside a function. It exists only while the function runs." }
+]

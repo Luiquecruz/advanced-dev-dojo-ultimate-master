@@ -44,8 +44,9 @@ function moduleTitle(module) {
   if (!existsSync(path)) {
     return module.title;
   }
-  const title = JSON.parse(readFileSync(path, 'utf8')).title;
-  return typeof title === 'string' && title.trim() && !title.includes('TODO') ? title.trim() : module.title;
+  const { title, optional } = JSON.parse(readFileSync(path, 'utf8'));
+  const name = typeof title === 'string' && title.trim() && !title.includes('TODO') ? title.trim() : module.title;
+  return optional === true ? `${name} (optional)` : name;
 }
 
 function renderModules(plan) {

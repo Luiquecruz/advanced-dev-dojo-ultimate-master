@@ -1,0 +1,13 @@
+{
+  "title": "Errors and Exceptions",
+  "summary": "Read a traceback from its last line, raise built-in exceptions with useful messages, handle only the failures you expect with try, except, else and finally, and re-raise what you cannot fix.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: Errors and Exceptions", "url": "https://docs.python.org/3/tutorial/errors.html" },
+    { "label": "Python Library: Built-in Exceptions", "url": "https://docs.python.org/3/library/exceptions.html" },
+    { "label": "Python Reference: The try statement", "url": "https://docs.python.org/3/reference/compound_stmts.html#the-try-statement" }
+  ]
+}

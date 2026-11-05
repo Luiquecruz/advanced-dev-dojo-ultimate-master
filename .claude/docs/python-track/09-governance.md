@@ -116,7 +116,7 @@ Likelihood and impact: H high, M medium, L low.
 | R12 | Regex source checks fail correct solutions (comments, docstrings, strings) | H | L | Python | D7 (`ast`). Fix `04-scope-and-nonlocal` and the `ast` rule at G2 | Rule in 02; lesson fix pending |
 | R13 | Accent uses the last 30° hue band. The next track forces a rule change in `trackPresentation.test.ts` | H | L | PM | Raise it before the next track proposal, not during it | Open |
 | R14 | The track was publicly visible while incomplete | H | M | PM | D8 | Closed: flag set |
-| R15 | Written content still describes the 115-lesson plan (`01-python-map` theory and quiz mention an ADR per module and a 13-module path; [04-module-01-object-model.md](04-module-01-object-model.md) and [10-roadmap-and-backlog.md](10-roadmap-and-backlog.md) cite 115/13) | H | L | PM | Update those files at G2, by their owners | Open |
+| R15 | Written content still describes the 115-lesson plan (`01-python-map` theory and quiz mention an ADR per module and a 13-module path; [04-module-01-object-model.md](04-module-01-object-model.md) and [10-roadmap-and-backlog.md](10-roadmap-and-backlog.md) cite 115/13) | H | L | PM | Update those files at G2, by their owners | Closed (November 2026): the module-zero change rewrote `01-python-map` for 14 modules, 119 lessons and ADRs in twelve modules, and updated 04 and 10 |
 
 ## Spec changes
 

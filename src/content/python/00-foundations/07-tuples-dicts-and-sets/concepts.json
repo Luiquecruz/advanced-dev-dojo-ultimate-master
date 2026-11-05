@@ -1,0 +1,7 @@
+[
+  { "term": "Tuple", "description": "A fixed sequence made by commas, such as `(3, 4)`; it cannot be changed, and tuples compare item by item." },
+  { "term": "Dict", "description": "Maps keys to values, `{\"tea\": 250}`; `d[key]` raises `KeyError` for a missing key, `d.get(key, default)` does not." },
+  { "term": "`items()`", "description": "Gives every dict entry as a `(key, value)` tuple, in the order the keys were first added." },
+  { "term": "Set", "description": "Holds each item once and answers `in` quickly; it has no order, and the empty set is `set()`, because `{}` is a dict." },
+  { "term": "Tuple sort key", "description": "`key=lambda pair: (-pair[1], pair[0])` sorts by the second item from high to low, then by the first item." }
+]

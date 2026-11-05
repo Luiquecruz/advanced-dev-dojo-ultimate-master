@@ -1,6 +1,6 @@
 {
   "title": "Map: How This Track Works",
-  "summary": "How the Python track is organized (map, practice, ADR), the three ideas behind most differences from JavaScript, what the browser runtime can and cannot run, and how dated facts are marked.",
+  "summary": "Where to start (module 00 or module 01, decided by one skip test), how the Python track is organized (maps, practice lessons, ADR checkpoints, capstone), the three ideas the rest of the track builds on, what the browser runtime can and cannot run, and how dated facts are marked.",
   "level": "beginner",
   "tags": ["established", "core", "theory"],
   "resources": [

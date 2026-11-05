@@ -1,0 +1,14 @@
+{
+  "title": "Functions as Values",
+  "summary": "Pass and return functions, sort with a key function and lambda, collect any number of arguments with *args, solve nested problems with recursion, import modules and read type hints. Build sorting, multiplier, total and depth tools.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Sorting Techniques: Key Functions", "url": "https://docs.python.org/3/howto/sorting.html#key-functions" },
+    { "label": "Python Tutorial: Lambda Expressions", "url": "https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions" },
+    { "label": "Python Tutorial: Arbitrary Argument Lists", "url": "https://docs.python.org/3/tutorial/controlflow.html#arbitrary-argument-lists" },
+    { "label": "Python Tutorial: Modules", "url": "https://docs.python.org/3/tutorial/modules.html" }
+  ]
+}

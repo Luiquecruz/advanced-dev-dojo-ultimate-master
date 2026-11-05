@@ -1,0 +1,14 @@
+{
+  "title": "Classes and Objects",
+  "summary": "Define classes with __init__, self, attributes and methods, keep state separate per instance, describe objects with __repr__, extend a class with inheritance and super(), and define your own exception.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: Classes", "url": "https://docs.python.org/3/tutorial/classes.html" },
+    { "label": "Python Tutorial: Class and Instance Variables", "url": "https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables" },
+    { "label": "Python Tutorial: Inheritance", "url": "https://docs.python.org/3/tutorial/classes.html#inheritance" },
+    { "label": "Python Tutorial: User-defined Exceptions", "url": "https://docs.python.org/3/tutorial/errors.html#user-defined-exceptions" }
+  ]
+}

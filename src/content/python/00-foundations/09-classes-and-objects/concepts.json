@@ -1,0 +1,7 @@
+[
+  { "term": "Class and instance", "description": "A class describes a kind of object; calling it, as in `Counter(10)`, creates an instance with its own data." },
+  { "term": "`__init__` and `self`", "description": "`__init__` sets the starting attributes of a new instance; every method receives the instance it was called on as `self`." },
+  { "term": "Class attribute", "description": "A name assigned in the class body, shared by every instance; per-object data belongs on `self` in `__init__`." },
+  { "term": "`__repr__`", "description": "Returns the text that describes an object in `print`, `repr` and the debugger, ideally written like the call that creates it." },
+  { "term": "Inheritance and `super()`", "description": "`class Timer(Counter):` gets every method of `Counter` and may override them; `super().__init__(...)` runs the parent's setup." }
+]

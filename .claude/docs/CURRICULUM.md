@@ -295,7 +295,10 @@ Backend for frontend developers who build with AI: enough depth to choose an app
 
 ## Python (`src/content/python`)
 
-Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (Pyodide). v1 has 12 modules and 94 lessons. Every module opens with a map; modules 01, 02, 04, 06, 09 and 10 close with an ADR checkpoint, modules 03 and 05 with a code integration challenge, and module 12 ends with the capstone. Deferred lessons are listed in the v2 backlog of `03-curriculum.md`.
+Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (Pyodide). 14 modules, 119 lessons: an optional foundations module 00 for learners who have never programmed (skipped by anyone who can solve the `09-classes-and-objects` challenge without help; it counts toward progress only once started), then modules 01–13. Every module opens with a map; modules 01–11 and 13 close with an ADR checkpoint (after a code integration challenge in modules 03 and 05), and module 12 ends with the capstone. The plan, the releases and the v2 history are in `03-curriculum.md`.
+
+### 00-foundations — Foundations: Python from Zero (optional)
+01-foundations-map **(quiz)** ✓ · 02-values-and-expressions ✓ · 03-decisions-and-loops ✓ · 04-functions-basics ✓ · 05-functions-as-values ✓ · 06-strings-and-lists ✓ · 07-tuples-dicts-and-sets ✓ · 08-errors-and-exceptions ✓ · 09-classes-and-objects ✓
 
 ### 01-object-model — Names, Objects and Scope
 01-python-map **(quiz)** ✓ · 02-names-and-references ✓ · 03-mutability-and-hashing ✓ · 04-scope-and-nonlocal ✓ · 05-shallow-vs-deep-copy ✓ · 06-identity-equality-and-interning ✓ · 07-truthiness-and-bool ✓ · 08-object-model-adr ✓

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What does this print?\n\n```py\nclass Basket:\n    items = []\n\n    def add(self, item):\n        self.items.append(item)\n\nfirst = Basket()\nsecond = Basket()\nfirst.add(\"tea\")\nprint(second.items)\n```",
+    "options": [
+      "`[]`",
+      "`['tea']`",
+      "An `AttributeError`",
+      "`None`"
+    ],
+    "answer": 1,
+    "explanation": "`items` is a class attribute: one list created with the class and shared by every instance, so `second.items` is the same list `first` appended to. Assign `self.items = []` in `__init__` to give each basket its own."
+  },
+  {
+    "question": "`account.deposit(5)` runs a method defined as `def deposit(amount):`. What happens?",
+    "options": [
+      "It works and `amount` is `5`",
+      "`amount` receives the account and `5` is ignored",
+      "It returns `None` without doing anything",
+      "`TypeError`: the method takes 1 positional argument but 2 were given"
+    ],
+    "answer": 3,
+    "explanation": "Python passes the instance as the first argument, so the call sends two arguments to a method that declares one. Every method needs `self` first: `def deposit(self, amount):`."
+  },
+  {
+    "question": "`class Timer(Counter):` defines its own `__init__` without calling `super().__init__(...)`. What is the effect?",
+    "options": [
+      "Python calls `Counter.__init__` automatically afterwards",
+      "The attributes that `Counter.__init__` sets are never created on a `Timer`",
+      "Python raises an error when the class is defined",
+      "Nothing changes, because `Timer` inherits the attributes"
+    ],
+    "answer": 1,
+    "explanation": "Defining `__init__` in the subclass overrides the parent's. Python does not call the parent's version on its own, so `Counter`'s attributes appear only when the subclass calls `super().__init__(...)`."
+  },
+  {
+    "question": "`class InsufficientFunds(ValueError): pass`. Which handler catches `raise InsufficientFunds(\"no money\")`?",
+    "options": [
+      "Only `except InsufficientFunds:`",
+      "Only `except ValueError:`",
+      "Both `except InsufficientFunds:` and `except ValueError:`",
+      "Neither, because it is not a built-in exception"
+    ],
+    "answer": 2,
+    "explanation": "An `except` clause matches the exception's own class and every parent class. `InsufficientFunds` is a `ValueError`, so a general handler catches it, and a specific handler catches only it."
+  }
+]

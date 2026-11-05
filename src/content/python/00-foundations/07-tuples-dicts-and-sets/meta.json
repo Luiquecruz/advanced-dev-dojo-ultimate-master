@@ -1,0 +1,14 @@
+{
+  "title": "Tuples, Dicts and Sets",
+  "summary": "Group fixed values in tuples, look values up and count with dicts, remove duplicates with sets, sort by several things at once, and avoid the KeyError of counting a word seen for the first time.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: Tuples and Sequences", "url": "https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences" },
+    { "label": "Python Tutorial: Dictionaries", "url": "https://docs.python.org/3/tutorial/datastructures.html#dictionaries" },
+    { "label": "Python Tutorial: Sets", "url": "https://docs.python.org/3/tutorial/datastructures.html#sets" },
+    { "label": "Python Library: Mapping Types, dict", "url": "https://docs.python.org/3/library/stdtypes.html#mapping-types-dict" }
+  ]
+}

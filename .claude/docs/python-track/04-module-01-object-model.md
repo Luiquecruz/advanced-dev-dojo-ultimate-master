@@ -17,9 +17,9 @@ Folder: `src/content/python/01-object-model/`. This module is implemented first 
 ## 01-python-map — Python Track Map (Q, beginner)
 
 - Tags: `["established", "core", "theory"]`. No challenge; `quiz.json` with 4 questions.
-- Theory (200–500 words): how the track works (theory, challenge, hints, quiz, ADR per module), the 13-module path, who it is for (learners with no prior programming language), the Pyodide runtime (CPython 3.14 in the browser, first load about 12 MB), what the browser cannot run (threads, network, real venv: taught in theory), maturity tags, the `**Status as of**` convention.
+- Theory (200–500 words): where to start (the optional module 00 for learners who have never programmed, the skip rule: solve the `00-foundations/09-classes-and-objects` challenge without the hints and start at module 01), how the track works (14 modules, 119 lessons; theory, challenge, hints, quiz, `## Common mistakes`, ADR checkpoints in twelve modules, the capstone), the Pyodide runtime (CPython 3.14 in the browser, first load about 12 MB), what the browser cannot run (threads, network, real venv: taught in theory), maturity tags, the `**Status as of**` convention.
 - Key idea (a map has no `## Common mistakes`): names bind to objects, everything is an object, and protocols (dunder methods) drive much of the syntax.
-- Quiz topics: what the Run button does, which topics are theory-only in the browser, what an ADR checkpoint is, where the track starts.
+- Quiz topics: the skip rule, what `b = a` does, which topics are theory-only in the browser, what `len()` calls.
 - Resources: docs.python.org tutorial, Language Reference data model, peps.python.org/pep-0008.
 
 ## 02-names-and-references — Names Are Labels, Not Boxes (P, beginner)

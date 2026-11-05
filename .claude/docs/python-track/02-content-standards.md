@@ -31,11 +31,12 @@ src/content/python/<NN-module>/<NN-lesson-id>/
 
 ## Module shape
 
-1. `01-<module>-map` **(quiz)**: what the module answers, prerequisites, path, the decision it ends with. Theory 200–500 words plus a 4-question quiz. Module 1 opens with `01-python-map` for the whole track.
+1. `01-<module>-map` **(quiz)**: what the module answers, prerequisites, path, the decision it ends with. Theory 200–500 words plus a 4-question quiz. Module 01 opens with `01-python-map` for the whole track (where to start, the skip rule, how the track works); the optional module 00 opens with `01-foundations-map`.
 2. Practice lessons (3–9) and optional quiz-only lessons for theory topics.
 3. The closing lesson, one of:
    - `NN-<module>-adr` checkpoint, **only in modules 01, 02, 04, 06, 09 and 10**: briefing, exported `ADR` and `PLAN`, tests for structure and coherence with the briefing.
    - A code integration challenge (practice lesson combining the module's mechanisms) in modules 03 and 05.
+   - The skip-test challenge in module 00 (`09-classes-and-objects`): a learner who solves it without the hints starts at module 01 ([14-module-00-foundations.md](14-module-00-foundations.md)).
    - Nothing special elsewhere: the module ends with its last practice lesson, and the map's `## When to choose it` names the decision.
 4. The capstone (`12-tooling/05-capstone-async-rules-engine`) is a code challenge with a short `adr.py` ([08-module-13-and-capstone.md](08-module-13-and-capstone.md)).
 
@@ -57,7 +58,7 @@ Code fences: `py`, `text`, `bash`, `toml` and `json`.
 
 ## Challenge rules
 
-- **Anti-LeetCode**: no sorting, searching, graph or math puzzles. A challenge builds or repairs a *language-level mechanism*: a descriptor, a context manager, a protocol class, a decorator, a task group worker, a registry via `__init_subclass__`, a value object with correct equality and hashing.
+- **Anti-LeetCode**: no sorting, searching, graph or math puzzles. A challenge builds or repairs a *language-level mechanism*: a descriptor, a context manager, a protocol class, a decorator, a task group worker, a registry via `__init_subclass__`, a value object with correct equality and hashing. Module 00 is the one exception: it teaches the language from zero, so a challenge there may be a short exercise of the construct the lesson teaches (`fizzbuzz` for `%` and `elif`), never an algorithm puzzle.
 - `challenge.md` names every function, class, parameter and exception the tests rely on. The tests are the contract.
 - Starter compiles, fails at least one test, and marks every place to write code with `# TODO: ...` comments.
 - 3–6 tests per challenge, each a sentence. Tests assert behavior: return values, state, raised exception types and messages' *key words*, identity where identity is the lesson. Never assert printed text exactly, bytecode, `id()` values, or `is` on ints and strings that the compiler may fold.
@@ -70,7 +71,7 @@ Code fences: `py`, `text`, `bash`, `toml` and `json`.
       ...
   ```
 - The starter imports cleanly and fails by assertion, not by `NameError`/`ImportError`/`SyntaxError`; every `# TODO` maps to at least one failing test.
-- Starters and solutions follow PEP 8 and keep docstrings short. **Type annotations**: modules 01–02 stay unannotated (the lessons are about runtime objects). From module 03 on, solutions may annotate public functions and classes the way modern Python is written, and starters keep the same signatures. Annotations never replace a runtime check the tests rely on, and no test depends on annotations except in module 09. Use builtin generics and `X | None`, never `typing.List`/`Optional`.
+- Starters and solutions follow PEP 8 and keep docstrings short. **Type annotations**: modules 00–02 stay unannotated, except `00-foundations/05-functions-as-values`, which teaches reading type hints (the lessons are about runtime objects). From module 03 on, solutions may annotate public functions and classes the way modern Python is written, and starters keep the same signatures. Annotations never replace a runtime check the tests rely on, and no test depends on annotations except in module 09. Use builtin generics and `X | None`, never `typing.List`/`Optional`.
 - Demos (`demo.py`) import the learner's functions, run a realistic scenario and print results. They are outside the entry's import graph, never run during tests, and must print at least one line and exit 0. Not every lesson needs a demo; lessons about output-less mechanisms may omit `run`.
 
 ## Test conventions (repo harness)
@@ -149,5 +150,5 @@ The last lesson of every module except 12 (which ends with the capstone). `entry
 - [ ] Theory has `## How it works` before `## Common mistakes`, ends with `## When to choose it` and compares with no other language.
 - [ ] Volatile facts dated and verified.
 - [ ] `✓` added to `CURRICULUM.md`; `meta.json` written last.
-- [ ] `pythonConventions.test.ts` passes. A lesson written before these rules is listed in `src/verify/pythonPendingRewrite.ts` with the rules it still breaks; its rewrite removes the entry (a stale entry fails the suite). Track and module texts that still compare with another language sit in its `PYTHON_PENDING_HEADERS`.
+- [ ] `pythonConventions.test.ts` passes. Every lesson and every track and module text follows these rules, so both lists in `src/verify/pythonPendingRewrite.ts` (`PYTHON_PENDING_REWRITE`, `PYTHON_PENDING_HEADERS`) are empty; a stale entry fails the suite, so they stay empty.
 - [ ] Checked in the browser (Pyodide) at least once per module: starter fails, solution passes, Run demo prints.

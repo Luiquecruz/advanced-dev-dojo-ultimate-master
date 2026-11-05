@@ -1,0 +1,31 @@
+[
+  {
+    "question": "What does this print?\n\n```py\nscore = 85\nif score >= 50:\n    print(\"pass\")\nelif score >= 80:\n    print(\"merit\")\nelse:\n    print(\"fail\")\n```",
+    "options": ["`merit`", "`pass` and then `merit`", "`pass`", "`fail`"],
+    "answer": 2,
+    "explanation": "Python runs only the first true branch. `85 >= 50` is true, so `merit` is never checked. Put the narrower condition (`>= 80`) first."
+  },
+  {
+    "question": "Which numbers does `for n in range(2, 6):` visit?",
+    "options": ["2, 3, 4, 5", "2, 3, 4, 5, 6", "3, 4, 5, 6", "0, 1, 2, 3, 4, 5"],
+    "answer": 0,
+    "explanation": "`range(start, end)` starts at `start` and stops before `end`."
+  },
+  {
+    "question": "What does `list(zip([\"a\", \"b\", \"c\"], [1, 2]))` give?",
+    "options": [
+      "An error, because the lists have different lengths",
+      "`[(\"a\", 1), (\"b\", 2), (\"c\", None)]`",
+      "`[\"a\", 1, \"b\", 2]`",
+      "`[(\"a\", 1), (\"b\", 2)]`"
+    ],
+    "answer": 3,
+    "explanation": "`zip` pairs items position by position and stops at the end of the shorter list."
+  },
+  {
+    "question": "What is `total` after this loop?\n\n```py\ntotal = 0\nfor n in [4, 7, 10]:\n    if n == 7:\n        continue\n    total += n\n```",
+    "options": ["`21`", "`14`", "`4`", "`11`"],
+    "answer": 1,
+    "explanation": "`continue` skips the rest of the block for 7, so only 4 and 10 are added."
+  }
+]

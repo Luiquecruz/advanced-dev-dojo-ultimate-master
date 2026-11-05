@@ -1,43 +1,35 @@
-This track teaches **Python as a language, not as a tool for one job**. It is written for developers who already know TypeScript or JavaScript, so every lesson names the habit that breaks when you switch and the Python mechanism behind it.
+This track teaches **Python as a language, not as a tool for one job**: how its objects, protocols and runtime behave, which mistake each feature invites, and when to choose it.
+
+## Where to start
+
+Module 00, **Foundations: Python from Zero**, is for people who have never programmed. Its eight practice lessons teach values, loops, functions, text, collections, errors and classes; every later module assumes them.
+
+The skip rule is a single test: open the challenge of module 00, lesson 09 (Classes and Objects). If you can solve it without the hints, start here at module 01. Module 00 is optional: you can skip it and still reach 100% of the track. Its lessons count toward your progress once you complete one of its lessons 02 to 08.
 
 ## How the track works
 
-Every module opens with a **map** lesson (the question the module answers) followed by practice lessons. Six modules close with an **ADR checkpoint** where you record a design decision for a product briefing and compute the numbers that justify it, and the track ends with a capstone challenge. A practice lesson combines theory, a coding challenge validated by tests, progressive hints and a short quiz. The quizzes ask you to predict behavior, not to recall trivia.
+The track has 14 modules and 119 lessons. Every module opens with a **map** lesson (the question the module answers) followed by practice lessons. A practice lesson combines theory, a coding challenge validated by tests, progressive hints and a short quiz, and its **Common mistakes** section names the error newcomers make most often. Twelve modules close with an **ADR checkpoint**, where you record a design decision for a product briefing and compute the numbers that justify it, and module 12 ends with a capstone challenge.
+
+## Three ideas the rest of the track builds on
+
+1. **Names are labels on objects.** Assignment never copies. Module 01 builds this model first because aliasing, scope, copying and equality all follow from it.
+2. **Everything is an object, and behavior lives in protocols.** `len(x)`, `for item in x`, `with x:` and `a + b` call special methods (`__len__`, `__iter__`, `__enter__`, `__add__`). Learning the protocols explains most of the built-in syntax.
+3. **Runtime and tooling are separate.** Type hints are metadata the interpreter does not enforce, packaging is a standard of its own, and the interpreter ships with a large standard library.
 
 ```py
-# challenges are plain Python files; tests check behavior
-def greet(name):
-    return f"hello {name}"
-```
-
-## Python is not JavaScript with indentation
-
-Three ideas explain most of the differences you will meet:
-
-1. **Names are labels on objects.** Assignment never copies. Module 1 builds this model first because aliasing, scope, copying and equality all follow from it.
-2. **Everything is an object, and behavior lives in protocols.** `len(x)`, `for item in x`, `with x:` and `a + b` call special methods (`__len__`, `__iter__`, `__enter__`, `__add__`). Learning the protocols replaces learning dozens of keywords.
-3. **Runtime and tooling are separate.** Type hints are metadata, packaging is a standard, and the interpreter ships with a large standard library, so many npm packages have a built-in counterpart.
-
-```ts
-// JavaScript: a method on the object
-items.length;
-```
-
-```py
-# Python: a function that calls a protocol on the object
-len(items)
+len(items)   # calls type(items).__len__(items)
 ```
 
 ## What runs in your browser
 
-Challenges run on **Pyodide**, CPython compiled to WebAssembly, in a Web Worker. The first Python lesson you open downloads about 12 MB; after that it is cached. The browser sandbox has no threads, no network sockets and no real virtual environments, so topics that need them (multiprocessing, `pip`, `venv`) are taught in theory and quizzes, and challenges that touch them use small simulations.
+Challenges run on **Pyodide**, CPython compiled to WebAssembly, in a Web Worker. The first Python lesson you open downloads about 12 MB; after that it is cached. The browser sandbox has no threads, no network sockets and no real virtual environments, so topics that need them (multiprocessing, `pip`, `venv`) are taught in theory and quizzes.
 
 ## Maturity tags and dated facts
 
-Lessons are tagged `established`, `emerging` or `hype-watch`. Facts that change over time (versions, PEP status, new interpreter features) live in a single block that starts with **Status as of** and a month, so you know how old a claim is.
+Lessons are tagged `established`, `emerging` or `hype-watch`. Facts that change over time (versions, PEP status) live in a block that starts with **Status as of** and a month.
 
-> **Status as of November 2026:** the track targets CPython 3.14, the version Pyodide ships here. Check python.org for the current release before relying on a version-specific feature.
+> **Status as of November 2026:** the track targets CPython 3.14, the version Pyodide ships here.
 
 ## When to choose it
 
-Use this track when you can already program and want the Python model rather than a beginner course. Skip ahead to a module when you know the basics, but keep the first module: it is the foundation of the rest.
+Start at module 01 when the skip test is easy for you, and at module 00 when Python is your first programming language. Keep module 01 either way: every later module builds on its model of names and objects.

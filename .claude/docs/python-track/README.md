@@ -17,7 +17,8 @@ Teach the **mental model of Python 3.14** to learners with no prior programming 
 | Accent | `#62e868`-class green at 123° hue | Only band that satisfies the existing 30° rule without changing tests ([01-platform-and-engine.md](01-platform-and-engine.md)) |
 | Test runner | Existing Pyodide harness (`@test`, plain `assert`, introspected `left/right` failure output) | No second runner and no `assert_equal` helper: the harness already prints both sides of a failed comparison |
 | Runtime | Python **3.14** (Pyodide `314.0.7`, CPython 3.14.2, pinned exactly), although 3.15 is current since October 2026; 3.15 differences only in dated `**Status as of**` blocks | The runtime decides what learners can run |
-| Scope | **v1: 12 modules, 94 lessons**; lessons cut from the 115-lesson plan are deferred to the [v2 backlog](03-curriculum.md#v2-backlog), not dropped | Approved in [09-governance.md](09-governance.md) (D2) |
+| Scope | **v1: 12 modules, 94 lessons**; lessons cut from the 115-lesson plan are deferred to the [v2 backlog](03-curriculum.md#v2-backlog), not dropped. Today 14 modules and 119 lessons: v2 restored 9 lessons, added module 13 (Pydantic) and the optional module 00 | Approved in [09-governance.md](09-governance.md) (D2); module 00 by the product owner (November 2026) |
+| Module 00 | `00-foundations`, "Foundations: Python from Zero", `"optional": true`: a map and 8 practice lessons for learners who have never programmed; the challenge of its last lesson is the skip test | Counts toward progress only once started, so experienced learners still reach 100% ([14-module-00-foundations.md](14-module-00-foundations.md)) |
 | Releases | **MVP = modules 01–04** (36 lessons, first release); Core = 01–08 (65); Advanced = 09–12 (29) | Ship a coherent slice early, re-plan from measured velocity |
 | Visibility | `TRACK_FLAGS.python = false` until the MVP gate (G4) | No half-built track in the carousel |
 | Module shape | Map (quiz) → practice lessons → closing lesson. ADR checkpoints **only in modules 01, 02, 04, 06, 09, 10**; modules 03 and 05 close with a code integration challenge | ADRs only where a real architectural decision exists (D3) |
@@ -36,7 +37,7 @@ Teach the **mental model of Python 3.14** to learners with no prior programming 
 | --- | --- |
 | [01-platform-and-engine.md](01-platform-and-engine.md) | Platform work (phase 1): track registration, accent, verify suite, docs, risks |
 | [02-content-standards.md](02-content-standards.md) | Lesson file contract, test conventions, challenge rules, theory template, Pyodide limits |
-| [03-curriculum.md](03-curriculum.md) | v1 map: 12 modules, 94 lessons with id, level, kind; releases; v2 backlog |
+| [03-curriculum.md](03-curriculum.md) | Curriculum map: 14 modules, 119 lessons with id, level, kind; releases; v2 backlog |
 | [04-module-01-object-model.md](04-module-01-object-model.md) | Module 1 pilot: file-by-file spec, challenge contracts, tests, ADR |
 | [05-modules-02-to-04.md](05-modules-02-to-04.md) | Collections, functions, classes and descriptors |
 | [06-modules-05-to-08.md](06-modules-05-to-08.md) | Iteration, context and errors, standard library, pattern matching |
@@ -47,6 +48,7 @@ Teach the **mental model of Python 3.14** to learners with no prior programming 
 | [11-working-agreement.md](11-working-agreement.md) | SM working agreement: Definition of Ready/Done, authoring workflow with `npm run python:new` and `npm run python:curriculum`, review checklist, roles |
 | [12-security-review.md](12-security-review.md) | Security review: platform findings (verify sandbox, harness state, worker network), per-lesson security notes, supply chain for Pydantic wheels |
 | [13-sre-pyodide-spike.md](13-sre-pyodide-spike.md) | SRE spike: which Python features work in Pyodide, harness limits, verify pipeline timing |
+| [14-module-00-foundations.md](14-module-00-foundations.md) | Module 00 (optional): skip rule, progress rule, module-zero exceptions to the standards, per-lesson challenge contracts and beginner mistakes |
 
 ## Phases and gates
 
@@ -71,7 +73,8 @@ Write `meta.json` last in every lesson. Update `CURRICULUM.md` in the same chang
 | Core (modules 05–08, 29 lessons) | Written, cross-reviewed, verified, browser-checked |
 | Advanced (modules 09–12, 29 lessons, capstone) | Written, cross-reviewed, verified, browser-checked |
 | Release | Released in November 2026: `TRACK_FLAGS.python` is `true`. The product owner released without the G4 learner session outside the team; run that session and feed its findings into the v2 backlog |
-| v2 backlog | Not started (deferred lessons and module 13 Pydantic, see 03-curriculum.md) |
+| v2 backlog | Done: the 9 restored lessons and module 13 (Pydantic) |
+| Module 00 (optional foundations, 9 lessons) | Written and verified (November 2026); browser check pending |
 
 All 94 planned lessons are on `main`; `npm run verify` passes with every Python lesson's solution green and every starter failing at least one test.
 

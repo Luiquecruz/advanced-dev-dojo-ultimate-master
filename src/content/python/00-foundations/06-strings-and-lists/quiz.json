@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What is `name` after these two lines?\n\n```py\nname = \"  Ada  \"\nname.strip()\n```",
+    "options": [
+      "`\"  Ada  \"`",
+      "`\"Ada\"`",
+      "`None`",
+      "`\"Ada  \"`"
+    ],
+    "answer": 0,
+    "explanation": "Strings are immutable. `strip()` returns a new string, and the second line throws it away. Write `name = name.strip()` to keep it."
+  },
+  {
+    "question": "`items = [3, 1, 2]`. What does `result = items.sort()` leave in `result`?",
+    "options": [
+      "`[1, 2, 3]`",
+      "`[3, 1, 2]`",
+      "`None`",
+      "A new sorted copy, while `items` stays `[3, 1, 2]`"
+    ],
+    "answer": 2,
+    "explanation": "`sort()` reorders `items` itself and returns `None`. `sorted(items)` is the one that returns a new list."
+  },
+  {
+    "question": "What does `\"python\"[10:20]` give?",
+    "options": [
+      "An `IndexError`",
+      "`\"python\"`",
+      "`None`",
+      "`\"\"`, an empty string"
+    ],
+    "answer": 3,
+    "explanation": "A slice past the end gives fewer items, here none at all. Only indexing a single position past the end, such as `\"python\"[10]`, raises `IndexError`."
+  },
+  {
+    "question": "Which expression builds `[\"A\", \"C\"]` from `letters = [\"a\", \"\", \"c\"]`?",
+    "options": [
+      "`[letter.upper() for letter in letters]`",
+      "`[letter.upper() for letter in letters if letter]`",
+      "`letters.upper()`",
+      "`[letters.upper() if letter]`"
+    ],
+    "answer": 1,
+    "explanation": "The `if letter` part skips the empty string, which is falsy, and `letter.upper()` builds each item. A list has no `upper` method, and the last option is not valid syntax."
+  }
+]
