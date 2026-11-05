@@ -127,7 +127,8 @@ describe('csharp track', () => {
     expect(lesson.resources.some((resource) => resource.url.startsWith('https://learn.microsoft.com/'))).toBe(true);
     for (const resource of lesson.resources) {
       expect(resource.url.startsWith('https://')).toBe(true);
-      if (resource.url.includes('balta.io')) {
+      const { hostname } = new URL(resource.url);
+      if (hostname === 'balta.io' || hostname.endsWith('.balta.io')) {
         const match = BALTA_URL.exec(resource.url);
         expect(match, `${resource.url} is not a balta.io course, path or formation URL`).not.toBeNull();
         expect(pages.has(`${match![1]}/${match![2]}`), `${match![1]}/${match![2]} is not in 03-balta-catalog.md`).toBe(true);
