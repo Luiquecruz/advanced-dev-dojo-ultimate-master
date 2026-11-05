@@ -33,6 +33,8 @@ Debug query params: `?debug=perf` shows the scene panel (fps, frame time, tier, 
 
 ESLint 10 (`eslint.config.js`, `npm run lint`) lints everything except lesson folders; `tsconfig.json` also excludes them (`src/content/*/**`), so lesson code is only checked by `verify` and, for Python, by `pytest` on CPython. Rules and setup in CONTRIBUTING.md "Checks before a pull request".
 
+Error monitoring: `app/monitoring/sentry.ts` (`initSentry`, called first in `main.tsx`) initializes `@sentry/react` only when `VITE_SENTRY_DSN` is set; the sandbox and workers are not instrumented.
+
 ## Documentation
 
 All project documentation lives in `.claude/docs/` (the root `README.md` is the entry point: tracks, requirements, commands, layout, links). Read the relevant file before working in its area.
