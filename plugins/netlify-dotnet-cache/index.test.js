@@ -1,11 +1,19 @@
 import { describe, expect, it, vi } from 'vitest';
-import { CACHED_PATHS, onPostBuild, onPreBuild } from './index.js';
+import { CACHED_PATHS } from './cachedPaths.js';
+import * as plugin from './index.js';
+
+const { onPostBuild, onPreBuild } = plugin;
 
 function fakeUtils(found) {
   return { cache: { restore: vi.fn(async (path) => found.includes(path)), save: vi.fn(async () => true) } };
 }
 
 describe('netlify-dotnet-cache', () => {
+  it('exports only Netlify build events, which Netlify requires of a plugin entry module', () => {
+    const events = ['onPreBuild', 'onBuild', 'onPostBuild', 'onSuccess', 'onError', 'onEnd'];
+    expect(Object.keys(plugin).filter((name) => !events.includes(name))).toEqual([]);
+  });
+
   it('keeps the downloads, not the served files or the manifest', () => {
     expect(CACHED_PATHS).toEqual(['vendor/dotnet/.cache/nuget', 'vendor/dotnet/.cache/toolchain']);
     for (const path of CACHED_PATHS) {

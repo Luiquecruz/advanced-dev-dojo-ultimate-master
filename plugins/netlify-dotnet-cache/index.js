@@ -3,8 +3,7 @@
 // runs `npm run csharp:vendor` (which checks every cached package and runtime archive against its SHA-512 pin, so the cache is not
 // trusted) and onPostBuild saves the cache for the next deploy. Without a cache the step downloads about 111 MB.
 
-/** Folders of vendor/dotnet/.cache kept between builds: the NuGet packages and the .NET runtime archive (not its extraction). */
-export const CACHED_PATHS = ['vendor/dotnet/.cache/nuget', 'vendor/dotnet/.cache/toolchain'];
+import { CACHED_PATHS } from './cachedPaths.js';
 
 /**
  * @param {{ utils: { cache: { restore(path: string): Promise<boolean> } } }} options
