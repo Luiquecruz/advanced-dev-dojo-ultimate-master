@@ -45,8 +45,8 @@ Closes the module as its code integration challenge (no ADR in module 05; see [0
 - Challenge: stages `parse(lines)`, `only_errors(records)`, `chunked(records, size)`; `Source` class counting reads and recording `closed` in `close()`; `pipeline(source)` returns a lazy generator; consuming only the first chunk reads only what is needed and closing the pipeline closes the source via `try/finally`.
 - Tests: read count after first chunk; source closed after `.close()`; no work happens until iteration; errors in parse propagate with the offending line in the message.
 
-### v2 backlog — 08-iteration-adr (A, I)
-Deferred ([03-curriculum.md](03-curriculum.md) "v2 backlog"). Spec kept for v2; a v2 version must add a computed field (for example the largest `batch_size` that fits the memory limit at a stated bytes per row).
+### 08-iteration-adr (A, I)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. It has a computed field (for example the largest `batch_size` that fits the memory limit at a stated bytes per row).
 - Briefing: nightly export of 30M rows, memory limit 512 MB, 10 consumers of partial results, retries after failures resume at row N, results sometimes needed twice.
 - `PLAN`: `pipeline` (`generators`|`lists`|`mixed`), `batch_size` int, `reiterable_results` bool, `materialize_at` (`never`|`sink`|`each_stage`), `resource_cleanup` (`try_finally`|`context_manager`|`none`), `rejected`.
 - Coherence: `lists` impossible with 512 MB; `batch_size` positive and ≤ 100000; reiterable results require materialization at `sink`; cleanup not `none`.
@@ -159,14 +159,14 @@ Standard-library tour for JS developers (`re`, `pathlib`, `decimal`, `datetime`,
 - Challenge: `configure_logger(name, stream, level)` idempotent (calling twice adds one handler); `log_event(logger, event, **fields)` adds fields in the record; capturing through a `StringIO` handler.
 - Tests: single handler after two configs; level filtering; format contains level and message; fields attached to the record via `extra`.
 
-### v2 backlog — 09-argparse-and-cli (P, I)
-Deferred: no `sys.argv` or shell in the sandbox, so the challenge would teach argparse through a stand-in. Spec kept for v2.
+### 09-argparse-and-cli (P, I)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. The sandbox has no `sys.argv` or shell, so the challenge passes argument lists to the parser directly.
 - Concept: `ArgumentParser`, subcommands, types, defaults, `parse_args(argv)`, exit behavior (`SystemExit`), `main(argv)` returning an exit code.
 - Challenge: `build_parser()` with subcommands `add` and `list`; `main(argv, out)` returns 0/2 and writes to the `out` stream.
 - Tests: parsing results; unknown command raises `SystemExit` with code 2 (caught as `BaseException`); output captured.
 
-### v2 backlog — 10-stdlib-adr (A, I)
-Deferred ([03-curriculum.md](03-curriculum.md) "v2 backlog"). Spec kept for v2; a v2 version must add a computed field.
+### 10-stdlib-adr (A, I)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. It has a computed field tied to the decision.
 - Briefing: a billing-report tool: money, multi-timezone timestamps, JSON export for 3 consumers, logs for operators, CLI for finance, files on shared storage.
 - `PLAN`: `money_type` (`decimal`|`float`|`int_cents`), `timestamps` (`aware_utc`|`naive_local`|`strings`), `serialization` (`custom_encoder`|`str_everywhere`|`pickle`), `logging` (`configured_logger`|`print`), `cli` (`argparse`|`manual`), `rejected`.
 - Coherence: finance requires exact money (`decimal` or `int_cents`, not `float`); multi-timezone requires `aware_utc`; cross-team JSON excludes `pickle`; operators require a configured logger.
@@ -202,8 +202,8 @@ Question: when does `match` express intent better than `if/elif`, dict dispatch 
 - Challenge: `read_chunks(read, size)` with `while chunk := read(size)`; `find_first(items, predicate)` using `for … else` returning `(index, item)` or `None`; `parse_pairs(lines)` with a walrus in a comprehension filter.
 - Tests: chunk boundaries with an empty final read; `for/else` not triggered by `break`; comprehension with walrus keeps parsed values.
 
-### v2 backlog — 06-matching-adr (A, I)
-Deferred ([03-curriculum.md](03-curriculum.md) "v2 backlog"). Module 08 ends with `05-walrus-and-loop-else`; the dispatch decision is trained by the module 09 and 10 ADRs and the capstone. Spec kept for v2; a v2 version must add a computed field.
+### 06-matching-adr (A, I)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. It closes module 08 after `05-walrus-and-loop-else`; its computed fields (growth, load and worst-case cost) decide whether the dispatch mechanism fits the per-message budget.
 - Briefing: an API gateway routes 25 message types, with 5 new types per quarter, 3 teams adding handlers, payloads arriving as JSON dicts and typed objects, 1M msgs/min.
 - `PLAN`: `dispatch` (`match`|`dict_registry`|`polymorphism`|`singledispatch`|`if_elif`), `payload_model` (`dataclasses`|`dicts`|`mixed`), `extension_point` (`registry`|`edit_match`|`subclass`), `exhaustiveness` (`wildcard_raises`|`silent_default`), `rejected`.
 - Coherence: 3 teams adding handlers rule out `edit_match` and `if_elif`; unknown types must not pass silently; `match` only as a leaf decoder, `registry` as extension point.

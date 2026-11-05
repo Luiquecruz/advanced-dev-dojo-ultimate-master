@@ -144,8 +144,8 @@ Code integration challenge that closes the module. It reuses the briefing of the
 - Tests: a cache hit skips every inner layer (call counter); a call that fails twice and then succeeds produces 3 inner calls but 1 metrics sample; an expired token is refreshed exactly once; the composed function keeps `__name__` and `__wrapped__` chain; no module-level mutable state (two clients built side by side do not share counters).
 - Notes: no real time; the clock is injected. Keep 5 tests.
 
-### v2 backlog — 10-functions-adr (A, I)
-Deferred ([03-curriculum.md](03-curriculum.md) "v2 backlog"). Spec kept for v2:
+### 11-functions-adr (A, I)
+Restored in v2 ([03-curriculum.md](03-curriculum.md) "Restored in v2") and written. Spec:
 - Briefing: internal HTTP SDK used by 9 teams: logging, retries, auth refresh, metrics, caching and rate limits on every call; teams want to add behavior without editing the client; errors must keep the original function names in traces; tests need deterministic clocks.
 - `PLAN`: `mechanism` (`decorators`|`callable_pipeline`|`subclassing`|`dependency_injection`), `order` (list of cross-cutting concerns outermost → innermost), `metadata_preserved` bool, `time_source` (`injected_clock`|`system_clock`), `state_location` (`closure`|`instance`|`global`), `rejected`.
 - Coherence: `order` fixed by the briefing; `metadata_preserved` is `true`; `time_source` is `injected_clock`; `state_location` is not `global`; `mechanism` is not `subclassing` when 9 teams add behavior independently. A v2 version must add a computed field (for example the worst-case attempts per client call from the retry and auth settings).
