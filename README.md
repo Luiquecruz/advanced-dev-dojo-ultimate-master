@@ -56,7 +56,7 @@ Browser ─ React app (routes, curriculum, Monaco editor, progress in localStora
 
 - **Lessons are plain files** in `src/content/<track>/<module>/<lesson>/` (`meta.json`, theory, challenge, starter, solution, tests, hints, quiz). A Vite plugin serves the catalog as a virtual module and loads each lesson body on demand.
 - **Grading engines** run the learner project against the lesson tests: the TypeScript compiler API, framework adapters in an iframe, an in-browser Node.js runtime, or Pyodide with a Python test harness (`@test` functions with plain `assert`).
-- **Learner code is isolated.** Framework code never runs in the app window. Python runs in a fresh worker per run, with network APIs and JavaScript code generation removed, under a worker Content-Security-Policy without `'unsafe-eval'` that the host must send (`netlify.toml`, checked after every deploy).
+- **Learner code is isolated.** Framework code never runs in the app window. Python runs in a fresh worker per run, with network APIs and JavaScript code generation removed, under a worker Content-Security-Policy without `'unsafe-eval'` that the host must send (`netlify.toml`; checked on every CI run under `vite preview`, and against the live site after each CI deploy).
 - **No real network or models**: the fake REST API and the fake model provider are deterministic, so lessons and tests are reproducible.
 
 Architecture, layers and engines are described in [ARCHITECTURE.md](.claude/docs/ARCHITECTURE.md).
@@ -83,7 +83,7 @@ Every pull request and every push to `main` runs on GitHub Actions:
 | [Security](.github/workflows/security.yml) | `npm audit`; secret scan of the whole git history (gitleaks); OSV-Scanner over the npm and Python lockfiles; CodeQL for TypeScript, Python and the workflows. Also runs weekly |
 | [Docs sync](.github/workflows/docs-sync.yml) | warns when a documented area changes without its documents (`docs:none` label for reviewed exceptions) |
 
-Only code that passed every check is deployed. Details, required secrets and branch protection in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy).
+Once the production secrets are configured on the `production` environment, only code that passed every check on `main` is deployed, and the live site is smoke-tested right after; without them `deploy` and `smoke` are skipped. Details, required secrets and branch protection in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy).
 
 ## Authoring scripts
 

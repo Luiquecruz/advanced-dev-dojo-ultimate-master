@@ -4,7 +4,8 @@
 // plus the vendored wheels are served from the app's origin.
 // Usage: npm run smoke:worker-csp                                  builds the app and checks it under `vite preview`
 //        npm run smoke:worker-csp -- --url <origin> --dist <dir>   checks a deployed build (CI runs it on each Netlify deploy)
-import { mkdtempSync, readdirSync, rmSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -32,7 +33,7 @@ function workerFile(outDir) {
   return worker;
 }
 
-async function checkServed(origin, worker) {
+async function checkServed(origin, outDir, worker) {
   const page = await fetch(`${origin}/`);
   expect(page.ok, `GET / returned ${page.status}`);
   expect(page.headers.get('content-security-policy') !== PYTHON_WORKER_CSP, 'the page must not carry the worker CSP (it would break Monaco)');
@@ -46,14 +47,22 @@ async function checkServed(origin, worker) {
     const body = await response.text();
     expect(response.ok && /<div id="root"/.test(body), `${route} must fall back to index.html (got ${response.status})`);
   }
+  // Compare bytes, not only the status: the host's SPA fallback answers a missing file with index.html and 200.
   for (const file of ['pyodide/pyodide.asm.wasm', 'pyodide/python_stdlib.zip', 'pyodide/pyodide-lock.json', 'pyodide/pydantic-2.12.5-py3-none-any.whl', 'pyodide/licenses/pyodide-LICENSE']) {
-    const response = await fetch(`${origin}/${file}`, { method: 'HEAD' });
+    const response = await fetch(`${origin}/${file}`);
+    const served = Buffer.from(await response.arrayBuffer());
     expect(response.ok, `/${file} returned ${response.status}`);
+    expect(sha256(served) === sha256(readFileSync(join(outDir, file))), `/${file} does not match the build (got ${response.headers.get('content-type')}, ${served.length} bytes)`);
   }
 }
 
+function sha256(bytes) {
+  return createHash('sha256').update(bytes).digest('hex');
+}
+
 if (options.url) {
-  await checkServed(options.url.replace(/\/$/, ''), workerFile(resolve(options.dist)));
+  const dist = resolve(options.dist);
+  await checkServed(options.url.replace(/\/$/, ''), dist, workerFile(dist));
 } else {
   const outDir = mkdtempSync(join(tmpdir(), 'dojo-csp-smoke-'));
   try {
@@ -61,7 +70,7 @@ if (options.url) {
     const worker = workerFile(outDir);
     const server = await preview({ root: ROOT, logLevel: 'error', build: { outDir }, preview: { port: 0, strictPort: false, open: false } });
     try {
-      await checkServed(server.resolvedUrls?.local[0]?.replace(/\/$/, ''), worker);
+      await checkServed(server.resolvedUrls?.local[0]?.replace(/\/$/, ''), outDir, worker);
     } finally {
       await new Promise((done) => server.httpServer.close(done));
     }

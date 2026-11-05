@@ -82,7 +82,7 @@ jobs:
           build-mode: none
           config: |
             paths-ignore:
-              - src/content
+              - src/content/*/**
       - uses: github/codeql-action/analyze@v4
         with:
           category: /language:${{ matrix.language }}
