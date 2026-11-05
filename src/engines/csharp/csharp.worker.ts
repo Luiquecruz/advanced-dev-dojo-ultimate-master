@@ -1,5 +1,5 @@
 import { files as manifestFiles, version as manifestVersion } from '../../../vendor/dotnet/manifest.json';
-import { bootFiles, checkDotnetFile, createCsharpEngine, dotnetConfig, type CsharpEngine, type DotnetFile, type DotnetRuntime, type LoadedDotnetFile } from './engine';
+import { bootFiles, checkDotnetFile, createCsharpEngine, dotnetConfig, isCriticalDotnetFile, type CsharpEngine, type DotnetAsset, type DotnetFile, type DotnetRuntime } from './engine';
 import { lockDownCsharp, refuseCsharpStringTimers } from './lockdown';
 import type { CsharpWorkerRequest, CsharpWorkerResponse } from './protocol';
 
@@ -34,55 +34,50 @@ function describe(error: unknown): string {
 }
 
 /**
- * Gunzips `bytes` when they start with the gzip magic number; a host that already decoded the `.gz` file (by sending it with
- * `Content-Encoding: gzip`) hands over the assembly itself, which starts with `MZ`.
+ * Starts fetching one runtime file from the app's origin; the promise resolves to its bytes once they match the SHA-256 pinned in
+ * the manifest bundled with this worker (so a tampered `dotnet/` folder cannot swap its own manifest). Every file is a `.js` or
+ * `.wasm` the host compresses itself; the runtime's own files are fetched with high priority.
  */
-async function gunzip(bytes: ArrayBuffer): Promise<ArrayBuffer> {
-  const head = new Uint8Array(bytes, 0, Math.min(2, bytes.byteLength));
-  if (head[0] !== 0x1f || head[1] !== 0x8b) {
-    return bytes;
-  }
-  return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+function load(file: DotnetFile): DotnetAsset {
+  const download = async () => {
+    const response = await fetch(new URL(file.path, DOTNET_URL), { priority: isCriticalDotnetFile(file) ? 'high' : 'auto' });
+    if (!response.ok) {
+      throw new Error(`dotnet/${file.path} answered ${response.status}.`);
+    }
+    const buffer = await response.arrayBuffer();
+    await checkDotnetFile(file, buffer);
+    return buffer;
+  };
+  return { file, bytes: download() };
 }
 
 /**
- * Fetches one runtime file from the app's origin and checks it against the SHA-256 pinned in the manifest bundled with this worker
- * (so a tampered `dotnet/` folder cannot swap its own manifest). Assemblies are served as `.dll.gz` and decompressed first, so the
- * check covers the bytes the runtime loads.
- */
-async function load(file: DotnetFile): Promise<LoadedDotnetFile> {
-  const compressed = file.path.endsWith('.dll');
-  const response = await fetch(new URL(compressed ? `${file.path}.gz` : file.path, DOTNET_URL));
-  if (!response.ok) {
-    throw new Error(`dotnet/${file.path} answered ${response.status}.`);
-  }
-  const fetched = await response.arrayBuffer();
-  const buffer = compressed ? await gunzip(fetched) : fetched;
-  await checkDotnetFile(file, buffer);
-  return { file, buffer };
-}
-
-/**
- * Downloads and checks every runtime file, imports the three runtime modules from the URLs whose bytes were just checked, boots the
- * runtime, warms Roslyn, then locks the scope down before any learner code runs. The import is a second request: `dotnet/<version>/`
- * is immutable and cached for a year, so it is answered from the HTTP cache the checked fetch filled (csharp-engine.md "Integrity").
- * `dotnetSidecar` tells `dotnet.js` this worker hosts the runtime itself, not a pthread.
+ * Fetches every runtime file in parallel over the app's HTTP/2 connection (`bootFiles` order: the runtime's JavaScript, then the
+ * largest first), imports the three runtime modules as soon as their own bytes are checked, and starts the runtime while the
+ * assemblies are still arriving: each one reaches it only after its check. Then it warms Roslyn and locks the scope down before any
+ * learner code runs. The import is a second request: `dotnet/<version>/` is immutable and cached for a year, so it is answered from
+ * the HTTP cache the checked fetch filled (csharp-engine.md "Integrity"). `dotnetSidecar` tells `dotnet.js` this worker hosts the
+ * runtime itself, not a pthread.
  */
 async function boot(): Promise<{ bootMs: number; warmMs: number }> {
   const startedAt = performance.now();
   refuseCsharpStringTimers(scope);
   scope.dotnetSidecar = true;
-  const loaded = await Promise.all(bootFiles({ dotnet: '', roslyn: '', files: manifestFiles as DotnetFile[] }).map(load));
+  const assets = bootFiles({ dotnet: '', roslyn: '', files: manifestFiles as DotnetFile[] }).map(load);
+  const checked = Promise.all(assets.map(({ bytes }) => bytes));
+  checked.catch(() => undefined);
   const [loader, native, runtimeModule] = await Promise.all(
-    JS_MODULES.map((name) => {
-      if (!loaded.some(({ file }) => file.path === name)) {
+    JS_MODULES.map(async (name) => {
+      const asset = assets.find(({ file }) => file.path === name);
+      if (!asset) {
         throw new Error(`The .NET manifest lists no ${name}.`);
       }
+      await asset.bytes;
       return import(/* @vite-ignore */ new URL(name, DOTNET_URL).href) as Promise<Record<string, unknown>>;
     }),
   );
   const dotnet = loader.dotnet as DotnetHostBuilder;
-  const runtime = await dotnet.withConfig(dotnetConfig(loaded, { native, runtime: runtimeModule })).create();
+  const [runtime] = await Promise.all([dotnet.withConfig(dotnetConfig(assets, { native, runtime: runtimeModule })).create(), checked]);
   const csharp = await createCsharpEngine(runtime);
   const bootedAt = performance.now();
   await csharp.warm();

@@ -3,7 +3,7 @@ import { registerHooks } from 'node:module';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { files as manifestFiles } from '../../vendor/dotnet/manifest.json';
-import { bootFiles, checkDotnetFile, createCsharpEngine, dotnetConfig, type CsharpEngine, type DotnetFile, type DotnetRuntime, type LoadedDotnetFile } from '../engines/csharp/engine';
+import { bootFiles, checkDotnetFile, createCsharpEngine, dotnetConfig, type CsharpEngine, type DotnetAsset, type DotnetFile, type DotnetRuntime } from '../engines/csharp/engine';
 import { lockDownCsharp, refuseCsharpStringTimers } from '../engines/csharp/lockdown';
 import { dangerousOriginals, scanReachable } from './csharpEscapeScan';
 import type { CsharpSandboxRequest, CsharpSandboxResponse } from './csharpSandbox';
@@ -37,11 +37,14 @@ function describe(error: unknown): string {
  * Reads one runtime file and checks it against the SHA-256 pinned in the manifest bundled into this script (spike finding C6), the
  * same check the browser worker runs, so a tampered `vendor/dotnet/` folder cannot bring its own manifest.
  */
-async function load(file: DotnetFile): Promise<LoadedDotnetFile> {
-  const bytes = readFileSync(join(directory, file.path));
-  const buffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
-  await checkDotnetFile(file, buffer);
-  return { file, buffer };
+function load(file: DotnetFile): DotnetAsset {
+  const read = async () => {
+    const bytes = readFileSync(join(directory, file.path));
+    const buffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
+    await checkDotnetFile(file, buffer);
+    return buffer;
+  };
+  return { file, bytes: read() };
 }
 
 /**
@@ -63,12 +66,17 @@ function lockDown(runtime: DotnetRuntime): void {
 
 async function boot(): Promise<void> {
   refuseCsharpStringTimers(scope);
-  const loaded = await Promise.all(bootFiles({ dotnet: '', roslyn: '', files: manifestFiles as DotnetFile[] }).map(load));
+  const assets = bootFiles({ dotnet: '', roslyn: '', files: manifestFiles as DotnetFile[] }).map(load);
+  const checked = Promise.all(assets.map(({ bytes }) => bytes));
+  checked.catch(() => undefined);
   const [loader, native, runtimeModule] = await Promise.all(
-    JS_MODULES.map((name) => import(/* @vite-ignore */ pathToFileURL(join(directory, name)).href) as Promise<Record<string, unknown>>),
+    JS_MODULES.map(async (name) => {
+      await assets.find(({ file }) => file.path === name)?.bytes;
+      return import(/* @vite-ignore */ pathToFileURL(join(directory, name)).href) as Promise<Record<string, unknown>>;
+    }),
   );
   const dotnet = loader.dotnet as DotnetHostBuilder;
-  const runtime = await dotnet.withConfig(dotnetConfig(loaded, { native, runtime: runtimeModule })).create();
+  const [runtime] = await Promise.all([dotnet.withConfig(dotnetConfig(assets, { native, runtime: runtimeModule })).create(), checked]);
   const csharp = await createCsharpEngine(runtime);
   await csharp.warm();
   lockDown(runtime);

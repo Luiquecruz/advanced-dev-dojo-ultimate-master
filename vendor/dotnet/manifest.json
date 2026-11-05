@@ -1,7 +1,7 @@
 {
   "dotnet": "10.0.14",
   "roslyn": "5.9.0",
-  "version": "6bb4073769b5834c",
+  "version": "79969882530b9991",
   "packages": [
     {
       "id": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
@@ -37,6 +37,13 @@
       "url": "https://api.nuget.org/v3-flatcontainer/microsoft.net.compilers.toolset/5.9.0/microsoft.net.compilers.toolset.5.9.0.nupkg",
       "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.08.17.17.01.16/microsoft.net.compilers.toolset.5.9.0.json",
       "sha512": "9ee78cb3c893a5d7cce3eb5b85ca876cf2360c743b34ca95c779f5c4079c9c84c5e620771ed4791f8d247ead032db234fd081c906fddc37d0b7887688e661ae1"
+    },
+    {
+      "id": "Microsoft.NET.Sdk.WebAssembly.Pack",
+      "version": "10.0.14",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.net.sdk.webassembly.pack/10.0.14/microsoft.net.sdk.webassembly.pack.10.0.14.nupkg",
+      "catalogEntry": "https://api.nuget.org/v3/catalog0/data/2026.10.25.18.06.17/microsoft.net.sdk.webassembly.pack.10.0.14.json",
+      "sha512": "e64fcaebdf355339342675c8c32edcdb38833baa10677c11ae3b4905732474b98b2ab5c413a2a60b04eb6f028503f0b2e7c7c2fc6731ac6bf080cea6ec8f15b6"
     }
   ],
   "toolchain": {
@@ -85,325 +92,330 @@
       "Testing.cs": "421bc8f645a73f379bf09b7e09bb6bb39d48d6733f803b6eaebd25bdab731df9"
     }
   },
+  "build": {
+    "converter": "5a7a1e4a4c484a8006ee6883b3a5fa1c7ad039dca3ba391c1b4bd984cb063618",
+    "referenceSection": "dojo.pe"
+  },
   "size": {
     "files": 57,
-    "bytes": 26995911,
-    "brotli": 7809006,
-    "transfer": 9415199,
-    "budget": 9961472
+    "bytes": 26646410,
+    "brotli": 8619211,
+    "brotli11": 7578323,
+    "brotliQuality": 5,
+    "budget": 8912896
   },
   "files": [
     {
-      "path": "assemblies/Dojo.Testing.dll",
+      "path": "assemblies/Dojo.Testing.wasm",
       "role": "assembly",
-      "sha256": "9e5aa8ee937178816f41e947dcb12a6c40509c4bde7ed8fc989e18615294de96",
-      "bytes": 7680,
-      "brotli": 3029,
-      "transfer": 3375
+      "sha256": "514eae79c42ae5e62acb590ed3a95b2f60796e260863d8f5fcdc7950bc82e4b4",
+      "bytes": 7445,
+      "brotli": 3263,
+      "brotli11": 3003
     },
     {
-      "path": "assemblies/DojoHost.dll",
+      "path": "assemblies/DojoHost.wasm",
       "role": "host",
-      "sha256": "bda2c14e68bfefc4b1336ebf16229bb8ee15d6e6eeda720a2f59f71fbd24e12c",
-      "bytes": 33792,
-      "brotli": 14263,
-      "transfer": 15903
+      "sha256": "ac444992a510559e4710d24ae51479169f74cd1ced87297dc3f2a544f0adeb54",
+      "bytes": 33557,
+      "brotli": 15267,
+      "brotli11": 14195
     },
     {
-      "path": "assemblies/Microsoft.CodeAnalysis.CSharp.dll",
+      "path": "assemblies/Microsoft.CodeAnalysis.CSharp.wasm",
       "role": "assembly",
-      "sha256": "fc571a6647ac45b0b0dc1866b795529bb2eeb93adf9be97fcd5903cf482f700a",
-      "bytes": 7079208,
-      "brotli": 1943764,
-      "transfer": 2454639
+      "sha256": "5d258ba5c17d3a5fcacee09bb216bc3ddbe4e1e2fd5773ce5563721f5b14d69d",
+      "bytes": 7068953,
+      "brotli": 2249514,
+      "brotli11": 1937595
     },
     {
-      "path": "assemblies/Microsoft.CodeAnalysis.dll",
+      "path": "assemblies/Microsoft.CodeAnalysis.wasm",
       "role": "assembly",
-      "sha256": "55618d457128eec582017545b8929ebf195669003b6ec737110f9519e1711d28",
-      "bytes": 3103056,
-      "brotli": 895883,
-      "transfer": 1110052
+      "sha256": "fda55a125a87bdf3b990575f06431ca822660ab58d07e3ab72134439a7b9f2bf",
+      "bytes": 3092761,
+      "brotli": 1011170,
+      "brotli11": 889449
     },
     {
-      "path": "assemblies/System.Collections.Concurrent.dll",
+      "path": "assemblies/System.Collections.Concurrent.wasm",
       "role": "assembly",
-      "sha256": "6a1240cd6afced983574d79b3918379da1285188f577c64e3e77c203edd7b5fc",
-      "bytes": 88912,
-      "brotli": 35752,
-      "transfer": 41039
+      "sha256": "85fa85329f2778f2d7feeabe96e17150c2529cdee2671227f6adca55511e85ba",
+      "bytes": 78613,
+      "brotli": 31696,
+      "brotli11": 29003
     },
     {
-      "path": "assemblies/System.Collections.dll",
+      "path": "assemblies/System.Collections.Immutable.wasm",
       "role": "assembly",
-      "sha256": "918ab42719faf59fd096f44d5149abfa6455eab112675bcfda7867e70fae7c81",
-      "bytes": 112976,
-      "brotli": 43295,
-      "transfer": 50158
+      "sha256": "659249897525dbdd045be0c365aa78670911e71f082962fab29cb3d92f659523",
+      "bytes": 240917,
+      "brotli": 89868,
+      "brotli11": 81221
     },
     {
-      "path": "assemblies/System.Collections.Immutable.dll",
+      "path": "assemblies/System.Collections.wasm",
       "role": "assembly",
-      "sha256": "aea13e3b8c37fff158a171cb90392a250d982408d8b8aaa8a1c65b5c8c826769",
-      "bytes": 251176,
-      "brotli": 88067,
-      "transfer": 105174
+      "sha256": "7d1b8e3fb815980cc84b2d67b6894fa6bf936064cb4c0639547f214d3337826e",
+      "bytes": 102677,
+      "brotli": 40297,
+      "brotli11": 36580
     },
     {
-      "path": "assemblies/System.Console.dll",
+      "path": "assemblies/System.Console.wasm",
       "role": "assembly",
-      "sha256": "ddac36a67805968f4658b0bbc3e99986133e90c31afabd54c47878bfa26ce4c6",
-      "bytes": 54056,
-      "brotli": 23011,
-      "transfer": 26409
+      "sha256": "9cbe95b0e710127a9dc6fb016d89e3198bf5602e8767b4fe3318de77cc2e4184",
+      "bytes": 43797,
+      "brotli": 17885,
+      "brotli11": 16087
     },
     {
-      "path": "assemblies/System.IO.MemoryMappedFiles.dll",
+      "path": "assemblies/System.IO.MemoryMappedFiles.wasm",
       "role": "assembly",
-      "sha256": "51398fd058103bdf3a8f48c1b30287e5ea0308cb12081f4ca626601b993b784e",
-      "bytes": 50000,
-      "brotli": 21603,
-      "transfer": 24235
+      "sha256": "dfc14559b3102cdd3d1155ec7cc198999db5b31439aafcd1775dffa39015d0a7",
+      "bytes": 39701,
+      "brotli": 16219,
+      "brotli11": 14864
     },
     {
-      "path": "assemblies/System.IO.Pipelines.dll",
+      "path": "assemblies/System.IO.Pipelines.wasm",
       "role": "assembly",
-      "sha256": "9c083d7b765f97c4cdd4e7cb466d91073e7ce9764c3cbef1861872eeabfb7e02",
-      "bytes": 78120,
-      "brotli": 32873,
-      "transfer": 37714
+      "sha256": "3aa8165bec8d2b718d927cf0ba7ba9fb2e301544164d62202a578d3e3010d850",
+      "bytes": 67861,
+      "brotli": 28537,
+      "brotli11": 26065
     },
     {
-      "path": "assemblies/System.Linq.dll",
+      "path": "assemblies/System.Linq.wasm",
       "role": "assembly",
-      "sha256": "fb8e44e39cb3b6f9d84056e690d779a92ade31cc86b6a3ebc9011b82961852d1",
-      "bytes": 201000,
-      "brotli": 67730,
-      "transfer": 82105
+      "sha256": "4cf1e524ac3f80887e4c7d723c29f54b676ad76325c8472ecbbd064652881d57",
+      "bytes": 190741,
+      "brotli": 67486,
+      "brotli11": 60718
     },
     {
-      "path": "assemblies/System.Memory.dll",
+      "path": "assemblies/System.Memory.wasm",
       "role": "assembly",
-      "sha256": "0981468d9bf2772218689fbd6b8d06fc21e539717cea73ec7ed63e598d80fc3e",
-      "bytes": 55592,
-      "brotli": 24967,
-      "transfer": 27548
+      "sha256": "09ddaf85e36c7c13ef4d7e32cc5436cfec4984e1c26c989072e499ddde8ae062",
+      "bytes": 45333,
+      "brotli": 19759,
+      "brotli11": 18163
     },
     {
-      "path": "assemblies/System.Numerics.Vectors.dll",
+      "path": "assemblies/System.Numerics.Vectors.wasm",
       "role": "assembly",
-      "sha256": "74f387b0ca0c984b57ed23df0146f1ed2ca6b814540ba9ec2851d43dcb5cac27",
-      "bytes": 15656,
-      "brotli": 8843,
-      "transfer": 9326
+      "sha256": "624bf089833a6c91bd2c0e83cf58f9db9b8e702dcc8c9e2b389610f8f3ad9924",
+      "bytes": 5397,
+      "brotli": 2206,
+      "brotli11": 2033
     },
     {
-      "path": "assemblies/System.ObjectModel.dll",
+      "path": "assemblies/System.ObjectModel.wasm",
       "role": "assembly",
-      "sha256": "8e129b1d3ce31e4bfd18f5660ffb814a8dd66bf98b1992663b1206be936a2960",
-      "bytes": 41256,
-      "brotli": 18494,
-      "transfer": 20674
+      "sha256": "b8c1e66933e2073d4d95b7971ce949d2aee7caacd85a222261200d12368e6305",
+      "bytes": 30997,
+      "brotli": 12946,
+      "brotli11": 11769
     },
     {
-      "path": "assemblies/System.Private.Uri.dll",
+      "path": "assemblies/System.Private.Uri.wasm",
       "role": "assembly",
-      "sha256": "2498f0eb12c53925aad9d19565fafae755b852eeb8ededd9ef8b138b5bf2e27e",
-      "bytes": 105808,
-      "brotli": 44004,
-      "transfer": 49324
+      "sha256": "e4b56986f49b6104f86884d59fd3a4eff4e525fdd2d1f83baee01b752efa337e",
+      "bytes": 95509,
+      "brotli": 40384,
+      "brotli11": 37293
     },
     {
-      "path": "assemblies/System.Private.Xml.dll",
+      "path": "assemblies/System.Private.Xml.Linq.wasm",
       "role": "assembly",
-      "sha256": "3714635447f6a87129d22ee372a9d93a26e77b20d9a572fe0ea24c3f072b0220",
-      "bytes": 3107112,
-      "brotli": 855047,
-      "transfer": 1057731
+      "sha256": "7d05fc1b72e4d16c33f13e7cfd85a6f5a92f5c2ca343c8f78d4425d2afa50d0a",
+      "bytes": 143637,
+      "brotli": 54051,
+      "brotli11": 49099
     },
     {
-      "path": "assemblies/System.Private.Xml.Linq.dll",
+      "path": "assemblies/System.Private.Xml.wasm",
       "role": "assembly",
-      "sha256": "9e4a890922fe2c269606e4281e282f646aebf27b59d03d793f94c7b048c59094",
-      "bytes": 153896,
-      "brotli": 55831,
-      "transfer": 65949
+      "sha256": "86009953171be26f62eab577e33c3502d82ddc74a9d6f27c6b4d07ea6300e498",
+      "bytes": 3096857,
+      "brotli": 957448,
+      "brotli11": 848200
     },
     {
-      "path": "assemblies/System.Reflection.Emit.ILGeneration.dll",
+      "path": "assemblies/System.Reflection.Emit.ILGeneration.wasm",
       "role": "assembly",
-      "sha256": "689f0113683505e78b226d571cb1153818f4ba0536cccf0d5a480620f2ee1c63",
-      "bytes": 15696,
-      "brotli": 8871,
-      "transfer": 9360
+      "sha256": "c46d97174687a1f77ef95a0c085d632881c1f315d7141b985a673662131235e0",
+      "bytes": 5397,
+      "brotli": 2203,
+      "brotli11": 1996
     },
     {
-      "path": "assemblies/System.Reflection.Emit.Lightweight.dll",
+      "path": "assemblies/System.Reflection.Emit.Lightweight.wasm",
       "role": "assembly",
-      "sha256": "7cb35a8281c781d72e9b4441f44bae93094cc1e67225e42449d5753677215d1f",
-      "bytes": 15656,
-      "brotli": 8794,
-      "transfer": 9302
+      "sha256": "bdb328f85330a0991ea097895f5f233c7c185bcc54d115f9f4deb7c02fa7ce83",
+      "bytes": 5397,
+      "brotli": 2183,
+      "brotli11": 1984
     },
     {
-      "path": "assemblies/System.Reflection.Metadata.dll",
+      "path": "assemblies/System.Reflection.Metadata.wasm",
       "role": "assembly",
-      "sha256": "428795b82083d114dc663756d0313d954708b8ba74e6e21e342bc85b5baa38ba",
-      "bytes": 503592,
-      "brotli": 160369,
-      "transfer": 199481
+      "sha256": "b136c7933bc62da5e4f3e34ad6fea876f5cc7a7e47d35e7b7c64055927fc68f6",
+      "bytes": 493333,
+      "brotli": 171777,
+      "brotli11": 153716
     },
     {
-      "path": "assemblies/System.Reflection.Primitives.dll",
+      "path": "assemblies/System.Reflection.Primitives.wasm",
       "role": "assembly",
-      "sha256": "6cde1453aca4c157845783da88a3b332350e42defcfa4d427013794844bccb83",
-      "bytes": 15656,
-      "brotli": 8890,
-      "transfer": 9442
+      "sha256": "c84511d42d21a09fd8818bb0ee4d4423584f19dd9a58a98a8d8631c0435336bb",
+      "bytes": 5397,
+      "brotli": 2301,
+      "brotli11": 2080
     },
     {
-      "path": "assemblies/System.Runtime.dll",
+      "path": "assemblies/System.Runtime.InteropServices.JavaScript.wasm",
       "role": "assembly",
-      "sha256": "3be80c7e09ffb70a089806895da13cb8ddc4153a584b6f16cf808135350adfe3",
-      "bytes": 44840,
-      "brotli": 15731,
-      "transfer": 18198
+      "sha256": "810c9571d56aae8aabdccec828936d48cb8664b4e2e923d3c49f5c288234a26c",
+      "bytes": 79637,
+      "brotli": 29416,
+      "brotli11": 26913
     },
     {
-      "path": "assemblies/System.Runtime.InteropServices.dll",
+      "path": "assemblies/System.Runtime.InteropServices.wasm",
       "role": "assembly",
-      "sha256": "9bba1871351575f41b9ac38389a14836acc406d13d15314fd8ea944cfc75d73e",
-      "bytes": 64808,
-      "brotli": 26987,
-      "transfer": 30638
+      "sha256": "dd89331d3297a0c4a5aac4e6ed289c59d6c8858f7f85d55a46fb0d80c69ca429",
+      "bytes": 54549,
+      "brotli": 22073,
+      "brotli11": 20136
     },
     {
-      "path": "assemblies/System.Runtime.InteropServices.JavaScript.dll",
+      "path": "assemblies/System.Runtime.Loader.wasm",
       "role": "assembly",
-      "sha256": "600017093c93a298b07ef7f00687c9caa8bb83394e5ef37dfa7b2ed79261ad06",
-      "bytes": 89896,
-      "brotli": 33808,
-      "transfer": 39254
+      "sha256": "0db7813efcf24740ffc3121704940e5b39bac5745b05c3cbd23a71bbc13d7800",
+      "bytes": 5397,
+      "brotli": 2270,
+      "brotli11": 2070
     },
     {
-      "path": "assemblies/System.Runtime.Loader.dll",
+      "path": "assemblies/System.Runtime.Numerics.wasm",
       "role": "assembly",
-      "sha256": "dfb87a40789e0e1b93ef37bacc511457b4028cc57ea803a49783b8c54a89816d",
-      "bytes": 15656,
-      "brotli": 8834,
-      "transfer": 9382
+      "sha256": "937500e9e310341dabaee15f5c1f39eccc0214d055b846951547ed19f635659d",
+      "bytes": 134933,
+      "brotli": 49941,
+      "brotli11": 46199
     },
     {
-      "path": "assemblies/System.Runtime.Numerics.dll",
+      "path": "assemblies/System.Runtime.wasm",
       "role": "assembly",
-      "sha256": "5ae6390fc731c2e536297f8754d093b99856e16b278407c82957d4fbd9e5317d",
-      "bytes": 145192,
-      "brotli": 53070,
-      "transfer": 60210
+      "sha256": "4af52a715b0a80fca05f4fe3d35e0882a47699e2cc64a8d6dfdb5fbfc5bddedd",
+      "bytes": 34581,
+      "brotli": 10063,
+      "brotli11": 8892
     },
     {
-      "path": "assemblies/System.Security.Cryptography.dll",
+      "path": "assemblies/System.Security.Cryptography.wasm",
       "role": "assembly",
-      "sha256": "6dcc2e13fc9d227bf96956c7a1122ca3d81c6cca9019d35fa1407e7bfeb62394",
-      "bytes": 654160,
-      "brotli": 193241,
-      "transfer": 234874
+      "sha256": "5e2d390cae360df7f1a224f866cd4648f896a02bdd8dc8b6dd97f4036a3434a6",
+      "bytes": 643861,
+      "brotli": 206585,
+      "brotli11": 186752
     },
     {
-      "path": "assemblies/System.Text.Encoding.Extensions.dll",
+      "path": "assemblies/System.Text.Encoding.Extensions.wasm",
       "role": "assembly",
-      "sha256": "a49869220f161752182614a049e093883b9942b740e96f1388fc645f86f7fefd",
-      "bytes": 15656,
-      "brotli": 8796,
-      "transfer": 9315
+      "sha256": "fe7930a6f00825e1c4a3f32e0e3bd42117377db151afc127110c70fbb701366a",
+      "bytes": 5397,
+      "brotli": 2182,
+      "brotli11": 2017
     },
     {
-      "path": "assemblies/System.Text.Encodings.Web.dll",
+      "path": "assemblies/System.Text.Encodings.Web.wasm",
       "role": "assembly",
-      "sha256": "a9a0b5d715a90ff347515c3074287eeb13d883c281c02dfb537187f4e424b0f7",
-      "bytes": 65872,
-      "brotli": 24717,
-      "transfer": 29081
+      "sha256": "2a97377ae59b872eb3d69f1eb9555ba512f577708f951f7a2ef8040292911df0",
+      "bytes": 55573,
+      "brotli": 19939,
+      "brotli11": 17847
     },
     {
-      "path": "assemblies/System.Text.Json.dll",
+      "path": "assemblies/System.Text.Json.wasm",
       "role": "assembly",
-      "sha256": "f651a598b36ebfcabf539f2c9ba151a6474d915d0a79ae7767c20fdf929e91b4",
-      "bytes": 649000,
-      "brotli": 195538,
-      "transfer": 235626
+      "sha256": "f79b95a0e74fb4fb30fb90a704078e0b910c6d9d08cd9a7ab7a589b8fdcc24ef",
+      "bytes": 638741,
+      "brotli": 209660,
+      "brotli11": 188904
     },
     {
-      "path": "assemblies/System.Text.RegularExpressions.dll",
+      "path": "assemblies/System.Text.RegularExpressions.wasm",
       "role": "assembly",
-      "sha256": "d884d2f097f2fd5c10c1598973b31589f28e008027a1f7e7c2d8b2cfd7439d02",
-      "bytes": 384848,
-      "brotli": 140998,
-      "transfer": 165739
+      "sha256": "8336c54d5413476b6125468549c98d35c0a9e5bd0db682b3795a7351d38e7b4c",
+      "bytes": 374549,
+      "brotli": 147998,
+      "brotli11": 134104
     },
     {
-      "path": "assemblies/System.Threading.dll",
+      "path": "assemblies/System.Threading.Tasks.Parallel.wasm",
       "role": "assembly",
-      "sha256": "25c1ca2f537eba25eeaff2c349011acf197a8a9462a12657cbeee7403f8fbc92",
-      "bytes": 44840,
-      "brotli": 19673,
-      "transfer": 22038
+      "sha256": "a9e66658c76d0aa175b202b59391a313ed841a8ca09fbe80ef88962090b72b6e",
+      "bytes": 50965,
+      "brotli": 20138,
+      "brotli11": 18626
     },
     {
-      "path": "assemblies/System.Threading.Tasks.dll",
+      "path": "assemblies/System.Threading.Tasks.wasm",
       "role": "assembly",
-      "sha256": "3f9ed305ad4c3222aaf98d58ba6384e341dc07087f9fe62bdecff15a2e49af61",
-      "bytes": 16720,
-      "brotli": 9063,
-      "transfer": 9677
+      "sha256": "a224a48edb58b9d097a72b83d5804930357555dee3f8be811827482e827ac544",
+      "bytes": 6421,
+      "brotli": 2497,
+      "brotli11": 2268
     },
     {
-      "path": "assemblies/System.Threading.Tasks.Parallel.dll",
+      "path": "assemblies/System.Threading.wasm",
       "role": "assembly",
-      "sha256": "9c71a741e391a8d12b2462ebf9755ea06c6375c7a1a9d4c77831fec08db02092",
-      "bytes": 61264,
-      "brotli": 25285,
-      "transfer": 28068
+      "sha256": "a12c2a6463d08e453a9e0dc72152b68692c5e6b2f5d69d8700f0c0bd2c4ba90a",
+      "bytes": 34581,
+      "brotli": 14146,
+      "brotli11": 12834
     },
     {
-      "path": "assemblies/System.Xml.XDocument.dll",
+      "path": "assemblies/System.Xml.XDocument.wasm",
       "role": "assembly",
-      "sha256": "d2f90e9ba43d96bc44cc19856060d9c0f1414330494aecc1dd717f9d3745ca8b",
-      "bytes": 15696,
-      "brotli": 8966,
-      "transfer": 9482
+      "sha256": "c12264747d6099b7063ae2ecc540848a570d33620fdf5f4815d34ded85c9bc8f",
+      "bytes": 5397,
+      "brotli": 2324,
+      "brotli11": 2129
     },
     {
       "path": "dotnet.js",
       "role": "runtime",
       "sha256": "84978337f9e9c1a485eb560538b30ea1cb1209e1c40a85114a7f3742ae828a5b",
       "bytes": 37898,
-      "brotli": 10455,
-      "transfer": 10455
+      "brotli": 11332,
+      "brotli11": 10455
     },
     {
       "path": "dotnet.native.js",
       "role": "runtime",
       "sha256": "099d0855990b4c8bde7bb9f5c95bce8ad94958d763fd88da160a4c82588833ae",
       "bytes": 145050,
-      "brotli": 30436,
-      "transfer": 30436
+      "brotli": 33426,
+      "brotli11": 30436
     },
     {
       "path": "dotnet.native.wasm",
       "role": "runtime",
       "sha256": "62521652bab002242e009341397f999bdc2958bfac177278e3d885abb247a2e4",
       "bytes": 3001771,
-      "brotli": 976573,
-      "transfer": 976573
+      "brotli": 1108029,
+      "brotli11": 976573
     },
     {
       "path": "dotnet.runtime.js",
       "role": "runtime",
       "sha256": "ff774183db23d722c3de1d0f0cc1e73545d6b3fdb35b020c133a26d57cf7438d",
       "bytes": 198480,
-      "brotli": 47839,
-      "transfer": 47839
+      "brotli": 52955,
+      "brotli11": 47839
     },
     {
       "path": "licenses/dotnet-LICENSE.TXT",
@@ -411,7 +423,7 @@
       "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310",
       "bytes": 1116,
       "brotli": 0,
-      "transfer": 0
+      "brotli11": 0
     },
     {
       "path": "licenses/dotnet-THIRD-PARTY-NOTICES.TXT",
@@ -419,7 +431,7 @@
       "sha256": "66f1d4e44973185519bb4aa8a9718eb22fc7af2cc532e3ae9cfc4c127ee7fc54",
       "bytes": 76623,
       "brotli": 0,
-      "transfer": 0
+      "brotli11": 0
     },
     {
       "path": "licenses/roslyn-ThirdPartyNotices.rtf",
@@ -427,127 +439,127 @@
       "sha256": "ef4678850e7e3aaf9297f07e5c4060d477854e545ccf8e2ef8452d65a7b2efaf",
       "bytes": 2183,
       "brotli": 0,
-      "transfer": 0
+      "brotli11": 0
     },
     {
-      "path": "ref/Dojo.Testing.dll",
+      "path": "ref/Dojo.Testing.wasm",
       "role": "reference",
-      "sha256": "9e5aa8ee937178816f41e947dcb12a6c40509c4bde7ed8fc989e18615294de96",
-      "bytes": 7680,
-      "brotli": 3029,
-      "transfer": 3375
+      "sha256": "242aaba814bc66b03abd25964e379c151bf8bcea0ed176771033e08e1417c849",
+      "bytes": 7699,
+      "brotli": 3312,
+      "brotli11": 3054
     },
     {
-      "path": "ref/System.Collections.Concurrent.dll",
+      "path": "ref/System.Collections.Concurrent.wasm",
       "role": "reference",
-      "sha256": "c2397bedf543acb1929152fb6cd3c32a6a125bcb4a083938220ee62642814c9e",
-      "bytes": 27472,
-      "brotli": 12650,
-      "transfer": 13993
+      "sha256": "779da071572ee8e96bb67f0dbdc3d93783f1b2fec7fe12e72fa83209f8cffb82",
+      "bytes": 27492,
+      "brotli": 13555,
+      "brotli11": 12664
     },
     {
-      "path": "ref/System.Collections.dll",
+      "path": "ref/System.Collections.Immutable.wasm",
       "role": "reference",
-      "sha256": "887169794f6380e1fc110b237f6fdba15a0e6c5a2f73e7539f3e5330f17502a4",
-      "bytes": 55120,
-      "brotli": 20513,
-      "transfer": 24458
+      "sha256": "1165ca9a66792ff7492fed099bc04a663d5e984843cbde398ddf977c52e85813",
+      "bytes": 75108,
+      "brotli": 28037,
+      "brotli11": 25457
     },
     {
-      "path": "ref/System.Collections.Immutable.dll",
+      "path": "ref/System.Collections.wasm",
       "role": "reference",
-      "sha256": "1a37547bc962e0a63aec96eceab9b83daa634f347683355e374ad4336127e562",
-      "bytes": 75088,
-      "brotli": 25440,
-      "transfer": 31073
+      "sha256": "6f3334beca7d5b5b68f222cdbd59231514046a7170c2f2b42956e1de10513126",
+      "bytes": 55140,
+      "brotli": 22925,
+      "brotli11": 20616
     },
     {
-      "path": "ref/System.Console.dll",
+      "path": "ref/System.Console.wasm",
       "role": "reference",
-      "sha256": "0cee0de93a568dfdb468febc313d3a027929e218e082c16dc8582299bb528174",
-      "bytes": 26408,
-      "brotli": 12922,
-      "transfer": 14647
+      "sha256": "c533096cd6d4e222d190e048f93483bd95c149c52ddad89eef505b3e1ec0a619",
+      "bytes": 26428,
+      "brotli": 13665,
+      "brotli11": 12896
     },
     {
-      "path": "ref/System.Linq.dll",
+      "path": "ref/System.Linq.wasm",
       "role": "reference",
-      "sha256": "288a8944aead18fab66da426c510877917209c03581955b69c00e53e2db2c114",
-      "bytes": 33576,
-      "brotli": 13452,
-      "transfer": 15614
+      "sha256": "f4b475cf35fb212008bda8257760093498433a59390ef0b7914e54006532409f",
+      "bytes": 33596,
+      "brotli": 14445,
+      "brotli11": 13473
     },
     {
-      "path": "ref/System.Memory.dll",
+      "path": "ref/System.Memory.wasm",
       "role": "reference",
-      "sha256": "ca633099219d52dea264b12d3a13adb82b8970adf9f1e521660c137ec84fa733",
-      "bytes": 57128,
-      "brotli": 19912,
-      "transfer": 23997
+      "sha256": "7d3812420446bbd7be1aee193ef782f9e76f8a3e46f194d2c2a3ac28ec8913aa",
+      "bytes": 57148,
+      "brotli": 21599,
+      "brotli11": 19797
     },
     {
-      "path": "ref/System.ObjectModel.dll",
+      "path": "ref/System.ObjectModel.wasm",
       "role": "reference",
-      "sha256": "93e83f98d6cebca4c97758a8628a5f1c9627a7cd92f4a09f8da1cc8e13a08b81",
-      "bytes": 23376,
-      "brotli": 11536,
-      "transfer": 12653
+      "sha256": "52a245afdc8e615e1c7d104a63fac50fccbb49b4efb07a5fe7fc86f7e4865218",
+      "bytes": 23396,
+      "brotli": 12273,
+      "brotli11": 11571
     },
     {
-      "path": "ref/System.Runtime.dll",
+      "path": "ref/System.Runtime.Numerics.wasm",
       "role": "reference",
-      "sha256": "83718200954acb9052d8ff716053bca0fb8f591cacd59d5fe821ae8a19565382",
-      "bytes": 862504,
-      "brotli": 187145,
-      "transfer": 250343
+      "sha256": "a93c303a79b34119e9cd622652f047507cf8e1b3a475b72983acb2032526513d",
+      "bytes": 36156,
+      "brotli": 15605,
+      "brotli11": 14564
     },
     {
-      "path": "ref/System.Runtime.Numerics.dll",
+      "path": "ref/System.Runtime.wasm",
       "role": "reference",
-      "sha256": "aff64aa1bb78d390f77024d8b04385114027e4d3b36f42b59c49172058c68bc4",
-      "bytes": 36136,
-      "brotli": 14631,
-      "transfer": 16563
+      "sha256": "165b69b423d6042a925c127e3f76d2d307c6bbcced93b6c4b500e91049a3f737",
+      "bytes": 862524,
+      "brotli": 212344,
+      "brotli11": 187124
     },
     {
-      "path": "ref/System.Text.Json.dll",
+      "path": "ref/System.Text.Json.wasm",
       "role": "reference",
-      "sha256": "105ac7c08a63c6c41dbbf41650ff1b54c96ee11afa6ffb510cb213b78d23d71a",
-      "bytes": 82216,
-      "brotli": 28554,
-      "transfer": 34364
+      "sha256": "1c7117c1787892123fe6417f7371f87b7d48ad1e05213a60b199487df87efeb7",
+      "bytes": 82236,
+      "brotli": 31307,
+      "brotli11": 28547
     },
     {
-      "path": "ref/System.Text.RegularExpressions.dll",
+      "path": "ref/System.Text.RegularExpressions.wasm",
       "role": "reference",
-      "sha256": "b2e82bc317bfc47444554a90832644cdb1b1cbe83f53290ecb02ccdd8855a168",
-      "bytes": 36648,
-      "brotli": 15658,
-      "transfer": 17848
+      "sha256": "a475472314cb9feb6e3076b61e4a4eb9e12b04e8dc9b8487101f4e03181d13f9",
+      "bytes": 36668,
+      "brotli": 16860,
+      "brotli11": 15636
     },
     {
-      "path": "ref/System.Threading.dll",
+      "path": "ref/System.Threading.Tasks.wasm",
       "role": "reference",
-      "sha256": "bdf1caf4bc601e81a7bba8dd9cdf51d98383ec9812d7cdbb258872036292f142",
-      "bytes": 33616,
-      "brotli": 14974,
-      "transfer": 16914
+      "sha256": "aa7d1e927bfdeac5c3f891bc6f437568b6c91fd33602279b28c11f8e426a4972",
+      "bytes": 16700,
+      "brotli": 9418,
+      "brotli11": 9083
     },
     {
-      "path": "ref/System.Threading.Tasks.dll",
+      "path": "ref/System.Threading.wasm",
       "role": "reference",
-      "sha256": "a908649b99249e9533d674ed8838f2cace1f6a4071d848bf9edf7b96dc4ebc5f",
-      "bytes": 16680,
-      "brotli": 9101,
-      "transfer": 9655
+      "sha256": "79e0507ee5036c5585fae0ca26e442cb642d8d9b15edb901cb91d89d69b481bd",
+      "bytes": 33636,
+      "brotli": 16177,
+      "brotli11": 14951
     },
     {
-      "path": "System.Private.CoreLib.dll",
+      "path": "System.Private.CoreLib.wasm",
       "role": "core",
-      "sha256": "90e44338a3c2f707bdee01c000c6ffc9e2cea2d74064648565b933a822d8251f",
-      "bytes": 4880720,
-      "brotli": 1226099,
-      "transfer": 1553877
+      "sha256": "0b6d3f3864053400013921497367c1f9806b10baa069e9e80ea2ba7ff1943d20",
+      "bytes": 4870425,
+      "brotli": 1406255,
+      "brotli11": 1218783
     }
   ]
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { NETWORK_GLOBALS } from '../shared/workerLockdown';
-import { bootFiles, checkDotnetFile, dotnetConfig, REFERENCE_DIRECTORY, type DotnetFile, type DotnetManifest } from './engine';
+import { bootFiles, checkDotnetFile, dotnetConfig, REFERENCE_DIRECTORY, REFERENCE_SECTION, unwrapReference, type DotnetFile, type DotnetManifest } from './engine';
 import fixtureTests from './fixtures/basic/tests.cs?raw';
 import { blockFunctionBinding, DOTNET_INTERNAL_MEMBERS, DOTNET_RUNTIME_GLOBALS, DOTNET_WORKER_GLOBALS, lockDownCsharp, lockDownDotnetInternals } from './lockdown';
 import { parseHostEvent, parseProgramReport, parseTestReport, reportMismatch } from './protocol';
@@ -103,29 +103,85 @@ describe('C# host protocol', () => {
   });
 });
 
+/** A reference assembly as vendor-dotnet.mjs serves it: a WebAssembly module with one custom section that holds the PE bytes. */
+function wrapped(payload: Uint8Array, name = REFERENCE_SECTION): ArrayBuffer {
+  const leb = (value: number) => {
+    const bytes: number[] = [];
+    let rest = value;
+    do {
+      const byte = rest & 0x7f;
+      rest = Math.floor(rest / 128);
+      bytes.push(rest > 0 ? byte | 0x80 : byte);
+    } while (rest > 0);
+    return bytes;
+  };
+  const nameBytes = [...new TextEncoder().encode(name)];
+  const content = [...leb(nameBytes.length), ...nameBytes, ...payload];
+  return new Uint8Array([0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00, 0x00, ...leb(content.length), ...content]).buffer;
+}
+
 describe('C# runtime boot', () => {
-  const file = (path: string, role: DotnetFile['role']): DotnetFile => ({ path, role, sha256: '', bytes: 0 });
+  const file = (path: string, role: DotnetFile['role'], bytes = 0): DotnetFile => ({ path, role, sha256: '', bytes });
   const manifest: DotnetManifest = {
     dotnet: '10.0.14',
     roslyn: '5.9.0',
     files: [
-      file('dotnet.native.wasm', 'runtime'),
-      file('System.Private.CoreLib.dll', 'core'),
-      file('assemblies/DojoHost.dll', 'host'),
-      file('assemblies/System.Linq.dll', 'assembly'),
-      file('ref/System.Runtime.dll', 'reference'),
-      file('licenses/dotnet-LICENSE.TXT', 'license'),
+      file('assemblies/DojoHost.wasm', 'host', 30),
+      file('assemblies/Microsoft.CodeAnalysis.CSharp.wasm', 'assembly', 7000),
+      file('assemblies/System.Linq.wasm', 'assembly', 200),
+      file('dotnet.js', 'runtime', 40),
+      file('dotnet.native.wasm', 'runtime', 3000),
+      file('dotnet.runtime.js', 'runtime', 200),
+      file('licenses/dotnet-LICENSE.TXT', 'license', 1),
+      file('ref/System.Runtime.wasm', 'reference', 800),
+      file('System.Private.CoreLib.wasm', 'core', 4600),
     ],
   };
 
-  it('boots from every file but the licenses, mounting references under /ref', () => {
-    const loaded = bootFiles(manifest).map((entry) => ({ file: entry, buffer: new ArrayBuffer(1) }));
-    expect(loaded.map(({ file: entry }) => entry.path)).not.toContain('licenses/dotnet-LICENSE.TXT');
-    const config = dotnetConfig(loaded, { native: {}, runtime: {} }) as { resources: Record<string, Array<{ name: string; virtualPath?: string }>> };
-    expect(config.resources.coreAssembly.map((asset) => asset.name)).toEqual(['System.Private.CoreLib.dll', 'DojoHost.dll', 'System.Linq.dll']);
+  it('downloads the runtime JavaScript first, then the largest file first, and never the licenses', () => {
+    expect(bootFiles(manifest).map((entry) => entry.path)).toEqual([
+      'dotnet.runtime.js',
+      'dotnet.js',
+      'assemblies/Microsoft.CodeAnalysis.CSharp.wasm',
+      'System.Private.CoreLib.wasm',
+      'dotnet.native.wasm',
+      'ref/System.Runtime.wasm',
+      'assemblies/System.Linq.wasm',
+      'assemblies/DojoHost.wasm',
+    ]);
+  });
+
+  it('hands every asset over as a pending download, Webcil assemblies as core ones and references unwrapped under /ref', async () => {
+    const pe = new Uint8Array([0x4d, 0x5a, 1, 2, 3]);
+    const assets = bootFiles(manifest).map((entry) => ({ file: entry, bytes: Promise.resolve(entry.role === 'reference' ? wrapped(pe) : new ArrayBuffer(1)) }));
+    type Asset = { name: string; virtualPath?: string; resolvedUrl?: string; pendingDownload: { response: Promise<Response> } };
+    const config = dotnetConfig(assets, { native: {}, runtime: {} }) as { resources: Record<string, Asset[]> };
+    expect(config.resources.coreAssembly.map((asset) => asset.virtualPath)).toEqual(['Microsoft.CodeAnalysis.CSharp.wasm', 'System.Private.CoreLib.wasm', 'System.Linq.wasm', 'DojoHost.wasm']);
     expect(config.resources.assembly).toBeUndefined();
     expect(config.resources.vfs).toEqual([expect.objectContaining({ name: 'System.Runtime.dll', virtualPath: `${REFERENCE_DIRECTORY}/System.Runtime.dll` })]);
-    expect(config.resources.wasmNative.map((asset) => asset.name)).toEqual(['dotnet.native.wasm']);
+    expect(new Uint8Array(await (await config.resources.vfs[0].pendingDownload.response).arrayBuffer())).toEqual(pe);
+    const [wasm] = config.resources.wasmNative;
+    expect(wasm.name).toBe('dotnet.native.wasm');
+    expect((await wasm.pendingDownload.response).headers.get('Content-Type')).toBe('application/wasm');
+    for (const asset of Object.values(config.resources).flat().filter((entry) => 'pendingDownload' in entry)) {
+      expect(asset.resolvedUrl, asset.name).toBeTypeOf('string');
+    }
+  });
+
+  it('starts nothing from a file that failed its check: the pending download rejects', async () => {
+    const assets = bootFiles(manifest).map((entry) => ({ file: entry, bytes: entry.path.endsWith('System.Linq.wasm') ? Promise.reject(new Error('tampered')) : Promise.resolve(entry.role === 'reference' ? wrapped(new Uint8Array([1])) : new ArrayBuffer(1)) }));
+    const config = dotnetConfig(assets, { native: {}, runtime: {} }) as { resources: { coreAssembly: { name: string; pendingDownload: { response: Promise<Response> } }[] } };
+    const linq = config.resources.coreAssembly.find((asset) => asset.name === 'System.Linq.wasm')!;
+    await expect(linq.pendingDownload.response).rejects.toThrow('tampered');
+  });
+
+  it('unwraps a reference assembly only from a module with exactly one dojo.pe section', () => {
+    const pe = new Uint8Array(300).map((_, index) => index % 251);
+    expect(new Uint8Array(unwrapReference(wrapped(pe)))).toEqual(pe);
+    expect(() => unwrapReference(wrapped(pe, 'other'))).toThrow(/dojo\.pe/);
+    expect(() => unwrapReference(pe.buffer)).toThrow(/not a WebAssembly module/);
+    const trailing = new Uint8Array([...new Uint8Array(wrapped(pe)), 0x00, 0x01, 0x00]);
+    expect(() => unwrapReference(trailing.buffer)).toThrow(/exactly one/);
   });
 
   it('accepts a file only with its pinned size and SHA-256', async () => {

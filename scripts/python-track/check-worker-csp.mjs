@@ -2,16 +2,15 @@
 // Fails unless a served build has the production layout the host must reproduce: assets/python.worker-*.js (and
 // assets/csharp.worker-*.js once the C# engine has a worker) carry the worker CSP, the page does not, path routes such as
 // /python/<lesson> fall back to index.html, and the Pyodide runtime with the vendored wheels and the .NET runtime with the
-// C# engine's assemblies (dotnet/<version>/, as listed in vendor/dotnet/manifest.json, assemblies as .dll.gz) are served from the
-// app's origin. Against a deploy it also checks that dotnet/ is cached as immutable and that the .js and .wasm runtime files are
-// compressed by the host, since the transfer budget in scripts/csharp-track/vendor-dotnet.mjs counts them as Brotli.
+// C# engine's assemblies (dotnet/<version>/, as listed in vendor/dotnet/manifest.json: Webcil and wrapped reference assemblies as
+// .wasm, no .dll) are served from the app's origin. Against a deploy it also checks that dotnet/ is cached as immutable and that the
+// .js and .wasm files are compressed by the host, since the Brotli budget in scripts/csharp-track/vendor-dotnet.mjs assumes it.
 // Usage: npm run smoke:worker-csp                                  builds the app and checks it under `vite preview`
 //        npm run smoke:worker-csp -- --url <origin> --dist <dir>   checks a deployed build (CI runs it on each Netlify deploy)
 //        add --build-only to only check that <origin> serves this build's index.html (exit 3 while another build is live)
 import { createHash } from 'node:crypto';
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { gunzipSync } from 'node:zlib';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
@@ -80,9 +79,7 @@ async function checkFiles(origin, outDir, directory, required) {
     const served = Buffer.from(await response.arrayBuffer());
     expect(response.ok, `/${file} returned ${response.status}`);
     const built = readFileSync(join(outDir, file));
-    // A host may send a .gz file with Content-Encoding: gzip (vite preview does), so fetch hands over the decoded bytes; the C# worker accepts both.
-    const matches = sha256(served) === sha256(built) || (file.endsWith('.gz') && sha256(served) === sha256(gunzipSync(built)));
-    expect(matches, `/${file} does not match the build (got ${response.headers.get('content-type')}, ${served.length} bytes)`);
+    expect(sha256(served) === sha256(built), `/${file} does not match the build (got ${response.headers.get('content-type')}, ${served.length} bytes)`);
     if (file.endsWith('.wasm')) {
       expect(response.headers.get('content-type')?.startsWith('application/wasm'), `/${file} must be served as application/wasm (got ${response.headers.get('content-type')})`);
     }
@@ -90,8 +87,8 @@ async function checkFiles(origin, outDir, directory, required) {
 }
 
 /**
- * The built dotnet/<version>/ files against the manifest that was built with them: every listed file present (assemblies as
- * .dll.gz) with its pinned sha256 once decompressed. Returns the version folder and the published paths.
+ * The built dotnet/<version>/ files against the manifest that was built with them: every listed file present with its pinned
+ * sha256, and no .dll anywhere. Returns the version folder and the published paths.
  */
 function checkDotnetManifest(outDir) {
   const versions = existsSync(join(outDir, 'dotnet')) ? readdirSync(join(outDir, 'dotnet')) : [];
@@ -103,21 +100,23 @@ function checkDotnetManifest(outDir) {
   expect(version === versions[0], `${prefix}/manifest.json has version ${version}`);
   const published = [];
   for (const file of files) {
-    const servedPath = file.path.endsWith('.dll') ? `${file.path}.gz` : file.path;
-    const path = join(outDir, prefix, servedPath);
+    const path = join(outDir, prefix, file.path);
     const bytes = existsSync(path) ? readFileSync(path) : undefined;
-    const raw = bytes && servedPath.endsWith('.gz') ? gunzipSync(bytes) : bytes;
-    expect(raw !== undefined && sha256(raw) === file.sha256, `${prefix}/${servedPath} is missing from the build or does not match dotnet/manifest.json`);
-    published.push(`${prefix}/${servedPath}`);
+    expect(bytes !== undefined && sha256(bytes) === file.sha256, `${prefix}/${file.path} is missing from the build or does not match dotnet/manifest.json`);
+    published.push(`${prefix}/${file.path}`);
+  }
+  for (const file of builtFiles(outDir, 'dotnet')) {
+    expect(!/\.(dll|gz)$/.test(file), `${file}: dotnet/ serves Webcil .wasm assemblies only, no .dll or .gz file`);
   }
   return { prefix, files: published };
 }
 
 /**
- * Deploy-only checks of how the host serves dotnet/: immutable caching, and compressed .js and .wasm files.
+ * Deploy-only checks of how the host serves dotnet/: immutable caching, and compressed .js and .wasm files (the runtime, a Webcil
+ * assembly and a wrapped reference assembly).
  */
 async function checkDotnetServing(origin, prefix) {
-  for (const file of ['dotnet.native.wasm', 'dotnet.runtime.js']) {
+  for (const file of ['dotnet.native.wasm', 'dotnet.runtime.js', 'System.Private.CoreLib.wasm', 'assemblies/Microsoft.CodeAnalysis.CSharp.wasm', 'ref/System.Runtime.wasm']) {
     const response = await fetch(`${origin}/${prefix}/${file}`, { headers: { 'Accept-Encoding': 'br, gzip' } });
     expect(/br|gzip/.test(response.headers.get('content-encoding') ?? ''), `/${prefix}/${file} is served uncompressed (content-encoding: ${response.headers.get('content-encoding')})`);
     expect((response.headers.get('cache-control') ?? '').includes('immutable'), `/${prefix}/${file} must be cached as immutable (got ${response.headers.get('cache-control')})`);
@@ -185,7 +184,7 @@ async function checkServed(origin, outDir, workers, deployed) {
   }
   await checkFiles(origin, outDir, 'pyodide', ['pyodide/pyodide.asm.mjs', 'pyodide/pyodide.asm.wasm', 'pyodide/python_stdlib.zip', 'pyodide/pyodide-lock.json', 'pyodide/pydantic-2.12.5-py3-none-any.whl', 'pyodide/licenses/pyodide-LICENSE']);
   const dotnet = checkDotnetManifest(outDir);
-  const required = ['manifest.json', 'dotnet.js', 'dotnet.runtime.js', 'dotnet.native.js', 'dotnet.native.wasm', 'System.Private.CoreLib.dll.gz', 'assemblies/DojoHost.dll.gz', 'assemblies/Dojo.Testing.dll.gz', 'ref/System.Runtime.dll.gz', 'licenses/dotnet-LICENSE.TXT'];
+  const required = ['manifest.json', 'dotnet.js', 'dotnet.runtime.js', 'dotnet.native.js', 'dotnet.native.wasm', 'System.Private.CoreLib.wasm', 'assemblies/DojoHost.wasm', 'assemblies/Dojo.Testing.wasm', 'ref/System.Runtime.wasm', 'licenses/dotnet-LICENSE.TXT'];
   await checkFiles(origin, outDir, 'dotnet', [...required.map((file) => `${dotnet.prefix}/${file}`), ...dotnet.files]);
   if (deployed) {
     await checkDotnetServing(origin, dotnet.prefix);

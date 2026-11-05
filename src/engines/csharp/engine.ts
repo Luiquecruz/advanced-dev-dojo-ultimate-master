@@ -12,7 +12,7 @@ import {
 /** Name the tests file is compiled under, so its diagnostics point at `tests.cs`. */
 export const TESTS_FILE_NAME = 'tests.cs';
 
-/** Assembly with the `[JSExport]` methods (src/engines/csharp/host/DojoHost.cs). */
+/** Assembly with the `[JSExport]` methods (src/engines/csharp/host/DojoHost.cs), served as Webcil `assemblies/DojoHost.wasm`. */
 export const HOST_ASSEMBLY = 'DojoHost';
 
 /** Module name the host's `[JSImport("emit", "dojo-host")]` resolves to. */
@@ -41,11 +41,14 @@ export interface DotnetManifest {
   files: DotnetFile[];
 }
 
-/** A manifest file with its bytes, already checked. */
-export interface LoadedDotnetFile {
+/** A manifest file with its bytes as they arrive, each checked against its pin before the promise resolves. */
+export interface DotnetAsset {
   file: DotnetFile;
-  buffer: ArrayBuffer;
+  bytes: Promise<ArrayBuffer>;
 }
+
+/** Name of the custom section that holds a reference assembly's PE bytes in `ref/*.wasm` (`REFERENCE_SECTION` in vendor-dotnet.mjs). */
+export const REFERENCE_SECTION = 'dojo.pe';
 
 /** The JavaScript modules of the runtime, imported by the caller (a worker or Node) from the checked URLs. */
 export interface DotnetModules {
@@ -96,11 +99,57 @@ export interface CsharpEngine {
   runProgram(files: ProjectFiles, onOutput: (level: OutputLevel, text: string) => void): Promise<number>;
 }
 
+const JS_MODULE = /\.js$/;
+
 /**
- * The manifest files the runtime boots from (everything except licenses).
+ * The manifest files the runtime boots from (everything except licenses), in download order: the runtime's JavaScript first (it
+ * starts the runtime), then the largest file first (`dotnet.native.wasm`, CoreLib, Roslyn), so the wasm compiles while the rest
+ * arrives and no large file starts last.
  */
 export function bootFiles(manifest: DotnetManifest): DotnetFile[] {
-  return manifest.files.filter((file) => file.role !== 'license');
+  const rank = (file: DotnetFile) => (JS_MODULE.test(file.path) ? 0 : 1);
+  return manifest.files
+    .filter((file) => file.role !== 'license')
+    .sort((left, right) => rank(left) - rank(right) || right.bytes - left.bytes || left.path.localeCompare(right.path));
+}
+
+/**
+ * Whether a boot file is on the critical path (the runtime's JavaScript and `dotnet.native.wasm`), so it is fetched with high priority.
+ */
+export function isCriticalDotnetFile(file: DotnetFile): boolean {
+  return file.role === 'runtime';
+}
+
+function readLeb128(bytes: Uint8Array, start: number): [value: number, next: number] {
+  let value = 0;
+  let scale = 1;
+  for (let offset = start; offset < bytes.length && offset < start + 5; offset += 1) {
+    value += (bytes[offset] & 0x7f) * scale;
+    if ((bytes[offset] & 0x80) === 0) {
+      return [value, offset + 1];
+    }
+    scale *= 128;
+  }
+  throw new Error('malformed LEB128 number');
+}
+
+/**
+ * The PE bytes of a reference assembly served as `ref/<name>.wasm`: a WebAssembly module whose only section is the custom section
+ * `REFERENCE_SECTION`, so the host compresses it as `application/wasm`. Roslyn reads reference assemblies as PE files.
+ */
+export function unwrapReference(buffer: ArrayBuffer): ArrayBuffer {
+  const bytes = new Uint8Array(buffer);
+  const header = [0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00];
+  if (bytes.length < 10 || header.some((byte, index) => bytes[index] !== byte) || bytes[8] !== 0) {
+    throw new Error('a reference assembly is not a WebAssembly module with a custom section');
+  }
+  const [sectionSize, contentStart] = readLeb128(bytes, 9);
+  const [nameSize, nameStart] = readLeb128(bytes, contentStart);
+  const name = new TextDecoder().decode(bytes.subarray(nameStart, nameStart + nameSize));
+  if (contentStart + sectionSize !== bytes.length || name !== REFERENCE_SECTION) {
+    throw new Error(`a reference assembly does not hold exactly one "${REFERENCE_SECTION}" section`);
+  }
+  return buffer.slice(nameStart + nameSize);
 }
 
 function hex(digest: ArrayBuffer): string {
@@ -122,20 +171,34 @@ function fileName(path: string): string {
 }
 
 /**
- * The `MonoConfig` for `dotnet.withConfig`: every asset is passed as a checked buffer (the default loader cannot find the bindings
- * assembly in a worker, spike §2), the wasm as an in-memory `application/wasm` response so it still compiles with
- * `instantiateStreaming`, every assembly as a core one (the runtime starts only once core assets are in memory, and the JavaScript
- * bindings assembly must be loaded by then; as a plain `assembly` it can still be pending, which fails the boot), the reference assemblies are mounted at `/ref`, globalization is invariant (no ICU shipped) and
- * `debugLevel: 0` turns on the interpreter optimizations.
+ * An asset whose download is the checked bytes: the runtime awaits `response` like its own fetch, so it can start (compile the wasm,
+ * load its JavaScript) while the other files are still arriving, and it never sees a byte that failed its pin.
  */
-export function dotnetConfig(loaded: LoadedDotnetFile[], modules: DotnetModules): Record<string, unknown> {
-  const withRole = (...roles: DotnetFile['role'][]) => loaded.filter(({ file }) => roles.includes(file.role));
+function pending(name: string, bytes: Promise<ArrayBuffer>, contentType?: string) {
+  const headers = contentType ? { 'Content-Type': contentType } : undefined;
+  const url = `undefined://${name}`;
+  return { name, resolvedUrl: url, pendingDownload: { name, url, response: bytes.then((buffer) => new Response(buffer, { headers })) } };
+}
+
+/**
+ * The `MonoConfig` for `dotnet.withConfig`: every asset is handed over as a pending download of checked bytes (the default loader
+ * cannot find the bindings assembly in a worker, spike §2), the wasm as an `application/wasm` response so it compiles with
+ * `instantiateStreaming`, every assembly (Webcil `.wasm`, recognised by the runtime) as a core one (the runtime starts only once core
+ * assets are in memory, and the JavaScript bindings assembly must be loaded by then; as a plain `assembly` it can still be pending,
+ * which fails the boot), the reference assemblies unwrapped and mounted at `/ref/<name>.dll`, globalization is invariant (no ICU
+ * shipped) and `debugLevel: 0` turns on the interpreter optimizations.
+ */
+export function dotnetConfig(assets: DotnetAsset[], modules: DotnetModules): Record<string, unknown> {
+  const withRole = (...roles: DotnetFile['role'][]) => assets.filter(({ file }) => roles.includes(file.role));
   const wasm = withRole('runtime').find(({ file }) => file.path.endsWith('.wasm'));
   if (!wasm) {
     throw new Error('The .NET manifest lists no dotnet.native.wasm.');
   }
-  const wasmName = fileName(wasm.file.path);
-  const assembly = ({ file, buffer }: LoadedDotnetFile) => ({ name: fileName(file.path), virtualPath: fileName(file.path), buffer });
+  const assembly = ({ file, bytes }: DotnetAsset) => ({ ...pending(fileName(file.path), bytes), virtualPath: fileName(file.path) });
+  const reference = ({ file, bytes }: DotnetAsset) => {
+    const name = fileName(file.path).replace(/\.wasm$/, '.dll');
+    return { ...pending(name, bytes.then(unwrapReference)), virtualPath: `${REFERENCE_DIRECTORY}/${name}` };
+  };
   return {
     mainAssemblyName: HOST_ASSEMBLY,
     globalizationMode: 'invariant',
@@ -143,9 +206,9 @@ export function dotnetConfig(loaded: LoadedDotnetFile[], modules: DotnetModules)
     resources: {
       jsModuleNative: [{ name: 'dotnet.native.js', moduleExports: modules.native }],
       jsModuleRuntime: [{ name: 'dotnet.runtime.js', moduleExports: modules.runtime }],
-      wasmNative: [{ name: wasmName, pendingDownload: { name: wasmName, url: wasmName, response: Promise.resolve(new Response(wasm.buffer, { headers: { 'Content-Type': 'application/wasm' } })) } }],
+      wasmNative: [pending(fileName(wasm.file.path), wasm.bytes, 'application/wasm')],
       coreAssembly: withRole('core', 'assembly', 'host').map(assembly),
-      vfs: withRole('reference').map(({ file, buffer }) => ({ name: fileName(file.path), virtualPath: `${REFERENCE_DIRECTORY}/${fileName(file.path)}`, buffer })),
+      vfs: withRole('reference').map(reference),
     },
   };
 }
@@ -153,7 +216,7 @@ export function dotnetConfig(loaded: LoadedDotnetFile[], modules: DotnetModules)
 function hostExports(exports: unknown): HostExports {
   const host = (exports as { Dojo?: { Host?: { DojoHost?: Partial<HostExports> } } }).Dojo?.Host?.DojoHost;
   if (typeof host?.RunTests !== 'function' || typeof host.RunProgram !== 'function' || typeof host.Warm !== 'function') {
-    throw new Error('DojoHost.dll does not export RunTests, RunProgram and Warm.');
+    throw new Error('The C# host (DojoHost) does not export RunTests, RunProgram and Warm.');
   }
   return host as HostExports;
 }

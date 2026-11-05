@@ -174,7 +174,8 @@ describe('runtime integrity (finding C6)', () => {
   afterAll(() => rmSync(directory, { recursive: true, force: true }));
 
   it.each([
-    ['an assembly', 'assemblies/System.Linq.dll'],
+    ['an assembly', 'assemblies/System.Linq.wasm'],
+    ['a reference assembly', 'ref/System.Runtime.wasm'],
     ['a runtime module', 'dotnet.runtime.js'],
   ])('refuses to start when %s does not match its pin, even with a matching served manifest', async (_, path) => {
     const tampered = new CsharpSandbox({ dotnetDirectory: directory, prewarm: 0 });

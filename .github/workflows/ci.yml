@@ -40,7 +40,7 @@ jobs:
             vendor/dotnet
             !vendor/dotnet/manifest.json
             !vendor/dotnet/.cache
-          key: dotnet-${{ hashFiles('vendor/dotnet/manifest.json', 'scripts/csharp-track/vendor-dotnet.mjs', 'src/engines/csharp/host/*.cs') }}
+          key: dotnet-${{ hashFiles('vendor/dotnet/manifest.json', 'scripts/csharp-track/vendor-dotnet.mjs', 'scripts/csharp-track/WebcilConvert.cs', 'src/engines/csharp/host/*.cs') }}
       - run: npm ci
       - name: The install reproduced the committed vendor/dotnet/manifest.json
         run: git diff --exit-code vendor/dotnet/manifest.json
@@ -159,7 +159,7 @@ jobs:
             vendor/dotnet
             !vendor/dotnet/manifest.json
             !vendor/dotnet/.cache
-          key: dotnet-${{ hashFiles('vendor/dotnet/manifest.json', 'scripts/csharp-track/vendor-dotnet.mjs', 'src/engines/csharp/host/*.cs') }}
+          key: dotnet-${{ hashFiles('vendor/dotnet/manifest.json', 'scripts/csharp-track/vendor-dotnet.mjs', 'scripts/csharp-track/WebcilConvert.cs', 'src/engines/csharp/host/*.cs') }}
       - run: npm ci
       - name: Run suite
         env:
@@ -220,7 +220,7 @@ jobs:
             vendor/dotnet
             !vendor/dotnet/manifest.json
             !vendor/dotnet/.cache
-          key: dotnet-${{ hashFiles('vendor/dotnet/manifest.json', 'scripts/csharp-track/vendor-dotnet.mjs', 'src/engines/csharp/host/*.cs') }}
+          key: dotnet-${{ hashFiles('vendor/dotnet/manifest.json', 'scripts/csharp-track/vendor-dotnet.mjs', 'scripts/csharp-track/WebcilConvert.cs', 'src/engines/csharp/host/*.cs') }}
       - name: Build the pull request head, as Netlify does for the Deploy Preview
         if: github.event_name == 'pull_request'
         run: |

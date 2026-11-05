@@ -1,37 +1,45 @@
 #!/usr/bin/env node
 // Builds the C# engine's served files in vendor/dotnet/ from official artifacts only, without the .NET SDK, MSBuild or a workload:
-// - downloads the NuGet packages of the .NET WebAssembly runtime (browser-wasm runtime pack), the reference pack and Roslyn from
-//   nuget.org and checks each against the SHA-512 `packageHash` of its NuGet catalog entry;
+// - downloads the NuGet packages of the .NET WebAssembly runtime (browser-wasm runtime pack), the reference pack, the WebAssembly
+//   SDK pack (its Webcil converter) and Roslyn from nuget.org and checks each against the SHA-512 `packageHash` of its NuGet catalog entry;
 // - downloads the .NET runtime (not the SDK) for this machine from builds.dotnet.microsoft.com and checks it against the
-//   SHA-512 in releases.json; it only runs csc.dll here, at install time, and is never served;
+//   SHA-512 in releases.json; it only runs csc.dll and the Webcil converter here, at install time, and is never served;
 // - compiles the C# host (src/engines/csharp/host/*.cs) with csc.dll into Dojo.Testing.dll and DojoHost.dll, deterministically;
-// - copies a curated set (runtime, the BCL assemblies the lessons need, Roslyn, the host, the reference assemblies of the learner
-//   compilation, licenses) to vendor/dotnet/ and measures its transfer size against TRANSFER_BUDGET: Brotli for the .js and .wasm
-//   files (the host compresses them) and gzip for the .dll files, which plugins/dotnetPlugin.ts serves pre-compressed as .dll.gz
-//   because Netlify does not compress application/octet-stream.
+// - converts every booted assembly (CoreLib, the BCL assemblies the lessons need, Roslyn, the host) to Webcil wrapped in a
+//   WebAssembly module (`.wasm`, what the .NET 10 SDK publishes) with WebcilConvert.cs, and wraps the reference assemblies of the
+//   learner compilation (Roslyn reads them as PE files) in a one-section WebAssembly module (`ref/*.wasm`, wrapReference), so no .dll
+//   is served and the host compresses every file as application/wasm or JavaScript;
+// - copies that set (plus licenses) to vendor/dotnet/ and measures it with Brotli quality 5, which matches what Netlify sends
+//   (pyodide.asm.wasm: 3,227,042 B at q5, 3,285,125 B from Netlify), against BROTLI_BUDGET; quality 11 is printed for reference.
 // Only manifest.json is committed: it pins the package and runtime hashes and the SHA-256 of every served file. Downloads and the
-// toolchain stay in vendor/dotnet/.cache/ (git-ignored, like node_modules). When every served file matches the manifest and the host
-// sources did not change, the script uses no network and compiles nothing. In CI (CI or NETLIFY set) it never rewrites the manifest:
-// a manifest that does not match the script or the host sources fails the install, and a rebuild of missing files must reproduce the
-// committed manifest exactly.
+// toolchain stay in vendor/dotnet/.cache/ (git-ignored, like node_modules; Netlify keeps it between builds,
+// plugins/netlify-dotnet-cache). When every served file matches the manifest and the sources did not change, the script uses no
+// network and compiles nothing. In CI (CI or NETLIFY set) it never rewrites the manifest: a manifest that does not match the script
+// or the sources fails the install, a rebuild of missing files must reproduce the committed manifest exactly, and the toolchain is
+// extracted again from its checked archive, since a cache is not trusted.
 // Usage: npm run csharp:vendor            (download what is missing or altered, rebuild, verify all)
 //        npm run csharp:vendor -- --check (verify only, never download or compile; exits 1 on a missing, altered or stale file)
+//        node scripts/csharp-track/vendor-dotnet.mjs --postinstall (what postinstall runs: skipped when NETLIFY is set, because the
+//        Netlify build command runs it after plugins/netlify-dotnet-cache restored vendor/dotnet/.cache)
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { chmodSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { brotliCompressSync, constants, gunzipSync, gzipSync, inflateRawSync } from 'node:zlib';
+import { brotliCompressSync, constants, gunzipSync, inflateRawSync } from 'node:zlib';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const VENDOR = join(ROOT, 'vendor/dotnet');
 const CACHE = join(VENDOR, '.cache');
 const HOST_SOURCES = join(ROOT, 'src/engines/csharp/host');
+const CONVERTER_SOURCE = join(ROOT, 'scripts/csharp-track/WebcilConvert.cs');
 const MANIFEST = join(VENDOR, 'manifest.json');
 
 const DOTNET = '10.0.14';
 const ROSLYN = '5.9.0';
-const TRANSFER_BUDGET = 9.5 * 1024 * 1024;
+// Brotli quality 5 is the closest to what Netlify sends; the served set must stay under the budget at that quality.
+const BROTLI_QUALITY = 5;
+const BROTLI_BUDGET = 8.5 * 1024 * 1024;
 const FETCH_ATTEMPTS = 4;
 const NUGET = 'https://api.nuget.org/v3-flatcontainer';
 const REGISTRATION = 'https://api.nuget.org/v3/registration5-gz-semver2';
@@ -42,11 +50,13 @@ const PACKAGES = {
   common: { id: 'Microsoft.CodeAnalysis.Common', version: ROSLYN },
   csharp: { id: 'Microsoft.CodeAnalysis.CSharp', version: ROSLYN },
   toolset: { id: 'Microsoft.Net.Compilers.Toolset', version: ROSLYN },
+  webassembly: { id: 'Microsoft.NET.Sdk.WebAssembly.Pack', version: DOTNET },
 };
 const TOOLCHAIN_RIDS = ['linux-x64', 'linux-arm64', 'linux-musl-x64', 'linux-musl-arm64', 'osx-x64', 'osx-arm64', 'win-x64', 'win-arm64'];
 
-// Runtime files from runtimes/browser-wasm/native/ of the runtime pack, served at the root of dotnet/ (dotnet.js resolves the others next to itself).
-const RUNTIME_FILES = ['dotnet.js', 'dotnet.runtime.js', 'dotnet.native.js', 'dotnet.native.wasm', 'System.Private.CoreLib.dll'];
+// Runtime files from runtimes/browser-wasm/native/ of the runtime pack, served at the root of dotnet/; CoreLib is served there too, as Webcil.
+const RUNTIME_FILES = ['dotnet.js', 'dotnet.runtime.js', 'dotnet.native.js', 'dotnet.native.wasm'];
+const CORE_LIBRARY = 'System.Private.CoreLib.dll';
 // Implementation assemblies loaded by the runtime (assemblies/): what Roslyn and the host load for a compile and a run, plus what the
 // referenced APIs load (System.Text.Json pulls System.IO.Pipelines and Reflection.Emit), measured with AppDomain.GetAssemblies() after
 // a run that booted with the whole runtime pack. A lesson that needs another one adds it here and to REFERENCES.
@@ -105,9 +115,17 @@ const REFERENCES = [
 // Host sources compiled into Dojo.Testing.dll (the API tests use); every other .cs file in the folder builds DojoHost.dll.
 const TESTING_SOURCES = ['Testing.cs'];
 const ANALYZERS = ['Microsoft.Interop.JavaScript.JSImportGenerator.dll', 'Microsoft.Interop.SourceGeneration.dll'];
+const WEBCIL_LIBRARY = 'Microsoft.NET.WebAssembly.Webcil.dll';
+// Name of the custom section that carries a reference assembly's PE bytes in ref/*.wasm (src/engines/csharp/engine.ts unwraps it).
+const REFERENCE_SECTION = 'dojo.pe';
 
 const check = process.argv.includes('--check');
 const ci = Boolean(process.env.CI || process.env.NETLIFY);
+
+if (process.argv.includes('--postinstall') && process.env.NETLIFY) {
+  console.log('vendor-dotnet: skipped in postinstall on Netlify; the build command runs it after plugins/netlify-dotnet-cache restored vendor/dotnet/.cache');
+  process.exit(0);
+}
 
 function fail(message) {
   console.error(`vendor-dotnet: ${message}`);
@@ -122,15 +140,33 @@ function sha512(bytes) {
   return createHash('sha512').update(bytes).digest('hex');
 }
 
-function brotliSize(bytes) {
-  return brotliCompressSync(bytes, { params: { [constants.BROTLI_PARAM_QUALITY]: 11, [constants.BROTLI_PARAM_SIZE_HINT]: bytes.length } }).length;
+function brotliSize(bytes, quality) {
+  return brotliCompressSync(bytes, { params: { [constants.BROTLI_PARAM_QUALITY]: quality, [constants.BROTLI_PARAM_SIZE_HINT]: bytes.length } }).length;
+}
+
+function leb128(value) {
+  const bytes = [];
+  let rest = value;
+  do {
+    const byte = rest & 0x7f;
+    rest = Math.floor(rest / 128);
+    bytes.push(rest > 0 ? byte | 0x80 : byte);
+  } while (rest > 0);
+  return Buffer.from(bytes);
 }
 
 /**
- * Gzip size of a .dll as plugins/dotnetPlugin.ts serves it (level 9, no file name or time stamp, so the bytes are reproducible).
+ * A reference assembly as a valid WebAssembly module with one custom section (REFERENCE_SECTION) holding its PE bytes, so it is
+ * served and compressed as application/wasm; `unwrapReference` in src/engines/csharp/engine.ts takes the bytes out for Roslyn.
  */
-function gzipSize(bytes) {
-  return gzipSync(bytes, { level: 9 }).length;
+function wrapReference(bytes) {
+  const name = Buffer.from(REFERENCE_SECTION);
+  const content = Buffer.concat([leb128(name.length), name, bytes]);
+  return Buffer.concat([Buffer.from([0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00, 0x00]), leb128(content.length), content]);
+}
+
+function wasmName(file) {
+  return file.replace(/\.dll$/, '.wasm');
 }
 
 /**
@@ -154,12 +190,13 @@ function mebibytes(bytes) {
  */
 function servedLayout() {
   const layout = new Map();
-  for (const file of RUNTIME_FILES) layout.set(file, file === 'System.Private.CoreLib.dll' ? 'core' : 'runtime');
-  for (const file of ASSEMBLIES) layout.set(`assemblies/${file}`, 'assembly');
-  layout.set('assemblies/Dojo.Testing.dll', 'assembly');
-  layout.set('assemblies/DojoHost.dll', 'host');
-  for (const file of REFERENCES) layout.set(`ref/${file}`, 'reference');
-  layout.set('ref/Dojo.Testing.dll', 'reference');
+  for (const file of RUNTIME_FILES) layout.set(file, 'runtime');
+  layout.set(wasmName(CORE_LIBRARY), 'core');
+  for (const file of ASSEMBLIES) layout.set(`assemblies/${wasmName(file)}`, 'assembly');
+  layout.set('assemblies/Dojo.Testing.wasm', 'assembly');
+  layout.set('assemblies/DojoHost.wasm', 'host');
+  for (const file of REFERENCES) layout.set(`ref/${wasmName(file)}`, 'reference');
+  layout.set('ref/Dojo.Testing.wasm', 'reference');
   for (const file of ['dotnet-LICENSE.TXT', 'dotnet-THIRD-PARTY-NOTICES.TXT', 'roslyn-ThirdPartyNotices.rtf']) layout.set(`licenses/${file}`, 'license');
   return layout;
 }
@@ -176,6 +213,13 @@ function hostSources() {
   );
 }
 
+/**
+ * What the served bytes are built with besides the packages and the host: the converter source and the reference wrapper format.
+ */
+function buildInputs() {
+  return { converter: sha256(readFileSync(CONVERTER_SOURCE)), referenceSection: REFERENCE_SECTION };
+}
+
 function sameJson(left, right) {
   return JSON.stringify(left) === JSON.stringify(right);
 }
@@ -188,6 +232,7 @@ function configReason(manifest) {
   if (!manifest.files) return 'vendor/dotnet/manifest.json has no files';
   if (manifest.dotnet !== DOTNET || manifest.roslyn !== ROSLYN) return `manifest pins .NET ${manifest.dotnet} / Roslyn ${manifest.roslyn}, the script ${DOTNET} / ${ROSLYN}`;
   if (!sameJson(manifest.host?.sources, hostSources())) return 'the host sources in src/engines/csharp/host changed since the host was compiled';
+  if (!sameJson(manifest.build, buildInputs())) return 'scripts/csharp-track/WebcilConvert.cs or the reference wrapper changed since the files were built';
   if (manifest.version !== setVersion(manifest.files)) return 'the manifest version does not match its files';
   const layout = servedLayout();
   const listed = new Map(manifest.files.map((file) => [file.path, file]));
@@ -386,7 +431,7 @@ async function toolchain(manifest) {
   let pins = manifest.toolchain?.version === DOTNET ? manifest.toolchain.runtime : undefined;
   const directory = join(CACHE, 'toolchain', `dotnet-${DOTNET}-${rid}`);
   const marker = join(directory, '.verified');
-  if (pins?.[rid] && existsSync(marker) && readFileSync(marker, 'utf8') === pins[rid].sha512) return { directory, pins };
+  if (!ci && pins?.[rid] && existsSync(marker) && readFileSync(marker, 'utf8') === pins[rid].sha512) return { directory, pins };
   const published = await runtimePins();
   if (pins) {
     for (const [pinnedRid, pin] of Object.entries(pins)) {
@@ -445,21 +490,13 @@ function entry(files, name, label) {
 }
 
 /**
- * Compiles one host assembly with csc.dll on the downloaded runtime; deterministic, so the same sources give the same bytes.
+ * Runs a .NET application (csc.dll, the Webcil converter) on the downloaded runtime, with invariant globalization (no libicu needed
+ * on the build image) and no telemetry.
  */
-function csc(dotnetDirectory, cscDirectory, { output, sources, references, analyzers = [] }) {
+function runDotnet(dotnetDirectory, args, label) {
   const executable = join(dotnetDirectory, process.platform === 'win32' ? 'dotnet.exe' : 'dotnet');
-  const options = [
-    '-nologo', '-noconfig', '-nostdlib+', '-target:library', '-deterministic+', '-optimize+', '-debug-', '-langversion:latest',
-    '-nullable:enable', '-warnaserror+', '-unsafe+', `-pathmap:${HOST_SOURCES}=/dojo/host`, `-out:${output}`,
-    ...references.map((path) => `-r:${path}`),
-    ...analyzers.map((path) => `-analyzer:${path}`),
-    ...sources,
-  ];
-  const responseFile = `${output}.rsp`;
-  writeFileSync(responseFile, options.map((option) => `"${option}"`).join('\n'));
   try {
-    execFileSync(executable, [join(cscDirectory, 'csc.dll'), `@${responseFile}`], {
+    execFileSync(executable, args, {
       stdio: ['ignore', 'pipe', 'pipe'],
       env: {
         ...process.env,
@@ -471,9 +508,53 @@ function csc(dotnetDirectory, cscDirectory, { output, sources, references, analy
       },
     });
   } catch (error) {
-    fail(`csc failed for ${relative(ROOT, output)}:\n${error.stdout?.toString() ?? ''}${error.stderr?.toString() ?? ''}`);
+    fail(`${label} failed:\n${error.stdout?.toString() ?? ''}${error.stderr?.toString() ?? ''}`);
+  }
+}
+
+/**
+ * Compiles one assembly with csc.dll on the downloaded runtime; deterministic, so the same sources give the same bytes.
+ */
+function csc(dotnetDirectory, cscDirectory, { output, sources, references, analyzers = [], target = 'library' }) {
+  const options = [
+    '-nologo', '-noconfig', '-nostdlib+', `-target:${target}`, '-deterministic+', '-optimize+', '-debug-', '-langversion:latest',
+    '-nullable:enable', '-warnaserror+', '-unsafe+', `-pathmap:${HOST_SOURCES}=/dojo/host,${dirname(CONVERTER_SOURCE)}=/dojo/scripts`, `-out:${output}`,
+    ...references.map((path) => `-r:${path}`),
+    ...analyzers.map((path) => `-analyzer:${path}`),
+    ...sources,
+  ];
+  const responseFile = `${output}.rsp`;
+  writeFileSync(responseFile, options.map((option) => `"${option}"`).join('\n'));
+  try {
+    runDotnet(dotnetDirectory, [join(cscDirectory, 'csc.dll'), `@${responseFile}`], `csc for ${relative(ROOT, output)}`);
   } finally {
     rmSync(responseFile, { force: true });
+  }
+}
+
+/**
+ * Converts PE assemblies to Webcil `.wasm` files in one run of the converter: `pairs` maps each input .dll to its output .wasm.
+ */
+function webcil(dotnetDirectory, converter, pairs) {
+  runDotnet(dotnetDirectory, [converter, ...pairs.flatMap(([input, output]) => [input, output])], 'the Webcil conversion');
+}
+
+/**
+ * Removes cached downloads that no pinned package or runtime uses any more, so a version bump does not leave its predecessor in
+ * vendor/dotnet/.cache (which Netlify stores between builds), and on CI the extracted toolchain, which is rebuilt from its archive.
+ */
+function pruneCache(pins) {
+  const packages = new Set(Object.values(PACKAGES).map(({ id, version }) => `${id.toLowerCase()}.${version}.nupkg`));
+  const nuget = join(CACHE, 'nuget');
+  for (const file of existsSync(nuget) ? readdirSync(nuget) : []) {
+    if (!packages.has(file)) rmSync(join(nuget, file), { recursive: true, force: true });
+  }
+  const archives = new Set(Object.values(pins).map((pin) => pin.url.split('/').pop()));
+  const toolchainDirectory = join(CACHE, 'toolchain');
+  const current = `dotnet-${DOTNET}-${machineRid()}`;
+  for (const file of existsSync(toolchainDirectory) ? readdirSync(toolchainDirectory) : []) {
+    if (archives.has(file) || (file === current && !ci)) continue;
+    rmSync(join(toolchainDirectory, file), { recursive: true, force: true });
   }
 }
 
@@ -482,12 +563,12 @@ const reason = staleReason(manifest);
 
 if (check) {
   if (reason) fail(`${reason}; run npm run csharp:vendor`);
-  if (manifest.size.transfer > TRANSFER_BUDGET) fail(`the served set transfers ${mebibytes(manifest.size.transfer)}, over the ${mebibytes(TRANSFER_BUDGET)} budget`);
-  console.log(`verified ${manifest.files.length} files for .NET ${DOTNET} + Roslyn ${ROSLYN}: ${mebibytes(manifest.size.bytes)} raw, ${mebibytes(manifest.size.transfer)} transferred`);
+  if (manifest.size.brotli > BROTLI_BUDGET) fail(`the served set is ${mebibytes(manifest.size.brotli)} with Brotli ${BROTLI_QUALITY}, over the ${mebibytes(BROTLI_BUDGET)} budget`);
+  console.log(`verified ${manifest.files.length} files for .NET ${DOTNET} + Roslyn ${ROSLYN}: ${mebibytes(manifest.size.bytes)} raw, ${mebibytes(manifest.size.brotli)} with Brotli ${BROTLI_QUALITY} (${mebibytes(manifest.size.brotli11)} at 11), budget ${mebibytes(BROTLI_BUDGET)}`);
   process.exit(0);
 }
 if (!reason) {
-  console.log(`dotnet files up to date (${manifest.files.length} files for .NET ${DOTNET} + Roslyn ${ROSLYN}, ${mebibytes(manifest.size.transfer)} transferred)`);
+  console.log(`dotnet files up to date (${manifest.files.length} files for .NET ${DOTNET} + Roslyn ${ROSLYN}, ${mebibytes(manifest.size.brotli)} with Brotli ${BROTLI_QUALITY})`);
   process.exit(0);
 }
 const committedConfigReason = configReason(manifest);
@@ -534,24 +615,44 @@ csc(dotnetDirectory, cscDirectory, {
   analyzers: ANALYZERS.map((file) => join(analyzerDirectory, file)),
 });
 
+// The Webcil converter: WebcilConvert.cs compiled against the reference pack and the SDK pack's converter library, run from its own folder.
+const converterDirectory = join(work, 'webcil');
+const converterDll = join(converterDirectory, 'WebcilConvert.dll');
+mkdirSync(converterDirectory, { recursive: true });
+writeFileSync(join(converterDirectory, WEBCIL_LIBRARY), entry(packages.webassembly.files, `tools/net${DOTNET.split('.')[0]}.0/${WEBCIL_LIBRARY}`, PACKAGES.webassembly.id));
+csc(dotnetDirectory, cscDirectory, { output: converterDll, target: 'exe', sources: [CONVERTER_SOURCE], references: [...allReferences, join(converterDirectory, WEBCIL_LIBRARY)] });
+writeFileSync(join(converterDirectory, 'WebcilConvert.runtimeconfig.json'), JSON.stringify({ runtimeOptions: { tfm: `net${DOTNET.split('.').slice(0, 2).join('.')}`, framework: { name: 'Microsoft.NETCore.App', version: DOTNET } } }));
+
 const runtimeNative = 'runtimes/browser-wasm/native/';
 const runtimeLib = `runtimes/browser-wasm/lib/net${DOTNET.split('.').slice(0, 2).join('.')}/`;
+const peDirectory = join(work, 'pe');
+const webcilDirectory = join(work, 'wasm');
+mkdirSync(peDirectory, { recursive: true });
+mkdirSync(webcilDirectory, { recursive: true });
+// Booted assemblies as PE files (published path → bytes), converted to Webcil below.
+const assemblies = new Map();
+assemblies.set(wasmName(CORE_LIBRARY), entry(packages.runtime.files, `${runtimeNative}${CORE_LIBRARY}`, PACKAGES.runtime.id));
+for (const file of ASSEMBLIES) {
+  const bytes = file.startsWith('Microsoft.CodeAnalysis') ? readFileSync(join(roslynDirectory, file)) : entry(packages.runtime.files, `${runtimeLib}${file}`, PACKAGES.runtime.id);
+  assemblies.set(`assemblies/${wasmName(file)}`, bytes);
+}
+assemblies.set('assemblies/Dojo.Testing.wasm', readFileSync(testingDll));
+assemblies.set('assemblies/DojoHost.wasm', readFileSync(hostDll));
+const pairs = [...assemblies].map(([path, bytes]) => {
+  const name = path.split('/').pop().replace(/\.wasm$/, '.dll');
+  writeFileSync(join(peDirectory, name), bytes);
+  return [join(peDirectory, name), join(webcilDirectory, wasmName(name))];
+});
+webcil(dotnetDirectory, converterDll, pairs);
+
 const contents = new Map();
 for (const file of RUNTIME_FILES) contents.set(file, entry(packages.runtime.files, `${runtimeNative}${file}`, PACKAGES.runtime.id));
-for (const file of ASSEMBLIES) {
-  if (file.startsWith('Microsoft.CodeAnalysis')) {
-    contents.set(`assemblies/${file}`, readFileSync(join(roslynDirectory, file)));
-  } else {
-    contents.set(`assemblies/${file}`, entry(packages.runtime.files, `${runtimeLib}${file}`, PACKAGES.runtime.id));
-  }
-}
-contents.set('assemblies/Dojo.Testing.dll', readFileSync(testingDll));
-contents.set('assemblies/DojoHost.dll', readFileSync(hostDll));
+for (const path of assemblies.keys()) contents.set(path, readFileSync(join(webcilDirectory, path.split('/').pop())));
 for (const file of REFERENCES) {
   if (!existsSync(join(refPack, file))) fail(`${PACKAGES.ref.id} has no reference assembly ${file}`);
-  contents.set(`ref/${file}`, readFileSync(join(refPack, file)));
+  contents.set(`ref/${wasmName(file)}`, wrapReference(readFileSync(join(refPack, file))));
 }
-contents.set('ref/Dojo.Testing.dll', readFileSync(testingDll));
+contents.set('ref/Dojo.Testing.wasm', wrapReference(readFileSync(testingDll)));
 contents.set('licenses/dotnet-LICENSE.TXT', entry(packages.runtime.files, 'LICENSE.TXT', PACKAGES.runtime.id));
 contents.set('licenses/dotnet-THIRD-PARTY-NOTICES.TXT', entry(packages.runtime.files, 'THIRD-PARTY-NOTICES.TXT', PACKAGES.runtime.id));
 contents.set('licenses/roslyn-ThirdPartyNotices.rtf', entry(packages.common.files, 'ThirdPartyNotices.rtf', PACKAGES.common.id));
@@ -560,30 +661,39 @@ const layout = servedLayout();
 for (const path of servedFiles()) {
   if (!layout.has(path)) rmSync(join(VENDOR, path));
 }
-const files = [];
+const written = [];
 for (const [path, role] of layout) {
   const bytes = contents.get(path);
   if (!bytes) fail(`no source for ${path}`);
+  if (path.endsWith('.dll')) fail(`${path}: no .dll is served`);
   mkdirSync(dirname(join(VENDOR, path)), { recursive: true });
   writeFileSync(join(VENDOR, path), bytes);
-  const brotli = role === 'license' ? 0 : brotliSize(bytes);
-  const transfer = role === 'license' ? 0 : path.endsWith('.dll') ? gzipSize(bytes) : brotli;
-  files.push({ path, role, sha256: sha256(bytes), bytes: bytes.length, brotli, transfer });
+  written.push({ path, role, bytes });
 }
-files.sort((left, right) => left.path.localeCompare(right.path));
-const served = files.filter((file) => file.role !== 'license');
-const total = (key) => served.reduce((sum, file) => sum + file[key], 0);
-const size = { files: files.length, bytes: total('bytes'), brotli: total('brotli'), transfer: total('transfer'), budget: TRANSFER_BUDGET };
-const version = setVersion(files);
+rmSync(work, { recursive: true, force: true });
+pruneCache(runtimePinsByRid);
+written.sort((left, right) => left.path.localeCompare(right.path));
+const version = setVersion(written.map(({ path, bytes }) => ({ path, sha256: sha256(bytes) })));
 if (ci) {
   const committed = (manifest.files ?? []).map(({ path, sha256: digest }) => `${path} ${digest}`).join('\n');
-  if (manifest.version !== version || committed !== files.map(({ path, sha256: digest }) => `${path} ${digest}`).join('\n')) {
+  if (manifest.version !== version || committed !== written.map(({ path, bytes }) => `${path} ${sha256(bytes)}`).join('\n')) {
     fail('the rebuilt files differ from vendor/dotnet/manifest.json. CI never rewrites the manifest: run npm run csharp:vendor locally and commit it');
   }
-  rmSync(work, { recursive: true, force: true });
-  console.log(`vendor-dotnet: rebuilt ${files.length} files, identical to vendor/dotnet/manifest.json (version ${version})`);
+  console.log(`vendor-dotnet: rebuilt ${written.length} files, identical to vendor/dotnet/manifest.json (version ${version})`);
   process.exit(0);
 }
+// Sizes are measured only when the manifest is written (Brotli 11 over the whole set takes a while).
+const files = written.map(({ path, role, bytes }) => ({
+  path,
+  role,
+  sha256: sha256(bytes),
+  bytes: bytes.length,
+  brotli: role === 'license' ? 0 : brotliSize(bytes, BROTLI_QUALITY),
+  brotli11: role === 'license' ? 0 : brotliSize(bytes, 11),
+}));
+const served = files.filter((file) => file.role !== 'license');
+const total = (key, group = served) => group.reduce((sum, file) => sum + file[key], 0);
+const size = { files: files.length, bytes: total('bytes'), brotli: total('brotli'), brotli11: total('brotli11'), brotliQuality: BROTLI_QUALITY, budget: BROTLI_BUDGET };
 const next = {
   dotnet: DOTNET,
   roslyn: ROSLYN,
@@ -591,16 +701,16 @@ const next = {
   packages: Object.values(packages).map(({ pin }) => pin),
   toolchain: { version: DOTNET, source: RELEASES, runtime: runtimePinsByRid },
   host: { sources },
+  build: buildInputs(),
   size,
   files,
 };
 writeFileSync(MANIFEST, `${JSON.stringify(next, null, 2)}\n`);
-rmSync(work, { recursive: true, force: true });
 
 const byRole = (role) => served.filter((file) => file.role === role || (role === 'assembly' && file.role === 'host'));
-console.log(`vendored ${files.length} files for .NET ${DOTNET} + Roslyn ${ROSLYN} (version ${version}): ${mebibytes(size.bytes)} raw, ${mebibytes(size.transfer)} transferred (budget ${mebibytes(TRANSFER_BUDGET)}; ${mebibytes(size.brotli)} if every file were Brotli)`);
+console.log(`vendored ${files.length} files for .NET ${DOTNET} + Roslyn ${ROSLYN} (version ${version}): ${mebibytes(size.bytes)} raw, ${mebibytes(size.brotli)} with Brotli ${BROTLI_QUALITY} (budget ${mebibytes(BROTLI_BUDGET)}), ${mebibytes(size.brotli11)} with Brotli 11`);
 for (const [label, role] of [['runtime', 'runtime'], ['core', 'core'], ['assemblies', 'assembly'], ['references', 'reference']]) {
   const group = byRole(role);
-  console.log(`  ${label.padEnd(10)} ${String(group.length).padStart(3)} files  ${mebibytes(group.reduce((sum, file) => sum + file.bytes, 0)).padStart(10)} raw  ${mebibytes(group.reduce((sum, file) => sum + file.transfer, 0)).padStart(10)} transferred`);
+  console.log(`  ${label.padEnd(10)} ${String(group.length).padStart(3)} files  ${mebibytes(total('bytes', group)).padStart(10)} raw  ${mebibytes(total('brotli', group)).padStart(10)} q${BROTLI_QUALITY}  ${mebibytes(total('brotli11', group)).padStart(10)} q11`);
 }
-if (size.transfer > TRANSFER_BUDGET) fail(`the served set transfers ${mebibytes(size.transfer)}, over the ${mebibytes(TRANSFER_BUDGET)} budget`);
+if (size.brotli > BROTLI_BUDGET) fail(`the served set is ${mebibytes(size.brotli)} with Brotli ${BROTLI_QUALITY}, over the ${mebibytes(BROTLI_BUDGET)} budget`);
