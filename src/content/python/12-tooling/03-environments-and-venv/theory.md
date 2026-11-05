@@ -53,11 +53,11 @@ Scripts installed in an environment start with a shebang holding its absolute pa
 ```py
 import shutil
 
-# wrong assumption: .venv/bin/pytest exists, so `pytest` runs it
+# without activation: .venv/bin is not searched, so the global pytest or None
 shutil.which("pytest", path="/usr/local/bin:/usr/bin")    # '/usr/bin/pytest' or None
 
 # right: only the PATH directories count, left to right; activation puts .venv/bin first
-shutil.which("pytest", path=".venv/bin:/usr/local/bin:/usr/bin")   # '.venv/bin/pytest'
+shutil.which("pytest", path="/srv/api/.venv/bin:/usr/local/bin:/usr/bin")   # '/srv/api/.venv/bin/pytest'
 ```
 
 Run `.venv/bin/python server.py` and `.venv/bin/python -m pip install ...`, activate first, or use `uv run`.

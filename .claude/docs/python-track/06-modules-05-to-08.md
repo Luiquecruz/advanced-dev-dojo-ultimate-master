@@ -128,8 +128,8 @@ Standard-library tour (`re`, `pathlib`, `decimal`, `datetime`, `json`, `enum`, `
 ### 03-pathlib-and-io (P, I)
 - Concept: `PurePosixPath` vs `Path`, `/` operator, `read_text/write_text`, `StringIO/BytesIO`, text vs binary modes, encoding argument, `tempfile`.
 - Common mistake: checking that a path stays inside a base directory with `str.startswith` on unresolved paths, which lets a sibling directory with the same prefix, `..` and symbolic links through; resolve both paths and use `is_relative_to()`.
-- Challenge: `build_path(*parts)` with `PurePosixPath`; `write_report(directory, rows)` writes CSV to a `Path` under the given directory and returns the path; `read_report(path)` returns rows; `copy_stream(source, target, chunk_size)` between `BytesIO` objects.
-- Tests use `/tmp/dojo-<unique>`; paths, round trip, chunking.
+- Challenge: `build_path(*parts)` with `PurePosixPath`; `write_report(directory, rows)` writes CSV to a `Path` under the given directory and returns the path; `read_report(path)` returns rows; `copy_stream(source, target, chunk_size)` between `BytesIO` objects; `safe_join(base, name)` resolves `name` inside `base` and raises `ValueError` for `..`, absolute names, same-prefix siblings and escaping symbolic links.
+- Tests use `/tmp/dojo-<unique>`; paths, round trip, chunking; traversal with `..`, absolute names, a same-prefix sibling directory and a symbolic link pointing outside the base.
 - Notes: Pyodide file system is in memory.
 
 ### 04-numbers-decimal-and-fractions (P, I)

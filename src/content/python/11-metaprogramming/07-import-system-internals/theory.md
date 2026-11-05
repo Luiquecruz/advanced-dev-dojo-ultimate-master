@@ -46,9 +46,13 @@ CPython starts with three finders on `sys.meta_path`: built-in modules, frozen m
 # wrong: the finder is gone, but the module it loaded is still cached
 sys.meta_path.remove(finder)
 "plugins" in sys.modules        # True, so `import plugins` still succeeds
+
+# right: also forget what it loaded
+del sys.modules["plugins"]
+"plugins" in sys.modules        # False, so `import plugins` asks the finders again
 ```
 
-The fix takes two steps: take it off `sys.meta_path`, then delete from `sys.modules` every entry whose `__spec__.loader` is that finder. Loop over a `list(...)` copy of `sys.modules.items()`, because deleting keys from a dict while iterating over it raises `RuntimeError`.
+A finder may have loaded more than one module, so the full fix deletes from `sys.modules` every entry whose `__spec__.loader` is that finder. Loop over a `list(...)` copy of `sys.modules.items()`, because deleting keys from a dict while iterating over it raises `RuntimeError`.
 
 The same cache explains the other surprise: importing a module a second time does not run its code again; `importlib.reload` does.
 

@@ -51,6 +51,8 @@ class Permission(Flag):
 **Choosing `IntEnum` by reflex.** Its members equal plain ints and members of every other `IntEnum` with the same value:
 
 ```py
+from enum import IntEnum
+
 class Priority(IntEnum):
     LOW = 1
     MEDIUM = 2
