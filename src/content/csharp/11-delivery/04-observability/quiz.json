@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Used to New Relic's PHP agent, a developer adds `new ActivitySource(\"Catalog.Orders\")` and `StartActivity(\"place order\")`, but no span ever reaches the backend. ASP.NET Core request spans do arrive. What is the most likely cause?",
+    "options": [
+      "Custom spans are only exported in the Release configuration, not in Debug builds",
+      "`StartActivity` needs an explicit `activity.Stop()` before export, even inside `using`",
+      "No `AddSource(\"Catalog.Orders\")`, so nothing listens and `StartActivity` returns `null`",
+      "OTLP can carry instrumentation spans only, so custom spans need a vendor exporter"
+    ],
+    "answer": 2,
+    "explanation": "OpenTelemetry in .NET only listens to the sources you register. With no listener, `StartActivity` returns `null` and nothing is recorded, which is why the code uses `activity?.`. Disposing the activity in `using` stops it, and OTLP carries custom spans like any other."
+  },
+  {
+    "question": "RabbitMQ.Client 7 has its own publisher and subscriber activity sources and already writes the trace context into message headers. Why does the lesson still inject and extract the context by hand?",
+    "options": [
+      "The client's consumer span only links to the producer context; manual extraction makes it the parent",
+      "The client writes a proprietary header that OpenTelemetry cannot read, so W3C must be added",
+      "The built-in sources only work when the prerelease `RabbitMQ.Client.OpenTelemetry` is installed",
+      "RabbitMQ rejects messages whose headers were set by the client library rather than by your code"
+    ],
+    "answer": 0,
+    "explanation": "Once you `AddSource(\"RabbitMQ.Client.*\")`, the client injects W3C context through `DistributedContextPropagator.Current` and extracts it on delivery, but it attaches it to the consumer span as a link. Your worker span then starts its own trace. Extracting the context and passing `parent.ActivityContext` to `StartActivity` gives one parent-child chain. The prerelease package only bridges to OpenTelemetry's propagators; the sources exist without it."
+  },
+  {
+    "question": "Which health-check layout is right for a Kubernetes deployment of the API?",
+    "options": [
+      "Both probes call one endpoint that checks the database, Redis and the message broker",
+      "Liveness checks the database, since a dead database means a dead app; readiness runs no checks",
+      "Only liveness is needed; readiness probes are for stateful services",
+      "Liveness runs no dependency checks; readiness runs the checks tagged `ready`"
+    ],
+    "answer": 3,
+    "explanation": "Liveness (`Predicate = _ => false`) answers \"is this process able to serve?\" and its failure restarts the container. Readiness answers \"can it serve right now?\" and its failure only removes it from traffic, so dependency checks such as `AddDbContextCheck` belong there. Putting the database in liveness turns a database outage into a restart loop across every replica."
+  },
+  {
+    "question": "Your team tags the `orders.placed` counter with `order.id`. A week later the metrics bill spikes. Why?",
+    "options": [
+      "Counters cost more than histograms in every backend, so use histograms",
+      "Each tag value is a separate time series; put ids on spans and logs instead",
+      "OTLP sends every tagged measurement twice, once with and once without its tags",
+      "The `Meter` name must match the service name, otherwise every series is duplicated"
+    ],
+    "answer": 1,
+    "explanation": "Metrics are aggregated per unique tag combination. Unbounded values such as ids or SKUs explode the number of series, which costs storage and money. Spans and logs are per-event and are the right place for ids. The `Meter` name and the service name are unrelated."
+  },
+  {
+    "question": "Why does the lesson configure the exporter with `UseOtlpExporter()` and an `OTEL_EXPORTER_OTLP_ENDPOINT` variable instead of a vendor SDK with a hard-coded URL?",
+    "options": [
+      "The same image can target any OTLP backend by changing configuration only",
+      "OTLP is the only protocol .NET can emit, so there is no other choice",
+      "Vendor SDKs cannot read `ILogger` output, so logs would never leave the process",
+      "`UseOtlpExporter` turns sampling off, so every span is kept for later analysis"
+    ],
+    "answer": 0,
+    "explanation": "Instrumentation uses .NET's own APIs and the exporter is configuration, so the same image sends to a local dashboard in development and to a collector or vendor in production. That keeps the backend choice out of the build, matching the build-once rule from lesson 02. Other exporters exist (console, Prometheus, Zipkin, Azure Monitor), and `UseOtlpExporter` does not change sampling."
+  },
+  {
+    "question": "In Magento you read `var/log/exception.log` on the server. Your .NET API runs in containers with three replicas. Where should its logs go?",
+    "options": [
+      "To a log file inside each container, read with `docker exec` when something breaks",
+      "To a shared network drive mounted into every replica",
+      "To stdout and the OpenTelemetry logging provider, correlated with traces",
+      "Nowhere: in production, metrics and traces replace logs, which only help locally"
+    ],
+    "answer": 2,
+    "explanation": "Container file systems are per replica and disposable, and chiseled images have no shell for `docker exec`. The platform collects stdout, and the OTel logging provider exports structured logs to a central backend, carrying the trace and span ids. Metrics do not replace logs; each signal answers different questions."
+  }
+]

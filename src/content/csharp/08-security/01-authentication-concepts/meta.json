@@ -1,0 +1,28 @@
+{
+  "title": "Authentication Concepts",
+  "summary": "Separate authentication from authorization, cookies from bearer tokens, and the four OAuth 2.0 roles from what OpenID Connect adds, before configuring any of them in ASP.NET Core.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: Overview of ASP.NET Core authentication",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/"
+    },
+    {
+      "label": "Microsoft Learn: Configure JWT bearer authentication (token types, where OIDC/OAuth fit)",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-jwt-bearer-authentication"
+    },
+    {
+      "label": "RFC 6749: The OAuth 2.0 Authorization Framework, section 1.1 Roles",
+      "url": "https://datatracker.ietf.org/doc/html/rfc6749#section-1.1"
+    },
+    {
+      "label": "OpenID Foundation: How OpenID Connect works",
+      "url": "https://openid.net/developers/how-connect-works/"
+    }
+  ]
+}

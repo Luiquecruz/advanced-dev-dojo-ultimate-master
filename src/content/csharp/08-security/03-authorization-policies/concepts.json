@@ -1,0 +1,9 @@
+[
+  { "term": "Authorization policy", "description": "A named set of requirements, all of which must pass, applied with `RequireAuthorization(\"Name\")` or `[Authorize(Policy = \"Name\")]`." },
+  { "term": "Default policy", "description": "The policy used by `RequireAuthorization()` or `[Authorize]` without a name, which requires an authenticated user unless the app changes it." },
+  { "term": "Fallback policy", "description": "The policy applied to endpoints with no authorization metadata, `null` by default, and set to require an authenticated user for a deny-by-default API." },
+  { "term": "Requirement", "description": "A class implementing the marker interface `IAuthorizationRequirement` that holds the data of one rule, such as a minimum age or an allowed time window." },
+  { "term": "Authorization handler", "description": "A class deriving from `AuthorizationHandler<TRequirement>` that calls `context.Succeed(requirement)` when the rule is met; several handlers for one requirement combine with OR." },
+  { "term": "Resource-based authorization", "description": "Imperative authorization that loads the record first and calls `IAuthorizationService.AuthorizeAsync(user, resource, policy)`, because attributes run before data is loaded." },
+  { "term": "Broken Object Level Authorization", "description": "The OWASP API1:2023 risk of letting an authenticated caller access another user's object by changing an id in the request." }
+]

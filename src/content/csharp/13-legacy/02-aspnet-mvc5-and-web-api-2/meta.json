@@ -1,0 +1,24 @@
+{
+  "title": "Reading ASP.NET MVC 5 and Web API 2",
+  "summary": "Find your way in a System.Web app: Global.asax and App_Start, web.config, MVC 5 versus Web API 2 controllers, HTTP modules, HttpContext.Current, and what each piece becomes in ASP.NET Core.",
+  "level": "intermediate",
+  "tags": [
+    "legacy",
+    "legacy",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Get Started with ASP.NET Web API 2 (ASP.NET 4.x)",
+      "url": "https://learn.microsoft.com/en-us/aspnet/web-api/overview/getting-started-with-aspnet-web-api/tutorial-your-first-web-api"
+    },
+    {
+      "label": "Migrate from ASP.NET Web API to ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/areas/webapi"
+    },
+    {
+      "label": "Migrate HTTP modules to ASP.NET Core middleware",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/areas/http-modules"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A Magento developer ports a PHPUnit suite to xUnit. Two test classes add products to the same `static List<Product>` and assert on its count. The suite passes locally most of the time and fails at random in CI. What is the most likely cause?",
+    "options": [
+      "xUnit reuses one instance of each test class for all its tests, so the list is never reset",
+      "xUnit runs separate test classes in parallel, so both change the static list at once",
+      "The CI agent runs tests in alphabetical order, which differs from the order on your machine",
+      "`List<T>` is a value type, so each test changes its own copy and the count drifts"
+    ],
+    "answer": 1,
+    "explanation": "Each test class is its own test collection, and collections run in parallel by default, so shared static state races. Instance reuse is the wrong explanation: xUnit creates a new instance of the class for every test, which is why instance fields are safe and static fields are not."
+  },
+  {
+    "question": "Where does per-test setup go in xUnit, the equivalent of PHPUnit's `setUp()`?",
+    "options": [
+      "A method marked `[SetUp]`, which xUnit calls before each test",
+      "An override of `TestBase.Initialize()`, called before each test",
+      "The test class constructor, since each test gets a new instance",
+      "A class fixture, since xUnit builds it again before each test"
+    ],
+    "answer": 2,
+    "explanation": "The constructor runs before every test because every test gets a fresh instance, and `Dispose` runs after it. A class fixture is the opposite case: it is created once and shared by all tests in the class. `[SetUp]` is NUnit's attribute and does not exist in xUnit."
+  },
+  {
+    "question": "You want to test `ApplyDiscount(decimal price, int percentage)` with five `decimal` price rows. Which approach compiles and reports each row separately?",
+    "options": [
+      "A `[Fact]` with a `foreach` loop that asserts on every row of an array",
+      "A `[Theory]` with `[InlineData(19.99m, 10, 17.991m)]` rows, one per price",
+      "A `[Theory]` with `[MemberData]` returning `TheoryData<decimal, int, decimal>`",
+      "Five separate `[Fact]` methods, each calling one shared assertion helper"
+    ],
+    "answer": 2,
+    "explanation": "Attribute arguments must be compile-time constants and `decimal` is not one, so `[InlineData]` cannot carry `decimal` literals. `[MemberData]` with a typed `TheoryData` can, and each row is reported as its own test. A `foreach` in one fact stops at the first failing row and hides which one broke."
+  },
+  {
+    "question": "Which test signature is a bug in xUnit v3?",
+    "options": [
+      "`public async Task SaveAsync_ValidProduct_Persists()`",
+      "`public async ValueTask SaveAsync_ValidProduct_Persists()`",
+      "`public void Save_ValidProduct_PersistsToRepository()`",
+      "`public async void SaveAsync_ValidProduct_Persists()`"
+    ],
+    "answer": 3,
+    "explanation": "An `async void` test cannot be awaited by the runner, and xUnit v3 fails such tests at runtime. `Task` and `ValueTask` are both supported return types, and a synchronous `void` test is fine when the code under test is synchronous."
+  },
+  {
+    "question": "A test class loads a 50 MB fixture file in its constructor, and its 40 tests only read the data. What is the better design?",
+    "options": [
+      "Keep it in the constructor so every test gets its own clean copy",
+      "Load it once in an `IAsyncLifetime` class shared via `IClassFixture<T>`",
+      "Keep it in a static field that the first test to run fills in",
+      "Merge the 40 tests into one test so the file loads only once"
+    ],
+    "answer": 1,
+    "explanation": "A class fixture is created once per class and injected into each test instance, which suits expensive, read-only setup; `IAsyncLifetime` lets it load the file asynchronously. A static field filled by the first test depends on test order and on parallel execution, the exact problem fixtures exist to avoid. One giant test loses the per-behavior reporting."
+  },
+  {
+    "question": "Your team installs the .NET 10 SDK and runs `dotnet test` without changing anything else. Which test platform runs the tests?",
+    "options": [
+      "VSTest, until `global.json` opts in to Microsoft.Testing.Platform",
+      "Microsoft.Testing.Platform, which replaced VSTest as the .NET 10 default",
+      "Whichever platform the newest test package in the solution prefers",
+      "Neither, since `dotnet test` was removed in favor of `dotnet run`"
+    ],
+    "answer": 0,
+    "explanation": "From the .NET 10 SDK, `dotnet test` can run with Microsoft.Testing.Platform, but only when `global.json` sets `\"test\": { \"runner\": \"Microsoft.Testing.Platform\" }`. VSTest is still the default. `dotnet run` also works for an xUnit v3 project because it is an executable, but `dotnet test` was not removed."
+  }
+]

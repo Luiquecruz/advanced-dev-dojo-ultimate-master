@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A handler adds an order and changes two products, then calls `SaveChangesAsync()` once. Do you need `BeginTransactionAsync`?",
+    "options": [
+      "Yes; EF Core never wraps changes in a transaction unless you open one explicitly",
+      "Yes, but only on PostgreSQL, where each statement otherwise commits on its own",
+      "No; one `SaveChangesAsync` call already runs in a transaction",
+      "No, because EF Core writes each change in its own transaction, and that is good enough here"
+    ],
+    "answer": 2,
+    "explanation": "By default, all changes of one `SaveChangesAsync` call are applied in a transaction and rolled back together on failure. Explicit transactions are for grouping several saves, bulk updates or Dapper calls; opening one around a single save only adds noise."
+  },
+  {
+    "question": "Two `ExecuteUpdateAsync` calls run one after the other without an explicit transaction, and the second fails. What is the database state?",
+    "options": [
+      "The first update stays applied, because each call commits on its own",
+      "Both are rolled back, because EF Core groups the bulk calls of one context into a transaction",
+      "Neither ran, because `ExecuteUpdateAsync` only queues work until `SaveChangesAsync` is called",
+      "The second update is retried automatically by EF Core until it succeeds"
+    ],
+    "answer": 0,
+    "explanation": "`ExecuteUpdateAsync` runs immediately as its own statement and does not start a transaction spanning later calls; wrap both in `BeginTransactionAsync` when they must succeed together. Assuming EF Core groups them comes from the `SaveChangesAsync` behavior, which does not apply to bulk operations."
+  },
+  {
+    "question": "Coming from PHP, a developer protects stock with `lock (stockLock) { ... }` around load, decrement and save. Why does this fail in production?",
+    "options": [
+      "`lock` is deprecated in C# 14 in favor of the new `System.Threading.Lock` type, so the build fails",
+      "It works correctly, but it is slower than a `SemaphoreSlim`, which is the recommended replacement",
+      "Locks only work in console applications, because ASP.NET Core runs each request on a new process",
+      "`await` is not allowed inside `lock`, and no in-process lock spans app instances"
+    ],
+    "answer": 3,
+    "explanation": "C# forbids `await` inside a `lock` block, and any in-process lock only serializes code in one process, while production runs several instances against one database. The database is the shared arbiter: `Where(p => p.Stock >= qty).ExecuteUpdateAsync(...)` or a concurrency token. Swapping in a semaphore still has the multi-instance problem."
+  },
+  {
+    "question": "Product has `[Timestamp] public uint Version` on PostgreSQL. Two clients read version `42`, then both send `PUT` with `Version = 42`. What happens with the lesson's handler?",
+    "options": [
+      "Both succeed, and the second silently overwrites the changes of the first",
+      "The first succeeds; the second throws `DbUpdateConcurrencyException`, mapped to 409",
+      "Both fail with 409, because the two requests carry the same version at the same time",
+      "The second request blocks until the first transaction commits, and then succeeds"
+    ],
+    "answer": 1,
+    "explanation": "EF Core adds the token's original value to the `WHERE` clause; after the first update `xmin` changed, so the second `UPDATE ... WHERE xmin = 42` matches zero rows. Optimistic concurrency takes no locks, so nothing blocks; the conflict is detected and reported instead."
+  },
+  {
+    "question": "Why does the handler set `db.Entry(product).Property(p => p.Version).OriginalValue = request.Version` before saving?",
+    "options": [
+      "So the check compares against the version the client saw, not the one just loaded",
+      "To force EF Core to write the version column, which it otherwise leaves out of the `UPDATE`",
+      "Because `Version` is a read-only property in C# and cannot be assigned any other way",
+      "To disable the concurrency check for this save, because the client already sent a version"
+    ],
+    "answer": 0,
+    "explanation": "The concurrency check compares the database value with the token's original value. In an API the meaningful original value is the one the client received earlier, so it must come from the request. Leaving the freshly loaded value would pass the check even if someone changed the row after the client read it."
+  },
+  {
+    "question": "The context uses `EnableRetryOnFailure()` and a handler calls `BeginTransactionAsync()` directly. What happens and how do you fix it?",
+    "options": [
+      "It works as written; the retry strategy and user-initiated transactions are independent",
+      "EF Core silently disables retries for that context until the transaction is committed",
+      "It throws; run the transaction inside `CreateExecutionStrategy().ExecuteAsync(...)`",
+      "EF Core converts the transaction into an ambient `TransactionScope` so that retries still work"
+    ],
+    "answer": 2,
+    "explanation": "A retrying strategy can only replay work it controls, so it rejects user-initiated transactions with an `InvalidOperationException` naming `CreateExecutionStrategy()`. Executing the transaction through `db.Database.CreateExecutionStrategy().ExecuteAsync(...)` makes the whole block the retriable unit; nothing is disabled silently."
+  }
+]

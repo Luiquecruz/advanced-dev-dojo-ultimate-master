@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A Magento team configured cron on one admin node. Their new .NET API runs a nightly export in a `BackgroundService` and is scaled to three replicas on Container Apps. What happens?",
+    "options": [
+      "The platform detects the hosted service and runs it on one replica only, like a cron lock",
+      "It runs three times a night, once per replica; move it to a scheduled job instead",
+      "It never runs, because the platform disables hosted services once an app scales out",
+      "Only the first replica runs it, because DI singletons are shared across all replicas"
+    ],
+    "answer": 1,
+    "explanation": "Each replica is a separate long-running process with its own singletons and hosted services. Nothing coordinates them, so the job runs in all three. A scheduled Container Apps job (or a Kubernetes CronJob) runs once and exits. Singletons are per process, not shared across replicas, which is the misconception in the last option."
+  },
+  {
+    "question": "Your readiness and liveness probes both call an endpoint that checks the database. The database goes down for five minutes. What does Kubernetes do?",
+    "options": [
+      "It takes the Pods out of traffic and also restarts them, which cannot fix the database",
+      "Nothing, because probes only run while a container is starting, not after it is ready",
+      "It scales the Deployment to zero replicas until the database probe passes again",
+      "It fails the Pods over to another region, because a failed probe marks the zone down"
+    ],
+    "answer": 0,
+    "explanation": "A failing liveness probe restarts the container; a failing readiness probe takes it out of traffic. A dependency outage should only fail readiness, so the Pods stay up and rejoin when the database recovers. Probes run for the whole life of the container, not only at start-up."
+  },
+  {
+    "question": "Which reason best justifies AKS or EKS over Container Apps or ECS on Fargate for a new API?",
+    "options": [
+      "Only AKS and EKS can run containers that listen on port 8080",
+      "Kubernetes is required for horizontal scaling; the serverless options run one instance",
+      "You need the Kubernetes API, or a platform team already runs clusters",
+      "Container Apps and Fargate cannot pull images from a private container registry"
+    ],
+    "answer": 2,
+    "explanation": "Container Apps is built on Kubernetes but does not expose its API; ECS on Fargate does not use it. Both scale horizontally and pull from private registries. Choose a managed cluster when you need the API, already run clusters, or have people to operate them."
+  },
+  {
+    "question": "Behind Azure App Service, your API redirects users to `http://` URLs and logs the proxy's IP instead of the client's. What is missing?",
+    "options": [
+      "`app.UseHttpsRedirection()` placed after `app.Run()`, so it applies to every response",
+      "Forwarded headers for `X-Forwarded-For` and `X-Forwarded-Proto`, before redirects",
+      "`ASPNETCORE_HTTP_PORTS=443`, so Kestrel itself serves HTTPS behind the front end",
+      "A second Kestrel endpoint with a self-signed certificate for the front end to call"
+    ],
+    "answer": 1,
+    "explanation": "The front end terminates TLS and forwards plain HTTP, so without forwarded headers the app sees the proxy's scheme and IP. `UseForwardedHeaders` restores them; on App Service, whose front end has no fixed IP, that means `ASPNETCORE_FORWARDEDHEADERS_ENABLED` or cleared known proxies while the app is reachable only through the platform. Anything after `app.Run()` never runs, and listening on 443 does not change what the proxy sends."
+  },
+  {
+    "question": "In 2026, a team new to AWS asks for the simplest managed way to run their API container. Which answer matches AWS's own documentation?",
+    "options": [
+      "AWS App Runner, which AWS presents as the simplest service for container web apps",
+      "Lambda, keeping a long-running Kestrel server alive inside one function invocation",
+      "A self-managed EC2 fleet, because AWS has no managed option for long-running containers",
+      "ECS Express Mode: an image and two IAM roles give a Fargate service with a load balancer"
+    ],
+    "answer": 3,
+    "explanation": "AWS has closed App Runner to new customers and points new projects to ECS Express Mode, which also sets up auto scaling. Lambda runs per-event functions, not a long-running server inside one invocation. ECS on Fargate and Express Mode are managed container options."
+  },
+  {
+    "question": "Users upload product images that the API saves to `/app/uploads`. After a redeploy on Container Apps, the images are gone. Why?",
+    "options": [
+      "The replica's file system is discarded when it is replaced; use blob storage",
+      "Container Apps deletes files older than one hour from replicas",
+      "The non-root `app` user is not allowed to write files anywhere inside the container",
+      "Chiseled images mount the whole file system read-only, so the writes silently fail"
+    ],
+    "answer": 0,
+    "explanation": "Replicas are disposable and each has its own file system, so local files exist on one instance and only until it is replaced. Shared files belong in external storage, as Magento's media folder belongs on shared storage across web nodes. The other options describe behaviours the platform does not have."
+  }
+]

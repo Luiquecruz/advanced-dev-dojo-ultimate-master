@@ -338,7 +338,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 
 ## C# and .NET (`src/content/csharp`)
 
-Spec: `.claude/docs/csharp-track/`. Single-language track without a code engine (`"engine": "typescript"` is a placeholder): every lesson is theory + quiz, and practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK. 13 modules, 67 lessons: core 01–11, deepening 12, legacy 13. Hidden (`TRACK_FLAGS.csharp = false`) until every module is written, cross-reviewed and verified.
+Spec: `.claude/docs/csharp-track/`. Single-language track without a code engine (`"engine": "typescript"` is a placeholder): every lesson is theory + quiz, and practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK. 13 modules, 67 lessons: core 01–11, deepening 12, legacy 13. Enabled (`TRACK_FLAGS.csharp = true`) once every module was written, cross-reviewed and verified and the whole track passed an independent final review.
 
 ### 01-platform — The .NET Platform for PHP Developers
 01-csharp-map ✓ · 02-runtime-sdk-and-cli ✓ · 03-versions-and-support ✓ · 04-nuget-and-project-files ✓
@@ -359,22 +359,22 @@ Spec: `.claude/docs/csharp-track/`. Single-language track without a code engine 
 01-minimal-apis-and-controllers ✓ · 02-routing-binding-and-validation ✓ · 03-http-semantics-and-problem-details ✓ · 04-openapi-and-versioning ✓ · 05-project-catalog-api **(project)** ✓
 
 ### 07-data — Data Access
-01-relational-sql-for-dotnet · 02-ef-core-basics · 03-ef-core-migrations · 04-tracking-and-performance · 05-dapper-and-ado-net · 06-transactions-and-concurrency · 07-caching-redis-and-nosql · 08-project-catalog-persistence **(project)**
+01-relational-sql-for-dotnet ✓ · 02-ef-core-basics ✓ · 03-ef-core-migrations ✓ · 04-tracking-and-performance ✓ · 05-dapper-and-ado-net ✓ · 06-transactions-and-concurrency ✓ · 07-caching-redis-and-nosql ✓ · 08-project-catalog-persistence **(project)** ✓
 
 ### 08-security — API Security
-01-authentication-concepts · 02-jwt-bearer · 03-authorization-policies · 04-aspnet-core-identity · 05-api-hardening
+01-authentication-concepts ✓ · 02-jwt-bearer ✓ · 03-authorization-policies ✓ · 04-aspnet-core-identity ✓ · 05-api-hardening ✓
 
 ### 09-testing — Automated Testing
-01-unit-testing-with-xunit · 02-test-doubles · 03-integration-tests-with-webapplicationfactory · 04-database-tests-with-testcontainers · 05-project-secure-and-test-the-api **(project)**
+01-unit-testing-with-xunit ✓ · 02-test-doubles ✓ · 03-integration-tests-with-webapplicationfactory ✓ · 04-database-tests-with-testcontainers ✓ · 05-project-secure-and-test-the-api **(project)** ✓
 
 ### 10-background-messaging — Background Work and Messaging
-01-hosted-services · 02-scheduling-with-hangfire-and-quartz · 03-message-brokers · 04-reliable-messaging · 05-project-order-worker **(project)**
+01-hosted-services ✓ · 02-scheduling-with-hangfire-and-quartz ✓ · 03-message-brokers ✓ · 04-reliable-messaging ✓ · 05-project-order-worker **(project)** ✓
 
 ### 11-delivery — Containers, CI/CD, Cloud and Observability
-01-docker-for-dotnet · 02-ci-cd-pipelines · 03-cloud-hosting · 04-observability · 05-aspire · 06-project-ship-it **(project)**
+01-docker-for-dotnet ✓ · 02-ci-cd-pipelines ✓ · 03-cloud-hosting ✓ · 04-observability ✓ · 05-aspire ✓ · 06-project-ship-it **(project)** ✓
 
 ### 12-architecture — Application Architecture
-01-layered-and-clean-architecture · 02-vertical-slices-and-modular-monoliths · 03-domain-driven-design-essentials · 04-cqrs-mediator-and-licensing · 05-microservices-trade-offs
+01-layered-and-clean-architecture ✓ · 02-vertical-slices-and-modular-monoliths ✓ · 03-domain-driven-design-essentials ✓ · 04-cqrs-mediator-and-licensing ✓ · 05-microservices-trade-offs ✓
 
 ### 13-legacy — Legacy .NET and Migration
-01-net-framework-landscape · 02-aspnet-mvc5-and-web-api-2 · 03-web-forms-and-wcf · 04-migration-strategies · 05-project-legacy-migration **(project)**
+01-net-framework-landscape ✓ · 02-aspnet-mvc5-and-web-api-2 ✓ · 03-web-forms-and-wcf ✓ · 04-migration-strategies ✓ · 05-project-legacy-migration **(project)** ✓

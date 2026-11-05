@@ -1,0 +1,9 @@
+[
+  { "term": "Exchange and binding", "description": "In RabbitMQ, producers publish to an exchange (direct, fanout, topic or headers) and bindings route each message to queues by its routing key." },
+  { "term": "Acknowledgement", "description": "The consumer's signal that a message is done (`BasicAckAsync` in RabbitMQ, `CompleteMessageAsync` in Service Bus); until it arrives, the broker can redeliver the message." },
+  { "term": "Quorum queue", "description": "RabbitMQ's replicated queue type, recommended when a queue must be durable and highly available." },
+  { "term": "Partition", "description": "One ordered slice of a Kafka topic; messages with the same key go to the same partition, and order is guaranteed only within it." },
+  { "term": "Consumer group and offset", "description": "Kafka consumers sharing a `GroupId` split a topic's partitions between them, and each one commits the offset it has processed up to." },
+  { "term": "Topic and subscription", "description": "In Azure Service Bus, a topic delivers a copy of each message to every subscription, which consumers read like a queue." },
+  { "term": "Peek-lock", "description": "The default Service Bus receive mode: the message is locked for one receiver and removed only when completed, or made available again on abandon or lock expiry." }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A Magento developer reads a Kafka design document that says \"orders are published to the `orders` topic\". Which mental model is correct?",
+    "options": [
+      "`orders` is a message name used as a routing key, as a topic in Magento's `communication.xml`",
+      "A partitioned log; consumed messages stay until retention ends and can be reread",
+      "`orders` is a RabbitMQ topic exchange that routes by key patterns",
+      "A queue: each message is deleted as soon as the first consumer reads it"
+    ],
+    "answer": 1,
+    "explanation": "In Kafka a topic is an append-only log split into partitions, and events are not deleted after consumption. The tempting option is the Magento meaning, where a topic is the message name used as a routing key. The queue option describes RabbitMQ or Service Bus, not Kafka."
+  },
+  {
+    "question": "A Kafka topic has 4 partitions. The `stock-service` consumer group has 4 instances and is falling behind, so you scale it to 8 instances. What happens?",
+    "options": [
+      "Throughput roughly doubles, because each instance reads half of a partition",
+      "Kafka adds 4 partitions to the topic automatically so every member gets one",
+      "Each message is processed twice, because the new instances get their own copies",
+      "Four instances get partitions and four sit idle, so throughput does not improve"
+    ],
+    "answer": 3,
+    "explanation": "Kafka assigns partitions among a group's members, and a partition is not split between members, so a group has at most as many active consumers as partitions. Partitions are not added automatically. Extra instances in the same group do not get copies; only a different group would."
+  },
+  {
+    "question": "A RabbitMQ consumer uses `BasicConsumeAsync(\"stock.reserve\", autoAck: true, consumer)`. The process crashes halfway through reserving stock for a message. What happens to that message?",
+    "options": [
+      "It is lost: with automatic acknowledgement it was removed on delivery",
+      "RabbitMQ redelivers it to another consumer when the connection drops",
+      "It moves to the dead-letter exchange automatically once the channel closes",
+      "It stays in the queue until the consumer restarts and calls `BasicAckAsync`"
+    ],
+    "answer": 0,
+    "explanation": "With `autoAck: true` the broker treats the message as done as soon as it sends it, so a crash during processing loses it. Redelivery on connection loss (the tempting option) only applies to messages that are still unacknowledged, which requires `autoAck: false` and an explicit `BasicAckAsync` after the work."
+  },
+  {
+    "question": "Order placed: stock, invoicing and e-mail must each react to every order, independently and at their own pace. Which Azure Service Bus setup fits?",
+    "options": [
+      "One queue with three competing receivers",
+      "Three receivers on one queue using receive-and-delete mode",
+      "One topic with three subscriptions, one per service",
+      "A queue with sessions, one session per service"
+    ],
+    "answer": 2,
+    "explanation": "A topic gives each subscription its own copy of every message, so each service consumes independently. With one queue the receivers compete and each order reaches only one of them, which is right for spreading work but wrong for broadcasting a fact. Sessions order related messages; they do not copy messages."
+  },
+  {
+    "question": "Your Confluent.Kafka consumer keeps the default configuration and calls `Consume` in a loop. What delivery behavior should you expect?",
+    "options": [
+      "Exactly-once delivery, because Kafka tracks each group's offset on the broker",
+      "Background auto-commit, so a crash can skip an in-flight message or repeat recent ones",
+      "Nothing is committed, so every restart rereads the topic from the earliest offset",
+      "A synchronous commit after each `Consume` returns, so no message is ever lost"
+    ],
+    "answer": 1,
+    "explanation": "By default the .NET consumer stores each offset when `Consume` returns and commits stored offsets periodically in the background, whether or not your handler finished. That can skip a crashed message or reprocess a few after a restart. Setting `EnableAutoOffsetStore = false` and calling `StoreOffset` after processing gives at-least-once; offsets alone do not give exactly-once."
+  },
+  {
+    "question": "A team on Azure needs a work queue for \"generate invoice PDF for order N\", each command handled once, with retries and a dead-letter queue. Which choice is the most reasonable default?",
+    "options": [
+      "A Kafka topic with one partition, because Kafka retains every message",
+      "An in-memory `Channel<T>` in the API, because it needs no infrastructure",
+      "A Service Bus queue in peek-lock mode, completed after the PDF is stored",
+      "A Service Bus topic in receive-and-delete mode, with one subscription per worker"
+    ],
+    "answer": 2,
+    "explanation": "A command handled once is point-to-point work, which a queue with peek-lock, delivery counting and a built-in dead-letter queue covers on a platform the team already runs. Kafka's retention and replay add nothing here, and one partition caps scaling. A `Channel<T>` loses work on restart, and receive-and-delete is at-most-once."
+  }
+]

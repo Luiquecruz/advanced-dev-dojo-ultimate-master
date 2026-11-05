@@ -1,0 +1,9 @@
+[
+  { "term": "Fact", "description": "A test method marked `[Fact]` that takes no parameters and always runs the same way." },
+  { "term": "Theory", "description": "A test method marked `[Theory]` that runs once per data row from `[InlineData]`, `[MemberData]` or `[ClassData]`, each row reported as its own test." },
+  { "term": "Arrange-act-assert", "description": "The three-phase layout of a test: build the objects, call the behavior once, then check the result." },
+  { "term": "Class fixture", "description": "An object created once for a test class through `IClassFixture<T>` and injected into its constructor, used for setup too expensive to repeat per test." },
+  { "term": "Test collection", "description": "The unit of parallelism in xUnit: tests in one collection run sequentially, different collections run in parallel, and each class is its own collection by default." },
+  { "term": "TestContext.Current", "description": "The xUnit v3 entry point to the running test, whose `CancellationToken` should be passed to async calls so aborted or timed-out tests stop." },
+  { "term": "Microsoft.Testing.Platform", "description": "The newer of the two .NET test platforms, selectable for `dotnet test` in `global.json` from the .NET 10 SDK on, with VSTest as the default." }
+]

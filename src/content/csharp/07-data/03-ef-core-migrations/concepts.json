@@ -1,0 +1,9 @@
+[
+  { "term": "Migration", "description": "A generated C# class with `Up` and `Down` methods that moves the database schema one step forward or back." },
+  { "term": "Model snapshot", "description": "The `ModelSnapshot.cs` file in source control that `migrations add` compares the current model against to generate the next migration." },
+  { "term": "__EFMigrationsHistory", "description": "The table where EF Core records applied migrations, so each environment runs only the ones it is missing." },
+  { "term": "Migration bundle", "description": "A single executable built with `dotnet ef migrations bundle` that applies migrations without the SDK or the source code." },
+  { "term": "Idempotent script", "description": "A SQL script from `dotnet ef migrations script --idempotent` that checks the history table and applies only missing migrations." },
+  { "term": "Migration locking", "description": "The database-wide lock EF Core 9 and later take while applying migrations, so concurrent runs cannot corrupt the schema." },
+  { "term": "migrationBuilder.Sql", "description": "The migration operation that runs hand-written SQL, used for data backfills that must run once with a schema change." }
+]

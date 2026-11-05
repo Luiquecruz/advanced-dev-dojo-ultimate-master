@@ -1,0 +1,13 @@
+{
+  "title": "Scheduling with Hangfire and Quartz.NET",
+  "summary": "Choose between a hosted service, Hangfire and Quartz.NET for scheduled and deferred jobs, configure each one, and keep jobs correct across several instances with shared storage, retries and idempotent work.",
+  "level": "intermediate",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "Background tasks with hosted services in ASP.NET Core", "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-10.0" },
+    { "label": "Hangfire: integration with ASP.NET Core", "url": "https://docs.hangfire.io/en/latest/getting-started/aspnet-core-applications.html" },
+    { "label": "Hangfire: dealing with exceptions (automatic retries)", "url": "https://docs.hangfire.io/en/latest/background-processing/dealing-with-exceptions.html" },
+    { "label": "Quartz.NET 4.x quick start", "url": "https://www.quartz-scheduler.net/documentation/quartz-4.x/quick-start.html" },
+    { "label": "Quartz.NET 4.x hosted services integration", "url": "https://www.quartz-scheduler.net/documentation/quartz-4.x/packages/hosted-services-integration.html" }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "title": "Project P4: Secure and Test the Catalog API",
+  "summary": "Protect the catalog API's writes with JWT bearer, an admin policy and rate limiting, then prove it with unit tests, WebApplicationFactory HTTP tests and Testcontainers database tests that run with one dotnet test.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "project"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: Generate tokens with dotnet user-jwts",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/jwt-authn?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Microsoft Learn: Rate limiting middleware in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Microsoft Learn: Integration tests in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-10.0"
+    },
+    {
+      "label": "Microsoft Learn: EF Core, testing against your production database system",
+      "url": "https://learn.microsoft.com/en-us/ef/core/testing/testing-with-the-database"
+    }
+  ]
+}

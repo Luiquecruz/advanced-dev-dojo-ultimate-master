@@ -1,0 +1,10 @@
+[
+  { "term": "N+1 query", "description": "One query for a list plus one more per row, usually caused by a query in a loop or by lazy loading." },
+  { "term": "Eager loading", "description": "Loading related data in the same query with `Include` and `ThenInclude`, optionally filtered." },
+  { "term": "Projection", "description": "A `Select` into a DTO or anonymous type that fetches only the needed columns and produces untracked results." },
+  { "term": "Cartesian explosion", "description": "The row multiplication that happens when one SQL statement joins several sibling collections of the same parent." },
+  { "term": "Split query", "description": "`AsSplitQuery()` loads each included collection in its own SQL statement, trading round trips and consistency for less duplicated data." },
+  { "term": "No-tracking query", "description": "`AsNoTracking()` skips snapshots and identity resolution, which makes read-only queries cheaper." },
+  { "term": "ExecuteUpdateAsync", "description": "A set-based `UPDATE` (with `ExecuteDeleteAsync` for `DELETE`) that runs immediately without loading entities or using the change tracker." },
+  { "term": "Keyset pagination", "description": "Paging by filtering on the last seen key (`Where(p => p.Id > lastId)`) instead of skipping rows with an offset." }
+]

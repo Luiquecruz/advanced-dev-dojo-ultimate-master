@@ -1,0 +1,32 @@
+{
+  "title": "Microservices Trade-offs",
+  "summary": "Decide between a monolith, a modular monolith and microservices with concrete criteria, and know what a split costs: lost transactions, resilient HTTP calls, eventual consistency and operations.",
+  "level": "advanced",
+  "tags": [
+    "established",
+    "deepening",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: Microservices architecture style (Azure Architecture Center)",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/microservices"
+    },
+    {
+      "label": "Microsoft Learn: Identify microservice boundaries",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/microservices/model/microservice-boundaries"
+    },
+    {
+      "label": "Microsoft Learn: Build resilient HTTP apps",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience"
+    },
+    {
+      "label": "Microsoft Learn: .NET Microservices e-book (edition v7.0, .NET 7 era)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/architecture/microservices/"
+    },
+    {
+      "label": "dotnet/eShop: services-based reference app (.NET 10, Aspire)",
+      "url": "https://github.com/dotnet/eShop"
+    }
+  ]
+}

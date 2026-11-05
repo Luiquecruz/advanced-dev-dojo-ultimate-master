@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Coming from a Magento Docker setup, a developer builds the API image on `mcr.microsoft.com/dotnet/sdk:10.0`, bind-mounts the source and starts it with `dotnet run`. What is the main problem in production?",
+    "options": [
+      "Nothing: .NET reads the `.cs` files at request time, just as PHP-FPM reads `.php` files",
+      "The SDK and source reach production; copy only the published output into an `aspnet` stage",
+      "`dotnet run` cannot bind a port inside a container, so Kestrel never accepts outside requests",
+      "The SDK image ships no ASP.NET Core runtime, so the API fails to start until one is installed"
+    ],
+    "answer": 1,
+    "explanation": "An ASP.NET Core app is compiled ahead of time and then run from its published DLLs. A multi-stage build keeps the SDK in the build stage and copies only `/app` into `aspnet`, which is smaller and has fewer tools for an attacker. The PHP analogy is the trap: .NET does not read source files at request time."
+  },
+  {
+    "question": "You run `docker run -p 8000:80 catalog-api` on a .NET 10 image and `curl localhost:8000` gets \"connection reset\". Why?",
+    "options": [
+      "Chiseled images block inbound traffic until a firewall rule is added to the container",
+      "Kestrel only listens on HTTPS inside containers, so a plain HTTP request is dropped",
+      "The images set `ASPNETCORE_HTTP_PORTS=8080`, so nothing listens on 80; map `-p 8000:8080`",
+      "The non-root `app` user cannot open any TCP port, so Kestrel starts but never listens"
+    ],
+    "answer": 2,
+    "explanation": "Since .NET 8 the default moved from 80 to 8080 so the app can run as a non-root user: port 80 is privileged. Mapping 8080, or setting `ASPNETCORE_HTTP_PORTS=80` deliberately, fixes it. The `app` user can open unprivileged ports such as 8080, so that option is wrong."
+  },
+  {
+    "question": "Your Dockerfile's final stage is `aspnet:10.0-noble-chiseled`. A teammate adds `HEALTHCHECK CMD curl -f http://localhost:8080/health`. What happens?",
+    "options": [
+      "The check fails: there is no shell or curl; let the orchestrator probe over HTTP",
+      "It works, because chiseled images keep curl for health checks",
+      "Docker installs curl into the container automatically the first time the check runs",
+      "The build fails, because `HEALTHCHECK` is not allowed after `ENTRYPOINT` in a Dockerfile"
+    ],
+    "answer": 0,
+    "explanation": "Chiseled images are distroless: no shell, no package manager, only what .NET needs. A command-based health check has nothing to run. Kubernetes or Container Apps can probe `/health` over HTTP from outside; a Compose `healthcheck` runs inside the container, so it needs a probe binary copied into the image. Docker never installs packages for a health check."
+  },
+  {
+    "question": "Why does the Dockerfile copy the `.csproj` files and run `dotnet restore` before `COPY . .`?",
+    "options": [
+      "Because `dotnet publish` cannot restore packages by itself, so the restore must run first",
+      "To reuse the cached restore layer until package references change, like `composer.lock`",
+      "Restoring first leaves the NuGet cache out of the final image",
+      "Because the SDK needs the `.csproj` alone to find the target framework before the build"
+    ],
+    "answer": 1,
+    "explanation": "Each instruction is a cached layer. Code changes invalidate `COPY . .` and everything after it, but the restore layer stays cached while the `.csproj` files are unchanged. `dotnet publish` can restore on its own; the split exists for build speed, not correctness, and it does not change the final image size."
+  },
+  {
+    "question": "When is `dotnet publish /t:PublishContainer` the wrong choice and a Dockerfile the right one?",
+    "options": [
+      "When the project is an ASP.NET Core web API, since SDK publish targets console apps only",
+      "When you must push the image to GitHub Container Registry",
+      "When the image needs OS packages installed with `RUN`, which the SDK cannot execute",
+      "When the container must run as a non-root user, which SDK publish has no setting for"
+    ],
+    "answer": 2,
+    "explanation": "The SDK builds images from MSBuild properties and cannot emulate `RUN`. For OS packages, build a custom base image and set `ContainerBaseImage`, or use a Dockerfile. Pushing to a registry (`ContainerRegistry`) and running as the non-root `app` user both work with SDK publish, the user being its default."
+  },
+  {
+    "question": "In `docker compose`, the API's connection string says `Host=localhost` and the database runs as the service `db`. What happens?",
+    "options": [
+      "It works: Compose forwards `localhost` to the first database service",
+      "It fails: `localhost` is the API container itself; use `Host=db`, the service name",
+      "It works, because Compose rewrites `localhost` to `db` when the API has `depends_on: db`",
+      "It works as long as the database port is published to the host with a `ports:` entry"
+    ],
+    "answer": 1,
+    "explanation": "Each container has its own network namespace, so `localhost` is the API container itself. Compose gives every service a DNS name on the project network, so `db` resolves to the database. Publishing the port to the host does not change what `localhost` means inside the API container."
+  }
+]

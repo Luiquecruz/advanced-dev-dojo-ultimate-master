@@ -1,0 +1,8 @@
+[
+  { "term": "WebApplicationFactory<TEntryPoint>", "description": "The class from `Microsoft.AspNetCore.Mvc.Testing` that boots the real app from its entry point, usually `Program`, for tests and hands out clients for it." },
+  { "term": "TestServer", "description": "An in-memory ASP.NET Core server that processes requests without opening a network port, used by `WebApplicationFactory` in place of Kestrel." },
+  { "term": "System under test (SUT)", "description": "The app or component a test exercises, here the whole HTTP pipeline from routing to the response." },
+  { "term": "ConfigureTestServices", "description": "A host builder callback that runs after the app's own registrations, so tests can replace services such as external gateways." },
+  { "term": "WithWebHostBuilder", "description": "A factory method that returns a derived factory with extra configuration for one test, leaving the shared factory unchanged." },
+  { "term": "Test authentication handler", "description": "An `AuthenticationHandler<AuthenticationSchemeOptions>` registered only in tests that turns a request header into a signed-in user with chosen claims." }
+]

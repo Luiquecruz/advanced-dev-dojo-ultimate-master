@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which Magento mechanism is closest to a CQRS read model?",
+    "options": [
+      "The `di.xml` preference that binds `ProductRepositoryInterface` to its implementation",
+      "The price and search indexers, rebuilt from the EAV write tables, often on schedule",
+      "The `sales_order_place_after` observer that reacts to every newly placed order",
+      "The `quote` tables that hold the cart until it is converted into an order"
+    ],
+    "answer": 1,
+    "explanation": "Indexers build denormalized tables and a search index for fast reads from the normalized write side, and \"Update by Schedule\" makes those reads eventually consistent: that is CQRS with separate stores. A DI preference and an observer are wiring and side effects, and the quote tables are write-side state of their own, not a projection."
+  },
+  {
+    "question": "What is the minimum needed to apply CQRS in an ASP.NET Core API?",
+    "options": [
+      "A second database for reads and an event store that records every write",
+      "MediatR for dispatching the handlers and AutoMapper for the read DTOs",
+      "Separate command and query handlers, possibly on one database",
+      "A message broker that carries each change from the write side to the reads"
+    ],
+    "answer": 2,
+    "explanation": "The simplified CQRS used in Microsoft's microservices e-book keeps one database and two logical models: commands through the domain model, queries projected to DTOs. Separate stores, event sourcing and messaging are later options with real costs, and no library is required."
+  },
+  {
+    "question": "A query handler loads `Order` aggregates with their lines, then maps them in memory to `OrderSummary`. What is wrong?",
+    "options": [
+      "Nothing; the read side should reuse the domain model so the rules stay in one place",
+      "It should add `AsNoTracking()`, which also makes EF Core select only the needed columns",
+      "It should call `SaveChangesAsync` after reading, to release the tracked entities",
+      "It loads more than the response needs; a `Select` projection reads only those columns"
+    ],
+    "answer": 3,
+    "explanation": "The read side exists to skip the domain model: project straight to the DTO so EF Core selects only those columns, and a projection to a non-entity type is not tracked. `AsNoTracking()` removes tracking but still loads every column of the aggregates and their lines."
+  },
+  {
+    "question": "You want every command handler to log before and after it runs, without a library. What does the built-in DI container require?",
+    "options": [
+      "A decorator class, registered with a factory that wraps the concrete handler",
+      "A call to `services.Decorate(...)`, which the built-in container provides out of the box",
+      "A middleware added with `app.Use(...)` that wraps each handler call in the pipeline",
+      "Nothing; ASP.NET Core logs the start and end of every handler call automatically"
+    ],
+    "answer": 0,
+    "explanation": "The built-in container supports factories but not automatic decoration, so you register the inner handler as its concrete type and the interface with a factory that builds the decorator around it. `Decorate` comes from third-party packages, and middleware wraps HTTP requests, not handler calls, so it cannot see which handler ran."
+  },
+  {
+    "question": "Your project uses MediatR 12. A dependency bot opens a pull request that upgrades it to MediatR 14.2.0. What is the right reaction?",
+    "options": [
+      "Merge it; the package ID is unchanged, so the licence is too",
+      "Close it for good, because MediatR was deprecated in favour of the built-in container",
+      "Treat it as a licence decision, since MediatR is RPL-1.5 plus commercial from v13.0",
+      "Merge it, since the licence key requirement applies only to AutoMapper, not MediatR"
+    ],
+    "answer": 2,
+    "explanation": "A major upgrade crosses the 2025 licence boundary, so it needs an explicit decision: qualify for Community, pay, stay on 12, or remove the library. The package ID is the same before and after the change, so it tells you nothing about the licence. MediatR is not deprecated, and the announcement applies the same dual licence and key registration to both MediatR and AutoMapper."
+  },
+  {
+    "question": "A product admin API has five endpoints with simple CRUD rules. A teammate wants command handlers, query handlers and a mediator for it. What does Microsoft's CQRS pattern guidance suggest?",
+    "options": [
+      "Add them, because CQRS is recommended for any API that has both reads and writes",
+      "Skip them; for simple domains where CRUD is enough, the split adds cost",
+      "Add the handlers, but only with two databases, since one shared store defeats CQRS",
+      "Add only the mediator, since a mediator is what makes an API follow the CQRS pattern"
+    ],
+    "answer": 1,
+    "explanation": "The pattern page warns that CQRS might not suit simple domains where CRUD-style operations are sufficient: the split adds code without benefit. CQRS is not a default for every API, it works on one database, and a mediator is a dispatch mechanism, not CQRS itself."
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "How does `dotnet ef migrations add` decide what changed, compared with Magento's `db_schema.xml`?",
+    "options": [
+      "It diffs the C# model against the committed model snapshot",
+      "Like `setup:upgrade`, it connects to the database and diffs the live schema against the model",
+      "It reads any `db_schema.xml` files in the solution and converts their differences into C#",
+      "It records the SQL you ran manually in a database console since the last migration"
+    ],
+    "answer": 0,
+    "explanation": "EF Core diffs model against snapshot at development time and writes the operations as a C# migration you review and commit. Magento computes the diff against the live database at deploy time; assuming EF Core does the same leads people to skip reviewing the generated file."
+  },
+  {
+    "question": "You rename `Product.Name` to `Product.Title` and the generated migration contains `DropColumn(\"Name\")` and `AddColumn(\"Title\")`. What do you do?",
+    "options": [
+      "Apply it as generated; EF Core copies the data from the dropped column into the added one",
+      "Delete the model snapshot file and run `migrations add` again so EF Core detects the rename",
+      "Switch to `EnsureCreated()` for this change, because it handles renames without migrations",
+      "Edit `Up` and `Down` to use `RenameColumn`, then review and apply"
+    ],
+    "answer": 3,
+    "explanation": "A drop plus an add deletes every value in the column. Microsoft warns that a migration may drop a column when the intent was to rename it, and the migration is code you are expected to edit. EF Core does not copy data, and `EnsureCreated()` bypasses migrations entirely."
+  },
+  {
+    "question": "Your company's DBA must read and approve every SQL statement before it runs in production. Which strategy fits?",
+    "options": [
+      "Build a migration bundle in CI, which prints its SQL for review before it runs",
+      "Generate an idempotent SQL script with `dotnet ef migrations script`",
+      "Run `dotnet ef database update` on the production server after a code review",
+      "Call `MigrateAsync()` at application startup with SQL logging switched on"
+    ],
+    "answer": 1,
+    "explanation": "Scripts are the strategy for review-gated deployments: `--idempotent --output migrations.sql` produces a file the DBA can read, and the idempotent form applies only missing migrations. A bundle is the choice for automated deployment, but it does not currently let you inspect the SQL it will execute, so it does not satisfy a review gate."
+  },
+  {
+    "question": "An API runs as five container replicas and each one calls `MigrateAsync()` in its entrypoint. What does Microsoft recommend instead?",
+    "options": [
+      "Keep it; EF Core 9+ takes a lock, so migrating from every replica is the preferred production setup",
+      "Install the SDK in the image and run `dotnet ef database update` from each replica's entrypoint",
+      "Run a migration bundle once as a deployment job",
+      "Call `EnsureCreated()` instead, which is safe to run from several replicas in parallel"
+    ],
+    "answer": 2,
+    "explanation": "The applying-migrations page says not to make every replica run migrations from its entrypoint and not to install the SDK in the app image; generate a bundle in CI and run it once with an identity that has schema permissions. The lock in EF Core 9+ prevents corruption, but runtime migration still needs elevated permissions and gives no review or coordinated rollout."
+  },
+  {
+    "question": "A pull request changes the model but the author forgot to add a migration. How can CI catch it before deployment?",
+    "options": [
+      "It cannot; the error only appears when users hit the new column in production",
+      "Run `dotnet ef migrations list`, which exits with an error when the model changed",
+      "Compile the project; the C# compiler reports a model that has no matching migration",
+      "Run `dotnet ef migrations has-pending-model-changes` in the pipeline"
+    ],
+    "answer": 3,
+    "explanation": "`has-pending-model-changes` (EF Core 8+) checks the model against the last migration. `migrations list` only lists migrations and their state. Since EF Core 9, `Migrate` also throws on pending model changes, but that is at deploy time, later than CI."
+  },
+  {
+    "question": "A migration has already been applied to staging and production, and you spot a wrong column length in it. What is the correct fix?",
+    "options": [
+      "Fix the model and add a new migration that alters the column",
+      "Edit the applied migration file with the right length and redeploy",
+      "Delete its row from `__EFMigrationsHistory` so that the fixed migration runs again",
+      "Run `dotnet ef migrations remove`, fix the model, and add the migration again"
+    ],
+    "answer": 0,
+    "explanation": "Environments that already ran a migration will never run it again, so editing it creates drift between databases. `migrations remove` is for the last migration that has not been applied yet. A new migration keeps every environment on the same path."
+  }
+]

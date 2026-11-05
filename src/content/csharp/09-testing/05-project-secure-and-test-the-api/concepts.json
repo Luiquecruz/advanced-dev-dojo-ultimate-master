@@ -1,0 +1,7 @@
+[
+  { "term": "dotnet user-jwts", "description": "An SDK tool that issues local development JWTs for a project, with options such as `--role` and `--scope`, signed with a key kept in user secrets." },
+  { "term": "Admin policy", "description": "A named authorization policy requiring the `admin` role, applied to write endpoints so that authenticated non-admins get 403." },
+  { "term": "Rejection status code", "description": "The status the rate limiter returns for a rejected request, set explicitly to 429 through `RejectionStatusCode` or an `OnRejected` callback." },
+  { "term": "Test pyramid for an API", "description": "Many fast unit tests for rules, fewer in-memory HTTP tests for the contract, and a small set of real-database tests for what only the engine can prove." },
+  { "term": "Repeatable test run", "description": "A suite whose result does not depend on order or leftover data, so running `dotnet test` twice gives the same answer." }
+]

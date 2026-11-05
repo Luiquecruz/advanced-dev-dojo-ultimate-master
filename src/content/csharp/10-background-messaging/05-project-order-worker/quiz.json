@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In the P5 worker, `ReserveStockHandler` (which uses the scoped `DbContext`) is resolved once in the `BackgroundService` constructor instead of from a scope per message. Which acceptance criterion exposes the problem most directly?",
+    "options": [
+      "Criterion 3: poison messages would no longer reach the dead-letter queue",
+      "Criterion 4: every message logs the same scope id and shares one `DbContext`",
+      "Criterion 1: `POST /orders` would return 500 because the handler has no scope",
+      "Criterion 2: the broker would stop delivering the duplicate message at all"
+    ],
+    "answer": 1,
+    "explanation": "Criterion 4 checks for a new scope per message; a constructor-injected handler means one scope id and one long-lived `DbContext` for all messages, or a startup failure in Development. The tempting criterion 3 depends on reject and the policy, not on scopes, and the API side is unaffected."
+  },
+  {
+    "question": "The worker declares the `orders.dlx` exchange, but a typo means `orders.reserve-stock.dlq` is never bound to it. What does acceptance criterion 3 show for a poison message?",
+    "options": [
+      "It reaches `orders.reserve-stock.dlq` anyway, because the policy names that queue",
+      "RabbitMQ keeps redelivering it until some queue is bound to the dead-letter exchange",
+      "After 4 deliveries it leaves the main queue and is dropped, so neither queue holds it",
+      "The `set_policy` command fails, because the dead-letter exchange has no bindings yet"
+    ],
+    "answer": 2,
+    "explanation": "When the delivery limit is reached, RabbitMQ dead-letters the message to `orders.dlx`, and an exchange with no matching binding drops it, so the message is gone from both queues and criterion 3 fails. The tempting first option assumes the policy points at a queue; it names an exchange, which is why the binding matters. The policy itself is accepted, because RabbitMQ does not check the exchange or its bindings."
+  },
+  {
+    "question": "To pass criterion 2 (the same message published twice reserves stock once), where must the `ProcessedMessages` row be written?",
+    "options": [
+      "In the same database transaction as the stock change, keyed by `(MessageId, Consumer)`",
+      "In a second transaction, started right after the stock change has committed",
+      "In a static `HashSet<string>` that the worker keeps for its whole lifetime",
+      "In the API, in the same transaction that saves the order before publishing"
+    ],
+    "answer": 0,
+    "explanation": "Writing the marker and the stock change in one transaction means a redelivery either finds the marker or finds nothing changed. Because `ExecuteUpdateAsync` runs immediately, that transaction must be opened explicitly with `BeginTransactionAsync`. A second transaction leaves a crash window where stock is reserved but no marker exists. A static set is lost on restart and not shared by instances, and the API cannot know what the consumer processed."
+  },
+  {
+    "question": "Criterion 5: you press Ctrl+C while the worker is handling a message, before `BasicAckAsync` runs. Why is the message not lost and not applied twice?",
+    "options": [
+      "The host waits for the handler without a time limit, so it always finishes",
+      "Ctrl+C makes RabbitMQ acknowledge the in-flight message on the worker's behalf",
+      "The worker writes in-flight messages to a local file during shutdown",
+      "It was never acked, so it is redelivered, and the inbox marker absorbs a repeat"
+    ],
+    "answer": 3,
+    "explanation": "Manual acknowledgement means an unacknowledged message is redelivered when the connection closes, and the idempotent handler absorbs the case where the database work committed before the shutdown. The host only waits up to the shutdown timeout, not forever, and nothing is acknowledged or saved to disk on your behalf."
+  },
+  {
+    "question": "The API opens a new RabbitMQ connection inside `POST /orders` for every request and disposes it after publishing. What is the better design?",
+    "options": [
+      "Keep it, because short-lived connections are the RabbitMQ recommendation",
+      "Register one long-lived connection as a singleton and create channels from it",
+      "Register the connection as scoped, so each request gets its own and disposes it",
+      "Publish through the worker's connection by calling the worker over HTTP"
+    ],
+    "answer": 1,
+    "explanation": "Broker connections are expensive to open, so a process keeps one long-lived connection and creates channels from it. A scoped connection is the same per-request cost under another name, which is the tempting mistake for someone used to per-request PHP processes. Routing publishes through the worker over HTTP couples the two services and adds a failure point."
+  },
+  {
+    "question": "Without the outbox stretch goal, which failure can still leave an order without a message?",
+    "options": [
+      "The worker crashes while it is reserving stock, before it acknowledges",
+      "The same message is published twice by a retrying client",
+      "The API saves the order, then cannot publish because RabbitMQ is briefly down",
+      "A message carries an SKU that does not exist in the catalog"
+    ],
+    "answer": 2,
+    "explanation": "Saving the order and publishing are two separate writes, so a broker outage between them leaves a committed order with no message; the outbox closes that gap. A worker crash leads to redelivery, duplicates are absorbed by the inbox, and an unknown SKU ends in the dead-letter queue, so none of those loses the message."
+  }
+]

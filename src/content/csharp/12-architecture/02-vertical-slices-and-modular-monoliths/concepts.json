@@ -1,0 +1,8 @@
+[
+  { "term": "Vertical slice", "description": "All the code one request needs, from endpoint to data access, kept together by feature instead of being spread across technical layers." },
+  { "term": "Route group", "description": "`MapGroup` creates a `RouteGroupBuilder` that applies a shared prefix and metadata such as tags or authorization to every endpoint mapped on it." },
+  { "term": "Modular monolith", "description": "One deployable application split into business modules that own their data and talk to each other only through public contracts." },
+  { "term": "Module contract", "description": "A small public project, such as `Inventory.Contracts`, holding the only interfaces and DTOs other modules are allowed to reference." },
+  { "term": "Schema per module", "description": "Each module maps its tables to its own database schema, with its own migrations history table, so ownership is visible and a cross-module join stands out in review; only separate database roles and grants stop another module from querying them." },
+  { "term": "InternalsVisibleTo", "description": "An assembly attribute that lets a named assembly, typically the module's test project, see `internal` types without making them public." }
+]

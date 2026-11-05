@@ -1,0 +1,10 @@
+[
+  { "term": "Bounded context", "description": "A part of the business where each term has one meaning and one model, such as Catalog versus Inventory, and the natural boundary for a module or service." },
+  { "term": "Entity", "description": "An object with an identity that persists while its attributes change, so two orders with the same lines are still different orders." },
+  { "term": "Value object", "description": "An immutable object defined only by its values, such as `Money` or `Address`, which a C# `record` models with built-in value equality." },
+  { "term": "Aggregate root", "description": "The single entity through which a cluster of objects is loaded and changed, so it can enforce the cluster's invariants inside one transaction." },
+  { "term": "Anemic domain model", "description": "An antipattern where entities are data bags with public setters and all business rules live in service classes." },
+  { "term": "Complex type", "description": "The EF Core mapping for a value object: no key, stored in the owner's table or a JSON column, and compared by value." },
+  { "term": "Domain event", "description": "A record of something meaningful that happened in the domain, collected by the aggregate and dispatched when the unit of work is saved." },
+  { "term": "Integration event", "description": "An event published to other modules or services after the transaction commits, typically through an outbox and a message broker." }
+]

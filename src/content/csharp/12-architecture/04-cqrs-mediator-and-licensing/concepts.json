@@ -1,0 +1,9 @@
+[
+  { "term": "CQS", "description": "Command-query separation: each method either changes state or returns data, never both." },
+  { "term": "CQRS", "description": "Command and query responsibility segregation: a write model with domain rules for commands and a separate read model of DTOs for queries, in one database or several." },
+  { "term": "Read model", "description": "Data shaped for a screen or API response, such as a LINQ projection or a denormalized table, with no business rules." },
+  { "term": "Command handler", "description": "A class that executes one business intent, such as `PlaceOrder`, by loading or creating an aggregate, calling its methods and saving." },
+  { "term": "Decorator", "description": "A class that implements the same interface as the handler it wraps, adding behavior such as logging or a transaction before and after the inner call." },
+  { "term": "Mediator", "description": "An object that receives a request and routes it to its handler through a pipeline, which MediatR implements as `IMediator.Send`." },
+  { "term": "RPL-1.5 dual licence", "description": "Since MediatR v13.0 and AutoMapper v15.0, both ship under the Reciprocal Public License 1.5 plus a commercial licence, with a free Community edition for qualifying organizations." }
+]

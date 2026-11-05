@@ -1,0 +1,8 @@
+[
+  { "term": "Microservice", "description": "A small, autonomous service implementing one business capability within a bounded context, deployed independently and owning its own data." },
+  { "term": "Modular monolith", "description": "One deployable split into modules with enforced boundaries, the usual starting point from which a service is later extracted." },
+  { "term": "Distributed monolith", "description": "Services that share a database or must be deployed together, paying network costs without gaining independent deployment." },
+  { "term": "Eventual consistency", "description": "Data across services converges after a delay instead of being updated in one ACID transaction, so callers must tolerate stale reads and design compensation." },
+  { "term": "Standard resilience handler", "description": "`AddStandardResilienceHandler` from `Microsoft.Extensions.Http.Resilience`, which wraps an `HttpClient` in a rate limiter, total timeout, retry, circuit breaker and attempt timeout." },
+  { "term": "Chatty calls", "description": "Frequent synchronous calls between two services, a sign that their functions belong in the same service." }
+]

@@ -1,0 +1,28 @@
+{
+  "title": "Domain-Driven Design Essentials",
+  "summary": "Model business rules with entities, record-based value objects and small aggregates, map value objects as EF Core 10 complex types, dispatch domain events at save time, and know when plain CRUD is enough.",
+  "level": "advanced",
+  "tags": [
+    "established",
+    "deepening",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: Use tactical DDD to design microservices",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/microservices/model/tactical-domain-driven-design"
+    },
+    {
+      "label": "Microsoft Learn: EF Core complex types",
+      "url": "https://learn.microsoft.com/en-us/ef/core/modeling/complex-types"
+    },
+    {
+      "label": "Microsoft Learn: Domain events, design and implementation (e-book, 2018; shows MediatR)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/domain-events-design-implementation"
+    },
+    {
+      "label": "Microsoft Learn: What's new in C# 14 (the field keyword)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14"
+    }
+  ]
+}

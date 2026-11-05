@@ -1,0 +1,9 @@
+[
+  { "term": "System.Web", "description": "The .NET Framework assembly behind classic ASP.NET (`HttpContext`, modules, handlers), which does not exist on modern .NET." },
+  { "term": "Global.asax", "description": "The `HttpApplication` subclass whose `Application_Start` registers routes, filters and bundles, replaced by `Program.cs` in ASP.NET Core." },
+  { "term": "web.config", "description": "The XML file that holds app settings, connection strings, `system.web` options and IIS modules, varied per environment with transform files." },
+  { "term": "ApiController", "description": "The Web API 2 base class in `System.Web.Http`, separate from the MVC 5 `Controller` in `System.Web.Mvc`, with its own routing, filters and dependency resolver." },
+  { "term": "IHttpActionResult", "description": "The Web API 2 action result interface (`Ok`, `NotFound`), replaced by `IActionResult` and `ActionResult<T>` in ASP.NET Core." },
+  { "term": "HttpContext.Current", "description": "A static accessor to the current request that is null outside the request context and is not part of ASP.NET Core; the System.Web adapters can supply it during a migration, but the goal is an injected `HttpContext` or `IHttpContextAccessor`." },
+  { "term": "HTTP module", "description": "A class implementing `IHttpModule`, registered in `web.config` and hooked to request events, whose role middleware takes over in ASP.NET Core." }
+]

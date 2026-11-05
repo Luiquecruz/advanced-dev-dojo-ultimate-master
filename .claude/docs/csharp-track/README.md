@@ -18,7 +18,7 @@ Make a backend developer coming from **PHP/Magento** productive in a modern C#/.
 | Accent | `#ff7a7f` (coral, ≈ 358°) | The hue rule now counts only the tracks shown to learners. C# takes the band of the hidden Angular track. Enabling Angular fails `trackPresentation.test.ts` and forces a new choice ([ARCHITECTURE.md](../ARCHITECTURE.md) "Track presentation") |
 | Scope | 13 modules, 67 lessons: core 01–11, deepening 12, legacy 13 | Core = what the [market sample](01-market-research.md) asks for in most postings. Architecture and legacy are separate so that a learner can stop after the core |
 | Practice | 7 progressive projects, each described in the closing lesson of a module with features and acceptance criteria | The goal requires described projects; there is no executable C# in the app |
-| Visibility | `TRACK_FLAGS.csharp = false` until every module is written, cross-reviewed and verified (the track ships in two pull requests: platform and modules 01–06, then modules 07–13 with the flag) | No half-built track in the carousel |
+| Visibility | `TRACK_FLAGS.csharp = true` since the release: every module was written, cross-reviewed and verified, and the whole track passed an independent final review (it was `false` while the modules were written) | No half-built track in the carousel |
 | Language | English | Project rule |
 
 ## Documents

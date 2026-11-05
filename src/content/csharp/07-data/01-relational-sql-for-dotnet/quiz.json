@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Coming from PHP, you register one `SqlConnection` as a singleton so every request reuses it. What happens under load?",
+    "options": [
+      "It works and is faster, because opening a physical connection on every request is the expensive part that a singleton avoids",
+      "The DI container still creates a new connection per request behind the scenes, so the singleton registration changes nothing",
+      "The connection is closed automatically after the first request finishes, so the second request fails with a closed-connection error",
+      "Concurrent requests share one connection, which `SqlConnection` does not support; open one per unit of work instead"
+    ],
+    "answer": 3,
+    "explanation": "ASP.NET Core serves many requests concurrently in one process, and SqlClient objects are not safe for concurrent use. Open a connection per unit of work and let the pool reuse physical connections. The tempting first option assumes opening is expensive, but the built-in pool makes `new SqlConnection` + `OpenAsync` cheap; disposing returns the physical connection to the pool."
+  },
+  {
+    "question": "You maintain a project that has `using System.Data.SqlClient;`. What is the accurate statement?",
+    "options": [
+      "The package is deprecated; migrate to `Microsoft.Data.SqlClient` and test its different defaults",
+      "It is still the current provider for on-premises SQL Server; `Microsoft.Data.SqlClient` is only needed for Azure SQL",
+      "Both packages are interchangeable, so you can pass a `SqlConnection` from one to code written for the other",
+      "It no longer compiles on .NET 10, so the build fails until every reference is replaced"
+    ],
+    "answer": 0,
+    "explanation": "NuGet marks `System.Data.SqlClient` as deprecated and points to `Microsoft.Data.SqlClient`. It still compiles, which is why it lingers, but the types from the two packages are not interchangeable and the new driver encrypts by default, so a migration needs testing, not only a namespace change."
+  },
+  {
+    "question": "Which code is safe against SQL injection when `sku` comes from the query string?",
+    "options": [
+      "`new SqlCommand($\"SELECT * FROM Products WHERE Sku = '{sku}'\", connection)` plus `command.Parameters.Add(\"@sku\", SqlDbType.NVarChar, 64).Value = sku`",
+      "`new SqlCommand(\"SELECT * FROM Products WHERE Sku = @sku\", connection)` plus `command.Parameters.Add(\"@sku\", SqlDbType.NVarChar, 64).Value = sku`",
+      "`new SqlCommand(\"SELECT * FROM Products WHERE Sku = '\" + sku.Replace(\"'\", \"\") + \"'\", connection)`",
+      "`new SqlCommand(string.Format(\"SELECT * FROM Products WHERE Sku = '{0}'\", sku), connection)`"
+    ],
+    "answer": 1,
+    "explanation": "Only the parameter sends the value separately from the SQL text, so the database never parses it as SQL. Stripping quotes looks safe but is a blacklist that breaks legitimate values and misses other injection vectors; interpolation and `string.Format` paste the input into the statement, and adding a parameter that the SQL text never references does not change that."
+  },
+  {
+    "question": "After upgrading to `Microsoft.Data.SqlClient`, the app fails to connect to a SQL Server container with a self-signed certificate. What changed and what is the right fix?",
+    "options": [
+      "The new driver dropped SQL authentication for containers, so switch the connection string to Windows authentication",
+      "The default port changed in the new driver, so add `,1433` to the server name in the connection string",
+      "Containers are not a supported target for the new driver; install SQL Server locally for development",
+      "`Encrypt` now defaults to `true`; trust the certificate only in local development"
+    ],
+    "answer": 3,
+    "explanation": "Version 4.0 made `Encrypt=true` the default, so an untrusted certificate fails validation. Use `TrustServerCertificate=True` only for local development and a trusted certificate in production: setting it everywhere hides the problem and removes server authentication, which Microsoft limits to controlled development environments."
+  },
+  {
+    "question": "Which `SqlCommand` method fits an `UPDATE Products SET Stock = Stock - @qty WHERE Sku = @sku`, and why?",
+    "options": [
+      "`ExecuteReaderAsync`, because every command returns a result set that you must read to get the outcome",
+      "`ExecuteScalarAsync`, because it returns the updated row's new stock value as a single result",
+      "`ExecuteNonQueryAsync`, because it returns the affected row count",
+      "`ExecuteXmlReaderAsync`, because data-changing statements report their result as an XML document"
+    ],
+    "answer": 2,
+    "explanation": "`ExecuteNonQueryAsync` is for statements that change data, and the affected-row count is useful for checks such as 'the SKU exists' (`0` means it did not match). `ExecuteScalarAsync` returns the first column of the first row of a result set; an `UPDATE` without `OUTPUT` has none, so it returns null."
+  },
+  {
+    "question": "How should a web API use Npgsql 7 or later?",
+    "options": [
+      "Build one `NpgsqlDataSource`, register it as a singleton, and open short-lived connections from it",
+      "Create `new NpgsqlConnection(connectionString)` once in a static field at startup and reuse it for every request",
+      "Create a new `NpgsqlDataSource` inside every request handler so that each request gets its own isolated pool",
+      "Use `System.Data.SqlClient`, which also supports PostgreSQL through its generic provider factory"
+    ],
+    "answer": 0,
+    "explanation": "The Npgsql docs call the data source the recommended way and say to build one and reuse it: it is thread-safe and maps to a pool. A data source per request would create a new pool each time, and a static connection repeats the shared-connection bug."
+  }
+]

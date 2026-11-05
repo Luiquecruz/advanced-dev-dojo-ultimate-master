@@ -1,0 +1,9 @@
+[
+  { "term": "Dapper", "description": "A micro-ORM of extension methods on `DbConnection` that runs your SQL and maps each row to a typed object by column name." },
+  { "term": "CommandDefinition", "description": "The Dapper struct that bundles SQL, parameters, transaction, command type and a `CancellationToken` for one call." },
+  { "term": "DynamicParameters", "description": "The Dapper parameter bag that supports explicit types, sizes and output or return parameters, read back with `Get<T>`." },
+  { "term": "List expansion", "description": "Dapper's rewrite of `IN @ids` into one parameter per element of the collection you pass." },
+  { "term": "Stored procedure", "description": "Database-side code called with `CommandType.StoredProcedure`, common in SQL Server shops for reports and business rules." },
+  { "term": "SqlQuery<T>", "description": "The EF Core 8+ API that runs parameterized SQL and maps the rows to a scalar or an unmapped type without Dapper." },
+  { "term": "GetDbConnection", "description": "The EF Core method that exposes the context's own connection so Dapper can run on it, inside the same transaction when needed." }
+]

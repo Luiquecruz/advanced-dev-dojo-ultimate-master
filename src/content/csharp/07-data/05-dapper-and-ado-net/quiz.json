@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team already uses EF Core. Which case is the strongest reason to write one query with Dapper?",
+    "options": [
+      "Every new read endpoint, because Dapper skips translation and tracking and is therefore always faster",
+      "A CTE and window-function report that EF Core does not translate",
+      "Creating an order with its lines, because Dapper handles related rows and relationships better",
+      "Any table that has more than ten columns, where EF Core's generated SQL becomes too long"
+    ],
+    "answer": 1,
+    "explanation": "Dapper pays off for SQL that LINQ cannot express well and for hot reads where you measured EF overhead. Writes that change several related rows are where EF Core's unit of work and change tracker help most; 'Dapper is always faster' ignores what you lose: generated SQL, mapping kept in sync with migrations and the change tracker."
+  },
+  {
+    "question": "A Dapper query `SELECT sku, name, stock * price AS value FROM products` maps to `record StockRow(string Sku, string Name, decimal StockValue)`. What happens?",
+    "options": [
+      "Dapper maps `value` to `StockValue` because it is the only `decimal` column and parameter",
+      "The C# compiler reports that the SQL alias does not match the record parameter",
+      "EF Core migrations rename the column to `StockValue` the next time they run",
+      "No member matches `value`; rename the alias, because Dapper maps by name"
+    ],
+    "answer": 3,
+    "explanation": "Dapper matches result columns to constructor parameters or properties by name, not by type or position, and nothing checks the SQL at compile time. With a record constructor, a column that matches no parameter makes the mapping fail at runtime; with settable properties the value is silently left at its default."
+  },
+  {
+    "question": "How do you call a SQL Server stored procedure with an output parameter in Dapper?",
+    "options": [
+      "Use `DynamicParameters` with an output parameter and `CommandType.StoredProcedure`",
+      "Build `\"EXEC dbo.Proc \" + categoryId` as the SQL text and parse the output value from the result",
+      "Use `QueryAsync<decimal>(\"dbo.Proc\")`, which returns output parameters as rows of the result",
+      "Dapper cannot call stored procedures, so drop down to a plain ADO.NET `SqlCommand` for them"
+    ],
+    "answer": 0,
+    "explanation": "`DynamicParameters` carries direction, type, precision and scale, and Dapper fills output values after the call, which you read with `parameters.Get<decimal>(\"@Total\")`. String-building the `EXEC` reintroduces SQL injection, and output parameters are not part of the result rows a query returns."
+  },
+  {
+    "question": "Which EF Core call is safe when `sku` comes from the user?",
+    "options": [
+      "`db.Products.FromSqlRaw(\"SELECT * FROM dbo.Products WHERE Sku = '\" + sku + \"'\")`",
+      "`db.Products.FromSqlRaw($\"SELECT * FROM dbo.Products WHERE Sku = '{sku}'\")`",
+      "`db.Products.FromSql($\"SELECT * FROM dbo.Products WHERE Sku = {sku}\")`",
+      "`db.Database.ExecuteSqlRaw(\"DELETE FROM dbo.Products WHERE Sku = '\" + sku + \"'\")`"
+    ],
+    "answer": 2,
+    "explanation": "`FromSql` takes a `FormattableString` and sends each interpolated value as a database parameter. The `Raw` variants accept a plain string, so concatenated or interpolated values become SQL text; EF Core 10 adds an analyzer warning for concatenation in those calls because this mistake is common."
+  },
+  {
+    "question": "On SQL Server, inside an EF Core transaction you save a new product, then run a Dapper count on `db.Database.GetDbConnection()` without passing a transaction. What is the problem?",
+    "options": [
+      "None; Dapper detects the EF Core transaction on the connection and enlists the command in it",
+      "Dapper closes and disposes the context's connection after the call, so the commit fails",
+      "Dapper cannot run commands on a connection that EF Core created and opened",
+      "SqlClient rejects it; pass `transaction: transaction.GetDbTransaction()`"
+    ],
+    "answer": 3,
+    "explanation": "ADO.NET commands must be enlisted in the connection's transaction explicitly, and SqlClient throws when a command on a connection with a pending local transaction has none. Dapper takes the transaction as a parameter; it does not discover EF Core's transaction on its own. `GetDbTransaction` needs `using Microsoft.EntityFrameworkCore.Storage;`."
+  },
+  {
+    "question": "Your EF Core migrations created the products table on PostgreSQL, and a Dapper query `SELECT sku FROM products` fails with \"relation products does not exist\". Why?",
+    "options": [
+      "Dapper supports only SQL Server, so table names are resolved with SQL Server rules",
+      "EF Core created quoted `\"Products\"`; unquoted names fold to lowercase",
+      "The table is only created when the first EF Core query runs against the database",
+      "Npgsql requires schema-qualified names such as `dbo.products` in hand-written SQL"
+    ],
+    "answer": 1,
+    "explanation": "PostgreSQL identifiers are case-sensitive when quoted, and EF Core's Npgsql provider uses the CLR names quoted by default, so the SQL must quote them. Unquoted `products` refers to a different, non-existent lowercase table. `dbo` is a SQL Server schema; PostgreSQL's default schema is `public`."
+  }
+]

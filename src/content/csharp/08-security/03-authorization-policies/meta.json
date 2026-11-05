@@ -1,0 +1,28 @@
+{
+  "title": "Authorization Policies",
+  "summary": "Protect endpoints with roles, claims and named policies, make authenticated-by-default the rule with a fallback policy, write requirements and handlers, and check ownership of a record with resource-based authorization.",
+  "level": "intermediate",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Microsoft Learn: Policy-based authorization in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies"
+    },
+    {
+      "label": "Microsoft Learn: Resource-based authorization in ASP.NET Core",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/resource-based"
+    },
+    {
+      "label": "Microsoft Learn: Role-based authorization in ASP.NET Core (Blazor examples; rules apply to APIs)",
+      "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/roles"
+    },
+    {
+      "label": "OWASP API Security Top 10 (2023)",
+      "url": "https://api-security.owasp.org/editions/2023/en/0x11-t10"
+    }
+  ]
+}

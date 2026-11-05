@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Where should the P3 database connection string live on your development machine?",
+    "options": [
+      "In `appsettings.json`, committed with the project, like Magento's database settings in `env.php`",
+      "Hard-coded in `Program.cs` as a constant, so `dotnet ef` and the API always agree on it",
+      "In user secrets, read through configuration",
+      "In the migration files, so that `dotnet ef database update` can find the database"
+    ],
+    "answer": 2,
+    "explanation": "User secrets (`dotnet user-secrets set ConnectionStrings:Catalog ...`) keep credentials out of the repository while `GetConnectionString` still finds them in Development. In Magento the credentials live in `app/etc/env.php`, which is not committed; `appsettings.json` is committed, so secrets there leak."
+  },
+  {
+    "question": "Acceptance criterion 4 sends two `PUT` requests with the same `version`. Which implementation makes the second one return 409?",
+    "options": [
+      "Set the token's `OriginalValue` from the request and map the concurrency exception to 409",
+      "Load the product, apply the changes and save; EF Core compares against the version it just loaded",
+      "Wrap the handler body in a C# `lock` so that the two requests run one after the other",
+      "Use `ExecuteUpdateAsync` without a version condition, which fails when the row changed"
+    ],
+    "answer": 0,
+    "explanation": "The second request carries a version that no longer matches the row, and only the client's version expresses what it saw; `DbUpdateConcurrencyException` then becomes 409 Problem Details. Comparing against a freshly loaded value always passes, and a `lock` just serializes the requests so the second still overwrites the first."
+  },
+  {
+    "question": "For reservations (criterion 5), why does the project use a conditional `ExecuteUpdateAsync` instead of load, check, decrement and `SaveChangesAsync`?",
+    "options": [
+      "Because `SaveChangesAsync` cannot change integer columns that have a check constraint",
+      "Because `ExecuteUpdateAsync` retries automatically when another request changed the row",
+      "Because `ExecuteUpdateAsync` also removes the product's `HybridCache` entry automatically",
+      "Check and decrement run in one statement, so two requests cannot both take the last units"
+    ],
+    "answer": 3,
+    "explanation": "Load-check-save leaves a window between the read and the write in which another request can read the same stock. The conditional update closes the window in the database, and the affected row count tells you whether it succeeded. It does not retry or touch the cache; you still remove the cache entry yourself."
+  },
+  {
+    "question": "Criterion 6 requires the category report to run as one SQL statement. What is the best way to verify it?",
+    "options": [
+      "Measure that the endpoint responds in under 100 ms on your local database",
+      "Enable `LogTo` in Development and count the statements during one request",
+      "Check that the handler code contains no `foreach` loop over categories",
+      "Count the rows in the JSON response and compare them with the categories"
+    ],
+    "answer": 1,
+    "explanation": "The log shows every command EF Core sends, so N+1 or client-side work is visible directly. Timing on a small local dataset hides N+1, and a missing `foreach` proves nothing when lazy loading or a query inside a `Select` can still trigger extra statements."
+  },
+  {
+    "question": "After a `PUT` changes a product, criterion 8 expects the next `GET` to return the new data. What must the `PUT` handler do?",
+    "options": [
+      "Nothing; `HybridCache` watches the database and drops entries whose rows changed",
+      "Remove the product's key from the cache before calling `SaveChangesAsync`",
+      "Call `cache.RemoveAsync($\"product:{sku}\")` after a successful save",
+      "Set `Expiration` to zero on every entry so that reads always see fresh data"
+    ],
+    "answer": 2,
+    "explanation": "No cache observes the database by itself; invalidation is the writer's job, as with Magento cache tags cleaned on save, and the next read then runs the factory. Removing before the save could let a concurrent read cache the old value again, and zero expiration would make the cache useless."
+  }
+]
