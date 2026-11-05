@@ -22,7 +22,7 @@
     "explanation": "`TypedResults` return concrete types that carry response metadata, so the generator sees `Product` and the 404 without extra calls. The alternative is `.Produces<Product>()` on the endpoint. `[ApiController]` is a controller attribute, and neither the spec version nor a second generator adds the missing type information."
   },
   {
-    "question": "Your Magento integration partner's client generator only supports OpenAPI 3.0 and fails on your .NET 10 document. What is the direct fix?",
+    "question": "An integration partner's client generator only supports OpenAPI 3.0 and fails on your .NET 10 document. What is the direct fix?",
     "options": [
       "Downgrade the whole project to .NET 8 and its SDK",
       "Disable nullable reference types in the project file",

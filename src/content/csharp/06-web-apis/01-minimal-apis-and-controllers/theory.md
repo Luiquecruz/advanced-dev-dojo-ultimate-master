@@ -2,33 +2,7 @@
 
 ASP.NET Core gives you two ways to write HTTP endpoints: minimal APIs (`app.MapGet(...)` with a handler) and controllers (classes that derive from `ControllerBase`). After this lesson you can write the same endpoint in both styles, explain what each one does at runtime, organize a minimal API so it does not end up as one 900-line `Program.cs`, and pick a style for a new project or for a job interview.
 
-## Coming from PHP/Magento
-
-Magento has two shapes that map almost one to one:
-
-- **`webapi.xml` + service contracts** (`<route url="/V1/products/:sku" method="GET">` pointing at `ProductRepositoryInterface::get`) is a route table that binds a URL to a method. Minimal APIs are the same idea written in C#: a route, a verb and a function.
-- **Controller action classes** (`Controller/Adminhtml/Product/Save.php` with `execute()`, routed by `routes.xml`) resemble ASP.NET Core controllers, except that one ASP.NET Core controller class usually holds several actions (`Get`, `Create`, `Delete`) for one resource.
-
-The trap is lifetime. In PHP-FPM every request builds a fresh object graph and throws it away. ASP.NET Core controllers are also created and disposed per request, but a minimal API handler is a delegate built **once at startup** and shared by every request on many threads. Anything a lambda captures from `Program.cs` behaves like a static field:
-
-```csharp
-// ... builder and app created as usual
-var requestCount = 0;
-
-// Bug: every request on every thread increments the same variable without synchronization.
-app.MapGet("/stats/unsafe", () => ++requestCount);
-
-// Fix: keep shared state in a registered service that is safe for concurrent use.
-app.MapGet("/stats", (RequestCounter counter) => counter.Increment());
-
-public sealed class RequestCounter
-{
-    private int _count;
-    public int Increment() => Interlocked.Increment(ref _count);
-}
-```
-
-`RequestCounter` would be registered with `builder.Services.AddSingleton<RequestCounter>()`. Dependencies belong in handler parameters, resolved from DI per request (05/02), not in captured locals.
+You need: 05/01 (requests, responses and `MapGet`), 05/02 (lifetimes and constructor injection), 02/03 (records, interfaces and attributes), 02/05 (pattern matching, primary constructors and extension methods) and 04/05 (`Interlocked`).
 
 ## A minimal API endpoint
 
@@ -57,6 +31,29 @@ public interface IProductStore
 ```
 
 `TypedResults` returns concrete types (`Ok<Product>`, `NotFound`), and the `Results<T1, T2>` return type lists every outcome. The compiler rejects a branch that returns something not listed, and OpenAPI (06/04) reads the possible responses from the signature. Microsoft's responses page prefers `TypedResults` over `Results` for that reason, and because typed results are easier to assert in unit tests.
+
+## Handlers are built once
+
+A minimal API handler is a delegate built **once at startup** and shared by every request on many threads. Anything a lambda captures from `Program.cs` therefore behaves like a static field:
+
+```csharp
+// ... builder and app created as usual
+var requestCount = 0;
+
+// Bug: every request on every thread increments the same variable without synchronization.
+app.MapGet("/stats/unsafe", () => ++requestCount);
+
+// Fix: keep shared state in a registered service that is safe for concurrent use.
+app.MapGet("/stats", (RequestCounter counter) => counter.Increment());
+
+public sealed class RequestCounter
+{
+    private int _count;
+    public int Increment() => Interlocked.Increment(ref _count);
+}
+```
+
+`RequestCounter` is registered with `builder.Services.AddSingleton<RequestCounter>()`. Dependencies belong in handler parameters, resolved from DI per request (05/02), not in captured locals. Controllers are different: the framework creates a controller instance per request and disposes it afterwards.
 
 ## The same endpoint as a controller
 
@@ -109,6 +106,13 @@ public static class ProductEndpoints
 
 Named static methods also make handlers unit-testable without HTTP, and they are where .NET 10 reads XML doc comments for OpenAPI (lambdas carry none).
 
+## Common mistakes
+
+- **Capturing mutable state in a handler lambda.** A `List<Order>` declared in `Program.cs` and appended to from `MapPost` is shared by all requests: data leaks between users, and concurrent `Add` calls can corrupt the list. Keep state in a thread-safe registered service.
+- **Every endpoint inline in `Program.cs`.** The file grows to hundreds of lines and merge conflicts follow. Use `MapGroup` and an extension method per resource from the start.
+- **Leaving out `[ApiController]` or deriving from `Controller`.** Without the attribute, invalid input reaches the action instead of returning 400. Derive from `ControllerBase` and add `[ApiController]`.
+- **`Results.Ok(...)` everywhere.** The handler returns plain `IResult`, so OpenAPI cannot list its responses. Use `TypedResults`.
+
 ## In practice
 
 Microsoft's APIs overview page states it directly: "For new projects, we recommend using Minimal APIs." It lists simpler syntax, lower overhead and easier testing. It keeps controllers as the alternative for large applications with complex business logic, teams that already know MVC, and specific MVC features: custom model binders (`IModelBinder`), `IModelValidator`, application parts and the application model, and OData.
@@ -118,13 +122,6 @@ How to decide:
 - **New service, your choice**: minimal APIs with route groups and `TypedResults`. This track's projects use them.
 - **Existing controller codebase**: keep controllers. Mixing both in one app works (`MapControllers` and `MapGet` coexist), but one style per codebase is easier to read.
 - **Job market**: in this track's sample of 69 postings, 64% asked for Web API/REST and 23% named MVC explicitly. Much of the code you will maintain is controller-based, so you need to read both fluently.
-
-Usual mistakes:
-
-- Putting every endpoint inline in `Program.cs`. Use groups and extension methods from the start.
-- Capturing mutable state in handler lambdas (the trap above).
-- Returning `IResult` from `Results.Ok(...)` everywhere, which loses the response metadata that `TypedResults` gives for free.
-- Deriving API controllers from `Controller` or leaving out `[ApiController]`, which turns off the automatic 400 response and binding inference.
 
 ## Status as of 2026-11-05
 

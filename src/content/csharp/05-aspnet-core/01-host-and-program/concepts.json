@@ -1,7 +1,8 @@
 [
+  { "term": "HTTP request and response", "description": "A request carries a method, a path, headers and an optional body; the response carries a status code, headers and usually a body." },
   { "term": "Host", "description": "The object that owns the DI container, configuration, logging and hosted services, and controls startup and graceful shutdown." },
   { "term": "WebApplicationBuilder", "description": "The builder returned by `WebApplication.CreateBuilder`, where you register services and read configuration before calling `Build()`." },
-  { "term": "Kestrel", "description": "The cross-platform web server that runs inside the ASP.NET Core process, so no PHP-FPM-style worker pool is needed." },
+  { "term": "Kestrel", "description": "The cross-platform web server that runs inside the ASP.NET Core process and hands each request to the app." },
   { "term": "Environment name", "description": "The value of `ASPNETCORE_ENVIRONMENT` or `DOTNET_ENVIRONMENT` (default `Production`) that selects `appsettings.{Environment}.json` and environment-specific behavior." },
   { "term": "Long-running process", "description": "One process serves many concurrent requests for its whole lifetime, so static fields and singletons are shared across requests and threads." },
   { "term": "Graceful shutdown", "description": "On SIGTERM or Ctrl+C the host triggers `ApplicationStopping`, lets in-flight requests finish and stops hosted services within `HostOptions.ShutdownTimeout` (30 seconds by default)." }

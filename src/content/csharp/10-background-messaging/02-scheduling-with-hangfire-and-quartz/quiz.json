@@ -1,6 +1,6 @@
 [
   {
-    "question": "A Magento project ran `crontab.xml` jobs on one cron node. The .NET port puts a nightly export in a `BackgroundService` with a 24-hour `PeriodicTimer`, and the API runs on three containers. What is the most accurate description of the result?",
+    "question": "A team puts a nightly export in a `BackgroundService` with a 24-hour `PeriodicTimer`, and the API runs on three containers. What is the most accurate description of the result?",
     "options": [
       "It runs once per night, because hosted services elect a leader among the containers",
       "It runs three times per night, and each restart shifts that container's timer",

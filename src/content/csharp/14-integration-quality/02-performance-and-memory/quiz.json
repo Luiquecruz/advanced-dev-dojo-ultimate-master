@@ -1,14 +1,14 @@
 [
   {
-    "question": "In Magento you never worried about per-request allocations because PHP frees everything at the end of the request. Why do they matter more in an ASP.NET Core API?",
+    "question": "Why do per-request allocations matter in an ASP.NET Core API, even though each allocation is cheap?",
     "options": [
-      "Every allocation is a system call, unlike PHP's request arena",
+      "Every allocation is a system call that asks the operating system for new memory",
       "One long-running process shares the heap, and allocations drive GC work that costs CPU and pauses",
       "The GC only runs at shutdown, so memory grows until the container restarts",
       "Objects are never freed unless you call `Dispose` on them"
     ],
     "answer": 1,
-    "explanation": "Allocation in .NET is cheap, but every allocation fills gen 0 sooner and triggers collections, which consume CPU and can pause threads for all concurrent requests. The GC runs continuously, not at shutdown, and `Dispose` releases unmanaged resources such as sockets; it does not free managed memory."
+    "explanation": "Allocation in .NET is cheap, but every allocation fills gen 0 sooner and triggers collections, which consume CPU and can pause threads for all concurrent requests. The runtime hands out memory from its own heap, not a system call per object; the GC runs continuously, not at shutdown; and `Dispose` releases unmanaged resources such as sockets, not managed memory."
   },
   {
     "question": "An endpoint builds a 100,000-byte buffer with `new byte[100_000]` on every request. Under load, gen 2 collections are constant and throughput drops. What is the best fix?",

@@ -1,14 +1,14 @@
 [
   {
-    "question": "Coming from a Magento Docker setup, a developer builds the API image on `mcr.microsoft.com/dotnet/sdk:10.0`, bind-mounts the source and starts it with `dotnet run`. What is the main problem in production?",
+    "question": "A developer builds the API image on `mcr.microsoft.com/dotnet/sdk:10.0`, mounts the source folder into the container and starts it with `dotnet run`. What is the main problem in production?",
     "options": [
-      "Nothing: .NET reads the `.cs` files at request time, just as PHP-FPM reads `.php` files",
+      "Nothing: the runtime reads the `.cs` files at request time, so mounting the source is how updates reach the API",
       "The SDK and source reach production; copy only the published output into an `aspnet` stage",
       "`dotnet run` cannot bind a port inside a container, so Kestrel never accepts outside requests",
       "The SDK image ships no ASP.NET Core runtime, so the API fails to start until one is installed"
     ],
     "answer": 1,
-    "explanation": "An ASP.NET Core app is compiled ahead of time and then run from its published DLLs. A multi-stage build keeps the SDK in the build stage and copies only `/app` into `aspnet`, which is smaller and has fewer tools for an attacker. The PHP analogy is the trap: .NET does not read source files at request time."
+    "explanation": "An ASP.NET Core app is compiled ahead of time and then run from its published DLLs. A multi-stage build keeps the SDK in the build stage and copies only `/app` into `aspnet`, which is smaller and has fewer tools for an attacker. The tempting first option is wrong: .NET never reads source files at request time; `dotnet run` compiles them first, at every start."
   },
   {
     "question": "You run `docker run -p 8000:80 catalog-api` on a .NET 10 image and `curl localhost:8000` gets \"connection reset\". Why?",
@@ -36,7 +36,7 @@
     "question": "Why does the Dockerfile copy the `.csproj` files and run `dotnet restore` before `COPY . .`?",
     "options": [
       "Because `dotnet publish` cannot restore packages by itself, so the restore must run first",
-      "To reuse the cached restore layer until package references change, like `composer.lock`",
+      "To reuse the cached restore layer until the package references in the `.csproj` files change",
       "Restoring first leaves the NuGet cache out of the final image",
       "Because the SDK needs the `.csproj` alone to find the target framework before the build"
     ],

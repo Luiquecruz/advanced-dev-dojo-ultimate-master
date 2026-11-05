@@ -2,13 +2,15 @@
 
 After this lesson you can choose between a plain hosted service, Hangfire and Quartz.NET for scheduled and deferred jobs, configure each one in an ASP.NET Core or Worker Service host, and explain what changes when the app runs on more than one instance.
 
-## Coming from PHP/Magento
+You need: 10/01 (hosted services and `PeriodicTimer`), 05/02 (scoped services), 07/02 (`DbContext`) and 08/03 (authorization policies).
 
-Magento's `crontab.xml` gives each job a code, a cron expression and a group. `bin/magento cron:run` writes upcoming runs to the `cron_schedule` table and executes the ones that are due, so the database records what ran, when and whether it failed. Running jobs on several servers needs care, which is why Magento projects usually run cron on one node.
+## Schedules and job storage
 
-That picture maps well to .NET, but you choose its pieces. A `BackgroundService` with a `PeriodicTimer` (lesson 01) is the equivalent of a crontab entry with no `cron_schedule` table: no history, no retry and no coordination between replicas. Hangfire and Quartz.NET add the table back: jobs and their state live in a database that every instance shares.
+A **cron expression** says when a job runs, in five fields: minute, hour, day of month, month and day of week. `0 2 * * *` is 02:00 every day and `*/5 * * * *` is every five minutes; `*` means "any". The name comes from `cron`, the Unix scheduler. Quartz.NET adds a leading seconds field (below).
 
-The trap: a timer in a hosted service looks like cron, but it runs once **per process**. Scale the API to three replicas and the nightly export runs three times. Magento's single cron node hid that problem; container platforms make multiple instances the normal case.
+A scheduler needs more than the expression: a record of what ran, when and whether it failed, retries, and coordination between instances. A `BackgroundService` with a `PeriodicTimer` (lesson 01) has none of these. Hangfire and Quartz.NET keep jobs and their state in a database that every instance shares.
+
+The plain timer also runs once **per process**. Scale the API to three replicas and the nightly export runs three times. Container platforms make several instances the normal case, so decide this before the first deploy.
 
 ## The three options
 
@@ -102,13 +104,19 @@ What to know:
 - **Jobs are resolved from DI.** `AddJob<T>()` and `ScheduleJob<T>()` register the job type as scoped, and the job factory opens a scope per fire, so a job can take a `DbContext`; because the type is registered, `ValidateOnBuild` checks its constructor at startup.
 - **Version caveat.** The 4.x API above (`ValueTask Execute(..., CancellationToken)`, `builder.AddQuartz`) differs from 3.x, where `Execute` returns `Task` and registration is `services.AddQuartz`. Most blog posts and Stack Overflow answers show 3.x.
 
+## Common mistakes
+
+- **Passing entities as job arguments.** Hangfire serializes them into storage, so the job runs later on a stale, possibly large snapshot. Pass the id and load fresh data.
+- **Exposing the Hangfire dashboard without authorization.** Anyone who reaches it can trigger or delete jobs. Add an authorization filter tied to an admin policy.
+- **A timer-based job on every replica.** Three instances run the nightly export three times. Use shared job storage, or a single scheduler instance.
+- **Non-idempotent jobs under automatic retries.** A job that fails after charging a card is retried, up to 10 times, and charges again. Make the work idempotent (lesson 04).
+
 ## In practice
 
 - **Start with the simplest tool that is correct for your instance count.** A single Worker Service instance with a `PeriodicTimer` is fine for "every 5 minutes, skipping a run is harmless".
-- **Choose Hangfire** when most jobs are enqueued by the application ("send this invoice after the request returns") and operators need a dashboard with retry buttons. It is the closest feeling to Magento's `cron_schedule` plus an admin grid.
+- **Choose Hangfire** when most jobs are enqueued by the application ("send this invoice after the request returns") and operators need a dashboard with retry buttons.
 - **Choose Quartz.NET** when scheduling is the product: many cron triggers, time zones, calendars, misfire handling, clustering.
 - **Neither replaces a broker.** A job store is a work queue owned by one application. When several services must react to "order placed", publish a message (lesson 03).
-- Usual mistakes: passing entities as job arguments, exposing the Hangfire dashboard without authorization, a timer-based job on every replica, and non-idempotent jobs under automatic retries.
 
 ## Status as of 2026-11-05
 
@@ -117,7 +125,7 @@ What to know:
 
 ## Check yourself
 
-1. Why is a `PeriodicTimer` in a hosted service not a drop-in replacement for a Magento cron job once the app has several instances?
+1. Why is a `PeriodicTimer` in a hosted service not a drop-in replacement for a scheduler once the app has several instances?
 2. Why should a Hangfire job receive an order id instead of the order object?
 3. When does Quartz.NET run a trigger once across the cluster, and when does every node run it?
 4. A Hangfire job charges a card and fails after the charge succeeds. What will the default retry do, and what does the job need?

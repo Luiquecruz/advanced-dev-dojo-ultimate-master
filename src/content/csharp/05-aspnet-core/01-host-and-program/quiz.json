@@ -1,14 +1,14 @@
 [
   {
-    "question": "A PHP developer ports a Magento helper that keeps `private static array $cache = []` filled with the current customer's cart lines. In ASP.NET Core the same idea becomes a `static Dictionary<string, decimal>` filled during each request. What happens?",
+    "question": "A developer keeps the current user's cart lines in a `static Dictionary<string, decimal>` that each request fills and reads. What happens when the app is deployed?",
     "options": [
-      "The framework clears static fields at the end of each request, as PHP-FPM discards its state",
+      "The framework clears static fields at the end of each request, so every request starts empty",
       "One dictionary is shared by every request and thread, so carts leak between different users",
       "Each request runs in its own AppDomain, so the static field starts empty for every request",
       "Each thread gets its own copy of the static field, so the data stays isolated per request"
     ],
     "answer": 1,
-    "explanation": "ASP.NET Core runs one long-lived process, so a static field is one value shared by all requests and threads; it never resets between requests, and a plain `Dictionary` can also be corrupted by concurrent writes. The tempting option (reset per request) describes PHP-FPM, where the process state is thrown away. .NET (Core) has no per-request AppDomains, and statics are not per thread unless marked `[ThreadStatic]`."
+    "explanation": "ASP.NET Core runs one long-lived process, so a static field is one value shared by all requests and threads; it never resets between requests, and a plain `Dictionary` can also be corrupted by concurrent writes. The tempting option (reset per request) does not exist: nothing is discarded when a request ends. .NET has no per-request AppDomains, and statics are not per thread unless marked `[ThreadStatic]`."
   },
   {
     "question": "In `Program.cs`, which statement about the code before and after `builder.Build()` is correct?",
@@ -35,7 +35,7 @@
   {
     "question": "Kubernetes sends SIGTERM to your pod during a rolling deploy. What does the ASP.NET Core host do by default?",
     "options": [
-      "It exits immediately and drops in-flight requests, like a PHP-FPM worker killed with SIGKILL",
+      "It exits immediately and drops in-flight requests, as if the process had been killed",
       "It ignores SIGTERM and keeps serving until every client disconnects, with no upper time limit",
       "It loads the new assemblies into the same process, so open connections survive the deploy",
       "It raises `ApplicationStopping` and lets in-flight requests finish, within a 30-second timeout"
@@ -53,5 +53,16 @@
     ],
     "answer": 1,
     "explanation": "The generic host (`Host.CreateApplicationBuilder`) provides the same DI, configuration and logging as a web app, and runs hosted services such as a queue consumer. `WebApplication` adds an HTTP server you do not need. A hand-written loop loses DI, configuration and graceful shutdown; `Startup` classes are an older style, not a requirement."
+  },
+  {
+    "question": "A client sends `GET /products/42` and the app answers `404 Not Found` with an empty body. Which statement is correct?",
+    "options": [
+      "`GET` is the path, `/products/42` is the method, and `404` is a header of the response",
+      "The request failed to reach the server, because a server always answers with `200 OK`",
+      "`GET` asks to read, `/products/42` names the resource, and `404` says it does not exist",
+      "`404` means the server crashed while handling the request and the client should retry"
+    ],
+    "answer": 2,
+    "explanation": "A request carries a method (`GET` means read) and a path naming what it wants; the response carries a status code. `404 Not Found` is a normal, deliberate answer from a server that is working: the resource does not exist. A crash is reported as a `5xx` code such as `500`, and the status code is part of the response line, not a header."
   }
 ]

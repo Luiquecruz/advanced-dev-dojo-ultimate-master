@@ -1,6 +1,6 @@
 {
   "title": "Hosted Services and the Worker Service",
-  "summary": "Write a BackgroundService that creates a DI scope per unit of work, stops cleanly and does not take the host down, and map Magento cron jobs and queue consumers to hosted services in the API or a Worker Service.",
+  "summary": "Write a BackgroundService that creates a DI scope per unit of work, stops cleanly and does not take the host down, and decide whether it runs in the API process or in its own Worker Service.",
   "level": "intermediate",
   "tags": ["recommended", "core", "theory"],
   "resources": [

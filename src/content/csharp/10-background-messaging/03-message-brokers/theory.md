@@ -2,26 +2,22 @@
 
 After this lesson you can explain how RabbitMQ, Apache Kafka and Azure Service Bus move a message from a producer to consumers, what "queue", "topic" and "partition" mean in each, how a consumer acknowledges work, and which broker fits a given job, and you can read the .NET client code for each.
 
-## Coming from PHP/Magento
-
-Magento's message queue framework splits a queue into XML files: `communication.xml` (topics and payloads), `queue_publisher.xml` (topic to exchange), `queue_topology.xml` (exchanges and bindings) and `queue_consumer.xml` (handler per queue). The connection is usually `db` (MySQL tables) or `amqp` (RabbitMQ); current versions also support `stomp` for ActiveMQ Artemis. So if you have run Magento on RabbitMQ, you have already used exchanges, bindings and queues.
-
-The trap is the word **topic**. In Magento it is the message name (`sales.order.placed`), used as a RabbitMQ routing key. In RabbitMQ a *topic exchange* routes by key patterns. In Kafka a topic is a partitioned, replayable log. In Service Bus a topic is a publish/subscribe entity with subscriptions. Same word, four different things.
-
-The other difference is the client: Magento hides the broker behind `PublisherInterface`; in .NET you call the broker's client library directly, or a messaging framework on top of it (lesson 04).
+You need: 10/01 (hosted services and `stoppingToken`), 04/02 (`async` and `await`) and 04/05 (why an in-memory `Channel<T>` is not durable).
 
 ## Two shapes of messaging
+
+A **message broker** is a server that stores messages between the program that sends them (the producer) and the programs that process them (the consumers), so the two need not run at the same time. In .NET you call the broker's client library directly, or a messaging framework on top of it (lesson 04).
 
 - **Point-to-point (competing consumers).** One queue, many consumer instances; each message goes to one of them. This spreads work: "reserve stock for order 42".
 - **Publish/subscribe.** One published message, a copy for every interested subscriber. This announces facts: "order 42 was placed", consumed by stock, invoicing and e-mail independently.
 
-Every broker below supports both.
+Every broker below supports both, but watch the word **topic**: a RabbitMQ topic exchange routes by key patterns, a Kafka topic is a replayable log, and a Service Bus topic hands copies to subscriptions.
 
 ## RabbitMQ: exchanges, bindings, queues
 
 Producers publish to an **exchange**, never directly to a queue. **Bindings** route messages from the exchange to queues by routing key. Exchange types are `direct` (exact key), `fanout` (every bound queue), `topic` (patterns such as `order.*`) and `headers`. The default exchange, named `""`, routes a message to the queue whose name equals the routing key.
 
-A message is removed from a queue only when the consumer **acknowledges** it. If the consumer's channel or connection closes first, RabbitMQ redelivers the message to another consumer. A **quorum queue** is the replicated queue type RabbitMQ recommends when you need durability and high availability.
+A message leaves a queue only when the consumer **acknowledges** it. If the consumer's channel or connection closes first, RabbitMQ redelivers it to another consumer. A **quorum queue** is the replicated queue type RabbitMQ recommends when you need durability and high availability.
 
 ```csharp
 using System.Text;
@@ -114,7 +110,14 @@ Console.ReadLine(); // until Enter
 await processor.StopProcessingAsync();
 ```
 
-`StartProcessingAsync` returns at once; keep the app alive and call `StopProcessingAsync` on shutdown. Microsoft recommends one `ServiceBusClient` singleton per app. Prefer passwordless `DefaultAzureCredential` (Microsoft Entra ID) over connection strings in production.
+`StartProcessingAsync` returns at once; keep the app alive and call `StopProcessingAsync` on shutdown. Prefer passwordless `DefaultAzureCredential` (Microsoft Entra ID) over connection strings in production.
+
+## Common mistakes
+
+- **Auto-ack or auto-commit for work that must not be lost.** With `autoAck: true`, or Kafka's default offset store, a crash mid-message loses it. Acknowledge, or store the offset, after the work.
+- **Expecting global order from several consumers.** Competing consumers and several partitions process messages out of order. Key related messages to one partition, or use Service Bus sessions.
+- **Too few partitions for a workload that must scale.** A group never has more active consumers than partitions. Plan the count up front.
+- **A connection per message.** Opening a broker connection is expensive. Keep one long-lived connection per process: a RabbitMQ `IConnection`, a Kafka producer, one `ServiceBusClient`.
 
 ## In practice
 
@@ -127,9 +130,7 @@ await processor.StopProcessingAsync();
 | Runs | self-hosted, containers, managed offerings | self-hosted, Confluent Cloud, managed offerings | Azure only |
 
 - Use **RabbitMQ** or **Service Bus** for commands and work queues: "do this once". Use **Kafka** for high-volume event streams that several systems read, or replay, at their own pace.
-- Pick the broker your platform already runs; a team with Kafka for analytics may still want a queue for commands.
-- Keep one long-lived connection per process (RabbitMQ `IConnection`, Kafka producer, `ServiceBusClient`), not one per message.
-- Usual mistakes: auto-ack or auto-commit with work that must not be lost, expecting global order from several consumers, and one partition (or one queue consumer) for a workload that must scale.
+- Prefer the broker your platform already runs, unless the job needs another model.
 
 ## Status as of 2026-11-05
 
@@ -138,7 +139,7 @@ await processor.StopProcessingAsync();
 
 ## Check yourself
 
-1. What does "topic" mean in Magento, RabbitMQ, Kafka and Service Bus?
+1. What does "topic" mean in RabbitMQ, Kafka and Service Bus?
 2. Why does adding a fifth consumer to a Kafka group reading a four-partition topic not increase throughput?
 3. What happens to an unacknowledged RabbitMQ message when the consumer process crashes, and to a Service Bus message whose lock expires?
 4. Which broker would you pick to let a new analytics service read the last seven days of order events, and why?

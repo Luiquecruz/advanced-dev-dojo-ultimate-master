@@ -1,0 +1,5 @@
+`DecodeSegment` is one line with `Base64Url.DecodeFromChars(segment)` (namespace `System.Buffers.Text`, already imported). Without it, swap `-` and `_` back to `+` and `/`, add `=` until the length is a multiple of 4, then call `Convert.FromBase64String`.
+---
+In `ReadClaims`, use `TryGetProperty` for every claim, so a missing `sub` or `nbf` becomes `null` and a missing `iss` or `exp` becomes your own `FormatException`. For `aud`, look at `ValueKind`: `JsonValueKind.Array` means `EnumerateArray()`, anything else is one string.
+---
+In `Check`, wrap only the `ReadClaims` call: `catch (Exception ex) when (ex is FormatException or JsonException) { return TokenCheck.Malformed; }`. Then compare in the order of the task, with `DateTimeOffset now = clock.GetUtcNow();`, `now > claims.Expires + clockSkew` and `notBefore > now + clockSkew`.

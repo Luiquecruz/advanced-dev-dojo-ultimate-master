@@ -2,14 +2,13 @@
 
 After this lesson you can make a .NET API and worker observable in production. You will export traces, metrics and logs with OpenTelemetry over OTLP, add your own spans and counters, carry one trace from an HTTP request through a message broker into a worker, and expose liveness and readiness health checks that a platform can probe.
 
-## Coming from PHP/Magento
+You need: 05/04 (`ILogger`), 05/05 (middleware), 10/03 (RabbitMQ), 10/05 (`HttpClient`) and lesson 03 of this module (probes and replicas).
 
-In Magento, observability usually means three separate things: Monolog files in `var/log` (`system.log`, `exception.log`), an APM agent such as New Relic installed as a PHP extension that instruments every request without code changes, and Blackfire for profiling. Each request is one PHP process, so a request's story starts and ends in one place.
+## Instrumentation is part of the platform
 
-In .NET the model is different in two ways:
+.NET has its own instrumentation APIs: `ILogger` (05/04) for logs, `System.Diagnostics.Metrics.Meter` for metrics, and `System.Diagnostics.ActivitySource`/`Activity` for traces. ASP.NET Core, `HttpClient` and many libraries already emit through them. **OpenTelemetry** (OTel) is the vendor-neutral SDK that collects those signals and exports them, usually over **OTLP** (the OpenTelemetry protocol), to any backend: Azure Monitor, Grafana, Jaeger, Datadog, New Relic and others.
 
-- **The instrumentation APIs are part of the platform.** `ILogger` (module 05/04) for logs, `System.Diagnostics.Metrics.Meter` for metrics, and `System.Diagnostics.ActivitySource`/`Activity` for traces. ASP.NET Core, `HttpClient` and many libraries already emit through them. **OpenTelemetry** (OTel) is the vendor-neutral SDK that collects those signals and exports them, usually over **OTLP**, to any backend: Azure Monitor, Grafana, Jaeger, Datadog, New Relic and others.
-- **Nothing is collected until you register it.** There is no agent watching the process unless you install one (an auto-instrumentation startup hook does exist). The trap: you create an `ActivitySource`, call `StartActivity`, and see nothing. With no listener for that source, `StartActivity` returns `null`, and your span silently does not exist.
+**Nothing is collected until you register it.** No agent watches the process unless you install one (an auto-instrumentation startup hook does exist). With no listener for a source, `StartActivity` returns `null`, and the span silently does not exist.
 
 ## The three signals
 
@@ -121,13 +120,19 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
 
 `/health/live` runs no checks: it answers `Healthy` while the process can serve requests, which is all a liveness probe should ask. `/health/ready` checks the database. The default response is plain text (`Healthy`, `Degraded` or `Unhealthy`), and `Unhealthy` returns **503**, which is what probes and load balancers look at (lesson 03). The popular `AspNetCore.HealthChecks.*` packages for Redis, RabbitMQ and others are community projects that Microsoft does not maintain or support.
 
+## Common mistakes
+
+- **A source missing from `AddSource`.** You create `new ActivitySource("Catalog.Orders")`, but only the ASP.NET Core spans arrive: `StartActivity` returns `null` and an `activity.SetTag` without `?.` throws `NullReferenceException`. Register every source and meter name, and use `activity?.`.
+- **Liveness that checks the database.** A database outage restarts every replica in a loop. Check dependencies in readiness only.
+- **Log files inside containers.** They vanish with the replica and nobody reads them. Write to stdout and export through OpenTelemetry.
+- **A hard-coded exporter endpoint.** The image then only works against one backend. Read `OTEL_EXPORTER_OTLP_ENDPOINT` from configuration.
+
 ## In practice
 
 - **Export through a collector.** Send OTLP to an OpenTelemetry Collector or your vendor's agent, not straight to many backends from every app. For Application Insights, the Azure Monitor OpenTelemetry distro (`UseAzureMonitor()`) plugs into the same pipeline.
 - **Name things once.** Use one `ActivitySource` and `Meter` name per service or component, constants shared with `AddSource`/`AddMeter`, and OpenTelemetry semantic-convention tag names where they exist.
 - **Keep health checks out of traces.** Aspire's template filters `/health` and `/alive` from ASP.NET Core tracing, otherwise probes dominate your trace list.
 - **Watch cardinality.** Never tag metrics with ids or SKUs, which create one time series per value. Put those on spans and logs.
-- **Common mistakes:** a source missing from `AddSource`, liveness that checks the database, logs written to files inside containers, and a hard-coded exporter endpoint.
 
 ## Status as of 2026-11-05
 

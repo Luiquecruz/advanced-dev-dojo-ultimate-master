@@ -2,11 +2,13 @@
 
 After this lesson you can decide between a monolith, a modular monolith and microservices with concrete criteria, name what a split costs in consistency, testing and operations, and recognize what a .NET service needs once a method call becomes a network call.
 
-## Coming from PHP/Magento
+You need: 07/06 (transactions), 10/04 (outbox and idempotent consumers), 10/05 (typed HTTP clients and the standard resilience handler), 11/04 (distributed tracing) and lesson 02 of this module (the modular monolith).
 
-A Magento store is a monolith scaled by cloning: more PHP-FPM nodes behind Varnish and a load balancer, one MySQL primary, Redis, OpenSearch and RabbitMQ consumers around it. Checkout reserves stock (MSI), creates the order and writes the payment record in one database, and if something fails the transaction rolls back.
+## One transaction, then a network call
 
-Split Inventory into its own service and that transaction is gone. The checkout now sends a request over the network that can time out after the stock was reserved, or succeed twice on a retry. The trap is believing microservices are "Magento modules in separate containers". They are separate programs with separate databases, and every former method call becomes a distributed systems problem.
+In a monolith, checkout reserves stock, creates the order and writes the payment record in one database transaction (07/06): if any step fails, all of it rolls back. A busy monolith scales by cloning: more copies of the same app behind a load balancer, one database.
+
+Split Inventory into its own service and that transaction is gone. Checkout now sends a request over the network that can time out after the stock was reserved, or succeed twice on a retry. Microservices are not modules in separate containers: they are separate programs with separate databases, and every former method call becomes a distributed systems problem.
 
 ## What a microservice is
 
@@ -25,10 +27,10 @@ The same Azure page lists the challenges: more moving parts, harder testing acro
 
 | In a monolith | Across services |
 | --- | --- |
-| One transaction | Eventual consistency: outbox, idempotent consumers, compensation (module 10) |
+| One transaction | Eventual consistency: outbox, idempotent consumers, compensation (10/04) |
 | A method call | An HTTP or gRPC call with timeouts, retries and a circuit breaker |
 | A join | API composition or a local copy of the other service's data |
-| A stack trace | Distributed tracing with OpenTelemetry (module 11) |
+| A stack trace | Distributed tracing with OpenTelemetry (11/04) |
 | Rename a method | A versioned contract and coordinated consumers |
 
 ## A method call becomes a network call
@@ -59,7 +61,7 @@ internal sealed class InventoryClient(HttpClient http)
 internal sealed record StockResponse(string Sku, int Available);
 ```
 
-Keep a trailing slash on the base address so relative paths such as `stock/...` append to it. The typed client, `AddStandardResilienceHandler` and its default timeouts and retries are taught in module 10 lesson 05; what matters here is that those retries apply to every HTTP method, so a call with side effects needs `DisableForUnsafeHttpMethods()` or an idempotent endpoint. Even with all of that, the caller must decide what "inventory is down" means for checkout. That decision is business logic, not plumbing.
+Keep a trailing slash on the base address so relative paths such as `stock/...` append to it. The typed client, `AddStandardResilienceHandler` and its default timeouts and retries are taught in 10/05; what matters here is that those retries apply to every HTTP method, so a call with side effects needs `DisableForUnsafeHttpMethods()` or an idempotent endpoint. Even with all of that, the caller must decide what "inventory is down" means for checkout. That decision is business logic, not plumbing.
 
 ## Decision criteria
 
@@ -79,12 +81,17 @@ Consider **extracting a service** when several of these hold:
 
 Microsoft's guide to service boundaries adds the checks: no chatty calls between services (chattiness suggests they belong together), no two services that must be deployed together, and boundaries that avoid data-consistency problems. When in doubt, start coarse: splitting one service in two is easier than refactoring functionality across several.
 
+## Common mistakes
+
+- **Services that share one database schema.** Catalog, Inventory and Ordering read each other's tables, so a column change breaks three services and they must deploy together: network cost without autonomy. Each service owns its data.
+- **A chain of synchronous calls.** A request that crosses five services in a row is slower and less available than any one of them; one slow service stalls all. Prefer events, or fewer, larger services.
+- **Retrying a `POST` that has side effects.** The first attempt reserved stock, timed out, and the retry reserves it again. Disable retries for unsafe methods or make the endpoint idempotent.
+- **A shared domain library.** Every service upgrades together. Share contracts, not domain code.
+
 ## In practice
 
-- **The usual path is incremental.** Build a modular monolith, keep module boundaries honest, extract the one module that has a real reason to leave, and route traffic to it gradually (the Strangler Fig approach of module 13).
-- **A shared database is not microservices.** Services that read each other's tables must deploy together; you pay the network cost without the autonomy.
-- **Avoid the distributed monolith:** a request that crosses five services synchronously is slower and less available than any one of them.
-- **Do not share domain libraries** across services; the Azure guide lists shared libraries as an antipattern because they couple releases. Share contracts (message and API schemas) instead.
+- **The usual path is incremental.** Build a modular monolith, keep module boundaries honest, extract the one module that has a real reason to leave, and route traffic to it gradually (the Strangler Fig approach of 13/04).
+- **Share contracts, not code.** The Azure guide lists shared libraries as an antipattern because they couple releases; share message and API schemas instead.
 - **Reference app:** `dotnet/eShop` is Microsoft's current services-based sample, on .NET 10 with Aspire, running PostgreSQL, Redis and RabbitMQ. It references MediatR 13.1.0, which falls under the RPL-1.5/commercial licence from lesson 04, so check the licence before you copy its dependencies.
 
 ## Status as of 2026-11-05
@@ -94,7 +101,7 @@ Microsoft's guide to service boundaries adds the checks: no chatty calls between
 
 ## Check yourself
 
-- Which three things did Magento's checkout get for free from one database that a split Inventory service would have to rebuild?
+- Which three things did the monolith's checkout get for free from one database that a split Inventory service would have to rebuild?
 - Two services call each other on every request and always deploy together. What does that tell you about the boundary?
 - Why does the standard resilience handler's retry need to be disabled or made safe for `POST`?
 - List the criteria that would make you extract the Inventory module from your modular monolith.

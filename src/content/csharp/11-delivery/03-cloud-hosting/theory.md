@@ -1,16 +1,18 @@
 # Cloud Hosting for a .NET API
 
-After this lesson you can place a containerized .NET API on a cloud platform and defend the choice. You will compare Azure App Service, Azure Container Apps and AKS on Azure, and ECS on Fargate, Lambda and EKS on AWS, by what each one runs for you and what it leaves to you. You will also know the Kubernetes vocabulary that job postings assume. This lesson works at concept level from each vendor's own docs; it does not walk through any portal.
+After this lesson you can place a containerized .NET API on a cloud platform and defend the choice. You will compare Azure App Service, Azure Container Apps and AKS on Azure, and ECS on Fargate, Lambda and EKS on AWS, by what each one runs for you and what it leaves to you. You will also know the Kubernetes vocabulary that job postings assume.
 
-## Coming from PHP/Magento
+You need: 05/01 (the long-running host), 07/07 (caching), 08/05 (rate limiting), 10/01 (hosted services) and lessons 01 and 02 of this module (an image built by a pipeline).
 
-Magento in production is either Adobe's managed cloud offering or your own servers: several web nodes running nginx and PHP-FPM behind a load balancer, with MySQL, Redis for sessions and cache, and Varnish in front. You already know the core lesson of scaling out: the web nodes must be **stateless**, and anything shared goes to Redis or the database.
+## Scaling out multiplies the process
 
-That lesson transfers completely. A new trap comes from the long-running .NET host (module 05/01). In PHP, a request leaves nothing behind. In .NET, each instance keeps state in memory for its whole life, and three things silently multiply when the platform runs several replicas:
+A cloud platform scales an API **out**: it runs the same image as several replicas behind a load balancer and replaces any of them at any time. The replicas must be **stateless**; shared data lives in a database, a distributed cache or object storage.
 
-- `IMemoryCache` entries and rate-limiter counters are **per instance** (module 07/07 and 08/05);
+Each replica is one long-running .NET process (05/01) with its own memory, so three things silently multiply:
+
+- `IMemoryCache` entries and rate-limiter counters are **per instance** (07/07 and 08/05);
 - files written to local disk exist on one replica only, and vanish when it is replaced;
-- a `BackgroundService` running a nightly job (module 10/01) runs **once per replica**. Magento's cron is configured on one node; a hosted service has no such switch.
+- a `BackgroundService` running a nightly job (10/01) runs **once per replica**. A hosted service has no setting that elects a single instance.
 
 ## The decision axis: how much platform do you operate?
 
@@ -21,11 +23,11 @@ That lesson transfers completely. A new trap comes from the long-running .NET ho
 | A function per event | Azure Functions | Lambda (`dotnet10` runtime) |
 | A Kubernetes cluster you configure | AKS | EKS |
 
-Moving down the table gives you more control and more work. For a single API plus a worker, the first two rows are usually enough.
+Lower rows give more control and more work; for one API and a worker, the first two usually suffice.
 
 ## Azure App Service
 
-App Service hosts web apps and APIs from code or from a custom container, on Linux or Windows. It manages the OS and runtime patching, and adds staging slots for swap deployments, autoscale, custom domains and managed certificates. For a custom container that listens on 8080, set `WEBSITES_PORT` if the platform does not detect the port. This is the closest to "upload the app and it runs".
+App Service hosts web apps and APIs from code or from a custom container, on Linux or Windows. It manages the OS and runtime patching, and adds staging slots for swap deployments, autoscale, custom domains and managed certificates. For a custom container that listens on 8080, set `WEBSITES_PORT` if the platform does not detect the port.
 
 Any platform with a load balancer in front terminates TLS before your app. Configure the forwarded headers middleware so `Request.Scheme` and the client IP are the real ones, and redirects and generated links do not point to `http://`. When you know the proxy's address (your own nginx, a Kubernetes ingress), trust only that:
 
@@ -61,7 +63,7 @@ await using var scope = host.Services.CreateAsyncScope();
 await scope.ServiceProvider.GetRequiredService<StockReport>().RunAsync(CancellationToken.None);
 ```
 
-Microsoft's comparison says that, when you want Kubernetes-style apps but not cluster management, many teams start with Container Apps.
+Microsoft's comparison suggests Container Apps when you want Kubernetes-style apps without managing a cluster.
 
 ## AWS options
 
@@ -90,13 +92,18 @@ containers:
 
 The two endpoints are built in lesson 04. The difference matters: a database outage should fail readiness, not liveness. Otherwise Kubernetes restarts every replica in a loop while the database is down.
 
+## Common mistakes
+
+- **A scheduled `BackgroundService` in every replica.** Three replicas send three nightly reports. Move the task to a scheduled job that runs once.
+- **Uploads on local disk.** Files saved under `/app/uploads` disappear when the replica is replaced and are missing on the others. Use blob or object storage.
+- **No forwarded headers behind a proxy.** The app sees `http` and the proxy's IP, so redirects go to `http://` and logs show one client. Add `UseForwardedHeaders` early.
+- **Liveness that checks the database.** A database outage restarts every Pod in a loop. Check dependencies in readiness only.
+
 ## In practice
 
 - **Default choice.** One API and a worker: App Service or Container Apps on Azure, ECS on Fargate (or Express Mode) on AWS. Pick AKS or EKS when you need the Kubernetes API, already have a cluster, or have a platform team to run it.
 - **Twelve-factor habits.** Configuration in environment variables and a secret store (Key Vault, Secrets Manager). Managed identities or IAM roles instead of connection-string passwords where the service supports it. Logs to stdout.
 - **Shared state is external.** Distributed cache, blob or object storage for files, and a scheduler or job for periodic work.
-- **Port and user.** The platform must target 8080, and the image runs as non-root (lesson 01).
-- **Common mistakes:** running a scheduled `BackgroundService` in every replica, writing uploads to local disk, forgetting forwarded headers behind a proxy, and pointing liveness at the database.
 
 ## Status as of 2026-11-05
 

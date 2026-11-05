@@ -3,7 +3,7 @@
   { "term": "IDistributedCache", "description": "A shared out-of-process cache abstraction with a `byte[]` API, implemented for Redis by `AddStackExchangeRedisCache`." },
   { "term": "HybridCache", "description": "A cache with an in-memory primary layer and an optional distributed secondary layer, serialization built in and stampede protection." },
   { "term": "Cache stampede", "description": "Many concurrent requests missing the same key and all recomputing the value against the database at once." },
-  { "term": "Cache tag", "description": "A label on `HybridCache` entries that `RemoveByTagAsync` invalidates logically, similar to Magento cache tags." },
+  { "term": "Cache tag", "description": "A label on `HybridCache` entries that `RemoveByTagAsync` invalidates logically, clearing every entry that carries it in one call." },
   { "term": "LocalCacheExpiration", "description": "The lifetime of an entry in each instance's memory layer, kept short because invalidation does not reach other servers' memory." },
   { "term": "Document store", "description": "A NoSQL database such as Azure Cosmos DB or MongoDB that stores each aggregate as one document instead of rows across tables." }
 ]

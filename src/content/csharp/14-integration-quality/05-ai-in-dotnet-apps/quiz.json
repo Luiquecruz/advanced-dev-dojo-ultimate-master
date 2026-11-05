@@ -1,6 +1,6 @@
 [
   {
-    "question": "In your Magento module, a `DescriptionGenerator` class used the vendor's PHP SDK directly. Porting it to .NET, what should consumers such as `DescriptionWriter` depend on?",
+    "question": "A `DescriptionGenerator` class should write product descriptions with a language model, and the team may change model vendors later. What should consumers such as `DescriptionWriter` depend on?",
     "options": [
       "`IChatClient`, registered with `AddChatClient` and built from a provider adapter",
       "The vendor's `ChatClient` class, injected as a singleton",

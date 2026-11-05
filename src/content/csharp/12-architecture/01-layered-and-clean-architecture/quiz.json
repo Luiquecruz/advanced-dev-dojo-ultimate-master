@@ -11,7 +11,7 @@
     "explanation": "Dependencies point inward: Infrastructure implements interfaces declared in Core, and the API depends on Core while referencing Infrastructure only to register it in the composition root. Core referencing Infrastructure is the classic N-layer direction this architecture exists to invert."
   },
   {
-    "question": "A Magento developer writes a domain service in `Catalog.Core` and wants to call `CatalogDbContext` from it \"just this once\". `Catalog.Core` has no reference to `Catalog.Infrastructure`. What happens?",
+    "question": "A developer writes a domain service in `Catalog.Core` and wants to call `CatalogDbContext` from it \"just this once\". `Catalog.Core` has no reference to `Catalog.Infrastructure`. What happens?",
     "options": [
       "It compiles, because every project in one solution can see the others' public types",
       "It compiles but throws at run time, because the DI container cannot resolve the context",
@@ -19,7 +19,7 @@
       "It compiles with a warning that a `<NoWarn>` entry in the `.csproj` can suppress"
     ],
     "answer": 2,
-    "explanation": "Unlike PHP, where any class can `use` any other, .NET resolves types through project references at compile time. Being in the same solution gives no visibility, and Infrastructure already references Core, so adding the reference back would create a cycle. The run-time DI failure is tempting, but the code never gets that far."
+    "explanation": ".NET resolves types through project references at compile time. Being in the same solution gives no visibility, and Infrastructure already references Core, so adding the reference back would create a cycle, which the build refuses. The run-time DI failure is tempting, but the code never gets that far."
   },
   {
     "question": "Why does Microsoft's e-book say testing business logic is hard in a traditional N-layer application?",
@@ -41,7 +41,7 @@
       "Nowhere: ASP.NET Core scans the loaded assemblies at startup and registers each class"
     ],
     "answer": 2,
-    "explanation": "Bindings belong in one composition root so the rest of the code sees only interfaces. The built-in container does not scan assemblies on its own; registrations are explicit code, which replaces the `<preference>` entries of `di.xml`."
+    "explanation": "Bindings belong in one composition root so the rest of the code sees only interfaces. The built-in container does not scan assemblies on its own; registrations are explicit code, so a static `Register` method or a lookup in each endpoint would scatter the wiring and hide which implementation runs."
   },
   {
     "question": "A teammate proposes a generic `IRepository<T>` in Core exposing `IQueryable<T> Query()` over every EF Core entity. What is the strongest objection?",

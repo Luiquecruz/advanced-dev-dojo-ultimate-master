@@ -2,13 +2,13 @@
   {
     "question": "Where should the P3 database connection string live on your development machine?",
     "options": [
-      "In `appsettings.json`, committed with the project, like Magento's database settings in `env.php`",
+      "In `appsettings.json`, committed with the project, next to the other settings",
       "Hard-coded in `Program.cs` as a constant, so `dotnet ef` and the API always agree on it",
       "In user secrets, read through configuration",
       "In the migration files, so that `dotnet ef database update` can find the database"
     ],
     "answer": 2,
-    "explanation": "User secrets (`dotnet user-secrets set ConnectionStrings:Catalog ...`) keep credentials out of the repository while `GetConnectionString` still finds them in Development. In Magento the credentials live in `app/etc/env.php`, which is not committed; `appsettings.json` is committed, so secrets there leak."
+    "explanation": "User secrets (`dotnet user-secrets set ConnectionStrings:Catalog ...`) keep credentials out of the repository while `GetConnectionString` still finds them in Development. `appsettings.json` is committed, so a password there leaks to everyone with access to the repository and stays in its history."
   },
   {
     "question": "Acceptance criterion 4 sends two `PUT` requests with the same `version`. Which implementation makes the second one return 409?",
@@ -52,6 +52,6 @@
       "Set `Expiration` to zero on every entry so that reads always see fresh data"
     ],
     "answer": 2,
-    "explanation": "No cache observes the database by itself; invalidation is the writer's job, as with Magento cache tags cleaned on save, and the next read then runs the factory. Removing before the save could let a concurrent read cache the old value again, and zero expiration would make the cache useless."
+    "explanation": "No cache observes the database by itself; invalidation is the writer's job, done right after the save, and the next read then runs the factory. Removing before the save could let a concurrent read cache the old value again, and zero expiration would make the cache useless."
   }
 ]

@@ -2,13 +2,13 @@
 
 After this lesson you can split a .NET solution into projects whose references point the right way, explain why Clean Architecture inverts the classic UI → business → data chain, wire the pieces together in one composition root, and say when the extra projects cost more than they return.
 
-## Coming from PHP/Magento
+You need: 01/04 (projects and references), 02/03 (interfaces), 05/02 (dependency injection and lifetimes), 07/02 (EF Core and `DbContext`) and 09/01 (unit tests).
 
-Magento already taught you half of this. A module's `Api/` folder holds service contracts (`ProductRepositoryInterface`), `Model/` holds the implementation, and a `<preference>` in `di.xml` binds one to the other. That is ports and adapters: callers depend on the interface, and configuration picks the implementation.
+## A boundary the compiler checks
 
-The trap is what PHP does not stop you from doing. Any class can `use` any other class, so a "business" class in Magento often calls a resource model, `$connection->select()`, or `ObjectManager::getInstance()` directly, and nothing fails until review. In .NET the boundary is a **project reference**, checked by the compiler. If `Catalog.Core` does not reference `Catalog.Infrastructure`, code in Core cannot name an EF Core type, and project references cannot form a cycle. The architecture is enforced by the build, not by discipline.
+An architecture is a set of rules about which code may call which. In .NET the strongest rule you can write is a **project reference**, checked by the compiler. If `Catalog.Core` does not reference `Catalog.Infrastructure`, code in Core cannot name an EF Core type, and project references cannot form a cycle. A folder is only a convention; a project boundary is enforced by the build.
 
-The second difference: there is no XML merge. Wiring is C# in `Program.cs` (the composition root), so "which implementation runs" is code you can step through.
+Wiring is C# in `Program.cs` (the composition root), so "which implementation runs" is code you can step through.
 
 ## Layers versus tiers
 
@@ -87,7 +87,7 @@ builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("Ca
 // ...
 ```
 
-`UseNpgsql` comes from the `Npgsql.EntityFrameworkCore.PostgreSQL` package, referenced only by Infrastructure. Swap it for `UseSqlServer` and neither Core nor the API changes. Lifetimes follow module 05: `AddDbContext` registers the context as scoped, so the repository is scoped too.
+`UseNpgsql` comes from the `Npgsql.EntityFrameworkCore.PostgreSQL` package, referenced only by Infrastructure. Swap it for `UseSqlServer` and neither Core nor the API changes. Lifetimes follow 05/02: `AddDbContext` registers the context as scoped, so the repository is scoped too.
 
 ## What goes where
 
@@ -99,13 +99,18 @@ builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("Ca
 
 Many teams add a fourth project, **Application**, that holds use cases (one handler per operation) between the API and the domain. Microsoft's e-book keeps use cases inside the Core; both shapes keep the same rule: arrows point inward.
 
+## Common mistakes
+
+- **Layers that are only folders.** With `Core/` and `Infrastructure/` as folders of one project, a domain class can call `CatalogDbContext` and the build still passes; the rule erodes one shortcut at a time. Make each layer a project.
+- **Core referencing EF Core "just for one attribute".** Core now depends on a data access package, so its unit tests drag in EF Core and the inversion is gone. Put the mapping in an `IEntityTypeConfiguration<T>` in Infrastructure.
+- **An API that uses `EfProductRepository` directly.** It works until you change the database, then every endpoint changes. Keep the class `internal` and depend on `IProductRepository`.
+
 ## In practice
 
 - **Cost is real.** Each boundary adds an interface, a mapping from entity to response, and a hop to read when debugging. For a CRUD service over a few tables, one project with folders is fine; Microsoft's e-book recommends Clean Architecture for *non-trivial* monoliths, not for every service.
 - **Do not wrap EF Core blindly.** `DbContext` is already a unit of work and `DbSet<T>` is already a repository. A generic `IRepository<T>` with `GetAll()` returning `IQueryable<T>` leaks EF Core into Core anyway and hides what queries run. Define narrow, use-case-shaped interfaces, or let read-only queries use the `DbContext` directly (lesson 04 of this module).
 - **Keep Core free of framework types.** No `HttpContext`, no `IActionResult`, no EF attributes in Core. Fluent configuration (`IEntityTypeConfiguration<T>`) lives in Infrastructure.
 - **Test the boundary you drew.** Core gets fast unit tests; Infrastructure gets integration tests against a real database (module 09).
-- **Usual mistakes:** "layers" that are just folders in one project (no compiler check); an API that calls `EfProductRepository` directly; a Core project that references `Microsoft.EntityFrameworkCore` "just for one attribute".
 
 ## Status as of 2026-11-05
 

@@ -1,14 +1,14 @@
 [
   {
-    "question": "A Magento developer reads a Kafka design document that says \"orders are published to the `orders` topic\". Which mental model is correct?",
+    "question": "A developer new to Kafka reads a design document that says \"orders are published to the `orders` topic\". Which mental model is correct?",
     "options": [
-      "`orders` is a message name used as a routing key, as a topic in Magento's `communication.xml`",
+      "`orders` is only a message name, used as a routing key by the broker",
       "A partitioned log; consumed messages stay until retention ends and can be reread",
       "`orders` is a RabbitMQ topic exchange that routes by key patterns",
       "A queue: each message is deleted as soon as the first consumer reads it"
     ],
     "answer": 1,
-    "explanation": "In Kafka a topic is an append-only log split into partitions, and events are not deleted after consumption. The tempting option is the Magento meaning, where a topic is the message name used as a routing key. The queue option describes RabbitMQ or Service Bus, not Kafka."
+    "explanation": "In Kafka a topic is an append-only log split into partitions, and events are not deleted after consumption. The tempting first option treats the topic as a plain message name, which is not what it is in Kafka. The queue option describes RabbitMQ or Service Bus, not Kafka."
   },
   {
     "question": "A Kafka topic has 4 partitions. The `stock-service` consumer group has 4 instances and is falling behind, so you scale it to 8 instances. What happens?",

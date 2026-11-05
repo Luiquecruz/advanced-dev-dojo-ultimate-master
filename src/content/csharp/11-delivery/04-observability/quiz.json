@@ -1,6 +1,6 @@
 [
   {
-    "question": "Used to New Relic's PHP agent, a developer adds `new ActivitySource(\"Catalog.Orders\")` and `StartActivity(\"place order\")`, but no span ever reaches the backend. ASP.NET Core request spans do arrive. What is the most likely cause?",
+    "question": "A developer adds `new ActivitySource(\"Catalog.Orders\")` and `StartActivity(\"place order\")`, but no span ever reaches the backend. ASP.NET Core request spans do arrive. What is the most likely cause?",
     "options": [
       "Custom spans are only exported in the Release configuration, not in Debug builds",
       "`StartActivity` needs an explicit `activity.Stop()` before export, even inside `using`",
@@ -55,7 +55,7 @@
     "explanation": "Instrumentation uses .NET's own APIs and the exporter is configuration, so the same image sends to a local dashboard in development and to a collector or vendor in production. That keeps the backend choice out of the build, matching the build-once rule from lesson 02. Other exporters exist (console, Prometheus, Zipkin, Azure Monitor), and `UseOtlpExporter` does not change sampling."
   },
   {
-    "question": "In Magento you read `var/log/exception.log` on the server. Your .NET API runs in containers with three replicas. Where should its logs go?",
+    "question": "Your .NET API runs in containers with three replicas, and a developer wants to read its errors after an incident. Where should its logs go?",
     "options": [
       "To a log file inside each container, read with `docker exec` when something breaks",
       "To a shared network drive mounted into every replica",

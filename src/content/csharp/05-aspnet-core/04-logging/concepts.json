@@ -1,9 +1,34 @@
 [
-  { "term": "ILogger<T>", "description": "The injected logging abstraction whose category is the fully qualified name of `T`." },
-  { "term": "Log category", "description": "A string attached to every message from a logger, usually the class name, used to filter levels in configuration." },
-  { "term": "Message template", "description": "A log format string with named placeholders that are filled by argument position and kept as structured fields." },
-  { "term": "Structured logging", "description": "Logging that stores each placeholder value as a separate field, so logs can be queried by value instead of parsed as text." },
-  { "term": "Log level", "description": "The severity of a message, from `Trace` (0) to `Critical` (5), with `None` (6) disabling a category." },
-  { "term": "Log scope", "description": "A block opened with `BeginScope` that attaches the same fields to every message logged inside it." },
-  { "term": "LoggerMessage source generator", "description": "The `[LoggerMessage]` attribute on a `partial` method, which generates allocation-light logging code at compile time." }
+  {
+    "term": "ILogger<T>",
+    "description": "The injected logging abstraction whose category is the fully qualified name of `T`."
+  },
+  {
+    "term": "Logging provider",
+    "description": "A component that receives log messages and writes them somewhere, such as the console, the debugger or a log backend."
+  },
+  {
+    "term": "Log category",
+    "description": "A string attached to every message from a logger, usually the class name, used to filter levels in configuration."
+  },
+  {
+    "term": "Message template",
+    "description": "A log format string with named placeholders that are filled by argument position and kept as structured fields."
+  },
+  {
+    "term": "Structured logging",
+    "description": "Logging that stores each placeholder value as a separate field, so logs can be queried by value instead of parsed as text."
+  },
+  {
+    "term": "Log level",
+    "description": "The severity of a message, from `Trace` (0) to `Critical` (5), with `None` (6) disabling a category."
+  },
+  {
+    "term": "Log scope",
+    "description": "A block opened with `BeginScope` that attaches the same fields to every message logged inside it."
+  },
+  {
+    "term": "LoggerMessage source generator",
+    "description": "The `[LoggerMessage]` attribute on a `partial` method, which generates allocation-light logging code at compile time."
+  }
 ]

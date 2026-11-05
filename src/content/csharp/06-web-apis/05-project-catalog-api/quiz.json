@@ -2,13 +2,13 @@
   {
     "question": "`InMemoryProductStore` is registered with `AddSingleton` and holds a plain `Dictionary<string, Product>`. Under concurrent `POST` requests, what is the risk?",
     "options": [
-      "None; each request gets its own copy, as in PHP-FPM",
+      "None; each request gets its own copy of the store's dictionary",
       "Concurrent writes can corrupt the shared dictionary",
       "Data is lost after each request because singletons are disposed",
       "ASP.NET Core serializes all requests to a singleton, so it is safe"
     ],
     "answer": 1,
-    "explanation": "A singleton lives for the whole process and is used from many threads at once. `Dictionary<TKey, TValue>` is not safe for concurrent writes, so use `ConcurrentDictionary` or a lock. The PHP-FPM intuition of a fresh object per request is the tempting wrong answer; ASP.NET Core does not serialize access for you."
+    "explanation": "A singleton lives for the whole process and is used from many threads at once. `Dictionary<TKey, TValue>` is not safe for concurrent writes, so use `ConcurrentDictionary` or a lock. A fresh copy per request is the tempting wrong answer: only scoped and transient services are created per request; ASP.NET Core does not serialize access for you."
   },
   {
     "question": "`GET /products?page=2&pageSize=10` sometimes returns different products for the same data. What is the most likely bug?",

@@ -1,6 +1,6 @@
 {
   "title": "HTTP Clients and Resilience",
-  "summary": "Call external APIs with IHttpClientFactory and typed clients, add outgoing middleware with DelegatingHandler, apply the standard resilience handler, and keep retries away from unsafe methods; compared with Guzzle middlewares.",
+  "summary": "Call external APIs with IHttpClientFactory and typed clients, add outgoing middleware with DelegatingHandler, apply the standard resilience handler, and keep retries away from unsafe methods.",
   "level": "advanced",
   "tags": [
     "recommended",

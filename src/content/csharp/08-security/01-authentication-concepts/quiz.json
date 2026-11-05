@@ -8,7 +8,7 @@
       "The app fails at startup because `UseAuthentication()` was not called"
     ],
     "answer": 1,
-    "explanation": "Configuring authentication only teaches the app how to read credentials; it restricts nothing. Access is restricted by `RequireAuthorization()`, `[Authorize]` or a fallback policy. Coming from Magento, where every `webapi.xml` route names a resource, the first option is the tempting assumption, but it is wrong. The middleware is added automatically by `WebApplication`, so startup does not fail."
+    "explanation": "Configuring authentication only teaches the app how to read credentials; it restricts nothing. Access is restricted by `RequireAuthorization()`, `[Authorize]` or a fallback policy. The first option is the tempting assumption, but it is wrong. The middleware is added automatically by `WebApplication`, so startup does not fail."
   },
   {
     "question": "A user with a valid token calls `DELETE /products/42` but lacks the required permission. Which response should a JWT-bearer API return?",
@@ -55,7 +55,7 @@
     "explanation": "Microsoft warns that tokens in `localStorage`, `sessionStorage` or web workers can be stolen through XSS, and recommends keeping tokens on a trusted server with only a secure HttpOnly cookie in the browser. `sessionStorage` is still readable by any script on the page, so the second option is wrong. Because the browser sends cookies automatically, CSRF protection is the cost of this choice."
   },
   {
-    "question": "Coming from Magento, a developer writes a `/token` endpoint that accepts a username and password and returns a self-signed JWT for a third-party integration. What is the main problem?",
+    "question": "A developer writes a `/token` endpoint that accepts a username and password and returns a self-signed JWT for a third-party integration. What is the main problem?",
     "options": [
       "Minimal API endpoints cannot return a JWT; the token must come from an MVC controller action",
       "Nothing is wrong, as long as the endpoint is served over HTTPS and the password is hashed in the database",

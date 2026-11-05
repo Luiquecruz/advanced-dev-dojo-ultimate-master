@@ -63,6 +63,6 @@
       "Criterion 6 fails, because the in-memory provider keeps rows between runs on disk"
     ],
     "answer": 0,
-    "explanation": "Criterion 4 bans the in-memory provider outright, and the reason is what it hides. It is not a relational database: raw SQL is unsupported (so the Dapper report cannot run against it), transactions are not supported, `MigrateAsync` is a relational API, and the conditional stock `UPDATE` and the row version are database behaviour it does not have. Microsoft's EF Core testing guide calls this use highly discouraged. This is the Magento habit of a 'fast' mocked resource model: green tests that never touched the engine production uses. Its data lives only in the process, so nothing persists on disk between runs."
+    "explanation": "Criterion 4 bans the in-memory provider outright, and the reason is what it hides. It is not a relational database: raw SQL is unsupported (so the Dapper report cannot run against it), transactions are not supported, `MigrateAsync` is a relational API, and the conditional stock `UPDATE` and the row version are database behaviour it does not have. Microsoft's EF Core testing guide calls this use highly discouraged. The result is green tests that never touched the engine production uses. Its data lives only in the process, so nothing persists on disk between runs."
   }
 ]

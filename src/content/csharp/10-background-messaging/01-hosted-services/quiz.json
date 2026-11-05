@@ -1,6 +1,6 @@
 [
   {
-    "question": "Porting a Magento queue consumer, you write `public sealed class StockConsumer(ShopDbContext db) : BackgroundService` and register it with `AddHostedService`. `ShopDbContext` is registered with `AddDbContext` (scoped). What happens when the app starts in Development?",
+    "question": "You write `public sealed class StockConsumer(ShopDbContext db) : BackgroundService` and register it with `AddHostedService`. `ShopDbContext` is registered with `AddDbContext` (scoped). What happens when the app starts in Development?",
     "options": [
       "It works: the host creates a new `DbContext` for every iteration of the loop",
       "Startup fails: scope validation rejects a scoped dependency in a singleton",

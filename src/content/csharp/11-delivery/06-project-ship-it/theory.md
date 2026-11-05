@@ -1,15 +1,8 @@
 # Project P6: Ship It
 
-This project closes the core of the track. You take the solution as P5 left it (`Catalog.Core`, `Catalog.Infrastructure`, `Catalog.Api`, `Orders.Worker` and the P4 test projects), and make it deliverable without changing an endpoint, a status code or the stock model: a container image for each, a CI pipeline that builds, tests and publishes those images, OpenTelemetry traces that follow one order from the HTTP request through RabbitMQ into the worker, and health checks a platform can probe. Plan for about 9 hours on your machine with the .NET 10 SDK and Docker. Acceptance is self-assessed against the criteria below.
+This project closes the core of the track. You take the solution as P5 (10/06) left it (`Catalog.Core`, `Catalog.Infrastructure`, `Catalog.Api`, `Orders.Worker` and the P4 (09/05) test projects), and make it deliverable without changing an endpoint, a status code or the stock model: a container image for each, a CI pipeline that builds, tests and publishes those images, OpenTelemetry traces that follow one order from the HTTP request through RabbitMQ into the worker, and health checks a platform can probe. Plan for about 9 hours on your machine with the .NET 10 SDK and Docker. Acceptance is self-assessed against the criteria below.
 
-## Coming from PHP/Magento
-
-This is the step where a Magento project gets its deployment pipeline and its New Relic setup. The goal transfers. The shape does not:
-
-- you ship **two images** (API and worker), not a code folder for nginx and PHP-FPM;
-- the pipeline **compiles and tests** before it packages anything, and promotes one image per commit;
-- tracing is **wired in code** through OpenTelemetry instead of an agent extension, and a broker hop has to carry the trace context explicitly;
-- the worker is its own process, so it needs its own telemetry and its own idea of health.
+You need: lessons 01 to 05 of this module, 09/05 (P4, the test projects) and 10/06 (P5, the worker and the broker setup).
 
 ## Goal
 
@@ -56,7 +49,7 @@ public static class Telemetry
 
 - Run the same system with an Aspire AppHost (lesson 05) and compare it with your Compose file.
 - Generate Kubernetes manifests (or `aspire publish` output) with liveness and readiness probes pointing at your endpoints.
-- Add a migration bundle step to the pipeline that applies EF Core migrations before deploy (module 07/03).
+- Add a migration bundle step to the pipeline that applies EF Core migrations before deploy (07/03).
 - Sign or scan the images in CI, or publish a tarball with `ContainerArchiveOutputPath` and scan it.
 
 ## Where to get help

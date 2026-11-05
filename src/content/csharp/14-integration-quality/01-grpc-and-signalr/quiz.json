@@ -19,7 +19,7 @@
       "The server cancels the call after its own default 100-second deadline"
     ],
     "answer": 2,
-    "explanation": "Microsoft's docs state there is no default deadline: gRPC calls are not time limited unless you set one. Pass `deadline: DateTime.UtcNow.AddSeconds(...)` or propagate the incoming deadline with `EnableCallContextPropagation()`. There is no 30-second gRPC default; that number belongs to the HTTP resilience handler's total timeout. Resilience handlers added to every client (module 10 lesson 05) would also bound the call through their HTTP timeouts, but the stem has none, and an explicit deadline is still the right fix."
+    "explanation": "Microsoft's docs state there is no default deadline: gRPC calls are not time limited unless you set one. Pass `deadline: DateTime.UtcNow.AddSeconds(...)` or propagate the incoming deadline with `EnableCallContextPropagation()`. There is no 30-second gRPC default; that number belongs to the HTTP resilience handler's total timeout. Resilience handlers added to every client (10/05) would also bound the call through their HTTP timeouts, but the stem has none, and an explicit deadline is still the right fix."
   },
   {
     "question": "A teammate renumbers the fields of `StockReply` so that `quantity = 1` and `sku = 2` \"to match the column order\". What is the effect on clients built from the old `.proto`?",
@@ -33,7 +33,7 @@
     "explanation": "Protobuf identifies fields on the wire by number, not by name; each tag carries the field number and a wire type. Here the swap also changes wire types (a string is length-delimited, an `int32` is a varint), so old parsers skip both values as unknown fields and the properties keep their defaults; when the types match, the values land in the wrong property. Either way there is no error. Add new fields with new numbers and never reuse or renumber published ones. Already-built clients do not recompile, so no compile error warns you."
   },
   {
-    "question": "Coming from Magento, where every request is a fresh PHP process, you scale a SignalR app from one to two replicas. Users connected to replica A stop seeing notifications sent from replica B. Why?",
+    "question": "You scale a SignalR app from one to two replicas. Users connected to replica A stop seeing notifications sent from replica B. Why?",
     "options": [
       "Each instance only knows its own connections; a backplane is needed",
       "Groups are stored in the browser and are lost when the load balancer switches instances",

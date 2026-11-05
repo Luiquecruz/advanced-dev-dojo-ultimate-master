@@ -2,11 +2,13 @@
 
 After this lesson you can open a classic `System.Web` solution and find your way: where the app starts, where configuration and routes live, how an MVC 5 controller differs from a Web API 2 controller, and what each piece becomes in ASP.NET Core. The goal is reading and safely changing legacy code, not writing new code in it.
 
-## Coming from PHP/Magento
+You need: 04/02 (async and `.Result`), 05/01 to 05/05 (the ASP.NET Core host, DI, configuration and middleware), 06/01 (controllers) and lesson 1 of this module.
 
-A lot of the shape is familiar. `Global.asax` plays the role of Magento's bootstrap (`app/bootstrap.php`): code that runs once when the app starts. `web.config` is `env.php`, `config.php` and the `.htaccess`/nginx rules in one XML file. Routes are registered in code in `App_Start`, a little like `routes.xml` plus a front controller. Controllers return results that a view engine (Razor, `.cshtml`) renders, the way a Magento controller returns a page result rendered from layout XML and `.phtml` templates.
+## The shape of a `System.Web` app
 
-The trap is `HttpContext.Current`. It looks like PHP's superglobals (`$_SERVER`, `$_SESSION`): a static you can read from anywhere, and legacy code does exactly that, deep in business classes. In PHP every line runs inside a request, so `$_SESSION` is always there. In ASP.NET it is tied to the request's thread context: in a background thread, a timer or a fire-and-forget task it is `null`. It is not part of ASP.NET Core: the System.Web adapters can supply it during a migration (lesson 4), but the goal is to replace it with an injected `HttpContext` or `IHttpContextAccessor`. Every `HttpContext.Current` you find is a migration cost.
+`Global.asax` holds code that runs once when the app starts. `web.config` is one XML file for settings, connection strings and web server rules. Routes are registered in code in `App_Start`. Controllers return results that a view engine (Razor, `.cshtml`) renders.
+
+One static runs through it all: `HttpContext.Current`, the current request, readable from anywhere, and legacy code reads it deep in business classes. It is tied to the request's thread context, so in a background thread, a timer or a fire-and-forget task it is `null`. ASP.NET Core does not have it: the System.Web adapters can supply it during a migration (lesson 4), but the goal is an injected `HttpContext` or `IHttpContextAccessor`. Every `HttpContext.Current` you find is a migration cost.
 
 ## How a request reaches your code
 
@@ -102,7 +104,7 @@ Web API 2's default route is `api/{controller}/{id}`, and an action is chosen by
 
 - **No built-in container.** Apps plug in Autofac, Unity, Ninject or Simple Injector through `DependencyResolver.SetResolver(...)` (MVC) and `config.DependencyResolver` (Web API). Lifetimes are per-request by convention of that library; read its registration module before touching anything.
 - **OWIN/Katana.** A `Startup` class marked `[assembly: OwinStartup(...)]` often configures cookie or bearer authentication with `Microsoft.Owin` middleware, a halfway house between modules and ASP.NET Core middleware.
-- **Sync over async deadlocks.** Classic ASP.NET has a synchronization context. Calling `.Result` or `.Wait()` on a task whose continuation needs that context blocks the request thread forever. ASP.NET Core has no such context, so the same code "only" starves the thread pool (module 04).
+- **Sync over async deadlocks.** Classic ASP.NET has a synchronization context. Calling `.Result` or `.Wait()` on a task whose continuation needs that context blocks the request thread forever. ASP.NET Core has no such context, so the same code "only" starves the thread pool (04/05).
 
 ## What each piece becomes
 
@@ -130,11 +132,16 @@ app.MapGet("/api/products/{id:int}", (int id) =>
 app.Run();
 ```
 
+## Common mistakes
+
+- **`HttpContext.Current` in a background task.** Code that reads `HttpContext.Current.Session` works in a controller and throws `NullReferenceException` from `Task.Run`, because no request is current there. Pass the values the task needs as arguments.
+- **A filter in `GlobalFilters` expected on API routes.** MVC and Web API are separate frameworks, so an MVC filter never runs for `/api/*`. Register Web API filters in `config.Filters` in `WebApiConfig`.
+- **`ConfigurationManager` in a library you plan to share.** ASP.NET Core does not read `web.config`, so the shared library gets `null` settings. Pass settings in through the constructor.
+- **"Fixing" a hang with another `.Result`.** It deadlocks on the synchronization context. Make the call chain `async` end to end.
+
 ## In practice
 
 When you inherit a `System.Web` app, map it before changing it: read `Application_Start`, list the modules in `web.config`, find the DI registration and the OWIN `Startup`, and search for `HttpContext.Current`, `Session[` and `ConfigurationManager`. Those searches estimate the migration better than line counts. To build and run it you need Windows and Visual Studio; the `dotnet` CLI does not work for ASP.NET Framework apps.
-
-Usual mistakes: adding a filter to `GlobalFilters` and expecting it on API routes; reading config through `ConfigurationManager` in a library you plan to share with ASP.NET Core; and "fixing" a hang by adding another `.Result`.
 
 ## Check yourself
 

@@ -8,7 +8,7 @@
       "The new price everywhere, because ASP.NET Core enables sticky sessions by default"
     ],
     "answer": 1,
-    "explanation": "`IMemoryCache` lives in one process, so each instance has its own copy and there is no cross-instance invalidation. In Magento every cache is out of process (Redis), so this trap is new. A distributed or hybrid cache with short local expiration is the usual fix; nothing enables sticky sessions for you."
+    "explanation": "`IMemoryCache` lives in one process, so each instance has its own copy and there is no cross-instance invalidation. The trap is easy to miss on a laptop, where only one instance runs. A distributed or hybrid cache with short local expiration is the usual fix; nothing enables sticky sessions for you."
   },
   {
     "question": "100 requests miss the key `product:MUG-01` at the same moment. What is the difference between `IMemoryCache.GetOrCreateAsync` and `HybridCache.GetOrCreateAsync`?",
@@ -30,7 +30,7 @@
       "Only entries whose key also starts with the prefix `products` are removed from Redis"
     ],
     "answer": 0,
-    "explanation": "The docs describe tag invalidation as logical, not a physical deletion: entries created before the call are treated as misses, the stored values remain until they expire, and invalidation reaches the current server and the secondary store but not other servers' memory. Expecting physical deletion everywhere is the Magento cache-clean mental model."
+    "explanation": "The docs describe tag invalidation as logical, not a physical deletion: entries created before the call are treated as misses, the stored values remain until they expire, and invalidation reaches the current server and the secondary store but not other servers' memory. Expecting the call to delete every copy on every server is the tempting misconception."
   },
   {
     "question": "A service reads a `List<Product>` of tracked EF Core entities from `IMemoryCache` and a handler sets `product.Price = 0` on one of them for a preview. What is the bug?",
@@ -63,6 +63,6 @@
       "The foreign keys that link customers to their orders and addresses"
     ],
     "answer": 1,
-    "explanation": "Document stores fit aggregates read and written as one unit with a variable shape, the case Magento solves with EAV. Multi-row transactions, joins and constraints are what relational databases are for. EF Core 10 JSON columns are also worth evaluating before adding a second database."
+    "explanation": "Document stores fit aggregates read and written as one unit with a variable shape, the case relational schemas otherwise solve with generic attribute tables. Multi-row transactions, joins and constraints are what relational databases are for. EF Core 10 JSON columns are also worth evaluating before adding a second database."
   }
 ]

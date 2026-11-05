@@ -2,11 +2,13 @@
 
 After this lesson you can write queries with Dapper, map rows to C# records, pass lists and output parameters, call stored procedures, and run Dapper and EF Core on the same connection and transaction. You will also have a concrete rule for when hand-written SQL is the better tool, which many .NET job descriptions test by asking for "EF Core and Dapper".
 
-## Coming from PHP/Magento
+You need: 07/01 (ADO.NET, parameters and `NpgsqlDataSource`), 07/02 (EF Core and `DbContext`), 07/03 (tables created by migrations), 02/03 (records) and 04/04 (cancellation tokens).
 
-Dapper is the .NET version of what Magento resource models do with `$connection->fetchAll($select, $bind)`: you write the SQL, bind parameters, and get rows back, without a change tracker or a model. The difference is that Dapper maps each row straight into a typed object, by matching column names to property names, so you get `IEnumerable<ProductRow>` instead of arrays of arrays.
+## Hand-written SQL, typed results
 
-The trap is to think "Dapper is faster, so use it everywhere". It saves EF Core's translation and tracking work, but you lose generated SQL, migrations-aware mapping, the unit of work and compile-time checked queries. Most teams that list both use EF Core by default and Dapper for specific reads.
+**Dapper** is a small library for the case where you want to write the SQL yourself but not the reading loop of 07/01: you write the query, bind parameters, and Dapper maps each row straight into a typed object by matching column names to property names. There is no change tracker, no model and no generated SQL.
+
+It saves EF Core's translation and tracking work, but you give up generated SQL, migrations-aware mapping, the unit of work and compile-time checked queries. Most teams that list both use EF Core by default and Dapper for specific reads.
 
 ## Querying with Dapper
 
@@ -39,7 +41,7 @@ public sealed class StockReport(NpgsqlDataSource dataSource)
 
 The table was created by EF Core migrations, and on PostgreSQL EF Core creates quoted PascalCase identifiers (`"Products"`, `"Sku"`), so hand-written SQL must quote them too; unquoted `products` would not be found. The anonymous object `new { limit }` becomes the parameter `@limit`; nothing is concatenated into the SQL. `CommandDefinition` is how you pass a `CancellationToken`. Other methods follow the same shape: `QuerySingleOrDefaultAsync<T>` for one row, `ExecuteScalarAsync<T>` for one value, `ExecuteAsync` for `INSERT`/`UPDATE`/`DELETE` (it returns the affected row count). Results are buffered into a list by default, which the Dapper README calls "ideal in most cases".
 
-Two features Magento developers reach for, shown here on SQL Server, where identifiers are case-insensitive:
+Two features you will use often, shown here on SQL Server, where identifiers are case-insensitive:
 
 ```csharp
 // ... list expansion: Dapper rewrites "IN @skus" into one parameter per value
@@ -121,9 +123,15 @@ await transaction.CommitAsync(cancellationToken);
 
 `GetDbConnection` is an extension in the `Microsoft.EntityFrameworkCore` namespace (`RelationalDatabaseFacadeExtensions`), but `GetDbTransaction` lives in `Microsoft.EntityFrameworkCore.Storage` (`DbContextTransactionExtensions`); without that `using`, `transaction.GetDbTransaction()` does not compile. Do not dispose a connection you got from the context; the context owns it.
 
+## Common mistakes
+
+- **A column alias that does not match the type.** With a positional record such as `StockRow`, a misspelled alias makes Dapper throw at runtime because no constructor matches; with a settable-property class, the property silently keeps its default. Alias every computed column to the exact property name.
+- **`ORDER BY` built from user input.** Pasting a query string value into the SQL opens it to injection, and parameters cannot replace column names. Map allowed values through a fixed list.
+- **Forgetting the cancellation token.** Without `CommandDefinition` the query keeps running after the client disconnects. Pass the token every time.
+
 ## In practice
 
-Pick Dapper or raw SQL when the query is a report with window functions, CTEs or vendor features EF Core does not translate, when a hot read path shows measured EF overhead, or when the logic already lives in stored procedures. Stay with EF Core for writes, aggregates that change together, and anything that benefits from migrations and the change tracker. Usual mistakes: column aliases that do not match the target type (a positional record such as `StockRow` fails at runtime because no constructor matches; a class with settable properties silently keeps the default), forgetting the cancellation token, and building `ORDER BY` from user input.
+Pick Dapper or raw SQL when the query is a report with window functions, CTEs or vendor features EF Core does not translate, when a hot read path shows measured EF overhead, or when the logic already lives in stored procedures. Stay with EF Core for writes, aggregates that change together, and anything that benefits from migrations and the change tracker.
 
 ## Status as of 2026-11-05
 

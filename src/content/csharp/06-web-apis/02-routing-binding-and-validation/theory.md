@@ -2,14 +2,7 @@
 
 An endpoint receives data from four places: the path, the query string, headers and the body. After this lesson you can write route templates, predict where ASP.NET Core takes each handler parameter from, read the status code a binding failure produces, and validate input with the minimal API validation that shipped in .NET 10, so that a bad request gets a 400 with field errors before your handler runs.
 
-## Coming from PHP/Magento
-
-In Magento's `webapi.xml`, `:sku` in `/V1/products/:sku` is matched by name to a parameter of the service contract method, and the JSON body is deserialized into the typed parameters declared in the interface's docblocks. ASP.NET Core does the same matching by name, but types come from the C# signature, and conversion is strict: `int page` with `?page=two` never reaches your code.
-
-Two traps for a PHP developer:
-
-- **There is no `$request->getParam()` that looks everywhere.** Each parameter has exactly one source. A complex type on a `GET` is not read from the query string; it is treated as a body, which `GET` does not bind implicitly.
-- **Validation is opt-in and silent when missing.** Data annotation attributes do nothing in a minimal API until `builder.Services.AddValidation()` is called. Without it, invalid input reaches the handler and nothing logs a warning.
+You need: 06/01 (minimal API handlers and `TypedResults`), 05/03 (data annotation attributes on options), 05/02 (services in DI), 04/04 (`CancellationToken`), 03/03 (iterators with `yield return`) and 02/03 (records and interfaces).
 
 ## Route templates and constraints
 
@@ -26,7 +19,7 @@ Constraints are for telling routes apart, not for validation. The routing docs w
 
 ## Where each parameter comes from
 
-The minimal API binder resolves each parameter in this order:
+Each parameter has exactly one source, and conversion is strict: `int page` with `?page=two` never reaches your code. The minimal API binder picks the source of each parameter in this order:
 
 1. An explicit attribute: `[FromRoute]`, `[FromQuery]`, `[FromHeader]`, `[FromBody]`, `[FromForm]`, `[FromServices]`, or `[AsParameters]`.
 2. Special types: `HttpContext`, `HttpRequest`, `HttpResponse`, `ClaimsPrincipal`, `CancellationToken`, form files, `Stream`.
@@ -70,7 +63,7 @@ In Development, `RouteHandlerOptions.ThrowOnBadRequest` defaults to `true`, so t
 
 ## Validation in .NET 10
 
-.NET 10 added validation to minimal APIs, built on `Microsoft.Extensions.Validation` and the `System.ComponentModel.DataAnnotations` attributes you may know from MVC:
+.NET 10 added validation to minimal APIs, built on `Microsoft.Extensions.Validation` and the `System.ComponentModel.DataAnnotations` attributes you used on options in 05/03:
 
 ```csharp
 using System.ComponentModel.DataAnnotations;
@@ -109,6 +102,12 @@ What happens at runtime:
 - `.DisableValidation()` turns it off for one endpoint.
 
 Limits to know: generation only covers the assembly where `AddValidation` is called, so types and endpoints in a class library need their own `AddValidation` call in that library. Unknown JSON properties are skipped, not rejected (`JsonUnmappedMemberHandling.Disallow` changes that). In .NET 10, nullable value type parameters such as `[Range(1, 10)] int? rating` are not validated (a known issue fixed in .NET 11). And this system is for minimal APIs and Blazor: controllers keep MVC model validation, where `[ApiController]` returns the 400 for you.
+
+## Common mistakes
+
+- **Forgetting `AddValidation()`.** The attributes compile and do nothing: invalid input reaches the handler, and nothing logs a warning. Call `builder.Services.AddValidation()` and test that a bad body returns 400.
+- **A complex type on a `GET`.** `GET /products` with a `ProductFilter filter` parameter is treated as a body, which `GET` never binds, so the request fails. Use `[AsParameters]` to read it from the query string.
+- **A route constraint as validation.** `/orders/{id:int}` makes `/orders/abc` a 404, and the client learns nothing. Bind `int id` without a constraint so a bad value gets a 400.
 
 ## In practice
 

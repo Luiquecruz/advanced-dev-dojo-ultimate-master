@@ -1,6 +1,6 @@
 {
   "title": "JWT Bearer Authentication",
-  "summary": "Configure `AddJwtBearer` to validate access tokens from an identity provider, know what it checks and its surprising defaults (claim mapping, 5-minute clock skew, no revocation), and test locally with `dotnet user-jwts`.",
+  "summary": "Configure `AddJwtBearer` to validate access tokens from an identity provider, decode a token and check its claims by hand, know what the handler checks and its surprising defaults (claim mapping, 5-minute clock skew, no revocation), and test locally with `dotnet user-jwts`.",
   "level": "intermediate",
   "tags": [
     "recommended",
@@ -23,6 +23,14 @@
     {
       "label": "Microsoft Learn: Authentication and authorization in Minimal APIs",
       "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/security"
+    },
+    {
+      "label": "Microsoft Learn: Base64Url class (API reference)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64url"
+    },
+    {
+      "label": "RFC 7519: JSON Web Token (JWT), registered claims and NumericDate",
+      "url": "https://datatracker.ietf.org/doc/html/rfc7519#section-4.1"
     }
   ]
 }

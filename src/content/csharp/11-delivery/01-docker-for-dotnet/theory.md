@@ -2,17 +2,11 @@
 
 After this lesson you can package an ASP.NET Core API as a container image in two ways: a multi-stage `Dockerfile`, and `dotnet publish /t:PublishContainer` with no Dockerfile at all. You will pick a base image (full, chiseled or Alpine), know why the container listens on port 8080 as a non-root user, and run the API next to PostgreSQL with `docker compose`.
 
-## Coming from PHP/Magento
+You need: 01/02 (the `dotnet` CLI and `dotnet publish`), 05/01 (the host and Kestrel), 05/03 (configuration sources) and 07/01 (a database connection string). The solution used in the examples is the one P5 (10/06) left you.
 
-A Magento Docker setup (Warden, docker-magento and similar) runs several cooperating processes: nginx, PHP-FPM with a long list of extensions, MySQL, Redis, OpenSearch and often Varnish. The source code is usually bind-mounted into the PHP container, because PHP reads `.php` files at request time.
+## What goes into an image
 
-What transfers: images, layers, registries, `docker compose` for dependencies, environment variables for configuration.
-
-What does not: an ASP.NET Core app is a **compiled, self-hosting process**. Kestrel, the web server, lives inside your process, so there is no nginx or FPM inside the image. The image holds the published output (DLLs) and the .NET runtime, not your source code. Building needs the SDK; running needs only the runtime. The usual traps for a PHP developer:
-
-- shipping the SDK image to production and running `dotnet run` against bind-mounted source, as you would with PHP files;
-- mapping container port 80, which .NET 8 and later images no longer listen on;
-- writing `localhost` in a connection string, where it means the API's own container, not the database.
+An ASP.NET Core app is a **compiled, self-hosting process**. Kestrel, the web server, lives inside your process, so the image needs no separate web server. `dotnet publish` turns the source into DLLs; the image holds that published output and the .NET runtime, never your `.cs` files. Building needs the SDK; running needs only the runtime. Images, layers, registries, `docker compose` and environment variables work as they do for any other containerized app.
 
 ## The official images
 
@@ -46,7 +40,7 @@ COPY --from=build /app .
 ENTRYPOINT ["dotnet", "Catalog.Api.dll"]
 ```
 
-The first stage compiles; the second copies only `/app` into a small runtime image, so the SDK never reaches production. Copying the `.csproj` files and restoring before copying the rest of the code is a cache trick: Docker reuses the restore layer until the package references change, the same idea as copying `composer.json` and `composer.lock` before the source. Copy every project the API references (here P5's `Catalog.Core` and `Catalog.Infrastructure`), plus any `Directory.Build.props` or `Directory.Packages.props`; restore walks the project references, and a missing file fails it in a clean build. Add a `.dockerignore` with `bin/` and `obj/` so host build output never leaks into the context. Pin the base image by digest too (`FROM mcr.microsoft.com/dotnet/aspnet:10.0@sha256:<digest>`), so a rebuild cannot silently pick up a different image; Microsoft's "Containerize a .NET app" tutorial calls a SHA after the tag a best practice.
+The first stage compiles; the second copies only `/app` into a small runtime image, so the SDK never reaches production. Copying the `.csproj` files and restoring before copying the rest of the code is a cache trick: Docker reuses the restore layer until the package references change, so a code change does not download every package again. Copy every project the API references (here `Catalog.Core` and `Catalog.Infrastructure`), plus any `Directory.Build.props` or `Directory.Packages.props`; restore walks the project references, and a missing file fails it in a clean build. Add a `.dockerignore` with `bin/` and `obj/` so host build output never leaks into the context. Pin the base image by digest too (`FROM mcr.microsoft.com/dotnet/aspnet:10.0@sha256:<digest>`), so a rebuild cannot silently pick up a different image; Microsoft's "Containerize a .NET app" tutorial calls a SHA after the tag a best practice.
 
 ## Port 8080 and the non-root user
 
@@ -125,13 +119,19 @@ services:
 
 Inside the compose network, the service name `db` is the host name. `condition: service_healthy` makes Compose wait for the database's health check before it starts the API. Without it, `depends_on` only orders container start, not readiness.
 
+## Common mistakes
+
+- **The SDK image in production.** Running `dotnet run` on `sdk:10.0` against mounted source ships the compilers and your code, compiles at every start and gives an attacker more tools. Publish in a build stage and copy only `/app` into `aspnet`.
+- **Mapping port 80.** `docker run -p 8000:80` gets "connection reset", because the app listens on 8080. Map `-p 8000:8080`.
+- **`localhost` in a connection string.** Inside a container, `localhost` is that container, so the API cannot reach the database and startup fails with a connection error. Use the Compose service name (`Host=db`).
+- **No `.dockerignore`.** `COPY . .` brings the host's `obj/` folder over the container's restore output, so `dotnet publish --no-restore` can fail with package paths from your machine. Ignore `bin/` and `obj/`.
+
 ## In practice
 
-- **Dockerfile or SDK publish?** SDK publish is the shorter path for a plain API or worker and fits CI well (module lesson 02). Keep a Dockerfile when you need OS packages, a custom build, or a team standard that scans Dockerfiles.
+- **Dockerfile or SDK publish?** SDK publish is the shorter path for a plain API or worker and fits CI well (lesson 02). Keep a Dockerfile when you need OS packages, a custom build, or a team standard that scans Dockerfiles.
 - **Chiseled by default for APIs.** Have the platform probe an HTTP endpoint (lesson 04) instead of a `HEALTHCHECK CMD curl ...`, which cannot run in an image without a shell or curl.
 - **Logs go to stdout.** The console logger already writes there; the container runtime collects it. No log files inside the container.
 - **No secrets in the image.** Every layer can be read by anyone who pulls it. Pass secrets at run time from the platform's secret store; the `dev-only` password above is for local Compose only.
-- **Common mistakes:** a missing `.dockerignore`, mapping port 80, `localhost` in a connection string, and an `sdk` base image in the final stage.
 
 ## Status as of 2026-11-05
 

@@ -2,15 +2,19 @@
 
 After this lesson you can run integration tests against the same database engine as production, started in a throwaway Docker container by Testcontainers, wire it into `WebApplicationFactory`, keep tests isolated with transactions, and explain why the EF Core in-memory provider is not the shortcut it looks like.
 
-## Coming from PHP/Magento
+You need: 09/03 (`WebApplicationFactory`), 09/01 (`IAsyncLifetime` and collections), 07/02 (`DbContext`), 07/03 (migrations) and 07/06 (transactions).
 
-Magento already got this right: `dev/tests/integration` runs against a real MySQL database, configured in `dev/tests/integration/etc/install-config-mysql.php`, and `@magentoDbIsolation enabled` wraps a test in a transaction that is rolled back afterwards. That idea transfers directly.
+## Why a real database
 
-What differs is the temptation. EF Core ships an in-memory provider (`UseInMemoryDatabase`), and older tutorials use it in every test. It is not a database: it evaluates LINQ over .NET collections. Microsoft's EF Core testing guide says using it as a database fake is **highly discouraged**, and that the provider is **only supported for legacy applications**. It does not support transactions, does not run raw SQL, and supports fewer queries than a relational provider.
+A test is only as trustworthy as what it runs against. EF Core ships an in-memory provider (`UseInMemoryDatabase`), and older tutorials use it in every test. It is not a database: it evaluates LINQ over .NET collections. Microsoft's EF Core testing guide says using it as a database fake is **highly discouraged**, and that the provider is **only supported for legacy applications**. It does not support transactions, does not run raw SQL, and supports fewer queries than a relational provider.
 
 SQLite in memory is better but still a different engine. SQLite compares strings case-sensitively and SQL Server does not by default, so a test can pass on one and fail on the other. Provider-specific functions, such as SQL Server's `EF.Functions.DateDiffDay` or Npgsql's `EF.Functions.ILike`, fail outright on SQLite.
 
 Microsoft's recommendation is plain: "We recommend that developers have good test coverage of their application running against their actual production database system."
+
+## Docker in brief
+
+Docker runs a program from an **image** (a packaged file system with the program and everything it needs) as a **container**, an isolated process with its own network and files. `docker run postgres:17` starts a PostgreSQL server without installing one, and removing the container throws everything away. Lesson 11/01 builds images of your own; here you only need Docker installed and running.
 
 ## What Testcontainers does
 
@@ -88,7 +92,7 @@ public sealed class CatalogApiFactory : WebApplicationFactory<Program>, IAsyncLi
 A shared database brings back the problem of the first lesson: tests that write data interfere with each other. The EF Core docs describe three categories:
 
 1. **Read-only tests** share seeded data and run in parallel safely.
-2. **Tests that write** run inside a transaction that is never committed, like `@magentoDbIsolation`:
+2. **Tests that write** run inside a transaction that is never committed:
 
 ```csharp
 public sealed class ProductSearchTests(CatalogApiFactory factory) : IClassFixture<CatalogApiFactory>
@@ -117,13 +121,19 @@ public sealed class ProductSearchTests(CatalogApiFactory factory) : IClassFixtur
 
 3. **Tests which explicitly manage transactions** cannot be wrapped in an outer transaction, so they need cleanup after each test and must not run in parallel with each other: put them in one xUnit collection, or give each group its own database. The EF Core docs mention the Respawn package for fast cleanup. HTTP tests through the API commit too, so treat them the same way.
 
+## Common mistakes
+
+- **`UseInMemoryDatabase` "for speed".** It runs no SQL and has no transactions, so translation errors and constraint violations pass; Microsoft notes it is generally slower than SQLite in-memory anyway. Test against the real engine.
+- **`EnsureCreated` instead of migrations.** The schema comes from the model, so a broken migration ships unnoticed. Call `MigrateAsync`.
+- **Tests that depend on rows other tests inserted.** When the order changes they fail at random. Each test creates its own data with unique keys.
+- **Committing writes in parallel tests.** Two classes writing the same tables race. Roll back, or serialize them in one collection.
+
 ## In practice
 
 - Test against the real engine what only the real engine can prove: LINQ translation, migrations, unique constraints, optimistic concurrency (P3's second `PUT` with a stale row version must return 409), provider functions, raw SQL and Dapper queries.
 - Keep business rules in unit tests. A database test per rule makes the suite slow for no gain.
 - Start one container per test class or collection, not per test. Container startup takes seconds; queries against a local container are fast.
 - Pin the image tag to the version you run in production (`postgres:17`, not `postgres:latest`).
-- Common mistakes: using `UseInMemoryDatabase` "for speed" (Microsoft notes it is generally slower than SQLite in-memory), `EnsureCreated` instead of migrations, tests that depend on rows other tests inserted, and committing writes in parallel tests.
 
 ## Status as of 2026-11-05
 

@@ -8,7 +8,7 @@
       "It does not verify signatures; it only checks the `exp` claim"
     ],
     "answer": 1,
-    "explanation": "With `Authority` set, the handler reads the issuer's OpenID Connect metadata, finds the signing keys and verifies signatures locally with the public key. No call per request is made, which is why tokens cannot be revoked at the API. A shared secret is the PHP `firebase/php-jwt` habit; Microsoft recommends asymmetric keys, so the API never needs the issuer's secret."
+    "explanation": "With `Authority` set, the handler reads the issuer's OpenID Connect metadata, finds the signing keys and verifies signatures locally with the public key. No call per request is made, which is why tokens cannot be revoked at the API. A shared secret is not needed either: Microsoft recommends asymmetric keys for access tokens, so the API never holds a signing secret."
   },
   {
     "question": "An authorization check reads `context.User.FindFirst(\"sub\")` and always gets `null`, although the decoded token clearly contains `sub`. The handler uses default options. Why?",
@@ -33,7 +33,7 @@
     "explanation": "`TokenValidationParameters.DefaultClockSkew` is 300 seconds, so expiry is checked with a five-minute tolerance. Lower `ClockSkew` in tests or when clocks are synchronized. Lifetime validation is on by default, and `dotnet user-jwts` tokens do expire (six months after `--not-before` unless `--expires-on` or `--valid-for` is given)."
   },
   {
-    "question": "Coming from Magento 2.4, which signs its own JWTs and revokes them through its database, a developer wants logout to invalidate the user's access token at your ASP.NET Core API immediately. The tokens come from an external identity provider. What is true?",
+    "question": "A developer wants logout to invalidate the user's access token at your ASP.NET Core API immediately. The tokens come from an external identity provider. What is true?",
     "options": [
       "Calling `SignOutAsync` in the API revokes every JWT that was issued to that user",
       "Setting `MapInboundClaims = false` makes the handler check the issuer's revocation list",
@@ -41,7 +41,7 @@
       "Nothing to revoke: the API checks the token by itself until `exp`; keep tokens short-lived"
     ],
     "answer": 3,
-    "explanation": "Magento can revoke because it is issuer and API at once and consults its own database on each request. A typical ASP.NET Core API only validates an external issuer's token (signature, issuer, audience, lifetime) and stores nothing, so there is no row to delete. Short lifetimes limit the damage, and revocation needs extra machinery such as introspection at the identity provider. `SignOutAsync` clears cookies, not bearer tokens, and the handler keeps no token cache."
+    "explanation": "An app that issues its own tokens and looks each one up in its database on every request could delete a row. A typical ASP.NET Core API only validates an external issuer's token (signature, issuer, audience, lifetime) and stores nothing, so there is no row to delete. Short lifetimes limit the damage, and revocation needs extra machinery such as introspection at the identity provider. `SignOutAsync` clears cookies, not bearer tokens, and the handler keeps no token cache."
   },
   {
     "question": "Tokens issued for your `orders-api` are being accepted by your `catalog-api`, because both trust the same identity provider. What should you configure on `catalog-api`?",

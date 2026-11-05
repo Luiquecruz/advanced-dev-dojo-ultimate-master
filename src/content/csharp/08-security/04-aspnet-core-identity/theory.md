@@ -2,13 +2,13 @@
 
 After this lesson you can add user accounts with passwords to an API using ASP.NET Core Identity, know what its defaults are (hashing, password rules, lockout), use `MapIdentityApi` for a simple SPA or mobile backend, and recognize when you need a real identity provider instead. You will also know what .NET 10 added: passkey support.
 
-## Coming from PHP/Magento
+You need: 08/01 (cookies, bearer tokens and OpenID Connect), 08/02 (JWT validation), 07/02 (`DbContext`), 07/03 (migrations) and 05/03 (`Configure<TOptions>`).
 
-Magento owns its users. Customers live in `customer_entity` with a `password_hash` column, admins in `admin_user`, and Magento hashes and verifies passwords, locks accounts after failed attempts and sends reset e-mails itself.
+## What Identity is, and is not
 
-What transfers: ASP.NET Core Identity does the same job. It is a membership library: tables for users, roles, claims, logins and tokens (`AspNetUsers`, `AspNetRoles` and friends, created by EF Core migrations from lesson 07/03), plus services that hash passwords, enforce rules, lock accounts and generate e-mail confirmation and reset tokens.
+ASP.NET Core Identity is a membership library: tables for users, roles, claims, logins and tokens (`AspNetUsers`, `AspNetRoles` and friends, created by EF Core migrations), plus services that hash passwords, enforce password rules, lock accounts and generate e-mail confirmation and reset tokens.
 
-The trap: Identity is **not** an OAuth 2.0 / OpenID Connect server. It stores users and signs them in to *this* app. It does not issue standard JWT access tokens for other APIs, does not provide single sign-on across apps, and does not implement the authorization code flow for third-party clients. If your plan sounds like "one login for the shop, the admin and the partner portal", you need an identity provider, not Identity alone.
+It is **not** an OAuth 2.0 / OpenID Connect server. It stores users and signs them in to *this* app. It does not issue standard JWT access tokens for other APIs, does not provide single sign-on across apps, and does not implement the authorization code flow for third-party clients. If your plan sounds like "one login for the shop, the admin and the partner portal", you need an identity provider, not Identity alone.
 
 ## The building blocks
 
@@ -85,6 +85,13 @@ After a security-relevant change (new password, role removed), call `UserManager
 - Only the **Blazor Web App** project template ships the passkey UI. In an API you wire the `SignInManager` passkey methods to your own endpoints.
 - Attestation statements are not validated by default. Set `IdentityPasskeyOptions.ServerDomain` (the relying party ID) explicitly, or make sure the host validates the `Host` header, because otherwise the domain is taken from the request.
 
+## Common mistakes
+
+- **Expecting `MapIdentityApi` tokens to work in another API.** They are opaque, not JWTs, so `AddJwtBearer` in a second API rejects every one with `401`. Several APIs sharing users need an identity provider.
+- **Calling `PasswordSignInAsync` with `lockoutOnFailure: false`.** Failures are never counted, so a brute-force run never locks the account. Pass `true`.
+- **Different errors for "unknown e-mail" and "wrong password".** Attackers learn which accounts exist. Return the same message and status for both.
+- **Building an admin screen on `/manage/info`.** It only manages the caller's own account; admin tasks need your own endpoints over `UserManager`, behind an admin policy.
+
 ## In practice
 
 | Situation | Choice |
@@ -95,8 +102,6 @@ After a security-relevant change (new password, role removed), call `UserManager
 | Staff accounts in Microsoft 365 | Microsoft Entra ID, not local accounts |
 
 When you need an OIDC server you host yourself, options include Duende IdentityServer (which older SPA templates used; Microsoft notes it "might require you to pay a license fee for production use"), OpenIddict and Keycloak. Compare their licences before you commit; this track recommends none of them.
-
-Usual mistakes: exposing `MapIdentityApi` and expecting its tokens to work in another API; leaving `lockoutOnFailure: false`; returning different errors for "unknown e-mail" and "wrong password", which lets attackers enumerate accounts; building an admin screen on `/manage/info`, which only manages the caller's own account.
 
 ## Status as of 2026-11-05
 

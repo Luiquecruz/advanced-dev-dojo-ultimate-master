@@ -1,6 +1,6 @@
 [
   {
-    "question": "Coming from PHP, you register one `SqlConnection` as a singleton so every request reuses it. What happens under load?",
+    "question": "You register one `SqlConnection` as a singleton so every request reuses it. What happens under load?",
     "options": [
       "It works and is faster, because opening a physical connection on every request is the expensive part that a singleton avoids",
       "The DI container still creates a new connection per request behind the scenes, so the singleton registration changes nothing",

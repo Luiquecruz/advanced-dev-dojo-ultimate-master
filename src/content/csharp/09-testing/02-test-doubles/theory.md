@@ -2,13 +2,23 @@
 
 After this lesson you can choose between a hand-written fake, a stub and a mock for a dependency, use the fakes Microsoft ships for time and logging, write NSubstitute or Moq setups without over-specifying, and decide on an assertion library knowing the Fluent Assertions licence change.
 
-## Coming from PHP/Magento
+You need: 09/01 (xUnit facts and `TestContext`), 05/02 (constructor injection), 05/04 (`ILogger<T>`), 02/03 (interfaces) and 04/02 (async methods).
 
-Magento unit tests are built on `$this->createMock()` and `getMockBuilder()`: almost every collaborator is a PHPUnit mock, and PHPUnit can mock any class that is not `final`. Magento's own classes are rarely final, so "mock everything" works there.
+## Where a fake can plug in
 
-The trap in C#: **the common mocking libraries, Moq and NSubstitute, can only intercept interface members and `virtual` or `abstract` class members.** C# methods are non-virtual by default, and many teams seal their classes. A concrete `SqlProductRepository` cannot be mocked; `IProductRepository` can. So the seam has to exist in the design, usually as an interface you inject through the constructor, the same constructor injection you already use with `di.xml` preferences.
+A test can only replace a dependency that the code lets it replace. That place is a **seam**, usually a constructor parameter typed as an interface or an abstract class:
 
-The second difference is the default style. .NET teams lean more on small hand-written fakes and on the real objects when they are cheap, and use a mocking library for the few interactions that matter.
+```csharp
+public sealed class ReservationService(IStockGateway stock, TimeProvider clock)
+{
+    // ... calls stock.ReserveAsync(...) and clock.GetUtcNow(),
+    // never new SqlStockGateway() or DateTime.UtcNow
+}
+```
+
+Production passes the real gateway and `TimeProvider.System`; a test passes a fake of each. Code that creates its own dependencies with `new`, or reads a static member such as `DateTime.UtcNow`, has no seam, and nothing in the test can reach inside it.
+
+The common mocking libraries, Moq and NSubstitute, generate a subclass at runtime, so they can only intercept interface members and `virtual` or `abstract` class members. C# methods are non-virtual by default and many teams seal their classes: a concrete `SqlProductRepository` cannot be mocked, `IProductRepository` can. .NET teams therefore lean on small hand-written fakes and on real objects when they are cheap, and keep a library for the few interactions that matter.
 
 ## The vocabulary
 
@@ -118,16 +128,23 @@ xUnit's built-in `Assert` is enough for most tests. Fluent Assertions (`result.S
 
 What that means for a team:
 
-- A commercial product that adds Fluent Assertions 8.x needs a paid licence. Check with whoever approves dependencies, as you would with a paid Magento Marketplace extension.
+- A commercial product that adds Fluent Assertions 8.x needs a paid licence. Check with whoever approves dependencies, as for any paid component.
 - Alternatives: the built-in `Assert`; Shouldly (BSD-3-Clause, `result.ShouldBe(3)`); or staying on an older Fluent Assertions major after checking its licence yourself.
 - The choice is the team's. What matters is that it is a deliberate choice, recorded, and not an accident of `dotnet add package`.
+
+## Common mistakes
+
+- **Reading `DateTime.UtcNow` in the code under test.** The test cannot move that clock, so "expires after 15 minutes" needs a real 15-minute wait or stays untested. Inject `TimeProvider` and call `GetUtcNow()`.
+- **Mocking a concrete class whose members are not virtual.** The setup throws or is silently ignored, so the test never controls the dependency. Put an interface in front of it.
+- **Verifying every call.** `Received(1)` on each interaction fails on harmless refactors. Assert the outcome, and verify only interactions that are the behavior.
+- **Mocking `DbSet` for queries.** The LINQ runs over a list, not as SQL, so translation errors never show. Test queries against a real database (lesson 04).
 
 ## In practice
 
 - Default order: the real object if it is cheap and deterministic, then a hand-written fake, then a library stub, and a mock only for interactions that are the behavior.
 - Inject `TimeProvider`, not `DateTime.UtcNow`; inject interfaces for anything that crosses a process boundary.
 - Name doubles honestly: `stubPrices`, `mockMailer`, `FakeStockGateway`.
-- Common mistakes: mocking a concrete class whose members are not virtual (the setup is silently ignored or throws), verifying every call, asserting on log message text that changes with each wording edit, and mocking `DbSet` for queries.
+- Assert on log levels and structured values, not on message text that changes with each wording edit.
 
 ## Status as of 2026-11-05
 

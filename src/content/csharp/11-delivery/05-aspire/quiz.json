@@ -1,6 +1,6 @@
 [
   {
-    "question": "A team used to Warden asks whether Aspire replaces their production hosting. What is the accurate answer?",
+    "question": "A team that runs its local environment with Aspire asks whether Aspire also replaces their production hosting. What is the accurate answer?",
     "options": [
       "Yes: the AppHost process keeps running in production and supervises every service",
       "No: it orchestrates local runs and can generate deployment artifacts for a platform",

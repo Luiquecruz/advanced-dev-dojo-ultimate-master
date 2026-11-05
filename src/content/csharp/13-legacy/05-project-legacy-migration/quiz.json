@@ -33,15 +33,15 @@
     "explanation": "The factory hosts the gateway in memory, but forwarding still leaves the process to reach `LegacyAppUrl`, so CI must start the legacy app (or a stand-in) first. The forwarder does not throw on the refused connection; it turns it into a 502 response, so the test must assert the status, or a check for the missing `X-Served-By` header alone would pass. Blaming parallel execution is tempting for a CI-only failure, but a 502 here comes from a refused connection, not a race."
   },
   {
-    "question": "On Linux you replace the Windows-only MVC 5 app with `php -S 127.0.0.1:8081 legacy.php`. What does this version of the kata still let you practice?",
+    "question": "On Linux you replace the Windows-only MVC 5 app with a small minimal API stub on port 8081 that writes the same JSON. What does this version of the kata still let you practice?",
     "options": [
-      "Remote session through the System.Web adapters, backed by PHP's session store",
+      "Remote session through the System.Web adapters, backed by the stub's own session store",
       "Upgrading the `System.Web` libraries to `netstandard2.0` with the adapters",
       "Route priority, constraints, the configured fallback and provenance tests",
-      "Remote authentication against a stub server that mimics the MVC 5 app"
+      "Remote authentication against the stub, which stands in for the MVC 5 app"
     ],
     "answer": 2,
-    "explanation": "The proxy does not care what technology answers behind it, so routing, priorities, the configured legacy URL and provenance tests are fully realistic. Remote session, remote authentication and `System.Web` library upgrades need the real .NET Framework app with `AddRemoteAppServer`, which is why they are a Windows-only stretch goal."
+    "explanation": "The proxy does not care what technology answers behind it, so routing, priorities, the configured legacy URL and provenance tests are fully realistic. Remote session, remote authentication and `System.Web` library upgrades need the real .NET Framework app with `AddRemoteAppServer`, which is why they are a Windows-only stretch goal; a stub that merely answers HTTP cannot play that role."
   },
   {
     "question": "Why bind the legacy app to `127.0.0.1` (or a private network) once the gateway is in front?",

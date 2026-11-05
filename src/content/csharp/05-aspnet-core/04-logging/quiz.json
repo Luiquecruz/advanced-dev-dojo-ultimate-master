@@ -1,14 +1,14 @@
 [
   {
-    "question": "A developer used to PSR-3 writes `logger.LogInformation(\"Order {OrderId} for {CustomerId}\", customerId, orderId);`. What does the log contain?",
+    "question": "A developer writes `logger.LogInformation(\"Order {OrderId} for {CustomerId}\", customerId, orderId);`. What does the log contain?",
     "options": [
       "The correct values, because .NET matches placeholders to the argument variable names",
       "A compile error, because the argument names do not match the placeholder names",
       "`OrderId` holds the customer id and `CustomerId` holds the order id, filled by position",
-      "Two empty placeholders, because .NET needs a context dictionary like PSR-3 does"
+      "Two empty placeholders, because the values must be passed in a dictionary keyed by name"
     ],
     "answer": 2,
-    "explanation": "In .NET message templates, the order of the arguments, not the placeholder names, decides which value fills which placeholder, so the fields are swapped. PSR-3 ties `{id}` to the context key `id` by name, which is why the habit transfers badly. The compiler does not check this for ordinary `Log*` calls, and no context dictionary is involved."
+    "explanation": "In .NET message templates, the order of the arguments, not the placeholder names, decides which value fills which placeholder, so the fields are swapped. The names only label the stored fields; nothing ties `{OrderId}` to a variable called `orderId`. The compiler does not check this for ordinary `Log*` calls, and no dictionary is involved."
   },
   {
     "question": "Why is `logger.LogWarning($\"Stock for {sku} is low\")` worse than `logger.LogWarning(\"Stock for {Sku} is low\", sku)`, even though both print the same text?",
@@ -33,7 +33,7 @@
     "explanation": "The `Microsoft.AspNetCore` entry applies to every category that starts with that prefix and allows `Warning` and above, so its `Warning` is written and its `Information` is filtered. `Shop.Orders.OrderService` falls under `Default`, which allows `Information` and above, so `Debug` and `Trace` are dropped."
   },
   {
-    "question": "You deploy an API to a container and look for `var/log/system.log`, as in Magento. Where do the logs from the default ASP.NET Core setup go?",
+    "question": "You deploy an API to a container and look for a log file on disk. Where do the logs from the default ASP.NET Core setup go?",
     "options": [
       "To stdout through the Console provider, plus Debug and EventSource; none of them writes files",
       "To `logs/app.log` in the content root, rotated daily by the default file provider",

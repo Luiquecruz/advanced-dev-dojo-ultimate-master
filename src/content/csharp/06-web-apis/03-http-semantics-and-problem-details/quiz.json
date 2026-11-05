@@ -1,6 +1,6 @@
 [
   {
-    "question": "Coming from Magento, you throw a `ProductNotFoundException` from a minimal API handler and register nothing for it. The app calls `AddProblemDetails()` and `UseExceptionHandler()`. What does the client get in Production?",
+    "question": "You throw a `ProductNotFoundException` from a minimal API handler and register nothing for it. The app calls `AddProblemDetails()` and `UseExceptionHandler()`. What does the client get in Production?",
     "options": [
       "404 Not Found, because the exception name contains \"NotFound\"",
       "500 as Problem Details, with no exception message",
@@ -8,7 +8,7 @@
       "The developer exception page with the stack trace"
     ],
     "answer": 1,
-    "explanation": "ASP.NET Core has no Magento-style mapping from exception types to statuses: an unhandled exception is a 500, written as a generic Problem Details body. You map exceptions yourself with `IExceptionHandler`, or better, return `TypedResults.NotFound()` for an expected outcome. The developer exception page only runs in Development."
+    "explanation": "ASP.NET Core does not map exception types to statuses by name: an unhandled exception is a 500, written as a generic Problem Details body. You map exceptions yourself with `IExceptionHandler`, or better, return `TypedResults.NotFound()` for an expected outcome. The developer exception page only runs in Development."
   },
   {
     "question": "A mobile client lost its connection after sending a request and retries it automatically. For which request does RFC 9110 make that retry safe by definition?",

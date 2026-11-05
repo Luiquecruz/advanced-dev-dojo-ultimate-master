@@ -2,13 +2,15 @@
 
 You build the catalog API that the next projects extend: CRUD over products kept in memory, filtering and paging, validation, Problem Details for every error and an OpenAPI document. It takes about 8 hours with the .NET 10 SDK on your machine. When it passes the acceptance criteria, you have used every lesson of this module in one small, honest codebase. P3 replaces the in-memory store with EF Core, so keep storage behind an interface.
 
-## Coming from PHP/Magento
+You need: 06/01 to 06/04 (endpoints, binding and validation, Problem Details, OpenAPI), 05/02 (singleton lifetime), 04/05 (`ConcurrentDictionary` and shared state) and 03/02 (LINQ `OrderBy`, `Skip`, `Take`).
 
-This is the ASP.NET Core version of a custom Magento module that exposes `/V1/catalog/products` through `webapi.xml` and a repository interface. The interface boundary transfers: handlers talk to an `IProductStore`, as Magento controllers talk to a repository. Three things do not:
+## Goal
 
-- The store lives as long as the process. In Magento every request reloads data; here a singleton `Dictionary` is shared by concurrent requests, so it must be thread-safe (`ConcurrentDictionary`) or locked.
-- Errors are your job. Magento maps `NoSuchEntityException` to 404; here you return `TypedResults.NotFound()` or a `Problem`, and register `AddProblemDetails` so that every error has the same shape.
-- Validation is off until you call `AddValidation()`.
+A runnable `Catalog.Api` minimal API whose behavior and contract a client can rely on without reading your code: correct status codes, field-level validation errors, Problem Details for every failure and an accurate `/openapi/v1.json`.
+
+## Features
+
+Handlers talk only to an `IProductStore`, so P3 can swap the storage without touching them. Start from this contract:
 
 ```csharp
 public interface IProductStore
@@ -24,11 +26,7 @@ public record Product(string Sku, string Name, decimal Price, int Stock);
 public record PagedResult<T>(IReadOnlyList<T> Items, int Page, int PageSize, int Total);
 ```
 
-## Goal
-
-A runnable `Catalog.Api` minimal API whose behavior and contract a client can rely on without reading your code: correct status codes, field-level validation errors, Problem Details for every failure and an accurate `/openapi/v1.json`.
-
-## Features
+The in-memory store is a singleton shared by concurrent requests, so it must be thread-safe (`ConcurrentDictionary`) or locked. Errors are your job: return `TypedResults.NotFound()` or a Problem, and register `AddProblemDetails` so that every error has the same shape. Validation is off until you call `AddValidation()`.
 
 - `GET /products?page=&pageSize=&search=`: paged list ordered by SKU, with `page` at least 1 and `pageSize` between 1 and 100, and `search` matching name or SKU.
 - `GET /products/{sku}`: one product, or 404.
@@ -98,7 +96,7 @@ Also: `dotnet build` shows no warnings with nullable reference types enabled (th
 
 ## Check yourself
 
-1. Why does the store need `ConcurrentDictionary` (or a lock) in ASP.NET Core when the same code in PHP would not?
+1. Why does the singleton store need `ConcurrentDictionary` (or a lock), and what can go wrong with a plain `Dictionary`?
 2. Why is "SKU already exists" a 409 from the store and not a validation attribute?
 3. What would break in your OpenAPI document if the handlers returned `IResult`?
 4. Which part of this project changes when P3 moves storage to EF Core, and which part should not change at all?

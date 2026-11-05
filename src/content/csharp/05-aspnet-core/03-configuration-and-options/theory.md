@@ -2,13 +2,11 @@
 
 After this lesson you can predict which value wins when the same key is set in `appsettings.json`, an environment variable and the command line, bind a configuration section to a typed class, and make the app refuse to start when a required setting is missing or invalid.
 
-## Coming from PHP/Magento
+You need: 05/01 (the host and environments), 05/02 (lifetimes: singleton and scoped), 02/03 (classes, properties and attributes) and 00/06 (classes and objects).
 
-Magento splits settings in three places: `app/etc/env.php` (per deployment: database, cache, crypt key), `app/etc/config.php` (module list and shared settings, committed) and the `core_config_data` table (admin settings, with default, website and store scopes). Values are read as strings by path, such as `$scopeConfig->getValue('carriers/flatrate/price')`.
+## Settings outside the code
 
-In ASP.NET Core, configuration is a set of providers stacked on top of each other, flattened into keys like `Shipping:FlatRate:Price`. The closest thing to `env.php` is environment variables plus `appsettings.{Environment}.json`; the closest thing to `config.php` is `appsettings.json` in the repository. There is no built-in equivalent of `core_config_data` scopes: per-store, admin-editable settings are application data and belong in your database.
-
-The trap: in Magento, reading a path gives you the current value. In .NET, the most common way to inject settings, `IOptions<T>`, reads them once and never sees a change. Another trap: an environment variable silently overrides the JSON file, which is a feature in containers and a surprise when you debug locally.
+Some values change from one deployment to another while the code stays the same: a database connection string, a price limit, an API key, how much to log. Hard-coding them means rebuilding the app to change them, and committing secrets to the repository. ASP.NET Core reads them from **configuration**: a set of providers (JSON files, environment variables, the command line and others) stacked on top of each other and flattened into keys like `Shipping:FlatRate:Price`. Your code asks for a key, and whichever provider has the highest priority answers.
 
 ## Providers and precedence
 
@@ -102,17 +100,23 @@ Without `ValidateOnStart`, validation runs the first time someone reads `.Value`
 
 By default the JSON files are loaded with `reloadOnChange: true`, so editing `appsettings.json` on a running server changes the configuration. Whether your code notices depends on the interface. `IOptions<T>` never does. `IOptionsSnapshot<T>` cannot be injected into a singleton, because it is scoped; use `IOptionsMonitor<T>` there. Environment variables cannot change inside a running process, so reload only matters for file-based providers. In containers, file change notifications can be unreliable; the documentation suggests `DOTNET_USE_POLLING_FILE_WATCHER=1` when you depend on them.
 
+## Common mistakes
+
+- **A `:` in an environment variable set from Bash.** `export Shipping:FlatRate:Price=19.90` fails with "not a valid identifier", so the app keeps reading the JSON value. Use `Shipping__FlatRate__Price`.
+- **Expecting `IOptions<T>` to change.** It is computed once; a service that read `.Value` keeps the startup value after `appsettings.json` is edited. Use `IOptionsMonitor<T>.CurrentValue` for settings that must change at runtime.
+- **Validation without `ValidateOnStart`.** A missing required key passes the deploy and throws `OptionsValidationException` on the first request that reads it, possibly hours later. Add `ValidateOnStart()` to settings the app cannot work without.
+
 ## In practice
 
 - One options class per feature, bound to its own section and validated on start. Inject it where it is used, so each class depends only on the settings it reads.
 - Use `IOptions<T>` by default. Choose `IOptionsMonitor<T>` only for settings you really change at runtime, such as feature switches, and design the code to read `CurrentValue` each time.
 - Name keys the same way in every environment; deployments override with environment variables using `__`.
-- Do not copy `core_config_data` scopes into JSON. Store-specific settings that admins edit belong in the database, cached if needed.
-- Usual mistakes: a secret committed in `appsettings.json`, a `:` in an environment variable name set from a shell such as Bash, reading `IOptions<T>.Value` in a constructor and expecting it to change, and missing `ValidateOnStart`.
+- Configuration describes how a deployment runs. Settings that administrators edit per store or per customer at runtime are business data: they belong in the database, cached if needed.
+- Never commit a secret to `appsettings.json`, even "temporarily": it stays in the repository history.
 
 ## Check yourself
 
 1. `appsettings.Production.json` sets a price to 15 and the container sets `Shipping__FlatRate__Price=19.90`. Which value does the app use, and why?
-2. Where do `env.php`, `config.php` and `core_config_data` each map in an ASP.NET Core app?
+2. Which settings belong in `appsettings.json`, which in environment variables or a secret store, and which in the application's database?
 3. What is the practical difference between validating options on first use and on start?
 4. Which options interface would you inject into a singleton that must react to a feature switch edited in a file?

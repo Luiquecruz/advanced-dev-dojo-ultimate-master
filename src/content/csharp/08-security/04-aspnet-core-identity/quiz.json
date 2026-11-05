@@ -22,7 +22,7 @@
     "explanation": "Identity's lockout is applied by `PasswordSignInAsync` only when it is told to count failures; the scaffolded login page passes `false`, as its comment warns. `AllowedForNewUsers` defaults to `true`, so new users can be locked out, and lockout does not depend on e-mail confirmation."
   },
   {
-    "question": "Coming from Magento, a team plans one sign-in for the storefront API, the admin app and a partner portal, each a separate application. Which approach fits?",
+    "question": "A team plans one sign-in for the storefront API, the admin app and a partner portal, each a separate application. Which approach fits?",
     "options": [
       "Add `MapIdentityApi` to each app; they will share sign-in sessions automatically",
       "Use ASP.NET Core Identity in one app and copy its `AspNetUsers` table to the others",

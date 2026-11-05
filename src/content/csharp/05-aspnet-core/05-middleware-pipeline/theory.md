@@ -1,14 +1,14 @@
 # The Middleware Pipeline
 
-After this lesson you can read the pipeline in `Program.cs`, put built-in middleware in an order that works, write your own middleware as a delegate or a class, and decide when middleware is the right tool and when a Magento habit (plugins, observers) points somewhere else.
+After this lesson you can read the pipeline in `Program.cs`, put built-in middleware in an order that works, write your own middleware as a delegate or a class, and decide when middleware is the right tool and when the work belongs in an endpoint filter, a decorator or the domain code.
 
-## Coming from PHP/Magento
+You need: 05/01 (requests, responses and `Program.cs`), 05/02 (lifetimes and captive dependencies), 05/04 (`ILogger<T>`), 02/04 (delegates and lambdas) and 02/05 (extension methods).
 
-In Magento a request passes through `index.php`, the front controller, routers and the action controller, and you hook into it with plugins on classes such as `FrontControllerInterface` or with observers on events like `controller_action_predispatch`. Plugin order comes from `sortOrder` in merged `di.xml` files, so the effective order is a puzzle spread across modules.
+## A chain of request delegates
 
-ASP.NET Core has one explicit chain of request delegates, the pipeline, written in order in `Program.cs`. Each middleware receives the `HttpContext`, may do work, calls the next one (or does not), and may do more work on the way back. Conceptually it is a stack of around plugins on the whole request.
+Many concerns apply to almost every request: catching unhandled exceptions, logging, checking who the caller is, adding security headers. Writing them in every endpoint would repeat the same code hundreds of times. ASP.NET Core puts them in the **pipeline**: one explicit chain of request delegates, written in order in `Program.cs`. Each piece, a **middleware**, receives the `HttpContext` (the request and the response being built), may do work, calls the next one (or does not), and may do more work on the way back.
 
-What transfers: the idea of wrapping a request to add cross-cutting behavior. The traps: order is the order of the code, not a configuration value, and a middleware sees the HTTP request only. It cannot intercept a call to one of your services the way a plugin intercepts any public method (lesson 02 covers decorators for that). Observers map best to events or messages, not to middleware.
+Two consequences shape everything below. Order is the order of the code, nothing else. And a middleware sees the HTTP request only: it cannot wrap a call to one of your services (a decorator does that, lesson 02), and it does not know when something in your domain happened, such as an order being placed.
 
 ## Use, Run and Map
 
@@ -126,16 +126,22 @@ The alternative is factory-based middleware: implement `IMiddleware`, register t
 
 Middleware runs for every request that reaches it, so it belongs to concerns that are about HTTP and apply broadly: correlation ids, timing, security headers, request logging. Microsoft's guidance is not to use custom middleware for long-running work; queue it to a background service (module 10). Logic that applies to one group of endpoints, such as validating a header for `/admin`, fits endpoint filters better (module 06). Domain reactions, such as "send an email when an order is placed", are not HTTP concerns at all.
 
+## Common mistakes
+
+- **Authorization before authentication.** Authorization sees an anonymous user, so requests with a valid token get 401. Call `UseAuthentication()` before `UseAuthorization()`.
+- **Setting a header after `await next(context)`.** Once the body has started, headers are on the wire and the assignment throws `InvalidOperationException`. Set it before `next` or in `Response.OnStarting`.
+- **A scoped service in a middleware constructor.** Convention-based middleware is built once, so the service becomes captive: Development throws, Production shares one instance across requests. Add it as a parameter of `InvokeAsync`.
+- **Middleware registered before the exception handler.** Its exceptions are not caught by `UseExceptionHandler`, so clients get a bare 500. Register the handler first.
+
 ## In practice
 
 - Read the pipeline top to bottom as "outermost to innermost"; put exception handling first and endpoints last.
 - Package each custom middleware with a `Use{Name}` extension method so `Program.cs` stays a readable list.
 - Keep middleware fast: it sits on the hot path of every request.
-- Usual mistakes: authorization before authentication, adding headers after `await next(context)` without `OnStarting`, injecting a scoped service into a middleware constructor, and expecting middleware to see exceptions thrown by code registered before it.
 
 ## Check yourself
 
 1. Why does the exception handler come first, and what does it miss when it does not?
-2. Which Magento extension points map to middleware, which to endpoint filters, and which to neither?
+2. Request logging, an API-key check for `/admin` only, and "send an email when an order is placed": which belongs in middleware, which in an endpoint filter, and which in neither?
 3. A middleware sets a response header after `await next(context)` and the app throws in production. Why, and what are two fixes?
 4. Where do you inject a scoped service into convention-based middleware, and why not the constructor?

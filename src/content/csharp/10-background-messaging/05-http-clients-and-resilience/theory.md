@@ -2,11 +2,11 @@
 
 After this lesson you can call an external API from a .NET service the way production teams do: through `IHttpClientFactory` and a typed client, with outgoing middleware for cross-cutting work such as API keys, and with the standard resilience handler from `Microsoft.Extensions.Http.Resilience`. You will also know when a retry is unsafe and what to do about it.
 
-## Coming from PHP/Magento
+You need: 04/03 (disposal and why `HttpClient` is reused), 04/04 (timeouts and the standard handler's defaults), 05/02 (service lifetimes), 05/03 (options) and 10/04 (idempotent consumers).
 
-A Magento integration (an ERP, a payment provider, a shipping API) usually wraps Guzzle: a client class under `Model/Api`, a `HandlerStack` with `Middleware::retry`, `Middleware::mapRequest` to add the auth header, and `Middleware::log`. Each PHP-FPM request builds the client, sends a few calls and dies, so a badly managed client costs little.
+## One process, many outgoing calls
 
-The ideas transfer almost one to one: a `DelegatingHandler` is a Guzzle middleware, and the resilience handler is your retry middleware with a timeout and a circuit breaker added. The trap is the lifetime. A .NET API is one long-running process. `new HttpClient()` per call leaks sockets (module 04 lesson 03), and one static client kept forever never sees DNS changes. Retries also cost more: a .NET process serves many requests at once, so three retries per call during an outage triple the load on a dependency that is already struggling.
+`HttpClient` is the .NET class that sends HTTP requests. A .NET API is one long-running process that serves many requests at once, so how it creates clients matters. A `new HttpClient()` per call leaves a socket in `TIME_WAIT` after each disposal and can exhaust them (04/03); one static client kept forever never sees DNS changes. Retries cost more for the same reason: three retries per call during an outage triple the load on a dependency that is already struggling. `IHttpClientFactory` solves the lifetime problem, and a resilience handler bounds the retries.
 
 ## Typed clients
 
@@ -38,7 +38,7 @@ What the factory does for you:
 
 ## Outgoing middleware: `DelegatingHandler`
 
-This is your `Middleware::mapRequest`. A handler wraps the next one and sees every request and response.
+A `DelegatingHandler` is middleware for outgoing calls: it wraps the next handler and sees every request and response of the client.
 
 ```csharp
 using Microsoft.Extensions.Options;
@@ -77,7 +77,7 @@ builder.Services.AddHttpClient<ErpClient>(/* ... */)
     });
 ```
 
-You met these defaults in module 04 lesson 04; this section explains them, and module 12 lesson 05 uses the same handler between services. One call adds five strategies, outermost first: a rate limiter (1,000 concurrent permits, no queue), a 30-second total timeout, a retry (three retries, exponential backoff with jitter, 2-second base delay), a circuit breaker (opens at a 10% failure ratio with at least 100 calls in 30 seconds, for 5 seconds) and a 10-second timeout per attempt. Retries and the breaker react to `HttpRequestException`, Polly's `TimeoutRejectedException`, 5xx, 408 and 429, and the retry honors a `Retry-After` header by default (`ShouldRetryAfterHeader`). Microsoft's guidance is one resilience handler per client: do not stack two. For your own mix of strategies use `AddResilienceHandler("name", builder => ...)`, and `AddStandardHedgingHandler()` sends parallel attempts for slow reads.
+You met these defaults in lesson 04/04; this section explains them, and lesson 12/05 uses the same handler between services. One call adds five strategies, outermost first: a rate limiter (1,000 concurrent permits, no queue), a 30-second total timeout, a retry (three retries, exponential backoff with jitter, 2-second base delay), a circuit breaker (opens at a 10% failure ratio with at least 100 calls in 30 seconds, for 5 seconds) and a 10-second timeout per attempt. Retries and the breaker react to `HttpRequestException`, Polly's `TimeoutRejectedException`, 5xx, 408 and 429, and the retry honors a `Retry-After` header by default (`ShouldRetryAfterHeader`). Microsoft's guidance is one resilience handler per client: do not stack two. For your own mix of strategies use `AddResilienceHandler("name", builder => ...)`, and `AddStandardHedgingHandler()` sends parallel attempts for slow reads.
 
 ## When a retry is unsafe
 
@@ -85,14 +85,21 @@ The retry applies to **every HTTP method** by default. Retrying a `POST /orders`
 
 When a write must be retried, make it idempotent first: send a client-generated key (many payment APIs accept an `Idempotency-Key` header, still an IETF draft) or use a natural key the server deduplicates on, exactly like the idempotent consumers of lesson 04.
 
+## Common mistakes
+
+- **`new HttpClient()` in a method.** Each disposal leaves a socket in `TIME_WAIT`, and under load the process runs out of ports. Use a typed client or `IHttpClientFactory`.
+- **A typed client captured by a singleton.** The singleton keeps one handler forever and stops seeing DNS changes. Inject `IHttpClientFactory`, or set `PooledConnectionLifetime`.
+- **Retrying a non-idempotent `POST`.** A timeout after the server committed becomes a second order or charge. Call `DisableForUnsafeHttpMethods()`, or send an idempotency key.
+- **Stacking resilience handlers.** Retries multiply and timeouts interact in surprising ways. Use one handler per client and customize it.
+
 ## In practice
 
 - One typed client per external system, in an infrastructure folder, returning your own types. Callers never see `HttpResponseMessage`.
-- Put base URLs and keys in options (module 05 lesson 03), keys in a secret store, never in code. Use `RedactLoggedHeaders` so the factory's logging does not write the key.
-- `ConfigureHttpClientDefaults(b => b.AddStandardResilienceHandler())` gives every client a baseline; a client that needs something else calls `RemoveAllResilienceHandlers()` first. Aspire's ServiceDefaults does this for you (module 11 lesson 05).
+- Put base URLs and keys in options (05/03), keys in a secret store, never in code. Use `RedactLoggedHeaders` so the factory's logging does not write the key.
+- `ConfigureHttpClientDefaults(b => b.AddStandardResilienceHandler())` gives every client a baseline; a client that needs something else calls `RemoveAllResilienceHandlers()` first. Aspire's ServiceDefaults does this for you (11/05).
 - Decide what failure means for the business. An open breaker throws quickly; the caller still needs a fallback, a cached value or a clear 503.
+- The shorter timeout wins: with the standard handler a call ends after the pipeline's 30-second total, even though `HttpClient.Timeout` says 100 seconds (04/04). Set the budget you want on the pipeline.
 - Try it locally: point a typed client at a local endpoint that returns 503 on most calls, log each attempt in a `DelegatingHandler`, and watch the retries, the backoff and the breaker opening.
-- Common mistakes: `new HttpClient()` in a method, a typed client inside a singleton, a retry on a non-idempotent `POST`, a 100-second `HttpClient.Timeout` hiding behind the 30-second pipeline (module 04 lesson 04), and resilience handlers stacked on top of each other.
 
 ## Status as of 2026-11-05
 

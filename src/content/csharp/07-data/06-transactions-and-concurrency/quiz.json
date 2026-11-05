@@ -22,7 +22,7 @@
     "explanation": "`ExecuteUpdateAsync` runs immediately as its own statement and does not start a transaction spanning later calls; wrap both in `BeginTransactionAsync` when they must succeed together. Assuming EF Core groups them comes from the `SaveChangesAsync` behavior, which does not apply to bulk operations."
   },
   {
-    "question": "Coming from PHP, a developer protects stock with `lock (stockLock) { ... }` around load, decrement and save. Why does this fail in production?",
+    "question": "A developer protects stock with `lock (stockLock) { ... }` around load, decrement and save. Why does this fail in production?",
     "options": [
       "`lock` is deprecated in C# 14 in favor of the new `System.Threading.Lock` type, so the build fails",
       "It works correctly, but it is slower than a `SemaphoreSlim`, which is the recommended replacement",

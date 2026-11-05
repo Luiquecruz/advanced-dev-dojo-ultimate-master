@@ -1,6 +1,6 @@
 [
   {
-    "question": "You port a Magento order model to C# with `public` setters on every property and put the rules in `OrderService`. What does DDD call this, and what is the concrete risk?",
+    "question": "A team writes its `Order` entity with `public` setters on every property and puts every rule in `OrderService`. What does DDD call this, and what is the concrete risk?",
     "options": [
       "A rich domain model; no risk, because `OrderService` validates every change it makes",
       "An anemic domain model; any code can set an invalid state, like a negative quantity",
@@ -55,14 +55,14 @@
     "explanation": "Dispatching right before the commit includes the handler's changes in the same transaction, so both succeed or both roll back. The e-book accepts one transaction across aggregates for side effects of the same command when the business requires it. Publishing from `Place()` runs side effects before anything is saved; anything after the commit needs eventual consistency and compensation, which this requirement rules out."
   },
   {
-    "question": "Which part of a typical store is the weakest candidate for aggregates and domain events?",
+    "question": "`Order` keeps its lines in `private readonly List<OrderLine> _lines` and exposes `public IReadOnlyList<OrderLine> Lines => _lines;`. What can outside code do?",
     "options": [
-      "Stock reservation across warehouses with limited quantities",
-      "Order placement with payment and fulfilment states",
-      "An admin screen that edits CMS block content",
-      "Price calculation with tiered and customer-group discounts"
+      "Nothing harmful: the `IReadOnlyList<T>` return type makes the list itself immutable",
+      "Cast `Lines` back to `List<OrderLine>` and add lines that skip every rule of `AddLine`",
+      "Only read the lines, because the compiler rejects any cast from an interface to a class",
+      "Add lines, but only until `Place()` runs, because `Place` freezes the underlying list"
     ],
-    "answer": 2,
-    "explanation": "DDD pays off where invariants are hard to keep. Editing a CMS block has almost no rules, so a DTO and a plain update are simpler. Stock, orders and pricing all have invariants that an aggregate can protect."
+    "answer": 1,
+    "explanation": "The property returns the same `List<OrderLine>` object typed as an interface; the type hides `Add`, but a cast gets it back, and the cast is legal C#. `_lines.AsReadOnly()` returns a `ReadOnlyCollection<T>` wrapper, so the cast fails and the aggregate stays the only way in. Nothing in `Place` changes the list object, so it never freezes it."
   }
 ]

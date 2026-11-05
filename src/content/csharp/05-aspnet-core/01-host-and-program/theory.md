@@ -1,18 +1,25 @@
 # The Host and Program.cs
 
-After this lesson you can read the `Program.cs` of any modern ASP.NET Core app, say what the host does before the first request arrives, and predict which state lives for one request and which lives for the whole process. That last point is the biggest change from PHP, and most of this module builds on it.
+After this lesson you can read the `Program.cs` of any modern ASP.NET Core app, say what the host does before the first request arrives, and predict which state lives for one request and which lives for the whole process. Most of this module builds on that last point.
 
-## Coming from PHP/Magento
+You need: 01/02 (`dotnet new` and `dotnet run`), 02/04 (lambdas), 04/02 (`async` and `await`) and 04/05 (threads, the thread pool and `Interlocked`).
 
-In Magento, nginx hands each request to a PHP-FPM worker. The worker boots the application (`app/bootstrap.php`, the object manager, the merged `di.xml`), handles one request and throws every object away. Statics, singletons from the object manager, a counter in a class property: all of it dies at the end of the request. Caches survive only because they live outside PHP, in Redis or Varnish.
+## A request and a response
 
-ASP.NET Core inverts this. `dotnet run` starts one process that boots once, then serves requests concurrently on a thread pool until it is told to stop. The web server, Kestrel, runs inside that process. There is no FPM pool and no per-request boot.
+A web API is a program that waits for messages over the network and answers them. The protocol is HTTP. A client (a browser, a mobile app, another server) sends a **request**: a method that says what it wants (`GET` to read, `POST` to create, `PUT` to replace, `DELETE` to remove), a path such as `/products/42`, headers (`Accept: application/json`) and, for some methods, a body. The server sends back a **response**: a status code (`200 OK`, `404 Not Found`, `500 Internal Server Error`), headers and usually a body, here JSON.
 
-What transfers: constructor injection, configuration per environment, a front controller that dispatches to handlers. The trap: anything you put in a static field or a singleton is shared by every request and every thread, for hours. Code that is harmless in PHP (a static array used as a cache, a property set during one request) becomes a data leak or a race condition here.
+```text
+GET /time HTTP/1.1                 HTTP/1.1 200 OK
+Host: localhost:5000               Content-Type: application/json
+Accept: application/json
+                                   {"utc":"2026-11-05T10:00:00+00:00"}
+```
+
+Your job in ASP.NET Core is to say which code answers which method and path. `app.MapGet("/time", handler)` means "when a `GET` request for `/time` arrives, run this lambda and turn its return value into the response". Module 06 covers the rest of HTTP.
 
 ## What a host is
 
-A host is the object that owns the app's resources: the dependency injection container, configuration, logging and the hosted services (`IHostedService`). When it starts, it calls `StartAsync` on each hosted service. In a web app, one of those services is the HTTP server. Because everything hangs off one object, the host also controls startup and graceful shutdown.
+A host is the object that owns the app's resources: the dependency injection container, configuration, logging and the hosted services (`IHostedService`). When it starts, it calls `StartAsync` on each hosted service. In a web app, one of those services is the HTTP server, Kestrel, which runs inside your process. Because everything hangs off one object, the host also controls startup and graceful shutdown.
 
 There are two builders for the same idea:
 
@@ -28,7 +35,7 @@ A .NET 10 API template uses top-level statements: the file is the entry point, w
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Register services: this is your di.xml
+// 1. Register services (lesson 02)
 builder.Services.AddSingleton(TimeProvider.System);
 
 var app = builder.Build();
@@ -57,7 +64,7 @@ The safe default matters: a server that forgets the variable runs as Production,
 
 ## One process, many requests
 
-Because the process is long-lived, a captured variable or a static field is a single shared value:
+`dotnet run` starts one process that boots once, then serves requests concurrently on the thread pool until it is told to stop. Nothing is thrown away between requests, so a captured variable or a static field is a single shared value:
 
 ```csharp
 var app = WebApplication.Create(args);
@@ -69,11 +76,11 @@ app.MapGet("/hits", () => Interlocked.Increment(ref hits));
 app.Run();
 ```
 
-Every request increments the same `hits`, and two requests can run at the same instant on different threads, which is why the snippet uses `Interlocked.Increment` instead of `hits++`. In PHP the same code would always return 1. This is useful for genuinely process-wide things (a connection pool, a compiled regex, an in-memory cache) and dangerous for anything that belongs to one user or one request. Per-request data travels with the request: through `HttpContext`, method parameters or scoped services (lesson 02).
+Every request increments the same `hits`, and two requests can run at the same instant on different threads, which is why the snippet uses `Interlocked.Increment` instead of `hits++`. This is useful for genuinely process-wide things (a connection pool, a compiled regex, an in-memory cache) and dangerous for anything that belongs to one user or one request. Per-request data travels with the request: through `HttpContext`, method parameters or scoped services (lesson 02).
 
-Two more consequences of the long-running model, covered in depth elsewhere:
+Two more consequences of the long-running model:
 
-- Blocking a thread with `.Result` or `.Wait()` takes it away from other requests and can starve the thread pool (module 04).
+- Blocking a thread with `.Result` or `.Wait()` takes it away from other requests and can starve the thread pool (04/05).
 - Memory you hold is never freed by "the request ended". A static dictionary that only grows is a leak.
 
 ## Startup and shutdown
@@ -97,19 +104,24 @@ app.Lifetime.ApplicationStopping.Register(() =>
 app.Run();
 ```
 
-In PHP-FPM a deploy just kills idle workers. Here, a deploy that does not wait for graceful shutdown cuts requests in half, so orchestrators give the process a grace period at least as long as the timeout.
+A deploy that kills the process without waiting for graceful shutdown cuts requests in half, so orchestrators give the process a grace period at least as long as the timeout.
+
+## Common mistakes
+
+- **Per-user data in a static field.** A `static Dictionary` filled with the current user's cart is shared by every request and thread: users see each other's data, and concurrent writes can corrupt the dictionary. Keep per-request data in parameters, `HttpContext` or scoped services.
+- **Registering a service after `Build()`.** The container is already built, so the call throws `InvalidOperationException` at startup. Move every `builder.Services` call above `var app = builder.Build();`.
+- **Relying on the default environment.** A server without `ASPNETCORE_ENVIRONMENT` silently runs as Production, and one copied from a laptop may run as Development with detailed error pages. Set the variable in every deployed environment.
 
 ## In practice
 
 - Keep `Program.cs` readable. When registrations grow, move them into extension methods such as `builder.Services.AddCatalog()` (lesson 02 shows the convention) instead of letting the file reach hundreds of lines.
 - Use `WebApplication` for HTTP and `Host.CreateApplicationBuilder` for workers. You will see `Host.CreateDefaultBuilder(...).ConfigureWebHostDefaults(...)` and `Startup` classes in older code and blog posts: they still work, but they are not what new templates generate.
 - Treat static mutable state as a bug unless it is deliberately process-wide and thread-safe.
-- Set `ASPNETCORE_ENVIRONMENT` explicitly in every deployed environment so nobody relies on the default by accident.
-- Usual mistakes: registering services after `Build()`, assuming a request-scoped value can sit in a static field, and doing slow work at startup without a timeout, which delays readiness.
+- Do slow startup work (warming a cache, checking a dependency) with a timeout, because it delays the moment the app can serve traffic.
 
 ## Check yourself
 
-1. Which objects in a Magento request survive until the next request, and which objects in an ASP.NET Core app do?
+1. Which objects in an ASP.NET Core app live for one request, and which live for the whole process?
 2. What happens between `WebApplication.CreateBuilder(args)` and the first line you wrote?
 3. A container orchestrator sends SIGTERM during a deploy. Walk through what the host does and what you control.
 4. Why does the `/hits` example need `Interlocked.Increment`?

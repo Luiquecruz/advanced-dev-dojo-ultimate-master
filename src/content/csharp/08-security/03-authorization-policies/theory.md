@@ -1,14 +1,8 @@
 # Authorization Policies
 
-After this lesson you can protect endpoints with roles, claims and named policies, make "authenticated by default" the rule, write a custom requirement with its handler, and check access to one specific record (resource-based authorization), which is the check most APIs get wrong.
+After this lesson you can protect endpoints with roles, claims and named policies, make "authenticated by default" the rule, write a custom requirement with its handler, and check access to one specific record (resource-based authorization), which is the check most APIs get wrong. There is no ready-made permission tree: you design the permission model from these pieces.
 
-## Coming from PHP/Magento
-
-Magento's admin authorization is a tree of ACL resources in `acl.xml` (`Magento_Catalog::products`), assigned to admin roles, and checked by `ADMIN_RESOURCE` in a controller or by `<resource ref="..."/>` in `webapi.xml`. For customer data, `webapi.xml` uses `<resource ref="self"/>` and a `%customer_id%` parameter that Magento fills from the token, so a customer can only reach their own cart.
-
-What transfers: named permissions checked at the route, and the special treatment of "data that belongs to the caller".
-
-The trap: ASP.NET Core has no `self` and no `%customer_id%` injection. A route like `GET /orders/{id}` with `RequireAuthorization()` only proves the caller signed in; it does not prove the order is theirs. You must load the record and check ownership in code. Also, ASP.NET Core has no ACL tree: there are roles, claims and **policies**, and you design the permission model.
+You need: 08/01 (authentication versus authorization, claims), 08/02 (claim mapping and `RoleClaimType`), 05/02 (service lifetimes) and 06/01 (minimal API endpoints).
 
 ## Applying authorization to endpoints
 
@@ -77,6 +71,7 @@ public sealed class BusinessHoursRequirement(int fromHour, int toHour) : IAuthor
     public int ToHour { get; } = toHour;
 }
 
+// TimeProvider is .NET's injectable clock (lesson 09/02)
 public sealed class BusinessHoursHandler(TimeProvider clock) : AuthorizationHandler<BusinessHoursRequirement>
 {
     protected override Task HandleRequirementAsync(
@@ -148,13 +143,19 @@ public sealed class OrderOwnerHandler : AuthorizationHandler<SameOwnerRequiremen
 
 The example answers `404` instead of `403` for someone else's order, so a caller cannot probe which ids exist; `Results.Forbid()` is the honest alternative when existence is not a secret. For CRUD-style rules (read for everyone, update for admins, delete for owners) one handler can serve several operations with `OperationAuthorizationRequirement`. Ownership can also be enforced in the query itself (`WHERE CustomerId = @sub`); the important part is that the check exists for every object-level endpoint.
 
+## Common mistakes
+
+- **Protecting an id route with `RequireAuthorization()` only.** `GET /orders/{id}` then proves the caller signed in, not that the order is theirs: any customer reads any order by changing the id. Load the record and check ownership.
+- **Role names in the wrong case.** `[Authorize(Roles = "Admin")]` never matches a token whose role claim is `admin`, so every call gets `403`. Use the issuer's exact spelling behind a named policy.
+- **Expecting a silent handler to deny.** A handler that never calls `Succeed` does not fail the requirement; if another handler succeeds, access is granted. Call `context.Fail()` when a rule must veto.
+- **Checking ownership only in the frontend.** Hiding a button stops nobody who calls the API directly. The check runs on the server.
+
 ## In practice
 
 - Set a fallback policy that requires an authenticated user, mark public endpoints with `AllowAnonymous()`, and give every write a named policy.
 - Name policies after capabilities (`CatalogWriter`, `RefundApprover`), not after roles, so the mapping can change without touching endpoints.
 - Every endpoint that takes an id needs an ownership or tenant check. Missing it is **Broken Object Level Authorization**, first in the OWASP API Security Top 10 (2023), and lesson 05 comes back to it.
 - Register handlers with a lifetime that matches their dependencies: a handler that uses a `DbContext` must be scoped, not a singleton (the captive dependency from lesson 05/02).
-- Common mistakes: `[Authorize(Roles = "Admin")]` against tokens that carry `admin`; expecting a missing `Succeed` to deny when another handler succeeds; checking ownership in the frontend only.
 
 ## Check yourself
 

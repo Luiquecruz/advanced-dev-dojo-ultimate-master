@@ -2,11 +2,13 @@
 
 After this lesson you can say which EF Core operations are already atomic, open an explicit transaction when one business operation needs several statements, and protect rows against lost updates with optimistic concurrency tokens. You will turn a concurrency conflict into an HTTP 409 and decrement stock safely without any lock in your C# code.
 
-## Coming from PHP/Magento
+You need: 07/02 (`SaveChangesAsync` and the change tracker), 07/04 (`ExecuteUpdateAsync`), 07/05 (mixing EF Core and Dapper), 06/03 (409 and Problem Details), 04/03 (`await using`) and 04/05 (`lock`).
 
-The transaction API maps directly: `$connection->beginTransaction()`, `commit()` and `rollBack()` become `BeginTransactionAsync`, `CommitAsync` and disposing the transaction without committing. What changes is how often you need it, because `SaveChangesAsync` already wraps all its pending changes in a transaction.
+## Transactions and the lost update
 
-The harder problem is the **lost update**. Two admins open the same product, both change it, and the second save silently overwrites the first. Magento's inventory reservations exist for a related reason: concurrent checkouts must not read and rewrite the same stock value. In ASP.NET Core the risk is higher than you might expect, because one process serves many requests in parallel, and a `lock` statement in C# protects nothing once you run two instances. The database has to arbitrate, and EF Core's tool for that is the concurrency token.
+A **transaction** groups several statements so that they commit together or not at all: either the order is saved and the stock is decremented, or neither happens. EF Core opens one for you inside every `SaveChangesAsync`, so you need an explicit one less often than you might think.
+
+Transactions do not solve the harder problem, the **lost update**. Two administrators load the same product at stock 10. One sets the price to 12, the other sets the stock to 8, and each sends the whole product back with `PUT`, as the endpoint below does. The second request writes the old price back over the first: nobody gets an error, and the first change is gone. With stock the same pattern sells the last unit twice. One ASP.NET Core process serves many requests in parallel, and a C# `lock` (04/05) protects nothing once you run two instances. The database has to arbitrate, and EF Core's tools for that are concurrency tokens and conditional updates.
 
 ## What is atomic already
 
@@ -125,12 +127,18 @@ if (reserved == 0)
 
 The condition and the decrement run atomically in the database, so two concurrent requests can never both take the last unit. The guard comes first because `ExecuteUpdateAsync` runs immediately with no validation step: with a negative `quantity`, `Stock >= quantity` matches any product and `Stock - quantity` adds stock.
 
+## Common mistakes
+
+- **A C# `lock` around load, change and save.** It serializes threads in one process only; a second instance, or a write from another tool, still loses updates. Use a concurrency token or a conditional `ExecuteUpdateAsync`.
+- **Retrying the same save after a conflict.** Catching `DbUpdateConcurrencyException` and calling `SaveChangesAsync` again throws again, because the original value is still stale. Reload the row, reapply the change, or return 409.
+- **Two `ExecuteUpdateAsync` calls treated as one.** Each is its own transaction, so a failure in the second leaves the first applied. Wrap them in an explicit transaction.
+- **A transaction around a remote call.** Row locks stay held while you wait, blocking other requests. Call out first, then open a short transaction.
+
 ## In practice
 
 - Default to `SaveChangesAsync` atomicity; add an explicit transaction only when one operation spans several saves or tools.
 - Put a concurrency token on aggregates people edit through forms or APIs, and return 409 with Problem Details on conflict. Use conditional `ExecuteUpdateAsync` for counters and stock.
 - Higher isolation levels (`BeginTransactionAsync(IsolationLevel.Serializable)`) also prevent conflicts, but they hold locks or raise serialization errors, and require the whole read-modify-write inside one transaction.
-- Usual mistakes: `lock` in C# to protect database rows, long transactions around remote calls, catching `DbUpdateConcurrencyException` and saving again without reloading, and forgetting that two `ExecuteUpdateAsync` calls are not atomic together.
 
 ## Check yourself
 

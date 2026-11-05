@@ -1,6 +1,6 @@
 {
   "title": "EF Core Migrations",
-  "summary": "Creating, reviewing and applying EF Core migrations, the rename trap, data backfills, and choosing bundles, idempotent scripts or runtime migration for production, compared with Magento's db_schema.xml.",
+  "summary": "Creating, reviewing and applying EF Core migrations, the rename trap, data backfills, and choosing bundles, idempotent scripts or runtime migration for production, and the mistakes that lose data or race on deploy.",
   "level": "intermediate",
   "tags": [
     "recommended",

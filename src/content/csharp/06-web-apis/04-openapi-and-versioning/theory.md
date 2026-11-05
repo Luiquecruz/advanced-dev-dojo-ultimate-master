@@ -2,11 +2,11 @@
 
 An API without a machine-readable description gets integrated by guesswork. After this lesson you can generate an OpenAPI 3.1 document from your endpoints with the first-party `Microsoft.AspNetCore.OpenApi` package, make it accurate (response types, names, summaries), add a UI when you want one, and plan how the API will change without breaking its clients.
 
-## Coming from PHP/Magento
+You need: 06/01 (`TypedResults` and route groups), 06/02 (binding sources), 05/01 (environments), 01/04 (NuGet packages and the `.csproj` file) and 02/03 (records).
 
-Magento builds its schema from `webapi.xml` and the docblocks of service contract interfaces, serves it as Swagger at `/swagger`, and puts the version in every route (`/V1/products`). Two things transfer directly: the document is generated from code, not written by hand, and the version is part of the public contract.
+## A contract generated from code
 
-The differences: ASP.NET Core reads the C# signatures (parameter types, `TypedResults`, metadata calls), not comments, unless you opt in to XML doc comments. It generates the document only; there is no built-in UI page. And the template maps the document in the `Development` environment only, so `/openapi/v1.json` is a 404 in Production unless you decide otherwise.
+**OpenAPI** is a standard JSON (or YAML) format that describes an HTTP API: every path, method, parameter, request body and response, with the shape of the JSON. Client teams read it, tools generate typed clients from it, and test tools call the API from it. ASP.NET Core generates the document from your C# signatures (parameter types, `TypedResults`, metadata calls), not from comments unless you opt in to XML doc comments. It generates the document only; there is no built-in UI page. And the template maps the document in the `Development` environment only, so `/openapi/v1.json` is a 404 in Production unless you decide otherwise.
 
 ## Generating the document
 
@@ -84,7 +84,7 @@ When a break is unavoidable, choose where the version lives:
 
 | Style | Example | Notes |
 | --- | --- | --- |
-| URL segment | `/v2/products` | Visible, easy to route and cache; Magento's style |
+| URL segment | `/v2/products` | Visible, easy to route and cache; the most common style |
 | Query string | `/products?api-version=2.0` | One URL per resource |
 | Header | `Api-Version: 2.0` | Clean URLs, harder to try in a browser |
 | Media type | `Accept: application/json;v=2.0` | Versions the representation, least familiar to clients |
@@ -111,6 +111,12 @@ v2.MapGet("/{sku}", (string sku) => $"v2 {sku}");
 ```
 
 To publish one OpenAPI document per version, register `AddOpenApi("v1")` and `AddOpenApi("v2")`. Each document includes the endpoints whose group name matches it (`WithGroupName("v2")`) plus every endpoint without a group name; the project also offers an `Asp.Versioning.OpenApi` package for this.
+
+## Common mistakes
+
+- **Plain `Results.Ok(...)` handlers.** The generator cannot see the response type, so the document shows no schema and generated clients return untyped data. Use `TypedResults` with `Results<...>`, or add `.Produces<T>()`.
+- **Renaming a response field in place.** Renaming `price` to `unitPrice` compiles and passes your own tests, while every existing client reads `null` from then on. Add the new field next to the old one, or publish a new version.
+- **Expecting the document in Production.** The template maps it only in Development, so a deployed client generator gets 404. Map it deliberately, protected if needed.
 
 ## In practice
 

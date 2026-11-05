@@ -1,10 +1,8 @@
 # Project P5: Order Processing Worker
 
-In this project you add asynchronous order processing to the catalog API from P2–P4. The API publishes an `OrderPlaced` message to RabbitMQ, and a separate Worker Service consumes it, reserves stock idempotently and sends poison messages to a dead-letter queue.
+In this project you add asynchronous order processing to the catalog API from P2–P4. The API publishes an `OrderPlaced` message to RabbitMQ, and a separate Worker Service consumes it, reserves stock idempotently and sends poison messages to a dead-letter queue. The worker runs for days, so it creates a DI scope per message, and the broker can deliver a message twice, so the handler is idempotent.
 
-## Coming from PHP/Magento
-
-In Magento this would be a `communication.xml` topic, a `queue_topology.xml` binding, a `queue_consumer.xml` handler and `bin/magento queue:consumers:start`. Here each becomes code you own: the worker and a RabbitMQ policy declare the queue and its dead-letter route, the handler is a scoped class, and the consumer loop is a `BackgroundService`. Drop two habits: assuming the consumer restarts after N messages (this one runs for days, so scopes are per message) and assuming the broker never delivers twice (it does, so the handler is idempotent).
+You need: 10/01 (hosted services and scopes), 10/03 (the RabbitMQ client), 10/04 (idempotency and dead letters), 07/06 (transactions), 09/04 (Testcontainers) and the P4 project (09/05).
 
 ## Goal
 
@@ -77,7 +75,7 @@ Run the API and the worker with `dotnet run`.
 ## Where to get help
 
 - This module: lesson 01 (hosted services and scopes), lesson 03 (RabbitMQ client), lesson 04 (idempotency, dead letters, outbox).
-- Module 05 lesson 02 (lifetimes), module 07 (EF Core, migrations, transactions), module 09 lesson 04 (Testcontainers).
+- 05/02 (lifetimes), module 07 (EF Core, migrations, transactions), 09/04 (Testcontainers).
 - Microsoft: [Background tasks with hosted services](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-10.0) and the [Idempotent Consumer pattern](https://learn.microsoft.com/en-us/azure/architecture/patterns/idempotent-consumer).
 - RabbitMQ: the [.NET work queues tutorial](https://www.rabbitmq.com/tutorials/tutorial-two-dotnet) and [dead letter exchanges](https://www.rabbitmq.com/docs/dlx).
 

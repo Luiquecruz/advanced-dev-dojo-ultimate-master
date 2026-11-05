@@ -1,6 +1,6 @@
 [
   {
-    "question": "In Magento a leak disappears when the PHP-FPM request ends. Your .NET API's memory has grown for six hours under steady traffic. What is the right first step?",
+    "question": "Your .NET API's memory has grown for six hours under steady traffic. What is the right first step?",
     "options": [
       "Take a full `dotnet-dump` immediately, since only a dump can show memory",
       "Restart the pod every hour, since .NET processes are expected to grow",

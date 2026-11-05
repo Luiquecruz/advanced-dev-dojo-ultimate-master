@@ -1,6 +1,6 @@
 [
   {
-    "question": "In a Magento module you built a new Guzzle client per call and it was fine. You port the ERP integration to an ASP.NET Core API and write `using var http = new HttpClient();` inside `GetStockAsync`. Under load, what goes wrong?",
+    "question": "An ERP integration in an ASP.NET Core API creates `using var http = new HttpClient();` inside `GetStockAsync`. Under load, what goes wrong?",
     "options": [
       "Nothing: `using` disposes the client, which closes the socket immediately",
       "Requests serialize, because each `HttpClient` allows one request at a time",
@@ -8,7 +8,7 @@
       "The JSON serializer is recreated per call, which is the main cost"
     ],
     "answer": 2,
-    "explanation": "Disposing an `HttpClient` disposes its handler, and the operating system keeps closed connections around for a while. A PHP-FPM worker dies after the request, but a .NET API keeps creating connections and runs out of ports. Get clients from `IHttpClientFactory`, which pools the handlers. `using` does close the client, but the socket is not released immediately, which is the whole problem."
+    "explanation": "Disposing an `HttpClient` disposes its handler, and the operating system keeps closed connections around for a while. A long-running API keeps creating connections and runs out of ports. Get clients from `IHttpClientFactory`, which pools the handlers. `using` does close the client, but the socket is not released immediately, which is the whole problem."
   },
   {
     "question": "`StockCache` is registered as a singleton and takes the typed client `ErpClient` in its constructor. What is the risk?",
@@ -33,7 +33,7 @@
     "explanation": "The 10-second attempt timeout throws `TimeoutRejectedException`, which the retry handles, and by default the standard handler retries every HTTP method. If the provider had processed the first attempt, the retry duplicates it. Use `options.Retry.DisableForUnsafeHttpMethods()` or make the call idempotent with a key. The breaker only opens at a 10% failure ratio over at least 100 calls, and the total budget is 30 seconds."
   },
   {
-    "question": "Which component is the .NET counterpart of a Guzzle `Middleware::mapRequest` that adds an API key header?",
+    "question": "Which component should add an API key header to every outgoing request of a typed client?",
     "options": [
       "A `DelegatingHandler` registered as transient and added with `AddHttpMessageHandler<T>()`",
       "An ASP.NET Core middleware added with `app.Use(...)` in `Program.cs`",
@@ -41,7 +41,7 @@
       "A `DefaultRequestHeaders` entry set inside each typed client method"
     ],
     "answer": 0,
-    "explanation": "A `DelegatingHandler` sits in the outgoing `HttpClient` pipeline and sees every request, just like a Guzzle middleware in a `HandlerStack`. ASP.NET Core middleware and endpoint filters handle incoming requests to your own API, not outgoing calls. Setting `DefaultRequestHeaders` per call mutates shared state on the client and is not thread-safe."
+    "explanation": "A `DelegatingHandler` sits in the outgoing `HttpClient` pipeline and sees every request and response of that client. ASP.NET Core middleware and endpoint filters handle incoming requests to your own API, not outgoing calls. Setting `DefaultRequestHeaders` per call mutates shared state on the client and is not thread-safe."
   },
   {
     "question": "A teammate adds `AddStandardResilienceHandler()` to a client that already has a custom `AddResilienceHandler(\"erp\", ...)` pipeline, \"for extra safety\". What does Microsoft recommend?",

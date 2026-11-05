@@ -2,17 +2,19 @@
 
 After this lesson you can design for at-least-once delivery: a consumer that absorbs duplicates, retries that separate transient from permanent failures, a dead-letter path for poison messages, and a transactional outbox so that a saved order always produces its message. You also know where MassTransit stands after its licence change.
 
-## Coming from PHP/Magento
+You need: 10/03 (brokers and acknowledgements), 10/01 (`BackgroundService`), 07/02 (`SaveChangesAsync`), 07/06 (transactions and unique constraints) and 04/01 (exceptions).
 
-A typical Magento flow saves the order and then calls `$publisher->publish('sales.order.placed', $data)`. Two writes, two systems, no shared transaction. If the broker is down after the save, the order exists and nobody is told. If the publish happens inside a transaction that later rolls back, consumers act on an order that does not exist. And a consumer that crashes before acknowledging gets the message again.
+## The dual write
 
-None of this changes in .NET: you design for it explicitly, with the patterns below. The trap is believing that broker features solve it. Duplicate detection or a quorum queue reduce duplicates and loss, but they cannot make your database write and your message happen together.
+A typical flow saves the order and then publishes `OrderPlaced` to the broker. Two writes, two systems, no shared transaction. If the broker is down after the save, the order exists and nobody is told. If the publish happens inside a transaction that later rolls back, consumers act on an order that does not exist. And a consumer that crashes before acknowledging gets the message again.
+
+Broker features reduce duplicates and loss, but they cannot make your database write and your message happen together. You design for that with the patterns below.
 
 ## Delivery guarantees
 
 - **At-most-once**: acknowledge before processing (RabbitMQ `autoAck`, Service Bus receive-and-delete). A crash loses the message.
-- **At-least-once**: acknowledge after processing. A crash between the work and the acknowledgement redelivers the message. This is the default of RabbitMQ, Kafka and Service Bus used correctly.
-- **Effectively-once**: at-least-once delivery plus a consumer that ignores duplicates. Exactly-once delivery across a broker and your database is impractical; effectively-once processing is the goal.
+- **At-least-once**: acknowledge after processing. A crash between the work and the acknowledgement redelivers the message.
+- **Effectively-once**: at-least-once delivery plus a consumer that ignores duplicates. Exactly-once delivery across a broker and your database is impractical; this is the goal instead.
 
 So the rule is: **every consumer must be idempotent**. Producers retry sends, brokers redeliver after lost acknowledgements, and operators resubmit dead letters.
 
@@ -49,26 +51,26 @@ public async Task HandleAsync(OrderPlaced message, Guid messageId, CancellationT
 }
 ```
 
-The `AnyAsync` check handles the common case. Two instances can still pass it at the same moment; the composite key makes the second `SaveChangesAsync` fail with a `DbUpdateException` whose inner error is a unique violation (SQLSTATE `23505` in PostgreSQL), which you treat as a duplicate. The key includes the consumer name because several consumers of the same published event each need their own marker. Keep markers at least as long as the broker can still redeliver, and longer if dead letters are resubmitted.
+The `AnyAsync` check handles the common case. Two instances can still pass it at the same moment; the composite key makes the second `SaveChangesAsync` fail with a `DbUpdateException` whose inner error is a unique violation (SQLSTATE `23505` in PostgreSQL), which you treat as a duplicate. The key includes the consumer name because each consumer of an event needs its own marker. Keep markers at least as long as the broker can still redeliver.
 
-The id must be stable across redeliveries: a `MessageId` set by the producer, ideally derived from the business operation, never a delivery tag or a receive timestamp.
+The id must be stable across redeliveries: a `MessageId` set by the producer, ideally derived from the business operation, never a delivery tag, a delivery count or a receive timestamp.
 
 ## Retries and poison messages
 
 Separate failures by kind:
 
-- **Transient**: a timeout, a deadlock, the database restarting. Retry, with a delay that grows, because an immediate retry usually hits the same problem.
-- **Permanent**: invalid JSON, an unknown SKU, a bug. Retrying will fail every time. This is a **poison message**: send it to a dead-letter queue, alert, and fix it by hand.
+- **Transient**: a timeout, a deadlock, the database restarting. Retry, with a delay that grows (1 s, 2 s, 4 s: **exponential backoff**), because an immediate retry usually hits the same problem.
+- **Permanent**: invalid JSON, an unknown SKU, a bug. Retrying will fail every time. This is a **poison message**: send it to a dead-letter queue at once, alert, and fix it by hand.
 
-Brokers count deliveries for you:
+A consumer can retry a few times in process before it dead-letters the message. The broker counts deliveries too, as an outer loop:
 
-- **Azure Service Bus** moves a message to the queue's dead-letter subqueue (`<queue>/$deadletterqueue`) when its delivery count exceeds `MaxDeliveryCount`, 10 by default; a consumer can also call `DeadLetterMessageAsync` for a message it knows is invalid. Dead letters never expire and stay until someone receives and completes them.
-- **RabbitMQ** quorum queues have a delivery limit, 20 by default since RabbitMQ 4.0. Past it, the message is dropped, or dead-lettered if the queue has a dead-letter exchange. Configure `dead-letter-exchange` and `delivery-limit` with a **policy** rather than hard-coded `x-` queue arguments, so they can change without redeploying. In 4.3 and later, `BasicRejectAsync` and a consumer crash count towards the limit; `BasicNackAsync` does not.
-- **Kafka** consumers have no built-in dead-letter queue: the consumer publishes the failed record to a separate topic itself and commits the offset.
+- **Azure Service Bus** moves a message to the queue's dead-letter subqueue (`<queue>/$deadletterqueue`) when its delivery count exceeds `MaxDeliveryCount`, 10 by default; a consumer can also call `DeadLetterMessageAsync` itself.
+- **RabbitMQ** quorum queues have a delivery limit, 20 by default since RabbitMQ 4.0. Past it, the message is dropped, or dead-lettered if the queue has a dead-letter exchange. Set `dead-letter-exchange` and `delivery-limit` with a **policy**, not hard-coded queue arguments. In 4.3 and later, `BasicRejectAsync` and a consumer crash count towards the limit; `BasicNackAsync` does not.
+- **Kafka** has no built-in dead-letter queue: the consumer publishes the failed record to a separate topic and commits the offset.
 
 ## The transactional outbox
 
-The outbox solves the producer's dual write. Instead of publishing inside the request, save the message to an `OutboxMessages` table **in the same transaction** as the order. A background worker reads unpublished rows, publishes them and marks them as sent.
+The outbox solves the producer's dual write: save the message to an `OutboxMessages` table **in the same transaction** as the order, and let a background worker publish unpublished rows and mark them as sent.
 
 ```csharp
 // In the endpoint: one SaveChangesAsync, one database transaction
@@ -97,17 +99,23 @@ foreach (OutboxMessage message in batch)
 }
 ```
 
-`SaveChangesAsync` applies all tracked changes in one transaction by default, so the order and its message are saved together or not at all. The relay can still crash after publishing and before marking the row, so the message may be published twice; that is why the outbox **requires** idempotent consumers. Use the outbox row's `Id` as the broker `MessageId`, which also lets Service Bus duplicate detection (Standard and Premium tiers, 10-minute window by default) drop resends. If several relay instances run, make sure two of them cannot take the same rows, for example with one relay instance or with row locking (`FOR UPDATE SKIP LOCKED` in PostgreSQL).
+`SaveChangesAsync` applies all tracked changes in one transaction by default, so the order and its message are saved together or not at all. The relay can still crash after publishing and before marking the row, so the message may be published twice; that is why the outbox **requires** idempotent consumers. Use the outbox row's `Id` as the broker `MessageId`, so Service Bus duplicate detection (10-minute window by default) can also drop resends. Several relay instances must not take the same rows: use row locking (`FOR UPDATE SKIP LOCKED` in PostgreSQL).
 
 ## Libraries and the MassTransit licence
 
-Frameworks package all of this (retries, dead letters, outbox, inbox) on top of several brokers; Microsoft's idempotent consumer guidance names NServiceBus and MassTransit. MassTransit v9 is a commercial product that must be licensed (Massient, Inc.); earlier versions remain under a permissive open-source licence, and the end of v8 support could not be verified. Check the licence as you would a Magento Marketplace extension. The alternative is this lesson's toolkit: a broker client, an outbox table, an inbox table and a retry policy, which is little code for a few message types. The choice is the team's.
+Frameworks package retries, dead letters, outbox and inbox on top of several brokers; Microsoft's idempotent consumer guidance names NServiceBus and MassTransit. MassTransit v9 is a commercial product that must be licensed (Massient, Inc.); earlier versions remain open source. The alternative is this lesson's toolkit, which is little code for a few message types. The choice is the team's.
+
+## Common mistakes
+
+- **Marking the message processed before the work succeeds.** A failure after the marker turns the redelivery into a "duplicate", and the order is silently dropped. Write the marker in the same transaction as the side effect.
+- **Publishing right after `SaveChangesAsync`, without an outbox.** A broker outage in between leaves saved orders nobody hears about. Save the message with the order.
+- **Retrying poison messages.** Invalid data fails on every attempt, so retries only delay the dead letter. Dead-letter permanent failures at once.
+- **Deduplicating in a cache with check-then-set.** Two instances both see "not processed" and both do the work. Let a unique key in the database decide.
 
 ## In practice
 
 - Give every message a producer-assigned id and every consumer an idempotency strategy before the first deploy.
 - Configure a dead-letter destination for every queue and monitor its depth.
-- Usual mistakes: publishing inside the database transaction (or after it, without an outbox), deduplicating in a cache with check-then-set races, deleting inbox markers too early, and treating broker duplicate detection as a replacement for idempotent consumers.
 
 ## Status as of 2026-11-05
 

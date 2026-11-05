@@ -1,6 +1,6 @@
 [
   {
-    "question": "Your team proposes splitting a Magento-style store into Catalog, Inventory and Ordering services that keep reading the same MySQL schema. What have they built?",
+    "question": "Your team proposes splitting an online store into Catalog, Inventory and Ordering services that keep reading the same MySQL schema. What have they built?",
     "options": [
       "Microservices, because each service runs in its own container and scales on its own",
       "A distributed monolith: coupled through one schema, now with network calls",

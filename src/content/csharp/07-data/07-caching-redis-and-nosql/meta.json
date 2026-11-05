@@ -1,6 +1,6 @@
 {
   "title": "Caching, Redis and NoSQL",
-  "summary": "IMemoryCache, IDistributedCache with Redis and HybridCache with stampede protection and tags, invalidation across instances, and when a document or key-value store fits better than SQL, compared with Magento's Redis and Varnish.",
+  "summary": "IMemoryCache, IDistributedCache with Redis and HybridCache with stampede protection and tags, invalidation across instances, and when a document or key-value store fits better than SQL, and the cache mistakes that serve stale or foreign data.",
   "level": "intermediate",
   "tags": ["recommended", "core", "theory"],
   "resources": [

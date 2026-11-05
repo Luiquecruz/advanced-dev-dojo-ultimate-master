@@ -1,6 +1,6 @@
 [
   {
-    "question": "Your Magento project ran PHPStan as a separate Composer tool in the pipeline. What is the closest equivalent for a new .NET 10 service?",
+    "question": "A new .NET 10 service needs static analysis for reliability and security bugs in CI. What is the right starting point?",
     "options": [
       "Install a static analysis NuGet package, because .NET has no analysis by default",
       "Run a separate analysis tool after `dotnet build`, because the compiler does not check quality",

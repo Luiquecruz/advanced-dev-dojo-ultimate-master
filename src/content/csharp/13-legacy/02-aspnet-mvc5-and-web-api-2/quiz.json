@@ -8,7 +8,7 @@
       "The session has already expired, because `Task.Run` waits for the request to end"
     ],
     "answer": 0,
-    "explanation": "`HttpContext.Current` behaves like a PHP superglobal only while code runs in the request context; a background task has no current request, so it is `null`. There is no `web.config` switch that disables session for tasks, which makes the second option a plausible but invented cause."
+    "explanation": "`HttpContext.Current` exists only while code runs in the request context; a background task on a thread-pool thread has no current request, so it is `null`. There is no `web.config` switch that disables session for tasks, which makes the second option a plausible but invented cause."
   },
   {
     "question": "A team adds a global authorization filter with `FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters)`. Pages are protected, but `/api/orders` is still open. What is the most likely reason?",
@@ -30,7 +30,7 @@
       "The `bin` folder, to see which assemblies were deployed with the site"
     ],
     "answer": 1,
-    "explanation": "`Application_Start` registers areas, Web API routes, filters, MVC routes and bundles through the `App_Start/*Config` classes, so it is the map of the app, like Magento's bootstrap. `packages.config` lists what is installed, not what is actually wired up."
+    "explanation": "`Application_Start` registers areas, Web API routes, filters, MVC routes and bundles through the `App_Start/*Config` classes, so it is the map of what the app turns on. `packages.config` lists what is installed, not what is actually wired up, and `Views/web.config` only configures Razor."
   },
   {
     "question": "A Web API 2 app uses the default route `api/{controller}/{id}`. Which method answers `GET /api/products/5` in `ProductsController : ApiController`?",

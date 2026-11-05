@@ -2,11 +2,13 @@
 
 After this lesson you can plan the move of an ASP.NET Framework app to ASP.NET Core on .NET 10: choose between an in-place and an incremental migration, set up a Strangler Fig proxy with YARP, order the library upgrades, use the System.Web adapters for shared code, and pick the tooling Microsoft supports today.
 
-## Coming from PHP/Magento
+You need: 05/03 (configuration), 05/05 (middleware), 06/01 (routing endpoints), 08/01 (authentication) and lessons 1 to 3 of this module.
 
-Many Magento 1 to Magento 2 projects were big-bang cutovers: build the new store next to the old one, run the Data Migration Tool, switch DNS on launch night, and hope. If you have ever put nginx in front of a legacy PHP app and sent `location /api/` to a new service while everything else still hit the old code, you have already done the alternative. That is the Strangler Fig pattern, and in .NET the nginx role is played by YARP inside the new ASP.NET Core app.
+## Big bang or strangler
 
-The trap is thinking the proxy is the whole job. Routing is the easy part. The hard parts are what the two apps must share while both run: the logged-in user, the session, configuration and the libraries both call. Microsoft's guide spends most of its pages on those.
+A **big-bang** migration builds the new app next to the old one and switches all traffic on one launch night. The alternative puts a proxy in front of the old app and sends one route at a time to the new code, while everything else still reaches the old app. That is the **Strangler Fig** pattern, and in .NET the proxy is YARP, running inside the new ASP.NET Core app.
+
+The proxy is not the whole job. Routing is the easy part. The hard parts are what the two apps must share while both run: the logged-in user, the session, configuration and the libraries both call. Microsoft's guide spends most of its pages on those.
 
 ## In place or incremental
 
@@ -93,14 +95,19 @@ HTTP modules and `Global.asax` events become middleware. When a module cannot be
 
 No tool migrates a real app unattended. Review every generated change as you would review a junior colleague's pull request.
 
+## Common mistakes
+
+- **A big-bang rewrite of a large app.** Months pass with no route in production, the old app keeps changing, and launch night finds every difference at once. Migrate route by route behind the proxy.
+- **Upgrading libraries top-down.** Retargeting `Web` first fails because `Orders`, `Pricing` and `Common` still target only .NET Framework. Upgrade leaves first.
+- **Leaving the old app public next to the proxy.** Users and bots keep calling it directly, bypassing every migrated route. Expose only the proxy.
+- **Treating tool output as finished.** Generated changes compile, but behavior is not verified. Test every migrated route.
+
 ## In practice
 
 - Start with routes that are read-only, have no session and are called often: they prove the proxy and give early value. Leave checkout-like flows with heavy session use for later.
 - Write a test for each migrated route that hits the proxy and asserts the new app answered, plus one for a route that must still reach the old app.
 - Keep logs and correlation IDs consistent across both apps, or you will not be able to debug a request that crosses them.
 - Remove the fallback and the adapters at the end. A "temporary" proxy that stays for years is a second legacy system.
-
-Usual mistakes: a big-bang rewrite of a large app; upgrading libraries top-down; exposing the old app publicly next to the proxy; and treating Upgrade Assistant output as finished.
 
 ## Status as of 2026-11-05
 

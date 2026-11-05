@@ -2,11 +2,21 @@
 
 After this lesson you can open a connection to SQL Server or PostgreSQL from C#, run a parameterized query, read the rows, and pick the right driver package. You will also know why tutorials that still say `using System.Data.SqlClient;` are out of date, and why a .NET app opens and closes connections constantly without paying for it. Everything EF Core and Dapper do later in this module sits on top of what you see here.
 
-## Coming from PHP/Magento
+You need: 04/02 (`async` and `await`), 04/03 (`await using`), 04/04 (cancellation tokens), 05/01 (one process serving many requests) and 05/03 (connection strings in configuration).
 
-PDO is the closest thing you know. `new PDO($dsn)` becomes `new SqlConnection(connectionString)` or an `NpgsqlDataSource`, `$pdo->prepare()` plus `bindValue()` becomes a command with parameters, and `fetch()` in a loop becomes a data reader. Magento hides most of this behind `ResourceConnection` and `$connection->fetchAll($select, $bind)`, but the bound-parameter idea is the same.
+## Tables and SQL in five statements
 
-The traps are about the process model. In PHP-FPM every request opens its own connection and the process discards it at the end; a persistent PDO connection is an opt-in. ASP.NET Core is one long-running process serving many requests at once, and the driver keeps a **connection pool** inside that process. So the rule flips: do not keep a connection in a field or a singleton "to save time". Open one per unit of work, dispose it as soon as you are done, and the pool hands the physical connection to the next caller. The second trap is the market: Magento runs on MySQL, while .NET job postings mostly ask for SQL Server and PostgreSQL.
+A relational database stores data in **tables**: each row is one record, each column has a name and a type, and a **primary key** column (`Sku` below) identifies each row. Rows in different tables point at each other through **foreign keys** (an order line holds the `Sku` of its product). You talk to the database in SQL, and five statements cover most daily work:
+
+```sql
+CREATE TABLE Products (Sku varchar(64) PRIMARY KEY, Name varchar(200) NOT NULL, Price decimal(12,2) NOT NULL);
+INSERT INTO Products (Sku, Name, Price) VALUES ('MUG-1', 'Mug', 9.90);
+SELECT Sku, Name, Price FROM Products WHERE Price <= 20 ORDER BY Sku;
+UPDATE Products SET Price = 11.50 WHERE Sku = 'MUG-1';
+DELETE FROM Products WHERE Sku = 'MUG-1';
+```
+
+`SELECT` reads rows (`WHERE` filters, `ORDER BY` sorts; without it the order is not guaranteed), and `JOIN` combines rows of two tables on a key. An `UPDATE` or `DELETE` without `WHERE` changes every row. The .NET job market asks mostly for SQL Server and PostgreSQL, so this module uses both.
 
 ## ADO.NET: one model, several providers
 
@@ -83,15 +93,24 @@ while (await reader.ReadAsync())
 
 Npgsql accepts positional parameters (`$1`, `$2`) and named ones (`@p1`). In a web app you create the data source once and register it as a singleton, for example `builder.Services.AddSingleton(NpgsqlDataSource.Create(connectionString))`, then call `await dataSource.OpenConnectionAsync()` wherever you need a connection.
 
+## Connection pooling
+
+Opening a physical database connection is slow: a network round trip, authentication, encryption. The driver therefore keeps a **connection pool** inside your process. `OpenAsync` takes an idle connection from the pool when one exists, and disposing the connection returns it to the pool instead of closing it. Because the app is one long-running process serving many requests at once (05/01), the rule is: open a connection per unit of work, as late as possible, and dispose it as soon as you are done. Never keep one in a field or a singleton "to save time": a `SqlConnection` is not thread-safe, and the pool already makes opening cheap. Each distinct connection string gets its own pool, with a default maximum of 100 connections for SqlClient and Npgsql.
+
 ## Connection strings and encryption
 
 `Microsoft.Data.SqlClient` 4.0 changed `Encrypt` to default to `true`, and the driver validates the server certificate. Against a SQL Server container with a self-signed certificate, the first connection fails with a certificate error. `TrustServerCertificate=True` makes it work, and Microsoft's guidance is to use it only in controlled development environments; in production, configure a certificate the client trusts. Connection strings themselves belong in configuration and secrets, never in source code.
+
+## Common mistakes
+
+- **A singleton `SqlConnection`.** Concurrent requests share one connection that is not thread-safe, and fail with "There is already an open DataReader" or corrupted results. Open and dispose a connection per unit of work.
+- **Forgetting `await using`.** Connections never return to the pool; under load the pool runs dry and requests time out waiting for one. Dispose every connection, command and reader.
+- **SQL built with interpolation.** `$"... WHERE Sku = '{sku}'"` lets a crafted value rewrite the statement (SQL injection). Pass values as parameters.
 
 ## In practice
 
 - New SQL Server code uses `Microsoft.Data.SqlClient`; new PostgreSQL code uses `Npgsql` with a data source. When you inherit `System.Data.SqlClient`, plan the migration and run `dotnet list package --include-transitive` to find who still pulls it in.
 - Raw ADO.NET is rarely the whole data layer. Teams use EF Core for most work and Dapper for hand-written SQL; both run on these providers, so the pooling, parameter and encryption rules still apply.
-- Usual mistakes: a static or singleton `SqlConnection` (connections are not thread-safe), forgetting `await using` and exhausting the pool under load, synchronous `ExecuteReader` in request code, and string-built SQL "just for this admin screen".
 
 ## Status as of 2026-11-05
 
@@ -100,6 +119,6 @@ Npgsql accepts positional parameters (`$1`, `$2`) and named ones (`@p1`). In a w
 
 ## Check yourself
 
-1. Why is a singleton `SqlConnection` a bug in ASP.NET Core but a cached PDO handle feels normal in PHP-FPM?
+1. Why is a singleton `SqlConnection` a bug in ASP.NET Core, and why does opening a new connection per unit of work not cost a network round trip each time?
 2. Which `Execute*` method would you use for an `UPDATE`, and what does its return value tell you?
 3. A colleague fixes a certificate error by adding `TrustServerCertificate=True` to the production connection string. What do you propose instead?
