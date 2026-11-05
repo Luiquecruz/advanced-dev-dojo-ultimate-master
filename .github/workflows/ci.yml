@@ -15,6 +15,12 @@ concurrency:
   group: ci-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+# Netlify builds with VITE_SENTRY_DSN set, and the DSN ends up in the main bundle, so every CI build that the smoke job
+# compares with a deploy must use the same value. A DSN is public (it is in the served JavaScript); the repository
+# variable lets the owner change it, and the fallback is the DSN production serves today.
+env:
+  VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN || 'https://4f0ce69f51f3b8886d94bc586fed1ad0@o4512380997074944.ingest.us.sentry.io/4512381161308160' }}
+
 jobs:
   checks:
     name: Lint, typecheck, unit tests, build
