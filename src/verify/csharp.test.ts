@@ -188,6 +188,9 @@ function testViolations(lesson: Lesson): Violation[] {
   if (count < 3 || count > 6) {
     violations.push({ rule: 'tests-count', detail: `tests.cs has ${count} tests, expected 3–6` });
   }
+  if (lesson.challenge.instructions.trimStart().startsWith('#')) {
+    violations.push({ rule: 'challenge-no-h1', detail: 'challenge.md starts with a heading; start with prose (the Challenge tab supplies the title)' });
+  }
   const marked = (tests.match(BEGINNER_MISTAKE) ?? []).length;
   if (marked !== 1) {
     violations.push({ rule: 'tests-beginner-mistake', detail: `tests.cs marks ${marked} tests with "// beginner mistake:" on the line above [Test], expected 1` });

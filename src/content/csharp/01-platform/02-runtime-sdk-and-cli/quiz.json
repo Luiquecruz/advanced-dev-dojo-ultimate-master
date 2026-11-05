@@ -41,7 +41,7 @@
       "Response caching fills up, so repeated requests skip the endpoint"
     ],
     "answer": 1,
-    "explanation": "Tiered compilation is on by default since .NET Core 3.0: methods first run as quickly produced code, and the optimizing JIT later replaces the frequently called ones in the background. Packages are resolved at build and publish time, never downloaded by a running app, so the third option carries over a misconception from runtime package managers. Response caching is not on by default."
+    "explanation": "Tiered compilation is on by default since .NET Core 3.0: methods first run as quickly produced code, and the optimizing JIT later replaces the frequently called ones in the background. Packages are resolved at build and publish time and copied into the output, so a running app never downloads them; the third option describes something .NET does not do. Response caching is not on by default."
   },
   {
     "question": "In `Catalog.Core` you declare `internal static class TaxTable`. The `Catalog.Api` project references `Catalog.Core`. What happens when `Catalog.Api` code uses `TaxTable` directly?",
