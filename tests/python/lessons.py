@@ -13,7 +13,8 @@ ROOT = Path(__file__).resolve().parents[2]
 CONTENT = ROOT / "src" / "content"
 RUNNER = Path(__file__).resolve().parent / "run_lesson.py"
 DEFAULT_ENTRY = "main.py"
-FAKE_MODEL_NAMES = ("dojo_ai", "fake_model", "respond(", "for_each_seed")
+FAKE_MODEL_MODULE = "dojo_ai"
+FAKE_MODEL_GLOBALS = frozenset({"fake_model", "respond", "for_each_seed"})
 LESSON_TIMEOUT_SECONDS = 120
 
 
@@ -32,8 +33,10 @@ class Challenge:
         return {path.relative_to(folder).as_posix(): path.read_text() for path in sorted(folder.rglob("*")) if path.is_file()}
 
     def uses_fake_model(self):
-        sources = [self.tests, *self.files("solution").values()]
-        return any(name in source for source in sources for name in FAKE_MODEL_NAMES)
+        """True when the tests or the solution import `dojo_ai`, or `tests.py` uses `fake_model`, `respond` or `for_each_seed` (harness globals defined only there)."""
+        if self.imports(FAKE_MODEL_MODULE):
+            return True
+        return any(isinstance(node, ast.Name) and node.id in FAKE_MODEL_GLOBALS for node in ast.walk(ast.parse(self.tests)))
 
     def imports(self, module):
         sources = [self.tests, *self.files("solution").values()]
