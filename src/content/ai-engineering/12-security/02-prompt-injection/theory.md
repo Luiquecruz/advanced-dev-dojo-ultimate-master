@@ -44,7 +44,7 @@ If you cannot stop the model from being fooled, limit what a fooled model can do
 | Code-then-execute | the model writes a program up front; untrusted data flows through variables, not through the planner |
 | Context-minimization | remove the user's original prompt or untrusted text from the context before the next step |
 
-**CaMeL** (Google DeepMind) combines the dual LLM and code-then-execute ideas with capabilities: every value carries where it came from and who may receive it, and policies checked at each tool call stop private data from flowing to an unauthorized destination. It solved 77% of the AgentDojo benchmark's tasks with provable security, against 84% undefended: security costs some utility.
+**CaMeL** (Google DeepMind) combines the dual LLM and code-then-execute ideas with capabilities: every value carries where it came from and who may receive it, and policies checked at each tool call stop private data from flowing to an unauthorized destination. In its evaluation the secured agent completed fewer tasks than an undefended one: security costs some utility.
 
 Two simpler rules cover most products. Willison's **lethal trifecta** (lesson 03): never combine private data, untrusted content and external communication in one context. Meta's **Agents Rule of Two** generalizes it: in one session, an agent may have at most two of *processing untrusted input*, *accessing sensitive systems or private data*, and *changing state or communicating externally*; needing all three means a human approves.
 

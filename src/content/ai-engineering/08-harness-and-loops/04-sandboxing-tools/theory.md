@@ -60,7 +60,7 @@ When the jail refuses, return the refusal to the model as a tool result (`Error:
 - Trusting tool-level checks once the agent has a shell.
 - Mounting the home directory, SSH keys or cloud credentials into the sandbox "for convenience".
 
-Optional sandboxes in coding agents use operating-system isolation, route network traffic through a proxy with a domain allowlist that starts empty, and keep settings files write-protected inside the workspace. Default modes limit writes to the workspace and keep network access off unless enabled. Cloud agents commonly run in containers or microVMs with egress proxies.
+Optional sandboxes in coding agents use operating-system isolation and can route network traffic through a proxy with a domain allowlist. Defaults differ by product: some limit writes to the workspace and keep network access off until it is enabled, others allow outbound connections by default, so inspect the selected product's defaults and settings protection before relying on a sandbox. Cloud agents commonly run in containers or microVMs with egress proxies.
 
 ## When to choose it
 

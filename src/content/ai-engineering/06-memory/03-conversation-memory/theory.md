@@ -60,7 +60,7 @@ When to compact is a separate decision: every turn (as in the challenge), past a
 - Re-summarizing the full history every turn.
 - Forgetting that the summary itself counts against the budget and grows.
 
-Provider-side conversation state, automatic compaction and the trimming and summarization helpers of agent frameworks implement the same window-plus-summary idea. You still choose the budget, what must never be trimmed and what happens when compaction fails.
+Provider-side conversation state (it stores the history for you and does not by itself shrink the context) and automatic compaction (it trims or summarizes the history) are separate features, and the trimming and summarization helpers of agent frameworks implement the window-plus-summary idea. You still choose the budget, what must never be trimmed and what happens when compaction fails, and you check whether stored history is still sent to the model, and billed, on every turn.
 
 ## When to choose it
 

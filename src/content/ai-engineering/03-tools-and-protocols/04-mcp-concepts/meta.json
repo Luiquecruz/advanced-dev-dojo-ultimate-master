@@ -1,13 +1,32 @@
 {
   "title": "MCP Concepts",
-  "summary": "Why MCP exists, hosts, clients and servers, tools vs resources vs prompts by who controls them, elicitation, JSON-RPC over stdio and Streamable HTTP, the stateless `2026-07-28` revision, OAuth for remote servers and why servers are dependencies to trust carefully.",
+  "summary": "Why MCP exists, hosts, clients and servers, tools vs resources vs prompts by who controls them, elicitation, JSON-RPC over stdio and Streamable HTTP, the stateless revision of the protocol, OAuth for remote servers and why servers are dependencies to trust carefully.",
   "level": "intermediate",
-  "tags": ["established", "core", "theory"],
+  "tags": [
+    "established",
+    "core",
+    "theory"
+  ],
   "resources": [
-    { "label": "Anthropic: Introducing the Model Context Protocol", "url": "https://www.anthropic.com/news/model-context-protocol" },
-    { "label": "MCP: Architecture overview", "url": "https://modelcontextprotocol.io/docs/learn/architecture" },
-    { "label": "MCP: Server concepts", "url": "https://modelcontextprotocol.io/docs/learn/server-concepts" },
-    { "label": "MCP specification 2026-07-28: Authorization", "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" },
-    { "label": "MCP: Security best practices", "url": "https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices" }
+    {
+      "label": "Anthropic: Introducing the Model Context Protocol",
+      "url": "https://www.anthropic.com/news/model-context-protocol"
+    },
+    {
+      "label": "MCP: Architecture overview",
+      "url": "https://modelcontextprotocol.io/docs/learn/architecture"
+    },
+    {
+      "label": "MCP: Server concepts",
+      "url": "https://modelcontextprotocol.io/docs/learn/server-concepts"
+    },
+    {
+      "label": "MCP specification 2026-07-28: Authorization",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+    },
+    {
+      "label": "MCP: Security best practices",
+      "url": "https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices"
+    }
   ]
 }

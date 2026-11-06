@@ -44,4 +44,4 @@ The obligations phase in: prohibitions and AI literacy first, then the general-p
 
 ## When to choose it
 
-Classify every AI feature against the four tiers as soon as EU users or EU-used outputs are in scope, and record the classification with its reasoning. Transparency duties already apply; plan high-risk work (risk management, logging, oversight, documentation, conformity) now if a feature touches an Annex III area, because the high-risk schedule leaves a limited window to prepare. For GPAI models you fine-tune substantially or release, check whether you have become a model provider.
+Classify every AI feature against the four tiers as soon as EU users or EU-used outputs are in scope, and record the classification with its reasoning. Transparency duties already apply; if a feature touches an Annex III area, plan the high-risk work (risk management, logging, oversight, documentation, conformity) so it is complete before launch, and check the official application dates for the requirements that apply to your feature. For GPAI models you fine-tune substantially or release, check whether you have become a model provider.

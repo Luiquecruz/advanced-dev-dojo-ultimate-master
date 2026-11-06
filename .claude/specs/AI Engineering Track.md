@@ -384,7 +384,7 @@ Governance is not only data governance. It is a stack of controls, each owned by
 
 **Global regulatory map (volatile: confirm dates and status in the official texts)**
 
-The track teaches the stable ideas (risk-based regulation, transparency, human oversight, data protection, accountability) and keeps dates in a dated "status" box per jurisdiction.
+The track teaches the stable ideas (risk-based regulation, transparency, human oversight, data protection, accountability) and sends readers to each jurisdiction's official text for dates and status; a lesson carries no dated box.
 
 | Jurisdiction | Instrument | Status |
 | --- | --- | --- |
@@ -528,7 +528,7 @@ Given a product briefing (users, data sensitivity, scale, regulation), the learn
 
 **Freshness**
 
-- Separate the **stable core** (concepts that last years: retrieval, evals, loops, injection, governance layers) from the **volatile edge** (tools, versions, laws, vendor features). Theory teaches the core; volatile facts sit in a clearly marked "Status as of <date>" box.
+- Separate the **stable core** (concepts that last years: retrieval, evals, loops, injection, governance layers) from the **volatile edge** (tools, versions, laws, vendor features). Theory teaches the core and states volatile facts as the mechanism that stays true or leaves them out, with no dated box; readers are sent to primary sources for current values.
 - Maturity tags on lessons and glossary terms: `established`, `emerging`, `hype-watch`.
 - A `reviewed` date in each lesson's `meta.json` (needs a small loader/UI change) and a quarterly review checklist: regulation table, protocol versions, framework names, model families, OWASP lists.
 - A "What changed" lesson at the end of the track that teaches how to keep the volatile edge current (what belongs to it, how to record changes, how to review them against primary sources), with no dated table.

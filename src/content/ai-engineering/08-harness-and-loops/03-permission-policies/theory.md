@@ -68,7 +68,7 @@ A tool call whose arguments do not parse, or a tool the harness does not know, g
 - Asking so often that humans click "yes" without reading (approval fatigue); move frequent safe calls to `allow`.
 - Treating deny rules on `curl` as network isolation.
 
-Coding agents write permission rules per tool with an optional specifier, usually evaluated deny first, then ask, then allow. Shell rules match per subcommand of compound commands, and path rules use gitignore-style patterns where a single star stays in one segment and a double star crosses directories. Some tools combine approval policies with sandbox modes, and several platforms offer a classifier-based "auto" mode that reviews actions instead of a human.
+Permission rule syntax and semantics vary by agent: some evaluate deny before allow and others let the last matching rule win, and `*` and `**` do not mean the same in every tool. The rules in this lesson are an example policy. Read your agent's documentation and test overlapping rules, compound commands and path patterns before relying on them. Some tools combine approval policies with sandbox modes, and several platforms offer a classifier-based "auto" mode that reviews actions instead of a human.
 
 ## When to choose it
 

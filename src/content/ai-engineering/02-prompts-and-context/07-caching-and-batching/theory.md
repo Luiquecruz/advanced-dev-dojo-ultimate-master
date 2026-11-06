@@ -46,7 +46,7 @@ Exact-match caching of deterministic calls (same prompt version, same inputs, te
 - Batch results matched by position instead of by id.
 - Semantic caching of answers that depend on the user, permissions or fresh data.
 
-Providers differ in how caching works: some cache a stable prefix automatically, others need explicit breakpoints, and each sets a minimum prefix length, a cache lifetime, a write price and a discounted read price. Batch interfaces typically charge about half the interactive price in exchange for results within a day. Check your provider's price page before relying on any number.
+Providers differ in how caching works: some cache a stable prefix automatically, others need explicit breakpoints, and each sets a minimum prefix length, a cache lifetime, a write price and a discounted read price. Batch interfaces typically charge less than interactive calls in exchange for a longer turnaround; the discount and the turnaround are in the provider's documentation, so check them before relying on a number.
 
 ## When to choose it
 

@@ -33,7 +33,7 @@
     "explanation": "Emotion recognition in the workplace and in education is prohibited (except for medical or safety reasons). Credit scoring is high-risk, not prohibited; chatbots carry transparency duties."
   },
   {
-    "question": "A customer-service chatbot serves EU users. Which obligation applies to it even while high-risk duties are scheduled for later?",
+    "question": "A customer-service chatbot serves EU users. Which obligation applies to it whatever the schedule of the high-risk duties?",
     "options": [
       "A conformity assessment and CE marking",
       "Article 50 transparency: people must be told they are interacting with an AI system unless it is obvious",

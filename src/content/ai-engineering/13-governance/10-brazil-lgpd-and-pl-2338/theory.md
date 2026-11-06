@@ -1,6 +1,6 @@
 # Brazil: LGPD and PL 2338
 
-Brazil has no AI-specific statute in force, and AI is not unregulated there. The **LGPD** (Law 13.709/2018) governs every AI system that touches personal data, the data protection authority (**ANPD**) has made AI an enforcement priority, and an AI bill, **PL 2338/2023**, has been in the Chamber of Deputies since the Senate passed it. Separate what binds today from what may come.
+Brazil has no AI-specific statute in force, and AI is not unregulated there. The **LGPD** (Law 13.709/2018) governs every AI system that touches personal data, the data protection authority (**ANPD**) has made AI an enforcement priority, and an AI bill, **PL 2338/2023**, is moving through the National Congress: check the Chamber of Deputies' tracking page for its current stage. Separate what binds today from what may come.
 
 ## What binds today: the LGPD
 
@@ -29,7 +29,7 @@ Other law applies too: the Consumer Defense Code, the Marco Civil da Internet, s
 
 ## What is not law yet: PL 2338/2023
 
-PL 2338/2023, the proposed AI legal framework, was approved by the Senate. Its Senate text is risk-based, in the EU's mold:
+PL 2338/2023 is the proposed AI legal framework. The text that came out of the Senate is risk-based, in the EU's mold:
 
 - **excessive-risk** uses are prohibited; **high-risk** uses (listed in the bill) carry governance, documentation, testing and human oversight duties and an **algorithmic impact assessment**;
 - a **preliminary risk assessment** by providers and deployers before use;
@@ -38,7 +38,7 @@ PL 2338/2023, the proposed AI legal framework, was approved by the Senate. Its S
 - a national system for AI regulation and governance (**SIA**) coordinated by the ANPD, with sector regulators;
 - fines of up to R$50 million or 2% of revenue per infraction.
 
-None of this binds anyone until the Chamber approves the bill (with changes, it returns to the Senate) and the President signs it, followed by the transition period the final text sets. The Executive also sent a separate bill (PL 6.237/2025) to create the SIA structure, which the Chamber analyzes as well.
+None of this binds anyone until both houses approve the bill (changes made by the second house send it back to the first) and the President signs it, followed by the transition period the final text sets. The Executive also sent a separate bill (PL 6.237/2025) to create the SIA structure, which Congress analyzes as well.
 
 ## Designing for Brazil now
 
