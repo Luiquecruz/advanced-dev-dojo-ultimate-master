@@ -66,4 +66,4 @@ Official libraries: **Vue Router** (routing), **Pinia** (state management, the s
 
 ## Where Vue is heading
 
-Vue 3.5 brought a faster, lighter reactivity system, reactive props destructure and `useTemplateRef`. Vue 3.6 adds **Vapor Mode**, an opt-in compilation mode for SFCs that skips the virtual DOM and updates the DOM directly from reactive effects, and rebuilds `@vue/reactivity` on top of the `alien-signals` algorithm. Your component code stays the same: these are compiler and runtime improvements, which is the benefit of a template-driven framework.
+Vue 3.5 brought a faster, lighter reactivity system, reactive props destructure and `useTemplateRef`. Vue 3.6 (a prerelease; the course installs Vue 3.5, so Vapor Mode is not available here) adds **Vapor Mode**, an opt-in compilation mode for SFCs that skips the virtual DOM and updates the DOM directly from reactive effects, and rebuilds `@vue/reactivity` on top of the `alien-signals` algorithm. Your component code stays the same: these are compiler and runtime improvements, which is the benefit of a template-driven framework.
