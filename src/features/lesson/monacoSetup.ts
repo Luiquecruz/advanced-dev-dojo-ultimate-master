@@ -8,7 +8,7 @@ import type { EngineId } from '@/content';
 import { GLOBALS_DECLARATION, GLOBALS_FILE_NAME, TEST_HELPERS_DECLARATION, TEST_HELPERS_FILE_NAME } from '@/engines/typescript/environment';
 import { FAKE_MODEL_DECLARATION } from '@/engines/shared/fakeModelDeclaration';
 
-export const EDITOR_THEME = 'dev-dojo';
+export const EDITOR_THEME = 'constela';
 
 const MODULE_DETECTION_FORCE = 3;
 
