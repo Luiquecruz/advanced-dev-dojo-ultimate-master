@@ -1,15 +1,17 @@
 """Every Python challenge graded under CPython with the real harness: the solution passes every test, the starter fails one.
 
 The same checks run under Pyodide in `npm run verify`; this suite confirms the lessons teach CPython behavior, not
-Pyodide quirks. Lessons that use the fake model (`dojo_ai`) are skipped: it runs only in Pyodide.
+Pyodide quirks. Lessons that use the fake model (`dojo_ai`) are skipped: it runs only in Pyodide. Use is read from the code with
+`ast` and `symtable` (`Challenge.uses_fake_model`), so a learner name that only resembles the fake model's does not skip a lesson.
 """
 
 import importlib.util
 import os
+import textwrap
 
 import pytest
 
-from lessons import find_challenges, grade
+from lessons import Challenge, find_challenges, grade
 
 CHALLENGES = find_challenges()
 REQUIRED_PACKAGES = ("pydantic",)
@@ -43,6 +45,60 @@ def _failures(result):
 
 def test_finds_the_python_challenges():
     assert len(CHALLENGES) >= 100
+
+
+def _lesson(tmp_path, main, tests):
+    (tmp_path / "solution").mkdir()
+    (tmp_path / "solution" / "main.py").write_text(textwrap.dedent(main))
+    return Challenge("synthetic/lesson", tmp_path, "main.py", textwrap.dedent(tests))
+
+
+def test_grades_a_lesson_whose_own_names_only_resemble_the_fake_model(tmp_path):
+    challenge = _lesson(
+        tmp_path,
+        """\
+        # A handler, not the dojo_ai fake model: fake_model and for_each_seed appear only in this comment.
+        def respond(status):
+            return {"status": status}
+
+
+        class Handler:
+            def _respond(self, status):
+                return respond(status)
+        """,
+        """
+        @test("answers with the status")
+        def _():
+            assert mod.Handler()._respond(200) == {"status": 200}
+        """,
+    )
+    assert _skip_reason(challenge) is None
+
+
+@pytest.mark.parametrize(
+    "tests",
+    [
+        'respond = mod.respond\n\n@test("answers")\ndef _():\n    assert respond(200) == {"status": 200}\n',
+        '@test("answers")\ndef _():\n    respond = mod.respond\n    assert respond(200) == {"status": 200}\n',
+        'from main import respond\n\n@test("answers")\ndef _():\n    assert respond(200) == {"status": 200}\n',
+    ],
+    ids=["a module-level binding", "a binding inside the test", "an import of the learner function"],
+)
+def test_grades_a_lesson_whose_tests_bind_a_fake_model_name_themselves(tmp_path, tests):
+    challenge = _lesson(tmp_path, "def respond(status):\n    return {\"status\": status}\n", tests)
+    assert _skip_reason(challenge) is None
+
+
+@pytest.mark.parametrize(
+    ("main", "tests"),
+    [
+        ("from dojo_ai import create_model\n", '@test("creates a model")\ndef _():\n    assert mod.create_model\n'),
+        ("def answer(text):\n    return text\n", '@test("answers")\ndef _():\n    fake_model.reply(respond.text("Paris"))\n'),
+    ],
+    ids=["the solution imports dojo_ai", "the tests use the fake model globals"],
+)
+def test_skips_a_lesson_that_uses_the_fake_model(tmp_path, main, tests):
+    assert _skip_reason(_lesson(tmp_path, main, tests)) == "uses the fake model, which runs only in Pyodide"
 
 
 @pytest.mark.parametrize("challenge", _params())

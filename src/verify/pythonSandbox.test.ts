@@ -83,6 +83,41 @@ async def _():
   }, 60000);
 });
 
+describe('harness deadline of async tests', () => {
+  it('reports a TimeoutError raised by the code as that error and fails an await that never finishes after 4 s', async () => {
+    const outlastsDeadline = new PythonSandbox({ testTimeoutMs: 30000 });
+    try {
+      const report = await outlastsDeadline.runTests({
+        files: { 'main.py': 'import asyncio\n\nasync def give_up():\n    await asyncio.sleep(0)\n    raise TimeoutError("boom")\n' },
+        entry: 'main.py',
+        tests: `
+import asyncio
+
+@test("learner code raises TimeoutError")
+async def _():
+    await mod.give_up()
+
+@test("awaits forever")
+async def _():
+    await asyncio.Event().wait()
+
+@test("runs after the timeout")
+async def _():
+    await asyncio.sleep(0)
+`,
+      });
+      expect(report.compileError).toBeUndefined();
+      expect(report.results).toEqual([
+        { name: 'learner code raises TimeoutError', passed: false, error: 'TimeoutError: boom\n  at main.py, line 5: raise TimeoutError("boom")' },
+        { name: 'awaits forever', passed: false, error: 'TimeoutError: Test "awaits forever" timed out after 4000ms.' },
+        { name: 'runs after the timeout', passed: true },
+      ]);
+    } finally {
+      outlastsDeadline.stop();
+    }
+  }, 60000);
+});
+
 describe('host isolation', () => {
   it('keeps the host environment, Node built-ins, module loading and network out of reach', async () => {
     process.env.DOJO_SANDBOX_PROBE = 'host-secret';

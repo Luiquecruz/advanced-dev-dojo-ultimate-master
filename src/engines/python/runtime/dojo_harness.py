@@ -421,8 +421,11 @@ async def _run_test(files, entry, compiled_tests, tests_source, index, listed_na
                 outcome = function()
                 if inspect.isawaitable(outcome):
                     try:
-                        await asyncio.wait_for(outcome, TEST_TIMEOUT_SECONDS)
+                        async with asyncio.timeout(TEST_TIMEOUT_SECONDS) as deadline:
+                            await outcome
                     except TimeoutError:
+                        if not deadline.expired():
+                            raise
                         raise TimeoutError(f'Test "{name}" timed out after {TEST_TIMEOUT_SECONDS * 1000}ms.') from None
                 del outcome, scope, entry_module
                 gc.collect()

@@ -4,6 +4,7 @@ import ast
 import json
 import os
 import subprocess
+import symtable
 import sys
 import tempfile
 from dataclasses import dataclass
@@ -13,7 +14,8 @@ ROOT = Path(__file__).resolve().parents[2]
 CONTENT = ROOT / "src" / "content"
 RUNNER = Path(__file__).resolve().parent / "run_lesson.py"
 DEFAULT_ENTRY = "main.py"
-FAKE_MODEL_NAMES = ("dojo_ai", "fake_model", "respond(", "for_each_seed")
+FAKE_MODEL_MODULE = "dojo_ai"
+FAKE_MODEL_GLOBALS = frozenset({"fake_model", "respond", "for_each_seed"})
 LESSON_TIMEOUT_SECONDS = 120
 
 
@@ -32,8 +34,8 @@ class Challenge:
         return {path.relative_to(folder).as_posix(): path.read_text() for path in sorted(folder.rglob("*")) if path.is_file()}
 
     def uses_fake_model(self):
-        sources = [self.tests, *self.files("solution").values()]
-        return any(name in source for source in sources for name in FAKE_MODEL_NAMES)
+        """True when the tests or the solution import `dojo_ai`, or `tests.py` reads the harness globals `fake_model`, `respond` or `for_each_seed`."""
+        return self.imports(FAKE_MODEL_MODULE) or _reads_harness_globals(self.tests)
 
     def imports(self, module):
         sources = [self.tests, *self.files("solution").values()]
@@ -48,6 +50,21 @@ def _imported_modules(source):
         elif isinstance(node, ast.ImportFrom) and node.module and node.level == 0:
             modules.add(node.module.split(".")[0])
     return modules
+
+
+def _reads_harness_globals(source):
+    """True when a name of FAKE_MODEL_GLOBALS resolves to the harness global, not to a binding of `tests.py` (`respond = mod.respond`)."""
+    module = symtable.symtable(source, "tests.py", "exec")
+    bound_by_tests = {symbol.get_name() for symbol in module.get_symbols() if symbol.is_assigned() or symbol.is_imported()}
+
+    def reads(table):
+        for symbol in table.get_symbols():
+            name = symbol.get_name()
+            if name in FAKE_MODEL_GLOBALS and name not in bound_by_tests and symbol.is_referenced() and (table.get_type() == "module" or symbol.is_global()):
+                return True
+        return any(reads(child) for child in table.get_children())
+
+    return reads(module)
 
 
 def _strip_order(name):
