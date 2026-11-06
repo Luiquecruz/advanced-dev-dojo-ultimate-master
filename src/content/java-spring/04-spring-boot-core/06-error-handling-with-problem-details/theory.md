@@ -79,7 +79,7 @@ protected ResponseEntity<Object> handleMethodArgumentNotValid(
 }
 ```
 
-The same method shape, overriding `handleHandlerMethodValidationException` and reading `getParameterValidationResults()`, covers constraints on path and query parameters. A class-level constraint on the root request body, such as `@EndsAfterStart`, appears under `getGlobalErrors()`. A class-level constraint on a nested `@Valid` object can instead appear under `getFieldErrors()` with that object’s path. Reading `getAllErrors()` includes both, even when no individual field constraint fails. A bad body then returns:
+The same method shape, overriding `handleHandlerMethodValidationException` and reading `getParameterValidationResults()`, covers constraints on path and query parameters. A class-level constraint on the root request body, such as `@EndsAfterStart`, normally appears under `getGlobalErrors()` when the validator uses the default constraint path. A validator can instead use `addPropertyNode` to attach the violation to a property, producing a field error. A class-level constraint on a nested `@Valid` object can instead appear under `getFieldErrors()` with that object’s path. Reading `getAllErrors()` includes both, even when no individual field constraint fails. A bad body then returns:
 
 ```json
 {
