@@ -33,7 +33,7 @@ Pitfalls:
 - `value in get_args(literal)` compares with `==`. Keep literal sets to strings, or compare types too.
 - By default a checker treats a TypedDict as **open**: another dict type with more keys is still compatible. A validator at a trust boundary usually rejects unknown keys explicitly.
 
-> **Status as of November 2026:** PEP 728 shipped in Python 3.15 (October 2026): `class Order(TypedDict, closed=True)` forbids extra keys for checkers, and `extra_items=T` types them, exposed at runtime as `__closed__` and `__extra_items__`. This sandbox runs Python 3.14, where neither exists, so the validator in this lesson rejects unknown keys itself.
+PEP 728 adds `class Order(TypedDict, closed=True)`, which forbids extra keys for checkers, and `extra_items=T`, which types them, exposed at runtime as `__closed__` and `__extra_items__`. Both arrive in Python 3.15. This sandbox runs Python 3.14, where neither exists, so the validator in this lesson rejects unknown keys itself.
 
 ## Common mistakes
 

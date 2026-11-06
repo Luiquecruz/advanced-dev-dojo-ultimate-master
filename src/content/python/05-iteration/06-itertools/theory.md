@@ -27,7 +27,7 @@ print(list(islice(count(10), 3)))            # [10, 11, 12]: a slice of an endle
 
 Before `batched` existed, chunking an iterator looked like `iter(lambda: tuple(islice(iterator, n)), ())`, the two-argument `iter()` from lesson 02.
 
-> **Status as of November 2026:** `pairwise` arrived in Python 3.10, `batched` in 3.12 and its `strict=` flag in 3.13. Python 3.14 removed `copy`, `deepcopy` and `pickle` support from itertools iterators (deprecated since 3.12): use `tee` to fork one.
+`pairwise` arrived in Python 3.10, `batched` in 3.12 and its `strict=` flag in 3.13. Python 3.14 removed `copy`, `deepcopy` and `pickle` support from itertools iterators (deprecated since 3.12): use `tee` to fork one.
 
 ## Common mistakes
 

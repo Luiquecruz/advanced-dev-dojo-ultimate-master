@@ -63,7 +63,7 @@ Pitfalls:
 - A cached function must be pure for its arguments: a cache in front of a value that changes needs an expiry or `cache_clear()`.
 - `singledispatch` dispatches on the **first** argument only; use `singledispatchmethod` for methods.
 
-> **Status as of November 2026:** Python 3.14 added `functools.Placeholder` to reserve positional slots in `partial`, as in `partial(str.replace, Placeholder, " ", "-")`. Since 3.12 `cached_property` no longer takes a lock, so concurrent first accesses may compute the value twice.
+Python 3.14 added `functools.Placeholder` to reserve positional slots in `partial`, as in `partial(str.replace, Placeholder, " ", "-")`. Since 3.12 `cached_property` no longer takes a lock, so concurrent first accesses may compute the value twice.
 
 ## Common mistakes
 

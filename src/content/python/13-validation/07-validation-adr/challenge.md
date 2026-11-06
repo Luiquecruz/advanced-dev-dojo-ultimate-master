@@ -4,7 +4,7 @@ Write the ADR and the plan for the **validation strategy of three services** tha
 
 - **Services:** `gateway` is public and receives partner webhooks over HTTPS; `orders` and `billing` are internal and owned by two other teams. Events flow gateway → orders → billing.
 - **Volume:** partners send **8 000 000** order events **per day** to the gateway. Plan with the daily average.
-- **Partner payloads:** about **30%** of partners send numbers as strings (`"quantity": "3"`, `"amount": "19.90"`), and their contract cannot change this year.
+- **Partner payloads:** about **30%** of partners send numbers as strings (`"quantity": "3"`, `"amount": "19.90"`), and their contract cannot change.
 - **Payout flag:** `refund_approved` makes billing pay money out. Some partners have sent `"yes"` and `1` for it; the contract says it is a JSON boolean, and anything else must be refused.
 - **Unknown fields:** last quarter a partner sent `"discount_override": 100`, and a dict-based handler downstream applied it. Fields outside the contract must never get past the gateway.
 - **Errors:** a rejected webhook gets a 422 body that partner software parses to decide whether to retry. Payloads carry customer emails and card tokens, which must never be echoed back.

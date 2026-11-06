@@ -70,7 +70,7 @@ A lesson is done when a reviewer who did not write it can answer "yes" to every 
 
 - 300–1000 words for practice lessons (250–1000 for quiz lessons and ADRs, 200–500 for maps), template order, ending with `## When to choose it` that names a concrete alternative.
 - `## Common mistakes` shows the wrong code a newcomer really writes next to the fix, not a strawman, and no lesson file compares Python with another language.
-- Every volatile fact sits in a dated `**Status as of**` block, checked against docs.python.org or the PEP, and differences from 3.15 are flagged.
+- Every volatile fact names the Python version it applies to, is checked against docs.python.org or the PEP, and differences from 3.15 are flagged by version; no lesson carries a dated block.
 - Quiz questions ask for predictions or decisions. Explanations name the mechanism. Answer indexes vary.
 
 **ADR (modules 01, 02, 04, 06, 09, 10)**

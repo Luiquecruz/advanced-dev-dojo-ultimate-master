@@ -45,7 +45,7 @@ The second slip is the forgotten `await`: `fetch("users")` on its own line never
 
 Generator-based coroutines (`@asyncio.coroutine` with `yield from`) were removed in Python 3.11; `async def` and `await` (PEP 492, Python 3.5) are the only form.
 
-> **Status as of November 2026:** Python 3.15 is the latest release and this track runs 3.14. Since 3.14, `asyncio.get_event_loop()` raises `RuntimeError` when no loop is running instead of creating one, and `asyncio.iscoroutinefunction()` is deprecated in favor of `inspect.iscoroutinefunction()`.
+This track runs Python 3.14. In 3.14, `asyncio.get_event_loop()` raises `RuntimeError` when there is no current loop instead of creating one (a loop installed with `asyncio.set_event_loop()` is returned even when it is not running), and `asyncio.iscoroutinefunction()` is deprecated in favor of `inspect.iscoroutinefunction()`.
 
 ## When to choose it
 

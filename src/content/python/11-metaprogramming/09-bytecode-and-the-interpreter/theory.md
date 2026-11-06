@@ -46,9 +46,9 @@ The `dis` documentation states it: bytecode may be added, removed or changed bet
 
 The JIT (PEP 744) sits above the specializing interpreter. When specialized bytecode gets hot, a trace of it is translated into **micro-ops**, optimized, and turned into machine code by **copy-and-patch**: templates compiled ahead of time with LLVM are copied into memory and their holes patched with runtime values, so end users need no compiler. It changes speed, never semantics, and it adds no parallelism.
 
-Free threading (PEP 703) removes the GIL in a separate build. Specialization rewrites bytecode that every thread shares, so it had to be made thread-safe first: the 3.14 release notes announce that the specializing interpreter is "now enabled in free-threaded mode", bringing the single-threaded penalty down to roughly 5–10%.
+Free threading (PEP 703) removes the GIL in a separate build. Specialization rewrites bytecode in place, so the free-threaded build gives each thread its own thread-local copy of the bytecode to specialize: from 3.14 the specializing interpreter is enabled in free-threaded mode, bringing the single-threaded penalty down to roughly 5–10%.
 
-> **Status as of November 2026:** Python 3.15 (released 9 October 2026) is the latest release; this track runs CPython 3.14 in Pyodide, where specialization is active and `sys._jit.is_available()` returns `False`. In 3.14 the JIT is experimental: the official Windows and macOS binaries include it, disabled unless `PYTHON_JIT=1`, with a measured impact from 10% slower to 20% faster, and free-threaded builds do not support it; `sys._jit` (new in 3.14) reports availability and state. The 3.15 notes report a 7–8% geometric-mean JIT speedup on x86-64 Linux with a new tracing frontend. PEP 744 is still a Draft; free-threaded builds have been supported but optional since 3.14 (PEP 779).
+This track runs CPython 3.14 in Pyodide, where specialization is active and `sys._jit.is_available()` returns `False`. In 3.14 the JIT is experimental: the official Windows and macOS binaries include it, disabled unless `PYTHON_JIT=1`, and free-threaded builds do not support it; `sys._jit` (new in 3.14) reports availability and state. PEP 744 is an informational PEP; free-threaded builds are supported but optional from 3.14 (PEP 779).
 
 ## When to choose it
 

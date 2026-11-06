@@ -45,7 +45,7 @@ The engine around it adds a bounded `asyncio.Queue` (backpressure), a `Semaphore
 
 **Sandbox notes.** The dojo runs your engine on Pyodide's event loop. The tests await your coroutines, order events with `asyncio.sleep(0)` ticks and never wait more than 50 ms of real time for a deadline; `offload` stands in for `loop.run_in_executor(process_pool, ...)`, which cannot run in the browser.
 
-> **Status as of November 2026:** `TaskGroup`, `asyncio.timeout()` and `ExceptionGroup`/`except*` arrived in Python 3.11, and `Queue.shutdown()` with `QueueShutDown` in 3.13 (docs.python.org asyncio reference). The dojo runs CPython 3.14 in Pyodide; Python 3.15.0 was released on 9 October 2026 (PEP 790).
+`TaskGroup`, `asyncio.timeout()` and `ExceptionGroup`/`except*` arrived in Python 3.11, and `Queue.shutdown()` with `QueueShutDown` in 3.13 (docs.python.org asyncio reference). The dojo runs CPython 3.14 in Pyodide.
 
 ## Common mistakes
 

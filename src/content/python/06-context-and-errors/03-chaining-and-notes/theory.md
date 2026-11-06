@@ -39,7 +39,7 @@ Every exception has three chaining attributes:
 
 Choose deliberately: `from error` when the original explains the failure (I/O, parsing, a remote call), `from None` when it is an implementation detail that would only confuse (a `KeyError` from the internal dict behind a settings lookup).
 
-> **Status as of November 2026:** `add_note()` and `__notes__` were added in Python 3.11 (PEP 678), and the standard `traceback` module prints notes after the exception message. Exception chaining with `from` dates from Python 3.0 (PEP 3134).
+`add_note()` and `__notes__` were added in Python 3.11 (PEP 678), and the standard `traceback` module prints notes after the exception message. Exception chaining with `from` exists since Python 3.0 (PEP 3134).
 
 ### Security note
 

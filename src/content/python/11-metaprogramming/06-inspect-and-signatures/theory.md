@@ -38,7 +38,7 @@ Code that only needs names should pass `annotationlib.Format.FORWARDREF` (or `ST
 
 **Cost.** `inspect.signature` builds a new `Signature` object on every call, unwrapping decorators each time. Containers compute it once per function and cache it.
 
-> **Status as of November 2026:** this track runs CPython 3.14. Python 3.14 added the `annotation_format` parameter to `inspect.signature` and deprecated `asyncio.iscoroutinefunction()`, which is scheduled for removal in Python 3.16; use `inspect.iscoroutinefunction()`.
+This track runs CPython 3.14. Python 3.14 added the `annotation_format` parameter to `inspect.signature` and deprecated `asyncio.iscoroutinefunction()`, which is scheduled for removal in Python 3.16; use `inspect.iscoroutinefunction()`.
 
 ## Common mistakes
 

@@ -64,7 +64,7 @@ class Pixel:
 
 `slots=True` builds a new class with `__slots__` generated from the fields, and defaults keep working because the dataclass moves them into `__init__`.
 
-> **Status as of November 2026:** `@dataclass(slots=True)` exists since Python 3.10, and since 3.11 fields already slotted in a base class are not repeated. The current release is Python 3.15; this track runs Python 3.14 in Pyodide.
+`@dataclass(slots=True)` exists since Python 3.10, and since 3.11 fields already slotted in a base class are not repeated. This track runs Python 3.14 in Pyodide.
 
 ## When to choose it
 

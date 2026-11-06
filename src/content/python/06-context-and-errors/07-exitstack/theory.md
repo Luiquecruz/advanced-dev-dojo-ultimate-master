@@ -36,7 +36,7 @@ If any opener raises, `pop_all()` is never reached and the `with` closes what wa
 - `close()` reports "no exception" to every registered `__exit__`. Callbacks are **not** run when the stack is garbage collected, so always close it.
 - `AsyncExitStack` is the same tool for `async with` managers (module 10).
 
-> **Status as of November 2026:** in Python 3.15 (October 2026) `enter_context` and `push` accept `__enter__`/`__exit__` implemented by arbitrary descriptors, matching the `with` statement; the dojo runs 3.14.
+In Python 3.15 `enter_context` and `push` accept `__enter__`/`__exit__` implemented by arbitrary descriptors, matching the `with` statement; the dojo runs 3.14.
 
 ## Common mistakes
 

@@ -44,7 +44,7 @@ uv venv                                # creates .venv; uv pip install, uv sync 
 
 Scripts installed in an environment start with a shebang holding its absolute path (`#!/srv/api/.venv/bin/python`), so they run in the right environment from anywhere, and the environment breaks if the folder is moved or copied.
 
-> **Status as of November 2026:** `venv` has been in the standard library since Python 3.3 (PEP 405, Final). Since 3.13 it writes a `.gitignore` holding `*` inside the environment, and since 3.14 the interpreter sets `sys.prefix` for an environment during path initialization instead of in `site`. PEP 668 (Final) lets Linux distributions mark their Python as externally managed, so `pip install` outside an environment fails with `externally-managed-environment`. uv 0.13.7 (3 November 2026) creates `.venv` with `uv venv`, and `uv run` and `uv sync` create or update the project's `.venv` next to `pyproject.toml`. Sources: docs.python.org (venv, site), peps.python.org, docs.astral.sh/uv and the uv release history on pypi.org.
+`venv` has been in the standard library since Python 3.3 (PEP 405, Final). From 3.13 it writes a `.gitignore` holding `*` inside the environment, and from 3.14 the interpreter sets `sys.prefix` for an environment during path initialization instead of in `site`. PEP 668 (Final) lets Linux distributions mark their Python as externally managed, so `pip install` outside an environment fails with `externally-managed-environment`. uv creates `.venv` with `uv venv`, and `uv run` and `uv sync` create or update the project's `.venv` next to `pyproject.toml`. Sources: docs.python.org (venv, site), peps.python.org and docs.astral.sh/uv.
 
 ## Common mistakes
 

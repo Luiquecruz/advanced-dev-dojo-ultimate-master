@@ -61,7 +61,7 @@ The safe report in How it works also leaves out the URL and the context, which t
 
 v1 used `@validator("field", pre=True)` and `@root_validator(pre=True)` with `values` dicts. v2 replaced them with `@field_validator(..., mode=...)`, `@model_validator(mode="before" | "after" | "wrap")` and `ValidationInfo`. The v1 decorators still import, with deprecation warnings.
 
-> **Status as of November 2026:** `field_validator`, `model_validator`, `ValidationInfo` and `PydanticCustomError` (exported by `pydantic_core`) are stable across Pydantic 2.x, from this sandbox's 2.12.5 to the latest 2.14.2 on PyPI; 2.13.1 and 2.13.2 fixed `ValidationInfo.data` and `field_name` being missing under `model_validate_json`. Sources: the Pydantic 2.12 docs "Validators" and "Validation Errors" at pydantic.dev/docs/validation, and the Pydantic changelog.
+`field_validator`, `model_validator`, `ValidationInfo` and `PydanticCustomError` (exported by `pydantic_core`) are stable across Pydantic 2.x, with version-specific exceptions: `ValidationInfo.data` can be missing during `model_validate_json()` in 2.13.0, and `field_name` can be missing in 2.13.0 and 2.13.1. This sandbox runs 2.12.5 and is not affected. Sources: the Pydantic 2.12 docs "Validators" and "Validation Errors".
 
 ## When to choose it
 

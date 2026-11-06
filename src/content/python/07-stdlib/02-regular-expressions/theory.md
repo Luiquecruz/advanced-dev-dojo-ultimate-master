@@ -61,7 +61,7 @@ Backtracking makes some patterns slow on text that almost matches, and `re` has 
 
 Defend in this order: bound the input length before matching, bound the quantifiers (`[\w.]{1,64}@`), keep character classes that cannot overlap, anchor with `fullmatch`, and use atomic groups `(?>…)` or possessive quantifiers (`a++`) to forbid backtracking. A regex is not an email validator either: masking or extracting addresses is fine, but accepting an address means sending a confirmation message to it.
 
-> **Status as of November 2026:** atomic groups and possessive quantifiers exist since Python 3.11, and Python 3.14 added `\z` as an unambiguous end-of-string anchor (`\Z` is its older spelling). Python 3.15 added `re.prefixmatch()` as a more descriptive name for `re.match()` and soft deprecated the old name, which readers easily mistake for "match anywhere". This track runs 3.14, so its lessons use `match`.
+Atomic groups and possessive quantifiers exist since Python 3.11, and Python 3.14 added `\z` as an unambiguous end-of-string anchor (`\Z` is its older spelling). Python 3.15 added `re.prefixmatch()` as a more descriptive name for `re.match()` and soft deprecated the old name, which readers easily mistake for "match anywhere". This track runs 3.14, so its lessons use `match`.
 
 ## When to choose it
 

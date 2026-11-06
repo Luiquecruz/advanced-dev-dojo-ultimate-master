@@ -31,7 +31,7 @@ The managers are **one-shot**: each `with` needs a fresh call such as `opened(..
 
 `@contextmanager` managers inherit from `contextlib.ContextDecorator`, so the same object also wraps a function: `@section(log, "job")` above `def job()` runs the setup and teardown around **every call**, creating a fresh generator each time.
 
-> **Status as of November 2026:** the dojo runs CPython 3.14, where a `ContextDecorator` (including a `@contextmanager` used with `@`) applied to a **generator function** exits as soon as the generator object is created, before its body runs. Python 3.15 (October 2026) changed this to keep the context open across iteration and `await`. Do not rely on either behavior in code that must run on both.
+In CPython 3.14, a `ContextDecorator` (including a `@contextmanager` used with `@`) applied to a **generator function** exits as soon as the generator object is created, before its body runs. Python 3.15 changed this to keep the context open across iteration and `await`. Do not rely on either behavior in code that must run on both.
 
 ### Ready-made managers
 

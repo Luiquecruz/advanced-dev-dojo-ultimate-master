@@ -50,7 +50,7 @@ A frozen class blocks `self.address = ...` even inside `__post_init__`, so norma
 - `eq=True` without `frozen` sets `__hash__` to `None`, so mutable dataclasses cannot go into sets.
 - `replace` is **shallow**: the new object receives the same field values, so `with_price(mug, 700).tags is mug.tags`. Copy mutable fields explicitly (`replace(p, tags=list(p.tags))`) when the copies must diverge, or store a tuple.
 
-> **Status as of November 2026:** Python 3.14 evaluates annotations lazily (PEP 649 and PEP 749), and `dataclasses` reads field annotations through `annotationlib` with forward references allowed, so a field can name a class defined later in the module. `slots` and `kw_only` exist since 3.10. The current release is Python 3.15; this track runs 3.14.
+Python 3.14 evaluates annotations lazily (PEP 649 and PEP 749), and `dataclasses` reads field annotations through `annotationlib` with forward references allowed, so a field can name a class defined later in the module. `slots` and `kw_only` exist since 3.10. This track runs Python 3.14.
 
 ## Common mistakes
 

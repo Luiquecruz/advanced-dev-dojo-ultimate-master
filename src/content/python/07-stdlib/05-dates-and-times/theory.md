@@ -50,7 +50,7 @@ date(2026, 1, 31).replace(month=2, day=min(31, last_day))   # date(2026, 2, 28)
 
 Timestamps from clients are input like any other: parse them with `fromisoformat` or `strptime` and an explicit format, reject naive values instead of guessing their zone, and never let a client's clock decide expiry or ordering on the server.
 
-> **Status as of November 2026:** `datetime.UTC` exists since Python 3.11, when `fromisoformat` also started accepting most ISO 8601 text, including `Z`. `datetime.utcnow()` and `utcfromtimestamp()` are deprecated since 3.12 because they return naive values. Python 3.14 added `date.strptime()` and `time.strptime()`. Pyodide ships no IANA time zone data, so `zoneinfo.ZoneInfo("Europe/Paris")` raises `ZoneInfoNotFoundError` in this track and the lessons use fixed offsets.
+`datetime.UTC` exists since Python 3.11, when `fromisoformat` also started accepting most ISO 8601 text, including `Z`. `datetime.utcnow()` and `utcfromtimestamp()` are deprecated since 3.12 because they return naive values. Python 3.14 added `date.strptime()` and `time.strptime()`. Pyodide ships no IANA time zone data, so `zoneinfo.ZoneInfo("Europe/Paris")` raises `ZoneInfoNotFoundError` in this track and the lessons use fixed offsets.
 
 ## When to choose it
 

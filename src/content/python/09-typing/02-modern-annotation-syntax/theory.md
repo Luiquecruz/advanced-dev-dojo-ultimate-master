@@ -63,7 +63,7 @@ The second slip is annotating the collection on a variadic parameter: `*override
 | `typing.Callable` | `collections.abc.Callable` | 3.9 |
 | `-> "Node"` returning `self` | `-> Self` | 3.11 (PEP 673) |
 
-> **Status as of November 2026:** the `typing` documentation calls the capitalised aliases deprecated since 3.9 but says their removal "is not currently planned" and the interpreter emits no warning for them; type checkers are encouraged to flag them when targeting 3.9 or newer. Python 3.15 was released in October 2026; this sandbox runs CPython 3.14 (Pyodide), and every example here behaves the same on both.
+The `typing` documentation calls the capitalised aliases deprecated since 3.9 but says their removal "is not currently planned" and the interpreter emits no warning for them; type checkers are encouraged to flag them when targeting 3.9 or newer. This sandbox runs CPython 3.14 (Pyodide), and every example here behaves the same on 3.15.
 
 ## When to choose it
 

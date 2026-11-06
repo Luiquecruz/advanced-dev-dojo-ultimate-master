@@ -40,7 +40,7 @@ The mistake that breaks deploys: **ranges everywhere, and no lockfile**. `pip in
 
 **Distribution.** An **sdist** is source plus metadata; installing it runs the `[build-system]` backend (setuptools, hatchling, flit-core, uv_build), which is arbitrary code. A **wheel** is a pre-built zip that the installer only unpacks, so prefer wheels (`--only-binary :all:`). Publish from CI with **trusted publishing**: PyPI trusts the CI's OpenID Connect identity and mints a token that expires after about 15 minutes, so no long-lived API token sits in CI secrets. PEP 740 attestations add a signed record of which workflow built each file.
 
-> **Status as of November 2026:** PEPs 621, 517, 518, 735, 740 and 751 are Final. pip 26.3 installs groups with `pip install --group`, and both `pip lock` and installing from `pylock.toml` with `-r` are marked experimental. uv 0.13.7 writes `uv.lock` and exports `pylock.toml` with `uv export --format pylock.toml`; its `uv_build` backend supports pure Python only. Sources: peps.python.org, pip.pypa.io, docs.astral.sh/uv, docs.pypi.org/trusted-publishers.
+PEPs 621, 517, 518, 735, 740 and 751 are Final. pip installs dependency groups with `pip install --group`, and has `pip lock` and installing from `pylock.toml` with `-r`. uv writes `uv.lock` and exports `pylock.toml` with `uv export --format pylock.toml`; its `uv_build` backend supports pure Python only. Sources: peps.python.org, pip.pypa.io, docs.astral.sh/uv, docs.pypi.org/trusted-publishers.
 
 ## When to choose it
 

@@ -72,7 +72,7 @@ Checking `type(order.paid)` after a lax parse cannot catch it: by then `"yes"` i
 
 Pydantic v1 coerced far more: `str` fields accepted `42` and returned `"42"`, and `int` fields truncated `3.5` to `3`. v2 removed both conversions, and added strict mode and the per-field `Strict` markers.
 
-> **Status as of November 2026:** Strict mode, `ConfigDict(strict=True)` and the `Strict` marker behave as described from Pydantic 2.0 through the latest 2.14.2; this sandbox runs 2.12.5. Sources: the Pydantic 2.12 docs "Strict Mode" and "Conversion Table" at pydantic.dev/docs/validation and pypi.org/project/pydantic.
+Strict mode, `ConfigDict(strict=True)` and the `Strict` marker behave as described throughout Pydantic 2.x; this sandbox runs 2.12.5. Sources: the Pydantic 2.12 docs "Strict Mode" and "Conversion Table".
 
 ## When to choose it
 

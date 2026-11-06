@@ -45,7 +45,7 @@ def is_int_list(value: object) -> TypeIs[list[int]]:
     return isinstance(value, list) and all(isinstance(item, int) for item in value)
 ```
 
-> **Status as of November 2026:** `get_overloads` and `assert_never` exist since Python 3.11 and `TypeIs` since 3.13; libraries supporting older versions import them from `typing_extensions`.
+`get_overloads` and `assert_never` exist from Python 3.11 and `TypeIs` from 3.13; libraries supporting older versions import them from `typing_extensions`.
 
 ## When to choose it
 

@@ -20,7 +20,7 @@ print("continues here either way")
 - Suppression ends the block at the line that raised. Statements after it inside the block do not run; execution resumes **after** the `with` statement.
 - `__exit__` returning `None` (no `return` statement) means "do not suppress". Explicit `return False` documents that it was a decision.
 
-> **Status as of November 2026:** since Python 3.12, `contextlib.suppress` also handles exception groups: it removes the matching exceptions from a `BaseExceptionGroup` and re-raises the rest in a new group built with `derive()`.
+Since Python 3.12, `contextlib.suppress` also handles exception groups: it removes the matching exceptions from a `BaseExceptionGroup` and re-raises the rest in a new group built with `derive()`.
 
 ### Security note
 

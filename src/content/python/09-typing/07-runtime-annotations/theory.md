@@ -65,7 +65,7 @@ for item in dataclasses.fields(cls):
 - `from __future__ import annotations` (PEP 563, 3.7) stored every annotation as a string instead; tools then had to call `get_type_hints` to turn them back into objects.
 - 3.14 makes laziness the default and keeps both old styles working: `get_type_hints` handles real objects and strings alike.
 
-> **Status as of November 2026:** PEP 749 keeps `from __future__ import annotations` working in 3.14 and plans to deprecate it no sooner than the first release after Python 3.13 reaches end of life, then remove it at least two releases later. `annotationlib` is new in 3.14, and this sandbox runs CPython 3.14 (Pyodide).
+PEP 749 keeps `from __future__ import annotations` working in 3.14. It is planned for deprecation no sooner than the first release after Python 3.13 reaches end of life, and removal at least two releases after that. `annotationlib` is new in 3.14, and this sandbox runs CPython 3.14 (Pyodide).
 
 ## When to choose it
 

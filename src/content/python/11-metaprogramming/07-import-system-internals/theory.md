@@ -36,7 +36,7 @@ CPython starts with three finders on `sys.meta_path`: built-in modules, frozen m
 
 **Legacy:** finders used to implement `find_module()` and loaders `load_module()`. Python 3.12 removed `find_module()` support and the `imp` module; implement `find_spec()`, `create_module()` and `exec_module()`.
 
-> **Status as of November 2026:** this track runs Python 3.14. Python 3.15 (October 2026) removed `Loader.load_module()`, which the import system no longer calls, and stopped setting `__cached__`; `__loader__` and `__package__` are deprecated and `__loader__` stops being set in 3.16, so read `__spec__.loader` and `__spec__.parent`.
+This track runs Python 3.14. Python 3.15 removes `Loader.load_module()`, which the import system no longer calls, and stops setting `__cached__`; `__loader__` and `__package__` are deprecated and `__loader__` stops being set in 3.16, so read `__spec__.loader` and `__spec__.parent`.
 
 ## Common mistakes
 

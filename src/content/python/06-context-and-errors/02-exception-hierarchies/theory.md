@@ -34,7 +34,7 @@ finally:
 - **`BaseException` vs `Exception`**: `KeyboardInterrupt`, `SystemExit`, `GeneratorExit` and `asyncio.CancelledError` derive from `BaseException` directly so that `except Exception` leaves them alone. Domain errors always derive from `Exception`.
 - **`else` keeps `try` narrow**: put only the line that may raise the expected error in `try`, and the code that depends on its success in `else`, so an unrelated error in that code is not caught by mistake.
 
-> **Status as of November 2026:** since Python 3.14 (PEP 758) the parentheses are optional when an `except` lists several types without `as`: `except TimeoutError, ConnectionError:`. With `as`, or on 3.13 and older, write `except (TimeoutError, ConnectionError) as error:`.
+Since Python 3.14 (PEP 758) the parentheses are optional when an `except` lists several types without `as`: `except TimeoutError, ConnectionError:`. With `as`, or on 3.13 and older, write `except (TimeoutError, ConnectionError) as error:`.
 
 ### Security note
 

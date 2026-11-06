@@ -61,7 +61,7 @@ async def reserve(self, sku):
 
 Acquiring a `Semaphore` around `create_task` instead of around the work is the second slip: it only slows down task creation.
 
-> **Status as of November 2026:** `Queue.shutdown()` and `QueueShutDown` (Python 3.13) work in this sandbox (Pyodide, Python 3.14). On 3.12 and older, stop consumers with `join()` and cancellation, or with a sentinel item per consumer.
+`Queue.shutdown()` and `QueueShutDown` (Python 3.13) work in this sandbox (Pyodide, Python 3.14). On 3.12 and older, stop consumers with `join()` and cancellation, or with a sentinel item per consumer.
 
 ## When to choose it
 

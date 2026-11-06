@@ -68,7 +68,7 @@ Counting with `= 1` instead of `len(invalid.exceptions)` is the second slip: sev
 
 Before 3.11, the usual tool was `gather`, with hand-written cancellation of the other tasks in an `except`. The asyncio documentation now recommends `TaskGroup` over `gather` for groups of tasks that should fail together. `gather` remains useful when partial results are acceptable (`return_exceptions=True`).
 
-> **Status as of November 2026:** Python 3.15 added `TaskGroup.cancel()` to stop a group early without raising. This track runs Python 3.14, where stopping a group early still means raising a custom exception inside it and catching it outside. Since 3.14 (PEP 758), `except* ValueError, TypeError:` may also be written without parentheses.
+Python 3.15 adds `TaskGroup.cancel()` to stop a group early without raising. This track runs Python 3.14, where stopping a group early still means raising a custom exception inside it and catching it outside. From 3.14 (PEP 758), `except* ValueError, TypeError:` may also be written without parentheses.
 
 ## When to choose it
 

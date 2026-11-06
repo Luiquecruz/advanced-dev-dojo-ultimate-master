@@ -66,7 +66,7 @@ def main(argv=None):
 
 Arguments are untrusted input: they come from users, scripts, CI files and other programs. Validate them at the edge with `type=` and `choices=`, bound their length before converting, and reject instead of repairing (`12.345` is an error, not `12.34`). Never hand them to a shell: `subprocess.run(f"git log {ref}", shell=True)` with `ref = "main; rm -rf ~"` runs a second command. Pass a list, `subprocess.run(["git", "log", "--", ref], check=True)`, and keep `shlex.quote` as a last resort. Text echoed to a terminal can carry escape sequences (`\x1b[2J` clears the screen, others rewrite earlier lines), so reject control characters with `str.isprintable()` or print values with `!r`. Never take secrets as flags: other users see arguments in `ps` and shells keep them in history; read an environment variable, a file named by a flag, or `getpass.getpass()`.
 
-> **Status as of November 2026:** Python 3.14 added the `color` parameter (on by default: help and usage are coloured when the terminal supports it) and `suggest_on_error` to `ArgumentParser`; Python 3.15 (October 2026) turned `suggest_on_error` on by default. `deprecated=True` for arguments and subcommands exists since 3.13. The dojo runs CPython 3.14.
+Python 3.14 added the `color` parameter (on by default: help and usage are coloured when the terminal supports it) and `suggest_on_error` to `ArgumentParser`; Python 3.15 turned `suggest_on_error` on by default. `deprecated=True` for arguments and subcommands exists since 3.13. The dojo runs CPython 3.14.
 
 ## When to choose it
 
