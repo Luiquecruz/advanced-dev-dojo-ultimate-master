@@ -1,0 +1,13 @@
+{
+  "title": "Project: Course API",
+  "summary": "A local project that builds a Spring Boot 4.1 REST API for courses on Java 25: layered beans, validated records, Problem Details errors and an OpenAPI document, with in-memory storage and ten acceptance criteria.",
+  "level": "intermediate",
+  "tags": ["theory", "project"],
+  "resources": [
+    { "label": "Spring Boot: System requirements", "url": "https://docs.spring.io/spring-boot/system-requirements.html" },
+    { "label": "Spring Boot: Developing your first application", "url": "https://docs.spring.io/spring-boot/tutorial/first-application/index.html" },
+    { "label": "Spring Framework: Error responses", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-ann-rest-exceptions.html" },
+    { "label": "springdoc-openapi documentation", "url": "https://springdoc.org/" },
+    { "label": "Spring Boot: Testing Spring Boot applications", "url": "https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html" }
+  ]
+}

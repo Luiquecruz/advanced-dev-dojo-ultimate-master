@@ -1,0 +1,57 @@
+[
+  {
+    "question": "The project must reject `JAVA BASICS` when `Java Basics` exists. Which design keeps the rule reusable and the controller thin?",
+    "options": [
+      "The service checks existsByTitleIgnoreCase and throws DuplicateCourseTitleException, and the advice maps it to 409",
+      "The controller loops over the list and returns 409 itself",
+      "A @Size constraint on the title",
+      "The repository returns a ResponseEntity with status 409"
+    ],
+    "answer": 0,
+    "explanation": "The rule needs stored data, so it belongs in the service. The advice owns the HTTP mapping, and the repository and service stay free of web types."
+  },
+  {
+    "question": "A replace request sends course 1 its own current title with a new duration, and the service always checks for duplicates. What goes wrong?",
+    "options": [
+      "Nothing, the update succeeds",
+      "The course matches itself, so a legitimate update is rejected with 409",
+      "The duration is ignored",
+      "The id changes"
+    ],
+    "answer": 1,
+    "explanation": "The title exists, because it belongs to this very course. Check for duplicates only when the title changed, or exclude the course being updated."
+  },
+  {
+    "question": "All tests pass alone, but the suite fails when the order changes, with ids off by one. What is the likely cause?",
+    "options": [
+      "Jackson serializes ids lazily",
+      "MockMvc caches responses",
+      "The in-memory repository singleton keeps state across tests in the same context",
+      "Records cannot hold ids"
+    ],
+    "answer": 2,
+    "explanation": "One application context is reused between tests, so the id sequence continues. Reset it with DirtiesContext or make assertions independent of absolute ids."
+  },
+  {
+    "question": "A client posts `{\"title\":\"\",\"level\":null,\"durationHours\":500}`. What should the response contain?",
+    "options": [
+      "A 500 with the exception name",
+      "A 200 with a field called success set to false",
+      "A 404 because the title is empty",
+      "A 400 problem response whose errors list names title, level and durationHours"
+    ],
+    "answer": 3,
+    "explanation": "All three constraints fail, so the validation handler returns one 400 problem with an errors member listing each field and message."
+  },
+  {
+    "question": "Module 05 will store courses in a database. Which part of this project should need no change in the controller or service?",
+    "options": [
+      "The service signatures",
+      "The repository interface, with a database implementation replacing the in-memory class",
+      "The record names",
+      "The OpenAPI bean"
+    ],
+    "answer": 1,
+    "explanation": "The service depends on the CourseRepository interface, not on the map-based class, so a new implementation can be injected without touching callers."
+  }
+]

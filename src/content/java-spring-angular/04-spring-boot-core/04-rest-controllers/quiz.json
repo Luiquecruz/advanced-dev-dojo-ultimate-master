@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A `POST /api/courses` creates a course with id 7. Which response best follows REST conventions?",
+    "options": [
+      "200 with an empty body",
+      "201 with a Location header for /api/courses/7 and the created course in the body",
+      "204 with the id in a custom header",
+      "302 redirecting to the list"
+    ],
+    "answer": 1,
+    "explanation": "201 Created signals a new resource, and the Location header tells the client where to find it. Returning the body saves an extra request."
+  },
+  {
+    "question": "A controller method returns the persistence class `CourseEntity`. Months later a developer adds an `internalNotes` field to it. What is the likely effect?",
+    "options": [
+      "Nothing, Jackson ignores new fields",
+      "Startup fails because the class changed",
+      "The field is hidden unless a header is sent",
+      "The notes appear in every API response, because the class is the contract"
+    ],
+    "answer": 3,
+    "explanation": "Serializing the class exposes all its properties. A separate response record keeps the contract explicit and lets internal classes change freely."
+  },
+  {
+    "question": "Where should the rule \"two courses cannot share a title\" live?",
+    "options": [
+      "In the controller, before calling the service",
+      "In a JavaScript client only",
+      "In the service, which throws an exception the web layer maps to 409",
+      "In the HTTP response headers"
+    ],
+    "answer": 2,
+    "explanation": "Rules belong in the service so every entry point shares them. The controller only translates HTTP, and a handler maps the exception to a status."
+  },
+  {
+    "question": "With header-based API versioning enabled and `@GetMapping(version = \"2+\")`, a request carries `X-API-Version: 3`, and version 3 is declared as supported. Which statement is true?",
+    "options": [
+      "The 2+ method handles it, because it matches version 2 and above",
+      "The request gets 404",
+      "The request is routed to version 1",
+      "Spring picks a method at random"
+    ],
+    "answer": 0,
+    "explanation": "A baseline version such as 2+ matches that version and the supported versions above it. A version that is not supported or not sent gets a 400."
+  },
+  {
+    "question": "A client calls `GET /api/courses/abc` where the method takes `@PathVariable long id`. What does Spring MVC do?",
+    "options": [
+      "Passes 0 to the method",
+      "Responds 400 because the path value cannot be converted to a long",
+      "Responds 500 with a stack trace",
+      "Responds 404 because abc is not a course"
+    ],
+    "answer": 1,
+    "explanation": "A type conversion failure is a client error, so Spring MVC responds with 400 before the method is called. It never passes a made-up value."
+  }
+]

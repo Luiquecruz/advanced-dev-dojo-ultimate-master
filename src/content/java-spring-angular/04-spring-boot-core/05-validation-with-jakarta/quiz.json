@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A `CourseRequest` record has `@NotBlank String title`, but the controller method is `create(@RequestBody CourseRequest request)`. A client sends `{\"title\": \"\"}`. What happens?",
+    "options": [
+      "400, because the annotation is always enforced",
+      "500, because the record is invalid",
+      "The request reaches the service with an empty title, because nothing asked for validation",
+      "The title is replaced with null"
+    ],
+    "answer": 2,
+    "explanation": "Constraints are only checked when validation is triggered, for example by @Valid on the parameter. Without it the annotations are inert metadata."
+  },
+  {
+    "question": "A field is `@Size(max = 80) String title` with no other constraint, and the client omits the title. Is the request valid?",
+    "options": [
+      "No, @Size rejects null",
+      "No, every constraint implies not null",
+      "Yes only when the string is blank",
+      "Yes, because most constraints treat null as valid"
+    ],
+    "answer": 3,
+    "explanation": "Constraints other than the not-null family accept null so they can be combined. A required field needs @NotNull or @NotBlank in addition."
+  },
+  {
+    "question": "A required `durationHours` is declared as `@Min(1) int` and the client sends `{}`. What reaches the service?",
+    "options": [
+      "null",
+      "0, which then fails @Min(1) with an unhelpful message about the minimum",
+      "An exception from Jackson only",
+      "1, the minimum value"
+    ],
+    "answer": 1,
+    "explanation": "A primitive cannot be null, so the missing field becomes 0. Declaring Integer with @NotNull reports that the field is missing instead."
+  },
+  {
+    "question": "A controller declares `@PathVariable @Positive long id` and a client calls `/api/courses/-5`. A validation handler only covers `MethodArgumentNotValidException`. What is the result?",
+    "options": [
+      "The handler covers it, since all validation errors share one exception",
+      "The request passes because path variables are not validated",
+      "A HandlerMethodValidationException is raised that the handler does not cover, so the shared error format is skipped",
+      "The id is converted to its absolute value"
+    ],
+    "answer": 2,
+    "explanation": "Constraints on parameters raise HandlerMethodValidationException, while body validation raises MethodArgumentNotValidException. A complete handler covers both."
+  },
+  {
+    "question": "A team must reject a course whose title already exists in the database. Where does the check belong?",
+    "options": [
+      "In the service, which throws a domain exception that the web layer maps to 409",
+      "In @Size on the title",
+      "In a Pattern regular expression",
+      "In the record's toString method"
+    ],
+    "answer": 0,
+    "explanation": "Uniqueness needs stored data and a conflict status. Constraints check one request in isolation, so this rule belongs in the service."
+  }
+]

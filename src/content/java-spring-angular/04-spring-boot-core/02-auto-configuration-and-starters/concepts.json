@@ -1,0 +1,9 @@
+[
+  { "term": "@SpringBootApplication", "description": "A combined annotation for configuration, component scanning and auto-configuration, placed on one main class." },
+  { "term": "Starter", "description": "A dependency that brings a curated set of libraries for one purpose, such as spring-boot-starter-webmvc for REST endpoints." },
+  { "term": "Auto-configuration", "description": "Beans that Spring Boot creates from the classpath and properties, applied only when their conditions hold." },
+  { "term": "@ConditionalOnMissingBean", "description": "A condition that applies a default bean only when the application has not defined one of that type." },
+  { "term": "Conditions report", "description": "The log output enabled by --debug that lists which auto-configurations matched, which did not and why." },
+  { "term": "Customizer bean", "description": "A bean that adjusts an auto-configured component, such as a JSON mapper builder, without replacing it." },
+  { "term": "Imports file", "description": "The META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports file that lists the auto-configuration classes of a jar." }
+]

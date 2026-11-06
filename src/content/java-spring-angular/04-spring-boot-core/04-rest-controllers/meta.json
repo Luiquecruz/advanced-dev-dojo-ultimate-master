@@ -1,0 +1,13 @@
+{
+  "title": "REST Controllers",
+  "summary": "Mapping requests with @RestController, records as request and response bodies, status codes and Location headers with ResponseEntity, the controller, service and repository split, and API versioning in Spring Framework 7.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Spring Framework: Annotated controllers", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller.html" },
+    { "label": "Spring Framework: Request mapping", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html" },
+    { "label": "Spring Framework: ResponseEntity", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/responseentity.html" },
+    { "label": "Spring Framework: API versioning", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc-versioning.html" },
+    { "label": "RFC 9110: HTTP semantics", "url": "https://www.rfc-editor.org/rfc/rfc9110.html" }
+  ]
+}

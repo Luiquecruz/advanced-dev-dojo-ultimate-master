@@ -1,0 +1,9 @@
+[
+  { "term": "OpenAPI document", "description": "A machine-readable description of an HTTP API: its paths, parameters, request and response schemas and errors." },
+  { "term": "springdoc", "description": "A community library that generates the OpenAPI document for Spring Boot controllers and serves Swagger UI." },
+  { "term": "Swagger UI", "description": "An interactive web page, served at /swagger-ui.html, that renders the OpenAPI document and can call the endpoints." },
+  { "term": "operationId", "description": "The unique name of an operation in the document, used by client generators as the method name." },
+  { "term": "Schema", "description": "The description of a request or response body, including property types, required fields and limits taken from validation annotations." },
+  { "term": "@Schema", "description": "An annotation that adds a description, an example or another detail to a record component in the document." },
+  { "term": "Contract", "description": "The committed OpenAPI file that back end and front end both rely on, so a breaking change shows up as a diff." }
+]

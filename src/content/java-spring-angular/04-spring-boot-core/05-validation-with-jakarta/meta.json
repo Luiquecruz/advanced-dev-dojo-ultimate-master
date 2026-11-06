@@ -1,0 +1,13 @@
+{
+  "title": "Validation with Jakarta",
+  "summary": "Bean Validation constraints on records, triggering validation with @Valid and @Validated, constraints on controller and service parameters, custom constraint validators, and an introduction to validation groups.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Jakarta Bean Validation specification", "url": "https://jakarta.ee/specifications/bean-validation/3.1/" },
+    { "label": "Hibernate Validator documentation", "url": "https://hibernate.org/validator/documentation/" },
+    { "label": "Spring Framework: Validation in Spring MVC", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-validation.html" },
+    { "label": "Spring Framework: Java Bean Validation", "url": "https://docs.spring.io/spring-framework/reference/core/validation/beanvalidation.html" },
+    { "label": "Spring Boot: Validation", "url": "https://docs.spring.io/spring-boot/reference/io/validation.html" }
+  ]
+}
