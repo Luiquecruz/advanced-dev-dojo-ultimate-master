@@ -12,6 +12,7 @@ import { GlowBorder } from '@/shared/ui/GlowBorder';
 import { stageLine } from './stageLine';
 
 const TIMELINE_SIZE = 5;
+const CARD_ENTRANCE_MS = 850;
 
 const STATUS: Record<TrackStatus, { label: string; icon: ReactNode; className: string }> = {
   'not-started': { label: 'Not started', icon: <CircleIcon />, className: 'border-line-strong text-ink-muted' },
@@ -56,7 +57,7 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
           </span>
         </div>
         <div className="flex items-center gap-3.5">
-          <TrackLogo track={track} size={48} />
+          <TrackLogo track={track} size={48} animate={active} delayMs={CARD_ENTRANCE_MS} />
           <div className="min-w-0">
             <h2 className="m-0 truncate text-2xl/tight font-bold tracking-[-0.02em]">{track.title}</h2>
             <span className="block truncate text-xs font-medium text-ink-faint">{track.version}</span>

@@ -71,6 +71,39 @@
   }
 }
 
+@utility logo-trace {
+  stroke-dasharray: 0.3 1.3;
+  stroke-dashoffset: 0.3;
+  animation: logo-trace var(--dur-trace) var(--ease-out) var(--trace-delay, 0ms) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@utility logo-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: logo-pulse var(--dur-trace) var(--ease-out) var(--trace-delay, 0ms) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes logo-trace {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes logo-pulse {
+  40% {
+    scale: 1.6;
+    opacity: 1;
+  }
+}
+
 @utility backdrop-word {
   background: linear-gradient(180deg, rgb(var(--accent-rgb) / 0.55), rgb(var(--accent-rgb) / 0.14) 55%, transparent 90%);
   background-clip: text;

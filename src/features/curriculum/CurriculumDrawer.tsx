@@ -7,6 +7,8 @@ import { CrossIcon } from '@/shared/ui/icons';
 import { ProgressBar } from '@/shared/ui/ProgressBar';
 import { iconButtonClass } from '@/shared/ui/classNames';
 
+const DRAWER_SLIDE_MS = 160;
+
 /**
  * Slide-in star map of the current mission: its progress and every stage with its waypoints.
  */
@@ -38,7 +40,7 @@ export function CurriculumDrawer({ track, currentKey, onClose }: { track: Track;
       >
         <header className="flex-none border-b border-line bg-elevated px-4 pt-3.5 pb-4">
           <div className="flex items-center gap-3">
-            <TrackLogo track={track} size={32} />
+            <TrackLogo track={track} size={32} animate delayMs={DRAWER_SLIDE_MS} />
             <div className="min-w-0 flex-1">
               <div className="font-mono text-[10.5px] font-semibold tracking-[0.16em] text-accent uppercase">Star map</div>
               <h2 className="m-0 truncate text-base/tight font-semibold">{track.title}</h2>
