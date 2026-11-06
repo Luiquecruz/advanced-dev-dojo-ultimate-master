@@ -63,6 +63,6 @@
       "MassTransit v9 and later is free for production use in teams below 5 developers"
     ],
     "answer": 1,
-    "explanation": "The package's NuGet page says MassTransit from v9 is a commercial product that must be licensed, while v8 and earlier remain under an open-source (Apache) licence. MassTransit was never a Microsoft package, and no free tier was verified for this lesson. The choice is the team's: license it, stay on a v8 release while it is supported, or use a different library."
+    "explanation": "The package's NuGet page says MassTransit from v9 is a commercial product that must be licensed, while v8 and earlier remain under an open-source (Apache) licence. MassTransit was never a Microsoft package, and its licensing is set by the vendor's terms rather than a developer-count threshold, and any free or discounted licence for qualifying organizations is in those terms, so check the vendor's licensing page. The choice is the team's: license it, stay on a v8 release while it is supported, or use a different library."
   }
 ]

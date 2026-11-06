@@ -19,7 +19,7 @@
       "The newest LTS release on Microsoft's support policy page (`net10.0` in this track), which has the longest support window left"
     ],
     "answer": 3,
-    "explanation": "An LTS release gets at least three years of support, and the newest one has the longest window left; starting on an older LTS means an upgrade sooner. A short-window STS release is a poor base for a service kept for years, and `netstandard2.0` is for libraries, not apps. Read the current choice from Microsoft's support policy page."
+    "explanation": "An LTS release gets at least three years of support, and the newest one has the longest window left, which suits a service kept for years with few upgrades. An STS release has a shorter window: it fits a service that is upgraded regularly, so compare the remaining support windows with your upgrade cadence. `netstandard2.0` is for libraries, not apps. Read the current choice from Microsoft's support policy page."
   },
   {
     "question": "A teammate adds `<LangVersion>latest</LangVersion>` to a `net8.0` project so that the C# 14 `field` keyword compiles. What is the right response?",
