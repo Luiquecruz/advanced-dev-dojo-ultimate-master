@@ -1,0 +1,5 @@
+Neither limiter needs a timer: on every call, first bring the state up to date from the time that passed since the last call, then decide. For the token bucket that means turning elapsed milliseconds into tokens; for the sliding window counter it means noticing that the window changed.
+---
+For the token bucket, `_refill()` reads `self._now()` once into `now_ms`, adds `(now_ms - self._last) * self._refill_per_second / 1000` tokens, caps with `min(self._capacity, ...)` and stores `self._last = now_ms`. For the sliding window counter, add a `self._previous` count next to `self._current`: when the window start changes, a move of exactly `window_ms` makes the old current count the previous one, and a bigger move means `self._previous = 0`.
+---
+After rolling the windows, weight the previous count by the part of it that still overlaps: `previous * (window_ms - (now_ms - start)) / window_ms + current`. Reject when that estimate is `>= limit`, and add one to the current count only for accepted requests.

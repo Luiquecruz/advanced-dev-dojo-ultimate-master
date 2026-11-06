@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A sports app shows live scores to 2,000,000 users and only the server produces updates. Which approach fits best?",
+    "options": [
+      "Polling every second, because it is the simplest HTTP pattern",
+      "WebSockets, because every live feature needs full duplex",
+      "Server-Sent Events: one long-lived HTTP response per client, with automatic reconnection",
+      "gRPC called directly from the browser"
+    ],
+    "answer": 2,
+    "explanation": "Traffic flows one way, so SSE gives push updates over plain HTTP, reconnects on its own and resumes with Last-Event-ID. Polling at that scale sends millions of mostly empty requests per second."
+  },
+  {
+    "question": "A site moved to HTTP/2 and pages load much faster on office Wi-Fi, but still stall on a lossy mobile network. Why?",
+    "options": [
+      "All streams share one TCP connection, so one lost packet holds back every stream until it is retransmitted",
+      "HTTP/2 sends headers as plain text",
+      "HTTP/2 allows only one request per connection",
+      "Mobile networks block binary framing"
+    ],
+    "answer": 0,
+    "explanation": "HTTP/2 removed head-of-line blocking at the HTTP level, but TCP still delivers bytes in order. HTTP/3 on QUIC recovers losses per stream, so a lost packet only delays the streams whose data it carried."
+  },
+  {
+    "question": "Two back-end teams want typed, fast calls between their services, including a stream of results. What do you suggest?",
+    "options": [
+      "JSON over HTTP/1.1 with one connection per request",
+      "Long polling between the services",
+      "Server-Sent Events in both directions",
+      "gRPC with a Protocol Buffers schema, which generates typed clients and supports streaming over HTTP/2"
+    ],
+    "answer": 3,
+    "explanation": "gRPC generates client and server code from one schema, encodes messages in compact binary and offers server, client and bidirectional streaming on HTTP/2, which suits service-to-service calls."
+  },
+  {
+    "question": "A collaborative whiteboard sends every user's strokes to everyone else within milliseconds. What fits best?",
+    "options": [
+      "Server-Sent Events, since it is plain HTTP",
+      "WebSockets: one full-duplex connection where client and server both send messages at any time",
+      "Polling every 100 ms",
+      "A gRPC unary call per stroke from the browser"
+    ],
+    "answer": 1,
+    "explanation": "Strokes flow in both directions continuously, which is the case WebSockets were built for: after the HTTP upgrade both sides send frames without a new request each time."
+  },
+  {
+    "question": "An SSE client loses its connection for a few seconds. How can the server avoid losing the events sent in between?",
+    "options": [
+      "It cannot; SSE gives no way to resume",
+      "The server switches the client to WebSockets",
+      "The reconnecting EventSource sends the Last-Event-ID header, so the server replays events after that id",
+      "The browser buffers events on the server's behalf"
+    ],
+    "answer": 2,
+    "explanation": "Each event can carry an id; EventSource remembers the last one and sends it as Last-Event-ID when it reconnects, and the server resends what came after it."
+  },
+  {
+    "question": "A team adds WebSockets for chat and notices that every deploy disconnects thousands of users at once. What explains it?",
+    "options": [
+      "WebSocket connections are stateful and pinned to one server, so restarting that server drops every client attached to it",
+      "WebSockets close after each message",
+      "Load balancers cannot forward the upgrade request",
+      "WebSockets only work over HTTP/3"
+    ],
+    "answer": 0,
+    "explanation": "A long-lived connection lives on one server process. Deploys need to drain connections gradually and clients need to reconnect on their own, a cost that short request-response traffic barely pays."
+  }
+]
