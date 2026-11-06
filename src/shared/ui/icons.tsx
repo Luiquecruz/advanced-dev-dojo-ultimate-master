@@ -97,18 +97,6 @@ export const ChartIcon = (props: IconProps) => (
     <line x1="18" y1="20" x2="18" y2="4" />
   </svg>
 );
-export const BookIcon = (props: IconProps) => (
-  <svg {...base} {...props}>
-    <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H20v14H5.5A1.5 1.5 0 0 0 4 19.5z" />
-    <path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20v-3" />
-  </svg>
-);
-export const CodeIcon = (props: IconProps) => (
-  <svg {...base} {...props}>
-    <polyline points="8 7 3 12 8 17" />
-    <polyline points="16 7 21 12 16 17" />
-  </svg>
-);
 
 const longArrow = { width: 40, height: 24, viewBox: '0 0 40 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.25, strokeLinecap: 'round', strokeLinejoin: 'round' } as const;
 

@@ -281,7 +281,7 @@ src/content/<track>/<NN-module>/<NN-lesson>/
 
 ### UI
 
-`LessonPage` keeps the selected language in state (initialised from the track's remembered language when the lesson ships it, otherwise the first variant). `LanguageSwitch` (`features/lesson/LanguageSwitch.tsx`) is a native `<select>` (`aria-label="Challenge language"`, 16px text under 900px so iOS does not zoom on focus) in the editor toolbar, shown only when the lesson has more than one variant; an option reads `<Language> (passed)` when that language passed. Switching loads that language's saved code or starter, opens its entry file, clears the report and console, and reloads the preview. `LessonPanel` receives the active `challenge`, so instructions, tests, hints and the solution path follow the language.
+`LessonPage` keeps the selected language in state (initialised from the track's remembered language when the lesson ships it, otherwise the first variant). `LanguageSwitch` (`features/lesson/LanguageSwitch.tsx`) appears in the editor toolbar only when the lesson has more than one variant; each option shows a check when that language passed. Switching loads that language's saved code or starter, opens its entry file, clears the report and console, and reloads the preview. `LessonPanel` receives the active `challenge`, so instructions, tests, hints and the solution path follow the language.
 
 ### Verification
 
