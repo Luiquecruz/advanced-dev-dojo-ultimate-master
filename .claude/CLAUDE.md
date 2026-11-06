@@ -33,7 +33,7 @@ Debug query params: `?debug=perf` shows the scene panel (fps, frame time, tier, 
 
 ESLint 10 (`eslint.config.js`, `npm run lint`) lints everything except lesson folders; `tsconfig.json` also excludes them (`src/content/*/**`), so lesson code is only checked by `verify` and, for Python, by `pytest` on CPython. Rules and setup in CONTRIBUTING.md "Checks before a pull request".
 
-Error monitoring: `app/monitoring/sentry.ts` (`initSentry`, called first in `main.tsx`) initializes `@sentry/react` (tracing, replay on errors only) only when `VITE_SENTRY_DSN` is set, and returns the React 19 root error handlers that `main.tsx` passes to `createRoot` (none without a DSN, so React keeps its default error logging); the sandbox and workers are not instrumented. `sentryVitePlugin` in `vite.config.ts` always runs with release creation and injection off, so the emitted JavaScript is identical with and without `SENTRY_AUTH_TOKEN` (the deploy smoke test compares it with CI's build); it uploads source maps and deletes the `.map` files only when the token is set.
+Error monitoring: `app/monitoring/sentry.ts` (`initSentry`, called first in `main.tsx`) starts `@sentry/react` in production builds with `VITE_SENTRY_DSN` only: release = commit SHA (`COMMIT_REF`/`GITHUB_SHA` through `define`), environment from the hostname, envelopes through the same-origin tunnel `/signal` (`netlify.toml` rewrite, `vite preview` proxy in `plugins/sentryTunnel.ts`), route-pattern transaction names, replay on errors loaded lazily from `@sentry/replay`, and the React 19 root error handlers for `createRoot`. Code below `app` reports only through `shared/monitoring/monitoring.ts` (lesson tags, engine spans, `reportProblem`, the **Report a problem** dialog); engines emit `engines/shared/engineEvents.ts` events (runtime boot, platform failures) that `initSentry` subscribes to. Learner mistakes are never reported; the sandbox and workers are not instrumented. `app/monitoring/chunkReload.ts` reloads once on `vite:preloadError`. `sentryVitePlugin` keeps release injection off, uploads source maps and creates the release (commits, deploy) only with `SENTRY_AUTH_TOKEN`, and its errors only warn, so the emitted JavaScript is identical with and without the token. Details in ARCHITECTURE.md "Error monitoring".
 
 ## Documentation
 
@@ -64,7 +64,7 @@ The UI follows feature-sliced design. Import with the `@/` alias (`@/shared/ui/i
 | pages | `src/pages/{home,track,lesson}/` | one screen per route: `HomePage`, `TrackPage`, `LessonRoute` (lazy `LessonPage`) | features, entities, shared, domain |
 | features | `src/features/{lesson,curriculum,path-carousel,ambient-scene}/` | user-facing capabilities | entities, shared, domain |
 | entities | `src/entities/{progress,track}/` | domain state and domain widgets: progress store, `summarizeTrack`, `TrackLogo` | shared, `@/content` |
-| shared | `src/shared/{ui,motion,scene,capabilities,design,routing,lib}/` | framework-agnostic building blocks, no course knowledge | shared only |
+| shared | `src/shared/{ui,motion,scene,capabilities,design,routing,monitoring,lib}/` | framework-agnostic building blocks, no course knowledge | shared only |
 | domain | `src/content/`, `src/engines/`, `src/sandbox/`, `src/verify/` | lessons, grading engines, sandbox iframe, lesson verification | never the layers above |
 
 - Pages, features and entities never import a sibling slice of the same layer.

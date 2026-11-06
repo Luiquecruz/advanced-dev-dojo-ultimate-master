@@ -61,7 +61,7 @@ app ──► pages ──► features ──► entities ──► shared
 | `pages` | Compose features and entities into one screen; own screen-level state (tabs, test report, console) | No page imports another page |
 | `features` | One capability each, with its own components, hooks and logic | No feature imports another feature; others reach it through its `index.ts` |
 | `entities` | Domain state and the small widgets that render it | Same isolation as features |
-| `shared` | Generic UI, motion, scene, capabilities, design tokens, routing | Imports only `shared`; no course knowledge |
+| `shared` | Generic UI, motion, scene, capabilities, design tokens, routing, monitoring | Imports only `shared`; no course knowledge |
 
 Conventions:
 
@@ -120,6 +120,32 @@ Modules are numbered for learners by their folder prefix, never by position: the
 2. Export what other slices need from the slice's `index.ts`.
 3. Put pure logic in plain TypeScript next to the component and cover it with a `*.test.ts` file.
 4. Run `npm run test` (architecture and unit tests), `npm run typecheck` and, for interaction work, check real input in the browser.
+
+### Error monitoring
+
+Sentry (`@sentry/react`) runs in the app window of production builds with a DSN (`VITE_SENTRY_DSN`); the dev server, the sandbox iframe and the workers send nothing. Learner mistakes are never reported: a failing test, a compile error, an infinite loop stopped by a timeout. What is reported is the platform failing.
+
+| Piece | Where | What it does |
+| --- | --- | --- |
+| Setup | `app/monitoring/sentry.ts` (`initSentry`, first call in `main.tsx`) | `Sentry.init`: release, environment, tunnel, tracing, replay on errors, filters; returns the React 19 root error handlers |
+| Environment | `app/monitoring/context.ts` (`environmentForHost`) | from the hostname at runtime, so the bundle stays the same everywhere: `development` (localhost, `vite preview`), `preview` (a Netlify host with `--`: Deploy Previews and branch deploys), `production` |
+| Transaction names | `routeTransactionName` in the same file, through `beforeStartSpan` | pageload and navigation spans are named by route pattern (`/`, `/:trackId`, `/:trackId/:lessonId`), never by lesson id |
+| Release | `vite.config.ts` `define` → `import.meta.env.VITE_SENTRY_RELEASE` | the commit SHA (`COMMIT_REF` on Netlify, `GITHUB_SHA` in CI), empty in a local build |
+| Tunnel | `tunnel: '/signal'`; `netlify.toml` rewrite and the `vite preview` proxy (`plugins/sentryTunnel.ts`) | envelopes go to the app's own origin and the host forwards them to the project's envelope endpoint, so ad blockers that block the Sentry ingest host do not drop them; `app/monitoring/tunnel.test.ts` checks the rewrite against the DSN in `ci.yml` |
+| Filters | `allowUrls` (the app origin), `denyUrls` (browser extensions), `ignoreErrors` (Monaco's `Canceled`, `ResizeObserver loop`) | noise that is not the app's |
+| Replay | `@sentry/replay`, imported when the page is idle (`startReplayWhenIdle`) | its own chunk, out of the initial load; buffers the session and sends it only with an error or a problem report (`replaysOnErrorSampleRate: 1`, sessions 0); text and inputs masked (SDK defaults) |
+| Tracing | `tracesSampleRate: 0.1` | Web Vitals, pageload and navigation, plus the engine spans below |
+| Chunk reload | `app/monitoring/chunkReload.ts` (`installChunkReload`) | a lazy chunk that fails to load (`vite:preloadError`, usually a tab opened before a deploy whose old chunks are gone) reloads the page once; a second failure within a minute is left to throw, so a chunk that is really missing reaches Sentry |
+
+Code below `app` reports through `shared/monitoring/monitoring.ts`, the only other module that imports the SDK; every function is a no-op without a DSN:
+
+- `setMonitoringTags`: `LessonPage` tags every event with `track`, `lesson`, `engine` and `language` while a waypoint is open.
+- `measure`: `features/lesson/runner.ts` wraps `gradeChallenge` (`engine.grade`) and `runProgram` (`engine.run`) in spans with an `engine` attribute.
+- `reportProblem`: a stable title (it groups the issue), a level, tags and a `detail` context. The runner reports `Sandbox did not load` when a hidden sandbox iframe never answered `ready` before its timeout; the scene reports `WebGL context lost` (warning, with the tier).
+- `recordSpan`: a span that already ended, as its own transaction.
+- `sendFeedback` and `isMonitoringEnabled`: the **Report a problem** button in the lesson header (shown only with monitoring on) opens `features/lesson/ReportProblemDialog.tsx`, which sends the message and an optional email with `captureFeedback`, the waypoint tags and the buffered replay.
+
+Engines stay free of Sentry (the domain never imports the layers above): `engines/shared/engineEvents.ts` is a small event bus. The Python and C# browser clients emit `boot` (wall-clock span of a runtime that started) and `failure` with a stage: `boot` (the runtime did not start, error), `snapshot` (the Python boot snapshot failed, every interpreter boots cold, warning) and `protocol` (a C# worker report did not match the tests the host discovered, warning). `initSentry` subscribes and turns them into `<engine> runtime boot` spans and problems titled `Python runtime did not start`, `C# worker report did not match the tests` and so on, tagged `engine` and `stage`, with the message as `detail`.
 
 ### Two engine families
 

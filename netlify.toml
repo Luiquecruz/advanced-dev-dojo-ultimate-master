@@ -27,6 +27,14 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Sentry tunnel (plugins/sentryTunnel.ts): the SDK posts envelopes to /signal and Netlify proxies them to the project of the DSN.
+# The target is sentryEnvelopeUrl(VITE_SENTRY_DSN); src/app/monitoring/tunnel.test.ts checks it against the DSN in ci.yml.
+[[redirects]]
+  from = "/signal"
+  to = "https://o4512380997074944.ingest.us.sentry.io/api/4512381161308160/envelope/"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

@@ -1,3 +1,4 @@
+import { emitEngineEvent } from '../shared/engineEvents';
 import type { ProjectFiles } from '../shared/project';
 import type { RunReport, TestResult } from '../shared/testRunner';
 import type { OutputLevel } from './engine';
@@ -72,7 +73,8 @@ function getSnapshot(): Promise<Uint8Array | undefined> {
     const maker = createWorker();
     try {
       return await answer(maker, { type: 'make-snapshot' }, BOOT_TIMEOUT_MS, (message) => (message.type === 'snapshot' ? message.bytes : undefined));
-    } catch {
+    } catch (error) {
+      emitEngineEvent({ type: 'failure', engine: 'python', stage: 'snapshot', message: describe(error) });
       return undefined;
     } finally {
       maker.terminate();
@@ -83,12 +85,17 @@ function getSnapshot(): Promise<Uint8Array | undefined> {
 
 function spawn(packages: string[] = []): Interpreter {
   const worker = createWorker();
+  const startedAt = Date.now();
   const ready = getSnapshot().then((bytes) =>
     answer(worker, { type: 'boot', snapshot: bytes, packages }, BOOT_TIMEOUT_MS, (message) => (message.type === 'ready' ? true : undefined)).then(() => {
       started = true;
+      emitEngineEvent({ type: 'boot', engine: 'python', startedAt, endedAt: Date.now() });
     }),
   );
-  ready.catch(() => worker.terminate());
+  ready.catch((error) => {
+    worker.terminate();
+    emitEngineEvent({ type: 'failure', engine: 'python', stage: 'boot', message: describe(error) });
+  });
   return { worker, ready };
 }
 

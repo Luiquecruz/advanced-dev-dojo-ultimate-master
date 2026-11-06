@@ -1,3 +1,4 @@
+import { emitEngineEvent } from '../shared/engineEvents';
 import type { ProjectFiles } from '../shared/project';
 import type { RunReport, TestResult } from '../shared/testRunner';
 import { reportMismatch, type CsharpWorkerRequest, type CsharpWorkerResponse, type OutputLevel } from './protocol';
@@ -61,6 +62,7 @@ function clip(text: string): string {
 
 function spawn(): Runtime {
   const worker = createWorker();
+  const startedAt = Date.now();
   const ready = new Promise<CsharpTimings>((resolve, reject) => {
     const finish = (settle: () => void) => {
       clearTimeout(timer);
@@ -86,9 +88,11 @@ function spawn(): Runtime {
   ready.then(
     (timings) => {
       lastTimings = timings;
+      emitEngineEvent({ type: 'boot', engine: 'csharp', startedAt, endedAt: Date.now() });
     },
-    () => {
+    (error) => {
       worker.terminate();
+      emitEngineEvent({ type: 'failure', engine: 'csharp', stage: 'boot', message: describe(error) });
       if (spare === runtime) {
         spare = undefined;
       }
@@ -172,6 +176,9 @@ function attempt(runtime: Runtime, files: ProjectFiles, tests: string, startAt: 
       }
       if (data.type === 'test-report') {
         const mismatch = reportMismatch(data.report, collected, names, startAt);
+        if (mismatch) {
+          emitEngineEvent({ type: 'failure', engine: 'csharp', stage: 'protocol', message: mismatch });
+        }
         finish(mismatch ? { kind: 'failed', message: mismatch, collected: [] } : { kind: 'report', report: data.report });
       }
     };

@@ -2,13 +2,14 @@ import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
 import { LANGUAGES, type LanguageId, type Lesson, type Track } from '@/content';
-import { canRunProgram, CodeEditor, configureLanguageService, type ConsoleEntry, gradeChallenge, LanguageSwitch, LessonPanel, type LessonTab, prepareEngine, PreviewFrame, type Report, runProgram, TestName, testNamesFor } from '@/features/lesson';
+import { canRunProgram, CodeEditor, configureLanguageService, type ConsoleEntry, gradeChallenge, LanguageSwitch, LessonPanel, type LessonTab, prepareEngine, PreviewFrame, type Report, ReportProblemDialog, runProgram, TestName, testNamesFor } from '@/features/lesson';
 import { CurriculumDrawer } from '@/features/curriculum';
 import { Markdown } from '@/shared/ui/Markdown';
 import { codeKeyFor, isLessonComplete, progress, useProgress } from '@/entities/progress';
 import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
-import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, CrossIcon, MenuIcon, PlayIcon, RefreshIcon, ResetIcon, TerminalIcon } from '@/shared/ui/icons';
+import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, CrossIcon, FlagIcon, MenuIcon, PlayIcon, RefreshIcon, ResetIcon, TerminalIcon } from '@/shared/ui/icons';
+import { isMonitoringEnabled, setMonitoringTags } from '@/shared/monitoring/monitoring';
 import { useMediaQuery } from '@/shared/lib/useMediaQuery';
 import { useLessonFiles } from './useLessonFiles';
 import { BrandMark } from '@/shared/ui/BrandMark';
@@ -43,6 +44,8 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   const [reloadKey, setReloadKey] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [solutionOpen, setSolutionOpen] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
+  const closeReport = useCallback(() => setReportOpen(false), []);
 
   const testNames = useMemo(() => (challenge ? testNamesFor(engine, challenge) : []), [engine, challenge]);
   const fileNames = Object.keys(files).sort((a, b) => (a === challenge?.entry ? -1 : b === challenge?.entry ? 1 : a.localeCompare(b)));
@@ -60,6 +63,11 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   useEffect(() => {
     progress.visit(track.id, lesson.key);
   }, [track.id, lesson.key]);
+
+  useEffect(() => {
+    setMonitoringTags({ track: track.id, lesson: lesson.id, engine: challenge ? engine : undefined, language: challenge?.language });
+    return () => setMonitoringTags({ track: undefined, lesson: undefined, engine: undefined, language: undefined });
+  }, [track.id, lesson.id, engine, challenge]);
 
   useEffect(() => {
     if (!solutionOpen) {
@@ -289,6 +297,11 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
           <span className="mx-1.5 font-mono text-xs text-ink-faint max-wide:hidden">
             {index + 1} / {track.lessons.length}
           </span>
+          {isMonitoringEnabled() && (
+            <button className={iconButtonClass()} title="Report a problem" onClick={() => setReportOpen(true)}>
+              <FlagIcon />
+            </button>
+          )}
           <LessonStepLink trackId={track.id} lessonId={previous?.id} title="Previous waypoint">
             <ChevronLeftIcon />
           </LessonStepLink>
@@ -322,6 +335,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
         </Group>
       </main>
 
+      {reportOpen && <ReportProblemDialog onClose={closeReport} />}
       {drawerOpen && <CurriculumDrawer track={track} currentKey={lesson.key} onClose={() => setDrawerOpen(false)} />}
       {solutionOpen && challenge && (
         <div

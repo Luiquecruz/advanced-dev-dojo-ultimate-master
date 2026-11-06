@@ -2,11 +2,14 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 import { App } from './app/App';
+import { installChunkReload } from './app/monitoring/chunkReload';
 import { initSentry } from './app/monitoring/sentry';
 import { legacyHashRedirect } from '@/shared/routing/route';
 import './app/styles.css';
 
 const rootOptions = initSentry();
+installChunkReload();
+installChunkReload();
 
 const legacyPath = legacyHashRedirect(location, import.meta.env.BASE_URL);
 if (legacyPath) {

@@ -17,7 +17,8 @@ concurrency:
 
 # Netlify builds with VITE_SENTRY_DSN set, and the DSN ends up in the main bundle, so every CI build that the smoke job
 # compares with a deploy must use the same value. A DSN is public (it is in the served JavaScript); the repository
-# variable lets the owner change it, and the fallback is the DSN production serves today.
+# variable lets the owner change it, and the fallback is the DSN production serves today. The commit SHA reaches the bundle
+# too, as the Sentry release (vite.config.ts): Netlify's COMMIT_REF, GITHUB_SHA in CI.
 env:
   VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN || 'https://4f0ce69f51f3b8886d94bc586fed1ad0@o4512380997074944.ingest.us.sentry.io/4512381161308160' }}
 
@@ -229,6 +230,9 @@ jobs:
           key: dotnet-${{ hashFiles('vendor/dotnet/manifest.json', 'scripts/csharp-track/vendor-dotnet.mjs', 'scripts/csharp-track/WebcilConvert.cs', 'src/engines/csharp/host/*.cs') }}
       - name: Build the pull request head, as Netlify does for the Deploy Preview
         if: github.event_name == 'pull_request'
+        env:
+          # The Sentry release (vite.config.ts) is COMMIT_REF on Netlify, GITHUB_SHA otherwise; here GITHUB_SHA is the merge commit.
+          COMMIT_REF: ${{ github.event.pull_request.head.sha }}
         run: |
           npm ci
           npx vite build
