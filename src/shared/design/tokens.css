@@ -82,8 +82,8 @@
 }
 
 [data-trail='architecture'] {
-  --accent: #ffb547;
-  --accent-rgb: 255 181 71;
+  --accent: #ffad63;
+  --accent-rgb: 255 173 99;
 }
 
 [data-trail='vue'] {
@@ -92,8 +92,8 @@
 }
 
 [data-trail='angular'] {
-  --accent: #ff6b81;
-  --accent-rgb: 255 107 129;
+  --accent: #f2f466;
+  --accent-rgb: 242 244 102;
 }
 
 [data-trail='ai-engineering'] {

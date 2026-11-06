@@ -82,3 +82,6 @@ A service is a plain class, so it can hold signals. Every component that injects
 - **Listing a root service in a component's `providers`**: that creates a *second* instance for that component subtree, which silently breaks sharing.
 - **Calling `inject()` outside an injection context**: store the dependency in a field first, then use the field in methods.
 - **Exposing writable state**: keep the `signal` private and expose `asReadonly()` or `computed()` values plus methods that update it.
+
+
+For shared-state ownership and store libraries, continue with [Signal-Based Services in State Management](/react-state/signal-based-services).

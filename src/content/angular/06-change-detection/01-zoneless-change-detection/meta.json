@@ -1,0 +1,21 @@
+{
+  "title": "Zoneless Change Detection",
+  "summary": "Understand Angular rendering notifications, separate scheduling from state changes, and test asynchronous updates without relying on patched browser APIs.",
+  "level": "intermediate",
+  "tags": [
+    "core",
+    "modern",
+    "performance",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Angular: Zoneless",
+      "url": "https://angular.dev/guide/zoneless"
+    },
+    {
+      "label": "Angular: provideZonelessChangeDetection",
+      "url": "https://angular.dev/api/core/provideZonelessChangeDetection"
+    }
+  ]
+}

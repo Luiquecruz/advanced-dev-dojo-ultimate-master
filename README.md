@@ -15,7 +15,7 @@
 ![Vitest](https://img.shields.io/badge/Vitest-5-6E9F18?logo=vitest&logoColor=white)
 ![ESLint](https://img.shields.io/badge/ESLint-10-4B32C3?logo=eslint&logoColor=white)
 
-Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 827 lessons in 12 tracks, 676 of them public.
+Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 835 lessons in 12 tracks, 732 of them public.
 
 ## Tracks
 
@@ -31,8 +31,8 @@ Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform f
 | C# and .NET | C# (.NET 10 WebAssembly + Roslyn in a Web Worker); theory and quizzes, graded C# challenges in modules 00, 02–04, 08–10, 12 and 14, practice projects built locally with the .NET 10 SDK | 80 | .NET 10 and C# 14 backend development, from programming fundamentals (optional module 00) to production: runtime and language, LINQ, async, ASP.NET Core APIs, EF Core and Dapper, security, testing, background work and messaging, containers, CI/CD and observability, architecture, legacy .NET Framework and migration, integration, performance and code quality |
 | System Design | Node.js, Python (Pyodide) and C# (.NET WebAssembly), chosen per challenge; theory and quizzes, graded challenges in 19 of 29 lessons | 29 | from architecture fundamentals (optional module 00) to the interview framework and capacity estimation, protocols, load balancing and rate limiting, storage engines, replication, sharding and consistent hashing, caching patterns, CAP and PACELC, consensus, message queues, sagas and the outbox, resilience, serverless pipelines, real-world case studies, vector databases and AI gateways, SLOs, multi-region design and design reviews |
 | Vue | Vue | 44 | hidden while in progress |
-| Angular | Angular | 53 | hidden while in progress |
-| Java and Spring Boot | theory and quizzes plus local Java backend projects (no graded challenges) | 54 | hidden while in progress: Java from zero, the language, build and tests, Spring Boot, persistence, security, backend delivery and an API capstone |
+| Angular | Angular | 52 | standalone components, signals, DI, RxJS, change detection, routing, forms, HTTP, testing, legacy Angular and SSR |
+| Java and Spring Boot | theory and quizzes plus local Java backend projects (no graded challenges) | 59 | hidden while in progress: Java from zero, the language, build and tests, Spring Boot, persistence, security, backend delivery and an API capstone |
 
 Hidden tracks are toggled in `src/content/featureFlags.ts`. Module and lesson plans live in [CURRICULUM.md](.claude/docs/CURRICULUM.md).
 
@@ -128,7 +128,7 @@ npm run csharp:vendor                              # download, verify and assemb
 - Lessons that use the fake model (`dojo_ai`) are graded only under Pyodide; the CPython suite skips them.
 - A synchronous infinite loop in Python cannot be interrupted inside Pyodide: the worker is terminated and only that test fails.
 - Progress lives in the browser (`localStorage`); there are no accounts or sync between devices.
-- The Vue, Angular and Java and Spring Boot tracks are hidden until their lessons are complete.
+- Vue and Java and Spring Boot remain hidden. Angular is public; its six planned follow-up lessons are listed in [the release audit](.claude/docs/angular-release-audit.md).
 
 ## Security
 

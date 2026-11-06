@@ -398,3 +398,6 @@ Pronto quando: todos os critérios da seção 14 passam.
 
 
 The hidden Java and Spring Boot track registers its existing accent and coffee/server glyph under `java-spring`. Angular keeps its independent identity; enabling either track is a separate release decision.
+
+
+Angular is public with accent `#f2f466` (`242 244 102`). Architecture uses `#ffad63` (`255 173 99`): these two changes create the extra public hue slot while preserving AA contrast and the existing constellation geometry. Other track accent values are retained.

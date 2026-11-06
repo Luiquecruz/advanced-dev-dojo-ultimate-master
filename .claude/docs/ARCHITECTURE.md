@@ -112,7 +112,7 @@ Stores are plain external stores read through `useSyncExternalStore`: no state l
 
 `summarizeTrack` (`entities/progress/trackSummary.ts`) is the single source of track `done`/`total`/`percent`/`status` and of the resume lesson for the carousel card and the track page. A module marked `"optional": true` in `module.json` (`Module.optional`, `false` by default; the loader rejects a non-boolean value) counts toward `done` and `total` as a whole once the learner has started it: once a lesson of the module that has a challenge (`LessonEntry.hasChallenge`) and is not its last lesson is complete, or every lesson is. A lesson without a challenge (the quiz-only Python map `00-foundations/01-foundations-map`) and the last lesson (the challenge that doubles as the skip test) do not start it, and visits never count. So C# 00/01 `first-program`, which teaches and grades a challenge, starts C# module zero, while passing the Python map does not start Python module zero; it starts at 00/02. A learner who reads the skip rule, passes the skip test and skips the rest reaches 100% when every required lesson is done; a learner who began working through the module reaches 100% only after finishing it. `src/verify/content.test.ts` checks that only a module numbered 0 is optional, that its last lesson has a challenge and that an earlier lesson has one too (otherwise the module could never start counting). The resume lesson is the last visited lesson while it is unfinished; once it is complete, it is the next unfinished counted lesson after it, wrapping to the first one (so a started optional module is resumed after the required modules are done, and a never started one is not). The resume lesson of a fresh track is still the first lesson of the track. Per-module counts in `ModuleList` and `ModuleProgress` always include every lesson of the module; an optional module that is neither complete nor the current stage has the `ModuleProgress` state `optional` instead of `upcoming`, and in a completed track no module is `current`. `ModuleList` and the `PathCard` timeline show an `optional` tag on such modules, and the track page explains the rule in one line.
 
-Modules are numbered for learners by their folder prefix, never by position: the loader sets `Module.number` from the prefix (`00-fundamentals` → 0, and rejects a module folder without one), and `moduleNumberLabel` (`entities/track`) renders it as two digits in `ModuleList` and the `PathCard` timeline, so the UI matches lesson text that cites "module 07" even when an optional module zero precedes module 01. The `PathCard` stage line (`stageLine` in `features/path-carousel/stageLine.ts`, unit-tested) reads `Stage <number> of <lastStageNumber>` (`TrackSummary.lastStageNumber`, the highest number of a required module), `Optional module <NN>` while the resume lesson sits in an optional module, and `All <lastStageNumber> stages done` for a completed track. Stage numbers are folder numbers, and the last one doubles as the stage count: `src/verify/content.test.ts` requires module numbers to be unique in every track and the required modules of every shown track to be numbered 1 to N without gaps (a hidden track with a backlog gap, such as Angular without `06-`, must close it before it is enabled).
+Modules are numbered for learners by their folder prefix, never by position: the loader sets `Module.number` from the prefix (`00-fundamentals` → 0, and rejects a module folder without one), and `moduleNumberLabel` (`entities/track`) renders it as two digits in `ModuleList` and the `PathCard` timeline, so the UI matches lesson text that cites "module 07" even when an optional module zero precedes module 01. The `PathCard` stage line (`stageLine` in `features/path-carousel/stageLine.ts`, unit-tested) reads `Stage <number> of <lastStageNumber>` (`TrackSummary.lastStageNumber`, the highest number of a required module), `Optional module <NN>` while the resume lesson sits in an optional module, and `All <lastStageNumber> stages done` for a completed track. Stage numbers are folder numbers, and the last one doubles as the stage count: `src/verify/content.test.ts` requires module numbers to be unique in every track and the required modules of every shown track to be numbered 1 to N without gaps (a hidden track with a backlog gap must close that gap before it is enabled).
 
 ### Adding UI
 
@@ -337,7 +337,7 @@ Brand and vocabulary: the product is **Constela Mission**, a space-mission theme
 
 The storage key stays `dev-dojo:progress:v1` so saved progress survives the rename. Internal `dojo` identifiers are kept on purpose because they are API surface, pinned or compared by CI: `@dojo/ai`, `dojo_ai`, `dojo_harness.py`, `DojoHost`/`Dojo.Testing` and the C# `using Dojo;` namespace (hashed into `vendor/dotnet/manifest.json`), `virtual:dojo-content`, the `dojo-pyodide`/`dojo-dotnet` meta tags (the deploy smoke test reads them), the `DOJO_*` variables of `tests/python` and the `.dojo-preview-*` classes of `sandbox.html`. The repository (`advanced-dev-dojo-ultimate-master`) and the Sentry project keep their names. New identifiers use `constela` (package `constela-mission`, Monaco theme `constela`, docs-sync state `constela-docs-sync`).
 
-Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue` and `angular`; a track built in stacked pull requests stays hidden until the part that completes it). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
+Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue` and `java-spring`; a track built in stacked pull requests stays hidden until the part that completes it). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
 
 ### Track logos
 
@@ -356,11 +356,11 @@ Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
 - At least 30° of hue away from the accent of every other track shown to learners, so tracks stay distinguishable (also for color-blind users; the logo glyph and title are the second cue). Tracks hidden in `src/content/featureFlags.ts` never share a screen with the others and are left out; enabling one whose hue collides fails the test, and the accents are revisited then.
 - `--accent-rgb` must be the same color as `--accent` written as `R G B`.
 
-Current accents and their hues. Python took the last band 30° away from every accent (around 123°), so the rule now counts only the tracks shown to learners: C# uses the band of the hidden Angular track (about 358°), and System Design uses Vue's band (about 160°, between Python and TypeScript), free while Vue stays hidden.
+Current accents and their hues. Angular and Frontend Architecture use separate bands to keep all published tracks at least 30° apart. Hidden Vue and Java/Spring may share a band until their release colors are chosen.
 
 | Track | Accent | Hue |
 | --- | --- | --- |
-| architecture | `#ffb547` | 36° |
+| architecture | `#ffad63` | 28° |
 | ai-engineering | `#f07ad9` | 312° |
 | node | `#9be15d` | 92° |
 | python | `#62e869` | 123° |
@@ -369,8 +369,9 @@ Current accents and their hues. Python took the last band 30° away from every a
 | typescript | `#4dd9ff` | 193° |
 | react | `#8c8cff` | 240° |
 | react-state | `#d29cff` | 273° |
-| angular (hidden) | `#ff6b81` | 351° |
+| angular | `#f2f466` | 61° |
 | csharp | `#ff7a7f` | 358° |
+| java-spring (hidden) | `#ffa24d` | 29° |
 
 ## Adding a framework track (step by step)
 
@@ -470,3 +471,6 @@ For a track on an existing engine, only the items marked *(track)* apply.
 - [ ] *(track)* `CURRICULUM.md` plan with `✓` on written lessons (`src/verify/curriculum.test.ts`), new libraries in `CONTENT_GUIDE.md`
 - [ ] *(track)* `index.html` meta description names the track if it should
 - [ ] *(track)* Carousel, curriculum, preview and test run checked in the browser; `npm run test`, `npm run verify` and `npm run build` pass
+
+
+Angular is a public track with twelve consecutive required stages. Its change-detection stage teaches Angular 22 zoneless notifications and OnPush/Eager checking. Shared Signals/NgRx stores live in State Management; Angular state prerequisites link to that track. Angular uses accent `#f2f466`; Architecture uses `#ffad63` so all public accents remain at least 30 degrees apart in hue while retaining AA contrast. See [angular-release-audit.md](angular-release-audit.md) for the remaining planned lessons and release evidence.

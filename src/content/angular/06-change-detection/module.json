@@ -1,0 +1,4 @@
+{
+  "title": "Change Detection",
+  "description": "How Angular 22 schedules rendering without ZoneJS, when OnPush and Eager views are checked, and how to recognize ZoneJS-based legacy applications."
+}

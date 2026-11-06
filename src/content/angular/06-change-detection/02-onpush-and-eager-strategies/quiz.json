@@ -1,0 +1,57 @@
+[
+  {
+    "question": "An Angular 22 component omits changeDetection. Which strategy does it use?",
+    "options": [
+      "Eager",
+      "ZoneJS",
+      "OnPush",
+      "Manual only"
+    ],
+    "answer": 2,
+    "explanation": "OnPush is the default strategy in Angular 22. The deprecated Default enum member is an alias for Eager rather than the current default."
+  },
+  {
+    "question": "A parent mutates person.name but keeps the same person object. Why can an OnPush child remain unchanged?",
+    "options": [
+      "The input identity did not change",
+      "Object inputs are forbidden",
+      "OnPush disables text bindings",
+      "The child needs a global store"
+    ],
+    "answer": 0,
+    "explanation": "Angular compares bound input values using Object.is. A same-reference mutation is not a new object input value."
+  },
+  {
+    "question": "An unrelated callback assigns a plain field in a zoneless Eager component. Is Eager enough to guarantee a new render?",
+    "options": [
+      "Yes, it polls all fields",
+      "Only for string fields",
+      "Only in production",
+      "No, the callback still needs an Angular notification"
+    ],
+    "answer": 3,
+    "explanation": "Eager changes which views are checked when detection runs. It does not make unrelated plain-field assignments notify the zoneless scheduler."
+  },
+  {
+    "question": "A progress signal read by the template changes from 10 to 40. What should a behavior test verify?",
+    "options": [
+      "That the method contains a specific variable name",
+      "That the rendered progress becomes 40 after stabilization",
+      "That the page reloads",
+      "That ZoneJS patched the callback"
+    ],
+    "answer": 1,
+    "explanation": "The observable contract is that a signal-driven external update reaches the rendered view after Angular becomes stable."
+  },
+  {
+    "question": "What is ChangeDetectionStrategy.Default in Angular 22?",
+    "options": [
+      "A deprecated alias for Eager",
+      "A new signal type",
+      "The only supported strategy",
+      "An alias for OnPush"
+    ],
+    "answer": 0,
+    "explanation": "The enum retains Default as a deprecated name for Eager. New examples should use Eager when that explicit strategy is intended."
+  }
+]

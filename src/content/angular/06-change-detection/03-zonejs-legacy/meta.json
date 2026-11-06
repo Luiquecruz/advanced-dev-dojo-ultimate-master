@@ -1,0 +1,25 @@
+{
+  "title": "ZoneJS in Legacy Applications",
+  "summary": "Recognize ZoneJS scheduling, distinguish it from OnPush and signal reactivity, and plan a measured migration to Angular\u2019s zoneless mode.",
+  "level": "intermediate",
+  "tags": [
+    "core",
+    "modern",
+    "performance",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Angular: Zoneless migration",
+      "url": "https://angular.dev/guide/zoneless"
+    },
+    {
+      "label": "Angular: NgZone",
+      "url": "https://angular.dev/api/core/NgZone"
+    },
+    {
+      "label": "Angular: provideZoneChangeDetection",
+      "url": "https://angular.dev/api/core/provideZoneChangeDetection"
+    }
+  ]
+}

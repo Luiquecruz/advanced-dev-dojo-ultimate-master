@@ -217,6 +217,8 @@ Spec: `.claude/specs/AI Engineering Track.md`. Six decision layers (model, conte
 
 ## Angular (`src/content/angular`)
 
+Public Angular 22 path. Shared Signals/NgRx state lessons continue in [State Management](#05-angular-state--state-with-angular); six unchecked lessons remain planned in Signals and Ecosystem. See [angular-release-audit.md](angular-release-audit.md).
+
 ### 01-foundations — Foundations
 00-what-is-angular **(quiz)** (CLI, standalone, signals era, file naming v20+) ✓ · 01-standalone-components ✓ · 02-template-syntax-and-bindings ✓ · 03-control-flow (@if/@for/@switch/@let, track) ✓ · 04-event-binding ✓ · 05-signal-inputs (input(), required, transform) ✓ · 06-outputs (output(), outputFromObservable) ✓ · 07-model-inputs (two-way binding with model()) ✓ · 08-content-projection ✓ · 09-lifecycle-hooks ✓ · 10-pipes ✓
 
@@ -233,7 +235,7 @@ Spec: `.claude/specs/AI Engineering Track.md`. Six decision layers (model, conte
 01-attribute-directives (host bindings, hostDirectives) ✓ · 02-custom-structural-directives ✓ · 03-ng-template-and-outlets ✓ · 04-view-and-content-queries (viewChild(), contentChildren()) ✓ · 05-dynamic-components ✓ · 06-defer-blocks ✓
 
 ### 06-change-detection — Change Detection
-01-zoneless-change-detection **(quiz)** · 02-onpush-and-eager-strategies · 03-zonejs-legacy **(quiz)**
+01-zoneless-change-detection **(quiz)** ✓ · 02-onpush-and-eager-strategies ✓ · 03-zonejs-legacy **(quiz)** ✓
 
 ### 07-routing — Router
 01-router-basics ✓ · 02-route-params-and-component-input-binding ✓ · 03-functional-guards ✓ · 04-resolvers ✓ · 05-lazy-loading **(quiz)** ✓
@@ -246,13 +248,13 @@ Spec: `.claude/specs/AI Engineering Track.md`. Six decision layers (model, conte
 
 State patterns and NgRx exercises are centralized in [State Management](#05-angular-state--state-with-angular), module State with Angular. Angular signals and dependency injection remain prerequisites here. The Angular publication pass closes module-numbering gaps.
 
-### 11-testing — Testing
+### 10-testing — Testing
 01-testbed-and-vitest ✓ · 02-testing-services-and-http ✓ · 03-component-harnesses **(quiz)** ✓
 
-### 12-legacy — Legacy Angular
+### 11-legacy — Legacy Angular
 01-ngmodules ✓ · 02-constructor-injection-and-decorator-inputs (@Input/@Output) ✓ · 03-structural-directives-ngif-ngfor ✓ · 04-angularjs-and-migration-history **(quiz)** ✓
 
-### 13-ecosystem — SSR and Ecosystem
+### 12-ecosystem — SSR and Ecosystem
 01-ssr-and-hydration **(quiz)** (incremental hydration, event replay) ✓ · 02-angular-cli-and-builders **(quiz)** (esbuild, Vite dev server) · 03-accessibility-and-angular-aria **(quiz)** · 04-performance (trackBy/track, @defer, NgOptimizedImage) **(quiz)**
 
 ## Node.js (`src/content/node`, engine `node`)

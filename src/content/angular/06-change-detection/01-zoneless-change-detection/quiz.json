@@ -1,0 +1,57 @@
+[
+  {
+    "question": "An external callback assigns a plain field, but the view stays stale until a click. What is missing?",
+    "options": [
+      "An Angular rendering notification at the callback boundary",
+      "An extra HTTP header",
+      "A second component instance",
+      "A longer timeout"
+    ],
+    "answer": 0,
+    "explanation": "A plain-field assignment in an unrelated callback does not notify the zoneless scheduler. A consumed signal or markForCheck supplies that notification."
+  },
+  {
+    "question": "A template reads status(), and a callback calls status.set(\"Ready\"). When should a component test inspect the DOM?",
+    "options": [
+      "Before set returns",
+      "After Angular becomes stable",
+      "Only after installing ZoneJS",
+      "Only after the user navigates"
+    ],
+    "answer": 1,
+    "explanation": "Signal writes notify Angular, but rendering is scheduled. Waiting for fixture stability tests the visible update without relying on synchronous DOM changes."
+  },
+  {
+    "question": "Which code can hide a missing production notification in a test?",
+    "options": [
+      "Waiting for fixture.whenStable()",
+      "Reading the displayed text",
+      "Calling fixture.detectChanges() after every arbitrary callback",
+      "Keeping automatic detection enabled"
+    ],
+    "answer": 2,
+    "explanation": "Manually forcing a check can make stale plain-field state visible even though the production scheduler never received a notification."
+  },
+  {
+    "question": "A component renders an Observable through AsyncPipe. How does a new emission notify Angular?",
+    "options": [
+      "It cannot work without ZoneJS",
+      "AsyncPipe reloads the page",
+      "Every Observable is globally patched",
+      "AsyncPipe marks its view for checking"
+    ],
+    "answer": 3,
+    "explanation": "AsyncPipe integrates observable values with change detection by marking its view for checking when new values arrive."
+  },
+  {
+    "question": "Which statement describes an ordinary Angular 22 bootstrap?",
+    "options": [
+      "It must import zone.js for every component",
+      "It is zoneless by default unless the application opts into zone-based scheduling",
+      "It never schedules rendering",
+      "It requires detectChanges after every click"
+    ],
+    "answer": 1,
+    "explanation": "Angular 22 uses zoneless scheduling by default. An explicit provideZoneChangeDetection configuration opts into a different scheduling mode."
+  }
+]

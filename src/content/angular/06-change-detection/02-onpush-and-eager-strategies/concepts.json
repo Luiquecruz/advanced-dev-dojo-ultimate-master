@@ -1,0 +1,22 @@
+[
+  {
+    "term": "OnPush",
+    "description": "The default Angular 22 strategy that allows clean component subtrees to be skipped until relevant updates mark them for checking."
+  },
+  {
+    "term": "Eager",
+    "description": "A strategy that checks a view eagerly when change detection runs, without supplying missing scheduler notifications."
+  },
+  {
+    "term": "Input identity",
+    "description": "The value identity compared at a component input boundary with Object.is."
+  },
+  {
+    "term": "Immutable update",
+    "description": "Replacing a changed array or object rather than mutating the existing value in place."
+  },
+  {
+    "term": "Default alias",
+    "description": "The deprecated ChangeDetectionStrategy name whose value is equivalent to Eager, not Angular 22\u2019s default strategy."
+  }
+]
