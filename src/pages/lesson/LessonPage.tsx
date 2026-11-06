@@ -49,6 +49,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   const [solutionOpen, setSolutionOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
   const [pane, setPane] = useState<MobilePane>('lesson');
+  const [focusedPane, setFocusedPane] = useState<MobilePane | null>(null);
   const closeReport = useCallback(() => setReportOpen(false), []);
 
   const testNames = useMemo(() => (challenge ? testNamesFor(engine, challenge) : []), [engine, challenge]);
@@ -392,19 +393,36 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
               </div>
             ))}
           </main>
-          <div className="flex flex-none border-t border-line bg-elevated pb-[env(safe-area-inset-bottom)]" role="tablist" aria-label="Workspace areas" inert={drawerOpen || reportOpen}>
-            {mobilePanes.map((entry) => (
+          <div
+            className="flex flex-none border-t border-line bg-elevated pb-[env(safe-area-inset-bottom)]"
+            role="tablist"
+            aria-label="Workspace areas"
+            inert={drawerOpen || reportOpen}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) setFocusedPane(null);
+            }}
+          >
+            {mobilePanes.map((entry, index) => (
               <button
                 key={entry.id}
                 id={`pane-tab-${entry.id}`}
                 role="tab"
                 aria-selected={pane === entry.id}
                 aria-controls={`pane-${entry.id}`}
+                tabIndex={(focusedPane ?? pane) === entry.id ? 0 : -1}
                 className={clsx(
                   'flex h-14 flex-1 cursor-pointer flex-col items-center justify-center gap-1 text-[11px] font-semibold transition-colors duration-(--dur-fast) [&_svg]:size-5',
                   pane === entry.id ? 'text-accent shadow-[inset_0_2px_0_var(--accent)]' : 'text-ink-muted',
                 )}
                 onClick={() => setPane(entry.id)}
+                onFocus={() => setFocusedPane(entry.id)}
+                onKeyDown={(event) => {
+                  if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+                  event.preventDefault();
+                  const direction = event.key === 'ArrowRight' ? 1 : -1;
+                  const nextIndex = (index + direction + mobilePanes.length) % mobilePanes.length;
+                  event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[nextIndex]?.focus();
+                }}
               >
                 {entry.icon}
                 <span className="flex items-center gap-1">
