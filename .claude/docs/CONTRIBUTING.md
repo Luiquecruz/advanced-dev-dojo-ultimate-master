@@ -58,6 +58,7 @@ npm run lint                                         # ESLint (eslint.config.js)
 npm run typecheck
 npm run test                                         # unit + architecture rules
 npx vitest run src/verify/<track>.test.ts            # tracks whose lessons or engine changed
+npx vitest run src/verify/noDates.test.ts            # any lesson text: no dates or changelog, pending lessons in src/verify/datedPending.ts
 npm run verify                                       # every lesson, when an engine or shared runner changed
 npm run build
 npm run docs:check                                   # documents updated for every documented area that changed
