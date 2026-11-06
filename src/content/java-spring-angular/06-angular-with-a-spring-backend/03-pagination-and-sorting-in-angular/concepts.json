@@ -1,0 +1,9 @@
+[
+  { "term": "Pageable parameters", "description": "The page, size and sort query parameters that Spring MVC turns into a Pageable, with page counted from zero and a default size of 20." },
+  { "term": "Sort format", "description": "The value property,direction such as name,desc, where a repeated sort parameter sorts by several properties." },
+  { "term": "PagedModel", "description": "The Spring Data wrapper that renders a Page as a stable JSON object with a content array and a page object holding the totals." },
+  { "term": "Page metadata", "description": "The size, number, totalElements and totalPages members that let a client draw page controls without guessing." },
+  { "term": "Query parameters as state", "description": "A pair of signals for the page index and the sort whose values feed the httpResource request, so changing one sends a new request." },
+  { "term": "Page reset", "description": "Returning to page 0 whenever the sort or a filter changes, because the old page number may not exist in the new result." },
+  { "term": "Sort whitelist", "description": "The fixed set of property names a server accepts in sort, since Spring copies the names from the request without checking them." }
+]

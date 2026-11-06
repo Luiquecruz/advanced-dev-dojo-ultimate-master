@@ -1,0 +1,8 @@
+[
+  { "term": "Presentational component", "description": "A component that receives data through inputs and reports user actions through outputs, with no service, HTTP call or business state." },
+  { "term": "Container component", "description": "A component that owns data access and screen state, passing values down to children and handling the events they emit." },
+  { "term": "input()", "description": "A field that creates a read-only signal fed by the parent, where input.required makes the parent supply a value." },
+  { "term": "output()", "description": "A field that creates an event the parent listens to with (name)=\"handler($event)\" and that the component fires with emit." },
+  { "term": "Derived state", "description": "A value computed from other signals, such as a cart total, which cannot disagree with its sources because it is not stored." },
+  { "term": "Immutable update", "description": "Replacing an array or object in a signal with a new one through update, which is how readers learn that the value changed." }
+]

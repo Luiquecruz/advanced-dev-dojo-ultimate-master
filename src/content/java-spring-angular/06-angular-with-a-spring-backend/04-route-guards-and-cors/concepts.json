@@ -1,0 +1,9 @@
+[
+  { "term": "Functional guard", "description": "A plain function such as CanActivateFn that the router calls before activating a route and that returns a boolean, a UrlTree or an Observable or Promise of either." },
+  { "term": "UrlTree", "description": "A parsed destination that a guard returns to redirect the navigation instead of simply blocking it." },
+  { "term": "401 and 403", "description": "401 means the server does not know who is calling and 403 means it knows and refuses, so a client treats them differently." },
+  { "term": "Origin", "description": "The combination of scheme, host and port, where a difference in any of the three makes a request cross-origin." },
+  { "term": "CORS", "description": "The browser rule that a script may read a cross-origin response only when the server opts in with Access-Control-Allow-Origin and related headers." },
+  { "term": "Preflight", "description": "The OPTIONS request a browser sends before a non-simple cross-origin request to ask whether the server allows the real one." },
+  { "term": "Development proxy", "description": "A rule in proxy.conf.json that makes the dev server forward /api/** to the back end, so the browser only sees its own origin." }
+]

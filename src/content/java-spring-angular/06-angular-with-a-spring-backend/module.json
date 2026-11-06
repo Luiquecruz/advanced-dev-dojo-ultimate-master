@@ -1,0 +1,4 @@
+{
+  "title": "Angular with a Spring Back End",
+  "description": "For people who finished the earlier modules: call a Spring API with a typed HttpClient and httpResource, map Problem Details to form errors, drive pages and sorting from signals, guard routes and handle CORS, build a typed client from OpenAPI, split smart and presentational components, and close with an Angular course catalog project."
+}

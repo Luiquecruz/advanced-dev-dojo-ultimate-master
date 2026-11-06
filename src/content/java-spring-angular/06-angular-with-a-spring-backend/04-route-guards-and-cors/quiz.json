@@ -1,0 +1,57 @@
+[
+  {
+    "question": "An `authGuard` hides the admin page from logged-out visitors. A user calls `DELETE /api/courses/7` directly from the browser console. Why is the guard not enough?",
+    "options": [
+      "The guard also runs on every API call and is slow",
+      "Guards are removed in production builds",
+      "The browser console cannot send DELETE requests",
+      "The guard only controls navigation, so the endpoint must check authorization itself"
+    ],
+    "answer": 3,
+    "explanation": "Everything in the browser belongs to the user. A guard improves navigation, while the server must authenticate and authorize each request, answering 401 or 403."
+  },
+  {
+    "question": "The guard calls `GET /api/me` and the server answers 503 because it is restarting. Where should the guard send the user?",
+    "options": [
+      "To an unavailable page, because the answer says nothing about the login",
+      "To the login page, because every failure means not logged in",
+      "To the forbidden page, because the access failed",
+      "Nowhere, the guard should throw so the router crashes"
+    ],
+    "answer": 0,
+    "explanation": "Only 401 means the user must log in and only 403 means a missing permission. A 503 is a server problem, and sending users to a login page for it hides the outage."
+  },
+  {
+    "question": "Which pair of URLs is cross-origin?",
+    "options": [
+      "http://localhost:4200/home and http://localhost:4200/api/users",
+      "http://localhost:4200 and http://localhost:8080",
+      "A page at http://localhost:4200 and the relative URL /api/users",
+      "https://app.example.com/a and https://app.example.com/b"
+    ],
+    "answer": 1,
+    "explanation": "Scheme, host and port together form the origin, and the ports differ here. Paths and relative URLs resolved against the page stay on the same origin."
+  },
+  {
+    "question": "Angular on port 4200 calls Spring on port 8080 and the console reports a CORS error. Where is the real fix?",
+    "options": [
+      "In the Angular request, by adding a CORS header to the call",
+      "In the browser settings of every user",
+      "In the Spring configuration, which must send the allowing headers, or in a proxy that removes the second origin",
+      "In the router, by adding a guard"
+    ],
+    "answer": 2,
+    "explanation": "CORS is decided by the response headers, so the server must allow the origin. A development proxy avoids the cross-origin call instead. Request options and guards change nothing."
+  },
+  {
+    "question": "You list `allowedOrigins(\"*\")` together with `allowCredentials(true)` in Spring MVC. What is the problem?",
+    "options": [
+      "Wildcards are not authorized in allowedOrigins when credentials are enabled, so list origins or use patterns",
+      "Spring ignores allowCredentials when a wildcard is present, which is harmless",
+      "The wildcard allows only GET requests",
+      "Credentials are only allowed for the localhost origin"
+    ],
+    "answer": 0,
+    "explanation": "With credentialed requests Spring does not accept the wildcard in allowedOrigins. Declare the exact origins or use allowedOriginPatterns for a dynamic set."
+  }
+]

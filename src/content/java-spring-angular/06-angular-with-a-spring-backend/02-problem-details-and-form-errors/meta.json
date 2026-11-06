@@ -1,0 +1,28 @@
+{
+  "title": "Problem Details and Form Errors",
+  "summary": "Read an RFC 9457 Problem Details response from a Spring API and map its field errors and detail onto Signal Forms fields and the form itself.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "angular",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "RFC 9457: Problem Details for HTTP APIs",
+      "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+    },
+    {
+      "label": "Spring Framework: Error Responses",
+      "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-ann-rest-exceptions.html"
+    },
+    {
+      "label": "Spring Framework API: ProblemDetail",
+      "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ProblemDetail.html"
+    },
+    {
+      "label": "angular.dev: Signal Forms submission",
+      "url": "https://angular.dev/guide/forms/signals/form-submission"
+    }
+  ]
+}

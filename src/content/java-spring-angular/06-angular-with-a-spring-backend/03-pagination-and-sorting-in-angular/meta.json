@@ -1,0 +1,28 @@
+{
+  "title": "Pagination and Sorting in Angular",
+  "summary": "Drive Spring Data page and sort query parameters from signals and render the PagedModel JSON envelope as a table with a page label, Previous and Next buttons and sortable headers.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "angular",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Data Commons: Web support and Page JSON",
+      "url": "https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html"
+    },
+    {
+      "label": "Spring Data Commons: Paging and sorting",
+      "url": "https://docs.spring.io/spring-data/commons/reference/repositories/query-methods-details.html"
+    },
+    {
+      "label": "Spring Boot: Common application properties",
+      "url": "https://docs.spring.io/spring-boot/appendix/application-properties/index.html"
+    },
+    {
+      "label": "angular.dev: Reactive data fetching with httpResource",
+      "url": "https://angular.dev/guide/http/http-resource"
+    }
+  ]
+}

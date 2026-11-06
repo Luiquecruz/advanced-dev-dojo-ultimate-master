@@ -1,0 +1,28 @@
+{
+  "title": "A Typed Client from OpenAPI",
+  "summary": "Understand the OpenAPI document that Spring can publish, what a generated Angular client contains, and write the same typed service by hand with a base-path token and careful query parameters.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "angular",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "springdoc-openapi",
+      "url": "https://springdoc.org/"
+    },
+    {
+      "label": "OpenAPI Specification repository",
+      "url": "https://github.com/OAI/OpenAPI-Specification"
+    },
+    {
+      "label": "OpenAPI Generator: typescript-angular",
+      "url": "https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/typescript-angular.md"
+    },
+    {
+      "label": "angular.dev: Making requests",
+      "url": "https://angular.dev/guide/http/making-requests"
+    }
+  ]
+}

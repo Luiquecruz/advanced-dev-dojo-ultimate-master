@@ -1,0 +1,9 @@
+[
+  { "term": "OpenAPI document", "description": "A JSON or YAML description of an HTTP API with its paths, operations, parameters, responses and schemas." },
+  { "term": "operationId", "description": "The unique name of an operation in the document, which a generator turns into the name of a client method." },
+  { "term": "springdoc", "description": "The Spring library that builds the OpenAPI document from the mappings and types of a running application and serves it at /v3/api-docs." },
+  { "term": "Generated client", "description": "TypeScript interfaces and services written by a generator from the document, regenerated on every contract change and never edited by hand." },
+  { "term": "Base-path token", "description": "An injection token that holds the server address, so tests and deployments change it with a provider instead of editing every method." },
+  { "term": "HttpParams", "description": "The immutable collection of query parameters that HttpClient encodes into the URL, whose set method returns a new object." },
+  { "term": "No Content response", "description": "A 204 answer without a body, modeled as an Observable of void that still emits once and completes." }
+]

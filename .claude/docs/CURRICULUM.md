@@ -431,3 +431,6 @@ Plan and decisions: [java-spring-angular-track.md](java-spring-angular-track.md)
 
 ### 05-persistence — Persistence
 01-jpa-and-hibernate-basics ✓ · 02-spring-data-repositories ✓ · 03-relationships ✓ · 04-transactions ✓ · 05-the-n-plus-one-problem-and-fetching ✓ · 06-paging-and-sorting-with-spring-data ✓ · 07-database-migrations-and-soft-delete ✓ · 08-project-course-persistence ✓
+
+### 06-angular-with-a-spring-backend — Angular with a Spring Back End
+01-calling-the-api-with-httpclient-and-httpresource ✓ · 02-problem-details-and-form-errors ✓ · 03-pagination-and-sorting-in-angular ✓ · 04-route-guards-and-cors ✓ · 05-a-typed-client-from-openapi ✓ · 06-smart-and-presentational-components ✓ · 07-project-course-frontend ✓

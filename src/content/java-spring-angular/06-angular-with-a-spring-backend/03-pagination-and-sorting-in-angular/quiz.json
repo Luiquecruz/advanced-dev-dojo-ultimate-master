@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A screen shows \"Page 1 of 3\" for the first page of a Spring endpoint. Which `page` query parameter does it send?",
+    "options": [
+      "page=1, because people count from one",
+      "page=0, because Spring pages are zero-based",
+      "page=first, because Spring accepts names",
+      "No parameter, because the server tracks the page"
+    ],
+    "answer": 1,
+    "explanation": "Spring counts pages from zero unless configured otherwise, so the first page is page=0. The screen adds one to the number it shows."
+  },
+  {
+    "question": "A user is on page 3 of 3 sorted by id, then clicks the Name column. What should the table do?",
+    "options": [
+      "Stay on page 3, because the user did not ask to leave it",
+      "Go to page 2, the closest page",
+      "Return to page 0 and request the new sort order",
+      "Reload the page in the browser"
+    ],
+    "answer": 2,
+    "explanation": "A different order produces a different sequence of rows, so the old page number has no meaning. Returning to page 0 with the new sort is the predictable behavior."
+  },
+  {
+    "question": "The Next button must be disabled on the last page. Which source is the most reliable for deciding that?",
+    "options": [
+      "A count of rows in the current content array",
+      "A constant for the number of pages in the client",
+      "The previous request's page number",
+      "page.totalPages from the response"
+    ],
+    "answer": 3,
+    "explanation": "The server reports the totals with every page, so the buttons stay correct when rows are added or removed. A client-side guess drifts from the data."
+  },
+  {
+    "question": "Why does Spring Data recommend returning a `PagedModel` instead of a `Page` from a controller?",
+    "options": [
+      "The JSON of the underlying PageImpl class can change when that class changes",
+      "A Page cannot hold more than 20 rows",
+      "PagedModel sorts rows on the client",
+      "Browsers refuse to parse a Page as JSON"
+    ],
+    "answer": 0,
+    "explanation": "PageImpl is a domain type, so changes to it for unrelated reasons could alter the JSON and break clients. PagedModel renders a simplified envelope that is meant to stay stable."
+  },
+  {
+    "question": "A client sends `sort=password,asc`. Spring resolves it into a sort order. What must the application do?",
+    "options": [
+      "Nothing, because Spring validates property names against the entity",
+      "Check the property against a list of allowed sort properties and reject the rest",
+      "Remove the sort parameter from every request in the browser",
+      "Hash the property name before using it"
+    ],
+    "answer": 1,
+    "explanation": "Spring copies sort property names from the request without validating them against the domain model. The application must allow only the properties it wants to expose."
+  }
+]
