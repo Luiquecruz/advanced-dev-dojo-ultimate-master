@@ -13,13 +13,13 @@
   {
     "question": "Your team starts a new backend service today and expects to maintain it for years. Which target framework is the sound default?",
     "options": [
-      "`net8.0`, because it is LTS and widely used in postings",
-      "`net11.0`, because the newest version is always the best choice",
+      "A previous LTS release, because it is widely used in postings",
+      "The newest STS release, because the newest version is always the best choice",
       "`netstandard2.0`, for maximum compatibility",
-      "`net10.0`, the newest LTS release, which has the longest support window"
+      "The newest LTS release on Microsoft's support policy page (`net10.0` in this track), which has the longest support window left"
     ],
     "answer": 3,
-    "explanation": "An LTS release gets at least three years of support, and the newest one has the longest window left; starting on an older LTS means an upgrade sooner. A version that is not final or has a short STS window is a poor base for a service kept for years, and `netstandard2.0` is a library compatibility target that hides modern APIs, not an application target."
+    "explanation": "An LTS release gets at least three years of support, and the newest one has the longest window left; starting on an older LTS means an upgrade sooner. A short-window STS release is a poor base for a service kept for years, and `netstandard2.0` is for libraries, not apps. Read the current choice from Microsoft's support policy page."
   },
   {
     "question": "A teammate adds `<LangVersion>latest</LangVersion>` to a `net8.0` project so that the C# 14 `field` keyword compiles. What is the right response?",
