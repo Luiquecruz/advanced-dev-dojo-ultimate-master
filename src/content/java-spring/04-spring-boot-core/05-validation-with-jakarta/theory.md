@@ -22,7 +22,7 @@ The common constraints:
 - `@Size(min, max)`: the length of a string or collection. `@Min`, `@Max`, `@Positive`, `@PositiveOrZero`: numbers.
 - `@Email`, `@Pattern(regexp)`: text formats. `@Past`, `@Future`: dates.
 
-Most constraints treat `null` as valid, so a field that is required needs `@NotNull` or `@NotBlank` as well. Use `Integer` rather than `int` for a number the client must send: a missing `int` silently becomes 0, while a missing `Integer` is `null` and `@NotNull` can reject it.
+Most constraints treat `null` as valid, so a field that is required needs `@NotNull` or `@NotBlank` as well. Use `Integer` with `@NotNull` for a required number so absence can be reported as a validation error. With Spring Boot 4.1.2’s default Jackson 3 configuration, a missing record component of type `int` is rejected during deserialization, before validation. A missing `Integer` becomes `null`, which `@NotNull` rejects. Disabling Jackson’s `FAIL_ON_NULL_FOR_PRIMITIVES` instead permits a missing `int` to become 0; do not assume that configuration.
 
 ## Triggering validation
 
@@ -33,7 +33,7 @@ Annotations do nothing until something asks for validation. On a request body, a
 public ResponseEntity<CourseResponse> create(@Valid @RequestBody CourseRequest request) { /* ... */ }
 ```
 
-A violation makes Spring MVC throw `MethodArgumentNotValidException` before the method runs, and the response is a 400. For nested data, put `@Valid` on the nested component, including inside a collection, so each element is checked:
+A violation makes Spring MVC throw `MethodArgumentNotValidException` before the method runs, and the response is a 400. For nested data, put `@Valid` on the nested component, including inside a collection, so each non-null element is checked:
 
 ```java
 public record CohortRequest(
@@ -43,6 +43,8 @@ public record CohortRequest(
     public record Seat(@NotBlank String learner) { }
 }
 ```
+
+This example permits null elements. Reject them too with `List<@NotNull @Valid Seat>`.
 
 ## Constraints on parameters
 
@@ -110,7 +112,7 @@ Constraints without a group belong to the default group, which a call with `OnCr
 
 - Annotating a record and forgetting `@Valid` on the parameter. The rules never run and bad data reaches the service.
 - Using `@NotNull` on a string and expecting it to reject `""` or spaces. Use `@NotBlank`.
-- Declaring a required number as `int`. A missing field becomes 0 and may even pass `@Min(0)`.
+- Expecting a required `int` to produce a not-null validation message. Boot 4.1.2 rejects its missing value during deserialization; prefer `Integer` with `@NotNull` for field-level validation.
 - Putting business rules, such as "the title is unique", in a constraint. They need data access and belong in the service.
 
 ## In practice

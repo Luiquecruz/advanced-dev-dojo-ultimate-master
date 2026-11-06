@@ -98,7 +98,7 @@ public record PageResponse<T>(List<T> content, int page, int size,
 }
 ```
 
-Alternatively, Spring Data's `PagedModel` wraps a `Page` as `content` plus a `page` object, and `spring.data.web.pageable.serialization-mode=via_dto` applies that to every returned `Page`. Module 06 consumes a page shape like this from Angular.
+Alternatively, Spring Data's `PagedModel` wraps a `Page` as `content` plus a `page` object, and `spring.data.web.pageable.serialization-mode=via_dto` applies that to every returned `Page`. Document the chosen response shape so API consumers can read page metadata consistently.
 
 ## Common mistakes
 

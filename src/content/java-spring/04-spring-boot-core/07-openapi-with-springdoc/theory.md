@@ -1,6 +1,6 @@
 # OpenAPI with springdoc
 
-A REST API is only useful to a client that knows its paths, bodies and errors. OpenAPI is the standard machine-readable description of those, and the springdoc library generates it from the controllers and records you already wrote. This lesson covers adding springdoc to a Spring Boot 4 project, reading the generated document, enriching it with annotations, documenting errors, and treating the file as the contract that the Angular client is generated from.
+A REST API is only useful to a client that knows its paths, bodies and errors. OpenAPI is the standard machine-readable description of those, and the springdoc library generates it from the controllers and records you already wrote. This lesson covers adding springdoc to a Spring Boot 4 project, reading the generated document, enriching it with annotations, documenting errors, and treating the file as the contract that an API client is generated from.
 
 You need: REST Controllers (mappings and records), Validation with Jakarta (constraints), Error Handling with Problem Details (the error format).
 
@@ -93,11 +93,11 @@ The document is the boundary between back end and front end. With the applicatio
 curl http://localhost:8080/v3/api-docs.yaml -o openapi.yaml
 ```
 
-A change to a controller or record then shows up as a diff in `openapi.yaml` during review, so a breaking change is visible before release. Module 06 generates the typed Angular client from this file instead of writing request types by hand, which keeps both ends from drifting apart.
+A change to a controller or record then shows up as a diff in `openapi.yaml` during review, so a breaking change is visible before release. Consumers can generate typed clients from this file instead of writing request types by hand, which helps their models follow the API contract.
 
 ## Production
 
-An API description and an interactive console are information an attacker can use. Switch them off where the API is not public, or protect them with security rules (module 07):
+An API description and an interactive console are information an attacker can use. Switch them off where the API is not public, or protect them with security rules (module 06):
 
 ```properties
 springdoc.api-docs.enabled=false

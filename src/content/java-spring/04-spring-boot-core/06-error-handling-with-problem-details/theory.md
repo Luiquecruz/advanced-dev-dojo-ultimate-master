@@ -61,15 +61,15 @@ The service throws domain exceptions and knows nothing about HTTP; the advice is
 
 ## Validation errors
 
-Override the method for the validation exception to add the failed fields. Body validation and parameter validation have separate exceptions, so override both methods:
+Override the method for the validation exception to include field and object-level failures. Import `org.springframework.validation.FieldError`; use an empty `field` for an object-level failure. Body validation and parameter validation have separate exceptions, so override both methods:
 
 ```java
 @Override
 protected ResponseEntity<Object> handleMethodArgumentNotValid(
         MethodArgumentNotValidException exception, HttpHeaders headers,
         HttpStatusCode status, WebRequest request) {
-    List<Map<String, String>> errors = exception.getBindingResult().getFieldErrors().stream()
-            .map(error -> Map.of("field", error.getField(),
+    List<Map<String, String>> errors = exception.getBindingResult().getAllErrors().stream()
+            .map(error -> Map.of("field", error instanceof FieldError fieldError ? fieldError.getField() : "",
                                  "message", String.valueOf(error.getDefaultMessage())))
             .toList();
     ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Validation failed.");
@@ -79,7 +79,7 @@ protected ResponseEntity<Object> handleMethodArgumentNotValid(
 }
 ```
 
-The same method shape, overriding `handleHandlerMethodValidationException` and reading `getParameterValidationResults()`, covers constraints on path and query parameters. A class-level constraint appears under `getGlobalErrors()`, not `getFieldErrors()`. A bad body then returns:
+The same method shape, overriding `handleHandlerMethodValidationException` and reading `getParameterValidationResults()`, covers constraints on path and query parameters. A class-level constraint such as `@EndsAfterStart` appears under `getGlobalErrors()`, not `getFieldErrors()`. Reading `getAllErrors()` includes both, even when no field constraint fails. A bad body then returns:
 
 ```json
 {
@@ -94,7 +94,7 @@ The same method shape, overriding `handleHandlerMethodValidationException` and r
 }
 ```
 
-A front end can attach each `message` to its `field`. Module 06 does that with Angular forms.
+Clients attach known fields to their controls. An empty `field` identifies an object-level error, shown in the form summary alongside field messages. The API contract documents both cases so any consumer can display every failure without dropping object-level messages.
 
 ## Never leak internals
 

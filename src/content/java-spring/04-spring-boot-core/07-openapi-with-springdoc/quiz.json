@@ -22,7 +22,7 @@
     "explanation": "springdoc reads Jakarta Validation annotations: not-null and not-blank constraints become required and Size becomes maxLength or minLength."
   },
   {
-    "question": "Two controllers each have a method named `get`, and a generated Angular client has confusingly named methods. What prevents this?",
+    "question": "Two controllers each have a method named `get`, and a generated API client has confusingly named methods. What prevents this?",
     "options": [
       "Rename the Java packages",
       "Disable Swagger UI",

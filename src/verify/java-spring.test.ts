@@ -1,21 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { angularAdapter } from '../engines/angular/adapter';
-import { defineChallengeSuite } from './challengeSuite';
-import { frameworkGrader } from './graders';
-import { createTrackStandards, variantViolations, type Violation } from './trackStandards';
+import { createTrackStandards } from './trackStandards';
 
 /**
- * Verification of the Java, Spring Boot and Angular track: the shared content standards (system-design-track.md) and, on the Angular
- * engine, every challenge's solution passing and starter failing. Java and Spring lessons are theory and quizzes plus local projects, since
- * there is no Java engine in the browser (java-spring-angular-track.md "Engine decision").
+ * Shared content standards for the Java and Spring Boot track, plus the owner decision:
+ * every lesson uses theory, a quiz and local practice, with no graded browser challenges.
+ * The Angular engine identifier remains catalog metadata; no Java engine is introduced.
  */
 
-const TRACK_ID = 'java-spring-angular';
+const TRACK_ID = 'java-spring';
 /** Official documentation, standards bodies and the projects the track teaches. */
 const RESOURCE_HOSTS = new Set([
   'docs.oracle.com', 'openjdk.org', 'dev.java', 'jdk.java.net', 'docs.spring.io', 'spring.io', 'docs.gradle.org', 'maven.apache.org',
   'junit.org', 'site.mockito.org', 'testcontainers.com', 'java.testcontainers.org', 'hibernate.org', 'jakarta.ee', 'eclipse.org',
-  'angular.dev', 'rxjs.dev', 'owasp.org', 'cheatsheetseries.owasp.org', 'www.rfc-editor.org', 'datatracker.ietf.org', 'developer.mozilla.org',
+  'owasp.org', 'cheatsheetseries.owasp.org', 'www.rfc-editor.org', 'datatracker.ietf.org', 'developer.mozilla.org',
   'docs.docker.com', 'micrometer.io', 'springdoc.org', 'flywaydb.org', 'documentation.red-gate.com', 'docs.liquibase.com', 'www.postgresql.org',
   'dev.mysql.com', 'docs.github.com', 'github.com', 'kubernetes.io', 'opentelemetry.io', 'jwt.io', 'oauth.net', 'openid.net', 'www.jetbrains.com',
 ]);
@@ -26,24 +23,23 @@ const BRIDGE =
 const standards = createTrackStandards({
   trackId: TRACK_ID,
   resourceHosts: RESOURCE_HOSTS,
-  extraTags: ['core', 'project', 'security', 'testing', 'performance', 'angular'],
+  extraTags: ['core', 'project', 'security', 'testing', 'performance'],
   bridge: BRIDGE,
   theoryWordLimits: (moduleNumber) => (moduleNumber === 1 ? [300, 1000] : [500, 1300]),
 });
 const { track, modules, eachLesson } = standards;
 
-const violationsOf = (lesson: (typeof eachLesson)[number][1]): Violation[] => [...standards.violationsOf(lesson), ...lesson.variants.flatMap(variantViolations)];
-
-describe('java-spring-angular track', () => {
-  it('runs on the Angular engine and numbers its modules from 01 without an optional module', () => {
+describe('java-spring track', () => {
+  it('keeps its catalog engine metadata and numbers required modules consecutively from 01', () => {
     expect(track!.engine).toBe('angular');
     expect(modules.map((module) => module.number)).toEqual(modules.map((_, index) => index + 1));
     expect(modules.filter((module) => module.optional)).toEqual([]);
   });
 
   it.each(eachLesson)('%s follows the content standards', (_, lesson) => {
-    expect(violationsOf(lesson).map(({ rule, detail }) => `${rule}: ${detail}`)).toEqual([]);
+    expect(lesson.challenge).toBeUndefined();
+    expect(lesson.variants).toEqual([]);
+    expect(lesson.hasChallenge).toBe(false);
+    expect(standards.violationsOf(lesson).map(({ rule, detail }) => `${rule}: ${detail}`)).toEqual([]);
   });
 });
-
-defineChallengeSuite(TRACK_ID, frameworkGrader(angularAdapter));
