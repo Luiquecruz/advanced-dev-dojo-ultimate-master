@@ -1,0 +1,8 @@
+[
+  { "term": "Load balancer", "description": "One address in front of a pool of servers that picks a server for each request and forwards it." },
+  { "term": "Round robin", "description": "Picks the servers of the pool in order and wraps around, spreading requests evenly across similar servers." },
+  { "term": "Health check", "description": "A periodic probe (or a watch on real traffic) that marks a server down after failures and up after successes." },
+  { "term": "Single point of failure", "description": "A component whose failure stops the whole system, such as a lone load balancer." },
+  { "term": "High availability", "description": "Keeping the system up through failures by running redundant copies of every component on the request path." },
+  { "term": "Sticky sessions", "description": "The balancer sends a user to the same server every time, usually with a cookie; that server's failure still loses its in-memory state." }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An app runs on one server and keeps sessions in a map in its own memory. The team starts a second copy, and users report being logged out at random. What is the cause?",
+    "options": [
+      "Browsers drop cookies when two servers exist",
+      "The map is too small for two servers",
+      "Each copy only knows the sessions created in its own memory, so a request that reaches the other copy finds no session",
+      "HTTP forbids sessions on more than one server"
+    ],
+    "answer": 2,
+    "explanation": "In-memory sessions live in one process. When a request lands on a copy that did not create the session, the lookup fails and the user looks logged out. A shared session store fixes it."
+  },
+  {
+    "question": "After moving sessions to a shared Redis store, what happens when one of the application servers is restarted?",
+    "options": [
+      "Nobody is logged out: the sessions live in Redis, and the other servers keep answering with them",
+      "Every user is logged out, because the sessions were created on that server",
+      "Only the users of that server are logged out",
+      "Redis deletes every session whenever any client disconnects"
+    ],
+    "answer": 0,
+    "explanation": "The servers are stateless: the session records live in the shared store, so a restart of one server loses nothing and any copy can answer the next request."
+  },
+  {
+    "question": "A user logs out of an app that uses JWTs valid for 7 days, with no other server-side check. An attacker copied the token earlier. What happens?",
+    "options": [
+      "The token stops working at logout, because the browser deletes it",
+      "The server detects the copy because the signature changes",
+      "The token is valid for one more request only",
+      "The token keeps working until its `exp` time, because nothing on the server remembers that it was revoked"
+    ],
+    "answer": 3,
+    "explanation": "A signed token is verified with the key and the expiry only. Without a revocation list or short expiry, logout deletes the client's copy but not the attacker's."
+  },
+  {
+    "question": "A developer stores the user's email and an internal discount code in a JWT payload, reasoning that the token is signed. What is wrong?",
+    "options": [
+      "Signed tokens cannot carry strings",
+      "The payload is only base64url-encoded, so anyone holding the token can read it; the signature prevents changes, not reading",
+      "The server can no longer verify the signature",
+      "The token becomes stateful and needs a session store"
+    ],
+    "answer": 1,
+    "explanation": "Signing protects integrity: a changed payload fails verification. It does not hide anything, because the payload is plain JSON encoded in base64url."
+  },
+  {
+    "question": "Session ids are generated as `session-1`, `session-2` and so on. Why is that a security problem?",
+    "options": [
+      "Redis cannot store keys with numbers",
+      "Cookies must contain a JWT",
+      "An attacker can guess other users' live ids and send them as their own cookie",
+      "Counters overflow after 1,000 sessions"
+    ],
+    "answer": 2,
+    "explanation": "The session id is the only proof of the login, so it must be unguessable. A cryptographically secure random id makes guessing a live session practically impossible."
+  },
+  {
+    "question": "Why give a server-side session a time-to-live even though logout already deletes it?",
+    "options": [
+      "So that sessions of users who never log out, and ids that were stolen, stop working on their own",
+      "Because HTTP requires every cookie to expire within an hour",
+      "To make the servers stateful",
+      "Because Redis refuses keys without a TTL"
+    ],
+    "answer": 0,
+    "explanation": "Most users close the tab instead of logging out. A TTL bounds how long a forgotten or stolen session id is useful and keeps the store from growing forever."
+  }
+]

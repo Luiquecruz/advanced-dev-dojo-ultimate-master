@@ -1,0 +1,12 @@
+{
+  "title": "Statelessness & Sessions",
+  "summary": "Why servers should keep no memory between requests, where login sessions live instead (a shared store such as Redis) and what signed tokens (JWT) trade for skipping the lookup.",
+  "level": "beginner",
+  "tags": ["practice", "core"],
+  "preview": false,
+  "resources": [
+    { "label": "MDN: Using HTTP cookies", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies" },
+    { "label": "Redis: EXPIRE command", "url": "https://redis.io/docs/latest/commands/expire/" },
+    { "label": "RFC 7519: JSON Web Token (JWT)", "url": "https://www.rfc-editor.org/rfc/rfc7519.html" }
+  ]
+}

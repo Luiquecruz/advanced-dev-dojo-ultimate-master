@@ -1,0 +1,9 @@
+[
+  { "term": "DAU", "description": "Daily active users: the number of distinct users in a day, the usual starting point of an estimate." },
+  { "term": "QPS", "description": "Queries (requests) per second; on average, requests per day divided by 86,400 seconds." },
+  { "term": "Peak factor", "description": "Peak traffic divided by average traffic; systems are sized for the peak, often 2 to 3 times the average when nothing is measured." },
+  { "term": "Read/write ratio", "description": "How many requests read compared with how many write; writes must reach primary storage, reads can be served by caches and replicas." },
+  { "term": "Replication factor", "description": "How many copies of each byte are stored; it multiplies the raw storage estimate." },
+  { "term": "Powers of two", "description": "2^10 ≈ a thousand (KB), 2^20 ≈ a million (MB), 2^30 ≈ a billion (GB), 2^40 ≈ a trillion (TB), 2^50 ≈ a quadrillion (PB)." },
+  { "term": "Latency orders of magnitude", "description": "Memory reference ~100 ns, SSD random read ~tens to 100 µs, data center round trip ~0.5 ms, cross-continent round trip ~150 ms." }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A new product has 3,000 daily users, one web server and one database, and the CPU is at 15%. The team proposes sharding and a second data center \"to be ready\". What is the best response?",
+    "options": [
+      "Do both now, because migrating later is impossible",
+      "Shard now but skip the second data center",
+      "Keep the simple design, separate the database if needed, and add each scaling step when estimates or metrics show the current one running out",
+      "Replace the database with a cache"
+    ],
+    "answer": 2,
+    "explanation": "Each scaling step adds cost and failure points. At this load one server has plenty of headroom, so over-engineering buys complexity with no benefit; metrics tell you when the next step is due."
+  },
+  {
+    "question": "The team adds a load balancer and two more web servers. Users now get logged out at random. What is the cause?",
+    "options": [
+      "Sessions are kept in each server's memory, so a request routed to another server finds no session; the web tier must be stateless with a shared session store",
+      "The load balancer encrypts cookies",
+      "Three servers are too many for one database",
+      "DNS caches the old server"
+    ],
+    "answer": 0,
+    "explanation": "Horizontal scaling assumes any server can answer any request. Local session state breaks that assumption; moving sessions to a shared store or a signed token fixes it."
+  },
+  {
+    "question": "A read-heavy app (95% reads) overloads its single database. Which step usually comes first?",
+    "options": [
+      "Sharding by user id",
+      "Moving to a second data center",
+      "A message queue in front of the database",
+      "Read replicas and a cache tier: reads spread over copies and repeated reads never reach the database"
+    ],
+    "answer": 3,
+    "explanation": "Replicas scale reads by copying data and the cache absorbs repeated reads in memory. Sharding is reserved for when writes or data volume outgrow one primary."
+  },
+  {
+    "question": "Right after updating their profile, a user reloads the page and sees the old name for a second. The writes go to the primary and reads to a replica. What is happening?",
+    "options": [
+      "The primary rejected the write",
+      "Replication lag: the replica has not applied the write yet, so a read shortly after the write returns the previous value",
+      "The load balancer sent the write to the CDN",
+      "The cache tier is the source of truth"
+    ],
+    "answer": 1,
+    "explanation": "Replicas receive changes from the primary asynchronously in many setups, so they can be slightly behind. Reading your own recent writes from the primary is a common fix."
+  },
+  {
+    "question": "Users far from the only data center complain that image-heavy pages load slowly, while API calls are acceptable. What helps most for the least effort?",
+    "options": [
+      "A bigger web server",
+      "Sharding the image table",
+      "A CDN: static images are served from edge servers near the users, and only cache misses reach the origin",
+      "Increasing the database replication factor"
+    ],
+    "answer": 2,
+    "explanation": "Static files do not need the application. A CDN caches them close to users, cutting the long round trips and the bandwidth on the origin servers."
+  },
+  {
+    "question": "Uploading a photo takes 8 seconds because the server resizes it into five sizes before answering. How do you shorten the response?",
+    "options": [
+      "Put a resize job on a message queue and answer right away; workers produce the sizes in the background and scale independently",
+      "Add read replicas",
+      "Use geo DNS",
+      "Store the photo in the session"
+    ],
+    "answer": 0,
+    "explanation": "A message queue decouples the request from slow work: the web server only enqueues a job, and a burst of uploads waits in the queue instead of tying up web servers."
+  }
+]

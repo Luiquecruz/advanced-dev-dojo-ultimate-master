@@ -1,0 +1,9 @@
+[
+  { "term": "429 Too Many Requests", "description": "The status a rate limiter answers with, ideally with a `Retry-After` header saying when the client may try again." },
+  { "term": "Fixed window", "description": "One counter per clock-aligned window; cheap, but allows up to twice the limit across a window boundary." },
+  { "term": "Sliding window log", "description": "Keeps the timestamp of every accepted request: exact, but memory grows with the limit." },
+  { "term": "Sliding window counter", "description": "Estimates the last full window as the previous count weighted by its overlap plus the current count." },
+  { "term": "Token bucket", "description": "Tokens refill at a steady rate up to a capacity; each request takes one, so bursts up to the capacity are allowed." },
+  { "term": "Leaky bucket", "description": "Requests queue and drain at a constant rate, smoothing output at the cost of waiting time." },
+  { "term": "Atomic counter", "description": "An increment done in one indivisible step, such as Redis `INCR` or a Lua script, so concurrent servers cannot both pass a stale check." }
+]

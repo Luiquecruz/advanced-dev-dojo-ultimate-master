@@ -1,0 +1,13 @@
+{
+  "title": "Load Balancing Basics",
+  "summary": "One address in front of many servers: round robin, health checks that take sick servers out of rotation, redundant balancers against a single point of failure, and sticky sessions against a shared session store.",
+  "level": "beginner",
+  "tags": ["practice", "core"],
+  "preview": false,
+  "resources": [
+    { "label": "NGINX: HTTP Load Balancing", "url": "https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/" },
+    { "label": "NGINX: HTTP Health Checks", "url": "https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/" },
+    { "label": "AWS: How Elastic Load Balancing works", "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html" },
+    { "label": "AWS: Health checks for target groups", "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html" }
+  ]
+}

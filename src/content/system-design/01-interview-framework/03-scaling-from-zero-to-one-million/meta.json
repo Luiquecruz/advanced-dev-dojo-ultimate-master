@@ -1,0 +1,13 @@
+{
+  "title": "Scaling from Zero to One Million Users",
+  "summary": "The path from one server to a system for millions: a separate database, vertical and horizontal scaling, a stateless web tier, replication, caching, a CDN, several data centers, message queues, monitoring and, last, sharding.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "AWS Startups Blog: Scaling on AWS Part I, A Primer", "url": "https://aws.amazon.com/blogs/startups/scaling-on-aws-part-1-a-primer/" },
+    { "label": "Azure Architecture Center: Design to scale out", "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/design-principles/scale-out" },
+    { "label": "Amazon RDS: Working with read replicas", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html" },
+    { "label": "Azure Architecture Center: Web-Queue-Worker architecture style", "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/web-queue-worker" },
+    { "label": "Cloudflare: Cache (CDN) documentation", "url": "https://developers.cloudflare.com/cache/" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Rate Limiting Algorithms",
+  "summary": "Where rate limits are enforced, how fixed windows, sliding window logs and counters, token buckets and leaky buckets trade precision for memory, and how to share one limit across servers atomically.",
+  "level": "intermediate",
+  "tags": ["practice", "core"],
+  "preview": false,
+  "resources": [
+    { "label": "MDN: 429 Too Many Requests", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/429" },
+    { "label": "MDN: Retry-After header", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Retry-After" },
+    { "label": "RFC 6585: Additional HTTP Status Codes", "url": "https://www.rfc-editor.org/rfc/rfc6585.html" },
+    { "label": "Redis: INCR (rate limiter patterns)", "url": "https://redis.io/docs/latest/commands/incr/" },
+    { "label": "Amazon API Gateway: Throttle requests", "url": "https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-request-throttling.html" }
+  ]
+}

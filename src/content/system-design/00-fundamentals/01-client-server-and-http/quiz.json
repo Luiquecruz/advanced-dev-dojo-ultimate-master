@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A browser shows \"connection refused\" for `api.example.com`. Which layer failed?",
+    "options": [
+      "HTTP: the server answered with a 404",
+      "TCP: no program accepted a connection on that address and port, so no HTTP request was ever sent",
+      "DNS: the name has no TTL",
+      "TLS: the response body was not JSON"
+    ],
+    "answer": 1,
+    "explanation": "A refused connection happens at the TCP level, before any HTTP request or status code exists. A 404 needs a working connection and a server that read the request."
+  },
+  {
+    "question": "A client times out while waiting for the answer to `PUT /profiles/7`. Is it safe to send the same request again?",
+    "options": [
+      "Yes: PUT replaces the resource, so applying it twice leaves the same state as applying it once (it is idempotent)",
+      "No: PUT always creates a new resource",
+      "Only if the server returned 500",
+      "No: HTTP forbids retries"
+    ],
+    "answer": 0,
+    "explanation": "PUT is idempotent: it sets the resource to the given state, so a repeated request ends in the same state. A repeated POST may create a second resource."
+  },
+  {
+    "question": "The path `/notes` supports GET and POST. A client sends `DELETE /notes`. Which status code fits best?",
+    "options": [
+      "200 OK with an error message in the body",
+      "404 Not Found",
+      "500 Internal Server Error",
+      "405 Method Not Allowed: the resource exists but not with this method"
+    ],
+    "answer": 3,
+    "explanation": "405 tells the client the path is valid and the method is not, which is different from a resource that does not exist (404). The client made the mistake, so it is a 4xx, not a 5xx."
+  },
+  {
+    "question": "An API answers invalid input with `200 OK` and `{ \"error\": \"title is required\" }`. What is the practical problem?",
+    "options": [
+      "JSON cannot carry error messages",
+      "Browsers reject 200 responses with a body",
+      "Clients, caches and monitoring read the status code, so they treat the failure as a success",
+      "TCP retransmits 200 responses forever"
+    ],
+    "answer": 2,
+    "explanation": "Status codes are read by machines without parsing the body: retry policies, caches and error-rate alerts all see success. A 400 Bad Request states the outcome where every tool looks."
+  },
+  {
+    "question": "Why should the server validate a price even when the web client already checks it?",
+    "options": [
+      "Clients run on devices you do not control and can send any request, so the server is the only place a rule is enforced",
+      "Browsers cannot run validation code",
+      "HTTP removes the body of POST requests",
+      "DNS may change the price on the way"
+    ],
+    "answer": 0,
+    "explanation": "Anyone can modify a client or call the API directly with a tool. Client-side checks improve the experience; server-side checks are the actual rule."
+  },
+  {
+    "question": "A team moves its API to a new IP address and updates DNS. Some users still reach the old server for a while. Why?",
+    "options": [
+      "TCP keeps the old address in the HTTP headers",
+      "Status code 301 is cached by every server",
+      "The old server forwards requests forever",
+      "Resolvers and clients cache DNS answers until their time-to-live expires"
+    ],
+    "answer": 3,
+    "explanation": "DNS answers are cached for their TTL at many layers (resolvers, operating systems, browsers). A lower TTL before a migration shortens the time clients keep the old address."
+  }
+]

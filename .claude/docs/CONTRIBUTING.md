@@ -30,7 +30,7 @@ ci: waive docs sync only when docs:none itself is added
 ```
 
 - Types: `feat`, `fix`, `docs`, `perf`, `refactor`, `test`, `chore`, `ci`.
-- Scope (optional): a track id (`typescript`, `react`, `react-state`, `architecture`, `ai-engineering`, `node`, `python`, `csharp`, `vue`, `angular`) or an area (`engines`, `sandbox`, `verify`, `content`, `curriculum`, `lesson`, `routing`, `scene`, `motion`, `ui`, `deps`, `ci`, `review`, `docs`, `harness`). A new scope is added to this list and to `.coderabbit.yaml` in the same change.
+- Scope (optional): a track id (`typescript`, `react`, `react-state`, `architecture`, `ai-engineering`, `node`, `python`, `csharp`, `system-design`, `vue`, `angular`) or an area (`engines`, `sandbox`, `verify`, `content`, `curriculum`, `lesson`, `routing`, `scene`, `motion`, `ui`, `deps`, `ci`, `review`, `docs`, `harness`). A new scope is added to this list and to `.coderabbit.yaml` in the same change.
 - Subject: starts with a lowercase imperative verb (`add`, `fix`, `remove`, `update`, `mark`...); product and language names keep their casing after it. No trailing period.
 - A body, when needed, is a list of what changed.
 

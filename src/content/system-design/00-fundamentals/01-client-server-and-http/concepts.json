@@ -1,0 +1,8 @@
+[
+  { "term": "Client and server", "description": "The client starts a request; the server waits for requests, enforces the rules and answers." },
+  { "term": "DNS", "description": "Turns a host name into an IP address; answers are cached for their time-to-live." },
+  { "term": "TCP", "description": "Delivers bytes reliably and in order between two machines; it knows nothing about URLs or methods." },
+  { "term": "HTTP request and response", "description": "A request carries a method, a path, headers and a body; a response carries a status code, headers and a body." },
+  { "term": "Idempotent method", "description": "Repeating the request leaves the server in the same state as sending it once, even if the response differs: `GET`, `PUT` and `DELETE` are, `POST` is not." },
+  { "term": "Status code classes", "description": "2xx success, 4xx the client must change the request (or, for 429, wait), 5xx the server failed and a later retry may work." }
+]

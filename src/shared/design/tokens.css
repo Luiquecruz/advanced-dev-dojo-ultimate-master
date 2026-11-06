@@ -116,6 +116,11 @@
   --accent-rgb: 255 122 127;
 }
 
+[data-trail='system-design'] {
+  --accent: #40e6b0;
+  --accent-rgb: 64 230 176;
+}
+
 @theme {
   --color-void: #0a0f18;
   --color-panel: #121c2a;

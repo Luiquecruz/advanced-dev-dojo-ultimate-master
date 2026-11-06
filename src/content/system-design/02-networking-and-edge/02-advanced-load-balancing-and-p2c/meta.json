@@ -1,0 +1,14 @@
+{
+  "title": "Advanced Load Balancing: Layer 4, Layer 7 & Power of Two Choices",
+  "summary": "Connection-level versus request-level balancing, path routing and TLS termination at layer 7, and how round robin, least outstanding requests and the power of two random choices pick a server.",
+  "level": "intermediate",
+  "tags": ["practice", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "Envoy: Supported load balancers", "url": "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers" },
+    { "label": "NGINX: ngx_http_upstream_module (random two)", "url": "https://nginx.org/en/docs/http/ngx_http_upstream_module.html" },
+    { "label": "AWS: What is an Application Load Balancer?", "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html" },
+    { "label": "AWS: What is a Network Load Balancer?", "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html" },
+    { "label": "AWS: Target groups and routing algorithms", "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html" }
+  ]
+}

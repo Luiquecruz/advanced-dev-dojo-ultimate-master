@@ -1,0 +1,13 @@
+{
+  "title": "Caching Fundamentals",
+  "summary": "Why a copy in memory beats a trip to the database (latency orders of magnitude), how hits, misses and the hit ratio measure a cache, and how TTLs and invalidation bound staleness while the source of truth stays in the database.",
+  "level": "beginner",
+  "tags": ["practice", "core", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "AWS: Caching overview", "url": "https://aws.amazon.com/caching/" },
+    { "label": "AWS: Caching best practices", "url": "https://aws.amazon.com/caching/best-practices/" },
+    { "label": "Redis: Key eviction", "url": "https://redis.io/docs/latest/develop/reference/eviction/" },
+    { "label": "MDN: HTTP caching", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching" }
+  ]
+}

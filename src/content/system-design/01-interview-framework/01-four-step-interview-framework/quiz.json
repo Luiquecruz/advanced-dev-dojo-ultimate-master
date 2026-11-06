@@ -1,0 +1,68 @@
+[
+  {
+    "question": "The prompt is \"design a chat app\". Thirty seconds in, a candidate starts drawing a sharded database cluster. What is the main risk?",
+    "options": [
+      "Sharded databases cannot store chat messages",
+      "The design rests on assumptions nobody agreed on: without requirements and scale numbers, no choice can be justified and it may solve the wrong problem",
+      "Interviewers forbid databases in the first step",
+      "Drawing takes longer than talking"
+    ],
+    "answer": 1,
+    "explanation": "Step 1 (scope) exists because every later choice depends on requirements: group chat or one-to-one, message history retention, number of users. Skipping it means designing for guesses."
+  },
+  {
+    "question": "Which of these is a non-functional requirement?",
+    "options": [
+      "Users can send a message to a group",
+      "Users can upload a profile picture",
+      "Users can search their message history",
+      "A sent message reaches online recipients within 500 ms for 99% of messages"
+    ],
+    "answer": 3,
+    "explanation": "Functional requirements describe features; non-functional ones describe qualities such as latency, availability or durability. A latency target with a percentile is a measurable quality."
+  },
+  {
+    "question": "After sketching clients, a load balancer, web servers and a database, why ask \"does this cover what you had in mind?\" before going deeper?",
+    "options": [
+      "Buy-in lets the other person redirect you to the part they care about before you spend time on details they would not use",
+      "It gives the interviewer a chance to draw the deep dive for you",
+      "The high-level design is graded and the rest is not",
+      "It is required before you are allowed to mention a cache"
+    ],
+    "answer": 0,
+    "explanation": "Getting buy-in after step 2 is a checkpoint: a missing requirement or a different focus is cheap to correct now and expensive after a 20-minute deep dive."
+  },
+  {
+    "question": "In a 45-minute session, which time split follows the framework best?",
+    "options": [
+      "Requirements 25 min, high-level 15 min, deep dive 5 min, wrap-up 0 min",
+      "Requirements 0 min, deep dive 40 min, wrap-up 5 min",
+      "Requirements about 5–10 min, high-level about 10–15 min, deep dive about 10–25 min, wrap-up about 3–5 min",
+      "Equal time of about 11 minutes per step regardless of the problem"
+    ],
+    "answer": 2,
+    "explanation": "Scope and the high-level design are short but essential; the deep dive gets the largest flexible share, and a few minutes stay reserved for bottlenecks and failure modes."
+  },
+  {
+    "question": "Which statement communicates a trade-off well?",
+    "options": [
+      "We use Cassandra because it is web scale",
+      "PostgreSQL gives transactions and simple queries but is harder to scale for writes; our write rate is low, so I choose it and keep sharding as a later option",
+      "We use both SQL and NoSQL to be safe",
+      "The database does not matter at this stage"
+    ],
+    "answer": 1,
+    "explanation": "A good trade-off names the option, its benefit, its cost and ties the decision to a stated requirement (here, the low write rate). Naming a technology alone shows no reasoning."
+  },
+  {
+    "question": "Five minutes remain. The design works for the happy path. What belongs in the wrap-up?",
+    "options": [
+      "Rewriting the API from scratch",
+      "Adding a second database technology to show breadth",
+      "Listing every AWS service you know",
+      "Bottlenecks at ten times the traffic, what happens when the cache or a database node fails, and the next steps you would take"
+    ],
+    "answer": 3,
+    "explanation": "The wrap-up shows you understand the limits of your own design: which component saturates first, which failures it survives and what you deliberately left for later."
+  }
+]

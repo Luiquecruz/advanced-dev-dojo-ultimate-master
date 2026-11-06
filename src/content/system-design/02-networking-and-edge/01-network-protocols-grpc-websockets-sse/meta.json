@@ -1,0 +1,15 @@
+{
+  "title": "Network Protocols: HTTP Versions, gRPC, WebSockets & SSE",
+  "summary": "What HTTP/2 and HTTP/3 change under the same methods and status codes, when gRPC fits, and how polling, long polling, Server-Sent Events and WebSockets push data to clients.",
+  "level": "intermediate",
+  "tags": ["practice", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "MDN: Evolution of HTTP", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Evolution_of_HTTP" },
+    { "label": "RFC 9114: HTTP/3", "url": "https://www.rfc-editor.org/rfc/rfc9114.html" },
+    { "label": "gRPC: Core concepts", "url": "https://grpc.io/docs/what-is-grpc/core-concepts/" },
+    { "label": "HTML Standard: Server-sent events", "url": "https://html.spec.whatwg.org/multipage/server-sent-events.html" },
+    { "label": "MDN: Using server-sent events", "url": "https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events" },
+    { "label": "MDN: The WebSocket API", "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API" }
+  ]
+}

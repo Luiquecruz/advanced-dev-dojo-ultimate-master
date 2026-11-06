@@ -1,0 +1,4 @@
+{
+  "title": "Networking, Edge & Load Balancing",
+  "description": "Communication protocols (HTTP versions, gRPC, WebSockets, Server-Sent Events), layer 4 and layer 7 load balancing with the power of two choices, and rate limiting algorithms."
+}

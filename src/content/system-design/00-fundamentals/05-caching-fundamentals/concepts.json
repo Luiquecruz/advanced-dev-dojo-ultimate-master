@@ -1,0 +1,9 @@
+[
+  { "term": "Cache", "description": "A copy of data that is expensive to fetch, kept where it is cheap to read, such as memory." },
+  { "term": "Hit and miss", "description": "A hit finds a fresh value in the cache; a miss must fetch it from the slower source." },
+  { "term": "Hit ratio", "description": "`hits / (hits + misses)`, also called the hit rate: the share of lookups the cache answers without touching the source." },
+  { "term": "Read-through cache", "description": "Callers ask only the cache, and the cache calls a loader on a miss and stores the result." },
+  { "term": "Time-to-live (TTL)", "description": "How long a cached value is served before the next read loads a fresh copy; it bounds the staleness." },
+  { "term": "Invalidation", "description": "Deleting a cached key when the source changed, so the next read loads the new value." },
+  { "term": "Source of truth", "description": "The database or service that owns the data; the cache can always be rebuilt from it." }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Layer 4 load balancer", "description": "Balances TCP connections or UDP flows by address and port without reading the payload: fast, protocol-agnostic, blind to URLs." },
+  { "term": "Layer 7 load balancer", "description": "A reverse proxy that reads each HTTP request, so it can route by path, host or header, terminate TLS and retry per request." },
+  { "term": "TLS termination", "description": "Decrypting client traffic at the balancer so certificates and handshakes are handled once at the edge." },
+  { "term": "Least outstanding requests", "description": "Sends the request to the server with the fewest requests in flight, which tracks real load better than open connections." },
+  { "term": "Herding", "description": "Many balancers with the same stale view all send to the server that looks least loaded and overload it together." },
+  { "term": "Power of two random choices", "description": "Sample two distinct servers at random and pick the less loaded one: cheap, resistant to herding and close to a full scan in balance." },
+  { "term": "Longest prefix match", "description": "When several route prefixes match a path, the longest (most specific) one decides the pool." }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A company wants `/api/*` served by the API fleet and `/images/*` by an image service, behind one domain. Which balancer fits?",
+    "options": [
+      "A layer 4 balancer, because it is faster",
+      "A layer 7 balancer, because it reads the HTTP request and can route by path",
+      "DNS round robin between both fleets",
+      "Any balancer, since all of them read URLs"
+    ],
+    "answer": 1,
+    "explanation": "Path routing needs the HTTP request, which only a layer 7 proxy parses. A layer 4 balancer sees addresses and ports and forwards bytes without reading them."
+  },
+  {
+    "question": "A fleet of 12 gRPC servers sits behind a layer 4 balancer. A few heavy clients keep one server near 100% CPU while others idle. Why?",
+    "options": [
+      "gRPC cannot be load balanced",
+      "The health checks are too frequent",
+      "A layer 4 balancer chooses once per connection, and each long-lived HTTP/2 connection carries all of a client's requests",
+      "The servers have different weights"
+    ],
+    "answer": 2,
+    "explanation": "HTTP/2 multiplexes many requests over one connection, so connection-level balancing pins a heavy client to one server. A layer 7 balancer spreads the individual requests."
+  },
+  {
+    "question": "Twenty balancer instances each send new requests to the server with the fewest active requests in their local view. A fresh server joins and is overwhelmed. What happened?",
+    "options": [
+      "Herding: every instance saw the new server as least loaded at the same time and sent to it together",
+      "The new server failed its health check",
+      "Round robin skipped the other servers",
+      "TLS termination took too long"
+    ],
+    "answer": 0,
+    "explanation": "Each instance decides from its own slightly stale view, and in every one of them the fresh server looks least loaded, so a pure least-loaded rule sends them all to the same target at once. P2C randomizes the candidates, which spreads decisions."
+  },
+  {
+    "question": "Why is it worth drawing the two P2C candidates as distinct servers rather than as two independent random indexes?",
+    "options": [
+      "Independent draws are slower to compute",
+      "It guarantees a perfectly even distribution",
+      "Distinct samples are required by the HTTP specification",
+      "If both draws hit the same server there is no comparison, so that request falls back to a plain random choice"
+    ],
+    "answer": 3,
+    "explanation": "The benefit comes from comparing two loads. Two independent draws pick the same server for 1 request in n; drawing the second index from the remaining servers gives every request two candidates to compare."
+  },
+  {
+    "question": "A cluster mixes 8-core and 32-core machines serving identical, short requests. Which algorithm is the simple fit?",
+    "options": [
+      "Plain round robin",
+      "Weighted round robin with weights proportional to capacity",
+      "Sticky sessions, so each client always lands on the same machine",
+      "Routing by URL path"
+    ],
+    "answer": 1,
+    "explanation": "Weighted round robin sends each server a share of requests proportional to its weight, so the 32-core machines get about four times as many as the 8-core ones."
+  },
+  {
+    "question": "A route table lists `/api` → api, then `/api/v2` → api-v2. Requests to `/api/v2/orders` reach the old API. What is the bug?",
+    "options": [
+      "The router stops at the first matching prefix instead of choosing the longest one",
+      "`/api/v2` is not a valid prefix",
+      "The balancer must be layer 4 for versioned APIs",
+      "Prefixes must end with a slash to match"
+    ],
+    "answer": 0,
+    "explanation": "Longest prefix match picks the most specific route, so `/api/v2` must win over `/api` regardless of the order in which the routes are declared."
+  }
+]

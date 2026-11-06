@@ -246,7 +246,7 @@ No change is needed in the runner, sandbox, loader, pages or features: they read
 
 ## Multi-language challenges
 
-Generic tracks (AI Engineering today, more later) are not tied to one language: the learner picks the language of each challenge, and the same lesson ships one challenge per language. Registered languages: Node.js (`node` engine), Python (`python` engine) and C# (`csharp` engine).
+Generic tracks (AI Engineering and System Design) are not tied to one language: the learner picks the language of each challenge, and the same lesson ships one challenge per language. Registered languages: Node.js (`node` engine), Python (`python` engine) and C# (`csharp` engine).
 
 ### Content
 
@@ -344,7 +344,7 @@ Every track has a blueprint logo, and every new track **must** ship one in the s
 - **Shared frame, never per track.** Rounded tile in the track accent (`bg-accent/10`, `ring-accent/30`), 6-unit grid paper, dashed construction circle (r 17.5) and four registration marks. A glyph never draws its own frame, background, fill or color: everything is `currentColor` (the accent) except the key star.
 - **Constellation line art.** `lines` are SVG paths stroked at 1.35 with round caps and joins, no fills; `stars` (r 1.6) sit on the vertices and ends of those lines; exactly one `key` star (bright `ink` core with an accent halo) marks the focal point.
 - **Canvas.** 48 × 48 with every coordinate between 6 and 42 (the test checks it); arcs use non-negative x-axis rotations so the check can parse them. Keep 3–7 stars so the glyph reads at 28–32 px.
-- **Subject.** A language or framework track evokes its official logo about 30% of the way (TypeScript as two overlapping rounded squares of its badge, a union and its intersection, React as an atom of three orbits, Node.js as a hexagon around the event loop, Python as two interlocked serpents, C# as a sharp sign grid, Vue as converging chevrons, Angular as a shield with an A) without copying it: no official colors, shapes redrawn as constellation lines, and no initials or wordmarks, which read as a monogram instead of a logo. A concept track draws its concept (Frontend Architecture as stacked decision layers, React State Management as a state cycle, AI Engineering as generative sparkles).
+- **Subject.** A language or framework track evokes its official logo about 30% of the way (TypeScript as two overlapping rounded squares of its badge, a union and its intersection, React as an atom of three orbits, Node.js as a hexagon around the event loop, Python as two interlocked serpents, C# as a sharp sign grid, Vue as converging chevrons, Angular as a shield with an A) without copying it: no official colors, shapes redrawn as constellation lines, and no initials or wordmarks, which read as a monogram instead of a logo. A concept track draws its concept (System Design as a balancer fanning out to replicated nodes, Frontend Architecture as stacked decision layers, React State Management as a state cycle, AI Engineering as generative sparkles).
 - **Trace.** `TrackLogo animate` replays a trace each time it turns on: a light beam with a soft glow (`logo-trace`, two `stroke-ink` copies of each line with `pathLength={1}`, half a line long) runs along the lines one after another, the stars twinkle in sequence (`logo-twinkle`) and the key star halo pulses (`logo-pulse`). The whole trace lasts `--dur-trace` (1.2 s) on `--ease-trace` (fast start, soft end, less front-loaded than `--ease-out`, which hid the beam): each line takes 65% of it and the starts are staggered over the remaining 35% by `--trace-index`/`--trace-count`. It starts and ends on the static logo; reduced motion skips it. `delayMs` delays the trace played on mount and `replayDelayMs` every later one, so a trace starts only after the motion that activated the logo: the active carousel card (`animate={active}`, 1100 ms on load for `card-in`, 520 ms on every slide for `--dur-expand`), the track page header (450 ms) and the star map drawer (160 ms). A new glyph gets the trace with no extra code: every entry of `lines` is traced, in array order, so list the lines in the order they should light up (the main shape first, details last); one entry with several subpaths lights up as a single beam, separate entries light up one after another.
 - **Check.** Render the new glyph next to the others at 120, 48 and 32 px in a browser before merging; it must read as the same family. Also watch its trace on the active carousel card: the beam must be visible on every line and the order must make sense.
 
@@ -354,7 +354,7 @@ Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
 - At least 30° of hue away from the accent of every other track shown to learners, so tracks stay distinguishable (also for color-blind users; the logo glyph and title are the second cue). Tracks hidden in `src/content/featureFlags.ts` never share a screen with the others and are left out; enabling one whose hue collides fails the test, and the accents are revisited then.
 - `--accent-rgb` must be the same color as `--accent` written as `R G B`.
 
-Current accents and their hues. Python took the last band 30° away from every accent (around 123°), so the rule now counts only the tracks shown to learners: C# uses the band of the hidden Angular track (about 358°), and Vue's band (about 154°) is free while Vue stays hidden.
+Current accents and their hues. Python took the last band 30° away from every accent (around 123°), so the rule now counts only the tracks shown to learners: C# uses the band of the hidden Angular track (about 358°), and System Design uses Vue's band (about 160°, between Python and TypeScript), free while Vue stays hidden.
 
 | Track | Accent | Hue |
 | --- | --- | --- |
@@ -363,6 +363,7 @@ Current accents and their hues. Python took the last band 30° away from every a
 | node | `#9be15d` | 92° |
 | python | `#62e869` | 123° |
 | vue (hidden) | `#6de6b2` | 154° |
+| system-design | `#40e6b0` | 160° |
 | typescript | `#4dd9ff` | 193° |
 | react | `#8c8cff` | 240° |
 | react-state | `#d29cff` | 273° |

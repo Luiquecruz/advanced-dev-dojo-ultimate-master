@@ -1,0 +1,9 @@
+[
+  { "term": "Head-of-line blocking", "description": "One slow or lost item at the front of a queue delays everything behind it: whole responses in HTTP/1.1, lost TCP packets in HTTP/2." },
+  { "term": "HTTP/2 multiplexing", "description": "Many requests travel at once over one TCP connection as interleaved frames of numbered streams, with compressed headers." },
+  { "term": "QUIC", "description": "The UDP-based transport under HTTP/3: independent streams, a combined transport and TLS handshake, and connections that survive a network change." },
+  { "term": "gRPC and Protocol Buffers", "description": "A schema-first RPC framework on HTTP/2: the schema generates typed clients and servers and messages travel in a compact binary format." },
+  { "term": "Server-Sent Events", "description": "A long-lived HTTP response of type `text/event-stream` carrying server-to-client events, with automatic reconnection and `Last-Event-ID` resumption." },
+  { "term": "WebSocket", "description": "A full-duplex connection opened by an HTTP upgrade (`101 Switching Protocols` on HTTP/1.1) where both sides send frames at any time." },
+  { "term": "Long polling", "description": "The server holds a request open until there is data or a timeout, then the client immediately asks again." }
+]

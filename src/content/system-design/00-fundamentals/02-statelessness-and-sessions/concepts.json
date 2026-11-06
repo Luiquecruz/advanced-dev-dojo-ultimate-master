@@ -1,0 +1,9 @@
+[
+  { "term": "Stateless server", "description": "Keeps nothing between requests that the next request depends on, so any copy can answer any request." },
+  { "term": "Session", "description": "A server-side record that ties a session id to a user until it expires or the user logs out." },
+  { "term": "Session cookie", "description": "Carries the session id: the server sends `Set-Cookie` once and the browser returns it in the `Cookie` header on every request." },
+  { "term": "Shared session store", "description": "One store, often Redis, that every copy of the server reads and writes, so a login on one copy works on all of them." },
+  { "term": "Time-to-live (TTL)", "description": "How long a record stays valid; after it, the session is gone and a stolen id stops working." },
+  { "term": "JSON Web Token (JWT)", "description": "A signed `header.payload.signature` token any server with the key can verify without a lookup; it stays valid until it expires." },
+  { "term": "Revocation", "description": "Ending a credential before its expiry: deleting a session does it at once, a signed token needs a list of revoked ids." }
+]

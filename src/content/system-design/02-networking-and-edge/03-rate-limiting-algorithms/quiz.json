@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An API allows 100 requests per minute with a fixed window. Monitoring shows a client sending 200 requests in two seconds without a single 429. How?",
+    "options": [
+      "The client used HTTP/2",
+      "The load balancer cached the responses",
+      "It sent 100 requests just before the minute ended and 100 just after, and the counter reset in between",
+      "Fixed windows never reject requests"
+    ],
+    "answer": 2,
+    "explanation": "A fixed window resets at the boundary, so a full budget on each side of it is accepted. A sliding window counter still weighs the previous window right after the boundary."
+  },
+  {
+    "question": "A partner integration is idle most of the time and then sends short bursts of 50 requests, averaging 5 per second. Which limiter fits?",
+    "options": [
+      "A token bucket with capacity 50 and a refill of 5 tokens per second",
+      "A leaky bucket draining 5 per second with no queue",
+      "A fixed window of 5 requests per second",
+      "No limit, because bursts cannot be limited"
+    ],
+    "answer": 0,
+    "explanation": "The capacity sets the largest burst and the refill rate sets the long-term average, which is exactly the shape of this traffic. The other options reject the bursts outright."
+  },
+  {
+    "question": "Ten API servers each enforce \"100 requests per minute per user\" in their own memory, behind a round robin load balancer. What limit does a user really get?",
+    "options": [
+      "Exactly 100, because the balancer coordinates the servers",
+      "About 1,000, because each server counts only the requests it receives",
+      "10, because the limit is divided automatically",
+      "It depends on DNS caching"
+    ],
+    "answer": 1,
+    "explanation": "Per-server counters see a tenth of the traffic each, so the effective limit is multiplied by the number of servers. A shared store such as Redis keeps one counter per user."
+  },
+  {
+    "question": "Two servers check a user's counter in Redis with GET, compare it with the limit, then SET the value plus one. Under load the limit is exceeded. Why?",
+    "options": [
+      "Redis loses writes under load",
+      "GET is not allowed on counters",
+      "The keys need a longer expiry",
+      "Read-then-write is not atomic: both servers can read the same value, both allow and both write"
+    ],
+    "answer": 3,
+    "explanation": "The check and the update are separate steps that interleave across servers. INCR returns the new value atomically, and a Lua script makes a multi-step check-and-update run as one operation."
+  },
+  {
+    "question": "A payment provider accepts at most 20 calls per second and fails on any burst. Your service receives traffic in spikes. What protects the provider best?",
+    "options": [
+      "A leaky bucket that queues calls and sends them at a constant 20 per second",
+      "A token bucket with a large capacity",
+      "A fixed window of 1,200 calls per minute",
+      "Retrying failed calls immediately"
+    ],
+    "answer": 0,
+    "explanation": "A leaky bucket smooths the output to a constant rate, which is what a downstream system that cannot absorb bursts needs. A large token bucket or a per-minute window still lets bursts through."
+  },
+  {
+    "question": "A client exceeds its limit. Which response helps it recover without wasting requests?",
+    "options": [
+      "500 Internal Server Error",
+      "200 OK with an empty body",
+      "429 Too Many Requests with a Retry-After header",
+      "Closing the TCP connection without a response"
+    ],
+    "answer": 2,
+    "explanation": "429 tells the client it sent too much, and Retry-After says how long to wait. A 5xx suggests the server is broken, and a 200 hides the rejection from the client and from monitoring."
+  }
+]

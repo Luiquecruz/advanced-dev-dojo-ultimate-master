@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A service has 2,000,000 DAU and each user makes 30 requests per day. A teammate divides 60,000,000 by 3,600 and plans for about 16,700 QPS. What went wrong?",
+    "options": [
+      "Nothing: 3,600 is the number of seconds that matters",
+      "They should have divided by 1,440, the number of minutes in a day",
+      "They divided by the seconds in an hour, not in a day: 60,000,000 ÷ 86,400 is about 700 QPS, so the plan is 24 times too large",
+      "They forgot to multiply by 86,400"
+    ],
+    "answer": 2,
+    "explanation": "Average QPS is requests per day divided by 86,400 seconds per day. Dividing by 3,600 treats a whole day of traffic as if it arrived in one hour, a 24 times overestimate."
+  },
+  {
+    "question": "The average load is 1,200 QPS and evening traffic is about three times the average. What should the web tier be sized for?",
+    "options": [
+      "About 3,600 QPS: capacity is planned for the peak, with the average only as the starting point",
+      "1,200 QPS, because the daily total is what counts",
+      "400 QPS, because the peak is spread over three hours",
+      "86,400 QPS, one request per second of the day"
+    ],
+    "answer": 0,
+    "explanation": "Servers saturate at the busiest moment, not on average. Multiplying the average by the peak factor gives the load the system must absorb without queuing."
+  },
+  {
+    "question": "A design stores 500 bytes per write, 4,000,000 writes per day, for two years, with three replicas. Which estimate is closest?",
+    "options": [
+      "About 2 GB",
+      "About 4 TB",
+      "About 1.5 TB",
+      "About 4 PB"
+    ],
+    "answer": 1,
+    "explanation": "500 bytes × 4,000,000 = 2 GB per day; × 730 days ≈ 1.5 TB; × 3 replicas ≈ 4.4 TB. Forgetting replication gives 1.5 TB, a common underestimate."
+  },
+  {
+    "question": "A page handler makes 40 sequential calls to other services in the same data center. Using the latency orders of magnitude, what does that cost?",
+    "options": [
+      "About 4 µs, the cost of 40 memory references",
+      "About 6 seconds, like 40 cross-continent round trips",
+      "Nothing measurable: calls inside a data center are free",
+      "About 20 ms of network time before any work is done, at roughly 0.5 ms per round trip"
+    ],
+    "answer": 3,
+    "explanation": "A round trip inside a data center is about 0.5 ms, so 40 sequential calls spend about 20 ms waiting on the network. Parallel calls or batching shorten it."
+  },
+  {
+    "question": "A read-heavy system has 20,000 read QPS and 200 write QPS. Where does this ratio point the design?",
+    "options": [
+      "Toward caches and read replicas for reads, while one primary database can still absorb the writes",
+      "Toward sharding the database immediately to split the writes",
+      "Toward removing the database and keeping everything in memory",
+      "Nowhere: the ratio does not affect the design"
+    ],
+    "answer": 0,
+    "explanation": "Reads can be served by caches and replicas that copy the data; writes must reach the primary. At 200 write QPS a single primary is enough, so the effort goes into the read path."
+  },
+  {
+    "question": "During an estimate, a candidate writes \"1,157.407 QPS\". Why is \"about 1,200 QPS\" the better answer?",
+    "options": [
+      "Interviewers cannot read decimals",
+      "1,157 is mathematically wrong",
+      "The inputs are rough assumptions, so extra digits add false precision; one or two significant digits keep the math fast and the order of magnitude clear",
+      "QPS must always be a multiple of 100"
+    ],
+    "answer": 2,
+    "explanation": "A back-of-the-envelope estimate only needs the right order of magnitude. The DAU and requests per user are guesses, so precision beyond them suggests a certainty the estimate does not have."
+  }
+]

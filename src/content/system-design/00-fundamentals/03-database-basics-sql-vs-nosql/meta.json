@@ -1,0 +1,12 @@
+{
+  "title": "Database Basics: SQL vs NoSQL",
+  "summary": "Tables, joins and ACID transactions against document, key-value and wide-column stores, normalization against denormalization, and why the access pattern picks the database.",
+  "level": "beginner",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "PostgreSQL: Transactions", "url": "https://www.postgresql.org/docs/current/tutorial-transactions.html" },
+    { "label": "PostgreSQL: Joins Between Tables", "url": "https://www.postgresql.org/docs/current/tutorial-join.html" },
+    { "label": "MongoDB: Data Modeling", "url": "https://www.mongodb.com/docs/manual/data-modeling/" },
+    { "label": "Amazon DynamoDB: NoSQL design", "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html" }
+  ]
+}

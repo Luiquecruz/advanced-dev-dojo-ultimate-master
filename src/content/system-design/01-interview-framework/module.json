@@ -1,0 +1,4 @@
+{
+  "title": "System Design Framework & Capacity Estimation",
+  "description": "A structured method for design discussions, back-of-the-envelope capacity estimates and the progressive path from one server to a million users."
+}
