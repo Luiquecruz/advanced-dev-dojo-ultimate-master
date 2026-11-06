@@ -51,7 +51,7 @@ Word limits: practice lessons and the capstone 300–1,000, maps 200–500, quiz
 
 Maps have no `## Coming from` section either: they state the prerequisites inside the track.
 
-A lesson carries no dated block: no `Status as of`, no release dates, no "current release" claims (`src/verify/noDates.test.ts`). A volatile fact (a PEP's status, free-threading, the JIT, a tool's behavior) is written as the mechanism or as the Python version it applies to ("since Python 3.14"), and each is verified against the primary documentation: docs.python.org or the PEP for the language, the project's own documentation and the version it covers for a tool or library, never from memory.
+A lesson carries no dated block: no `Status as of`, no release dates or years (`src/verify/noDates.test.ts` checks that wording). Claims such as "the current release is …" are not matched by that check and are caught in review. A volatile fact (a PEP's status, free-threading, the JIT, a tool's behavior) is written as the mechanism or as the Python version it applies to ("since Python 3.14"), and each is verified against the primary documentation: docs.python.org or the PEP for the language, the project's own documentation and the version it covers for a tool or library, never from memory.
 
 Code fences: `py`, `text`, `bash`, `toml` and `json`.
 
