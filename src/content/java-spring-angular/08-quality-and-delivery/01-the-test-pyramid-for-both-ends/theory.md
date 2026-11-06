@@ -53,7 +53,7 @@ class CourseControllerTests {
 
     @Test
     void returnsNotFoundForUnknownCourse() {
-        given(courseService.find(99L)).willReturn(Optional.empty());
+        given(courseService.find(99L)).willThrow(new CourseNotFoundException(99L));
         assertThat(mvc.get().uri("/api/courses/99")).hasStatus(404);
     }
 }
