@@ -3,6 +3,6 @@
   "order": 6,
   "title": "Angular",
   "monogram": "A",
-  "description": "Standalone components, signals, zoneless change detection, DI, RxJS, Router, Signal Forms and NgRx, plus NgModules and decorator-era APIs.",
+  "description": "Standalone components, signals, zoneless rendering, DI, RxJS, Router, forms, HTTP, testing and SSR, plus legacy Angular maintenance. Shared-state patterns continue in the State Management track.",
   "version": "Angular 22"
 }

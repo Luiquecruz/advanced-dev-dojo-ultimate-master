@@ -1,0 +1,22 @@
+[
+  {
+    "term": "Zoneless scheduling",
+    "description": "Scheduling renders through Angular notifications rather than broad asynchronous-task notifications from ZoneJS."
+  },
+  {
+    "term": "Notification",
+    "description": "A signal write, listener, input update or explicit API call that tells Angular a view may need checking."
+  },
+  {
+    "term": "Template consumer",
+    "description": "A view that reads a signal and is notified when that signal changes."
+  },
+  {
+    "term": "markForCheck",
+    "description": "A ChangeDetectorRef method that marks a view for checking and notifies the scheduler."
+  },
+  {
+    "term": "whenStable",
+    "description": "A fixture method that waits for tracked Angular work to settle before assertions."
+  }
+]

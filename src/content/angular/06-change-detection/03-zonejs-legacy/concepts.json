@@ -1,0 +1,22 @@
+[
+  {
+    "term": "ZoneJS",
+    "description": "A runtime that patches asynchronous APIs so an Angular zone-based scheduler can observe completed activity."
+  },
+  {
+    "term": "NgZone",
+    "description": "Angular\u2019s zone integration API for running work inside or outside its zone."
+  },
+  {
+    "term": "Coalescing",
+    "description": "Combining related scheduling activity to reduce redundant change-detection work."
+  },
+  {
+    "term": "Bootstrap mode",
+    "description": "The application-level configuration that chooses zone-based or zoneless scheduling."
+  },
+  {
+    "term": "Integration boundary",
+    "description": "The callback or adapter where external work enters application state and must notify rendering."
+  }
+]

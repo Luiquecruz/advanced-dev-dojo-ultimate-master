@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A legacy application uses OnPush components and loads ZoneJS. Is that combination possible?",
+    "options": [
+      "No, OnPush always removes ZoneJS",
+      "Yes, checking strategy and scheduling mode are separate choices",
+      "Only when every field is a signal",
+      "Only for server rendering"
+    ],
+    "answer": 1,
+    "explanation": "OnPush determines when views can be skipped. ZoneJS-based scheduling determines how asynchronous activity can trigger change detection."
+  },
+  {
+    "question": "What does ZoneJS primarily report to a zone-based Angular scheduler?",
+    "options": [
+      "Which SQL query changed",
+      "The exact field that changed",
+      "That patched asynchronous work completed",
+      "Every DOM difference"
+    ],
+    "answer": 2,
+    "explanation": "ZoneJS observes asynchronous activity. It does not identify a particular application value or compute the DOM difference itself."
+  },
+  {
+    "question": "A migration removes ZoneJS and a socket callback now updates a plain field without refreshing the view. What should be reviewed?",
+    "options": [
+      "The notification path from the callback to the view",
+      "Only the CSS color",
+      "The database index",
+      "The page title"
+    ],
+    "answer": 0,
+    "explanation": "The callback needs an explicit Angular notification in zoneless mode, for example a consumed signal update or markForCheck at the integration boundary."
+  },
+  {
+    "question": "What should a maintainer inspect to determine whether zone-based scheduling is active?",
+    "options": [
+      "Only the TypeScript class name",
+      "Only whether OnPush appears in a component",
+      "Only the npm package list",
+      "Bootstrap providers and the loaded ZoneJS runtime"
+    ],
+    "answer": 3,
+    "explanation": "The active mode depends on configuration and the runtime being loaded. Merely finding a package or an OnPush component is insufficient."
+  },
+  {
+    "question": "What is a useful test before removing ZoneJS?",
+    "options": [
+      "Always call detectChanges after each assignment",
+      "Exercise external callbacks under the intended scheduler and await stabilization",
+      "Disable all asynchronous flows",
+      "Test only the first static render"
+    ],
+    "answer": 1,
+    "explanation": "Tests should exercise real update boundaries without forcing checks that hide missing notifications, using the scheduler intended for production."
+  }
+]

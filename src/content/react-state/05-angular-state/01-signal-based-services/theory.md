@@ -1,4 +1,4 @@
-This lesson follows the Angular path in State Management. Before starting, complete Signals, Services and inject() and Providers and Injection Tokens in the Angular track. The React-specific modules are a separate path, not prerequisites for this exercise.
+This lesson follows the Angular path in State Management. Before starting, complete [signal, computed & effect](/angular/signal-computed-effect), [Services and inject()](/angular/services-and-inject) and [Providers and Injection Tokens](/angular/providers-and-injection-tokens) in the Angular track. The React-specific modules are a separate path, not prerequisites for this exercise.
 
 ## State in a service
 

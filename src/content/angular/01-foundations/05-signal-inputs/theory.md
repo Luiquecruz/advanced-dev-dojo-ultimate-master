@@ -100,7 +100,7 @@ export class UserBadge implements OnChanges {
 | Type | plain property (needs `!` for required) | `InputSignal<T>` |
 | Derived state | `ngOnChanges` or a setter | `computed()` |
 | Mutability | the child can overwrite it (a common bug) | read-only |
-| Change detection | needs zone.js / `OnPush` marking | the signal notifies Angular precisely |
+| Change detection | bound input changes and `ComponentRef.setInput()` notify Angular | input updates notify Angular and feed signal derivations |
 
 `@Input()` is still supported, and the `ng generate @angular/core:signal-input-migration` schematic converts it.
 

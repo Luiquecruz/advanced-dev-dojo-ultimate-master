@@ -1,0 +1,20 @@
+{
+  "title": "OnPush and Eager Strategies",
+  "summary": "Separate render scheduling from view checking, use Angular 22\u2019s default OnPush strategy, and update externally driven progress through signals.",
+  "level": "intermediate",
+  "tags": [
+    "core",
+    "modern",
+    "performance"
+  ],
+  "resources": [
+    {
+      "label": "Angular: Skipping component subtrees",
+      "url": "https://angular.dev/best-practices/skipping-subtrees"
+    },
+    {
+      "label": "Angular: ChangeDetectionStrategy",
+      "url": "https://angular.dev/api/core/ChangeDetectionStrategy"
+    }
+  ]
+}
