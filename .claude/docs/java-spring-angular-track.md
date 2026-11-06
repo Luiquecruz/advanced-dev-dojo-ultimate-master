@@ -2,6 +2,8 @@
 
 Plan of the `java-spring-angular` track. The owner chose option A (no Java engine); module 01 is written, the other modules are planned. The track stays hidden (`TRACK_FLAGS`) until its last part ships, and its accent in `tokens.css` is provisional: the palette has no free hue 30 degrees from every shown track, so the owners re-space it before the track is shown. The content standards are the ones of [system-design-track.md](system-design-track.md) (theory template, quizzes, official resources, no dates, no language bridges, `You need:` lines, same test names in every language) plus the rules in "Content standards" here.
 
+The state of the work and the procedure to continue it are in [java-spring-angular-handoff.md](java-spring-angular-handoff.md).
+
 ## Sources
 
 The learning path follows the shape of the Spring Boot plus Angular material of Loiane Groner (her YouTube channel, loiane.training and the `loiane/crud-angular-spring` project) and the official documentation of each piece; lessons are written from scratch and cite official documentation only. The reference project shows the stack a learner meets in practice:
