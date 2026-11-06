@@ -1,0 +1,9 @@
+[
+  { "term": "Owning side", "description": "The side of an association that holds the foreign key and whose changes Hibernate writes, which is the @ManyToOne side of a one-to-many." },
+  { "term": "mappedBy", "description": "The attribute that marks the inverse side of a bidirectional association by naming the field on the owning side." },
+  { "term": "Cascade", "description": "A setting that passes persist, merge, remove, refresh or detach from a parent entity to the entities in its association." },
+  { "term": "Orphan removal", "description": "A setting on one-to-many and one-to-one that deletes a child when it is removed from the parent's collection, applied at flush." },
+  { "term": "Fetch type", "description": "The choice between EAGER and LAZY loading of an association, where to-one defaults to eager and to-many defaults to lazy." },
+  { "term": "Join table", "description": "The extra table that stores pairs of keys for a many-to-many association, mapped with @JoinTable or as a link entity." },
+  { "term": "Business key", "description": "A stable natural value such as a tag name that an entity can use in equals and hashCode instead of its generated id." }
+]

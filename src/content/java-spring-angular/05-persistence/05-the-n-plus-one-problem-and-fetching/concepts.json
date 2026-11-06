@@ -1,0 +1,9 @@
+[
+  { "term": "N+1 problem", "description": "One query that loads N parent rows followed by one extra query for each parent when its lazy association is touched." },
+  { "term": "join fetch", "description": "A JPQL clause that loads an association in the same SQL statement as its owner, with parents de-duplicated by Hibernate." },
+  { "term": "Entity graph", "description": "A named list of attributes to load, applied to a repository method with @EntityGraph instead of writing a join fetch." },
+  { "term": "Batch fetching", "description": "Lazy loading that initializes many associations per query with an IN list, enabled by @BatchSize or default_batch_fetch_size." },
+  { "term": "LazyInitializationException", "description": "The error thrown when a lazy association is touched after its persistence context closed, which Open Session in View used to hide." },
+  { "term": "Open Session in View", "description": "The Spring Boot default, controlled by spring.jpa.open-in-view, that keeps the persistence context open during the whole web request." },
+  { "term": "Statement count assertion", "description": "A test that reads Hibernate statistics and fails when a use case runs more SQL statements than expected." }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A developer runs `course.getLessons().add(new Lesson(\"Intro\"))` on a bidirectional mapping where `Lesson.course` is the owning side, and never sets `lesson.course`. What does the lesson row contain?",
+    "options": [
+      "The correct course id, because Hibernate reads the collection",
+      "A null course_id, or the insert fails if the column is not null, because only the owning side is written",
+      "A random course id",
+      "No row at all, and no error"
+    ],
+    "answer": 1,
+    "explanation": "Hibernate writes the foreign key from the owning side. The inverse collection is ignored when writing, so the helper method on the parent must set both sides."
+  },
+  {
+    "question": "A course owns its lessons with `orphanRemoval = true`. A service removes one lesson from `course.getLessons()` inside a transaction. What happens?",
+    "options": [
+      "The lesson stays in the table and only the in-memory list changes",
+      "An exception is thrown because the collection was modified",
+      "The lesson's course_id is set to the id of another course",
+      "A DELETE for that lesson runs at flush"
+    ],
+    "answer": 3,
+    "explanation": "Orphan removal turns removal from the collection into a remove operation, executed at flush. It fits children that exist only as part of their parent."
+  },
+  {
+    "question": "A `Course` has `@ManyToMany(cascade = CascadeType.ALL) Set<Tag> tags`. A course is deleted. What is the risk?",
+    "options": [
+      "The remove cascades to tags, which other courses may still use, so the delete fails or removes shared data",
+      "None, because tags are only referenced",
+      "Hibernate ignores the cascade for many-to-many",
+      "Only the join table rows are skipped"
+    ],
+    "answer": 0,
+    "explanation": "Cascading remove along a many-to-many reaches entities that belong to other parents. Tags should be created and removed on their own."
+  },
+  {
+    "question": "A Tag entity computes `hashCode()` from its generated id and is added to a HashSet before it is saved. After the save assigns the id, `set.contains(tag)` returns false. Why?",
+    "options": [
+      "The set was copied during the save",
+      "HashSet only works with immutable classes",
+      "Hibernate removed the tag from the set",
+      "The hash code changed after the element was stored, so the set looks in the wrong bucket"
+    ],
+    "answer": 3,
+    "explanation": "A hash code must not change while an element is in a hash-based set. A stable business key such as the tag name, or a constant hash code, avoids this."
+  },
+  {
+    "question": "A `@ManyToOne Course course` field has no fetch attribute. A query loads 50 lessons. How is the course loaded by default, and what is the recommended mapping?",
+    "options": [
+      "Lazily, and nothing needs to change",
+      "Never, and the course must be queried by hand",
+      "Eagerly, since to-one associations default to EAGER, so declare fetch = FetchType.LAZY and fetch per query",
+      "Eagerly, and it cannot be changed"
+    ],
+    "answer": 2,
+    "explanation": "Jakarta Persistence defaults to-one associations to EAGER and collections to LAZY. Declaring LAZY on to-one associations avoids loading object graphs you did not ask for."
+  }
+]

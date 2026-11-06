@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A service method annotated with @Transactional loads a Course with entityManager.find, calls course.rename(\"Java 25\") and returns, without calling any save method. What happens to the database?",
+    "options": [
+      "Nothing, because no save or persist call was made",
+      "An UPDATE runs at flush, because the entity is managed and Hibernate detects the changed title",
+      "An exception is thrown because the entity was not merged",
+      "A new row is inserted with the new title"
+    ],
+    "answer": 1,
+    "explanation": "Inside the transaction the entity is managed. During flush Hibernate compares it with its load-time snapshot and writes the difference, so no explicit save is needed."
+  },
+  {
+    "question": "A service returns a Course after its @Transactional method ended. The controller then calls course.rename(\"New title\"). Why is the change not stored?",
+    "options": [
+      "The entity is detached, so no persistence context tracks the change",
+      "Hibernate caches updates until the next application restart",
+      "The title column is marked nullable = false",
+      "rename is a method, and only setters are tracked"
+    ],
+    "answer": 0,
+    "explanation": "When the transaction ends the context closes and the entity becomes detached. Dirty checking only applies to managed entities, so the change must go through a new transaction."
+  },
+  {
+    "question": "A teammate turns the Course entity into a Java record to make it immutable. What is the problem?",
+    "options": [
+      "Records cannot have fields annotated with @Column",
+      "Records cannot be serialized",
+      "The specification does not allow a record to be an entity, and Hibernate needs a no-argument constructor and mutable state",
+      "Records are only allowed with GenerationType.UUID"
+    ],
+    "answer": 2,
+    "explanation": "Jakarta Persistence forbids records as entities. Records still work well as DTOs and projections, where they only carry query results."
+  },
+  {
+    "question": "A Level enum is stored with the default JPA mapping. Months later someone inserts INTERMEDIATE between BEGINNER and ADVANCED. What is the consequence?",
+    "options": [
+      "Hibernate rewrites the stored numbers automatically",
+      "Nothing, because ordinals are fixed once saved",
+      "The application fails to start",
+      "Stored ordinals now point to different constants, so existing rows change meaning"
+    ],
+    "answer": 3,
+    "explanation": "The default stores the ordinal, which is a position. Inserting a constant shifts positions. Annotating the field with @Enumerated(EnumType.STRING) stores the name instead."
+  },
+  {
+    "question": "You deploy to a PostgreSQL database that is managed with migration scripts. Which ddl-auto value is the safest to catch a mapping that no longer matches the schema?",
+    "options": [
+      "create-drop",
+      "update",
+      "validate",
+      "create"
+    ],
+    "answer": 2,
+    "explanation": "validate checks the mappings against the existing schema and fails at startup on a mismatch without changing anything. The other values create or alter objects, or drop the schema."
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A developer notices a typo in V2__add_tags.sql, which already ran on the staging database, and fixes the typo in the same file. What happens at the next startup of staging?",
+    "options": [
+      "Flyway silently re-runs the script",
+      "Flyway fails validation, because the stored checksum no longer matches the file",
+      "Hibernate repairs the table",
+      "Nothing, because Flyway only reads file names"
+    ],
+    "answer": 1,
+    "explanation": "Flyway stores a checksum for every applied script and validates it before migrating. The fix belongs in a new versioned migration that rolls the change forward."
+  },
+  {
+    "question": "A team renames a column in the entity and relies on ddl-auto=update in production. What does Hibernate do?",
+    "options": [
+      "Renames the column and keeps the data",
+      "Drops the table and recreates it",
+      "Moves the data to the new column automatically",
+      "Adds the new column and leaves the old one, so the data is not carried over"
+    ],
+    "answer": 3,
+    "explanation": "update only adds missing objects. It cannot rename or move data, which is why production schemas are changed with reviewed migrations and validated with ddl-auto=validate."
+  },
+  {
+    "question": "Course is soft-deleted through @SQLDelete. A cleanup job adds `@Modifying @Query(\"delete from Course c where c.level = :level\")`. What does it do to the rows?",
+    "options": [
+      "It performs a real DELETE, because bulk statements bypass @SQLDelete",
+      "It sets deleted_at, because the entity is annotated",
+      "It is rejected at startup",
+      "It only hides the rows in the persistence context"
+    ],
+    "answer": 0,
+    "explanation": "@SQLDelete replaces the delete issued for an entity removal. A bulk JPQL delete goes straight to the database, so rows disappear for good or fail on foreign keys."
+  },
+  {
+    "question": "After a course titled \"Java Basics\" is soft-deleted, creating a new \"Java Basics\" fails with a unique violation. Which change fixes it?",
+    "options": [
+      "Add @Column(unique = false) in the entity",
+      "Rename the deleted row in Java",
+      "Replace the unique constraint with a partial unique index that applies only where deleted_at IS NULL",
+      "Turn off @SQLRestriction"
+    ],
+    "answer": 2,
+    "explanation": "The deleted row still occupies the unique key in the database. A partial unique index constrains active rows only, so a title can be reused."
+  },
+  {
+    "question": "A reporting method uses a native query `SELECT * FROM course` on an entity with @SQLRestriction(\"deleted_at IS NULL\") and returns deleted courses. Why?",
+    "options": [
+      "The restriction is only applied on Mondays",
+      "Hibernate cached the deleted rows",
+      "The restriction applies to entity loading and JPQL, not to SQL you write yourself",
+      "Native queries cannot read soft-deleted rows"
+    ],
+    "answer": 2,
+    "explanation": "Hibernate appends the condition to the queries it generates. Native SQL runs as written, so you must add the deleted_at condition yourself."
+  },
+  {
+    "question": "A Spring Boot 4 project declares only org.flywaydb:flyway-core and flyway-database-postgresql, and the migrations do not run at startup. What is missing?",
+    "options": [
+      "A spring.flyway.run=true property",
+      "The ddl-auto=update property",
+      "A @EnableFlyway annotation on the main class",
+      "The spring-boot-starter-flyway dependency, which Boot 4 requires for Flyway auto-configuration"
+    ],
+    "answer": 3,
+    "explanation": "Spring Boot 4 modularized its auto-configuration, and Flyway support now comes with spring-boot-starter-flyway instead of the library alone."
+  }
+]

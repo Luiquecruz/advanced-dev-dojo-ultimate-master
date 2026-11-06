@@ -1,0 +1,57 @@
+[
+  {
+    "question": "You declare `List<Course> findByLevl(Level level);` in a repository, with a typo in the property name. When do you find out?",
+    "options": [
+      "When the method is first called in production, as a NullPointerException",
+      "Never, because the method returns an empty list",
+      "At compile time, because Spring Data generates the code in the build",
+      "At application startup, because Spring Data validates the derived query and fails to create the repository"
+    ],
+    "answer": 3,
+    "explanation": "Derived queries are parsed when the repository is created. A property that does not exist makes the application fail to start, which is much earlier than a failure in production."
+  },
+  {
+    "question": "A screen lists courses with only id, title and level, but the repository returns full Course entities. What is the best change?",
+    "options": [
+      "Return a record such as CourseSummary(Long id, String title, Level level) through a projection method",
+      "Mark the other fields as transient in the entity",
+      "Cache the entities in a static list",
+      "Call entityManager.detach on every entity"
+    ],
+    "answer": 0,
+    "explanation": "A projection makes the query select only the needed columns and returns plain objects that are not tracked, which is cheaper than loading and dirty-checking entities."
+  },
+  {
+    "question": "A @Modifying update moves every BEGINNER course to INTERMEDIATE. In the same transaction the code then reads an entity it loaded before the update, and it still shows BEGINNER. Why?",
+    "options": [
+      "The update statement failed silently",
+      "The bulk update ran in the database but the persistence context kept the old instance",
+      "Hibernate rolled back the update at flush",
+      "Enums are cached by the JVM"
+    ],
+    "answer": 1,
+    "explanation": "A modifying query bypasses the persistence context. Using clearAutomatically = true, or reloading the entity, makes later reads see the new value."
+  },
+  {
+    "question": "A search endpoint accepts optional level, title text and minimum lesson count, in any combination. Which approach scales best?",
+    "options": [
+      "One derived method for each combination of parameters",
+      "Loading all courses and filtering with streams",
+      "Building the JPQL by concatenating the request text",
+      "Specifications that each add one predicate and are combined with and"
+    ],
+    "answer": 3,
+    "explanation": "Specifications turn each optional filter into a small reusable predicate. Combinations multiply derived methods, in-memory filtering loads the table, and concatenation allows injection."
+  },
+  {
+    "question": "Why is `@Query(\"select c from Course c where c.title = '\" + title + \"'\")` not possible in an annotation, and what is the right way to pass the value?",
+    "options": [
+      "Annotation values must be compile-time constants, so use a named parameter such as :title",
+      "Strings cannot contain quotes in annotations, so escape them",
+      "Annotations cannot contain JPQL, so use native SQL",
+      "The value must be passed through a static field"
+    ],
+    "answer": 0,
+    "explanation": "An annotation attribute must be a constant expression, so runtime values cannot be concatenated. A named parameter is bound safely by Spring Data and avoids injection."
+  }
+]

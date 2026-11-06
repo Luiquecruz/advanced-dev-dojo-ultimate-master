@@ -1,0 +1,23 @@
+{
+  "title": "Relationships",
+  "summary": "One-to-many, many-to-one and many-to-many mappings, the owning side and mappedBy, cascade, orphan removal, fetch defaults, and equals and hashCode for entities.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Jakarta Persistence 3.2 specification",
+      "url": "https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3.2.html"
+    },
+    {
+      "label": "Hibernate ORM documentation",
+      "url": "https://hibernate.org/orm/documentation/"
+    },
+    {
+      "label": "Spring Boot: SQL databases",
+      "url": "https://docs.spring.io/spring-boot/reference/data/sql.html"
+    }
+  ]
+}

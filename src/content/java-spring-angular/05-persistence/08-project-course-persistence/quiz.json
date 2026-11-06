@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`mvn test` fails immediately with an error saying Testcontainers could not find a valid Docker environment. What should you check first?",
+    "options": [
+      "Whether ddl-auto is set to validate",
+      "Whether the entity has a no-argument constructor",
+      "Whether the Docker daemon is running and reachable from your user",
+      "Whether the migrations use lower-case names"
+    ],
+    "answer": 2,
+    "explanation": "Testcontainers starts PostgreSQL through the Docker API. Without a reachable daemon the container cannot start, whatever the application code looks like."
+  },
+  {
+    "question": "A test deletes a course through the service and then runs `select count(*) from course where deleted_at is not null` with JdbcTemplate, but gets 0. The service call succeeded. What is the likely cause?",
+    "options": [
+      "The UPDATE has not been flushed yet, so call repository.flush() before the query",
+      "Soft delete does not work with PostgreSQL",
+      "The column deleted_at is read-only",
+      "The test transaction already committed and removed the row"
+    ],
+    "answer": 0,
+    "explanation": "Hibernate delays the UPDATE until flush. The JDBC query runs on the same connection before that, so it sees no change. Flushing first makes the statement run."
+  },
+  {
+    "question": "After deleting a course, its lesson rows are gone from the table instead of having a deleted_at value. Which mapping is missing?",
+    "options": [
+      "@SQLRestriction on Course",
+      "@Version on Lesson",
+      "fetch = FetchType.EAGER on Lesson.course",
+      "@SQLDelete on Lesson, because the cascaded removal otherwise issues a real DELETE"
+    ],
+    "answer": 3,
+    "explanation": "Cascading remove asks Hibernate to remove each lesson, and without its own @SQLDelete that is a physical DELETE. Both entities need the soft delete mapping."
+  },
+  {
+    "question": "A colleague proposes H2 in memory for the repository tests because it starts faster. Why does this project use a PostgreSQL container instead?",
+    "options": [
+      "H2 cannot run Hibernate",
+      "Testcontainers is required by JPA",
+      "PostgreSQL containers are faster than H2",
+      "The migrations use PostgreSQL features such as a partial unique index, and tests should run on the production engine"
+    ],
+    "answer": 3,
+    "explanation": "Migrations are written for one database. An in-memory database accepts different SQL and hides dialect differences, so a green test would prove less."
+  },
+  {
+    "question": "Page 2 of the course list repeats a title that was already on page 1. The query sorts by title only. What is the minimal fix?",
+    "options": [
+      "Raise the maximum page size",
+      "Add id as a final sort column so the order is total",
+      "Switch the endpoint to return a List",
+      "Turn on open-in-view"
+    ],
+    "answer": 1,
+    "explanation": "Equal titles have no fixed relative order, so a row can land on two pages. A unique last sort column makes the order deterministic."
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A list screen sorts courses by title only. Several courses share the title \"Java\". Users report that one of them shows up on both page 1 and page 2. What is the fix?",
+    "options": [
+      "Increase the page size",
+      "Add a unique tiebreaker, so the sort is title and then id",
+      "Switch the return type from Page to List",
+      "Sort in Java after loading the page"
+    ],
+    "answer": 1,
+    "explanation": "Rows with equal titles have no defined relative order, so it can differ between two queries. Ending the sort with the id gives every row one fixed position."
+  },
+  {
+    "question": "A mobile feed shows a \"Load more\" button and never displays the total number of items. Which return type avoids unneeded work?",
+    "options": [
+      "Page, because it is the default",
+      "List without a Pageable",
+      "Optional",
+      "Slice, because it knows if a next slice exists without a COUNT query"
+    ],
+    "answer": 3,
+    "explanation": "Slice fetches one extra row to detect a next slice and runs no count. Page would execute a COUNT on every request for a number nobody sees."
+  },
+  {
+    "question": "An endpoint declares a Pageable parameter. A client calls it with `?size=100000&sort=salary`. Salary is not part of the public API. What should the service do?",
+    "options": [
+      "Cap the size and reject sort properties that are not on a whitelist",
+      "Trust the values, because Spring validated them",
+      "Ignore the size and return everything",
+      "Convert the sort to uppercase"
+    ],
+    "answer": 0,
+    "explanation": "Spring binds page and sort values without checking them against your public contract. The application enforces a maximum size and the allowed sort fields."
+  },
+  {
+    "question": "A log export pages through 40 million events with page and size parameters. Page 20,000 takes seconds while page 1 takes milliseconds. Which change addresses the cause?",
+    "options": [
+      "Use keyset pagination so each request starts after the last seen key",
+      "Make the page size smaller",
+      "Add EAGER fetching",
+      "Switch from Page to Slice only"
+    ],
+    "answer": 0,
+    "explanation": "With an offset the database must read and discard all earlier rows. A keyset condition on indexed sort columns jumps straight to the next rows."
+  },
+  {
+    "question": "A controller returns `Page<CourseSummary>` straight from the repository and a client app parses its JSON. Why is that risky?",
+    "options": [
+      "Page cannot be serialized at all",
+      "The JSON contains the SQL that ran",
+      "The implementation class is a framework type whose JSON can change, so a custom response record or PagedModel is a safer contract",
+      "Clients cannot read arrays"
+    ],
+    "answer": 2,
+    "explanation": "The Spring Data reference advises against exposing PageImpl directly because its representation is not a stable API. Your own record fixes the contract."
+  }
+]
