@@ -51,16 +51,15 @@ Separation verification passed: 1,740 unfiltered content checks, 200 application
 
 ## Publication and future Full Stack
 
-Java and Angular have independent feature flags and release checks. Do not turn either on or change the palette in this workflow. Before Java is shown, choose a free accent and run its release checks and browser presentation review. A future Full Stack track can reuse the archived Angular/API integration, frontend auth and combined capstone; it is not registered as an empty or duplicate track now.
+Java and Angular have independent feature flags and release checks. Java remains hidden; Angular activation and the palette adjustments it requires are authorized and tracked separately. Before Java is shown, choose a free accent and run its release checks and browser presentation review. A future Full Stack track can reuse the archived Angular/API integration, frontend auth and combined capstone; it is not registered as an empty or duplicate track now.
 
 ## Active review stack
 
 | PR | Purpose | State | Base |
 | --- | --- | --- | --- |
-| [#61](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | OPEN | `main` |
+| [#61](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | MERGED | `main` |
+| [#62](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/62) | feat(curriculum): add backend Spring Security module | OPEN | `main` |
+| [#63](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/63) | feat(curriculum): add backend quality and delivery module | OPEN | `feat/java-spring-security` |
+| [#65](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/65) | feat(curriculum): add backend course catalog capstone | OPEN | `feat/java-spring-delivery` |
 
-Latest action: Adapted module 06 to API security, including generic CSRF/CORS contracts and direct HTTP-client acceptance criteria; removed the Angular security lesson.
-
-Security validation: 1,761 content checks pass without skips, eslint/typecheck/docs sync pass, all 27 resource URLs return HTTP 200 on their original host, and the local Boot 4.1.2 security project passes 13 tests covering mocked authorization plus real signed-token validation.
-
-Security review follow-up: corrected matcher configuration failure and lesson references, distinguished signed and encrypted JWTs, clarified anonymous versus authenticated access denial, and connected role hierarchy to method security. The Spring Security 7.1.2 method-security configuration was checked with an administrator allowed through inherited permission and an unrelated user denied.
+Latest action: Merged current main after PR #61; retained security review corrections and the independent backend curriculum.
