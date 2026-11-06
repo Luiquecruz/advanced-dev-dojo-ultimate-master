@@ -21,7 +21,7 @@ Keep this section current: after every merge, PR, review or decision, add a line
 **Owner decision (token budget): the track keeps only theory and quizzes. No graded challenges anywhere, including module 06 (it becomes theory + quiz like the rest). Do not build a Java engine.**
 
 State of the work:
-- PR #51 review pass: corrected ten Java content findings, aligned module 06 descriptions with the theory-and-quiz decision, and clarified consecutive numbering. Validation passed: 1,671 tests, one skipped; eslint, TypeScript, docs sync and Java snippet checks (`javac --release 25` on JDK 27). The next CodeRabbit review and remote CI gate the merge. Uncommitted module 05–07 drafts remain preserved in the original workspace.
+- PR #51 review pass: corrected ten Java content findings, aligned module 06 descriptions and the README track row with the theory-and-quiz decision, and clarified consecutive numbering. Validation passed: 1,671 tests, one skipped; eslint, TypeScript, docs sync and Java snippet checks (`javac --release 25` on JDK 27). The next CodeRabbit review and remote CI gate the merge. Uncommitted module 05–07 drafts remain preserved in the original workspace.
 - Module 01: merged (PR #50).
 - Module 02: written and reviewed, PR #51 open (`feat/java-module-02`); needs the CodeRabbit loop and merge.
 - Modules 03 to 09: unreviewed drafts saved and pushed on `wip/java-modules-03-09` (head `dec32aeb`), with additional uncommitted module 05–07 work in the original checkout. Modules 03, 04, 08 and 09 have metadata for every lesson; inspect 05–07 for incomplete lessons. No module 03–09 content is included in PR #51.
