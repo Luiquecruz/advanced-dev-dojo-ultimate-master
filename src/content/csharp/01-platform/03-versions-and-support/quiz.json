@@ -8,7 +8,7 @@
       "Neither: the API fails to start until it is rebuilt for .NET 11"
     ],
     "answer": 1,
-    "explanation": "Major versions install side by side, and a framework-dependent app keeps its targeted major version while rolling forward to the latest installed patch of it. The first option is the PHP mental model, where the server's version is the app's version; in .NET the project's target framework decides."
+    "explanation": "Major versions install side by side, and a framework-dependent app keeps its targeted major version while rolling forward to the latest installed patch of it. The first option assumes the newest runtime on the server is the app's version; in .NET the project's target framework decides, so moving to .NET 11 means changing the TFM and redeploying."
   },
   {
     "question": "Your team starts a new backend service on 2026-11-05 and expects to maintain it for years. Which target framework is the sound default?",

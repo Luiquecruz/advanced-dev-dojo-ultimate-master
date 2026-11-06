@@ -1,6 +1,6 @@
 [
   {
-    "question": "A PHP developer opens a `SqlConnection` (Microsoft.Data.SqlClient) by hand in an ASP.NET Core service and never disposes it, expecting it to close at the end of the request like PDO in PHP-FPM. What happens under load?",
+    "question": "An ASP.NET Core service opens a `SqlConnection` (Microsoft.Data.SqlClient) by hand and never disposes it, expecting it to close when the method returns or when the request ends. What happens under load?",
     "options": [
       "It closes when the method returns, because the variable goes out of scope",
       "ASP.NET Core closes the connections opened during a request when it sends the response",
@@ -8,7 +8,7 @@
       "The pool notices the abandoned connection after its idle timeout and reclaims it"
     ],
     "answer": 2,
-    "explanation": "The process is long-running and the garbage collector runs when it decides to, so undisposed connections are not returned to the pool promptly. Expecting cleanup when the variable goes out of scope is the PHP reference-counting habit; .NET does not destroy objects at scope exit, which is why `using` exists."
+    "explanation": "The process is long-running and the garbage collector runs when it decides to, so undisposed connections are not returned to the pool promptly. Expecting cleanup when the variable goes out of scope is the tempting mistake: .NET does not destroy objects at scope exit, and nothing closes connections at the end of a request, which is why `using` exists."
   },
   {
     "question": "A `CatalogService` receives `CatalogDbContext` through its constructor (registered with `AddDbContext`). Where should the context be disposed?",

@@ -2,12 +2,7 @@
 
 Code written for .NET 10 looks different from older tutorials: `switch` expressions instead of `if` chains, list patterns, primary constructors on services, `[..]` collection literals and, since C# 14, extension properties. After this lesson you can read and write that style, and you know where each feature bites.
 
-## Coming from PHP/Magento
-
-- **`match` versus `switch` expressions.** PHP 8's `match` compares values with `===` and throws `UnhandledMatchError` when no arm fits. A C# `switch` expression matches **patterns**: types, property values, ranges and list shapes. The compiler warns when the arms do not cover every input, and at run time an unmatched value throws `SwitchExpressionException`.
-- **Constructor promotion versus primary constructors.** PHP's `public function __construct(private ProductRepository $repository)` declares a property. A C# primary constructor on a class declares **parameters**, not properties, and they are not read-only. Only a `record` turns them into public properties.
-- **Spread.** PHP's `[...$a, ...$b]` becomes `[.. a, .. b]`.
-- **Extension members are not plugins.** A Magento `around` or `after` plugin changes what an existing method does. An extension member only *adds* members. When the type already has a member with the same signature, the type's own member always wins, and the extension is never called.
+You need: 02/03 (records, classes and interfaces) and 02/04 (lambdas and `Func`).
 
 ## Switch expressions and patterns
 
@@ -74,6 +69,7 @@ They make CSV and command-line parsing readable: `line.Split(',') is [var sku, v
 Since C# 12, a class can declare constructor parameters in its header. This is the usual way to receive dependencies in ASP.NET Core services:
 
 ```csharp
+// ILogger<T> is the logging interface of .NET (05/04)
 public sealed class OrderService(IOrderRepository repository, ILogger<OrderService> logger)
 {
     public void Cancel(int orderId)
@@ -92,8 +88,8 @@ A collection expression `[...]` creates whatever collection the target type asks
 
 ```csharp
 int[] ids = [1, 2, 3];
-List<string> skus = ["24-MB01", "24-MB04"];
-IReadOnlyList<string> featured = [.. skus, "24-WB02"];  // spread, then one more element
+List<string> skus = ["BAG-01", "BAG-02"];
+IReadOnlyList<string> featured = [.. skus, "BOTTLE-01"];  // spread, then one more element
 string[] none = [];                                    // the compiler may reuse an empty array
 ```
 
@@ -101,7 +97,16 @@ A collection expression always builds the whole collection immediately, even whe
 
 ## Extension members (C# 14)
 
-Extension methods have existed for years: LINQ's `Where` and `Select` are extension methods on `IEnumerable<T>`. C# 14 adds `extension` blocks inside a top-level, non-generic static class. A block can declare extension **properties** and **static** extensions as well as methods:
+Extension methods have existed for years: LINQ's `Where` and `Select` are extension methods on `IEnumerable<T>`. The classic form is a static method whose first parameter is marked `this`, called as if it were an instance method:
+
+```csharp
+public static class ProductChecks
+{
+    public static bool IsInStock(this Product product) => product.Stock > 0;  // call: bag.IsInStock()
+}
+```
+
+C# 14 adds `extension` blocks inside a top-level, non-generic static class. A block can declare extension **properties** and **static** extensions as well as methods:
 
 ```csharp
 public static class ProductExtensions
@@ -122,19 +127,23 @@ public static class ProductExtensions
 
 The rules are those of the old `this` syntax, and both forms compile to the same IL, so converting is not a breaking change. An extension cannot read private members. It is in scope only where its namespace is (a `using`, a global using, or the same namespace). It never overrides a member the type already has.
 
-C# 14 also brought the `field` keyword (lesson 03) and null-conditional assignment `a?.B = x` (lesson 02).
+## Common mistakes
+
+- **Putting a general arm before a specific one.** The first match wins, so with `{ Total: >= 100m }` above `{ Status: OrderStatus.Cancelled }`, a cancelled order over 100 never reaches its own arm. Order arms from specific to general.
+- **Leaving out the final `_` arm.** An unexpected value, such as `(OrderStatus)7`, throws `SwitchExpressionException` in production; the compiler only warned. End with `_ =>` that returns a default or throws a clear exception.
+- **Treating primary constructor parameters as read-only.** A method can reassign `repository`, and every later call uses the new value. Copy it into a `private readonly` field when that matters.
+- **Naming an extension like an existing member.** The type's own `Contains` always wins, so the extension never runs. Give it its own name, such as `ContainsIgnoreCase`.
 
 ## In practice
 
 - Use `switch` expressions for mapping and classification (status to label, input to price rule). A 30-arm switch is as hard to review as a 30-branch `if`.
-- End a `switch` expression with `_ =>` (or handle every enum value and add a throwing `_` arm) so that new input shows up as a clear error, not a `SwitchExpressionException` in production.
 - Use primary constructors for DI in services. Copy a parameter into a `readonly` field when it must never be reassigned.
 - Use extension members for small helpers on types you do not own, or for layer-specific helpers on DTOs. Do not use them to fake behavior changes. Behavior changes belong in the type, or in a decorator registered through DI.
 
 ## Status as of 2026-11-05
 
 - C# 14 is the latest C# release and is supported on .NET 10 (LTS, released 2025-11-11). Microsoft states that using a language version newer than the one tied to your target framework is unsupported.
-- C# 15 ships with .NET 11, which is in preview. Its documented features include union types, `closed` class hierarchies with exhaustive `switch` without a discard arm, collection expression arguments (`[with(capacity: 100), ..items]`) and extension indexers. Treat them as coming, not as the baseline.
+- C# 15 ships with .NET 11, which is not released yet (01/03). Its documented features include union types, `closed` class hierarchies with exhaustive `switch` without a discard arm, collection expression arguments (`[with(capacity: 100), ..items]`) and extension indexers. Treat them as coming, not as the baseline.
 
 ## Check yourself
 

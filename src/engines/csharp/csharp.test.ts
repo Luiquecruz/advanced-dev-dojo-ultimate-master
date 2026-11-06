@@ -13,6 +13,7 @@ describe('listCsharpTestNames', () => {
       'Total of no scores is 0',
       'Grade maps score bands to letters',
       'Grade works after an await',
+      'Grade works after a CancelAfter deadline cancels a delay',
     ]);
   });
 

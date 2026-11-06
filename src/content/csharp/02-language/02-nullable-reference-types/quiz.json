@@ -1,14 +1,14 @@
 [
   {
-    "question": "In PHP, `function ship(string $sku) {}` called with `null` throws a `TypeError`. In a C# project with `<Nullable>enable</Nullable>`, `void Ship(string sku)` receives `null` from code that used `!` to silence a warning. What happens when `Ship` is called?",
+    "question": "In a project with `<Nullable>enable</Nullable>`, `void Ship(string sku)` receives `null` from a caller that used `!` to silence a warning. `Ship` has no guard. What happens when it is called?",
     "options": [
-      "The runtime throws `ArgumentNullException` before the method body runs, as PHP throws `TypeError`",
+      "The runtime throws `ArgumentNullException` before the method body runs, because `sku` is non-nullable",
       "The call fails to compile in every caller, because `!` only silences the warning in one place",
       "Nothing at the call; a `NullReferenceException` comes later, at the first dereference",
       "The runtime converts `null` to an empty string, because the parameter is non-nullable"
     ],
     "answer": 2,
-    "explanation": "Nullable reference types are compile-time only, so no runtime check is generated and `null` flows in. The tempting first option describes what you get only if you write `ArgumentNullException.ThrowIfNull(sku)` yourself; PHP's automatic `TypeError` has no C# equivalent for reference types."
+    "explanation": "Nullable reference types are compile-time only, so no runtime check is generated and `null` flows in. The tempting first option describes what you get only if you write `ArgumentNullException.ThrowIfNull(sku)` yourself: the annotation alone never throws. This is why `!` is a promise you must be able to prove."
   },
   {
     "question": "What is the difference between `int?` and `string?`?",

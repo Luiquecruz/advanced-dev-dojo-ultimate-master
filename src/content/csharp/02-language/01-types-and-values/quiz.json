@@ -1,6 +1,6 @@
 [
   {
-    "question": "In PHP, `function addGift(array $skus) { $skus[] = 'GIFT'; }` leaves the caller's array unchanged. You port it to C# as `void AddGift(List<string> skus) => skus.Add(\"GIFT\");`. What happens to the caller's list?",
+    "question": "A method is written as `void AddGift(List<string> skus) => skus.Add(\"GIFT\");`. The caller passes its own `cart.Skus` list. What happens to the caller's list?",
     "options": [
       "Nothing changes: C# passes arguments by value, so the method works on its own copy of the list",
       "It gains `\"GIFT\"`: the method receives a copy of the reference, which points to the same list",
@@ -8,7 +8,7 @@
       "It gains `\"GIFT\"` only when the caller created the list with a collection expression such as `[\"A\"]`"
     ],
     "answer": 1,
-    "explanation": "Arguments are passed by value, but for a reference type the value is the reference, so `Add` changes the one shared list. The tempting answer, \"a copy of the list\", is PHP's array rule; C# arrays and lists are classes and are never copied implicitly."
+    "explanation": "Arguments are passed by value, but for a reference type the value is the reference, so `Add` changes the one shared list. The tempting answer, \"the method works on its own copy\", treats the list like a struct; arrays and `List<T>` are classes and are never copied implicitly. Copy the list yourself when the method must not change it."
   },
   {
     "question": "`Money` is a mutable `struct` with a public `Amount` field. What does this print?\n\n```csharp\nvar a = new Money { Amount = 10m };\nvar b = a;\nb.Amount = 99m;\nConsole.WriteLine(a.Amount);\n```",

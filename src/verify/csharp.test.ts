@@ -2,6 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { trackById } from '../content/allContent';
 import type { Lesson } from '../content/types';
+import { listCsharpTestNames } from '../engines/csharp/testNames';
 import { defineChallengeSuite } from './challengeSuite';
 import { CSHARP_PENDING_HEADERS, CSHARP_PENDING_REWRITE } from './csharpPendingRewrite';
 import { csharpGrader } from './graders';
@@ -41,6 +42,10 @@ const PHP_ECOSYSTEM_NAME = /\b(?:guzzle|composer|crontab|cron_schedule|laravel|s
 const bridgeIn = (text: string) => PHP_BRIDGE.exec(text)?.[0] ?? PHP_ECOSYSTEM_NAME.exec(text)?.[0];
 /** An `Assert.ThrowsAsync` that is not awaited returns a task nobody observes, so the test passes even when nothing throws. */
 const UNAWAITED_THROWS_ASYNC = /(?<!\bawait\s+)Assert\.ThrowsAsync\b/;
+/** Block comments, removed before the marker check so a commented-out `[Test(…)]` cannot carry the marker. */
+const BLOCK_COMMENT = /\/\*[\s\S]*?\*\//g;
+/** The test that catches the most common wrong implementation, marked on the line above its `[Test("…")]`. */
+const BEGINNER_MISTAKE = /^[ \t]*\/\/ beginner mistake: \S.*\n[ \t]*\[Test\(/gm;
 /** C# source with its line and block comments blanked out and string literals kept, so a commented `await` does not count. */
 const withoutComments = (code: string) => code.replace(/"(?:[^"\\\n]|\\.)*"|\/\/[^\n]*|\/\*[\s\S]*?\*\//g, (token) => (token.startsWith('"') ? token : ' '));
 
@@ -183,8 +188,26 @@ function bridgeViolations(lesson: Lesson): Violation[] {
 }
 
 function testViolations(lesson: Lesson): Violation[] {
-  const tests = lesson.challenge?.tests ?? '';
-  return UNAWAITED_THROWS_ASYNC.test(withoutComments(tests)) ? [{ rule: 'tests-await-throws-async', detail: 'tests.cs calls Assert.ThrowsAsync without await' }] : [];
+  if (!lesson.challenge) {
+    return [];
+  }
+  const tests = lesson.challenge.tests;
+  const violations: Violation[] = [];
+  if (UNAWAITED_THROWS_ASYNC.test(withoutComments(tests))) {
+    violations.push({ rule: 'tests-await-throws-async', detail: 'tests.cs calls Assert.ThrowsAsync without await' });
+  }
+  const count = listCsharpTestNames(tests).length;
+  if (count < 3 || count > 6) {
+    violations.push({ rule: 'tests-count', detail: `tests.cs has ${count} tests, expected 3–6` });
+  }
+  if (lesson.challenge.instructions.trimStart().startsWith('#')) {
+    violations.push({ rule: 'challenge-no-h1', detail: 'challenge.md starts with a heading; start with prose (the Challenge tab supplies the title)' });
+  }
+  const marked = (tests.replace(BLOCK_COMMENT, '').match(BEGINNER_MISTAKE) ?? []).length;
+  if (marked !== 1) {
+    violations.push({ rule: 'tests-beginner-mistake', detail: `tests.cs marks ${marked} tests with "// beginner mistake:" on the line above [Test], expected 1` });
+  }
+  return violations;
 }
 
 function violationsOf(lesson: Lesson): Violation[] {
@@ -264,6 +287,8 @@ describe('csharp track', () => {
     const throwsAsync = ['await Assert.ThrowsAsync<E>(() => run())', 'public static void X() => Assert.ThrowsAsync<E>(() => run());', '// await\nAssert.ThrowsAsync<E>(() => run());',
       'await /* checked */ Assert.ThrowsAsync<E>(() => Get("https://x"))'];
     expect(throwsAsync.map((text) => UNAWAITED_THROWS_ASYNC.test(withoutComments(text)))).toEqual([false, true, true, false]);
+    const commentedOut = '[Test("a")] void A() {}\n/*\n// beginner mistake: x\n[Test("b")] void B() {}\n*/\n// [Test("c")]';
+    expect([listCsharpTestNames(commentedOut).length, (commentedOut.replace(BLOCK_COMMENT, '').match(BEGINNER_MISTAKE) ?? []).length]).toEqual([1, 0]);
   });
 
   it.each(eachLesson)('%s has 4 to 8 concepts', (_, lesson) => {

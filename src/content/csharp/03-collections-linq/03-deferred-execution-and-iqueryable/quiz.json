@@ -8,18 +8,18 @@
       "It throws `InvalidOperationException` because the list changed after the query was created"
     ],
     "answer": 1,
-    "explanation": "`Where` uses deferred execution: it stores the filter, and `Count()` runs it against the list as it is at that moment, which now holds 5, 0, 12 and 7. The tempting answer assumes eager evaluation like PHP's `array_filter`. `InvalidOperationException` happens only when a list changes during an enumeration that is already in progress."
+    "explanation": "`Where` uses deferred execution: it stores the filter, and `Count()` runs it against the list as it is at that moment, which now holds 5, 0, 12 and 7. The tempting answer assumes `Where` filtered the list when it was called. `InvalidOperationException` happens only when a list changes during an enumeration that is already in progress."
   },
   {
-    "question": "A PHP generator throws if you try to iterate it again after it has advanced. A C# method returns `IEnumerable<Order>` built with `yield return` from an HTTP API, and the caller calls `orders.Any()` and then `foreach (var o in orders)`. What happens?",
+    "question": "A method returns `IEnumerable<Order>` built with `yield return` from an HTTP API, and the caller calls `orders.Any()` and then `foreach (var o in orders)`. What happens?",
     "options": [
-      "The second enumeration throws, just like a PHP generator",
+      "The second enumeration throws, because an iterator can be enumerated only once",
       "The results of `Any()` are cached, so the API is called once",
       "`Any()` is compiled away because `foreach` follows it, so one call happens",
       "Each enumeration restarts the iterator, so the API is called again for the `foreach`"
     ],
     "answer": 3,
-    "explanation": "A C# iterator is re-run from the start by each new enumeration, silently, so `Any()` and `foreach` each call the API. PHP generators behave differently, which is exactly why the habit misleads. Nothing is cached; call `ToList()` once if you need the data twice. Analyzer rule CA1851 flags this pattern."
+    "explanation": "A C# iterator is re-run from the start by each new enumeration, silently, so `Any()` and `foreach` each call the API. It does not throw on a second enumeration, which is why the repeated work goes unnoticed. Nothing is cached; call `ToList()` once if you need the data twice. Analyzer rule CA1851 flags this pattern."
   },
   {
     "question": "`db.Products` is an EF Core `DbSet<Product>` on a table with one million rows. What does this code send to the database?\n\n```csharp\nIEnumerable<Product> all = db.Products;\nvar firstTen = all.Where(p => p.Stock > 0).Take(10).ToList();\n```",

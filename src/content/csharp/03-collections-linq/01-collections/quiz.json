@@ -1,25 +1,25 @@
 [
   {
-    "question": "A PHP developer ports a function that receives the cart lines, appends a free gift line and returns a total. In C# the parameter is `List<CartLine> lines`. What does the caller see after the call?",
+    "question": "A method receives the cart lines as `List<CartLine> lines`, appends a free gift line and returns a total. What does the caller see after the call?",
     "options": [
-      "Nothing changes for the caller, because C# copies the list when it is passed, like a PHP array",
+      "Nothing changes for the caller, because C# copies the list when it is passed to a method",
       "The caller's list now contains the gift line, because the method received a reference to the same list object",
       "The compiler rejects `lines.Add(...)` because parameters are read-only by default",
       "The caller sees the gift line only if the method returns the list and the caller assigns it"
     ],
     "answer": 1,
-    "explanation": "`List<T>` is a reference type, so the method and the caller share one object and `Add` is visible to both. The tempting answer is the PHP behaviour: PHP arrays have value semantics (copy-on-write), but C# makes no implicit copy. Accept `IReadOnlyList<T>` or copy the list explicitly if the method must not change it."
+    "explanation": "`List<T>` is a reference type, so the method and the caller share one object and `Add` is visible to both. The tempting answer assumes the list is copied on the way in, but C# makes no implicit copy of a reference type. Accept `IReadOnlyList<T>` or copy the list explicitly if the method must not change it."
   },
   {
     "question": "Code that imports products builds a `Dictionary<string, Product>` and later prints the products by iterating the dictionary, expecting file order. Tests pass. What is the problem?",
     "options": [
-      "None: `Dictionary<TKey,TValue>` keeps insertion order, like a PHP array",
+      "None: `Dictionary<TKey,TValue>` always enumerates in insertion order",
       "Iterating a dictionary is not allowed; only lookups by key are",
       "Its enumeration order is undefined; matching insertion order in tests is luck, not a contract",
       "The dictionary sorts keys alphabetically, so the output is in SKU order rather than file order"
     ],
     "answer": 2,
-    "explanation": "The `Dictionary<TKey,TValue>` documentation says the order in which items are returned is undefined. It often looks like insertion order for small dictionaries without removals, which is why the PHP assumption survives tests. Sorting by key is `SortedDictionary`, not `Dictionary`. When order matters, use `OrderedDictionary<TKey,TValue>` (.NET 9+), a `List<T>`, or an explicit `OrderBy`."
+    "explanation": "The `Dictionary<TKey,TValue>` documentation says the order in which items are returned is undefined. It often looks like insertion order for small dictionaries without removals, which is why the assumption survives tests. Sorting by key is `SortedDictionary`, not `Dictionary`. When order matters, use `OrderedDictionary<TKey,TValue>` (.NET 9+), a `List<T>`, or an explicit `OrderBy`."
   },
   {
     "question": "You need to detect duplicate SKUs in an import where `A-1` and `a-1` count as the same SKU. Which code does it correctly and efficiently?",

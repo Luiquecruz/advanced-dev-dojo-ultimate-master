@@ -2,18 +2,15 @@
 
 After this lesson you can pick the collection type a piece of C# code needs: `List<T>` for ordered items, `Dictionary<TKey,TValue>` for lookup by key, `HashSet<T>` for uniqueness, and read-only, immutable or frozen collections when other code must not change your data. You will also know which interface to put in a method signature, and why the answer is rarely `List<T>`.
 
-## Coming from PHP/Magento
+You need: 00/05 (arrays, lists and dictionaries), 02/01 (value and reference types) and 02/04 (generics and lambdas).
 
-In PHP one type does every job. A PHP `array` is an ordered map: it is a list (`$skus[] = 'A'`), a dictionary (`$stock['A'] = 10`) and, with `array_unique` or `isset($seen[$sku])`, a set. It keeps insertion order, and it has value semantics: passing it to a function hands over a copy (copy-on-write under the hood).
+## One job per type
 
-C# splits those jobs into separate types, and two habits break:
+Each collection type of `System.Collections.Generic` does one job well: a list keeps items in order, a dictionary finds a value by its key, a set remembers which values it has seen. Picking the type is picking the operations that must be cheap.
 
-- **Collections are reference types.** Passing a `List<T>` to a method passes the same object (lesson 02/01). If the method calls `Add`, the caller sees the new item. There is no implicit copy.
-- **`Dictionary<TKey,TValue>` does not promise order.** Its documentation says the order of enumeration "is undefined". Code that relies on PHP's insertion order needs `OrderedDictionary<TKey,TValue>` (.NET 9 and later) or an explicit sort.
+All of them are classes, so they are reference types (02/01). Passing a `List<T>` to a method passes the same object: if the method calls `Add`, the caller sees the new item. Nothing is copied unless you copy it.
 
-Missing keys behave differently too. `$stock['missing']` in PHP gives a warning and `null`; `stock["missing"]` in C# throws `KeyNotFoundException`.
-
-Magento's `Collection` classes (`addFieldToFilter`, `setPageSize`) are not collections in this sense. They are lazy query builders, closer to `IQueryable<T>`, which is lesson 03.
+A LINQ query looks like a collection but is not one: it describes work that runs later (lesson 03).
 
 ## `List<T>`: an ordered, growable array
 
@@ -24,7 +21,7 @@ List<string> skus = ["SKU-1", "SKU-2"]; // collection expression (C# 12+)
 skus.Add("SKU-3");
 
 string first = skus[0];
-int count = skus.Count;          // a property, not a method
+int count = skus.Count;               // a property, not a method
 bool hasTwo = skus.Contains("SKU-2"); // linear scan: fine for small lists
 ```
 
@@ -53,6 +50,8 @@ stockBySku["SKU-3"] = 5;        // indexer set: adds or overwrites
 
 `TryGetValue` is the idiomatic read when the key may be absent: one hash lookup, no exception. `ContainsKey` followed by the indexer does the lookup twice.
 
+A dictionary does not promise an order. Its documentation says the order of enumeration "is undefined". When order matters, keep a `List<T>`, sort explicitly, or use `OrderedDictionary<TKey,TValue>` (.NET 9 and later), which keeps insertion order.
+
 ## `HashSet<T>`: uniqueness and membership
 
 A set stores each value once and answers "is it in there?" as fast as a dictionary. `Add` returns `false` when the value is already present, which makes duplicate detection a one-liner.
@@ -70,7 +69,7 @@ foreach (var sku in incomingSkus)
 }
 ```
 
-Sets also have `UnionWith`, `IntersectWith` and `ExceptWith` for set algebra, the work that `array_intersect` and `array_diff` do in PHP.
+Sets also have `UnionWith`, `IntersectWith` and `ExceptWith` for set algebra: everything in either set, only what both share, and what the first has that the second lacks.
 
 ## Read-only views, immutable and frozen collections
 
@@ -106,7 +105,7 @@ public static class Reference
 // ImmutableArray<string> more = Reference.Currencies.Add("BRL"); // a new array; Currencies is unchanged
 ```
 
-`Cart` exposes a view so no caller can bypass `Add` and its rules. Reference data that never changes after startup goes into frozen or immutable types, so no request can change it by accident.
+`Cart` exposes a view so no caller can bypass `Add` and its rules. When a caller needs the state as it is now, unaffected by later changes, hand out a copy (`new List<CartLine>(_lines)`, `ToImmutableArray()`) instead of a view. Reference data that never changes after startup goes into frozen or immutable types, so no request can change it by accident.
 
 ## Interfaces in signatures
 
@@ -116,13 +115,19 @@ Accept the weakest interface you need and return the most useful honest one:
 - Return `IReadOnlyList<T>` or `IReadOnlyDictionary<TKey,TValue>` from a method that builds a result. Callers get `Count` and indexing without the right to mutate.
 - Take `List<T>` or `IList<T>` only when the method's job is to modify the caller's collection.
 
+## Common mistakes
+
+- **Reading a missing key with the indexer.** `stock["X-9"]` throws `KeyNotFoundException` when the key is absent. Use `TryGetValue`, or `GetValueOrDefault` when a default such as `0` is the right answer.
+- **Relying on a dictionary's order.** Enumeration order is undefined: a small dictionary often looks like insertion order, so a test passes by luck and production output changes. Sort explicitly or use `OrderedDictionary<TKey,TValue>`.
+- **Forgetting the comparer.** Under the default comparer `"A-1"` and `"a-1"` are different keys, so duplicates slip through a `HashSet<string>` and stock splits across two entries. Pass `StringComparer.OrdinalIgnoreCase` for identifiers that ignore case.
+- **Changing a list inside `foreach`.** The enumerator is invalidated and the next step throws `InvalidOperationException`. Call `RemoveAll(predicate)`, or loop backwards with `for`.
+
 ## In practice
 
 - **Defaults:** `List<T>` for sequences, `Dictionary<TKey,TValue>` for lookups, `HashSet<T>` for "seen before?". Arrays (`T[]`) for fixed-size data and APIs that expect them.
 - **Search by key with a dictionary, not a list.** Lesson 02 shows how to build one from a query with `ToDictionary` instead of scanning a list inside a loop.
-- **Choose the comparer on purpose.** `"ABC"` and `"abc"` are different keys under the default comparer. Pick `StringComparer.Ordinal` or `OrdinalIgnoreCase` explicitly for identifiers.
-- **Shared state is not thread-safe.** The generic collections are not synchronized. An ASP.NET Core app is one long-running process (module 05), so a `static Dictionary` written by concurrent requests is a race condition. Use `ConcurrentDictionary<TKey,TValue>`, or build the data once at startup and freeze it.
-- **Do not modify a list while looping over it with `foreach`.** The enumerator is invalidated and the next step throws `InvalidOperationException`. Loop backwards with `for`, or call `RemoveAll(predicate)`.
+- **Choose the comparer on purpose.** Pick `StringComparer.Ordinal` or `OrdinalIgnoreCase` explicitly for identifiers.
+- **Shared state is not thread-safe.** The generic collections are not synchronized. An ASP.NET Core app is one long-running process that serves many requests at once (module 05), so a `static Dictionary` written by concurrent requests is a race condition. Use `ConcurrentDictionary<TKey,TValue>`, or build the data once at startup and freeze it.
 - **Avoid `System.Collections`** (`ArrayList`, `Hashtable`). Microsoft's guidance is to use the generic and concurrent collections instead.
 
 ## Status as of 2026-11-05
@@ -133,7 +138,7 @@ Accept the weakest interface you need and return the most useful honest one:
 
 ## Check yourself
 
-1. A method receives a `List<Product>` and calls `Add` on it. What does the caller observe, and how would the same code behave with a PHP array?
+1. A method receives a `List<Product>` and calls `Add` on it. What does the caller observe, and what would the method accept instead if it must not change the caller's list?
 2. Why might code that prints a `Dictionary<string, int>` in insertion order work in a test and still be wrong?
 3. What is the difference between returning `_lines.AsReadOnly()` and returning `_lines.ToImmutableArray()` from `Cart.Lines`?
 4. When would you pay the extra build cost of a `FrozenDictionary<TKey,TValue>`?

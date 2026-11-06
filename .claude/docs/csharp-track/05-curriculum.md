@@ -1,6 +1,6 @@
 # C# Track — Curriculum
 
-14 modules and 73 lessons, all theory + quiz ([06-content-standards.md](06-content-standards.md)).
+14 modules and 73 lessons, all with theory + quiz ([06-content-standards.md](06-content-standards.md)); the 13 lessons of modules 02–04 marked "theory + challenge" also have a graded C# challenge on the in-browser engine.
 
 | Tier | Modules | Lessons |
 | --- | --- | --- |
@@ -39,9 +39,9 @@ The market percentages below come from the convenience sample of 69 postings in 
 
 ## Modules
 
-Project acceptance is self-assessed on the learner's machine; the app records quizzes only. Each module lists:
+Project acceptance is self-assessed on the learner's machine; the app records quizzes and graded challenges. Each module lists:
 - **Outcomes**: what the learner can do after it.
-- **Done when**: the completion criteria. Every quiz of the module answered correctly in the app, which is recorded in progress, plus the module project's acceptance criteria, where there is one.
+- **Done when**: the completion criteria. Every quiz of the module answered correctly and every graded challenge passed in the app, both recorded in progress, plus the module project's acceptance criteria, where there is one.
 - **Official**: Microsoft documentation, from [02-ecosystem-and-legacy.md](02-ecosystem-and-legacy.md).
 
 ### 01-platform — The .NET Platform for PHP Developers (core; the title follows `module.json`, renamed to "The .NET Platform" in the module 05–14 rewrite PR)
@@ -60,39 +60,39 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 
 | Lesson | Kind | Outcome | Competency |
 | --- | --- | --- | --- |
-| 01-types-and-values | theory | Predicts copy versus reference behavior of structs, classes and strings, and explains boxing | C# |
-| 02-nullable-reference-types | theory | Enables and reads nullable warnings and fixes null-state errors | C# |
-| 03-classes-records-and-interfaces | theory | Chooses between class, record, struct and interface, and uses properties and access modifiers | C#, SOLID 54% |
-| 04-generics-and-delegates | theory | Writes generic types with constraints and uses `Func`/`Action`, lambdas and events | C# |
-| 05-pattern-matching-and-modern-csharp | theory | Uses switch expressions, property/list patterns, primary constructors, collection expressions and C# 14 extension members | C# |
+| 01-types-and-values | theory + challenge | Predicts copy versus reference behavior of structs, classes and strings, and explains boxing | C# |
+| 02-nullable-reference-types | theory + challenge | Enables and reads nullable warnings and fixes null-state errors | C# |
+| 03-classes-records-and-interfaces | theory + challenge | Chooses between class, record, struct and interface, and uses properties and access modifiers | C#, SOLID 54% |
+| 04-generics-and-delegates | theory + challenge | Writes generic types with constraints and uses `Func`/`Action`, lambdas and events | C# |
+| 05-pattern-matching-and-modern-csharp | theory + challenge | Uses switch expressions, property/list patterns, primary constructors, collection expressions and C# 14 extension members | C# |
 
 - **Official:** C# language reference and "What's new in C# 14".
-- **Done when:** the quizzes are passed.
+- **Done when:** the quizzes and the module's challenges are passed.
 
 ### 03-collections-linq — Collections and LINQ (core)
 
 | Lesson | Kind | Outcome | Competency |
 | --- | --- | --- | --- |
-| 01-collections | theory | Chooses `List`, `Dictionary`, `HashSet`, read-only and immutable collections | C# |
-| 02-linq-fundamentals | theory | Filters, projects, groups and joins with LINQ method syntax | C#, EF Core 35% |
-| 03-deferred-execution-and-iqueryable | theory | Explains deferred execution, multiple enumeration and `IEnumerable` versus `IQueryable` | EF Core |
+| 01-collections | theory + challenge | Chooses `List`, `Dictionary`, `HashSet`, read-only and immutable collections | C# |
+| 02-linq-fundamentals | theory + challenge | Filters, projects, groups and joins with LINQ method syntax | C#, EF Core 35% |
+| 03-deferred-execution-and-iqueryable | theory + challenge | Explains deferred execution, multiple enumeration and `IEnumerable` versus `IQueryable` | EF Core |
 | 04-project-cli-catalog | project | **P1** console catalog importer | C# |
 
 - **Official:** LINQ overview, collections.
-- **Done when:** the quizzes are passed and P1 is accepted.
+- **Done when:** the quizzes and the challenges of 03/01–03/03 are passed and P1 is accepted.
 
 ### 04-errors-async — Errors, Resources and Async (core)
 
 | Lesson | Kind | Outcome | Competency |
 | --- | --- | --- | --- |
-| 01-exceptions-and-results | theory | Throws, catches and filters exceptions, and knows when a result type is clearer | C# |
-| 02-async-await | theory | Writes correct `async` methods, explains `Task` versus `ValueTask`, and why `.Result` starves the thread pool in ASP.NET Core (and deadlocks only where a synchronization context exists: legacy ASP.NET, UI apps) | async 20% |
-| 03-disposal-and-using | theory | Releases resources with `using`/`await using`, `IDisposable` and `IAsyncDisposable` | async 20% |
-| 04-cancellation-and-timeouts | theory | Passes a `CancellationToken` through a call chain and sets timeouts | async |
-| 05-concurrency-and-the-thread-pool | theory | Avoids sync-over-async and uses `Parallel`, `Channel<T>` and `IAsyncEnumerable` | async, messaging |
+| 01-exceptions-and-results | theory + challenge | Throws, catches and filters exceptions, and knows when a result type is clearer | C# |
+| 02-async-await | theory + challenge | Writes correct `async` methods, explains `Task` versus `ValueTask`, and why `.Result` starves the thread pool in ASP.NET Core (and deadlocks only where a synchronization context exists: legacy ASP.NET, UI apps) | async 20% |
+| 03-disposal-and-using | theory + challenge | Releases resources with `using`/`await using`, `IDisposable` and `IAsyncDisposable` | async 20% |
+| 04-cancellation-and-timeouts | theory + challenge | Passes a `CancellationToken` through a call chain and sets timeouts | async |
+| 05-concurrency-and-the-thread-pool | theory + challenge | Avoids sync-over-async, guards a refresh and caps fan-out with `SemaphoreSlim` (single flight and limiter; the graded part), and uses `Parallel`, `Channel<T>` and `IAsyncEnumerable` | async, messaging |
 
 - **Official:** asynchronous programming, cancellation, the ASP.NET Core best practices page.
-- **Done when:** the quizzes are passed.
+- **Done when:** the quizzes and the module's challenges are passed.
 
 ### 05-aspnet-core — ASP.NET Core Fundamentals (core)
 

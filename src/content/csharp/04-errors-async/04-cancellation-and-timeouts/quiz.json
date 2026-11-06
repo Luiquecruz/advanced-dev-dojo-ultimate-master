@@ -8,7 +8,7 @@
       "Kestrel closes the database connection along with the socket, ending the query"
     ],
     "answer": 1,
-    "explanation": "Cancellation is cooperative: only code that receives the token can observe it, so a dropped token means the query finishes for nobody. Expecting the framework to kill the work is the PHP-FPM assumption (`request_terminate_timeout` kills the worker); .NET never aborts running code for you."
+    "explanation": "Cancellation is cooperative: only code that receives the token can observe it, so a dropped token means the query finishes for nobody. Expecting the framework to stop the work on its own is the tempting assumption, but .NET never aborts running code for you, and neither EF Core nor Kestrel reads the request's token unless you pass it."
   },
   {
     "question": "Inside `GetShippingQuoteAsync(cart, cancellationToken)` you need a 3-second deadline that also respects the caller's cancellation. Which code is right?",
@@ -55,14 +55,14 @@
     "explanation": "Cancellation (client disconnect, deadline, shutdown) signals that someone no longer needs the work, so it should be handled quietly or allowed to propagate. The `TaskCanceledException` distractor reverses the hierarchy: `TaskCanceledException` derives from `OperationCanceledException`, and Microsoft recommends catching the base type."
   },
   {
-    "question": "A Magento developer expects `max_execution_time = 30` to protect a PHP script from a slow MySQL query. What does the PHP manual say about that on Linux, and what is the .NET counterpart?",
+    "question": "A method needs a 3-second limit on a call that accepts a token, and a teammate writes `await carrierClient.QuoteAsync(cart, cancellationToken).WaitAsync(TimeSpan.FromSeconds(3));`. What happens when the carrier takes 20 seconds?",
     "options": [
-      "It counts all wall-clock time; the .NET counterpart is `HttpClient.Timeout`",
-      "It stops the query at 30 seconds; in .NET the counterpart is a command timeout",
-      "Query time is not counted, so it bounds nothing; in .NET pass a token with a deadline",
-      "It applies only to CLI scripts; the .NET counterpart is the request timeouts middleware"
+      "The call is cancelled after 3 seconds, because `WaitAsync` cancels the task it wraps",
+      "The method throws `TimeoutException` after 3 seconds, while the call keeps running",
+      "The method waits the full 20 seconds, because `WaitAsync` only applies to `Task.Delay`",
+      "The method throws `OperationCanceledException` after 3 seconds and the call is cancelled"
     ],
-    "answer": 2,
-    "explanation": "The PHP manual notes that on non-Windows systems `max_execution_time` excludes time spent outside the script, such as database queries; the wall-clock backstop is PHP-FPM's `request_terminate_timeout`, which kills the worker. Assuming it counts wall-clock time is the common belief (true only on Windows); in .NET a deadline is a cancelled token that the query observes."
+    "answer": 1,
+    "explanation": "`WaitAsync` stops waiting and throws `TimeoutException`, but nothing tells the carrier call to stop, so it keeps its connection and finishes for nobody. Believing it cancels the wrapped task is the common mistake; to stop the work, pass a linked token whose source has `CancelAfter(3 s)`."
   }
 ]

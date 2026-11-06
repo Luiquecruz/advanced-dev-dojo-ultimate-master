@@ -2,11 +2,13 @@
 
 After this lesson you can read an SDK-style `.csproj`, add and update packages with the CLI, predict which version NuGet resolves, centralize versions for a whole repository, make restores reproducible, and check a package for known vulnerabilities and for its licence before the team depends on it.
 
-## Coming from PHP/Magento
+You need: 01/02 (projects and the `dotnet` CLI) and 01/03 (target frameworks and `global.json`).
 
-The pieces map closely. `composer.json` becomes `<PackageReference>` items in each `.csproj`, Packagist becomes nuget.org, `auth.json` and `repo.magento.com` become package sources in `nuget.config`, and `vendor/` becomes the global packages folder (`~/.nuget/packages`), shared by every project on the machine and never committed.
+## Where packages come from
 
-Two habits mislead. First, `Version="3.6.0"` is not Composer's `^3.6`: it means "3.6.0 or higher, preferring the **lowest** available", so NuGet does not drift to the newest release on every restore. Second, there is no lock file by default. Composer always writes `composer.lock`; NuGet writes `packages.lock.json` only when you opt in.
+A **NuGet package** is a zip file with compiled assemblies and a description of its own dependencies. Projects declare the packages they need as `<PackageReference>` items. Restore downloads them from the **package sources** listed in `nuget.config` (nuget.org by default, plus any private feed) into the **global packages folder**, `~/.nuget/packages`, which every project on the machine shares and which is never committed.
+
+`Version="3.6.0"` does not mean "exactly 3.6.0" or "the newest 3.x". It means "3.6.0 or higher, preferring the **lowest** available", so restore does not drift to a new release by itself. NuGet writes no lock file unless you opt in (see "Reproducible restores").
 
 ## Anatomy of an SDK-style project
 
@@ -51,7 +53,7 @@ dotnet package list --include-transitive               # what your packages pull
 dotnet nuget why Catalog.Api.csproj System.Text.Json   # which reference brought in a package
 ```
 
-Without `--version`, `dotnet package add` writes the latest compatible version. Restore then computes the full graph, including **transitive** packages your packages depend on, and writes it to `obj/project.assets.json`. When two packages ask for different versions of the same dependency, NuGet picks the lowest version that satisfies every range; when your project references that dependency directly, your version wins (and NuGet warns with NU1605 if that is a downgrade). Floating versions (`3.6.*`) exist, but they make two restores on different days produce different graphs; avoid them for applications.
+Without `--version`, `dotnet package add` writes the latest compatible version. Restore then computes the full graph, including **transitive** packages your packages depend on, and writes it to `obj/project.assets.json`. When two packages ask for different versions of the same dependency, NuGet picks the lowest version that satisfies every range; when your project references that dependency directly, your version wins (and NuGet warns with NU1605 if that is a downgrade).
 
 Using the package is an ordinary `using` directive:
 
@@ -114,15 +116,21 @@ Commit `packages.lock.json` for applications. Microsoft advises not committing i
 
 `dotnet package list --vulnerable --include-transitive` lists the findings, `dotnet package list --deprecated` lists packages their owners deprecated (for example `System.Data.SqlClient`, deprecated in favor of `Microsoft.Data.SqlClient`), and `dotnet package update --vulnerable` moves to the first fixed versions.
 
-**Licences** are not checked by any tool by default. Every package page on nuget.org shows the licence, which authors declare as an SPDX expression (`MIT`, `Apache-2.0`) or as a licence file. Read it before adding a package, the way you would vet a Magento Marketplace extension. Several popular .NET libraries changed licence recently; the Status section lists them. None is forbidden: name the licence, look at the alternative (often first-party APIs or plain C#), and let the team decide.
+**Licences** are not checked by any tool by default. Every package page on nuget.org shows the licence, which authors declare as an SPDX expression (`MIT`, `Apache-2.0`) or as a licence file. Read it before adding a package. Several popular .NET libraries changed licence recently; the Status section lists them. None is forbidden: name the licence, look at the alternative (often first-party APIs or plain C#), and let the team decide.
+
+## Common mistakes
+
+- **Reading `Version="1.0.0"` as an exact pin.** It is a minimum: when 1.0.0 is missing from the feed, restore takes the next higher version with only warning NU1603, and the app runs a version nobody tested. Write `[1.0.0]` for an exact version.
+- **Silencing NU190x with `NoWarn`.** The build turns green and the vulnerable package ships. Upgrade the parent package, or raise the transitive version in `Directory.Packages.props`.
+- **Floating versions in an application.** `3.6.*` restores a different graph on different days, so a build that passed yesterday fails today. Use fixed versions and a lock file.
+- **Discovering a licence change after the upgrade.** The new major is already in production under terms nobody accepted. Read the licence on nuget.org before each major upgrade.
 
 ## In practice
 
-- Start with first-party packages (`Microsoft.*`, `System.*`) and the shared framework; many things that need a Composer package in PHP are built in.
+- Start with first-party packages (`Microsoft.*`, `System.*`) and the shared framework, which already covers JSON, logging and much more; add a package only for what the platform does not do.
 - Turn on CPM as soon as a repository has more than one project, and put `Directory.Packages.props` and `Directory.Build.props` under code review like code.
 - Keep one package source, or map sources explicitly; never let a public feed and a private feed serve the same ids.
 - Update Microsoft packages together with the runtime: `Microsoft.AspNetCore.*` and `Microsoft.EntityFrameworkCore.*` 10.0.x belong with `net10.0`.
-- **Usual mistakes:** expecting `Version="1.0.0"` to mean "exactly 1.0.0" (that is `[1.0.0]`); silencing NU190x warnings instead of upgrading; adding a package for something the framework already does; discovering a licence change after the upgrade.
 
 ## Status as of 2026-11-05
 
@@ -132,7 +140,7 @@ Commit `packages.lock.json` for applications. Microsoft advises not committing i
 
 ## Check yourself
 
-1. A project says `Version="2.0.0"` and nuget.org has 2.0.0, 2.1.0 and 3.0.0. Which version does restore pick, and how is that different from Composer's `^2.0`?
+1. A project says `Version="2.0.0"` and nuget.org has 2.0.0, 2.1.0 and 3.0.0. Which version does restore pick, and how would you pin exactly 2.0.0?
 2. Why does central package management warn when you configure two package sources?
 3. When should `packages.lock.json` be committed, and what does `--locked-mode` add in CI?
 4. A transitive package has a critical advisory, and its parent package has no fix yet. Which two options from this lesson let you act now?

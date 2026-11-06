@@ -1,35 +1,40 @@
 # Concurrency and the Thread Pool
 
-After this lesson you can explain how the .NET thread pool serves a web app, recognize and diagnose sync-over-async, and pick the right tool for concurrent work: `Parallel.ForEach` for CPU-bound loops, `Parallel.ForEachAsync` for bounded I/O fan-out, `Channel<T>` for in-process producer/consumer pipelines, and `IAsyncEnumerable<T>` for streaming results.
+After this lesson you can explain how the .NET thread pool serves a web app, recognize and diagnose sync-over-async, protect shared state, and pick the right tool for concurrent work: `SemaphoreSlim` for async critical sections and limits, `Parallel.ForEach` for CPU-bound loops, `Parallel.ForEachAsync` for bounded I/O fan-out, `Channel<T>` for in-process producer/consumer pipelines, and `IAsyncEnumerable<T>` for streaming results.
 
-## Coming from PHP/Magento
+You need: 04/02 (`await`, `Task.WhenAll`, sync over async), 04/03 (`using`), 04/04 (cancellation tokens), 03/01 (dictionaries) and 03/03 (iterators with `yield return`).
 
-PHP-FPM gives you isolation for free. Each request runs in its own worker process with its own memory; a static property or a singleton from Magento's object manager lives for one request and is never touched by two requests at once. Concurrency is the process manager's problem, and parallel work means more processes: several `queue:consumers:start` runs, or cron jobs.
+## One process, shared threads
 
-In ASP.NET Core one process serves every request on shared threads. A `static` field or a singleton service is shared by all requests, at the same time, on different threads. Two traps follow. First, shared mutable state needs thread-safe types, which PHP code never needed. Second, every blocked thread is taken from the same pool everyone uses. A Magento habit such as a synchronous HTTP call in an observer becomes, in .NET, a way to stall unrelated requests.
+An ASP.NET Core app is one process that serves every request on threads from a shared pool, so a `static` field or a singleton service (module 05) is used by many requests at once, on different threads. Shared mutable state needs thread-safe types, and every blocked thread is taken from the pool everyone uses.
 
 ## The thread pool and starvation
 
 The thread pool keeps a set of worker threads and a queue of work items. ASP.NET Core runs your request code and every `await` continuation on these threads. When code blocks a pool thread (`.Result`, `.Wait()`, a synchronous read of the request body, `Thread.Sleep`), the work item cannot finish and the thread cannot pick up the next one.
 
-Microsoft's diagnostics tutorial describes the signature of starvation: the pool's thread count climbs quickly to two or three times the number of cores, then grows by one or two threads per second, while CPU usage stays well below 100% and the queue length grows. You can watch it live:
+Microsoft's diagnostics tutorial describes the signature of starvation: the thread count climbs quickly to two or three times the number of cores, then by one or two threads per second, while CPU stays well below 100% and the queue grows:
 
 ```bash
 dotnet-counters monitor -n Catalog.Api
 # watch dotnet.thread_pool.thread.count and dotnet.thread_pool.queue.length under load
 ```
 
-`dotnet-stack report -n Catalog.Api` then shows the blocked frames, typically `Task.GetResultCore` called from your controller. Since .NET 9 the runtime also emits a `WaitHandleWait` event for blocking waits, which `dotnet-trace` can collect for intermittent cases. The fix is always the same: make the blocking call asynchronous.
+`dotnet-stack report -n Catalog.Api` then shows the blocked frames. Since .NET 9, `dotnet-trace` can also collect the `WaitHandleWait` event for intermittent cases. The fix: make the blocking call asynchronous.
 
 Hidden sync-over-async to look for:
 
-- `Request.Form` instead of `await Request.ReadFormAsync()`, and `StreamReader.ReadToEnd()` on the request body instead of `ReadToEndAsync()`.
-- A synchronous API wrapped as `Task.Run(() => client.Send(...))` and awaited: it still blocks a pool thread, just a different one.
-- Returning `IEnumerable<T>` from an action over a lazily evaluated query, which the serializer enumerates synchronously.
+- `Request.Form` instead of `await Request.ReadFormAsync()`, or `ReadToEnd()` on the request body instead of `ReadToEndAsync()`.
+- A synchronous API wrapped in `Task.Run` and awaited: it still blocks a pool thread, just a different one.
 
 ## Shared state across threads
 
-Anything a singleton holds must tolerate concurrent access. Use `ConcurrentDictionary<TKey, TValue>` for shared maps, `Interlocked.Increment` for counters, and keep per-request data in scoped services. A `lock` block cannot contain `await`; the compiler rejects it. When a critical section awaits, use `SemaphoreSlim`:
+Anything a singleton holds must tolerate concurrent access. Use `ConcurrentDictionary<TKey, TValue>` for shared maps, `Interlocked.Increment` for counters, and keep per-request data in scoped services. A `lock` statement lets one thread at a time run a block:
+
+```csharp
+lock (_gate) { _total += amount; }
+```
+
+A `lock` block cannot contain `await`; the compiler rejects it. When a critical section awaits, use `SemaphoreSlim` with an initial and maximum count of 1, and release it in `finally`:
 
 ```csharp
 public sealed class TokenCache(IdentityClient identity)
@@ -58,7 +63,9 @@ public sealed class TokenCache(IdentityClient identity)
 }
 ```
 
-`HttpContext` and `DbContext` are not thread-safe: copy the values you need from the request before starting parallel work, and give each concurrent unit its own `DbContext`.
+The second check inside the lock matters: callers that waited while the first one refreshed find the new token and do not refresh again. With a count above 1, the same type is a limiter: `new SemaphoreSlim(8, 8)` lets at most eight operations hold a slot at once, and the rest wait in `WaitAsync` until one is released.
+
+`HttpContext` and `DbContext` (EF Core's database session, 07/02) are not thread-safe: copy the values you need from the request before starting parallel work, and give each concurrent unit its own `DbContext`.
 
 ## CPU-bound versus I/O-bound
 
@@ -69,7 +76,7 @@ Parallel.ForEach(products, new ParallelOptions { MaxDegreeOfParallelism = Math.M
     product => product.FinalPrice = priceRules.Apply(product));
 ```
 
-Inside a web request this competes with other requests for the same threads, so heavy CPU work belongs in a background worker (module 10), not in an endpoint.
+Inside a web request this competes with other requests for threads, so heavy CPU work belongs in a background worker (module 10).
 
 **I/O-bound** fan-out (calling a supplier API for 5,000 SKUs) needs concurrency, not threads. `Task.WhenAll` over 5,000 tasks starts all of them at once and can overwhelm the remote service. `Parallel.ForEachAsync` (since .NET 6) bounds it; without options it runs at most `Environment.ProcessorCount` operations at a time, which is rarely the right number for I/O, so set it:
 
@@ -137,22 +144,28 @@ async Task ConsumeAsync(CancellationTokenSource failure)
 
 Each method starts running when it is called and returns to the caller at its first `await` that has to wait, so reading and writing overlap without `Task.Run`. The `finally` matters: if the producer fails without completing the writer, `ReadAllAsync` waits forever. `TryComplete(error)` ends the reader and passes the fault on, and `Task.WhenAll` observes both tasks so no failure goes unseen.
 
-A channel lives in memory: items are lost if the process stops. It is not a replacement for RabbitMQ or Magento's message queue; durable messaging comes in module 10.
+A channel lives in memory: items are lost if the process stops. It is not a replacement for a message broker; durable messaging comes in module 10.
 
 ## Streaming with `IAsyncEnumerable<T>`
 
-An async iterator (`async IAsyncEnumerable<T>` with `yield return`) produces items as they arrive, and `await foreach` consumes them without loading everything into memory. EF Core streams query results with `AsAsyncEnumerable()`, and ASP.NET Core can return an `IAsyncEnumerable<T>` from an endpoint, which the serializer enumerates asynchronously. To accept cancellation in an iterator, mark the token parameter `[EnumeratorCancellation]`; consumers pass a token with `.WithCancellation(token)`.
+An async iterator (`async IAsyncEnumerable<T>` with `yield return`) produces items as they arrive, and `await foreach` consumes them without loading everything into memory. EF Core streams query results with `AsAsyncEnumerable()`, and an endpoint can return an `IAsyncEnumerable<T>`, which the serializer enumerates asynchronously. To accept cancellation in an iterator, mark the token parameter `[EnumeratorCancellation]`; consumers pass a token with `.WithCancellation(token)`.
+
+## Common mistakes
+
+- **A plain `Dictionary` in a singleton.** Concurrent writes corrupt it, often silently, sometimes with an `InvalidOperationException`. Use `ConcurrentDictionary`.
+- **Refreshing shared state without a gate.** Ten requests find the token expired and all ten refresh it. Guard the refresh with `SemaphoreSlim.WaitAsync` and check again inside.
+- **`WaitAsync` without `Release` in `finally`.** One exception keeps the slot taken and every later caller waits forever. The semaphore does not track owners, so each successful wait needs exactly one `Release`.
+- **Unbounded fan-out.** `Task.WhenAll` over thousands of calls hits the remote service all at once. Cap it with `Parallel.ForEachAsync` or a `SemaphoreSlim` limiter.
 
 ## In practice
 
 - **Measure before guessing.** Low CPU plus rising latency plus a growing thread count means blocking; `dotnet-counters` confirms it in minutes.
-- **Choose by the kind of work:** CPU-bound and large, `Parallel.ForEach` in a worker; I/O fan-out, `Parallel.ForEachAsync` with an explicit limit; stages at different speeds, a bounded `Channel<T>`; large result sets, `IAsyncEnumerable<T>` or pagination.
-- **Prefer fixing blocking code to raising the pool minimum** with `ThreadPool.SetMinThreads`. This is a recommendation, not a documented rule: more threads only treat the symptom, and the tutorial notes that each thread also consumes memory.
-- **Usual mistakes:** shared `Dictionary` in a singleton, `lock` around I/O, unbounded `Task.WhenAll` against a third-party API, one `DbContext` shared across parallel tasks, and an unbounded channel whose producer outruns the consumer until memory runs out.
+- **Choose by the kind of work:** CPU-bound and large, `Parallel.ForEach` in a worker; I/O fan-out, `Parallel.ForEachAsync` or a semaphore with an explicit limit; stages at different speeds, a bounded `Channel<T>`; large result sets, `IAsyncEnumerable<T>` or pagination.
+- **Prefer fixing blocking code to raising the pool minimum** with `ThreadPool.SetMinThreads`: more threads only treat the symptom, and each thread costs memory.
 
 ## Status as of 2026-11-05
 
-- The thread-pool starvation tutorial targets .NET 9 and later: it uses the .NET 9+ `dotnet.thread_pool.*` counter names, and the `WaitHandleWait` event (introduced in .NET 9) for intermittent cases. Its main tools are `dotnet-counters` and `dotnet-stack`.
+- The starvation tutorial targets .NET 9 and later (`dotnet.thread_pool.*` counter names, the `WaitHandleWait` event).
 - `Parallel.ForEachAsync` exists since .NET 6; its API page for `net-10.0` states the `ProcessorCount` default.
 
 ## Check yourself

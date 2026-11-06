@@ -8,7 +8,7 @@
       "Your C# source, which the runtime compiles when the app starts"
     ],
     "answer": 2,
-    "explanation": "The compiler emits CPU-independent CIL and type metadata into the assembly; the CLR's JIT turns each method into native code on its first call. The second option is the interpreter model PHP developers know, but the CLR compiles CIL to native code rather than interpreting it. Native code at build time, the first option, only happens with Native AOT publishing."
+    "explanation": "The compiler emits CPU-independent CIL and type metadata into the assembly; the CLR's JIT turns each method into native code on its first call. The second option describes an interpreter, but the CLR compiles CIL to native code rather than interpreting it. An ordinary `dotnet build` never produces native code, the first option; only publish options such as ReadyToRun or Native AOT precompile it, and only Native AOT removes the need for a runtime."
   },
   {
     "question": "A production Linux server must run a framework-dependent ASP.NET Core API that targets `net10.0`. What needs to be installed on it?",
@@ -41,7 +41,7 @@
       "Response caching fills up, so repeated requests skip the endpoint"
     ],
     "answer": 1,
-    "explanation": "Tiered compilation is on by default since .NET Core 3.0: methods first run as quickly produced code, and the optimizing JIT later replaces the frequently called ones in the background. Packages are resolved at build and publish time, never downloaded by a running app, so the third option carries over a misconception from runtime package managers. Response caching is not on by default."
+    "explanation": "Tiered compilation is on by default since .NET Core 3.0: methods first run as quickly produced code, and the optimizing JIT later replaces the frequently called ones in the background. Packages are resolved at build and publish time and copied into the output, so a running app never downloads them; the third option describes something .NET does not do. Response caching is not on by default."
   },
   {
     "question": "In `Catalog.Core` you declare `internal static class TaxTable`. The `Catalog.Api` project references `Catalog.Core`. What happens when `Catalog.Api` code uses `TaxTable` directly?",

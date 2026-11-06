@@ -1,6 +1,6 @@
 {
   "title": "Deferred Execution and IQueryable",
-  "summary": "When a LINQ query really runs, why enumerating it twice repeats the work, where to call ToList, and how IQueryable expression trees become SQL while IEnumerable runs in memory.",
+  "summary": "When a LINQ query really runs, how yield return iterators pause and restart, why enumerating twice repeats the work, where to call ToList, and how IQueryable expression trees become SQL while IEnumerable runs in memory.",
   "level": "intermediate",
   "tags": ["recommended", "core", "theory"],
   "resources": [

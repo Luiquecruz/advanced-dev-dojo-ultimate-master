@@ -1,4 +1,5 @@
 using Dojo;
+using System.Threading;
 
 public static class ScoresTests
 {
@@ -19,5 +20,15 @@ public static class ScoresTests
     {
         await Task.Delay(1);
         Assert.Equal("A", Scores.Grade(90));
+    }
+
+    [Test("Grade works after a CancelAfter deadline cancels a delay")]
+    public static async Task GradeAfterCancelAfter()
+    {
+        using var source = new CancellationTokenSource();
+        source.CancelAfter(TimeSpan.FromMilliseconds(20));
+        await Assert.ThrowsAsync<OperationCanceledException>(() => Task.Delay(TimeSpan.FromSeconds(3), source.Token));
+        Assert.True(source.IsCancellationRequested, "the deadline cancelled the token");
+        Assert.Equal("B", Scores.Grade(80));
     }
 }

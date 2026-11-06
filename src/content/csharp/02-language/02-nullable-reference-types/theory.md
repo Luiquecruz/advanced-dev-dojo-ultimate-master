@@ -2,13 +2,7 @@
 
 `NullReferenceException` is one of the most familiar crashes in .NET code, and nullable reference types are how the compiler helps you avoid it. After this lesson you can turn the feature on, read the warnings it produces, and fix each one with the right tool: a better type, a guard, a default, an attribute or, rarely, the null-forgiving operator. You will also know where the compiler's promises stop.
 
-## Coming from PHP/Magento
-
-PHP's `?string` is a **runtime** contract. Pass `null` to a `string` parameter of your own function and PHP throws a `TypeError` on the spot.
-
-C#'s `string?` is a **compile-time** annotation only. Both `string` and `string?` are `System.String` at run time. The compiler warns when your code might put a `null` where you said it cannot go, but nothing checks the value when the program runs. Reflection, JSON deserialization, code compiled with the feature off and a misplaced `!` can all deliver `null` into a non-nullable `string` without any error until you dereference it.
-
-The operators transfer directly. PHP 8's `?->` is C#'s `?.`, and `??` and `??=` mean the same in both languages. The habit that does not transfer is Magento's `getData('key')`, which returns `mixed` and leaves the null check to you. In C#, the type says up front whether a null check is needed.
+You need: 00/06 (`null` and `NullReferenceException`), 00/05 (`Dictionary` and `TryGetValue`) and 02/01 (value and reference types).
 
 ## Two kinds of "nullable"
 
@@ -21,7 +15,16 @@ string? middleName = null;            // annotation only: still System.String
 string firstName = "Ada";             // the compiler assumes this is never null
 ```
 
-`int?` is shorthand for `Nullable<int>`, a struct with `HasValue` and `Value` that exists at run time. `string?` adds no wrapper. It only tells the compiler your intent. A value type cannot hold `null` unless you write `?`. A reference type always *could* hold `null` at run time, and the annotation says whether it *should*.
+`int?` is shorthand for `Nullable<int>`, a struct with `HasValue` and `Value` that exists at run time. `string?` adds no wrapper: both `string` and `string?` are `System.String`. It only tells the compiler your intent, and nothing checks it when the program runs. A value type cannot hold `null` unless you write `?`. A reference type always *could* hold `null` at run time, and the annotation says whether it *should*.
+
+Three operators handle a possible `null` without an `if`:
+
+```csharp
+string? nickname = null;
+int? length = nickname?.Length;      // ?. gives null instead of throwing NullReferenceException
+string shown = nickname ?? "guest";  // ?? takes the right side when the left side is null
+nickname ??= "Ada";                  // ??= assigns only when the variable is null
+```
 
 ## Turning it on
 
@@ -76,6 +79,8 @@ The warnings you will see every day:
 First decide whether `null` is a legitimate value. If a customer may have no middle name, declare `string?` and handle the absence. If a product must have a SKU, make the type say so and enforce it at construction:
 
 ```csharp
+// required, init and interface: lesson 03. PriceService(...) is a primary constructor (lesson 05):
+// repository is a parameter that every member of the class can use.
 public sealed class Product
 {
     public required string Sku { get; init; }      // callers must set it: fixes CS8618
@@ -114,12 +119,18 @@ The analysis has gaps that matter in a backend:
 - **`default` structs and new arrays.** `new string[3]` holds three nulls, and `default(SomeStruct)` leaves reference fields null, with no warning.
 - **Code you call.** A library compiled without the feature is "oblivious": the compiler cannot tell whether its `string` may be null.
 
+## Common mistakes
+
+- **Silencing CS8618 with `= null!`.** The warning disappears, the property still starts as `null`, and the first `product.Name.Length` throws `NullReferenceException`. Use `required`, a constructor parameter, or `string?` when the value is optional.
+- **Adding `!` until the warnings stop.** Each `!` turns a compile-time warning into a possible runtime crash. Check for `null` (`is null`, `?.`, `??`) and keep `!` for cases you can prove.
+- **Trusting a non-nullable property filled from JSON.** The serializer writes `null` into it without complaint, and the crash appears far from the request. Validate input at the boundary and mark must-have fields `required`.
+- **Returning `null` for "no items".** Every caller's `foreach` throws `NullReferenceException`. Return an empty collection.
+
 ## In practice
 
 - Keep `<Nullable>enable</Nullable>`. Consider `<WarningsAsErrors>nullable</WarningsAsErrors>` in new projects.
 - Validate at the boundaries (HTTP input, messages, configuration, database reads), then let non-nullable types carry the guarantee inward. `ArgumentNullException.ThrowIfNull` in public methods costs one line.
-- Treat a warning as a question about your design, not noise to silence. The usual mistakes are `!` sprinkled to make warnings go away and `= null!` on every property.
-- Return an empty collection rather than `null` for "no items". Callers can then `foreach` without a check.
+- Treat a warning as a question about your design, not noise to silence.
 
 ## Check yourself
 

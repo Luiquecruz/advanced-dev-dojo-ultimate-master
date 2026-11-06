@@ -11,15 +11,15 @@
     "explanation": "Slowly rising thread count plus low CPU plus a growing queue is the documented signature of thread-pool starvation caused by blocking calls. Connection pool exhaustion is the tempting answer, but async waits for a connection do not hold pool threads, so the thread count would not keep climbing; and more cores do not help when CPU is mostly idle."
   },
   {
-    "question": "A Magento developer keeps a `static Dictionary<string, decimal>` price cache in an ASP.NET Core service and updates it from requests. What goes wrong?",
+    "question": "A service keeps a `static Dictionary<string, decimal>` price cache in an ASP.NET Core app and updates it from requests. What goes wrong?",
     "options": [
-      "Nothing; each request gets its own copy of static fields, as in PHP-FPM",
+      "Nothing; each request gets its own copy of static fields",
       "Reads are fine, and `Dictionary` throws on concurrent writes, so failures are always visible",
       "It works if every write uses `TryAdd`, because that method is atomic on `Dictionary`",
       "Concurrent writes can corrupt the `Dictionary`; use `ConcurrentDictionary`"
     ],
     "answer": 3,
-    "explanation": "In a long-running host a static field is shared by every request at the same time, and `Dictionary` is not thread-safe: concurrent writes can corrupt it silently, without any exception. Expecting a copy per request is the PHP-FPM model, where each request has its own process and statics never cross requests; and `TryAdd` on `Dictionary` is no more atomic than the indexer."
+    "explanation": "In a long-running host a static field is shared by every request at the same time, and `Dictionary` is not thread-safe: concurrent writes can corrupt it, often silently; .NET throws `InvalidOperationException` only when it happens to detect the damage. Expecting a copy per request is the tempting mistake, but only scoped services are created per request; and `TryAdd` on `Dictionary` is no more atomic than the indexer."
   },
   {
     "question": "You need to refresh a shared access token with an `await identity.RequestTokenAsync(...)` call so that only one request refreshes at a time. Which construct fits?",
@@ -55,7 +55,7 @@
     "explanation": "The default `BoundedChannelFullMode` is `Wait`, which gives back pressure. Dropping the oldest item happens only with `DropOldest`, which you must choose explicitly; and `ChannelClosedException` is thrown only after the channel has been completed."
   },
   {
-    "question": "Why is a `Channel<T>` not a replacement for RabbitMQ or Magento's message queue when processing paid orders?",
+    "question": "Why is a `Channel<T>` not a replacement for a message broker such as RabbitMQ when processing paid orders?",
     "options": [
       "Channels hold at most 1,000 items, which is too small for a day of orders",
       "Channels deliver each item to every reader, so two consumers would charge twice",
