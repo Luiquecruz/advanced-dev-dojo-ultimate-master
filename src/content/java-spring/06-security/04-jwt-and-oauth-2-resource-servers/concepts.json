@@ -1,5 +1,5 @@
 [
-  { "term": "JWT", "description": "A signed token of Base64URL header, payload and signature whose claims anyone can read but only the issuer can create." },
+  { "term": "JWT", "description": "A claims token that may be signed or encrypted; a signed, unencrypted JWT has a readable Base64URL header and payload plus a signature." },
   { "term": "Standard claims", "description": "iss names the issuer, sub the user, aud the intended recipient, exp the expiry and nbf the earliest valid time." },
   { "term": "Resource server", "description": "An API that validates access tokens and enforces permissions without authenticating users itself." },
   { "term": "JWK Set", "description": "The issuer's published public keys, which a resource server uses to verify token signatures." },

@@ -62,3 +62,5 @@ Java and Angular have independent feature flags and release checks. Do not turn 
 Latest action: Adapted module 06 to API security, including generic CSRF/CORS contracts and direct HTTP-client acceptance criteria; removed the Angular security lesson.
 
 Security validation: 1,761 content checks pass without skips, eslint/typecheck/docs sync pass, all 27 resource URLs return HTTP 200 on their original host, and the local Boot 4.1.2 security project passes 13 tests covering mocked authorization plus real signed-token validation.
+
+Security review follow-up: corrected matcher configuration failure and lesson references, distinguished signed and encrypted JWTs, clarified anonymous versus authenticated access denial, and connected role hierarchy to method security. The Spring 7.1.1 method-security configuration was checked with an administrator allowed through inherited permission and an unrelated user denied.
