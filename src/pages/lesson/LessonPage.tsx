@@ -8,7 +8,7 @@ import { Markdown } from '@/shared/ui/Markdown';
 import { codeKeyFor, isLessonComplete, progress, useProgress } from '@/entities/progress';
 import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
-import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, CrossIcon, FlagIcon, MenuIcon, PlayIcon, RefreshIcon, ResetIcon, TerminalIcon } from '@/shared/ui/icons';
+import { BookIcon, CheckIcon, ChevronLeftIcon, ChevronRightIcon, CodeIcon, CrossIcon, FlagIcon, MenuIcon, PlayIcon, RefreshIcon, ResetIcon, TerminalIcon } from '@/shared/ui/icons';
 import { isMonitoringEnabled, setMonitoringTags } from '@/shared/monitoring/monitoring';
 import { useMediaQuery } from '@/shared/lib/useMediaQuery';
 import { useLessonFiles } from './useLessonFiles';
@@ -17,10 +17,13 @@ import { COMPILE_ERROR_CLASS, SUCCESS_BADGE_CLASS, TEST_MESSAGE_CLASS, buttonCla
 
 type BottomTab = 'preview' | 'tests' | 'console';
 
+type MobilePane = 'lesson' | 'editor' | 'output';
+
 const MAX_CONSOLE_ENTRIES = 200;
 
 /**
  * Split view lesson: theory and challenge on the left, editor, preview, tests and console on the right.
+ * Under 900px each area fills the viewport on its own, switched from a fixed bottom bar.
  */
 export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) {
   const state = useProgress();
@@ -45,6 +48,8 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [solutionOpen, setSolutionOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
+  const [pane, setPane] = useState<MobilePane>('lesson');
+  const [focusedPane, setFocusedPane] = useState<MobilePane | null>(null);
   const closeReport = useCallback(() => setReportOpen(false), []);
 
   const testNames = useMemo(() => (challenge ? testNamesFor(engine, challenge) : []), [engine, challenge]);
@@ -97,6 +102,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
     if (!challenge.preview) {
       setBottomTab('tests');
     }
+    setPane('output');
     try {
       const result = await gradeChallenge(engine, challenge, files);
       setReport(result);
@@ -116,6 +122,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
       return;
     }
     setBottomTab('console');
+    setPane('output');
     setProgramRunning(true);
     const entries: ConsoleEntry[] = [];
     setConsoleEntries([]);
@@ -170,101 +177,133 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   );
 
 
+  const fileTabs = (
+    <div className="flex h-full min-w-0 overflow-x-auto">
+      {fileNames.map((name) => (
+        <button
+          key={name}
+          className={clsx(
+            'cursor-pointer border-r border-line bg-transparent px-4 font-mono text-[13px] whitespace-nowrap',
+            name === activeFile ? 'bg-code text-ink shadow-[inset_0_2px_0_var(--accent)]' : 'text-ink-muted',
+          )}
+          onClick={() => setActiveFile(name)}
+        >
+          {name}
+        </button>
+      ))}
+    </div>
+  );
+
+  const languageSwitch = languageOptions.length > 1 && language && <LanguageSwitch options={languageOptions} value={language} onChange={switchLanguage} />;
+
+  const editorActions = (
+    <>
+      <button className={iconButtonClass()} title="Reset to starter code" onClick={resetCode}>
+        <ResetIcon />
+      </button>
+      {canRunProgram(engine) && (
+        <button className={buttonClass('ghost')} onClick={runCode} disabled={programRunning}>
+          <TerminalIcon /> {programRunning ? 'Running…' : 'Run'}
+        </button>
+      )}
+      <button className={buttonClass('primary')} onClick={runTests} disabled={running}>
+        <PlayIcon /> {running ? 'Running…' : 'Run tests'}
+      </button>
+    </>
+  );
+
+  const editorPanel = challenge && (
+    <div className="flex h-full flex-col bg-code">
+      {narrow ? (
+        <div className="flex-none border-b border-line bg-elevated">
+          <div className="flex h-10 items-center justify-between gap-2 border-b border-line pr-2">
+            {fileTabs}
+            {languageSwitch}
+          </div>
+          <div className="flex h-12 items-center justify-end gap-1.5 px-2">{editorActions}</div>
+        </div>
+      ) : (
+        <div className="flex h-11.5 flex-none items-center justify-between gap-2 border-b border-line bg-elevated pr-2">
+          {fileTabs}
+          <div className="flex items-center gap-1.5">
+            {languageSwitch}
+            {editorActions}
+          </div>
+        </div>
+      )}
+      <CodeEditor
+        modelPath={codeKey}
+        fileName={activeFile}
+        value={files[activeFile] ?? ''}
+        onChange={(value) => updateFile(activeFile, value)}
+        onRun={runTests}
+      />
+    </div>
+  );
+
+  const testCount = report && (
+    <span className={clsx(COUNT_CLASS, report.passed ? 'bg-success/12 text-success' : 'bg-danger/10 text-danger')}>
+      {report.tests.filter((test) => test.passed).length}/{testNames.length}
+    </span>
+  );
+
+  const outputPanel = challenge && (
+    <div className="flex h-full flex-col bg-code">
+      <div className="flex h-9.5 flex-none items-center gap-0.5 border-b border-line bg-elevated px-2">
+        {challenge.preview && (
+          <button className={bottomTabClass(bottomTab === 'preview')} onClick={() => setBottomTab('preview')}>
+            Preview
+          </button>
+        )}
+        <button className={bottomTabClass(bottomTab === 'tests')} onClick={() => setBottomTab('tests')}>
+          Tests
+          {testCount}
+        </button>
+        <button className={bottomTabClass(bottomTab === 'console')} onClick={() => setBottomTab('console')}>
+          Console {consoleEntries.length > 0 && <span className={clsx(COUNT_CLASS, 'bg-line')}>{consoleEntries.length}</span>}
+        </button>
+        <div className="ml-auto flex items-center">
+          {bottomTab === 'preview' && (
+            <button className={iconButtonClass()} title="Reload preview" onClick={() => setReloadKey((key) => key + 1)}>
+              <RefreshIcon />
+            </button>
+          )}
+          {bottomTab === 'console' && consoleEntries.length > 0 && (
+            <button className={buttonClass('ghost', 'small')} onClick={() => setConsoleEntries([])}>
+              Clear
+            </button>
+          )}
+        </div>
+      </div>
+      <div className="relative min-h-0 flex-1 overflow-auto">
+        {challenge.preview && (
+          <div className={clsx('absolute inset-0', bottomTab !== 'preview' && 'invisible pointer-events-none')} aria-hidden={bottomTab !== 'preview'}>
+            <PreviewFrame engine={engine} files={files} entry={challenge.entry} reloadKey={reloadKey} onConsole={appendConsole} />
+          </div>
+        )}
+        {bottomTab === 'tests' && <TestOutput report={report} running={running} testNames={testNames} />}
+        {bottomTab === 'console' && (
+          <div className="py-2 font-mono text-[12.5px]/[1.6]">
+            {consoleEntries.length === 0 && <div className="px-3.5 py-2 text-ink-faint">Console output appears here.</div>}
+            {consoleEntries.map((entry, entryIndex) => (
+              <div key={entryIndex} className={clsx('border-b border-line/60 px-3.5 py-0.5 whitespace-pre-wrap wrap-anywhere', CONSOLE_LEVEL_CLASS[entry.level])}>
+                {entry.text}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   const workspace = challenge ? (
     <Group orientation="vertical" className="h-full">
       <Panel defaultSize="60" minSize="20">
-        <div className="flex h-full flex-col bg-code">
-          <div className="flex h-11.5 flex-none items-center justify-between gap-2 border-b border-line bg-elevated pr-2">
-            <div className="flex h-full min-w-0 overflow-x-auto">
-              {fileNames.map((name) => (
-                <button
-                  key={name}
-                  className={clsx(
-                    'cursor-pointer border-r border-line bg-transparent px-4 font-mono text-[13px] whitespace-nowrap',
-                    name === activeFile ? 'bg-code text-ink shadow-[inset_0_2px_0_var(--accent)]' : 'text-ink-muted',
-                  )}
-                  onClick={() => setActiveFile(name)}
-                >
-                  {name}
-                </button>
-              ))}
-            </div>
-            <div className="flex items-center gap-1.5">
-              {languageOptions.length > 1 && language && <LanguageSwitch options={languageOptions} value={language} onChange={switchLanguage} />}
-              <button className={iconButtonClass()} title="Reset to starter code" onClick={resetCode}>
-                <ResetIcon />
-              </button>
-              {canRunProgram(engine) && (
-                <button className={buttonClass('ghost', 'regular', 'max-wide:hidden')} onClick={runCode} disabled={programRunning}>
-                  <TerminalIcon /> {programRunning ? 'Running…' : 'Run'}
-                </button>
-              )}
-              <button className={buttonClass('primary')} onClick={runTests} disabled={running}>
-                <PlayIcon /> {running ? 'Running…' : 'Run tests'}
-              </button>
-            </div>
-          </div>
-          <CodeEditor
-            modelPath={codeKey}
-            fileName={activeFile}
-            value={files[activeFile] ?? ''}
-            onChange={(value) => updateFile(activeFile, value)}
-            onRun={runTests}
-          />
-        </div>
+        {editorPanel}
       </Panel>
       <Separator className={SEPARATOR_CLASS.horizontal} />
       <Panel defaultSize="40" minSize="12">
-        <div className="flex h-full flex-col bg-code">
-          <div className="flex h-9.5 flex-none items-center gap-0.5 border-b border-line bg-elevated px-2">
-            {challenge.preview && (
-              <button className={bottomTabClass(bottomTab === 'preview')} onClick={() => setBottomTab('preview')}>
-                Preview
-              </button>
-            )}
-            <button className={bottomTabClass(bottomTab === 'tests')} onClick={() => setBottomTab('tests')}>
-              Tests
-              {report && (
-                <span className={clsx(COUNT_CLASS, report.passed ? 'bg-success/12 text-success' : 'bg-danger/10 text-danger')}>
-                  {report.tests.filter((test) => test.passed).length}/{testNames.length}
-                </span>
-              )}
-            </button>
-            <button className={bottomTabClass(bottomTab === 'console')} onClick={() => setBottomTab('console')}>
-              Console {consoleEntries.length > 0 && <span className={clsx(COUNT_CLASS, 'bg-line')}>{consoleEntries.length}</span>}
-            </button>
-            <div className="ml-auto flex items-center">
-              {bottomTab === 'preview' && (
-                <button className={iconButtonClass()} title="Reload preview" onClick={() => setReloadKey((key) => key + 1)}>
-                  <RefreshIcon />
-                </button>
-              )}
-              {bottomTab === 'console' && consoleEntries.length > 0 && (
-                <button className={buttonClass('ghost', 'small')} onClick={() => setConsoleEntries([])}>
-                  Clear
-                </button>
-              )}
-            </div>
-          </div>
-          <div className="relative min-h-0 flex-1 overflow-auto">
-            {challenge.preview && (
-              <div className={clsx('absolute inset-0', bottomTab !== 'preview' && 'invisible pointer-events-none')} aria-hidden={bottomTab !== 'preview'}>
-                <PreviewFrame engine={engine} files={files} entry={challenge.entry} reloadKey={reloadKey} onConsole={appendConsole} />
-              </div>
-            )}
-            {bottomTab === 'tests' && <TestOutput report={report} running={running} testNames={testNames} />}
-            {bottomTab === 'console' && (
-              <div className="py-2 font-mono text-[12.5px]/[1.6]">
-                {consoleEntries.length === 0 && <div className="px-3.5 py-2 text-ink-faint">Console output appears here.</div>}
-                {consoleEntries.map((entry, entryIndex) => (
-                  <div key={entryIndex} className={clsx('border-b border-line/60 px-3.5 py-0.5 whitespace-pre-wrap wrap-anywhere', CONSOLE_LEVEL_CLASS[entry.level])}>
-                    {entry.text}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+        {outputPanel}
       </Panel>
     </Group>
   ) : (
@@ -276,8 +315,30 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
     </div>
   );
 
+  const lessonPanel = (
+    <LessonPanel
+      key={lesson.key}
+      track={track}
+      lesson={lesson}
+      challenge={challenge}
+      tab={tab}
+      onTabChange={setTab}
+      testNames={testNames}
+      report={report}
+      running={running}
+      onRevealSolution={() => setSolutionOpen(true)}
+      nextLesson={next}
+    />
+  );
+
+  const mobilePanes: Array<{ id: MobilePane; label: string; icon: ReactNode; content: ReactNode; badge?: ReactNode }> = [
+    { id: 'lesson', label: 'Waypoint', icon: <BookIcon />, content: lessonPanel },
+    { id: 'editor', label: 'Code', icon: <CodeIcon />, content: editorPanel },
+    { id: 'output', label: 'Output', icon: <TerminalIcon />, content: outputPanel, badge: testCount },
+  ];
+
   return (
-    <div data-trail={track.id} className="flex h-screen flex-col overflow-hidden bg-void">
+    <div data-trail={track.id} className="flex h-full flex-col overflow-hidden bg-void">
       <header className="flex h-13 flex-none items-center gap-2.5 border-b border-line bg-elevated px-2.5" inert={drawerOpen || reportOpen}>
         <button className={iconButtonClass()} title="Star map" onClick={() => setDrawerOpen(true)}>
           <MenuIcon />
@@ -317,29 +378,78 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
         </div>
       </header>
 
-      <main className="min-h-0 flex-1" inert={drawerOpen || reportOpen}>
-        <Group orientation={narrow ? 'vertical' : 'horizontal'} className="h-full">
-          <Panel defaultSize={narrow ? '50' : '40'} minSize="20">
-            <LessonPanel
-              key={lesson.key}
-              track={track}
-              lesson={lesson}
-              challenge={challenge}
-              tab={tab}
-              onTabChange={setTab}
-              testNames={testNames}
-              report={report}
-              running={running}
-              onRevealSolution={() => setSolutionOpen(true)}
-              nextLesson={next}
-            />
-          </Panel>
-          <Separator className={narrow ? SEPARATOR_CLASS.horizontal : SEPARATOR_CLASS.vertical} />
-          <Panel defaultSize={narrow ? '50' : '60'} minSize="25">
-            {workspace}
-          </Panel>
-        </Group>
-      </main>
+      {narrow && challenge ? (
+        <>
+          <main className="relative min-h-0 flex-1" inert={drawerOpen || reportOpen}>
+            {mobilePanes.map((entry) => (
+              <div
+                key={entry.id}
+                id={`pane-${entry.id}`}
+                role="tabpanel"
+                aria-labelledby={`pane-tab-${entry.id}`}
+                className={clsx('absolute inset-0', pane !== entry.id && 'invisible pointer-events-none')}
+              >
+                {entry.content}
+              </div>
+            ))}
+          </main>
+          <div
+            className="flex flex-none border-t border-line bg-elevated pb-[env(safe-area-inset-bottom)]"
+            role="tablist"
+            aria-label="Workspace areas"
+            inert={drawerOpen || reportOpen}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) setFocusedPane(null);
+            }}
+          >
+            {mobilePanes.map((entry, index) => (
+              <button
+                key={entry.id}
+                id={`pane-tab-${entry.id}`}
+                role="tab"
+                aria-selected={pane === entry.id}
+                aria-controls={`pane-${entry.id}`}
+                tabIndex={(focusedPane ?? pane) === entry.id ? 0 : -1}
+                className={clsx(
+                  'flex h-14 flex-1 cursor-pointer flex-col items-center justify-center gap-1 text-[11px] font-semibold transition-colors duration-(--dur-fast) [&_svg]:size-5',
+                  pane === entry.id ? 'text-accent shadow-[inset_0_2px_0_var(--accent)]' : 'text-ink-muted',
+                )}
+                onClick={() => setPane(entry.id)}
+                onFocus={() => setFocusedPane(entry.id)}
+                onKeyDown={(event) => {
+                  if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+                  event.preventDefault();
+                  const direction = event.key === 'ArrowRight' ? 1 : -1;
+                  const nextIndex = (index + direction + mobilePanes.length) % mobilePanes.length;
+                  event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[nextIndex]?.focus();
+                }}
+              >
+                {entry.icon}
+                <span className="flex items-center gap-1">
+                  {entry.label}
+                  {entry.badge}
+                </span>
+              </button>
+            ))}
+          </div>
+        </>
+      ) : (
+        <main className="min-h-0 flex-1" inert={drawerOpen || reportOpen}>
+          {narrow ? (
+            lessonPanel
+          ) : (
+            <Group orientation="horizontal" className="h-full">
+              <Panel defaultSize="40" minSize="20">
+                {lessonPanel}
+              </Panel>
+              <Separator className={SEPARATOR_CLASS.vertical} />
+              <Panel defaultSize="60" minSize="25">
+                {workspace}
+              </Panel>
+            </Group>
+          )}
+        </main>
+      )}
 
       {reportOpen && <ReportProblemDialog onClose={closeReport} />}
       {drawerOpen && <CurriculumDrawer track={track} currentKey={lesson.key} onClose={() => setDrawerOpen(false)} />}
