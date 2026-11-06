@@ -422,3 +422,6 @@ Plan and decisions: [java-spring-angular-track.md](java-spring-angular-track.md)
 
 ### 02-the-java-language — The Java Language
 01-records-enums-and-sealed-types ✓ · 02-interfaces-and-generics ✓ · 03-collections ✓ · 04-streams-and-optional ✓ · 05-exceptions-in-depth ✓ · 06-concurrency-basics ✓ · 07-packages-and-modules ✓ · 08-project-library-catalog ✓
+
+### 03-build-and-tests — Build and Tests
+01-maven-and-the-project-layout ✓ · 02-junit-jupiter-in-depth ✓ · 03-test-doubles-and-mockito ✓ · 04-test-slices-and-spring-testing-basics ✓ · 05-integration-tests-with-testcontainers ✓ · 06-code-quality-and-coverage ✓ · 07-project-tested-library-service ✓

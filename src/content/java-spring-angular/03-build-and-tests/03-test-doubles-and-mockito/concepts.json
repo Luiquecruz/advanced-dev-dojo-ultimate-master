@@ -1,0 +1,9 @@
+[
+  { "term": "Test double", "description": "Any object that replaces a real collaborator in a test, such as a dummy, stub, fake, spy or mock." },
+  { "term": "Stub", "description": "A double that returns canned answers so the code under test gets the inputs the test needs." },
+  { "term": "Fake", "description": "A simple but working implementation of a collaborator, such as an in-memory store backed by a map." },
+  { "term": "Mock", "description": "A double whose interactions are verified after the code runs, for example that a notifier was called once." },
+  { "term": "Argument captor", "description": "A Mockito object that records the argument passed to a mock so the test can assert on its contents." },
+  { "term": "Strict stubs", "description": "The MockitoExtension default that fails a test for unused stubs and for stubbed calls made with different arguments." },
+  { "term": "Mock maker agent", "description": "The instrumentation Mockito needs, which on JDK 21 and later is best attached explicitly as a Java agent." }
+]

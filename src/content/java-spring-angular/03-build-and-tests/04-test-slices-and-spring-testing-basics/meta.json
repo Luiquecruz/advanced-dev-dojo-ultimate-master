@@ -1,0 +1,14 @@
+{
+  "title": "Test Slices and Spring Testing Basics",
+  "summary": "A conceptual tour of Spring tests: plain unit tests, web and persistence slices, the full SpringBootTest, MockMvc, MockitoBean, Spring Boot 4 test starters and context caching, ahead of the application modules.",
+  "level": "intermediate",
+  "tags": ["theory", "testing"],
+  "resources": [
+    { "label": "Spring Boot: Testing Spring Boot applications", "url": "https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html" },
+    { "label": "Spring Boot: Test modules", "url": "https://docs.spring.io/spring-boot/reference/testing/test-modules.html" },
+    { "label": "Spring Framework: MockMvc", "url": "https://docs.spring.io/spring-framework/reference/testing/mockmvc.html" },
+    { "label": "Spring Framework: MockitoBean", "url": "https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-mockitobean.html" },
+    { "label": "Spring Framework: Context caching", "url": "https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/ctx-management/caching.html" },
+    { "label": "Spring Boot 4.0 migration guide", "url": "https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide" }
+  ]
+}

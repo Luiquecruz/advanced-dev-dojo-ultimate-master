@@ -1,0 +1,13 @@
+{
+  "title": "Project: Tested Library Service",
+  "summary": "A local project that turns the library catalog into a Maven project with constructor injection, a fake store, JUnit Jupiter and Mockito tests, a JaCoCo report and the Maven Wrapper.",
+  "level": "intermediate",
+  "tags": ["theory", "project"],
+  "resources": [
+    { "label": "Maven: Introduction to the POM", "url": "https://maven.apache.org/guides/introduction/introduction-to-the-pom.html" },
+    { "label": "Maven: Download and install", "url": "https://maven.apache.org/download.cgi" },
+    { "label": "Maven Surefire: Inclusions and exclusions of tests", "url": "https://maven.apache.org/surefire/maven-surefire-plugin/examples/inclusion-exclusion.html" },
+    { "label": "JUnit", "url": "https://junit.org/" },
+    { "label": "Mockito", "url": "https://site.mockito.org/" }
+  ]
+}

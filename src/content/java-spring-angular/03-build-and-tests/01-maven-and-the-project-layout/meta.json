@@ -1,0 +1,14 @@
+{
+  "title": "Maven and the Project Layout",
+  "summary": "The pom.xml and its coordinates, the standard directory layout, dependencies and scopes, the build lifecycle and everyday mvn commands, the Maven Wrapper, BOMs and how the Spring Boot parent manages versions.",
+  "level": "beginner",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Maven: Maven in 5 minutes", "url": "https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html" },
+    { "label": "Maven: The build lifecycle", "url": "https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html" },
+    { "label": "Maven: Dependency mechanism", "url": "https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html" },
+    { "label": "Maven: Standard directory layout", "url": "https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html" },
+    { "label": "Maven Wrapper", "url": "https://maven.apache.org/tools/wrapper/" },
+    { "label": "Spring Boot: Build systems", "url": "https://docs.spring.io/spring-boot/reference/using/build-systems.html" }
+  ]
+}

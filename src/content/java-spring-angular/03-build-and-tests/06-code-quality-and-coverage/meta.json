@@ -1,0 +1,13 @@
+{
+  "title": "Code Quality and Coverage",
+  "summary": "JaCoCo coverage and its limits, mutation testing with PIT, compiler lint and static analysis ideas, and automatic formatting with Spotless, all run from the Maven build.",
+  "level": "intermediate",
+  "tags": ["theory", "testing"],
+  "resources": [
+    { "label": "JaCoCo on GitHub", "url": "https://github.com/jacoco/jacoco" },
+    { "label": "PIT mutation testing on GitHub", "url": "https://github.com/hcoles/pitest" },
+    { "label": "Spotless on GitHub", "url": "https://github.com/diffplug/spotless" },
+    { "label": "Maven Compiler Plugin", "url": "https://maven.apache.org/plugins/maven-compiler-plugin/" },
+    { "label": "Oracle: The javac command (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/javac.html" }
+  ]
+}
