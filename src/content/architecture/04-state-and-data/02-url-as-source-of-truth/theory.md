@@ -4,7 +4,7 @@ Every screen that can be filtered, sorted, paged or tabbed has an implicit quest
 
 That makes the query string an **architecture contract**, not an implementation detail. Other teams link to `/products?category=hardware&sort=price`, marketing puts it in emails, support pastes it in tickets. Changing a parameter name is a breaking change, exactly like renaming a field of a REST API.
 
-The React State Management track shows how to read and write params with `useSearchParams`. This lesson is about the design decisions around it.
+The State Management track shows how to read and write params with `useSearchParams`. This lesson is about the design decisions around it.
 
 ## One schema per screen
 
