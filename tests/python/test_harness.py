@@ -51,6 +51,52 @@ def test_reports_both_sides_of_a_failed_comparison(tmp_path):
     assert "right: 3" in result["error"]
 
 
+def test_reports_a_timeout_error_raised_by_the_code_as_that_error(tmp_path):
+    challenge = _challenge(
+        tmp_path,
+        """\
+        import asyncio
+
+        async def fetch():
+            await asyncio.sleep(0)
+            raise TimeoutError("boom")
+        """,
+        """
+        @test("learner code raises TimeoutError")
+        async def _():
+            await mod.fetch()
+
+        @test("the test raises TimeoutError")
+        async def _():
+            raise TimeoutError("boom")
+        """,
+    )
+    learner, test = grade(challenge, "solution")["results"]
+    assert learner == {"name": "learner code raises TimeoutError", "passed": False, "error": 'TimeoutError: boom\n  at main.py, line 5: raise TimeoutError("boom")'}
+    assert test == {"name": "the test raises TimeoutError", "passed": False, "error": 'TimeoutError: boom\n  at tests.py, line 8: raise TimeoutError("boom")'}
+
+
+def test_fails_an_async_test_that_never_finishes_after_the_deadline(tmp_path):
+    challenge = _challenge(
+        tmp_path,
+        "x = 1\n",
+        """
+        import asyncio
+
+        @test("awaits forever")
+        async def _():
+            await asyncio.Event().wait()
+
+        @test("runs after the timeout")
+        async def _():
+            await asyncio.sleep(0)
+        """,
+    )
+    hung, after = grade(challenge, "solution")["results"]
+    assert hung == {"name": "awaits forever", "passed": False, "error": 'TimeoutError: Test "awaits forever" timed out after 4000ms.'}
+    assert after == {"name": "runs after the timeout", "passed": True}
+
+
 def test_offers_approx_and_capture_error_to_tests(tmp_path):
     challenge = _challenge(
         tmp_path,
