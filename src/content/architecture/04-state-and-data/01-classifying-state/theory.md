@@ -6,7 +6,7 @@ The architectural rule is short:
 
 > Before adding a global library, ask: is this state **remote**, **URL**, **form**, or **really UI** state?
 
-Every kind has a natural home. Put each piece of state in its home and the "global state" left over is usually tiny. The State Fundamentals module of the React State Management track covers each kind and its tools in depth; this lesson is about using the classification as an architecture decision.
+Every kind has a natural home. Put each piece of state in its home and the "global state" left over is usually tiny. The State Fundamentals module of the State Management track covers each kind and its tools in depth; this lesson is about using the classification as an architecture decision.
 
 ## One home per kind
 

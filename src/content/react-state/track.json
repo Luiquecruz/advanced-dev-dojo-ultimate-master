@@ -1,9 +1,12 @@
 {
-  "engine": "react",
   "order": 3,
-  "title": "React State Management",
+  "title": "State Management",
   "shortTitle": "State",
   "monogram": "S",
-  "description": "From useState to state architecture: Context API, external stores, Zustand, Redux Toolkit, Jotai, MobX, Valtio, XState, TanStack Query and RTK Query, and how to choose the right tool for each kind of state.",
-  "version": "React 19.3 · Zustand 5 · RTK 2 · Jotai 3 · TanStack Query 5"
+  "description": "State ownership and architecture with framework-specific paths: React local state, Context, Zustand, Redux Toolkit, Jotai, XState and query caches; Angular signal services, NgRx SignalStore and classic NgRx Store.",
+  "version": "React 19.3 \u00b7 Angular 22 \u00b7 NgRx 22 \u00b7 Zustand 5 \u00b7 RTK 2 \u00b7 TanStack Query 5",
+  "languages": [
+    "react",
+    "angular"
+  ]
 }

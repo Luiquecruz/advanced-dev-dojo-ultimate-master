@@ -23,7 +23,7 @@ Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform f
 | --- | --- | --- | --- |
 | TypeScript | TypeScript compiler in Web Workers | 82 | types, narrowing, generics, type-level programming, tooling |
 | React | React | 100 | hooks, performance, React 19, routing, data fetching, forms, testing |
-| React State Management | React | 26 | Context, Zustand, Redux Toolkit, Jotai, XState, TanStack Query, state architecture |
+| State Management | React and Angular, by lesson | 30 | React state and query libraries, Angular signal services, NgRx SignalStore and Store, state architecture |
 | Frontend Architecture | React | 41 | static pages, MVC, SPA, SSR, streaming, SSG, ISR, islands, RSC, web vitals, feature-based and hexagonal code, URL state, modular monolith, BFF, micro-frontends, monorepos, Module Federation, ADRs |
 | AI Engineering | Node.js and Python (Pyodide), chosen per challenge | 122 | models, context, tools and MCP, RAG, knowledge graphs, memory, agents, harness and loops, multi-agent, evals, security, governance, agentic engineering |
 | Node.js | in-browser Node runtime + Hono | 77 | runtime, async, core modules, HTTP, REST APIs, persistence, security, scaling |

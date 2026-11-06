@@ -72,7 +72,7 @@ const productsQuery = useQuery(productQueries.list(searchTerm));
 
 Components never call `fetch` and never invent keys. Many teams add one more thin layer of custom hooks (`useProducts(searchTerm)`) when a query needs extra logic, but the factory alone already removes the duplication. The rule is easy to enforce: a lint rule or an architecture test that fails when `fetch(` appears outside `shared/api`.
 
-How the cache itself behaves (staleness, `select`, dependent queries, mutations) is covered in the React State Management track; this lesson is about **where** the code lives.
+How the cache itself behaves (staleness, `select`, dependent queries, mutations) is covered in the State Management track; this lesson is about **where** the code lives.
 
 ## Pitfalls
 
