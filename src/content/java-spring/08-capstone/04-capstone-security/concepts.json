@@ -1,0 +1,8 @@
+[
+  { "term": "Resource server", "description": "An API that accepts bearer tokens and validates them on each request instead of keeping a login session." },
+  { "term": "Stateless filter chain", "description": "A Spring Security configuration that creates no HTTP session, so every request must carry its own credential." },
+  { "term": "JWT claims", "description": "The signed fields of a token, such as subject, expiry and the roles claim that the API maps to authorities." },
+  { "term": "Deny by default", "description": "A rule set that ends with anyRequest().denyAll(), so a route is open only when a rule says so." },
+  { "term": "CSRF protection", "description": "A defense against forged browser requests that rely on cookies, which is not needed when a script attaches the bearer token itself." },
+  { "term": "jwt() post-processor", "description": "A MockMvc helper that fabricates an authenticated JWT principal with chosen authorities, so tests need no real token." }
+]

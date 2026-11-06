@@ -1,0 +1,31 @@
+{
+  "title": "Capstone: Persistence and Migrations",
+  "summary": "A project stage that puts the catalog on PostgreSQL: Flyway migrations, Hibernate validation, a lazy relationship with an entity graph, database paging, soft delete and Testcontainers integration tests.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "project"
+  ],
+  "resources": [
+    {
+      "label": "Spring Data JPA reference",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/"
+    },
+    {
+      "label": "Spring Boot: Database initialization and migration tools",
+      "url": "https://docs.spring.io/spring-boot/how-to/data-initialization.html"
+    },
+    {
+      "label": "Flyway documentation",
+      "url": "https://documentation.red-gate.com/fd/"
+    },
+    {
+      "label": "Testcontainers: PostgreSQL module",
+      "url": "https://java.testcontainers.org/modules/databases/postgres/"
+    },
+    {
+      "label": "Hibernate ORM documentation",
+      "url": "https://hibernate.org/orm/documentation/"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "term": "Schema migration", "description": "A versioned SQL file that Flyway applies once and records in its history table, so every environment evolves the schema the same way." },
+  { "term": "Schema validation", "description": "The Hibernate setting validate, which checks at startup that entities match the existing tables instead of changing them." },
+  { "term": "Entity graph", "description": "A declaration of which relationships to load in the same query, used to avoid one extra select per row." },
+  { "term": "Soft delete", "description": "Marking a row as deleted with a timestamp and filtering it from queries, so the data stays in the table." },
+  { "term": "Partial unique index", "description": "A unique index with a WHERE clause, such as one that applies only to rows that are not deleted." },
+  { "term": "Container test", "description": "An integration test that starts the real database in a Testcontainers container instead of an embedded substitute." }
+]

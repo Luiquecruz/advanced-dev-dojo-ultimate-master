@@ -7,8 +7,8 @@ Read [java-spring-track.md](java-spring-track.md) for the current scope and cont
 | Item | State |
 | --- | --- |
 | Identity | `java-spring`, Java and Spring Boot; content, feature flag, glyph, accent selector and verification use the same id |
-| Written here | Modules 01–07, 54 lessons; current review and merge states are below |
-| Remaining backend work | Modules 08–08 are outside this branch; adapt and review them in the stack |
+| Written here | Modules 01–08, 59 lessons; current review and merge states are below |
+| Remaining backend work | All backend modules are written; finish review and merge gates |
 | Target | 8 required modules, 59 lessons; every lesson is theory and quiz with local practice |
 | Engines | No Java engine and no challenges; existing catalog engine metadata does not launch a workspace |
 | Release | Hidden; no accent color or visibility change. Java release no longer depends on Angular being shown |
@@ -16,7 +16,7 @@ Read [java-spring-track.md](java-spring-track.md) for the current scope and cont
 
 ## Preserved work and PR history
 
-The integrated combined draft is pushed on `archive/java-angular-fullstack` at `c6c1d0fa`. It preserves 68 lessons and the review fixes through `def2f756`, including the Angular form retry and stale-input guidance. The original draft branch `wip/java-modules-03-09` and all module branches are retained. The old WIP snapshot is incomplete; the archive is the integrated reuse source.
+The integrated combined draft is pushed on `archive/java-angular-fullstack` at `0edd8eea`. It preserves 68 lessons and the latest module 06–09 review fixes, including `def2f756`, `9fc96b2d`, `11361afc` and `ad58ef0e`, including the Angular form retry and stale-input guidance. The original draft branch `wip/java-modules-03-09` and all module branches are retained. The old WIP snapshot is incomplete; the archive is the integrated reuse source.
 
 PRs #50, #51, #53, #54 and #55 are merged and supply the first five modules. PRs #56–60 were closed as superseded by the owner's separation decision, without deleting their branches. The new backend PR sequence starts with `feat/java-spring-separation` in `/tmp/dojo-java-spring-separation`, based on reviewed main. i18n PR #52 remains unrelated planning work.
 
@@ -58,12 +58,14 @@ Java and Angular have independent feature flags and release checks. Do not turn 
 | PR | Purpose | State | Base |
 | --- | --- | --- | --- |
 | [#61](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | MERGED | `main` |
-| [#62](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/62) | feat(curriculum): add backend Spring Security module | OPEN | `main` |
-| [#63](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/63) | feat(curriculum): add backend quality and delivery module | OPEN | `main` |
-| [#65](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/65) | feat(curriculum): add backend course catalog capstone | OPEN | `feat/java-spring-delivery` |
+| [#62](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/62) | feat(curriculum): add backend Spring Security module | MERGED | `main` |
+| [#63](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/63) | feat(curriculum): add backend quality and delivery module | MERGED | `main` |
+| [#65](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/65) | feat(curriculum): add backend course catalog capstone | OPEN | `main` |
 
-Latest action: PR #63 synchronization: incorporated the current security branch including its review corrections; the delivery module remains independent of frontend frameworks.
+Latest action: Adapted module 08 into five backend-only capstone stages, with API contracts, persistence, token security and packaged delivery; the completed Java/Spring scope has 59 lessons.
 
 Module 06 security review addressed filter-chain ordering, JWT formats, CSRF references, anonymous versus authenticated denials and role hierarchy wiring.
 
-Module 07 review addressed the scoped detail route, localhost publishing, HTTP cache freshness and account changes, container build caching, actuator exposure and shutdown grace period. The MVC slice passed authentication, wrong-scope and not-found checks, and all 33 resource URLs were verified.
+Module 07 review addressed the scoped detail route, localhost publishing, HTTP cache freshness and account changes, container build caching, actuator exposure and shutdown grace period.
+
+Module 08 validation: 1,800 unfiltered content checks, eslint, typecheck, docs sync, API-only Compose validation and all 23 backend resource URLs pass.

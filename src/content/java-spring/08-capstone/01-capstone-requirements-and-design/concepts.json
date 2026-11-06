@@ -1,0 +1,8 @@
+[
+  { "term": "Testable requirement", "description": "A statement with a fixed input and an observable result, so a test can decide whether it holds." },
+  { "term": "Contract-first design", "description": "Writing the HTTP contract before the implementation so the server and the client are built against the same file." },
+  { "term": "OpenAPI document", "description": "A YAML or JSON description of the paths, parameters, schemas and responses of an HTTP API." },
+  { "term": "Decision record", "description": "A short note with the context, the choice and the consequence of one design decision, kept with the code." },
+  { "term": "Problem Details", "description": "The RFC 9457 error format, a JSON object with type, title, status and detail plus any extension fields." },
+  { "term": "Risk with mitigation", "description": "A named way the project could fail, paired with the step that reduces its likelihood or its impact." }
+]
