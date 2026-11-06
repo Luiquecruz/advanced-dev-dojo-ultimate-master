@@ -47,7 +47,7 @@ The original architecture sent every message between JavaScript and native code 
 - **TurboModules**: native modules loaded lazily and called through JSI.
 - **Codegen**: generates type-safe native glue from TypeScript specs.
 
-Compatibility: since **0.82** React Native runs **only** on the New Architecture, so a library that was never migrated needs a New Architecture build before you adopt it. **Hermes** is the default engine, and each React Native version pins the React version it ships with: check both before upgrading.
+Compatibility: since **0.82** React Native runs **only** on the New Architecture, so check each native library's compatibility (many unmigrated ones keep working through interoperability layers) before you adopt it. **Hermes** is the default engine, and each React Native version pins the React version it ships with: check both before upgrading.
 
 ## Expo: the recommended way to start
 

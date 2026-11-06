@@ -24,13 +24,13 @@
   {
     "question": "Your team is choosing a Node version for a new production API. Which choice is right?",
     "options": [
-      "The newest Current release that is not yet LTS, for the latest features",
+      "A release line still in its short-lived Current phase, for the latest features",
       "Whatever version is installed on the developer's laptop",
       "A supported LTS release, pinned in `engines`, `.nvmrc`, the Dockerfile and CI",
       "Node 16, because older versions are more stable"
     ],
     "answer": 2,
-    "explanation": "LTS releases receive fixes for about 30 months, a Current line that is not LTS is short-lived, and end-of-life versions get no security patches. Check which lines are supported on the Node.js release page and pin the version everywhere so environments agree."
+    "explanation": "LTS releases receive fixes for about 30 months, the Current phase of a line is short-lived, and end-of-life versions get no security patches. Check which lines are supported on the Node.js release page and pin the version everywhere so environments agree."
   },
   {
     "question": "An AI assistant adds `node-fetch`, `uuid` and `dotenv` to a new Node 24 project. What is the best review comment?",
