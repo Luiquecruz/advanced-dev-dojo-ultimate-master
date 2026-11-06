@@ -20,7 +20,7 @@ public class CourseApiApplication {
 
 ## Starters
 
-A starter is a dependency that pulls in a curated set of libraries for one purpose. In Spring Boot 4 the starters are named `spring-boot-starter-<technology>`, and each has a test companion named `spring-boot-starter-<technology>-test`. A project generated at start.spring.io with Java 25, Maven, Spring Web and Validation declares:
+A starter is a dependency that pulls in a curated set of libraries for one purpose. In Spring Boot 4 the starters are named `spring-boot-starter-<technology>`. Many have a test companion named `spring-boot-starter-<technology>-test`; check the starter list before adding one. A project generated at start.spring.io with Java 25, Maven, Spring Web and Validation declares:
 
 ```xml
 <parent>

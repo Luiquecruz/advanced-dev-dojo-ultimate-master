@@ -33,7 +33,7 @@ Annotations do nothing until something asks for validation. On a request body, a
 public ResponseEntity<CourseResponse> create(@Valid @RequestBody CourseRequest request) { /* ... */ }
 ```
 
-A violation makes Spring MVC throw `MethodArgumentNotValidException` before the method runs, and the response is a 400. For nested data, put `@Valid` on the nested component, including inside a collection, so each element is checked:
+A violation makes Spring MVC throw `MethodArgumentNotValidException` before the method runs, and the response is a 400. For nested data, put `@Valid` on the nested component, including inside a collection, so each non-null element is checked:
 
 ```java
 public record CohortRequest(
@@ -43,6 +43,8 @@ public record CohortRequest(
     public record Seat(@NotBlank String learner) { }
 }
 ```
+
+This example permits null elements. Reject them too with `List<@NotNull @Valid Seat>`.
 
 ## Constraints on parameters
 

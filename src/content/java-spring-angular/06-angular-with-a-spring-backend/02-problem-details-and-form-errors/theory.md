@@ -26,7 +26,7 @@ A server may add **extension members**, for example a list of invalid fields. Th
 }
 ```
 
-The member `errors` is not part of the standard. Its name and shape are a contract between the two teams.
+The member `errors` is not part of the standard. Its name and shape are a contract between the two teams. An empty `field` identifies an object-level failure, displayed in the form summary.
 
 ## Producing it in Spring
 
@@ -43,12 +43,13 @@ class ApiExceptionHandler {
         return problem;
     }
 
+    // Import org.springframework.validation.FieldError.
     record FieldProblem(String field, String message) { }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ProblemDetail handleValidation(MethodArgumentNotValidException exception) {
-        List<FieldProblem> errors = exception.getBindingResult().getFieldErrors().stream()
-                .map(error -> new FieldProblem(error.getField(),
+        List<FieldProblem> errors = exception.getBindingResult().getAllErrors().stream()
+                .map(error -> new FieldProblem(error instanceof FieldError fieldError ? fieldError.getField() : "",
                         String.valueOf(error.getDefaultMessage())))
                 .toList();
         return validationProblem(errors);
@@ -112,15 +113,17 @@ await submit(this.signupForm, async (root) => {
       return { kind: 'server', message: 'Something went wrong, try again' };
     }
     const fields = { name: root.name, email: root.email } as const;
-    const fieldErrors = (error.error.errors ?? []).flatMap(({ field, message }) =>
-      Object.hasOwn(fields, field) ? [{ fieldTree: fields[field as keyof typeof fields], kind: 'server', message }] : [],
+    const submissionErrors = (error.error.errors ?? []).map(({ field, message }) =>
+      Object.hasOwn(fields, field)
+        ? { fieldTree: fields[field as keyof typeof fields], kind: 'server', message }
+        : { kind: 'server', message },
     );
-    return fieldErrors.length > 0 ? fieldErrors : { kind: 'server', message: error.error.detail ?? 'Something went wrong, try again' };
+    return submissionErrors.length > 0 ? submissionErrors : { kind: 'server', message: error.error.detail ?? 'Something went wrong, try again' };
   }
 });
 ```
 
-A submission error clears when the user edits the field it is attached to. Validation rules run again on every change, but a server answer is a one-time result.
+Render root submission messages from `signupForm().errors()` in a form summary, alongside each control’s errors. Object-level and unknown-field messages stay visible even when the same response includes known-field errors. A submission error clears when the user edits the field it is attached to. Validation rules run again on every change, but a server answer is a one-time result.
 
 Mapping through a fixed table of known fields, instead of indexing the form with any string from the server, keeps a bad server value from reaching code that expects a real field.
 

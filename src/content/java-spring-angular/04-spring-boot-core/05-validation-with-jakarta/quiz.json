@@ -22,15 +22,15 @@
     "explanation": "Constraints other than the not-null family accept null so they can be combined. A required field needs @NotNull or @NotBlank in addition."
   },
   {
-    "question": "A required `durationHours` is declared as `@Min(1) int` and the client sends `{}`. What reaches the service?",
+    "question": "A request record declares `@Min(1) int durationHours`. The controller uses `@Valid @RequestBody` without a `BindingResult`, and the client sends `{}`. What happens?",
     "options": [
       "null",
-      "0, which then fails @Min(1) with an unhelpful message about the minimum",
+      "Jackson supplies 0, which fails @Min(1) before the controller and service run",
       "An exception from Jackson only",
       "1, the minimum value"
     ],
     "answer": 1,
-    "explanation": "A primitive cannot be null, so the missing field becomes 0. Declaring Integer with @NotNull reports that the field is missing instead."
+    "explanation": "A primitive cannot be null, so Jackson supplies 0. @Valid rejects it before the controller method and service run. Integer with @NotNull reports a missing value instead."
   },
   {
     "question": "A controller declares `@PathVariable @Positive long id` and a client calls `/api/courses/-5`. A validation handler only covers `MethodArgumentNotValidException`. What is the result?",
