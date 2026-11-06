@@ -337,7 +337,7 @@ Brand and vocabulary: the product is **Constela Mission**, a space-mission theme
 
 The storage key stays `dev-dojo:progress:v1` so saved progress survives the rename. Internal `dojo` identifiers are kept on purpose because they are API surface, pinned or compared by CI: `@dojo/ai`, `dojo_ai`, `dojo_harness.py`, `DojoHost`/`Dojo.Testing` and the C# `using Dojo;` namespace (hashed into `vendor/dotnet/manifest.json`), `virtual:dojo-content`, the `dojo-pyodide`/`dojo-dotnet` meta tags (the deploy smoke test reads them), the `DOJO_*` variables of `tests/python` and the `.dojo-preview-*` classes of `sandbox.html`. The repository (`advanced-dev-dojo-ultimate-master`) and the Sentry project keep their names. New identifiers use `constela` (package `constela-mission`, Monaco theme `constela`, docs-sync state `constela-docs-sync`).
 
-Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue` and `angular`; a track built in stacked pull requests stays hidden until the part that completes it). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
+Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue` and `java-spring`; a track built in stacked pull requests stays hidden until the part that completes it). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
 
 ### Track logos
 
@@ -356,11 +356,11 @@ Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
 - At least 30° of hue away from the accent of every other track shown to learners, so tracks stay distinguishable (also for color-blind users; the logo glyph and title are the second cue). Tracks hidden in `src/content/featureFlags.ts` never share a screen with the others and are left out; enabling one whose hue collides fails the test, and the accents are revisited then.
 - `--accent-rgb` must be the same color as `--accent` written as `R G B`.
 
-Current accents and their hues. Python took the last band 30° away from every accent (around 123°), so the rule now counts only the tracks shown to learners: C# uses the band of the hidden Angular track (about 358°), and System Design uses Vue's band (about 160°, between Python and TypeScript), free while Vue stays hidden.
+Current accents and their hues. Angular and Frontend Architecture use separate bands to keep all published tracks at least 30° apart. Hidden Vue and Java/Spring may share a band until their release colors are chosen.
 
 | Track | Accent | Hue |
 | --- | --- | --- |
-| architecture | `#ffb547` | 36° |
+| architecture | `#ffad63` | 28° |
 | ai-engineering | `#f07ad9` | 312° |
 | node | `#9be15d` | 92° |
 | python | `#62e869` | 123° |
@@ -369,8 +369,9 @@ Current accents and their hues. Python took the last band 30° away from every a
 | typescript | `#4dd9ff` | 193° |
 | react | `#8c8cff` | 240° |
 | react-state | `#d29cff` | 273° |
-| angular (hidden) | `#ff6b81` | 351° |
+| angular | `#f2f466` | 61° |
 | csharp | `#ff7a7f` | 358° |
+| java-spring (hidden) | `#ffa24d` | 29° |
 
 ## Adding a framework track (step by step)
 
