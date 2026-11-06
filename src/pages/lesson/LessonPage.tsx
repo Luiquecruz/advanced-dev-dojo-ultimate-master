@@ -65,6 +65,12 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   }, [track.id, lesson.key]);
 
   useEffect(() => {
+    if (document.activeElement === document.body) {
+      document.querySelector<HTMLElement>('[data-activity-title]')?.focus({ preventScroll: true });
+    }
+  }, [lesson.key]);
+
+  useEffect(() => {
     setMonitoringTags({ track: track.id, lesson: lesson.id, engine: challenge ? engine : undefined, language: challenge?.language });
     return () => setMonitoringTags({ track: undefined, lesson: undefined, engine: undefined, language: undefined });
   }, [track.id, lesson.id, engine, challenge]);
