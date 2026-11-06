@@ -26,7 +26,7 @@ function rgbTripletToHex(triplet: string): string {
 /**
  * Persistent ambient background: a static CSS layer plus the WebGL scene, loaded after the first paint.
  */
-export function AmbientScene({ state, trail, focus, renderMode }: SceneTarget) {
+export function AmbientScene({ state, trail, focus, mass, renderMode }: SceneTarget) {
   const layerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const accentApplied = useRef(false);
@@ -66,6 +66,10 @@ export function AmbientScene({ state, trail, focus, renderMode }: SceneTarget) {
   useEffect(() => {
     scene?.setFocus(focus);
   }, [scene, focus]);
+
+  useEffect(() => {
+    scene?.setMass(mass);
+  }, [scene, mass]);
 
   useEffect(() => {
     scene?.setRenderMode(renderMode);

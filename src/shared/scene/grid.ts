@@ -8,7 +8,8 @@ const GRID_HEIGHT = -2.2;
 
 /**
  * Radial ground grid drawn by a shader: rings and spokes around a point ahead of the camera, curved down into a well
- * like the classic picture of mass bending space. Fades with distance and is brighter towards the horizon.
+ * like the classic picture of mass bending space. The well sinks deeper the more content the shown track has (`uMass`).
+ * Fades with distance and is brighter towards the horizon.
  */
 export function createGrid(uniforms: Record<string, IUniform>): Mesh<PlaneGeometry, ShaderMaterial> {
   const material = new ShaderMaterial({

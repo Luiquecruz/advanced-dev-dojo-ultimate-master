@@ -8,6 +8,7 @@ export interface SceneTarget {
   state: SceneState;
   trail?: string;
   focus: number;
+  mass: number;
   renderMode: RenderMode;
 }
 
@@ -16,6 +17,7 @@ export interface SceneStats {
   frameMs: number;
   tier: PerformanceTier;
   particles: number;
+  mass: number;
   pixelRatio: number;
   renderMode: RenderMode;
   renderers: number;
@@ -29,6 +31,7 @@ export interface SceneAPI {
   setAccent(hex: string, durationMs?: number): void;
   setSceneState(state: SceneState): void;
   setFocus(amount: number): void;
+  setMass(amount: number): void;
   setPointer(x: number, y: number): void;
   setRenderMode(mode: RenderMode): void;
   resize(): void;
