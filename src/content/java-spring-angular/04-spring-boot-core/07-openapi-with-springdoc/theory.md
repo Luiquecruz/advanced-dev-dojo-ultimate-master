@@ -25,7 +25,17 @@ The generated document declares OpenAPI 3.1.0 by default; set `springdoc.api-doc
 
 ## What is generated
 
-springdoc reads the mappings, parameter types, return types and the Jakarta Validation annotations. For the `CourseRequest` record, the schema in the document is:
+springdoc reads the mappings, parameter types, return types and the Jakarta Validation annotations. The `description` and `example` below come from an explicit annotation on the title component, not from validation alone:
+
+```java
+public record CourseRequest(
+        @Schema(description = "Display title", example = "Java Basics")
+        @NotBlank @Size(max = 80) String title,
+        @NotNull Level level,
+        @NotNull @Min(1) @Max(200) Integer durationHours) { }
+```
+
+For this record, springdoc 3.2.0 generates:
 
 ```json
 "CourseRequest": {
@@ -39,7 +49,7 @@ springdoc reads the mappings, parameter types, return types and the Jakarta Vali
 }
 ```
 
-`@NotNull` and `@NotBlank` became `required`, `@Size` became `maxLength`, and `@Min` and `@Max` became `minimum` and `maximum`. The rules written once for the server now also describe the client's obligations.
+`@NotNull` and `@NotBlank` became `required`, `@Size` became `maxLength`, and `@Min` and `@Max` became `minimum` and `maximum`. `required` means the property must be present; it does not prohibit an empty string or whitespace. The generated `minLength: 0` does not express `@NotBlank`, so clients must implement the nonblank rule separately and still handle server validation failures.
 
 ## Enriching the document
 

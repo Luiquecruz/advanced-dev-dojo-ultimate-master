@@ -30,7 +30,7 @@
       "Enums are cached by the JVM"
     ],
     "answer": 1,
-    "explanation": "A modifying query bypasses the persistence context. Using clearAutomatically = true, or reloading the entity, makes later reads see the new value."
+    "explanation": "A modifying query bypasses the persistence context. Use EntityManager.refresh on a managed instance, or clear the context and load a new instance. Clearing detaches the old reference; it does not update its fields."
   },
   {
     "question": "A search endpoint accepts optional level, title text and minimum lesson count, in any combination. Which approach scales best?",

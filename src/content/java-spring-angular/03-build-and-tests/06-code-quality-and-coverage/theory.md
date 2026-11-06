@@ -1,6 +1,6 @@
 # Code Quality and Coverage
 
-Passing tests tell you the code behaves in the cases you wrote. They do not tell you how many cases you missed, whether the assertions are strong, or whether the code is consistent and free of easy-to-spot defects. This lesson covers coverage with JaCoCo and what it can and cannot tell you, mutation testing as a stronger check, compiler warnings and static analysis, and automatic formatting. All of it runs inside `mvn verify`.
+Passing tests tell you the code behaves in the cases you wrote. They do not tell you how many cases you missed, whether the assertions are strong, or whether the code is consistent and free of easy-to-spot defects. This lesson covers coverage with JaCoCo and what it can and cannot tell you, mutation testing as a stronger check, compiler warnings and static analysis, and automatic formatting. The examples run coverage and compiler checks through `mvn verify`; PIT and Spotless use separate Maven commands unless you bind their goals to the lifecycle.
 
 You need: Maven and the Project Layout, JUnit Jupiter in Depth, Test Doubles and Mockito.
 
@@ -26,7 +26,7 @@ Code coverage records which code ran during the tests. JaCoCo attaches a Java ag
 </plugin>
 ```
 
-`mvn verify` then writes `target/site/jacoco/index.html`, with each class and line colored by whether it ran. Read the report for the red lines, not for the percentage. In the library catalog project, the untested `Main` class alone leaves line coverage at 70 percent while every rule class is fully covered, so an overall number can mislead in both directions. If you set the `argLine` property yourself, include `@{argLine}` in it so the JaCoCo agent is not replaced.
+`mvn verify` then writes `target/site/jacoco/index.html`, with each class and line colored by whether it ran. Read the report for the red lines, not for the percentage. In the library catalog project, the untested `Main` class alone leaves line coverage at 70 percent while every rule class is fully covered, so an overall number can mislead in both directions. If you configure Surefire's `<argLine>`, include `@{argLine}` before extra JVM arguments to preserve the JaCoCo agent. Keep an empty Maven `<argLine/>` property for builds that skip the agent; do not put the placeholder inside that property itself.
 
 ## What coverage cannot tell you
 

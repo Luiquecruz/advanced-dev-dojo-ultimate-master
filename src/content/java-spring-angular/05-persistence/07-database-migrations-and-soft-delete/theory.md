@@ -39,7 +39,7 @@ Flyway records each applied script and its checksum in the `flyway_schema_histor
 
 ## Writing migrations that are safe to deploy
 
-During a rolling deployment the old and new application versions run against the same database. Make changes in steps that both versions tolerate: add a nullable column first, backfill it, deploy code that writes it, then add the `NOT NULL` constraint in a later migration. Do the same for renames: add the new column, copy, switch the code, and remove the old column afterwards. Test migrations against the same database engine as production, as the project does with Testcontainers, because an in-memory database accepts different SQL.
+During a rolling deployment the old and new application versions run against the same database. Make changes in steps that both versions tolerate: add a nullable column first, backfill it, deploy code that writes it, and wait until all old writers and their in-flight writes have stopped. Backfill any remaining nulls before adding `NOT NULL` in a later migration. Do the same for renames: add the new column and keep old and new columns synchronized with a database trigger or an explicit compatible dual-write strategy while both application versions run. Backfill, switch reads, drain all old writers and their in-flight writes, verify consistency, deploy a version that no longer reads or writes the old column, then drain every earlier version and its in-flight operations. Only after that may a later migration remove the old column. In that migration, remove or update synchronization triggers and functions that reference it before dropping it; PostgreSQL may not track references inside string-literal function bodies, so inspect those dependencies explicitly. A one-time copy alone cannot preserve writes made afterward. Test migrations against the same database engine as production, as the project does with Testcontainers, because an in-memory database accepts different SQL.
 
 ## Soft delete
 
@@ -76,7 +76,7 @@ Restoring a row also needs a native `UPDATE`, because the restriction hides it f
 
 ## In practice
 
-Write a migration for every schema change, review it like code and keep each one small. Keep `validate` on, so a mapping change without a migration fails the build instead of production. Decide when soft-deleted rows are purged for good, with a scheduled job, so the table does not grow without limit.
+Write a migration for every schema change, review it like code and keep each one small. Keep `validate` on to catch mapping/schema mismatches at startup. To catch them during the build, run a database-backed application-context test in that build. Decide when soft-deleted rows are purged for good, with a scheduled job, so the table does not grow without limit.
 
 ## Check yourself
 

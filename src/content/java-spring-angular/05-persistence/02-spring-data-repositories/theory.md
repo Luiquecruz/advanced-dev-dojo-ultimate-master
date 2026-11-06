@@ -47,12 +47,12 @@ Always bind values with parameters like `:text`, never by concatenating strings,
 A query that changes data needs `@Modifying`:
 
 ```java
-@Modifying(clearAutomatically = true)
+@Modifying(flushAutomatically = true, clearAutomatically = true)
 @Query("update Course c set c.level = :replacement where c.level = :current")
 int changeLevel(Level current, Level replacement);
 ```
 
-The statement runs directly in the database. Entities already loaded in the persistence context keep their old values, and lifecycle callbacks do not run. `clearAutomatically = true` empties the context after the statement so later reads see the new rows. The method also needs a transaction, which lesson 4 explains.
+The statement runs directly in the database. Entities already loaded in the persistence context keep their old values, and lifecycle callbacks do not run. `flushAutomatically = true` flushes pending changes before the statement; otherwise clearing could discard unrelated edits. `clearAutomatically = true` detaches all instances after it, so a new load sees the new rows. Existing references keep their old fields; use `EntityManager.refresh` while an instance is managed when you need that reference updated. The method also needs a transaction, which lesson 4 explains.
 
 ## Projections
 
