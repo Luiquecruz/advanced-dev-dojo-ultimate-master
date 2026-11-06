@@ -52,3 +52,5 @@ Separation verification passed: 1,740 unfiltered content checks, 200 application
 ## Publication and future Full Stack
 
 Java and Angular have independent feature flags and release checks. Do not turn either on or change the palette in this workflow. Before Java is shown, choose a free accent and run its release checks and browser presentation review. A future Full Stack track can reuse the archived Angular/API integration, frontend auth and combined capstone; it is not registered as an empty or duplicate track now.
+
+Separation review: removed the last Angular reference in the README sequence and distinguished root-body global validation errors from nested-object error paths; clients display unmapped paths in the form summary.
