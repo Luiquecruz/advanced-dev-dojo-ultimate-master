@@ -10,7 +10,7 @@ The `csharp` engine grades C# challenges in the browser: the .NET 10 WebAssembly
 
 ## Giving a lesson a C# challenge
 
-1. The track's `track.json` declares `"engine": "csharp"` (a single-language track). C# is not in `content/languages.ts`; it is added there only if a multi-language track offers C# variants.
+1. The track's `track.json` declares `"engine": "csharp"` (a single-language track), or lists `"csharp"` in the `languages` of a multi-language track (`LANGUAGES.csharp` in `content/languages.ts`) and ships `variants/csharp/` in its lessons. Roslyn runs without source generators, so `[GeneratedRegex]`, `[LibraryImport]` and other generated code do not compile: use `new Regex(…)`.
 2. The lesson ships `starter.cs`, `solution.cs` (renamed to `Program.cs`) or `starter/` + `solution/` with `entry`, plus `tests.cs`, `hints.md`, `approach.md` and `meta.json` (written last). Format in CONTENT_GUIDE.md "C# engine".
    - The lesson also ships `challenge.md` (the task the Challenge tab shows, starting with prose, no H1). `tests.cs` has 3–6 tests, and exactly one carries `// beginner mistake: <the mistake>` on the line above its `[Test("…")]`. Mark the lesson **(challenge)** in CURRICULUM.md. The rules are in [06-content-standards.md](csharp-track/06-content-standards.md) "Lesson folder"; `csharp.test.ts` checks the test count, the marker and the missing H1.
 3. `src/verify/<track>.test.ts` grades the challenges with `defineChallengeSuite('<track>', csharpGrader())`. A track whose suite enforces theory and quizzes only (no challenge files) has to merge that standards check with the challenge suite, keeping the structure checks and dropping the "no challenge" rule.

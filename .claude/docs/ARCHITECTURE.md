@@ -246,7 +246,7 @@ No change is needed in the runner, sandbox, loader, pages or features: they read
 
 ## Multi-language challenges
 
-Generic tracks (AI Engineering today, more later) are not tied to one language: the learner picks the language of each challenge, and the same lesson ships one challenge per language. Registered languages: Node.js (`node` engine) and Python (`python` engine).
+Generic tracks (AI Engineering today, more later) are not tied to one language: the learner picks the language of each challenge, and the same lesson ships one challenge per language. Registered languages: Node.js (`node` engine), Python (`python` engine) and C# (`csharp` engine).
 
 ### Content
 
@@ -290,7 +290,7 @@ src/content/<track>/<NN-module>/<NN-lesson>/
 ### Adding a language (Python is the worked example)
 
 1. Build the engine (see [Adding a framework track](#adding-a-framework-track-step-by-step), [Adding a static track](#adding-a-static-non-dom-track) or [The Python engine](#the-python-engine)): a runtime that can stop runaway code (a worker for anything that cannot inject a loop guard), a test runner and the fake model exposed in that language.
-2. Register the engine (`EngineId`, `DEFAULT_ENTRY` such as `{ py: 'main.py' }`, sandbox, runner, `monacoSetup.ts` language for the file extension).
+2. Register the engine (`EngineId`, `DEFAULT_ENTRY` such as `{ py: 'main.py' }`, sandbox, runner, `monacoSetup.ts` language for the file extension) and describe its test file in `TEST_FILES` (`src/engines/testFiles.ts`: file name, test-name lister, and the line comment and test declaration of a `beginner mistake:` marker). The editor's test list (`runner.ts` `testNamesFor`) and every verify suite read test names and markers from there, so no suite repeats an engine's test syntax.
 3. Add the language to `LANGUAGES` (`python: { label: 'Python', engine: 'python' }`).
 4. List it in the `languages` of the tracks that will offer it and add `variants/python/` to their lessons.
 5. Add `defineChallengeSuite('<track>', <language>Grader(), '<language>')` to the track's verify suite (`pythonGrader()` for Python).
@@ -303,8 +303,8 @@ A worker engine (one that runs a downloaded language runtime) touches the same p
 | Serving | `plugins/pyodidePlugin.ts` (`pyodide/`, `dojo-pyodide` meta) | `plugins/dotnetPlugin.ts` (`dotnet/`, `dojo-dotnet` meta) |
 | Worker CSP | `CSP_WORKERS` in `plugins/pythonWorkerCspPlugin.ts` and a `netlify.toml` header per worker (`assets/python.worker-*`, `assets/csharp.worker-*`), checked by `scripts/python-track/check-worker-csp.mjs` | same |
 | Engine | `engines/python/` (worker, `browserClient.ts`, `lockdown.ts`, `protocol.ts`, `testNames.ts`, Python harness) | `engines/csharp/` (same files, `engine.ts`, C# `host/`); both lock-downs build on `engines/shared/workerLockdown.ts` |
-| Registration | `EngineId`, `DEFAULT_ENTRY.python = { py: 'main.py' }`, `runner.ts`, `monacoSetup.ts`, `content.test.ts` engine list | `EngineId`, `DEFAULT_ENTRY.csharp = { cs: 'Program.cs' }`, the same files |
-| Language | `LANGUAGES.python`, `variants/python/` in multi-language tracks; also the engine of the Python track | not in `LANGUAGES`; a single-language track declares `"engine": "csharp"` |
+| Registration | `EngineId`, `DEFAULT_ENTRY.python = { py: 'main.py' }`, `TEST_FILES.python`, `runner.ts`, `monacoSetup.ts`, `content.test.ts` engine list | `EngineId`, `DEFAULT_ENTRY.csharp = { cs: 'Program.cs' }`, `TEST_FILES.csharp`, the same files |
+| Language | `LANGUAGES.python`, `variants/python/` in multi-language tracks; also the engine of the Python track | `LANGUAGES.csharp`, `variants/csharp/` in multi-language tracks; also the engine of the C# track |
 | Verification | `verify/pythonSandbox.ts`, `pythonGrader()`, `pythonSandbox.test.ts`, `pythonEscapeScan.py` | `verify/csharpSandbox.ts`, `csharpGrader()`, `csharpSandbox.test.ts`, `csharpEscapeScan.ts` |
 | Ownership (`.github/CODEOWNERS`) | `lockdown.ts`, the CSP plugin, `verify/pythonSandbox*.ts` | `lockdown.ts`, `csharp.worker.ts`, `host/`, `verify/csharpSandbox*.ts`, `verify/csharpEscapeScan.ts`, `vendor-dotnet.mjs`, `WebcilConvert.cs`, `plugins/netlify-dotnet-cache/`, `vendor/dotnet/manifest.json`, `dotnetPlugin.ts` |
 
