@@ -41,7 +41,7 @@ Modules 03 (modules and imports) and 11 (the import system): an environment is m
 4. Testing with `unittest` and `unittest.mock`, proven against broken copies of the code.
 5. The capstone: an async rules engine plus the ADR that sizes its deployment.
 
-Ruff lints and formats; its formatter is a drop-in replacement for Black and does not sort imports (the `I` rules do). Black, isort and pre-commit remain common alternatives. Type checkers include mypy, pyright and Astral's ty, which is still marked Beta on PyPI. This dojo runs Python 3.14. Sources: pypi.org and docs.astral.sh/ruff.
+Ruff lints and formats; its formatter is a drop-in replacement for Black and does not sort imports (the `I` rules do). Black, isort and pre-commit remain common alternatives. Type checkers include mypy, pyright and Astral's ty. This dojo runs Python 3.14. Sources: pypi.org and docs.astral.sh/ruff.
 
 ## When to choose it
 

@@ -40,7 +40,7 @@ Enforced by `pythonConventions.test.ts` unless marked *(review)*:
 - [ ] Each module has `module.json` and its first written lesson is `01-<module>-map`.
 - [ ] `python.test.ts` passes for the lesson; `curriculum.test.ts` passes after `npm run python:curriculum`.
 - [ ] A rewritten lesson leaves `src/verify/pythonPendingRewrite.ts` in the same change; an entry whose rules the lesson no longer breaks fails the suite.
-- [ ] Version-specific facts name the Python version and are verified against docs.python.org or the PEP *(review)*.
+- [ ] Version-specific facts name the version (Python, or the tool's or library's) and are verified against docs.python.org, the PEP or the project's own documentation *(review)*.
 - [ ] Anti-LeetCode, tests assert behavior and not printed text or `id()`/`is` on folded constants *(review)*.
 - [ ] Opened once per module in the browser: starter fails, solution passes, Run prints *(review)*.
 

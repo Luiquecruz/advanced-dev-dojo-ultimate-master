@@ -53,7 +53,7 @@ A Python program with type errors still runs, so the checker only protects you i
 - **pyright**: Microsoft's checker; it powers Pylance in VS Code and is known for fast, precise inference.
 - **ty** (Astral, the makers of uv and ruff) and **pyrefly** (Meta): newer checkers built as compiled native tools, aimed at very large codebases and editor speed.
 
-The checkers named here are mypy, pyright, pyrefly and ty (ty is still classified Beta on PyPI). Versions move monthly or faster; check each project's own history on PyPI before pinning.
+The checkers named here are mypy, pyright, pyrefly and ty. Versions move monthly or faster; check each project's own release history before pinning.
 
 Each checker infers a little differently, and new releases find new errors in unchanged code. Pin the checker version in your lock file and upgrade it on purpose, in its own change.
 

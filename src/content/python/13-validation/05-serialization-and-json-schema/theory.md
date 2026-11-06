@@ -32,7 +32,7 @@ print(sorted(Payment.model_json_schema(mode="serialization")["properties"]))
 - **Aliases.** `Field(alias="paidAt")` or a config-wide `alias_generator=to_camel` maps Python names to wire names. `validate_by_alias` and `validate_by_name` (Pydantic 2.11+) choose which names input may use; output uses aliases only with `by_alias=True` or `ConfigDict(serialize_by_alias=True)`. `validation_alias` and `serialization_alias` split the two directions. Error `loc` tuples use the alias the input used.
 - **Computed fields.** `@computed_field` on a `@property` adds a derived value to every dump and to the serialization schema, marked `readOnly`. It is output only: with `extra="forbid"`, sending the dumped `netAmount` back is an `extra_forbidden` error, which is the honest contract.
 - **Choosing fields.** `include=`, `exclude=`, `exclude_none=True`, `exclude_unset=True` (only what the input set), or `Field(exclude=True)` for a field that never leaves the process.
-- **JSON Schema.** `model_json_schema()` describes what validation accepts (`mode="validation"`, the default), `mode="serialization"` what dumps produce; they differ for computed fields and for types such as `Decimal` (input: number or string, output: string). Nested models go into `$defs`, constraints become keywords (`Field(gt=0)` is `exclusiveMinimum: 0`), and the output follows the JSON Schema dialect OpenAPI 3.1 uses.
+- **JSON Schema.** `model_json_schema()` describes what validation accepts (`mode="validation"`, the default), `mode="serialization"` what dumps produce; they differ for computed fields and for types such as `Decimal` (input: number or string, output: string). Nested models go into `$defs`, constraints become keywords (`Field(gt=0)` is `exclusiveMinimum: 0`), and the output follows JSON Schema draft `2020-12`, the base of the dialect OpenAPI 3.1 uses.
 
 Pitfall: a naive `datetime` is dumped without an offset (`2026-11-04T09:00:00`), and every reader will guess its timezone. Validate with `AwareDatetime` when timestamps must carry one.
 
@@ -54,7 +54,7 @@ payment.model_dump_json(by_alias=True)          # the same, as a JSON string
 
 v1 had `.dict()`, `.json()` and `.schema()`, aliases through `allow_population_by_field_name`, and `@property` values never appeared in output. v2 renamed them to `model_dump`, `model_dump_json`, `model_json_schema`, and added `computed_field`, `mode="json"`, and (in 2.11) `validate_by_name`/`validate_by_alias`/`serialize_by_alias`, which supersede `populate_by_name`.
 
-This sandbox runs Pydantic 2.12.5. In later 2.x releases, JSON validation (`model_validate_json`) counts a key matching only an unused alias or field name as extra data instead of silently dropping it, which matters for models that combine `extra="forbid"` with an alias generator. Sources: the Pydantic 2.12 docs "Serialization", "Alias" and "JSON Schema".
+This sandbox runs Pydantic 2.12.5. From Pydantic 2.14.2, JSON validation (`model_validate_json`) counts a key matching only an unused alias or field name as extra data instead of silently dropping it (2.14.1 and earlier drop it), which matters for models that combine `extra="forbid"` with an alias generator. Sources: the Pydantic 2.12 docs "Serialization", "Alias" and "JSON Schema".
 
 ## When to choose it
 
