@@ -24,7 +24,7 @@ The track adds what the reference project leaves out (Spring Security, observabi
 | Track id | `java-spring-angular` | Folder and route slug. |
 | Audience | Developers who know one language; module 00 teaches Java from zero | Under option B (a Java engine) module 00 is optional like the Python and C# ones: its last lesson is the skip test and one earlier lesson has a challenge (`src/verify/content.test.ts`), and it counts toward progress once a challenge lesson is complete. Under option A it has no challenge, so it cannot be optional by those rules: it is a required first module (numbered 1), unless the owners extend verification and progress tracking to allow an optional quiz-only module. |
 | Versions pinned | Java 25 (LTS), Spring Boot 4, Angular 22 | The versions the reference project and the Angular engine share. |
-| Angular part | Reuses the Angular engine; fundamentals link to the Angular track and are not repeated | The platform already teaches Angular 22 (zoneless, signals, Signal Forms); this track teaches the integration with a Spring back end. **Release gate:** the Angular track is hidden today (`TRACK_FLAGS`), and a link to a hidden track opens a missing page, so this track stays hidden until the Angular track is shown; if Angular stays hidden, module 05 carries its own short Angular fundamentals instead of links. |
+| Angular part | Reuses the Angular engine; fundamentals link to the Angular track and are not repeated | The platform already teaches Angular 22 (zoneless, signals, Signal Forms); this track teaches the integration with a Spring back end. **Release gate:** the Angular track already exists (53 lessons) and is hidden only by its flag in `TRACK_FLAGS`; a link to a hidden track opens a missing page, so the Angular flag is turned on in the same release that shows this track. Showing Angular needs a new accent first: its current one (hue 351 degrees) is within 30 degrees of C# (358), which `trackPresentation.test.ts` rejects. If Angular stays hidden, the Angular-with-Spring module carries its own short Angular fundamentals instead of links. |
 | Java and Spring challenges | **Open: see "Engine decision"** | There is no Java engine in the browser. |
 
 ## Engine decision
@@ -45,17 +45,19 @@ The licence question for B is a decision for the project owners, because the fre
 
 | Module | Lessons |
 | --- | --- |
-| **00 Java from zero** (optional only under option B; a required first module under option A) | values and variables, decisions and loops, methods, text and arrays, classes and objects, errors and exceptions, tests with JUnit; the last lesson is the skip test |
-| **01 The Java language** | records, enums and sealed types, interfaces and generics, collections, streams and `Optional`, exceptions in depth, concurrency basics, modules and packages |
-| **02 Build and tests** | Maven and the project layout, JUnit 5, Mockito, test slices, Testcontainers |
-| **03 Spring Boot core** | inversion of control and dependency injection, auto-configuration, configuration and profiles, REST controllers, Jakarta Validation, error handling with Problem Details, OpenAPI with springdoc |
-| **04 Persistence** | JPA and Hibernate, repositories, relationships, transactions, the N+1 problem, pagination, database migrations, soft delete, Open Session in View |
-| **05 Angular with a Spring back end** (c) | `HttpClient` and `httpResource`, mapping Problem Details to Signal Forms errors, pagination and sorting, route guards, CORS, a typed client generated from OpenAPI, smart and presentational components |
-| **06 Security** | Spring Security filter chain, sessions versus tokens, JWT and OAuth 2 resource servers, CSRF and CORS, method security, Angular interceptors and guards |
-| **07 Quality and delivery** | the test pyramid for both ends, Docker and Compose, CI, Actuator and Micrometer, caching, rate limiting, production configuration |
-| **08 Capstone** | a full-stack course catalog: Spring API with persistence, security and tests, and an Angular client |
+| **Java from zero** (module `00` and optional only under option B; module `01` and required under option A) | values and variables, decisions and loops, methods, text and arrays, classes and objects, errors and exceptions, tests with JUnit; the last lesson is the skip test |
+| **The Java language** | records, enums and sealed types, interfaces and generics, collections, streams and `Optional`, exceptions in depth, concurrency basics, modules and packages |
+| **Build and tests** | Maven and the project layout, JUnit 5, Mockito, test slices, Testcontainers |
+| **Spring Boot core** | inversion of control and dependency injection, auto-configuration, configuration and profiles, REST controllers, Jakarta Validation, error handling with Problem Details, OpenAPI with springdoc |
+| **Persistence** | JPA and Hibernate, repositories, relationships, transactions, the N+1 problem, pagination, database migrations, soft delete, Open Session in View |
+| **Angular with a Spring back end** (c) | `HttpClient` and `httpResource`, mapping Problem Details to Signal Forms errors, pagination and sorting, route guards, CORS, a typed client generated from OpenAPI, smart and presentational components |
+| **Security** | Spring Security filter chain, sessions versus tokens, JWT and OAuth 2 resource servers, CSRF and CORS, method security, Angular interceptors and guards |
+| **Quality and delivery** | the test pyramid for both ends, Docker and Compose, CI, Actuator and Micrometer, caching, rate limiting, production configuration |
+| **Capstone** | a full-stack course catalog: Spring API with persistence, security and tests, and an Angular client |
 
-Module 05 is the only graded one under option A. Option B would add Java challenges to modules 00 to 02.
+Under option A the Angular-with-Spring module is the only graded one. Option B would add Java challenges to the Java from zero, language and build modules.
+
+Folder numbers: under option A the modules are `01` to `09` in the order above (Java from zero is `01`, the Angular-with-Spring module is `06`), because a required module cannot be numbered `00`; under option B module `00` is the optional Java from zero and the others are `01` to `08`.
 
 ## Content standards
 
