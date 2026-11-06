@@ -49,7 +49,7 @@ tags.add("java");        // false, size stays 1
 
 ## Map
 
-A `Map` stores key-value pairs with unique keys. `get` returns `null` for a missing key, which is a common source of `NullPointerException`; the other methods avoid it:
+A `Map` stores key-value pairs with unique keys. `get` returns `null` for a missing key, which can cause `NullPointerException` when dereferenced. `getOrDefault` supplies a fallback only for an absent key; a key mapped to `null` still returns `null`:
 
 ```java
 Map<String, Integer> stock = new HashMap<>();
@@ -72,18 +72,30 @@ for (String word : List.of("apple", "avocado", "banana")) {
 Hash-based collections find an element by `hashCode()` first, then confirm with `equals`. If two objects are equal they must have the same hash code. A class `Bad` that overrides only `equals` breaks this:
 
 ```java
+class Bad {
+    private final String id;
+    Bad(String id) { this.id = id; }
+    @Override public boolean equals(Object other) {
+        return other instanceof Bad bad && id.equals(bad.id);
+    }
+    // Deliberately missing hashCode: this breaks the contract.
+}
+
 Set<Bad> set = new HashSet<>();
 set.add(new Bad("x"));
-set.contains(new Bad("x"));    // false, although equals returns true
+set.contains(new Bad("x"));    // may be false, although equals returns true
 ```
 
-The two objects land in different buckets, so `equals` is never asked. A record generates both methods from its components, so `Set<Book>` with `record Book(String title, int year)` behaves correctly. Also never mutate a field that feeds `hashCode` while the object sits in a hash collection.
+If the objects have different hash codes, the lookup can fail before `equals` is checked. If their hash codes happen to match, `contains` can return `true`; this broken contract makes lookup unreliable. A record generates both methods from its components, so `Set<Book>` with `record Book(String title, int year)` behaves correctly. Also never mutate a field that feeds `hashCode` while the object sits in a hash collection.
 
 ## Sorting with Comparator
 
 `list.sort` takes a `Comparator`, which you build from key extractors and chain with `thenComparing`:
 
 ```java
+record Book(String title, int year) { }
+List<Book> shelf = new ArrayList<>(List.of(
+        new Book("Dune", 1965), new Book("Emma", 1815)));
 shelf.sort(Comparator.comparingInt(Book::year)
         .thenComparing(Book::title, Comparator.reverseOrder()));
 ```
@@ -104,7 +116,7 @@ An unmodifiable view blocks changes through the view, but it reflects changes ma
 ## Common mistakes
 
 - Removing elements from a list inside a `for-each` loop. The loop usually throws `ConcurrentModificationException`; use `list.removeIf(...)` or an explicit iterator.
-- Calling `map.get(key)` and using the result directly. A missing key gives `null`; use `getOrDefault` or check first.
+- Calling `map.get(key)` and using the result directly. A missing key gives `null`; use `getOrDefault` for absence and check for explicit null values when the map permits them.
 - Overriding `equals` without `hashCode`, so a `HashSet` or `HashMap` cannot find equal objects.
 - Treating `Collections.unmodifiableList` as a snapshot. Later changes to the source show through.
 

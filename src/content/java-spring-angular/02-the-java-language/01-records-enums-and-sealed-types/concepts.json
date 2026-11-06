@@ -5,5 +5,5 @@
   { "term": "permits", "description": "The clause of a sealed type that names the allowed subtypes, which the compiler infers when they share the source file." },
   { "term": "Record pattern", "description": "A pattern that matches a record type and extracts its components into variables in switch or instanceof." },
   { "term": "Exhaustive switch", "description": "A switch that covers every constant or permitted subtype, so it needs no default and fails to compile when a case is missing." },
-  { "term": "Guard", "description": "A when condition added to a case label that narrows the match, placed after the more general pattern is ruled out." }
+  { "term": "Guard", "description": "A Boolean condition in a when clause that narrows a case pattern; an unguarded case with the same pattern cannot precede it." }
 ]

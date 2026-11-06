@@ -39,6 +39,8 @@ Java has four access levels:
 A class without a modifier is visible only inside its own package, which makes it an implementation detail:
 
 ```java
+package com.example.library.catalog;
+
 public class Shelf {
     private final Book[] books = new Book[1];
     int version = 1;                  // package-private

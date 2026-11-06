@@ -1,5 +1,5 @@
 [
-  { "term": "Value object", "description": "A record whose constructor validates its data so an invalid instance can never exist." },
+  { "term": "Value object", "description": "An object defined by equality of its values rather than identity; records and constructor validation are possible implementation choices." },
   { "term": "Sealed result type", "description": "A sealed interface of records that models every outcome of an operation, such as loaned, already loaned or unknown." },
   { "term": "Exhaustive switch", "description": "A switch over a sealed type without default, so adding a case becomes a compile error until it is handled." },
   { "term": "putIfAbsent", "description": "A Map method that stores a value only when the key is new and returns the existing value otherwise." },

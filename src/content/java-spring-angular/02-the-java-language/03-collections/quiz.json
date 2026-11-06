@@ -1,14 +1,14 @@
 [
   {
-    "question": "A loop `for (String item : items) { if (item.isEmpty()) items.remove(item); }` runs on an `ArrayList`. What typically happens?",
+    "question": "A loop `for (String item : items) { if (item.isEmpty()) items.remove(item); }` runs on an `ArrayList` containing an empty string and other items. What risk does this introduce?",
     "options": [
       "Empty strings are removed and the loop finishes normally",
       "The list becomes immutable",
-      "A ConcurrentModificationException is thrown on a later iteration",
+      "A ConcurrentModificationException can be thrown on a later iteration",
       "The compiler rejects the code"
     ],
     "answer": 2,
-    "explanation": "The for-each loop uses an iterator that detects a structural change made behind its back. Use items.removeIf(String::isEmpty) instead."
+    "explanation": "The iterator detects structural changes made outside it on a best-effort basis; an exception is possible, not guaranteed. Use items.removeIf(String::isEmpty) instead."
   },
   {
     "question": "A counter map needs to add one to the count of each word, creating the entry the first time. Which call does that in one step?",

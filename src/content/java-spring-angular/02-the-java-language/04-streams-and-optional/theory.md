@@ -45,7 +45,7 @@ For three books by Herbert and Austen, the first map holds `Austen=2` and `Herbe
 
 ## Laziness
 
-Intermediate operations do nothing until a terminal operation runs, and elements flow through the whole pipeline one at a time:
+Intermediate operations defer processing until a terminal operation runs. In a sequential pipeline, stateless operations such as `map` and `filter` can process elements incrementally; stateful operations such as `sorted` may need the full input before producing results:
 
 ```java
 Stream<String> lazy = books.stream().map(book -> {

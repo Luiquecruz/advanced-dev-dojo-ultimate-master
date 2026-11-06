@@ -89,7 +89,7 @@ Both give exactly 200,000. Reads need the same lock as writes; otherwise a threa
 
 ## Immutability
 
-The simplest fix is to share nothing that changes. A record, or a class whose fields are all `final` and refer only to immutable values (numbers, `String`, or a `List.copyOf` copy), can be passed between threads freely, because no thread can modify it. Replace a shared mutable counter with tasks that return values and combine the results in one place, as `thenCombine` does above.
+The simplest fix is to share nothing that changes. A record or a class with `final` fields is immutable only when every referenced component is also immutable. `List.copyOf` prevents structural changes but does not freeze its elements: each element must be immutable too. Such immutable objects can be shared safely because no thread can change their state. Replace a shared mutable counter with tasks that return values and combine the results in one place, as `thenCombine` does above.
 
 ## Common mistakes
 

@@ -22,7 +22,7 @@
     "explanation": "putIfAbsent returns the existing value when the key is present, so a non-null result means a duplicate, and the original entry is kept."
   },
   {
-    "question": "`searchByTitle` calls `books.stream().filter(...).toList()` and then `result.sort(Comparator.comparing(Book::title))`. What happens?",
+    "question": "In `Catalog`, `books` is a `Map<String, Book>`. `searchByTitle` calls `books.values().stream().filter(...).toList()` and then `result.sort(Comparator.comparing(Book::title))`. What happens?",
     "options": [
       "The list is sorted by title",
       "An UnsupportedOperationException, because toList() returns an unmodifiable list; sort inside the pipeline instead",
