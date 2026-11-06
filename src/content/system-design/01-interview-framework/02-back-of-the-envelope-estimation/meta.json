@@ -1,0 +1,11 @@
+{
+  "title": "Back-of-the-Envelope Estimation",
+  "summary": "Turn daily active users into average and peak requests per second, split reads from writes, size storage with retention and replication, and reason with powers of two and latency orders of magnitude.",
+  "level": "intermediate",
+  "tags": ["practice", "core", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "Google SRE workbook: Non-Abstract Large System Design", "url": "https://sre.google/workbook/non-abstract-design/" },
+    { "label": "Google SRE book: Software Engineering in SRE (capacity planning)", "url": "https://sre.google/sre-book/software-engineering-in-sre/" }
+  ]
+}

@@ -1,0 +1,5 @@
+Start from the day: `requests_per_day = daily_active_users * requests_per_user_per_day`. Every QPS value is "something per day" divided by `SECONDS_PER_DAY` (86,400), never by 3,600 (seconds in an hour) or 1,440 (minutes in a day).
+---
+Keep `requests_per_day` unrounded and derive each QPS from it with its own `math.ceil`: `math.ceil(requests_per_day * peak_factor / SECONDS_PER_DAY)`. Rounding the average first and then multiplying gives `2316` instead of `2315` in the tests.
+---
+Round the writes per day once, half up, with `math.floor(requests_per_day * write_ratio + 0.5)` (it is a count, and `0.1` is not exact in floating point), then multiply it by bytes, days and replicas. `round()` does not fit here: it rounds a half to the even number, so `round(500.5)` is `500`. For `format_bytes`, keep `UNITS = ["B", "KB", "MB", "GB", "TB", "PB"]` and loop with `while value >= 1000 and unit < len(UNITS) - 1:`, then round with `rounded = math.floor(value * 10 + 0.5) / 10` and print `int(rounded)` when `rounded.is_integer()`, so `1000.0` prints as `1000`.

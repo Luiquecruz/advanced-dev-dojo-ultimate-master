@@ -1,0 +1,9 @@
+[
+  { "term": "Vertical scaling", "description": "A bigger machine (more CPU and memory): no code changes, but a hard ceiling and still a single point of failure." },
+  { "term": "Horizontal scaling", "description": "More machines of the same size behind a load balancer; needs a stateless tier but has no hard ceiling." },
+  { "term": "Read replica", "description": "A copy of the database fed by the primary; it serves reads and may lag slightly behind the latest write." },
+  { "term": "CDN", "description": "A worldwide network of cache servers that delivers static files from an edge server near the user." },
+  { "term": "Geo DNS", "description": "DNS that answers each user with the address of the nearest healthy data center." },
+  { "term": "Message queue", "description": "A durable buffer between a producer that enqueues jobs and workers that process them later, so slow work leaves the request path." },
+  { "term": "Sharding", "description": "Splitting data across several databases by a key; it scales writes but makes cross-shard queries and rebalancing hard." }
+]

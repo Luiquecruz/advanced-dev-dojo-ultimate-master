@@ -1,0 +1,9 @@
+[
+  { "term": "Functional requirement", "description": "A feature the system must provide, such as \"users can shorten a URL\" or \"a short URL redirects to the original\"." },
+  { "term": "Non-functional requirement", "description": "A quality the system must have: availability, latency, consistency, durability or security, ideally with a number attached." },
+  { "term": "Scale numbers", "description": "Daily active users, requests per user, read/write ratio and retention: the inputs that turn a vague prompt into capacity targets." },
+  { "term": "Buy-in", "description": "Explicit agreement on the high-level design before the deep dive, so detailed work goes into the parts that matter." },
+  { "term": "Deep dive", "description": "Detailed design of the two or three components that carry the hard problems, chosen from the requirements." },
+  { "term": "Trade-off", "description": "What a choice gains and what it costs, stated against a requirement: option, benefit, cost, choice." },
+  { "term": "Wrap-up", "description": "The closing step: bottlenecks, failure modes and next steps for the design you proposed." }
+]

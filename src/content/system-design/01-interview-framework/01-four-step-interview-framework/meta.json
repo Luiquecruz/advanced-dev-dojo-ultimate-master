@@ -1,0 +1,11 @@
+{
+  "title": "The Four-Step System Design Framework",
+  "summary": "A repeatable structure for any design discussion: establish scope and scale, propose a high-level design and get buy-in, go deep where the requirements point, and wrap up with bottlenecks and failure modes.",
+  "level": "beginner",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Google SRE book: Service Level Objectives", "url": "https://sre.google/sre-book/service-level-objectives/" },
+    { "label": "AWS Well-Architected Framework", "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html" },
+    { "label": "Azure Architecture Center: Application architecture fundamentals", "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/" }
+  ]
+}
