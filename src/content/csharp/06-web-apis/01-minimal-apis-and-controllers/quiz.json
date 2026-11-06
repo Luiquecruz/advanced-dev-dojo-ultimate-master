@@ -2,13 +2,13 @@
   {
     "question": "In `Program.cs`, `var cart = new List<string>();` is captured by `app.MapPost(\"/cart\", (string sku) => cart.Add(sku));`. What happens in production?",
     "options": [
-      "Each request gets its own empty list, as in PHP-FPM",
+      "Each request gets its own empty list, because handlers run per request",
       "The list is recreated whenever the DI scope of a request ends",
       "One list, shared by every request and every user at once",
       "The compiler rejects lambdas that capture local variables in `Map` calls"
     ],
     "answer": 2,
-    "explanation": "The handler delegate is built once at startup, so the captured list lives as long as the process and is shared by every concurrent request: data leaks between users and `List<T>` is not thread-safe. The PHP-FPM intuition (a fresh graph per request) is the tempting wrong answer; in ASP.NET Core only DI scoped services and controllers are per request."
+    "explanation": "The handler delegate is built once at startup, so the captured list lives as long as the process and is shared by every concurrent request: data leaks between users and `List<T>` is not thread-safe. A fresh list per request is the tempting wrong answer: the lambda runs per request, but the variable it captured was created once; in ASP.NET Core only DI scoped services and controllers are per request."
   },
   {
     "question": "Your team starts a new catalog API on .NET 10 and has no special MVC needs. Which style matches Microsoft's current guidance?",

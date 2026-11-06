@@ -1,6 +1,6 @@
 {
   "title": "EF Core Basics",
-  "summary": "Mapping entities with a DbContext, registering it as a scoped unit of work, LINQ queries translated to SQL, and saving through the change tracker, compared with Magento repositories and resource models.",
+  "summary": "Mapping entities with a DbContext, registering it as a scoped unit of work, LINQ queries translated to SQL, and saving through the change tracker, and the mistakes that lose or split a save.",
   "level": "beginner",
   "tags": [
     "recommended",

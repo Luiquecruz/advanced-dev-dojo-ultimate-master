@@ -1,6 +1,6 @@
 [
   {
-    "question": "In Magento a leak disappears when the PHP-FPM request ends. Your .NET API's memory has grown for six hours under steady traffic. What is the right first step?",
+    "question": "Your .NET API's memory has grown for six hours under steady traffic. What is the right first step?",
     "options": [
       "Take a full `dotnet-dump` immediately, since only a dump can show memory",
       "Restart the pod every hour, since .NET processes are expected to grow",
@@ -19,7 +19,7 @@
       "The two counters disagree, so the diagnostic port is misconfigured"
     ],
     "answer": 1,
-    "explanation": "`total_allocated` is a running total of bytes allocated since start, so it always grows; the heap size after the last collection shows what survives. A flat survivor size means the GC frees what you allocate, so there is no leak to dump; if CPU or gen 0/1 counts are high, reduce allocations with lesson 02's tools. A leak looks different: `last_collection.heap.size` keeps climbing between collections."
+    "explanation": "`total_allocated` is a running total of bytes allocated since start, so it always grows; the heap size after the last collection shows what survives. A flat survivor size means the GC frees what you allocate, so there is no leak to dump; if CPU or gen 0/1 counts are high, reduce allocations with lesson 14/02's tools. A leak looks different: `last_collection.heap.size` keeps climbing between collections."
   },
   {
     "question": "An old runbook says `dotnet-trace collect -p 1234 --profile cpu-sampling`. On a current `dotnet-trace`, what should you run instead?",

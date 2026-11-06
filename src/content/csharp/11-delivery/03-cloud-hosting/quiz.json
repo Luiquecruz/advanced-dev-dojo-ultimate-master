@@ -1,6 +1,6 @@
 [
   {
-    "question": "A Magento team configured cron on one admin node. Their new .NET API runs a nightly export in a `BackgroundService` and is scaled to three replicas on Container Apps. What happens?",
+    "question": "A .NET API runs a nightly export in a `BackgroundService` and is scaled to three replicas on Container Apps. What happens?",
     "options": [
       "The platform detects the hosted service and runs it on one replica only, like a cron lock",
       "It runs three times a night, once per replica; move it to a scheduled job instead",
@@ -63,6 +63,6 @@
       "Chiseled images mount the whole file system read-only, so the writes silently fail"
     ],
     "answer": 0,
-    "explanation": "Replicas are disposable and each has its own file system, so local files exist on one instance and only until it is replaced. Shared files belong in external storage, as Magento's media folder belongs on shared storage across web nodes. The other options describe behaviours the platform does not have."
+    "explanation": "Replicas are disposable and each has its own file system, so local files exist on one instance and only until it is replaced. Shared files belong in external storage such as Azure Blob Storage or Amazon S3, which every replica reads and writes. Container Apps has no one-hour cleanup, and the `app` user can write to directories it owns, so the other options describe behaviours the platform does not have."
   }
 ]

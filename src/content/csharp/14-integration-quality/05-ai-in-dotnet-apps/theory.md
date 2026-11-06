@@ -2,11 +2,13 @@
 
 After this lesson you can call a language model from a .NET service through `Microsoft.Extensions.AI`, keep the provider swappable behind `IChatClient`, add caching, telemetry and tool calling as middleware, and decide when a feature needs the Microsoft Agent Framework instead. The engineering practice around models (prompt design, evaluation, cost and safety) is the subject of this platform's AI Engineering track; this lesson covers the .NET plumbing.
 
-## Coming from PHP/Magento
+You need: 04/04 (cancellation), 04/05 (`IAsyncEnumerable`), 05/02 (dependency injection), 09/02 (test doubles), 10/05 (`HttpClient` handlers and resilience) and 11/04 (OpenTelemetry).
 
-In PHP you usually call a model through the vendor's SDK or a plain Guzzle request to its REST API, inside a Magento service class, perhaps behind your own interface. Switching vendors means rewriting that class, and logging, caching and retries are hand-made.
+## One abstraction, many providers
 
-.NET has a shared abstraction instead. `Microsoft.Extensions.AI` defines `IChatClient`, which provider libraries implement, plus a builder that layers middleware around it, in the same spirit as the `HttpClient` handler pipeline from module 10 lesson 05. The trap is the PHP reflex of injecting the vendor SDK's own client class everywhere: the code then depends on one provider, and you lose the shared middleware, telemetry and test doubles.
+A language model is an external HTTP service: you send messages and get a response. Each vendor ships its own SDK, and code written against one SDK must be rewritten to switch vendors, with logging, caching and retries built by hand each time.
+
+`Microsoft.Extensions.AI` defines a shared abstraction instead: `IChatClient`, which provider libraries implement, plus a builder that layers middleware around it, in the same spirit as the `HttpClient` handler pipeline from 10/05. Application code depends on `IChatClient`; the provider is one registration line.
 
 ## The packages
 
@@ -32,7 +34,7 @@ ChatResponse response = await chat.GetResponseAsync(history, new ChatOptions { T
 Console.WriteLine(response.Text);
 ```
 
-`GetResponseAsync` takes the whole conversation; most services are stateless, so you append the response messages (`history.AddMessages(response)`) and send the list again on the next turn. `GetStreamingResponseAsync` returns an `IAsyncEnumerable<ChatResponseUpdate>` for token-by-token output (module 04 lesson 05).
+`GetResponseAsync` takes the whole conversation; most services are stateless, so you append the response messages (`history.AddMessages(response)`) and send the list again on the next turn. `GetStreamingResponseAsync` returns an `IAsyncEnumerable<ChatResponseUpdate>` for token-by-token output (04/05).
 
 ## Registering a pipeline in DI
 
@@ -61,7 +63,7 @@ public sealed class DescriptionWriter(IChatClient chat)
 }
 ```
 
-Each `Use*` call wraps the client, like the delegating handlers of module 10 lesson 05, and order matters: here a cache hit returns before any tool call or model request. `UseOpenTelemetry` emits spans and metrics that follow the OpenTelemetry semantic conventions for generative AI, so model calls show up in the same traces as your HTTP and database spans (module 11 lesson 04); add `"Catalog.AI"` with `AddSource`. Swapping to Azure OpenAI, a local Ollama model or a test fake changes one registration line. `AddKeyedChatClient` registers several pipelines side by side, for example a cheap model for classification and a stronger one for writing.
+Each `Use*` call wraps the client, like the delegating handlers of 10/05, and order matters: here a cache hit returns before any tool call or model request. `UseOpenTelemetry` emits spans and metrics that follow the OpenTelemetry semantic conventions for generative AI, so model calls show up in the same traces as your HTTP and database spans (11/04); add `"Catalog.AI"` with `AddSource`. Swapping to Azure OpenAI, a local Ollama model or a test fake changes one registration line. `AddKeyedChatClient` registers several pipelines side by side, for example a cheap model for classification and a stronger one for writing.
 
 ## Tools
 
@@ -81,14 +83,20 @@ With `UseFunctionInvocation()` in the pipeline, when the model asks for `GetStoc
 
 Microsoft's guidance: `Microsoft.Extensions.AI` alone is not an agent framework. A one-shot call, a chat feature or a tool-calling loop needs nothing more. When the system must pursue a goal across many steps, make decisions, keep session state or coordinate several agents with workflows, use the **Microsoft Agent Framework** (`Microsoft.Agents.AI`). It is the direct successor of Semantic Kernel and AutoGen, built by the same teams, and any provider usable with `Microsoft.Extensions.AI` works with it. Start with plain `IChatClient`; move up only when orchestration is the real problem.
 
+## Common mistakes
+
+- **The vendor SDK's client injected everywhere.** Every consumer now depends on one provider, and switching vendors, adding a cache or faking the model in a test means touching all of them. Depend on `IChatClient`.
+- **No cancellation token.** A model call can take many seconds; when the user closes the page, the request keeps running and you still pay for it. Pass the request's token to `GetResponseAsync`.
+- **Unvalidated tool arguments.** The model chooses the arguments, so a tool that trusts them can read another customer's data. Validate them like any user input.
+- **An agent framework for a single prompt.** It adds concepts and dependencies that one `GetResponseAsync` call does not need. Call `IChatClient.GetResponseAsync` directly, and add an agent framework only when the workflow needs multi-step planning or several agents.
+
 ## In practice
 
 - Depend on `IChatClient` in application code, and keep the provider choice and model name in configuration.
-- Put model calls behind your own service with timeouts and cancellation; a model call is a slow, paid, external HTTP call, and the rules of module 10 lesson 05 apply.
+- Put model calls behind your own service with timeouts and cancellation; a model call is a slow, paid, external HTTP call, and the rules of 10/05 apply.
 - Never send secrets or unnecessary personal data in prompts, and log prompts only where your data policy allows it (`EnableSensitiveData` on the telemetry client is off by default for a reason; setting `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT=true` turns it on without code changes).
 - In unit tests, substitute a fake `IChatClient`; evaluate real model behavior separately, as the AI Engineering track explains.
 - Try it locally: write a fake `IChatClient` that returns a fixed `ChatResponse` and unit-test a service that depends on it.
-- Common mistakes: the vendor SDK injected everywhere, no cancellation token, unvalidated tool arguments, and an agent framework adopted for a single prompt.
 
 ## Status as of 2026-11-05
 

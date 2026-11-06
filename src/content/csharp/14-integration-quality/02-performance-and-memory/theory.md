@@ -2,11 +2,13 @@
 
 After this lesson you can reason about where a .NET service spends memory and CPU. You will know the basics of the garbage collector, find allocations on a hot path, remove them with `Span<T>`, `ArrayPool<T>` and `StringBuilder` where that pays off, and prove the change with BenchmarkDotNet instead of guessing.
 
-## Coming from PHP/Magento
+You need: 00/04 (strings and `StringBuilder`), 03/02 (LINQ), 04/02 (async), 04/03 (`try`/`finally` and disposal), 05/01 (one process, many requests) and 07/04 (query performance).
 
-In PHP, memory is reset after every request. A Magento import that builds huge arrays is a problem only if it hits `memory_limit`, and the usual fixes are generators, batching and Blackfire profiles. Performance work is mostly about SQL, caching and full-page cache.
+## One process, many requests
 
-Most of that still applies: slow queries and missing caches (module 07) dwarf everything in this lesson. What is new is that a .NET API is one long-running process that allocates objects for every request on a shared, garbage-collected heap. Allocation itself is cheap, but each allocation brings the next collection closer, and collections consume CPU and can pause threads. The trap is to copy PHP habits that allocate freely on hot paths (string splitting, `ToList()` everywhere, building large strings with `+=`), or the opposite: rewriting code with spans and pools without measuring first.
+Most performance problems in a backend are not in this lesson: slow queries and missing caches (module 07) dwarf everything here. Fix those first.
+
+What this lesson adds is memory. A .NET API is one long-running process that allocates objects for every request on a shared, garbage-collected heap. Allocation itself is cheap, but each allocation brings the next collection closer, and collections consume CPU and can pause threads for every request in flight. Two opposite habits cause trouble: allocating freely on hot paths (string splitting, `ToList()` everywhere, building large strings with `+=`), and rewriting code with spans and pools without measuring first.
 
 ## The GC in five facts
 
@@ -14,7 +16,7 @@ Most of that still applies: slow queries and missing caches (module 07) dwarf ev
 - Objects of **85,000 bytes or more** go to the **large object heap** (LOH), collected only with gen 2 and not compacted by default (except under a container memory limit, where the runtime compacts it automatically). Microsoft's ASP.NET Core memory page shows an endpoint that allocates just over the limit per request causing constant gen 2 collections and roughly halving throughput.
 - **Server GC** is the default for ASP.NET Core apps: one heap and GC thread per core, tuned for throughput. Standalone console apps default to workstation GC unless you set `<ServerGarbageCollection>true</ServerGarbageCollection>`. Microsoft notes that workstation GC can be the better choice when many containerized apps share one machine.
 - Since .NET 9, **DATAS** (dynamic adaptation to application sizes) is on by default for Server GC. It starts with one heap and grows the number of heaps with load, which keeps small containers from reserving memory for every core.
-- A "leak" in .NET is almost always a reference you still hold: a static dictionary, an event handler, a cache without limits. Lesson 03 shows how to find it.
+- A "leak" in .NET is almost always a reference you still hold: a static dictionary, an event handler, a cache without limits. Lesson 14/03 shows how to find it.
 
 ## Measure first: BenchmarkDotNet
 
@@ -80,14 +82,20 @@ Renting a buffer instead of `new byte[64 * 1024]` per call keeps it out of gen 0
 
 Strings are immutable, so `s += part` in a loop copies the whole string each time. Use `StringBuilder` when you build a string in a loop or across many steps. For a fixed handful of parts, interpolation (`$"{sku}-{size}"`) is already efficient: the compiler uses `DefaultInterpolatedStringHandler` and does not create intermediate strings. Do not replace readable interpolation with a `StringBuilder` for two values.
 
+## Common mistakes
+
+- **Trusting the length of a rented array.** `Rent(4096)` may return a larger array that still holds another caller's bytes, so code that loops to `buffer.Length` processes garbage. Track the count you asked for or the count `Read` returned.
+- **Returning a pooled array twice, or not at all.** A double `Return` hands one array to two callers, who overwrite each other's data; a missing one turns the pool into plain allocation. Return once, in `finally`.
+- **Benchmarking a Debug build with a `Stopwatch` loop.** No optimizations and no warm-up make the numbers meaningless. Use BenchmarkDotNet in Release.
+- **A large buffer allocated per request.** Every allocation of 85,000 bytes or more lands on the LOH and drives gen 2 collections. Rent it from `ArrayPool<T>`.
+
 ## In practice
 
 - Fix the big costs first: N+1 queries, missing `AsNoTracking`, unbounded result sets, chatty HTTP calls. Then look at allocations on paths that run thousands of times per second.
-- Use `dotnet-counters` (lesson 03) in production to see allocation rate and GC counts, BenchmarkDotNet locally to compare two implementations, and keep the benchmark in the repository so the next change can be measured too.
+- Use `dotnet-counters` (lesson 14/03) in production to see allocation rate and GC counts, BenchmarkDotNet locally to compare two implementations, and keep the benchmark in the repository so the next change can be measured too.
 - Keep spans and pools inside hot, well-tested helpers such as parsers and serializers. Business code stays plain.
 - Do not call `GC.Collect()` to "free memory"; it forces an expensive collection and usually hides a real reference leak.
 - Try it locally: run the `SkuParsing` benchmark with `dotnet run -c Release`, then change one method and compare the `Allocated` column.
-- Common mistakes: benchmarking a Debug build, comparing timings from a `Stopwatch` loop with no warm-up, returning a pooled array twice, and allocating large buffers per request.
 
 ## Status as of 2026-11-05
 

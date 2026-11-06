@@ -1,15 +1,8 @@
 # Project P6: Ship It
 
-This project closes the core of the track. You take the solution as P5 left it (`Catalog.Core`, `Catalog.Infrastructure`, `Catalog.Api`, `Orders.Worker` and the P4 test projects), and make it deliverable without changing an endpoint, a status code or the stock model: a container image for each, a CI pipeline that builds, tests and publishes those images, OpenTelemetry traces that follow one order from the HTTP request through RabbitMQ into the worker, and health checks a platform can probe. Plan for about 9 hours on your machine with the .NET 10 SDK and Docker. Acceptance is self-assessed against the criteria below.
+This project closes the core of the track. You take the solution as P5 (10/06) left it (`Catalog.Core`, `Catalog.Infrastructure`, `Catalog.Api`, `Orders.Worker` and the P4 (09/05) test projects), and make it deliverable without changing an endpoint, a status code or the stock model: a container image for each, a CI pipeline that builds, tests and publishes those images, OpenTelemetry traces that follow one order from the HTTP request through RabbitMQ into the worker, and health checks a platform can probe. Plan for about 9 hours on your machine with the .NET 10 SDK and Docker. Acceptance is self-assessed against the criteria below.
 
-## Coming from PHP/Magento
-
-This is the step where a Magento project gets its deployment pipeline and its New Relic setup. The goal transfers. The shape does not:
-
-- you ship **two images** (API and worker), not a code folder for nginx and PHP-FPM;
-- the pipeline **compiles and tests** before it packages anything, and promotes one image per commit;
-- tracing is **wired in code** through OpenTelemetry instead of an agent extension, and a broker hop has to carry the trace context explicitly;
-- the worker is its own process, so it needs its own telemetry and its own idea of health.
+You need: 11/01 to 11/05, 09/05 (P4, the test projects) and 10/06 (P5, the worker and the broker setup).
 
 ## Goal
 
@@ -17,10 +10,10 @@ From a clean clone, one command starts the whole system locally, and one pull re
 
 ## Features
 
-- **Images.** A container image for `Catalog.Api` and one for `Orders.Worker`, each from a multi-stage Dockerfile (lesson 01) that `compose.yaml` references with `build:` (`context: .` at the solution root, `dockerfile:` the project's path). Each Dockerfile copies the `.csproj` of its app and of every project it references (`Catalog.Core`, `Catalog.Infrastructure`) before `dotnet restore`, or a clean build cannot resolve them. Compose cannot run `dotnet publish /t:PublishContainer`, so the Dockerfiles are what make criterion 2 work from a clean clone; the pipeline may still publish with `/t:PublishContainer` (lesson 02) as long as its images also meet criterion 3. Both run as non-root; the API listens on 8080.
+- **Images.** A container image for `Catalog.Api` and one for `Orders.Worker`, each from a multi-stage Dockerfile (lesson 11/01) that `compose.yaml` references with `build:` (`context: .` at the solution root, `dockerfile:` the project's path). Each Dockerfile copies the `.csproj` of its app and of every project it references (`Catalog.Core`, `Catalog.Infrastructure`) before `dotnet restore`, or a clean build cannot resolve them. Compose cannot run `dotnet publish /t:PublishContainer`, so the Dockerfiles are what make criterion 2 work from a clean clone; the pipeline may still publish with `/t:PublishContainer` (lesson 11/02) as long as its images also meet criterion 3. Both run as non-root; the API listens on 8080.
 - **Compose.** A `compose.yaml` with the API, the worker, PostgreSQL, RabbitMQ and an OTLP backend that accepts traces, metrics and logs, for example the standalone Aspire dashboard (`mcr.microsoft.com/dotnet/aspire-dashboard`). Jaeger stores traces only, so if you choose it, add a metrics and a logs backend (for example Prometheus and Loki behind an OpenTelemetry Collector) for criterion 6. Health-gated start-up uses `depends_on` with `condition: service_healthy`.
-- **Pipeline.** GitHub Actions (or Azure DevOps): restore with `--locked-mode`, build, test (unit, `WebApplicationFactory` and Testcontainers tests from P4), and publish both images tagged with the commit SHA on `main` only (lesson 02).
-- **Tracing and metrics.** OpenTelemetry in both apps with OTLP export configured by `OTEL_EXPORTER_OTLP_ENDPOINT`, ASP.NET Core and `HttpClient` instrumentation, an `ActivitySource` per app registered with `AddSource`, and context injected into and extracted from the RabbitMQ message headers (lesson 04). Add one custom counter, such as `orders.placed`.
+- **Pipeline.** GitHub Actions (or Azure DevOps): restore with `--locked-mode`, build, test (unit, `WebApplicationFactory` and Testcontainers tests from P4), and publish both images tagged with the commit SHA on `main` only (lesson 11/02).
+- **Tracing and metrics.** OpenTelemetry in both apps with OTLP export configured by `OTEL_EXPORTER_OTLP_ENDPOINT`, ASP.NET Core and `HttpClient` instrumentation, an `ActivitySource` per app registered with `AddSource`, and context injected into and extracted from the RabbitMQ message headers (lesson 11/04). Add one custom counter, such as `orders.placed`.
 - **Health.** `/health/live` with no dependency checks and `/health/ready` (or `/health`) with `AddDbContextCheck<CatalogDbContext>()`.
 
 A tiny shared helper keeps the two apps consistent:
@@ -54,9 +47,9 @@ public static class Telemetry
 
 ## Stretch goals
 
-- Run the same system with an Aspire AppHost (lesson 05) and compare it with your Compose file.
+- Run the same system with an Aspire AppHost (lesson 11/05) and compare it with your Compose file.
 - Generate Kubernetes manifests (or `aspire publish` output) with liveness and readiness probes pointing at your endpoints.
-- Add a migration bundle step to the pipeline that applies EF Core migrations before deploy (module 07/03).
+- Add a migration bundle step to the pipeline that applies EF Core migrations before deploy (07/03).
 - Sign or scan the images in CI, or publish a tarball with `ContainerArchiveOutputPath` and scan it.
 
 ## Where to get help

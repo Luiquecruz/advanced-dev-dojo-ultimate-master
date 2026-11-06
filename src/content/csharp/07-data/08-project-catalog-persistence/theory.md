@@ -2,9 +2,7 @@
 
 In this project you replace the in-memory store of the P2 catalog API with a real database. You will model the catalog with EF Core, evolve it with migrations, write one report with LINQ and one with Dapper, protect product updates with optimistic concurrency, reserve stock without lost updates and cache product reads. It takes about 10 hours and runs on your machine with the .NET 10 SDK and Docker.
 
-## Coming from PHP/Magento
-
-This is the work you would do in a Magento module with `db_schema.xml`, a resource model, a collection, a repository and a Redis cache tag. Expect the same pieces with different ownership: the schema comes from your C# model through reviewed migrations, the `DbContext` is the repository and unit of work for one request, and the cache lives partly in your own process. Resist two Magento reflexes: do not wrap EF Core in a generic repository before you need one, and do not protect stock with application code alone; let the database decide.
+You need: 06/05 (P2, the catalog API), 07/01 to 07/07 (every lesson of this module) and 05/03 (user secrets).
 
 ## Goal
 
@@ -38,15 +36,15 @@ Your P2 API keeps its endpoints and status codes with two deliberate changes: pr
 
 ## Suggested steps
 
-1. Start the database container and add the provider package, `Microsoft.EntityFrameworkCore.Design` and the `dotnet-ef` tool (lesson 03).
-2. Write the entities and `CatalogDbContext`, register it with `AddDbContext`, `LogTo` and the seeding delegates (lessons 02 and 04).
+1. Docker in five minutes, if you have never used it: Docker runs a program from an **image** (a packaged file system, here `postgres:18`) as an isolated **container**. `docker run -d --name catalog-db ...` from Features downloads the image once and starts the database in the background; `-p 5432:5432` makes it reachable on your machine, and `-e` sets an environment variable. `docker ps` lists running containers, `docker logs catalog-db` shows their output, and `docker stop catalog-db` / `docker start catalog-db` stop and restart it with its data kept. Lesson 11/01 explains images and containers properly. Then add the provider package, `Microsoft.EntityFrameworkCore.Design` and the `dotnet-ef` tool (lesson 07/03).
+2. Write the entities and `CatalogDbContext`, register it with `AddDbContext`, `LogTo` and the seeding delegates (lessons 07/02 and 07/04).
 3. Run `dotnet ef migrations add InitialCreate`, read the generated file, then `dotnet ef database update`.
 4. Replace the in-memory store in each endpoint; return DTOs from projections, never entities.
 5. Add the second migration (for example a nullable `Barcode`) and check that it adds a column, not a drop and an add.
-6. Add the `version` to the DTOs and the `PUT` handler with `OriginalValue` and the 409 mapping (lesson 06). Test with two `curl` calls carrying the same version.
+6. Add the `version` to the DTOs and the `PUT` handler with `OriginalValue` and the 409 mapping (lesson 07/06). Test with two `curl` calls carrying the same version.
 7. Write the reservation endpoint: reject a quantity below 1 first, because `ExecuteUpdateAsync` runs at once with no validation step, then run the conditional update and check the affected row count.
-8. Write the LINQ report with `GroupBy` and `Select`, count the statements in the log, then the Dapper report on a connection from `NpgsqlDataSource` or `db.Database.GetDbConnection()` (lesson 05).
-9. Add `HybridCache`, cache `GET /products/{sku}`, and remove the key after every successful write to that SKU: create, update and reservation, since a cached miss would otherwise hide a new product (lesson 07).
+8. Write the LINQ report with `GroupBy` and `Select`, count the statements in the log, then the Dapper report on a connection from `NpgsqlDataSource` or `db.Database.GetDbConnection()` (lesson 07/05).
+9. Add `HybridCache`, cache `GET /products/{sku}`, and remove the key after every successful write to that SKU: create, update and reservation, since a cached miss would otherwise hide a new product (lesson 07/07).
 
 ## Stretch goals
 

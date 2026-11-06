@@ -44,14 +44,14 @@
     "explanation": "The configuration itself reloads, but `IOptions<T>` is a singleton computed once and never recomputed, so the service keeps the startup value. To see changes, a singleton uses `IOptionsMonitor<T>.CurrentValue`. `IOptionsSnapshot<T>` does recompute per request, but it is scoped, cannot be injected into a singleton and does not change what an `IOptions<T>` holds."
   },
   {
-    "question": "A Magento store has a per-website shipping price edited by admins in `core_config_data`. Where does that setting belong when you port the store to ASP.NET Core?",
+    "question": "Administrators must be able to change the shipping price of each store from an admin screen, without a deploy. Where does that setting belong in an ASP.NET Core app?",
     "options": [
-      "In `appsettings.{Website}.json`, one file per website, selected by the request host name",
-      "In environment variables named per website, such as `Website__De__ShippingPrice`",
-      "In named options per website, loaded from `dotnet user-secrets` on the server",
+      "In `appsettings.{Store}.json`, one file per store, selected by the request host name",
+      "In environment variables named per store, such as `Store__De__ShippingPrice`",
+      "In named options per store, loaded from `dotnet user-secrets` on the server",
       "In the application's database, as business data with its own model and admin screen"
     ],
     "answer": 3,
-    "explanation": ".NET configuration describes how a deployment runs; it has no website or store scopes and no admin UI. Settings that admins change per store are business data and belong in the application's database, cached if needed. Files per website or environment variables would require a redeploy or restart for each admin edit, and user secrets are a development-only tool."
+    "explanation": ".NET configuration describes how a deployment runs; it has no store scopes and no admin UI. Settings that admins change per store are business data and belong in the application's database, cached if needed. Files per store or environment variables would require a redeploy or restart for each admin edit, and user secrets are a development-only tool."
   }
 ]

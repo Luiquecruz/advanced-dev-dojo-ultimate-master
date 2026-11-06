@@ -1,6 +1,6 @@
 [
   {
-    "question": "Your Magento habit is to rebuild the release per server because `env.php` and static content differ. In the .NET pipeline, what should staging and production deploy?",
+    "question": "A team rebuilds the release separately for each server because the database address and API keys differ per environment. In a .NET pipeline, what should staging and production deploy?",
     "options": [
       "A separate image per environment, each built with its own `appsettings` file baked in",
       "The source code, compiled on each server during deploy so it matches that machine",
@@ -52,7 +52,7 @@
       "The project does not use central package management, which locked mode requires"
     ],
     "answer": 2,
-    "explanation": "Locked mode refuses to resolve versions that differ from the committed lock file, like `composer install` against a stale `composer.lock`. The fix is to restore locally, commit the updated `packages.lock.json` and review the change. Network or SDK problems produce different errors."
+    "explanation": "Locked mode refuses to resolve versions that differ from the committed lock file, so a changed package reference without a regenerated lock file stops the build. The fix is to restore locally, commit the updated `packages.lock.json` and review the change. An unreachable nuget.org produces a different error. A different SDK does not read the lock file differently, but its implicit package references can change the graph, so check the pinned SDK before regenerating. Locked mode works with or without central package management."
   },
   {
     "question": "Why is OIDC federation preferred over storing a cloud access key as a CI secret?",

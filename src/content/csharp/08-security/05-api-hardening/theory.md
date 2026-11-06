@@ -1,14 +1,8 @@
 # API Hardening
 
-After this lesson you can close the gaps that authentication and policies leave open: enforce HTTPS the way an API should, configure CORS without weakening the API, add rate limiting that behaves correctly behind a load balancer, keep secrets out of the repository, and walk through the OWASP API Security Top 10 against your own endpoints.
+After this lesson you can close the gaps that authentication and policies leave open: enforce HTTPS the way an API should, configure CORS without weakening the API, add rate limiting that behaves correctly behind a load balancer, keep secrets out of the repository, and walk through the OWASP API Security Top 10 against your own endpoints. A reverse proxy, gateway or WAF in front of the app is normal, but much of this is middleware inside the app, and its order in `Program.cs` decides whether it works.
 
-## Coming from PHP/Magento
-
-In a Magento installation, most of this lives outside PHP. nginx or Apache terminates TLS and redirects HTTP, Varnish or a CDN/WAF absorbs abusive traffic, CORS headers are often added in the web server for a headless frontend, and secrets sit in `app/etc/env.php`, which is kept out of Git.
-
-What transfers: the layers still exist, and a reverse proxy, gateway or WAF in front of an ASP.NET Core app is normal.
-
-The trap: in ASP.NET Core much of this is **middleware inside the app**, and its order in `Program.cs` decides whether it works (the pipeline order rules are in lesson 05/05). A CORS call in the wrong place silently does nothing for some requests; a rate limiter that runs before authentication cannot see the user. Also, there is no `env.php`: configuration is layered (lesson 05/03), and a secret committed to `appsettings.json` is in your Git history for good.
+You need: 05/05 (middleware order), 05/03 (layered configuration), 08/02 (the `sub` claim) and 08/03 (policies and ownership checks).
 
 ## HTTPS for APIs
 
@@ -71,7 +65,7 @@ What to know before you trust it:
 - The default rejection status is **503**, which tells clients the server is down; set `429 Too Many Requests` and, in `OnRejected`, a `Retry-After` header from the lease metadata.
 - `UseRateLimiter` must come after `UseRouting` when you use endpoint policies (`RequireRateLimiting`, `[EnableRateLimiting]`).
 - Counters live **in memory, per instance**. Three instances behind a load balancer allow three times the limit. For one global limit use a gateway or a limiter backed by a shared store.
-- Each partition key creates a limiter. Partitioning on unbounded user input (an arbitrary header) can exhaust memory, and Microsoft notes that partitioning by client IP is exposed to IP spoofing. The example partitions on `sub`, which every access token carries (with `MapInboundClaims = false`, lesson 02; with the default mapping read `ClaimTypes.NameIdentifier`). Microsoft's samples use `User.Identity?.Name`, but that is `null` unless `NameClaimType` matches a claim in the token, and then every signed-in user would share the `"anonymous"` bucket. All anonymous callers share one bucket, which suits an API where almost everything requires sign-in.
+- Each partition key creates a limiter. Partitioning on unbounded user input (an arbitrary header) can exhaust memory, and Microsoft notes that partitioning by client IP is exposed to IP spoofing. The example partitions on `sub` (with `MapInboundClaims = false`, lesson 08/02; with the default mapping read `ClaimTypes.NameIdentifier`). RFC 9068 access tokens always carry it, other tokens may not: require it with `RequireClaim("sub")` in the authorization policy. Microsoft's samples use `User.Identity?.Name`, which is `null` unless `NameClaimType` matches a claim in the token, putting every signed-in user in the `"anonymous"` bucket. All anonymous callers share one bucket, which suits an API where almost everything requires sign-in.
 - Rate limiting helps against abuse and accidental floods; it is not DDoS protection, which belongs to the hosting platform or a CDN/WAF.
 
 ## Secrets
@@ -91,8 +85,8 @@ A checklist to walk through for every API, with where ASP.NET Core helps:
 
 | Risk | What to do in ASP.NET Core |
 | --- | --- |
-| API1 Broken Object Level Authorization | ownership checks per record (lesson 03) |
-| API2 Broken Authentication | validate tokens fully (lesson 02), Identity lockout (lesson 04) |
+| API1 Broken Object Level Authorization | ownership checks per record (lesson 08/03) |
+| API2 Broken Authentication | validate tokens fully (lesson 08/02), Identity lockout (lesson 08/04) |
 | API3 Broken Object Property Level Authorization | request and response DTOs, never bind or return entities directly |
 | API4 Unrestricted Resource Consumption | rate limiting, paging limits, request size limits |
 | API5 Broken Function Level Authorization | named policies on admin endpoints, a fallback policy |
@@ -102,12 +96,18 @@ A checklist to walk through for every API, with where ASP.NET Core helps:
 | API9 Improper Inventory Management | an OpenAPI document of every endpoint (lesson 06/04), retire old versions |
 | API10 Unsafe Consumption of APIs | validate data from third-party APIs as if it were user input |
 
+## Common mistakes
+
+- **`AllowAnyOrigin()` "just for now".** Scripts on any site can read your API's responses in a visitor's browser, and combined with credentials the CORS service refuses the policy. List exact origins with `WithOrigins`.
+- **`UseRateLimiter` before `UseAuthentication`.** The partition sees no user, so every caller shares the `"anonymous"` bucket and one heavy client throttles everyone. Register it after authentication.
+- **Testing limits on one instance and deploying five.** Counters are per instance, so the real limit is five times the configured one. Enforce a global limit at a gateway.
+- **`UseHttpsRedirection` as an API's only HTTPS measure.** The token crossed the network in clear text before the redirect. Do not listen on HTTP, or reject it with `400`.
+
 ## In practice
 
 - Write the order down once and keep it: forwarded headers, exception handler, routing, CORS, authentication, authorization, rate limiter, endpoints. Review middleware order in every pull request that touches `Program.cs`.
 - Return `429` with `Retry-After`, log rejections, and load-test limits before production, as Microsoft advises.
-- Add secret scanning to CI so a leaked key fails the build, and rotate any secret that reached Git.
-- Usual mistakes: `AllowAnyOrigin()` "just for now"; rate limits tested on one instance and deployed on five; `UseHttpsRedirection` as the only HTTPS measure on an API; Swagger UI with a test login flow deployed to production.
+- Add secret scanning to CI so a leaked key fails the build, and rotate any secret that reached Git; a secret committed to `appsettings.json` stays in the history for good.
 
 ## Status as of 2026-11-05
 

@@ -8,7 +8,7 @@
       "None extra, because the proxies load each order's lines together with the order itself"
     ],
     "answer": 2,
-    "explanation": "One query loads the orders and each first access to `order.Lines` triggers its own query, the same N+1 you get from a repository call inside a Magento `foreach`. Microsoft recommends avoiding lazy loading for this reason. EF Core does not batch lazy loads into one statement."
+    "explanation": "One query loads the orders and each first access to `order.Lines` triggers its own query, the same N+1 you get from a query inside a `foreach`. Microsoft recommends avoiding lazy loading for this reason. EF Core does not batch lazy loads into one statement."
   },
   {
     "question": "A read-only endpoint lists 20 products with their category name and price. Which query is the best default?",

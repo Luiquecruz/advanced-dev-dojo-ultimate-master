@@ -1,6 +1,6 @@
 [
   {
-    "question": "A team used to Warden asks whether Aspire replaces their production hosting. What is the accurate answer?",
+    "question": "A team that runs its local environment with Aspire asks whether Aspire also replaces their production hosting. What is the accurate answer?",
     "options": [
       "Yes: the AppHost process keeps running in production and supervises every service",
       "No: it orchestrates local runs and can generate deployment artifacts for a platform",
@@ -30,7 +30,7 @@
       "Chiseled images block request paths that start with `/health` unless they are allowed"
     ],
     "answer": 0,
-    "explanation": "The service defaults deliberately map health endpoints only in the Development environment, because exposing them has security implications. In production you map your own liveness and readiness endpoints, as in lesson 04. Health checks run inside the app and do not need the AppHost."
+    "explanation": "The service defaults deliberately map health endpoints only in the Development environment, because exposing them has security implications. In production you map your own liveness and readiness endpoints, as in lesson 11/04. Health checks run inside the app and do not need the AppHost."
   },
   {
     "question": "What does `WaitFor(messaging)` add on top of `WithReference(messaging)`?",

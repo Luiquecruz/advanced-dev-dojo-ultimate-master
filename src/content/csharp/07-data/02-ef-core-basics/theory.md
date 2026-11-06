@@ -2,11 +2,13 @@
 
 After this lesson you can map C# classes to tables with a `DbContext`, register it in ASP.NET Core, query it with LINQ that EF Core translates to SQL, and save changes through the change tracker. You will know what one `DbContext` instance represents and why it lives for exactly one request.
 
-## Coming from PHP/Magento
+You need: 07/01 (tables, keys and SQL), 03/02 and 03/03 (LINQ and `IQueryable`), 05/02 (scoped lifetime), 05/03 (connection strings), 02/02 (nullable reference types and `null!`) and 02/05 (primary constructors).
 
-In Magento a product is loaded by a repository or a collection, backed by a resource model that knows the table, and saved with `$productRepository->save($product)`. EF Core replaces the resource model and the collection with one object, the `DbContext`: `DbSet<Product>` is the "collection" you filter with LINQ, and the context remembers every entity it loaded.
+## What an ORM does
 
-The trap is the save model. Magento saves one entity per `save()` call. EF Core is a **unit of work**: you change plain objects, and a single `SaveChangesAsync()` writes every pending insert, update and delete, in one transaction by default. The second trap is the lifetime. A Magento object graph dies with the PHP request; a `DbContext` must be made to die with the request, which is what `AddDbContext` does by registering it as **scoped**. And there is no EAV here: one class usually maps to one plain table.
+Writing SQL and reading rows by hand (07/01) works, but every query repeats the same mapping between columns and properties. An **object-relational mapper** (ORM) does that mapping for you: you describe how classes map to tables once, query with LINQ, and the ORM writes the SQL. EF Core is the ORM Microsoft ships for .NET.
+
+Its central object is the `DbContext`, a **unit of work**: one session with the database that remembers every entity it loaded. You change plain C# objects, and a single `SaveChangesAsync()` writes every pending insert, update and delete, in one transaction by default. One context is meant to live for one request, which is what `AddDbContext` does by registering it as **scoped**.
 
 ## Entities and the DbContext
 
@@ -85,7 +87,7 @@ app.MapGet("/products", async (CatalogDbContext db, decimal? maxPrice, Cancellat
 });
 ```
 
-Nothing runs until `ToListAsync`: EF Core then translates the whole expression (filter, order, the join implied by `p.Category.Name`, the projection) into one SQL statement and sends it with `maxPrice` as a parameter. Module 03 covers why this works only on `IQueryable`. If part of a `Where` cannot be translated, for example a call to your own C# method, EF Core throws at runtime instead of silently loading the table; only the final `Select` may run C# on the client.
+Nothing runs until `ToListAsync`: EF Core then translates the whole expression (filter, order, the join implied by `p.Category.Name`, the projection) into one SQL statement and sends it with `maxPrice` as a parameter. Lesson 03/03 covers why this works only on `IQueryable`. If part of a `Where` cannot be translated, for example a call to your own C# method, EF Core throws at runtime instead of silently loading the table; only the final `Select` may run C# on the client.
 
 Common terminal operators: `ToListAsync`, `FirstOrDefaultAsync`, `SingleAsync`, `AnyAsync`, `CountAsync`. Use the async versions in web code. `FindAsync(id)` looks up by primary key and returns an already-tracked instance without a round trip if the context has it.
 
@@ -103,11 +105,16 @@ await db.SaveChangesAsync(cancellationToken);
 
 Entities returned by a query are **tracked**: EF Core keeps a snapshot, compares it on `SaveChangesAsync`, and generates an `UPDATE` with only the changed columns. `Add` marks a new entity for `INSERT` (the database-generated `Id` is filled in afterwards) and `Remove` marks one for `DELETE`. All of it is applied in one transaction.
 
+## Common mistakes
+
+- **Forgetting `SaveChangesAsync`.** The handler changes tracked entities and returns 200, but nothing reaches the database; the changes vanish with the context. Call `SaveChangesAsync` once at the end of the unit of work.
+- **`SaveChangesAsync` inside a loop.** Every iteration is a round trip and a separate transaction, so a failure halfway leaves half the rows saved. Change all entities, then save once.
+- **Two queries at once on one context.** `Task.WhenAll` over the same `DbContext` throws "A second operation started on this context". Await each query, or use one context per parallel unit of work.
+
 ## In practice
 
 - Most teams use the `DbContext` directly in handlers or in thin services. Microsoft does not require a repository on top of EF Core; a generic `IRepository<T>` mostly re-implements `DbSet<T>` with fewer features. Add a repository when you need a test seam or want to hide queries behind domain methods.
-- Read-only endpoints project to DTOs with `Select` instead of returning entities; lesson 04 explains why that is also the fast path.
-- Usual mistakes: forgetting `SaveChangesAsync` (changes stay in memory), calling `SaveChangesAsync` inside a loop, sharing one context across threads, and returning entities with navigation cycles straight to the JSON serializer.
+- Read-only endpoints project to DTOs with `Select` instead of returning entities; lesson 07/04 explains why that is also the fast path.
 
 ## Status as of 2026-11-05
 

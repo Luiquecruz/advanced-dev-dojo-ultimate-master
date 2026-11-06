@@ -1,6 +1,6 @@
 {
   "title": "Dependency Injection and Service Lifetimes",
-  "summary": "Register services with transient, scoped and singleton lifetimes, catch captive dependencies with scope validation, use TryAdd and keyed services, and map di.xml preferences, virtual types and plugins to .NET.",
+  "summary": "Why classes receive their dependencies, how to register services with transient, scoped and singleton lifetimes, catch captive dependencies with scope validation, use TryAdd and keyed services, and wrap a service in a decorator.",
   "level": "intermediate",
   "tags": [
     "recommended",

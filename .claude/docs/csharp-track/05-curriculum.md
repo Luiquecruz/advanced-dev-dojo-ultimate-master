@@ -1,6 +1,6 @@
 # C# Track — Curriculum
 
-14 modules and 73 lessons, all with theory + quiz ([06-content-standards.md](06-content-standards.md)); the 13 lessons of modules 02–04 marked "theory + challenge" also have a graded C# challenge on the in-browser engine.
+14 modules and 73 lessons, all with theory + quiz ([06-content-standards.md](06-content-standards.md)); the 19 lessons marked "theory + challenge" (02/01–02/05, 03/01–03/03, 04/01–04/05, 08/02, 09/02, 10/04, 12/03, 12/04, 14/02) also have a graded C# challenge on the in-browser engine.
 
 | Tier | Modules | Lessons |
 | --- | --- | --- |
@@ -44,7 +44,7 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 - **Done when**: the completion criteria. Every quiz of the module answered correctly and every graded challenge passed in the app, both recorded in progress, plus the module project's acceptance criteria, where there is one.
 - **Official**: Microsoft documentation, from [02-ecosystem-and-legacy.md](02-ecosystem-and-legacy.md).
 
-### 01-platform — The .NET Platform for PHP Developers (core; the title follows `module.json`, renamed to "The .NET Platform" in the module 05–14 rewrite PR)
+### 01-platform — The .NET Platform (core)
 
 | Lesson | Kind | Outcome | Competency (market) |
 | --- | --- | --- | --- |
@@ -141,26 +141,26 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 | Lesson | Kind | Outcome | Competency |
 | --- | --- | --- | --- |
 | 01-authentication-concepts | theory | Separates authentication from authorization, cookies from tokens, and knows the OAuth 2.0/OIDC roles | auth 16% |
-| 02-jwt-bearer | theory | Configures and validates JWT bearer authentication | auth |
+| 02-jwt-bearer | theory + challenge | Configures and validates JWT bearer authentication; decodes a token and checks its claims by hand (the graded part: no signature check, the engine has no cryptography) | auth |
 | 03-authorization-policies | theory | Writes role, claim and policy-based and resource-based authorization | auth |
 | 04-aspnet-core-identity | theory | Uses Identity for users and passwords, knows the limits of `MapIdentityApi` and the passkey support in .NET 10 | auth |
 | 05-api-hardening | theory | Applies HTTPS, CORS, rate limiting, secret management and the OWASP API risks | security 42% |
 
 - **Official:** ASP.NET Core security, authentication, authorization, rate limiting.
-- **Done when:** the quizzes are passed.
+- **Done when:** the quizzes and the challenge of 08/02 are passed.
 
 ### 09-testing — Automated Testing (core)
 
 | Lesson | Kind | Outcome | Competency |
 | --- | --- | --- | --- |
 | 01-unit-testing-with-xunit | theory | Writes xUnit v3 facts and theories with arrange-act-assert | unit testing 55% |
-| 02-test-doubles | theory | Uses fakes and mocks with restraint and knows the Fluent Assertions licence change | unit testing |
+| 02-test-doubles | theory + challenge | Uses fakes and mocks with restraint and knows the Fluent Assertions licence change | unit testing |
 | 03-integration-tests-with-webapplicationfactory | theory | Tests the HTTP API in memory with `WebApplicationFactory` | integration 13% |
 | 04-database-tests-with-testcontainers | theory | Tests against a real database with Testcontainers instead of the in-memory provider | integration |
 | 05-project-secure-and-test-the-api | project | **P4** secure and test the catalog API | security, testing |
 
 - **Official:** testing in .NET, integration tests in ASP.NET Core, the EF Core testing strategy.
-- **Done when:** the quizzes are passed and P4 is accepted.
+- **Done when:** the quizzes and the challenge of 09/02 are passed and P4 is accepted.
 
 ### 10-background-messaging — Background Work and Messaging (core)
 
@@ -169,12 +169,12 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 | 01-hosted-services | theory | Writes a `BackgroundService` that creates a scope per unit of work and handles an `ExecuteAsync` that throws | background jobs 13% |
 | 02-scheduling-with-hangfire-and-quartz | theory | Picks between a hosted service, Hangfire and Quartz.NET for scheduled jobs | background jobs |
 | 03-message-brokers | theory | Explains queues, topics and partitions in RabbitMQ, Kafka and Azure Service Bus | messaging 51% |
-| 04-reliable-messaging | theory | Designs for at-least-once delivery: idempotent consumers, retries, dead letters, the outbox; knows the MassTransit v9 licence | messaging |
+| 04-reliable-messaging | theory + challenge | Designs for at-least-once delivery: idempotent consumers, retries, dead letters, the outbox; knows the MassTransit v9 licence | messaging |
 | 05-http-clients-and-resilience | theory | Calls external APIs with `IHttpClientFactory` and typed clients, adds the standard resilience handler (`Microsoft.Extensions.Http.Resilience`: timeout, retry, circuit breaker), and knows when a retry is unsafe | integrations, messaging 51% (reliability) |
 | 06-project-order-worker | project | **P5** order processing worker | messaging |
 
 - **Official:** hosted services, Worker Service, `IHttpClientFactory`, HTTP resilience.
-- **Done when:** the quizzes are passed and P5 is accepted.
+- **Done when:** the quizzes and the challenge of 10/04 are passed and P5 is accepted.
 
 ### 11-delivery — Containers, CI/CD, Cloud and Observability (core)
 
@@ -196,12 +196,12 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 | --- | --- | --- | --- |
 | 01-layered-and-clean-architecture | theory | Organizes a solution in layers or Clean Architecture and knows its cost | Clean/Hexagonal 12%, SOLID 54% |
 | 02-vertical-slices-and-modular-monoliths | theory | Compares feature slices and modules with layers | architecture |
-| 03-domain-driven-design-essentials | theory | Uses entities, value objects, aggregates and domain events where they pay off | DDD 10% |
-| 04-cqrs-mediator-and-licensing | theory | Applies CQRS without a library and knows the MediatR/AutoMapper licence change | CQRS 13% |
+| 03-domain-driven-design-essentials | theory + challenge | Uses entities, value objects, aggregates and domain events where they pay off | DDD 10% |
+| 04-cqrs-mediator-and-licensing | theory + challenge | Applies CQRS without a library and knows the MediatR/AutoMapper licence change | CQRS 13% |
 | 05-microservices-trade-offs | theory | Decides between a monolith and microservices using concrete criteria | microservices 38% |
 
 - **Official:** common web application architectures, the .NET microservices guide (its .NET 7 era is noted).
-- **Done when:** the quizzes are passed.
+- **Done when:** the quizzes and the challenges of 12/03 and 12/04 are passed.
 
 ### 13-legacy — Legacy .NET and Migration (legacy)
 
@@ -221,13 +221,13 @@ Project acceptance is self-assessed on the learner's machine; the app records qu
 | Lesson | Kind | Outcome | Competency |
 | --- | --- | --- | --- |
 | 01-grpc-and-signalr | theory | Chooses between REST, gRPC and SignalR; defines a gRPC service with protobuf and a SignalR hub, and knows how each scales out | GraphQL/gRPC 4%, microservices 38% |
-| 02-performance-and-memory | theory | Finds allocations, uses `Span<T>`, `ArrayPool<T>` and `StringBuilder` where they pay off, knows the basics of the GC, and measures with BenchmarkDotNet instead of guessing | async 20%, query tuning 29% |
+| 02-performance-and-memory | theory + challenge | Finds allocations, uses `Span<T>`, `ArrayPool<T>` and `StringBuilder` where they pay off, knows the basics of the GC, and measures with BenchmarkDotNet instead of guessing | async 20%, query tuning 29% |
 | 03-diagnostics-in-production | theory | Investigates a slow or leaking process with `dotnet-counters`, `dotnet-trace` and `dotnet-dump`, including inside a container | observability 39% |
 | 04-code-quality-and-analyzers | theory | Enforces style and correctness with `.editorconfig`, the built-in analyzers (`AnalysisLevel`), warnings as errors and `dotnet format` in CI | SOLID/clean code 54%, CI/CD 54% |
 | 05-ai-in-dotnet-apps | theory | Calls a model through `Microsoft.Extensions.AI` (`IChatClient`), keeps the provider swappable, and knows where the Agent Framework fits; points to the AI Engineering track for the engineering practice | AI-assisted development 29% (adjacent) |
 
 - **Official:** gRPC on ASP.NET Core, SignalR, memory and spans, GC fundamentals, the .NET diagnostic tools, code analysis, `Microsoft.Extensions.AI`.
-- **Done when:** the quizzes are passed.
+- **Done when:** the quizzes and the challenge of 14/02 are passed.
 
 ## Practice projects
 

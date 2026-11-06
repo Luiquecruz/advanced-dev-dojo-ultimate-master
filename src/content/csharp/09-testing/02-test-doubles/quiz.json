@@ -1,14 +1,14 @@
 [
   {
-    "question": "Coming from Magento, you write `new Mock<SqlProductRepository>()` and set up `FindAsync`, a public non-virtual method of a sealed class. What happens?",
+    "question": "You write `new Mock<SqlProductRepository>()` and set up `FindAsync`, a public non-virtual method of a sealed class. What happens?",
     "options": [
-      "It works, because Moq can override any public method, like PHPUnit's `createMock()`",
+      "It works, because Moq can override any public method of any class",
       "It fails, because Moq only intercepts interface, virtual or abstract members",
       "It works once the test project gets `InternalsVisibleTo` for that assembly",
       "It works for synchronous methods, but async setups are silently ignored"
     ],
     "answer": 1,
-    "explanation": "Moq and NSubstitute generate proxy classes that override members, so sealed classes and non-virtual methods cannot be intercepted; you need an interface such as `IProductRepository`. PHPUnit can mock any non-final class, which is why the Magento habit fails here. `InternalsVisibleTo` controls visibility, not overridability."
+    "explanation": "Moq and NSubstitute generate proxy classes that override members, so sealed classes and non-virtual methods cannot be intercepted; you need an interface such as `IProductRepository`. `InternalsVisibleTo` controls visibility, not overridability."
   },
   {
     "question": "A test passes a double that returns a fixed price list to `CartService` and then asserts only on the cart total. What is that double?",

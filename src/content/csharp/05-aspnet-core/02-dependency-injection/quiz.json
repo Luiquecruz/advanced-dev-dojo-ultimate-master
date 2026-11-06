@@ -11,15 +11,15 @@
     "explanation": "In Development the host validates scopes and throws when a scoped service is consumed by a singleton. The container never re-creates constructor dependencies per call, and it never changes a registration's lifetime for you. In Production the check is off, so the same code runs and quietly shares one repository across all requests."
   },
   {
-    "question": "Which registration is the closest match to an object a Magento class receives through the object manager during one request (shared, discarded at the end)?",
+    "question": "`CheckoutService` creates `new SqlCartRepository(\"Host=prod-db\")` in a field initializer. What does changing it to take `ICartRepository` in its constructor gain?",
     "options": [
-      "`AddScoped`, which creates one instance per HTTP request and disposes it at the end",
-      "`AddSingleton`, because Magento's object manager shares instances by default",
-      "`AddTransient`, because PHP rebuilds every object on every request anyway",
-      "`AddKeyedSingleton`, with the request id as the key to keep requests apart"
+      "Faster calls, because the container caches every method result of an injected service",
+      "Nothing at runtime or in tests: it is only a style preference with the same behavior",
+      "Automatic thread safety, because injected services are locked by the container per call",
+      "Tests can pass a fake and production the SQL one, without editing `CheckoutService`"
     ],
-    "answer": 0,
-    "explanation": "Magento's shared instances are effectively per request because the PHP-FPM process discards them. Scoped gives one instance per request in ASP.NET Core. Singleton is the tempting choice, but a .NET singleton lives for the whole process and is shared across concurrent requests and users."
+    "answer": 3,
+    "explanation": "Declaring the dependency moves the choice of implementation out of the class: a test hands in a fake, production registers the SQL repository, and the class itself never changes. It is not only style, because a class that builds its own database repository cannot be tested without that database. The container caches no results and adds no locking."
   },
   {
     "question": "A library calls `services.TryAddSingleton<IClock, SystemClock>()`. Your `Program.cs` calls `builder.Services.AddSingleton<IClock, FakeClock>()` before adding the library. What does a constructor asking for `IClock` receive?",
@@ -44,9 +44,9 @@
     "explanation": "An explicit scope per unit of work gives the context its intended lifetime and disposes it afterwards. Injecting the context directly makes it captive. Making a `DbContext` a singleton shares one non-thread-safe context across all requests. A stored `HttpContext` is recycled when its request ends and must never be kept."
   },
   {
-    "question": "You want logging around every call of `IOrderService`, the way a Magento around plugin would add it. What does the built-in .NET container offer?",
+    "question": "You want logging around every call of `IOrderService` without editing `OrderService`. What does the built-in .NET container offer?",
     "options": [
-      "An `[Around]` attribute on the interface that intercepts each public method, like a plugin",
+      "An `[Around]` attribute on the interface that wraps each public method with extra code",
       "Automatic proxies that the container generates for every interface registered with `Add*`",
       "No interception: write a decorator that wraps the real service, registered with a factory",
       "A middleware, which intercepts every method call made while a request is processed"
@@ -63,6 +63,6 @@
       "`IServiceProvider` is only available inside controllers and minimal API handlers"
     ],
     "answer": 0,
-    "explanation": "Microsoft's guidance is to avoid the service locator pattern and declare dependencies in the constructor, the same reason Magento discourages `ObjectManager::getInstance()`: the class hides what it needs, tests must build a provider, and resolving from the wrong provider is exactly how scoped services end up captive. `GetService` is not obsolete, it never changes a registration's lifetime, and `IServiceProvider` can be injected anywhere."
+    "explanation": "Microsoft's guidance is to avoid the service locator pattern and declare dependencies in the constructor: the class hides what it needs, tests must build a provider, and resolving from the wrong provider is exactly how scoped services end up captive. `GetService` is not obsolete, it never changes a registration's lifetime, and `IServiceProvider` can be injected anywhere."
   }
 ]

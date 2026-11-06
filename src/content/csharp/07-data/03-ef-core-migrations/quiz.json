@@ -1,14 +1,14 @@
 [
   {
-    "question": "How does `dotnet ef migrations add` decide what changed, compared with Magento's `db_schema.xml`?",
+    "question": "How does `dotnet ef migrations add` decide what changed?",
     "options": [
       "It diffs the C# model against the committed model snapshot",
-      "Like `setup:upgrade`, it connects to the database and diffs the live schema against the model",
-      "It reads any `db_schema.xml` files in the solution and converts their differences into C#",
+      "It connects to the database and diffs the live schema against the model",
+      "It reads a declarative schema file in the solution and converts its differences into C#",
       "It records the SQL you ran manually in a database console since the last migration"
     ],
     "answer": 0,
-    "explanation": "EF Core diffs model against snapshot at development time and writes the operations as a C# migration you review and commit. Magento computes the diff against the live database at deploy time; assuming EF Core does the same leads people to skip reviewing the generated file."
+    "explanation": "EF Core diffs model against snapshot at development time and writes the operations as a C# migration you review and commit. It never inspects the live database; assuming it does leads people to skip reviewing the generated file."
   },
   {
     "question": "You rename `Product.Name` to `Product.Title` and the generated migration contains `DropColumn(\"Name\")` and `AddColumn(\"Title\")`. What do you do?",

@@ -2,11 +2,11 @@
 
 A client of your API decides what to do from the status code first and the body second. After this lesson you can pick the right status code for each outcome, return errors in the standard Problem Details format (RFC 9457), turn exceptions into consistent responses in one place with `IExceptionHandler`, and use endpoint filters for checks that several endpoints share.
 
-## Coming from PHP/Magento
+You need: 06/01 (`TypedResults` and route groups), 06/02 (binding failures), 05/05 (the middleware pipeline and the exception handler), 04/01 (exceptions versus results) and 02/05 (primary constructors and type patterns).
 
-Magento's REST layer maps exceptions to statuses for you: `NoSuchEntityException` becomes 404, `InputException` and `LocalizedException` become 400, `AuthorizationException` becomes 401, and anything else becomes 500 with a `{"message": ..., "parameters": ...}` body. In developer mode the trace is included.
+## Status first, body second
 
-ASP.NET Core has no such mapping. An exception your code throws is a **500** unless you map it, and the body format is whatever you configure. The equivalent of Magento's developer mode is the Developer Exception Page, which is on only in the `Development` environment. Two habits to drop: returning 200 with `{"success": false}`, and letting domain exceptions reach the client as 500s.
+Every response starts with a three-digit status code: `2xx` means success, `4xx` means the client sent something wrong, `5xx` means the server failed. Clients, proxies and monitoring read that number first, so it must be honest. ASP.NET Core does not guess it from your exceptions: an exception your code throws is a **500** unless you map it, and the error body is whatever you configure. The Developer Exception Page, with the stack trace, appears only in the `Development` environment.
 
 ## Choosing a status code
 
@@ -101,7 +101,7 @@ Anything no handler claims falls back to a generic 500 Problem Details without t
 
 ## Endpoint filters
 
-An endpoint filter wraps one endpoint or a route group, like a Magento `around` plugin on the handler. It sees the bound arguments, can return a result early, or can call `next` and inspect the response:
+An endpoint filter wraps one endpoint or a route group: it runs after binding and before the handler. It sees the bound arguments, can return a result early, or can call `next` and inspect the response:
 
 ```csharp
 public sealed class RequireStoreCodeFilter : IEndpointFilter
@@ -126,13 +126,18 @@ public sealed class RequireStoreCodeFilter : IEndpointFilter
 
 Several filters run first-in first-out before `next` and in reverse after it. A filter class can take constructor dependencies from DI. Choose middleware (05/05) for concerns that apply to every request, including ones that match no endpoint; choose a filter when the concern belongs to specific endpoints or needs their arguments. Minimal API validation itself is an endpoint filter.
 
+## Common mistakes
+
+- **`200 OK` with `{"success": false}`.** Clients, retries and monitoring see a success, so the failure is never counted or handled. Return the real status code with a Problem Details body.
+- **Throwing for expected outcomes.** A `ProductNotFoundException` that no handler maps becomes a 500, and the client is told the server is broken. Return `TypedResults.NotFound()`, or map the exception in an `IExceptionHandler`.
+- **Stack traces in error bodies.** Returning `exception.ToString()` exposes file paths, SQL and library versions to attackers. Keep details in the logs and a generic `detail` in the response.
+
 ## In practice
 
 - Register `AddProblemDetails`, `UseExceptionHandler` and `UseStatusCodePages` in every API, so that no error leaves without a consistent body. In .NET 10, also set `RouteHandlerOptions.ThrowOnBadRequest = false` so that binding failures stay 400 in Development (06/02).
 - Map domain exceptions in one or a few `IExceptionHandler` classes; do not write `try/catch` in each handler.
 - Give each error type a stable `type` URI that clients can switch on; `title` is for humans and may change.
 - Never return stack traces or SQL errors outside Development.
-- Return `201` with a `Location` header from creates, and `204` from deletes.
 
 ## Status as of 2026-11-05
 

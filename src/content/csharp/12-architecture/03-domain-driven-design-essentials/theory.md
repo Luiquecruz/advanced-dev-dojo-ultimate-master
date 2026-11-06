@@ -2,15 +2,17 @@
 
 After this lesson you can model a piece of business logic with entities, value objects and an aggregate root that protects its own rules, map value objects with EF Core complex types, raise domain events without dispatching them too early, and tell when this machinery pays off and when plain CRUD is the better tool.
 
-## Coming from PHP/Magento
+You need: 02/03 (records, `with` and the `field` keyword), 03/01 (read-only views of a list), 04/01 (throw helpers), 07/02 (EF Core), 10/04 (the outbox) and 12/01 and 12/02.
 
-A Magento model extends `AbstractModel`: it is a bag of data with `getData()`, `setData()` and magic getters, saved by a resource model. The rules live elsewhere (totals collectors, observers on `sales_order_place_after`, price plugins). Any code can call `$order->setStatus('complete')` or `$item->setQty(-3)`, and nothing in the model refuses.
+## Rules live with the data
 
-Domain-driven design (DDD) moves the rules into the object that owns the data. An `Order` refuses a line with quantity zero and refuses changes after it is placed, because its setters are private and its methods check the rules. The trap is writing EF Core entities the Magento way: public setters everywhere, logic in an `OrderService`. Microsoft's Azure Architecture Center calls that the *anemic domain model* antipattern: it keeps the cost of DDD and loses the benefit.
+In a plain CRUD design, an order is a bag of data with public setters and the rules live in service classes. Any code can still write `order.Status = OrderStatus.Placed` or set a quantity of -3, and nothing refuses.
+
+Domain-driven design (DDD) moves the rules into the object that owns the data. An `Order` refuses a line with quantity zero and refuses changes after it is placed, because its setters are private and its methods check the rules. Microsoft's Azure Architecture Center calls public setters with every rule in an `OrderService` the *anemic domain model* antipattern.
 
 ## Strategic DDD: bounded contexts and the ubiquitous language
 
-Before code, DDD splits the business into **bounded contexts**: areas where a word has one meaning. "Product" in Catalog has a description and images; "product" in Inventory is a SKU with a quantity per warehouse. Each context has its own model, in the words domain experts use (the *ubiquitous language*), and is a natural boundary for a module (lesson 02) or a service (lesson 05).
+Before code, DDD splits the business into **bounded contexts**: areas where a word has one meaning. "Product" in Catalog has a description and images; "product" in Inventory is a SKU with a quantity per warehouse. Each context has its own model, in the words domain experts use (the *ubiquitous language*), and is a natural boundary for a module (lesson 12/02) or a service (lesson 12/05).
 
 ## Entities and value objects
 
@@ -48,11 +50,11 @@ public sealed record Money
 }
 ```
 
-A `record` already gives value equality, so `new Money(10, "EUR") == new Money(10, "EUR")` is `true` without the hand-written `ValueObject` base class that older .NET samples show.
+A `record` already gives value equality: `new Money(10, "EUR") == new Money(10, "EUR")` is `true`, with no hand-written `ValueObject` base class.
 
 ## Aggregates: one consistency boundary
 
-An **aggregate** is a cluster of objects changed together in one transaction, reached only through its **root**. Outside code holds a reference to the root, never to a child, and other aggregates are referenced by id. The rules from the Azure tactical DDD guide: design small aggregates, reference other aggregates by identity only, and use eventual consistency across aggregates.
+An **aggregate** is a cluster of objects changed together in one transaction, reached only through its **root**. The Azure tactical DDD guide's rules: design small aggregates, reference other aggregates by identity only, and use eventual consistency between them.
 
 ```csharp
 public enum OrderStatus { Draft, Placed }
@@ -111,7 +113,7 @@ public sealed class Order
 
 ## Persisting it with EF Core 10
 
-EF Core maps value objects as **complex types**: no key, stored as columns of the owner's table (or as one JSON column), compared by value. They were introduced in EF Core 8; EF Core 10 added optional complex types, struct complex types, JSON mapping and complex collections. Microsoft now advises moving from owned entity types to complex types for value objects.
+EF Core maps value objects as **complex types**: no key, stored as columns of the owner's table (or as one JSON column), compared by value. Microsoft now advises moving from owned entity types to complex types for value objects.
 
 ```csharp
 modelBuilder.Entity<Order>(order =>
@@ -124,33 +126,38 @@ modelBuilder.Entity<Order>(order =>
 
 ## Domain events: record now, dispatch at save
 
-A **domain event** says something meaningful happened in the domain ("order placed", not "row inserted"). The aggregate only *records* it; the application dispatches it when the unit of work is saved. Microsoft's microservices e-book describes this deferred approach and the choice it forces: handlers that run *before* `SaveChangesAsync` share the transaction; handlers that run *after* need eventual consistency and compensation if they fail. The e-book accepts both: one transaction across aggregates for one command's side effects (Bogard), or eventual consistency (Evans, Vernon).
+A **domain event** says something meaningful happened in the domain ("order placed", not "row inserted"). The aggregate only *records* it; the application dispatches it when the unit of work is saved. Microsoft's microservices e-book describes this deferred approach and the choice it forces: handlers that run *before* `SaveChangesAsync` share the transaction; handlers that run *after* need eventual consistency and compensation if they fail. The e-book accepts both.
 
 ```csharp
 public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
 {
     var orders = ChangeTracker.Entries<Order>().Select(e => e.Entity).ToList();
     // ... dispatch orders.SelectMany(o => o.Events) to in-process handlers,
-    //     or write them to an outbox table in this same transaction (lesson 10/04)
+    //     or write them to an outbox table in this same transaction (10/04)
     var written = await base.SaveChangesAsync(cancellationToken);
     orders.ForEach(o => o.ClearEvents());
     return written;
 }
 ```
 
-Events that leave the process (to another module or service) are **integration events**: published only after commit, through the outbox and a broker, as module 10 taught.
+Events that leave the process (to another module or service) are **integration events**: published only after commit, through the outbox and a broker, as 10/04 taught.
+
+## Common mistakes
+
+- **Handing out the internal list.** `public IReadOnlyList<OrderLine> Lines => _lines;` still returns the `List<OrderLine>`, so a caller casts it back and adds a line to a placed order. Return `_lines.AsReadOnly()`.
+- **Changing state before the last check.** `AddLine` appends the line, then the currency check throws, leaving a line the total does not include. Validate first, then mutate.
+- **Navigation properties into another aggregate.** An `Order.Customer` that updates loyalty points makes one save change two aggregates. Hold `CustomerId`.
+- **Dispatching events from the entity method.** Handlers run before the save, so a failed save leaves an e-mail sent for an order that does not exist. Record events; send the e-mail after commit or through an outbox row (10/04).
 
 ## In practice
 
 - **Use DDD where the rules are hard** (pricing, stock reservation, payment states). A CMS block editor is plain CRUD.
 - **Keep aggregates small.** "Customer with all orders" as one aggregate means every order change loads and locks the customer; link them by `CustomerId` instead.
-- **Do not let EF Core shape the model.** Private setters, a private constructor and backing fields keep the API honest; EF Core still materializes the object.
-- **Usual mistakes:** public setters plus an `OrderService` holding all rules; navigation properties from one aggregate into another; dispatching events from inside the entity method, so handlers run before the change is even saved.
 
 ## Status as of 2026-11-05
 
 - EF Core 10 is an LTS release supported until 2028-11-10 (EF Core releases page; the .NET 10 runtime ends 2028-11-14). Optional, struct and JSON complex types and complex collections require EF Core 10.
-- Microsoft's DDD pages in the .NET microservices e-book date from 2018–2022 and still show owned entity types and MediatR; the newer complex types page (2026) supersedes the owned-type advice.
+- Complex types arrived in EF Core 8. The e-book's DDD pages (2018–2022) still show owned entity types and MediatR; the complex types page (2026) supersedes the owned-type advice.
 
 ## Check yourself
 

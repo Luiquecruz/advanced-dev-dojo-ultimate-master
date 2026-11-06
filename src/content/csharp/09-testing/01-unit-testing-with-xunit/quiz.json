@@ -1,6 +1,6 @@
 [
   {
-    "question": "A Magento developer ports a PHPUnit suite to xUnit. Two test classes add products to the same `static List<Product>` and assert on its count. The suite passes locally most of the time and fails at random in CI. What is the most likely cause?",
+    "question": "Two xUnit test classes add products to the same `static List<Product>` and assert on its count. The suite passes locally most of the time and fails at random in CI. What is the most likely cause?",
     "options": [
       "xUnit reuses one instance of each test class for all its tests, so the list is never reset",
       "xUnit runs separate test classes in parallel, so both change the static list at once",
@@ -11,7 +11,7 @@
     "explanation": "Each test class is its own test collection, and collections run in parallel by default, so shared static state races. Instance reuse is the wrong explanation: xUnit creates a new instance of the class for every test, which is why instance fields are safe and static fields are not."
   },
   {
-    "question": "Where does per-test setup go in xUnit, the equivalent of PHPUnit's `setUp()`?",
+    "question": "Where does setup that must run before every test go in xUnit?",
     "options": [
       "A method marked `[SetUp]`, which xUnit calls before each test",
       "An override of `TestBase.Initialize()`, called before each test",

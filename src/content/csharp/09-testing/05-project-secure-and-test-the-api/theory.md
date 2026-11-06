@@ -1,12 +1,8 @@
 # Project P4: Secure and Test the Catalog API
 
-In this project you take the catalog API from P2 and P3, protect its writes with JWT bearer authentication, an `admin` policy and rate limiting, and prove the whole thing with three kinds of automated tests: unit tests, in-memory HTTP tests with `WebApplicationFactory`, and database tests against PostgreSQL or SQL Server in Testcontainers. You build it locally with the .NET 10 SDK and Docker; the app records only the quiz.
+In this project you take the catalog API from P2 and P3, protect its writes with JWT bearer authentication, an `admin` policy and rate limiting, and prove the whole thing with three kinds of automated tests: unit tests, in-memory HTTP tests with `WebApplicationFactory`, and database tests against PostgreSQL or SQL Server in Testcontainers. You build it locally with the .NET 10 SDK and Docker; the app records only the quiz. Because the API boots in memory and the database is a container started by the test run, every kind of test runs on every `dotnet test`. The one shortcut the project forbids is the EF Core in-memory provider.
 
-## Coming from PHP/Magento
-
-In Magento, the closest work is protecting a custom REST route with an ACL resource in `webapi.xml` and covering it with `dev/tests/unit` plus an API-functional test against an installed shop. The split you know transfers: fast unit tests for rules, slower tests that go through HTTP and the database.
-
-What changes is the cost of the slow tests. There is no shop to install: the API boots in memory, and the database is a container started by the test run. That makes it realistic to run every kind of test on every `dotnet test`, which is the point of this project. The trap to avoid is the "fast" fake database; this project explicitly forbids the EF Core in-memory provider.
+You need: 08/02 (JWT bearer and `dotnet user-jwts`), 08/03 (policies), 08/05 (rate limiting), 09/01 to 09/04 (the test kinds of this module), and the P2 and P3 projects (06/05 and 07/08).
 
 ## Goal
 

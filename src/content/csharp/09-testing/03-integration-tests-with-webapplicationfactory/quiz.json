@@ -8,7 +8,7 @@
       "The URL in `launchSettings.json`, so the app must already be running"
     ],
     "answer": 1,
-    "explanation": "`WebApplicationFactory` builds the host from your entry point and swaps Kestrel for `TestServer`; the `HttpClient` talks to it in memory, so routing, middleware, DI and authorization all run. Nothing listens on a port, and the app does not need to be started separately as Magento's API-functional tests require."
+    "explanation": "`WebApplicationFactory` builds the host from your entry point and swaps Kestrel for `TestServer`; the `HttpClient` talks to it in memory, so routing, middleware, DI and authorization all run. Nothing listens on a port, and the app does not need to be started separately."
   },
   {
     "question": "Every test in a class shares one `WebApplicationFactory<Program>` through `IClassFixture`. P2 keeps products in a list registered with `AddSingleton`. `Create_ThenList_ReturnsOneProduct` passes alone and fails when the whole class runs. Why?",
@@ -19,7 +19,7 @@
       "The singleton lives as long as the shared host, so other tests' products remain"
     ],
     "answer": 3,
-    "explanation": "The factory builds the host once and keeps it for every test that shares it, so singleton state survives between tests, unlike a PHP request that starts from nothing. Create unique data per test and assert on that data instead of on totals. A class fixture is created once, not per test, so the first option has it backwards."
+    "explanation": "The factory builds the host once and keeps it for every test that shares it, so singleton state survives between tests. Create unique data per test and assert on that data instead of on totals. A class fixture is created once, not per test, so the first option has it backwards."
   },
   {
     "question": "In `ConfigureWebHost` you call `builder.ConfigureTestServices(s => s.AddSingleton<IPriceFeed, FakePriceFeed>())`, while `Program.cs` registers `HttpPriceFeed`. Which implementation does an endpoint that injects `IPriceFeed` receive?",
@@ -33,7 +33,7 @@
     "explanation": "The test callbacks run after the app's own registrations, and resolving a single `IPriceFeed` returns the last registration. `ConfigureTestServices` is not a `TryAdd`, and duplicate registrations do not throw. Code that resolves `IEnumerable<IPriceFeed>` would still get both, which is why `RemoveAll<IPriceFeed>()` is the clearer choice."
   },
   {
-    "question": "A Magento developer upgrading a test project to .NET 10 keeps `public partial class Program { }` at the end of `Program.cs`. What happens?",
+    "question": "A developer upgrading a test project to .NET 10 keeps `public partial class Program { }` at the end of `Program.cs`. What happens?",
     "options": [
       "The build fails, because .NET 10 no longer allows declaring `Program` yourself",
       "It compiles, but tests can no longer reference `Program` from the test project",

@@ -2,11 +2,11 @@
 
 After this lesson you can make a .NET solution enforce its own rules. You will configure the analyzers that ship with the SDK through `AnalysisLevel` and `.editorconfig`, turn warnings into build failures without drowning the team, and run `dotnet format` in CI so style is checked by a machine instead of in code review.
 
-## Coming from PHP/Magento
+You need: 01/04 (project files and `Directory.Build.props`), 02/02 (nullable warnings), 05/04 (structured logging) and 11/02 (pipelines).
 
-A Magento project typically runs PHP_CodeSniffer with the Magento coding standard, PHPStan at some level and maybe PHP CS Fixer, each installed through Composer, configured in its own file and wired into a pre-commit hook or a pipeline step. They run outside the language: the PHP interpreter never sees their findings.
+## Analysis is part of the compiler
 
-In .NET the equivalent tools are part of the compiler. Roslyn analyzers run inside every `dotnet build`, in the IDE and in CI, and they report through the same channel as compiler warnings, with IDs such as `CS8602` (compiler), `CA2017` (code quality) and `IDE0040` (code style). Configuration lives in the project file, a `Directory.Build.props` for the whole solution, and `.editorconfig`. The trap is to treat warnings as noise because PHP tooling is optional: a .NET team that ignores warnings ships null dereferences and broken log templates that the compiler already pointed out.
+In .NET, the code checks run inside the compiler. Roslyn analyzers run in every `dotnet build`, in the IDE and in CI, and they report through the same channel as compiler warnings, with IDs such as `CS8602` (compiler), `CA2017` (code quality) and `IDE0040` (code style). Configuration lives in the project file, a `Directory.Build.props` for the whole solution, and `.editorconfig`. A warning is the compiler telling you about a likely bug, so a team that ignores warnings ships null dereferences and broken log templates that the build already pointed out.
 
 ## What is on by default
 
@@ -28,7 +28,7 @@ public sealed class OrderService(ILogger<OrderService> logger)
 public sealed record Order(int Id, string Sku);
 ```
 
-Both lines compile and both are bugs: one crashes at runtime, the other writes a broken structured log (module 05 lesson 04).
+Both lines compile and both are bugs: one crashes at runtime, the other writes a broken structured log (05/04).
 
 ## Choosing the rule set: `AnalysisLevel` and `AnalysisMode`
 
@@ -79,7 +79,7 @@ dotnet format --verify-no-changes --verbosity diagnostic
 
 `dotnet format` applies `.editorconfig` whitespace, style and analyzer fixes (`dotnet format whitespace`, `style` and `analyzers` run each part alone). With `--verify-no-changes` it changes nothing and exits non-zero if any file would change, which is exactly a CI check. Developers run plain `dotnet format` before committing. Microsoft warns that it may restore, compile and run analyzers, so run it only on trusted code, which matters for pull requests from forks.
 
-A pipeline step from module 11 lesson 02 becomes:
+A pipeline step from 11/02 becomes:
 
 ```bash
 dotnet restore
@@ -88,13 +88,19 @@ dotnet build --no-restore -c Release   # analyzers run here; warnings fail the b
 dotnet test --no-build -c Release
 ```
 
+## Common mistakes
+
+- **Warnings left at hundreds.** Nobody reads a list that long, so the new `CS8602` that predicts tomorrow's `NullReferenceException` drowns in it. Fix or configure them, then make new ones fail the build.
+- **`AnalysisMode` `All` switched on in one go.** Thousands of new warnings, or a red build with `TreatWarningsAsErrors`, and the team turns analysis off again. Enable one category at a time.
+- **`#pragma warning disable` without a reason.** Six months later nobody knows whether the suppression is still needed. Add a comment, or a `[SuppressMessage]` with a `Justification`.
+- **Style enforced only by reviewers.** Reviews argue about spacing and miss bugs. Run `dotnet format --verify-no-changes` in CI.
+
 ## In practice
 
 - Start strict on new services; on legacy code, ratchet: pin `AnalysisLevel`, enable one category at a time, and keep the build green.
 - Third-party analyzer packages (StyleCop.Analyzers, SonarAnalyzer.CSharp and others) plug into the same mechanism; check their licence and keep their severities in the same `.editorconfig`.
 - Review analyzer changes like code: a suppressed rule needs a reason in the commit.
 - Try it locally: run `dotnet format --verify-no-changes` on one of your repositories, then raise one rule to `error` in `.editorconfig` and build.
-- Common mistakes: `AnalysisMode` `All` switched on in one go, warnings left at hundreds so nobody reads them, `#pragma` suppressions without comments, and style enforced only by reviewers.
 
 ## Status as of 2026-11-05
 

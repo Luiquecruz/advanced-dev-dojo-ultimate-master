@@ -2,11 +2,11 @@
 
 After this lesson you can see the SQL EF Core sends, spot and remove N+1 queries, decide between `Include`, a projection and a split query, turn off tracking for reads, and update many rows without loading them. These are the changes that fix most slow EF Core endpoints, and none of them needs raw SQL.
 
-## Coming from PHP/Magento
+You need: 07/02 (`DbContext`, LINQ to SQL and the change tracker), 05/04 (log categories), 03/03 (`IQueryable` and `IAsyncEnumerable`) and 02/03 (records).
 
-You have met N+1 already: a product collection loaded once, then `$productRepository->getById()` or `$product->getCategory()` inside a `foreach`, one query per row. EF Core reproduces it in two ways: a query inside a loop, and **lazy loading**, where touching a navigation property silently runs a query. Microsoft recommends avoiding lazy loading for exactly that reason.
+## Why EF Core endpoints get slow
 
-The other habit to drop is "load the entity, then pick fields". Magento collections tempt you to `addAttributeToSelect('*')`; in EF Core loading full tracked entities for a read-only list costs columns, memory and change-tracking work. The first step is always to look at the SQL.
+EF Core writes the SQL for you, which also means you can no longer see it. Most slow endpoints have one of three causes: too many queries (one per row, the **N+1** problem), too much data per query (whole tracked entities where three columns would do), or rows loaded only to be changed and saved one by one. N+1 appears in two ways: a query inside a loop, and **lazy loading**, where touching a navigation property silently runs a query. Microsoft recommends avoiding lazy loading for exactly that reason. The first step is always to look at the SQL.
 
 ## See the SQL first
 
@@ -91,11 +91,17 @@ await db.Products.Where(p => p.Stock == 0 && p.Discontinued).ExecuteDeleteAsync(
 - Large exports can stream with `await foreach (var row in query.AsAsyncEnumerable())` instead of buffering a whole list.
 - Indexes still decide speed: on SQL Server, `StartsWith` can use an index and `EndsWith` cannot. Check the query plan in your database tools.
 
+## Common mistakes
+
+- **A query per row.** A repository call or lazy-loaded navigation inside a `foreach` sends 51 statements for 50 rows, and the page slows with every row. Use `Include` or a `Select` projection.
+- **`ToListAsync()` before `Where`.** The whole table is loaded and filtered in memory on every request. Keep `Where`, `OrderBy` and `Take` before the terminal operator.
+- **Lazy-loading proxies on "for convenience".** Serializing an entity touches every navigation and fires a query for each, sometimes looping through cycles. Leave lazy loading off and load related data explicitly.
+- **`AsSplitQuery` everywhere.** Each collection costs a round trip; on small collections it is slower. Measure before choosing.
+
 ## In practice
 
 - Read endpoints: `Select` into a DTO, always with an order and a limit. Write endpoints: load tracked entities, change, save.
 - Turn on `LogTo` (or the `Database.Command` log category) in development and in integration tests; a test that counts SQL statements catches N+1 regressions.
-- Usual mistakes: lazy-loading proxies enabled "for convenience", `ToListAsync()` before `Where` (the filter then runs in memory on every row), returning tracked entity graphs to the serializer, and `AsSplitQuery` everywhere without measuring.
 
 ## Check yourself
 

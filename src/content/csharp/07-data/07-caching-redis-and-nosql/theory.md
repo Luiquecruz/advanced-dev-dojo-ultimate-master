@@ -2,11 +2,13 @@
 
 After this lesson you can choose between `IMemoryCache`, `IDistributedCache` backed by Redis and `HybridCache`, write a cached read with a sensible key and expiration, invalidate it when data changes, and decide when a document or key-value store is a better primary database than SQL.
 
-## Coming from PHP/Magento
+You need: 07/02 (EF Core queries and projections), 05/01 (one long-running process), 05/02 (singleton and scoped services), 05/03 (connection strings) and 02/03 (records).
 
-Magento gives you layers out of the box: Redis as the cache backend (and often for sessions), Varnish as the full page cache in front, and cache tags so that saving a product cleans every entry tagged with it. PHP-FPM has no memory that survives a request, so every cache in Magento is out of process.
+## Why cache, and where
 
-ASP.NET Core adds one layer Magento never had: **in-process memory**. Because the app is a long-running process, `IMemoryCache` can keep objects between requests with no network hop. That is the trap as well: each instance has its own copy. Behind a load balancer, instance A can serve a price that instance B already invalidated. The closest equivalents of Magento's setup are `HybridCache` with Redis (memory per instance plus a shared Redis layer, with tags) and the output caching middleware for whole responses, which plays a role similar to Varnish.
+A cache keeps a copy of data that is expensive to compute or fetch (a database query, a call to another service) so that the next reader gets it faster. The copy can be stale, so every cache needs a rule for when it expires and a way to remove an entry when the source changes.
+
+ASP.NET Core offers two places to keep the copy. Because the app is a long-running process, **in-process memory** (`IMemoryCache`) can keep objects between requests with no network hop; the trap is that each instance has its own copy, so behind a load balancer instance A can serve a price that instance B already invalidated. An **out-of-process cache** such as Redis is shared by every instance, at the cost of a network call and serialization. `HybridCache` combines the two, and the output caching middleware stores whole responses.
 
 ## IMemoryCache: fast and local
 
@@ -77,7 +79,7 @@ public sealed class ProductReader(HybridCache cache, CatalogDbContext db)
 public sealed record ProductDto(string Sku, string Name, decimal Price);
 ```
 
-`RemoveAsync(key)` and `RemoveByTagAsync("products")` invalidate entries, which is how you mirror Magento's tag cleaning. Two precise limits from the docs: tag removal is **logical** (old values stay stored but are treated as misses until they expire), and invalidation reaches the current server and Redis, but **not the in-memory layer of other servers**. That is why `LocalCacheExpiration` is shorter than `Expiration`: it bounds how long another instance can serve a stale value. Keys are opaque strings, so use a delimiter (`product:{sku}`) and identifiers you control.
+`RemoveAsync(key)` and `RemoveByTagAsync("products")` invalidate entries: tag every product entry with `products` and one call clears them all. Two precise limits from the docs: tag removal is **logical** (old values stay stored but are treated as misses until they expire), and invalidation reaches the current server and Redis, but **not the in-memory layer of other servers**. That is why `LocalCacheExpiration` is shorter than `Expiration`: it bounds how long another instance can serve a stale value. Keys are opaque strings, so use a delimiter (`product:{sku}`) and identifiers you control.
 
 The factory's result is cached whatever it is, including `null` for an unknown SKU. A `GET` for a product that does not exist yet stores that miss for the full expiration, so a product created a minute later still reads as missing unless the create also removes the key. Either remove the key on every write that can change the answer (create, update, delete), or give misses a much shorter expiration than hits.
 
@@ -90,17 +92,24 @@ Caching keeps SQL as the source of truth. Sometimes the primary store should be 
 | Need | Good fit | Why |
 | --- | --- | --- |
 | Orders, payments, stock | Relational (SQL Server, PostgreSQL) | Transactions across rows, constraints, ad-hoc reporting |
-| A product document with variable attributes, read and written as one unit | Document store (Azure Cosmos DB, MongoDB) | No joins or EAV; the aggregate is one document, partitioned by key |
+| A product document with variable attributes, read and written as one unit | Document store (Azure Cosmos DB, MongoDB) | No joins or attribute tables; the aggregate is one document, partitioned by key |
 | Sessions, counters, rate limits, short-lived data | Key-value (Redis) | Very fast single-key operations with expiration |
 
 EF Core reaches some document stores too: Microsoft maintains a provider for Azure Cosmos DB for NoSQL, and MongoDB maintains `MongoDB.EntityFrameworkCore`. Do not expect relational habits to carry over: you model each document around how it is read and written, and the provider docs ask you to learn the database itself before the EF Core layer. A middle path many teams take first is a relational database with JSON columns; EF Core 10 maps complex types to JSON (`ComplexProperty(...).ToJson()`), which covers "flexible attributes" without a second database.
+
+## Common mistakes
+
+- **`IMemoryCache` across several instances.** An update invalidates the entry on one instance only, so users see the old price on the others until it expires. Use `HybridCache` with Redis and a short `LocalCacheExpiration`.
+- **Per-user data under a shared key.** `cart:summary` without the user id hands one customer's cart to another. Put every value the result depends on in the key.
+- **Mutating a cached object.** `IMemoryCache` returns the same reference, so a change made by one request appears in every later read. Cache immutable records or copies.
+- **Caching "not found" without invalidating on create.** A new product stays missing until the miss expires. Remove the key on every write.
 
 ## In practice
 
 - Cache reads that are expensive and change rarely: category trees, product detail, configuration. Code must still work when the cache is empty.
 - New code: `HybridCache`, with Redis once you run more than one instance. `IMemoryCache` remains fine for small per-instance data such as a parsed lookup table.
 - Invalidate on write, close to `SaveChangesAsync`, and keep expirations as the safety net.
-- Usual mistakes: caching per-user data under a shared key, unbounded memory caches, caching entities or mutable objects, caching a "not found" result without removing it when the item is created, and treating Redis as a durable primary database without configuring persistence.
+- Treat Redis as a cache unless you configure its persistence deliberately; restart it in a test environment and check that the app still works.
 
 ## Status as of 2026-11-05
 

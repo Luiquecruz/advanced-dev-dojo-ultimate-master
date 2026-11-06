@@ -1,0 +1,5 @@
+1. Read the given types first. Two interfaces with one method each are the whole "framework": a command handler changes state and returns as little as possible (an id), a query handler returns data and changes nothing.
+2. Write the command handler as the lesson does: build the write model, let it apply its own rule (`Place()`), store it and save once. Returning the id instead of the `Order` keeps the write model out of the caller's hands.
+3. Give the query handler the narrowest dependency that works. `IOrderReader` has `Find` and nothing else, so the compiler, not discipline, keeps the read side from saving. Build the DTO from the fields the caller needs.
+4. Keep validation in its own class, so the same rules can run in any handler pipeline. Collect every broken rule instead of stopping at the first, so the caller can fix all of them at once.
+5. Write the decorator last. It implements the same interface it wraps, so callers cannot tell it is there. Its only job is to decide whether the inner handler runs at all: validate, throw on errors, otherwise pass the command and the token on untouched. The tests wrap a recording handler to check both paths.

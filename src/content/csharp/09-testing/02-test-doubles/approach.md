@@ -1,0 +1,6 @@
+1. Read the service before the fakes. It takes an `IStockGateway` and a `TimeProvider` in its constructor: those are its two seams, the only places a test can put something of its own.
+2. Write the fake gateway as a real, tiny implementation rather than a recorder: it keeps stock, so a test can check what the service did by asking the fake ("3 left") instead of verifying calls one by one.
+3. Give the fake a way to fail. `FailingOn` lets a test say "the stock service is down for this SKU" without a mocking library, and throwing before any state changes keeps the fake honest.
+4. Make the clock boring on purpose. A clock that only moves in `Advance` makes "14 minutes later" and "15 minutes later" two lines of test code instead of a real wait.
+5. Now run the expiry test against the starter's service. The hold is stamped with the real time and compared with the real time, so advancing the manual clock changes nothing and the hold is never released. Swapping `DateTimeOffset.UtcNow` for `clock.GetUtcNow()` is the whole fix: the seam existed, the code simply did not use it.
+6. Check the boundary: `>=` releases at exactly 15 minutes. The test pins both sides, 14 kept and 15 released, so an off-by-one in the comparison fails too.

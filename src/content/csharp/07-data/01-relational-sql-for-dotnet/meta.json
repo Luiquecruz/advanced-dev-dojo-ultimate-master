@@ -1,6 +1,6 @@
 {
   "title": "Relational SQL for .NET",
-  "summary": "ADO.NET providers for SQL Server and PostgreSQL, parameterized queries, data readers, connection pooling in a long-running process, and why System.Data.SqlClient is deprecated.",
+  "summary": "Tables and the five everyday SQL statements, ADO.NET providers for SQL Server and PostgreSQL, parameterized queries, data readers, connection pooling in a long-running process, and why System.Data.SqlClient is deprecated.",
   "level": "beginner",
   "tags": [
     "established",

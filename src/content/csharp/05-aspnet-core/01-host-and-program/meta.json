@@ -1,6 +1,6 @@
 {
   "title": "The Host and Program.cs",
-  "summary": "What the generic host and WebApplication set up before the first request, how Program.cs is read, environments, graceful shutdown, and why a long-running process changes everything you know from PHP-FPM.",
+  "summary": "What an HTTP request and response are, what the host and WebApplication set up before the first request, how Program.cs is read, environments, graceful shutdown, and why one long-running process shares state across requests.",
   "level": "beginner",
   "tags": [
     "recommended",

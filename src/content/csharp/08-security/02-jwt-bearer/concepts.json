@@ -5,5 +5,6 @@
   { "term": "TokenValidationParameters", "description": "The `Microsoft.IdentityModel.Tokens` class that controls issuer, audience, signing key, lifetime and clock skew validation." },
   { "term": "MapInboundClaims", "description": "A handler option, `true` by default, that renames short claims such as `sub` to long `ClaimTypes` URIs; set it to `false` to keep the issuer's names, and then also set `NameClaimType` and `RoleClaimType` to those short names." },
   { "term": "Clock skew", "description": "The tolerance applied to `exp` and `nbf`, 5 minutes by default, during which an expired token is still accepted." },
+  { "term": "Base64URL", "description": "Base64 with `-` and `_` in place of `+` and `/` and no `=` padding, used for every part of a JWT and decoded with `Base64Url` since .NET 9." },
   { "term": "dotnet user-jwts", "description": "A .NET CLI tool that issues development tokens signed with a key kept by the Secret Manager and writes matching settings to `appsettings.Development.json`." }
 ]

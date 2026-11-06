@@ -44,7 +44,7 @@
     "explanation": "The exception handler wraps only what comes after it in the pipeline, which is why it is registered first. Code before it is outside its try block, so the exception goes up to the server, which typically returns a 500 without your error handling or Problem Details. It is never silently turned into a 200."
   },
   {
-    "question": "A Magento module has an observer on `sales_order_place_after` that sends a confirmation email. Where does that logic belong in an ASP.NET Core API?",
+    "question": "After an order is placed, the API must send a confirmation email. Where does that logic belong in an ASP.NET Core API?",
     "options": [
       "In the order-placing code, by publishing an event or queueing background work",
       "In a middleware that inspects every response body for a newly created order id",

@@ -2,11 +2,11 @@
 
 After this lesson you can tell which ".NET" a codebase runs on from its project file, explain why .NET Framework 4.8.x has no fixed end date, and read what "legacy .NET" means in a job posting. You will also know which parts of that world still have a road forward and which are dead ends.
 
-## Coming from PHP/Magento
+You need: 01/03 (target frameworks and support policies), 01/04 (SDK-style project files), 02/02 (nullable reference types) and 05/01 (the ASP.NET Core host).
 
-The closest analogy is Magento 1 versus Magento 2. Magento 2 was not an upgrade of Magento 1: it was a new codebase with new concepts (DI, service contracts, declarative schema), and moving a store meant a migration project, not `composer update`. .NET Framework to modern .NET is the same kind of jump. The language (C#) carries over, but the web stack (`System.Web`), the configuration model (`web.config`), the hosting model (IIS only) and several technologies (Web Forms, WCF server) do not.
+## A new platform, not a new version
 
-The trap is the PHP habit of in-place upgrades. Going from PHP 7.4 to 8.3 keeps your framework and your `php.ini`; you fix deprecations and redeploy. Changing a `.csproj` from `net48` to `net10.0` does not work that way: an ASP.NET MVC 5 app does not even compile, because `System.Web` does not exist on modern .NET.
+Moving from .NET Framework to modern .NET is a migration, not an upgrade. The language (C#) carries over, and so does most business logic. The web stack (`System.Web`), the configuration model (`web.config`), the hosting model (IIS only) and several technologies (Web Forms, the WCF server) do not. Changing a `.csproj` from `net48` to `net10.0` is not enough: an ASP.NET MVC 5 app does not even compile, because `System.Web` does not exist on modern .NET.
 
 ## Three products with one name
 
@@ -35,7 +35,7 @@ The fastest way to place a codebase is its `.csproj`. A classic .NET Framework p
 </Project>
 ```
 
-Three tells mark this format, none of which exist in an SDK-style project: `TargetFrameworkVersion` with a `v` prefix instead of a TFM, one `<Compile Include>` line per source file instead of a default glob, and packages listed in a separate `packages.config` file instead of `<PackageReference>` items. The project may even be an SDK-style file that targets `net48`; then the TFM decides, and module 01 lesson 3 ("Versions, Support and Target Frameworks") covers TFMs, default C# versions and multi-targeting.
+Three tells mark this format, none of which an SDK-style project uses by default: `TargetFrameworkVersion` with a `v` prefix instead of a TFM, one `<Compile Include>` line per source file instead of a default glob, and packages listed in a separate `packages.config` file instead of `<PackageReference>` items. The project may even be an SDK-style file that targets `net48`; then the TFM decides, and 01/03 ("Versions, Support and Target Frameworks") covers TFMs, default C# versions and multi-targeting.
 
 What matters for legacy work is the bridge. `netstandard2.0` is the last .NET Standard version that .NET Framework implements (it does not support 2.1), so a library that targets it can be referenced from the old `net48` app and the new `net10.0` app at the same time. That is how a migration shares business logic while both apps run.
 
@@ -58,7 +58,7 @@ public class Customer
 }
 ```
 
-Nothing here is wrong, and it compiles on .NET 10 unchanged (with nullable warnings if the project enables them). Do not modernize the syntax of a file you only came to fix; keep the diff to the bug.
+It compiles on .NET 10 unchanged (with nullable warnings if the project enables them). Do not modernize the syntax of a file you only came to fix; keep the diff to the bug.
 
 ## Why there is no end date
 
@@ -77,17 +77,21 @@ Microsoft lists the .NET Framework technologies that are not available on .NET 6
 - **Workflow Foundation**: not supported; CoreWF is a community port.
 - Smaller items: saving `Reflection.Emit` assemblies before .NET 9, multi-module assemblies and XSLT script blocks.
 
-The same page adds a tip that the WCF server runs on modern .NET through the community CoreWCF packages (lesson 3). ASP.NET Web Forms is not on that list because it belongs to ASP.NET, not the runtime: it follows the .NET Framework support policy and has no ASP.NET Core equivalent; Microsoft's path is Blazor ("Blazor for ASP.NET Web Forms Developers", lesson 3).
+The same page adds a tip that the WCF server runs on modern .NET through the community CoreWCF packages (lesson 13/03). ASP.NET Web Forms is not on that list because it belongs to ASP.NET, not the runtime: it follows the .NET Framework support policy and has no ASP.NET Core equivalent; Microsoft's path is Blazor ("Blazor for ASP.NET Web Forms Developers", lesson 13/03).
+
+## Common mistakes
+
+- **Estimating the move as a version bump.** The TFM changes to `net10.0`, the build fails on every `System.Web` reference, and the "one-day upgrade" becomes an unplanned project. Estimate the web layer as a migration (lesson 13/04).
+- **Reading "4.8 is supported" as "4.8 is a fine target".** Supported means security fixes only: new code on 4.8 never gets ASP.NET Core, EF Core or Linux containers. Start new code on .NET 10.
+- **Treating .NET Core 3.1 as Framework code.** It already runs on Linux and uses ASP.NET Core, so moving it is mostly a TFM change plus breaking changes, not a migration.
 
 ## In practice
 
 In the 69-posting sample of this track's research, about 3 in 10 postings named .NET Framework-era technology (WCF, Web Forms, ASP.NET 4.8, WinForms, VB.NET) and about 1 in 8 asked for migration or modernization. "Legacy .NET" in a posting can mean three different jobs, and you should ask which one:
 
-1. **Maintain** a .NET Framework 4.x app on Windows Server and IIS: you need to read `System.Web` code (lessons 2 and 3).
-2. **Migrate** it to modern .NET: you need lesson 4 and the project.
-3. **Upgrade** an out-of-support modern app (.NET Core 3.1, .NET 6): a much smaller job, mostly a TFM change plus breaking changes.
-
-Usual mistakes: assuming "4.8 is supported" means "4.8 is a fine target for new code"; treating .NET Core 3.1 code as legacy Framework code (it already runs on Linux and uses ASP.NET Core); and estimating a Framework-to-.NET migration as a version bump.
+1. **Maintain** a .NET Framework 4.x app on Windows Server and IIS: you need to read `System.Web` code (lessons 13/02 and 13/03).
+2. **Migrate** it to modern .NET: you need lesson 13/04 and the project.
+3. **Upgrade** an out-of-support modern app (.NET Core 3.1, .NET 6): a much smaller job.
 
 ## Status as of 2026-11-05
 

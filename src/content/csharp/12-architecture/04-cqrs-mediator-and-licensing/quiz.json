@@ -1,14 +1,14 @@
 [
   {
-    "question": "Which Magento mechanism is closest to a CQRS read model?",
+    "question": "A store keeps its products, prices and stock in normalized tables and rebuilds a denormalized `product_search` table from them every few minutes for the storefront. In CQRS terms, what is that table?",
     "options": [
-      "The `di.xml` preference that binds `ProductRepositoryInterface` to its implementation",
-      "The price and search indexers, rebuilt from the EAV write tables, often on schedule",
-      "The `sales_order_place_after` observer that reacts to every newly placed order",
-      "The `quote` tables that hold the cart until it is converted into an order"
+      "A second write model, because the storefront can update the products through it",
+      "A read model rebuilt from the write side, so storefront reads are eventually consistent",
+      "An event store, because every change is replayed into it to rebuild the current state",
+      "A cache in front of the write model, which CQRS forbids because it duplicates the data"
     ],
     "answer": 1,
-    "explanation": "Indexers build denormalized tables and a search index for fast reads from the normalized write side, and \"Update by Schedule\" makes those reads eventually consistent: that is CQRS with separate stores. A DI preference and an observer are wiring and side effects, and the quote tables are write-side state of their own, not a projection."
+    "explanation": "The table is shaped for fast reads and built from the normalized write side, which is exactly a CQRS read model in a separate store; because it is rebuilt every few minutes, reads are briefly stale (eventual consistency). Nothing writes through it, so it is not a write model, and it holds current state rather than a log of events, so it is not an event store."
   },
   {
     "question": "What is the minimum needed to apply CQRS in an ASP.NET Core API?",
@@ -33,7 +33,7 @@
     "explanation": "The read side exists to skip the domain model: project straight to the DTO so EF Core selects only those columns, and a projection to a non-entity type is not tracked. `AsNoTracking()` removes tracking but still loads every column of the aggregates and their lines."
   },
   {
-    "question": "You want every command handler to log before and after it runs, without a library. What does the built-in DI container require?",
+    "question": "You want every command handler to validate the command first and log before and after it runs, without a library. What does the built-in DI container require?",
     "options": [
       "A decorator class, registered with a factory that wraps the concrete handler",
       "A call to `services.Decorate(...)`, which the built-in container provides out of the box",

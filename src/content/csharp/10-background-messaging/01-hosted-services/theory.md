@@ -1,18 +1,12 @@
 # Hosted Services and the Worker Service
 
-After this lesson you can write a `BackgroundService` that runs inside a web API or in its own Worker Service process, give each unit of work its own DI scope, stop cleanly when the host shuts down, and decide which Magento cron jobs and queue consumers become hosted services.
+After this lesson you can write a `BackgroundService` that runs inside a web API or in its own Worker Service process, give each unit of work its own DI scope, stop cleanly when the host shuts down, and decide which background work belongs in a hosted service.
 
-## Coming from PHP/Magento
-
-Magento has two kinds of background work. `crontab.xml` declares jobs with a cron expression; the system crontab runs `bin/magento cron:run` every minute, which schedules and runs due jobs in fresh PHP processes. `queue_consumer.xml` declares consumers, which run as `bin/magento queue:consumers:start <name>` processes (or are spawned by cron through `cron_consumers_runner` in `env.php`) and often exit after `max_messages` so that memory leaks die with the process.
-
-In .NET the equivalent is a hosted service: a class the host starts with the app and stops with it. It lives in the same long-running process as your API, or in a separate Worker Service process that has no HTTP server. Nothing restarts it every minute and nothing throws its memory away after `max_messages` messages.
-
-What transfers: the idea of a job class with injected dependencies, and the split between scheduled jobs and queue consumers. The trap: a hosted service is registered as a **singleton** and runs for hours. In Magento, injecting a repository into a consumer is fine because the process is short-lived. Here, injecting a scoped `DbContext` into the constructor either fails at startup (scope validation, on in Development) or, without validation, keeps one `DbContext` and its change tracker alive for the life of the process.
+You need: 05/01 (the host and graceful shutdown), 05/02 (lifetimes and scope validation), 04/04 (cancellation tokens), 04/05 (`Channel<T>`) and 07/02 (`DbContext`).
 
 ## IHostedService and BackgroundService
 
-The host calls two methods on every `IHostedService`: `StartAsync` when the app starts and `StopAsync` on graceful shutdown. Most code derives from `BackgroundService`, which implements both and asks you for one method, `ExecuteAsync`. The `Task` it returns represents the whole lifetime of the service.
+A **hosted service** is a class the host starts with the app and stops with it. It lives in the same long-running process as your API, or in a separate Worker Service process with no HTTP server, and runs for hours or days. The host calls two methods on every `IHostedService`: `StartAsync` when the app starts and `StopAsync` on graceful shutdown. Most code derives from `BackgroundService`, which implements both and asks you for one method, `ExecuteAsync`. The `Task` it returns represents the whole lifetime of the service.
 
 ```csharp
 public sealed class HeartbeatService(ILogger<HeartbeatService> logger) : BackgroundService
@@ -96,14 +90,20 @@ It has configuration, logging and DI like a web app, but no Kestrel and no endpo
 
 ## In-process queues
 
-Hosted services can also drain an in-memory queue: an endpoint writes a work item to a bounded `Channel<T>` (module 04) and returns `202 Accepted`, and a `BackgroundService` reads and runs the items. Microsoft's hosted services article shows this pattern. It is good for work you can afford to lose, because the queue lives in process memory: a crash, a deploy or a scale-in drops whatever was waiting. Work that must survive belongs in a durable store or a broker (lessons 02 and 03).
+Hosted services can also drain an in-memory queue: an endpoint writes a work item to a bounded `Channel<T>` (module 04) and returns `202 Accepted`, and a `BackgroundService` reads and runs the items. Microsoft's hosted services article shows this pattern. It is good for work you can afford to lose, because the queue lives in process memory: a crash, a deploy or a scale-in drops whatever was waiting. Work that must survive belongs in a durable store or a broker (lessons 10/02 and 10/03).
+
+## Common mistakes
+
+- **Injecting a scoped service into the constructor.** A hosted service is a singleton: with scope validation (on in Development) startup fails, and without it one `DbContext` and its change tracker live for the whole process. Create a scope per unit of work.
+- **Ignoring `stoppingToken`.** Shutdown waits for the loop only up to the shutdown timeout, then the process exits mid-work. Pass the token to every async call.
+- **Letting an exception escape `ExecuteAsync`.** With the default `StopHost`, one failed cleanup tick stops the whole API. Catch per-iteration failures inside the loop.
+- **Long synchronous work in `StartAsync`.** The host waits for it, so the app starts late. Keep `StartAsync` short.
 
 ## In practice
 
 - **Same host or separate worker.** Start in the API process when the job is small. Move it to a Worker Service when it needs its own scaling, its own deploy cadence, or should not compete with requests for CPU.
-- **Every replica runs every hosted service**, so scheduled work on several instances needs coordination (lesson 02).
+- **Every replica runs every hosted service**, so scheduled work on several instances needs coordination (lesson 10/02).
 - **Do not capture request state.** `HttpContext` must not be stored or used after the request; copy the values you need (an order id, a user id) into the work item.
-- Usual mistakes: injecting a scoped service into the constructor, ignoring `stoppingToken`, letting one exception stop the host, and long synchronous work in `StartAsync`, which delays startup.
 
 ## Status as of 2026-11-05
 
@@ -112,7 +112,7 @@ Hosted services can also drain an in-memory queue: an endpoint writes a work ite
 
 ## Check yourself
 
-1. Why does constructor injection of a `DbContext` work in a Magento-style short-lived consumer but not in a `BackgroundService`?
+1. Why does constructor injection of a `DbContext` work in a scoped request handler but not in a `BackgroundService`?
 2. What happens to the web API when a hosted service in the same process throws an unhandled exception, and how do you keep one bad iteration from causing it?
 3. Why does an endpoint copy the order id into the work item instead of passing `HttpContext` to the hosted service?
 4. Which work is acceptable to queue in a `Channel<T>` drained by a hosted service, and which is not?

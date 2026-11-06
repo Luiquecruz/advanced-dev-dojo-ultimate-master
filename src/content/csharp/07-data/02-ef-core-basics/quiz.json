@@ -1,8 +1,8 @@
 [
   {
-    "question": "A Magento developer updates five products and expects to call `save` five times. What is the EF Core way?",
+    "question": "A developer updates five products and plans to call a save method once per product. What is the EF Core way?",
     "options": [
-      "Call `SaveChangesAsync()` after each property change, the same way you call `$repository->save()` per product",
+      "Call `SaveChangesAsync()` after each property change, once for every product you modify",
       "Call `db.Update(product)` for each product first, otherwise EF Core ignores changes to entities it loaded",
       "Open a transaction manually around the five saves, because `SaveChangesAsync()` is not transactional on its own",
       "Change the tracked entities, then call `SaveChangesAsync()` once"
@@ -30,7 +30,7 @@
       "Never; EF Core reads the whole table at startup and filters it in memory"
     ],
     "answer": 2,
-    "explanation": "`Where` and `OrderBy` on an `IQueryable` only build an expression. The terminal operator `ToListAsync` makes EF Core translate the whole expression into one SQL statement. Thinking each line runs a query is the habit from eager PHP collection methods."
+    "explanation": "`Where` and `OrderBy` on an `IQueryable` only build an expression. The terminal operator `ToListAsync` makes EF Core translate the whole expression into one SQL statement. Thinking each line runs a query misses deferred execution: on an in-memory list the operators also wait until the sequence is enumerated, but then run in C# over the objects instead of in SQL (03/03)."
   },
   {
     "question": "A query contains `.Where(p => MySlugHelper.Normalize(p.Name) == slug)`, where `Normalize` is your own C# method. What does EF Core 10 do?",

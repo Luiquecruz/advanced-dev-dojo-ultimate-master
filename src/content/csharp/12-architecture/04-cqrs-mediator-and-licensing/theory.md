@@ -2,15 +2,13 @@
 
 After this lesson you can separate commands from queries in an ASP.NET Core app with a few interfaces and the built-in DI container, add cross-cutting behavior with a decorator, decide whether a mediator library earns its place, and explain the 2025 licence change of MediatR and AutoMapper to your team.
 
-## Coming from PHP/Magento
-
-Magento already runs a CQRS system, under another name. Writes go through repositories and models into normalized EAV tables. Reads that must be fast come from **indexers**: the price index (`catalog_product_index_price`), the stock index and the OpenSearch catalog search index are read models, rebuilt from the write side. (The flat catalog tables did the same job, but Adobe no longer recommends them.) With "Update by Schedule", mview triggers record changes and cron applies them later, so the storefront reads data that is briefly stale. That is CQRS with separate stores and eventual consistency.
-
-The trap goes the other way: thinking CQRS always means two databases, event sourcing and a library. The basic form, which Microsoft's microservices e-book uses for its ordering service, keeps **one database** and splits only the code: commands go through the domain model, queries project straight to DTOs.
+You need: 05/02 (registering services, factories), 05/04 (`ILogger`), 06/01 (minimal API endpoints), 07/02 (EF Core projections), 10/04 (the outbox) and 12/03 (the `Order` aggregate).
 
 ## CQS and CQRS
 
 **Command-query separation (CQS)** is a method-level rule from Bertrand Meyer: a method either changes state or returns data, not both. **CQRS** applies it to the model: a *write model* (aggregates, validation, transactions) for commands and a *read model* (DTOs shaped for the screen) for queries. Commands should name business intent ("place order"), not field edits ("set status to 2").
+
+The read model can live in a separate store, such as a denormalized table or a search index rebuilt from the write side, and then reads are briefly stale (eventual consistency). The basic form, which Microsoft's microservices e-book uses for its ordering service, keeps **one database** and splits only the code: commands go through the domain model, queries project straight to DTOs.
 
 ## Commands without a library
 
@@ -28,7 +26,7 @@ public interface IQueryHandler<in TQuery, TResult>
 }
 ```
 
-A command handler loads or creates the aggregate from lesson 03, calls its methods and saves:
+A command handler loads or creates the aggregate from lesson 12/03, calls its methods and saves:
 
 ```csharp
 public sealed record PlaceOrder(Guid CustomerId, string Currency, IReadOnlyList<PlaceOrderLine> Lines);
@@ -71,7 +69,7 @@ internal sealed class GetOrderSummaryHandler(OrderingDbContext db)
 }
 ```
 
-When a query outgrows LINQ (a report with window functions), the read side can switch to Dapper or raw SQL (module 07) without touching the write model. That freedom is the point of the split.
+When a query outgrows LINQ (a report with window functions), the read side can switch to Dapper or raw SQL (07/05) without touching the write model. That freedom is the point of the split.
 
 ## Wiring and a decorator
 
@@ -113,7 +111,7 @@ builder.Services.AddScoped<ICommandHandler<PlaceOrder, Guid>>(sp =>
 builder.Services.AddScoped<IQueryHandler<GetOrderSummary, OrderSummary?>, GetOrderSummaryHandler>();
 ```
 
-This is the closest thing to a Magento `around` plugin: explicit, visible in `Program.cs`, and limited to the interfaces you chose.
+The wrapping is explicit, visible in `Program.cs`, and limited to the interfaces you chose.
 
 ## Where MediatR fits, and its licence
 
@@ -126,13 +124,19 @@ What to do in a team:
 - **New code:** the interfaces above replace MediatR, and hand-written mapping or a LINQ `Select` replaces AutoMapper. Explicit mapping also shows up in "find references", and projections run in SQL.
 - **Existing code on MediatR 12:** it keeps its old licence, but upgrading past that major means accepting the new terms. Decide deliberately; do not let a routine package update decide for you.
 - **Existing code on AutoMapper 14 or earlier:** it keeps the MIT licence, but it also keeps a high-severity denial-of-service vulnerability (see Status) that has no MIT-licensed fix. Staying put is not the safe default. The realistic choices are to accept the new licence and upgrade to a patched release, to replace AutoMapper with explicit mapping, or to mitigate deliberately (never map untrusted, deeply nested object graphs) while you plan one of the other two.
-- **Choosing to pay or to qualify for Community** is a legitimate option; check the terms with whoever owns licensing, as you would for a Magento Marketplace extension.
+- **Choosing to pay or to qualify for Community** is a legitimate option; check the terms with whoever owns licensing, as for any commercial dependency.
+
+## Common mistakes
+
+- **Queries that load aggregates.** A summary handler loads `Order` with its lines and maps in memory, reading and tracking every column for four fields. Project with `Select` to the DTO.
+- **Commands that return the updated entity.** The API then exposes the write model, so every change to the aggregate changes the API. Return an id or nothing, and let a query read the result.
+- **A decorator that runs the inner handler before validating**, or logs the errors and calls it anyway. The invalid order is already saved when the error appears. Check first and throw before `inner.HandleAsync`.
+- **A mediator "for clean code" in a five-endpoint project.** It adds indirection and, since 2025, a licence question for nothing.
 
 ## In practice
 
-- Start with one database and separate handlers. Add a separate read store (a denormalized table, a search index, Redis) only when a measured read problem needs it; then you inherit eventual consistency, and the outbox from module 10 keeps the stores in sync.
+- Start with one database and separate handlers. Add a separate read store (a denormalized table, a search index, Redis) only when a measured read problem needs it; then you inherit eventual consistency, and the outbox (10/04) keeps the stores in sync.
 - Microsoft's CQRS pattern page says it might not suit simple domains or plain CRUD. A product admin API rarely needs it.
-- Usual mistakes: queries that load full aggregates and map them in memory; commands that return the whole updated entity (return an id or nothing); a mediator added "for clean code" in a project with five endpoints.
 
 ## Status as of 2026-11-05
 
@@ -141,7 +145,7 @@ What to do in a team:
 
 ## Check yourself
 
-- Which Magento feature is a CQRS read model, and where does its eventual consistency come from?
+- When does a CQRS read model become eventually consistent, and what keeps it in sync?
 - Why does the query handler not load an `Order` aggregate?
 - How would you add a transaction around every command handler without a library?
 - Your project depends on AutoMapper 14 and a bot opens a pull request to 16.2.0. Why is rejecting it to keep the MIT licence not a free choice, and what are your real options?

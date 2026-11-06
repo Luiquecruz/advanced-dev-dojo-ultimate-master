@@ -2,15 +2,11 @@
 
 After this lesson you can organize an ASP.NET Core application by feature instead of by technical layer, split a monolith into modules with enforced boundaries inside one deployable, and choose between layers, slices and modules for a given codebase.
 
-## Coming from PHP/Magento
-
-Magento is closer to a modular monolith than to a layered app. Each `app/code/Vendor/Module` folder carries its own `etc/di.xml`, `routes.xml`, `db_schema.xml`, controllers and models, and the whole store still ships as one deployment. What Magento does not give you is a boundary: every module shares one database, joins other modules' tables freely, and a plugin can intercept any public method of any other module. Over time, "modules" become a folder convention over one big ball of shared state.
-
-A .NET modular monolith keeps Magento's good part (one deployable, feature-shaped folders) and adds what was missing: each module is its own project, its internals are `internal`, other modules reach it only through a small public contract, and its tables live in its own schema. The compiler enforces the code boundary that Magento left to code review, and the schema makes data ownership visible; the database only enforces it if each module connects with its own role and grants.
+You need: 06/01 (minimal API endpoints and `TypedResults`), 07/02 (EF Core), 10/04 (the outbox) and 12/01 (projects as boundaries).
 
 ## Layers cut horizontally, slices cut vertically
 
-Lesson 01 split code by technical concern: endpoints in one project, use cases in another, EF Core in a third. Adding one feature ("get a product by SKU") touches all of them. A **vertical slice** groups everything one request needs, from the endpoint to the query, in one place. Jimmy Bogard, who popularized the term, sums it up as "minimize coupling between slices, and maximize coupling in a slice."
+Lesson 12/01 split code by technical concern: endpoints in one project, use cases in another, EF Core in a third. Adding one feature ("get a product by SKU") touches all of them. A **vertical slice** groups everything one request needs, from the endpoint to the query, in one place. Jimmy Bogard, who popularized the term, sums it up as "minimize coupling between slices, and maximize coupling in a slice."
 
 ```
 Catalog.Api/
@@ -61,7 +57,7 @@ products.MapCreateProduct().RequireAuthorization("admin"); // this endpoint only
 // ...
 ```
 
-Each slice picks the simplest approach that works. A read slice projects straight from the `DbContext`; a write slice with real rules calls a domain object (lesson 03). There is no mandatory repository or service layer to pass through, so there is nothing to keep in sync. The price: the team must notice when logic is duplicated across slices and move it into a shared domain type. Bogard names that as the main drawback: the style assumes a team that recognizes code smells and refactors.
+Each slice picks the simplest approach that works. A read slice projects straight from the `DbContext`; a write slice with real rules calls a domain object (lesson 12/03). There is no mandatory repository or service layer to pass through, so there is nothing to keep in sync. The price: the team must notice when logic is duplicated across slices and move it into a shared domain type. Bogard names that as the main drawback: the style assumes a team that recognizes code smells and refactors.
 
 ## Modular monolith: modules with real boundaries
 
@@ -124,7 +120,13 @@ Rules that keep the boundary honest:
 
 - **No cross-module table access.** Ordering never queries `inventory.stock_items`; it calls `IStockReader` or reacts to an event. One physical database is fine; one shared schema is not. With one `Main` connection string this is an application rule: a schema groups and qualifies tables but does not stop a role with privileges on it from reading them. To have the database enforce it, give each module its own role, granted only on its own schema.
 - **Internal by default.** Entities, `DbContext`, handlers: all `internal`. Tests reach them with `[assembly: InternalsVisibleTo("Inventory.Tests")]`.
-- **Talk in-process, asynchronously when you can.** A synchronous call through a contract is a method call. For "something happened" (an order placed), publish an event through an in-process dispatcher or the outbox from module 10, so the module could later move out of the process without rewriting its callers.
+- **Talk in-process, asynchronously when you can.** A synchronous call through a contract is a method call. For "something happened" (an order placed), publish an event through an in-process dispatcher or the outbox from 10/04, so the module could later move out of the process without rewriting its callers.
+
+## Common mistakes
+
+- **A `Shared` or `Common` project that keeps growing.** Every module depends on it, so a change there rebuilds and retests everything: a second monolith inside the first. Keep it to true primitives and move logic back into the module that owns it.
+- **Referencing another module's implementation project.** Ordering injects `InventoryDbContext` and the build passes, but Inventory can no longer change its tables without breaking Ordering. Reference `Inventory.Contracts` only.
+- **One `DbContext` that maps every table "to make joins easy".** A query in Ordering joins Inventory's tables and the boundary is gone without any error. Give each module its own context and schema.
 
 ## In practice
 
@@ -134,9 +136,7 @@ Rules that keep the boundary honest:
 | Vertical slices | Many independent use cases, mostly reads and simple writes, frequent feature changes |
 | Modular monolith | Several business capabilities and teams in one codebase, boundaries still moving, one deployment acceptable |
 
-They combine: modules on the outside, slices inside each module, and a small domain model where the rules are hard. A modular monolith is also the cheapest way to find the boundaries a future microservice would need (lesson 05).
-
-Usual mistakes: a `Shared` or `Common` project that grows into a second monolith every module depends on; modules that reference each other's implementation projects; one `DbContext` mapping every table "to make joins easy", which silently removes the boundary.
+They combine: modules on the outside, slices inside each module, and a small domain model where the rules are hard. A modular monolith is also the cheapest way to find the boundaries a future microservice would need (lesson 12/05).
 
 ## Status as of 2026-11-05
 

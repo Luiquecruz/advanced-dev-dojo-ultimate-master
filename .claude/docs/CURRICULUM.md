@@ -340,7 +340,7 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 
 Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"engine": "csharp"`, [csharp-engine.md](csharp-engine.md)): every lesson is theory + quiz, lessons marked **(challenge)** also have a graded C# challenge (added lesson by lesson), and practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK. 14 modules, 73 lessons: core 01–11, deepening 12 and 14, legacy 13. Enabled (`TRACK_FLAGS.csharp = true`) once every module was written, cross-reviewed and verified and the whole track passed an independent final review.
 
-### 01-platform — The .NET Platform for PHP Developers
+### 01-platform — The .NET Platform
 01-csharp-map ✓ · 02-runtime-sdk-and-cli ✓ · 03-versions-and-support ✓ · 04-nuget-and-project-files ✓
 
 ### 02-language — C# Language Essentials
@@ -362,22 +362,22 @@ Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"en
 01-relational-sql-for-dotnet ✓ · 02-ef-core-basics ✓ · 03-ef-core-migrations ✓ · 04-tracking-and-performance ✓ · 05-dapper-and-ado-net ✓ · 06-transactions-and-concurrency ✓ · 07-caching-redis-and-nosql ✓ · 08-project-catalog-persistence **(project)** ✓
 
 ### 08-security — API Security
-01-authentication-concepts ✓ · 02-jwt-bearer ✓ · 03-authorization-policies ✓ · 04-aspnet-core-identity ✓ · 05-api-hardening ✓
+01-authentication-concepts ✓ · 02-jwt-bearer **(challenge)** ✓ · 03-authorization-policies ✓ · 04-aspnet-core-identity ✓ · 05-api-hardening ✓
 
 ### 09-testing — Automated Testing
-01-unit-testing-with-xunit ✓ · 02-test-doubles ✓ · 03-integration-tests-with-webapplicationfactory ✓ · 04-database-tests-with-testcontainers ✓ · 05-project-secure-and-test-the-api **(project)** ✓
+01-unit-testing-with-xunit ✓ · 02-test-doubles **(challenge)** ✓ · 03-integration-tests-with-webapplicationfactory ✓ · 04-database-tests-with-testcontainers ✓ · 05-project-secure-and-test-the-api **(project)** ✓
 
 ### 10-background-messaging — Background Work and Messaging
-01-hosted-services ✓ · 02-scheduling-with-hangfire-and-quartz ✓ · 03-message-brokers ✓ · 04-reliable-messaging ✓ · 05-http-clients-and-resilience ✓ · 06-project-order-worker **(project)** ✓
+01-hosted-services ✓ · 02-scheduling-with-hangfire-and-quartz ✓ · 03-message-brokers ✓ · 04-reliable-messaging **(challenge)** ✓ · 05-http-clients-and-resilience ✓ · 06-project-order-worker **(project)** ✓
 
 ### 11-delivery — Containers, CI/CD, Cloud and Observability
 01-docker-for-dotnet ✓ · 02-ci-cd-pipelines ✓ · 03-cloud-hosting ✓ · 04-observability ✓ · 05-aspire ✓ · 06-project-ship-it **(project)** ✓
 
 ### 12-architecture — Application Architecture
-01-layered-and-clean-architecture ✓ · 02-vertical-slices-and-modular-monoliths ✓ · 03-domain-driven-design-essentials ✓ · 04-cqrs-mediator-and-licensing ✓ · 05-microservices-trade-offs ✓
+01-layered-and-clean-architecture ✓ · 02-vertical-slices-and-modular-monoliths ✓ · 03-domain-driven-design-essentials **(challenge)** ✓ · 04-cqrs-mediator-and-licensing **(challenge)** ✓ · 05-microservices-trade-offs ✓
 
 ### 13-legacy — Legacy .NET and Migration
 01-net-framework-landscape ✓ · 02-aspnet-mvc5-and-web-api-2 ✓ · 03-web-forms-and-wcf ✓ · 04-migration-strategies ✓ · 05-project-legacy-migration **(project)** ✓
 
 ### 14-integration-quality — Integration, Performance and Quality
-01-grpc-and-signalr ✓ · 02-performance-and-memory ✓ · 03-diagnostics-in-production ✓ · 04-code-quality-and-analyzers ✓ · 05-ai-in-dotnet-apps ✓
+01-grpc-and-signalr ✓ · 02-performance-and-memory **(challenge)** ✓ · 03-diagnostics-in-production ✓ · 04-code-quality-and-analyzers ✓ · 05-ai-in-dotnet-apps ✓

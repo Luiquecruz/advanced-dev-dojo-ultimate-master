@@ -2,15 +2,15 @@
 
 After this lesson you can write a pipeline that restores, builds, tests and publishes a .NET 10 API as a container image, in GitHub Actions and in Azure DevOps Pipelines. You will know which `dotnet` CLI flags make a pipeline reproducible and fast, and why "build once, deploy the same image everywhere" is the rule.
 
-## Coming from PHP/Magento
+You need: 01/03 (`global.json`), 01/04 (NuGet and lock files), 05/03 (configuration per environment), 07/03 (migrations), 09/01 (`dotnet test`) and 11/01 (container images).
 
-A Magento pipeline runs `composer install`, `bin/magento setup:di:compile` and `setup:static-content:deploy`, packs the result, and a deploy tool such as Deployer copies it to servers and runs `setup:upgrade`. The ideas transfer directly: a lock file, a build step that generates code, an artifact, and a schema step during deploy.
+## What a pipeline is for
 
-The differences:
+A pipeline (CI, continuous integration, plus CD, continuous delivery) turns every commit into a tested artifact and moves that artifact towards production. Three ideas shape a .NET pipeline:
 
-- **The compiler is the first test.** `dotnet build` fails on any type error across the whole solution, which PHP only discovers at run time. Treat a broken build as a failed test.
-- **The artifact is an image, not a folder.** You publish one image tagged with the commit and promote that same image through staging and production. Rebuilding per environment, common with Magento because `env.php` and static content differ per server, is the trap. In .NET, environment differences live in configuration (module 05/03), not in the build.
-- **Migrations are a separate, explicit step.** Nothing runs `setup:upgrade` for you. Apply EF Core migrations with a migration bundle or a reviewed SQL script (module 07/03) before or during the deploy, never from every app instance at start-up.
+- **The compiler is the first test.** `dotnet build` fails on any type error across the whole solution. Treat a broken build as a failed test.
+- **The artifact is an image.** You publish one image tagged with the commit and promote that same image through staging and production. Environment differences live in configuration (05/03), not in the build.
+- **Migrations are a separate, explicit step.** Nothing applies them for you. Run an EF Core migration bundle or a reviewed SQL script (07/03) before or during the deploy, never from every app instance at start-up.
 
 ## The four commands
 
@@ -25,13 +25,13 @@ dotnet publish src/Catalog.Api --os linux --arch x64 /t:PublishContainer \
   -p ContainerImageTags=$GITHUB_SHA
 ```
 
-`--no-restore` and `--no-build` stop each step from redoing the previous one. `--locked-mode` fails the restore if `packages.lock.json` does not match the project, the NuGet equivalent of `composer install` refusing a stale `composer.lock`. Enable the lock file with `<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>`. Pin the SDK too, with a `global.json` at the repository root, so CI and laptops compile with the same SDK:
+`--no-restore` and `--no-build` stop each step from redoing the previous one. `--locked-mode` fails the restore if `packages.lock.json` does not match the project, so CI never resolves package versions that nobody reviewed. Enable the lock file with `<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>`. Pin the SDK too, with a `global.json` at the repository root, so CI and laptops compile with the same SDK:
 
 ```json
 { "sdk": { "version": "10.0.100", "rollForward": "disable" } }
 ```
 
-`disable` makes `setup-dotnet` install exactly that SDK and makes every machine use it, which lock files need (lesson 01/04). A `latest*` policy such as `latestFeature` lets `setup-dotnet` install the newest allowed band, so the SDK could change between runs without a commit; with `disable`, an SDK upgrade is an explicit change to `global.json`.
+`disable` makes `setup-dotnet` install exactly that SDK and makes every machine use it, which lock files need (01/04). A `latest*` policy such as `latestFeature` lets `setup-dotnet` install the newest allowed band, so the SDK could change between runs without a commit; with `disable`, an SDK upgrade is an explicit change to `global.json`.
 
 ## Stamp the build into the binary
 
@@ -86,7 +86,7 @@ jobs:
             -p ContainerImageTags=${{ github.sha }}
 ```
 
-Pull requests run build and test; only `main` pushes an image. `setup-dotnet` reads the SDK version from `global.json`. Without one, the runner's newest preinstalled SDK is used, so builds can change under you. `cache: true` caches the NuGet folder keyed by `packages.lock.json` and errors if no lock file exists. The workflow's `GITHUB_TOKEN` can push to GitHub Container Registry when the job grants `packages: write`. The SDK container tooling reads the credentials that `docker login` stores. Repository names must be lowercase, so do not build them from `github.repository` when the owner has capitals. The ubuntu runners have Docker, so Testcontainers tests (module 09/04) run in the same `dotnet test` step.
+Pull requests run build and test; only `main` pushes an image. `setup-dotnet` reads the SDK version from `global.json`. Without one, the runner's newest preinstalled SDK is used, so builds can change under you. `cache: true` caches the NuGet folder keyed by `packages.lock.json` and errors if no lock file exists. The workflow's `GITHUB_TOKEN` can push to GitHub Container Registry when the job grants `packages: write`. The SDK container tooling reads the credentials that `docker login` stores. Repository names must be lowercase, so do not build them from `github.repository` when the owner has capitals. The ubuntu runners have Docker, so Testcontainers tests (09/04) run in the same `dotnet test` step.
 
 ## Azure DevOps Pipelines
 
@@ -115,13 +115,19 @@ steps:
 
 `UseDotNet@2` installs the SDK, from `global.json` when `useGlobalJson` is true. `DotNetCoreCLI@2` wraps CLI commands, and with `command: test` it publishes the test results to the run summary. Plain `script:` steps with the CLI work too, and keep the pipeline portable between products. In Azure DevOps, **stages** with **environments** and approvals take the role of protected deploy jobs.
 
+## Common mistakes
+
+- **One image per environment.** Rebuilding for staging and again for production means production runs a binary nobody tested. Build once, tag with the commit SHA, and pass the differences as configuration.
+- **Migrations at start-up.** With three replicas, three instances race to alter the same schema, and a failed migration takes the whole rollout down. Run the migration as its own deploy step.
+- **A floating SDK.** Without `global.json`, the runner's newest SDK compiles the code, so a build can break overnight with no commit. Pin it with `rollForward: disable`.
+- **Copying Microsoft's sample workflow verbatim.** It still pins SDK 6.0 and `@v3` actions; keep the commands, update the versions.
+
 ## In practice
 
 - **Build once, promote the image.** Tag with the commit SHA; staging and production deploy the same digest with different configuration. Never `latest` as the only tag in production.
 - **Short-lived credentials.** Prefer the platform's OIDC federation (GitHub to Azure or AWS) over cloud keys stored as secrets. Grant each job the least `permissions` it needs.
 - **Gate merges on the pipeline.** Make the CI job a required status check on the main branch, so a red build cannot be merged.
 - **Pin what you depend on.** `global.json` for the SDK, lock files for NuGet, major versions (or commit SHAs for third-party actions) for actions.
-- **Common mistakes:** omitting `--no-build` and compiling twice, building a different image per environment, running migrations from every replica at start-up, and copying Microsoft's sample workflow verbatim: it still pins SDK 6.0 and `@v3` actions.
 
 ## Status as of 2026-11-05
 
@@ -131,5 +137,5 @@ steps:
 ## Check yourself
 
 1. Why should staging and production run the same image digest, and where do their differences live instead?
-2. What does `--locked-mode` protect you from, and what is its Composer equivalent?
+2. What does `--locked-mode` protect you from, and what do you do when it fails?
 3. Which steps of the workflow run on a pull request, and which only on `main`? Why split them?

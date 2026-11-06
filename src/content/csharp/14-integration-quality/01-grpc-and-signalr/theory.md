@@ -2,14 +2,14 @@
 
 After this lesson you can choose between a JSON HTTP API, gRPC and SignalR for a given integration. You will define a gRPC service from a `.proto` contract and call it with a generated client, write a SignalR hub that pushes updates to browsers, and explain how each one behaves when you run more than one instance.
 
-## Coming from PHP/Magento
+You need: 05/02 (DI lifetimes), 06/01 (HTTP APIs), 10/05 (`IHttpClientFactory` and resilience handlers), 11/03 (replicas and load balancers) and 13/03 (WSDL contracts, for comparison).
 
-Magento speaks REST and GraphQL to the outside world, and SOAP for older integrations. Service-to-service calls inside a PHP shop are usually REST too, and "real time" means polling an endpoint every few seconds, or a separate Node.js or Mercure process that pushes events, because a PHP-FPM worker cannot hold thousands of open connections.
+## Beyond JSON over HTTP
 
-Two things change in .NET:
+A JSON HTTP API answers one request with one response. Two other shapes come up often in .NET backends:
 
-- **gRPC is a first-class option** for internal calls. The contract-first `.proto` file plays the role that a WSDL played for SOAP, but over HTTP/2 with binary Protobuf payloads and generated clients.
-- **The web process itself can hold persistent connections.** SignalR runs inside your ASP.NET Core app. The trap: once connections live in process memory, scaling out to a second instance breaks broadcasts unless you add a backplane, and sticky sessions become a requirement again.
+- **gRPC** for calls between services. A contract-first `.proto` file describes the operations, as a WSDL does for SOAP (13/03), but calls travel over HTTP/2 with binary Protobuf payloads and generated clients.
+- **SignalR** for pushing updates to browsers. Your ASP.NET Core process itself holds the persistent connections, so the server can send without being asked. Those connections live in process memory, which matters as soon as you run a second instance.
 
 ## Choosing
 
@@ -66,7 +66,7 @@ app.MapGrpcService<StockService>();
 
 The field numbers (`= 1`, `= 2`) are the wire contract. Never reuse or renumber them; add new fields with new numbers so old clients keep working.
 
-The client project generates its own stub from the same `.proto`: it references `Google.Protobuf`, `Grpc.Tools` and `Grpc.Net.ClientFactory` and adds `<Protobuf Include="Protos\stock.proto" GrpcServices="Client" />`, which generates `Stock.StockClient`. `Grpc.Net.ClientFactory` registers that client through `IHttpClientFactory`, so everything from module 10 lesson 05 applies:
+The client project generates its own stub from the same `.proto`: it references `Google.Protobuf`, `Grpc.Tools` and `Grpc.Net.ClientFactory` and adds `<Protobuf Include="Protos\stock.proto" GrpcServices="Client" />`, which generates `Stock.StockClient`. `Grpc.Net.ClientFactory` registers that client through `IHttpClientFactory`, so everything from 10/05 applies:
 
 ```csharp
 using Catalog.Grpc;
@@ -81,7 +81,7 @@ var reply = await client.GetLevelAsync(
     cancellationToken: ct);
 ```
 
-gRPC has **no default deadline**: without one, a call can wait forever. When the deadline passes, the client throws an `RpcException` with `StatusCode.DeadlineExceeded`, and the server's `context.CancellationToken` fires, which is why the service passes it on. If you add resilience handlers to every client (module 10 lesson 05, Aspire ServiceDefaults), their HTTP timeouts also cut gRPC calls made through `AddGrpcClient`, but set a deadline explicitly anyway: it reaches the server, an HTTP timeout does not.
+gRPC has **no default deadline**: without one, a call can wait forever. When the deadline passes, the client throws an `RpcException` with `StatusCode.DeadlineExceeded`, and the server's `context.CancellationToken` fires, which is why the service passes it on. If you add resilience handlers to every client (10/05, Aspire ServiceDefaults), their HTTP timeouts also cut gRPC calls made through `AddGrpcClient`, but set a deadline explicitly anyway: it reaches the server, an HTTP timeout does not.
 
 ## A SignalR hub
 
@@ -119,13 +119,19 @@ public sealed class StockNotifier(IHubContext<StockHub, IStockClient> hub)
 - **gRPC.** HTTP/2 multiplexes many calls on one long-lived TCP connection. A network (layer 4) load balancer, which Kubernetes uses by default, balances connections, not calls, so one pod can get all the traffic. Use an HTTP/2-aware (layer 7) proxy or client-side load balancing in `Grpc.Net.Client` (`round_robin` over a DNS resolver), and reuse the channel.
 - **SignalR.** Each server only knows its own connections. With two instances, `Clients.All` reaches only half the users. Add a backplane: Azure SignalR Service (recommended on Azure; it also removes the need for sticky sessions) or Redis with `Microsoft.AspNetCore.SignalR.StackExchangeRedis` and `AddSignalR().AddStackExchangeRedis(...)`. With Redis you still need sticky sessions, unless every client uses WebSockets only with `SkipNegotiation`. Redis does not buffer: messages sent while it is down are lost.
 
+## Common mistakes
+
+- **A gRPC call without a deadline.** When the server hangs, the call waits forever and holds its resources. Pass `deadline: DateTime.UtcNow.AddSeconds(…)` on every call.
+- **gRPC behind a layer 4 balancer.** The balancer picks a pod per connection, not per call, and a gRPC client sends many calls over each long-lived HTTP/2 connection, so a few pods take the traffic while the others idle. Use a layer 7 proxy or client-side load balancing.
+- **Two SignalR replicas without a backplane.** `Clients.All` reaches only the users connected to the sending replica. Add Azure SignalR Service or Redis.
+- **State in hub fields.** A hub instance lives for one invocation, so a field is empty on the next call. Keep state in a singleton service or a store.
+
 ## In practice
 
 - Keep JSON HTTP for the edge and add gRPC only where its contract and performance pay off. Many teams never need it.
 - Share `.proto` files through a repository or package, and review field-number changes like database migrations.
 - Treat SignalR as a notification channel, not a source of truth. A client that reconnects reloads the current state over HTTP.
 - Try it locally: create a service with `dotnet new grpc`, call it from a console client with a 1-second deadline, and add a delay in the service to see `DeadlineExceeded`.
-- Common mistakes: gRPC calls without deadlines, a gRPC service behind a layer 4 balancer, a SignalR app scaled to two replicas without a backplane, and state stored in hub fields.
 
 ## Check yourself
 

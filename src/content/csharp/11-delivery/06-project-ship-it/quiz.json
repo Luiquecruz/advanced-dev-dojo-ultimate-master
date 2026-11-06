@@ -55,11 +55,11 @@
     "explanation": "An empty `Config.User` means root. The regular `aspnet` image provides the `app` user but does not switch to it; you opt in with `USER $APP_UID`. Chiseled images and SDK container publish default to it. Kestrel does not drop privileges by itself."
   },
   {
-    "question": "The API's spans reach the OTLP backend, but the worker shows nothing. In Magento, the New Relic agent covered every PHP process on the server. What is missing?",
+    "question": "The API's spans reach the OTLP backend, but the worker shows nothing, although both containers run on the same Docker host. What is missing?",
     "options": [
       "The worker's own OpenTelemetry pipeline, with `AddSource` for its activity source",
       "Nothing: the API's pipeline exports spans for every process",
-      "An APM agent package on the host, which .NET loads into every process like a PHP extension",
+      "An APM agent installed once on the Docker host, which instruments every .NET process on it",
       "A `traceparent` header on the worker's health endpoint so the backend can discover it"
     ],
     "answer": 0,

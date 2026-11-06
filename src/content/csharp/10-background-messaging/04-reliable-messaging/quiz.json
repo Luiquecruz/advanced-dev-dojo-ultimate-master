@@ -1,6 +1,6 @@
 [
   {
-    "question": "Ported from Magento, an endpoint does `await db.SaveChangesAsync(ct);` and then `await publisher.PublishAsync(orderPlaced, ct);`. The broker is unreachable for 30 seconds during a deploy. What is the failure?",
+    "question": "An endpoint does `await db.SaveChangesAsync(ct);` and then `await publisher.PublishAsync(orderPlaced, ct);`. The broker is unreachable for 30 seconds during a deploy. What is the failure?",
     "options": [
       "Orders saved in that window are never announced, so no stock is reserved",
       "The database transaction rolls back automatically, because the publish threw",

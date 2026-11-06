@@ -52,7 +52,7 @@
       "Publish through the worker's connection by calling the worker over HTTP"
     ],
     "answer": 1,
-    "explanation": "Broker connections are expensive to open, so a process keeps one long-lived connection and creates channels from it. A scoped connection is the same per-request cost under another name, which is the tempting mistake for someone used to per-request PHP processes. Routing publishes through the worker over HTTP couples the two services and adds a failure point."
+    "explanation": "Broker connections are expensive to open, so a process keeps one long-lived connection and creates channels from it. A scoped connection is the same per-request cost under another name, which is the tempting mistake when you think one request at a time. Routing publishes through the worker over HTTP couples the two services and adds a failure point."
   },
   {
     "question": "Without the outbox stretch goal, which failure can still leave an order without a message?",

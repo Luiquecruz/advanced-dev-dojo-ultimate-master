@@ -44,7 +44,7 @@
     "explanation": "`RateLimiterOptions.RejectionStatusCode` defaults to `Status503ServiceUnavailable`, which looks like an outage to clients and monitoring. `429 Too Many Requests` with a `Retry-After` header tells clients to back off. Calling `UseRateLimiter` before `UseRouting` only means endpoint-specific policies are not applied; it does not turn every request into a 503."
   },
   {
-    "question": "Coming from Magento's `env.php`, a developer puts the production database password in `appsettings.Production.json` and plans `dotnet user-secrets` for local work. What is the correct assessment?",
+    "question": "A developer puts the production database password in `appsettings.Production.json` and plans `dotnet user-secrets` for local work. What is the correct assessment?",
     "options": [
       "Both are fine: `appsettings.Production.json` is encrypted when the app is published",
       "Both are wrong: user secrets are encrypted, so `IConfiguration` cannot read them",

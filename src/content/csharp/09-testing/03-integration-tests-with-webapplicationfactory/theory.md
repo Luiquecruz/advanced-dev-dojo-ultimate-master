@@ -2,13 +2,13 @@
 
 After this lesson you can boot your real ASP.NET Core app inside a test process with `WebApplicationFactory<Program>`, send HTTP requests through its in-memory server, replace services for a test, simulate authenticated users, and avoid the state leaks that come from sharing one host between tests.
 
-## Coming from PHP/Magento
+You need: 09/01 (xUnit and class fixtures), 09/02 (fakes), 05/01 (the host and `Program.cs`), 05/02 (service lifetimes), 06/03 (Problem Details) and 08/03 (authorization policies).
 
-Magento has two layers that come close. `dev/tests/integration` installs a whole Magento into a dedicated MySQL database and boots the application inside PHPUnit. `dev/tests/api-functional` sends real HTTP requests to an installed instance behind a web server. Both are slow to set up and usually run only in CI.
+## What WebApplicationFactory is
 
-`WebApplicationFactory<TEntryPoint>` (package `Microsoft.AspNetCore.Mvc.Testing`) sits between the two. It runs your actual `Program.cs` (routing, middleware, DI, validation, Problem Details, authorization) on `TestServer`, an in-memory server. The `HttpClient` it gives you talks to that server directly: no Kestrel, no port, no Nginx, no install step. A test takes milliseconds after the first one.
+A unit test calls one class. An integration test checks that the pieces work together, here the whole HTTP pipeline. `WebApplicationFactory<TEntryPoint>` (package `Microsoft.AspNetCore.Mvc.Testing`) runs your actual `Program.cs` (routing, middleware, DI, validation, Problem Details, authorization) on `TestServer`, an in-memory server, inside the test process. The `HttpClient` it gives you (the class that sends HTTP requests, lesson 10/05) talks to that server directly: no Kestrel, no port, no separate process to start. After the first test, each test takes milliseconds.
 
-The trap is the long-running host from module 05. A factory builds the host once and keeps it for every test that shares the factory. In PHP each request starts from nothing; here **singletons live across tests**. If P2's catalog stores products in a singleton list, a test that creates a product changes what the next test sees.
+The host is the same long-running host as in production (module 05), and that has a consequence. A factory builds the host once and keeps it for every test that shares the factory, so **singletons live across tests**. If P2's catalog stores products in a singleton list, a test that creates a product changes what the next test sees.
 
 ## Reaching `Program`
 
@@ -117,13 +117,19 @@ public sealed class TestAuthHandler(
 
 Register it in `ConfigureTestServices` with `AddAuthentication("Test").AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { })` and make it the default scheme. A request without the header is anonymous (expect 401 on a protected endpoint); `X-Test-Role: customer` should get 403 from an admin policy; `X-Test-Role: admin` should pass. The scheme name must match what your endpoints expect, or authentication silently does nothing.
 
+## Common mistakes
+
+- **State in a singleton the tests share.** One host serves the whole class, so a product created by one test is still there in the next, and a test that passes alone fails in the full run. Create unique data per test and assert on it, not on totals.
+- **Forgetting that `CreateClient()` follows redirects.** A 302 to a login page arrives as that page's 200. Create the client with `AllowAutoRedirect = false`.
+- **A new factory per test.** Each test rebuilds the host and pays the startup time again. Share one through `IClassFixture`.
+- **Asserting on full JSON strings.** A new field or another property order breaks the test. Deserialize and check the fields that matter.
+
 ## In practice
 
 - Test the HTTP contract: one test per status code that matters (200, 201 with `Location`, 400 with field errors, 401, 403, 404, 409), not every branch of the business logic. Unit tests cover the branches.
 - Share a factory per class with `IClassFixture`, and keep tests independent of order: create the data each test needs, with unique SKUs.
 - Replace only what crosses the process boundary (payment gateways, email, external HTTP APIs). Keep your own services real, or the test proves little.
 - The database is the hard part. Swapping it for the EF Core in-memory provider is what the next lesson replaces with a real database in a container.
-- Common mistakes: forgetting that `CreateClient()` follows redirects (a 302 to a login page arrives as a 200), asserting on full JSON strings instead of fields, and building a new factory per test, which rebuilds the host every time.
 
 ## Status as of 2026-11-05
 

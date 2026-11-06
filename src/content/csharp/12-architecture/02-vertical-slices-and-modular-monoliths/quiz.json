@@ -8,18 +8,18 @@
       "Ordering calls Inventory's HTTP endpoint on localhost, as it would call a remote service"
     ],
     "answer": 2,
-    "explanation": "The contract project is the only public surface; the implementation and its tables stay internal to Inventory. Mapping the other module's table, even read-only, is the Magento habit of joining any table, and it silently removes the boundary. A localhost HTTP call adds network failure modes without any of the benefits of separate deployment."
+    "explanation": "The contract project is the only public surface; the implementation and its tables stay internal to Inventory. Mapping the other module's table, even read-only, couples Ordering to Inventory's schema and silently removes the boundary. A localhost HTTP call adds network failure modes without any of the benefits of separate deployment."
   },
   {
-    "question": "Magento modules already have their own `di.xml`, `db_schema.xml` and controllers. What does a .NET modular monolith add that Magento modules lack?",
+    "question": "A monolith already has one folder per business capability (Catalog, Inventory, Ordering), each with its own endpoints and classes. What does turning it into a .NET modular monolith add?",
     "options": [
       "Each module can be deployed on its own, without redeploying the rest of the application",
       "Compiler-enforced boundaries (`internal`, project references) and schema ownership",
       "Each module runs in its own process, so a crash in one cannot take the others down",
-      "Plugins that intercept any public method of another module without changing its code"
+      "One shared `DbContext` that maps every table, so any module can join any other's data"
     ],
     "answer": 1,
-    "explanation": "Both are one deployable with feature-shaped folders. The difference is enforcement: a .NET module hides its implementation behind `internal` and a contract project, and owns its schema. Separate deployment or processes would make it microservices, and plugins intercepting any public method are exactly the cross-module coupling a modular monolith forbids."
+    "explanation": "Both shapes are one deployable with feature-shaped folders. The difference is enforcement: a .NET module hides its implementation behind `internal` and a contract project, and owns its schema. Separate deployment or processes would make it microservices, and a shared `DbContext` mapping every table is exactly the coupling a modular monolith forbids."
   },
   {
     "question": "A slice returns `RouteGroupBuilder` from `MapCreateProduct` and `Program.cs` writes `products.MapCreateProduct().RequireAuthorization(\"admin\")`, where `products` is the `/products` group. What is the effect?",

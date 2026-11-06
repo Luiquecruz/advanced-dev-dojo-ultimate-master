@@ -1,18 +1,18 @@
 # Logging with ILogger
 
-After this lesson you can write structured logs with `ILogger<T>`, choose a level for each message, filter noisy categories in configuration, attach context to a group of messages with scopes, and recognize the one PSR-3 habit that produces wrong logs in .NET. Exporting logs to a backend and correlating them with traces comes in module 11.
+After this lesson you can write structured logs with `ILogger<T>`, choose a level for each message, filter noisy categories in configuration, attach context to a group of messages with scopes, and avoid the placeholder-order bug that silently writes wrong values. Exporting logs to a backend and correlating them with traces comes in module 11.
 
-## Coming from PHP/Magento
+You need: 05/02 (constructor injection and primary constructors), 05/03 (configuration keys and `__` in environment variables), 04/01 (`try`/`catch` and `throw;`) and 02/03 (attributes).
 
-Magento logs through Monolog behind the PSR-3 `LoggerInterface`: you inject `Psr\Log\LoggerInterface`, call `$logger->error('Order {id} failed', ['id' => $id])`, and the default handlers write to files such as `var/log/system.log` and `var/log/exception.log`. Custom handlers are wired in `di.xml`.
+## What logs are for
 
-Much of this transfers: one logging abstraction injected everywhere, levels, message templates with placeholders, pluggable outputs (providers instead of handlers).
+A deployed app runs without anyone watching it. Logs are the messages it writes about what it did, so that someone can find out later why an order failed or a request was slow. .NET has one logging abstraction, `ILogger`, injected everywhere, and pluggable **providers** that decide where messages go.
 
-Three things differ:
+Three things shape how you use it:
 
-- **Placeholders are filled by position, not by name.** PSR-3 defines placeholders by context key name: `{id}` refers to the key `id`. Monolog only substitutes the value when `PsrLogMessageProcessor` is enabled; Magento's default handlers keep the literal `{id}` and append the context as JSON. Either way, the name is what links the two. In .NET, the arguments fill the placeholders in order, whatever the names say.
+- **Every logger has a category**, usually the class name, and configuration filters messages by category and level.
+- **Messages are templates with named placeholders**, filled by the position of the arguments, not by their names.
 - **There is no built-in file logger.** The default providers write to the console, the debugger and the platform's event system. In containers you log to stdout and the platform collects it; for files or a log backend you add a provider (module 11 uses OpenTelemetry).
-- **The logger is created with a category**, usually the class name, and configuration filters by category.
 
 ## Injecting a logger
 
@@ -54,7 +54,7 @@ logger.LogWarning($"Stock for {sku} is below {threshold}");
 
 The interpolated version produces the same text in the console but loses the fields, allocates a new string even when the level is disabled, and creates a different "message" for every SKU, which breaks grouping in log tools.
 
-Order matters. `logger.LogInformation("{Pears}, {Bananas}, {Apples}", apples, pears, bananas)` prints the apples count where it says `Pears`. Coming from PSR-3, where `['pears' => $pears]` is tied to `{pears}` by name, this is an easy bug to write and a hard one to see.
+Order matters. `logger.LogInformation("{Pears}, {Bananas}, {Apples}", apples, pears, bananas)` prints the apples count where it says `Pears`. The names in the template only label the fields; the compiler does not match them with your variable names, so this is an easy bug to write and a hard one to see.
 
 ## Levels and filtering
 
@@ -118,7 +118,13 @@ public sealed partial class StockMonitor(ILogger<StockMonitor> logger)
 }
 ```
 
-The method must be `partial` and return `void`. Since .NET 9 the generator can take the logger from a primary constructor parameter, as here. The compiler reports misuse, such as a placeholder with no matching parameter.
+A `partial` method is declared in one place and implemented in another part of the same class; here the compiler generates the body. The method, and its class, must be `partial`, and the method returns `void`. Since .NET 9 the generator can take the logger from a primary constructor parameter, as here. The compiler reports misuse, such as a placeholder with no matching parameter.
+
+## Common mistakes
+
+- **Arguments in the wrong order.** `LogInformation("Order {OrderId} for {CustomerId}", customerId, orderId)` compiles and stores the customer id under `OrderId`. Pass arguments in the order of the placeholders.
+- **String interpolation in a log call.** `LogWarning($"Stock for {sku} is low")` prints the same text but loses the `Sku` field and builds the string even when `Warning` is off. Use a template with arguments.
+- **Logging `ex.Message` instead of the exception.** The stack trace is lost, so nobody can see where the failure happened. Pass the exception as the first argument: `LogError(ex, "...")`.
 
 ## In practice
 
@@ -126,12 +132,11 @@ The method must be `partial` and return `void`. Since .NET 9 the generator can t
 - Use templates with PascalCase placeholder names and never string interpolation in log calls. The .NET code-analysis rule CA2254 ("Template should be a static expression") flags interpolated templates, and CA1848 recommends `LoggerMessage` delegates for hot paths.
 - Choose levels by what an operator should do: nothing (`Information`), look later (`Warning`), act now (`Error`, `Critical`).
 - Never log passwords, tokens, full card numbers or personal data. The .NET redaction libraries (`Microsoft.Extensions.Compliance.Redaction`) help when you must log classified values.
-- Log the exception object, not `ex.Message`, so the stack trace survives.
 - Serilog and NLog are common third-party libraries that plug into `ILogger`; your code keeps calling `ILogger`, only the providers change.
 
 ## Check yourself
 
 1. Why does the interpolated version of a log call print the same text but still count as a defect?
-2. `logger.LogInformation("{Sku} has {Quantity}", quantity, sku)`: what is printed, and what would PSR-3 have done?
+2. `logger.LogInformation("{Sku} has {Quantity}", quantity, sku)`: what is printed, and which field holds which value?
 3. How would you see `Debug` messages from one namespace in production for an hour without redeploying code?
 4. Where do logs go by default in a container, and why is that not a problem?

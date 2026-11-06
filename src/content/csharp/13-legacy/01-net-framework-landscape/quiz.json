@@ -11,15 +11,15 @@
     "explanation": "Since 4.5.2, .NET Framework is a component of Windows and receives the same support as the Windows version it is installed on, so 4.8 has no end date of its own. The tempting answer that support ended with .NET 5 confuses 'no new features' with 'no support': security fixes still ship."
   },
   {
-    "question": "A Magento developer is asked to estimate moving an MVC 5 app from `net48` to `net10.0`. Which estimate reflects how the move actually works?",
+    "question": "A developer is asked to estimate moving an MVC 5 app from `net48` to `net10.0`. Which estimate reflects how the move actually works?",
     "options": [
-      "A short task: change the TFM, fix deprecation warnings and redeploy, like PHP 7.4 to 8.3",
-      "A migration project: the web layer moves onto ASP.NET Core, like Magento 1 to 2",
+      "A short task: change the TFM, fix the obsolete-API warnings and redeploy the same app",
+      "A migration project: the web layer moves onto ASP.NET Core, while the business logic carries over",
       "A full rewrite from scratch, because no .NET Framework code can be reused on .NET 10",
       "A recompile after the (deprecated) .NET Upgrade Assistant converts the `System.Web` calls"
     ],
     "answer": 1,
-    "explanation": "`System.Web`, `web.config` and IIS-only hosting do not exist on .NET 10, so the web layer is rewritten onto ASP.NET Core while the C# and most business logic carry over. The PHP-style in-place upgrade fails because the app does not compile without `System.Web`; 'rewrite everything' is wrong too, because libraries can be retargeted and shared, and no tool converts `System.Web` automatically."
+    "explanation": "`System.Web`, its `web.config` configuration model and IIS-only hosting do not exist on .NET 10 (on IIS, `web.config` only configures the ASP.NET Core Module), so the web layer is rewritten onto ASP.NET Core while the C# and most business logic carry over. The in-place upgrade fails because the app does not compile without `System.Web`; 'rewrite everything' is wrong too, because libraries can be retargeted and shared, and no tool converts `System.Web` automatically."
   },
   {
     "question": "Which TFM should a shared business-logic library use so that both the legacy `net48` app and the new `net10.0` app can reference it during a migration?",
