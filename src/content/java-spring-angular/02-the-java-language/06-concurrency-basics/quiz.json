@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Two threads each call `counter.increment()` 100,000 times on `int count; void increment() { count++; }`. What is the likely final value?",
+    "options": [
+      "Exactly 200,000",
+      "Often less than 200,000, because the read-add-write steps interleave and updates are lost",
+      "Always 100,000",
+      "The program throws a ConcurrentModificationException"
+    ],
+    "answer": 1,
+    "explanation": "count++ is three steps, and two threads can read the same old value. Making the method synchronized or using an AtomicInteger gives exactly 200,000."
+  },
+  {
+    "question": "A task submitted with `executor.submit(...)` throws `IllegalStateException`. How does the caller find out?",
+    "options": [
+      "The executor prints it and continues silently",
+      "The main thread is interrupted",
+      "The program exits",
+      "future.get() throws an ExecutionException whose cause is the original exception"
+    ],
+    "answer": 3,
+    "explanation": "The Future stores the failure and get() rethrows it wrapped in an ExecutionException. If nobody calls get(), the failure goes unnoticed."
+  },
+  {
+    "question": "A service handles requests that mostly wait on a database. Which choice scales best with simple blocking code?",
+    "options": [
+      "One virtual thread per request through newVirtualThreadPerTaskExecutor",
+      "A fixed pool of 4 platform threads",
+      "A new platform thread per request",
+      "A single thread with a long loop"
+    ],
+    "answer": 0,
+    "explanation": "Virtual threads release their operating system thread while blocked, so many waiting tasks are cheap. Platform threads are limited and costly."
+  },
+  {
+    "question": "A loop calls `executor.submit(task)` and immediately `future.get()` for each of 10 tasks. Why is it slow?",
+    "options": [
+      "get() cancels the task",
+      "Each get() waits before the next task is submitted, so the tasks run one at a time",
+      "submit blocks until the pool is empty",
+      "Futures cannot run in parallel"
+    ],
+    "answer": 1,
+    "explanation": "Blocking on a result before submitting the next task removes the parallelism. Submit everything first, or use invokeAll, and then collect the results."
+  },
+  {
+    "question": "A team needs to share a configuration object read by 20 threads and never changed. What is the simplest safe design?",
+    "options": [
+      "Wrap every read in synchronized",
+      "Use an AtomicInteger for each field",
+      "Make it an immutable record, because nothing can modify it after creation",
+      "Copy it into a new thread each time"
+    ],
+    "answer": 2,
+    "explanation": "Immutable objects need no locking, since no thread can change them. Sharing nothing mutable is the simplest way to avoid race conditions."
+  },
+  {
+    "question": "A colleague wants to use Structured Concurrency in production code on Java 25. What should you point out?",
+    "options": [
+      "It was removed from the language",
+      "It only works on virtual threads",
+      "It is a preview API in Java 25 and needs --enable-preview",
+      "It replaces ExecutorService completely"
+    ],
+    "answer": 2,
+    "explanation": "In Java 25 Structured Concurrency is still a preview feature (JEP 505), enabled only with --enable-preview, so stable code should avoid it."
+  }
+]

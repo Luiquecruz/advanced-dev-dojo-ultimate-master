@@ -1,0 +1,10 @@
+[
+  { "term": "Thread", "description": "A unit of execution started with start and awaited with join, which runs alongside the main thread." },
+  { "term": "ExecutorService", "description": "An object that owns threads and runs submitted tasks, closed with try-with-resources." },
+  { "term": "Future", "description": "A handle to a pending result whose get method blocks and rethrows a task failure as ExecutionException." },
+  { "term": "CompletableFuture", "description": "A future that chains steps with thenApply and thenCombine and reports failures as CompletionException." },
+  { "term": "Virtual thread", "description": "A lightweight JDK-managed thread that releases its operating system thread while blocked, suited to tasks that mostly wait." },
+  { "term": "Race condition", "description": "A bug where the result depends on how threads interleave, such as lost updates on a shared counter." },
+  { "term": "synchronized", "description": "A keyword that lets one thread at a time run a method or block, protecting shared mutable state." },
+  { "term": "Atomic class", "description": "A class such as AtomicInteger whose operations like incrementAndGet are safe across threads without a lock." }
+]

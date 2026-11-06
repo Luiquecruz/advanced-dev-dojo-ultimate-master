@@ -8,11 +8,20 @@ Everything another engineer or agent needs to continue the track without the ori
 | --- | --- |
 | Engine decision | Option A: no Java engine. Java and Spring lessons are theory + quiz + a local project; only the Angular-with-Spring module has graded challenges (Angular engine). |
 | Track | `src/content/java-spring-angular`, `"engine": "angular"`, hidden (`TRACK_FLAGS['java-spring-angular'] = false`). |
-| Written | Module `01-java-from-zero` (8 lessons, last is the local to-do project). |
-| Remaining | Modules 02 to 09 below. |
+| Written | Modules `01-java-from-zero` and `02-the-java-language` (8 lessons each, the last of each is a local project). |
+| Remaining | Modules 03 to 09 below. |
 | Accent | Provisional in `src/shared/design/tokens.css`; hue collides with a shown track. Must be re-spaced before the flag is turned on (the owners decide the palette). Angular's accent (351 degrees) also collides with C# (358): fix before showing either. |
 | Standards suite | `src/verify/java-spring-angular.test.ts` on `src/verify/trackStandards.ts` (shared with System Design). |
 | Release gate | Showing this track also needs the Angular flag turned on (lessons link to the Angular track) and a free accent for both. |
+
+## Progress log (update after every action)
+
+Keep this section current: after every merge, PR, review or decision, add a line with the date, what happened and the exact next step, and commit it with the work. Another provider must be able to resume from this file alone.
+
+- Module 01: merged (PR #50).
+- Module 02: written and independently reviewed (9 defects fixed); PR open on `feat/java-module-02`; next: CodeRabbit loop, merge, then module 03.
+- Open question for the owner: build a Java engine spike (CheerpJ, option B) so Java lessons can have graded challenges; not started, no answer yet. Content work continues without it.
+- Next after module 02: module 03 (build and tests), then 04 to 09 in order.
 
 ## Remaining modules (folder numbers are fixed; module 01 is required, none is optional)
 

@@ -419,3 +419,6 @@ Plan and decisions: [java-spring-angular-track.md](java-spring-angular-track.md)
 
 ### 01-java-from-zero — Java from Zero
 01-your-first-java-program ✓ · 02-values-types-and-variables ✓ · 03-decisions-and-loops ✓ · 04-methods ✓ · 05-strings-and-arrays ✓ · 06-classes-and-objects ✓ · 07-exceptions-and-first-test ✓ · 08-project-command-line-todo ✓
+
+### 02-the-java-language — The Java Language
+01-records-enums-and-sealed-types ✓ · 02-interfaces-and-generics ✓ · 03-collections ✓ · 04-streams-and-optional ✓ · 05-exceptions-in-depth ✓ · 06-concurrency-basics ✓ · 07-packages-and-modules ✓ · 08-project-library-catalog ✓

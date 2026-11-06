@@ -1,0 +1,8 @@
+[
+  { "term": "Exception hierarchy", "description": "A base exception for a module with specific subclasses, so callers can catch the general type or one case." },
+  { "term": "Checked exception", "description": "An exception the compiler forces callers to catch or declare, best kept for recoverable failures at boundaries." },
+  { "term": "Cause", "description": "The original exception passed to a new one so the stack trace keeps the underlying problem, read with getCause." },
+  { "term": "Suppressed exception", "description": "An exception thrown while closing a resource that is attached to the primary exception instead of replacing it." },
+  { "term": "Swallowed exception", "description": "A caught exception that is ignored or only printed, which hides the real cause of a failure." },
+  { "term": "finally pitfall", "description": "A return or throw inside finally that overrides or replaces the exception from the try block." }
+]

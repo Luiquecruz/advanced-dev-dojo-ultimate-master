@@ -1,0 +1,12 @@
+{
+  "title": "Project: Library Catalog",
+  "summary": "A local project that combines records, a sealed result type, collections, streams and custom exceptions into an in-memory library catalog, built with the JDK alone as several files in one package.",
+  "level": "intermediate",
+  "tags": ["theory", "project"],
+  "resources": [
+    { "label": "Oracle: Records (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/language/records.html" },
+    { "label": "Oracle: Pattern matching (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/language/pattern-matching.html" },
+    { "label": "dev.java: Streams", "url": "https://dev.java/learn/api/streams/" },
+    { "label": "Oracle: The javac command (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/javac.html" }
+  ]
+}

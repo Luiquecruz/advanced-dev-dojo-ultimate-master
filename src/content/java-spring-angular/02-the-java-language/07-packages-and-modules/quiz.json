@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A class `Shelf` in package `catalog` declares `int version = 1;` with no modifier. Code in package `app` reads `shelf.version`. What happens?",
+    "options": [
+      "It works, because the class is public",
+      "It reads 0, the default value",
+      "It does not compile, because package-private members are visible only inside the package",
+      "It compiles with a warning"
+    ],
+    "answer": 2,
+    "explanation": "No modifier means package-private. Another package cannot access the member even if the class is public."
+  },
+  {
+    "question": "Which classes can use a `protected` field of `Shelf` that lives in package `catalog`?",
+    "options": [
+      "Every class in the application",
+      "Only classes in other packages",
+      "Only the class itself",
+      "Classes in package catalog and subclasses of Shelf in any package"
+    ],
+    "answer": 3,
+    "explanation": "protected includes package access and adds subclasses elsewhere. It does not open the member to unrelated classes in other packages."
+  },
+  {
+    "question": "A program compiled into `out` fails with `Could not find or load main class Main` when started with `java Main`. The class is `com.example.app.Main`. What fixes it?",
+    "options": [
+      "Rename the file to main.java",
+      "java -cp out com.example.app.Main, so the JVM knows both where to look and the full class name",
+      "Make the class public final",
+      "Add exports to the class"
+    ],
+    "answer": 1,
+    "explanation": "The JVM needs the classpath that holds the compiled classes and the fully qualified name of the class. Without them it searches the current folder for a class named Main."
+  },
+  {
+    "question": "A module declares `exports com.example.library.catalog;` only. A class in `com.example.library.internal` is public. Can another module use it?",
+    "options": [
+      "No, because the package is not exported",
+      "Yes, because it is public",
+      "Yes, if the other module imports it",
+      "Only at run time"
+    ],
+    "answer": 0,
+    "explanation": "In a named module, only exported packages are accessible to other modules, whatever the access modifier of the classes in them."
+  },
+  {
+    "question": "A typical Spring Boot application depends on many jars that are not modules. What is the usual choice about module-info.java?",
+    "options": [
+      "It is mandatory",
+      "It is created for every package",
+      "It replaces the build tool",
+      "It is skipped, and the application runs on the classpath"
+    ],
+    "answer": 3,
+    "explanation": "Applications commonly run on the classpath, where jars form one unnamed module and public types are reachable. A module-info.java mainly pays off for libraries that must hide internals."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Package", "description": "A namespace that groups related classes, declared on the first line of a file and matched by the folder path." },
+  { "term": "Package-private", "description": "The access level with no modifier, visible only to classes in the same package." },
+  { "term": "protected", "description": "An access level visible to the same package and to subclasses in other packages." },
+  { "term": "Classpath", "description": "The list of folders and jar files where the compiler and the JVM look for compiled classes." },
+  { "term": "module-info.java", "description": "A file that declares a named module, the packages it exports and the modules it requires." },
+  { "term": "exports", "description": "A module-info directive that makes a package visible to other modules." },
+  { "term": "Fully qualified name", "description": "A class name with its package, such as com.example.library.app.Main, used to start a program or avoid a name clash." }
+]

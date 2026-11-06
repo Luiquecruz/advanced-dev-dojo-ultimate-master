@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A record `Email(String value)` must always store lower-case text. Where does the normalizing line belong?",
+    "options": [
+      "In a setter method named setValue",
+      "In a compact constructor, as `value = value.toLowerCase();`",
+      "In a compact constructor, as `this.value = value.toLowerCase();`",
+      "In a static block of the record"
+    ],
+    "answer": 1,
+    "explanation": "A compact constructor runs before the compiler assigns the fields, so reassigning the parameter changes what is stored. Assigning this.value there does not compile, and records have no setters."
+  },
+  {
+    "question": "A switch expression over a sealed `Shape` covers `Circle`, `Square` and `Rectangle` with no `default`. A teammate adds `Triangle` to `permits`. What happens?",
+    "options": [
+      "The switch silently returns null for triangles",
+      "A MatchException is thrown at compile time",
+      "The code compiles and handles Triangle as Circle",
+      "The switch no longer compiles until a Triangle case is added"
+    ],
+    "answer": 3,
+    "explanation": "Exhaustiveness is checked by the compiler for sealed types. A missing permitted subtype is a compile error, which is exactly the safety a default branch would remove."
+  },
+  {
+    "question": "A database column stores `Plan.ordinal()` for each customer. Months later someone inserts `STARTER` between `FREE` and `PRO`. What is the consequence?",
+    "options": [
+      "Nothing, ordinals are permanent",
+      "The enum stops compiling",
+      "Existing rows now point to different plans, so stored data changes meaning",
+      "valueOf starts throwing for every name"
+    ],
+    "answer": 2,
+    "explanation": "The ordinal is just the position in the declaration list. Inserting a constant shifts later positions, so persisted numbers silently refer to the wrong plan; store name() instead."
+  },
+  {
+    "question": "You model the result of paying an invoice: success carries a receipt id, failure carries a reason text. Which design fits best?",
+    "options": [
+      "An enum with two constants that each have a nullable field for both values",
+      "A sealed interface with two records, one per outcome",
+      "A single record with a boolean and two nullable fields",
+      "Two static methods that return strings"
+    ],
+    "answer": 1,
+    "explanation": "The outcomes carry different data, so each gets its own record under a sealed interface. A switch then handles both and the compiler checks that none is forgotten."
+  },
+  {
+    "question": "A switch has `case Circle circle -> ...` followed by `case Circle circle when circle.radius() > 10 -> ...`. What does the compiler do?",
+    "options": [
+      "Reports the second label as dominated by the first",
+      "Runs the guard first because it is more specific",
+      "Ignores the guard and compiles",
+      "Throws an exception for large circles at run time"
+    ],
+    "answer": 0,
+    "explanation": "Labels are tried in order. The unguarded Circle case matches every circle, so the guarded one can never be reached, and the compiler rejects it. Put the guarded case first."
+  }
+]

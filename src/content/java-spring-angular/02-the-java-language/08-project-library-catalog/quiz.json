@@ -1,0 +1,57 @@
+[
+  {
+    "question": "In the catalog, `loan(isbn)` must tell the caller whether the book was lent, was already on loan or does not exist. Which return type fits this module best?",
+    "options": [
+      "boolean",
+      "A String such as \"ok\" or \"error\"",
+      "null for failures",
+      "A sealed LoanResult with one record per outcome"
+    ],
+    "answer": 3,
+    "explanation": "Each outcome carries different data and an exhaustive switch forces callers to handle all of them. A boolean or a string loses information, and null hides the cases."
+  },
+  {
+    "question": "Adding a book whose ISBN already exists should fail. Which implementation detects that in one step?",
+    "options": [
+      "map.put(isbn, book) and ignore the result",
+      "if (map.get(isbn) == null) { map.put(isbn, book); } as two separate calls",
+      "map.putIfAbsent(isbn, book) and throw DuplicateBookException when it returns a non-null value",
+      "map.getOrDefault(isbn, book)"
+    ],
+    "answer": 2,
+    "explanation": "putIfAbsent returns the existing value when the key is present, so a non-null result means a duplicate, and the original entry is kept."
+  },
+  {
+    "question": "`searchByTitle` calls `books.stream().filter(...).toList()` and then `result.sort(Comparator.comparing(Book::title))`. What happens?",
+    "options": [
+      "The list is sorted by title",
+      "An UnsupportedOperationException, because toList() returns an unmodifiable list; sort inside the pipeline instead",
+      "A ClassCastException",
+      "The stream is consumed twice"
+    ],
+    "answer": 1,
+    "explanation": "toList() returns an unmodifiable list, so sorting that list in place throws. Use sorted(Comparator.comparing(Book::title)) before toList()."
+  },
+  {
+    "question": "A teammate adds `default -> \"unknown\"` to the `switch` over `LoanResult` \"to be safe\". What is lost?",
+    "options": [
+      "Nothing, it is always better",
+      "The record patterns stop working",
+      "The switch becomes slower",
+      "The compile-time check that every case is handled, since a new case would hit the default silently"
+    ],
+    "answer": 3,
+    "explanation": "Exhaustiveness is the benefit of a sealed type. A default branch makes the switch compile whatever the cases are, so new outcomes slip through unnoticed."
+  },
+  {
+    "question": "`find(isbn)` is implemented as `return booksByIsbn.get(isbn);` with return type `Book`. What risk does the caller face compared with `Optional<Book>`?",
+    "options": [
+      "None, Optional adds nothing",
+      "A NullPointerException when the ISBN is unknown and the caller forgets to check",
+      "The map becomes immutable",
+      "A DuplicateBookException"
+    ],
+    "answer": 1,
+    "explanation": "get returns null for a missing key. An Optional return type makes the missing case visible in the signature, so the caller must decide what to do."
+  }
+]

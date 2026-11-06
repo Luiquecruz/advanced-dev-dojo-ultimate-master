@@ -1,0 +1,13 @@
+{
+  "title": "Packages and Modules",
+  "summary": "Packages and imports, access modifiers across packages, the classpath, module-info.java with exports and requires, why most applications skip it, and a project's package layout.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "dev.java: Packages", "url": "https://dev.java/learn/packages/" },
+    { "label": "dev.java: Modules", "url": "https://dev.java/learn/modules/" },
+    { "label": "dev.java: Modules introduction", "url": "https://dev.java/learn/modules/intro/" },
+    { "label": "OpenJDK: Project Jigsaw", "url": "https://openjdk.org/projects/jigsaw/" },
+    { "label": "Oracle: The java command (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html" }
+  ]
+}

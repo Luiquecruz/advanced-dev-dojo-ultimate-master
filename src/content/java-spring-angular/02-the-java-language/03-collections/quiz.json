@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A loop `for (String item : items) { if (item.isEmpty()) items.remove(item); }` runs on an `ArrayList`. What typically happens?",
+    "options": [
+      "Empty strings are removed and the loop finishes normally",
+      "The list becomes immutable",
+      "A ConcurrentModificationException is thrown on a later iteration",
+      "The compiler rejects the code"
+    ],
+    "answer": 2,
+    "explanation": "The for-each loop uses an iterator that detects a structural change made behind its back. Use items.removeIf(String::isEmpty) instead."
+  },
+  {
+    "question": "A counter map needs to add one to the count of each word, creating the entry the first time. Which call does that in one step?",
+    "options": [
+      "map.put(word, map.get(word) + 1)",
+      "map.getOrDefault(word, 1)",
+      "map.merge(word, 1, Integer::sum)",
+      "map.computeIfAbsent(word, 1)"
+    ],
+    "answer": 2,
+    "explanation": "merge stores 1 when the key is missing and otherwise applies Integer.sum to the old and new values. The first option throws a NullPointerException for a new word."
+  },
+  {
+    "question": "A class overrides `equals` to compare ids but not `hashCode`. After `set.add(a)`, `set.contains(b)` returns false for an object `b` that `equals` `a`. Why?",
+    "options": [
+      "HashSet only compares references",
+      "The two objects have different hash codes, so the set looks in another bucket and never calls equals",
+      "equals is ignored by all collections",
+      "contains needs a Comparator"
+    ],
+    "answer": 1,
+    "explanation": "Hash collections use hashCode to choose where to look. Equal objects must produce equal hash codes, so override both methods together, or use a record."
+  },
+  {
+    "question": "A method returns `Collections.unmodifiableList(items)` and keeps adding to `items` afterwards. What do callers holding the returned list see?",
+    "options": [
+      "Always the original contents",
+      "An UnsupportedOperationException on every read",
+      "A list that is empty",
+      "The new elements too, because the view reflects the source"
+    ],
+    "answer": 3,
+    "explanation": "An unmodifiable view only blocks changes made through the view. List.copyOf creates a snapshot that stays fixed."
+  },
+  {
+    "question": "You need unique tags that print in the order they were first added. Which type fits?",
+    "options": [
+      "HashSet",
+      "LinkedHashSet",
+      "TreeSet",
+      "List.of"
+    ],
+    "answer": 1,
+    "explanation": "LinkedHashSet removes duplicates and remembers insertion order. HashSet has no defined order and TreeSet sorts the elements instead."
+  },
+  {
+    "question": "Which statement about `List.of(\"a\", null)` is correct?",
+    "options": [
+      "It creates a list that contains null",
+      "It creates a mutable list",
+      "It throws NullPointerException because immutable collections reject null",
+      "It silently drops the null"
+    ],
+    "answer": 2,
+    "explanation": "List.of, Set.of and Map.of reject null elements at creation. This makes the results safer to share, since nobody can later hit a null element."
+  }
+]
