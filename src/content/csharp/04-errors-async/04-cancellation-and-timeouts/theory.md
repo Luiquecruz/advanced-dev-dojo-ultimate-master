@@ -99,11 +99,6 @@ app.MapGet("/reports/sales", BuildSalesReportAsync).WithRequestTimeout(TimeSpan.
 - **Order the deadlines.** A per-attempt timeout shorter than the total timeout, shorter than the incoming request timeout, keeps retries meaningful.
 - **Do not cancel half-finished writes blindly.** Before the point of no return (a payment captured, a message published), consider passing `CancellationToken.None` so the operation completes consistently. Do not retry non-idempotent `POST` calls automatically.
 
-## Status as of 2026-11-05
-
-- Request timeouts middleware: documented for ASP.NET Core 8.0 and later (`aspnetcore-10.0` view, updated 2026-11-03).
-- Standard resilience handler defaults (1,000-permit rate limiter, 30 s total, 3 retries, 10 s per attempt): Microsoft's HTTP resilience page dated 2026-02-24.
-
 ## Check yourself
 
 1. A client closes the browser tab during a slow report. Trace what happens if every layer forwards the token, and what happens if the repository drops it.

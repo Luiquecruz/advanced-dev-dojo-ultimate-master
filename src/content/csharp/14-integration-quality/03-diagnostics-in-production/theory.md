@@ -93,10 +93,6 @@ On .NET 9 and later, the runtime publishes its built-in metrics on the `System.R
 - Prefer a trace or a gcdump to a full dump when you only need CPU stacks or heap statistics; take full dumps for crashes and hangs.
 - Try it locally: run any sample API under a load tool, watch `dotnet-counters monitor`, then take a `dotnet-gcdump` and open it in Visual Studio or PerfView.
 
-## Status as of 2026-11-05
-
-- `dnx` ships with the .NET 10 SDK (10.0.100 and later). The `dotnet-trace` page dated 2026-08-24 documents the `collect` default profiles and the removal of `cpu-sampling`.
-
 ## Check yourself
 
 1. The API is slow but CPU is low. Which two counters do you look at first, and what pattern would confirm thread-pool starvation?

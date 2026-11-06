@@ -123,11 +123,6 @@ How to decide:
 - **Existing controller codebase**: keep controllers. Mixing both in one app works (`MapControllers` and `MapGet` coexist), but one style per codebase is easier to read.
 - **Job market**: in this track's sample of 69 postings, 64% asked for Web API/REST and 23% named MVC explicitly. Much of the code you will maintain is controller-based, so you need to read both fluently.
 
-## Status as of 2026-11-05
-
-- .NET 10 is the current LTS release, supported until 2028-11-14 (.NET support policy). .NET 8 and .NET 9 leave support on 2026-11-10.
-- The minimal API recommendation is the wording of the ASP.NET Core 10.0 APIs overview page.
-
 ## Check yourself
 
 1. A colleague stores a `List<Order>` in a local variable of `Program.cs` and appends to it from a `MapPost` lambda. What goes wrong under load, and where should that state live?

@@ -117,11 +117,6 @@ Frameworks package retries, dead letters, outbox and inbox on top of several bro
 - Give every message a producer-assigned id and every consumer an idempotency strategy before the first deploy.
 - Configure a dead-letter destination for every queue and monitor its depth.
 
-## Status as of 2026-11-05
-
-- MassTransit 9.2.5 (2026-10-30) on NuGet: "MassTransit is a commercial product that must be licensed". MassTransit v8 end of support: not verified.
-- RabbitMQ quorum queue delivery limit defaults to 20 since 4.0; the counting rules above are those of 4.3 and later.
-
 ## Check yourself
 
 1. Why can the outbox relay publish the same message twice, and what makes that harmless?

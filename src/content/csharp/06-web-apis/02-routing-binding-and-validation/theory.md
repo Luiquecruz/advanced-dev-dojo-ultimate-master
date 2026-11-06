@@ -116,10 +116,6 @@ Limits to know: generation only covers the assembly where `AddValidation` is cal
 - Add a test that sends an invalid body and expects 400. It is the cheapest guard against forgetting `AddValidation`.
 - FluentValidation is a widely used third-party library; it is not built in, so it runs where you call it (a filter or the handler).
 
-## Status as of 2026-11-05
-
-- Minimal API validation (`AddValidation`) is new in ASP.NET Core 10. `[ValidatableType]` and `[SkipValidation]` are published as experimental in .NET 10 (diagnostic ASP0029 in plain class libraries) and stop being experimental in .NET 11, which is not yet released.
-
 ## Check yourself
 
 1. Why is `/orders/{id:int}` the wrong tool for rejecting `/orders/abc`, and what should the client receive instead?

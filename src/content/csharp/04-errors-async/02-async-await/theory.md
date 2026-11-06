@@ -99,11 +99,6 @@ You will meet `ValueTask` mostly as a consumer: `IAsyncDisposable.DisposeAsync` 
 - **Do not wrap calls in `Task.Run` and await them** in ASP.NET Core; Microsoft notes it only adds thread-pool scheduling.
 - **Start independent calls before awaiting** them when latency matters, but cap fan-out (lesson 05).
 
-## Status as of 2026-11-05
-
-- The ASP.NET Core best-practices page (`aspnetcore-10.0` view, updated 2026-11-03) still lists "Do not block asynchronous execution by calling `Task.Wait` or `Task<TResult>.Result`" as its first performance rule.
-- The ConfigureAwait FAQ is a 2019-12-11 blog post; its library-versus-application advice still applies.
-
 ## Check yourself
 
 1. During `await store.FindAsync(sku, cancellationToken)`, what is the calling thread doing?

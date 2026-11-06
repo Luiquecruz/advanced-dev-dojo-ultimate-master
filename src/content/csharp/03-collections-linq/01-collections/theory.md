@@ -130,12 +130,6 @@ Accept the weakest interface you need and return the most useful honest one:
 - **Shared state is not thread-safe.** The generic collections are not synchronized. An ASP.NET Core app is one long-running process that serves many requests at once (module 05), so a `static Dictionary` written by concurrent requests is a race condition. Use `ConcurrentDictionary<TKey,TValue>`, or build the data once at startup and freeze it.
 - **Avoid `System.Collections`** (`ArrayList`, `Hashtable`). Microsoft's guidance is to use the generic and concurrent collections instead.
 
-## Status as of 2026-11-05
-
-- `FrozenDictionary<TKey,TValue>` and `FrozenSet<T>` ship in .NET 8 and later (and in the `System.Collections.Immutable` package for older targets).
-- `OrderedDictionary<TKey,TValue>` and `ReadOnlySet<T>` were added in .NET 9; .NET 10 added `TryAdd` and `TryGetValue` overloads on `OrderedDictionary<TKey,TValue>` that return the entry's index.
-- C# 15 (.NET 11, not GA yet: RC3 shipped on 2026-10-25) adds collection expression arguments such as `[with(StringComparer.OrdinalIgnoreCase), "a"]`. On C# 14 pass the comparer to the constructor, as above.
-
 ## Check yourself
 
 1. A method receives a `List<Product>` and calls `Add` on it. What does the caller observe, and what would the method accept instead if it must not change the caller's list?

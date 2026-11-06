@@ -141,12 +141,6 @@ Parallelism follows collections, and **xUnit runs test classes in parallel by de
 - Do not test private methods; test the public method that uses them.
 - Choosing a framework: xUnit v3, NUnit and MSTest are all maintained and all work with `dotnet test`. Pick the one your team already uses. This track uses xUnit v3 because the ASP.NET Core and EF Core testing docs use xUnit in their samples.
 
-## Status as of 2026-11-05
-
-- `xunit.v3` 4.0.2 (2026-10-09) targets .NET 8 and .NET Framework 4.7.2 or later. The `xunit.v3` package now installs `xunit.v3.mtp-v2`, the Microsoft.Testing.Platform integration. xUnit v2 (2.9.3) is in maintenance mode.
-- NUnit 5.0.0 and MSTest 4.5.2 are the current releases, both MIT.
-- With the .NET 10 SDK, `dotnet test` runs VSTest by default. Setting `"test": { "runner": "Microsoft.Testing.Platform" }` in `global.json` switches it to Microsoft.Testing.Platform (MTP).
-
 ## Check yourself
 
 - Why does a static `List<Product>` shared by two test classes fail only sometimes?

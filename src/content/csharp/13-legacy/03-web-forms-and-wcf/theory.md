@@ -151,11 +151,6 @@ The generated client derives from `ClientBase<T>` and exposes `Async` methods. O
 - **You own a WCF service with few clients** you control: consider replacing it with an HTTP API (or gRPC between .NET services) as part of the migration, and keep CoreWCF only as a bridge.
 - **Web Forms**: extract the business logic out of code-behind into a `netstandard2.0` library first, so the rewrite only touches the UI.
 
-## Status as of 2026-11-05
-
-- CoreWCF 1.9 (released 2026-04-24, latest patch 1.9.1) is supported on .NET 10 until 2028-11-14, or six months after the next major or minor version release; on .NET 8 and 9 until 2026-11-10.
-- WCF Client 10.x is supported until 2028-11-14 (.NET 10); WCF Client 8.x and 4.10 end on 2026-11-10.
-
 ## Check yourself
 
 - `Page_Load` sets `SearchBox.Text = ""` on every request, and now every search runs with an empty term. Why does the click handler see an empty box, and what is the one-line fix?

@@ -52,7 +52,7 @@
       "Commercial use needs a paid Xceed licence, so the team must choose deliberately"
     ],
     "answer": 3,
-    "explanation": "Since Xceed's 2025-01-13 announcement, the NuGet page for 8.11.0 says it is free for open-source and non-commercial use and that commercial use needs a paid licence. A licence applies to the package wherever it is referenced, test projects included. The package is still published, so the team decides between buying it, the built-in `Assert`, or an alternative such as Shouldly."
+    "explanation": "Under Xceed's licence, the NuGet page for the 8.x line says it is free for open-source and non-commercial use and that commercial use needs a paid licence. A licence applies to the package wherever it is referenced, test projects included. The package is still published, so the team decides between buying it, the built-in `Assert`, or an alternative such as Shouldly."
   },
   {
     "question": "Which use of a mocking library is most likely to give a test that passes while production fails?",

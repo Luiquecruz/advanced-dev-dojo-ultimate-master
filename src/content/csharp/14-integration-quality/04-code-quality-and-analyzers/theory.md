@@ -102,10 +102,6 @@ dotnet test --no-build -c Release
 - Review analyzer changes like code: a suppressed rule needs a reason in the commit.
 - Try it locally: run `dotnet format --verify-no-changes` on one of your repositories, then raise one rule to `error` in `.editorconfig` and build.
 
-## Status as of 2026-11-05
-
-- The code analysis overview (dated 2025-11-05) and the `dotnet format` page (dated 2026-09-15) describe the behavior above for the .NET 10 SDK. `CA2016` is listed as "enabled by default in .NET 10: as suggestion".
-
 ## Check yourself
 
 1. Why might a project with `AnalysisLevel` left at `latest` start failing its build after an SDK upgrade, and how do you prevent it?

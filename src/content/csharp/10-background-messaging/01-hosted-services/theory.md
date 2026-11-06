@@ -105,11 +105,6 @@ Hosted services can also drain an in-memory queue: an endpoint writes a work ite
 - **Every replica runs every hosted service**, so scheduled work on several instances needs coordination (lesson 10/02).
 - **Do not capture request state.** `HttpContext` must not be stored or used after the request; copy the values you need (an order id, a user id) into the work item.
 
-## Status as of 2026-11-05
-
-- .NET 10 (LTS, supported until 2028-11-14) runs all of `ExecuteAsync` on a background thread; .NET 9 and earlier ran the synchronous part during startup.
-- The `StopHost` default for `BackgroundServiceExceptionBehavior` dates from .NET 6 and is unchanged in .NET 10.
-
 ## Check yourself
 
 1. Why does constructor injection of a `DbContext` work in a scoped request handler but not in a `BackgroundService`?

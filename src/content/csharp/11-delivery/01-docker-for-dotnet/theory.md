@@ -133,12 +133,6 @@ Inside the compose network, the service name `db` is the host name. `condition: 
 - **Logs go to stdout.** The console logger already writes there; the container runtime collects it. No log files inside the container.
 - **No secrets in the image.** Every layer can be read by anyone who pulls it. Pass secrets at run time from the platform's secret store; the `dev-only` password above is for local Compose only.
 
-## Status as of 2026-11-05
-
-- `.NET 10` images use Ubuntu 24.04 by default; Debian images are not shipped for .NET 10 (Microsoft breaking-change note).
-- Port 8080 and the `app` user have been the defaults since .NET 8.
-- SDK container publishing is built into the .NET 8+ SDK (Microsoft's `sdk-publish` page lists ".NET 8+ SDK" as the prerequisite).
-
 ## Check yourself
 
 1. Why does the final stage of the Dockerfile use `aspnet` and not `sdk`, and what would break if it used `runtime`?

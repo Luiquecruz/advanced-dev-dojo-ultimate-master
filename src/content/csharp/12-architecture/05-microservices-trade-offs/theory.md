@@ -94,11 +94,6 @@ Microsoft's guide to service boundaries adds the checks: no chatty calls between
 - **Share contracts, not code.** The Azure guide lists shared libraries as an antipattern because they couple releases; share message and API schemas instead.
 - **Reference app:** `dotnet/eShop` is Microsoft's current services-based sample, on .NET 10 with Aspire, running PostgreSQL, Redis and RabbitMQ. It references MediatR 13.1.0, which falls under the RPL-1.5/commercial licence from lesson 12/04, so check the licence before you copy its dependencies.
 
-## Status as of 2026-11-05
-
-- The ".NET Microservices: Architecture for Containerized .NET Applications" e-book is edition v7.0 (ASP.NET Core 7, page dated 2022-01-10) and has carried a note that a .NET 8 edition is being created since 2024; no newer edition is published as of 2026-11-05. .NET 7 is out of support; read it for patterns, not for API versions.
-- The Azure Architecture Center microservices style page is dated 2025-06-30; the HTTP resilience page, which documents the standard handler and `DisableForUnsafeHttpMethods()`, is dated 2026-02-24.
-
 ## Check yourself
 
 - Which three things did the monolith's checkout get for free from one database that a split Inventory service would have to rebuild?

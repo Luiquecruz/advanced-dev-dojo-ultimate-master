@@ -132,11 +132,6 @@ await processor.StopProcessingAsync();
 - Use **RabbitMQ** or **Service Bus** for commands and work queues: "do this once". Use **Kafka** for high-volume event streams that several systems read, or replay, at their own pace.
 - Prefer the broker your platform already runs, unless the job needs another model.
 
-## Status as of 2026-11-05
-
-- NuGet clients: `RabbitMQ.Client` 7.2.2 (Apache-2.0 or MPL-2.0), `Confluent.Kafka` 2.16.0 (Apache-2.0), `Azure.Messaging.ServiceBus` 7.21.0 (MIT).
-- RabbitMQ 4.x is the current server series (Docker Hub shows `4.4` tags).
-
 ## Check yourself
 
 1. What does "topic" mean in RabbitMQ, Kafka and Service Bus?

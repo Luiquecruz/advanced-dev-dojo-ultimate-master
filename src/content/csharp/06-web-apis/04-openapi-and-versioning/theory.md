@@ -46,7 +46,7 @@ The document is rebuilt on each request to the endpoint. What ends up in it:
 
 ## OpenAPI 3.1 and what changed in .NET 10
 
-.NET 10 generates **OpenAPI 3.1** by default (it was 3.0 before), with full JSON Schema draft 2020-12. Visible effects in the JSON:
+.NET 10 generates **OpenAPI 3.1** by default (it was 3.0 before), with full JSON Schema support. Visible effects in the JSON:
 
 - Nullable types are written as a `type` array that includes `"null"`, not `nullable: true`.
 - `int` and `long` properties appear with a digits `pattern` instead of `type: integer`, because the ASP.NET Core JSON defaults also accept numbers written as strings. Setting `JsonSerializerOptions.NumberHandling` to `Strict` gives you `type: integer`.
@@ -124,12 +124,6 @@ To publish one OpenAPI document per version, register `AddOpenApi("v1")` and `Ad
 - Treat the OpenAPI file as part of the contract: generate it at build time and review its diff in pull requests.
 - Decide whether to expose the document in Production; the template's Development-only default is deliberate.
 - Start with no versioning and an additive-change policy. Add versioning on the first real break, and announce a sunset date for the old version.
-
-## Status as of 2026-11-05
-
-- OpenAPI 3.1 is the default output of `Microsoft.AspNetCore.OpenApi` in .NET 10.
-- `Asp.Versioning.Http` 10.2.3 (NuGet, last updated 2026-08-22, MIT) targets .NET 10.
-- `Swashbuckle.AspNetCore` 10.3.1 (2026-10-19) and `NSwag.AspNetCore` 14.7.1 (2026-04-20) are MIT and show no deprecation notice.
 
 ## Check yourself
 

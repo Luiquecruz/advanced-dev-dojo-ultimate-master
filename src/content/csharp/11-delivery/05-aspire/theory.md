@@ -1,6 +1,6 @@
 # Aspire for Local Orchestration
 
-After this lesson you can describe an API, a worker, PostgreSQL and RabbitMQ in one C# AppHost, start them all with `aspire run`, and read their logs, traces and metrics in the Aspire dashboard. You will know what Aspire's service defaults wire up for you, how far its publish and deploy commands go, and the support model that comes with it: only the latest release is supported.
+After this lesson you can describe an API, a worker, PostgreSQL and RabbitMQ in one C# AppHost, start them all with `aspire run`, and read their logs, traces and metrics in the Aspire dashboard. You will know what Aspire's service defaults wire up for you, how far its publish and deploy commands go, and the support model that comes with it: only the newest release is supported.
 
 You need: 05/03 (configuration and connection strings), 10/03 (RabbitMQ), 10/05 (HTTP clients and resilience) and 11/01, 11/03 and 11/04 (Compose, hosting platforms, OpenTelemetry and health checks).
 
@@ -91,18 +91,11 @@ The CLI reference marks `publish`, `deploy` and `destroy` as preview commands. T
 
 - **Use it for the inner loop.** Aspire pays off as soon as the local setup has more than one process plus infrastructure. One `aspire run` replaces a Compose file, hand-copied connection strings and a separate tracing setup.
 - **Keep production configuration in the platform.** The apps read standard connection strings and OTLP settings, so they run the same with or without the AppHost.
-- **Plan for upgrades.** Only the latest Aspire release is supported, and support for a version ends when the next one ships ("support for Aspire 8.0 ended when Aspire 8.1 was released"). The support page describes the cadence as "roughly a new major release every year with various minor releases throughout the year". Budget for `aspire update` (preview) as routine work, like any dependency update.
+- **Plan for upgrades.** Only the newest Aspire release is supported, and support for a version ends when the next one ships ("support for Aspire 8.0 ended when Aspire 8.1 was released"). The support page describes the cadence as "roughly a new major release every year with various minor releases throughout the year". Budget for `aspire update` (preview) as routine work, like any dependency update.
 - **It is not only for .NET.** AppHosts can be C# or TypeScript, and they can orchestrate JavaScript, Python, Go, Java and other workloads.
-
-## Status as of 2026-11-05
-
-- Latest release: Aspire 13.6 (released 2026-09-29). The support page lists 13.6.2 (2026-10-20) as the latest patch, while GitHub marks 13.6.4 (2026-10-24) as Latest.
-- Support policy (aspire.dev/support): "At any time, only the latest release of Aspire is supported by Microsoft."
-- Naming: the product docs now call it "Aspire" rather than ".NET Aspire" and live at aspire.dev.
-- `aspire publish`, `deploy`, `destroy` and `update` are marked preview in the CLI reference.
 
 ## Check yourself
 
 1. What does `WithReference(catalogDb)` put into the API's configuration, and how does the API read it in production without the AppHost?
 2. Why would a production readiness probe get 404 on `/health` with the unmodified template, and what do you change?
-3. What does "only the latest release is supported" mean for a team's maintenance plan?
+3. What does "only the newest release is supported" mean for a team's maintenance plan?

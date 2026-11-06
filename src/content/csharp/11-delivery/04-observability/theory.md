@@ -134,11 +134,6 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
 - **Keep health checks out of traces.** Aspire's template filters `/health` and `/alive` from ASP.NET Core tracing, otherwise probes dominate your trace list.
 - **Watch cardinality.** Never tag metrics with ids or SKUs, which create one time series per value. Put those on spans and logs.
 
-## Status as of 2026-11-05
-
-- Microsoft's OTLP example pins OpenTelemetry packages at 1.19.x and says to use the latest versions, because the OTel APIs keep evolving.
-- `RabbitMQ.Client.OpenTelemetry` is at 1.0.0-rc.2 (2025-11-14) on NuGet, still a prerelease.
-
 ## Check yourself
 
 1. You call `StartActivity` in a worker and no span appears in the backend. What two things do you check first?

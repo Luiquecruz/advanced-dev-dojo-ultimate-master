@@ -115,9 +115,9 @@ The wrapping is explicit, visible in `Program.cs`, and limited to the interfaces
 
 ## Where MediatR fits, and its licence
 
-MediatR implements the mediator pattern: endpoints send a request object to `IMediator`, which finds the handler and runs a pipeline of behaviors around it. You will meet it in many existing .NET codebases, including Microsoft's current `dotnet/eShop` sample, which references MediatR 13.1.0, a release under the new licence (as of 2026-11-05). It saves the registration lines above and adds indirection: "go to definition" on `mediator.Send(command)` does not lead to the handler.
+MediatR implements the mediator pattern: endpoints send a request object to `IMediator`, which finds the handler and runs a pipeline of behaviors around it. You will meet it in many existing .NET codebases, including Microsoft's current `dotnet/eShop` sample, which references MediatR 13.1.0, a release under the new licence. It saves the registration lines above and adds indirection: "go to definition" on `mediator.Send(command)` does not lead to the handler.
 
-On 2025-07-02 its author announced commercial editions. **MediatR v13.0 and AutoMapper v15.0** are the first releases under a dual licence: Reciprocal Public License 1.5 (RPL-1.5) plus the Lucky Penny Software commercial licence, tiered by developer count. A free Community edition covers companies under USD 5 million gross annual revenue, non-profits under USD 5 million budget, education and non-production use, and still requires registering for a licence key. Earlier releases keep the licence they shipped with. Whether later majors use the same terms is assumed, not verified.
+Its author moved to commercial editions. **MediatR v13.0 and AutoMapper v15.0** are the first releases under a dual licence: Reciprocal Public License 1.5 (RPL-1.5) plus the Lucky Penny Software commercial licence, tiered by developer count. A free Community edition covers companies under USD 5 million gross annual revenue, non-profits under USD 5 million budget, education and non-production use, and still requires registering for a licence key. Earlier releases keep the licence they shipped with. Whether later majors use the same terms is assumed, not verified.
 
 What to do in a team:
 
@@ -131,17 +131,12 @@ What to do in a team:
 - **Queries that load aggregates.** A summary handler loads `Order` with its lines and maps in memory, reading and tracking every column for four fields. Project with `Select` to the DTO.
 - **Commands that return the updated entity.** The API then exposes the write model, so every change to the aggregate changes the API. Return an id or nothing, and let a query read the result.
 - **A decorator that runs the inner handler before validating**, or logs the errors and calls it anyway. The invalid order is already saved when the error appears. Check first and throw before `inner.HandleAsync`.
-- **A mediator "for clean code" in a five-endpoint project.** It adds indirection and, since 2025, a licence question for nothing.
+- **A mediator "for clean code" in a five-endpoint project.** It adds indirection and a licence question for nothing.
 
 ## In practice
 
 - Start with one database and separate handlers. Add a separate read store (a denormalized table, a search index, Redis) only when a measured read problem needs it; then you inherit eventual consistency, and the outbox (10/04) keeps the stores in sync.
 - Microsoft's CQRS pattern page says it might not suit simple domains or plain CRUD. A product admin API rarely needs it.
-
-## Status as of 2026-11-05
-
-- Latest versions seen on NuGet: MediatR 14.2.0 and AutoMapper 16.2.0 (both 2026-07-02).
-- AutoMapper advisory GHSA-rvv3-g6hj-g44x / CVE-2026-32933 (published 2026-03-13, CVSS 7.5): denial of service through uncontrolled recursion. Affected: every version below 15.1.1, and 16.0.0 up to (not including) 16.1.1. Patched: 15.1.1 and 16.1.1. So 14.x and every earlier MIT-licensed release is affected, and NuGet flags 14.0.0; the only fixes are under RPL-1.5/commercial terms.
 
 ## Check yourself
 

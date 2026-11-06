@@ -55,14 +55,14 @@
     "explanation": "In RabbitMQ 4.3 and later, quorum queues count genuine failures only: `basic.reject` and consumer crashes increment the delivery count, `basic.nack` does not. The tempting first option is what happens if the consumer uses `BasicRejectAsync(tag, requeue: true)` instead. Delivery limits are a quorum queue feature."
   },
   {
-    "question": "A team wants an outbox, retries and an inbox on RabbitMQ and proposes adding the latest MassTransit package. Which statement is accurate as of 2026-11-05?",
+    "question": "A team wants an outbox, retries and an inbox on RabbitMQ and proposes adding a recent MassTransit package. Which statement is accurate about its licensing?",
     "options": [
-      "MassTransit 9.x is MIT-licensed, like the Azure SDK and the RabbitMQ client",
-      "9.x is a commercial product that must be licensed; earlier versions remain open source",
+      "A current MassTransit major version is MIT-licensed, like the Azure SDK and the RabbitMQ client",
+      "Newer major versions are a commercial product that must be licensed; older versions remain open source",
       "MassTransit was deprecated by Microsoft and replaced by `Microsoft.Extensions.Messaging`",
-      "MassTransit 9.x is free for production use in teams below 5 developers"
+      "A current MassTransit major version is free for production use in teams below 5 developers"
     ],
     "answer": 1,
-    "explanation": "The NuGet page for 9.2.5 says MassTransit is a commercial product that must be licensed, while earlier versions remain under a permissive open-source licence. MassTransit was never a Microsoft package, and no free tier was verified for this lesson. The choice is the team's: licence it, stay on v8 with its support caveat, or implement the patterns directly."
+    "explanation": "The package's NuGet page says MassTransit is a commercial product that must be licensed, while earlier versions remain under a permissive open-source licence. MassTransit was never a Microsoft package, and no free tier was verified for this lesson. The choice is the team's: licence it, stay on v8 with its support caveat, or implement the patterns directly."
   }
 ]

@@ -118,11 +118,6 @@ What to know:
 - **Choose Quartz.NET** when scheduling is the product: many cron triggers, time zones, calendars, misfire handling, clustering.
 - **Neither replaces a broker.** A job store is a work queue owned by one application. When several services must react to "order placed", publish a message (lesson 10/03).
 
-## Status as of 2026-11-05
-
-- Hangfire (`Hangfire.Core`) 1.8.25, released 2026-08-28, LGPL-3.0.
-- Quartz.NET (`Quartz`) 4.7.2, released 2026-11-04, Apache-2.0. Its 4.x documentation is the source for the API in this lesson; check the migration guide before upgrading 3.x code, and note that it says applications using `MassTransit.Quartz` must stay on 3.x.
-
 ## Check yourself
 
 1. Why is a `PeriodicTimer` in a hosted service not a drop-in replacement for a scheduler once the app has several instances?

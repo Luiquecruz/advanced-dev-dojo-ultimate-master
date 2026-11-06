@@ -63,6 +63,6 @@
       "The C# build does not capture XML comments on lambdas"
     ],
     "answer": 3,
-    "explanation": "The .NET 10 release notes say XML comments are read from methods, classes and members, and that comments on lambdas are not captured by the build. Referencing a named method from `MapGet`, or calling `WithSummary`, fixes it. The document is regenerated on each request, so caching is not the cause."
+    "explanation": "The .NET 10 documentation says XML comments are read from methods, classes and members, and that comments on lambdas are not captured by the build. Referencing a named method from `MapGet`, or calling `WithSummary`, fixes it. The document is regenerated on each request, so caching is not the cause."
   }
 ]

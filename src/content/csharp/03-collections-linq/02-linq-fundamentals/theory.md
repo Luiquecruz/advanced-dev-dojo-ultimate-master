@@ -142,10 +142,6 @@ Before .NET 10 a left join needed `GroupJoin` plus `SelectMany` and `DefaultIfEm
 - **Decide what "none" means.** An error (`Single`, `First`, `Max`) or an expected outcome (`SingleOrDefault`, `DefaultIfEmpty`)?
 - **Keep lambdas pure.** A `Select` that writes to the database or a log runs each time the query runs, which lesson 03 shows can be more than once.
 
-## Status as of 2026-11-05
-
-- `CountBy` and `AggregateBy` were added in .NET 9; `LeftJoin` and `RightJoin` in .NET 10, on both `Enumerable` and `Queryable`. They are not available when targeting .NET 8 or earlier.
-
 ## Check yourself
 
 1. Write a query that sums `Price * Stock` per category. Which operators did you use, and what does each return?

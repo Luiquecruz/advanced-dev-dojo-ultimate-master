@@ -131,11 +131,6 @@ Register it in `ConfigureTestServices` with `AddAuthentication("Test").AddScheme
 - Replace only what crosses the process boundary (payment gateways, email, external HTTP APIs). Keep your own services real, or the test proves little.
 - The database is the hard part. Swapping it for the EF Core in-memory provider is what the next lesson replaces with a real database in a container.
 
-## Status as of 2026-11-05
-
-- The `Program` source generator and its analyzer shipped with ASP.NET Core 10.
-- .NET 11 previews add a `ConfigureWebApplicationBuilder` override to `WebApplicationFactory`, so configuration added by a test is visible as soon as `WebApplication.CreateBuilder` returns.
-
 ## Check yourself
 
 - Why can a test that passes alone fail when it runs after another test in the same class?

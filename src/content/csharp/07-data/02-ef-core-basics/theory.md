@@ -116,11 +116,6 @@ Entities returned by a query are **tracked**: EF Core keeps a snapshot, compares
 - Most teams use the `DbContext` directly in handlers or in thin services. Microsoft does not require a repository on top of EF Core; a generic `IRepository<T>` mostly re-implements `DbSet<T>` with fewer features. Add a repository when you need a test seam or want to hide queries behind domain methods.
 - Read-only endpoints project to DTOs with `Select` instead of returning entities; lesson 07/04 explains why that is also the fast path.
 
-## Status as of 2026-11-05
-
-- EF Core 10 is the current LTS release (`Microsoft.EntityFrameworkCore` 10.0.14 on NuGet, 2026-10-25). It requires .NET 10 and is supported until 2028-11-10 according to the EF Core releases page (the .NET support policy lists 2028-11-14 for the .NET 10 runtime; EF Core follows its own page).
-- `Npgsql.EntityFrameworkCore.PostgreSQL` 10.0.3 targets EF Core 10. EF Core 11 is in release candidates and scheduled for November 2026.
-
 ## Check yourself
 
 1. What does one `DbContext` instance represent, and why is scoped the right lifetime in a web API?

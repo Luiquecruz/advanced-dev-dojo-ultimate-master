@@ -50,7 +50,7 @@ if (claims.TryGetProperty("aud", out JsonElement aud))
 }
 ```
 
-`GetProperty` throws `KeyNotFoundException` for a missing claim; `TryGetProperty` returns `false`, which suits optional claims. `Parse` throws `JsonException` when the payload is not valid JSON. Times are NumericDate seconds since 1970-01-01 UTC, and `aud` is one string or an array (RFC 7519). None of this verifies the signature: until it passes, every claim is text anyone could have written.
+`GetProperty` throws `KeyNotFoundException` for a missing claim; `TryGetProperty` returns `false`, which suits optional claims. `Parse` throws `JsonException` when the payload is not valid JSON. Times are NumericDate seconds since the Unix epoch, and `aud` is one string or an array (RFC 7519). None of this verifies the signature: until it passes, every claim is text anyone could have written.
 
 ## Configuring the handler
 

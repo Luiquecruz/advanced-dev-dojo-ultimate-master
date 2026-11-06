@@ -31,7 +31,7 @@ Two properties of methods matter for clients and proxies. `GET`, `HEAD`, `OPTION
 
 ## Problem Details
 
-RFC 9457 (July 2023, obsoletes RFC 7807) defines a JSON error body served as `application/problem+json`, with five standard members: `type` (a URI that identifies the problem type; `about:blank` when absent), `title`, `status`, `detail` and `instance`. Problem types may add extension members, and clients must ignore extensions they do not recognize. The RFC also says not to expose implementation details such as stack dumps.
+RFC 9457 (which obsoletes RFC 7807) defines a JSON error body served as `application/problem+json`, with five standard members: `type` (a URI that identifies the problem type; `about:blank` when absent), `title`, `status`, `detail` and `instance`. Problem types may add extension members, and clients must ignore extensions they do not recognize. The RFC also says not to expose implementation details such as stack dumps.
 
 ASP.NET Core implements it with `IProblemDetailsService`:
 
@@ -138,11 +138,6 @@ Several filters run first-in first-out before `next` and in reverse after it. A 
 - Map domain exceptions in one or a few `IExceptionHandler` classes; do not write `try/catch` in each handler.
 - Give each error type a stable `type` URI that clients can switch on; `title` is for humans and may change.
 - Never return stack traces or SQL errors outside Development.
-
-## Status as of 2026-11-05
-
-- RFC 9457 is the current Problem Details standard. Some ASP.NET Core pages still link RFC 7807, which it obsoletes; the format is compatible.
-- The .NET 10 change: handled exceptions no longer produce error logs or metrics by default (they did in .NET 8 and 9).
 
 ## Check yourself
 

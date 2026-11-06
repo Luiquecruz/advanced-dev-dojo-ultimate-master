@@ -163,11 +163,6 @@ An async iterator (`async IAsyncEnumerable<T>` with `yield return`) produces ite
 - **Choose by the kind of work:** CPU-bound and large, `Parallel.ForEach` in a worker; I/O fan-out, `Parallel.ForEachAsync` or a semaphore with an explicit limit; stages at different speeds, a bounded `Channel<T>`; large result sets, `IAsyncEnumerable<T>` or pagination.
 - **Prefer fixing blocking code to raising the pool minimum** with `ThreadPool.SetMinThreads`: more threads only treat the symptom, and each thread costs memory.
 
-## Status as of 2026-11-05
-
-- The starvation tutorial targets .NET 9 and later (`dotnet.thread_pool.*` counter names, the `WaitHandleWait` event).
-- `Parallel.ForEachAsync` exists since .NET 6; its API page for `net-10.0` states the `ProcessorCount` default.
-
 ## Check yourself
 
 1. Which three counter readings together point to thread-pool starvation rather than a slow database?

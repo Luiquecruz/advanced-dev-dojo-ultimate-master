@@ -111,10 +111,6 @@ EF Core reaches some document stores too: Microsoft maintains a provider for Azu
 - Invalidate on write, close to `SaveChangesAsync`, and keep expirations as the safety net.
 - Treat Redis as a cache unless you configure its persistence deliberately; restart it in a test environment and check that the app still works.
 
-## Status as of 2026-11-05
-
-- `Microsoft.Extensions.Caching.Hybrid` 10.11.0 (2026-10-14) on NuGet; the library also supports .NET Framework 4.7.2 and .NET Standard 2.0.
-
 ## Check yourself
 
 1. Three API instances use `IMemoryCache` for prices. An admin changes a price on instance A. What do users see, and how does `HybridCache` with Redis change that?

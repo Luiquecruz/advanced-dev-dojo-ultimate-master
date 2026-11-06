@@ -132,12 +132,6 @@ Commit `packages.lock.json` for applications. Microsoft advises not committing i
 - Keep one package source, or map sources explicitly; never let a public feed and a private feed serve the same ids.
 - Update Microsoft packages together with the runtime: `Microsoft.AspNetCore.*` and `Microsoft.EntityFrameworkCore.*` 10.0.x belong with `net10.0`.
 
-## Status as of 2026-11-05
-
-- MediatR 13.0 and AutoMapper 15.0 ship under RPL-1.5 plus a commercial licence (announced 2025-07-02; later majors assumed to follow, not verified). MassTransit v9 is a commercial product; v8 and earlier stay open source. Fluent Assertions 8.x requires a paid licence for commercial use (announced 2025-01-13; that the line starts at 8.0 is inferred).
-- `System.Data.SqlClient` is deprecated; use `Microsoft.Data.SqlClient`.
-- Spectre.Console 0.57.2 (MIT) is the latest stable version used in the examples.
-
 ## Check yourself
 
 1. A project says `Version="2.0.0"` and nuget.org has 2.0.0, 2.1.0 and 3.0.0. Which version does restore pick, and how would you pin exactly 2.0.0?

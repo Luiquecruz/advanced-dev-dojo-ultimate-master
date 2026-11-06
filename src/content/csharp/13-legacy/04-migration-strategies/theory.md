@@ -90,7 +90,7 @@ HTTP modules and `Global.asax` events become middleware. When a module cannot be
 
 - **GitHub Copilot app modernization** is Microsoft's recommended tool. It assesses the solution, writes an upgrade plan, automates steps such as project file updates and API replacements, and commits each change so you can review or roll back. It ships with Visual Studio 2026 and Visual Studio 2022 17.14.16 or later.
 - **.NET Upgrade Assistant is officially deprecated.** Microsoft's notice reads: "Use the GitHub Copilot modernization chat agent instead." Keeping it for a team without access to the agent is a team judgment, not Microsoft guidance.
-- **ASP.NET Core 2.3 on .NET Framework**, once a stepping stone, is "no longer recommended as a migration strategy" and reaches end of support on 2027-04-13.
+- **ASP.NET Core 2.3 on .NET Framework**, once a stepping stone, is "no longer recommended as a migration strategy" and has an end of support date.
 - **Aspire** has an incremental migration integration (`Aspire.Hosting.IncrementalMigration`) that wires the fallback, remote session and remote authentication for local development. It is a prerelease package.
 
 No tool migrates a real app unattended. Review every generated change as you would review a junior colleague's pull request.
@@ -108,12 +108,6 @@ No tool migrates a real app unattended. Review every generated change as you wou
 - Write a test for each migrated route that hits the proxy and asserts the new app answered, plus one for a route that must still reach the old app.
 - Keep logs and correlation IDs consistent across both apps, or you will not be able to debug a request that crosses them.
 - Remove the fallback and the adapters at the end. A "temporary" proxy that stays for years is a second legacy system.
-
-## Status as of 2026-11-05
-
-- The YARP getting-started page targets `Yarp.ReverseProxy` 2.3.0 or later, which supports .NET 8 or later.
-- ASP.NET Core 2.3 on .NET Framework: end of support announced on 2026-04-07 for 2027-04-13.
-- `Aspire.Hosting.IncrementalMigration` is published as a prerelease package.
 
 ## Check yourself
 
