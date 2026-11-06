@@ -71,6 +71,36 @@ http.csrf(AbstractHttpConfigurer::disable)
 ```
 
 6. Configure a `JwtGrantedAuthoritiesConverter` with the claim name `roles` and an empty prefix, because the claim already holds `ROLE_ADMIN`. Map `AuthenticationException` from the login in your advice to a `401` Problem Details with a generic message.
+Security-filter failures happen before controller advice, so configure entry-point and denied handlers too. Keep the standard bearer handlers to set the challenge headers, then write a fixed Problem Details body with Boot's configured Jackson mapper. Set these handlers in both `exceptionHandling` and `oauth2ResourceServer` so missing tokens, invalid tokens and denied roles follow the contract:
+
+```java
+AuthenticationEntryPoint entryPoint = (request, response, exception) -> {
+    new BearerTokenAuthenticationEntryPoint().commence(request, response, exception);
+    writeSecurityProblem(response, mapper, 401, "Unauthorized");
+};
+AccessDeniedHandler denied = (request, response, exception) -> {
+    new BearerTokenAccessDeniedHandler().handle(request, response, exception);
+    writeSecurityProblem(response, mapper, 403, "Forbidden");
+};
+http.exceptionHandling(errors -> errors.authenticationEntryPoint(entryPoint).accessDeniedHandler(denied))
+    .oauth2ResourceServer(o -> o.jwt(j -> j.jwtAuthenticationConverter(converter))
+        .authenticationEntryPoint(entryPoint).accessDeniedHandler(denied));
+```
+
+The helper uses `tools.jackson.databind.ObjectMapper` in Boot 4; inject the configured mapper and keep every security response generic:
+
+```java
+private static void writeSecurityProblem(HttpServletResponse response, ObjectMapper mapper,
+        int status, String title) throws IOException {
+    response.setContentType("application/problem+json");
+    mapper.writeValue(response.getOutputStream(), Map.of(
+            "type", "about:blank", "title", title, "status", status,
+            "detail", status == 401 ? "Authentication required" : "Access denied"));
+}
+```
+
+Assert the status, content type and standard body members for missing tokens, rejected tokens and forbidden roles, and assert that bearer challenge headers remain present. The login advice still handles its own `AuthenticationException`.
+
 7. Avoid CORS configuration: the Angular development server and, later, the container setup proxy `/api` so browser and API share an origin.
 8. Write the tests with the `jwt()` request post-processor, which fabricates an authenticated principal, so no encoded token is needed for authorization-rule tests. These tests bypass signature and claim verification. Add separate bearer-header tests using locally signed tokens for criterion 4, as in Project: Secure Course API:
 
