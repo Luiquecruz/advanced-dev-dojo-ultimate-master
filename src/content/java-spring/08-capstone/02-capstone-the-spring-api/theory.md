@@ -66,10 +66,11 @@ protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotV
 }
 ```
 
-7. Test the controller alone: the slice loads the web layer, and the service is replaced by a mock.
+7. Test the controller alone: the slice loads the web layer, and the service is replaced by a mock. Disable filters for this validation-only slice so it still tests validation when security is added in stage four. The separate security tests keep filters enabled.
 
 ```java
 @WebMvcTest(CourseController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class CourseControllerTest {
     @Autowired private MockMvc mvc;
     @MockitoBean private CourseService service;
@@ -85,7 +86,7 @@ class CourseControllerTest {
 }
 ```
 
-In Spring Boot 4 the slice annotation lives in `org.springframework.boot.webmvc.test.autoconfigure`.
+In Spring Boot 4 both `WebMvcTest` and `AutoConfigureMockMvc` live in `org.springframework.boot.webmvc.test.autoconfigure`. Disabling filters is limited to this validation slice; never use it to claim authorization is tested.
 
 ## Stretch goals
 

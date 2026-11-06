@@ -71,3 +71,5 @@ Module 07 review addressed the scoped detail route, localhost publishing, HTTP c
 Module 08 validation: 1,800 unfiltered content checks, eslint, typecheck, docs sync, API-only Compose validation and all 22 backend resource URLs pass. A representative Boot 4.1.2 API compiles and passes direct HTTP authentication, authorization, field-error, invalid-token and rejected-short-secret checks. PostgreSQL verifies the current schema, identity continuation, active-code uniqueness, soft-delete reuse and renamed fixed data. The content project is a local implementation exercise; the smoke fixture is representative rather than a complete capstone solution.
 
 PR #65 review: validated both invalid fields, used the seeded course ID rather than assuming 1, and restricted demo user beans to the local profile. Boot 4.1.2 startup without supplied non-local authentication fails, and local authentication and invalid-token smoke checks pass.
+
+PR #65 validation follow-up: disabled security filters only for the MVC validation slice and retained separate filter-enabled security tests.
