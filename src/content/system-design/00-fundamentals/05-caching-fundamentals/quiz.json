@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team stores shopping carts only in the cache to save database writes. After a cache restart, every cart is empty. What principle did they break?",
+    "options": [
+      "A cache must use the least recently used eviction policy",
+      "The TTL must be longer than one day",
+      "The hit ratio must stay above 0.9",
+      "The cache is a disposable copy, not the source of truth: data that must survive belongs in the database"
+    ],
+    "answer": 3,
+    "explanation": "A cache may lose any entry through eviction, expiry or a restart. Data that exists only there disappears with it; the durable store must hold the truth and the cache only a rebuildable copy."
+  },
+  {
+    "question": "A product page reads its data from a database query that takes about 5 milliseconds. A cache in process memory answers in well under a microsecond. Why is the gap so large?",
+    "options": [
+      "Memory reads are measured in nanoseconds, while the query adds a network round trip, query work and possibly a disk read",
+      "Databases sleep between queries",
+      "The cache compresses the data",
+      "HTTP is slower than TCP"
+    ],
+    "answer": 0,
+    "explanation": "RAM is read in about 100 nanoseconds; a round trip inside a data center alone is about half a millisecond, before the database does any work. That is several orders of magnitude."
+  },
+  {
+    "question": "A cache answers 800 of 1,000 lookups from memory. What is the hit ratio, and what share of the traffic still reaches the database?",
+    "options": [
+      "0.2, and 80% reaches the database",
+      "0.8, and 20% reaches the database",
+      "0.8, and none reaches the database",
+      "1.0, because every lookup returned a value"
+    ],
+    "answer": 1,
+    "explanation": "Hit ratio is hits divided by all lookups: 800 / 1,000 = 0.8. The 200 misses go to the source, so the database sees a fifth of the original traffic."
+  },
+  {
+    "question": "Prices are cached with a TTL of 10 minutes and no invalidation. A price is changed in the database. What do readers see?",
+    "options": [
+      "The new price immediately, because the database notifies every cache",
+      "An error until the TTL expires",
+      "Possibly the old price for up to 10 minutes, until the entry expires and is loaded again",
+      "The old price forever"
+    ],
+    "answer": 2,
+    "explanation": "The TTL is the maximum staleness: a cached copy is served until it expires. Invalidating the key on the price update would make the next read load the new value at once."
+  },
+  {
+    "question": "The loader fails because the database is briefly down, and the code caches the error for the full TTL of 5 minutes. The database recovers after 10 seconds. What happens?",
+    "options": [
+      "Users keep getting errors for about 5 minutes, because the failure was stored as if it were a value",
+      "Nothing, errors are never served from a cache",
+      "The cache retries the database every millisecond",
+      "The hit ratio drops to 0 and the cache disables itself"
+    ],
+    "answer": 0,
+    "explanation": "A cached failure is served like any hit until it expires. Not storing failed loads lets the next lookup reach the recovered source."
+  },
+  {
+    "question": "An app updates a user's display name in the database. Which step keeps the read-through cache from showing the old name until the TTL expires?",
+    "options": [
+      "Raising the TTL",
+      "Writing the new name only to the cache",
+      "Restarting the application servers",
+      "Invalidating the user's key after the database write, so the next read is a miss that loads the new name"
+    ],
+    "answer": 3,
+    "explanation": "Invalidation deletes the stale copy, so the next lookup goes through the loader to the source of truth. Writing only to the cache would make the cache the primary store."
+  }
+]

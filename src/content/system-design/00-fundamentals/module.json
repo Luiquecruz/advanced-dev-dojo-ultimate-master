@@ -1,0 +1,5 @@
+{
+  "title": "Architecture Fundamentals",
+  "description": "For people new to architecture: client-server communication and HTTP, stateless servers and sessions, SQL and NoSQL databases, load balancing and caching. If you can solve the challenge of its last lesson, start at module 01.",
+  "optional": true
+}

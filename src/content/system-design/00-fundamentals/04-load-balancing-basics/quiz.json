@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An app keeps sessions in each server's memory. The team puts a round-robin load balancer in front of three servers, and users are logged out on almost every click. What is the fix that keeps the servers stateless?",
+    "options": [
+      "Switch from round robin to least connections",
+      "Add a fourth server",
+      "Lower the health check interval",
+      "Move the sessions to a shared session store that every server reads"
+    ],
+    "answer": 3,
+    "explanation": "Round robin sends consecutive requests to different servers, and each one only knows its own in-memory sessions. A shared store lets any server recognize any session."
+  },
+  {
+    "question": "The team enables sticky sessions instead of a shared store. A server is redeployed. What happens to its users?",
+    "options": [
+      "They lose their sessions, because those lived only in the memory of the redeployed server",
+      "Nothing: sticky sessions copy the memory to another server",
+      "The balancer refuses their requests forever",
+      "Their sessions move to the balancer"
+    ],
+    "answer": 0,
+    "explanation": "Stickiness only routes a user to the same server; the session still lives in that server's memory. A restart, crash or deploy loses it, which is why a shared store is the real fix."
+  },
+  {
+    "question": "One of four servers crashes, and the balancer has no health checks. What do users see?",
+    "options": [
+      "Nothing, because the balancer notices the crash on its own",
+      "All requests fail",
+      "About a quarter of requests fail, because round robin keeps sending that server its share",
+      "Requests are queued until the server returns"
+    ],
+    "answer": 2,
+    "explanation": "Without health checks the balancer cannot know a server is down, so the rotation keeps including it. A health check marks it down and the remaining servers absorb its share."
+  },
+  {
+    "question": "Twelve redundant application servers sit behind a single load balancer instance. Which change improves availability the most?",
+    "options": [
+      "Adding a thirteenth application server",
+      "Running a second balancer that takes over the shared address when the first one fails",
+      "Switching to weighted round robin",
+      "Making the health checks run more often"
+    ],
+    "answer": 1,
+    "explanation": "The lone balancer is the single point of failure: every request passes through it. Redundancy at that layer (active-passive pair or a managed redundant balancer) removes it."
+  },
+  {
+    "question": "The `/health` endpoint of every server checks the database, the payment provider and an email service. The email service slows down. What risk does this create?",
+    "options": [
+      "Every server fails its health check at once, and the balancer takes the whole pool out of rotation",
+      "Nothing, health checks never affect traffic",
+      "Only the email server is marked down",
+      "The balancer switches to sticky sessions"
+    ],
+    "answer": 0,
+    "explanation": "A shared dependency failing makes all health checks fail together. Health endpoints should test what the server needs to answer requests, so one slow side service does not empty the pool."
+  },
+  {
+    "question": "A balancer uses round robin across servers `a`, `b`, `c`. It has just picked `a`. Then `b` is marked down. Which server should the next request reach?",
+    "options": [
+      "`b`, because it was next in the order",
+      "`a` again, because the healthy list changed",
+      "`c`: the next healthy server after the last one picked",
+      "None until `b` comes back"
+    ],
+    "answer": 2,
+    "explanation": "Round robin continues from the last server it returned and skips the ones marked down, so `b` is skipped and `c` is picked. Restarting the rotation from the top of the list would send `a` a second request in a row."
+  }
+]

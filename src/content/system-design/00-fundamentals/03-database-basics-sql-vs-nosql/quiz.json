@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A payment service debits the buyer and credits the seller with two separate writes. The process crashes between them. Which property would have prevented the lost money?",
+    "options": [
+      "Denormalization of the accounts table",
+      "Atomicity: inside one transaction both writes are committed or neither is",
+      "A larger primary key",
+      "A key-value store with a TTL"
+    ],
+    "answer": 1,
+    "explanation": "Atomicity makes the transaction all or nothing. A crash before the commit rolls back the debit, so the accounts never show money that left one side without arriving on the other."
+  },
+  {
+    "question": "A team picks a wide-column database \"because it scales\" before listing its queries. Most screens later need flexible filters and joins across customers, orders and products. What went wrong?",
+    "options": [
+      "Wide-column databases cannot store numbers",
+      "The schema was normalized too much",
+      "The store was chosen before the access patterns, and it makes the frequent queries hard",
+      "Joins are forbidden in every database"
+    ],
+    "answer": 2,
+    "explanation": "Wide-column stores are fast for reads by partition key and range. Ad hoc filters and joins across entities are what a relational database is built for, so the access patterns should have come first."
+  },
+  {
+    "question": "A product page is always read as one unit (name, price, images, a variable list of attributes) and its shape changes from category to category. Which model fits most naturally?",
+    "options": [
+      "A document store: each product is one document with nested, flexible fields",
+      "A wide-column store partitioned by time",
+      "A key-value store that only holds the price",
+      "Spreadsheets exported every night"
+    ],
+    "answer": 0,
+    "explanation": "A document keeps everything the page needs together and allows a different shape per product, so one read by id returns the whole page."
+  },
+  {
+    "question": "Orders store a copy of the customer's shipping address to avoid a join. What does that design require?",
+    "options": [
+      "Nothing: copies update themselves",
+      "A foreign key on every column",
+      "Turning off transactions",
+      "A decision on what happens to the copies when the address changes, such as keeping the address at order time on purpose or updating every copy"
+    ],
+    "answer": 3,
+    "explanation": "Denormalization trades join cost for update cost. Each copy needs a rule: frozen as a historical fact (the address the order shipped to) or updated, or the copies drift apart."
+  },
+  {
+    "question": "A shopping cart is read and written by its cart id thousands of times per second and is never queried any other way. Which store is the simplest fit?",
+    "options": [
+      "A relational table with five joins",
+      "A key-value store keyed by cart id",
+      "A wide-column store sorted by product name",
+      "A search engine"
+    ],
+    "answer": 1,
+    "explanation": "The only access pattern is a lookup by one key, which is exactly what a key-value store makes cheap. Nothing else in the workload needs joins or filters."
+  },
+  {
+    "question": "Why can a relational database answer \"total sales per country last month\" without the team planning that query in advance?",
+    "options": [
+      "Because SQL can filter, join and group any columns at query time, with indexes added later for the frequent queries",
+      "Because relational databases keep every query result cached",
+      "Because the data is denormalized",
+      "Because tables have no schema"
+    ],
+    "answer": 0,
+    "explanation": "SQL composes joins, filters and aggregations over normalized tables at read time. Many NoSQL stores require the data to be laid out for each query beforehand."
+  }
+]

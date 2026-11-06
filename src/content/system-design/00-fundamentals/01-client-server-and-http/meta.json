@@ -1,0 +1,12 @@
+{
+  "title": "Client-Server Architecture & HTTP Basics",
+  "summary": "How a request travels from a name to a connection (DNS, TCP, TLS), what HTTP adds on top, and how methods and status codes form the contract every client relies on.",
+  "level": "beginner",
+  "tags": ["practice", "core"],
+  "preview": false,
+  "resources": [
+    { "label": "MDN: An overview of HTTP", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview" },
+    { "label": "MDN: HTTP response status codes", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status" },
+    { "label": "RFC 9110: HTTP Semantics", "url": "https://www.rfc-editor.org/rfc/rfc9110.html" }
+  ]
+}

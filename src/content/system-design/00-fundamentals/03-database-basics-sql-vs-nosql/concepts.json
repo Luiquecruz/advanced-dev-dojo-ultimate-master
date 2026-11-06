@@ -1,0 +1,10 @@
+[
+  { "term": "Relational database", "description": "Tables with a fixed schema, primary and foreign keys, SQL queries and joins across tables." },
+  { "term": "ACID transaction", "description": "A group of writes that is atomic, keeps constraints consistent, runs isolated from others and is durable once committed." },
+  { "term": "Normalization", "description": "Storing each fact once and referring to it by key, so updates touch one row and reads use joins." },
+  { "term": "Denormalization", "description": "Copying data next to where it is read to avoid joins, at the cost of updating every copy." },
+  { "term": "Document store", "description": "Keeps JSON-like documents read and written as one unit, with a flexible shape." },
+  { "term": "Key-value store", "description": "Looks a value up by its key, which makes that lookup very fast; a question that does not start from the key is slow or unsupported." },
+  { "term": "Wide-column store", "description": "Groups rows into partitions by a key and sorts them inside it, built for heavy writes read by key and range." },
+  { "term": "Access pattern", "description": "A query or write the application runs, with its rate; the list of them decides the database." }
+]
