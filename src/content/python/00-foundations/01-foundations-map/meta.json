@@ -1,0 +1,11 @@
+{
+  "title": "Map: Python from Zero",
+  "summary": "What a program is, how the editor, the Run button and the tests work, why tests need return rather than print, how to read the last line of a traceback, and when you can skip this module.",
+  "level": "beginner",
+  "tags": ["established", "core", "theory"],
+  "resources": [
+    { "label": "The Python Tutorial", "url": "https://docs.python.org/3/tutorial/index.html" },
+    { "label": "Python Tutorial: An Informal Introduction to Python", "url": "https://docs.python.org/3/tutorial/introduction.html" },
+    { "label": "Python Tutorial: Errors and Exceptions", "url": "https://docs.python.org/3/tutorial/errors.html" }
+  ]
+}

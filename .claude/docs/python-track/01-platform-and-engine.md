@@ -16,7 +16,7 @@ The Python engine already exists (Pyodide in a Web Worker, `dojo_harness.py`, `b
 
 ### 1. `track.json`
 
-The file as it stands. Its description still names other languages: the Python module-zero PR rewrites it without them and removes `'track:python'` from `PYTHON_PENDING_HEADERS` (`src/verify/pythonPendingRewrite.ts`) in the same change ([02-content-standards.md](02-content-standards.md) "No bridges").
+The file as it stands. Its description names no other language ([02-content-standards.md](02-content-standards.md) "No bridges"; `pythonConventions.test.ts` checks `track.json` and every `module.json`).
 
 ```json
 {
@@ -24,7 +24,7 @@ The file as it stands. Its description still names other languages: the Python m
   "order": 9,
   "title": "Python",
   "monogram": "PY",
-  "description": "Python for TypeScript and JavaScript developers: the object model, functions and closures, classes and descriptors, iterators, context managers, the standard library, pattern matching, type hints, asyncio, metaprogramming and modern tooling, with when-to-choose guidance for every feature.",
+  "description": "Python 3.14 from the first program to production code: an optional foundations module for people who have never programmed, then the object model, functions and closures, classes and descriptors, iterators, context managers, the standard library, pattern matching, type hints, asyncio, metaprogramming, tooling and Pydantic validation, with when-to-choose guidance for every feature.",
   "version": "Python 3.14"
 }
 ```

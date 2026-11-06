@@ -63,7 +63,7 @@ For learners who have never programmed. Every lesson is `beginner`, tagged `reco
 | 07-errors-and-testing | theory + challenge | Tells compile errors from exceptions, reads a stack trace, throws and catches exceptions, writes guard clauses, and reads a test as arrange, act, assert; the challenge is the skip test and combines the module: parsing with `TryParse`, a loop over an array, a `Dictionary` inside an instance class with a constructor and properties, string cleaning, a tuple result and exceptions | C#, unit testing 55% |
 
 - **Official:** C# fundamentals tutorials and the C# language reference.
-- **Done when:** the quizzes and the module's challenges are passed. Optional: a learner who skips the module still reaches 100% of the track; the module counts toward progress, all seven lessons, once a lesson from 00/02 to 00/06 is complete.
+- **Done when:** the quizzes and the module's challenges are passed. Optional: a learner who skips the module still reaches 100% of the track; the module counts toward progress, all seven lessons, once a lesson from 00/01 to 00/06 is complete (00/07 alone, the skip test, does not start it).
 
 ### 01-platform — The .NET Platform (core)
 

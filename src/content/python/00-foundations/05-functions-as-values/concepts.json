@@ -1,0 +1,8 @@
+[
+  { "term": "Function as a value", "description": "A function's name without `()` refers to the function itself, so it can be passed, returned or stored." },
+  { "term": "`key` function", "description": "`sorted(items, key=f)` calls `f` once per item and sorts by the results; equal results keep their order." },
+  { "term": "`lambda`", "description": "A small function without a name, written as one expression: `lambda n: n * 2`." },
+  { "term": "`*args`", "description": "A parameter such as `*amounts` collects every extra positional argument into a tuple." },
+  { "term": "Recursion", "description": "A function that calls itself on a smaller part of the problem, with a base case that stops it." },
+  { "term": "Type hint", "description": "An annotation such as `words: list[str]` or `-> int` that documents types; Python does not check it at runtime." }
+]

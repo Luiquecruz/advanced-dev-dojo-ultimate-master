@@ -1,0 +1,31 @@
+[
+  {
+    "question": "What is the value of `9 / 3`?",
+    "options": ["`3`", "`3.0`", "`'3'`", "It raises an error"],
+    "answer": 1,
+    "explanation": "`/` always produces a `float`, even when the division is exact. `9 // 3` gives the `int` `3`."
+  },
+  {
+    "question": "What do `17 // 5` and `17 % 5` give?",
+    "options": ["`3` and `2`", "`3.4` and `0`", "`2` and `3`", "`3` and `0.4`"],
+    "answer": 0,
+    "explanation": "Floor division gives the whole part (5 fits 3 times into 17) and `%` gives what is left over (17 - 15 = 2)."
+  },
+  {
+    "question": "Which line builds the text `Total: 12.50`?",
+    "options": [
+      "`\"Total: \" + 12.5`",
+      "`f\"Total: {12.5}\"`",
+      "`f\"Total: {12.5:.2f}\"`",
+      "`\"Total: {12.5:.2f}\"`"
+    ],
+    "answer": 2,
+    "explanation": "The `f` prefix turns on the braces and `:.2f` shows exactly two decimals. Without the prefix the braces are plain text, and `+` between text and a number raises TypeError."
+  },
+  {
+    "question": "After `count = 4` and `count += 2`, what does `count == 6 and not count > 10` give?",
+    "options": ["`False`", "`6`", "It raises an error", "`True`"],
+    "answer": 3,
+    "explanation": "`count += 2` makes `count` 6. `count == 6` is `True`, `count > 10` is `False`, so `not` turns it into `True`, and `True and True` is `True`."
+  }
+]

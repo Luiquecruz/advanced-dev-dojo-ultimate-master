@@ -1,0 +1,7 @@
+[
+  { "term": "Value and type", "description": "Every value has a type (`int`, `float`, `str`, `bool`, `NoneType`) that decides which operations work on it." },
+  { "term": "Variable", "description": "A name attached to a value with `=`. The right side is computed first." },
+  { "term": "`/`, `//` and `%`", "description": "`/` always gives a float; `//` gives the whole part of a division; `%` gives the remainder." },
+  { "term": "f-string", "description": "Text written as `f\"...\"` that holds expressions in braces; `{x:.2f}` shows two decimals and `{x!r}` shows the value as code." },
+  { "term": "Conversion", "description": "`int(\"42\")`, `str(42)` and `float(\"2.5\")` build a value of another type; `int(\"4.5\")` raises ValueError." }
+]

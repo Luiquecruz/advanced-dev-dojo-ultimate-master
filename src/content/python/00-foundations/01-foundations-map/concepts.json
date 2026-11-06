@@ -1,0 +1,7 @@
+[
+  { "term": "Program", "description": "Instructions written as text (source code) that Python runs from top to bottom." },
+  { "term": "Comment", "description": "Text after `#` up to the end of the line. Python ignores it; it is a note for people." },
+  { "term": "`main.py` and `demo.py`", "description": "`main.py` holds the functions the tests check; `demo.py` is the script the Run button executes." },
+  { "term": "`return` vs `print`", "description": "`return` hands a value back to the caller; `print` only shows it on the screen. Tests check what the challenge asks for, usually the returned value." },
+  { "term": "Traceback", "description": "The report Python prints when an error stops the program. Its last line names the error and what happened." }
+]

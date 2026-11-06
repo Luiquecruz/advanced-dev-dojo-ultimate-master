@@ -1,0 +1,7 @@
+[
+  { "term": "`if` / `elif` / `else`", "description": "Python checks the conditions from top to bottom and runs only the first block whose condition is true." },
+  { "term": "Indentation", "description": "The four spaces before a line show which `if`, loop or function it belongs to." },
+  { "term": "`for` and `range`", "description": "`for` takes each item of a list, string or range in turn; `range(a, b)` counts from `a` up to `b - 1`." },
+  { "term": "`enumerate` and `zip`", "description": "`enumerate` pairs each item with its position from 0; `zip` walks several lists together and stops at the shortest." },
+  { "term": "`break` and `continue`", "description": "`break` leaves the loop at once; `continue` skips to the next item." }
+]

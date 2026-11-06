@@ -1,0 +1,46 @@
+[
+  {
+    "question": "A practice lesson has `main.py` and `demo.py`. What does the **Run** button execute?",
+    "options": [
+      "The tests in `tests.py`",
+      "`demo.py`, a short script that uses your functions and prints what happens",
+      "Only the comments of `main.py`",
+      "Nothing until every test passes"
+    ],
+    "answer": 1,
+    "explanation": "Run executes `demo.py` and shows its output. The tests import `main.py` and check what your functions do."
+  },
+  {
+    "question": "A function computes the right total and shows it with `print(total)`, but the test fails. Why?",
+    "options": [
+      "`print` rounds numbers",
+      "Tests cannot import functions that print",
+      "The test needs the value returned with `return total`; a function without `return` gives back `None`",
+      "The total must be written as text"
+    ],
+    "answer": 2,
+    "explanation": "`print` shows a value and gives nothing back. This test checks what the function returns, so the function must end with `return total`."
+  },
+  {
+    "question": "A traceback ends with `NameError: name 'totl' is not defined`. Where do you start reading?",
+    "options": [
+      "At the last line: it names the error and says the name `totl` does not exist, probably a typo",
+      "At the first line, `Traceback (most recent call last)`",
+      "Anywhere: tracebacks have no order",
+      "Nowhere: the program ran correctly"
+    ],
+    "answer": 0,
+    "explanation": "The last line names the kind of error and what happened. The lines above it show the file and line where it started."
+  },
+  {
+    "question": "You already program and want to know whether to skip this module. What does the skip rule say?",
+    "options": [
+      "Skip it only after finishing every lesson",
+      "Never skip it",
+      "Skip it when you have used any programming language for a year",
+      "Try the challenge of lesson 09; if you solve it without help, start at module 01"
+    ],
+    "answer": 3,
+    "explanation": "Lesson 09 combines classes and exceptions with the lists, slicing, dicts, sorting and formatting of the earlier lessons. Solving its challenge without help shows you are ready for module 01; skim lessons 05 to 08 for what it does not test: `lambda`, recursion, comprehensions, sets and `try/else/finally`."
+  }
+]

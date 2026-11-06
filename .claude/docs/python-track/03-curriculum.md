@@ -1,8 +1,8 @@
 # Curriculum Map — Python Track
 
-v1 had 12 modules and 94 lessons; v2 adds 9 restored lessons (103) and module 13 after G8 (approved in [09-governance.md](09-governance.md), November 2026). Module ids are folder names without the numeric prefix. Kinds: **P** practice (theory + challenge, quiz optional), **Q** quiz lesson (theory + 4–6 questions), **A** ADR checkpoint, **C** capstone. Levels: B beginner, I intermediate, Ad advanced, E expert.
+v1 had 12 modules and 94 lessons; v2 adds 9 restored lessons (103), module 13 after G8 (110, approved in [09-governance.md](09-governance.md), November 2026) and the optional module 00 for learners who have never programmed (119 lessons in 14 modules). Module ids are folder names without the numeric prefix. Kinds: **P** practice (theory + challenge, quiz optional), **Q** quiz lesson (theory + 4–6 questions), **A** ADR checkpoint, **C** capstone. Levels: B beginner, I intermediate, Ad advanced, E expert.
 
-This table is the source for the `## Python` section of [CURRICULUM.md](../CURRICULUM.md), where each written lesson gets `✓`. `npm run python:curriculum` regenerates that section from the module headings and lesson rows below, and `npm run python:new` reads kind and level from them. Keep both formats exactly: `## NN-module — Title (count)` and `| NN-lesson-id | Kind | Level |`. Detailed per-lesson specs: [04](04-module-01-object-model.md), [05](05-modules-02-to-04.md), [06](06-modules-05-to-08.md), [07](07-modules-09-to-12.md), [08](08-module-13-and-capstone.md). Lessons cut from the 115-lesson plan are kept in the [v2 backlog](#v2-backlog) at the end of this file.
+This table is the source for the `## Python` section of [CURRICULUM.md](../CURRICULUM.md), where each written lesson gets `✓`. `npm run python:curriculum` regenerates that section from the module headings and lesson rows below, and `npm run python:new` reads kind and level from them. Keep both formats exactly: `## NN-module — Title (count)` and `| NN-lesson-id | Kind | Level |`. Detailed per-lesson specs: [14](14-module-00-foundations.md) (module 00), [04](04-module-01-object-model.md), [05](05-modules-02-to-04.md), [06](06-modules-05-to-08.md), [07](07-modules-09-to-12.md), [08](08-module-13-and-capstone.md). Lessons cut from the 115-lesson plan are kept in the [v2 backlog](#v2-backlog) at the end of this file.
 
 ## Releases
 
@@ -13,17 +13,32 @@ This table is the source for the `## Python` section of [CURRICULUM.md](../CURRI
 | Advanced | 09–12 including the capstone | 29 | G7 |
 | v2 restored lessons | 03, 05, 07, 08, 11, 12 | 9 | product owner decision (November 2026): the 9 deferred lessons come back, held to the same quality bar |
 | v2 module 13 (Pydantic) | 13 | 7 | G8 passed (GO, November 2026: wheels vendored with lock-pinned sha256, see 08-module-13-and-capstone.md) |
+| Module 00 (optional foundations) | 00 | 9 | product owner decision (November 2026): a beginner module that experienced learners skip with one test ([14-module-00-foundations.md](14-module-00-foundations.md)) |
 
 ## Progression
 
 ```
-object-model → collections → functions → classes → iteration → context-and-errors → stdlib
-        → pattern-matching → typing → async → metaprogramming → tooling (+capstone)
+(foundations, optional) → object-model → collections → functions → classes → iteration → context-and-errors → stdlib
+        → pattern-matching → typing → async → metaprogramming → tooling (+capstone) → validation
 ```
 
-Every module depends only on earlier ones. Typing sits after classes and iteration because `Protocol`, descriptors and generics assume the data model. Annotations still appear in solutions from module 03 on, and `01-functions-map` states that they are not enforced at runtime. Async comes after typing and context managers (`async with`, `ExceptionGroup`). Metaprogramming comes after everything it hooks into. Inside a module the intended progression is the same: a lesson uses only what earlier lessons taught, so dataclasses come before `__slots__` (a `slots=True` dataclass), exception hierarchies and chaining before the `with` protocol, numbers and dates before `json` (encoders for `Decimal` and aware `datetime`), and async iterators and context managers before tasks and task groups (`async with`). Two lessons use something module 07 teaches and explain it where it is used: `03-chaining-and-notes` introduces `json.loads` and `json.JSONDecodeError` in its theory, and `05-contextmanager-decorator` describes `io.StringIO` in its challenge.
+Every module depends only on earlier ones. Module 00 teaches the basics that modules 01–13 assume (values, loops, functions, strings and lists, dicts and sets, exceptions, classes); a learner who solves the challenge of `00-foundations/09-classes-and-objects` without the hints starts at module 01, and the optional module counts toward progress only once a lesson with a challenge other than that last one is complete (lessons 02 to 08; the quiz-only map does not start it). Typing sits after classes and iteration because `Protocol`, descriptors and generics assume the data model. Annotations still appear in solutions from module 03 on, and `01-functions-map` states that they are not enforced at runtime. Async comes after typing and context managers (`async with`, `ExceptionGroup`). Metaprogramming comes after everything it hooks into. Inside a module the intended progression is the same: a lesson uses only what earlier lessons taught, so dataclasses come before `__slots__` (a `slots=True` dataclass), exception hierarchies and chaining before the `with` protocol, numbers and dates before `json` (encoders for `Decimal` and aware `datetime`), and async iterators and context managers before tasks and task groups (`async with`). Two lessons use something module 07 teaches and explain it where it is used: `03-chaining-and-notes` introduces `json.loads` and `json.JSONDecodeError` in its theory, and `05-contextmanager-decorator` describes `io.StringIO` in its challenge.
 
-ADR checkpoints close every module except 12, which closes the track with the capstone. In v1 only modules 01, 02, 04, 06, 09 and 10 had one; v2 adds the ADRs of modules 03, 05, 07, 08, 11 and 13, each placed after the module's code integration challenge when there is one.
+ADR checkpoints close every module except 00, which ends with the skip-test challenge, and 12, which ends with the capstone. In v1 only modules 01, 02, 04, 06, 09 and 10 had one; v2 adds the ADRs of modules 03, 05, 07, 08, 11 and 13, each placed after the module's code integration challenge when there is one.
+
+## 00-foundations — Foundations: Python from Zero (9)
+
+| Lesson | Kind | Level |
+| --- | --- | --- |
+| 01-foundations-map | Q | B |
+| 02-values-and-expressions | P | B |
+| 03-decisions-and-loops | P | B |
+| 04-functions-basics | P | B |
+| 05-functions-as-values | P | B |
+| 06-strings-and-lists | P | B |
+| 07-tuples-dicts-and-sets | P | B |
+| 08-errors-and-exceptions | P | B |
+| 09-classes-and-objects | P | B |
 
 ## 01-object-model — Names, Objects and Scope (8)
 
@@ -204,13 +219,13 @@ ADR checkpoints close every module except 12, which closes the track with the ca
 
 | Kind | Count |
 | --- | --- |
-| Practice (P) | 79 |
-| Quiz (Q), including 13 maps | 18 |
+| Practice (P) | 87 |
+| Quiz (Q), including 14 maps | 19 |
 | ADR (A) | 12 |
 | Capstone (C) | 1 |
-| Total | 110 |
+| Total | 119 |
 
-Module sizes: 8, 9, 11, 9, 8, 9, 10, 6, 9, 9, 10, 5, 7. Recompute these counts from the tables whenever a row changes.
+Module sizes: 9, 8, 9, 11, 9, 8, 9, 10, 6, 9, 9, 10, 5, 7. Recompute these counts from the tables whenever a row changes.
 
 ## v2 backlog
 

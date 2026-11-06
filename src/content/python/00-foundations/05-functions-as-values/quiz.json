@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What does `sorted([\"bb\", \"a\", \"cc\", \"d\"], key=len)` return?",
+    "options": [
+      "`[\"a\", \"d\", \"bb\", \"cc\"]`",
+      "`[\"a\", \"bb\", \"cc\", \"d\"]`",
+      "`[\"d\", \"a\", \"cc\", \"bb\"]`",
+      "`[1, 1, 2, 2]`"
+    ],
+    "answer": 0,
+    "explanation": "`sorted` orders by the key (the length) and is stable, so `a` stays before `d` and `bb` before `cc`. It returns the items, not the keys."
+  },
+  {
+    "question": "After `add_tax = make_rate(21)`, what is `add_tax`?",
+    "options": [
+      "The number 21",
+      "A function returned by `make_rate`, ready to be called",
+      "`None`, because nothing was printed",
+      "The text `\"make_rate(21)\"`"
+    ],
+    "answer": 1,
+    "explanation": "`make_rate` returns a function; the name `add_tax` now refers to it. Calling `add_tax(100)` runs it."
+  },
+  {
+    "question": "Given `def count(*items, unit=\"pieces\"): return f\"{len(items)} {unit}\"`, what does `count(\"mug\", \"pen\", unit=\"boxes\")` return?",
+    "options": [
+      "`\"3 boxes\"`",
+      "It raises TypeError",
+      "`\"2 boxes\"`",
+      "`\"2 pieces\"`"
+    ],
+    "answer": 2,
+    "explanation": "`*items` collects the two positional arguments into a tuple, and `unit` is set by keyword, so the text is `\"2 boxes\"`."
+  },
+  {
+    "question": "A recursive function has no case that returns without calling itself. What happens when you call it?",
+    "options": [
+      "It returns `None` after the first call",
+      "Python detects the loop and returns `0`",
+      "It runs forever without any error",
+      "It calls itself until Python raises `RecursionError`"
+    ],
+    "answer": 3,
+    "explanation": "Every call waits for the next one. Without a base case the chain never ends, and Python stops it with RecursionError after about 1,000 levels."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "title": "Decisions and Loops",
+  "summary": "Choose between cases with if, elif and else, repeat work with for and while, walk lists with enumerate and zip, and build results step by step. Write the helpers of a shop's shipping desk.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: More Control Flow Tools", "url": "https://docs.python.org/3/tutorial/controlflow.html" },
+    { "label": "Built-in Functions: enumerate", "url": "https://docs.python.org/3/library/functions.html#enumerate" },
+    { "label": "Built-in Functions: zip", "url": "https://docs.python.org/3/library/functions.html#zip" }
+  ]
+}

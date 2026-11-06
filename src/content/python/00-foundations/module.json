@@ -1,0 +1,5 @@
+{
+  "title": "Foundations: Python from Zero",
+  "description": "For people who have never programmed: values and expressions, decisions and loops, functions, text and lists, tuples, dicts and sets, errors and exceptions, classes and objects. If you can solve the challenge of its last lesson, start at module 01.",
+  "optional": true
+}

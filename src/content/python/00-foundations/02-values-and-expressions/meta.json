@@ -1,0 +1,13 @@
+{
+  "title": "Values and Expressions",
+  "summary": "Numbers, text, booleans and None; arithmetic with /, // and %; comparisons and logic; conversions and f-strings. Build the arithmetic of a shop receipt in whole cents.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: Using Python as a Calculator", "url": "https://docs.python.org/3/tutorial/introduction.html#using-python-as-a-calculator" },
+    { "label": "Built-in Types: Numeric Types", "url": "https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex" },
+    { "label": "Python Tutorial: Fancier Output Formatting", "url": "https://docs.python.org/3/tutorial/inputoutput.html#formatted-string-literals" }
+  ]
+}

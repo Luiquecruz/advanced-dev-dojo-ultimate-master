@@ -1,0 +1,36 @@
+[
+  {
+    "question": "What does `result` hold?\n\n```py\ndef double(n):\n    n * 2\n\nresult = double(4)\n```",
+    "options": ["`8`", "`None`", "`4`", "It raises an error"],
+    "answer": 1,
+    "explanation": "The body computes `n * 2` and throws it away. Without `return`, the call gives back `None`."
+  },
+  {
+    "question": "Given `def fee(amount, rate=5): return amount * rate // 100`, what does `fee(200, rate=10)` return?",
+    "options": ["`10`", "`2000`", "`20`", "It raises an error, because `rate` already has a default"],
+    "answer": 2,
+    "explanation": "The keyword argument replaces the default: `200 * 10 // 100` is `20`."
+  },
+  {
+    "question": "A function ends with `return total, count`. Which call reads both values?",
+    "options": [
+      "`total = summary(items)` and then `count = summary(items)`",
+      "`summary(items).total`",
+      "`total + count = summary(items)`",
+      "`total, count = summary(items)`"
+    ],
+    "answer": 3,
+    "explanation": "`return a, b` returns a tuple; unpacking with one name per value takes it apart."
+  },
+  {
+    "question": "A function creates a variable `subtotal` in its body. What happens when code outside the function reads `subtotal`?",
+    "options": [
+      "It raises NameError: the variable is local to the function",
+      "It reads the last value the function stored",
+      "It reads `None`",
+      "It reads `0`"
+    ],
+    "answer": 0,
+    "explanation": "Names created inside a function exist only while it runs. Hand the value out with `return`."
+  }
+]

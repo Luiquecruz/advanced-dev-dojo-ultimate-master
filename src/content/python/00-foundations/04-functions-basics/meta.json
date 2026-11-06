@@ -1,0 +1,13 @@
+{
+  "title": "Functions: Parameters and Return",
+  "summary": "Define functions with def, pass arguments by position or by keyword, give parameters defaults, return several values and unpack them, and keep variables local. Build a discount, statistics and range toolbox.",
+  "level": "beginner",
+  "tags": ["established", "core", "practice"],
+  "entry": "main.py",
+  "run": "demo.py",
+  "resources": [
+    { "label": "Python Tutorial: Defining Functions", "url": "https://docs.python.org/3/tutorial/controlflow.html#defining-functions" },
+    { "label": "Python Tutorial: Default Argument Values", "url": "https://docs.python.org/3/tutorial/controlflow.html#default-argument-values" },
+    { "label": "Python Tutorial: Tuples and Sequences", "url": "https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences" }
+  ]
+}

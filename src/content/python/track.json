@@ -3,6 +3,6 @@
   "order": 9,
   "title": "Python",
   "monogram": "PY",
-  "description": "Python for TypeScript and JavaScript developers: the object model, functions and closures, classes and descriptors, iterators, context managers, the standard library, pattern matching, type hints, asyncio, metaprogramming and modern tooling, with when-to-choose guidance for every feature.",
+  "description": "Python 3.14 from the first program to production code: an optional foundations module for people who have never programmed, then the object model, functions and closures, classes and descriptors, iterators, context managers, the standard library, pattern matching, type hints, asyncio, metaprogramming, tooling and Pydantic validation, with when-to-choose guidance for every feature.",
   "version": "Python 3.14"
 }

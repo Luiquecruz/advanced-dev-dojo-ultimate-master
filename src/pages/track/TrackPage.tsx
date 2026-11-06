@@ -41,7 +41,7 @@ export function TrackPage({ track }: { track: Track }) {
               <Link className={buttonClass('primary')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: resumeLesson.id })}>
                 {status === 'not-started' ? 'Start learning' : 'Continue'}
               </Link>
-              {hasOptionalModule && <p className="m-0 basis-full text-xs text-ink-faint">An optional module counts toward progress once you complete one of its lessons other than its first and last.</p>}
+              {hasOptionalModule && <p className="m-0 basis-full text-xs text-ink-faint">An optional module counts toward progress once you complete one of its challenge lessons other than its last.</p>}
             </div>
           </header>
           <ModuleList track={track} />

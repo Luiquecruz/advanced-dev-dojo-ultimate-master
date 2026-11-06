@@ -78,15 +78,21 @@ describe('summarizeTrack with an optional module', () => {
     expect(summary.modules.map((module) => module.state)).toEqual(['optional', 'done', 'done']);
   });
 
-  it('does not start the optional module when only its first and last lessons are complete', () => {
-    const summary = summarizeTrack(track, progressWith([...requiredLessons, 'module-1-lesson-1', 'module-1-lesson-4'], 'module-1-lesson-4'));
+  it('starts the optional module when its first lesson has a challenge and is complete', () => {
+    const summary = summarizeTrack(track, progressWith([...requiredLessons, 'module-1-lesson-1'], 'module-1-lesson-2'));
+    expect(summary).toMatchObject({ done: 9, total: 12, percent: 75, status: 'in-progress', currentModuleIndex: 0 });
+    expect(summary.modules.map((module) => module.state)).toEqual(['current', 'done', 'done']);
+  });
+
+  it('does not start the optional module when only its last lesson, the skip test, is complete', () => {
+    const summary = summarizeTrack(track, progressWith([...requiredLessons, 'module-1-lesson-4'], 'module-1-lesson-4'));
     expect(summary).toMatchObject({ done: 8, total: 8, percent: 100, status: 'completed' });
     expect(summary.modules.map((module) => module.state)).toEqual(['optional', 'done', 'done']);
   });
 
   it('counts the whole optional module once a lesson between its first and last is complete', () => {
-    const summary = summarizeTrack(track, progressWith([...requiredLessons, 'module-1-lesson-1', 'module-1-lesson-2'], 'module-1-lesson-3'));
-    expect(summary).toMatchObject({ done: 10, total: 12, percent: 83, status: 'in-progress', currentModuleIndex: 0 });
+    const summary = summarizeTrack(track, progressWith([...requiredLessons, 'module-1-lesson-2'], 'module-1-lesson-3'));
+    expect(summary).toMatchObject({ done: 9, total: 12, percent: 75, status: 'in-progress', currentModuleIndex: 0 });
     expect(summary.modules.map((module) => module.state)).toEqual(['current', 'done', 'done']);
   });
 
@@ -102,15 +108,26 @@ describe('summarizeTrack with an optional module', () => {
     expect(summary.modules.map((module) => module.state)).toEqual(['optional', 'current', 'upcoming']);
   });
 
-  it('starts the optional module when a quiz-only lesson inside it is passed', () => {
-    const quizTrack: Track = {
+  describe('whose first lesson is a quiz-only map', () => {
+    const mapTrack: Track = {
       ...track,
       modules: track.modules.map((module, index) =>
-        index === 0 ? { ...module, lessons: module.lessons.map((entry, lessonIndex) => (lessonIndex === 1 ? { ...entry, hasChallenge: false, hasQuiz: true } : entry)) } : module,
+        index === 0 ? { ...module, lessons: module.lessons.map((entry, lessonIndex) => (lessonIndex === 0 ? { ...entry, hasChallenge: false, hasQuiz: true } : entry)) } : module,
       ),
     };
-    const state = { ...progressWith(requiredLessons, 'module-3-lesson-4'), quizzes: { 'demo/module-1-lesson-2': true as const } };
-    expect(summarizeTrack(quizTrack, state)).toMatchObject({ done: 9, total: 12, status: 'in-progress' });
+    const withMapPassed = (completed: string[], lastLesson: string): ProgressState => ({ ...progressWith(completed, lastLesson), quizzes: { 'demo/module-1-lesson-1': true as const } });
+
+    it('does not start the module when only the map is passed', () => {
+      expect(summarizeTrack(mapTrack, withMapPassed(requiredLessons, 'module-1-lesson-1'))).toMatchObject({ done: 8, total: 8, status: 'completed' });
+    });
+
+    it('does not start the module when only the map and the skip test are passed', () => {
+      expect(summarizeTrack(mapTrack, withMapPassed([...requiredLessons, 'module-1-lesson-4'], 'module-1-lesson-4'))).toMatchObject({ done: 8, total: 8, status: 'completed' });
+    });
+
+    it('starts the module once a challenge lesson after the map is complete', () => {
+      expect(summarizeTrack(mapTrack, withMapPassed([...requiredLessons, 'module-1-lesson-2'], 'module-1-lesson-3'))).toMatchObject({ done: 10, total: 12, status: 'in-progress' });
+    });
   });
 
   it('resumes an unfinished lesson of a started optional module once the required lessons are done', () => {

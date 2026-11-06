@@ -23,14 +23,15 @@ export interface TrackSummary {
 }
 
 /**
- * A required module always counts toward track progress; an optional one once it is complete or a lesson between its first and its last is complete.
+ * A required module always counts toward track progress. An optional one counts once it is complete or once a lesson with a challenge
+ * other than its last one (the skip test) is complete: a quiz-only lesson such as a map does not start it.
  */
 function isModuleCounted(state: ProgressState, module: Module): boolean {
   if (!module.optional) {
     return true;
   }
   const complete = (lesson: LessonEntry) => isLessonComplete(state, lesson);
-  return module.lessons.every(complete) || module.lessons.slice(1, -1).some(complete);
+  return module.lessons.every(complete) || module.lessons.slice(0, -1).some((lesson) => lesson.hasChallenge && complete(lesson));
 }
 
 /**

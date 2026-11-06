@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Where do you start reading a traceback to find out what went wrong?",
+    "options": [
+      "At the first line, `Traceback (most recent call last):`",
+      "At the last line, which names the exception type and its message",
+      "At the line with the most `~` and `^` markers",
+      "At the line that calls `print`"
+    ],
+    "answer": 1,
+    "explanation": "The last line says what failed, such as `ZeroDivisionError: division by zero`. The lines above it show the calls that led there, the most recent call last, so the last `File` line is where it happened."
+  },
+  {
+    "question": "What does `int(\"12abc\")` raise?",
+    "options": [
+      "`TypeError`",
+      "`ValueError`",
+      "`SyntaxError`",
+      "Nothing: it returns `12`"
+    ],
+    "answer": 1,
+    "explanation": "The argument has the right type, a string, but a value `int` cannot convert, so it raises `ValueError: invalid literal for int() with base 10: '12abc'`."
+  },
+  {
+    "question": "What does this print?\n\n```py\ndef save():\n    try:\n        return \"saved\"\n    finally:\n        print(\"closing\")\n\nprint(save())\n```",
+    "options": [
+      "Only `saved`",
+      "Only `closing`",
+      "`saved`, then `closing`",
+      "`closing`, then `saved`"
+    ],
+    "answer": 3,
+    "explanation": "`finally` runs before the function actually returns, so `closing` is printed first. The outer `print` then shows the return value, `saved`."
+  },
+  {
+    "question": "`safe_ratio` uses `except Exception: return None` around `part / whole`. What does `safe_ratio(\"3\", 4)` return?",
+    "options": [
+      "`0.75`",
+      "`None`, which hides a `TypeError` caused by passing text",
+      "It raises `TypeError`",
+      "It raises `ZeroDivisionError`"
+    ],
+    "answer": 1,
+    "explanation": "Dividing a string raises `TypeError`, and `except Exception` catches it like any other error, so the bug turns into a quiet `None`. `except ZeroDivisionError` would let the `TypeError` reach the caller."
+  },
+  {
+    "question": "When does the `else` block of a `try` statement run?",
+    "options": [
+      "When the `try` block finishes normally: no exception and no `return`, `break` or `continue`",
+      "Only when an `except` clause ran",
+      "Always, like `finally`",
+      "Only when no `except` clause matched"
+    ],
+    "answer": 0,
+    "explanation": "`else` runs only when control reaches the end of the `try` block: no exception was raised and no `return`, `break` or `continue` left it early. Code placed there is not covered by the `except` clauses, so its own errors are not caught by mistake."
+  }
+]

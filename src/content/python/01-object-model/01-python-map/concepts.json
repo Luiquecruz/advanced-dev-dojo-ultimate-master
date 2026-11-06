@@ -1,7 +1,8 @@
 [
+  { "term": "Skip rule", "description": "Solve the challenge of module 00, lesson 09 without the hints and you can start at module 01. Module 00 is optional and counts toward progress only once you start it." },
   { "term": "Name binding", "description": "Assignment attaches a name to an object. It never copies the object." },
   { "term": "Protocol", "description": "A set of special methods (`__len__`, `__iter__`, `__enter__`...) that built-in syntax and functions call. Implementing the methods makes your class work with that syntax." },
   { "term": "Pyodide", "description": "CPython compiled to WebAssembly. It runs the Python challenges in a Web Worker in your browser." },
-  { "term": "ADR checkpoint", "description": "The last lesson of six modules: an Architecture Decision Record for a briefing, with numbers you compute from it, checked for structure and coherence." },
+  { "term": "ADR checkpoint", "description": "The last lesson of twelve modules: an Architecture Decision Record for a briefing, with numbers you compute from it, checked for structure and coherence." },
   { "term": "Status block", "description": "A dated blockquote (`Status as of <month year>`) that holds version-dependent facts." }
 ]
