@@ -46,7 +46,7 @@ The last row matters most: a package you install runs with your full permissions
 
 ## Releases: LTS or Current
 
-Node ships a new major every six months. **Even** majors (20, 22, 24) become **LTS** (Long Term Support) in October and receive fixes for about 30 months; **odd** majors (23, 25) are short-lived. Production runs an Active or Maintenance LTS line. Pin it in the project so every machine agrees:
+Node ships new majors on a published schedule, and the Node.js release page says which ones are **LTS** (Long Term Support) and receive fixes for about 30 months; a Current line that is not yet LTS is short-lived. Production runs an Active or Maintenance LTS line. Pin it in the project so every machine agrees:
 
 ```json
 {
