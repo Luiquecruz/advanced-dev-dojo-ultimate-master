@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A project moves to Spring Boot 4.1 and keeps the springdoc 2.x dependency from an older tutorial. What is the right fix?",
+    "options": [
+      "Pin the Jackson version",
+      "Switch to a springdoc 3.x release, since the 3.x line targets Spring Boot 4",
+      "Add spring-boot-starter-classic",
+      "Downgrade Spring Boot to the previous major version"
+    ],
+    "answer": 1,
+    "explanation": "springdoc releases are matched to Spring Boot lines: 3.x is built for Boot 4, with 3.1.x and 3.2.x for Boot 4.1. The 2.x line targets the previous Boot major."
+  },
+  {
+    "question": "A record has `@NotBlank @Size(max = 80) String title`. How does springdoc describe it in the schema?",
+    "options": [
+      "The title is listed as required with maxLength 80",
+      "Constraints are ignored and only the type string appears",
+      "The title becomes an enum",
+      "Only Swagger UI shows the limit, not the document"
+    ],
+    "answer": 0,
+    "explanation": "springdoc reads Jakarta Validation annotations: not-null and not-blank constraints become required and Size becomes maxLength or minLength."
+  },
+  {
+    "question": "Two controllers each have a method named `get`, and a generated Angular client has confusingly named methods. What prevents this?",
+    "options": [
+      "Rename the Java packages",
+      "Disable Swagger UI",
+      "Make both methods static",
+      "Give each operation an explicit operationId such as getCourse"
+    ],
+    "answer": 3,
+    "explanation": "By default operationId is the Java method name, and duplicates get numeric suffixes. An explicit, unique operationId gives the client stable method names."
+  },
+  {
+    "question": "How does a team see that a pull request changes the public contract of the API?",
+    "options": [
+      "By checking the Swagger UI colors",
+      "By committing the exported openapi.yaml and reading its diff in review",
+      "By counting controller classes",
+      "By running the application twice"
+    ],
+    "answer": 1,
+    "explanation": "A committed export turns contract changes into ordinary diffs. Reviewers see added, removed or retyped fields before the change is released."
+  },
+  {
+    "question": "A team deploys an API that is only for internal services. What should it do about the generated documentation endpoints in production?",
+    "options": [
+      "Leave them open, since documentation is harmless",
+      "Rename them to a random path in code",
+      "Disable them in the production profile with springdoc.api-docs.enabled=false and springdoc.swagger-ui.enabled=false, or protect them",
+      "Move them to the root path"
+    ],
+    "answer": 2,
+    "explanation": "A full description of every endpoint and a console that calls them help an attacker. Switch the endpoints off in production or place them behind authentication."
+  }
+]

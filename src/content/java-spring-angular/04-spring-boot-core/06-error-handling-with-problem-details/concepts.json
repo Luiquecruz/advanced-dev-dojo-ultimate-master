@@ -1,0 +1,9 @@
+[
+  { "term": "Problem Details", "description": "The RFC 9457 JSON format for errors, with type, title, status, detail and instance members and optional extensions." },
+  { "term": "ProblemDetail", "description": "The Spring class that represents an RFC 9457 problem and renders as application/problem+json." },
+  { "term": "@RestControllerAdvice", "description": "A class whose exception handler methods apply to every controller, so errors are mapped in one place." },
+  { "term": "ResponseEntityExceptionHandler", "description": "A base class that renders every built-in Spring MVC exception as a problem detail and can be overridden per exception." },
+  { "term": "Problem type", "description": "A stable URI in the type member that identifies a kind of error, which clients can branch on." },
+  { "term": "Extension member", "description": "A custom field added to a problem response, such as an errors list or the id of the missing resource." },
+  { "term": "Catch-all handler", "description": "A handler for Exception that logs the cause on the server and returns a fixed, safe message." }
+]

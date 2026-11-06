@@ -1,0 +1,9 @@
+[
+  { "term": "@RestController", "description": "A controller annotation that writes every return value to the response body, usually as JSON." },
+  { "term": "Request mapping", "description": "The annotations that bind an HTTP method and path to a handler method, such as @GetMapping and @PostMapping." },
+  { "term": "Request and response DTO", "description": "A record that defines exactly what a client sends or receives, kept separate from the domain model." },
+  { "term": "ResponseEntity", "description": "A return type that lets a handler choose the status code, headers and body of the response." },
+  { "term": "Location header", "description": "The header of a 201 Created response that holds the URL of the new resource." },
+  { "term": "Layering", "description": "The split of controller for HTTP, service for rules and repository for storage, each knowing only the layer below." },
+  { "term": "API versioning", "description": "A mapping version attribute resolved from a header, path segment or query parameter, available in Spring Framework 7." }
+]

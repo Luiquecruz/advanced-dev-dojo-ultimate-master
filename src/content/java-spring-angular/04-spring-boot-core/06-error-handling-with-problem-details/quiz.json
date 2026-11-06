@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A mobile client must show a specific screen when a course is missing. Which part of the problem response should it check?",
+    "options": [
+      "The wording of detail",
+      "The type URI or the status, which are stable",
+      "The order of the members",
+      "The time of the response"
+    ],
+    "answer": 1,
+    "explanation": "Detail text is for humans and may change or be translated. The type URI and status are the contract that clients can branch on."
+  },
+  {
+    "question": "A service method throws `CourseNotFoundException`. Where should it be turned into a 404 response?",
+    "options": [
+      "In an exception handler method of a @RestControllerAdvice class",
+      "Inside the repository, by setting the HTTP status",
+      "In every controller method with try and catch",
+      "In the record that models the course"
+    ],
+    "answer": 0,
+    "explanation": "The service and repository know nothing about HTTP. One advice class maps domain exceptions to statuses for all controllers, so formats stay consistent."
+  },
+  {
+    "question": "An unexpected `SQLException` message contains a table name. The catch-all handler uses `exception.getMessage()` as the problem `detail`. What is wrong?",
+    "options": [
+      "Nothing, detail should be as specific as possible",
+      "The status would become 200",
+      "The table name leaks to clients, so detail should be a fixed message while the cause is logged server-side",
+      "The handler would not compile"
+    ],
+    "answer": 2,
+    "explanation": "Internal messages reveal schema, paths and library details that help attackers. Log the cause with the request context and return a generic detail."
+  },
+  {
+    "question": "A validation handler overrides only `handleMethodArgumentNotValid`. A client sends `-3` for a path variable annotated `@Positive`. What does the client receive?",
+    "options": [
+      "The custom errors list, since all validation shares one exception",
+      "A 500 with a stack trace",
+      "A 404 for the path",
+      "A 400 from the default handling of HandlerMethodValidationException, without the custom errors list"
+    ],
+    "answer": 3,
+    "explanation": "Parameter constraints raise HandlerMethodValidationException, a different type from body validation. Override its handler method too to keep one error shape."
+  },
+  {
+    "question": "A team enables `spring.mvc.problemdetails.enabled=true` and also writes an advice that extends `ResponseEntityExceptionHandler`. What is the risk?",
+    "options": [
+      "Two handlers for the same built-in exceptions can compete, so ordering decides which one answers",
+      "The application can no longer start",
+      "Problem details are disabled for domain exceptions",
+      "Jackson stops serializing records"
+    ],
+    "answer": 0,
+    "explanation": "The property registers its own handler with order 0. With your own advice for the same exceptions, leave the property off or order your advice first."
+  }
+]

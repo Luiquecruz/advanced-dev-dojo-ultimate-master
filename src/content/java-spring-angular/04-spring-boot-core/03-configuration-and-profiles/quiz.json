@@ -1,0 +1,57 @@
+[
+  {
+    "question": "`application.yaml` sets `catalog.page-size: 20`, `application-prod.yaml` sets 50, and the process starts with `CATALOG_PAGESIZE=77` and profile `prod`. What is the bound value?",
+    "options": [
+      "20, because the base file is read first",
+      "50, because profile files always win",
+      "77, because environment variables override config files",
+      "The application fails to start"
+    ],
+    "answer": 2,
+    "explanation": "Environment variables rank above config files, including profile-specific ones. A command-line argument would rank above the environment variable."
+  },
+  {
+    "question": "Which environment variable name binds to the property `catalog.import-timeout`?",
+    "options": [
+      "catalog.import-timeout",
+      "CATALOG_IMPORT_TIMEOUT_ENV",
+      "CATALOG-IMPORT-TIMEOUT",
+      "CATALOG_IMPORTTIMEOUT"
+    ],
+    "answer": 3,
+    "explanation": "The conversion replaces dots with underscores, removes dashes and uses upper case, so import-timeout becomes IMPORTTIMEOUT after the CATALOG_ prefix."
+  },
+  {
+    "question": "A properties record has `@NotBlank String apiKey` and no value for it in any file. The operator forgets to set the environment variable. What happens with `@Validated` and the validation starter?",
+    "options": [
+      "The application starts and the key is an empty string",
+      "Startup fails with a binding error that names catalog.apiKey",
+      "The first request that uses the key fails",
+      "Boot generates a random key"
+    ],
+    "answer": 1,
+    "explanation": "Constructor binding gives null for the missing component and validation rejects it during startup, so the misconfiguration is caught before any traffic."
+  },
+  {
+    "question": "A developer writes `contact-email: ${SUPPORT_EMAIL}` in a properties record's file and forgets to define `SUPPORT_EMAIL`. What does the record hold?",
+    "options": [
+      "The literal text ${SUPPORT_EMAIL}",
+      "null",
+      "An empty string",
+      "Startup always fails with a placeholder error"
+    ],
+    "answer": 0,
+    "explanation": "When binding to a properties class, an unresolved placeholder is kept as literal text. Validate required values instead of assuming a failure."
+  },
+  {
+    "question": "A team wants a metrics profile to switch on automatically whenever `prod` is active. Which setting does that?",
+    "options": [
+      "@Profile({\"prod\", \"metrics\"}) on the main class",
+      "A profile group: spring.profiles.group.prod set to metrics",
+      "Setting spring.profiles.active inside the prod document",
+      "Renaming the file to application-prod-metrics.yaml"
+    ],
+    "answer": 1,
+    "explanation": "A profile group activates the listed profiles together with the named one. Setting spring.profiles.active inside a profile document is not allowed."
+  }
+]

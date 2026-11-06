@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A team defines its own `JsonMapper` bean to change one serialization setting, and afterward several other JSON defaults are gone. What would have been a better change?",
+    "options": [
+      "Delete the Jackson dependency",
+      "Add a second @SpringBootApplication class",
+      "Set the property or declare a JsonMapperBuilderCustomizer bean that adjusts only that setting",
+      "Define a prototype-scoped JsonMapper"
+    ],
+    "answer": 2,
+    "explanation": "A user-defined JsonMapper makes the auto-configured one back off entirely, along with its other settings. A property or customizer changes one thing and keeps the rest."
+  },
+  {
+    "question": "An endpoint returns no JSON because an expected bean is missing, and nobody knows why the auto-configuration was skipped. What is the fastest way to find out?",
+    "options": [
+      "Add more @ComponentScan packages",
+      "Start with --debug and read the negative matches in the conditions report",
+      "Rename the bean method",
+      "Switch to a newer Java version"
+    ],
+    "answer": 1,
+    "explanation": "The conditions report states, per auto-configuration, which condition failed, for example a missing class or an unset property. It replaces guessing."
+  },
+  {
+    "question": "A new project must expose REST endpoints on Spring Boot 4. Which dependency does the generated project use for Spring MVC and Tomcat?",
+    "options": [
+      "spring-boot-starter-webmvc",
+      "spring-boot-starter-jetty-only",
+      "spring-boot-starter-rest-classic",
+      "spring-boot-starter-controller"
+    ],
+    "answer": 0,
+    "explanation": "In Spring Boot 4 the Spring MVC starter is spring-boot-starter-webmvc. The older spring-boot-starter-web name is deprecated in its favor."
+  },
+  {
+    "question": "A shared library ships `AuditAutoConfiguration` with a `@ConditionalOnMissingBean` bean method for `AuditLog`. An application declares its own `AuditLog` bean. Which `AuditLog` does the application get?",
+    "options": [
+      "Both, injected as a list only",
+      "The library's, because auto-configuration always wins",
+      "Startup fails with a duplicate bean error",
+      "The application's own bean, because the library default backs off"
+    ],
+    "answer": 3,
+    "explanation": "Auto-configuration classes are processed after user-defined beans, so the missing-bean condition sees the application's AuditLog and skips the default."
+  },
+  {
+    "question": "A team does not want the embedded database support that a library triggers. Which approach turns off exactly that auto-configuration class?",
+    "options": [
+      "Exclude it with @SpringBootApplication(exclude = ...) or the spring.autoconfigure.exclude property",
+      "Delete the imports file from the jar",
+      "Mark the main class final",
+      "Set server.port to 0"
+    ],
+    "answer": 0,
+    "explanation": "Excluding by class, in the annotation or through the property, is the supported way to disable one auto-configuration. Editing jars or unrelated settings does not target it."
+  }
+]

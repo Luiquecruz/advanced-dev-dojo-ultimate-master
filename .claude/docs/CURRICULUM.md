@@ -425,3 +425,6 @@ Plan and decisions: [java-spring-angular-track.md](java-spring-angular-track.md)
 
 ### 03-build-and-tests — Build and Tests
 01-maven-and-the-project-layout ✓ · 02-junit-jupiter-in-depth ✓ · 03-test-doubles-and-mockito ✓ · 04-test-slices-and-spring-testing-basics ✓ · 05-integration-tests-with-testcontainers ✓ · 06-code-quality-and-coverage ✓ · 07-project-tested-library-service ✓
+
+### 04-spring-boot-core — Spring Boot Core
+01-inversion-of-control-and-dependency-injection ✓ · 02-auto-configuration-and-starters ✓ · 03-configuration-and-profiles ✓ · 04-rest-controllers ✓ · 05-validation-with-jakarta ✓ · 06-error-handling-with-problem-details ✓ · 07-openapi-with-springdoc ✓ · 08-project-course-api ✓

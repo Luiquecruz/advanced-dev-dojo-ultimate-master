@@ -1,0 +1,12 @@
+{
+  "title": "Configuration and Profiles",
+  "summary": "Config files and relaxed binding, typed and validated @ConfigurationProperties records, profiles and groups, the order in which sources override each other, and keeping secrets in the environment.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Spring Boot: Externalized configuration", "url": "https://docs.spring.io/spring-boot/reference/features/external-config.html" },
+    { "label": "Spring Boot: Profiles", "url": "https://docs.spring.io/spring-boot/reference/features/profiles.html" },
+    { "label": "Spring Boot: Common application properties", "url": "https://docs.spring.io/spring-boot/appendix/application-properties/index.html" },
+    { "label": "Spring Boot: Validation starter and Bean Validation", "url": "https://docs.spring.io/spring-boot/reference/io/validation.html" }
+  ]
+}

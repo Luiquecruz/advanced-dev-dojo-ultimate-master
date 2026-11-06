@@ -1,0 +1,12 @@
+{
+  "title": "Auto-Configuration and Starters",
+  "summary": "What @SpringBootApplication combines, how starters and the parent POM work in Spring Boot 4, how conditions decide auto-configuration, reading the conditions report, and overriding defaults.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Spring Boot: Auto-configuration", "url": "https://docs.spring.io/spring-boot/reference/using/auto-configuration.html" },
+    { "label": "Spring Boot: Developing auto-configuration", "url": "https://docs.spring.io/spring-boot/reference/features/developing-auto-configuration.html" },
+    { "label": "Spring Boot: Build systems and starters", "url": "https://docs.spring.io/spring-boot/reference/using/build-systems.html" },
+    { "label": "Spring Boot 4.0 Migration Guide", "url": "https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide" }
+  ]
+}

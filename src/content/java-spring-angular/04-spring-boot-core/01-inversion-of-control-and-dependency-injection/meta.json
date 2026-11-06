@@ -1,0 +1,13 @@
+{
+  "title": "Inversion of Control and Dependency Injection",
+  "summary": "The Spring container and its beans, stereotype annotations and component scanning, constructor injection and why it wins, bean methods, choosing between candidates, and singleton and prototype scopes.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Spring Framework: The IoC container", "url": "https://docs.spring.io/spring-framework/reference/core/beans/introduction.html" },
+    { "label": "Spring Framework: Classpath scanning and managed components", "url": "https://docs.spring.io/spring-framework/reference/core/beans/classpath-scanning.html" },
+    { "label": "Spring Framework: Dependency injection", "url": "https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-collaborators.html" },
+    { "label": "Spring Framework: Bean scopes", "url": "https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html" },
+    { "label": "Spring Boot: Spring beans and dependency injection", "url": "https://docs.spring.io/spring-boot/reference/using/spring-beans-and-dependency-injection.html" }
+  ]
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A teammate writes `@Autowired private CourseRepository repository;` in a service and then wants a unit test with a fake repository and no Spring. What is the problem?",
+    "options": [
+      "The field cannot be set without reflection or a running container, because there is no constructor parameter to pass the fake to",
+      "Spring forbids tests that do not start the container",
+      "A fake repository can never implement the interface",
+      "The annotation makes the field static"
+    ],
+    "answer": 0,
+    "explanation": "With constructor injection the test calls new CourseService(fake). A private injected field has no such entry point, so the test needs reflection or the container."
+  },
+  {
+    "question": "The application class is `com.example.courseapi.CourseApiApplication`. A new `@Service` is created in `com.example.billing`. The app fails at startup because a controller needs it. What is the most likely cause?",
+    "options": [
+      "@Service only works in packages named service",
+      "The billing package is outside the scanned package tree, so the service is never registered as a bean",
+      "Spring Boot allows only one @Service per application",
+      "The service needs the @Primary annotation"
+    ],
+    "answer": 1,
+    "explanation": "Component scanning covers the package of the application class and its sub-packages. com.example.billing is a sibling of com.example.courseapi, so the class is skipped."
+  },
+  {
+    "question": "Two beans implement `Notifier`, and a service asks for a single `Notifier` parameter. Startup fails. Which change fixes it while keeping both beans?",
+    "options": [
+      "Rename the parameter to notifier2",
+      "Make both beans prototype scoped",
+      "Mark one bean with @Primary, or add @Qualifier with a bean name to the parameter",
+      "Delete the interface and inject the concrete classes by field"
+    ],
+    "answer": 2,
+    "explanation": "Injection by type is ambiguous when two beans match. @Primary sets a default and @Qualifier names the wanted bean, so both implementations can stay."
+  },
+  {
+    "question": "A singleton `ReportService` has a constructor parameter of a prototype-scoped `ReportBuilder`. Every report ends up appending to the same builder. Why?",
+    "options": [
+      "Prototype beans are always shared",
+      "The builder is injected once when the singleton is created, so the singleton keeps that one instance",
+      "Spring creates a new service for every call",
+      "@Scope is ignored on classes that have a constructor"
+    ],
+    "answer": 1,
+    "explanation": "Injection happens once, at construction. Injecting an ObjectProvider<ReportBuilder> and calling getObject() on each use returns a fresh prototype every time."
+  },
+  {
+    "question": "A singleton controller stores the current user's name in a field during each request so that helper methods can read it. What goes wrong under concurrent requests?",
+    "options": [
+      "Nothing, each request gets its own controller",
+      "The container throws an exception on the second request",
+      "The field becomes final",
+      "Requests overwrite each other's value, because one singleton instance serves all threads"
+    ],
+    "answer": 3,
+    "explanation": "The default scope is singleton, so one instance handles all requests. Per-request data belongs in method parameters or a request-scoped bean, never in a singleton field."
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "term": "Bean Validation", "description": "The Jakarta standard for declaring validation rules as annotations that a validator enforces at run time." },
+  { "term": "Constraint annotation", "description": "An annotation such as @NotBlank, @Size or @Min that states one rule about a field, parameter or type." },
+  { "term": "@Valid", "description": "The annotation that asks for a request body or nested object to be validated, including each element of a collection." },
+  { "term": "@Validated", "description": "Spring's annotation that enables validation on a class or selects validation groups for one parameter." },
+  { "term": "HandlerMethodValidationException", "description": "The exception Spring MVC raises when a constraint declared directly on a controller parameter is violated." },
+  { "term": "Custom constraint", "description": "An annotation paired with a ConstraintValidator class that enforces a rule the built-in constraints cannot express." },
+  { "term": "Validation group", "description": "A marker interface that selects which constraints run, so one type can be validated differently for create and update." }
+]
