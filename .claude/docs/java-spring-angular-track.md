@@ -72,4 +72,4 @@ Folder numbers: under option A the modules are `01` to `09` in the order above (
 
 ## Pipeline
 
-Research, this plan, owner decision on the engine, then module by module: write, independent review (facts against official documentation, wrong implementations for every challenge), final whole-track review, stacked pull requests under 300 files each, CodeRabbit until it has no open comment, merge bottom-up without deleting a base branch before the next pull request is retargeted.
+Research, this plan, owner decision on the engine, then module by module: write, independent review (facts against official documentation, runnable examples, quiz keys and prerequisites), final whole-track review, stacked pull requests under 300 files each, CodeRabbit until it has no open comment, merge bottom-up without deleting a base branch before the next pull request is retargeted.

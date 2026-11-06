@@ -25,9 +25,9 @@ This branch contains modules 01–09, 68 lessons. The table tracks the entire re
 | 01 | [#50](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/50) | MERGED | `main` |
 | 02 | [#51](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/51) | MERGED | `main` |
 | 03 | [#53](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/53) | MERGED | `main` |
-| 04 | [#54](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/54) | OPEN | `main` |
-| 05 | [#55](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/55) | OPEN | `feat/java-module-04` |
-| 06 | [#56](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/56) | OPEN | `feat/java-module-05` |
+| 04 | [#54](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/54) | MERGED | `main` |
+| 05 | [#55](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/55) | MERGED | `main` |
+| 06 | [#56](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/56) | OPEN | `main` |
 | 07 | [#57](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/57) | OPEN | `feat/java-module-06` |
 | 08 | [#58](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/58) | OPEN | `feat/java-module-07` |
 | 09 | [#59](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/59) | OPEN | `feat/java-module-08` |
@@ -41,7 +41,7 @@ Both release flags stay off and accents remain unchanged. The owners decide the 
 Recent review and merge records:
 - PR #59 review pass: aligned the size schema with clamping, activated the demo-only seed profile in Compose, and specified Problem Details security handlers that preserve bearer challenge headers before controller advice.
 - PR #51 review pass: corrected ten Java content findings, aligned module 06 descriptions and the README track row with the theory-and-quiz decision, and clarified consecutive numbering. Validation passed: 1,671 tests, one skipped; eslint, TypeScript, docs sync and Java snippet checks (`javac --release 25` on JDK 27). All checks and review threads subsequently passed; PR #51 is merged.
-- PR consistency synchronization: incorporated the capstone contract and bearer-error corrections before opening the whole-track policy review.
+- PR #60 review pass: restored the required first module in the module map and aligned the testing and review wording with JUnit Jupiter and the no-challenge policy.
 
 Next steps:
 1. Fix valid review findings, answer every thread, and verify the current commit's checks and review before merging.
@@ -54,8 +54,9 @@ Each lesson: `theory.md`, `concepts.json`, `quiz.json`, `meta.json`. No graded c
 
 | Folder | Module | Planned lessons |
 | --- | --- | --- |
+| `01-java-from-zero` | Java from Zero | first Java program; values, types and variables; decisions and loops; methods; strings and arrays; classes and objects; exceptions and a first test; command-line to-do project |
 | `02-the-java-language` | The Java language | records, enums and sealed types; interfaces and generics; collections; streams and `Optional`; exceptions in depth; concurrency basics (threads, executors, virtual threads); packages and modules; closing project |
-| `03-build-and-tests` | Build and tests | Maven and the project layout; JUnit 5; Mockito; test slices; Testcontainers; closing project |
+| `03-build-and-tests` | Build and tests | Maven and the project layout; JUnit Jupiter; Mockito; test slices; Testcontainers; closing project |
 | `04-spring-boot-core` | Spring Boot core | inversion of control and dependency injection; auto-configuration; configuration and profiles; REST controllers; Jakarta Validation; Problem Details (RFC 7807 / 9457) error handling; OpenAPI with springdoc; closing project |
 | `05-persistence` | Persistence | JPA and Hibernate; repositories; relationships; transactions; the N+1 problem; pagination; database migrations; soft delete; Open Session in View; closing project |
 | `06-angular-with-a-spring-backend` | Angular with a Spring back end | `HttpClient` and `httpResource`; mapping Problem Details to Signal Forms errors; pagination and sorting; route guards; CORS; a typed client from OpenAPI; smart and presentational components. Theory and quiz only; link to Angular track lessons only if the Angular flag ships in the same release, otherwise carry short fundamentals. |
