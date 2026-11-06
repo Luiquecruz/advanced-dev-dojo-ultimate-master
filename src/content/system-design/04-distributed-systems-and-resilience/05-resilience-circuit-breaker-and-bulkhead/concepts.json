@@ -1,0 +1,10 @@
+[
+  { "term": "Cascading failure", "description": "A slow or failed dependency exhausts its callers' workers, so the failure spreads from service to service." },
+  { "term": "Timeout", "description": "An upper bound on how long a remote call may take, which turns a stuck call into a failure the caller can handle." },
+  { "term": "Exponential backoff", "description": "Each retry waits `base * 2^attempt`, bounded by a cap, so an overloaded dependency gets time to recover." },
+  { "term": "Full jitter", "description": "The retry delay is a random value between zero and the capped backoff, which spreads clients apart instead of retrying in waves." },
+  { "term": "Retry budget", "description": "A limit on retries as a fraction of normal traffic, so retries at several layers cannot multiply the load during an outage." },
+  { "term": "Circuit breaker", "description": "Closed counts failures, open fails fast without calling the dependency, half-open lets a few trial requests (often one) decide whether to close again." },
+  { "term": "Bulkhead", "description": "A separate connection pool, thread pool or concurrency limit per dependency, so one slow dependency cannot use every worker." },
+  { "term": "Load shedding", "description": "Rejecting excess requests early with 503 or 429 so the accepted ones still finish within their deadline." }
+]

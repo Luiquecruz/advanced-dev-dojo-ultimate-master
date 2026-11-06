@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A payment worker reads from SQS, charges the card and then deletes the message. It crashes right after the charge. What happens, and what prevents a double charge?",
+    "options": [
+      "Nothing: SQS knows the charge succeeded",
+      "The message is lost because it was received",
+      "SQS rolls back the charge automatically",
+      "The visibility timeout expires and the message is redelivered; the message id, sent to the payment provider as the charge's idempotency key, lets the provider skip the second charge"
+    ],
+    "answer": 3,
+    "explanation": "The broker cannot see the effect, only the missing delete, so it redelivers after the visibility timeout. The charge lives in another system, so the deduplication key must travel with it: the provider stored the first charge under the message id and answers the retry without charging again."
+  },
+  {
+    "question": "To avoid duplicate emails, a developer acknowledges each message as soon as it is received and sends the email afterwards. What did this change?",
+    "options": [
+      "It turned the queue into at-most-once: a crash after the ack and before the send loses the email forever",
+      "It made delivery exactly-once",
+      "Nothing, the order of ack and processing does not matter",
+      "It doubled throughput without any trade-off"
+    ],
+    "answer": 0,
+    "explanation": "Acknowledging before processing trades duplicates for losses. At-least-once (process, then ack) plus an idempotent consumer avoids both, which is why it is the practical default."
+  },
+  {
+    "question": "Billing, shipping and analytics all need every `OrderPlaced` event, and a new fraud service must be able to read the past week of events when it launches. What fits best?",
+    "options": [
+      "One SQS queue that the four services read from",
+      "A Kafka topic with enough retention, one consumer group per service; the fraud service starts from an older offset",
+      "Each service polls the orders database every second",
+      "A dead-letter queue for each service"
+    ],
+    "answer": 1,
+    "explanation": "In a log, consuming does not delete: each consumer group tracks its own offsets, and retention plus offset reset enables replay. Consumers of one shared queue would split the messages between them."
+  },
+  {
+    "question": "Events for each order must be processed in order (created, paid, shipped). The Kafka topic has 12 partitions. How do you keep the order?",
+    "options": [
+      "Kafka orders messages globally across partitions",
+      "Use one consumer group per event type",
+      "Use the order id as the message key so every event of an order lands in the same partition",
+      "Increase the retention time"
+    ],
+    "answer": 2,
+    "explanation": "Kafka only guarantees order within a partition. Keying by order id maps all events of one order to one partition, which one consumer of the group reads in offset order."
+  },
+  {
+    "question": "One malformed message makes the consumer of an SQS queue throw every time. Without a dead-letter queue configured, what happens, and what is the fix?",
+    "options": [
+      "SQS deletes the message after the first failure",
+      "SQS redelivers it after every visibility timeout until the retention period deletes it, wasting capacity; a dead-letter queue after a maximum number of receives moves it aside for inspection",
+      "SQS stops the whole queue until an operator restarts it",
+      "SQS moves the message to another queue chosen at random"
+    ],
+    "answer": 1,
+    "explanation": "Every failed attempt ends without a delete, so the message keeps coming back until the retention period removes it unprocessed. A redrive policy with a maximum receive count moves the poison message to a DLQ, where an alert and a person can handle it."
+  },
+  {
+    "question": "Image resizing takes up to 90 seconds, but the queue's visibility timeout is 30 seconds. Users report that some images are processed two or three times. Why?",
+    "options": [
+      "The timeout expires while the first consumer is still working, so the message becomes visible and another consumer receives it",
+      "The producer sends every message three times",
+      "Dead-letter queues duplicate messages",
+      "Consumer groups always read each message twice"
+    ],
+    "answer": 0,
+    "explanation": "Visibility only hides a message for the timeout; it does not know the consumer is still busy. Set the timeout above the slowest normal processing time, or extend it while working, and keep the consumer idempotent."
+  }
+]

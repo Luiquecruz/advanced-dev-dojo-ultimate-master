@@ -1,0 +1,8 @@
+[
+  { "term": "Network partition", "description": "Some nodes cannot reach others; from the inside it looks exactly like those nodes crashed." },
+  { "term": "Linearizability", "description": "Every operation appears to happen at one instant between its start and end, so an acknowledged write is seen by every later read on any node." },
+  { "term": "CAP theorem", "description": "During a partition, a replicated system must choose between consistency (linearizability) and availability (every live node answers)." },
+  { "term": "CP and AP", "description": "A CP system rejects requests on the side without a majority; an AP system keeps answering on both sides and reconciles conflicts later." },
+  { "term": "PACELC", "description": "If partitioned, choose availability or consistency; else, choose latency or consistency, because coordination costs round trips." },
+  { "term": "Quorum (R + W > N)", "description": "With N replicas, waiting for W write acknowledgements and R read replies makes every read overlap the latest acknowledged write when R + W > N." }
+]

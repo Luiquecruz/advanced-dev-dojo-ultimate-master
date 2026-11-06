@@ -1,0 +1,8 @@
+[
+  { "term": "Serverless function", "description": "A handler the platform runs per event, billed per invocation and duration, with no server for you to manage." },
+  { "term": "Event notification", "description": "A message emitted by a managed service, such as S3 on object creation, that triggers work asynchronously." },
+  { "term": "Event source mapping", "description": "The platform polls a queue such as SQS, invokes the function with a batch and deletes the batch when the invocation succeeds; a failed invocation returns the whole batch unless the function reports which messages failed." },
+  { "term": "Cold start", "description": "The extra latency of creating a new execution environment: loading the code, starting the runtime and running initialization." },
+  { "term": "Concurrency limit", "description": "The cap on simultaneous executions; reserving or capping it per function protects fragile dependencies and other functions." },
+  { "term": "Idempotent handler", "description": "A handler that leaves the same result when an at-least-once event is delivered twice, often via a conditional write on an idempotency key." }
+]

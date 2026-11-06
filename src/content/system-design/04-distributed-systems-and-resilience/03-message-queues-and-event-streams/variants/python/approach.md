@@ -1,0 +1,5 @@
+1. Separate receiving from deleting. A received message is only hidden for the visibility timeout; the queue keeps it until the consumer acknowledges it. That single choice is what makes the queue at-least-once.
+2. Store per message what the broker needs to decide: when it becomes visible again and how many times it was delivered. Keeping messages in send order makes "the visible message sent first" a simple search.
+3. Decide dead-lettering at delivery time: a message that has used all its receives leaves the queue for the dead letters, and the search continues so one poison message never blocks the healthy ones behind it.
+4. Make `ack` the only normal way out of the queue and report whether it found the message, so a late acknowledgement of a dead-lettered or already acknowledged message is visible to the caller.
+5. Put deduplication in the consumer, keyed by message id, and record the id only after the effect succeeded: a failed attempt must stay retryable, a successful one must never run again.

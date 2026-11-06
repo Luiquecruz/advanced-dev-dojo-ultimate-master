@@ -1,0 +1,14 @@
+{
+  "title": "Resilience: Circuit Breakers, Retries & Bulkheads",
+  "summary": "How one slow dependency cascades into an outage, and the tools that contain it: timeouts, retries with capped exponential backoff and full jitter, retry budgets, circuit breakers, bulkheads, load shedding and fallbacks.",
+  "level": "advanced",
+  "tags": ["practice", "core"],
+  "preview": false,
+  "resources": [
+    { "label": "Google SRE book: Addressing Cascading Failures", "url": "https://sre.google/sre-book/addressing-cascading-failures/" },
+    { "label": "Google SRE book: Handling Overload", "url": "https://sre.google/sre-book/handling-overload/" },
+    { "label": "AWS Architecture Blog: Exponential Backoff And Jitter", "url": "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/" },
+    { "label": "Azure Architecture Center: Circuit Breaker pattern", "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker" },
+    { "label": "Azure Architecture Center: Bulkhead pattern", "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead" }
+  ]
+}

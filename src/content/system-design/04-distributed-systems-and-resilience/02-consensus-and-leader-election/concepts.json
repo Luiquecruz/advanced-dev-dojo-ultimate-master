@@ -1,0 +1,9 @@
+[
+  { "term": "Consensus", "description": "A group of nodes agrees on one sequence of values, so every replica applies the same log in the same order despite crashes and delays." },
+  { "term": "Majority quorum", "description": "`⌊n/2⌋ + 1` nodes out of `n`; any two majorities overlap, which prevents two leaders or two values at the same position." },
+  { "term": "Term", "description": "A Raft logical clock: an increasing number with at most one leader; a node that sees a higher term adopts it and becomes a follower." },
+  { "term": "Election timeout", "description": "How long a follower waits without a heartbeat before it becomes a candidate; randomized so that one node usually starts first." },
+  { "term": "Up-to-date log check", "description": "A voter refuses a candidate whose last log term is lower, or equal with a shorter log, so a new leader always holds every committed entry." },
+  { "term": "Committed entry", "description": "An entry of the leader's current term stored on a majority, together with every entry before it in the log; committed entries are applied to the state machine and never lost." },
+  { "term": "Fencing token", "description": "A number that grows with each new leader, such as the term; storage rejects requests with a lower token so a stale leader cannot write." }
+]

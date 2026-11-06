@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A design document says the new replicated user store is \"CA: consistent and available, partition tolerance is not needed because our data centers are well connected\". What is the problem?",
+    "options": [
+      "Nothing: well-connected data centers never partition",
+      "CA is only possible with an even number of replicas",
+      "Partitions happen in any networked system, so the document has not decided whether an isolated replica rejects writes or accepts writes that may conflict",
+      "CA systems must use NoSQL storage"
+    ],
+    "answer": 2,
+    "explanation": "Partition tolerance is not a feature you opt out of: links, switches and long pauses partition real networks. The open question is what the isolated side does, reject (CP) or accept and reconcile (AP)."
+  },
+  {
+    "question": "Three replicas store usernames; registration must never hand the same username to two people. One replica is cut off from the other two. Which behavior keeps the rule?",
+    "options": [
+      "The isolated replica rejects registrations until it can reach a majority again",
+      "The isolated replica accepts registrations and merges them later with last-write-wins",
+      "Every replica accepts registrations and the application deletes duplicates once a day",
+      "The isolated replica caches registrations in memory and confirms them immediately"
+    ],
+    "answer": 0,
+    "explanation": "Uniqueness needs linearizability: a CP choice makes the minority side refuse writes, so no two sides can accept the same name. Last-write-wins would silently drop one of two accepted registrations."
+  },
+  {
+    "question": "A social feed shows like counts. During a partition both sides keep accepting likes. What does this AP choice cost and why is it acceptable here?",
+    "options": [
+      "It costs nothing because likes are never replicated",
+      "Counts may be briefly stale or diverge between sides and are reconciled later; a slightly old count is not a bug for users",
+      "It turns every like into a two-phase commit",
+      "It makes the system CA because likes are small"
+    ],
+    "answer": 1,
+    "explanation": "Availability during a partition means each side answers with what it has, so values diverge until replicas reconcile. For a counter, a temporarily inaccurate number is harmless, so availability wins."
+  },
+  {
+    "question": "A store has never had a partition, yet a strongly consistent read takes 80 ms while an eventually consistent read takes 5 ms. Which part of PACELC explains it?",
+    "options": [
+      "The P/A branch: partitions are happening silently",
+      "The E/L branch: without a partition, consistency still costs coordination with other replicas, which is latency",
+      "PACELC only describes failures, so the difference is a bug",
+      "The read path uses TCP for strong reads and UDP for weak ones"
+    ],
+    "answer": 1,
+    "explanation": "The else branch of PACELC says that in normal operation you trade latency for consistency: a linearizable read must confirm it has the latest value with other replicas, often across regions."
+  },
+  {
+    "question": "A Dynamo-style store keeps every key on N = 3 replicas. Which setting guarantees a read contacts at least one replica that holds the latest acknowledged write?",
+    "options": [
+      "W = 1, R = 1",
+      "W = 1, R = 2",
+      "W = 3, R = 0",
+      "W = 2, R = 2"
+    ],
+    "answer": 3,
+    "explanation": "Read and write sets overlap only when R + W > N. With 2 + 2 > 3 any two replicas that answer a read include one that acknowledged the write; 1 + 1 and 1 + 2 do not exceed 3."
+  },
+  {
+    "question": "A team says \"our database is CP\". Why is that statement often incomplete?",
+    "options": [
+      "CP and AP describe hardware, not software",
+      "Every database is CP once it has a primary key",
+      "Many stores let each request choose a consistency level, so the same database behaves as CP for some reads and AP for others",
+      "CAP only applies to databases with more than ten nodes"
+    ],
+    "answer": 2,
+    "explanation": "Consistency is often tunable per request: quorum reads and writes (R + W > N) or a strongly consistent read behave as CP, while single-replica reads and writes behave as AP. Name the configuration, not the product."
+  }
+]

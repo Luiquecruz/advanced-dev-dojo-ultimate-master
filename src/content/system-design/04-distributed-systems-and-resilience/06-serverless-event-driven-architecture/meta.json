@@ -1,0 +1,14 @@
+{
+  "title": "Serverless Event-Driven Architecture",
+  "summary": "Building a low-cost event pipeline from managed pieces (S3 events, API Gateway, Lambda, SQS, DynamoDB, SES): buffering with queues, idempotent handlers, concurrency, timeouts and cold starts, and when serverless is the wrong choice.",
+  "level": "intermediate",
+  "tags": ["theory"],
+  "resources": [
+    { "label": "AWS Lambda: Creating event-driven architectures with Lambda", "url": "https://docs.aws.amazon.com/lambda/latest/dg/concepts-event-driven-architectures.html" },
+    { "label": "AWS Lambda: Using Lambda with Amazon SQS", "url": "https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html" },
+    { "label": "AWS Lambda: Execution environment lifecycle", "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html" },
+    { "label": "AWS Lambda: Function scaling and concurrency", "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-concurrency.html" },
+    { "label": "Amazon S3: Event notifications", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html" },
+    { "label": "Amazon DynamoDB: What is DynamoDB?", "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": "CAP & PACELC Theorems",
+  "summary": "Why partitions are a fact of every distributed system, what consistency and availability mean in CAP, how PACELC adds the latency trade-off of normal operation, and how quorums make consistency tunable.",
+  "level": "advanced",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Jepsen: Linearizability", "url": "https://jepsen.io/consistency/models/linearizable" },
+    { "label": "Jepsen: Consistency models", "url": "https://jepsen.io/consistency" },
+    { "label": "Apache Cassandra: Dynamo architecture and tunable consistency", "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html" },
+    { "label": "Amazon DynamoDB: Read consistency", "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html" },
+    { "label": "Google Research: Spanner, Google's globally distributed database", "url": "https://research.google/pubs/spanner-googles-globally-distributed-database-2/" }
+  ]
+}
