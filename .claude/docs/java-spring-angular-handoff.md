@@ -21,6 +21,7 @@ Keep this section current: after every merge, PR, review or decision, add a line
 **Owner decision (token budget): the track keeps only theory and quizzes. No graded challenges anywhere, including module 06 (it becomes theory + quiz like the rest). Do not build a Java engine.**
 
 State of the work:
+- PR #53 reuse lifecycle follow-up: documented persistent credentials/ports, Docker-aware network restrictions and removal when a reusable container is no longer needed.
 - PR #53 reuse follow-up: explained cross-project configuration matching, project-specific container configuration and per-run isolation or exclusive serialized cleanup.
 - PR #53 follow-up: documented resetting persistent tables only in a dedicated reused test database before rerunning the JDBC example.
 - PR #53 review pass: corrected all six CodeRabbit findings covering verbose dependency trees, the conditional Main launch, image tag mutability, manually managed reuse, separate tool commands and Surefire argLine placement. Revalidating before the next review.
