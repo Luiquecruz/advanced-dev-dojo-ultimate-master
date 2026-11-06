@@ -29,3 +29,9 @@ After each parent merge, fetch main into the next branch, resolve handoff and RE
 ## Follow-up: separation merged
 
 PR #61 merged at reviewed head `6c77950b`. PRs #62 and #64 were retargeted to `main` before the merge; agents are synchronizing them with current main. PR #62 fixed its six findings in `57a8bda5`; verify final synchronization and CI. PR #65 fixed its three findings in `24a97043`; PR #63 fixes and push are in progress. PR #64 fixed its curriculum link in `d38728ce`. Angular browser smoke passed at 1440 px and 390 px, including React and Angular challenge starters and restoration of a legacy React editor draft; the full suite is still running before its PR opens. Check live agent messages and `python /tmp/dojo_pr_state.py` for newer heads and checks. PR #61 had a few non-required CI checks still running after merge; inspect their final results.
+
+## Latest integration progress
+
+Angular activation PR #66 is open, stacked on #64. Its local unfiltered run passed 1,951 tests, with lint, types, build, docs, six official URLs and isolated browser smoke at desktop and 390 px. React and Angular challenge starters failed their tests as expected, and a legacy React draft loaded. PR #64 synchronized main at `7b13ef36`; an additional fix updates three architecture lesson references to the new State Management title. Incorporate that updated #64 into #66 and retarget #66 to main before merging #64.
+
+PR #62 synchronized main at `f51397ca`; its six review fixes passed 1,761 content checks plus lint, typecheck and docs. PR #63 has eight reviewed fixes at `aaf78626` and has been retargeted to main; after #62 merges, incorporate origin/main into #63 and rerun checks. PR #65 has three reviewed fixes at `24a97043`; it must incorporate #63 after that PR merges. Review replies were posted. All checks on merged PR #61 eventually passed. Watch current heads and new review feedback; earlier check results do not authorize merging a newer commit.
