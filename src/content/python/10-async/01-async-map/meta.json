@@ -1,6 +1,6 @@
 {
   "title": "Map: Async and Concurrency",
-  "summary": "A guide to asyncio for JavaScript developers: one thread, cooperative switching at await, coroutines that start only when awaited, tasks that can be cancelled, and calls that block everyone. The path through this module and the concurrency decision it ends with.",
+  "summary": "A guide to asyncio: one thread, cooperative switching at await, coroutines that start only when awaited, tasks that can be cancelled, and calls that block everyone. The path through this module and the concurrency decision it ends with.",
   "level": "beginner",
   "tags": ["established", "core", "theory"],
   "resources": [

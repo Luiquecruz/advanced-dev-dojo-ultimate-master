@@ -41,6 +41,6 @@
       "`create_task` raises unless the result is awaited"
     ],
     "answer": 2,
-    "explanation": "Unlike a pending JavaScript promise, an unreferenced asyncio task can disappear. Keep tasks in a set with `add_done_callback(set.discard)`, or start them in a `TaskGroup`."
+    "explanation": "The event loop does not keep an unreferenced task alive. Keep tasks in a set with `add_done_callback(set.discard)`, or start them in a `TaskGroup`."
   }
 ]

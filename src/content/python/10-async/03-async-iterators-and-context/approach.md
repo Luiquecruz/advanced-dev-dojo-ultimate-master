@@ -1,4 +1,4 @@
-1. Trace the starter's `paginate` with a consumer that records each item: every fetch happens before the first item, which is the "collect an array first" habit.
+1. Trace the starter's `paginate` with a consumer that records each item: every fetch happens before the first item, because the starter collects every page into a list first.
 2. Move the `yield` so the generator hands over each item as soon as its page arrives, and check where execution resumes when the consumer asks for the next item.
 3. Decide what ends the stream: the first `None`, and no request after it.
 4. For `collect`, separate stopping (`break`) from closing (`aclose`). Explain why the generator's `finally` has not run after a plain `break`, then add the context manager that closes it.

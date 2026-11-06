@@ -12,16 +12,13 @@ async def offloaded():
     await asyncio.to_thread(time.sleep, 0.2)   # blocking call moved to a worker thread
 ```
 
-## Coming from TypeScript and JavaScript
+## Most Python I/O is synchronous
 
-Node has the same rule for CPU work: a `while` loop that runs for 200 ms freezes the event loop, and the fix is a `worker_threads` Worker or a separate process. The habit that breaks is I/O. In Node, almost every I/O API is non-blocking by design, and the slow parts of `fs`, `dns` and `crypto` run on libuv's thread pool for you. In Python, most libraries are **synchronous**: `requests`, `open().read()`, `sqlite3`, `time.sleep`, many database drivers. Calling them from a coroutine is the `fs.readFileSync` of asyncio, and nothing warns you.
-
-```ts
-await fs.promises.readFile(path);            // Node: off the loop automatically
-```
+The same rule covers CPU work and I/O. A loop that computes for 200 ms freezes the event loop just like `time.sleep(0.2)`. And most Python libraries are **synchronous**: `requests`, `open().read()`, `sqlite3`, `time.sleep`, many database drivers. Calling them from a coroutine blocks the loop, and nothing warns you. Nothing moves them to a thread for you either: either use an async library (an async HTTP client or database driver) or move the call off the loop yourself.
 
 ```py
-data = await asyncio.to_thread(Path(path).read_bytes)   # Python: you move it off the loop
+data = Path(path).read_bytes()                          # blocks every task while the disk answers
+data = await asyncio.to_thread(Path(path).read_bytes)   # runs in a worker thread; the loop keeps going
 ```
 
 ## How it works

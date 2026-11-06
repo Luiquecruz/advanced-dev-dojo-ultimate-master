@@ -77,6 +77,7 @@ async def _():
     assert report == {"results": ["A", "B"], "invalid": 0, "unavailable": 0}
 
 
+# beginner mistake: a plain except ValueError around the task group, which never matches the ExceptionGroup
 @test("handle_failures counts each kind of failure, including several that fail together")
 async def _():
     failures = {"bad-1": ValueError("bad-1"), "down": ConnectionError("down"), "bad-2": ValueError("bad-2")}

@@ -9,7 +9,6 @@
     { "label": "Pydantic 2.12: Serialization", "url": "https://pydantic.dev/docs/validation/2.12/concepts/serialization/" },
     { "label": "Pydantic 2.12: Alias", "url": "https://pydantic.dev/docs/validation/2.12/concepts/alias/" },
     { "label": "Pydantic 2.12: JSON Schema", "url": "https://pydantic.dev/docs/validation/2.12/concepts/json_schema/" },
-    { "label": "JSON Schema specification", "url": "https://json-schema.org/specification" },
-    { "label": "Zod: JSON Schema", "url": "https://zod.dev/json-schema" }
+    { "label": "JSON Schema specification", "url": "https://json-schema.org/specification" }
   ]
 }

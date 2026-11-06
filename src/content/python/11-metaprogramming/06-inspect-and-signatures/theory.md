@@ -15,25 +15,6 @@ bound.apply_defaults()
 bound.arguments                            # {'host': 'db', 'port': 5432, 'ssl': False}
 ```
 
-## Coming from TypeScript and JavaScript
-
-JavaScript exposes almost nothing about parameters. `fn.length` counts the ones before the first default, and AngularJS 1 injected dependencies by parsing `fn.toString()` with a regular expression, which broke as soon as a minifier renamed the parameters:
-
-```ts
-function listOrders(store, user, limit = 10) {}
-listOrders.length;                                   // 2
-listOrders.toString().match(/\(([^)]*)\)/)![1];      // "store, user, limit = 10"
-```
-
-The Python translation reads the code object:
-
-```py
-code = handler.__code__
-names = code.co_varnames[: code.co_argcount]   # breaks in three ways
-```
-
-A `functools.wraps` decorator replaces the code with the wrapper's `(*args, **kwargs)`, a `functools.partial` or a callable object has no `__code__`, and `co_argcount` leaves keyword-only parameters out. `inspect.signature` follows `__wrapped__`, unwraps partials and bound methods, and reads `__call__` on instances.
-
 ## How it works
 
 **Kinds decide the calling form.** `POSITIONAL_ONLY` (before `/`) must be passed by position, `KEYWORD_ONLY` (after `*`) by name, and `POSITIONAL_OR_KEYWORD` either way. `VAR_POSITIONAL` and `VAR_KEYWORD` are `*args` and `**kwargs`. `Parameter.empty` marks a missing default or annotation.
@@ -58,6 +39,20 @@ Code that only needs names should pass `annotationlib.Format.FORWARDREF` (or `ST
 **Cost.** `inspect.signature` builds a new `Signature` object on every call, unwrapping decorators each time. Containers compute it once per function and cache it.
 
 > **Status as of November 2026:** this track runs CPython 3.14. Python 3.14 added the `annotation_format` parameter to `inspect.signature` and deprecated `asyncio.iscoroutinefunction()`, which is scheduled for removal in Python 3.16; use `inspect.iscoroutinefunction()`.
+
+## Common mistakes
+
+**Reading parameter names from the code object.** `__code__` describes the function body that runs, not the callable a caller sees, and it breaks in three ways: a `functools.wraps` decorator leaves the wrapper's `(*args, **kwargs)`, a `functools.partial` or a callable object has no `__code__` at all, and `co_argcount` leaves keyword-only parameters out.
+
+```py
+# wrong: AttributeError on partials and callable objects, () after a (*args, **kwargs) decorator
+code = handler.__code__
+names = code.co_varnames[: code.co_argcount]
+
+# right: follows __wrapped__, unwraps partials and bound methods, reads __call__ on instances
+signature = inspect.signature(handler, annotation_format=Format.FORWARDREF)
+names = [parameter.name for parameter in signature.parameters.values()]
+```
 
 ## When to choose it
 

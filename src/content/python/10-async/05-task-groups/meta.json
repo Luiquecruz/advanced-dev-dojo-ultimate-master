@@ -1,6 +1,6 @@
 {
   "title": "Task Groups and except*",
-  "summary": "Promise.all and gather walk away from a failure while the other work keeps running; a TaskGroup cancels it and raises an ExceptionGroup. Process a batch with structured concurrency and count its failures by kind with except*.",
+  "summary": "gather walks away from a failure while the other work keeps running; a TaskGroup cancels it and raises an ExceptionGroup. Process a batch with structured concurrency and count its failures by kind with except*.",
   "level": "intermediate",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

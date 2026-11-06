@@ -9,9 +9,7 @@ code.co_varnames             # ('a', 'b')
 code.co_qualname             # 'add'
 ```
 
-## Coming from TypeScript and JavaScript
-
-V8 also compiles to bytecode (Ignition) and then to machine code in tiers (Sparkplug, Maglev, TurboFan), so JavaScript developers expect hot code to become native code automatically. In CPython the main speedup is still the **interpreter**: since 3.11 it specializes individual instructions in place, and the JIT is experimental and off by default. The other habit to drop: V8's bytecode is invisible, while CPython's is one `import dis` away, which tempts people to build tools on it. It is an implementation detail with no compatibility promise.
+Two expectations to correct early. Hot Python code does not automatically become machine code: in CPython the main speedup is still the **interpreter**, which since 3.11 specializes individual instructions in place, while the JIT is experimental and off by default. And although the bytecode is one `import dis` away, which tempts people to build tools on it, it is an implementation detail with no compatibility guarantee.
 
 ## The compile pipeline
 

@@ -1,6 +1,6 @@
 {
   "title": "pydantic-core and Performance",
-  "summary": "Pydantic compiles each model into a core schema that the Rust extension pydantic-core executes. See where validation and serialization time goes, why TypeAdapters are built once and JSON is validated in one pass, when model_construct is acceptable, and when dataclasses, attrs or msgspec are the better tool.",
+  "summary": "Pydantic compiles each model into a core schema that the compiled extension pydantic-core executes. See where validation and serialization time goes, why TypeAdapters are built once and JSON is validated in one pass, when model_construct is acceptable, and when dataclasses, attrs or msgspec are the better tool.",
   "level": "intermediate",
   "tags": ["established", "core", "theory"],
   "resources": [

@@ -5,6 +5,7 @@ def error_pairs(error):
     return sorted((tuple(item["loc"]), item["type"]) for item in error.errors())
 
 
+# beginner mistake: annotating User fields on a dataclass and expecting "42" to be parsed
 @test("User is a Pydantic model and parse_user coerces a numeric string to int")
 def _():
     is_model = issubclass(mod.User, BaseModel)

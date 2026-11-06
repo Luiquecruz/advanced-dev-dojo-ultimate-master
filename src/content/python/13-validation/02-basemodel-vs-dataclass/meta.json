@@ -9,7 +9,6 @@
     { "label": "Pydantic 2.12: Models", "url": "https://pydantic.dev/docs/validation/2.12/concepts/models/" },
     { "label": "Pydantic 2.12: Validation errors", "url": "https://pydantic.dev/docs/validation/2.12/errors/validation_errors/" },
     { "label": "Pydantic 2.12: Configuration (extra)", "url": "https://pydantic.dev/docs/validation/2.12/concepts/config/" },
-    { "label": "dataclasses: Data Classes", "url": "https://docs.python.org/3/library/dataclasses.html" },
-    { "label": "Zod: Defining schemas", "url": "https://zod.dev/api" }
+    { "label": "dataclasses: Data Classes", "url": "https://docs.python.org/3/library/dataclasses.html" }
   ]
 }

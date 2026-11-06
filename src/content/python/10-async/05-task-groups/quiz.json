@@ -22,7 +22,7 @@
     "explanation": "`except*` splits the group: every clause with a match runs once with its subgroup, and unmatched exceptions are re-raised."
   },
   {
-    "question": "Code ported from JavaScript wraps a task group in `try: ... except ValueError:`. One task raises `ValueError`. What happens?",
+    "question": "Code wraps a task group in `try: ... except ValueError:`. One task raises `ValueError`. What happens?",
     "options": [
       "The `except` clause runs normally",
       "A `SyntaxError`: task groups require `except*`",

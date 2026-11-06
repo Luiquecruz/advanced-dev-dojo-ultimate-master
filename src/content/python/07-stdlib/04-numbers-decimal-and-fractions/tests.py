@@ -12,6 +12,7 @@ def raised(action):
     return "nothing"
 
 
+# beginner mistake: dividing with / and rounding each share, which loses or invents cents
 @test("split_bill hands out every cent as ints, larger shares first")
 def _():
     cases = {(1000, 3): [334, 333, 333], (5, 3): [2, 2, 1], (1, 3): [1, 0, 0], (999, 3): [333, 333, 333], (7, 1): [7]}

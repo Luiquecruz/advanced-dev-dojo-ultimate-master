@@ -35,21 +35,6 @@ print(result.testsRun, result.failures, result.errors, result.wasSuccessful())
 
 `python -m unittest` discovers `test*.py` files from the command line; `TestLoader` plus `TextTestRunner` does the same from code and returns a `TestResult` you can inspect.
 
-## Coming from TypeScript and JavaScript
-
-```ts
-vi.mock("./rates", () => ({ fetchRate: vi.fn(() => 0.5) }));   // replaces the module for every importer
-test("EUR quote", () => expect(quote(250, 4, "EUR")).toBe(500));
-```
-
-`vi.mock` swaps the *module* in the loader, so every file that imports `fetchRate` sees the fake. The habit that breaks: **patching where the function is defined**. `pricing.py` does `from rates import fetch_rate`, which copies the reference into `pricing`'s namespace at import time. `mock.patch("rates.fetch_rate")` replaces the attribute on `rates`, but `quote` looks up `pricing.fetch_rate` and still calls the real service. Patch the name **where it is looked up**:
-
-```py
-with mock.patch("pricing.fetch_rate", return_value=0.5) as fetch_rate:
-    assert pricing.quote(250, 4, currency="EUR") == 500
-fetch_rate.assert_called_once_with("EUR")
-```
-
 ## How it works
 
 - **`patch(target)`** imports the module named in the target string, replaces one attribute with a `MagicMock` for the duration of the `with` block (or the decorated test) and restores the original afterwards, even on failure. `patch.object(obj, "name")` does the same on an object you already hold.
@@ -62,6 +47,23 @@ fetch_rate.assert_called_once_with("EUR")
 **Tests and secrets.** A test must never call a real service or read real credentials: patch the client, inject fake settings, and run a dependency audit such as `pip-audit` in CI next to the suite.
 
 > **Status as of November 2026:** `unittest` and `unittest.mock` are in the standard library of every supported CPython; pytest 9.2.0 (October 2026) and pip-audit 2.10 are the current releases on PyPI.
+
+## Common mistakes
+
+**Patching where the function is defined.** `pricing.py` does `from rates import fetch_rate`, which copies the reference into `pricing`'s namespace at import time. `mock.patch("rates.fetch_rate")` replaces the attribute on `rates`, but `quote` looks up `pricing.fetch_rate` and still calls the real service:
+
+```py
+# wrong: rates.fetch_rate is replaced, nobody in pricing reads it
+with mock.patch("rates.fetch_rate", return_value=0.5):
+    pricing.quote(250, 4, currency="EUR")       # ConnectionError from the real service
+
+# right: patch the name where it is looked up
+with mock.patch("pricing.fetch_rate", return_value=0.5) as fetch_rate:
+    assert pricing.quote(250, 4, currency="EUR") == 500
+fetch_rate.assert_called_once_with("EUR")
+```
+
+The rule flips when the code does `import rates` and calls `rates.fetch_rate(...)`: then `rates.fetch_rate` is the name it looks up.
 
 ## When to choose it
 

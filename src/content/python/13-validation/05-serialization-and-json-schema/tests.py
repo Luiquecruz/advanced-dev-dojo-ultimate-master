@@ -35,6 +35,7 @@ async def _():
     assert pairs == [(("quantity",), "greater_than"), (("unitPrice",), "greater_than_equal")]
 
 
+# beginner mistake: dumping in the default Python mode, which keeps datetime and Decimal objects that json.dumps rejects
 @test("export returns JSON-ready data with camelCase keys, an ISO datetime and decimal strings")
 def _():
     exported = mod.export(mod.Invoice.model_validate(PAYLOAD))

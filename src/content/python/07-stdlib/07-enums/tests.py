@@ -29,6 +29,7 @@ def _():
     assert outcomes == ["ValueError"] * 5
 
 
+# beginner mistake: numbering Flag members 1, 2, 3, which makes DELETE an alias of READ | WRITE
 @test("Permission members combine with | and are tested with in")
 def _():
     Permission = mod.Permission

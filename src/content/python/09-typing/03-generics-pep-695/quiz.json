@@ -11,7 +11,7 @@
     "explanation": "Subscripting a generic class builds an alias that, when called, creates a normal instance and sets `__orig_class__`. No element check happens; the parameter is information for checkers and introspection."
   },
   {
-    "question": "TypeScript has `function f<T extends number | string>(value: T): T`. Which Python declaration makes `T` exactly `int` or exactly `str`, never the union?",
+    "question": "Which declaration makes `T` exactly `int` or exactly `str`, never the union `int | str`?",
     "options": [
       "`def f[T: (int, str)](value: T) -> T`",
       "`def f[T: int | str](value: T) -> T`",

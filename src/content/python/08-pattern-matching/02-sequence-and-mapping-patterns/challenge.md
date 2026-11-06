@@ -12,7 +12,7 @@ A game client receives typed commands and JSON events. Rewrite both decoders in 
 
 Anything else raises `ValueError`: an unknown first word, the wrong number of tokens (`["quit", "now"]`, `["move", "1"]`), an empty list, a plain string such as `"quit"`, or a dict.
 
-The starter switches on `tokens[0]` like a JavaScript `switch`. It accepts extra tokens and raises `IndexError` or `KeyError` instead of `ValueError`.
+The starter matches only `tokens[0]` and indexes the rest by hand. It accepts extra tokens and raises `IndexError` or `KeyError` instead of `ValueError`.
 
 ## `handle_event(event)`
 

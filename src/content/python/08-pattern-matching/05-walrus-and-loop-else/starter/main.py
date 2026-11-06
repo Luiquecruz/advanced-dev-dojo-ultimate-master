@@ -4,7 +4,7 @@ from typing import Any
 
 def read_chunks(read: Callable[[int], bytes | str], size: int) -> list[bytes | str]:
     """Call read(size) until it returns an empty chunk and collect every non-empty chunk."""
-    # TODO: this do-while loop also keeps the empty chunk that marks the end. Loop with `while chunk := read(size)`.
+    # TODO: this `while True` loop appends before checking, so it also keeps the empty chunk that marks the end. Loop with `while chunk := read(size)`.
     chunks = []
     while True:
         chunk = read(size)
@@ -37,6 +37,6 @@ def parse_line(line: str) -> tuple[str, str] | None:
 
 def parse_pairs(lines: Iterable[str], parse: Callable[[str], tuple[str, str] | None] = parse_line) -> dict[str, str]:
     """Settings from the lines that parse, calling parse once per line; later keys win."""
-    # TODO: like .filter(parse).map(parse) in JavaScript, this parses every kept line twice.
+    # TODO: this parses every kept line twice, once in the filter and once for the value.
     # Bind the result once with := in the filter and reuse it.
     return dict(parse(line) for line in lines if parse(line) is not None)

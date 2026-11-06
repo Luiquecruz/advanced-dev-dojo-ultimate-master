@@ -8,7 +8,7 @@
       "`PosixPath('/etc/passwd')`"
     ],
     "answer": 3,
-    "explanation": "Joining follows `os.path.join`: an absolute segment discards the previous ones. Node's `path.join` would concatenate instead, which is why the habit transfers badly."
+    "explanation": "Joining follows `os.path.join`: an absolute segment discards the previous ones, so a name taken from a request can replace the whole base directory."
   },
   {
     "question": "A server checks `str((base / name).resolve()).startswith(str(base))` with `base = Path(\"/srv/data\")`. Which `name` gets through although it is outside `base`?",

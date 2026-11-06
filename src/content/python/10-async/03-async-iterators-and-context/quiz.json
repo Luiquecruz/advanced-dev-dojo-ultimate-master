@@ -2,7 +2,7 @@
   {
     "question": "An async generator holds a database cursor and closes it in `finally`. A consumer does `async for row in rows(): break` after the first row. When does the cursor close?",
     "options": [
-      "Immediately, as in a JavaScript `for await` loop",
+      "Immediately, as soon as the loop is left",
       "Never",
       "When the garbage collector finalizes the generator and the event loop runs its `aclose()`, at some later point",
       "Before the first row is produced"

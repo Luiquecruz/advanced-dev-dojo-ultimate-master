@@ -11,27 +11,27 @@ my-service/
 └── .venv/             the environment: recreated, never committed
 ```
 
-| Step | Python | Node equivalent |
+| Step | Python | What it protects against |
 | --- | --- | --- |
-| Describe the project | `pyproject.toml` `[project]` | `package.json` |
-| Isolate dependencies | a virtual environment (`.venv`) | `node_modules/` |
-| Resolve and lock | `uv lock` (or pip-tools, Poetry) | `npm install` + `package-lock.json` |
-| Run a command | `uv run pytest` | `npx vitest` |
-| Lint and format | Ruff (`ruff check`, `ruff format`) | ESLint + Prettier |
-| Type-check | mypy, pyright, ty | `tsc --noEmit` |
-| Test | `unittest`, pytest | Vitest, Jest |
-| Build | a backend writes an sdist and a wheel | `npm pack` |
-| Publish | PyPI, ideally with trusted publishing | `npm publish` |
+| Describe the project | `pyproject.toml` `[project]` | metadata scattered over files that tools read differently |
+| Isolate dependencies | a virtual environment (`.venv`) | projects sharing one set of packages |
+| Resolve and lock | `uv lock` (or pip-tools, Poetry) | a deploy that installs versions nobody tested |
+| Run a command | `uv run pytest` | a tool from the wrong environment |
+| Lint and format | Ruff (`ruff check`, `ruff format`) | style debates; `eval` with `--select S` |
+| Type-check | mypy, pyright, ty | type errors that the interpreter never reports |
+| Test | `unittest`, pytest | regressions users would find first |
+| Build | a backend writes an sdist and a wheel | installs that differ between machines |
+| Publish | PyPI, ideally with trusted publishing | a leaked long-lived upload token |
 
 ## Prerequisites
 
 Modules 03 (modules and imports) and 11 (the import system): an environment is mostly a question of which `site-packages` directory the interpreter searches.
 
-## Coming from TypeScript and JavaScript
+## Three facts behind the steps
 
-- **Packages are found by the interpreter, not by walking up to `node_modules`.** Each environment has its own `python`; running it (or `uv run`) selects the packages. `pip install` into the system Python mixes every project together.
-- **One tool per job used to be the norm.** Black formatted, isort sorted imports, Flake8 linted. Ruff does all three, like Biome replacing ESLint and Prettier, and its `S` rules (from flake8-bandit) flag `eval`, `pickle.loads` and `shell=True`. `pre-commit` runs it before each commit; CI runs it again.
-- **Types are not checked at runtime or at install.** In Python a checker is a separate CI step; nothing fails until you run it.
+- **The interpreter finds packages, not the folder.** Each environment has its own `python`; running it (or `uv run`) selects the packages.
+- **One linter-formatter replaces three tools.** Ruff does the jobs of Black, isort and Flake8, and its `S` rules (from flake8-bandit) flag `eval`, `pickle.loads` and `shell=True`. `pre-commit` runs it before each commit; CI runs it again.
+- **Types are never checked at runtime.** A checker is a separate CI step.
 
 ## The path
 

@@ -19,32 +19,38 @@ stream.getvalue()     # 'WARNING shop.payments card 4242 declined\n'
 
 The child `shop.payments` has no handler and no level of its own: it inherits the effective level and **propagates** the record to the handlers of `shop`. Libraries only call `logging.getLogger(__name__)`; the application configures handlers once, at its entry point.
 
-## Coming from TypeScript and JavaScript
-
-`console.log` writes immediately and globally. Two habits come with it:
-
-```ts
-function setupLogging() { emitter.on("log", (line) => process.stdout.write(line)); }
-setupLogging(); setupLogging();        // two listeners: every line twice
-console.log(`login user=${user}`);     // the string is built even when nobody reads it
-```
-
-```py
-def configure():
-    logging.getLogger("shop").addHandler(logging.StreamHandler())   # one more handler per call
-
-logger.info(f"login user={user}")      # formatted eagerly, and user text becomes the message
-```
-
-Loggers are process-wide singletons, so "setup" code that adds a handler every time it runs duplicates every line. Configure once, or make configuration idempotent by replacing the handlers it owns. Pass values as arguments (`logger.info("login user=%s", user)`): formatting is deferred until a handler emits the record, and the template stays constant, so log tools can group the lines.
-
 ## How it works
 
 1. `logger.info(...)` checks the logger's effective level, then the **logger's filters**.
 2. It builds a `LogRecord`. The `extra` dict becomes record attributes; a key that the record already uses (`name`, `message`, `args`, `msg`...) raises `KeyError`, which is why structured fields are best nested under one attribute.
 3. The record goes to the handlers of the logger, then of each ancestor while `propagate` is true. Each handler checks its own level and **its own filters**, then formats.
 
+Loggers are process-wide singletons, so a setup function that adds a handler each time it runs makes every line appear once per call. Arguments passed after the message (`logger.info("login user=%s", user)`) are formatted only when a handler emits the record, and the template stays constant, so log tools can group the lines.
+
 Filters attached to a logger are not consulted for records that come from its children, while a handler's filters see every record the handler emits. Anything that must apply to all output, such as redaction, belongs on the handler. A filter may modify the record before it is emitted. `logging.basicConfig()` does nothing if the root logger already has handlers, unless `force=True`, and libraries should add no handler except `NullHandler`.
+
+## Common mistakes
+
+**Adding a handler every time setup runs.** `getLogger("shop")` returns the same logger on every call, so each call adds one more handler and each record is written once per handler:
+
+```py
+# wrong: called from two modules, every line appears twice
+def configure(stream):
+    logger = logging.getLogger("shop")
+    logger.addHandler(logging.StreamHandler(stream))
+    return logger
+
+# right: replace every handler on this logger
+def configure(stream):
+    logger = logging.getLogger("shop")
+    for handler in list(logger.handlers):
+        logger.removeHandler(handler)
+        handler.close()
+    logger.addHandler(logging.StreamHandler(stream))
+    return logger
+```
+
+**Formatting the message yourself.** `logger.info(f"login user={user}")` builds the string even when the level drops the record, and puts user text into the template, where log tools can no longer group the lines.
 
 ## Security note
 

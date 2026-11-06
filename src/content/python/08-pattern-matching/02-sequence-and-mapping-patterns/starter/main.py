@@ -4,7 +4,7 @@ from typing import Any
 
 def parse_command(tokens: Sequence[str]) -> dict[str, Any]:
     """Turn a sequence of command tokens into an action dict."""
-    # TODO: this switches on the first token like a JS `switch` and never checks how many tokens arrived.
+    # TODO: this matches only the first token and never checks how many tokens arrived.
     # Match the whole sequence instead: ["move", x, y], ["say", *words], ["quit"]; anything else raises ValueError.
     match tokens[0]:
         case "move":

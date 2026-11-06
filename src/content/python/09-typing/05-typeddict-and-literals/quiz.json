@@ -14,7 +14,7 @@
     "question": "A validator checks an `int` field with `isinstance(value, int)`. The JSON payload has `\"id\": true`. What does the check say?",
     "options": [
       "It accepts it: `bool` is a subclass of `int`, so `isinstance(True, int)` is `True`",
-      "It rejects it, as JavaScript's `typeof` would",
+      "It rejects it, because `True` is a `bool`, not an `int`",
       "It raises `TypeError`",
       "`json.loads` already turned `true` into `1`"
     ],

@@ -2,7 +2,7 @@
   {
     "question": "`/srv/api/.venv` has `fastapi` installed. Without activating anything, a cron job runs `cd /srv/api && python server.py`, and `server.py` imports `fastapi`. What happens?",
     "options": [
-      "It works: Python finds `.venv` in the working directory like `node_modules`",
+      "It works: Python looks for a `.venv` in the working directory",
       "`ModuleNotFoundError`, unless the first `python` on `PATH` is the environment's",
       "It works only if `server.py` sits next to `.venv`",
       "Python asks which environment to use"

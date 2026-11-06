@@ -1,6 +1,6 @@
 {
   "title": "Modern Annotation Syntax",
-  "summary": "Annotations are evaluated objects that nothing enforces. Write them the modern way (builtin generics, X | None, collections.abc.Callable, Self) and prove it with typing.get_type_hints, avoiding the TypeScript habits that change the type: optional-by-default and annotated rest arrays.",
+  "summary": "Annotations are evaluated objects that nothing enforces. Write them the modern way (builtin generics, X | None, collections.abc.Callable, Self) and prove it with typing.get_type_hints, keeping None in the type of a None default and annotating one element of a variadic parameter.",
   "level": "beginner",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

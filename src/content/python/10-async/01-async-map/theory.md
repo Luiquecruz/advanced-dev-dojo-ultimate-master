@@ -24,17 +24,11 @@ async def main():
 asyncio.run(main())
 ```
 
-## Coming from TypeScript and JavaScript
+## Three facts the module builds on
 
-The loop model is the same as in Node and the browser: one thread, cooperative switching at `await`. Three habits break:
-
-```ts
-const pending = fetchUser(1);    // a promise: already running
-```
-
-- **Calling does not start.** `fetch("users", 1)` returns a coroutine object that runs only when awaited or wrapped in a task.
-- **Tasks can be cancelled.** A cancelled task receives `CancelledError` at its current `await`. Promises have no such thing, so `Promise.all`-style code leaves work running.
-- **Most libraries are synchronous.** A blocking call in a coroutine freezes every task, and Python does not move I/O to a thread pool for you.
+- **Calling does not start.** `fetch("users", 1)` returns a coroutine object, a paused call that runs only when awaited or wrapped in a task.
+- **Tasks can be cancelled.** A cancelled task receives `CancelledError` at its current `await`, so a timeout or a failed sibling can stop work that is no longer needed.
+- **Most libraries are synchronous.** A blocking call in a coroutine freezes every task, and Python does not move I/O to a thread for you.
 
 In CPython a program starts with `asyncio.run(main())`. In this sandbox a loop is already running: tests `await` your coroutines, and the Run button handles the `asyncio.run` in `demo.py`.
 

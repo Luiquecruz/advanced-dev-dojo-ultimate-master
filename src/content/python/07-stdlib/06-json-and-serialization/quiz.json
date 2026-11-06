@@ -22,12 +22,12 @@
     "explanation": "JSON objects only have string keys, so `1` is written as `\"1\"`, and JSON has one array type, so the tuple comes back as a list. The round trip is lossy without raising."
   },
   {
-    "question": "A Python service sends `json.dumps({\"ratio\": float(\"nan\")})` to a JavaScript client. What happens?",
+    "question": "A Python service sends `json.dumps({\"ratio\": float(\"nan\")})` to a client whose parser follows the JSON standard strictly. What happens?",
     "options": [
       "The client receives `{\"ratio\":null}`",
       "`json.dumps` raises `ValueError`",
       "The client receives a string `\"NaN\"`",
-      "Python writes `{\"ratio\": NaN}`, which `JSON.parse` rejects as invalid JSON"
+      "Python writes `{\"ratio\": NaN}`, which a strict JSON parser rejects as invalid"
     ],
     "answer": 3,
     "explanation": "`allow_nan` defaults to `True`, so Python writes the `NaN` literal that the JSON standard does not allow. Pass `allow_nan=False` to fail at the sender instead of at every consumer."

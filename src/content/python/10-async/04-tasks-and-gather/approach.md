@@ -1,4 +1,4 @@
-1. Map each helper to its JavaScript cousin (`Promise.all`, `Promise.allSettled`, `Promise.race`) and write down what happens to the other operations when one finishes or fails, in both languages.
+1. Match each helper to its combinator (`gather`, `gather` with `return_exceptions=True`, `wait` with `FIRST_COMPLETED`) and write down what happens to the other tasks when one finishes or fails.
 2. For `fetch_all`, check that the starter's comprehension runs one source at a time, then replace it with a single `gather` call so every source starts before the first one ends.
 3. For `fetch_settled`, gather with `return_exceptions=True` and split the result list by type, keeping input order on both sides.
 4. For `first_done`, separate the three phases: schedule every coroutine as a task, wait for the first completion, then clean up the rest.

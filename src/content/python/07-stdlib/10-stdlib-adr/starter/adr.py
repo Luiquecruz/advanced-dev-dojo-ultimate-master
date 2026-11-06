@@ -61,7 +61,7 @@ PLAN = {
     "timestamps": "naive_local",
     # TODO: count each distinct offset once
     "utc_offsets": 0,
-    # TODO: three languages, unknown types must fail, and nothing may run code while loading
+    # TODO: not every consumer is a Python program, unknown types must fail, and nothing may run code while loading
     "serialization": "pickle",
     # TODO: encode SAMPLE_RECORD by the contract (newline included) and count bytes, not characters
     "record_bytes": 0,

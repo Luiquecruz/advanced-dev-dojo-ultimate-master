@@ -20,6 +20,7 @@ async def _():
     assert "sku" in str(repeated)
 
 
+# beginner mistake: a class statement inside the factory, so every generated class is named Record
 @test("the class carries the requested name, a repr built from its fields and positional match support")
 def _():
     LineItem = mod.make_record_class("LineItem", ["sku", "quantity"])

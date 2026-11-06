@@ -21,29 +21,9 @@ async def main():
 asyncio.run(main())
 ```
 
-## Coming from TypeScript and JavaScript
-
-`Promise.all` rejects with the first error and walks away. The other promises keep running in the background, their results and errors ignored:
-
-```ts
-await Promise.all(items.map(check));  // after a rejection, the other checks still run to the end
-```
-
-`asyncio.gather` behaves the same way, which is why porting `Promise.all` to `gather` leaks work after a failure. A `TaskGroup` does what most callers actually want: when one task fails, it **cancels the siblings, waits for them to finish cancelling**, and then raises.
-
-The second habit is the `catch` clause. A task group always raises an **`ExceptionGroup`**, even for a single failure, so `except ValueError:` around it never matches:
-
-```py
-try:
-    async with asyncio.TaskGroup() as group:
-        group.create_task(check("bad"))
-except ValueError:             # never runs: the error arrives wrapped in an ExceptionGroup
-    ...
-```
-
-Use `except*`, which matches *inside* the group.
-
 ## How it works
+
+`asyncio.gather` (previous lesson) raises the first error and walks away: the other tasks keep running in the background, their results and errors ignored. A `TaskGroup` does what most callers actually want: when one task fails, it **cancels the siblings, waits for them to finish cancelling**, and then raises.
 
 - **`group.create_task(coroutine)`** schedules the coroutine and keeps a strong reference to the task, so nothing is garbage collected mid-flight.
 - **On exit**, the group waits for all its tasks. More tasks may be added while it waits.
@@ -61,6 +41,28 @@ except* ValueError as invalid:
 ```
 
 Do not reach for `except ExceptionGroup:` and a loop over `.exceptions`: it also swallows every type you did not plan for.
+
+## Common mistakes
+
+**A plain `except ValueError:` around a task group.** The group always raises an `ExceptionGroup`, even for a single failure, so the clause never matches and the error propagates past it.
+
+```py
+# wrong: never runs; the ValueError arrives wrapped in an ExceptionGroup
+try:
+    async with asyncio.TaskGroup() as group:
+        group.create_task(check("bad"))
+except ValueError:
+    ...
+
+# right: except* matches inside the group
+try:
+    async with asyncio.TaskGroup() as group:
+        group.create_task(check("bad"))
+except* ValueError as invalid:
+    count = len(invalid.exceptions)
+```
+
+Counting with `= 1` instead of `len(invalid.exceptions)` is the second slip: several tasks can fail before the cancellation reaches them.
 
 ## Legacy vs modern
 

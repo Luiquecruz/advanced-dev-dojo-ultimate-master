@@ -51,6 +51,7 @@ def _():
     assert windowed == (0, "postgres")
 
 
+# beginner mistake: reading parameter names from __code__, which shows a decorator's wrapper and is missing on partials and callable objects
 @test("call_with reads signatures through decorators, partials, callable objects and not-yet-defined annotations")
 def _():
     def logged(function):

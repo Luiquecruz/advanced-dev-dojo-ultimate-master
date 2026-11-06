@@ -7,7 +7,7 @@ Handler = Callable[[Any], Awaitable[Any]]
 
 async def process_batch(items: list[Any], handler: Handler) -> list[Any]:
     """Run handler(item) for every item in one task group; return the results in item order."""
-    # TODO: gather behaves like Promise.all: after a failure the other handlers keep running,
+    # TODO: after a failure, gather lets the other handlers keep running,
     # and the error is raised alone. Start the handlers in an asyncio.TaskGroup instead.
     return list(await asyncio.gather(*(handler(item) for item in items)))
 

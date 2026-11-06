@@ -8,14 +8,14 @@
       "An error only for `object`: it allows just what every object supports, while `Any` switches checking off"
     ],
     "answer": 3,
-    "explanation": "`object` is TypeScript's `unknown`: narrow it first (`isinstance(value, str)`). `Any` is TypeScript's `any`: every operation is accepted, so mistakes pass silently."
+    "explanation": "`object` allows only what every object supports: narrow it first (`isinstance(value, str)`). `Any` switches checking off, so every operation is accepted and mistakes pass silently."
   },
   {
     "question": "Your library has inline annotations, but users' checkers treat every import from it as untyped. What is the most likely cause?",
     "options": [
       "The annotations use `list[str]` instead of `typing.List`",
       "The package does not ship a `py.typed` marker file (PEP 561)",
-      "The library was not compiled with `tsc`",
+      "The library was not compiled before it was published",
       "Checkers never read installed packages"
     ],
     "answer": 1,

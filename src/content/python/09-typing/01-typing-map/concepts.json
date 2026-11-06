@@ -2,6 +2,6 @@
   { "term": "Annotation", "description": "An expression after `:` or `->` stored as metadata on a function, class or module; the interpreter never enforces it." },
   { "term": "Static type checker", "description": "A separate tool (mypy, pyright, ty, pyrefly) that reads the source without running it and reports type errors." },
   { "term": "Gradual typing", "description": "Unannotated code is `Any` to a checker, so types can be added file by file and tightened over time." },
-  { "term": "Nominal vs structural", "description": "Python classes match by inheritance; `Protocol` opts into matching by shape, the way TypeScript interfaces work." },
+  { "term": "Nominal vs structural", "description": "Plain Python classes match by inheritance; a `Protocol` opts into matching by shape: any object with the required attributes and methods fits." },
   { "term": "Runtime introspection", "description": "Code that reads annotation objects at runtime, such as `typing.get_type_hints`, `dataclasses` or a schema builder." }
 ]

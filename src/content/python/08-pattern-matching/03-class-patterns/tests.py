@@ -40,6 +40,7 @@ def _():
     assert tile == 16
 
 
+# beginner mistake: case Square: without parentheses, a capture that matches every value instead of a type check
 @test("area and describe raise TypeError naming the type they cannot handle")
 async def _():
     class Triangle:

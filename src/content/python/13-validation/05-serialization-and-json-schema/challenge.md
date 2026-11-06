@@ -1,6 +1,6 @@
 # Invoices on the wire
 
-The billing API speaks camelCase JSON, money travels as decimal strings, and partners receive a JSON Schema of the invoice. Today `export` calls `json.dumps(vars(invoice), default=str)`: snake_case keys, `"2026-11-04 10:30:00+00:00"` instead of ISO 8601, nested lines turned into their `repr`, and no total. Fix the models and the two functions.
+The billing API speaks camelCase JSON, money travels as decimal strings, and partners receive a JSON Schema of the invoice. Today `export` calls `json.dumps(vars(invoice), default=str)`: snake_case keys, `"2026-11-04 10:30:00+00:00"` instead of ISO 8601, nested lines turned into their `str()` text, and no total. Fix the models and the two functions.
 
 Implement in `main.py`:
 

@@ -1,5 +1,5 @@
 [
-  { "term": "`match` / `search` / `fullmatch`", "description": "Anchored at the start, anywhere, and the whole string. JavaScript's `test` and `String.match` behave like `search`." },
+  { "term": "`match` / `search` / `fullmatch`", "description": "Anchored at the start, anywhere, and the whole string. A validity check is `fullmatch`." },
   { "term": "Named group", "description": "`(?P<name>...)` in Python; `Match.groupdict()` returns the captured groups by name." },
   { "term": "Unicode classes", "description": "In `str` patterns `\\d`, `\\w`, `\\s` and `\\b` follow Unicode; use `[0-9]` or `re.ASCII` for ASCII only." },
   { "term": "Greedy and lazy", "description": "`+` takes as much as possible and gives back on failure; `+?` takes as little as possible. A negated class such as `[^\\]]+` avoids both." },

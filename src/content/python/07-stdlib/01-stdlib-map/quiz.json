@@ -33,7 +33,7 @@
     "explanation": "JSON has one array type, so the tuple silently becomes a list. The naive/aware comparison and the tuple key both raise `TypeError`, and the `Decimal` sum is exactly `0.3`."
   },
   {
-    "question": "A JavaScript service used decimal.js for prices. What is the standard-library replacement?",
+    "question": "A price list must add amounts and round each one to the cent exactly as finance writes it on paper. What is the standard-library choice?",
     "options": [
       "`float` with `round(value, 2)` after each operation",
       "`fractions.Fraction` for every price, printed with `float()`",

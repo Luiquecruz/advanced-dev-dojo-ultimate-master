@@ -11,7 +11,6 @@
     { "label": "sys: prefix and base_prefix", "url": "https://docs.python.org/3/library/sys.html" },
     { "label": "PEP 405: Python Virtual Environments", "url": "https://peps.python.org/pep-0405/" },
     { "label": "PEP 668: Marking Python base environments as externally managed", "url": "https://peps.python.org/pep-0668/" },
-    { "label": "uv: Using Python environments", "url": "https://docs.astral.sh/uv/pip/environments/" },
-    { "label": "Node.js: Loading from node_modules folders", "url": "https://nodejs.org/api/modules.html" }
+    { "label": "uv: Using Python environments", "url": "https://docs.astral.sh/uv/pip/environments/" }
   ]
 }

@@ -8,7 +8,7 @@
       "A `SyntaxError`, because `load()` must be awaited"
     ],
     "answer": 2,
-    "explanation": "Calling a coroutine function only creates the coroutine object. Unlike a JavaScript async function, no part of the body runs until something drives it."
+    "explanation": "Calling a coroutine function only creates the coroutine object, a paused call. No part of the body runs until something drives it."
   },
   {
     "question": "Each `fetch` takes 100 ms of waiting. How long does `results = [await fetch(n) for n in [1, 2, 3]]` take?",

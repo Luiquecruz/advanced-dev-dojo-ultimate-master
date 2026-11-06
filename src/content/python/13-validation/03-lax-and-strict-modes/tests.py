@@ -21,6 +21,7 @@ def _():
     assert names == ["int", "int", "float", "bool", "bool"]
 
 
+# beginner mistake: paid declared as a plain bool, so lax mode turns "yes" and 1 into True
 @test("the paid flag accepts only a real boolean, even in lax mode")
 async def _():
     for raw in ["true", 1, "yes"]:

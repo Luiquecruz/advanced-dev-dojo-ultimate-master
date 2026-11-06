@@ -29,11 +29,7 @@ class Csv(Exporter, metaclass=Meta, name="csv"):
 | Change how a class is built or called | metaclass | `enum.EnumType`, `abc.ABCMeta`, Django models |
 | Change what `import` finds | finder on `sys.meta_path` | pytest's assertion rewriting |
 
-Climb only as far as the problem needs. Each rung up is harder to read, harder for type checkers to follow, and harder to combine with other libraries.
-
-## Coming from TypeScript and JavaScript
-
-JavaScript customizes objects with `Proxy` and `Reflect`, `Object.defineProperty` and prototype edits, and TypeScript decorators run once on the class they decorate. Python's hooks are methods the interpreter calls at fixed moments: the class statement, attribute lookup, the `import` statement. The habit to drop is reaching for the strongest tool first, such as a metaclass, `__getattribute__` or a patched `sys.modules`, when a lower rung already does the job.
+Climb only as far as the problem needs. Each rung up is harder to read, harder for type checkers to follow, and harder to combine with other libraries. The usual mistake is reaching for the strongest tool first, such as a metaclass, `__getattribute__` or a patched `sys.modules`, when a lower rung already does the job.
 
 > **Status as of November 2026:** this track runs CPython 3.14 in Pyodide. Since 3.14 annotations are evaluated lazily (PEP 649 and PEP 749), so a metaclass no longer finds `__annotations__` in the class namespace; `annotationlib.get_annotate_from_class_namespace()` (new in 3.14) returns the function that computes them.
 

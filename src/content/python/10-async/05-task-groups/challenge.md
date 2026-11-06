@@ -6,7 +6,7 @@ Run `handler(item)` for every item **at the same time**, inside an `asyncio.Task
 
 When a handler raises, the handlers still running must be **cancelled**, and they must have finished cancelling when `process_batch` raises. The exception that leaves `process_batch` is an **`ExceptionGroup`** whose `exceptions` hold the original errors (for one failure, a group with one `ValueError`).
 
-The starter uses `asyncio.gather`, which works like `Promise.all`: the other handlers keep running after a failure, and the error is not grouped.
+The starter uses `asyncio.gather`: the other handlers keep running after a failure, and the error is not grouped.
 
 ## `handle_failures(items, handler)`
 

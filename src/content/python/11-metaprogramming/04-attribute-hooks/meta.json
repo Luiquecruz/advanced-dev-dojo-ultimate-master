@@ -1,6 +1,6 @@
 {
   "title": "Attribute Hooks: __getattr__, __setattr__ and __dir__",
-  "summary": "Normal lookup first, __getattr__ only as a fallback, __getattribute__ and __setattr__ on every access. Build an auditing proxy, an object that refuses new attributes once frozen and a defaults holder that survives copy, without the recursion a JavaScript Proxy habit causes.",
+  "summary": "Normal lookup first, __getattr__ only as a fallback, __getattribute__ and __setattr__ on every access. Build an auditing proxy, an object that refuses new attributes once frozen and a defaults holder that survives copy, without the recursion that intercepting every read causes.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

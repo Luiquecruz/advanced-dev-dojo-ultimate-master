@@ -2,7 +2,7 @@
   {
     "question": "```py\ntry:\n    load()\nexcept ValueError as error:\n    pass\nprint(error)\n```\n`load()` raised a `ValueError`. What happens on the last line, and why?",
     "options": [
-      "It prints the error: the name stays bound after the block, like `catch (error)` in JavaScript",
+      "It prints the error: a name bound in a block stays bound after it, like any other assignment",
       "It prints `None`",
       "`NameError`: Python deletes the `as` name at the end of the `except` block, because the exception's traceback references this frame and would form a reference cycle with its locals",
       "`RuntimeError`: the traceback was cleared"

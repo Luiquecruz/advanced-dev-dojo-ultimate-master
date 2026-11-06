@@ -22,9 +22,7 @@ order = Order.model_validate({"id": "17", "total": 9})
 print(order)            # id=17 total=9.0: converted, checked, typed
 ```
 
-## Coming from TypeScript and JavaScript
-
-TypeScript types disappear at runtime, so `JSON.parse(body) as Order` is a promise nobody checks. Zod fixes that with a schema object: `OrderSchema.parse(data)` returns typed data or throws a `ZodError` with `issues` (`path`, `code`). Pydantic is the same idea with one twist: the **class is the schema**, so there is no `z.infer<typeof OrderSchema>` step. The habits to unlearn: a dataclass or `TypedDict` is the `as Order` cast, not the Zod parse; and Pydantic converts `"17"` to `17` by default, where `z.number()` would reject it.
+Two expectations to correct before the lessons. A dataclass or a `TypedDict` annotation is a label for a static checker, not a parse: it accepts whatever it receives. And a Pydantic model converts `"17"` to `17` by default (**lax mode**); lesson 03 shows where that is right and where a field must stay strict. In Pydantic the class is both the schema and the type, so there is nothing to keep in sync.
 
 ## The path
 
@@ -32,7 +30,7 @@ TypeScript types disappear at runtime, so `JSON.parse(body) as Order` is a promi
 2. Lax and strict modes: which conversions are allowed, and where.
 3. Field constraints and field and model validators.
 4. Serialization, aliases and JSON Schema.
-5. A quiz on pydantic-core, the Rust engine, and on performance.
+5. A quiz on pydantic-core, the compiled engine, and on performance.
 6. An ADR for the validation strategy of three services.
 
 ## When to choose it

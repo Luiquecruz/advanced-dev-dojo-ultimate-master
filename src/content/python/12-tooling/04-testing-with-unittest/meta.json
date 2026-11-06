@@ -11,7 +11,6 @@
     { "label": "unittest.mock: Where to patch", "url": "https://docs.python.org/3/library/unittest.mock.html#where-to-patch" },
     { "label": "pytest: How to use fixtures", "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html" },
     { "label": "pytest: How to parametrize tests", "url": "https://docs.pytest.org/en/stable/how-to/parametrize.html" },
-    { "label": "Vitest: vi.mock", "url": "https://vitest.dev/api/vi.html#vi-mock" },
     { "label": "pip-audit on PyPI", "url": "https://pypi.org/project/pip-audit/" }
   ]
 }

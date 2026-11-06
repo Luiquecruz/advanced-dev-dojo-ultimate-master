@@ -23,45 +23,9 @@ def route(method, path, role):
 route("DELETE", ["users", 7], Role.GUEST)   # 'forbidden': the guard was false, the next case matched
 ```
 
-## Coming from TypeScript and JavaScript
-
-In a `switch`, `case ADMIN:` evaluates the expression `ADMIN` and compares it with `===`. In a pattern, a bare name is a **capture**: it matches anything and binds it.
-
-```ts
-const ADMIN = "admin";
-switch (role) {
-  case ADMIN: return deleteUser(id);   // role === "admin"
-  default:    return forbidden();
-}
-```
-
-```py
-ADMIN = "admin"
-
-match request:
-    case Request("DELETE", ("users", int(user_id)), ADMIN):   # binds ADMIN = request.role
-        return ("delete_user", {"user_id": user_id})          # so every role can delete
-```
-
-Alone, `case ADMIN:` followed by more cases is rejected at compile time ("name capture 'ADMIN' makes remaining patterns unreachable"). Nested inside a sequence or class pattern it compiles and silently matches every role. To compare with a constant, use a **value pattern** (a dotted name such as `Role.ADMIN` or `config.ADMIN_ROLE`), a literal (`"admin"`) or a guard (`if role == ADMIN`).
-
-The second habit is treating a failed check inside a block like `break` in a `switch`:
-
-```py
-match request:
-    case Request("PATCH", ("users", int(user_id)), role):
-        if role in (Role.EDITOR, Role.ADMIN):
-            return ("update_user", {"user_id": user_id})
-        # a guest falls off the end of this block, and the match statement is over
-    case Request("PATCH", ("users", int(user_id))):
-        return ("forbidden", {"user_id": user_id})    # never reached by a guest PATCH
-```
-
-Once a block runs, the `match` is over. Only a false **guard** sends control on to the next case.
-
 ## How it works
 
-**Order.** Cases are tried from top to bottom, and the first one whose pattern matches and whose guard is true wins. Put specific cases before general ones. Python only rejects an unreachable case when it follows an irrefutable one, such as `case _:` or a bare capture without a guard.
+**Order.** Cases are tried from top to bottom, and the first one whose pattern matches and whose guard is true wins. Put specific cases before general ones. Python only rejects an unreachable case when it follows an irrefutable one, such as `case _:` or a bare capture without a guard. Once a block runs, the `match` is over: an `if` inside the block that fails does not send control to the next case. Only a false **guard** does.
 
 **Guards** are evaluated in case order, only for cases whose pattern matched, after the pattern's names are bound. A guard can use those names, any other variable in scope and any expression; an exception raised in a guard propagates. The names stay bound even when the guard is false, so a later case or the code after the `match` can see stale values. Since several guards may run for one subject, keep them free of side effects.
 
@@ -69,9 +33,31 @@ Once a block runs, the `match` is over. Only a false **guard** sends control on 
 
 **As-patterns** bind the value after the pattern on their left matched. `|` binds tighter than `as`, so `"PUT" | "PATCH" as method` captures whichever method matched.
 
-**Value patterns** need a dot. The name is looked up when the case is tried and compared with `==`. Enum members are the usual choice, and a `StrEnum` member equals its string value, so `Role.ADMIN` also matches the plain string `"admin"`.
+**Value patterns** need a dot. A bare name such as `ADMIN` is always a capture, even when a module constant of that name exists; a dotted name such as `Role.ADMIN` or `config.ADMIN_ROLE` is looked up when the case is tried and compared with `==`. Enum members are the usual choice, and a `StrEnum` member equals its string value, so `Role.ADMIN` also matches the plain string `"admin"`.
 
 **Captures** bind each name once per pattern: `case [x, x]:` is a `SyntaxError`. Write `case [x, y] if x == y:` instead.
+
+## Common mistakes
+
+**Comparing with a constant written as a bare name.** Inside a pattern, `ADMIN` does not read the module constant: it captures whatever is in that position. Alone, `case ADMIN:` followed by more cases is a `SyntaxError`; nested in a class or sequence pattern it compiles and matches every role:
+
+```py
+ADMIN = "admin"
+
+# wrong: binds ADMIN = request.role, so every role can delete
+match request:
+    case Request("DELETE", ("users", int(user_id)), ADMIN):
+        return ("delete_user", {"user_id": user_id})
+
+# right: a dotted value pattern compares with ==
+match request:
+    case Request("DELETE", ("users", int(user_id)), Role.ADMIN):
+        return ("delete_user", {"user_id": user_id})
+```
+
+A literal (`"admin"`) or a guard (`if role == ADMIN`) works too.
+
+**Checking permissions with an `if` inside the block.** When the check fails, the block simply ends and the later `forbidden` case is never tried. Put the condition in a guard.
 
 ## When to choose it
 

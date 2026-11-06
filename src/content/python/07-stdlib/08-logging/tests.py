@@ -17,6 +17,7 @@ def lines_of(stream):
     return stream.getvalue().splitlines()
 
 
+# beginner mistake: adding a new handler on every setup call, so each record is written once per call
 @test("configure_logger keeps one handler on the latest stream however many times it runs")
 def _():
     first, second = io.StringIO(), io.StringIO()

@@ -102,6 +102,7 @@ class Store:
         self.value = value
 
 
+# beginner mistake: reading and writing the store across awaits without a lock, so concurrent increments lose updates
 @test("SafeCounter.increment keeps every update when many increments run at once")
 async def _():
     store = Store()

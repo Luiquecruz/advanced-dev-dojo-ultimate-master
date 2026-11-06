@@ -32,6 +32,7 @@ def _():
     assert find_hints == {"users": dict[int, str], "user_id": int, "return": str | None}
 
 
+# beginner mistake: a None default with a bare int annotation, so the type never admits None
 @test("a parameter that defaults to None includes None in its annotation")
 def _():
     limit = get_type_hints(mod.count_words).get("limit")

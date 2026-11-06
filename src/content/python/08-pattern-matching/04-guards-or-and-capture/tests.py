@@ -60,6 +60,7 @@ def _():
     assert wrong == {}
 
 
+# beginner mistake: a bare name such as ADMIN in a pattern, which captures every role instead of comparing
 @test("writes from roles without permission are forbidden, whatever the role value")
 def _():
     wrong = misrouted({

@@ -1,6 +1,6 @@
 {
   "title": "Map: Standard Library in Practice",
-  "summary": "Which standard-library modules replace which npm packages, the defaults that lose data without an error, the APIs that are dangerous on untrusted input, and argparse as theory, plus the path through this module.",
+  "summary": "Which standard-library module handles each everyday task, the defaults that lose data without an error, the APIs that are dangerous on untrusted input, and argparse as theory, plus the path through this module.",
   "level": "beginner",
   "tags": ["established", "core", "theory"],
   "resources": [

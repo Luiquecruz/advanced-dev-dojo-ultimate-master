@@ -1,4 +1,4 @@
-A `match` statement evaluates its **subject** once and tries each `case` from top to bottom. The first pattern that fits runs its block, with the names in the pattern bound to the parts it matched. There is no fall-through, so no `break` is needed.
+A `match` statement evaluates its **subject** once and tries each `case` from top to bottom. The first pattern that fits runs its block, with the names in the pattern bound to the parts it matched; then execution continues after the whole `match`, and no other block runs.
 
 ```py
 def parse(tokens):
@@ -26,23 +26,6 @@ match event:
         print("resize", width, height)
 ```
 
-## Coming from TypeScript and JavaScript
-
-`switch` compares one value with `===` against each `case` expression, and destructuring never checks the shape: missing elements become `undefined`.
-
-```ts
-switch (tokens[0]) {
-  case "move": {
-    const [, x, y] = tokens;          // ["move", "1"] gives y === undefined
-    return { action: "move", x: Number(x), y: Number(y) };
-  }
-  case "quit":
-    return { action: "quit" };        // ["quit", "now"] is accepted too
-}
-```
-
-The habit that breaks is translating that line by line: `match tokens[0]:` with `case "move":`, then indexing `tokens[1]` and `tokens[2]` in the block. It accepts extra tokens, raises `IndexError` for missing ones (and `KeyError` for a missing dict key), and the shape check you wanted lives nowhere. Match the **whole** value instead. The length, the literal words and the required keys are part of the pattern, and a pattern that does not fit simply moves on to the next `case`.
-
 ## How it works
 
 **Sequence patterns.** `[a, b]` and `(a, b)` mean the same thing. They match any `collections.abc.Sequence` (lists, tuples, `range`, `deque`) but **never `str`, `bytes` or `bytearray`**, so a string is not split into characters. Iterators and generators are not sequences and never match. Without a star the length must be exact. One starred name per pattern, in any position, collects the rest into a **list** that may be empty; `*_` accepts any rest without binding it. Careful with parentheses: `(x,)` is a one-item sequence, `(x)` is just `x`.
@@ -57,6 +40,30 @@ Pitfalls:
 - A bare name never compares: `case [command, x]:` binds `command` to whatever comes first. Literal words need quotes.
 - Capturing a whole value and unpacking it in the block (`case {"pos": pos}:` then `x, y = pos`) gives up the shape check: a string `"xy"` unpacks into two characters. Put the shape in the pattern (`"pos": (x, y)`), which never matches a `str`.
 - Names bound by a pattern that failed halfway may or may not be set. Use the names only in the block whose pattern matched.
+
+## Common mistakes
+
+**Matching only the first token and indexing the rest.** With `tokens[0]` as the subject, the pattern never sees the length: extra tokens are accepted, missing ones raise `IndexError` (or `KeyError` for a dict), and the shape check lives nowhere:
+
+```py
+# wrong: ["quit", "now"] is accepted, ["move", "1"] raises IndexError
+match tokens[0]:
+    case "move":
+        return {"action": "move", "x": int(tokens[1]), "y": int(tokens[2])}
+    case "quit":
+        return {"action": "quit"}
+
+# right: the whole value is the subject, so the length is part of each pattern
+match tokens:
+    case ["move", x, y]:
+        return {"action": "move", "x": int(x), "y": int(y)}
+    case ["quit"]:
+        return {"action": "quit"}
+    case _:
+        raise ValueError(f"unknown command: {tokens!r}")
+```
+
+A pattern that does not fit simply moves on to the next `case`, so wrong shapes reach the final `case _:` and fail with your own error.
 
 ## When to choose it
 

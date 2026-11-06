@@ -55,6 +55,7 @@ def _():
     assert after_end == [0, 0, 0, 0]
 
 
+# beginner mistake: an else indented under the if inside the loop, which gives up after the first item
 @test("find_first returns the index and item of the first match and stops calling the predicate")
 def _():
     checked = []

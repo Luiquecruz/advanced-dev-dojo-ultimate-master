@@ -30,6 +30,7 @@ async def _():
     assert isinstance(unknown_mode, ValueError)
 
 
+# beginner mistake: checking only the items, so the string "abc" counts as a list of strings
 @test("is_str_list is a TypeIs guard that accepts only lists of strings")
 def _():
     guard = get_type_hints(mod.is_str_list).get("return")

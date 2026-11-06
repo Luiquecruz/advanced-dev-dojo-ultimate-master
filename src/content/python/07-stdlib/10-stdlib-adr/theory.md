@@ -1,6 +1,6 @@
 # Checkpoint: the Standard Library ADR
 
-This module asked which batteries replace which npm packages, and **which defaults lose data silently**. The answers were concrete: a binary `float` cannot hold `0.1`, and `round(2.675, 2)` gives `2.67`; a naive `datetime` has no offset, so "09:00" means a different instant in every office; `json` turns tuples into lists and int keys into strings, and `default=str` turns *anything* into text without an error; `len(text)` counts characters while a request limit counts bytes; a logger configured twice prints every line twice; and a CLI that reads `sys.argv` by hand cannot be tested.
+This module asked which standard-library module handles each everyday task, and **which defaults lose data silently**. The answers were concrete: a binary `float` cannot hold `0.1`, and `round(2.675, 2)` gives `2.67`; a naive `datetime` has no offset, so "09:00" means a different instant in every office; `json` turns tuples into lists and int keys into strings, and `default=str` turns *anything* into text without an error; `len(text)` counts characters while a request limit counts bytes; a logger configured twice prints every line twice; and a CLI that reads `sys.argv` by hand cannot be tested.
 
 The checkpoint turns those lessons into the foundations of one tool: an **Architecture Decision Record** plus a **plan** whose numbers you compute from the briefing.
 
@@ -9,7 +9,7 @@ The checkpoint turns those lessons into the foundations of one tool: an **Archit
 1. **What is money?** If an amount or a rounding step must match a rule to the cent, the type must be exact. `Decimal` holds any decimal fraction and lets you choose the rounding mode; integer cents are exact only when every price is a whole number of cents.
 2. **How much does the wrong type cost?** Compute it. Rounding per line is where floats hurt: `0.70 * 0.05` is `0.034999…` in binary, so `round(..., 2)` gives `0.03` where finance's `ROUND_HALF_UP` on the exact product gives `0.04`. One cent per line, times the lines per month.
 3. **What instant does a timestamp name?** Count the distinct UTC offsets of your sources over a year, daylight saving included. More than one means a local time without its offset is ambiguous; store aware datetimes in UTC and convert only for display.
-4. **Who reads the output?** Three languages exclude `pickle`, which only Python reads and which runs code while loading. A consumer that must not receive surprises needs an encoder that raises `TypeError` on unknown types, not `default=str`.
+4. **Who reads the output?** Consumers that are not Python programs exclude `pickle`, which only Python reads and which runs code while loading. A consumer that must not receive surprises needs an encoder that raises `TypeError` on unknown types, not `default=str`.
 5. **How big is one record, in bytes?** Encode it exactly as the contract says and measure `len(line.encode("utf-8"))`. A request limit then caps the batch from above, and a rate limit with a deadline bounds it from below.
 6. **Who else touches the files, streams and exit codes?** A reader that picks up files as they appear needs an atomic `os.replace` from a temporary file in the same folder; a report on standard output needs diagnostics on a configured logger; a scheduler that pages on exit codes needs `argparse` and `main(argv) -> int`.
 

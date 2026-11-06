@@ -22,16 +22,7 @@ print(annotationlib.get_annotations(Draft, format=annotationlib.Format.STRING)) 
 Draft.__annotations__           # NameError: name 'Reviewer' is not defined
 ```
 
-## Coming from TypeScript and JavaScript
-
-TypeScript erases types, so runtime schemas are written twice: once as an `interface` and once for a validator such as zod, or recovered through `reflect-metadata`, which only yields constructors (`Array`, `Object`) without element types:
-
-```ts
-interface Line { sku: string; quantity: number }
-const LineSchema = z.object({ sku: z.string(), quantity: z.number() });   // the same facts again
-```
-
-In Python the annotation objects are the full type expressions (`list[Line]`, `str | None`), so one class can drive the schema, which is what `dataclasses`, FastAPI and Pydantic do. The habit that breaks is reading a captured type the way reflection metadata is read: `dataclasses.fields(cls)[i].type`, or `cls.__annotations__`, assuming it is always a resolved class. In 3.14 `@dataclass` records the types in the `FORWARDREF` format when the decorator runs, so `fields(Invoice)[0].type` stays `ForwardRef('Customer')` even after `Customer` exists. Code written for older Pythons may hold plain strings (`"int"`). Ask for resolved types at the moment you need them: `typing.get_type_hints(cls)`.
+Because the annotation objects are full type expressions (`list[Line]`, `str | None`), one class can drive a whole schema: `dataclasses`, FastAPI and Pydantic all work this way, and so does the generator you build here.
 
 ## How it works
 
@@ -52,6 +43,21 @@ Pitfalls:
 - Evaluation happens on access, so a name that is never defined raises only when someone reads the annotations. Build schemas after the module has finished executing, never in the middle of its class definitions.
 - `get_type_hints` evaluates strings: never call it on classes from untrusted source code.
 - `bool` subclasses `int`; look scalar types up exactly (`SCALARS[annotation]`) instead of with `issubclass`.
+
+## Common mistakes
+
+**Reading `field.type` or `cls.__annotations__` as if it were always a resolved class.** In 3.14 `@dataclass` records the types in the `FORWARDREF` format when the decorator runs, so `fields(Order)[1].type` stays `ForwardRef('Customer')` even after `Customer` exists, and code written for older Pythons holds plain strings such as `"int"`. A lookup in a table of classes then misses every one of them.
+
+```py
+# wrong: a ForwardRef or the string "int", never the class
+for item in dataclasses.fields(cls):
+    fragment = schema_for(item.type, item.name)
+
+# right: resolve every annotation when you need it
+hints = typing.get_type_hints(cls)
+for item in dataclasses.fields(cls):
+    fragment = schema_for(hints[item.name], item.name)
+```
 
 ## Legacy vs modern
 

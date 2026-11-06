@@ -15,37 +15,6 @@ Product.__name__         # 'Product'
 
 The namespace dict becomes the class `__dict__`, its functions become methods, and the first argument becomes `__name__` and `__qualname__`. This is how `namedtuple`, `make_dataclass` and many ORMs turn a schema (a CSV header, a database table) into a class.
 
-## Coming from TypeScript and JavaScript
-
-A JavaScript factory returns a class expression and copies whatever it receives:
-
-```ts
-function makeRecord(fields: string[]) {
-  return class {
-    constructor(values: Record<string, unknown>) { Object.assign(this, values); }
-  };
-}
-const LineItem = makeRecord(["sku", "quantity"]);
-LineItem.name;    // "": the class expression returned by the factory is anonymous
-new LineItem({ sku: "A-1", price: 9 });   // accepted: the field list is never used
-```
-
-The literal translation nests a `class Record` in the function and updates `__dict__`:
-
-```py
-def make_record_class(name, fields):
-    class Record:
-        def __init__(self, **values):
-            self.__dict__.update(values)    # Object.assign: any key accepted, none required
-    return Record
-
-LineItem = make_record_class("LineItem", ["sku", "quantity"])
-LineItem.__name__                 # 'Record': every class from the factory has the same name
-LineItem(sku="A-1", price=9)      # accepted: the field list is never used
-```
-
-Neither language names the class after the variable it lands in, so reprs, tracebacks, logs and `pickle` all report `Record`. Pass the name to `type()` and let the field list drive `__init__` and `__slots__`.
-
 ## How it works
 
 - **Methods are plain functions** in the namespace; they are closures over the factory's arguments (`field_names`, `name`), so each generated class carries its own field list.
@@ -71,6 +40,37 @@ Line = make_dataclass("Line", [("sku", str), ("quantity", int)], slots=True)
 **Type checkers** read source code, not runtime data. They special-case `namedtuple(...)` and `NamedTuple` calls with literal field lists, but a class returned by your own factory is just `type` to them, so attribute access on its instances goes unchecked. When the fields are known while you write the code, a class statement is better.
 
 > **Status as of November 2026:** Python 3.14 added the `decorator` parameter to `dataclasses.make_dataclass`, so a generated class can go through a custom `@dataclass`-style decorator. This track runs 3.14.
+
+## Common mistakes
+
+**Writing a class statement inside the factory.** A class statement names the class after the identifier it uses, so every class the factory returns is called `Record`, and `__dict__.update` accepts any key while requiring none:
+
+```py
+# wrong: one fixed name, and the field list is never used
+def make_record_class(name, fields):
+    class Record:
+        def __init__(self, **values):
+            self.__dict__.update(values)
+    return Record
+
+LineItem = make_record_class("LineItem", ["sku", "quantity"])
+LineItem.__name__                 # 'Record'
+LineItem(sku="A-1", price=9)      # accepted
+
+# right: the name and the fields come from the arguments (positional values only here)
+def make_record_class(name, fields):
+    field_names = tuple(fields)
+
+    def __init__(self, *args):
+        if len(args) != len(field_names):
+            raise TypeError(f"{name}() takes {len(field_names)} values, got {len(args)}")
+        for field, value in zip(field_names, args):
+            setattr(self, field, value)
+
+    return type(name, (), {"__slots__": field_names, "__init__": __init__})
+```
+
+Reprs, tracebacks and logs report the class by its `__name__`, so the wrong version makes every record look the same. `pickle` stores a class by module and `__qualname__`: it refuses the nested `Record` (`make_record_class.<locals>.Record`), and a generated class pickles only when it is bound at module level under its own name.
 
 ## When to choose it
 

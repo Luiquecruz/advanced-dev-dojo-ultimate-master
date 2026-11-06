@@ -106,6 +106,7 @@ def _():
     assert never_raised is None
 
 
+# beginner mistake: following only __cause__, which loses every exception linked implicitly through __context__
 @test("exception_chain follows implicit contexts as well as explicit causes, root cause first")
 def _():
     def read_config():

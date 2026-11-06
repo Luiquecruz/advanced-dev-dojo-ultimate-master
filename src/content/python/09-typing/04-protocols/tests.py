@@ -59,6 +59,7 @@ def _():
     assert rendered == ["[a]", "Q3", "[b]"]
 
 
+# beginner mistake: an ABC for Closeable, so a resource with close() that does not inherit from it is skipped
 @test("close_all closes every conforming resource once and reports how many it closed")
 def _():
     log = []

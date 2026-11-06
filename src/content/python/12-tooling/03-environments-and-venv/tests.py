@@ -51,6 +51,7 @@ def _():
     assert system_first == "/usr/bin/python"
 
 
+# beginner mistake: searching every known executable instead of only the PATH directories, so an unactivated .venv/bin/pytest is found
 @test("a command outside every PATH directory is found only through its path")
 def _():
     by_name = mod.resolve_command("pytest", DEACTIVATED, FILES)

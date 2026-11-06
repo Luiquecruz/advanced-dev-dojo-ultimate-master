@@ -71,6 +71,7 @@ async def _():
     assert outcome == "cancelled"
 
 
+# beginner mistake: a bare except around each job, which also catches CancelledError so the worker never stops
 @test("cancelling the worker in the middle of a job stops it, cleans up and ends its task as cancelled")
 async def _():
     inbox = asyncio.Queue()

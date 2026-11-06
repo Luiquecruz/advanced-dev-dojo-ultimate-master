@@ -42,6 +42,7 @@ def _():
     assert no_name == ["name: missing"]
 
 
+# beginner mistake: isinstance(value, int) alone for an int field, which accepts True because bool subclasses int
 @test("values of the wrong type or outside the literal choices are reported")
 def _():
     payload = {"id": True, "name": "ada", "role": "owner", "tags": ["ops", 3]}

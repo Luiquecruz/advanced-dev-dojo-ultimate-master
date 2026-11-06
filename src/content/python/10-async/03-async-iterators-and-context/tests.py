@@ -51,6 +51,7 @@ async def _():
     assert items == ["a", "b", "c", "d", "e"]
 
 
+# beginner mistake: break out of async for without aclosing, so the generator's finally has not run when collect returns
 @test("collect with a limit stops pulling and closes the generator before it returns")
 async def _():
     recorder = []

@@ -1,4 +1,4 @@
 {
   "title": "Type Hints and Static Typing",
-  "description": "What annotations promise, who checks them, and what happens to them at runtime: modern annotation syntax, PEP 695 generics, protocols, TypedDict and literals, overloads and narrowing, deferred annotations in Python 3.14, and the checkers that read all of it."
+  "description": "What annotations declare, who checks them, and what happens to them at runtime: modern annotation syntax, PEP 695 generics, protocols, TypedDict and literals, overloads and narrowing, deferred annotations in Python 3.14, and the checkers that read all of it."
 }
