@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import type { Track } from '@/content';
 import { summarizeTrack, useProgress } from '@/entities/progress';
 import { TrackLogo } from '@/entities/track';
@@ -8,25 +8,43 @@ import { ProgressBar } from '@/shared/ui/ProgressBar';
 import { iconButtonClass } from '@/shared/ui/classNames';
 
 /**
- * Slide-in star map of the current mission: its progress and every stage with its waypoints.
+ * Slide-in star map of the current mission: its progress and every stage with its waypoints. Closing it with Escape, the close
+ * button or the backdrop returns focus to the element that opened it; following a waypoint leaves focus to the new screen.
  */
 export function CurriculumDrawer({ track, currentKey, onClose }: { track: Track; currentKey: string; onClose(): void }) {
   const panelRef = useRef<HTMLElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
+  const restoreFocusRef = useRef(false);
   const { done, total, percent } = summarizeTrack(track, useProgress());
-
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => event.key === 'Escape' && onClose();
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+  const close = useCallback(() => {
+    restoreFocusRef.current = true;
+    onClose();
   }, [onClose]);
 
   useEffect(() => {
-    panelRef.current!.querySelector('[data-current]')?.scrollIntoView({ block: 'center' });
-    panelRef.current!.focus({ preventScroll: true });
+    const onKey = (event: KeyboardEvent) => event.key === 'Escape' && close();
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [close]);
+
+  useEffect(() => {
+    const panel = panelRef.current!;
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && !panel.contains(active)) {
+      openerRef.current = active;
+    }
+    panel.querySelector('[data-current]')?.scrollIntoView({ block: 'center' });
+    panel.focus({ preventScroll: true });
+    return () => {
+      const opener = openerRef.current;
+      if (restoreFocusRef.current && opener?.isConnected) {
+        opener.focus({ preventScroll: true });
+      }
+    };
   }, []);
 
   return (
-    <div role="presentation" className="fixed inset-0 z-50 bg-scrim backdrop-blur-[2px]" onClick={(event) => event.target === event.currentTarget && onClose()}>
+    <div role="presentation" className="fixed inset-0 z-50 bg-scrim backdrop-blur-[2px]" onClick={(event) => event.target === event.currentTarget && close()}>
       <aside
         ref={panelRef}
         data-trail={track.id}
@@ -43,7 +61,7 @@ export function CurriculumDrawer({ track, currentKey, onClose }: { track: Track;
               <div className="font-mono text-[10.5px] font-semibold tracking-[0.16em] text-accent uppercase">Star map</div>
               <h2 className="m-0 truncate text-base/tight font-semibold">{track.title}</h2>
             </div>
-            <button className={iconButtonClass()} onClick={onClose} title="Close">
+            <button className={iconButtonClass()} onClick={close} title="Close">
               <CrossIcon />
             </button>
           </div>
