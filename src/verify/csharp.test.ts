@@ -105,7 +105,7 @@ function templateViolations(lesson: Lesson): Violation[] {
   const headings = kind === 'project' ? PROJECT_HEADINGS : THEORY_HEADINGS;
   const positions = headings.map((heading) => theory.indexOf(`\n${heading}\n`)).filter((position) => position !== -1);
   const missing = headings.filter((heading) => heading !== COMMON_MISTAKES && !theory.includes(`\n${heading}\n`));
-  const kept = actual.filter((heading) => !heading.startsWith('## Status as of') && !heading.startsWith('## Coming from'));
+  const kept = actual.filter((heading) => !heading.startsWith('## Coming from'));
   if (missing.length > 0 || [...positions].sort((a, b) => a - b).some((position, index) => position !== positions[index])) {
     violations.push({ rule: 'theory-headings', detail: `needs ${headings.join(', ')} in this order; missing: ${missing.join(', ') || 'none'}` });
   } else if (kind === 'project' && kept.join('|') !== PROJECT_HEADINGS.join('|')) {
@@ -124,13 +124,6 @@ function templateViolations(lesson: Lesson): Violation[] {
     if (count < 60 || count > 180 || bullets < 2 || bullets > 4) {
       violations.push({ rule: 'common-mistakes', detail: `"${COMMON_MISTAKES}" has ${count} words and ${bullets} bullets, expected 60-180 words in 2-4 bullets` });
     }
-  }
-  const status = actual.filter((heading) => heading.startsWith('## Status as of'));
-  if (status.length > 1 || (status.length === 1 && actual.indexOf(status[0]) !== actual.indexOf('## Check yourself') - 1)) {
-    violations.push({ rule: 'theory-status', detail: 'at most one "## Status as of" section, right before "## Check yourself"' });
-  }
-  for (const heading of status.filter((line) => !/^## Status as of \d{4}-\d{2}-\d{2}$/.test(line))) {
-    violations.push({ rule: 'theory-status', detail: `"${heading}" must read "## Status as of YYYY-MM-DD"` });
   }
   const questions = listItems(sectionOf(theory, '## Check yourself') ?? '');
   if (questions < 2 || questions > 4) {

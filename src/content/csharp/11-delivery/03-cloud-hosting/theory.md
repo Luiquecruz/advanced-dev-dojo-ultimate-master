@@ -68,7 +68,6 @@ Microsoft's comparison suggests Container Apps when you want Kubernetes-style ap
 ## AWS options
 
 - **ECS on Fargate** runs containers without servers to manage. **ECS Express Mode** asks for a container image and two IAM roles. From them it creates a Fargate service, an Application Load Balancer with health checks, auto scaling and networking, at no extra charge beyond those resources.
-- **App Runner** used to be the simplest AWS choice, but AWS has closed it to new customers. AWS now points new projects to ECS Express Mode.
 - **Lambda** runs functions per event. It has a managed `dotnet10` runtime on Amazon Linux 2023, and suits event handlers more than a long-running API with warm caches.
 - **EKS** is managed Kubernetes.
 
@@ -104,12 +103,6 @@ The two endpoints are built in lesson 11/04. The difference matters: a database 
 - **Default choice.** One API and a worker: App Service or Container Apps on Azure, ECS on Fargate (or Express Mode) on AWS. Pick AKS or EKS when you need the Kubernetes API, already have a cluster, or have a platform team to run it.
 - **Twelve-factor habits.** Configuration in environment variables and a secret store (Key Vault, Secrets Manager). Managed identities or IAM roles instead of connection-string passwords where the service supports it. Logs to stdout.
 - **Shared state is external.** Distributed cache, blob or object storage for files, and a scheduler or job for periodic work.
-
-## Status as of 2026-11-05
-
-- AWS App Runner is closed to new customers; existing customers keep using it, and no new features are planned (AWS availability-change page, checked 2026-11-05).
-- The Lambda `dotnet10` runtime has a projected deprecation date of 2028-11-14; `dotnet8` is projected for 2026-11-10.
-- AKS offers two modes, AKS Standard and AKS Automatic, according to the Container Apps comparison page.
 
 ## Check yourself
 

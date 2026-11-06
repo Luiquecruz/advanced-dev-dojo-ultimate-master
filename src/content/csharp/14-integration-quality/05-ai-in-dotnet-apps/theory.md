@@ -98,11 +98,6 @@ Microsoft's guidance: `Microsoft.Extensions.AI` alone is not an agent framework.
 - In unit tests, substitute a fake `IChatClient`; evaluate real model behavior separately, as the AI Engineering track explains.
 - Try it locally: write a fake `IChatClient` that returns a fixed `ChatResponse` and unit-test a service that depends on it.
 
-## Status as of 2026-11-05
-
-- `Microsoft.Extensions.AI` and `Microsoft.Extensions.AI.OpenAI` are at 10.11.0 stable on NuGet (Microsoft's chat quickstart, dated 2026-03-04, still installs the OpenAI adapter with `--prerelease`).
-- `Microsoft.Agents.AI` 1.0.0 was published on 2026-04-02 and 1.27.0 is the latest stable version; the Agent Framework overview is dated 2026-10-23.
-
 ## Check yourself
 
 1. What changes in your code when you move from OpenAI to a local Ollama model, if every consumer depends on `IChatClient`?

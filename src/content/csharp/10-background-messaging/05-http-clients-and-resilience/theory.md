@@ -101,11 +101,6 @@ When a write must be retried, make it idempotent first: send a client-generated 
 - The shorter timeout wins: with the standard handler a call ends after the pipeline's 30-second total, even though `HttpClient.Timeout` says 100 seconds (04/04). Set the budget you want on the pipeline.
 - Try it locally: point a typed client at a local endpoint that returns 503 on most calls, log each attempt in a `DelegatingHandler`, and watch the retries, the backoff and the breaker opening.
 
-## Status as of 2026-11-05
-
-- `Microsoft.Extensions.Http.Resilience` 10.11.0 is the latest stable package on NuGet; the defaults above come from Microsoft's HTTP resilience page dated 2026-02-24.
-- The `Idempotency-Key` header is `draft-ietf-httpapi-idempotency-key-header`, revision 08 (2026-10-22), not yet an RFC.
-
 ## Check yourself
 
 1. Why is a typed client captured by a singleton a problem, and what are the two fixes Microsoft documents?

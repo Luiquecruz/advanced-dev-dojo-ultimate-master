@@ -119,11 +119,6 @@ The `switch` expression forces the caller to decide what each outcome means; in 
 - **Log once, at the boundary that handles the error**, or you get the same failure five times in the logs.
 - **Callers expect no side effects** when a method throws. If you have done half the work, undo it before rethrowing, or use a transaction (module 07).
 
-## Status as of 2026-11-05
-
-- C# 14 on .NET 10 (LTS) is the baseline. C# 15 (.NET 11, SDK still prerelease) adds union types and closed hierarchies, which make an exhaustive `switch` over a result type possible without the discard arm. Treat them as "coming", not as the default.
-- The throw helpers on `ArgumentOutOfRangeException` (`ThrowIfNegativeOrZero` and others) are listed on Microsoft's exception best-practices page, updated 2026-03-30.
-
 ## Check yourself
 
 1. A lookup method is called 10,000 times in an import job and often finds no row. Should "not found" be an exception or a return value, and why?

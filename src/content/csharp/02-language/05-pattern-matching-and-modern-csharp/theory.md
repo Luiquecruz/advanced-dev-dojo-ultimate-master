@@ -140,11 +140,6 @@ The rules are those of the old `this` syntax, and both forms compile to the same
 - Use primary constructors for DI in services. Copy a parameter into a `readonly` field when it must never be reassigned.
 - Use extension members for small helpers on types you do not own, or for layer-specific helpers on DTOs. Do not use them to fake behavior changes. Behavior changes belong in the type, or in a decorator registered through DI.
 
-## Status as of 2026-11-05
-
-- C# 14 is the latest C# release and is supported on .NET 10 (LTS, released 2025-11-11). Microsoft states that using a language version newer than the one tied to your target framework is unsupported.
-- C# 15 ships with .NET 11, which is not released yet (01/03). Its documented features include union types, `closed` class hierarchies with exhaustive `switch` without a discard arm, collection expression arguments (`[with(capacity: 100), ..items]`) and extension indexers. Treat them as coming, not as the baseline.
-
 ## Check yourself
 
 1. Why does the order of arms matter in a `switch` expression, and what does the compiler do with an arm that can never match?

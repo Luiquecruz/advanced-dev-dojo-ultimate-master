@@ -109,10 +109,6 @@ A checklist to walk through for every API, with where ASP.NET Core helps:
 - Return `429` with `Retry-After`, log rejections, and load-test limits before production, as Microsoft advises.
 - Add secret scanning to CI so a leaked key fails the build, and rotate any secret that reached Git; a secret committed to `appsettings.json` stays in the history for good.
 
-## Status as of 2026-11-05
-
-- The OWASP API Security Top 10 edition used here is 2023, the latest edition at api-security.owasp.org on this date.
-
 ## Check yourself
 
 1. Why is redirecting HTTP to HTTPS not enough for an API, and what should it do instead?

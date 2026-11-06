@@ -138,11 +138,6 @@ Rules that keep the boundary honest:
 
 They combine: modules on the outside, slices inside each module, and a small domain model where the rules are hard. A modular monolith is also the cheapest way to find the boundaries a future microservice would need (lesson 12/05).
 
-## Status as of 2026-11-05
-
-- The research found no written Microsoft guidance on vertical slices or modular monoliths as of 2026-11-05; the official material is the video "On .NET Live: Clean Architecture, Vertical Slices, and Modular Monoliths (Oh My!)" with Steve Smith (Ardalis), whose modular monolith demo uses the RiverBooks sample.
-- Route groups (`MapGroup`) are documented for ASP.NET Core 7.0 and later, including 10.0.
-
 ## Check yourself
 
 - Adding a "discontinue product" feature: list the files you touch in a layered solution and in a sliced one.

@@ -11,15 +11,15 @@
     "explanation": "Major versions install side by side, and a framework-dependent app keeps its targeted major version while rolling forward to the latest installed patch of it. The first option assumes the newest runtime on the server is the app's version; in .NET the project's target framework decides, so moving to .NET 11 means changing the TFM and redeploying."
   },
   {
-    "question": "Your team starts a new backend service on 2026-11-05 and expects to maintain it for years. Which target framework is the sound default?",
+    "question": "Your team starts a new backend service today and expects to maintain it for years. Which target framework is the sound default?",
     "options": [
-      "`net8.0`, because it is LTS and widely used in postings",
-      "`net11.0`, because the newest version is always the best choice",
+      "A previous LTS release, because it is widely used in postings",
+      "The newest STS release, because the newest version is always the best choice",
       "`netstandard2.0`, for maximum compatibility",
-      "`net10.0`, the current LTS, supported until 2028-11-14"
+      "The newest LTS release on Microsoft's support policy page (`net10.0` in this track), which has the longest support window left"
     ],
     "answer": 3,
-    "explanation": ".NET 10 is the supported LTS release; .NET 8 ends support on 2026-11-10, five days later, so starting on it means an immediate upgrade. .NET 11 is still a release candidate, and `netstandard2.0` is a library compatibility target that hides modern APIs, not an application target."
+    "explanation": "An LTS release gets at least three years of support, and the newest one has the longest window left, which suits a service kept for years with few upgrades. An STS release has a shorter window: it fits a service that is upgraded regularly, so compare the remaining support windows with your upgrade cadence. `netstandard2.0` is for libraries, not apps. Read the current choice from Microsoft's support policy page."
   },
   {
     "question": "A teammate adds `<LangVersion>latest</LangVersion>` to a `net8.0` project so that the C# 14 `field` keyword compiles. What is the right response?",
@@ -55,7 +55,7 @@
     "explanation": "MVC 5, WCF and Web Forms run on .NET Framework 4.x, which is still supported as a Windows component (C# 7.3 by default) but is not modern .NET; module 13 covers it. The third option is tempting, but Web Forms and the WCF server never ran on .NET Core. The last option is wrong too: the code still runs and still needs maintainers."
   },
   {
-    "question": "What happens to an API that stays on .NET 8 after 2026-11-10?",
+    "question": "What happens to an API that stays on a .NET version after its end-of-support date?",
     "options": [
       "It keeps receiving security fixes for another year, because it is LTS",
       "It rolls forward to the .NET 10 runtime automatically, if installed",
@@ -63,6 +63,6 @@
       "It keeps running, but gets no more patches, security fixes included"
     ],
     "answer": 3,
-    "explanation": "End of support does not stop the runtime; it stops the fixes, security fixes included. LTS means at least three years of support, and 2026-11-10 is the end of that period, so the first option confuses the support window with what follows it. Apps never roll forward to a new major by themselves, which rules out the second option."
+    "explanation": "End of support does not stop the runtime; it stops the fixes, security fixes included. LTS means at least three years of support, and the end-of-support date is the end of that period, so the first option confuses the support window with what follows it. Apps never roll forward to a new major by themselves, which rules out the second option."
   }
 ]

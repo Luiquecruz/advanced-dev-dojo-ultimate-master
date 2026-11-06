@@ -8,7 +8,7 @@
       "(deprecated) .NET Upgrade Assistant run on the whole solution, deploying its output"
     ],
     "answer": 0,
-    "explanation": "Staying in production with heavy `System.Web` use is exactly when Microsoft recommends the incremental Strangler Fig approach. ASP.NET Core 2.3 on .NET Framework used to be a stepping stone, but Microsoft no longer recommends it and its support ends on 2027-04-13. Upgrade Assistant is deprecated, and no tool's output is ready to deploy unreviewed."
+    "explanation": "Staying in production with heavy `System.Web` use is exactly when Microsoft recommends the incremental Strangler Fig approach. ASP.NET Core 2.3 on .NET Framework used to be a stepping stone, but Microsoft no longer recommends it. Upgrade Assistant is deprecated, and no tool's output is ready to deploy unreviewed."
   },
   {
     "question": "In the proxy app, `app.MapForwarder(\"/{**catch-all}\", legacyUrl).WithOrder(int.MaxValue)` is registered. A request for `/api/products/5` arrives and the new app also maps `GET /api/products/{id:int}`. Who answers?",

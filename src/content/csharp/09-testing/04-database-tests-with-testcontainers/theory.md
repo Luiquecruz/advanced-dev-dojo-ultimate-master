@@ -135,12 +135,6 @@ public sealed class ProductSearchTests(CatalogApiFactory factory) : IClassFixtur
 - Start one container per test class or collection, not per test. Container startup takes seconds; queries against a local container are fast.
 - Pin the image tag to the version you run in production (`postgres:18`, not `postgres:latest`).
 
-## Status as of 2026-11-05
-
-- Testcontainers for .NET 4.16.0 (2026-10-08), MIT. Its module docs pass the image to the builder constructor, as in `new PostgreSqlBuilder("postgres:15.1")`.
-- `Testcontainers.XunitV3` adds xUnit v3 base classes (`ContainerFixture`, `DbContainerTest`) for those who prefer less wiring.
-- The EF Core in-memory provider is not deprecated; Microsoft highly discourages it as a test fake and supports it only for legacy applications.
-
 ## Check yourself
 
 - Name three bugs a test on the EF Core in-memory provider cannot catch.

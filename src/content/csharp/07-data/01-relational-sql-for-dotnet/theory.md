@@ -112,11 +112,6 @@ Opening a physical database connection is slow: a network round trip, authentica
 - New SQL Server code uses `Microsoft.Data.SqlClient`; new PostgreSQL code uses `Npgsql` with a data source. When you inherit `System.Data.SqlClient`, plan the migration and run `dotnet list package --include-transitive` to find who still pulls it in.
 - Raw ADO.NET is rarely the whole data layer. Teams use EF Core for most work and Dapper for hand-written SQL; both run on these providers, so the pooling, parameter and encryption rules still apply.
 
-## Status as of 2026-11-05
-
-- `Microsoft.Data.SqlClient` 7.1.1 (2026-09-29, MIT). Version 7.0 moved Microsoft Entra authentication into the separate `Microsoft.Data.SqlClient.Extensions.Azure` package.
-- `System.Data.SqlClient` 4.9.1 (2026-02-18) is marked deprecated on NuGet.
-
 ## Check yourself
 
 1. Why is a singleton `SqlConnection` a bug in ASP.NET Core, and why does opening a new connection per unit of work not cost a network round trip each time?

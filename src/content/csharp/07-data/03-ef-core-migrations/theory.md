@@ -105,10 +105,6 @@ Two rules from the same page: use a separate deployment identity that can change
 - Plan destructive changes in steps: add the new column, deploy code that writes both, backfill, then drop the old column in a later release.
 - For an existing database, `dotnet ef dbcontext scaffold` generates entities from it, the usual start when adopting EF Core on a legacy schema.
 
-## Status as of 2026-11-05
-
-- The migration commands above are from the EF Core 10 tools reference. EF Core 11 (release candidate, scheduled for November 2026) adds options such as `database update --add`; do not rely on them while targeting EF Core 10.
-
 ## Check yourself
 
 1. What does EF Core compare against when you run `migrations add`, and what does it not look at?

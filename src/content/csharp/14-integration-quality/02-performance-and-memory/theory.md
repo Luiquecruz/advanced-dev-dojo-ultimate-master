@@ -97,10 +97,6 @@ Strings are immutable, so `s += part` in a loop copies the whole string each tim
 - Do not call `GC.Collect()` to "free memory"; it forces an expensive collection and usually hides a real reference leak.
 - Try it locally: run the `SkuParsing` benchmark with `dotnet run -c Release`, then change one method and compare the `Allocated` column.
 
-## Status as of 2026-11-05
-
-- BenchmarkDotNet 0.15.8 is the latest stable release on NuGet; 0.16.0 is in preview.
-
 ## Check yourself
 
 1. Why does a per-request allocation of 90,000 bytes hurt more than one of 80,000 bytes?

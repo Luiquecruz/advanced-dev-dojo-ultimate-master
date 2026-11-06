@@ -103,11 +103,6 @@ After a security-relevant change (new password, role removed), call `UserManager
 
 When you need an OIDC server you host yourself, options include Duende IdentityServer (which older SPA templates used; Microsoft notes it "might require you to pay a license fee for production use"), OpenIddict and Keycloak. Compare their licences before you commit; this track recommends none of them.
 
-## Status as of 2026-11-05
-
-- .NET 10 is the LTS release, supported until 2028-11-14; passkey support in Identity requires .NET 10 or later.
-- The `PasswordHasherOptions.IterationCount` default of 100,000 is the value in the .NET 10 documentation.
-
 ## Check yourself
 
 1. Which tables and services does Identity give you, and which job of an OpenID Connect server does it not do?

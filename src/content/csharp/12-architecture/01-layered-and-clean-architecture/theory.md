@@ -112,10 +112,6 @@ Many teams add a fourth project, **Application**, that holds use cases (one hand
 - **Keep Core free of framework types.** No `HttpContext`, no `IActionResult`, no EF attributes in Core. Fluent configuration (`IEntityTypeConfiguration<T>`) lives in Infrastructure.
 - **Test the boundary you drew.** Core gets fast unit tests; Infrastructure gets integration tests against a real database (module 09).
 
-## Status as of 2026-11-05
-
-- Microsoft's written guidance is the e-book chapter "Common web application architectures" (page dated 2021-12-12). It calls Clean Architecture "the most appropriate way to structure non-trivial monolithic applications" and points to `ardalis/cleanarchitecture` and eShopOnWeb as samples. The chapter predates minimal APIs and still shows MVC types in the UI layer; the dependency rules have not changed.
-
 ## Check yourself
 
 - Draw the project references of a Clean Architecture solution. Which single arrow differs from N-layer, and what does it buy you in tests?

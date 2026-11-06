@@ -5,5 +5,5 @@
   { "term": "Hand-written fake", "description": "A small working implementation of an interface, such as an in-memory gateway, reused across tests instead of per-test library setup." },
   { "term": "Seam", "description": "A point in the design, usually an injected interface or `TimeProvider`, where a test can substitute a dependency without changing production code." },
   { "term": "FakeTimeProvider", "description": "Microsoft's `TimeProvider` subclass for tests whose clock only moves when the test calls `Advance` or `SetUtcNow`." },
-  { "term": "Fluent Assertions licence", "description": "Since Xceed's 2025-01-13 announcement, commercial use of Fluent Assertions 8.x needs a paid licence, while open-source and non-commercial use stay free." }
+  { "term": "Fluent Assertions licence", "description": "Commercial use of Fluent Assertions 8.x needs a paid licence, while open-source and non-commercial use stay free." }
 ]

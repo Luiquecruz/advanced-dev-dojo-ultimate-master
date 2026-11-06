@@ -124,7 +124,7 @@ Use them with restraint:
 
 ## Assertion libraries and the licence change
 
-xUnit's built-in `Assert` is enough for most tests. Fluent Assertions (`result.Should().Be(3)`) was the most popular add-on, but its licensing changed. On 2025-01-13 Xceed announced a partnership under which Fluent Assertions is offered under a paid Xceed commercial licence, free for open-source and non-commercial use. The NuGet page states those terms for the current 8.x release, 8.11.0. Xceed's announcement names no versions; that the commercial line starts at 8.0 is an inference, and the terms of 7.x were not verified here.
+xUnit's built-in `Assert` is enough for most tests. Fluent Assertions (`result.Should().Be(3)`) was the most popular add-on, but its licensing changed. Fluent Assertions 8.x is offered under a paid Xceed commercial licence, free for open-source and non-commercial use. The package's NuGet page states the terms of the version you reference, so read it before adding the package.
 
 What that means for a team:
 
@@ -145,12 +145,6 @@ What that means for a team:
 - Inject `TimeProvider`, not `DateTime.UtcNow`; inject interfaces for anything that crosses a process boundary.
 - Name doubles honestly: `stubPrices`, `mockMailer`, `FakeStockGateway`.
 - Assert on log levels and structured values, not on message text that changes with each wording edit.
-
-## Status as of 2026-11-05
-
-- NSubstitute 6.2.0 and Moq 4.21.0, both BSD-3-Clause. Shouldly 4.3.0 stable, BSD-3-Clause.
-- Fluent Assertions 8.11.0 (2026-09-14): free for open-source and non-commercial use, paid Xceed licence for commercial use.
-- `Microsoft.Extensions.TimeProvider.Testing` and `Microsoft.Extensions.Diagnostics.Testing` are at 10.11.0 (2026-10-14).
 
 ## Check yourself
 

@@ -95,25 +95,14 @@ product?.Sku = skus[0];                                   // assigns only when p
 
 ## In practice
 
-- **New service:** target `net10.0`. Microsoft's guidance is that a service you keep updating should use the latest release, LTS or STS; most teams standardize on LTS and move every two years.
-- **Existing .NET 8 or 9 service:** both lose support on 2026-11-10. Upgrade the TFM to `net10.0`, update Microsoft packages to their 10.0 versions, read the breaking-change list, run the tests. Moving between modern majors is far smaller than a .NET Framework migration.
+- **New service:** target `net10.0`. Microsoft's guidance is that a service you keep updating should use a supported release, LTS or STS; most teams standardize on LTS and move every two years.
+- **Existing service on an older version:** once its end-of-support date passes it gets no security fixes. Check the date on Microsoft's .NET support policy page, then upgrade to a supported target from that page (`net10.0` in this track): change the TFM, update Microsoft packages to the matching major version, read the breaking-change list, run the tests. Moving between modern majors is far smaller than a .NET Framework migration.
 - **Shared library:** add `netstandard2.0` only if a .NET Framework consumer really exists; otherwise target `net10.0`.
 - **Choose the SDK on purpose.** Microsoft notes that the newest SDK, even an STS one, can target every supported runtime. Whichever band the team picks, pin it with `global.json` so laptops and CI agree.
-
-## Status as of 2026-11-05
-
-| Version | Type | Released | End of support |
-| --- | --- | --- | --- |
-| .NET 10 | LTS | 2025-11-11 | 2028-11-14 (latest patch 10.0.14) |
-| .NET 9 | STS | 2024-11-12 | 2026-11-10 |
-| .NET 8 | LTS | 2023-11-14 | 2026-11-10 |
-| .NET 7 / .NET 6 | STS / LTS | 2022 / 2021 | 2024-05-14 / 2024-11-12 (out of support) |
-
-.NET 11 (STS, C# 15) is at RC3, a go-live release candidate published 2026-10-25; its GA date was not stated on Microsoft's pages at the time of writing. After 2026-11-10 and until .NET 11 ships, .NET 10 is the only supported GA release. .NET Framework 4.8.x follows a different, fixed lifecycle tied to Windows (module 13).
 
 ## Check yourself
 
 1. You install the .NET 11 runtime on a server that runs an app built for `net10.0`. Which runtime does the app use, and when does it pick up 10.0 patches?
 2. Why can a missing `global.json` make a build pass on one laptop and fail in CI?
 3. A teammate sets `<LangVersion>latest</LangVersion>` on a `net8.0` project to use the `field` keyword. What should you propose instead, and why?
-4. What concrete risk does an app on .NET 8 carry on 2026-11-11?
+4. What concrete risk does an app carry on the day after its .NET version reaches end of support?

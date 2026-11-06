@@ -95,12 +95,7 @@ string freeing = await File.ReadAllTextAsync("products.csv");    // the thread r
 - **Read modules 01–04 before ASP.NET Core.** Without the type system, LINQ and async, framework code reads like magic and you copy it without knowing what breaks.
 - **Read the tags.** Each lesson is tagged with a status (`recommended`, `established`, `legacy`, `context`), a tier (`core`, `deepening`, `legacy`) and a kind (`theory`, `project`). A `legacy` topic is one you meet in existing code, not one to start new projects with.
 - **Install the SDK by P1,** which closes module 03. The in-browser challenges need nothing installed.
-- **Look for the date.** Facts that age live in a `Status as of` section with the date they were checked, and each lesson links the official Microsoft documentation for its topic.
-
-## Status as of 2026-11-05
-
-- .NET 10 is the current LTS release (released 2025-11-11, supported until 2028-11-14), with C# 14 as its default language version. It is the baseline of this track.
-- The track mentions .NET 11 and C# 15 as "next", never as the baseline. Support dates for every version, including .NET 8 and 9 and the status of .NET 11, are in 01/03.
+- **Check the source for facts that age.** Versions, support windows and package licences change, so each lesson links the official Microsoft documentation for its topic (and, for a third-party package's licence, the package's NuGet page or its vendor); confirm there before relying on a number.
 
 ## Check yourself
 

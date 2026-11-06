@@ -10,7 +10,7 @@ Your P2 API keeps its endpoints and status codes with two deliberate changes: pr
 
 ## Features
 
-- PostgreSQL (or SQL Server) in Docker, for example `docker run -d --name catalog-db -e POSTGRES_PASSWORD=dev -p 5432:5432 postgres:18` (PostgreSQL 18 is the current major as of 2026-11-05). The connection string lives in user secrets (`dotnet user-secrets set ConnectionStrings:Catalog "..."`), not in `appsettings.json`.
+- PostgreSQL (or SQL Server) in Docker, for example `docker run -d --name catalog-db -e POSTGRES_PASSWORD=dev -p 5432:5432 postgres:18`. The connection string lives in user secrets (`dotnet user-secrets set ConnectionStrings:Catalog "..."`), not in `appsettings.json`.
 - `CatalogDbContext` with `Category` and `Product`: unique index on `Sku`, price precision, required names, a nullable `CategoryId`, and a concurrency token (`[Timestamp] uint Version` on PostgreSQL, `byte[]` rowversion on SQL Server).
 - Seed data: three categories and P2's 25 products, spread across them, inserted when the tables are empty. Implement both delegates: `dotnet ef database update` (and `Migrate`) runs `UseSeeding`, while `MigrateAsync` runs `UseAsyncSeeding`, so an async-only seed never runs from the CLI. `POST` and `PUT` accept an optional `categoryId`; an unknown id returns 400.
 - At least two migrations: `InitialCreate`, then one that adds a column, reviewed before applying.

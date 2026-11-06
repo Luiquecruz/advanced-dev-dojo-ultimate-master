@@ -133,10 +133,6 @@ await transaction.CommitAsync(cancellationToken);
 
 Pick Dapper or raw SQL when the query is a report with window functions, CTEs or vendor features EF Core does not translate, when a hot read path shows measured EF overhead, or when the logic already lives in stored procedures. Stay with EF Core for writes, aggregates that change together, and anything that benefits from migrations and the change tracker.
 
-## Status as of 2026-11-05
-
-- Dapper 2.1.89 (2026-09-23) on NuGet, Apache-2.0 licence, maintained by the community (owners marc.gravell and nick.craver).
-
 ## Check yourself
 
 1. Which three things do you give up when a query moves from EF Core LINQ to Dapper?

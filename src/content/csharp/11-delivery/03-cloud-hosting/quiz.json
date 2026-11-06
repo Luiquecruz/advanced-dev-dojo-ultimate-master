@@ -44,15 +44,15 @@
     "explanation": "The front end terminates TLS and forwards plain HTTP, so without forwarded headers the app sees the proxy's scheme and IP. `UseForwardedHeaders` restores them; on App Service, whose front end has no fixed IP, that means `ASPNETCORE_FORWARDEDHEADERS_ENABLED` or cleared known proxies while the app is reachable only through the platform. Anything after `app.Run()` never runs, and listening on 443 does not change what the proxy sends."
   },
   {
-    "question": "In 2026, a team new to AWS asks for the simplest managed way to run their API container. Which answer matches AWS's own documentation?",
+    "question": "A team new to AWS asks for the simplest managed way to run their API container. Which answer matches AWS's own documentation?",
     "options": [
-      "AWS App Runner, which AWS presents as the simplest service for container web apps",
+      "A Kubernetes cluster you provision and operate yourself first, because AWS only runs containers on Kubernetes",
       "Lambda, keeping a long-running Kestrel server alive inside one function invocation",
       "A self-managed EC2 fleet, because AWS has no managed option for long-running containers",
       "ECS Express Mode: an image and two IAM roles give a Fargate service with a load balancer"
     ],
     "answer": 3,
-    "explanation": "AWS has closed App Runner to new customers and points new projects to ECS Express Mode, which also sets up auto scaling. Lambda runs per-event functions, not a long-running server inside one invocation. ECS on Fargate and Express Mode are managed container options."
+    "explanation": "ECS Express Mode takes an image and two IAM roles and creates a Fargate service with a load balancer and auto scaling, so a team new to AWS runs a container without managing servers or a cluster. Lambda runs per-event functions, not a long-running server inside one invocation; a self-managed EC2 fleet or Kubernetes cluster is operations work the managed options avoid."
   },
   {
     "question": "Users upload product images that the API saves to `/app/uploads`. After a redeploy on Container Apps, the images are gone. Why?",

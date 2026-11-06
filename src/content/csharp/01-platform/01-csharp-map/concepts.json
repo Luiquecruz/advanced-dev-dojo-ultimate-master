@@ -5,6 +5,5 @@
   { "term": "Long-running host", "description": "An ASP.NET Core application is one process that serves many concurrent requests, so static fields and singletons are shared across all of them until the process stops." },
   { "term": "Compile-time typing", "description": "The C# compiler checks types before the program runs and rejects a value of the wrong type, so no program is produced with that mistake in it." },
   { "term": "Thread pool", "description": "A shared set of threads that runs request code in .NET, so a thread blocked on I/O reduces capacity for every other request." },
-  { "term": "Composition in Program.cs", "description": "Services, configuration and endpoints are registered in C# code that is read from top to bottom." },
-  { "term": "Status as of", "description": "A dated section that holds facts which age, such as versions, support dates and licence changes, with the date they were checked." }
+  { "term": "Composition in Program.cs", "description": "Services, configuration and endpoints are registered in C# code that is read from top to bottom." }
 ]

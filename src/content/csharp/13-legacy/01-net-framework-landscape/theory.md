@@ -64,7 +64,7 @@ It compiles on .NET 10 unchanged (with nullable warnings if the project enables 
 
 .NET Framework 4.5.2 and later are a **component of Windows**: "Components receive the same support as their parent products." 4.8 and 4.8.1 have no end date of their own; they are supported for as long as the Windows version they are installed on. That is why legacy apps survive: a Windows Server 2022 box running an MVC 5 site on 4.8 is a supported configuration. Supported means security fixes, not new features. Everything new (ASP.NET Core, EF Core, minimal APIs, containers on Linux) ships only on modern .NET.
 
-Older versions do end. 4.5.2, 4.6 and 4.6.1 retired on 2022-04-26 because they were signed with SHA-1, and 4.6.2 has its own end date (see the status section). Every 4.x release is an in-place update of 4.0, so an app built for 4.5 or 4.6 usually runs on 4.8 without recompiling.
+Older versions do end. 4.5.2, 4.6 and 4.6.1 retired because they were signed with SHA-1, releases older than 4.5.2 have their own end dates in the lifecycle pages, and 4.7 through 4.8.1 follow their Windows version, as above. Every 4.x release is an in-place update of 4.0, so an app built for 4.5 or 4.6 usually runs on 4.8 without recompiling.
 
 ## What did not make the trip
 
@@ -92,12 +92,6 @@ In the 69-posting sample of this track's research, about 3 in 10 postings named 
 1. **Maintain** a .NET Framework 4.x app on Windows Server and IIS: you need to read `System.Web` code (lessons 13/02 and 13/03).
 2. **Migrate** it to modern .NET: you need lesson 13/04 and the project.
 3. **Upgrade** an out-of-support modern app (.NET Core 3.1, .NET 6): a much smaller job.
-
-## Status as of 2026-11-05
-
-- .NET Framework 4.8 (released 2019-04-18) and 4.8.1 (2022-08-09) follow the lifecycle of their Windows version; 4.8.1 can be installed on Windows 10 20H2 and later, Windows 11, and Windows Server 2022 and 2025, but it is supported only while that Windows version is (20H2 itself has long been out of support).
-- .NET Framework 4.6.2 ends on 2027-01-12 (Pacific time); 3.5 SP1, a standalone product since Windows 10 1809 and Server 2019, ends on 2029-01-09.
-- .NET 10 is the current LTS (supported until 2028-11-14); .NET 8 and 9 end on 2026-11-10.
 
 ## Check yourself
 

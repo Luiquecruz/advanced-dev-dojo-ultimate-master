@@ -129,11 +129,6 @@ steps:
 - **Gate merges on the pipeline.** Make the CI job a required status check on the main branch, so a red build cannot be merged.
 - **Pin what you depend on.** `global.json` for the SDK, lock files for NuGet, major versions (or commit SHAs for third-party actions) for actions.
 
-## Status as of 2026-11-05
-
-- `actions/setup-dotnet` README examples use `@v6` (latest release v6.1.0, 2026-11-03) with `actions/checkout@v7`.
-- The Microsoft Learn GitHub Actions test sample still pins an old SDK and old action versions; the commands are current, the versions are not.
-
 ## Check yourself
 
 1. Why should staging and production run the same image digest, and where do their differences live instead?

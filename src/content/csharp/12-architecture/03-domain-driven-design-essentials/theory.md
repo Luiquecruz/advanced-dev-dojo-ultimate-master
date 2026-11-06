@@ -154,11 +154,6 @@ Events that leave the process (to another module or service) are **integration e
 - **Use DDD where the rules are hard** (pricing, stock reservation, payment states). A CMS block editor is plain CRUD.
 - **Keep aggregates small.** "Customer with all orders" as one aggregate means every order change loads and locks the customer; link them by `CustomerId` instead.
 
-## Status as of 2026-11-05
-
-- EF Core 10 is an LTS release supported until 2028-11-10 (EF Core releases page; the .NET 10 runtime ends 2028-11-14). Optional, struct and JSON complex types and complex collections require EF Core 10.
-- Complex types arrived in EF Core 8. The e-book's DDD pages (2018–2022) still show owned entity types and MediatR; the complex types page (2026) supersedes the owned-type advice.
-
 ## Check yourself
 
 - Why is `Address` usually a value object, and when would it become an entity?

@@ -1,5 +1,5 @@
 [
-  { "term": "LTS", "description": "A Long Term Support release, even-numbered and supported for at least three years, such as .NET 10 until 2028-11-14." },
+  { "term": "LTS", "description": "A Long Term Support release, even-numbered and supported for at least three years; the support policy page lists the end date for each version." },
   { "term": "STS", "description": "A Standard Term Support release, odd-numbered and supported for 24 months since .NET 9, such as .NET 9 and the upcoming .NET 11." },
   { "term": "Target framework moniker", "description": "The TFM in the project file, such as net10.0 or netstandard2.0, which selects the available APIs and the default C# version." },
   { "term": "Patch roll-forward", "description": "A framework-dependent app automatically runs on the newest installed patch of its major version, but never moves to a new major version by itself." },

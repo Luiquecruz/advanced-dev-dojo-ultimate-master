@@ -4,7 +4,7 @@ import { DATED_PENDING } from './datedPending';
 import { datedIn, datedTextsOf } from './noDates';
 
 /** The most lessons DATED_PENDING may hold. Lower it with every rewrite; raising it needs a review, so the list cannot grow quietly. */
-const PENDING_LIMIT = 171;
+const PENDING_LIMIT = 122;
 
 /**
  * No lesson carries a changelog or a date that ages it (CONTENT_GUIDE.md "No dates"). Lessons written before the rule are listed in
