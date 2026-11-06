@@ -1,0 +1,9 @@
+[
+  { "term": "BEAM", "description": "The Erlang virtual machine: millions of lightweight processes with no shared memory, each with its own heap and garbage collector, watched by supervisors." },
+  { "term": "Time-bucketed partition", "description": "A partition key of channel plus a fixed time window, so one channel's history is split into partitions of bounded size." },
+  { "term": "Hot partition", "description": "One partition receiving a large share of the traffic; the nodes that hold it slow down every query they serve." },
+  { "term": "Shard-per-core", "description": "ScyllaDB's design: each CPU core owns a slice of the data with its own cache, MemTables and SSTables, avoiding cross-core locking." },
+  { "term": "Request coalescing", "description": "Concurrent requests for the same row share one in-flight database query; later callers subscribe to its result." },
+  { "term": "Garbage-collection pause", "description": "Time a runtime stops or slows application work to reclaim memory; a node-wide pause stalls every request on that node." },
+  { "term": "p99 latency", "description": "The latency that 99% of requests beat; it exposes pauses and hot spots that an average hides." }
+]

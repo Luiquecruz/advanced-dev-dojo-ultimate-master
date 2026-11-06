@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A chat backend stores messages partitioned by `channel_id` only. A few public channels slow down the whole cluster over time. Which schema change addresses the growth?",
+    "options": [
+      "Add a secondary index on the message text",
+      "Partition by channel and a fixed time bucket, so each partition covers one window and stays bounded",
+      "Store each message in its own table",
+      "Increase the replication factor so more nodes hold each partition"
+    ],
+    "answer": 1,
+    "explanation": "With the channel alone, a busy channel grows one partition without limit. A time bucket in the partition key bounds each partition to one window, whose messages are still stored together. Replication copies the hot partition, it does not split it."
+  },
+  {
+    "question": "A service has a 5 ms average latency, but its p99 jumps to 200 ms every couple of minutes, on every endpoint of the same node at once. What is the most likely cause?",
+    "options": [
+      "A node-wide pause such as a garbage-collection cycle that stalls every request in flight",
+      "One slow SQL query in a single endpoint",
+      "Too few HTTP status codes in the API",
+      "Clients sending requests in alphabetical order"
+    ],
+    "answer": 0,
+    "explanation": "Periodic spikes that hit every endpoint of one node point to a node-wide event: a stop-the-world or cache-scanning collection, or compaction. The average barely moves because only a small share of requests overlap the pause."
+  },
+  {
+    "question": "A mass mention makes thousands of users open the same message within a second. How do Discord's Rust data services keep most of those identical reads away from the database?",
+    "options": [
+      "They return a cached error until traffic drops",
+      "They switch the query to a weaker consistency level for every caller",
+      "The first request starts a worker task that queries the database; concurrent requests for the same row subscribe to that task, and consistent hashing on the channel id sends them all to the same instance",
+      "They retry every request with exponential backoff"
+    ],
+    "answer": 2,
+    "explanation": "Request coalescing only works when identical requests meet in the same process, which is why routing by channel id with consistent hashing matters; together they make each burst of identical concurrent reads share one query."
+  },
+  {
+    "question": "Why does the BEAM's garbage collection affect tail latency less than a single JVM-wide pause?",
+    "options": [
+      "The BEAM never allocates memory",
+      "The BEAM runs garbage collection only at night",
+      "Erlang processes share one heap that is never collected",
+      "Each lightweight process has its own heap and is collected independently, so a collection pauses one process instead of every request on the node"
+    ],
+    "answer": 3,
+    "explanation": "Per-process heaps keep collections small and local. A runtime with one large shared heap must scan or pause across all of it, which stalls unrelated requests at the same moment."
+  },
+  {
+    "question": "A team plans to replace Cassandra with ScyllaDB to fix a hot partition caused by one extremely popular channel. What did Discord's experience suggest?",
+    "options": [
+      "ScyllaDB makes hot partitions impossible because it has no JVM",
+      "Hot partitions can still happen on any engine; shield the database upstream with coalescing and key-based routing as well",
+      "Hot partitions only exist with quorum writes, so switch to single-replica writes",
+      "Move the channel to a relational database"
+    ],
+    "answer": 1,
+    "explanation": "ScyllaDB's shard-per-core design and lack of garbage-collection pauses remove two sources of tail latency, but a key that receives most of the traffic still overloads the replicas that own it. Discord built data services to control that concurrency."
+  },
+  {
+    "question": "During a migration of trillions of rows, how can you gain confidence that the new database returns the same data before switching reads to it?",
+    "options": [
+      "Compare the total disk size of both clusters",
+      "Stop all writes for the duration of the migration",
+      "Send a small percentage of production reads to both databases and compare the results automatically",
+      "Trust the migrator's progress bar once it reaches 100%"
+    ],
+    "answer": 2,
+    "explanation": "Shadow reads compare real query results under production traffic while the old store remains primary. Discord's migrator also stalled near the end on tombstones never compacted away, so progress alone proves nothing."
+  }
+]

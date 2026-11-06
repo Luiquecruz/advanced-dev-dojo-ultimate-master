@@ -1,0 +1,9 @@
+[
+  { "term": "Bounding-box scan", "description": "A `lat BETWEEN … AND lon BETWEEN …` query; a B-tree seeks on one column, so it walks a band around the planet and filters the rest." },
+  { "term": "Grid system", "description": "Divides the Earth into cells with identifiers, so indexing a point is arithmetic and a location becomes an exact-match key." },
+  { "term": "H3", "description": "Uber's open-source hexagonal hierarchical grid: 16 resolutions, each finer cell about one seventh of the area, with 64-bit integer cell ids." },
+  { "term": "Hexagonal neighbors", "description": "All six neighbors of a hexagon are at the same distance from its center, while a square has edge and corner neighbors at two distances." },
+  { "term": "Grid disk (k-ring)", "description": "Every cell within `k` steps of a cell: 7 hexagons for `k = 1`, 19 for `k = 2`; the candidate set of a nearby query." },
+  { "term": "Supply and demand per cell", "description": "Counting available drivers and requests per cell id, used to set dynamic prices per area." },
+  { "term": "DOMA", "description": "Domain-Oriented Microservice Architecture: services grouped into domains, domains into layers, each domain behind a gateway with extension points." }
+]

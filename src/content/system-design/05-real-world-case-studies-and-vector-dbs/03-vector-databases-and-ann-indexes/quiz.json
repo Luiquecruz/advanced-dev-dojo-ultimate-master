@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A prototype answers semantic search by comparing each query with all 200 stored embeddings. The product launches with 20,000,000 documents and latency explodes. What is the root cause?",
+    "options": [
+      "Exact k-NN costs `O(N·d)` per query, so every query now scans all 20,000,000 vectors; an approximate index such as HNSW or IVF searches a small part of them",
+      "Embeddings lose precision when there are more than 200 of them",
+      "Cosine similarity is slower than Euclidean distance on large collections",
+      "The embedding model must be retrained for every new document"
+    ],
+    "answer": 0,
+    "explanation": "Brute-force search grows linearly with the collection: at millions of vectors each query reads gigabytes. ANN indexes trade a little recall for visiting only a small fraction of the vectors."
+  },
+  {
+    "question": "Search keeps ranking the same few loosely related documents first, even when another document matches the question exactly. The index scores with a raw dot product, the embedding model was trained for cosine similarity, and the top documents' vectors are much longer than the rest. What fixes it?",
+    "options": [
+      "Increase `efSearch`",
+      "Return more results so the matching document appears somewhere",
+      "Normalize the vectors to length 1 or score with cosine similarity, so only direction counts",
+      "Switch from HNSW to IVF"
+    ],
+    "answer": 2,
+    "explanation": "The dot product grows with vector length. Cosine similarity divides by both lengths; for unit vectors the dot product equals the cosine, which is why normalized embeddings can use the cheaper dot product."
+  },
+  {
+    "question": "An IVFFlat index uses `lists = 1,000` and `probes = 1`. Users report that obviously relevant results are sometimes missing. What is happening, and what is the trade-off of the fix?",
+    "options": [
+      "The centroids are corrupted; rebuild the table",
+      "A query searches only the list of its single nearest centroid, so neighbors just across a cell border are never scanned; raising `probes` recovers them at the cost of scanning more lists",
+      "IVF indexes cannot return more than one result per list",
+      "`probes` controls the number of graph layers"
+    ],
+    "answer": 1,
+    "explanation": "IVF partitions the space into Voronoi cells around k-means centroids. More probes means higher recall and slower queries; probes equal to lists is exact search again."
+  },
+  {
+    "question": "An HNSW index has good latency but recall measured against exact search is too low for one feature. What can you change without rebuilding the index?",
+    "options": [
+      "`M`, the number of links per node",
+      "`efConstruction`, the candidate list size used during the build",
+      "The number of k-means centroids",
+      "`efSearch`, the size of the candidate list kept while querying"
+    ],
+    "answer": 3,
+    "explanation": "`M` and `efConstruction` shape the graph and take effect only when it is built. `efSearch` is a query-time setting: a larger candidate list explores more of the bottom layer, raising recall and latency."
+  },
+  {
+    "question": "A collection of a billion embeddings needs several times more memory than one server has, and the team wants to avoid a large in-memory cluster. Which approach fits?",
+    "options": [
+      "A disk-based graph index such as DiskANN, which keeps the graph and full vectors on SSD and compressed vectors in memory",
+      "An in-memory HNSW index with a higher `M`",
+      "Exact k-NN over a memory-mapped file",
+      "A B-tree index on the first dimension of each vector"
+    ],
+    "answer": 0,
+    "explanation": "DiskANN's Vamana graph is designed for SSD reads with few hops per query, while compressed vectors in RAM guide the navigation, so one machine serves a dataset larger than its memory."
+  },
+  {
+    "question": "A RAG assistant gives confident but wrong answers about internal policies. Logs show the correct policy chunk is often not among the top 5 retrieved chunks. Where should the team look first?",
+    "options": [
+      "The model's temperature setting",
+      "The retrieval step: measure recall@5 against exact search and check the embedding metric, the chunking and the index settings",
+      "The HTTP status codes of the chat endpoint",
+      "The length of the system prompt"
+    ],
+    "answer": 1,
+    "explanation": "The model only sees what retrieval returns. If the right chunk is missing from the top k, no prompt change fixes the answer; recall measured against exact search shows whether the index or the embeddings are at fault."
+  }
+]

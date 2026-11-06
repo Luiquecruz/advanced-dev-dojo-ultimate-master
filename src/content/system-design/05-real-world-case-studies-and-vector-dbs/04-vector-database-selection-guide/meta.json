@@ -1,0 +1,13 @@
+{
+  "title": "Vector Database Selection Guide",
+  "summary": "Choosing between pgvector, a dedicated engine such as Qdrant or Weaviate, a managed service such as Pinecone, and vector search in distributed SQL such as TiDB, by data size, filter selectivity, hybrid search, update rate, operational cost and consistency.",
+  "level": "advanced",
+  "tags": ["theory", "ai"],
+  "resources": [
+    { "label": "pgvector: indexing, filtering and iterative index scans", "url": "https://github.com/pgvector/pgvector" },
+    { "label": "Qdrant documentation: payload and vector indexing", "url": "https://qdrant.tech/documentation/manage-data/indexing/" },
+    { "label": "Weaviate: hybrid search explained", "url": "https://weaviate.io/blog/hybrid-search-explained" },
+    { "label": "Pinecone documentation: architecture", "url": "https://docs.pinecone.io/guides/get-started/architecture" },
+    { "label": "TiDB documentation: vector search index", "url": "https://docs.pingcap.com/ai/vector-search-index/" }
+  ]
+}

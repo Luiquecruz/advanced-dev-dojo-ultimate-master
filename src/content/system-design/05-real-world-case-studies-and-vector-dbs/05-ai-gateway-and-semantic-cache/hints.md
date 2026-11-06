@@ -1,0 +1,5 @@
+`scopeKey` is one line: `JSON.stringify([scope.tenant, scope.model, scope.systemPrompt])`. The starter's `store` already keeps `{ scope, vector, answer }` entries with the vector computed once, so `lookup` only has to compare vectors, never prompts.
+---
+In `lookup`, keep only the entries with `entry.scope === scope`, embed the prompt once, and walk the candidates while remembering the best similarity so far (update it only with `>`, so the first entry wins a tie). Compare that best similarity with `threshold` after the loop: returning the first entry above the threshold misses a better one stored later.
+---
+In `complete`, loop over the providers and wrap only `await provider.call(request)` in `try`/`catch`. In `catch`, rethrow at once unless `isRetryable(error)`, which reads `status` (`429`, or `500` to `599`) and `name` (`'TimeoutError'`); otherwise remember the error as `lastError` and `continue`. After a successful call, store the answer and return it with `provider.name`. After the loop, `throw lastError`.

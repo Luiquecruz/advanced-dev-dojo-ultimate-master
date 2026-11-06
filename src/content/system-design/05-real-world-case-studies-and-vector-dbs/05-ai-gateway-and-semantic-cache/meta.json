@@ -1,0 +1,15 @@
+{
+  "title": "AI Gateway & Semantic Cache",
+  "summary": "The shared layer between applications and model providers: token quotas, routing by capability and cost, fallback on retryable errors with a circuit breaker per provider, streaming, exact-match and semantic caching scoped by tenant, model and system prompt, and per-request observability.",
+  "level": "advanced",
+  "tags": ["practice", "ai", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "OpenTelemetry: Semantic conventions for generative AI client inference", "url": "https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/client-inference.md" },
+    { "label": "Azure API Management: AI gateway capabilities", "url": "https://learn.microsoft.com/en-us/azure/api-management/genai-gateway-capabilities" },
+    { "label": "Azure API Management: llm-token-limit policy (token rate limits, quotas and estimation)", "url": "https://learn.microsoft.com/en-us/azure/api-management/llm-token-limit-policy" },
+    { "label": "Azure API Management: llm-semantic-cache-lookup policy (score threshold and vary-by partitions)", "url": "https://learn.microsoft.com/en-us/azure/api-management/llm-semantic-cache-lookup-policy" },
+    { "label": "Cloudflare AI Gateway: Caching and how the cache key works", "url": "https://developers.cloudflare.com/ai-gateway/features/caching/" },
+    { "label": "Redis: Cache LLM responses with RedisVL (distance threshold and per-user filters)", "url": "https://redis.io/docs/latest/develop/ai/redisvl/user_guide/how_to_guides/llmcache/" }
+  ]
+}

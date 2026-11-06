@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A gateway's semantic cache stores each answer with the embedding of its prompt and nothing else. Tenant B asks \"What is your refund policy?\" and receives an answer that names tenant A's products. What is the root cause?",
+    "options": [
+      "The similarity threshold is too high, so only near-identical prompts can match",
+      "The lookup compares prompts across every tenant, because the scope leaves out tenant, model and system prompt",
+      "The embeddings are not normalized, so long prompts win every comparison",
+      "The entries have a TTL, and expired entries are served from another tenant"
+    ],
+    "answer": 1,
+    "explanation": "Similarity only compares prompts. Without an exact scope (tenant, model, system prompt, tools), the same question from two tenants matches one entry, and the first tenant's answer, data included, is served to the second."
+  },
+  {
+    "question": "A shared gateway limits every team to 100 requests per minute. One team sends 20 requests per minute, each carrying a 40,000-token document, and exhausts the provider's tokens-per-minute limit for everyone. What should the gateway meter instead?",
+    "options": [
+      "Requests per second, so the 20 requests are spread more evenly over the minute",
+      "Open connections per team, since long prompts keep connections open longer",
+      "Bytes of each response, measured after the provider has answered",
+      "Tokens per team in a token bucket, reserved before each call and reconciled after it"
+    ],
+    "answer": 3,
+    "explanation": "Providers limit and bill by tokens, and requests differ in size by orders of magnitude. A token bucket per tenant, charged with the input plus the maximum output before the call and corrected with the reported usage, caps what actually consumes the shared quota."
+  },
+  {
+    "question": "The primary provider rejects a request with `400 Bad Request` because a tool definition is malformed. The route lists two backup providers. What should the gateway do?",
+    "options": [
+      "Return the error to the caller, because the request itself is invalid",
+      "Try both backups, because any error means the primary is unhealthy",
+      "Open the primary's circuit breaker and route all traffic to the backups",
+      "Retry the primary with exponential backoff until it accepts the request"
+    ],
+    "answer": 0,
+    "explanation": "Fallback and retries are for transient errors: `429`, `5xx` and timeouts. A `400` describes the request, not the provider, so every provider rejects it the same way, and it should not count as a provider failure for the circuit breaker either."
+  },
+  {
+    "question": "The gateway is streaming an answer as Server-Sent Events. After 300 tokens have reached the client, the connection to the provider fails with `502`. What should happen?",
+    "options": [
+      "Send the same request to the backup provider and continue the stream with its tokens",
+      "Buffer every future answer completely, so that a failure is never visible to clients",
+      "Send an error event, end the stream, record the failure and let the client retry",
+      "Store the 300 tokens in the cache, so the next request gets at least a partial answer"
+    ],
+    "answer": 2,
+    "explanation": "Once chunks have reached the client, a second provider would generate a different answer, and splicing it onto the first produces nonsense. Fallback is only safe before the first chunk; after that, report the error, and never cache a partial answer."
+  },
+  {
+    "question": "After the similarity threshold of a semantic cache was lowered, the hit rate rose, and users who asked how to cancel a subscription started receiving answers about keeping one. What explains it, and what is the fix?",
+    "options": [
+      "A lower threshold only changes latency, so the wrong answers come from somewhere else",
+      "The entries need a longer TTL, so that similar prompts keep their answers",
+      "Ranking by a raw dot product instead of cosine similarity separates the two prompts",
+      "A lower threshold also accepts prompts that only look alike; raise it and tune it on labeled pairs"
+    ],
+    "answer": 3,
+    "explanation": "The threshold trades hit rate for false hits. Embeddings place questions about the same topic close together even when they ask opposite things, so a permissive threshold serves confident wrong answers; labeled pairs of real prompts show where false hits become acceptable."
+  },
+  {
+    "question": "A chat assistant sends every user message through a semantic cache scoped by tenant, model and system prompt. A user asks \"And what about the second one?\" and receives an answer from someone else's conversation. Why?",
+    "options": [
+      "The scope is missing the temperature of the request",
+      "A follow-up only has meaning together with the earlier turns, and the cache compared the last message alone",
+      "The embedding call timed out, so the gateway fell back to a random entry",
+      "The scope key was hashed, and hashes of short messages collide"
+    ],
+    "answer": 1,
+    "explanation": "Follow-up messages are short and refer to earlier turns, so their embeddings are close across unrelated conversations. Semantic caching fits standalone prompts; for multi-turn traffic, skip the cache or put the conversation in the key, which makes hits rare."
+  }
+]

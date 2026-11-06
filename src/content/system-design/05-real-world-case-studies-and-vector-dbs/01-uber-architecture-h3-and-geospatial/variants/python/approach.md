@@ -1,0 +1,5 @@
+1. Make the cell id a pure function of the coordinates: divide by the cell size and floor. `math.floor` (not `round()`, and not `int()`, which truncates toward zero) keeps the cells aligned for negative coordinates, so `-0.1` falls in cell `-1`, not `0`.
+2. Store the index both ways. The cell → drivers dict answers queries; the driver → cell dict is what makes an update a move rather than an insert, which is the whole difference between a correct index and one that leaks stale positions.
+3. Treat an update as "leave the old cell, join the new one". Removing is the first half on its own, and its return value tells the caller whether there was anything to remove.
+4. A query never scans all drivers: it enumerates the `(2 × rings + 1)²` cell ids around the center and reads only those keys, which is what makes the cost independent of how many drivers exist elsewhere.
+5. Each driver lives in exactly one cell, so concatenating the cells' sets already yields every id once; sorting makes the answer deterministic.

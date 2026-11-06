@@ -1,0 +1,13 @@
+{
+  "title": "Vector Databases & ANN Indexes",
+  "summary": "Embeddings and similarity metrics, why exact k-NN does not scale, and how HNSW graphs, IVF lists, DiskANN and quantization trade recall for latency in the retrieval behind RAG.",
+  "level": "advanced",
+  "tags": ["practice", "ai", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "Malkov and Yashunin: Efficient and robust approximate nearest neighbor search using HNSW graphs", "url": "https://arxiv.org/abs/1603.09320" },
+    { "label": "Johnson, Douze and Jégou: Billion-scale similarity search with GPUs (IVF and product quantization)", "url": "https://arxiv.org/abs/1702.08734" },
+    { "label": "DiskANN: Fast accurate billion-point nearest neighbor search on a single node", "url": "https://proceedings.neurips.cc/paper/2019/hash/09853c7fb1d3f8ee67a61b6bf4a7f8e6-Abstract.html" },
+    { "label": "pgvector: HNSW and IVFFlat indexes in PostgreSQL", "url": "https://github.com/pgvector/pgvector" }
+  ]
+}

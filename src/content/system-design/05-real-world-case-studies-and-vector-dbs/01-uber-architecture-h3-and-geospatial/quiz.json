@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team stores drivers with a B-tree index on `(lat, lon)` and runs a bounding-box query around each rider. It is fast in one city and slow after the service goes global. Why?",
+    "options": [
+      "B-trees cannot store negative numbers, so longitudes west of Greenwich are skipped",
+      "The index seeks only on the `lat` range, so each query walks every driver in a latitude band around the planet and filters `lon` afterwards",
+      "Bounding boxes require a full table lock on every read",
+      "The query returns drivers from the wrong hemisphere because of floating-point rounding"
+    ],
+    "answer": 1,
+    "explanation": "A composite B-tree uses the first column for the range seek; the second column is filtered row by row. A cell id turns the query into a few exact-match lookups whose cost does not grow with drivers elsewhere."
+  },
+  {
+    "question": "Why did H3 choose hexagons rather than squares for its cells?",
+    "options": [
+      "Hexagons tile a sphere perfectly with no exceptions",
+      "Hexagon ids are shorter strings than square ids",
+      "All six neighbors of a hexagon are at the same distance from its center, so rings of cells approximate a circle and movement between cells is smoother to analyze",
+      "Squares cannot be given integer identifiers"
+    ],
+    "answer": 2,
+    "explanation": "A square has edge neighbors and corner neighbors at two different distances. Hexagons have one neighbor distance; they still need 12 pentagons per resolution because a sphere cannot be tiled with hexagons only."
+  },
+  {
+    "question": "Dispatch works on fine H3 cells, but the pricing team wants supply and demand per neighborhood. What is the H3 way to get coarser counts?",
+    "options": [
+      "Map each fine cell id to its parent at a coarser resolution, a cheap bitwise truncation, and aggregate the counts by parent id",
+      "Store every location a second time with a bounding box per neighborhood",
+      "Re-run the geometry from the raw coordinates with a different cell shape",
+      "Average the latitudes of all cells in the city"
+    ],
+    "answer": 0,
+    "explanation": "H3 is hierarchical: each resolution has cells about one seventh the area of the coarser one, and the parent id is found by truncating bits of the 64-bit index, so aggregation is a group-by on a derived key."
+  },
+  {
+    "question": "Location updates flow through a Kafka topic into the driver index. After a busy evening, drivers show up in several cells at once and cells near the highway report too much supply. What is the most likely bug?",
+    "options": [
+      "The topic has too many partitions",
+      "The consumer adds the driver to the new cell but never removes them from the previous one",
+      "The cell size is too large",
+      "Kafka delivered the messages out of order across different drivers"
+    ],
+    "answer": 1,
+    "explanation": "An update must be a move: look up the driver's current cell, leave it, then join the new one. Without the driver → cell map every cell a driver crossed keeps a stale entry and inflates the supply counts."
+  },
+  {
+    "question": "In Uber's Domain-Oriented Microservice Architecture (DOMA), what does a domain gateway provide?",
+    "options": [
+      "A load balancer that picks the least busy service with two random choices",
+      "A shared database that every domain writes to",
+      "A rule that every service must be written in the same language",
+      "A single entry point into a domain, so callers depend on one interface while the services behind it can change"
+    ],
+    "answer": 3,
+    "explanation": "Gateways hide the services, tables and pipelines inside a domain; callers take one dependency instead of many, which is what lets a domain be rewritten behind its gateway without migrating every caller."
+  },
+  {
+    "question": "A stadium empties and thousands of riders open the app in the same few cells. Which design choice keeps the driver index from becoming a hot spot?",
+    "options": [
+      "Switch every query to a global bounding-box scan",
+      "Disable the k-ring and only read the rider's own cell",
+      "Cache each cell's driver list with a short TTL and coalesce concurrent reads of the same cell into one load",
+      "Turn off caching for those cells so every rider reads the freshest driver list from the index"
+    ],
+    "answer": 2,
+    "explanation": "Cell ids are ordinary keys, so hot-key defenses apply: request coalescing turns thousands of concurrent misses on the same cell into one load, and the short TTL keeps the list fresh. Resharding does not help: every rider asks for the same few keys, and each key lives on one shard."
+  }
+]

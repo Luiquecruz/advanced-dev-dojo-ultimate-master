@@ -1,0 +1,5 @@
+1. Start from the metric. A dot product mixes direction and length; dividing by both lengths keeps only the direction, which is what "similar meaning" means for most embedding models. A zero-length vector has no direction, so define its similarity as `0` instead of dividing by zero.
+2. Exact search is a full scan: score every item, sort, keep `k`. Make the order total (score, then id) so results are deterministic; ANN results are compared with this exact answer to measure recall.
+3. An IVF index is a partition of the space. Every vector belongs to exactly one list, chosen by the same similarity function the queries use, so "nearest centroid" is consistent between writes and reads.
+4. A query pays for the centroid comparison plus the vectors of `nprobe` lists instead of all `N`. Reuse the exact search on the probed lists rather than writing a second ranking.
+5. Check the trade-off with a vector near a cell border: with one probe it can be missed even though it is the true nearest neighbor; probing every list gives the exact result back.

@@ -1,0 +1,14 @@
+{
+  "title": "Uber Architecture: H3 & Geospatial Indexing",
+  "summary": "Why latitude/longitude range scans fail for nearby-driver queries, how the H3 hexagonal hierarchical grid turns locations into keys for sharding, caching and streaming, and how DOMA groups Uber's microservices into domains, layers and gateways.",
+  "level": "advanced",
+  "tags": ["practice", "case-study"],
+  "preview": false,
+  "resources": [
+    { "label": "Uber Engineering: H3, Uber's hexagonal hierarchical spatial index", "url": "https://www.uber.com/us/en/blog/h3/" },
+    { "label": "H3 documentation: indexing and the cell hierarchy", "url": "https://h3geo.org/docs/highlights/indexing/" },
+    { "label": "H3 documentation: grid traversal (gridDisk, gridRing)", "url": "https://h3geo.org/docs/api/traversal/" },
+    { "label": "H3 documentation: cell statistics across resolutions", "url": "https://h3geo.org/docs/core-library/restable/" },
+    { "label": "Uber Engineering: Introducing Domain-Oriented Microservice Architecture", "url": "https://www.uber.com/us/en/blog/microservice-architecture/" }
+  ]
+}
