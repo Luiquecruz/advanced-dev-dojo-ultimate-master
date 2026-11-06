@@ -1,0 +1,12 @@
+{
+  "title": "Capstone: The Spring API",
+  "summary": "A project stage that builds the catalog endpoints with Spring Boot 4: layered controller, service and store, request records with validation, Problem Details errors and a web slice test.",
+  "level": "intermediate",
+  "tags": ["theory", "project"],
+  "resources": [
+    { "label": "Spring Framework: Error responses (Problem Details)", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-ann-rest-exceptions.html" },
+    { "label": "Spring Boot reference: Validation", "url": "https://docs.spring.io/spring-boot/reference/io/validation.html" },
+    { "label": "Spring Boot reference: Testing Spring Boot applications", "url": "https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html" },
+    { "label": "Spring Boot 4.0 migration guide", "url": "https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide" }
+  ]
+}

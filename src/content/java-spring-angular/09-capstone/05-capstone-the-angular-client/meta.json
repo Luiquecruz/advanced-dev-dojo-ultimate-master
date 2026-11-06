@@ -1,0 +1,13 @@
+{
+  "title": "Capstone: The Angular Client",
+  "summary": "A project stage that builds the Angular 22 client: a paged list with httpResource, login with an in-memory signal store, a functional interceptor and guard, and a Signal Forms form that maps Problem Details to field errors.",
+  "level": "intermediate",
+  "tags": ["theory", "project", "angular"],
+  "resources": [
+    { "label": "Angular: httpResource", "url": "https://angular.dev/guide/http/http-resource" },
+    { "label": "Angular: HTTP interceptors", "url": "https://angular.dev/guide/http/interceptors" },
+    { "label": "Angular: Route guards", "url": "https://angular.dev/guide/routing/route-guards" },
+    { "label": "Angular: Signal Forms", "url": "https://angular.dev/guide/forms/signals/overview" },
+    { "label": "Angular: Testing HTTP requests", "url": "https://angular.dev/guide/http/testing" }
+  ]
+}

@@ -440,3 +440,6 @@ Plan and decisions: [java-spring-angular-track.md](java-spring-angular-track.md)
 
 ### 08-quality-and-delivery — Quality and Delivery
 01-the-test-pyramid-for-both-ends ✓ · 02-docker-for-java-applications ✓ · 03-docker-compose-for-local-development ✓ · 04-continuous-integration ✓ · 05-observability-with-actuator-and-micrometer ✓ · 06-caching-and-rate-limiting ✓ · 07-production-configuration-and-operations ✓ · 08-project-ship-the-course-platform ✓
+
+### 09-capstone — Capstone
+01-capstone-requirements-and-design ✓ · 02-capstone-the-spring-api ✓ · 03-capstone-persistence-and-migrations ✓ · 04-capstone-security ✓ · 05-capstone-the-angular-client ✓ · 06-capstone-review-and-delivery ✓

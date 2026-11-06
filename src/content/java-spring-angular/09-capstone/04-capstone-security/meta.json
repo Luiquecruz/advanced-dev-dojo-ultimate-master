@@ -1,0 +1,13 @@
+{
+  "title": "Capstone: Security",
+  "summary": "A project stage that secures the catalog: password login that issues a signed JWT, a stateless Spring Security chain with role rules and deny by default, resource-server validation and tests with the jwt post-processor.",
+  "level": "intermediate",
+  "tags": ["theory", "project", "security"],
+  "resources": [
+    { "label": "Spring Security: OAuth 2 resource server JWT", "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html" },
+    { "label": "Spring Security: Method security", "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html" },
+    { "label": "Spring Security: Testing with MockMvc", "url": "https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/index.html" },
+    { "label": "Spring Boot reference: Spring Security", "url": "https://docs.spring.io/spring-boot/reference/web/spring-security.html" },
+    { "label": "OWASP Top Ten", "url": "https://owasp.org/projects/top-ten" }
+  ]
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A teammate proposes writing the Spring controllers first and generating the OpenAPI file from them later. The Angular developer needs the contract this week. What is the strongest argument for writing the contract first?",
+    "options": [
+      "Generated documents are never accurate",
+      "The client can be built in parallel against an agreed file, and a change is a cheap edit before anyone depends on it",
+      "Controllers cannot be written without a YAML file",
+      "Contract-first removes the need for tests"
+    ],
+    "answer": 1,
+    "explanation": "The value is agreement before dependency. Generation can document what exists, but only a prior contract lets both ends move in parallel and be checked against it."
+  },
+  {
+    "question": "Which requirement is written well enough to become an acceptance test?",
+    "options": [
+      "The catalog should feel fast",
+      "Listing courses must be user friendly",
+      "Page 0 with size 2 returns Angular Signals and Java Basics, and totalElements is 3",
+      "The API should be secure"
+    ],
+    "answer": 2,
+    "explanation": "Only the third has a fixed input and an observable result. The others are wishes that two reviewers would judge differently."
+  },
+  {
+    "question": "Courses are soft deleted, and an administrator later wants to create a new course with the code of a deleted one. Which design decision avoids a surprise at that moment?",
+    "options": [
+      "A unique index on the code that applies only to rows that are not deleted",
+      "A unique index on the code over all rows, deleted or not",
+      "No uniqueness rule, so duplicates are possible",
+      "Hard deleting the old row on every create"
+    ],
+    "answer": 0,
+    "explanation": "A unique index limited to live rows lets a code be reused while still rejecting duplicates among visible courses. A full unique index would make the second create fail."
+  },
+  {
+    "question": "The client must show 'Title is required' next to the title input. Which error design for the API makes that straightforward?",
+    "options": [
+      "A plain text body that says 'Bad request'",
+      "A Problem Details body with an errors map from field name to messages",
+      "An HTML error page",
+      "Status 200 with an error flag"
+    ],
+    "answer": 1,
+    "explanation": "A standard error object with a field-to-messages map lets the client attach each message to the matching input without parsing prose."
+  },
+  {
+    "question": "You must decide where the access tokens come from for a learning project that has to run on one laptop. Which note belongs in the decision record?",
+    "options": [
+      "Use a hosted identity provider, with no mention of cost or setup",
+      "Keep the signing key in the source code so it is easy to find",
+      "Skip authentication until the client is finished",
+      "The API signs its own tokens with a key from the environment, which avoids running another service but is a simplification for production"
+    ],
+    "answer": 3,
+    "explanation": "A good record states the choice, why it fits the constraint and the cost it carries. The key must come from the environment, never from the repository."
+  }
+]
