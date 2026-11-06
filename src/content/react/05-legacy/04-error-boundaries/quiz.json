@@ -11,7 +11,7 @@
     "explanation": "Boundaries catch errors during rendering, lifecycle methods and effects of their descendants. Event handlers and async callbacks run outside React's render, so they are not caught."
   },
   {
-    "question": "Why do most codebases still contain at least one class component in 2026?",
+    "question": "Why do most codebases still contain at least one class component?",
     "options": [
       "Classes render faster",
       "Error boundaries have no hook equivalent yet",

@@ -1,6 +1,6 @@
 ## A decade of experimental decorators
 
-TypeScript shipped decorators in 2015 (TypeScript 1.5), based on an early TC39 draft, behind the `experimentalDecorators` flag. Angular adopted them immediately, followed by NestJS, TypeORM, MobX, InversifyJS and class-validator. The proposal then changed substantially before reaching Stage 3, so TypeScript 5.0 added the **standard** decorators while keeping the legacy ones for compatibility. Both still exist, and the flag decides which one you get:
+TypeScript shipped decorators in TypeScript 1.5, based on an early TC39 draft, behind the `experimentalDecorators` flag. Angular adopted them immediately, followed by NestJS, TypeORM, MobX, InversifyJS and class-validator. The proposal then changed substantially before reaching Stage 3, so TypeScript 5.0 added the **standard** decorators while keeping the legacy ones for compatibility. Both still exist, and the flag decides which one you get:
 
 ```json
 { "compilerOptions": { "experimentalDecorators": true, "emitDecoratorMetadata": true } }

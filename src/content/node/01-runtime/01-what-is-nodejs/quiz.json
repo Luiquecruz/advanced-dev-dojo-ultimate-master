@@ -22,15 +22,15 @@
     "explanation": "V8 is the engine (parse, compile, execute, garbage collect). libuv is the C library that gives Node its event loop and asynchronous access to the operating system."
   },
   {
-    "question": "Your team is choosing a Node version for a new production API in October 2026. Which choice is right?",
+    "question": "Your team is choosing a Node version for a new production API. Which choice is right?",
     "options": [
-      "The newest odd-numbered Current release, for the latest features",
+      "A release line still in its short-lived Current phase, for the latest features",
       "Whatever version is installed on the developer's laptop",
-      "An even-numbered LTS release, pinned in `engines`, `.nvmrc`, the Dockerfile and CI",
+      "A supported LTS release, pinned in `engines`, `.nvmrc`, the Dockerfile and CI",
       "Node 16, because older versions are more stable"
     ],
     "answer": 2,
-    "explanation": "Even majors become LTS and receive fixes for about 30 months. Odd majors are short-lived, and end-of-life versions get no security patches. Pin the version everywhere so environments agree."
+    "explanation": "LTS releases receive fixes for about 30 months, the Current phase of a line is short-lived, and end-of-life versions get no security patches. Check which lines are supported on the Node.js release page and pin the version everywhere so environments agree."
   },
   {
     "question": "An AI assistant adds `node-fetch`, `uuid` and `dotenv` to a new Node 24 project. What is the best review comment?",

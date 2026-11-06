@@ -8,7 +8,7 @@ Browsers do not understand JSX, and real apps import hundreds of modules, CSS fi
 
 ## The rise and sunset of Create React App
 
-From 2016 to the early 2020s, **Create React App (CRA)** was the official way to start: `npx create-react-app my-app` gave you webpack, Babel and Jest preconfigured behind `react-scripts`. Over time it fell behind: slow webpack builds, no server rendering, no routing or data fetching story, and almost no maintenance. In **February 2025 the React team officially deprecated CRA**. Existing CRA apps keep working, but new projects should not use it, and old ones are usually migrated to Vite or a framework.
+For years, **Create React App (CRA)** was the official way to start: `npx create-react-app my-app` gave you webpack, Babel and Jest preconfigured behind `react-scripts`. Over time it fell behind: slow webpack builds, no server rendering, no routing or data fetching story, and almost no maintenance. **The React team has officially deprecated CRA**. Existing CRA apps keep working, but new projects should not use it, and old ones are usually migrated to Vite or a framework.
 
 ## Option 1: a React framework
 

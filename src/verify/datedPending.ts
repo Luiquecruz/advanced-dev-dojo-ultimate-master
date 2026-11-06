@@ -126,15 +126,6 @@ export const DATED_PENDING: ReadonlySet<string> = new Set([
   'ai-engineering/workflow-patterns',
   'ai-engineering/workflows-vs-agents',
   'ai-engineering/working-with-coding-agents',
-  // angular
-  'angular/angularjs-and-migration-history',
-  'angular/what-is-angular',
-  // architecture
-  'architecture/architecture-decision-records',
-  'architecture/code-organization-adr',
-  'architecture/from-containers-to-hooks',
-  'architecture/module-federation-monorepos-and-design-systems',
-  'architecture/url-as-source-of-truth',
   // csharp
   'csharp/ai-in-dotnet-apps',
   'csharp/api-hardening',
@@ -185,9 +176,6 @@ export const DATED_PENDING: ReadonlySet<string> = new Set([
   'csharp/versions-and-support',
   'csharp/vertical-slices-and-modular-monoliths',
   'csharp/web-forms-and-wcf',
-  // node
-  'node/configuration-and-twelve-factor',
-  'node/what-is-nodejs',
   // python
   'python/argparse-and-cli',
   'python/basemodel-vs-dataclass',
@@ -244,37 +232,4 @@ export const DATED_PENDING: ReadonlySet<string> = new Set([
   'python/typing-evolution-and-checkers',
   'python/validation-adr',
   'python/yield-from-and-send',
-  // react-state
-  'react-state/react-19-compiler-and-the-future-of-state',
-  // react
-  'react/accessibility',
-  'react/component-libraries',
-  'react/error-boundaries',
-  'react/headless-components-and-hooks',
-  'react/jotai',
-  'react/memo',
-  'react/nextjs-and-meta-frameworks',
-  'react/other-libraries',
-  'react/react-compiler',
-  'react/react-native',
-  'react/removed-and-deprecated-apis',
-  'react/routing-landscape',
-  'react/security-and-xss',
-  'react/server-components-and-server-functions',
-  'react/styling-approaches',
-  'react/tooling-and-project-setup',
-  'react/use-callback',
-  'react/use-memo',
-  'react/what-is-react',
-  // typescript
-  'typescript/legacy-experimental-decorators',
-  'typescript/tsconfig-and-ts6-defaults',
-  'typescript/type-stripping-and-erasable-syntax',
-  'typescript/typescript-7-native-compiler',
-  // vue
-  'vue/pinia-option-stores',
-  'vue/reactivity-in-depth',
-  'vue/suspense',
-  'vue/vuex-legacy',
-  'vue/what-is-vue',
 ]);

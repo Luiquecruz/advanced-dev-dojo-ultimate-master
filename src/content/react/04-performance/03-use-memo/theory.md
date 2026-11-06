@@ -58,4 +58,4 @@ Before memoizing, check if the value can be avoided altogether: compute it in an
 
 ## Modern note: React Compiler
 
-React Compiler (v1.0, stable since October 2025) analyzes your components at build time and inserts this caching automatically, at a finer granularity than hand-written `useMemo`. In a compiled codebase you mostly write plain calculations and let the compiler memoize them. `useMemo` remains useful as an explicit escape hatch, for example to control exactly when an effect dependency changes, and you will meet it in nearly every existing React codebase.
+React Compiler (v1.0, stable) analyzes your components at build time and inserts this caching automatically, at a finer granularity than hand-written `useMemo`. In a compiled codebase you mostly write plain calculations and let the compiler memoize them. `useMemo` remains useful as an explicit escape hatch, for example to control exactly when an effect dependency changes, and you will meet it in nearly every existing React codebase.

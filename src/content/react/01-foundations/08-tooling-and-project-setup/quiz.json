@@ -3,12 +3,12 @@
     "question": "What is the status of Create React App for new projects?",
     "options": [
       "It is the officially recommended starter",
-      "It was deprecated by the React team in 2025; use a framework or a build tool like Vite",
+      "It was deprecated by the React team; use a framework or a build tool like Vite",
       "It was renamed to Create Vite App",
       "It only supports TypeScript now"
     ],
     "answer": 1,
-    "explanation": "CRA was deprecated in February 2025. Existing apps still run, but new projects should start with a framework or Vite."
+    "explanation": "CRA was deprecated by the React team. Existing apps still run, but new projects should start with a framework or Vite."
   },
   {
     "question": "Which command scaffolds a React + TypeScript SPA with Vite?",

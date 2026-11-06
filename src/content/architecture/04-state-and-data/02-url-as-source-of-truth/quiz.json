@@ -33,7 +33,7 @@
     "explanation": "Continuous input and corrections the user did not ask for replace the entry; deliberate, discrete choices push so the back button can undo them."
   },
   {
-    "question": "An old marketing email links to `?sort=popularity`, a value removed last year. What should the screen's search schema do?",
+    "question": "An old marketing email links to `?sort=popularity`, a value removed since. What should the screen's search schema do?",
     "options": [
       "Throw so the error boundary shows a 404",
       "Keep the unknown value and let the sort function ignore it",

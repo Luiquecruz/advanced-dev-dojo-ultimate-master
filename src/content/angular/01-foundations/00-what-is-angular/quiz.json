@@ -42,7 +42,7 @@
     "question": "Is AngularJS (1.x) an older version of the same framework as Angular 22?",
     "options": [
       "Yes, Angular 22 is AngularJS with TypeScript added",
-      "No, Angular (2+) was a complete rewrite; AngularJS reached end of life in 2021",
+      "No, Angular (2+) was a complete rewrite; AngularJS has reached end of life",
       "Yes, AngularJS code runs unchanged in Angular 22",
       "No, AngularJS is the server-side version of Angular"
     ],

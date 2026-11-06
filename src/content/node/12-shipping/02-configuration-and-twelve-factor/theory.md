@@ -1,6 +1,6 @@
 # Configuration and the Twelve-Factor App
 
-The same build of your API runs on your laptop, in CI, in staging and in production. What changes between them is **configuration**: database URLs, API keys, log levels, feature flags. The **Twelve-Factor App** methodology (written by Heroku engineers in 2011) is still the shortest checklist for building services that deploy cleanly to any modern platform: containers, PaaS or serverless.
+The same build of your API runs on your laptop, in CI, in staging and in production. What changes between them is **configuration**: database URLs, API keys, log levels, feature flags. The **Twelve-Factor App** methodology (written by Heroku engineers) is still the shortest checklist for building services that deploy cleanly to any modern platform: containers, PaaS or serverless.
 
 ## The factors that matter most day to day
 

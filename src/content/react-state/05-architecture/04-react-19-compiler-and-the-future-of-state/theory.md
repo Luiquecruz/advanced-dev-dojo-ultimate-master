@@ -56,7 +56,7 @@ React 19.2 added `<Activity mode="visible" | "hidden">`. A hidden subtree keeps 
 
 ## React Compiler 1.0
 
-The compiler (stable since October 2025, React 17+) automatically memoizes components and hooks at build time, more precisely than hand-written `useMemo`/`useCallback`/`memo`, including values computed after early returns.
+The compiler (stable, React 17+) automatically memoizes components and hooks at build time, more precisely than hand-written `useMemo`/`useCallback`/`memo`, including values computed after early returns.
 
 What it changes for state management:
 

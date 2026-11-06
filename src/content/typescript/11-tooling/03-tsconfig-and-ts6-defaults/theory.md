@@ -35,7 +35,7 @@ Compiler options fall into a few families:
 
 ## TypeScript 6.0: new defaults
 
-TypeScript 6.0 (March 2026) is the last JavaScript-based release and a bridge to the native TypeScript 7. It modernised the defaults so a near-empty config behaves like a modern project:
+TypeScript 6.0 is the last JavaScript-based release and a bridge to the native TypeScript 7. It modernised the defaults so a near-empty config behaves like a modern project:
 
 | Option | Old default | 6.0 default |
 | --- | --- | --- |

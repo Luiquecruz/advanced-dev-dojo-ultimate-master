@@ -65,8 +65,8 @@ No `NgModule` anywhere: the root component is bootstrapped directly and applicat
 
 | Era | Highlights |
 | --- | --- |
-| AngularJS 1.x (2010) | JavaScript MVC, `$scope`, dirty checking. End of life in 2021. Not the same framework. |
-| Angular 2–13 (2016–2021) | Rewritten in TypeScript. `NgModule`s, decorators (`@Input`, `@Output`), RxJS everywhere, change detection through **zone.js**. |
+| AngularJS 1.x | JavaScript MVC, `$scope`, dirty checking. It has reached end of life. Not the same framework. |
+| Angular 2–13 | Rewritten in TypeScript. `NgModule`s, decorators (`@Input`, `@Output`), RxJS everywhere, change detection through **zone.js**. |
 | Angular 14–17 | Standalone components, typed forms, `inject()`, **signals** (v16), built-in control flow `@if`/`@for` and `@defer` (v17), esbuild + Vite builder, angular.dev. |
 | Angular 18–20 | Signal-based `input()`, `model()`, `output()` and queries, `linkedSignal`, `resource`, standalone by default (v19), new file naming (v20). |
 | Angular 21–22 | **Zoneless** change detection by default, Signal Forms, Vitest by default, `OnPush` as the default change detection strategy (the old `Default` strategy is renamed `Eager`), stable `resource()` and `httpResource()`. |

@@ -2,7 +2,7 @@
 
 Props and events work well between a parent and its children. When distant components share data (the signed-in user, a cart, a theme), passing it through every layer becomes painful. A **store** is a single reactive object that lives outside the component tree and that any component can read and change.
 
-**Pinia** is the official state management library for Vue. It replaced Vuex as the recommendation in 2022 and is what `create-vue` scaffolds today.
+**Pinia** is the official state management library for Vue. It replaced Vuex as the recommendation and is what `create-vue` scaffolds.
 
 ## Installing Pinia
 

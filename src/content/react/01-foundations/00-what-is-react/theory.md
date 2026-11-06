@@ -1,6 +1,6 @@
 ## A library for building user interfaces
 
-React is a JavaScript **library** for building user interfaces out of small, reusable pieces called **components**. It was created at Facebook (Jordan Walke, 2011), open sourced in 2013, and is now maintained by Meta together with a large community. React itself only cares about one thing: turning your data into UI and keeping that UI up to date when the data changes.
+React is a JavaScript **library** for building user interfaces out of small, reusable pieces called **components**. It was created at Facebook (Jordan Walke), later open sourced, and is now maintained by Meta together with a large community. React itself only cares about one thing: turning your data into UI and keeping that UI up to date when the data changes.
 
 ## Declarative instead of imperative
 
@@ -69,7 +69,7 @@ React gives you components, state and rendering. It does **not** ship a router, 
 
 ## Where React is today
 
-- **Hooks** (React 16.8, 2019) replaced class components as the default way to write stateful logic.
+- **Hooks** (React 16.8) replaced class components as the default way to write stateful logic.
 - **Concurrent rendering** (React 18) lets React interrupt and prioritize work (`useTransition`, Suspense).
 - **React 19** added Actions, `useActionState`, `useOptimistic`, the `use` API, ref as a prop and stable Server Components.
 - The **React Compiler** automatically memoizes components, reducing the need for manual `useMemo` and `useCallback`.

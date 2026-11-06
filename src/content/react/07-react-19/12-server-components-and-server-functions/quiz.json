@@ -39,7 +39,7 @@
     "explanation": "Anyone can send a request to a Server Function endpoint with arbitrary arguments."
   },
   {
-    "question": "What was CVE-2025-55182 (\"React2Shell\"), disclosed in December 2025?",
+    "question": "What was CVE-2025-55182 (\"React2Shell\")?",
     "options": [
       "An XSS in `dangerouslySetInnerHTML`",
       "Unauthenticated remote code execution through crafted payloads sent to Server Function endpoints",

@@ -101,7 +101,7 @@ Changing `userIdAtom` refetches automatically, and the `signal` aborts the previ
 
 ## Jotai vs Recoil
 
-Recoil, Meta's experimental atomic state library, popularized atoms with **string keys** (`atom({ key: 'count', default: 0 })`) and selectors. It never reached 1.0 and its repository was archived in 2025. Jotai offers the same mental model without keys, with a smaller API, and is the usual migration target. Utilities such as `atomWithStorage`, `atomFamily` and `selectAtom` live in `jotai/utils`.
+Recoil, Meta's experimental atomic state library, popularized atoms with **string keys** (`atom({ key: 'count', default: 0 })`) and selectors. It never reached 1.0 and its repository was archived. Jotai offers the same mental model without keys, with a smaller API, and is the usual migration target. Utilities such as `atomWithStorage`, `atomFamily` and `selectAtom` live in `jotai/utils`.
 
 ## When to choose Jotai
 

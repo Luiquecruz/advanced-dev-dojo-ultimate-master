@@ -1,6 +1,6 @@
 ## Container and presentational components
 
-In 2015 Dan Abramov published *Presentational and Container Components*, and it shaped React codebases for years. The idea was MVC's separation adapted to components:
+Dan Abramov published *Presentational and Container Components*, and it shaped React codebases for years. The idea was MVC's separation adapted to components:
 
 - **Presentational components** care about *how things look*. They receive data and callbacks through props, rarely hold state (only UI state such as "is open"), never fetch, and are easy to reuse and preview.
 - **Container components** care about *how things work*. They fetch data, hold state, subscribe to stores (`connect()` in Redux) and render presentational components with the right props.
@@ -23,7 +23,7 @@ Before hooks, this was the only way to reuse stateful logic without mixins: a cl
 
 ## Dan Abramov's later note
 
-In 2019 he added an update to the article: he no longer recommends splitting components this way. **Hooks** let you reuse stateful logic without a container component, and splitting every component into two had become dogma, applied even where it bought nothing. The separation of concerns is still valuable; the *component* is just no longer the unit that carries it.
+Later he added an update to the article: he no longer recommends splitting components this way. **Hooks** let you reuse stateful logic without a container component, and splitting every component into two had become dogma, applied even where it bought nothing. The separation of concerns is still valuable; the *component* is just no longer the unit that carries it.
 
 ## Custom hooks: the modern container
 

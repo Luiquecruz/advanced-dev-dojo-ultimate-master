@@ -57,7 +57,7 @@ Turborepo is a focused task runner and cache; Nx adds generators, plugins, a pro
 
 ## The design system as a platform
 
-When several products and teams build UIs, a design system becomes a **versioned product** consumed by others: tokens (color, spacing, typography), accessible components, guidelines and documentation. Examples: Shopify Polaris, the Atlassian Design System, IBM Carbon (available for React and Web Components). Treat it like a platform: semantic versioning, changelogs, deprecation periods, codemods for breaking changes, a dedicated owning team and a contribution model. In micro-frontend setups it is also what keeps several independently deployed apps looking like one product; share it as a federated singleton or accept per-app versions with visual drift.
+When several products and teams build UIs, a design system becomes a **versioned product** consumed by others: tokens (color, spacing, typography), accessible components, guidelines and documentation. Examples: Shopify Polaris, the Atlassian Design System, IBM Carbon (available for React and Web Components). Treat it like a platform: semantic versioning, a file recording what changed in each release, deprecation periods, codemods for breaking changes, a dedicated owning team and a contribution model. In micro-frontend setups it is also what keeps several independently deployed apps looking like one product; share it as a federated singleton or accept per-app versions with visual drift.
 
 ## Composable commerce, briefly
 

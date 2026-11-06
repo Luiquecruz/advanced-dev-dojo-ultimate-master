@@ -74,10 +74,10 @@ Used as a form `action`, they work with `useActionState`, `useFormStatus` and `u
 
 Anyone can call a Server Function with any arguments, just like an API route. Always validate input (for example with Zod), check authentication and authorization inside the function, and never trust hidden form fields.
 
-In **December 2025** the React team disclosed critical vulnerabilities in the `react-server-dom-*` packages that implement RSC:
+The React team has disclosed critical vulnerabilities in the `react-server-dom-*` packages that implement RSC:
 
-- **CVE-2025-55182** ("React2Shell", CVSS 10.0, Dec 3): unauthenticated **remote code execution** through crafted payloads sent to Server Function endpoints, during deserialization.
-- **CVE-2025-55184** and **CVE-2025-67779** (Dec 11, High): denial of service via infinite loops while deserializing; **CVE-2026-23864** (Jan 2026) covered the remaining DoS cases.
+- **CVE-2025-55182** ("React2Shell", CVSS 10.0): unauthenticated **remote code execution** through crafted payloads sent to Server Function endpoints, during deserialization.
+- **CVE-2025-55184** and **CVE-2025-67779** (High): denial of service via infinite loops while deserializing; **CVE-2026-23864** covered the remaining DoS cases.
 - **CVE-2025-55183** (Medium): a crafted request could return a Server Function's **source code**, exposing hardcoded secrets.
 
 Apps were affected if their framework supported RSC, even without any Server Function. Fixes landed in 19.0.4, 19.1.5 and 19.2.4 (earlier patch releases were incomplete), plus framework releases. Lessons: keep React and your framework patched, keep secrets in environment variables rather than source code, and don't rely on hosting mitigations alone.

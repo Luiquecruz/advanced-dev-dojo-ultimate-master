@@ -14,7 +14,7 @@ function total(prices           )         {
 }
 ```
 
-Because positions do not move, stack traces point to the right lines without source maps. Node.js runs `.ts` files this way out of the box: stripping was enabled by default in Node 23.6 (backported to 22.18) and marked stable in late 2025.
+Because positions do not move, stack traces point to the right lines without source maps. Node.js runs `.ts` files this way out of the box: stripping was enabled by default in Node 23.6 (backported to 22.18) and later marked stable.
 
 ```bash
 node server.ts

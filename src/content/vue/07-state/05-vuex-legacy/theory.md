@@ -1,6 +1,6 @@
 ## Where Vuex came from
 
-**Vuex** was Vue's official state management library from 2016 until 2022, inspired by Flux and Redux. Vuex 3 served Vue 2 and Vuex 4 ported the same API to Vue 3. It is now in **maintenance mode**: it still works, but receives no new features, and the Vue team recommends **Pinia** for new projects. Pinia started as an experiment for "Vuex 5" and became that next version under a new name.
+**Vuex** was Vue's official state management library until Pinia replaced it, inspired by Flux and Redux. Vuex 3 served Vue 2 and Vuex 4 ported the same API to Vue 3. It is now in **maintenance mode**: it still works, but receives no new features, and the Vue team recommends **Pinia** for new projects. Pinia started as an experiment for "Vuex 5" and became that next version under a new name.
 
 You will still meet Vuex in many existing codebases, so it is worth reading fluently.
 
@@ -99,4 +99,4 @@ Pinia and Vuex can run side by side, so migration can be done one module at a ti
 3. Replace `commit` / `dispatch` / `mapX('module', ...)` call sites with direct store calls.
 4. Remove the module from Vuex; repeat until the Vuex store is empty.
 
-Pinia versions: Pinia 2 supported Vue 2 and 3; Pinia 3 (2025) dropped Vue 2 and removed deprecated APIs; Pinia 4 is ESM-only and needs `@vue/devtools-api` v8 installed alongside it.
+Pinia versions: Pinia 2 supported Vue 2 and 3; Pinia 3 dropped Vue 2 and removed deprecated APIs; Pinia 4 is ESM-only and needs `@vue/devtools-api` v8 installed alongside it.

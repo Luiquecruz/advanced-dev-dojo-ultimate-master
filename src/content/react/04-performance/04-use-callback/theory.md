@@ -60,4 +60,4 @@ Sometimes an effect needs to call a function that reads the latest props without
 
 ## Modern note: React Compiler
 
-With React Compiler (v1.0, stable since October 2025), functions and JSX are memoized automatically, so you seldom write `useCallback` by hand in new code. It is still everywhere in existing codebases, libraries and custom hooks that return functions (`useCallback` is the standard way for a custom hook to return a stable API).
+With React Compiler (v1.0, stable), functions and JSX are memoized automatically, so you seldom write `useCallback` by hand in new code. It is still everywhere in existing codebases, libraries and custom hooks that return functions (`useCallback` is the standard way for a custom hook to return a stable API).

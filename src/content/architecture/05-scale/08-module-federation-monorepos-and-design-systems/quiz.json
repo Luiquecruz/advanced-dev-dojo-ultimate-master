@@ -48,7 +48,7 @@
     "options": [
       "Change it in place; products will notice",
       "Fork the button into each product",
-      "Release a new major version with a changelog, a deprecation period for the old API and ideally a codemod, owned by the design system team",
+      "Release a new major version with a file recording what changed, a deprecation period for the old API and ideally a codemod, owned by the design system team",
       "Freeze the design system forever"
     ],
     "answer": 2,
