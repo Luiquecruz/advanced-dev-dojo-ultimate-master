@@ -1,4 +1,4 @@
-# Dev Dojo
+# Constela Mission
 
 [![CI](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/ci.yml)
 [![Security](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/security.yml)
@@ -15,7 +15,7 @@
 ![Vitest](https://img.shields.io/badge/Vitest-5-6E9F18?logo=vitest&logoColor=white)
 ![ESLint](https://img.shields.io/badge/ESLint-10-4B32C3?logo=eslint&logoColor=white)
 
-A freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 744 lessons in 10 tracks, 647 of them public.
+Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 744 lessons in 10 tracks, 647 of them public.
 
 ## Tracks
 

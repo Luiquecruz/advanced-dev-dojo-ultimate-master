@@ -39,7 +39,7 @@ tasks = [asyncio.create_task(fetch(name)) for name in names]
 results = [await task for task in tasks]
 ```
 
-The second slip is the forgotten `await`: `fetch("users")` on its own line never runs at all, and when the coroutine is garbage collected CPython prints `RuntimeWarning: coroutine 'fetch' was never awaited`. Dev Dojo turns that warning into a failed test.
+The second slip is the forgotten `await`: `fetch("users")` on its own line never runs at all, and when the coroutine is garbage collected CPython prints `RuntimeWarning: coroutine 'fetch' was never awaited`. Constela Mission turns that warning into a failed test.
 
 ## Legacy vs modern
 

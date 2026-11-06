@@ -45,7 +45,7 @@ Ways to control dependencies, from most to least realistic:
 | Module mock | `vi.mock('./api', () => ({ getUsers: vi.fn() }))` | Hoisted to the top; replaces a whole module |
 | Dependency injection | `<UserList loadUsers={fakeLoad} />` | Explicit, no magic; changes the component API |
 
-In the Dojo, `mockApi(path, handler)` plays the role of MSW: it overrides one route of the fake API for the current test, and `fn()` is the mock function.
+In Constela Mission, `mockApi(path, handler)` plays the role of MSW: it overrides one route of the fake API for the current test, and `fn()` is the mock function.
 
 ## Test the unhappy paths
 

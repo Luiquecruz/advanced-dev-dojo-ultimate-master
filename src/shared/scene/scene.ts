@@ -24,6 +24,8 @@ const PARALLAX_X = 0.35;
 const PARALLAX_Y = 0.2;
 const STATE_RATE = 3;
 const FOCUS_RATE = 5;
+const MASS_RATE = 1.2;
+const DEFAULT_MASS = 0.5;
 const POINTER_RATE = 4;
 const ACCENT_SETTLE = 4.6;
 const DEFAULT_ACCENT_MS = 600;
@@ -70,6 +72,7 @@ export async function createScene(canvas: HTMLCanvasElement, capabilities: Capab
     uTime: { value: 0 },
     uSpeed: { value: STATE_TARGETS.intro.speed },
     uFocus: { value: 0 },
+    uMass: { value: DEFAULT_MASS },
     uBrightness: { value: STATE_TARGETS.intro.brightness },
     uPixelRatio: { value: 1 },
     uAccent: { value: new Vector3(1, 1, 1) },
@@ -90,6 +93,7 @@ export async function createScene(canvas: HTMLCanvasElement, capabilities: Capab
   let brightness = STATE_TARGETS.intro.brightness;
   let distance = STATE_TARGETS.intro.distance;
   let focusTarget = 0;
+  let massTarget = DEFAULT_MASS;
   let pointerX = 0;
   let pointerY = 0;
   let pointerTargetX = 0;
@@ -179,6 +183,7 @@ export async function createScene(canvas: HTMLCanvasElement, capabilities: Capab
     brightness = damp(brightness, target.brightness, STATE_RATE, delta);
     distance = damp(distance, target.distance, STATE_RATE, delta);
     uniforms.uFocus.value = damp(uniforms.uFocus.value, focusTarget, FOCUS_RATE, delta);
+    uniforms.uMass.value = capabilities.reducedMotion ? massTarget : damp(uniforms.uMass.value, massTarget, MASS_RATE, delta);
     pointerX = damp(pointerX, pointerTargetX, POINTER_RATE, delta);
     pointerY = damp(pointerY, pointerTargetY, POINTER_RATE, delta);
     if (accentRate > 0) {
@@ -267,6 +272,12 @@ export async function createScene(canvas: HTMLCanvasElement, capabilities: Capab
         uniforms.uFocus.value = focusTarget;
       }
     },
+    setMass(amount) {
+      massTarget = clamp(amount, 0, 1);
+      if (!rendered) {
+        uniforms.uMass.value = massTarget;
+      }
+    },
     setPointer(x, y) {
       if (capabilities.reducedMotion) {
         return;
@@ -285,6 +296,7 @@ export async function createScene(canvas: HTMLCanvasElement, capabilities: Capab
         frameMs: loopActive ? statsFrameMs : 0,
         tier,
         particles: profile.particles,
+        mass: uniforms.uMass.value,
         pixelRatio: renderer.getPixelRatio(),
         renderMode: effectiveMode(),
         renderers: createdRenderers,

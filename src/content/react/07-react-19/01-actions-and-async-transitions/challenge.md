@@ -1,4 +1,4 @@
-Build `RenameTodo`, the default export, which renames a todo on the Dojo fake API using an **async transition**.
+Build `RenameTodo`, the default export, which renames a todo on the Constela fake API using an **async transition**.
 
 Requirements:
 

@@ -23,10 +23,10 @@ test('POST /projects answers 409 { error: "Slug already exists" } for a duplicat
 });
 
 test('PATCH /projects/:id updates only slug and name, with 404 and 409 rules', async () => {
-  const renamed = await request(mod.app, '/projects/1', { method: 'PATCH', body: { name: 'Dojo', id: 99 } });
+  const renamed = await request(mod.app, '/projects/1', { method: 'PATCH', body: { name: 'Constela', id: 99 } });
   expect(renamed.status).toBe(200);
-  expect(renamed.body).toEqual({ id: 1, slug: 'dev-dojo', name: 'Dojo' });
-  const sameSlug = await request(mod.app, '/projects/1', { method: 'PATCH', body: { slug: 'dev-dojo' } });
+  expect(renamed.body).toEqual({ id: 1, slug: 'constela-mission', name: 'Constela' });
+  const sameSlug = await request(mod.app, '/projects/1', { method: 'PATCH', body: { slug: 'constela-mission' } });
   expect(sameSlug.status).toBe(200);
   const conflict = await request(mod.app, '/projects/1', { method: 'PATCH', body: { slug: 'billing' } });
   expect(conflict.status).toBe(409);

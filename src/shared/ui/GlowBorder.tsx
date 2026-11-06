@@ -19,13 +19,15 @@ const PATH_LENGTH = 100;
 const MIN_LIGHTS = 2;
 const LIGHT_SPACING_PX = 1400;
 const MAX_LIGHT_UNITS = 7;
-const MAX_LIGHT_PX = 140;
-const MIN_DURATION_S = 11;
-const LIGHT_SPEED_PX = 90;
+const MAX_LIGHT_PX = 220;
+const MIN_DURATION_S = 14;
+const LIGHT_SPEED_PX = 70;
 const LIGHT_LAYERS: LightLayer[] = [
-  { width: 8, opacity: 0.05, length: 1 },
-  { width: 3.5, opacity: 0.09, length: 0.72 },
-  { width: 1.2, opacity: 0.2, length: 0.45 },
+  { width: 4, opacity: 0.018, length: 1 },
+  { width: 2.6, opacity: 0.03, length: 0.82 },
+  { width: 1.6, opacity: 0.05, length: 0.64 },
+  { width: 1, opacity: 0.09, length: 0.46 },
+  { width: 1, opacity: 0.12, length: 0.26 },
 ];
 
 function perimeterOf(width: number, height: number, radius: number): number {
@@ -34,8 +36,8 @@ function perimeterOf(width: number, height: number, radius: number): number {
 
 /**
  * Luminous perimeter of its positioned parent: a faint track plus soft points of light drifting along it, two per
- * card-sized perimeter. Each light is three stacked strokes (wide faint halo, mid layer, thin core) of decreasing length,
- * centred on each other, which fakes a diffuse glow without an SVG blur filter (a filter would re-rasterize the whole
+ * card-sized perimeter. Each light is five stacked strokes, from a narrow faint halo to a thin core, of decreasing length,
+ * centred on each other, so it tapers into a soft comet instead of visible steps. This fakes a diffuse glow without an SVG blur filter (a filter would re-rasterize the whole
  * border every frame). Deliberately dim and slow so it adds atmosphere without drawing the eye.
  * Purely decorative: ignores the pointer, sizes itself to the parent and pauses while off screen or when `paused`.
  */
@@ -84,11 +86,11 @@ export function GlowBorder({ paused = false }: { paused?: boolean }) {
         <>
           <rect {...rect} fill="none" strokeWidth={TRACK_WIDTH} className="stroke-accent/10" />
           <g className="stroke-accent motion-reduce:opacity-50">
-            {LIGHT_LAYERS.map((layer) => {
+            {LIGHT_LAYERS.map((layer, index) => {
               const dash = lightUnits * layer.length;
               return (
                 <rect
-                  key={layer.width}
+                  key={index}
                   {...rect}
                   pathLength={PATH_LENGTH}
                   fill="none"

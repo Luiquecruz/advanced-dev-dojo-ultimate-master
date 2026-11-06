@@ -64,7 +64,7 @@ export class SignupService {
     // TODO: normalize the email, reject taken emails with EmailTakenError, use the injected ids, clock, users and mailer
     const user = { id: randomUUID(), email, createdAt: new Date().toISOString() };
     await this.users.save(user);
-    console.log(`Sending "Welcome to Dev Dojo" to ${email}`);
+    console.log(`Sending "Welcome to Constela Mission" to ${email}`);
     return user;
   }
 }

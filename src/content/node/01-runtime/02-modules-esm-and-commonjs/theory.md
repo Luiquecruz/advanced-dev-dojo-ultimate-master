@@ -95,7 +95,7 @@ The prefix marks a built-in module explicitly: it cannot be hijacked by an npm p
 - **Circular imports** run, but one side may see `undefined` bindings during startup. Treat a cycle as a design smell.
 - **Extensions**: `import './db'` fails in Node ESM. TypeScript projects compiled by `tsc` write `./db.js` in the source; projects that run `.ts` directly write `./db.ts`.
 
-## How this runs in Dev Dojo
+## How this runs in Constela Mission
 
 Your files are converted to CommonJS behind the scenes, so the syntax you write is ESM and behaves like Node ESM for imports and exports. `import.meta` and top-level `await` are not available; wrap async startup code in `async function main()`. Use a flat folder of files: imports resolve from the project root.
 

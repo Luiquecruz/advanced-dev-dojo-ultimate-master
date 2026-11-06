@@ -85,4 +85,4 @@ export function cn(...inputs) {
 - Long class strings: extract **components**, not `@apply` classes, when markup repeats.
 - Ideal for Server Components because the output is static CSS.
 
-> In the Dojo sandbox Tailwind is not loaded, so the preview shows unstyled markup. The tests check the class names, exactly like the scanner would.
+> In the Constela sandbox Tailwind is not loaded, so the preview shows unstyled markup. The tests check the class names, exactly like the scanner would.

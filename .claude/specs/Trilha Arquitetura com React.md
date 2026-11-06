@@ -268,9 +268,9 @@ Dado um briefing de produto fictício (contexto, número de times, requisitos de
 
 ---
 
-## 10. Adaptação para o Dev Dojo
+## 10. Adaptação para a Constela Mission
 
-A trilha roda em `src/content/architecture` (track `architecture`, engine `react`) e o plano de lições fica em `.claude/docs/CURRICULUM.md`. O Dev Dojo roda só no browser, sem backend, então cada item da spec virou um destes formatos:
+A trilha roda em `src/content/architecture` (track `architecture`, engine `react`) e o plano de lições fica em `.claude/docs/CURRICULUM.md`. A Constela Mission roda só no browser, sem backend, então cada item da spec virou um destes formatos:
 
 - **Desafio:** código validado por testes no sandbox. Modelos de servidor (MVC, SSR, streaming, SSG, ISR, RSC, BFF) são funções que recebem a request e devolvem HTML, stream ou JSON. Ferramentas de build (Turborepo, Module Federation) viram desafios sobre o mecanismo por baixo delas.
 - **Quiz:** temas de decisão ou de ferramenta que não executam no browser.

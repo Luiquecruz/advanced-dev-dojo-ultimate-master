@@ -69,7 +69,7 @@ The listener runs on the single JavaScript thread. While one request waits for I
 
 State in module variables (an array of todos) is shared by every request and lost on restart. That is fine for learning and caches, never for real data: it also breaks as soon as you run two instances.
 
-## How this runs in Dev Dojo
+## How this runs in Constela Mission
 
 The browser cannot open real ports, so the lesson runtime provides an in-memory `node:http`. `server.listen(port)` registers the port, `fetch('http://localhost:<port>/...')` reaches it, and the tests call `request(server, '/todos')`, the same idea as Supertest in a real project. The code you write is the same code you would run with `node main.ts`.
 

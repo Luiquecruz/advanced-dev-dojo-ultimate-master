@@ -20,7 +20,7 @@ const STATUS: Record<TrackStatus, { label: string; icon: ReactNode; className: s
 };
 
 /**
- * Track card of the path carousel: status, current stage, a timeline of the modules around it and the overall progress.
+ * Mission card of the carousel: status, current stage, a timeline of the modules around it and the overall progress.
  * Only the active card is interactive. The card is a single flat plane inside the 3D stage (no `preserve-3d` of its own),
  * so its buttons hit-test in plain 2D in every browser.
  */
@@ -36,7 +36,7 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
       data-motion-origin={`track:${track.id}`}
       data-tilt-target={active || undefined}
       className={clsx(
-        'group/card relative flex h-full flex-col gap-4 rounded-panel [--slide-distance:inherit] border border-accent/25 bg-panel/85 p-6 tilt-surface shadow-[0_0_0_1px_rgb(var(--accent-rgb)/0.06),0_30px_80px_-30px_rgb(var(--accent-rgb)/0.45),inset_0_1px_0_rgb(255_255_255/0.06)] transition-[border-color] duration-(--dur-base) ease-out',
+        'group/card relative flex h-full flex-col gap-4 rounded-panel [--slide-distance:inherit] border border-accent/25 bg-panel/96 p-6 tilt-surface shadow-[0_0_0_1px_rgb(var(--accent-rgb)/0.06),0_30px_80px_-30px_rgb(var(--accent-rgb)/0.45),inset_0_1px_0_rgb(255_255_255/0.06)] transition-[border-color] duration-(--dur-base) ease-out',
         active && 'pointer-events-auto hover:border-accent/45 has-focus-visible:border-accent/45',
       )}
     >
@@ -49,7 +49,7 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
 
       <header className="relative flex flex-col gap-4" inert={!active}>
         <div className="flex items-center justify-between gap-3">
-          <span className="text-[11px] font-semibold tracking-[0.12em] text-ink-faint uppercase">Learning path</span>
+          <span className="text-[11px] font-semibold tracking-[0.12em] text-ink-faint uppercase">Mission</span>
           <span className={clsx('inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase [&_svg]:size-3', status.className)}>
             {status.icon}
             {status.label}
@@ -69,7 +69,7 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
 
         <div className="text-sm">
           <div className="font-mono text-xs font-semibold text-accent">{stage}</div>
-          <div className="mt-0.5 truncate text-ink-muted">{summary.status === 'completed' ? 'Track complete' : `Next up: ${summary.resumeLesson.title}`}</div>
+          <div className="mt-0.5 truncate text-ink-muted">{summary.status === 'completed' ? 'Mission complete' : `Next up: ${summary.resumeLesson.title}`}</div>
         </div>
 
         <ol className="relative m-0 flex list-none flex-col gap-1.5 p-0 before:absolute before:top-3.5 before:bottom-3.5 before:left-4.5 before:w-px before:bg-accent/20">
@@ -78,7 +78,7 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
           ))}
         </ol>
 
-        <div className="mt-auto flex items-center gap-3 rounded-xl border border-line bg-void/40 px-3.5 py-3">
+        <div className="mt-auto flex items-center gap-3 rounded-xl border border-line bg-void/60 px-3.5 py-3">
           <span className="grid size-8 flex-none place-items-center rounded-lg bg-accent/10 text-accent">
             <ChartIcon />
           </span>
@@ -89,17 +89,17 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
             </div>
             <ProgressBar percent={summary.percent} label={`${summary.percent}% of ${track.title} complete`} />
             <div className="mt-1 text-[11px] text-ink-faint">
-              {summary.done} of {summary.total} lessons · {track.modules.length} modules
+              {summary.done} of {summary.total} waypoints · {track.modules.length} stages
             </div>
           </div>
         </div>
 
         <div className="flex gap-2.5">
           <Link className={buttonClass('ghost', 'regular', 'flex-1 justify-center')} to={hrefTo({ page: 'track', trackId: track.id })} draggable={false}>
-            Curriculum
+            Star map
           </Link>
           <Link className={buttonClass('primary', 'regular', 'flex-1 justify-center')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: summary.resumeLesson.id })} draggable={false}>
-            {summary.status === 'not-started' ? 'Start' : 'Continue'}
+            {summary.status === 'not-started' ? 'Launch' : 'Continue'}
           </Link>
         </div>
       </div>
@@ -127,12 +127,12 @@ function TimelineRow({ entry }: { entry: ModuleProgress }) {
       </span>
       <span className={clsx('min-w-0 flex-1 truncate text-[13px] font-medium', current ? 'text-ink' : 'text-ink-muted')}>{entry.module.title}</span>
       {entry.module.optional && <span className={tagClass('optional', 'flex-none')}>optional</span>}
-      <span className="flex-none font-mono text-[11px] text-ink-faint" aria-label={`${entry.done} of ${entry.total} lessons`}>
+      <span className="flex-none font-mono text-[11px] text-ink-faint" aria-label={`${entry.done} of ${entry.total} waypoints`}>
         {entry.done}/{entry.total}
       </span>
       <span className={clsx('flex-none [&_svg]:size-3.5', current ? 'text-accent' : entry.state === 'done' ? 'text-success' : 'text-ink-faint')}>
         {entry.state === 'done' ? (
-          <CheckIcon role="img" aria-label="Module complete" />
+          <CheckIcon role="img" aria-label="Stage complete" />
         ) : current ? (
           <ChevronRightIcon role="img" aria-label="Current stage" />
         ) : (

@@ -66,7 +66,7 @@ A `.nvmrc` file does the same for local tooling. Recent versions also run TypeSc
 
 Edge platforms (Cloudflare Workers, Vercel Edge) run V8 isolates with web-standard APIs but no `node:fs`. Frameworks such as Hono run on all of them because they only use `Request` and `Response`.
 
-## How this runs in Dev Dojo
+## How this runs in Constela Mission
 
 Lessons run on an in-browser Node 24 runtime with an in-memory file system and virtual ports. The code you write is the code you would run with `node main.ts`.
 

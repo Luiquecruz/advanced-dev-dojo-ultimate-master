@@ -8,4 +8,4 @@ Build a filterable `ProductList`.
 4. Use the product **`id`** as the `key` of each `<li>`.
 5. When no product matches, render `<p>No products found.</p>` instead of the list.
 
-The exported `products` constant holds the sample data from the Dojo API; the preview uses it.
+The exported `products` constant holds the sample data from the Constela API; the preview uses it.

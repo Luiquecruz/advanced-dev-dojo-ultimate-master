@@ -25,6 +25,7 @@ export function PerfOverlay({ scene }: { scene: SceneAPI | null }) {
         ['frame', `${stats.frameMs.toFixed(1)} ms`],
         ['tier', stats.tier],
         ['particles', String(stats.particles)],
+        ['mass', stats.mass.toFixed(2)],
         ['dpr', stats.pixelRatio.toFixed(2)],
         ['render', stats.renderMode],
         ['renderers', String(stats.renderers)],

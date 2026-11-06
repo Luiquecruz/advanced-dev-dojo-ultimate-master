@@ -18,7 +18,7 @@ Password hashing combines two ideas: a **unique random salt** per password and a
 | bcrypt | rounds (cost 10–12+) | fine for existing systems; truncates input at 72 bytes |
 | PBKDF2-HMAC-SHA256 | iterations | FIPS-approved; needs a very high count (OWASP: 600 000) |
 
-PBKDF2 is the one every platform has (WebCrypto, `node:crypto`, every language), which is why this lesson builds it. In a real Node project prefer `crypto.scrypt` or the `argon2` package. The Dev Dojo runtime implements PBKDF2 in plain JavaScript, so the exercise uses only 1000 iterations; **never** ship a count that low.
+PBKDF2 is the one every platform has (WebCrypto, `node:crypto`, every language), which is why this lesson builds it. In a real Node project prefer `crypto.scrypt` or the `argon2` package. The Constela Mission runtime implements PBKDF2 in plain JavaScript, so the exercise uses only 1000 iterations; **never** ship a count that low.
 
 ## PBKDF2 in Node.js
 

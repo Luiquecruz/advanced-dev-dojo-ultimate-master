@@ -8,6 +8,7 @@ uniform vec3 uAccent;
 uniform float uTime;
 uniform float uFocus;
 uniform float uBrightness;
+uniform float uMass;
 
 varying vec3 vWorld;
 varying float vWell;
@@ -31,7 +32,8 @@ void main() {
   float distanceToCamera = length(vWorld.xz - cameraPosition.xz);
   float fade = 1.0 - smoothstep(10.0, 62.0, distanceToCamera);
   float horizon = smoothstep(8.0, 40.0, distanceToCamera);
-  float curvature = 0.55 + 0.45 * vWell;
-  float intensity = max(ring, spoke) * fade * (0.18 + horizon * 0.26) * curvature * (1.0 - uFocus * 0.5) * uBrightness;
+  float nearFade = smoothstep(4.0, 16.0, distanceToCamera);
+  float curvature = 0.55 + 0.45 * vWell + vWell * uMass * 0.45;
+  float intensity = max(ring, spoke) * fade * nearFade * (0.18 + horizon * 0.26) * curvature * (1.0 - uFocus * 0.5) * uBrightness;
   gl_FragColor = vec4(uAccent, intensity);
 }

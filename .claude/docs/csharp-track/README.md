@@ -1,6 +1,6 @@
 # C#/.NET Track — Specification Index
 
-Plan and decisions for the **C#/.NET backend track** of Dev Dojo, in English like the rest of the project. It follows the shape of the Python track ([python-track/](../python-track/README.md)). Research comes first, then the plan, then lessons written module by module, each with an independent review.
+Plan and decisions for the **C#/.NET backend track** of Constela Mission, in English like the rest of the project. It follows the shape of the Python track ([python-track/](../python-track/README.md)). Research comes first, then the plan, then lessons written module by module, each with an independent review.
 
 ## Goal
 

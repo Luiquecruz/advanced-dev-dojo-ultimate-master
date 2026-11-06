@@ -17,7 +17,7 @@ You get a first answer within 7 days. A fix is published on `main` once it is re
 
 ## What is in scope
 
-Dev Dojo runs learners' code in the browser, so the isolation of that code matters most:
+Constela Mission runs learners' code in the browser, so the isolation of that code matters most:
 
 - escaping the sandbox iframe or the Python worker (`src/sandbox/`, `src/engines/python/lockdown.ts`), or bypassing the worker Content-Security-Policy;
 - making one learner's code or progress reach another learner;

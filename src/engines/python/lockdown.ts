@@ -19,7 +19,7 @@ const STORAGE_FILE_SYSTEMS = ['NODEFS', 'NODERAWFS', 'IDBFS', 'NATIVEFS_ASYNC', 
 const STORAGE_MOUNTS = ['mountNodeFS', 'mountNativeFS'] as const;
 
 const CODE_GENERATION_DISABLED = 'Code generation is disabled in the Python sandbox.';
-const PACKAGES_DISABLED = 'Installing packages is disabled in Dev Dojo: lessons use the standard library only.';
+const PACKAGES_DISABLED = 'Installing packages is disabled in Constela Mission: challenges use the standard library only.';
 
 type Scope = WorkerScope;
 

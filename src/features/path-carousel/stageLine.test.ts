@@ -35,7 +35,7 @@ describe('stageLine', () => {
   });
 
   it('names the optional module the resume lesson sits in', () => {
-    expect(stageLine(summarizeTrack(track, progressWith([], 'module-0-lesson-2')))).toBe('Optional module 00 · Module 0');
+    expect(stageLine(summarizeTrack(track, progressWith([], 'module-0-lesson-2')))).toBe('Optional stage 00 · Module 0');
   });
 
   it('numbers a required stage by its folder prefix on a track with a module zero', () => {

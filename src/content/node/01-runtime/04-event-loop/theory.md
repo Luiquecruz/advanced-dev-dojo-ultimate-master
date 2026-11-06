@@ -79,7 +79,7 @@ The timer fires after about 200 ms, not 10. In a server, the same busy loop dela
 
 Network I/O uses the OS's non-blocking sockets directly. File system calls, DNS lookups (`dns.lookup`), `crypto.pbkdf2`, `scrypt` and `zlib` run on **libuv's thread pool** (4 threads by default, `UV_THREADPOOL_SIZE`). Their callbacks still come back to the single JavaScript thread through the poll phase.
 
-## How this runs in Dev Dojo
+## How this runs in Constela Mission
 
 The in-browser runtime approximates the phases with the browser's own event loop: `nextTick`, promises and timers are close but not identical to Node. That is why this challenge asks you to **predict** orders as data instead of measuring them. Your predictions are checked against real Node behavior.
 

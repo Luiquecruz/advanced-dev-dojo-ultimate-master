@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState, type RefObject } from 'react';
 import { flushSync } from 'react-dom';
 import type { TrackId } from '@/content';
+import { trackMass } from '@/entities/track';
 import { motionCoordinator } from '@/shared/motion/coordinator';
 import { isActivityState, type MotionState, type RestingState } from '@/shared/motion/states';
 import type { SceneTarget } from '@/shared/scene/types';
@@ -39,20 +40,25 @@ export function restingStateFor(route: Route, exploring: boolean): RestingState 
 }
 
 /**
- * Ambient scene target for the motion state. During a return the route already names the destination.
+ * Ambient scene target for the motion state. During a return the route already names the destination. The mass of the
+ * shown track sets how deep the grid well sinks.
  */
 export function sceneTargetFor(state: MotionState, route: Route, homeTrail?: TrackId): SceneTarget {
   const trail = route.page === 'home' ? homeTrail : route.trackId;
+  return { ...sceneStateFor(state, route), trail, mass: trackMass(trail) };
+}
+
+function sceneStateFor(state: MotionState, route: Route): Omit<SceneTarget, 'trail' | 'mass'> {
   if (state === 'ACTIVITY_TRANSITION') {
-    return { state: 'activity', trail, focus: CURRICULUM_FOCUS, renderMode: 'running' };
+    return { state: 'activity', focus: CURRICULUM_FOCUS, renderMode: 'running' };
   }
   if (state === 'ACTIVITY') {
-    return { state: 'activity', trail, focus: 1, renderMode: 'paused' };
+    return { state: 'activity', focus: 1, renderMode: 'paused' };
   }
   if (route.page === 'track') {
-    return { state: 'curriculum', trail, focus: CURRICULUM_FOCUS, renderMode: 'running' };
+    return { state: 'curriculum', focus: CURRICULUM_FOCUS, renderMode: 'running' };
   }
-  return { state: state === 'INTRO' ? 'intro' : 'explorer', trail, focus: 0, renderMode: 'running' };
+  return { state: state === 'INTRO' ? 'intro' : 'explorer', focus: 0, renderMode: 'running' };
 }
 
 function baseOf(route: Route): BaseRoute {

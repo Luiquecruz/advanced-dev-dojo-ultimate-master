@@ -9,7 +9,7 @@ import { buttonClass } from '@/shared/ui/classNames';
 import { useMotionState } from '@/shared/motion/useMotionState';
 
 /**
- * Curriculum overview of one track.
+ * Star map of one mission: its stages and waypoints.
  */
 export function TrackPage({ track }: { track: Track }) {
   const state = useProgress();
@@ -20,10 +20,10 @@ export function TrackPage({ track }: { track: Track }) {
   return (
     <main data-trail={track.id} className="mx-auto max-w-245 px-6 pt-9 pb-16 max-wide:px-4 max-wide:pt-6 max-wide:pb-12">
       <Link to={hrefTo({ page: 'home' })} className="enter inline-block text-sm text-ink-muted hover:text-ink">
-        ← All tracks
+        ← All missions
       </Link>
       <div className="enter mt-5.5" style={{ ['--enter-delay' as string]: '80ms' }}>
-        <CurriculumPanel label={`${track.title} curriculum`} paused={motionState === 'ACTIVITY'}>
+        <CurriculumPanel label={`${track.title} star map`} paused={motionState === 'ACTIVITY'}>
           <header>
             <div className="flex items-center gap-4.5">
               <TrackLogo track={track} size={56} />
@@ -34,14 +34,14 @@ export function TrackPage({ track }: { track: Track }) {
             </div>
             <p className="my-4 text-base text-ink-muted">{track.description}</p>
             <div className="mt-4.5 mb-7 flex flex-wrap items-center gap-4">
-              <ProgressBar percent={percent} label={`${done} of ${total} lessons complete`} large />
+              <ProgressBar percent={percent} label={`${done} of ${total} waypoints reached`} large />
               <span className="text-ink-muted">
-                {done}/{total} lessons complete
+                {done}/{total} waypoints reached
               </span>
               <Link className={buttonClass('primary')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: resumeLesson.id })}>
-                {status === 'not-started' ? 'Start learning' : 'Continue'}
+                {status === 'not-started' ? 'Launch mission' : 'Continue'}
               </Link>
-              {hasOptionalModule && <p className="m-0 basis-full text-xs text-ink-faint">An optional module counts toward progress once you complete one of its challenge lessons other than its last.</p>}
+              {hasOptionalModule && <p className="m-0 basis-full text-xs text-ink-faint">An optional stage counts toward progress once you complete one of its challenge waypoints other than its last.</p>}
             </div>
           </header>
           <ModuleList track={track} />

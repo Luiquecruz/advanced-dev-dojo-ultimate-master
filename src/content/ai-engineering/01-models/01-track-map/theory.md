@@ -33,7 +33,7 @@ Layer 1, seen from the outside: what a model does with your input and what it co
 
 ## The fake model
 
-Challenges never call a real model. They run against a **fake provider** built into Dev Dojo (`@dojo/ai`). It does not imitate any real model; it reproduces the *classes of behavior* every model generation shows: text in many phrasings, valid and malformed JSON, tool calls (including unknown tools and broken arguments), refusals, truncated output, slow replies, rate limits and server errors.
+Challenges never call a real model. They run against a **fake provider** built into Constela Mission (`@dojo/ai`). It does not imitate any real model; it reproduces the *classes of behavior* every model generation shows: text in many phrasings, valid and malformed JSON, tool calls (including unknown tools and broken arguments), refusals, truncated output, slow replies, rate limits and server errors.
 
 That is a feature, not a compromise:
 

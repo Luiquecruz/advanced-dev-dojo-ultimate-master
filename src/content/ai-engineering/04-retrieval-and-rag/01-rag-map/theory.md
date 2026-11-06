@@ -39,7 +39,7 @@ measure:    golden set → recall@k, MRR, nDCG for each variant (07)
 8. **Agentic RAG and long context** (quiz): when an agent should drive retrieval, and when to skip retrieval entirely.
 9. **The RAG ADR**: a retrieval plan for a multi-tenant help center, checked against a briefing.
 
-Every challenge runs on Dev Dojo's deterministic `embed()` (a bag-of-words stand-in for an embedding model) and the fake model, so the mechanics are exact and repeatable; the quality numbers of real embedding models belong to your own evals.
+Every challenge runs on Constela Mission's deterministic `embed()` (a bag-of-words stand-in for an embedding model) and the fake model, so the mechanics are exact and repeatable; the quality numbers of real embedding models belong to your own evals.
 
 > **Status as of October 2026:** RAG is `established`; GraphRAG (module 05) is established for global questions over large corpora; agentic RAG and contextual retrieval are widely used and still evolving. Frontier context windows reach around a million tokens, which changes when RAG is needed but not why (lesson 09).
 

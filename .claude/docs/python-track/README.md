@@ -1,6 +1,6 @@
 # Python Track — Specification Index
 
-Spec-driven plan for a **Python language track** in Dev Dojo. Everything here is repo-native: it uses the real lesson format, loader, engine and verification suites described in [CONTENT_GUIDE.md](../CONTENT_GUIDE.md) and [ARCHITECTURE.md](../ARCHITECTURE.md). Written in English like the rest of the project.
+Spec-driven plan for a **Python language track** in Constela Mission. Everything here is repo-native: it uses the real lesson format, loader, engine and verification suites described in [CONTENT_GUIDE.md](../CONTENT_GUIDE.md) and [ARCHITECTURE.md](../ARCHITECTURE.md). Written in English like the rest of the project.
 
 The track began as a NotebookLM draft; the departures from that draft are listed at the end of this file.
 

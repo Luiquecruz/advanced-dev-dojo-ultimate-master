@@ -119,7 +119,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   }, [engine, challenge, programRunning, files, appendConsole]);
 
   const resetCode = () => {
-    if (!challenge || !confirm('Reset the editor to the starter code? Your changes for this lesson will be lost.')) {
+    if (!challenge || !confirm('Reset the editor to the starter code? Your changes for this waypoint will be lost.')) {
       return;
     }
     progress.clearCode(codeKey);
@@ -256,22 +256,22 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   ) : (
     <div className="grid h-full place-items-center bg-void p-6 text-center text-ink-muted">
       <div>
-        <h2 className="mb-1.5 text-2xl font-bold text-ink">Theory lesson</h2>
-        <p>This lesson has no coding challenge. Read the theory and answer the quiz to complete it.</p>
+        <h2 className="mb-1.5 text-2xl font-bold text-ink">Briefing waypoint</h2>
+        <p>This waypoint has no coding challenge. Read the briefing and answer the quiz to reach it.</p>
       </div>
     </div>
   );
 
   return (
     <div data-trail={track.id} className="flex h-screen flex-col overflow-hidden bg-void">
-      <header className="flex h-13 flex-none items-center gap-2.5 border-b border-line bg-elevated px-2.5">
-        <button className={iconButtonClass()} title="Curriculum" onClick={() => setDrawerOpen(true)}>
+      <header className="flex h-13 flex-none items-center gap-2.5 border-b border-line bg-elevated px-2.5" inert={drawerOpen}>
+        <button className={iconButtonClass()} title="Star map" onClick={() => setDrawerOpen(true)}>
           <MenuIcon />
         </button>
         <nav className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden text-sm whitespace-nowrap text-ink-muted">
           <Link to={hrefTo({ page: 'home' })} className="flex items-center gap-2 font-semibold tracking-[-0.02em] text-ink max-wide:hidden">
-            <BrandMark size={24} />
-            Dev Dojo
+            <BrandMark size={30} />
+            Constela Mission
           </Link>
           <span className="max-wide:hidden">/</span>
           <Link to={hrefTo({ page: 'track', trackId: track.id })} className="hover:text-ink">
@@ -289,16 +289,16 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
           <span className="mx-1.5 font-mono text-xs text-ink-faint max-wide:hidden">
             {index + 1} / {track.lessons.length}
           </span>
-          <LessonStepLink trackId={track.id} lessonId={previous?.id} title="Previous lesson">
+          <LessonStepLink trackId={track.id} lessonId={previous?.id} title="Previous waypoint">
             <ChevronLeftIcon />
           </LessonStepLink>
-          <LessonStepLink trackId={track.id} lessonId={next?.id} title="Next lesson">
+          <LessonStepLink trackId={track.id} lessonId={next?.id} title="Next waypoint">
             <ChevronRightIcon />
           </LessonStepLink>
         </div>
       </header>
 
-      <main className="min-h-0 flex-1">
+      <main className="min-h-0 flex-1" inert={drawerOpen}>
         <Group orientation={narrow ? 'vertical' : 'horizontal'} className="h-full">
           <Panel defaultSize={narrow ? '50' : '40'} minSize="20">
             <LessonPanel
@@ -326,7 +326,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
       {solutionOpen && challenge && (
         <div
           role="presentation"
-          className="fixed inset-0 z-50 grid place-items-center bg-[rgb(3_6_12/0.6)] p-6 backdrop-blur-[2px]"
+          className="fixed inset-0 z-50 grid place-items-center bg-scrim p-6 backdrop-blur-[2px]"
           onClick={(event) => event.target === event.currentTarget && setSolutionOpen(false)}
         >
           <div
@@ -395,7 +395,7 @@ interface LessonStepLinkProps {
 }
 
 /**
- * Icon link to a neighbouring lesson, rendered as a disabled placeholder when there is none.
+ * Icon link to a neighbouring waypoint, rendered as a disabled placeholder when there is none.
  */
 function LessonStepLink({ trackId, lessonId, title, children }: LessonStepLinkProps) {
   if (!lessonId) {

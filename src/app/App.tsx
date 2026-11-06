@@ -69,9 +69,9 @@ function ActivityPage({ activity }: { activity: ActivityRoute }) {
 function NotFound() {
   return (
     <main className="grid h-full place-items-center content-center gap-4 bg-void">
-      <h1 className="text-3xl font-bold">Page not found</h1>
+      <h1 className="text-3xl font-bold">Off course: page not found</h1>
       <Link className={buttonClass('primary')} to={hrefTo({ page: 'home' })}>
-        Back to Dev Dojo
+        Back to Constela Mission
       </Link>
     </main>
   );

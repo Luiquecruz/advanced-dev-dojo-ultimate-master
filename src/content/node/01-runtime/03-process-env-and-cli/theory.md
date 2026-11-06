@@ -89,7 +89,7 @@ Prefer setting `process.exitCode` and letting the program finish. `process.exit(
 | `process.on('SIGTERM', fn)` | Shutdown signals (graceful shutdown is covered in the scaling module) |
 | `process.memoryUsage()`, `process.uptime()` | Basic health metrics |
 
-## How this runs in Dev Dojo
+## How this runs in Constela Mission
 
 `process.env` starts with `NODE_ENV=development`, `HOME` and `PATH`, and `process.argv.slice(2)` is empty, so **Run** shows what your program does without configuration. Tests call your functions with their own `env` and `args`.
 

@@ -1,6 +1,6 @@
 # Architecture and Adding a Track
 
-This document describes how Dev Dojo is built and the step-by-step pattern to add a new track (for example Svelte, Solid or Python-in-the-browser). For the lesson file format see [CONTENT_GUIDE.md](CONTENT_GUIDE.md); for the lesson plan see [CURRICULUM.md](CURRICULUM.md). All project docs live in `.claude/docs/`.
+This document describes how Constela Mission is built and the step-by-step pattern to add a new track (for example Svelte, Solid or Python-in-the-browser). For the lesson file format see [CONTENT_GUIDE.md](CONTENT_GUIDE.md); for the lesson plan see [CURRICULUM.md](CURRICULUM.md). All project docs live in `.claude/docs/`.
 
 ## Overview
 
@@ -96,7 +96,7 @@ The app never imports lesson files directly. `plugins/contentPlugin.ts` reads `s
 - `virtual:dojo-content`: the catalog (track meta, modules and `LessonEntry` items with `hasChallenge`/`hasQuiz`) plus `lessonLoaders`, one dynamic import per lesson. It is the only content in the initial load.
 - `virtual:dojo-content/lesson/<track>/<lesson>`: the lesson body (theory, concepts, variants, quiz, resources), one chunk per lesson. Both are generated as JavaScript by `plugins/contentPlugin.ts`; every value goes through `jsLiteral` (JSON with `<`, `>`, `/`, U+2028 and U+2029 escaped), so lesson text can never close a string or a script context in the generated code.
 
-`loadLesson(entry)` (`content/index.ts`) imports the body once and caches the promise; `restoreLesson` rebuilds `challenge` as `variants[0]`. `pages/lesson/LessonRoute.tsx` lazy-loads `LessonPage` (Monaco, engines, runner) and the lesson body in parallel, suspends on them and shows the lesson title meanwhile; when the coordinator focused that placeholder title, focus moves to the real `[data-activity-title]` once the page mounts. Everything outside the lesson screen works on `LessonEntry` (`isLessonComplete`, `summarizeTrack`, curriculum, carousel). In dev, a change under `src/content/<track>/` invalidates the virtual modules and reloads the page. `src/verify` builds full tracks from `content/allContent.ts` (eager glob), and `content.test.ts` checks that the served catalog matches them.
+`loadLesson(entry)` (`content/index.ts`) imports the body once and caches the promise; `restoreLesson` rebuilds `challenge` as `variants[0]`. `pages/lesson/LessonRoute.tsx` lazy-loads `LessonPage` (Monaco, engines, runner) and the lesson body in parallel, suspends on them and shows a placeholder with the lesson screen layout meanwhile (top bar, the lesson header with its real title, summary and tab outlines, skeleton lines, and an orbit loader with "Plotting course to waypoint…"), so the loaded page replaces it without a jump. After 10 seconds it adds "Still plotting course…" with a Retry (page reload); if loading the screen or the body throws, `LessonLoadBoundary` shows the same placeholder with "Signal lost" and Retry instead of unmounting the app; the `LessonPanel` header has no entrance animation for the same reason; when the coordinator focused that placeholder title, focus moves to the real `[data-activity-title]` once the page mounts. Everything outside the lesson screen works on `LessonEntry` (`isLessonComplete`, `summarizeTrack`, curriculum, carousel). In dev, a change under `src/content/<track>/` invalidates the virtual modules and reloads the page. `src/verify` builds full tracks from `content/allContent.ts` (eager glob), and `content.test.ts` checks that the served catalog matches them.
 
 ### State and storage
 
@@ -293,6 +293,20 @@ Everything the UI shows about a track comes from two places:
 | `track.json` | `shortTitle` (optional) | the giant backdrop word on the home page; set it when `title` is longer than about 10 characters (`react-state` uses `"State"`) |
 | `track.json` | `order` | position in the home carousel and the track list |
 | `tokens.css` | `[data-trail='<id>'] { --accent; --accent-rgb }` | every accent: buttons, borders, glow, scene particles, headline highlight |
+| lessons | count of lessons plus coding challenges | the track mass (`entities/track/trackMass.ts`): 0 to 1 relative to the track with the most content; `sceneTargetFor` passes it to the scene, where the grid well (`uMass` in `shared/scene/shaders/grid.vert.glsl`) sinks deeper (depth follows mass^1.6, so light and heavy tracks differ clearly) and wider (radius up to 17 units, so on desktop the walls show beside and below the carousel and the curriculum panel), with slightly brighter rings inside the well and no lines in the first 4 to 16 units in front of the camera (they would cross the footer text); carousel cards stay at `bg-panel/96` so the grid and the backdrop word never show through their text, and a `void` gradient sits under the home footer, eased with `MASS_RATE` and snapped under reduced motion. Without a track (home before a card is active) the mass is 0.5 |
+
+Brand and vocabulary: the product is **Constela Mission**, a space-mission theme over the starfield and the gravity-well grid. The mark (`shared/ui/BrandMark.tsx`, mirrored by `public/logo.svg`, also the favicon) is an eight-point guiding star (long vertical arms, shorter horizontal ones, short diagonals) inside a tilted orbit with a probe on it and two distant stars, with no tile: a radial halo (dark `void`/`panel` fading to transparent) sits behind it like a soft drop shadow, so it blends into dark pages and stays legible on light browser tabs. UI copy uses the mission vocabulary while code, content files and documentation keep the technical names:
+
+| Code and docs | UI copy |
+| --- | --- |
+| track | mission |
+| module | stage (`Stage 2 of 6`, `optional stage`) |
+| lesson | waypoint (`Next waypoint`, `Waypoint reached.`, `12/41 waypoints reached`) |
+| curriculum (track page, drawer) | star map |
+| Learn tab | Briefing |
+| challenge, quiz | unchanged |
+
+The storage key stays `dev-dojo:progress:v1` so saved progress survives the rename. Internal `dojo` identifiers are kept on purpose because they are API surface, pinned or compared by CI: `@dojo/ai`, `dojo_ai`, `dojo_harness.py`, `DojoHost`/`Dojo.Testing` and the C# `using Dojo;` namespace (hashed into `vendor/dotnet/manifest.json`), `virtual:dojo-content`, the `dojo-pyodide`/`dojo-dotnet` meta tags (the deploy smoke test reads them), the `DOJO_*` variables of `tests/python` and the `.dojo-preview-*` classes of `sandbox.html`. The repository (`advanced-dev-dojo-ultimate-master`) and the Sentry project keep their names. New identifiers use `constela` (package `constela-mission`, Monaco theme `constela`, docs-sync state `constela-docs-sync`).
 
 Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue` and `angular`). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
 

@@ -17,7 +17,7 @@ interface PathCarouselProps {
 
 const STAGE_HEIGHT_PX = 660;
 const ARROW_CLASS =
-  'group/arrow absolute top-1/2 z-20 grid h-14 w-14 -translate-y-1/2 place-items-center text-ink-faint transition-colors duration-(--dur-base) hover:text-accent focus-visible:text-accent max-wide:hidden';
+  'group/arrow absolute top-1/2 z-20 grid h-14 w-14 -translate-y-1/2 place-items-center rounded-full text-ink-faint transition-colors duration-(--dur-base) hover:text-accent focus-visible:text-accent max-wide:hidden';
 const ENTER_BASE_DELAY_MS = 260;
 const ENTER_STEP_MS = 120;
 
@@ -113,7 +113,7 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
 
   return (
     // eslint-disable-next-line jsx-a11y-x/no-noninteractive-element-interactions -- arrow keys are delegated from the focused card to the carousel region
-    <section aria-roledescription="carousel" aria-label="Learning paths" onKeyDown={onKeyDown} className="relative flex h-full min-h-0 flex-col">
+    <section aria-roledescription="carousel" aria-label="Missions" onKeyDown={onKeyDown} className="relative flex h-full min-h-0 flex-col">
       <div className="relative min-h-0 flex-1 max-wide:-mx-4 max-wide:max-h-[660px]">
         <div
           ref={viewportRef}
@@ -155,10 +155,10 @@ export function PathCarousel({ tracks, active, onActiveChange }: PathCarouselPro
           </div>
         </div>
 
-        <button className={clsx(ARROW_CLASS, 'left-0 cursor-prev')} onClick={() => go(active - 1)} aria-label={`Previous path: ${tracks[wrapIndex(active - 1, count)].title}`}>
+        <button className={clsx(ARROW_CLASS, 'left-0 cursor-prev')} onClick={() => go(active - 1)} aria-label={`Previous mission: ${tracks[wrapIndex(active - 1, count)].title}`}>
           <ArrowLongLeftIcon className="transition-transform duration-(--dur-base) ease-out group-hover/arrow:-translate-x-1.5" />
         </button>
-        <button className={clsx(ARROW_CLASS, 'right-0 cursor-next')} onClick={() => go(active + 1)} aria-label={`Next path: ${tracks[wrapIndex(active + 1, count)].title}`}>
+        <button className={clsx(ARROW_CLASS, 'right-0 cursor-next')} onClick={() => go(active + 1)} aria-label={`Next mission: ${tracks[wrapIndex(active + 1, count)].title}`}>
           <ArrowLongRightIcon className="transition-transform duration-(--dur-base) ease-out group-hover/arrow:translate-x-1.5" />
         </button>
       </div>

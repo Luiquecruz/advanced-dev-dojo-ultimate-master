@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { trackMass } from '@/entities/track';
 import { restingStateFor, sceneTargetFor } from './router-adapter';
 
 describe('restingStateFor', () => {
@@ -22,6 +23,12 @@ describe('sceneTargetFor', () => {
     const route = { page: 'lesson', trackId: 'vue', lessonId: 'refs' } as const;
     expect(sceneTargetFor('ACTIVITY_TRANSITION', route)).toMatchObject({ state: 'activity', renderMode: 'running', trail: 'vue' });
     expect(sceneTargetFor('ACTIVITY', route)).toMatchObject({ state: 'activity', renderMode: 'paused', focus: 1 });
+  });
+
+  it('sinks the grid well with the mass of the shown track', () => {
+    const route = { page: 'lesson', trackId: 'react', lessonId: 'refs' } as const;
+    expect(sceneTargetFor('ACTIVITY', route).mass).toBe(trackMass('react'));
+    expect(sceneTargetFor('INTRO', { page: 'home' }).mass).toBe(trackMass(undefined));
   });
 
   it('uses the destination route while returning', () => {

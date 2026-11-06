@@ -18,7 +18,7 @@ test('signup sends the welcome email through the injected mailer', async () => {
   const deps = fakes();
   await new mod.SignupService(deps).signup('grace@example.com');
   expect(deps.mailer.send).toHaveBeenCalledTimes(1);
-  expect(deps.mailer.send).toHaveBeenCalledWith({ to: 'grace@example.com', subject: 'Welcome to Dev Dojo' });
+  expect(deps.mailer.send).toHaveBeenCalledWith({ to: 'grace@example.com', subject: 'Welcome to Constela Mission' });
 });
 
 test('a taken email rejects with EmailTakenError and nothing is saved or sent', async () => {
@@ -40,7 +40,7 @@ test('createContainer() wires the real defaults', async () => {
   expect(user.id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
   expect(Number.isNaN(Date.parse(user.createdAt))).toBe(false);
   expect(await container.users.findByEmail('linus@example.com')).toEqual(user);
-  expect(logs).toContain('Sending "Welcome to Dev Dojo" to linus@example.com');
+  expect(logs).toContain('Sending "Welcome to Constela Mission" to linus@example.com');
 });
 
 test('createContainer(overrides) swaps only the overridden dependencies', async () => {
@@ -49,7 +49,7 @@ test('createContainer(overrides) swaps only the overridden dependencies', async 
   const user = await container.signupService.signup('margaret@example.com');
   expect(user).toEqual({ id: 'fixed-id', email: 'margaret@example.com', createdAt: '2026-01-02T03:04:05.000Z' });
   expect(container.mailer).toBe(mod.consoleMailer);
-  expect(logs).toContain('Sending "Welcome to Dev Dojo" to margaret@example.com');
+  expect(logs).toContain('Sending "Welcome to Constela Mission" to margaret@example.com');
 });
 
 test('SignupService creates none of its collaborators', () => {

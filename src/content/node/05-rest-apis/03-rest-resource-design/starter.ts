@@ -7,7 +7,7 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  { id: 1, slug: 'dev-dojo', name: 'Dev Dojo' },
+  { id: 1, slug: 'constela-mission', name: 'Constela Mission' },
   { id: 2, slug: 'billing', name: 'Billing Service' },
 ];
 
