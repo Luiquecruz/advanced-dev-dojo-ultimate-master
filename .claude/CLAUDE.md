@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Constela Mission (formerly Dev Dojo; UI vocabulary: track → mission, module → stage, lesson → waypoint, curriculum → star map, Learn → Briefing, see ARCHITECTURE.md "Track presentation") is a browser-only learning platform (theory, test-validated coding challenges, hints, quizzes) for TypeScript, React, React State Management, Frontend Architecture, AI Engineering (Node.js and Python variants), Node.js, Python, C# and .NET (on the C# engine; theory and quizzes, graded challenges in the optional fundamentals module 00 and in modules 02–04, 08–10, 12 and 14), Vue and Angular. There is no backend: grading, previews, a fake REST API and a fake model provider all run client-side. Everything (code, content, docs, commit messages) is written in English. The project has more than one contributor: workflow, commit format and the documentation upkeep rule are in `.claude/docs/CONTRIBUTING.md`.
+Constela Mission (formerly Dev Dojo; UI vocabulary: track → mission, module → stage, lesson → waypoint, curriculum → star map, Learn → Briefing, see ARCHITECTURE.md "Track presentation") is a browser-only learning platform (theory, test-validated coding challenges, hints, quizzes) for TypeScript, React, React State Management, Frontend Architecture, AI Engineering (Node.js and Python variants), Node.js, Python, C# and .NET (on the C# engine; theory and quizzes, graded challenges in the optional fundamentals module 00 and in modules 02–04, 08–10, 12 and 14), System Design (theory and quizzes, graded challenges in TypeScript on the Node.js engine, Python or C#, chosen by the learner), Vue and Angular. There is no backend: grading, previews, a fake REST API and a fake model provider all run client-side. Everything (code, content, docs, commit messages) is written in English. The project has more than one contributor: workflow, commit format and the documentation upkeep rule are in `.claude/docs/CONTRIBUTING.md`.
 
 ## Commands
 
@@ -15,7 +15,7 @@ npm run test                                                   # unit + architec
 npm run verify                                                 # lesson verification (src/verify): solution passes, starter fails
 npx vitest run src/shared/motion                               # one folder of unit tests
 npm run docs:check                                             # changed areas whose documents were not updated (.claude/hooks/docs-sync.mjs)
-npx vitest run src/verify/<track>.test.ts                      # one track (typescript, react, react-state, architecture, ai-engineering, node, python, csharp, vue, angular)
+npx vitest run src/verify/<track>.test.ts                      # one track (typescript, react, react-state, architecture, ai-engineering, node, python, csharp, system-design, vue, angular)
 npx vitest run src/verify/csharpSandbox.test.ts                # C# engine regression tests in Node: loop kills, tampering, lock-down probes, escape scan
 npm run python:new -- <NN-module> <NN-lesson-id>               # scaffold a Python track lesson (writes meta.json.draft)
 npm run python:curriculum                                      # regenerate the Python section of CURRICULUM.md (-- --check to verify)
@@ -49,6 +49,7 @@ All project documentation lives in `.claude/docs/` (the root `README.md` is the 
 | `.claude/docs/CONTENT_GUIDE.md` | lesson file format, `track.json` fields, test globals per engine, fake REST API data, installed library versions, verification commands | writing or fixing a lesson |
 | `.claude/docs/CURRICULUM.md` | every track, its modules and lessons; `✓` marks written lessons and the rest is the backlog | adding lessons or planning a track |
 | `.claude/docs/csharp-engine.md` | the C# engine: status, giving a lesson a C# challenge, pins, served files (Webcil) and the Brotli budget, download and prefetch, the Netlify build cache, security findings, open items | touching `src/engines/csharp/`, `vendor/dotnet/` or writing a C# challenge |
+| `.claude/docs/system-design-track.md` | the System Design track: decisions, content standards (no dates or changelog in lessons), challenge conventions, curriculum with beginner mistakes | writing or planning System Design lessons |
 | `.claude/docs/python-track/` | the Python track: decisions, platform tasks, content standards, full curriculum and per-module lesson specs | writing or planning Python lessons |
 | `.claude/specs/` | the visual and motion spec (Portuguese) | changing the scene, motion or the visual system |
 

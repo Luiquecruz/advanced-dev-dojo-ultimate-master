@@ -133,6 +133,16 @@ export const TRACK_GLYPHS: Record<string, TrackGlyph> = {
     ],
     key: [30.71, 19],
   },
+  'system-design': {
+    concept: 'a balancer fanning out to replicated nodes',
+    lines: ['M24 11L12 34', 'M24 11L24 34', 'M24 11L36 34', 'M12 34H36'],
+    stars: [
+      [12, 34],
+      [24, 34],
+      [36, 34],
+    ],
+    key: [24, 11],
+  },
   vue: {
     concept: 'converging chevrons',
     lines: ['M9 12L24 37L39 12', 'M16.5 12L24 25L31.5 12'],

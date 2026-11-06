@@ -1,0 +1,13 @@
+{
+  "languages": [
+    "node",
+    "python",
+    "csharp"
+  ],
+  "order": 11,
+  "title": "System Design",
+  "shortTitle": "Systems",
+  "monogram": "SD",
+  "description": "Design systems that scale, from zero: client-server and HTTP, statelessness, databases, load balancing and caching (optional module 00), then the interview framework and capacity estimation, protocols and rate limiting, storage engines, sharding and consistent hashing, CAP, consensus, queues, sagas and resilience, real architectures, vector databases and AI gateways, and production ownership: SLOs, multi-region design and design reviews.",
+  "version": "Concepts · capacity estimation · case studies · vector databases"
+}

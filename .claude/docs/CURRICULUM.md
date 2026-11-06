@@ -387,3 +387,28 @@ Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"en
 
 ### 14-integration-quality — Integration, Performance and Quality
 01-grpc-and-signalr ✓ · 02-performance-and-memory **(challenge)** ✓ · 03-diagnostics-in-production ✓ · 04-code-quality-and-analyzers ✓ · 05-ai-in-dotnet-apps ✓
+
+## System Design (`src/content/system-design`)
+
+Spec and standards: [system-design-track.md](system-design-track.md). Multi-language track (`"languages": ["node", "python", "csharp"]`): every lesson is theory + quiz, lessons marked **(challenge)** also have a graded challenge that models the mechanism (a rate limiter, a hash ring, a circuit breaker), in TypeScript, Python or C# as the learner chooses. 7 modules, 29 lessons: an optional fundamentals module 00 for learners new to architecture (skipped by anyone who can solve the 00/05 challenge; it counts toward progress only once started), then modules 01–06. 19 lessons have a graded challenge. Lessons carry no dates, no changelog and no bridges from other languages (`src/verify/system-design.test.ts`). Hidden (`TRACK_FLAGS['system-design'] = false`) until every module is written, verified and reviewed.
+
+### 00-fundamentals — Architecture Fundamentals (optional)
+01-client-server-and-http **(challenge)** ✓ · 02-statelessness-and-sessions **(challenge)** ✓ · 03-database-basics-sql-vs-nosql ✓ · 04-load-balancing-basics **(challenge)** ✓ · 05-caching-fundamentals **(challenge)** ✓
+
+### 01-interview-framework — System Design Framework & Capacity Estimation
+01-four-step-interview-framework ✓ · 02-back-of-the-envelope-estimation **(challenge)** ✓ · 03-scaling-from-zero-to-one-million ✓
+
+### 02-networking-and-edge — Networking, Edge & Load Balancing
+01-network-protocols-grpc-websockets-sse **(challenge)** ✓ · 02-advanced-load-balancing-and-p2c **(challenge)** ✓ · 03-rate-limiting-algorithms **(challenge)** ✓
+
+### 03-data-layer-and-partitioning — Data Layer, Storage Engines & Partitioning
+01-storage-engines-btree-vs-lsmtree **(challenge)** · 02-database-replication-and-sharding · 03-consistent-hashing-with-virtual-nodes **(challenge)** · 04-caching-patterns-and-stampede-mitigation **(challenge)**
+
+### 04-distributed-systems-and-resilience — Distributed Systems & Resilience
+01-cap-and-pacelc-theorems · 02-consensus-and-leader-election **(challenge)** · 03-message-queues-and-event-streams **(challenge)** · 04-saga-pattern-and-transactional-outbox **(challenge)** · 05-resilience-circuit-breaker-and-bulkhead **(challenge)** · 06-serverless-event-driven-architecture
+
+### 05-real-world-case-studies-and-vector-dbs — Real-World Case Studies & Vector Databases for AI
+01-uber-architecture-h3-and-geospatial **(challenge)** · 02-discord-architecture-scylladb-and-rust · 03-vector-databases-and-ann-indexes **(challenge)** · 04-vector-database-selection-guide · 05-ai-gateway-and-semantic-cache **(challenge)**
+
+### 06-production-ownership — Production Ownership
+01-observability-slos-and-error-budgets **(challenge)** · 02-multi-region-and-cell-based-architecture · 03-staff-level-design-reviews
