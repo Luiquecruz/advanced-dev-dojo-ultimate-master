@@ -1,3 +1,4 @@
+import { Marked, type Token, type Tokens } from 'marked';
 import type { Lesson } from '../content/types';
 
 /**
@@ -7,16 +8,40 @@ import type { Lesson } from '../content/types';
 export const DATED =
   /\b[Ss]tatus as of\b|\bchangelog\b|\brelease notes\b|\b(?:as of|in|since|until|by|from|during|early|late|mid-?)\s+(?:19|20)\d{2}\b|\b(?:19|20)\d{2}-\d{2}(?:-\d{2})?\b|\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+(?:19|20)\d{2}\b|\b(?:this|last|next) year\b|\bnewly released\b|\blatest (?:version|release)\b/i;
 
+const markdown = new Marked();
+
 /**
- * Fenced and inline code, removed before the check: a date in an example (a parser's input, a log line) is data, not a claim. A fence opens
- * on a line of three or more backticks or tildes and closes on a line that repeats them, so a fence inside a code string does not end it;
- * an inline span opens and closes with the same run of backticks, so ``2026-07-15`` is code too.
+ * The text a learner reads, with every code token dropped: Markdown is tokenized (a fence, an indented block, an inline span, an escaped
+ * backtick and a fence inside a block quote are all handled by the parser, not by a pattern), and a date in code, such as a program's input,
+ * is data, not a claim.
  */
-const CODE = /^ {0,3}(?<fence>`{3,}|~{3,})[^\n]*\n[\s\S]*?(?:^ {0,3}\k<fence>[`~]*[ \t]*$|(?![\s\S]))|(?<!`)(?<tick>`+)(?!`)[^\n]*?(?<!`)\k<tick>(?!`)/gm;
+function proseTextOf(tokens: Token[], separator: string): string {
+  return tokens
+    .map((token): string => {
+      if (token.type === 'code' || token.type === 'codespan') {
+        return ' ';
+      }
+      if (token.type === 'list') {
+        return (token as Tokens.List).items.map((item) => proseTextOf(item.tokens, '\n')).join('\n');
+      }
+      if (token.type === 'table') {
+        const { header, rows } = token as Tokens.Table;
+        return [header, ...rows].map((row) => row.map((cell) => proseTextOf(cell.tokens, '')).join(' ')).join('\n');
+      }
+      if (token.type === 'blockquote') {
+        return proseTextOf((token as Tokens.Blockquote).tokens, '\n');
+      }
+      if ('tokens' in token && Array.isArray(token.tokens)) {
+        return proseTextOf(token.tokens, '');
+      }
+      return 'text' in token && typeof token.text === 'string' ? token.text : token.raw;
+    })
+    .join(separator);
+}
 
 /** The first dated or changelog text in a lesson text outside code, or undefined. */
 export function datedIn(text: string): string | undefined {
-  return DATED.exec(text.replace(CODE, ' '))?.[0];
+  return DATED.exec(proseTextOf(markdown.lexer(text), '\n'))?.[0];
 }
 
 /** Every prose text a learner reads in a lesson, labelled by file, in every language the lesson ships. */

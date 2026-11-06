@@ -39,5 +39,8 @@ describe('no dates in lessons', () => {
     expect(datedIn('```ts\nconst a = 1;\n```\nStatus as of today')).toBe('Status as of');
     expect(datedIn('Parse ``2026-07-15`` and ` 2026-07-15 `.')).toBeUndefined();
     expect(datedIn('A tick ` then 2026-07-15 outside')).toBe('2026-07-15');
+    expect(datedIn('The \\` marker was introduced in 2025; use `marker` here.')).toBe('in 2025');
+    expect(datedIn('> ```text\n> shipped 2026-07-15\n> ```')).toBeUndefined();
+    expect(datedIn('| Field | Note |\n| --- | --- |\n| `date` | Status as of today |')).toBe('Status as of');
   });
 });
