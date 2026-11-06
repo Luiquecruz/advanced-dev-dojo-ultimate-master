@@ -65,7 +65,7 @@ export class SignupService {
     }
     const user: User = { id: this.deps.ids(), email, createdAt: this.deps.clock.now().toISOString() };
     await this.deps.users.save(user);
-    await this.deps.mailer.send({ to: email, subject: 'Welcome to Dev Dojo' });
+    await this.deps.mailer.send({ to: email, subject: 'Welcome to Constela Mission' });
     return user;
   }
 }

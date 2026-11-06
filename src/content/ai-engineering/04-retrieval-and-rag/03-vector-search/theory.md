@@ -9,7 +9,7 @@ An **embedding model** maps a text to a vector of fixed length (its **dimension*
 - **Compare only vectors from the same model and version.** A vector from model A and one from model B live in different spaces; comparing them returns numbers that mean nothing. Changing the embedding model means re-embedding the whole corpus.
 - **Embed documents once, at ingestion.** At query time you embed only the query. Embedding the corpus per query multiplies cost and latency by the corpus size.
 
-Dev Dojo's `embed()` is a deterministic bag-of-words stand-in: texts that share words point in similar directions. It does not understand synonyms, which keeps tests exact; the mechanics of indexing, scoring and filtering are the same as with a real model.
+Constela Mission's `embed()` is a deterministic bag-of-words stand-in: texts that share words point in similar directions. It does not understand synonyms, which keeps tests exact; the mechanics of indexing, scoring and filtering are the same as with a real model.
 
 ## Cosine similarity
 

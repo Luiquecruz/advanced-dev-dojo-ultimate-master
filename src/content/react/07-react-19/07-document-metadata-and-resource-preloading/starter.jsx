@@ -6,7 +6,7 @@ export default function ArticlePage({ article }) {
 
   return (
     <article>
-      {/* TODO: <title> with "{title} | Dev Dojo" as ONE string */}
+      {/* TODO: <title> with "{title} | Constela Mission" as ONE string */}
       {/* TODO: <meta name="description"> and <link rel="canonical"> */}
       <h1>{article.title}</h1>
       <p>{article.excerpt}</p>

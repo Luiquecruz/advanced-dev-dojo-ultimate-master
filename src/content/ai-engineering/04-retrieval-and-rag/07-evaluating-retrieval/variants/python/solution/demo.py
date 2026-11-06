@@ -19,7 +19,7 @@ async def main():
     print("retriever      recall@3      MRR   nDCG@3")
     for row in await compare_retrievers({"BM25 only": bm25, "vector only": vector, "hybrid": hybrid}, GOLDEN_SET, k=3):
         print(f"{row['name'].ljust(12)} {percent(row['recallAtK'])}  {percent(row['mrr'])}  {percent(row['ndcgAtK'])}")
-    print("\nDev Dojo embeddings are lexical, so BM25 is hard to beat here: the point is to measure on your corpus, not to assume hybrid always wins.")
+    print("\nConstela Mission embeddings are lexical, so BM25 is hard to beat here: the point is to measure on your corpus, not to assume hybrid always wins.")
 
     report = await evaluate_retriever(hybrid, GOLDEN_SET, k=3)
     misses = [result for result in report["perQuery"] if result["recall"] < 1]

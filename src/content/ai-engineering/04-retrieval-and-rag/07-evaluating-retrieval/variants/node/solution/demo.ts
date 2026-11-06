@@ -15,7 +15,7 @@ async function main() {
   for (const row of await compareRetrievers({ 'BM25 only': bm25, 'vector only': vector, hybrid }, GOLDEN_SET, { k: 3 })) {
     console.log(`${row.name.padEnd(12)} ${percent(row.recallAtK)}  ${percent(row.mrr)}  ${percent(row.ndcgAtK)}`);
   }
-  console.log('\nDev Dojo embeddings are lexical, so BM25 is hard to beat here: the point is to measure on your corpus, not to assume hybrid always wins.');
+  console.log('\nConstela Mission embeddings are lexical, so BM25 is hard to beat here: the point is to measure on your corpus, not to assume hybrid always wins.');
 
   const report = await evaluateRetriever(hybrid, GOLDEN_SET, { k: 3 });
   const misses = report.perQuery.filter((result) => result.recall < 1);

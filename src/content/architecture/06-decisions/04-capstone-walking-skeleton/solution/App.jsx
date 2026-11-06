@@ -4,7 +4,7 @@ export default function App({ catalog }) {
   return (
     <div className="store">
       <header>
-        <h1>Dev Dojo Store</h1>
+        <h1>Constela Store</h1>
         <p>{catalog.count} products</p>
       </header>
       <main>

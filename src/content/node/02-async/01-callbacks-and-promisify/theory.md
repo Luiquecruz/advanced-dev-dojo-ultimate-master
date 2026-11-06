@@ -83,7 +83,7 @@ With `async`/`await`, errors are thrown again: a rejected promise becomes an exc
 
 A rejected promise nobody awaits or catches is an **unhandled rejection**. Since Node 15 it crashes the process by default, which is what you want: silent failures are worse. The usual causes are a missing `await`, a `forEach` with an async callback (it does not wait) and fire-and-forget calls without `.catch`.
 
-## How this runs in Dev Dojo
+## How this runs in Constela Mission
 
 `node:fs` is an in-memory file system. The callback, sync and promise APIs all share it, and errors carry real Node codes such as `ENOENT`.
 

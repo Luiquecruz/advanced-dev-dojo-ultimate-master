@@ -2,7 +2,7 @@ Build `ArticlePage`, the default export, which renders an article and declares i
 
 Props: `article` with `{ slug, title, excerpt }`.
 
-1. Render `<title>` whose text is exactly `{title} | Dev Dojo` (one string child).
+1. Render `<title>` whose text is exactly `{title} | Constela Mission` (one string child).
 2. Render `<meta name="description" content={excerpt} />`.
 3. Render `<link rel="canonical" href="https://devdojo.dev/articles/{slug}" />`.
 4. During render, call:

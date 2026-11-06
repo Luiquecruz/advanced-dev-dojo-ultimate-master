@@ -14,7 +14,7 @@
     "question": "Why do this track's challenges use a fake model instead of a real one?",
     "options": [
       "Real models are too slow for the browser",
-      "The fake model is a smaller copy of a real model, trained for Dev Dojo",
+      "The fake model is a smaller copy of a real model, trained for Constela Mission",
       "Grading must be free, deterministic and stable over time: tests check how your code handles classes of behavior, which every model generation shares",
       "Real models never produce errors, so they cannot test error handling"
     ],

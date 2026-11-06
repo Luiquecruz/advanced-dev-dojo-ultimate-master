@@ -8,7 +8,7 @@ export function serializeForScript(value) {
 
 function renderDocument(appHtml, embeddedJson) {
   const dataScript = embeddedJson ? `<script id="catalog-data" type="application/json">${embeddedJson}</script>` : '';
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Dev Dojo Store</title></head><body><div id="root">${appHtml}</div>${dataScript}</body></html>`;
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Constela Store</title></head><body><div id="root">${appHtml}</div>${dataScript}</body></html>`;
 }
 
 function renderErrorPage(status, title) {

@@ -95,4 +95,4 @@ TanStack Table (`useReactTable<TData>`), TanStack Query (`useQuery<TData, TError
 - Constraining too early (`T extends { id: number }`) when the component only needs `getKey`.
 - Using `T[]` when callers pass readonly arrays (`as const` data): accept `readonly T[]` if you do not mutate.
 - `Array.prototype.find` returns `T | undefined`: handle the missing case instead of asserting with `!`.
-- The Dojo engine strips types without checking them, so tests inspect your generic declarations in the source. In a real project, your editor and `tsc` enforce them.
+- The Constela engine strips types without checking them, so tests inspect your generic declarations in the source. In a real project, your editor and `tsc` enforce them.

@@ -46,7 +46,7 @@ test('handleRequest("/") answers 200 with a document whose #root holds the rende
   expect(response.html).toMatch(/^<!DOCTYPE html>/i);
   const root = mountServerHtml(response.html).querySelector('#root');
   expect(root).not.toBeNull();
-  expect(within(root).getByRole('heading', { level: 1 })).toHaveTextContent('Dev Dojo Store');
+  expect(within(root).getByRole('heading', { level: 1 })).toHaveTextContent('Constela Store');
   expect(root).toHaveTextContent('5 products');
   const items = within(root).getAllByRole('listitem');
   expect(items).toHaveLength(5);

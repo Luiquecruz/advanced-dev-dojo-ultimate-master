@@ -1,4 +1,4 @@
-Build a `UserCard` that loads a user from the Dojo fake API.
+Build a `UserCard` that loads a user from the Constela fake API.
 
 - The component receives a `userId` prop.
 - While loading, render the text `Loading...`.

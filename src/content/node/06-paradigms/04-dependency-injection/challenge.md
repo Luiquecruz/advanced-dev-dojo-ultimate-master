@@ -6,5 +6,5 @@ The starter already exports `User`, `UserRepository`, `Mailer`, `Clock`, `IdGene
 2. `signup(email)`:
    - normalizes the email with `trim()` and `toLowerCase()`;
    - when `users.findByEmail(email)` finds a user, rejects with `new EmailTakenError(email)` (message `Email already registered: <email>`) without saving or sending anything;
-   - otherwise builds `{ id: ids(), email, createdAt: clock.now().toISOString() }`, saves it with `users.save(user)`, sends `{ to: email, subject: 'Welcome to Dev Dojo' }` with `mailer.send`, and resolves with the user.
+   - otherwise builds `{ id: ids(), email, createdAt: clock.now().toISOString() }`, saves it with `users.save(user)`, sends `{ to: email, subject: 'Welcome to Constela Mission' }` with `mailer.send`, and resolves with the user.
 3. `createContainer(overrides?: Partial<SignupDependencies>)` is the composition root. It builds the defaults `users: new InMemoryUserRepository()`, `mailer: consoleMailer`, `clock: systemClock`, `ids: randomUUID`, applies the overrides, and returns `{ users, mailer, clock, ids, signupService }`, where `signupService` uses exactly those dependencies.
