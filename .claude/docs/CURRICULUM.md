@@ -244,7 +244,7 @@ Spec: `.claude/specs/AI Engineering Track.md`. Six decision layers (model, conte
 ### 09-http — HTTP
 01-http-client ✓ · 02-functional-interceptors ✓ · 03-http-error-handling ✓
 
-State patterns and NgRx exercises are centralized in [State Management](/react-state), module State with Angular. Angular signals and dependency injection remain prerequisites here. The Angular publication pass closes module-numbering gaps.
+State patterns and NgRx exercises are centralized in [State Management](#05-angular-state--state-with-angular), module State with Angular. Angular signals and dependency injection remain prerequisites here. The Angular publication pass closes module-numbering gaps.
 
 ### 11-testing — Testing
 01-testbed-and-vitest ✓ · 02-testing-services-and-http ✓ · 03-component-harnesses **(quiz)** ✓
