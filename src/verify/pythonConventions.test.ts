@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { trackById } from '../content/allContent';
 import type { Lesson } from '../content/types';
+import { markedTests, TEST_FILES } from '../engines/testFiles';
 import { PYTHON_PENDING_HEADERS, PYTHON_PENDING_REWRITE } from './pythonPendingRewrite';
 
 /**
@@ -39,7 +40,6 @@ const BRIDGE =
 const BLOCKED_HOSTS = ['developer.mozilla.org', 'nodejs.org', 'zod.dev', 'typescriptlang.org', 'vitest.dev', 'axios-http.com', 'expressjs.com'];
 /** Paths on a shared host that document another language (`<host><path>` prefixes). */
 const BLOCKED_PATHS = ['github.com/tc39/'];
-const BEGINNER_MISTAKE = /^# beginner mistake: (.*)$/;
 
 /**
  * Existing content that breaks a rule, reported to the author instead of being edited here.
@@ -378,16 +378,12 @@ function checkChallenge(lesson: Lesson, kind: Kind): Violation[] {
 
 /** One test carries `# beginner mistake: <text>` on the line right above its `@test`. */
 function checkBeginnerMistake(tests: string): Violation[] {
-  const lines = tests.split('\n');
-  const markers = lines.flatMap((line, index) => {
-    const match = BEGINNER_MISTAKE.exec(line.trimEnd());
-    return match ? [{ text: match[1].trim(), next: lines[index + 1] ?? '' }] : [];
-  });
+  const markers = markedTests(tests, TEST_FILES.python);
   if (markers.length !== 1) {
     return [{ rule: 'tests-beginner-mistake', detail: `tests.py needs exactly one "# beginner mistake: <text>" line above a @test, found ${markers.length}` }];
   }
   const [marker] = markers;
-  if (!marker.next.startsWith('@test(') || marker.text.length < 10) {
+  if (!marker.declaresTest || marker.text.length < 10) {
     return [{ rule: 'tests-beginner-mistake', detail: 'the "# beginner mistake:" line names the mistake and sits right above its @test' }];
   }
   return [];

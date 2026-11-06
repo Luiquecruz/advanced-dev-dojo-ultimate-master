@@ -1,9 +1,8 @@
 import type { Challenge, EngineId, ProjectFiles } from '@/content';
-import { disposeCsharp, gradeCsharp, listCsharpTestNames, runCsharp, warmUpCsharp } from '@/engines/csharp';
+import { disposeCsharp, gradeCsharp, runCsharp, warmUpCsharp } from '@/engines/csharp';
 import { gradePython, runPython, warmUpPython } from '@/engines/python/browserClient';
-import { listPythonTestNames } from '@/engines/python/testNames';
-import { listTestNames } from '@/engines/shared/testNames';
 import type { RunReport } from '@/engines/shared/testRunner';
+import { TEST_FILES } from '@/engines/testFiles';
 import { gradeInBrowser, runCode } from '@/engines/typescript/browserGrader';
 import { parseTypeScriptTests } from '@/engines/typescript/testsDsl';
 import { measure, reportProblem } from '@/shared/monitoring/monitoring';
@@ -33,16 +32,8 @@ const RUNNABLE_ENGINES = new Set<EngineId>(['typescript', 'node', 'python', 'csh
  * Names of the tests a challenge will run, shown before the first run.
  */
 export function testNamesFor(engine: EngineId, challenge: Challenge): string[] {
-  if (engine === 'typescript') {
-    return [COMPILE_TEST_NAME, ...parseTypeScriptTests(challenge.tests).map((test) => test.name)];
-  }
-  if (engine === 'python') {
-    return listPythonTestNames(challenge.tests);
-  }
-  if (engine === 'csharp') {
-    return listCsharpTestNames(challenge.tests);
-  }
-  return listTestNames(challenge.tests);
+  const names = TEST_FILES[engine].listTestNames(challenge.tests);
+  return engine === 'typescript' ? [COMPILE_TEST_NAME, ...names] : names;
 }
 
 /**
