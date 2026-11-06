@@ -1,0 +1,27 @@
+{
+  "title": "Continuous Integration",
+  "summary": "A GitHub Actions Maven pipeline for the course API with dependency caching, jar artifacts, quality gates, pinned actions and least-privilege permissions.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "GitHub Docs: Building and testing Java with Maven",
+      "url": "https://docs.github.com/en/actions/tutorials/build-and-test-code/java-with-maven"
+    },
+    {
+      "label": "GitHub Docs: Secure use reference",
+      "url": "https://docs.github.com/en/actions/reference/security/secure-use"
+    },
+    {
+      "label": "GitHub Docs: Workflow syntax",
+      "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax"
+    },
+    {
+      "label": "GitHub Docs: Keeping your actions up to date with Dependabot",
+      "url": "https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/secure-your-dependencies/auto-update-actions"
+    }
+  ]
+}

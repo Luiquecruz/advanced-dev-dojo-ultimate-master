@@ -1,0 +1,30 @@
+[
+  {
+    "term": "Test pyramid",
+    "description": "A guide that asks for many fast unit tests, fewer slice and integration tests and a handful of complete API system tests."
+  },
+  {
+    "term": "Slice test",
+    "description": "A test that starts only one layer of the application, such as the web layer with @WebMvcTest, instead of the whole context."
+  },
+  {
+    "term": "Integration test",
+    "description": "A test that loads the real application context, often with a real database in a container, to check that layers work together."
+  },
+  {
+    "term": "System test",
+    "description": "A test that calls the packaged API over HTTP with its real database to check a complete backend workflow."
+  },
+  {
+    "term": "Contract test",
+    "description": "A test that checks one side of an API against the written agreement of paths, fields and status codes without starting the other side."
+  },
+  {
+    "term": "Flaky test",
+    "description": "A test that passes and fails without any code change, usually because of time, shared data, ordering or fixed waits."
+  },
+  {
+    "term": "Injected Clock",
+    "description": "A java.time.Clock passed in as a dependency so a test can fix the current time."
+  }
+]

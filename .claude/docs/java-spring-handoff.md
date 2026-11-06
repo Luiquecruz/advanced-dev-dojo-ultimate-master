@@ -7,8 +7,8 @@ Read [java-spring-track.md](java-spring-track.md) for the current scope and cont
 | Item | State |
 | --- | --- |
 | Identity | `java-spring`, Java and Spring Boot; content, feature flag, glyph, accent selector and verification use the same id |
-| Written here | Modules 01–06, 46 lessons; current review and merge states are below |
-| Remaining backend work | Modules 07–08 are outside this branch; adapt and review them in the stack |
+| Written here | Modules 01–07, 54 lessons; current review and merge states are below |
+| Remaining backend work | Modules 08–08 are outside this branch; adapt and review them in the stack |
 | Target | 8 required modules, 59 lessons; every lesson is theory and quiz with local practice |
 | Engines | No Java engine and no challenges; existing catalog engine metadata does not launch a workspace |
 | Release | Hidden; no accent color or visibility change. Java release no longer depends on Angular being shown |
@@ -51,7 +51,7 @@ Separation verification passed: 1,740 unfiltered content checks, 200 application
 
 ## Publication and future Full Stack
 
-Java and Angular have independent feature flags and release checks. Java remains hidden; Angular activation and the palette adjustments it requires are authorized and tracked separately. Before Java is shown, choose a free accent and run its release checks and browser presentation review. A future Full Stack track can reuse the archived Angular/API integration, frontend auth and combined capstone; it is not registered as an empty or duplicate track now.
+Java and Angular have independent feature flags and release checks. Do not turn either on or change the palette in this workflow. Before Java is shown, choose a free accent and run its release checks and browser presentation review. A future Full Stack track can reuse the archived Angular/API integration, frontend auth and combined capstone; it is not registered as an empty or duplicate track now.
 
 ## Active review stack
 
@@ -59,7 +59,11 @@ Java and Angular have independent feature flags and release checks. Java remains
 | --- | --- | --- | --- |
 | [#61](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | MERGED | `main` |
 | [#62](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/62) | feat(curriculum): add backend Spring Security module | OPEN | `main` |
-| [#63](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/63) | feat(curriculum): add backend quality and delivery module | OPEN | `feat/java-spring-security` |
+| [#63](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/63) | feat(curriculum): add backend quality and delivery module | OPEN | `main` |
 | [#65](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/65) | feat(curriculum): add backend course catalog capstone | OPEN | `feat/java-spring-delivery` |
 
-Latest action: Merged current main after PR #61; retained security review corrections and the independent backend curriculum.
+Latest action: PR #63 synchronization: incorporated the current security branch including its review corrections; the delivery module remains independent of frontend frameworks.
+
+Module 06 security review addressed filter-chain ordering, JWT formats, CSRF references, anonymous versus authenticated denials and role hierarchy wiring.
+
+Module 07 review addressed the scoped detail route, localhost publishing, HTTP cache freshness and account changes, container build caching, actuator exposure and shutdown grace period. The MVC slice passed authentication, wrong-scope and not-found checks, and all 33 resource URLs were verified.

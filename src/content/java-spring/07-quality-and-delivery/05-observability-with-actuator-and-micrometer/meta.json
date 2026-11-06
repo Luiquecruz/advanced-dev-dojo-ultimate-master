@@ -1,0 +1,35 @@
+{
+  "title": "Observability with Actuator and Micrometer",
+  "summary": "Actuator endpoint exposure and health groups, Micrometer metrics and tag cardinality, OpenTelemetry tracing at intro level, structured logs and correlation IDs.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "performance"
+  ],
+  "resources": [
+    {
+      "label": "Spring Boot reference: Endpoints",
+      "url": "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
+    },
+    {
+      "label": "Spring Boot reference: Metrics",
+      "url": "https://docs.spring.io/spring-boot/reference/actuator/metrics.html"
+    },
+    {
+      "label": "Spring Boot reference: Tracing",
+      "url": "https://docs.spring.io/spring-boot/reference/actuator/tracing.html"
+    },
+    {
+      "label": "Spring Boot reference: Logging",
+      "url": "https://docs.spring.io/spring-boot/reference/features/logging.html"
+    },
+    {
+      "label": "Micrometer documentation",
+      "url": "https://micrometer.io/docs/"
+    },
+    {
+      "label": "OpenTelemetry documentation",
+      "url": "https://opentelemetry.io/docs/"
+    }
+  ]
+}

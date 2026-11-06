@@ -1,0 +1,27 @@
+{
+  "title": "Project: Ship the Course API",
+  "summary": "A local backend project that packages a Spring Boot API, runs it with PostgreSQL in Compose, checks secured HTTP behavior and Actuator health, and adds a Maven CI workflow.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "project"
+  ],
+  "resources": [
+    {
+      "label": "Docker: Compose services reference",
+      "url": "https://docs.docker.com/reference/compose-file/services/"
+    },
+    {
+      "label": "Spring Boot reference: Dockerfiles",
+      "url": "https://docs.spring.io/spring-boot/reference/packaging/container-images/dockerfiles.html"
+    },
+    {
+      "label": "Spring Boot reference: Endpoints",
+      "url": "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
+    },
+    {
+      "label": "GitHub Docs: Secure use reference",
+      "url": "https://docs.github.com/en/actions/reference/security/secure-use"
+    }
+  ]
+}

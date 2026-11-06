@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In the Compose file, the API container uses jdbc:postgresql://localhost:5432/courses and fails to connect. What is the fix?",
+    "options": [
+      "Open port 5432 on the host firewall",
+      "Add the root user to the API image",
+      "Use the host name database, the Compose service name",
+      "Move the database to the full profile"
+    ],
+    "answer": 2,
+    "explanation": "Inside a container localhost refers to that container. Compose provides a DNS name for each service, so the API reaches the database at database."
+  },
+  {
+    "question": "After a one-line change in a Java class, every docker build downloads all Maven dependencies again. Which Dockerfile change is the best fix?",
+    "options": [
+      "Use the latest tag for the JDK image",
+      "Copy pom.xml and the wrapper before sources to reuse the dependency layer, or use a Maven cache mount to retain downloads when the step reruns",
+      "Add a second ENTRYPOINT",
+      "Run the build as root"
+    ],
+    "answer": 1,
+    "explanation": "A dependency-download layer remains reusable when earlier inputs are unchanged. A cache mount keeps downloaded Maven files even when a later source change causes its build step to rerun."
+  },
+  {
+    "question": "A reviewer checks the acceptance criteria and finds that GET /actuator/env answers 200 with the environment. Which setting was missing?",
+    "options": [
+      "server.shutdown=graceful",
+      "A Compose healthcheck",
+      "A larger heap",
+      "A restricted management.endpoints.web.exposure.include such as health,info"
+    ],
+    "answer": 3,
+    "explanation": "A restricted exposure list leaves env unexposed. It returns 404 when the request reaches routing; a security rule may reject the request first with 401 or 403."
+  },
+  {
+    "question": "Which command output shows that the runtime image does not run as root?",
+    "options": [
+      "docker compose exec api id -u printing a number other than 0",
+      "docker compose ps showing the service as running",
+      "docker images listing a small size",
+      "curl on the health endpoint returning UP"
+    ],
+    "answer": 0,
+    "explanation": "id -u prints the numeric user ID of the process inside the container. Zero means root, so any other number confirms that the USER instruction took effect."
+  },
+  {
+    "question": "A teammate wants to commit the working .env so the project starts for everyone. What is the right response?",
+    "options": [
+      "Agree, since the password is only for local use and cannot matter",
+      "Keep .env out of Git and commit .env.example with fake values that new teammates copy",
+      "Rename it to .env.txt and commit it",
+      "Put the password in the Dockerfile instead"
+    ],
+    "answer": 1,
+    "explanation": "Real values must not enter history, even for local use, because habits and files spread to other environments. The example file documents the variables safely."
+  },
+  {
+    "question": "The CI workflow has `uses: actions/checkout@v7` and the token has default write permissions. Which two changes does the lesson recommend?",
+    "options": [
+      "Pin the action to a full commit SHA and set permissions: contents: read",
+      "Remove the checkout step and add write-all",
+      "Use a branch name and add secrets to the log",
+      "Pin to a shorter SHA and disable tests"
+    ],
+    "answer": 0,
+    "explanation": "A full-length SHA cannot be moved to different code, and a read-only token limits what a compromised step can change. Raise permissions only in the job that needs more."
+  }
+]

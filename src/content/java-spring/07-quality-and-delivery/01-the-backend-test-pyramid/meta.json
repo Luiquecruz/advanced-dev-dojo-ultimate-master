@@ -1,0 +1,19 @@
+{
+  "title": "The Backend Test Pyramid",
+  "summary": "Choose unit, slice, integration and packaged-API system tests for a Spring Boot backend, preserve security in MVC slices, check consumer contracts and remove flaky-test causes.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "testing"
+  ],
+  "resources": [
+    {
+      "label": "Spring Boot reference: Testing Spring Boot applications",
+      "url": "https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html"
+    },
+    {
+      "label": "Testcontainers for Java",
+      "url": "https://java.testcontainers.org/"
+    }
+  ]
+}
