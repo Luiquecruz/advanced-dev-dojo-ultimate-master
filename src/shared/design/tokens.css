@@ -53,11 +53,6 @@
 }
 
 :root {
-  --void: #0a0f18;
-  --panel: #121c2a;
-  --elevated: #1b293a;
-  --text-primary: #eaf2fc;
-  --on-accent: #0a0f18;
   --accent: #4dd9ff;
   --accent-rgb: 77 217 255;
   --persp: 1200px;
@@ -138,6 +133,7 @@
   --color-theory: #b9a4ff;
   --color-advanced: #f0a3c4;
   --color-code-inline: #f0c38b;
+  --color-scrim: rgb(3 6 12 / 0.62);
 
   --font-sans: 'Geist', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace;
@@ -150,6 +146,7 @@
   --breakpoint-wide: 56.25rem;
 
   --shadow-float: 0 12px 40px rgb(0 0 0 / 0.45);
+  --shadow-drawer: 24px 0 64px -24px rgb(0 0 0 / 0.7);
 
   --animate-slide-in: slide-in 180ms var(--ease-out);
   --animate-pulse-soft: pulse-soft 1s ease-in-out infinite;
