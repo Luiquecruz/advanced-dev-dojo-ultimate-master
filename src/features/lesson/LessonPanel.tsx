@@ -43,57 +43,59 @@ const TEST_ITEM_CLASS: Record<TestStatus, string> = {
 };
 
 /**
- * Left side of the lesson: theory, challenge description with tests and progressive help, quiz.
+ * Left side of the waypoint: theory, challenge description with tests and progressive help, quiz.
  */
 export function LessonPanel({ track, lesson, challenge, tab, onTabChange, testNames, report, running, onRevealSolution, nextLesson }: LessonPanelProps) {
   const state = useProgress();
   const complete = isLessonComplete(state, lesson);
   const module = track.modules.find((entry) => entry.id === lesson.moduleId)!;
 
-  const tabs: Array<{ id: LessonTab; label: string; done?: boolean }> = [
-    { id: 'learn', label: 'Learn' },
+  const tabs: Array<{ id: LessonTab; label: string; count?: number; done?: boolean }> = [
+    { id: 'learn', label: 'Briefing' },
     ...(lesson.challenge ? [{ id: 'challenge' as const, label: 'Challenge', done: Boolean(state.challenges[lesson.key]) }] : []),
-    ...(lesson.quiz.length > 0 ? [{ id: 'quiz' as const, label: `Quiz · ${lesson.quiz.length}`, done: Boolean(state.quizzes[lesson.key]) }] : []),
+    ...(lesson.quiz.length > 0 ? [{ id: 'quiz' as const, label: 'Quiz', count: lesson.quiz.length, done: Boolean(state.quizzes[lesson.key]) }] : []),
   ];
 
   return (
     <div className="flex h-full flex-col bg-panel">
-      <header className="enter px-6.5 pt-5.5 pb-3.5 max-wide:px-4 max-wide:pt-4 max-wide:pb-2.5" style={{ ['--enter-delay' as string]: '280ms' }}>
-        <div className="text-xs font-semibold tracking-[0.06em] text-accent uppercase">
-          {module.title} · {LEVEL_LABEL[lesson.level]}
+      <header className="flex-none border-b border-line-strong bg-elevated/70 px-6.5 pt-4.5 max-wide:px-4 max-wide:pt-3.5">
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+          <span className="text-[11px] font-semibold tracking-[0.08em] text-accent uppercase">
+            {module.title} · {LEVEL_LABEL[lesson.level]}
+          </span>
+          {lesson.tags.map((tag) => (
+            <span key={tag} className={tagClass(tag)}>
+              {tag}
+            </span>
+          ))}
         </div>
-        <h1 className="mt-1.5 mb-1 text-[26px]/[1.2] font-bold tracking-[-0.02em] outline-none" tabIndex={-1} data-activity-title>
+        <h1 className="mt-1.5 mb-1 text-[22px]/[1.25] font-bold tracking-[-0.015em] outline-none max-wide:text-xl/tight" tabIndex={-1} data-activity-title>
           {lesson.title}
         </h1>
-        <p className="m-0 text-ink-muted">{lesson.summary}</p>
-        {lesson.tags.length > 0 && (
-          <div className="mt-2.5 flex flex-wrap gap-1.5">
-            {lesson.tags.map((tag) => (
-              <span key={tag} className={tagClass(tag)}>
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-      </header>
+        <p className="m-0 text-sm text-ink-muted">{lesson.summary}</p>
 
-      <div className="flex gap-1 border-b border-line px-5 max-wide:px-2.5" role="tablist" aria-label="Lesson sections">
-        {tabs.map((entry) => (
-          <button
-            key={entry.id}
-            role="tab"
-            aria-selected={tab === entry.id}
-            className={clsx(
-              '-mb-px inline-flex cursor-pointer items-center gap-1.5 border-b-2 bg-transparent px-3 py-2.5 text-sm font-semibold hover:text-ink',
-              tab === entry.id ? 'border-accent text-ink' : 'border-transparent text-ink-muted',
-            )}
-            onClick={() => onTabChange(entry.id)}
-          >
-            {entry.label}
-            {entry.done && <CheckIcon className="size-3.5 text-success" role="img" aria-label="Done" />}
-          </button>
-        ))}
-      </div>
+        <div className="-mx-1 mt-3.5 flex gap-1.5 pb-3" role="tablist" aria-label="Waypoint sections">
+          {tabs.map((entry) => {
+            const selected = tab === entry.id;
+            return (
+              <button
+                key={entry.id}
+                role="tab"
+                aria-selected={selected}
+                className={clsx(
+                  'inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full px-3.5 text-[13px] font-semibold transition-colors duration-(--dur-fast)',
+                  selected ? 'bg-accent/15 text-accent ring-1 ring-accent/45 ring-inset' : 'text-ink-muted ring-1 ring-line-strong ring-inset hover:bg-hover hover:text-ink',
+                )}
+                onClick={() => onTabChange(entry.id)}
+              >
+                {entry.label}
+                {entry.count !== undefined && <span className={clsx('rounded-full px-1.5 font-mono text-[11px]', selected ? 'bg-accent/20' : 'bg-hover')}>{entry.count}</span>}
+                {entry.done && <CheckIcon className="size-3.5 text-success" role="img" aria-label="Done" />}
+              </button>
+            );
+          })}
+        </div>
+      </header>
 
       <div className="flex-1 overflow-y-auto px-6.5 pt-4.5 pb-10 max-wide:px-4 max-wide:pt-3.5 max-wide:pb-8">
         <div key={tab} className="enter" style={{ ['--enter-delay' as string]: '60ms' }}>
@@ -108,12 +110,12 @@ export function LessonPanel({ track, lesson, challenge, tab, onTabChange, testNa
           <div className="mt-7 flex items-center gap-3.5 rounded-[10px] border border-success/35 bg-success/12 px-4 py-3.5 text-sm">
             <CheckIcon className="flex-none text-success" />
             <div className="flex-1">
-              <strong>Lesson complete.</strong>
-              {nextLesson ? <span> Up next: {nextLesson.title}</span> : <span> You finished the {track.title} track.</span>}
+              <strong>Waypoint reached.</strong>
+              {nextLesson ? <span> Up next: {nextLesson.title}</span> : <span> Mission complete: you finished {track.title}.</span>}
             </div>
             {nextLesson && (
               <Link className={buttonClass('primary')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: nextLesson.id })}>
-                Next lesson
+                Next waypoint
               </Link>
             )}
           </div>
