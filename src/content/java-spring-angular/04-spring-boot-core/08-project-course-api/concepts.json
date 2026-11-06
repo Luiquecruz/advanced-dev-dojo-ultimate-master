@@ -1,0 +1,9 @@
+[
+  { "term": "Layered service", "description": "A design with a controller for HTTP, a service for rules and a repository for storage, each depending on the layer below." },
+  { "term": "In-memory repository", "description": "A repository implementation that keeps data in a map for one run, behind an interface that a database version can later replace." },
+  { "term": "Domain exception", "description": "A custom exception such as CourseNotFoundException that the service throws and the advice maps to a status." },
+  { "term": "Problem Details advice", "description": "A @RestControllerAdvice that turns every failure into an application/problem+json response with a stable type." },
+  { "term": "Acceptance criteria", "description": "Concrete, checkable statements with fixed test data that define when the project is done." },
+  { "term": "Context reset", "description": "Using @DirtiesContext so each MockMvc test starts with a fresh application context and empty in-memory data." },
+  { "term": "Contract document", "description": "The OpenAPI JSON served at /v3/api-docs, with operation ids that client generators turn into method names." }
+]

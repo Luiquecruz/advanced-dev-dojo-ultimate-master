@@ -1,0 +1,15 @@
+{
+  "title": "Route Guards and CORS",
+  "summary": "Write a functional guard that asks a Spring back end who the user is, understand why CORS is a browser rule fixed on the server, and configure the Angular development proxy.",
+  "level": "intermediate",
+  "tags": ["practice", "angular", "security"],
+  "entry": "app.ts",
+  "preview": false,
+  "resources": [
+    { "label": "angular.dev: Route guards", "url": "https://angular.dev/guide/routing/route-guards" },
+    { "label": "angular.dev: Angular CLI serve and proxying", "url": "https://angular.dev/tools/cli/serve" },
+    { "label": "Spring Framework: CORS", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc-cors.html" },
+    { "label": "MDN: Cross-Origin Resource Sharing", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS" },
+    { "label": "MDN: Same-origin policy", "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy" }
+  ]
+}

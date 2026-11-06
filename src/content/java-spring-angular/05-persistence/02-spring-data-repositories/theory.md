@@ -94,7 +94,7 @@ List<Course> found = repository.findAll(
         CourseSpecs.hasLevel(Level.BEGINNER).and(CourseSpecs.titleContains("java")));
 ```
 
-`PredicateSpecification` was introduced with Spring Data JPA 4.0; the older `Specification` works too and is the type for `findAll(spec, pageable)`. With `PredicateSpecification`, use the fluent query: `repository.findBy(spec, query -> query.page(pageable))`. Field names in `from.get("level")` are strings, so a rename breaks them at run time unless you use the generated JPA metamodel.
+`PredicateSpecification` was introduced with Spring Data JPA 4.0; the older `Specification` works too and is the type for `findAll(spec, pageable)`. With `PredicateSpecification`, use the fluent query: `repository.findBy(spec, query -> query.page(pageable))`. Field names in `from.get("level")` are strings, so a rename breaks them at run time unless you use the JPA metamodel that `hibernate-processor` generates.
 
 ## Common mistakes
 

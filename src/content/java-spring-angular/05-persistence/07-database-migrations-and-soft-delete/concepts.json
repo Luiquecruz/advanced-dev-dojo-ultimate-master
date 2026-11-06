@@ -1,0 +1,9 @@
+[
+  { "term": "Migration", "description": "A versioned script that changes the schema once, kept in source control and applied in order to every database." },
+  { "term": "Flyway versioned script", "description": "A file named V<version>__<name>.sql in db/migration whose checksum Flyway stores, so an applied script must never be edited." },
+  { "term": "Roll forward", "description": "Fixing a mistake with a new migration instead of editing or undoing one that already ran." },
+  { "term": "validate", "description": "The ddl-auto value that only checks the mappings against the schema and fails at startup on a mismatch, without changing anything." },
+  { "term": "Soft delete", "description": "Marking a row as deleted, for example with a deleted_at timestamp, instead of removing it, so history survives." },
+  { "term": "@SQLDelete and @SQLRestriction", "description": "Hibernate annotations that replace the DELETE statement with an UPDATE and append a condition to every entity query." },
+  { "term": "Partial unique index", "description": "A unique index with a WHERE clause, such as deleted_at IS NULL, that enforces uniqueness only among active rows." }
+]

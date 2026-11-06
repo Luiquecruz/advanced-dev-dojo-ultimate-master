@@ -62,7 +62,6 @@ curl -i -X POST localhost:8080/api/courses -H 'Content-Type: application/json' \
 - Putting `CourseApiApplication` in a sub-package so `error` and `course` are not scanned.
 - Checking duplicates in the controller or the repository instead of the service.
 - Forgetting `@Valid` on the request body, so every invalid course is accepted.
-- Returning the `Course` record from the controller, which makes the internal model the public contract.
 - Leaving tests dependent on each other. Shared in-memory state makes ids depend on test order, so reset the context per test.
 
 ## In practice
