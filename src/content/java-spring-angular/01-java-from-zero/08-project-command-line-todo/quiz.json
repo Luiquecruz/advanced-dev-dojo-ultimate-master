@@ -1,0 +1,57 @@
+[
+  {
+    "question": "The list shows tasks numbered from 1. A user runs `done 1` and the program changes the second task. What is the most likely bug?",
+    "options": [
+      "The task record is immutable",
+      "The displayed number was used as the array index without subtracting 1",
+      "The file was saved twice",
+      "The switch has no default case"
+    ],
+    "answer": 1,
+    "explanation": "Arrays start at index 0 while the display starts at 1. The program must subtract one from the typed number before indexing, after checking it is in range."
+  },
+  {
+    "question": "A user runs the program with no arguments and sees a stack trace for ArrayIndexOutOfBoundsException. Which design prevents it?",
+    "options": [
+      "A guard clause at the top of main that prints usage and returns when args.length is 0",
+      "Declaring args as final",
+      "Catching NullPointerException",
+      "Making main non-static"
+    ],
+    "answer": 0,
+    "explanation": "Reading args[0] on an empty array is the failure. Checking the length first and returning early keeps the normal path simple and gives the user a helpful message."
+  },
+  {
+    "question": "Why is `Task` a good fit for a record in this project?",
+    "options": [
+      "Records are required for any class that is saved to a file",
+      "Records can be modified in place by their setters",
+      "Records make the main method run faster",
+      "It is plain data, and the generated constructor, accessors, equals and toString remove boilerplate"
+    ],
+    "answer": 3,
+    "explanation": "A task is only a title and a flag. A record generates the constructor, accessors, toString, equals and hashCode, and its fields are final, so updates create a new object."
+  },
+  {
+    "question": "A user types `done abc`. Which handling matches the acceptance criteria?",
+    "options": [
+      "Let Integer.parseInt throw and end the program with a stack trace",
+      "Treat any non-number as task 0",
+      "Catch NumberFormatException around the parse, print that the number is not valid, and leave the file unchanged",
+      "Use == to compare abc with each task title"
+    ],
+    "answer": 2,
+    "explanation": "Integer.parseInt throws NumberFormatException for text that is not a number. Catching that specific type lets the program report a clear message and skip the change."
+  },
+  {
+    "question": "After `add \"Buy milk\"` the next run of `list` shows nothing. The add method updated the in-memory array correctly. What is missing?",
+    "options": [
+      "A call to save, so the changed tasks are written to tasks.txt before the program exits",
+      "A finally block in the record",
+      "A larger array",
+      "A second main method"
+    ],
+    "answer": 0,
+    "explanation": "Memory is discarded when the JVM exits. Only what is written to the file can be read by the next run, so every command that changes the list must end with a save."
+  }
+]

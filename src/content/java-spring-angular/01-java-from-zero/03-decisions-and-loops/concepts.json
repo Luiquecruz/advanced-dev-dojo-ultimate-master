@@ -1,0 +1,8 @@
+[
+  { "term": "Short-circuit evaluation", "description": "The behavior of && and || where the right operand is skipped when the left operand already decides the result." },
+  { "term": "Switch expression", "description": "A switch that produces a value, uses arrow cases without fall-through and must cover every possible input." },
+  { "term": "yield", "description": "The keyword that returns a value from a block inside a switch expression arm." },
+  { "term": "Enhanced for", "description": "The loop form for (Type item : collection) that visits every element without an index." },
+  { "term": "break", "description": "A statement that leaves the nearest enclosing loop or switch immediately." },
+  { "term": "continue", "description": "A statement that skips the rest of the current loop iteration and starts the next one." }
+]

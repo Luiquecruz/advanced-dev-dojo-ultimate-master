@@ -1,0 +1,8 @@
+[
+  { "term": "Constructor", "description": "A special member named after the class, with no return type, that runs when an object is created with new." },
+  { "term": "this", "description": "A reference to the current object, used to tell a field apart from a parameter with the same name." },
+  { "term": "Encapsulation", "description": "Hiding fields behind private and exposing methods so a class can keep its objects valid." },
+  { "term": "static member", "description": "A field or method that belongs to the class itself and exists once, not once per object." },
+  { "term": "equals and hashCode", "description": "A pair of methods that must agree: objects that are equal must return the same hash code." },
+  { "term": "Record", "description": "A compact class for plain data whose constructor, accessors, toString, equals and hashCode are generated." }
+]

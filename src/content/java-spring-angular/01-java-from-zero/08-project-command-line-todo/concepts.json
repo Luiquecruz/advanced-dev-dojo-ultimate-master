@@ -1,0 +1,8 @@
+[
+  { "term": "Command-line arguments", "description": "The strings after the program name, delivered to main as the args array." },
+  { "term": "Persistence", "description": "Saving state to a file so that a later run of the program can read it back." },
+  { "term": "Immutable record", "description": "A record whose fields cannot be reassigned, so an update is made by creating a replacement object." },
+  { "term": "Guard clause", "description": "An early check at the top of a method that handles an invalid case and returns before the main logic." },
+  { "term": "Files helper", "description": "The java.nio.file.Files class, whose methods such as exists, readAllLines and write handle common file operations." },
+  { "term": "Acceptance criteria", "description": "Concrete, observable statements that tell you when a feature is finished." }
+]

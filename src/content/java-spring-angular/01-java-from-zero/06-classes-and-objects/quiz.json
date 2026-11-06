@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A class with a non-final `owner` field has the constructor `Account(String owner) { owner = owner; }` and later `getOwner()` returns `null`. What is the mechanism?",
+    "options": [
+      "Constructors cannot assign fields",
+      "Both names refer to the parameter, so the parameter is assigned to itself and the field keeps its default null",
+      "The getOwner method is static",
+      "Strings are always null until printed"
+    ],
+    "answer": 1,
+    "explanation": "Inside the constructor the parameter shadows the field. Without this.owner the assignment never reaches the field, which stays at its default value of null."
+  },
+  {
+    "question": "A teammate makes the `balance` field public \"for convenience\". Which problem does this create?",
+    "options": [
+      "The field becomes slower",
+      "The program no longer compiles",
+      "Any code can set balance to a negative number, so the class cannot enforce its own rules",
+      "The field turns into a static member"
+    ],
+    "answer": 2,
+    "explanation": "Encapsulation lets the class funnel changes through methods that validate input. A public field removes that control point and lets invalid states appear anywhere."
+  },
+  {
+    "question": "A method declared `static int total()` tries to return `balance`, an instance field. Why does it not compile?",
+    "options": [
+      "balance must be final",
+      "Static methods cannot return int",
+      "Fields cannot be read in methods",
+      "A static method belongs to the class and has no object, so there is no instance balance to read"
+    ],
+    "answer": 3,
+    "explanation": "An instance field exists per object. A static method runs without any object, so the compiler cannot decide whose balance is meant."
+  },
+  {
+    "question": "Two `Point` objects with the same coordinates are compared with `equals` and the result is false, although the class never overrode `equals`. What explains it?",
+    "options": [
+      "The inherited equals compares identity, so two separate objects are never equal",
+      "Coordinates are compared with a tolerance",
+      "equals only works on records",
+      "The objects were created in different methods"
+    ],
+    "answer": 0,
+    "explanation": "Object.equals behaves like ==. To compare content, a class must override equals and hashCode together, or be declared as a record, which generates both."
+  },
+  {
+    "question": "A `record Point(int x, int y)` is created as `p`. Which statement is true?",
+    "options": [
+      "p.setX(5) changes the coordinate",
+      "p.x() returns the x component and the fields cannot be reassigned after creation",
+      "toString must be written by hand",
+      "Records cannot be compared with equals"
+    ],
+    "answer": 1,
+    "explanation": "A record generates accessors named after its components, such as x(), and its fields are final, so there are no setters. It also generates toString, equals and hashCode."
+  }
+]

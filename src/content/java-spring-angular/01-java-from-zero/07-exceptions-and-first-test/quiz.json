@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A method opens a file, reads a line, and an exception is thrown while reading. The file handle must not leak. Which structure guarantees closing?",
+    "options": [
+      "Calling close() on the line after the read",
+      "try-with-resources, which closes the resource when the block exits normally or by exception",
+      "A catch block that prints the message",
+      "Declaring the reader as final"
+    ],
+    "answer": 1,
+    "explanation": "try-with-resources calls close on the AutoCloseable in every exit path. A close() after the read is skipped when the read throws."
+  },
+  {
+    "question": "In `try { a(); } catch (IllegalStateException e) { b(); } finally { c(); }`, method `a` throws an IllegalStateException. Which methods run, in order?",
+    "options": [
+      "a, c",
+      "a, b",
+      "b, c",
+      "a, b, c"
+    ],
+    "answer": 3,
+    "explanation": "a runs and throws, the matching catch runs b, and finally always runs c last. finally runs whether or not an exception occurred."
+  },
+  {
+    "question": "A method calls `Files.readString(path)` and the code does not compile, with an error about an unreported IOException. What are the valid fixes?",
+    "options": [
+      "Rename the method",
+      "Mark the variable final",
+      "Wrap the call in try/catch for IOException, or add throws IOException to the method signature",
+      "Convert the path to a String"
+    ],
+    "answer": 2,
+    "explanation": "IOException is checked, so the compiler requires the caller to either handle it or declare it. Renaming or final changes neither requirement."
+  },
+  {
+    "question": "A team wrote `catch (Exception e) { }` around a payment call to keep the log clean. Orders now appear paid when the call failed. What is the root problem?",
+    "options": [
+      "finally was missing",
+      "The empty catch swallows the failure, so execution continues as if the call had succeeded",
+      "Checked exceptions cannot be caught",
+      "The payment class should be static"
+    ],
+    "answer": 1,
+    "explanation": "An empty catch discards the exception, and the code after it runs on a false assumption. Handle the failure meaningfully or let it propagate to a caller that can."
+  },
+  {
+    "question": "Which test proves that `withdraw(50, 80)` rejects an overdraft with an InsufficientFundsException?",
+    "options": [
+      "assertEquals(0, withdraw(50, 80))",
+      "A test method with no assertion that calls withdraw(50, 80)",
+      "assertThrows(InsufficientFundsException.class, () -> withdraw(50, 80))",
+      "assertEquals(80, 50)"
+    ],
+    "answer": 2,
+    "explanation": "assertThrows passes only when the lambda throws the given exception type. A test without an assertion passes either way, and assertEquals checks values, not failures."
+  }
+]

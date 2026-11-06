@@ -1,0 +1,12 @@
+{
+  "title": "Project: Command-Line To-Do List",
+  "summary": "A local project that combines types, loops, methods, arrays, a record, exceptions and file input and output into a command-line to-do list that saves its tasks to a text file.",
+  "level": "beginner",
+  "tags": ["theory", "project"],
+  "resources": [
+    { "label": "Oracle: Files API (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/Files.html" },
+    { "label": "dev.java: Java I/O", "url": "https://dev.java/learn/java-io/" },
+    { "label": "Oracle: Records (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/language/records.html" },
+    { "label": "Oracle: The java command (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html" }
+  ]
+}

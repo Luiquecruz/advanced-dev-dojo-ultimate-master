@@ -1,0 +1,57 @@
+[
+  {
+    "question": "You run `java Greeter` right after saving `Greeter.java`, and the launcher reports that it cannot find or load the class. What is the most likely cause?",
+    "options": [
+      "The source was never compiled, so no Greeter.class exists for the JVM to load",
+      "The main method returns void instead of a value",
+      "The println call is missing a semicolon",
+      "jshell is not installed"
+    ],
+    "answer": 0,
+    "explanation": "The java launcher loads compiled bytecode by class name. Without a javac step there is no Greeter.class, so the class cannot be found. A semicolon error would be reported by javac instead."
+  },
+  {
+    "question": "A teammate sends a 15-line experiment in one file. What is the quickest way to run it without leaving a .class file behind?",
+    "options": [
+      "javac Experiment.java, then java Experiment.class",
+      "java Experiment.java, which compiles the named file and runs it at once",
+      "Paste the whole file into a build tool configuration",
+      "Rename it to Experiment.class"
+    ],
+    "answer": 1,
+    "explanation": "Source-file mode compiles the named file and starts it at once, which suits small programs. Pasting into a build tool is unnecessary, and renaming a source file to .class does not compile it."
+  },
+  {
+    "question": "`javac -version` prints an error that the command is not found, but `java -version` works. What does that tell you?",
+    "options": [
+      "The program has a syntax error",
+      "Only a runtime is installed; the JDK with the compiler is missing or not on the path",
+      "Java 25 has no compiler",
+      "The JVM is too old to run programs"
+    ],
+    "answer": 1,
+    "explanation": "The compiler ships in the JDK. A machine can have only a runtime that provides the java launcher. Install the full JDK or fix the path so javac is found."
+  },
+  {
+    "question": "Which declaration gives the JVM a classic entry point it can start?",
+    "options": [
+      "public void main(String args)",
+      "static void Main()",
+      "public static void main(String[] args)",
+      "private static int main(String[] args)"
+    ],
+    "answer": 2,
+    "explanation": "The classic launcher looks for a public static method named main that takes a String array and returns void. The other signatures compile as ordinary methods but are not the entry point."
+  },
+  {
+    "question": "You want to check what `\"java\".length()` returns without creating a file. Which tool fits best?",
+    "options": [
+      "jshell, which evaluates the expression and prints its value",
+      "javac, which prints the result of expressions",
+      "A .class file edited by hand",
+      "java -version"
+    ],
+    "answer": 0,
+    "explanation": "jshell is a read-evaluate-print loop: it runs each snippet immediately and shows the resulting value, with no class or main method needed."
+  }
+]

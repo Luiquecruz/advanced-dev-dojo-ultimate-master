@@ -412,3 +412,10 @@ Spec and standards: [system-design-track.md](system-design-track.md). Multi-lang
 
 ### 06-production-ownership — Production Ownership
 01-observability-slos-and-error-budgets **(challenge)** ✓ · 02-multi-region-and-cell-based-architecture ✓ · 03-staff-level-design-reviews ✓
+
+## Java, Spring Boot and Angular (`src/content/java-spring-angular`, engine `angular`)
+
+Plan and decisions: [java-spring-angular-track.md](java-spring-angular-track.md). No Java engine exists in the browser (option A of the plan): Java and Spring Boot lessons are theory and quizzes plus practice projects built locally with the JDK, and only the Angular-with-Spring module has graded challenges, on the Angular engine. Module 01 is required (a quiz-only module cannot be optional). Hidden (`TRACK_FLAGS['java-spring-angular'] = false`) until its last part ships; the accent is provisional. Only the written modules are listed here.
+
+### 01-java-from-zero — Java from Zero
+01-your-first-java-program ✓ · 02-values-types-and-variables ✓ · 03-decisions-and-loops ✓ · 04-methods ✓ · 05-strings-and-arrays ✓ · 06-classes-and-objects ✓ · 07-exceptions-and-first-test ✓ · 08-project-command-line-todo ✓

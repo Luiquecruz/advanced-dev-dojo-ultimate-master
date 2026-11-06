@@ -1,0 +1,8 @@
+[
+  { "term": "JDK", "description": "The Java Development Kit: the compiler, the launcher, jshell and the standard library you need to write and run Java programs." },
+  { "term": "javac", "description": "The compiler that reads .java source files, reports errors and writes .class files containing bytecode." },
+  { "term": "JVM", "description": "The Java Virtual Machine, the program that loads compiled classes and executes their bytecode." },
+  { "term": "main method", "description": "The entry point with the signature public static void main(String[] args) that the java launcher calls to start a program." },
+  { "term": "Source-file mode", "description": "Running java File.java, which compiles the named source file and runs it right away, meant for small programs." },
+  { "term": "jshell", "description": "An interactive tool that evaluates Java expressions and statements one at a time, without a class or a main method." }
+]

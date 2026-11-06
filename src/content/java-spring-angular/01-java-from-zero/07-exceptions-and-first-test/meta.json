@@ -1,0 +1,12 @@
+{
+  "title": "Exceptions and Your First Test",
+  "summary": "try, catch and finally, try-with-resources, checked versus unchecked exceptions, throwing your own, and a first JUnit test with @Test and assertEquals run through Maven or Gradle.",
+  "level": "beginner",
+  "tags": ["theory", "core", "testing"],
+  "resources": [
+    { "label": "dev.java: Exceptions", "url": "https://dev.java/learn/exceptions/" },
+    { "label": "Oracle tutorial: Exceptions", "url": "https://docs.oracle.com/javase/tutorial/essential/exceptions/" },
+    { "label": "JUnit", "url": "https://junit.org/" },
+    { "label": "Apache Maven: Maven in five minutes", "url": "https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html" }
+  ]
+}

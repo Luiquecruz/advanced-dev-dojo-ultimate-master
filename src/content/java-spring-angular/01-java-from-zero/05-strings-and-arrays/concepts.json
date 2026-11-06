@@ -1,0 +1,8 @@
+[
+  { "term": "Immutable", "description": "Describes an object that cannot change after creation; String methods return a new String instead." },
+  { "term": "equals", "description": "The method that compares the content of two objects, unlike == which compares whether they are the same object." },
+  { "term": "StringBuilder", "description": "A mutable buffer for building text efficiently, for example inside a loop." },
+  { "term": "Array", "description": "A fixed-size, zero-indexed sequence of elements of one type whose length is set at creation." },
+  { "term": "Arrays class", "description": "The java.util helper with ready-made methods such as sort, toString, copyOf, equals and fill." },
+  { "term": "String.format", "description": "A method that builds text from a template with placeholders such as %s, %d and %.2f." }
+]

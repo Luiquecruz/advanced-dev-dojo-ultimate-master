@@ -1,0 +1,9 @@
+[
+  { "term": "Primitive type", "description": "A built-in type such as int, double, boolean or char whose variable holds the value itself." },
+  { "term": "Reference type", "description": "A type such as String whose variable holds a pointer to an object, or null when it points to nothing." },
+  { "term": "var", "description": "Local variable type inference: the compiler deduces a fixed type from the initializer." },
+  { "term": "final", "description": "A modifier that allows a variable to be assigned exactly once." },
+  { "term": "Cast", "description": "An explicit conversion such as (int) value that narrows a type and may drop information." },
+  { "term": "Integer overflow", "description": "The silent wrap-around that happens when an integer result does not fit its type." },
+  { "term": "Text block", "description": "A string literal delimited by three double quotes that keeps line breaks and strips common indentation." }
+]
