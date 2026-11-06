@@ -1,9 +1,0 @@
-{
-  "engine": "angular",
-  "order": 12,
-  "title": "Java, Spring Boot and Angular",
-  "shortTitle": "Java",
-  "monogram": "JS",
-  "description": "Java from zero, the language, build and tests, Spring Boot with REST, validation and persistence, an Angular client for a Spring back end, security, delivery and a full-stack capstone.",
-  "version": "Java 25 · Spring Boot 4 · Angular 22"
-}

@@ -15,7 +15,7 @@
 ![Vitest](https://img.shields.io/badge/Vitest-5-6E9F18?logo=vitest&logoColor=white)
 ![ESLint](https://img.shields.io/badge/ESLint-10-4B32C3?logo=eslint&logoColor=white)
 
-Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 804 lessons in 12 tracks, 676 of them public.
+Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 812 lessons in 12 tracks, 676 of them public.
 
 ## Tracks
 
@@ -32,7 +32,7 @@ Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform f
 | System Design | Node.js, Python (Pyodide) and C# (.NET WebAssembly), chosen per challenge; theory and quizzes, graded challenges in 19 of 29 lessons | 29 | from architecture fundamentals (optional module 00) to the interview framework and capacity estimation, protocols, load balancing and rate limiting, storage engines, replication, sharding and consistent hashing, caching patterns, CAP and PACELC, consensus, message queues, sagas and the outbox, resilience, serverless pipelines, real-world case studies, vector databases and AI gateways, SLOs, multi-region design and design reviews |
 | Vue | Vue | 44 | hidden while in progress |
 | Angular | Angular | 53 | hidden while in progress |
-| Java, Spring Boot and Angular | theory and quizzes plus local Java and Angular projects (no graded challenges) | 39 so far | hidden while in progress: Java from zero first, then the language, build and tests, Spring Boot, persistence, Angular with a Spring back end, security and delivery |
+| Java and Spring Boot | theory and quizzes plus local Java backend projects (no graded challenges) | 39 | hidden while in progress: Java from zero, the language, build and tests, Spring Boot, persistence, security, backend delivery and an API capstone |
 
 Hidden tracks are toggled in `src/content/featureFlags.ts`. Module and lesson plans live in [CURRICULUM.md](.claude/docs/CURRICULUM.md).
 
@@ -128,7 +128,7 @@ npm run csharp:vendor                              # download, verify and assemb
 - Lessons that use the fake model (`dojo_ai`) are graded only under Pyodide; the CPython suite skips them.
 - A synchronous infinite loop in Python cannot be interrupted inside Pyodide: the worker is terminated and only that test fails.
 - Progress lives in the browser (`localStorage`); there are no accounts or sync between devices.
-- The Vue, Angular and Java, Spring Boot and Angular tracks are hidden until their lessons are complete.
+- The Vue, Angular and Java and Spring Boot tracks are hidden until their lessons are complete.
 
 ## Security
 

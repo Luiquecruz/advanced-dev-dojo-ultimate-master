@@ -395,3 +395,6 @@ Pronto quando: todos os critérios da seção 14 passam.
 | Acentos ciano e azul parecidos | Confusão e daltonismo | Ícone e rótulo por trilha; decisão aberta nº 3 |
 | Transição presa | Interface bloqueada | Timeout de segurança, `cancelTo`, testes de interrupção |
 | Three.js no bundle inicial | LCP pior | Import dinâmico após o primeiro paint |
+
+
+The hidden Java and Spring Boot track registers its existing accent and coffee/server glyph under `java-spring`. Angular keeps its independent identity; enabling either track is a separate release decision.

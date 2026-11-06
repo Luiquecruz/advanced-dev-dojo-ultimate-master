@@ -8,7 +8,7 @@ export const TRACK_FLAGS: Readonly<Record<string, boolean>> = {
   python: true,
   csharp: true,
   'system-design': true,
-  'java-spring-angular': false,
+  'java-spring': false,
 };
 
 /**

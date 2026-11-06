@@ -1,0 +1,9 @@
+{
+  "engine": "angular",
+  "order": 12,
+  "title": "Java and Spring Boot",
+  "shortTitle": "Java",
+  "monogram": "J",
+  "description": "Java from zero, language fundamentals, Maven and tests, Spring Boot REST APIs, validation, persistence, security, observability, delivery and a backend course-catalog capstone.",
+  "version": "Java 25 \u00b7 Spring Boot 4"
+}

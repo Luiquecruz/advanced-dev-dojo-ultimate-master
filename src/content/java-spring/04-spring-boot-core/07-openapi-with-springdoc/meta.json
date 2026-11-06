@@ -1,6 +1,6 @@
 {
   "title": "OpenAPI with springdoc",
-  "summary": "Adding springdoc to Spring Boot 4, reading the generated OpenAPI document, enriching it with annotations and explicit operation ids, documenting Problem Details errors, and using the exported file as the contract for the Angular client.",
+  "summary": "Adding springdoc to Spring Boot 4, reading the generated OpenAPI document, enriching it with annotations and explicit operation ids, documenting Problem Details errors, and using the exported file as the contract for an API client.",
   "level": "intermediate",
   "tags": ["theory", "core"],
   "resources": [

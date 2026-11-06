@@ -308,6 +308,8 @@ A worker engine (one that runs a downloaded language runtime) touches the same p
 | Verification | `verify/pythonSandbox.ts`, `pythonGrader()`, `pythonSandbox.test.ts`, `pythonEscapeScan.py` | `verify/csharpSandbox.ts`, `csharpGrader()`, `csharpSandbox.test.ts`, `csharpEscapeScan.ts` |
 | Ownership (`.github/CODEOWNERS`) | `lockdown.ts`, the CSP plugin, `verify/pythonSandbox*.ts` | `lockdown.ts`, `csharp.worker.ts`, `host/`, `verify/csharpSandbox*.ts`, `verify/csharpEscapeScan.ts`, `vendor-dotnet.mjs`, `WebcilConvert.cs`, `plugins/netlify-dotnet-cache/`, `vendor/dotnet/manifest.json`, `dotnetPlugin.ts` |
 
+The hidden Java and Spring Boot track uses the `java-spring` id for its content, feature flag, glyph and accent selector. It is independent from the `angular` track and has no graded challenges; its legacy catalog engine identifier does not start an engine on theory-and-quiz lessons. Full-stack integration is reserved for a future track. The former combined draft is retained on `archive/java-angular-fullstack`.
+
 ## Track presentation
 
 Everything the UI shows about a track comes from two places:
