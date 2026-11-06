@@ -27,7 +27,7 @@ You need: Vector Databases & ANN Indexes, Database Replication & Sharding, CAP &
 
 ## A decision path
 
-1. Already on PostgreSQL, a few million vectors, filters you can express in SQL? Start with pgvector and HNSW.
+1. Already on PostgreSQL, a few million vectors, filters you can express in SQL? Start with pgvector and HNSW, and give a selective filter (one tenant among many) its own index or partition, because HNSW filters after its scan and can return fewer rows than asked.
 2. Selective filters at large scale or hybrid ranking at the core of the product? Evaluate a dedicated engine.
 3. No appetite to operate it, spiky traffic, many tenants? Evaluate a managed service with namespaces.
 4. Already running distributed SQL? Check its built-in vector index before adding a system.

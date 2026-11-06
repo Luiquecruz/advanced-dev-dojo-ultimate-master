@@ -3,12 +3,12 @@
     "question": "A chat backend stores messages partitioned by `channel_id` only. A few public channels slow down the whole cluster over time. Which schema change addresses the growth?",
     "options": [
       "Add a secondary index on the message text",
-      "Partition by channel and a fixed time bucket, so each partition covers one window and stays bounded",
+      "Partition by channel and a fixed time bucket, so a partition covers one time window instead of the channel's whole history",
       "Store each message in its own table",
       "Increase the replication factor so more nodes hold each partition"
     ],
     "answer": 1,
-    "explanation": "With the channel alone, a busy channel grows one partition without limit. A time bucket in the partition key bounds each partition to one window, whose messages are still stored together. Replication copies the hot partition, it does not split it."
+    "explanation": "With the channel alone, a busy channel grows one partition without limit. A time bucket in the partition key caps the time span of each partition while its messages stay stored together; a very busy channel can still fill a large or hot bucket, so the bucket size follows the traffic. Replication copies the hot partition, it does not split it."
   },
   {
     "question": "A service has a 5 ms average latency, but its p99 jumps to 200 ms every couple of minutes, on every endpoint of the same node at once. What is the most likely cause?",
