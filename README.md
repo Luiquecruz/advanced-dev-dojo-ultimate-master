@@ -15,7 +15,7 @@
 ![Vitest](https://img.shields.io/badge/Vitest-5-6E9F18?logo=vitest&logoColor=white)
 ![ESLint](https://img.shields.io/badge/ESLint-10-4B32C3?logo=eslint&logoColor=white)
 
-A freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 728 lessons in 10 tracks, 631 of them public.
+A freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 735 lessons in 10 tracks, 638 of them public.
 
 ## Tracks
 
@@ -28,7 +28,7 @@ A freeCodeCamp-style learning platform for front-end, back-end and AI engineerin
 | AI Engineering | Node.js and Python (Pyodide), chosen per challenge | 122 | models, context, tools and MCP, RAG, knowledge graphs, memory, agents, harness and loops, multi-agent, evals, security, governance, agentic engineering |
 | Node.js | in-browser Node runtime + Hono | 77 | runtime, async, core modules, HTTP, REST APIs, persistence, security, scaling |
 | Python | Python 3.14 on Pyodide (WebAssembly) | 110 | object model, functions and closures, classes and descriptors, iterators, context managers, standard library, pattern matching, type hints, asyncio, metaprogramming, tooling, validation with Pydantic |
-| C# and .NET | C# (.NET 10 WebAssembly + Roslyn in a Web Worker); theory and quizzes, graded C# challenges in modules 02–04, 08–10, 12 and 14, practice projects built locally with the .NET 10 SDK | 73 | .NET 10 and C# 14 backend development, from fundamentals to production: runtime and language, LINQ, async, ASP.NET Core APIs, EF Core and Dapper, security, testing, background work and messaging, containers, CI/CD and observability, architecture, legacy .NET Framework and migration, integration, performance and code quality |
+| C# and .NET | C# (.NET 10 WebAssembly + Roslyn in a Web Worker); theory and quizzes, graded C# challenges in modules 00, 02–04, 08–10, 12 and 14, practice projects built locally with the .NET 10 SDK | 80 | .NET 10 and C# 14 backend development, from programming fundamentals (optional module 00) to production: runtime and language, LINQ, async, ASP.NET Core APIs, EF Core and Dapper, security, testing, background work and messaging, containers, CI/CD and observability, architecture, legacy .NET Framework and migration, integration, performance and code quality |
 | Vue | Vue | 44 | hidden while in progress |
 | Angular | Angular | 53 | hidden while in progress |
 

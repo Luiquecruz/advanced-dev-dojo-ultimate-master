@@ -1,0 +1,13 @@
+{
+  "title": "Decisions and Loops",
+  "summary": "Choosing a path with if, else if, else, the switch statement and the conditional operator; repeating with while, for and foreach; break and continue; ++ and +=; a first int[] array with indexes and Length, and how to avoid off-by-one errors.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "C# reference: if and switch statements", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements" },
+    { "label": "C# reference: Iteration statements (for, foreach, do, while)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements" },
+    { "label": "C# reference: Jump statements (break, continue, return)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/jump-statements" },
+    { "label": "C# reference: The conditional operator ?:", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/conditional-operator" },
+    { "label": "C# reference: Arrays", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays" }
+  ]
+}

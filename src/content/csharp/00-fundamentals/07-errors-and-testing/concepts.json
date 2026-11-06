@@ -1,0 +1,9 @@
+[
+  { "term": "Compile error", "description": "A problem the compiler reports with a code such as CS0103 and a file position, which stops the program from being built at all." },
+  { "term": "Exception", "description": "An object that describes a problem found while the program runs, such as `IndexOutOfRangeException`, and that ends the program unless some code catches it." },
+  { "term": "Stack trace", "description": "The list of method calls that were running when an exception happened, read from the top, where the first line naming your code is usually the place to look." },
+  { "term": "`throw`", "description": "The statement that creates an exception and stops the current method at once, as in `throw new ArgumentException(\"...\", nameof(text));`." },
+  { "term": "`try`, `catch` and `finally`", "description": "A `try` block runs code, the first matching `catch` block handles an exception of its type, and the `finally` block runs in every case." },
+  { "term": "Guard clause", "description": "A check at the top of a method that returns or throws early on bad input, so the rest of the method can trust its input." },
+  { "term": "Test", "description": "A small method that calls your code with chosen input and checks the result, written in three parts: arrange, act and assert." }
+]

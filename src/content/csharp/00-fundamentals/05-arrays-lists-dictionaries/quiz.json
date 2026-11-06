@@ -1,0 +1,68 @@
+[
+  {
+    "question": "`int[] levels = [5, 0, 12];` What does `levels[3]` do?",
+    "options": [
+      "It returns `0`, the default value of an `int`",
+      "It returns `12`, the last value",
+      "It throws `IndexOutOfRangeException`, because the valid indexes are `0`, `1` and `2`",
+      "It adds a fourth slot to the array and returns `0`"
+    ],
+    "answer": 2,
+    "explanation": "Indexes start at 0, so an array of `Length` 3 has the indexes 0 to 2, and index 3 is one past the end: the program stops with `IndexOutOfRangeException`. Returning the default value is tempting because new array slots start at the default, but that applies only to slots that exist. An array never grows; a `List<T>` grows only through `Add` or `Insert`."
+  },
+  {
+    "question": "A loop runs `for (int i = 0; i <= scores.Length; i++) total += scores[i];`. What happens?",
+    "options": [
+      "It adds every score and then stops normally",
+      "It adds every score, then throws `IndexOutOfRangeException` on the extra pass where `i` equals `Length`",
+      "It skips the first score, because `i` starts at 0",
+      "The compiler rejects `<=` in a `for` loop over an array"
+    ],
+    "answer": 1,
+    "explanation": "With `<=` the loop also runs for `i == scores.Length`, and `scores[scores.Length]` is one past the last index, so the program throws `IndexOutOfRangeException`. It does not stop normally, because the condition is still true on that pass. The compiler cannot know the array's length, so it accepts the loop. The fix is `i < scores.Length`, or `foreach` when you do not need the index."
+  },
+  {
+    "question": "`prices` is a `Dictionary<string, decimal>` without the key `\"BAG\"`. Which line reads the price of `BAG` without risking an exception?",
+    "options": [
+      "`decimal price = prices[\"BAG\"];`",
+      "`prices.Add(\"BAG\", 0m); decimal price = prices[\"BAG\"];`",
+      "`decimal price = prices.Count > 0 ? prices[\"BAG\"] : 0m;`",
+      "`bool found = prices.TryGetValue(\"BAG\", out decimal price);`"
+    ],
+    "answer": 3,
+    "explanation": "`TryGetValue` returns `false` for a missing key and sets `price` to `0m`, without throwing. Reading with the indexer throws `KeyNotFoundException` for a missing key, and checking `Count` does not help: a dictionary with other keys still lacks `BAG`. `Add` works here, but it throws `ArgumentException` as soon as `BAG` already exists, and it changes the price list just to read it."
+  },
+  {
+    "question": "Which declaration fits a program that collects the SKUs of a cart as the customer adds them, one at a time, with no limit known in advance?",
+    "options": [
+      "`List<string> skus = [];` and `skus.Add(sku)` for each new SKU",
+      "`string[] skus = new string[10];` and write `skus[count]` for each new SKU",
+      "`Dictionary<string, string> skus = new();` with the SKU as key and value",
+      "`(string, string, string) skus;`, a tuple with one element per SKU"
+    ],
+    "answer": 0,
+    "explanation": "A `List<T>` grows as you `Add`, so it fits a number of items you do not know in advance. The array of 10 is tempting, but it is fixed: the eleventh SKU throws `IndexOutOfRangeException`. A dictionary is for lookup by key and would also refuse the same SKU twice through `Add`. A tuple has a fixed number of elements chosen when you write the code."
+  },
+  {
+    "question": "A method should return both the smallest and the largest value of an `int[]`. Which signature matches the lesson's advice?",
+    "options": [
+      "`static int[] Range(int[] values)`, returning an array whose first item is the smallest",
+      "`static (int Smallest, int Largest) Range(int[] values)`",
+      "`static Dictionary<string, int> Range(int[] values)` with the keys `\"min\"` and `\"max\"`",
+      "Two methods only, because a method can return a single value"
+    ],
+    "answer": 1,
+    "explanation": "A named tuple returns two values that belong together, and the caller reads `result.Smallest` or deconstructs it with `var (low, high) = Range(values);`. An array works but hides which position means what, and a dictionary with string keys can be misspelled and fails only when the program runs. A method returns one value, but that value can be a tuple, so two methods are not needed."
+  },
+  {
+    "question": "`List<int> items = [1, 2, 3, 4];` Code runs `foreach (int item in items) { if (item % 2 == 0) items.Remove(item); }`. What happens?",
+    "options": [
+      "`items` becomes `[1, 3]`",
+      "`items` becomes `[1, 3, 4]`, because the loop skips the item after a removal",
+      "The compiler rejects `Remove` inside a `foreach`",
+      "It removes `2`, then the next step of the loop throws `InvalidOperationException` because the list was changed"
+    ],
+    "answer": 3,
+    "explanation": "A `List<T>` notices that it was changed while a `foreach` walks it, and the next step of the loop throws `InvalidOperationException` (\"Collection was modified\"). The tempting answer `[1, 3]` is what the code means, not what it does. The compiler does not track this, so the code compiles. Collect the items to remove in a second list and remove them after the loop."
+  }
+]

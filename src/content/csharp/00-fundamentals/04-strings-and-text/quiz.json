@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What does this print?\n\n```csharp\nstring code = \"  bag-01 \";\ncode.Trim();\ncode.ToUpperInvariant();\nConsole.WriteLine($\"[{code}]\");\n```",
+    "options": [
+      "`[BAG-01]`",
+      "`[bag-01]`",
+      "`[  BAG-01 ]`",
+      "`[  bag-01 ]`"
+    ],
+    "answer": 3,
+    "explanation": "Strings are immutable: `Trim` and `ToUpperInvariant` return new strings, and this code throws both results away, so `code` is unchanged. The tempting `[BAG-01]` is what `code = code.Trim().ToUpperInvariant();` would print."
+  },
+  {
+    "question": "A person types a quantity into a form. Which code reads it without ever stopping the program on bad input?",
+    "options": [
+      "`int quantity = int.Parse(text);`",
+      "`bool ok = int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out int quantity);`",
+      "`int quantity = (int)text;`",
+      "`int quantity = text.Length;`"
+    ],
+    "answer": 1,
+    "explanation": "`TryParse` returns `false` for text that is not a number and hands back the value through its `out` parameter, so nothing throws. The tempting `int.Parse` works for valid input but throws `FormatException` for `\"12abc\"` or an empty field. A cast from `string` to `int` does not compile, and `Length` counts characters."
+  },
+  {
+    "question": "`int.TryParse(\"oops\", out int quantity)` returns `false`. What is the value of `quantity` afterwards?",
+    "options": [
+      "`0`, because `TryParse` sets the `out` value to 0 when it fails",
+      "Whatever value `quantity` had before the call",
+      "`-1`, the value that marks a failure",
+      "There is no value: reading `quantity` after a failed call does not compile"
+    ],
+    "answer": 0,
+    "explanation": "An `out` parameter must always be assigned by the method, and `TryParse` assigns `0` when parsing fails. The result that tells you whether it worked is the returned `bool`, not a special number like `-1`. The variable is definitely assigned after the call, so reading it compiles."
+  },
+  {
+    "question": "A program writes `price.ToString(\"F2\")` into a file, and on one server the file contains `19,90` instead of `19.90`. What is the fix?",
+    "options": [
+      "Use `\"N2\"` instead of `\"F2\"`",
+      "Round the price with `Math.Round(price, 2)` before formatting",
+      "Pass `CultureInfo.InvariantCulture`: `price.ToString(\"F2\", CultureInfo.InvariantCulture)`",
+      "Replace `decimal` with `double`, which always formats with a dot"
+    ],
+    "answer": 2,
+    "explanation": "Without a culture argument, formatting uses the machine's current culture, and that server's culture writes decimal commas. Passing `CultureInfo.InvariantCulture` fixes the separator for every machine. `N2` also follows the current culture and adds thousands separators, rounding changes digits rather than separators, and `double` formatting follows the culture just the same."
+  },
+  {
+    "question": "What does `string.Join(\"-\", \"Big  Box\".Split(' '))` return? (There are two spaces between the words.)",
+    "options": [
+      "`\"Big-Box\"`",
+      "`\"Big--Box\"`",
+      "`\"Big- -Box\"`",
+      "`\"BigBox\"`"
+    ],
+    "answer": 1,
+    "explanation": "Splitting at every space turns two spaces in a row into three pieces: `\"Big\"`, an empty string and `\"Box\"`. Joining them puts a hyphen between each pair, giving `\"Big--Box\"`. The tempting `\"Big-Box\"` needs `StringSplitOptions.RemoveEmptyEntries`, which drops the empty piece."
+  },
+  {
+    "question": "A loop adds 10,000 lines to a report. Why is `StringBuilder` a better choice than `report += line;`?",
+    "options": [
+      "`+=` cannot join strings that contain a new line",
+      "`StringBuilder` formats numbers with the invariant culture automatically",
+      "`+=` changes the original string in place, which is unsafe in loops",
+      "Strings are immutable, so every `+=` creates a new string and copies all the text built so far; `StringBuilder` grows one buffer"
+    ],
+    "answer": 3,
+    "explanation": "Each `+=` allocates a new string holding everything so far plus the new line, so the copying grows with every pass. `StringBuilder` appends into one buffer, and `ToString()` creates the final string once. The tempting \"changes the string in place\" has it backwards: no string is ever changed in place."
+  }
+]

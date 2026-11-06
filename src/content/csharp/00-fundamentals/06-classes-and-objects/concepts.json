@@ -1,0 +1,10 @@
+[
+  { "term": "Class", "description": "A plan that describes the data and the methods of one kind of thing, such as a bank account." },
+  { "term": "Object", "description": "One thing created from a class with `new`, with its own copy of the class's instance fields and properties." },
+  { "term": "Constructor", "description": "A method named after its class, with no return type, that runs when `new` creates an object and sets it up in a valid state." },
+  { "term": "Property", "description": "A member such as `Balance { get; private set; }` that reads like a field but lets the class control who may read and who may write it." },
+  { "term": "Instance and static members", "description": "An instance member belongs to each object and is used through it, while a `static` member belongs to the class and is shared by the whole program." },
+  { "term": "`null`", "description": "The value of a class-type variable that refers to no object, so that using a member through it throws `NullReferenceException`." },
+  { "term": "Enum", "description": "A type that names a small, fixed set of choices, such as `OrderStatus.Paid`, each backed by a number." },
+  { "term": "Namespace", "description": "A name that groups related types, brought into a file with a `using` directive so its types can be written without the prefix." }
+]

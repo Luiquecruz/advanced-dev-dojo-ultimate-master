@@ -1,17 +1,17 @@
 [
   {
-    "question": "A Magento module keeps a cache of the current customer's cart in a class registered as a shared instance. You port the class to ASP.NET Core and register it with `AddSingleton`. What happens?",
+    "question": "An ASP.NET Core app keeps the current customer's cart in a class registered with `AddSingleton`. What happens when many customers use the app at the same time?",
     "options": [
       "ASP.NET Core creates one singleton per request scope, so each customer keeps a separate cart",
-      "All concurrent requests share one instance until the process stops, so carts leak",
+      "All concurrent requests share one instance until the process stops, so carts leak between customers",
       "The container creates one instance per thread, so carts mix only when two requests share a thread",
       "The instance is shared, but ASP.NET Core resets its fields at the end of every request"
     ],
     "answer": 1,
-    "explanation": "An ASP.NET Core app is one long-running process, so a singleton lives until the process stops and every request gets the same instance. In Magento the shared instance only looked per-request because PHP-FPM discards everything after each request. The first option describes the scoped lifetime (module 05), which you must ask for explicitly; `AddSingleton` never behaves that way."
+    "explanation": "An ASP.NET Core app is one long-running process, so a singleton lives until the process stops and every request gets the same instance. The first option confuses it with the scoped lifetime (05/02), one instance per request, which you must ask for explicitly; even that would not keep a cart, because the instance is discarded when the request ends. `AddSingleton` never behaves that way, and nothing resets its fields between requests."
   },
   {
-    "question": "A Magento observer adds a security header to every HTTP response. Where does that behaviour belong in an ASP.NET Core app?",
+    "question": "Every HTTP response of an API must carry a security header. Where does that behaviour belong in an ASP.NET Core app?",
     "options": [
       "A `BackgroundService` that inspects each response after it is sent",
       "An Options class bound from `appsettings.json` with the header values",
@@ -19,40 +19,40 @@
       "A singleton service that the container calls after every endpoint"
     ],
     "answer": 2,
-    "explanation": "Cross-cutting request behaviour that Magento puts in plugins and observers becomes middleware (or endpoint filters) in ASP.NET Core, added to the pipeline in `Program.cs`. The container only creates what something asks for; it never calls a registered service on its own, so the last option would do nothing. A `BackgroundService` runs outside the request and cannot change a response."
+    "explanation": "Code that runs around every request is middleware, added to the pipeline in `Program.cs`; an endpoint filter runs only when an endpoint is reached, so a 404 would miss the header. The container only creates what something asks for; it never calls a registered service on its own, so the last option would do nothing. A `BackgroundService` runs outside the request and cannot change a response."
   },
   {
-    "question": "In PHP without `declare(strict_types=1)`, passing `\"10\"` to a function that declares `int` works. What happens with the same call in C#?",
+    "question": "A program contains `int quantity = \"10\";`. What happens?",
     "options": [
-      "It compiles, and the call throws `InvalidCastException` at run time",
-      "It compiles, because C# coerces numeric strings unless strict mode is on",
-      "It compiles with a warning, and the string is parsed with `int.Parse`",
+      "It compiles, and the assignment throws `InvalidCastException` when the line runs",
+      "It compiles, because the text holds digits and is converted to 10",
+      "It compiles with a warning, and the text is parsed with `int.Parse`",
       "The build fails: `string` does not convert implicitly to `int`"
     ],
     "answer": 3,
-    "explanation": "C# checks types at compile time, so the mismatch is reported (CS1503) before the program can run, and there is no per-file strict mode. The first option is the PHP strict-mode model, where a `TypeError` appears only when the call executes; in C# the call never gets that far."
+    "explanation": "C# checks types before the program runs, so the compiler reports CS0029 and no program is produced. The first option describes a check at run time; in C# the program never gets that far. Turning text into a number is an explicit step with `int.TryParse` or `int.Parse` (00/04)."
   },
   {
-    "question": "Where do you register a service such as `TimeProvider` in a new ASP.NET Core web project?",
+    "question": "You have written programs before and want to know whether to skip module 00. What does this track ask you to do?",
     "options": [
-      "In `Program.cs`, with `builder.Services.AddSingleton(TimeProvider.System)`",
-      "In `appsettings.json`, under a `Services` section the host reads at startup",
-      "Nowhere: the container creates any public class on request, like the ObjectManager",
-      "With an `[Injectable]` attribute on the class, which the host scans at startup"
+      "Open the challenge of 00/07; if you solve it without help, start at module 01",
+      "Pass the quiz of 00/01; a passed quiz there unlocks module 01",
+      "Read every lesson of module 00 first, because module 01 stays locked until they are complete",
+      "Skip it whenever you know any programming language, since module 01 repeats the basics"
     ],
     "answer": 0,
-    "explanation": "Composition in .NET is explicit C# code on `builder.Services`, read top to bottom; there is no XML merge and no attribute scanning by default. The third option is tempting for a Magento developer because the ObjectManager can create almost any class, but the .NET container only resolves what was registered."
+    "explanation": "The skip rule is one test: the 00/07 challenge, which combines what module 00 teaches: parsing text, loops over arrays, a dictionary, a class with a constructor and properties, and exceptions. Nothing in the track is locked, so the third option is wrong, and module 01 does not repeat the basics: it assumes them, which is why the last option leaves gaps that show up in 02/01."
   },
   {
-    "question": "An endpoint calls `File.ReadAllTextAsync(path).Result`. The code works on your laptop but the API slows down badly under load in production. Why?",
+    "question": "An endpoint calls `File.ReadAllTextAsync(path).Result`. The code works on your laptop, but the API slows down badly under load in production. Why?",
     "options": [
       "`.Result` makes every request wait on one shared synchronization context",
-      "Each blocked call holds a pool thread while waiting, so the pool starves",
+      "Each blocked call holds a pool thread while waiting, so the pool runs out of threads",
       "Async file APIs are slower than sync ones, so `File.ReadAllText` would fix it",
       "The file is read again on every call; it should be cached in a static field"
     ],
     "answer": 1,
-    "explanation": "Blocking on a task keeps a shared thread busy doing nothing; with many concurrent requests the pool runs out of threads and requests queue. `await` releases the thread while the I/O runs. Switching to the synchronous API, the third option, still blocks a thread per request and does not fix the starvation; ASP.NET Core has no synchronization context, which rules out the first."
+    "explanation": "Blocking on a task keeps a shared thread busy doing nothing; with many concurrent requests the pool runs out of threads and requests queue. `await` releases the thread while the I/O runs. Switching to the synchronous API, the third option, still blocks a thread per request; ASP.NET Core has no synchronization context, which rules out the first."
   },
   {
     "question": "You find a C# answer online that uses a `Startup` class, `System.Web` and `web.config`. What should you conclude first?",

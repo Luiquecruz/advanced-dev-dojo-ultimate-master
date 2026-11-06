@@ -1,0 +1,14 @@
+{
+  "title": "Your First Program: Values and Variables",
+  "summary": "What a program and a compiler are, top-level statements and Console.WriteLine, variables and the basic types (int, long, double, decimal, bool, char, string), arithmetic and integer division, comparisons and logic, interpolated strings, and how Run and Run tests work in this app.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "A tour of C#: Hello World tutorial", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/tutorials/hello-world" },
+    { "label": "C# fundamentals: Top-level statements", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements" },
+    { "label": "C# reference: Built-in types", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types" },
+    { "label": "C# reference: Arithmetic operators", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators" },
+    { "label": "C# reference: Floating-point numeric types", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types" },
+    { "label": "C# reference: String interpolation with $", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated" }
+  ]
+}

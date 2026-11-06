@@ -1,0 +1,36 @@
+{
+  "title": "Classes and Objects",
+  "summary": "Describe a thing with a class, create objects with new, give them a constructor, fields and properties, tell instance from static members, handle null without a NullReferenceException, and name fixed choices with an enum.",
+  "level": "beginner",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Classes and objects tutorial",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/tutorials/classes"
+    },
+    {
+      "label": "Constructors (C# programming guide)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/constructors"
+    },
+    {
+      "label": "Properties (C# programming guide)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties"
+    },
+    {
+      "label": "Static classes and static class members",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/static-classes-and-static-class-members"
+    },
+    {
+      "label": "Enumeration types (C# reference)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum"
+    },
+    {
+      "label": "Namespaces and using directives",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/namespaces"
+    }
+  ]
+}

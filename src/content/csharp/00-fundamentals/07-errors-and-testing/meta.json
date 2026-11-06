@@ -1,0 +1,32 @@
+{
+  "title": "When Things Go Wrong: Errors and Tests",
+  "summary": "Tell compile errors from exceptions, read an exception's type, message and stack trace, throw the right ArgumentException, catch with try, catch and finally, guard a method's input, and read a test as arrange, act and assert.",
+  "level": "beginner",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Exceptions and exception handling (C# fundamentals)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/exceptions/"
+    },
+    {
+      "label": "Creating and throwing exceptions",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/exceptions/creating-and-throwing-exceptions"
+    },
+    {
+      "label": "Exception-handling statements: throw and try, catch, finally (C# reference)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/exception-handling-statements"
+    },
+    {
+      "label": "Best practices for exceptions (.NET)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions"
+    },
+    {
+      "label": "Best practices for writing unit tests (.NET)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "The editor reports `Program.cs(5,1): error CS0103: The name 'totl' does not exist in the current context`. What does that tell you?",
+    "options": [
+      "The program ran and stopped at line 5 with an exception",
+      "The program ran, but line 5 was skipped",
+      "The program was not built at all: line 5, column 1 names something the compiler does not know, probably a typo",
+      "The tests found a wrong result on line 5"
+    ],
+    "answer": 2,
+    "explanation": "A `CSxxxx` code is a compile error: the compiler could not build the program, so not one line of it ran, and no test ran either. The tempting first answer describes an exception, which only happens in a program that compiled. `CS0103` means the name is unknown in that place, which is usually a misspelled variable such as `totl` for `total`."
+  },
+  {
+    "question": "A stack trace reads `at Scores.Total(Int32[] scores)` on the first `at` line and `at Program.<Main>$(String[] args)` on the second. Where did the exception happen?",
+    "options": [
+      "In the top-level statements, because the program starts there",
+      "Inside `Scores.Total`, which the top-level statements called",
+      "In the .NET runtime, because the trace names `Int32`",
+      "Nowhere in particular; a stack trace only lists the methods the program has"
+    ],
+    "answer": 1,
+    "explanation": "The first `at` line is where the exception was thrown, and each line below it is the caller of the line above. So it happened in `Scores.Total`, called from the top-level statements. Picking the start of the program is tempting because it comes first in the code, but in the trace it comes last. `Int32[]` is just the full .NET name of `int[]`."
+  },
+  {
+    "question": "Which catch blocks compile and handle an `ArgumentOutOfRangeException` in its own block?",
+    "options": [
+      "`catch (ArgumentOutOfRangeException ex) { ... } catch (ArgumentException ex) { ... }`",
+      "`catch (ArgumentException ex) { ... } catch (ArgumentOutOfRangeException ex) { ... }`",
+      "`catch (Exception ex) { ... } catch (ArgumentOutOfRangeException ex) { ... }`",
+      "Any order works, because C# picks the most specific matching block"
+    ],
+    "answer": 0,
+    "explanation": "The first `catch` whose type matches wins, and `ArgumentOutOfRangeException` is a kind of `ArgumentException`. With the specific block first, it handles the out-of-range case and the general block handles the rest. Putting the general type first makes the specific block unreachable, which is compile error CS0160; C# does not reorder the blocks for you."
+  },
+  {
+    "question": "A method reads a quantity typed by a user. Which version follows the lesson's advice?",
+    "options": [
+      "`try { return int.Parse(text); } catch (Exception) { return 0; }`",
+      "`return int.Parse(text);` and let the caller deal with whatever happens",
+      "`try { return int.Parse(text); } catch (FormatException) { throw new FormatException(); }`",
+      "`if (!int.TryParse(text, out int quantity)) throw new ArgumentException(\"Not a whole number.\", nameof(text)); return quantity;`"
+    ],
+    "answer": 3,
+    "explanation": "Bad text from a user is expected, so `int.TryParse` checks it without an exception, and the guard clause decides what bad input means and throws a clear `ArgumentException`. The `catch (Exception)` version is tempting because it never crashes, but it turns every problem into a silent `0`. Letting `int.Parse` throw `FormatException`, or rethrowing a new one without a message, leaves the caller with a less useful error."
+  },
+  {
+    "question": "In this test, which line is the act step? `var account = new BankAccount(\"Ana\");` / `account.Deposit(40m);` / `Assert.Equal(40m, account.Balance);`",
+    "options": [
+      "`var account = new BankAccount(\"Ana\");`, because it is the first line",
+      "`Assert.Equal(40m, account.Balance);`, because it is where the test can fail",
+      "`account.Deposit(40m);`, because it calls the behavior under test",
+      "None of them; a test has no act step when it uses `Assert`"
+    ],
+    "answer": 2,
+    "explanation": "Arrange prepares the input (creating the account), act calls the behavior being tested (the deposit), and assert checks the result (the balance). The assert line is tempting because that is where a failing test reports, but it only checks; it does not run the code under test. Every test of this shape has all three parts."
+  },
+  {
+    "question": "A method catches `Exception`, writes nothing and returns `0` so that the program never crashes. What is the problem?",
+    "options": [
+      "Nothing; avoiding crashes is the goal of exception handling",
+      "Every failure becomes a plausible-looking `0`, so wrong results spread and the real cause is lost",
+      "`catch (Exception)` does not compile",
+      "It slows the program down even when nothing is thrown"
+    ],
+    "answer": 1,
+    "explanation": "Hiding every exception trades a clear crash, with a type, message and stack trace, for a wrong value that nobody notices until much later. That is why the lesson says to catch only the specific types you can handle. `catch (Exception)` compiles, and a `try` costs almost nothing when nothing is thrown; the problem is what it hides, not speed."
+  }
+]

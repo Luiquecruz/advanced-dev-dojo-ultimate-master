@@ -1,0 +1,13 @@
+{
+  "title": "Methods: Naming a Piece of Work",
+  "summary": "Declaring and calling static methods: parameters, return types and void, expression bodies with =>, scope, overloads, optional and named arguments, local functions, and a first look at lambdas as methods without a name.",
+  "level": "beginner",
+  "tags": ["recommended", "core", "theory"],
+  "resources": [
+    { "label": "C# guide: Overview of methods", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/methods" },
+    { "label": "C# programming guide: Named and optional arguments", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/named-and-optional-arguments" },
+    { "label": "C# programming guide: Expression-bodied members", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/expression-bodied-members" },
+    { "label": "C# programming guide: Local functions", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/local-functions" },
+    { "label": "C# reference: Lambda expressions", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions" }
+  ]
+}

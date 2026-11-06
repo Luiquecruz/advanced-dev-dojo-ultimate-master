@@ -1,8 +1,10 @@
 [
+  { "term": "Module zero", "description": "The optional fundamentals module for people who have never programmed; a learner who can solve the 00/07 challenge without help starts at module 01." },
+  { "term": "Graded challenge", "description": "A C# exercise that runs in the browser, where Run executes the program and Run tests grades it against the lesson's tests." },
+  { "term": "Practice project", "description": "A module-closing exercise built locally with the .NET 10 SDK and self-checked against acceptance criteria." },
   { "term": "Long-running host", "description": "An ASP.NET Core application is one process that serves many concurrent requests, so static fields and singletons are shared across all of them until the process stops." },
-  { "term": "Compile-time typing", "description": "The C# compiler checks types before the program runs and rejects mismatches that PHP would only detect, or silently coerce, at call time." },
+  { "term": "Compile-time typing", "description": "The C# compiler checks types before the program runs and rejects a value of the wrong type, so no program is produced with that mistake in it." },
   { "term": "Thread pool", "description": "A shared set of threads that runs request code in .NET, so a thread blocked on I/O reduces capacity for every other request." },
-  { "term": "Composition in Program.cs", "description": "Services, configuration and endpoints are registered in C# code read top to bottom, instead of being merged from XML files of many modules." },
-  { "term": "Practice project", "description": "A module-closing exercise built locally with the .NET 10 SDK and self-checked against acceptance criteria, because the app has no C# runtime." },
+  { "term": "Composition in Program.cs", "description": "Services, configuration and endpoints are registered in C# code that is read from top to bottom." },
   { "term": "Status as of", "description": "A dated section that holds facts which age, such as versions, support dates and licence changes, with the date they were checked." }
 ]

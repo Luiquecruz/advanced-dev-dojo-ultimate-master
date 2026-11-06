@@ -1,0 +1,6 @@
+1. Decide what each account owns. The owner's name and the balance belong to one account, so both are instance properties: no `static`, or every account would share one balance and a deposit into one would show up in all of them.
+2. The constructor takes what an account cannot exist without, the owner, and stores it in the `{ get; }` property, which only a constructor may set. The balance starts at the default `0m`, so it needs no code.
+3. `Balance` must be readable everywhere and writable only inside the class, which is exactly `{ get; private set; }`. A public field or `{ get; set; }` would let any code write `account.Balance = 1_000_000m`.
+4. Each method that changes the balance starts with a guard clause: check the input, and return `false` before touching anything when it is not acceptable. `Deposit` refuses `amount <= 0m`. `TryWithdraw` also refuses `amount > Balance`; using `>` rather than `>=` keeps the boundary case, withdrawing the whole balance, allowed.
+5. Only after the guard passes does the method update `Balance` and return `true`, so a refused call leaves the account exactly as it was.
+6. `Signals.Next` maps each enum value to the next one with a `switch` statement. `Red` and `Green` have their own `case`; `default` covers `Yellow` and returns `Red`, closing the cycle.

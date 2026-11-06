@@ -338,7 +338,10 @@ Spec: `.claude/docs/python-track/`. Single-language track on the Python engine (
 
 ## C# and .NET (`src/content/csharp`)
 
-Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"engine": "csharp"`, [csharp-engine.md](csharp-engine.md)): every lesson is theory + quiz, lessons marked **(challenge)** also have a graded C# challenge (added lesson by lesson), and practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK. 14 modules, 73 lessons: core 01–11, deepening 12 and 14, legacy 13. Enabled (`TRACK_FLAGS.csharp = true`) once every module was written, cross-reviewed and verified and the whole track passed an independent final review.
+Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"engine": "csharp"`, [csharp-engine.md](csharp-engine.md)): every lesson is theory + quiz, lessons marked **(challenge)** also have a graded C# challenge (added lesson by lesson), and practice projects are described in the closing lesson of a module and built locally with the .NET 10 SDK. 15 modules, 80 lessons: an optional fundamentals module 00 for learners who have never programmed (skipped by anyone who can solve the 00/07 challenge without help; it counts toward progress only once started), core 01–11, deepening 12 and 14, legacy 13. 26 lessons have a graded challenge: all of module 00 and 19 in modules 02–04, 08–10, 12 and 14. Enabled (`TRACK_FLAGS.csharp = true`) once every module was written, cross-reviewed and verified and the whole track passed an independent final review.
+
+### 00-fundamentals — Programming Fundamentals with C# (optional)
+01-first-program **(challenge)** ✓ · 02-methods **(challenge)** ✓ · 03-decisions-and-loops **(challenge)** ✓ · 04-strings-and-text **(challenge)** ✓ · 05-arrays-lists-dictionaries **(challenge)** ✓ · 06-classes-and-objects **(challenge)** ✓ · 07-errors-and-testing **(challenge)** ✓
 
 ### 01-platform — The .NET Platform
 01-csharp-map ✓ · 02-runtime-sdk-and-cli ✓ · 03-versions-and-support ✓ · 04-nuget-and-project-files ✓

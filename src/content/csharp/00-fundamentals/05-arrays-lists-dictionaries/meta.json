@@ -1,0 +1,36 @@
+{
+  "title": "Arrays, Lists and Dictionaries",
+  "summary": "Keep many values in an array or a List<T>, build them with collection expressions, look values up by key in a Dictionary<TKey,TValue> without KeyNotFoundException, and group a few values with tuples and deconstruction.",
+  "level": "beginner",
+  "tags": [
+    "recommended",
+    "core",
+    "theory"
+  ],
+  "resources": [
+    {
+      "label": "Arrays (C# reference)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays"
+    },
+    {
+      "label": "Collection expressions (C# reference)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/collection-expressions"
+    },
+    {
+      "label": "List<T> API reference",
+      "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=net-10.0"
+    },
+    {
+      "label": "Dictionary<TKey,TValue> API reference",
+      "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=net-10.0"
+    },
+    {
+      "label": "Tuple types (C# reference)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples"
+    },
+    {
+      "label": "Deconstructing tuples and other types",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/deconstruct"
+    }
+  ]
+}

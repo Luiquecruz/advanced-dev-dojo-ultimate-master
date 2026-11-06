@@ -1,0 +1,9 @@
+[
+  { "term": "Array", "description": "A fixed number of values of one type, such as `int[]`, read and written by an index from `0` to `Length - 1`." },
+  { "term": "Index", "description": "The position of an item in an array or a list, counted from `0`, so that reading outside the valid range throws an exception." },
+  { "term": "`List<T>`", "description": "A collection of items of type `T` that keeps them in order and grows with `Add`, with `Count` for its size." },
+  { "term": "Collection expression", "description": "The `[1, 2, 3]` syntax that builds an array or a list depending on the type it is assigned to, with `[]` for an empty one and `..` to copy another collection in." },
+  { "term": "`Dictionary<TKey,TValue>`", "description": "A collection of key and value pairs with unique keys, where the indexer throws `KeyNotFoundException` for a missing key and `TryGetValue` does not." },
+  { "term": "Tuple", "description": "A small group of values such as `(string Sku, int Quantity)` whose elements can be named, used to pass or return a few values without a class." },
+  { "term": "Deconstruction", "description": "Splitting a tuple or a dictionary pair into separate variables, as in `var (sku, quantity) = line;`." }
+]

@@ -1,0 +1,5 @@
+1. Press **Run** to see what the starter prints for each tool, then take the tools one at a time and run the tests after each.
+2. `Slug.From`: clean first, then cut, then glue. Trim and lower-case the whole text, split it on spaces while removing the empty pieces, and join the words with `"-"`. Return the result; calling the methods without storing their results changes nothing.
+3. `Quantity.TryRead`: let `int.TryParse` with `NumberStyles.Integer` and `CultureInfo.InvariantCulture` write straight into the `out quantity` parameter. Then treat "parse failed" and "parsed a negative number" the same way: set `quantity` to `0` and return `false`. Every path must assign `quantity`, or the method does not compile.
+4. `Money.Format`: choose the `F2` format string (fixed point, 2 decimals, no thousands separator) and pass `CultureInfo.InvariantCulture`, so the dot does not depend on the machine.
+5. `Vowels.Count`: loop over the characters, lower-case each one with `char.ToLowerInvariant`, and count it when `"aeiou"` contains it.
