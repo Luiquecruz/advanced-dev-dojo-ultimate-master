@@ -9,9 +9,10 @@ export const DATED =
 
 /**
  * Fenced and inline code, removed before the check: a date in an example (a parser's input, a log line) is data, not a claim. A fence opens
- * on a line of three or more backticks or tildes and closes on a line that repeats them, so a fence inside a code string does not end it.
+ * on a line of three or more backticks or tildes and closes on a line that repeats them, so a fence inside a code string does not end it;
+ * an inline span opens and closes with the same run of backticks, so ``2026-07-15`` is code too.
  */
-const CODE = /^ {0,3}(`{3,}|~{3,})[^\n]*\n[\s\S]*?(?:^ {0,3}\1[`~]*[ \t]*$|(?![\s\S]))|`[^`\n]*`/gm;
+const CODE = /^ {0,3}(?<fence>`{3,}|~{3,})[^\n]*\n[\s\S]*?(?:^ {0,3}\k<fence>[`~]*[ \t]*$|(?![\s\S]))|(?<!`)(?<tick>`+)(?!`)[^\n]*?(?<!`)\k<tick>(?!`)/gm;
 
 /** The first dated or changelog text in a lesson text outside code, or undefined. */
 export function datedIn(text: string): string | undefined {

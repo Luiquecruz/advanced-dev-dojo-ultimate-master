@@ -37,5 +37,7 @@ describe('no dates in lessons', () => {
     expect(datedIn('A queue drains 2,000 requests per second, version 4 of the protocol.')).toBeUndefined();
     expect(datedIn("```ts\nconst marker = '```';\nconst date = '2026-07-15';\n```")).toBeUndefined();
     expect(datedIn('```ts\nconst a = 1;\n```\nStatus as of today')).toBe('Status as of');
+    expect(datedIn('Parse ``2026-07-15`` and ` 2026-07-15 `.')).toBeUndefined();
+    expect(datedIn('A tick ` then 2026-07-15 outside')).toBe('2026-07-15');
   });
 });
