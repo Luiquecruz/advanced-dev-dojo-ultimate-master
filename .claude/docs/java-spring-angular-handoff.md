@@ -21,6 +21,7 @@ Keep this section current: after every merge, PR, review or decision, add a line
 **Owner decision (token budget): the track keeps only theory and quizzes. No graded challenges anywhere, including module 06 (it becomes theory + quiz like the rest). Do not build a Java engine.**
 
 State of the work:
+- PR #55 trigger cleanup follow-up: the final rename migration now removes or updates synchronization functions/triggers that still reference the old column, including dependencies PostgreSQL does not infer from string-literal bodies.
 - PR #55 rename follow-up: the contract phase now explicitly deploys code that no longer accesses the old column and drains all earlier versions before dropping it.
 - PR #55 follow-up: required synchronized writes throughout a rolling column rename and established Docker Engine 28 as the project baseline for loopback port publishing. Verified the earlier stable-sort and count-query corrections in theory, quiz and glossary.
 - PR #55 review pass: addressed 16 findings across context scope, bulk-update refresh/flush, association ownership, lesson ordering, rollback/savepoint limits, stable paging/counts, safe migration rollout, local database binding and versioned custom deletes. Revalidating before the next review.
