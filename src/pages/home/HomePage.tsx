@@ -11,18 +11,18 @@ interface HomePageProps {
   onTrailChange(trackId: string | undefined): void;
 }
 
-const HEADLINE_WORDS = ['Learn', 'Build', 'Code', 'Front-end', 'Back-end', 'Architecture', 'Development', 'Software Engineer', 'AI Engineer'];
+const HEADLINE_WORDS = ['Learn', 'Launch', 'Build', 'Explore', 'Code', 'Navigate', 'Front-end', 'Orbit', 'Back-end', 'Ascend', 'Architecture', 'Discover', 'Development', 'Lift off', 'Software Engineer', 'Chart the stars', 'AI Engineer'];
 const HEADLINE_INTERVAL_MS = 6500;
 const AUTHOR_URL = 'https://www.linkedin.com/in/luique-cruz/';
-const HEADLINE_LABEL = 'Dev Dojo: learn, build and code, from front-end and back-end to architecture, development, software and AI engineering';
+const HEADLINE_LABEL = 'Constela Mission: learn, launch, explore and build, navigating from front-end and back-end to architecture, development, software and AI engineering';
 const EXPLORE_AFTER_MS = 1400;
 
 const totalLessons = availableTracks.reduce((sum, track) => sum + track.lessons.length, 0);
 const totalChallenges = availableTracks.reduce((sum, track) => sum + track.lessons.filter((lesson) => lesson.hasChallenge).length, 0);
 
 /**
- * Full-screen landing: editorial layout around the 3D path carousel, with the active track name as a giant backdrop.
- * The page accent and the ambient scene follow the active track.
+ * Full-screen landing: editorial layout around the 3D mission carousel, with the active mission name as a giant backdrop.
+ * The page accent and the ambient scene follow the active mission.
  */
 export function HomePage({ onExploreChange, onTrailChange }: HomePageProps) {
   const state = useProgress();
@@ -52,10 +52,10 @@ export function HomePage({ onExploreChange, onTrailChange }: HomePageProps) {
         <span className="text-accent">{String(active + 1).padStart(2, '0')}</span> / {String(availableTracks.length).padStart(2, '0')} · {track.title}
       </SideRail>
 
-      <header className="flex items-center justify-end max-wide:hidden">
+      <header className="flex items-center justify-center max-wide:hidden">
         <dl className="enter m-0 flex items-baseline gap-6 font-mono text-[11px] tracking-[0.14em] text-ink-faint uppercase max-wide:hidden" style={{ ['--enter-delay' as string]: '320ms' }}>
-          <Stat value={availableTracks.length} label="tracks" />
-          <Stat value={totalLessons} label="lessons" />
+          <Stat value={availableTracks.length} label="missions" />
+          <Stat value={totalLessons} label="waypoints" />
           <Stat value={totalChallenges} label="challenges" />
         </dl>
       </header>
@@ -75,16 +75,18 @@ export function HomePage({ onExploreChange, onTrailChange }: HomePageProps) {
         <PathCarousel tracks={availableTracks} active={active} onActiveChange={setActive} />
       </div>
 
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-44 bg-linear-to-t from-void via-void/80 to-transparent max-wide:h-28" />
+
       <footer
-        className="enter grid grid-cols-[1fr_auto_1fr] items-center gap-6 border-t border-line/60 pt-3.5 text-xs text-ink-faint max-wide:grid-cols-1 max-wide:justify-items-center max-wide:border-none max-wide:pt-0"
+        className="enter flex items-center justify-between gap-6 border-t border-line/60 pt-3.5 text-xs text-ink-faint max-wide:justify-center max-wide:border-none max-wide:pt-0"
         style={{ ['--enter-delay' as string]: '900ms' }}
       >
-        <span className="max-wide:hidden">
+        <span className="font-mono text-[10.5px] tracking-[0.08em] max-wide:hidden">
           © 2026{' '}
           <a href={AUTHOR_URL} target="_blank" rel="noopener noreferrer" className="text-inherit no-underline transition-colors duration-500 hover:text-accent">
             Luique Cruz
           </a>{' '}
-          · Learn by building
+          · Launched one waypoint at a time
         </span>
         <div className="flex items-center gap-3">
           <span>Saved in this browser</span>
