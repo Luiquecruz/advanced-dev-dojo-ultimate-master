@@ -36,6 +36,7 @@ async def _():
     assert stock.available("pen") == 2
 
 
+# beginner mistake: returning dict(counter) from snapshot, which keeps the SKUs whose count dropped to zero
 @test("Inventory.snapshot is a plain dict without zero entries")
 def _():
     stock = mod.Inventory()

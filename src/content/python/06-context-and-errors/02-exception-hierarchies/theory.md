@@ -25,25 +25,9 @@ finally:
     print("request done")          # in every case
 ```
 
-## Coming from TypeScript and JavaScript
-
-```ts
-try {
-  return handle(request);
-} catch (error) {                                   // one clause, error: unknown
-  if ((error as Error).name === "NotFoundError") return [404, (error as Error).message];
-  return [500, String(error)];                      // a TypeError from a bug ends up here too
-}
-```
-
-Three habits break in Python:
-
-- **One catch-all clause per handler.** Translated as `except Exception`, it turns every bug (`KeyError` from a typo, `TypeError` from a wrong argument) into a normal-looking response, and the stack trace is never seen. Catch the domain base class and let everything else reach the top-level handler that logs it.
-- **Dispatch by name or exact constructor** (`error.name === ...`, `type(error) is ...`, a dict keyed by class name). It ignores subclasses: a new `EmailTaken(ConflictError)` falls through to 500. `except` and `isinstance` follow inheritance; a class attribute such as `status` is found through the MRO, so a subclass inherits its parent's status unless it sets its own.
-- **Throwing anything.** `raise "card declined"` is a `TypeError: exceptions must derive from BaseException`. Errors are typed objects, and the hierarchy is part of your API.
-
 ## How it works
 
+- **Only exceptions can be raised**: `raise` takes an instance (or a class) under `BaseException`, so `raise "card declined"` is `TypeError: exceptions must derive from BaseException`. Errors are typed objects, and the hierarchy is part of your API.
 - **Order of clauses**: the first matching `except` wins. A specific clause after a general one is dead code, and Python does not warn about it.
 - **Built-in families**: `LookupError` (`KeyError`, `IndexError`), `ArithmeticError` (`ZeroDivisionError`), `OSError` (`FileNotFoundError`, `PermissionError`, `ConnectionError`, `TimeoutError`), `ValueError` (`UnicodeDecodeError`, `json.JSONDecodeError`).
 - **Multiple inheritance for compatibility**: `class ValidationError(AppError, ValueError)` is still caught by older code that wraps `int(text)` in `except ValueError`, and `NotFoundError(AppError, LookupError)` by code that expects a lookup failure. The standard library does the same (`json.JSONDecodeError` is a `ValueError`).
@@ -55,6 +39,27 @@ Three habits break in Python:
 ### Security note
 
 A message that reaches a user is part of your interface. Write domain error messages for that audience (the field, the rule, the identifier the user already knows) and never include secrets, raw tokens, SQL or internal paths. That is one more reason to map only `AppError` to responses: the message of an unexpected `KeyError` or `OSError` can expose internals, so it goes to the logs, and the user gets a generic 500.
+
+## Common mistakes
+
+**One `except Exception` clause for every error.** In a handler that builds responses, it turns every bug (a `KeyError` from a typo, a `TypeError` from a wrong argument) into a normal-looking response, and the traceback is never seen. Catch the domain base class and let everything else reach the top-level handler that logs it:
+
+```py
+# wrong: a typo in action() becomes a 500 response with an internal message
+try:
+    return 200, action()
+except Exception as error:
+    return 500, str(error)
+
+# right: only errors raised on purpose become responses
+try:
+    result = action()
+except AppError as error:
+    return error.status, str(error)
+return 200, result
+```
+
+Dispatching by exact class or class name (`type(error) is ConflictError`, a dict keyed by `type(error).__name__`) has the same flaw in a quieter form: a subclass written later, such as `EmailTaken(ConflictError)`, falls through to the default. `except` and `isinstance` follow inheritance.
 
 ## When to choose it
 

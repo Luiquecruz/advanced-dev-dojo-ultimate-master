@@ -3,7 +3,7 @@
     "question": "`avg = running_average()` and the next line is `avg.send(10)`. What happens?",
     "options": [
       "It returns `10.0`",
-      "It returns `None` and the 10 is lost, as in JavaScript",
+      "It returns `None` and the 10 is silently discarded",
       "`TypeError: can't send non-None value to a just-started generator`",
       "`StopIteration`"
     ],

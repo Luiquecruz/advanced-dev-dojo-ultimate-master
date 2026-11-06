@@ -12,6 +12,7 @@ async def _():
     assert isinstance(error, TypeError)
 
 
+# beginner mistake: a flat signature without / and * accepts connect("db", 5433, False), an unreadable flag
 @test("connect rejects ssl passed by position")
 async def _():
     error = await capture_error(lambda: mod.connect("db", 5433, False))

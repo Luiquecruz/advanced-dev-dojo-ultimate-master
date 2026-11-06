@@ -20,6 +20,7 @@ async def _():
     assert isinstance(error, TypeError)
 
 
+# beginner mistake: testing truthiness (if value: or value or ...) instead of is not None, so 0, "" and [] are skipped
 @test("coalesce keeps falsy values and only skips None")
 def _():
     assert mod.coalesce(None, 0, 5) == 0

@@ -8,6 +8,7 @@ def _():
     assert boiling.kelvin == approx(273.15)
 
 
+# beginner mistake: __init__ assigns self._celsius directly, so construction skips the setter's validation
 @test("validation runs on construction and on every write path")
 async def _():
     on_create = await capture_error(lambda: mod.Temperature(-300))

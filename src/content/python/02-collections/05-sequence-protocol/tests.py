@@ -1,4 +1,4 @@
-import re
+import ast
 
 
 @test("a Deck has a length and supports positive and negative indexes")
@@ -9,6 +9,7 @@ def _():
     assert deck[-1] == "d"
 
 
+# beginner mistake: forwarding a slice to the inner list and returning its result, so deck[1:3] is a plain list
 @test("slicing a Deck returns a new Deck with the selected cards")
 def _():
     deck = mod.Deck(["a", "b", "c", "d"])
@@ -36,10 +37,13 @@ async def _():
     assert isinstance(type_error, TypeError)
 
 
-@test("the Deck owns its cards and the source does not define __iter__")
+@test("the Deck owns its cards, does not inherit from list and no class in its MRO defines __iter__")
 def _():
     cards = ["a", "b"]
     deck = mod.Deck(cards)
     cards.append("c")
     assert len(deck) == 2
-    assert re.search(r"def\s+__iter__", source) is None
+    methods = [node.name for node in ast.walk(ast.parse(source)) if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))]
+    assert "__iter__" not in methods
+    assert not issubclass(mod.Deck, list)
+    assert all("__iter__" not in vars(klass) for klass in mod.Deck.__mro__[:-1])

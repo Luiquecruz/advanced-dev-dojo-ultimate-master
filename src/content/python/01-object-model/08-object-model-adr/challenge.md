@@ -34,7 +34,7 @@ In `adr.py`, define two constants.
 The plan must be coherent with the briefing. The tests check these relationships, so reason from the facts rather than from the field names:
 
 1. A rule used as a cache key must keep its hash while it is stored, and a rebuilt rule with the same contents must find the same cache entry.
-2. Whatever the rule promises about hashing must also hold for every collection stored inside it.
+2. Whatever the rule guarantees about hashing must also hold for every collection stored inside it.
 3. A sharing policy may not cost more per request than the latency budget, measured with your `copy_on_read_cost_ms`. Sharing a reference involves no copy; copying, on read or on write, needs a copy strategy that actually copies.
 4. "Not provided" must stay distinguishable from every valid value of a field, including `0` and `None`, and the check must use an operator that cannot confuse them.
 5. The decision sentence names the mutability you put in the plan.

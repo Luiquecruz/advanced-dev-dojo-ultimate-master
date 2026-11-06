@@ -1,5 +1,9 @@
 **Question this module answers:** where does an attribute really live, and which hook runs when you read, write or create one?
 
+## Prerequisites
+
+Module 01 (names, identity and hashing), module 02 (protocols and `MutableMapping`) and module 03 (functions, closures and decorators, which `property` and `classmethod` build on).
+
 ## Two namespaces, one lookup
 
 Every instance has its own namespace (`obj.__dict__`), and so does its class (`Cls.__dict__`). Reading `obj.name` searches them in a fixed order:
@@ -23,15 +27,11 @@ print(a.__dict__)                    # {'owner': 'ada', 'currency': 'USD'}
 
 Assignment never searches: `obj.x = 1` writes to `obj.__dict__` unless a data descriptor on the class intercepts it.
 
-## Coming from TypeScript and JavaScript
+## Methods live on the class
 
-```ts
-class Account { static currency = "EUR"; }
-```
-
-- JavaScript walks the prototype chain; Python looks at the instance, then the class and its bases in MRO order. The shape is similar, but a Python class can **intercept** lookup with descriptors before the instance is consulted.
-- Methods are plain functions stored on the class. `obj.method` binds `self` on access because functions are descriptors, so there is no `this` to lose: `handler = obj.method` keeps `obj`.
-- `constructor` does two jobs; Python splits creation (`__new__`) from initialization (`__init__`).
+- Methods are plain functions stored on the class. Functions are descriptors, so reading `obj.method` returns a **bound method** that already holds `obj` as `self`: `handler = obj.method` and a later `handler()` still act on `obj`.
+- A class can **intercept** lookup with descriptors. A data descriptor such as a property runs before the instance `__dict__` is consulted; `classmethod` and `staticmethod` are non-data descriptors, so an instance attribute with the same name hides them.
+- Creating an object takes two steps: `__new__` builds the instance and `__init__` fills it in.
 
 ## What this module covers
 

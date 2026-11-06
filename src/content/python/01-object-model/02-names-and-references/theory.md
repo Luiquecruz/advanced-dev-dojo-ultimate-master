@@ -8,22 +8,14 @@ print(first)          # [1, 2, 3]
 print(first is second)  # True
 ```
 
-`is` asks "same object?". Arguments work the same way: calling `add(cart, item)` binds the parameter `cart` to the list the caller owns.
+`is` asks "same object?". Two names bound to one object are called **aliases**: a change made through one name is visible through every other name. Arguments work the same way: calling `add(cart, item)` binds the parameter `cart` to the list the caller owns.
 
-## Coming from TypeScript and JavaScript
+## How it works
 
-JavaScript objects and arrays behave like this too, so the model is not new. What changes is **how visible and how common it is**:
+The rule applies to every type, and two kinds of operation look alike but do different things:
 
-```ts
-// JavaScript
-const a = [1, 2];
-const b = a;
-b.push(3);          // a is [1, 2, 3] as well
-```
-
-- Python applies the rule to *every* type, and the operators look innocent. `+=` on a list **mutates** it in place, while `x = x + [item]` **rebinds** the name to a new list.
-- `[[]] * 3` does not build three lists. It repeats one reference three times.
-- A function that rebinds its parameter changes nothing for the caller; a function that mutates it changes the caller's object.
+- **Mutating** changes the object itself: `list.append`, `extend`, `sort`, `del items[0]` and `+=` on a list. Every alias sees the change.
+- **Rebinding** points a name at another object: `x = x + [item]`, `x = sorted(x)`. Only that one name moves; other aliases keep the old object.
 
 ```py
 def grow(items):
@@ -33,14 +25,24 @@ def rebind(items):
     items = items + [4]  # builds a new list; the caller sees nothing
 ```
 
-## How it works
+A function that rebinds its parameter changes nothing for the caller; a function that mutates it changes the caller's object.
 
-- `list.append`, `extend`, `+=`, `sort` mutate the object. `+`, `sorted`, slicing and `list(x)` build a **new** object.
+- `+`, `sorted`, slicing and `list(x)` build a **new** object.
 - `list(x)`, `x.copy()` and `x[:]` copy the list but not the elements inside it (a *shallow* copy, covered in lesson 05).
+- `[[]] * 3` does not build three lists. It repeats one reference three times.
 - `id(obj)` returns an identity, but reading raw ids is never a good test: use `is`.
 - Three decisions always exist for a function that receives a mutable argument: mutate it, return a new object, or both. State which one in the docstring and keep it consistent.
 
-## Pitfalls
+## Common mistakes
+
+**Assigning a list to a new name and expecting a copy.** `saved = cart` makes `saved` an alias, so every later `cart.append(...)` shows up in the "saved" version too. Build a new list instead:
+
+```py
+saved = cart          # wrong: a second name for the same list
+saved = list(cart)    # right: a new list with the same items
+```
+
+**Repeating one inner list.** `[[]] * 3` puts the same list in every position, so appending to one row appends to all of them:
 
 ```py
 carts = [[]] * 3

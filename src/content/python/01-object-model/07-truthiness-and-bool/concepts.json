@@ -3,5 +3,5 @@
   { "term": "`__bool__`", "description": "Special method that defines an instance's truth value. If absent, `__len__` is used, then the object is truthy." },
   { "term": "`or` / `and` returns operands", "description": "`a or b` returns `a` when it is truthy, otherwise `b`. `a and b` returns `a` when it is falsy, otherwise `b`." },
   { "term": "`is None` check", "description": "The correct test for absence when `0`, `\"\"`, `[]` or `False` are meaningful values." },
-  { "term": "No `??`", "description": "Python has no nullish-coalescing operator. Use a conditional expression with `is None` instead of `or`." }
+  { "term": "Default for `None` only", "description": "`default if value is None else value` replaces only `None`; `value or default` also replaces `0`, `\"\"` and `[]`." }
 ]

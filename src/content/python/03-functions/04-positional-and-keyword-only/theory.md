@@ -15,27 +15,7 @@ connect("db", 5433, False)          # TypeError: ssl is keyword-only
 - Everything **after `*`** (or after `*args`) is keyword-only (PEP 3102).
 - Parameters in between accept both forms.
 
-## Coming from TypeScript and JavaScript
-
-TypeScript has no named arguments, so APIs take an **options object** to make calls readable and future-proof:
-
-```ts
-function connect(host: string, options: { port?: number; ssl?: boolean; timeout?: number } = {}) {
-  const { port = 5432, ssl = true, timeout } = options;
-}
-connect("db", { ssl: false });
-```
-
-The habit that breaks in Python is translating that into either a `dict` parameter or a flat signature with no markers:
-
-```py
-def connect(host, port=5432, ssl=True, timeout=None): ...
-
-connect("db", 5433, False)   # accepted: is False the ssl flag? nobody can tell
-connect(host="db")           # accepted: now "host" is part of your public API forever
-```
-
-Python's equivalent of the options object is **keyword-only parameters**: callers must write `ssl=False`, defaults live in the signature, and checkers and `help()` see every option. Positional-only parameters cover the other side: a parameter name that callers cannot use is a name you can rename later without breaking anyone.
+Keyword-only parameters make calls readable and future-proof: callers must write `ssl=False`, defaults live in the signature, and checkers and `help()` see every option. Positional-only parameters cover the other side: a parameter name that callers cannot use is a name you can rename later without breaking anyone.
 
 ## How it works
 
@@ -63,6 +43,25 @@ Pitfalls:
 - A bare `*` must be followed by at least one keyword-only parameter.
 - A positional-only parameter may share its name with a key in `**kwargs`: `def f(name, /, **kwargs)` accepts `f("a", name="b")`.
 - Adding a parameter in the middle of a positional-or-keyword list breaks positional callers; a new keyword-only parameter **with a default** can go anywhere after `*` without breaking anyone.
+
+## Common mistakes
+
+**Leaving the signature flat, with no markers.** Every parameter then accepts both styles, so unreadable calls are accepted and every parameter name becomes part of the public API:
+
+```py
+# wrong: both calls are accepted
+def connect(host, port=5432, ssl=True, timeout=None): ...
+
+connect("db", 5433, False)   # is False the ssl flag? nobody can tell
+connect(host="db")           # now "host" can never be renamed
+
+# right: the call site must name the options
+def connect(host, /, port=5432, *, ssl=True, timeout=None): ...
+
+connect("db", 5433, ssl=False)
+```
+
+**Taking one `dict` of options instead of keyword-only parameters.** `connect("db", {"ssl": False})` hides the defaults inside the body, and a misspelled key such as `"sll"` is silently ignored; a misspelled keyword argument raises `TypeError` at the call.
 
 ## When to choose it
 

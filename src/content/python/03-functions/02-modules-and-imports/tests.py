@@ -23,6 +23,7 @@ def imported_modules(text):
     return found
 
 
+# beginner mistake: from config import LEVEL copies the value once, so a later config.LEVEL = "debug" is never seen
 @test("current_level sees a level rebound on the config module after import")
 def _():
     config = modules["config.py"]

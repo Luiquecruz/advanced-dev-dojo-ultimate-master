@@ -1,4 +1,4 @@
-A service leaks data between requests: tags, registry entries and headers from one caller show up in the next. Fix the four definitions in `main.py`. `DEFAULT_HEADERS` is a module-level dict and must never change.
+A service leaks data between requests: tags, registry entries and headers from one caller show up in the next. Fix the three definitions in `main.py`. `DEFAULT_HEADERS` is a module-level dict and must never change.
 
 ## `add_tag(tag, tags=None)`
 
@@ -10,10 +10,6 @@ Append `tag` to `tags` and return the list.
 ## `Registry(items=None)`
 
 `Registry().items` is a new empty dict per instance. `Registry(seed)` copies `seed`, so `register(name, value)` never changes the caller's dict.
-
-## `Settings`
-
-A `@dataclass` with `name: str = "default"`, `tags: list[str]` and `limits: dict[str, int]`. Each instance gets its own empty list and dict (use `dataclasses.field(default_factory=...)`).
 
 ## `request(path, headers=<omitted>)`
 

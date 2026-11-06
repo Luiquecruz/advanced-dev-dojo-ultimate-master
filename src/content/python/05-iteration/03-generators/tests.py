@@ -41,6 +41,7 @@ def _():
     assert reads_after_first == 3
 
 
+# beginner mistake: take collects the items in a list (list(iterable)[:count]), so it reads the whole source first
 @test("take yields at most count items and never pulls one more from its source")
 def _():
     source = CountingSource(range(1, 101))

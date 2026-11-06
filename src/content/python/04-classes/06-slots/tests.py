@@ -20,6 +20,7 @@ async def _():
     assert names == ["x", "y", "z"]
 
 
+# beginner mistake: the subclass declares no __slots__ of its own, so its instances get a __dict__ back
 @test("the colored child stays slotted and declares only the slot it adds")
 async def _():
     point = mod.ColorPoint3D(1, 2, 3, "red")

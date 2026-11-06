@@ -22,6 +22,7 @@ def super_calls_with_arguments():
     return found
 
 
+# beginner mistake: each mixin calls Entity.save(self, log) by name, which skips every mixin after the first
 @test("Order.save runs every mixin once, in the order of its bases, and the base last")
 def _():
     log = mod.Order().save([])

@@ -27,6 +27,7 @@ def openers(log, *names, **failures):
     return [opener(name, log, **failures.get(name, {})) for name in names]
 
 
+# beginner mistake: open_all closes the resources in a forward loop, in opening order, instead of unwinding an ExitStack
 @test("open_all yields every entered value in order and closes everything in reverse order after the block")
 def _():
     log = []

@@ -11,32 +11,11 @@ print("continues here either way")
 
 `contextlib.suppress(*exceptions)` is the standard version: it matches with `isinstance`, so subclasses count (`suppress(LookupError)` also swallows `KeyError` and `IndexError`), and with no arguments it suppresses nothing.
 
-## Coming from TypeScript and JavaScript
-
-JavaScript `catch` cannot filter by type, so the habit is to catch everything and decide later, or not decide at all:
-
-```ts
-const errors: unknown[] = [];
-for (const job of jobs) {
-  try { results.push(job()); } catch (e) { errors.push(e); }   // catches anything thrown
-}
-```
-
-The literal Python ports are `except:`, `except BaseException:`, or an `__exit__` that returns `True` whenever `exc` is set. All three also catch exceptions that are not errors in your program: `KeyboardInterrupt` (Ctrl+C), `SystemExit` (`sys.exit()`), `GeneratorExit` and `asyncio.CancelledError`. Swallowing them means Ctrl+C does nothing, `sys.exit()` does not exit, and cancelled tasks refuse to stop, which breaks task groups and timeouts (module 10).
-
-```py
-def __exit__(self, exc_type, exc, traceback):
-    if exc is not None:
-        self.errors.append(exc)
-    return True                                # also swallows KeyboardInterrupt
-```
-
-Collect `Exception` subclasses at most, and only the ones the caller declared.
-
 ## How it works
 
 - On success all three arguments are `None`. `issubclass(exc_type, ...)` then raises `TypeError` because `None` is not a class; `isinstance(exc, self.types)` with an `exc is None` check is the safe test.
 - `isinstance` accepts a tuple of classes, which is exactly what `*types` collects.
+- `KeyboardInterrupt` (Ctrl+C), `SystemExit` (`sys.exit()`), `GeneratorExit` and `asyncio.CancelledError` derive from `BaseException` directly, not from `Exception`. They are control-flow signals, not errors in your program, so `isinstance(exc, Exception)` and `except Exception` leave them alone, while `except:` and `except BaseException:` do not.
 - An **error collector** is a suppressing manager that also keeps the exception objects. One instance can be entered many times in a loop: each `with` block is one attempt, and `collector.errors` keeps the failures in order for a report or for an `ExceptionGroup` (lesson 08).
 - Suppression ends the block at the line that raised. Statements after it inside the block do not run; execution resumes **after** the `with` statement.
 - `__exit__` returning `None` (no `return` statement) means "do not suppress". Explicit `return False` documents that it was a decision.
@@ -46,6 +25,20 @@ Collect `Exception` subclasses at most, and only the ones the caller declared.
 ### Security note
 
 Swallowing exceptions hides failures that matter, including security ones: a `PermissionError` from an access check inside `suppress(Exception)` turns into "carry on as if allowed". Keep suppression narrow (one expected type, one statement), never catch `BaseException` outside a top-level runner that logs and exits, and treat `except Exception: pass` as a bug. When collected errors are reported to users, show a summary (which item failed, which rule): exception messages and tracebacks can carry internal paths, queries or tokens, and belong in logs.
+
+## Common mistakes
+
+**An `__exit__` that returns `True` whenever an exception arrived.** It suppresses every type, the signals included: Ctrl+C does nothing, `sys.exit()` does not exit, and cancelled tasks refuse to stop, which breaks task groups and timeouts (module 10). A bare `except:` or `except BaseException:` around the block does the same. Suppress only the declared types:
+
+```py
+# wrong: swallows KeyboardInterrupt too
+def __exit__(self, exc_type, exc, traceback):
+    return exc is not None
+
+# right: only what the caller listed, subclasses included
+def __exit__(self, exc_type, exc, traceback):
+    return exc is not None and isinstance(exc, self.types)
+```
 
 ## When to choose it
 

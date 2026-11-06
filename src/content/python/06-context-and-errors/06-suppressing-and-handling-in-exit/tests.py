@@ -39,6 +39,7 @@ def _():
     assert reached == ["after KeyError subclass", "after IndexError", "no error"]
 
 
+# beginner mistake: Suppress.__exit__ returns True whenever an exception arrived, so every type is swallowed
 @test("exceptions outside the declared types propagate unchanged")
 async def _():
     raised = ValueError("bad quantity")

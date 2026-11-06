@@ -55,6 +55,7 @@ def _():
     assert reads_after_second == 8
 
 
+# beginner mistake: pipeline closes the source after its loop instead of in finally, so an early close() leaves it open
 @test("closing the pipeline early closes its source, and so does running it to the end")
 def _():
     source = mod.Source(LINES)

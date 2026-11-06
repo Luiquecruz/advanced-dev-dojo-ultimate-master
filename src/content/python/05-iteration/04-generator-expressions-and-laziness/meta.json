@@ -1,6 +1,6 @@
 {
   "title": "Generator Expressions and Laziness",
-  "summary": "Parentheses instead of brackets turn a comprehension into a lazy, one-shot generator that any, all, next and sum consume one item at a time. Port filter(...)[0] and map(...).some(...) habits to helpers that stop at the first match and never build throwaway lists.",
+  "summary": "Parentheses instead of brackets turn a comprehension into a lazy, one-shot generator that any, all, next and sum consume one item at a time. Rewrite helpers built on [...][0] and any([...]) so they stop at the first match and never build throwaway lists.",
   "level": "beginner",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

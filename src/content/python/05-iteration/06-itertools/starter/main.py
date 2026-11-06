@@ -12,8 +12,8 @@ def batches[T](records: Iterable[T], size: int) -> Iterator[tuple[T, ...]]:
 
 def runs(events: Iterable[dict[str, Any]]) -> list[tuple[str, int]]:
     """Length of every run of consecutive events with the same status."""
-    # TODO: count consecutive runs with itertools.groupby. A dict, like Object.groupBy,
-    # merges every occurrence of a status into one total.
+    # TODO: count consecutive runs with itertools.groupby. A dict merges every occurrence
+    # of a status into one total.
     counts: dict[str, int] = {}
     for event in events:
         counts[event["status"]] = counts.get(event["status"], 0) + 1

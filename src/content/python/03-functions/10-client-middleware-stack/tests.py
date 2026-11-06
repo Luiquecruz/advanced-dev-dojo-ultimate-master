@@ -64,6 +64,7 @@ def module_level_containers(text):
     return found
 
 
+# beginner mistake: applying the layers in listed order makes cached the innermost layer, so a hit still runs the others
 @test("a cache hit skips every inner layer")
 def _():
     client, api, store, metrics, tokens = make_client()

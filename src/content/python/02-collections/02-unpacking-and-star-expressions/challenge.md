@@ -6,6 +6,8 @@ Return a tuple `(first, middle, last)` for any iterable with at least two items:
 
 ## `merge_layers(*layers, **overrides)`
 
+`*layers` collects every positional argument into a tuple and `**overrides` every keyword argument into a dict: `merge_layers(a, b, c=3)` receives `layers == (a, b)` and `overrides == {"c": 3}`.
+
 Return a **new** dict built from the layer dicts, left to right: later layers win. The keyword `overrides` are applied last. None of the layers is modified.
 
 ## `swap_pairs(pairs)`

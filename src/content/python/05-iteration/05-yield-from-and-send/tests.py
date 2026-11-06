@@ -34,6 +34,7 @@ def _():
     assert deep_leaves == [7, 8]
 
 
+# beginner mistake: flatten descends into every iterable, so a str recurses into its own characters forever
 @test("flatten keeps strings and bytes whole at any depth")
 def _():
     leaves = list(mod.flatten(["ab", [b"cd", ("ef", ["g"])], "", []]))

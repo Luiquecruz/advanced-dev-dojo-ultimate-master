@@ -9,4 +9,4 @@ Implement a `Deck` class in `main.py` that behaves like a read-only sequence **w
 - Any other index type (for example a string) raises `TypeError`.
 - `for card in deck`, `card in deck` and `reversed(deck)` work through the protocol alone.
 
-The tests also read your source: it must not define `__iter__`.
+The tests also read your source: it must not define `__iter__`, and no base class may supply one either (so not `list`, and not `collections.abc.Sequence`, whose mixin `__iter__` would do the work for you).

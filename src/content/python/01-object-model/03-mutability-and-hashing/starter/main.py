@@ -5,15 +5,6 @@ def freeze(value):
     return value
 
 
-def memoize_by_value(function):
-    cache = {}
-
-    def wrapper(*args, **kwargs):
-        # TODO: build the key from freeze(args) and freeze(kwargs), count real calls in wrapper.calls.
-        key = (args, tuple(kwargs.items()))
-        if key not in cache:
-            cache[key] = function(*args, **kwargs)
-        return cache[key]
-
-    wrapper.calls = 0
-    return wrapper
+def cache_key(args, kwargs):
+    # TODO: build the key from freeze(args) and freeze(kwargs).
+    return (args, tuple(kwargs.items()))

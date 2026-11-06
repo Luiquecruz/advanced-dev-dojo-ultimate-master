@@ -1,6 +1,6 @@
 # Checkpoint: the Collections ADR
 
-This module showed that a container is a promise. A `dict` promises lookup by a hashable key and insertion order, a `set` promises uniqueness without order, a `list` promises order and duplicates at the cost of a linear search, and a protocol (`Mapping`, `Sequence`) promises the syntax other code will use on your object. The checkpoint turns those promises into a decision: an **Architecture Decision Record** for a shared payload store, plus a **plan** a teammate could implement.
+This module showed that a container is a contract. A `dict` guarantees lookup by a hashable key and insertion order, a `set` guarantees uniqueness without order, a `list` guarantees order and duplicates at the cost of a linear search, and a protocol (`Mapping`, `Sequence`) fixes the syntax other code will use on your object. The checkpoint turns those guarantees into a decision: an **Architecture Decision Record** for a shared payload store, plus a **plan** a teammate could implement.
 
 The answer is never "use a dict". It is a set of answers, each tied to a number or a constraint from the briefing.
 

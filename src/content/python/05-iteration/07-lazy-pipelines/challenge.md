@@ -1,4 +1,4 @@
-The module's closing challenge. An alerting job reads a service log, keeps the `ERROR` lines and sends them to a pager API in chunks. The log can be huge, the pager often stops the job after the first chunk, and the log handle must be released however the job ends. The starter was ported from array chains: every stage builds a list, and nothing closes the source.
+The module's closing challenge. An alerting job reads a service log, keeps the `ERROR` lines and sends them to a pager API in chunks. The log can be huge, the pager often stops the job after the first chunk, and the log handle must be released however the job ends. In the starter every stage builds a list, and nothing closes the source.
 
 Build in `main.py`:
 
@@ -19,4 +19,4 @@ A one-shot iterator over `lines`: `iter(source) is source`, `next()` returns the
 A **generator** yielding the chunks of `chunked(only_errors(parse(source)), size)`; `size` defaults to `100`.
 
 - Calling `pipeline` reads nothing. Getting a chunk reads only the lines needed to fill it: with the tests' log, the first chunk of 2 errors reads exactly 4 lines.
-- The source is closed when the pipeline ends, in every case: exhausted, closed early with `.close()`, or stopped by a `ValueError` from `parse` (which still reaches the consumer). Use `try`/`finally`.
+- Once the first chunk has been requested, the source is closed when the pipeline ends, in every case: exhausted, closed early with `.close()`, or stopped by a `ValueError` from `parse` (which still reaches the consumer). Use `try`/`finally`. A pipeline closed before its first chunk never started its body, so its `finally` cannot run; the tests do not ask for that case.

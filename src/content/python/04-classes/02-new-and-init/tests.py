@@ -19,6 +19,7 @@ def _():
     assert upper is dollar
 
 
+# beginner mistake: setting self.rates = {} in __init__ wipes the cached instance, because __init__ runs again on it
 @test("__init__ runs on every call but keeps the state of a cached Currency")
 def _():
     euro = mod.Currency("EUR")

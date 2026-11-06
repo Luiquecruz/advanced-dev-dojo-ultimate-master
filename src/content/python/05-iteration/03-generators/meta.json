@@ -1,6 +1,6 @@
 {
   "title": "Generators",
-  "summary": "A function with yield returns a paused generator: nothing runs until the consumer pulls, and nothing more is read once it stops. Replace array-first code with generators that split text into blocks, take a few items without over-reading, and issue ids without end.",
+  "summary": "A function with yield returns a paused generator: nothing runs until the consumer pulls, and nothing more is read once it stops. Replace list-building code with generators that split text into blocks, take a few items without over-reading, and issue ids without end.",
   "level": "beginner",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",

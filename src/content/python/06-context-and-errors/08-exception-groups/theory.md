@@ -15,26 +15,6 @@ except* KeyError as group:
 
 Each `except*` clause runs **at most once** and receives a *group* containing only the matching members. Members no clause matched are re-raised together, in a new group with the same message.
 
-## Coming from TypeScript and JavaScript
-
-```ts
-await Promise.all(checks.map((check) => check(order)));   // rejects with the FIRST error only
-
-try {
-  await Promise.any(providers.map(charge));
-} catch (error) {
-  if (error instanceof AggregateError) {
-    for (const e of error.errors) if (e instanceof TimeoutError) retry();   // others vanish
-  }
-}
-```
-
-- **Failing fast when the caller needs everything.** `Promise.all` and a loop that raises on the first failed rule report one problem at a time; users fix a form field, submit, and discover the next one. Collect every failure and raise them together.
-- **Filtering the aggregate by hand.** Looping over `.errors` with `instanceof` silently drops the types you did not list. `except*` re-raises everything unmatched, so an unexpected `KeyError` still surfaces.
-- **Assuming a flat list.** Groups nest (a task group inside a task group, the address block inside a form). `len(group.exceptions)` counts top-level members, not failures.
-
-`Promise.allSettled` (collect outcomes, never throw) is closer to a loop with an error collector; `AggregateError` is the closest built-in to `ExceptionGroup`.
-
 ## How it works
 
 - `ExceptionGroup(message, exceptions)` needs a **non-empty** sequence (`ValueError` otherwise) of `Exception` instances (`TypeError` for a `BaseException` member). `BaseExceptionGroup` accepts any exception, and returns an `ExceptionGroup` when every member is an `Exception`. `ExceptionGroup` is an `Exception`; `BaseExceptionGroup` is not.
@@ -46,6 +26,23 @@ try {
 `asyncio.TaskGroup` (module 10) is the main producer: when child tasks fail, it raises an `ExceptionGroup` with every failure.
 
 > **Status as of November 2026:** `ExceptionGroup`, `BaseExceptionGroup` and `except*` arrived in Python 3.11 (PEP 654). Since 3.13 `subgroup` and `split` accept any callable predicate, since 3.12 `contextlib.suppress` filters groups, and since 3.14 (PEP 758) `except* A, B:` may omit the parentheses when there is no `as`.
+
+## Common mistakes
+
+**Filtering `group.exceptions` by hand.** A loop with `isinstance` over the top-level members misses the failures inside nested groups (a task group inside a task group, the address block inside a form), and silently drops every type it does not list. `except*` walks the nesting and re-raises whatever no clause matched:
+
+```py
+# wrong: the nested ValueError is not counted, and the KeyError vanishes
+values = sum(isinstance(error, ValueError) for error in group.exceptions)
+
+# right: every ValueError at any depth, and the rest propagates
+try:
+    raise group
+except* ValueError as matched:
+    report(matched)
+```
+
+The group a clause receives keeps the nesting, so `len(matched.exceptions)` still counts top-level members, not failures: walk nested groups to count leaves. A plain `except ValueError` does not match a group at all, even one that holds only `ValueError`s: the group is an `ExceptionGroup`. And a loop that raises at the first failed rule reports one problem per submission when the caller needed all of them.
 
 ## When to choose it
 

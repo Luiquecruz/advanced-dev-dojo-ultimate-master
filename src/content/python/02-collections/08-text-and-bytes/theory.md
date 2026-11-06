@@ -16,7 +16,9 @@ Mixing them fails loudly: `"a" + b"b"` raises `TypeError`. Always pass the encod
 
 > **Status as of November 2026:** Python 3.15 turns on UTF-8 mode by default ([PEP 686](https://peps.python.org/pep-0686/)), so `open(path)` without an `encoding` uses UTF-8 instead of the locale encoding. Earlier versions still use the locale (often cp1252 on Windows), so code that supports them must keep passing `encoding=` explicitly.
 
-## Decoding errors
+## How it works
+
+`encode` turns text into bytes and `decode` turns bytes back into text, both with a named encoding. UTF-8 uses 1 byte for ASCII characters and 2 to 4 bytes for every other code point, so the byte length of a text is at least its `len`, and larger as soon as it holds a non-ASCII character. Decoding checks that the bytes form valid characters in that encoding:
 
 ```py
 b"caf\xe9".decode("utf-8")                       # UnicodeDecodeError
@@ -26,12 +28,27 @@ b"caf\xe9".decode("latin-1")                     # 'café'
 
 `errors="ignore"` drops undecodable bytes, `"replace"` inserts U+FFFD. Both **lose data silently**: use them deliberately, never by default. `latin-1` maps every byte to a character, so it never fails, which also means it can decode garbage.
 
+## Common mistakes
+
+**Truncating by characters when the limit is in bytes.** A database column or a protocol field limited to 10 bytes counts encoded bytes, but `text[:10]` counts code points. With accented letters or emoji the result is still too long; cutting the bytes blindly instead can split a character in half:
+
+```py
+text = "a😀b"
+text[:3]                                          # wrong: 'a😀b', 6 bytes for a 3-byte limit
+text.encode("utf-8")[:3].decode("utf-8")          # wrong: UnicodeDecodeError, the emoji was cut
+text.encode("utf-8")[:3].decode("utf-8", errors="ignore")   # right: 'a', 1 byte
+```
+
+Here `errors="ignore"` is deliberate: it drops only the incomplete character left at the cut.
+
+**Comparing user-facing text with `lower()`.** `"STRASSE".lower() == "straße".lower()` is `False`; normalize and `casefold()` as shown below.
+
 ## What `len` counts
 
 `len(text)` counts code points, not what a person sees as a character.
 
 ```py
-len("😀")                    # 1   (JavaScript: "😀".length === 2)
+len("😀")                    # 1   one code point, 4 bytes in UTF-8
 len("é")               # 2   an "e" plus a combining accent
 "é" == "é"            # False: same appearance, different code points
 ```
@@ -61,13 +78,7 @@ f"{price=}"                      # 'price=4.5'
 f"{1234567:,}"                   # '1,234,567'
 ```
 
-The part after `:` is the **format spec**: alignment (`<`, `>`, `^`), width, precision and type.
-
-## Coming from TypeScript and JavaScript
-
-- JavaScript strings are UTF-16 code units, so `"😀".length` is `2`. Python counts code points.
-- JavaScript has no bytes type besides `Uint8Array`, and `TextEncoder`/`TextDecoder` play the role of `encode`/`decode`.
-- Template literals interpolate with `${}`; f-strings use `{}` and add a format mini-language.
+An **f-string** is a string literal with an `f` before the quote. Python evaluates each expression inside `{}` and inserts its text; the part after `:` is the **format spec**: alignment (`<`, `>`, `^`), width, precision and type. `{value!r}` inserts `repr(value)` instead of `str(value)`, which shows strings with their quotes and writes special characters as escapes (a newline appears as `\n`): `f"{label!r}"` gives `'Coffee'`, quotes included.
 
 ## When to choose it
 

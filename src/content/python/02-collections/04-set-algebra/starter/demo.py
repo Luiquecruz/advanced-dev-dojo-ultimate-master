@@ -10,4 +10,4 @@ for name in ["granted", "common", "missing", "unused"]:
     print(name, sorted(report[name]))
 
 print("deduped:", dedupe_keep_order(["b", "a", "b", "c", "a"]))
-print("ids:", sorted(unique_ids([1, 2], (2, 3), (n for n in [3, 4]))))
+print("ids:", sorted(unique_ids([1, 2], (2, 3), iter([3, 4]))))

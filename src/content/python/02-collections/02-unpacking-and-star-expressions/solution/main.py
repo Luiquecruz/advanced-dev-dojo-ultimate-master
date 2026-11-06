@@ -4,7 +4,10 @@ def split_ends(items):
 
 
 def merge_layers(*layers, **overrides):
-    return {**{key: value for layer in layers for key, value in layer.items()}, **overrides}
+    merged = {}
+    for layer in layers:
+        merged = {**merged, **layer}
+    return {**merged, **overrides}
 
 
 def swap_pairs(pairs):

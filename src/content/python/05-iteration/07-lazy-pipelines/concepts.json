@@ -2,6 +2,6 @@
   { "term": "Lazy pipeline", "description": "A chain of generator stages where each stage pulls from the previous one only when the next one asks." },
   { "term": "Backpressure by pulling", "description": "The consumer's `next()` drives every stage, so no buffer grows between them and memory stays bounded by one item or chunk." },
   { "term": "Materialization point", "description": "The place where a lazy result becomes a list; ideally only at the sink, for small results that are needed again." },
-  { "term": "Resource owner", "description": "The stage that opens a resource and releases it in `try`/`finally`, so exhaustion, errors and `close()` all clean up." },
+  { "term": "Resource owner", "description": "The stage that owns a resource's lifetime and releases it in `try`/`finally`, so exhaustion, errors and `close()` after the first pull all clean up; a generator closed before it starts never runs its `finally`." },
   { "term": "Late errors", "description": "In a lazy chain an exception is raised when the bad item is reached, so the message must name the input that caused it." }
 ]

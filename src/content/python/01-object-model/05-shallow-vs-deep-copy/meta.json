@@ -7,6 +7,6 @@
   "run": "demo.py",
   "resources": [
     { "label": "copy: Shallow and deep copy operations", "url": "https://docs.python.org/3/library/copy.html" },
-    { "label": "MDN: structuredClone()", "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone" }
+    { "label": "Python FAQ: How do I copy an object in Python?", "url": "https://docs.python.org/3/faq/programming.html#how-do-i-copy-an-object-in-python" }
   ]
 }

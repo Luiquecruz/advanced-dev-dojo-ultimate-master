@@ -42,8 +42,11 @@ async def _():
     assert isinstance(error, KeyError)
 
 
+# beginner mistake: list(set(items)), which removes the duplicates but loses the order of the items
 @test("dedupe_keep_order keeps the first occurrence and rejects unhashable items")
 async def _():
+    numbers = mod.dedupe_keep_order([3, 1, 3, 2, 1])
+    assert numbers == [3, 1, 2]
     result = mod.dedupe_keep_order(["b", "a", "b", "c", "a"])
     assert result == ["b", "a", "c"]
     error = await capture_error(lambda: mod.dedupe_keep_order([[1], [1]]))

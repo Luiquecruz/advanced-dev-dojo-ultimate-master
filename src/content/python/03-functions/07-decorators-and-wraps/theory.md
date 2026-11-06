@@ -20,30 +20,9 @@ def ship(order_id):
 
 The decorator runs **once**, when `def` executes (usually at import). The wrapper runs on **every call**.
 
-## Coming from TypeScript and JavaScript
-
-TypeScript decorators (stage 3) are a language feature with a context object (`kind`, `name`, `addInitializer`) and apply to classes and class members. In plain JavaScript the same idea is a higher-order function: `const ship = logged(rawShip)`. Python decorators are that higher-order function with nicer syntax, and they work on any function.
-
-The habit that breaks is assuming the wrapper is invisible. In JavaScript nobody reads `fn.name` in production. In Python the function object **is** the API surface for tooling: logging, tracebacks, `help()`, documentation generators, pytest and FastAPI read `__name__`, `__doc__` and the signature. A bare wrapper replaces all of them:
-
-```ts
-const ship = logged(rawShip);   // ship.name === "wrapper"? nobody checks
-```
-
-```py
-def logged(function):
-    def wrapper(*args, **kwargs):
-        return function(*args, **kwargs)
-    return wrapper
-
-@logged
-def ship(order_id): ...
-
-ship.__name__                  # 'wrapper'
-inspect.signature(ship)        # (*args, **kwargs): the real parameters are gone
-```
-
 ## How it works
+
+After decoration, the name `ship` refers to the wrapper, not to the function you wrote. That matters because in Python the function object is the surface tools read: logging, tracebacks, `help()`, documentation generators, pytest and FastAPI look at `__name__`, `__doc__` and the signature.
 
 `functools.wraps(function)` is itself a decorator for the wrapper. It copies `__module__`, `__name__`, `__qualname__`, `__doc__`, the annotations and type parameters, merges `__dict__`, and sets `wrapper.__wrapped__ = function`. `inspect.signature` follows `__wrapped__`, so the wrapper reports the original parameters.
 
@@ -65,11 +44,31 @@ A function is an object, so a decorator can attach attributes to the wrapper (`w
 
 Pitfalls:
 
-- Forgetting `return function(*args, **kwargs)` makes every decorated function return `None`.
 - Doing work in the decorator body instead of in the wrapper runs it once at import, not per call.
 - Validating `args[0]` assumes the value was passed by position; decide and document what happens when it is not.
 
 > **Status as of November 2026:** since Python 3.9 (PEP 614), any expression can follow `@`, for example `@handlers["get"]` or `@config.retry_policy`.
+
+## Common mistakes
+
+**Returning a bare wrapper without `functools.wraps`.** The decorated name now points at `wrapper`, so its name, docstring and parameters disappear from every tool that reads them:
+
+```py
+# wrong: ship.__name__ == "wrapper", signature (*args, **kwargs)
+def logged(function):
+    def wrapper(*args, **kwargs):
+        return function(*args, **kwargs)
+    return wrapper
+
+# right: ship keeps its name, docstring and signature
+def logged(function):
+    @functools.wraps(function)
+    def wrapper(*args, **kwargs):
+        return function(*args, **kwargs)
+    return wrapper
+```
+
+**Calling the function without `return`.** A wrapper that ends with `function(*args, **kwargs)` makes every decorated function return `None`.
 
 ## When to choose it
 

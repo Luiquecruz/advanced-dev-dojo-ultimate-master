@@ -1,6 +1,6 @@
 {
   "title": "Mutable Default Arguments",
-  "summary": "Defaults are evaluated once at definition time, so a list or dict default is shared by every call. Fix leaking functions, constructors and dataclasses with None, default_factory and a private sentinel.",
+  "summary": "Defaults are evaluated once at definition time, so a list or dict default is shared by every call. Fix a leaking function, constructor and request helper with None, a defensive copy and a private sentinel.",
   "level": "beginner",
   "tags": ["established", "core", "practice"],
   "entry": "main.py",
@@ -8,6 +8,6 @@
   "resources": [
     { "label": "Python Tutorial: Default Argument Values", "url": "https://docs.python.org/3/tutorial/controlflow.html#default-argument-values" },
     { "label": "Language Reference: Function definitions", "url": "https://docs.python.org/3/reference/compound_stmts.html#function-definitions" },
-    { "label": "dataclasses: Mutable default values", "url": "https://docs.python.org/3/library/dataclasses.html#mutable-default-values" }
+    { "label": "Programming FAQ: Why are default values shared between objects?", "url": "https://docs.python.org/3/faq/programming.html#why-are-default-values-shared-between-objects" }
   ]
 }

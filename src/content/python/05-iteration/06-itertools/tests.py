@@ -41,6 +41,7 @@ def _():
     assert rest == [(5, 6, 7, 8), (9, 10)]
 
 
+# beginner mistake: runs sorts the events by status before groupby (or counts them in a dict), which merges runs that are apart
 @test("runs counts consecutive statuses and starts a new run when a status comes back")
 def _():
     statuses = ["ok", "ok", "error", "ok", "ok", "ok", "timeout", "timeout"]

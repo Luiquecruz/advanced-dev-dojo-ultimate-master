@@ -11,6 +11,7 @@ class Recorder:
         return self.result
 
 
+# beginner mistake: lambdas built in a loop read the loop variable at call time, so every handler sees the last name
 @test("each handler greets its own name")
 def _():
     handlers = mod.make_handlers(["ada", "linus", "grace"])

@@ -16,17 +16,9 @@ client = cached(store)(
 
 A call enters `cached` first. On a hit it returns at once and nothing inside runs. On a miss it calls `measured`, which starts the clock and calls `retried`, which may call `authenticated` several times, which calls `fetch` with a token.
 
-## Coming from TypeScript and JavaScript
+## How it works
 
-Axios interceptors and Express middleware are **registered** on a shared object, and their order is the order of the `use` calls spread across the codebase:
-
-```ts
-api.interceptors.request.use(addToken);      // registered in auth.ts
-api.interceptors.response.use(retryOnError); // registered in retry.ts
-api.interceptors.response.use(recordMetric); // registered in metrics.ts: runs per attempt or per call?
-```
-
-Two habits break when they come to Python. First, **global registration**: putting the cache dict or the metrics list at module level (`_CACHE = {}`), the way a shared Axios instance holds its interceptors. Every client built from those decorators then shares one cache, so a test for one client sees results from another. Second, **reading the order like a registration list**: in Python the stack order *is* the nesting, so it must be decided in one place, explicitly:
+The stack order *is* the nesting, so decide it in one place, explicitly. A list written outermost first and applied in reverse reads in the same order as the calls:
 
 ```py
 outermost_first = [cached(store), measured(metrics, clock), retried(3, (ConnectionError,)), authenticated(tokens)]
@@ -34,8 +26,6 @@ client = fetch
 for layer in reversed(outermost_first):
     client = layer(client)
 ```
-
-## How it works
 
 Each position has a consequence you can test:
 
@@ -55,6 +45,24 @@ Pitfalls:
 - Refreshing a token in a loop turns one expired credential into a refresh storm. Refresh **once**, retry once, and let a second `AuthExpired` escape.
 - Retrying `AuthExpired` in the generic retry layer hides auth bugs; list only transient errors in `retried`.
 - A metrics layer must record failures too: use `try`/`finally` so a raising call still produces a sample.
+
+## Common mistakes
+
+**Applying the layers in the order they are listed.** Wrapping starts from the innermost layer, so the first layer you apply ends up closest to the call. Applying `cached` first makes it the innermost layer, and a cache hit still pays for auth, retries and a metrics sample:
+
+```py
+# wrong: cached wraps the call directly and runs last
+client = fetch
+for layer in outermost_first:
+    client = layer(client)
+
+# right: apply from the inside out, so the first layer listed is outermost
+client = fetch
+for layer in reversed(outermost_first):
+    client = layer(client)
+```
+
+**Keeping a layer's state at module level.** A `_CACHE = {}` next to the factory is shared by every client the factory ever wraps, so one client returns another client's results and a test sees data from the previous test. Read and write the injected `store` instead.
 
 ## When to choose it
 

@@ -33,7 +33,7 @@
     "explanation": "A set has no order. Two frozensets are equal when they contain the same elements."
   },
   {
-    "question": "A JavaScript developer writes `lookup[[1, 2]] = 'x'` in Python. What is the closest working form?",
+    "question": "`lookup[[1, 2]] = 'x'` raises `TypeError: unhashable type: 'list'`. Which change keeps the meaning of the key and works?",
     "options": [
       "`lookup[list(1, 2)] = 'x'`",
       "`lookup['[1, 2]'] = 'x'` only",

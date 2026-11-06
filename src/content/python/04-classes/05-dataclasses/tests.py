@@ -41,6 +41,7 @@ def _():
     assert first.tags == ["kitchen"]
 
 
+# beginner mistake: copy.copy plus object.__setattr__ patches the copy and skips the __post_init__ validation
 @test("with_price returns a new validated product and keeps the other fields")
 async def _():
     mug = mod.Product("Mug", 900, ["kitchen"])

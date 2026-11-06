@@ -14,7 +14,7 @@
     "question": "A consumer runs `chunks = pipeline(source)`, then `for chunk in chunks: send(chunk); break`, and keeps using `chunks` later. Has the pipeline's `finally` block run?",
     "options": [
       "No: `break` leaves the generator paused until `close()` is called or it is garbage collected",
-      "Yes: `break` calls the generator's `close()`, like `return()` in JavaScript",
+      "Yes: `break` calls the generator's `close()` on the way out of the loop",
       "Yes: a `for` loop always exhausts the generator",
       "No, and it never will: `finally` does not run in generators"
     ],
@@ -41,6 +41,6 @@
       "Use `itertools.tee` on the source lines"
     ],
     "answer": 1,
-    "explanation": "Running it twice reads the source twice, lists in every stage bring back the full memory cost, and `tee` on the source buffers raw lines. One `list()` of the small final result is the cheap materialization point."
+    "explanation": "Running it twice needs a fresh source and reads the whole log again, lists in every stage bring back the full memory cost, and `tee` on the source buffers raw lines. One `list()` of the small final result is the cheap materialization point."
   }
 ]

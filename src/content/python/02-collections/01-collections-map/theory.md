@@ -1,4 +1,8 @@
-**Question this module answers:** which container fits this data, and what does its type promise about order, uniqueness, hashing and mutation?
+**Question this module answers:** which container fits this data, and what does its type guarantee about order, uniqueness, hashing and mutation?
+
+## Prerequisites
+
+Module 01 (names and aliasing, mutable versus immutable, hashing, shallow and deep copies).
 
 ## The containers at a glance
 
@@ -17,6 +21,20 @@ roles = {"admin", "editor"}          # uniqueness and fast membership
 by_id = {1: "Ada", 2: "Alan"}        # lookup
 ```
 
+Choosing the type states your intent: a `tuple` says "this record does not change", a `set` says "no duplicates, no order". Dict keys compare by value: two equal tuples are the same key.
+
+## Iterables and iterators
+
+Everything a `for` loop can walk through is an **iterable**: every container above, a string, a `range`, a file. Most can be looped as often as you like. Some can be looped **only once**: a generator, `zip(...)`, `map(...)` and a file object hand out each item one time, and a second loop over them finds nothing.
+
+```py
+pairs = zip("ab", [1, 2])
+print(list(pairs))   # [('a', 1), ('b', 2)]
+print(list(pairs))   # []: the items were already consumed
+```
+
+When a function must read its input twice, turn it into a list first. Module 05 explains the iterator protocol behind this.
+
 ## Protocols over inheritance
 
 Python collections are defined by **protocols**, sets of special methods, not by base classes you must extend:
@@ -25,28 +43,16 @@ Python collections are defined by **protocols**, sets of special methods, not by
 - **Mapping**: `__getitem__`, `__iter__` and `__len__`, and `collections.abc.MutableMapping` supplies the rest.
 - **Set**: operators `|`, `&`, `-`, `^` and fast membership through hashing.
 
-```ts
-// TypeScript: extend Array or wrap an object with a Proxy
-class Deck extends Array<string> {}
-```
-
 ```py
-# Python: implement the protocol and the built-in syntax works
+# implement the protocol and the built-in syntax works
 class Deck:
     def __len__(self): ...
     def __getitem__(self, index): ...
 ```
 
-## Coming from TypeScript and JavaScript
-
-- `Array` does everything; Python splits it into `list`, `tuple`, `deque`. Choosing the type states your intent.
-- `Map` and plain objects become one `dict`, keyed by value (hashable keys), not by reference.
-- `Set` has operators in Python; JavaScript added set methods only recently.
-- Strings are Unicode text, and `bytes` is a separate type for data.
-
 ## What this module covers
 
-Unpacking and star expressions, comprehensions and live dict views, set algebra, implementing the sequence protocol, `collections`, a custom mapping, and text versus bytes. It ends with an ADR about choosing containers and protocols for a shared payload store.
+Unpacking and star expressions, comprehensions and live dict views, set algebra, implementing the sequence protocol, `collections`, a custom mapping, and text versus bytes. It ends with an ADR on containers and protocols for a shared payload store.
 
 ## When to choose it
 

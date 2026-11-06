@@ -12,10 +12,10 @@
     "explanation": "`or` returns the first truthy operand, or the last operand when none is truthy. Both are falsy, so the result is the last one: `None`."
   },
   {
-    "question": "Which expression is the Python equivalent of JavaScript's `value ?? 0`?",
-    "options": ["`value or 0`", "`0 if value is None else value`", "`value and 0`", "`value || 0`"],
+    "question": "`value` may be `None`, meaning \"not given\", but `0`, `''` and `[]` are valid data. Which expression replaces only `None` with `0`?",
+    "options": ["`value or 0`", "`0 if value is None else value`", "`value and 0`", "`bool(value) or 0`"],
     "answer": 1,
-    "explanation": "`??` replaces only `null` and `undefined`. `value or 0` would also replace `0`, `''` and `[]`, so test `is None` explicitly."
+    "explanation": "`value or 0` replaces every falsy value, so a real `''` or `[]` would be lost. Only an explicit `is None` test leaves the other falsy values alone."
   },
   {
     "question": "A class defines neither `__bool__` nor `__len__`. What is `bool(instance)`?",

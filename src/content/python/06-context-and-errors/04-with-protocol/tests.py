@@ -25,6 +25,7 @@ class PaymentDeclined(Exception):
     pass
 
 
+# beginner mistake: Timer.__enter__ has no return statement, so the as target is None
 @test("the as target is the Timer itself and elapsed comes from the injected clock")
 def _():
     manager = mod.Timer(FakeClock(100.0, 103.5))

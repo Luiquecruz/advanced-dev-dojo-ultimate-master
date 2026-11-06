@@ -22,6 +22,7 @@ def _():
     assert after_absent == {"MODE": "prod"}
 
 
+# beginner mistake: temporary_env restores the mapping after yield without finally, so an exception in the block skips it
 @test("temporary_env restores the mapping when the block raises, and the exception propagates")
 def _():
     settings = {"MODE": "prod"}

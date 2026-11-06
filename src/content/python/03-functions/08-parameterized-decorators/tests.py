@@ -107,6 +107,7 @@ async def _():
     assert invalid.calls == 1
 
 
+# beginner mistake: a plain factory used bare as @retry treats the function as the times setting
 @test("retry works both bare and with arguments and keeps the function's metadata")
 def _():
     flaky = Flaky(failures=2)

@@ -1,4 +1,4 @@
-`invert` and `group_by` both need a container per key. `collections.defaultdict(set)` (or `setdefault`) removes the "does this key exist yet" branch, and a plain loop is fine: a comprehension is not required for these two.
+`invert` and `group_by` both need a container per key. `mapping.setdefault(key, set())` returns the container stored under `key` and creates it first when it is missing, which removes the "does this key exist yet" branch. A plain loop is fine: a comprehension is not required for these two.
 ---
 `mapping.keys()` is already a live view and `first.keys() & second.keys()` is already a set. Do not wrap them in `list(...)` unless the contract asks for a snapshot.
 ---

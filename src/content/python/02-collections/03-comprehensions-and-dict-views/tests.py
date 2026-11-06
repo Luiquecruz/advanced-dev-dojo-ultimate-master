@@ -1,3 +1,4 @@
+# beginner mistake: inverting with a dict comprehension, so a repeated value keeps only the last key
 @test("invert collects every key of a repeated value into a set")
 def _():
     roles = {"u1": "admin", "u2": "admin", "u3": "guest"}

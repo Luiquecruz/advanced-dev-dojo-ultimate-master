@@ -80,6 +80,7 @@ def _():
     assert invalid[0] == 400
 
 
+# beginner mistake: respond catches Exception, so a KeyError from a bug becomes a (500, message) response
 @test("respond lets errors that are not AppErrors propagate unchanged")
 async def _():
     bug = KeyError("customer_id")

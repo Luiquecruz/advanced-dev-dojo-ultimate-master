@@ -22,14 +22,26 @@ def connect(host, /, port=5432, *, ssl=True):
 connect("db", 5433, ssl=False)   # host is positional-only, ssl keyword-only
 ```
 
-## Coming from TypeScript and JavaScript
+## Reading the annotations in starters
 
-- ES module bindings are live; `from config import LEVEL` binds a new name to the current object once, and later rebinding of `config.LEVEL` is not seen.
-- JS defaults are evaluated per call; Python evaluates them once, so `def f(items=[])` shares one list.
-- A closure in a `for` loop behaves like `var`, not `let`.
-- Options objects become keyword arguments and keyword-only parameters.
+From this module on, starters and solutions annotate their functions the way modern Python is written. An annotation follows a parameter after `:` and the return value after `->`:
 
-## Annotations are not enforced
+```py
+def lookup(names: list[str], limit: int = 10) -> dict[str, int] | None:
+    ...
+```
+
+| You read | It means |
+| --- | --- |
+| `int`, `str`, `float`, `bool` | a value of that type |
+| `list[str]`, `dict[str, int]`, `tuple[int, ...]` | a container and the type of its items (`...`: any length) |
+| `X \| None` | an `X` or `None` |
+| `-> None` | the function returns nothing useful |
+| `Any` | any value; the checker allows any operation |
+| `object` | any value; the checker allows only what every object supports |
+| `Callable[..., Any]` | a function taking any arguments |
+
+Annotations are metadata stored on the function and read by type checkers, IDEs and libraries. The interpreter does not check arguments against them:
 
 ```py
 def double(x: int) -> int:
@@ -38,7 +50,7 @@ def double(x: int) -> int:
 double("a")   # "aa": no error, the annotation is never checked
 ```
 
-Annotations are metadata stored on the function and read by type checkers, IDEs and libraries. The interpreter does not validate arguments against them. Module 09 covers type checkers.
+Tests never check the annotations themselves; a few tools read them on purpose (lesson 09's `singledispatch`). Module 09 covers type checkers.
 
 > **Status as of November 2026:** Python 3.14 evaluates annotations lazily (PEP 649), and `annotationlib` inspects them. They are still not checked at call time.
 

@@ -10,6 +10,7 @@ def make_product_class():
     return Product
 
 
+# beginner mistake: __set__ stores self.value on the descriptor, which every instance of the class shares
 @test("Positive keeps a separate value per instance and returns itself on class access")
 async def _():
     Product = make_product_class()

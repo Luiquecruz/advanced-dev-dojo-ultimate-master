@@ -23,15 +23,13 @@ deep["db"]["port"] = 1
 print(config["db"]["port"])      # 5432
 ```
 
-## Coming from TypeScript and JavaScript
-
-- `{ ...obj }`, `[...arr]` and `Object.assign` are shallow, exactly like `dict(d)` and `list(x)`.
-- `structuredClone(obj)` is the JavaScript deep copy. It drops functions, loses class prototypes and throws on some values. `copy.deepcopy` copies instances of your own classes and honors `__copy__` and `__deepcopy__`.
-- Both handle **cycles**: `deepcopy` keeps a memo of objects it has already copied, so a dict that contains itself is copied without infinite recursion and keeps its cycle.
-
 ## How it works
 
-`deepcopy` returns **atomic** immutable values (numbers, strings, `None`) as they are: there is nothing to protect. That is why identity checks such as `original["name"] is clone["name"]` stay true even after a deep copy.
+`copy.deepcopy` walks the whole structure. For every mutable container it meets, it builds a new one and copies the children into it; instances of your own classes are copied the same way, and a class can take control with `__copy__` and `__deepcopy__`.
+
+It returns **atomic** immutable values (numbers, strings, `None`) as they are: there is nothing to protect. That is why identity checks such as `original["name"] is clone["name"]` stay true even after a deep copy.
+
+`deepcopy` also keeps a **memo**: a table of the objects it has already copied. When it meets the same object again, it reuses the copy instead of copying again. That makes **cycles** safe, and a structure that contains itself is copied without infinite recursion and keeps its cycle:
 
 ```py
 config["self"] = config
@@ -39,11 +37,21 @@ clone = copy.deepcopy(config)
 print(clone["self"] is clone)    # True: the cycle points at the clone, not the original
 ```
 
-## Pitfalls
+Deep copies are not free: copying a large structure on every read costs time and memory. Copy at the boundary, once. Objects that hold resources (open files, locks, sockets) usually cannot be deep-copied.
 
-- Shared defaults: `merged = {**defaults, **config}` shares every mutable default with the caller. Appending to `merged["tags"]` changes `defaults`.
-- Deep copies are not free: copying a large graph on every read costs time and memory. Copy at the boundary, once.
-- Objects that hold resources (open files, locks, sockets) usually cannot be deep-copied.
+## Common mistakes
+
+**Using a shallow copy for nested data.** `dict(config)`, `config.copy()` and `{**config}` copy only the outer dict, so the nested dicts and lists are still shared with the original:
+
+```py
+clone = dict(config)             # wrong: clone["db"] is config["db"]
+clone["db"]["port"] = 1          # changes the original too
+
+clone = copy.deepcopy(config)    # right: every nested container is new
+clone["db"]["port"] = 1          # the original keeps 5432
+```
+
+**Merging over shared defaults.** `merged = {**defaults, **config}` is shallow too: `merged["tags"]` is the same list as `defaults["tags"]`, so appending to it changes the defaults for every later caller. Deep-copy the defaults before you merge.
 
 ## When to choose it
 

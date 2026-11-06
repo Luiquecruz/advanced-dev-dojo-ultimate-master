@@ -9,7 +9,6 @@
     { "label": "Built-in exceptions: exception context", "url": "https://docs.python.org/3/library/exceptions.html#exception-context" },
     { "label": "BaseException.add_note", "url": "https://docs.python.org/3/library/exceptions.html#BaseException.add_note" },
     { "label": "Python Tutorial: Exception Chaining", "url": "https://docs.python.org/3/tutorial/errors.html#exception-chaining" },
-    { "label": "PEP 678: Enriching Exceptions with Notes", "url": "https://peps.python.org/pep-0678/" },
-    { "label": "MDN: Error cause", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause" }
+    { "label": "PEP 678: Enriching Exceptions with Notes", "url": "https://peps.python.org/pep-0678/" }
   ]
 }

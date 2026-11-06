@@ -8,7 +8,7 @@
       "It raises an error"
     ],
     "answer": 0,
-    "explanation": "`len` counts code points. JavaScript's `.length` counts UTF-16 code units and returns 2."
+    "explanation": "`len` counts code points, and the emoji is one code point. Its UTF-8 encoding is 4 bytes long, so `len('😀'.encode('utf-8'))` is 4."
   },
   {
     "question": "What does `'a' + b'b'` do?",

@@ -53,8 +53,12 @@ def _():
     assert different is True
 
 
-@test("same_amount ignores the currency")
+# beginner mistake: comparing the amounts with is, which holds only for the small integers CPython caches
+@test("same_amount compares the amounts by value, also for large amounts, and ignores the currency")
 def _():
+    large = mod.Money(int("250000"), "EUR")
+    same_large = mod.Money(int("250000"), "USD")
+    assert mod.same_amount(large, same_large)
     assert mod.same_amount(mod.Money(5, "EUR"), mod.Money(5, "USD"))
     assert not mod.same_amount(mod.Money(5, "EUR"), mod.Money(6, "EUR"))
 

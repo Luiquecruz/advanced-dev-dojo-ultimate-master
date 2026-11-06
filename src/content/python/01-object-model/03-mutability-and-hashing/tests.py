@@ -1,4 +1,5 @@
-@test("freeze returns a hashable value")
+# beginner mistake: converting only the outer container (tuple(value) or frozenset(value.items())), so the lists inside keep it unhashable
+@test("freeze returns a hashable value, even for nested lists and dicts")
 def _():
     frozen = mod.freeze({"tags": ["a", "b"], "limits": {"max": 3}})
     digest = hash(frozen)
@@ -38,14 +39,16 @@ async def _():
     assert "Widget" in str(error)
 
 
-@test("memoize_by_value reuses results for equal list arguments")
+@test("cache_key gives equal keys for equal arguments, whatever the keyword order or nesting")
 def _():
-    def total(items, scale=1):
-        return sum(items) * scale
-
-    cached = mod.memoize_by_value(total)
-    assert cached([1, 2], scale=2) == 6
-    assert cached([1, 2], scale=2) == 6
-    assert cached.calls == 1
-    assert cached([1, 3], scale=2) == 8
-    assert cached.calls == 2
+    cache = {}
+    cache[mod.cache_key(([1, 2],), {"scale": 2, "unit": "EUR"})] = 6
+    same = mod.cache_key(([1, 2],), {"unit": "EUR", "scale": 2})
+    other = mod.cache_key(([1, 3],), {"scale": 2, "unit": "EUR"})
+    nested = mod.cache_key((), {"tags": ["a", "b"], "limits": {"max": 3}})
+    nested_twin = mod.cache_key((), {"limits": {"max": 3}, "tags": ["a", "b"]})
+    assert same in cache
+    assert other not in cache
+    assert type(hash(nested)) is int
+    assert nested == nested_twin
+    assert mod.cache_key(([1, 2],), {}) == mod.cache_key(((1, 2),), {})

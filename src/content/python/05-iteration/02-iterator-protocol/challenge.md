@@ -1,4 +1,4 @@
-An API client returns orders in pages, and a log tool reads lines from a stream that cannot be rewound. Build both kinds of iterable in `main.py`, plus two helpers that tell them apart. The starter has the JavaScript shape: a `Paginator` that is its own cursor and a `LineReader` whose `__next__` returns `None` at the end.
+An API client returns orders in pages, and a log tool reads lines from a stream that cannot be rewound. Build both kinds of iterable in `main.py`, plus two helpers that tell them apart. The starter makes the two classic mistakes: a `Paginator` that is its own cursor and a `LineReader` whose `__next__` returns `None` at the end.
 
 ## `class Paginator(pages)`
 

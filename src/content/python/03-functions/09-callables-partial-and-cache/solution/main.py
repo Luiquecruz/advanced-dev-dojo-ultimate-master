@@ -35,7 +35,7 @@ def _(value: int) -> str:
 
 @render.register
 def _(value: list) -> str:
-    return "[" + ", ".join(render(item) for item in value) + "]"
+    return "[" + ", ".join([render(item) for item in value]) + "]"
 
 
 @lru_cache(maxsize=2)

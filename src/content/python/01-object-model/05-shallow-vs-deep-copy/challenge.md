@@ -2,7 +2,7 @@ Write three helpers for configuration dictionaries in `main.py`. Configuration v
 
 ## `clone_config(config, **overrides)`
 
-Return a **deep copy** of `config` with the keyword `overrides` applied at the top level (override values are used as given).
+Return a **deep copy** of `config` with the keyword `overrides` applied at the top level (override values are used as given). The `**overrides` parameter collects every keyword argument of the call into a dict: `clone_config(config, name="worker")` receives `overrides == {"name": "worker"}`.
 
 - Changing nested dicts or lists of the clone never changes `config`.
 - A configuration that contains itself (`config["self"] = config`) is cloned with the cycle intact: `clone["self"] is clone`.
