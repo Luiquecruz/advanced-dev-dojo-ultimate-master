@@ -33,7 +33,7 @@ Debug query params: `?debug=perf` shows the scene panel (fps, frame time, tier, 
 
 ESLint 10 (`eslint.config.js`, `npm run lint`) lints everything except lesson folders; `tsconfig.json` also excludes them (`src/content/*/**`), so lesson code is only checked by `verify` and, for Python, by `pytest` on CPython. Rules and setup in CONTRIBUTING.md "Checks before a pull request".
 
-Error monitoring: `app/monitoring/sentry.ts` (`initSentry`, called first in `main.tsx`) initializes `@sentry/react` only when `VITE_SENTRY_DSN` is set; the sandbox and workers are not instrumented.
+Error monitoring: `app/monitoring/sentry.ts` (`initSentry`, called first in `main.tsx`) initializes `@sentry/react` (tracing, replay on errors only) only when `VITE_SENTRY_DSN` is set, and returns the React 19 root error handlers that `main.tsx` passes to `createRoot` (none without a DSN, so React keeps its default error logging); the sandbox and workers are not instrumented. `sentryVitePlugin` in `vite.config.ts` always runs with release creation and injection off, so the emitted JavaScript is identical with and without `SENTRY_AUTH_TOKEN` (the deploy smoke test compares it with CI's build); it uploads source maps and deletes the `.map` files only when the token is set.
 
 ## Documentation
 

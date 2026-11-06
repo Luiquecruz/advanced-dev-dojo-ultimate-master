@@ -1,4 +1,5 @@
 import { resolve } from 'node:path';
+import { sentryVitePlugin } from '@sentry/bundler-plugins/vite';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
@@ -8,8 +9,26 @@ import { pyodidePlugin } from './plugins/pyodidePlugin.ts';
 import { pythonWorkerCspPlugin } from './plugins/pythonWorkerCspPlugin.ts';
 import { scaledBudget } from './src/verify/timeBudget.ts';
 
+const sentryUploadEnabled = Boolean(process.env.SENTRY_AUTH_TOKEN);
+
 export default defineConfig({
-  plugins: [react(), tailwindcss(), contentPlugin(), pyodidePlugin(), dotnetPlugin(), pythonWorkerCspPlugin()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    contentPlugin(),
+    pyodidePlugin(),
+    dotnetPlugin(),
+    pythonWorkerCspPlugin(),
+    sentryVitePlugin({
+      org: 'lcruz-development',
+      project: 'advanced-dev-dojo-ultimate-master',
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      telemetry: false,
+      silent: !sentryUploadEnabled,
+      release: { create: false, finalize: false, inject: false },
+      sourcemaps: { filesToDeleteAfterUpload: ['./dist/**/*.map'] },
+    }),
+  ],
   resolve: {
     alias: [
       { find: /^@\//, replacement: `${resolve(import.meta.dirname, 'src')}/` },
@@ -25,6 +44,7 @@ export default defineConfig({
   worker: { format: 'es' },
   build: {
     target: 'es2022',
+    sourcemap: 'hidden',
     chunkSizeWarningLimit: 12000,
     rollupOptions: {
       input: {

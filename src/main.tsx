@@ -6,14 +6,14 @@ import { initSentry } from './app/monitoring/sentry';
 import { legacyHashRedirect } from '@/shared/routing/route';
 import './app/styles.css';
 
-initSentry();
+const rootOptions = initSentry();
 
 const legacyPath = legacyHashRedirect(location, import.meta.env.BASE_URL);
 if (legacyPath) {
   history.replaceState(null, '', legacyPath);
 }
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById('root')!, rootOptions).render(
   <StrictMode>
     <BrowserRouter basename={import.meta.env.BASE_URL} useTransitions={false}>
       <App />

@@ -21,3 +21,5 @@ vendor/dotnet/*
 
 .env
 .env.local
+
+.env.sentry-build-plugin
