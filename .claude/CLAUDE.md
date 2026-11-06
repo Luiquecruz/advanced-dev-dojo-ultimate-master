@@ -50,6 +50,7 @@ All project documentation lives in `.claude/docs/` (the root `README.md` is the 
 | `.claude/docs/CURRICULUM.md` | every track, its modules and lessons; `✓` marks written lessons and the rest is the backlog | adding lessons or planning a track |
 | `.claude/docs/csharp-engine.md` | the C# engine: status, giving a lesson a C# challenge, pins, served files (Webcil) and the Brotli budget, download and prefetch, the Netlify build cache, security findings, open items | touching `src/engines/csharp/`, `vendor/dotnet/` or writing a C# challenge |
 | `.claude/docs/system-design-track.md` | the System Design track: decisions, content standards (no dates or changelog in lessons), challenge conventions, curriculum with beginner mistakes | writing or planning System Design lessons |
+| `.claude/docs/java-spring-angular-track.md` | the plan of the Java, Spring Boot and Angular track: sources, pinned versions, the open Java engine decision, curriculum | planning or writing that track |
 | `.claude/docs/python-track/` | the Python track: decisions, platform tasks, content standards, full curriculum and per-module lesson specs | writing or planning Python lessons |
 | `.claude/specs/` | the visual and motion spec (Portuguese) | changing the scene, motion or the visual system |
 
