@@ -21,6 +21,7 @@ Keep this section current: after every merge, PR, review or decision, add a line
 **Owner decision (token budget): the track keeps only theory and quizzes. No graded challenges anywhere, including module 06 (it becomes theory + quiz like the rest). Do not build a Java engine.**
 
 State of the work:
+- PR #55 rename follow-up: the contract phase now explicitly deploys code that no longer accesses the old column and drains all earlier versions before dropping it.
 - PR #55 follow-up: required synchronized writes throughout a rolling column rename and established Docker Engine 28 as the project baseline for loopback port publishing. Verified the earlier stable-sort and count-query corrections in theory, quiz and glossary.
 - PR #55 review pass: addressed 16 findings across context scope, bulk-update refresh/flush, association ownership, lesson ordering, rollback/savepoint limits, stable paging/counts, safe migration rollout, local database binding and versioned custom deletes. Revalidating before the next review.
 - Module 04: PR #54 open, stacked on #53. Module 05 review in `feat/java-module-05`: validated eight PostgreSQL persistence/HTTP tests on Boot 4.1.2, compiled the snippet project, and passed 1,740 content checks (one skipped), unit tests, build, lint, typecheck and docs sync. Corrected transaction-context scope, declared-query transactions, bag-fetch wording, paging/count caveats, the id sort whitelist, schema-validation wording and container/HTTP test setup.
