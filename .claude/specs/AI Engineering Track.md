@@ -523,7 +523,7 @@ Given a product briefing (users, data sensitivity, scale, regulation), the learn
 
 - Every module opens with a map lesson: what the module answers, which layer of the six it belongs to, prerequisites, and the path through its lessons.
 - Lessons are short and single-purpose; long topics split into a sequence ("RAG 1: ingestion", "RAG 2: hybrid search"...).
-- Every module ends with an ADR checkpoint (as in React Architecture) so the learner builds a portfolio of decisions toward the capstone.
+- Every module ends with an ADR checkpoint (as in Frontend Architecture) so the learner builds a portfolio of decisions toward the capstone.
 - The glossary (section 17) is available as concept cards in every lesson that uses a term.
 
 **Freshness**
@@ -558,7 +558,7 @@ Generic tracks such as AI Engineering are not tied to one language. The learner 
 - **Deterministic embeddings:** implemented as `embed()` (hashed bag-of-words unit vectors) and `cosineSimilarity()` in `@dojo/ai`, so RAG lessons compute real similarity, BM25 and RRF without a model.
 - **Libraries to evaluate for the registry** (check browser compatibility and versions in `node_modules` before adopting): `@modelcontextprotocol/sdk` (in-memory transport for MCP lessons), the Vercel AI SDK `ai` package and its test mock models, LangChain.js with its fake chat models, `zod`.
 - **Real model mode:** none for now. Possible later for the **Run** button only (never grading): bring your own key, local Ollama, or an in-browser WebGPU model.
-- **Formats:** challenges for everything that is code (agent loop, harness permissions, loop with verifier, RAG pipeline, graph memory, ontology validation, eval runner, policy engine, MCP server); quizzes for regulation, model training, Hugging Face ecosystem and frameworks comparisons; ADR checkpoints per module as in the React Architecture track.
+- **Formats:** challenges for everything that is code (agent loop, harness permissions, loop with verifier, RAG pipeline, graph memory, ontology validation, eval runner, policy engine, MCP server); quizzes for regulation, model training, Hugging Face ecosystem and frameworks comparisons; ADR checkpoints per module as in the Frontend Architecture track.
 
 ### The fake model: deterministic without pretending to be a real model
 

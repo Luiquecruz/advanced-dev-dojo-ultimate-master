@@ -306,7 +306,7 @@ Conventions settled by the pilot module (`01-models`). The plan and module rules
 - **Theory:** 300–1000 words, provider-agnostic, ending with `## When to choose it`; no `## Working with AI` section (the whole track is about it). Volatile facts (model names, prices, context sizes, benchmark scores, laws, framework versions) go in one blockquote that starts with `**Status as of <Month YYYY>:**`.
 - **Tags:** maturity first (`established`, `emerging` or `hype-watch`), then `core`, then `theory` (quiz lessons) or `practice` (challenges).
 - **Map lessons:** lesson ids are unique across the track, so each map takes its module's prefix (`01-track-map` in module 01 maps the whole track; `01-prompts-map`, `01-rag-map` and the rest, named like the module's ADR, map only their module: question it answers, layer, prerequisites, path, ADR at the end).
-- **ADR checkpoints:** the last lesson of each module, following the React Architecture pattern: a briefing, an exported `adr` plus a module-specific plan object, tests for structure and coherence with the briefing.
+- **ADR checkpoints:** the last lesson of each module, following the Frontend Architecture pattern: a briefing, an exported `adr` plus a module-specific plan object, tests for structure and coherence with the briefing.
 - **Tests:** use `captureError` to inspect errors and `toBeCloseTo` for costs instead of local helpers. Verify one lesson exactly with `LESSON=ai-engineering/<lesson-id>`.
 - **Resources:** canonical URLs that return 200 to `curl`; a few canonical domains block bots with 403 (openai.com, platform.openai.com, lmarena.ai): open those in a browser before citing them.
 
