@@ -96,7 +96,7 @@ product?.Sku = skus[0];                                   // assigns only when p
 ## In practice
 
 - **New service:** target `net10.0`. Microsoft's guidance is that a service you keep updating should use a supported release, LTS or STS; most teams standardize on LTS and move every two years.
-- **Existing service on an older version:** once its end-of-support date passes it gets no security fixes. Check the date on Microsoft's .NET support policy page, then upgrade the TFM to `net10.0`, update Microsoft packages to their 10.0 versions, read the breaking-change list, run the tests. Moving between modern majors is far smaller than a .NET Framework migration.
+- **Existing service on an older version:** once its end-of-support date passes it gets no security fixes. Check the date on Microsoft's .NET support policy page, then upgrade to a supported target from that page (`net10.0` in this track): change the TFM, update Microsoft packages to the matching major version, read the breaking-change list, run the tests. Moving between modern majors is far smaller than a .NET Framework migration.
 - **Shared library:** add `netstandard2.0` only if a .NET Framework consumer really exists; otherwise target `net10.0`.
 - **Choose the SDK on purpose.** Microsoft notes that the newest SDK, even an STS one, can target every supported runtime. Whichever band the team picks, pin it with `global.json` so laptops and CI agree.
 

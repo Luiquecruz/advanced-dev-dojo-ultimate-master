@@ -47,7 +47,7 @@ Create `TypeAdapter`s at module level, like models, and reuse them. The second h
 
 `pydantic-core` runs here compiled to WebAssembly, loaded only by lessons that import Pydantic: the first such run downloads about 1.8 MB of wheels from this site and took about a second when measured. Timings in this sandbox are not representative of native CPython, so this lesson is a quiz.
 
-This sandbox runs Pydantic 2.12.5 with pydantic-core 2.41.5 (Pyodide 314.0.7). Each pydantic release requires one exact pydantic-core version, and pydantic-core is a Rust extension with a compiled wheel per platform. Related libraries on PyPI: msgspec, attrs and cattrs. Sources: pypi.org/project/pydantic, pypi.org/project/pydantic-core and the Pydantic 2.12 "Performance" and "Architecture" docs.
+This sandbox runs Pydantic 2.12.5 with pydantic-core 2.41.5 (Pyodide 314.0.7). Each pydantic release requires one exact pydantic-core version, and pydantic-core is a compiled extension with a wheel per platform. Related libraries on PyPI: msgspec, attrs and cattrs. Sources: pypi.org/project/pydantic, pypi.org/project/pydantic-core and the Pydantic 2.12 "Performance" and "Architecture" docs.
 
 ## When to choose it
 

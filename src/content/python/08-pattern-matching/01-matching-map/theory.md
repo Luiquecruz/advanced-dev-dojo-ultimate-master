@@ -55,7 +55,7 @@ match command:
 
 A bare name is a **capture**: it matches anything and binds it. Compare with a literal (`"quit"`), a dotted name (`Command.QUIT`) or a guard (`case c if c == QUIT:`).
 
-Structural pattern matching arrived in Python 3.10 (PEP 634 specification, PEP 635 motivation, PEP 636 tutorial) with no later change to its syntax or semantics; 3.14, the version this track runs, only improved the error message for an invalid target after `case ... as`. `match` and `case` are soft keywords, so they remain valid variable names.
+Structural pattern matching arrived in Python 3.10 (PEP 634 specification, PEP 635 motivation, PEP 636 tutorial). 3.14, the version this track runs, only improved the error message for an invalid target after `case ... as`; later versions can extend the pattern syntax (3.15 accepts a unary plus in a literal pattern), so read the What's New page of the version you run. `match` and `case` are soft keywords, so they remain valid variable names.
 
 ## The path
 

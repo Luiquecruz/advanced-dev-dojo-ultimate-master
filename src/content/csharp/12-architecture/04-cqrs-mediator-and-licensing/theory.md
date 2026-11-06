@@ -115,9 +115,9 @@ The wrapping is explicit, visible in `Program.cs`, and limited to the interfaces
 
 ## Where MediatR fits, and its licence
 
-MediatR implements the mediator pattern: endpoints send a request object to `IMediator`, which finds the handler and runs a pipeline of behaviors around it. You will meet it in many existing .NET codebases, including Microsoft's current `dotnet/eShop` sample, which references MediatR 13.1.0, a release under the new licence. It saves the registration lines above and adds indirection: "go to definition" on `mediator.Send(command)` does not lead to the handler.
+MediatR implements the mediator pattern: endpoints send a request object to `IMediator`, which finds the handler and runs a pipeline of behaviors around it. You will meet it in many existing .NET codebases, including Microsoft's `dotnet/eShop` sample; check its package file for the MediatR version it references and the licence that version carries. It saves the registration lines above and adds indirection: "go to definition" on `mediator.Send(command)` does not lead to the handler.
 
-Its author moved to commercial editions. **MediatR v13.0 and AutoMapper v15.0** are the first releases under a dual licence: Reciprocal Public License 1.5 (RPL-1.5) plus the Lucky Penny Software commercial licence, tiered by developer count. A free Community edition covers companies under USD 5 million gross annual revenue, non-profits under USD 5 million budget, education and non-production use, and still requires registering for a licence key. Earlier releases keep the licence they shipped with. Whether later majors use the same terms is assumed, not verified.
+Its author moved to commercial editions. **MediatR v13.0 and AutoMapper v15.0** are the first releases under a dual licence: Reciprocal Public License 1.5 (RPL-1.5) plus the Lucky Penny Software commercial licence, tiered by developer count. A free Community edition exists for small companies (under USD 5 million gross annual revenue, with further eligibility conditions such as a limit on outside capital), non-profits, education and non-production use, and still requires registering for a licence key; read the current terms before relying on it. Earlier releases keep the licence they shipped with. Whether later majors use the same terms is assumed, not verified.
 
 What to do in a team:
 

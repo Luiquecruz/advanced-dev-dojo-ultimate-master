@@ -52,7 +52,7 @@ Vue 3.5 rewrote `@vue/reactivity` internals with **version counting** and a **do
 
 ## Vue 3.6: alien-signals and Vapor Mode
 
-Vue 3.6 brings two big changes:
+Vue 3.6 brings two big changes (it is a prerelease and the course installs Vue 3.5, so neither is available in the exercises):
 
 - `@vue/reactivity` is refactored on top of **alien-signals**, a signal algorithm written by Johnson Chu (a Vue core team member) that its release announcement says *"significantly improves the reactivity system's performance and memory usage"*. Public APIs (`ref`, `computed`, `watch`) stay the same.
 - **Vapor Mode**, an opt-in compilation mode for SFCs. Instead of producing a render function that returns virtual DOM to diff, the compiler emits code that creates the DOM once and binds each dynamic part to its own fine-grained effect. The Vue team reports performance on the level of Solid and Svelte 5. It supports `<script setup>` and template-only components (not the Options API), can be mixed with regular components through `vaporInteropPlugin`, or used for a whole app with `createVaporApp()`.

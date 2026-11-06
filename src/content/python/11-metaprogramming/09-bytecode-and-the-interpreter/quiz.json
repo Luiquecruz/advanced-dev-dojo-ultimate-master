@@ -58,11 +58,11 @@
     "question": "Why does single-threaded code pay a much smaller penalty on 3.14's free-threaded build than on 3.13's?",
     "options": [
       "3.14 brought the GIL back for single-threaded programs",
-      "3.14 enables the specializing adaptive interpreter in free-threaded mode, after making its in-place bytecode rewrites safe with several threads; the penalty is now roughly 5–10%",
+      "3.14 enables the specializing adaptive interpreter in free-threaded mode, after giving each thread its own thread-local copy of the bytecode to specialize; the penalty is now roughly 5–10%",
       "3.14 turns on the JIT for free-threaded builds",
       "3.14 compiles free-threaded programs ahead of time"
     ],
     "answer": 1,
-    "explanation": "Specialization rewrites bytecode shared by all threads. From 3.14 it is enabled in free-threaded mode; the JIT is still unsupported there."
+    "explanation": "Specialization rewrites bytecode in place, so each thread specializes its own thread-local copy. From 3.14 it is enabled in free-threaded mode; the JIT is still unsupported there."
   }
 ]

@@ -64,7 +64,7 @@ It compiles on .NET 10 unchanged (with nullable warnings if the project enables 
 
 .NET Framework 4.5.2 and later are a **component of Windows**: "Components receive the same support as their parent products." 4.8 and 4.8.1 have no end date of their own; they are supported for as long as the Windows version they are installed on. That is why legacy apps survive: a Windows Server 2022 box running an MVC 5 site on 4.8 is a supported configuration. Supported means security fixes, not new features. Everything new (ASP.NET Core, EF Core, minimal APIs, containers on Linux) ships only on modern .NET.
 
-Older versions do end. 4.5.2, 4.6 and 4.6.1 retired because they were signed with SHA-1, and every other version has its own end date in the lifecycle pages. Every 4.x release is an in-place update of 4.0, so an app built for 4.5 or 4.6 usually runs on 4.8 without recompiling.
+Older versions do end. 4.5.2, 4.6 and 4.6.1 retired because they were signed with SHA-1, releases older than 4.5.2 have their own end dates in the lifecycle pages, and 4.7 through 4.8.1 follow their Windows version, as above. Every 4.x release is an in-place update of 4.0, so an app built for 4.5 or 4.6 usually runs on 4.8 without recompiling.
 
 ## What did not make the trip
 
