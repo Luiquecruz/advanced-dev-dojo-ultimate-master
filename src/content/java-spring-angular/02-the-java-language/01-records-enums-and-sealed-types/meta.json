@@ -1,0 +1,13 @@
+{
+  "title": "Records, Enums and Sealed Types",
+  "summary": "Records with validation in compact constructors, enums with fields and methods, sealed interfaces with permits, and pattern matching in switch and instanceof with exhaustive switches.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "dev.java: Records", "url": "https://dev.java/learn/records/" },
+    { "label": "Oracle: Records (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/language/records.html" },
+    { "label": "Oracle: Pattern matching (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/language/pattern-matching.html" },
+    { "label": "JEP 409: Sealed Classes", "url": "https://openjdk.org/jeps/409" },
+    { "label": "Oracle: Enum API (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Enum.html" }
+  ]
+}

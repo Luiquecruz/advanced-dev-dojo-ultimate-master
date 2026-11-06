@@ -1,0 +1,10 @@
+[
+  { "term": "Interface", "description": "A contract of method signatures that a class implements, so callers can depend on behavior instead of one implementation." },
+  { "term": "Default method", "description": "An interface method with a body that implementing classes inherit and may override." },
+  { "term": "Polymorphism", "description": "Calling a method through a general type while the actual object decides which implementation runs." },
+  { "term": "Functional interface", "description": "An interface with exactly one abstract method, which a lambda expression can implement." },
+  { "term": "Generic type", "description": "A class or method with a type parameter such as T that the caller fills in and the compiler checks." },
+  { "term": "Bounded type parameter", "description": "A type parameter restricted with extends so the code can use the methods of the bound." },
+  { "term": "Wildcard", "description": "A question mark in a type argument, such as ? extends Number, that stands for an unknown type within a limit." },
+  { "term": "Type erasure", "description": "The removal of type arguments after compilation, so Box of String and Box of Integer are the same class at run time." }
+]

@@ -1,0 +1,13 @@
+{
+  "title": "Concurrency Basics",
+  "summary": "Threads, ExecutorService and Future, CompletableFuture basics, virtual threads in Java 25, shared mutable state with synchronized and atomics, and immutability as the simplest fix.",
+  "level": "intermediate",
+  "tags": ["theory", "core", "performance"],
+  "resources": [
+    { "label": "dev.java: Virtual threads", "url": "https://dev.java/learn/new-features/virtual-threads/" },
+    { "label": "Oracle: Virtual threads (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/core/virtual-threads.html" },
+    { "label": "Oracle: ExecutorService API (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html" },
+    { "label": "Oracle: CompletableFuture API (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletableFuture.html" },
+    { "label": "JEP 505: Structured Concurrency (Fifth Preview)", "url": "https://openjdk.org/jeps/505" }
+  ]
+}

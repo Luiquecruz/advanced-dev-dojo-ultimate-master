@@ -1,0 +1,9 @@
+[
+  { "term": "Stream pipeline", "description": "A source, intermediate operations such as filter and map, and one terminal operation that produces the result." },
+  { "term": "Intermediate operation", "description": "An operation like filter or map that returns a new stream and does no work until a terminal operation runs." },
+  { "term": "Terminal operation", "description": "An operation such as toList, count or findFirst that starts the pipeline and ends the stream." },
+  { "term": "groupingBy", "description": "A collector that builds a map from a key function, with an optional downstream collector for each group." },
+  { "term": "Laziness", "description": "Deferred processing until a terminal operation runs, with possible early termination when the pipeline permits it." },
+  { "term": "Optional", "description": "A return type that holds a value or nothing, forcing the caller to decide what absence means." },
+  { "term": "orElseThrow", "description": "The Optional method that returns the value or throws an exception you supply when it is empty." }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A method builds `books.stream().map(Book::title)` and stores it in a variable, never calling a terminal operation. What does it compute?",
+    "options": [
+      "Every title, immediately",
+      "Only the first title",
+      "An exception is thrown at the end of the method",
+      "Nothing, because intermediate operations run only when a terminal operation is called"
+    ],
+    "answer": 3,
+    "explanation": "Streams are lazy. The pipeline is only a description until a terminal operation such as toList or count starts it."
+  },
+  {
+    "question": "A lookup method returns `Optional<User>`. Which call handles the empty case with a clear business error?",
+    "options": [
+      "result.get()",
+      "result.orElseThrow(() -> new UserNotFoundException(id))",
+      "result.isPresent()",
+      "result.orElse(null)"
+    ],
+    "answer": 1,
+    "explanation": "orElseThrow turns absence into a meaningful exception. get() throws a generic NoSuchElementException, and orElse(null) brings back the null the Optional was meant to avoid."
+  },
+  {
+    "question": "A stream variable `s` is used as `long n = s.count();` and then `s.toList()`. What happens at the second call?",
+    "options": [
+      "It returns the full list",
+      "It throws IllegalStateException because the stream was already consumed",
+      "It returns an empty list",
+      "It restarts the pipeline from the source"
+    ],
+    "answer": 1,
+    "explanation": "A stream can be traversed once. Create a fresh stream from the collection for each terminal operation."
+  },
+  {
+    "question": "You need to count books per author. Which collector expression does it?",
+    "options": [
+      "Collectors.groupingBy(Book::author, Collectors.counting())",
+      "Collectors.joining(Book::author)",
+      "Collectors.toList(Book::author)",
+      "Collectors.mapping(Book::author)"
+    ],
+    "answer": 0,
+    "explanation": "groupingBy groups by the key function and the downstream collector counting() counts each group, giving a Map from author to number of books."
+  },
+  {
+    "question": "A teammate writes a field `private Optional<String> nickname;` and a method taking `Optional<Config>` as a parameter. What is the usual guidance?",
+    "options": [
+      "Optional is meant for return types; use null checks or overloads for fields and parameters",
+      "Optional is required for every nullable field",
+      "Optional fields are faster than null",
+      "Optional parameters make methods thread-safe"
+    ],
+    "answer": 0,
+    "explanation": "Optional was designed as a return type that signals a possibly absent result. For fields and parameters it adds wrapping without much benefit."
+  },
+  {
+    "question": "A task needs a running total, an early exit on the first invalid record and an index in the error message. What is the best fit?",
+    "options": [
+      "A stream with forEach and an outside counter",
+      "A long chain of map and filter calls",
+      "A loop, because it updates several variables, exits early and needs the index",
+      "A parallel stream"
+    ],
+    "answer": 2,
+    "explanation": "Streams read best for filter, convert and collect. A procedure with state, an early exit and an index is clearer as a loop, and side effects inside stream lambdas are discouraged."
+  }
+]

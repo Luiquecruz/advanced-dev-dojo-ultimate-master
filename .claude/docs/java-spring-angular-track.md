@@ -26,7 +26,7 @@ The track adds what the reference project leaves out (Spring Security, observabi
 | Track id | `java-spring-angular` | Folder and route slug. |
 | Audience | Developers who know one language; module 00 teaches Java from zero | Under option B (a Java engine) module 00 is optional like the Python and C# ones: its last lesson is the skip test and one earlier lesson has a challenge (`src/verify/content.test.ts`), and it counts toward progress once a challenge lesson is complete. Under option A it has no challenge, so it cannot be optional by those rules: it is a required first module (numbered 1), unless the owners extend verification and progress tracking to allow an optional quiz-only module. |
 | Versions pinned | Java 25 (LTS), Spring Boot 4, Angular 22 | The versions the reference project and the Angular engine share. |
-| Angular part | Reuses the Angular engine; fundamentals link to the Angular track and are not repeated | The platform already teaches Angular 22 (zoneless, signals, Signal Forms); this track teaches the integration with a Spring back end. **Release gate:** the Angular track already exists (53 lessons) and is hidden only by its flag in `TRACK_FLAGS`; a link to a hidden track opens a missing page, so the Angular flag is turned on in the same release that shows this track. Showing Angular needs a new accent first: its current one (hue 351 degrees) is within 30 degrees of C# (358), which `trackPresentation.test.ts` rejects. If Angular stays hidden, the Angular-with-Spring module carries its own short Angular fundamentals instead of links. |
+| Angular part | Theory, quizzes and local projects; fundamentals link to the Angular track and are not repeated | The platform already teaches Angular 22 (zoneless, signals, Signal Forms); this track teaches the integration with a Spring back end. **Release gate:** the Angular track already exists (53 lessons) and is hidden only by its flag in `TRACK_FLAGS`; a link to a hidden track opens a missing page, so the Angular flag is turned on in the same release that shows this track. Showing Angular needs a new accent first: its current one (hue 351 degrees) is within 30 degrees of C# (358), which `trackPresentation.test.ts` rejects. If Angular stays hidden, the Angular-with-Spring module carries its own short Angular fundamentals instead of links. |
 | Java and Spring challenges | None: option A of "Engine decision" | There is no Java engine in the browser; Java and Spring lessons are theory, quizzes and local projects. |
 
 ## Engine decision
@@ -35,7 +35,7 @@ A real Spring Boot application needs a full JVM, Maven dependencies and a server
 
 | Option | What learners get | Cost and risk |
 | --- | --- | --- |
-| **A. No Java engine** (recommended start) | Java and Spring Boot lessons are theory and quizzes plus practice projects built locally with the JDK, like the C# track's projects; the Angular lessons have graded challenges on the Angular engine | Nothing to build; Java is not graded in the browser. |
+| **A. No Java engine** (recommended start) | Java and Spring Boot lessons are theory and quizzes plus practice projects built locally with the JDK, like the C# track's projects; the Angular lessons also use theory, quizzes and local projects | Nothing to build; Java is not graded in the browser. |
 | **B. CheerpJ** (a WebAssembly JVM that can run `javac`) | Graded Java challenges in the browser for the language modules, still no Spring | Proprietary. Its Community licence is free with a "Built with CheerpJ" credit for individuals, one-person companies and non-commercial open-source projects; an organization needs a paid licence (a Small Business plan starts at 100 GBP per developer per month, plus 5,000 GBP a year to self-host). Compilation is slow, the download is large, and the lock-down and verification work of the Python and C# engines would be repeated. |
 | **C. TeaVM or a Java-subset interpreter** | A restricted Java | TeaVM compiles ahead of time, so it cannot compile learner code in the browser; an interpreter is a large project and drifts from real Java. |
 
@@ -43,7 +43,7 @@ The licence question for B is a decision for the project owners, because the fre
 
 ## Curriculum
 
-`(c)` marks a lesson with a graded challenge in the first release (Angular engine only under option A); `(q)` is theory and quiz.
+Every module uses theory and quizzes (`q`) with practice projects built locally; no module has graded challenges.
 
 | Module | Lessons |
 | --- | --- |
@@ -52,12 +52,12 @@ The licence question for B is a decision for the project owners, because the fre
 | **Build and tests** | Maven and the project layout, JUnit 5, Mockito, test slices, Testcontainers |
 | **Spring Boot core** | inversion of control and dependency injection, auto-configuration, configuration and profiles, REST controllers, Jakarta Validation, error handling with Problem Details, OpenAPI with springdoc |
 | **Persistence** | JPA and Hibernate, repositories, relationships, transactions, the N+1 problem, pagination, database migrations, soft delete, Open Session in View |
-| **Angular with a Spring back end** (c) | `HttpClient` and `httpResource`, mapping Problem Details to Signal Forms errors, pagination and sorting, route guards, CORS, a typed client generated from OpenAPI, smart and presentational components |
+| **Angular with a Spring back end** (q) | `HttpClient` and `httpResource`, mapping Problem Details to Signal Forms errors, pagination and sorting, route guards, CORS, a typed client generated from OpenAPI, smart and presentational components |
 | **Security** | Spring Security filter chain, sessions versus tokens, JWT and OAuth 2 resource servers, CSRF and CORS, method security, Angular interceptors and guards |
 | **Quality and delivery** | the test pyramid for both ends, Docker and Compose, CI, Actuator and Micrometer, caching, rate limiting, production configuration |
 | **Capstone** | a full-stack course catalog: Spring API with persistence, security and tests, and an Angular client |
 
-Under option A the Angular-with-Spring module is the only graded one. Option B would add Java challenges to the Java from zero, language and build modules.
+The owner chose theory and quizzes for every module, including Angular with a Spring back end. Graded challenges would require a separate decision.
 
 Folder numbers: under option A the modules are `01` to `09` in the order above (Java from zero is `01`, the Angular-with-Spring module is `06`), because a required module cannot be numbered `00`; under option B module `00` is the optional Java from zero and the others are `01` to `08`.
 

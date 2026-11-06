@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A class implements an interface method but declares it without `public`: `int apply(int price) { ... }`. What happens?",
+    "options": [
+      "It compiles and the method is package-private",
+      "It compiles but is never called",
+      "It does not compile, because interface methods are public and an implementation cannot reduce access",
+      "It compiles with a warning"
+    ],
+    "answer": 2,
+    "explanation": "Methods declared in an interface are implicitly public. An implementing method with weaker access is rejected by the compiler."
+  },
+  {
+    "question": "`checkout(int price, Discount discount)` calls `discount.apply(price)`. A new `SeasonalOff` class implements `Discount`. What must change in `checkout`?",
+    "options": [
+      "Nothing, the call is resolved to SeasonalOff at run time",
+      "A new overload for SeasonalOff",
+      "An instanceof chain for each discount type",
+      "The method must become generic"
+    ],
+    "answer": 0,
+    "explanation": "The parameter has the interface type, so any implementation can be passed and the right apply runs by polymorphism. That is the reason to depend on the interface."
+  },
+  {
+    "question": "A method takes `Box<Number> box`. A caller holds a `Box<Integer>` and passes it. What is the result and the fix?",
+    "options": [
+      "It compiles, because Integer is a Number",
+      "A compile error; change the parameter to Box<? extends Number> to accept it for reading",
+      "A run-time ClassCastException",
+      "A compile error; cast the argument to Box"
+    ],
+    "answer": 1,
+    "explanation": "Generic types are not covariant: Box<Integer> is not a Box<Number>. An upper-bounded wildcard accepts any Box of a Number subtype when the method only reads from it."
+  },
+  {
+    "question": "Why does `static <T> T create() { return new T(); }` not compile?",
+    "options": [
+      "Methods cannot have type parameters",
+      "T must be declared as an interface",
+      "Static methods cannot create objects",
+      "T is erased at run time, so the program does not know which class to instantiate"
+    ],
+    "answer": 3,
+    "explanation": "Type arguments are removed after compilation, so the run-time code has no class to construct for T. Pass a factory object or a supplier instead."
+  },
+  {
+    "question": "You write `static <T extends Comparable<T>> T larger(T a, T b)`. Why is the bound needed to call `a.compareTo(b)`?",
+    "options": [
+      "Without it, T could be any type, and not every type has compareTo",
+      "Bounds make the method faster",
+      "compareTo exists only on generic types",
+      "It stops callers from passing null"
+    ],
+    "answer": 0,
+    "explanation": "An unbounded T is treated as Object, which has no compareTo. The bound guarantees every T supports it, so the call type-checks."
+  }
+]

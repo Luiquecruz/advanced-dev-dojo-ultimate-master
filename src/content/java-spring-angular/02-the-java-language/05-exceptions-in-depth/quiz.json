@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A repository catches `SQLException` and throws `new DataAccessFailure(\"save failed\")`. Production logs show only \"save failed\". What was missed?",
+    "options": [
+      "The new exception must be checked",
+      "The original exception as the cause, passed through the constructor",
+      "A finally block",
+      "A static factory method"
+    ],
+    "answer": 1,
+    "explanation": "Passing the original as the cause keeps its message and stack trace in the log. Without it the real reason for the failure is lost."
+  },
+  {
+    "question": "Code has `catch (CatalogException e) { ... }` followed by `catch (BookNotFoundException e) { ... }`, where the second extends the first. What happens?",
+    "options": [
+      "Both blocks run for a BookNotFoundException",
+      "The second block runs first",
+      "It compiles, but the second block never runs",
+      "It does not compile, because the exception has already been caught by the earlier block"
+    ],
+    "answer": 3,
+    "explanation": "Catch blocks are checked in order, and a subclass after its parent is unreachable. The compiler reports it as an error; put the most specific type first."
+  },
+  {
+    "question": "In `try (Connection c = open()) { c.work(); }`, both `work()` and `close()` throw. Which exception reaches the caller?",
+    "options": [
+      "The one from work(), with the one from close() attached as suppressed",
+      "The one from close(), with the one from work() attached as suppressed",
+      "A new exception that combines both messages",
+      "Neither, because they cancel out"
+    ],
+    "answer": 0,
+    "explanation": "try-with-resources keeps the primary failure from the body and records the exception from close() via getSuppressed. A hand-written finally would let the close failure replace it."
+  },
+  {
+    "question": "A method has `try { throw new IllegalStateException(\"bad\"); } finally { return 0; }`. What does a caller observe?",
+    "options": [
+      "An IllegalStateException",
+      "A compile error in every case",
+      "The return value 0, and the exception never appears",
+      "Both the exception and the value"
+    ],
+    "answer": 2,
+    "explanation": "A return in finally completes the method normally and discards the exception being thrown. Keep finally for cleanup only."
+  },
+  {
+    "question": "Which situation best justifies a checked exception?",
+    "options": [
+      "A null argument passed to a constructor",
+      "A violated internal invariant",
+      "An array index that is out of range because of a bug",
+      "A remote call that can fail for reasons the caller may handle, such as a retry"
+    ],
+    "answer": 3,
+    "explanation": "Checked exceptions suit recoverable failures that are part of the contract. Null arguments, broken invariants and index bugs are programming errors, which are normally unchecked."
+  },
+  {
+    "question": "A service catches `Exception`, writes `e.printStackTrace()` and continues with a default value. Why is this a problem?",
+    "options": [
+      "printStackTrace is deprecated",
+      "It hides unrelated bugs and continues with data nobody validated",
+      "Catching Exception is a compile error",
+      "It makes the exception checked"
+    ],
+    "answer": 1,
+    "explanation": "A broad catch that only prints swallows failures it cannot handle, such as a ClassCastException, and the program continues in an unknown state. Catch what you can handle and let the rest propagate."
+  }
+]

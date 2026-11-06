@@ -1,0 +1,8 @@
+[
+  { "term": "Value object", "description": "An object defined by equality of its values rather than identity; records and constructor validation are possible implementation choices." },
+  { "term": "Sealed result type", "description": "A sealed interface of records that models every outcome of an operation, such as loaned, already loaned or unknown." },
+  { "term": "Exhaustive switch", "description": "A switch over a sealed type without default, so adding a case becomes a compile error until it is handled." },
+  { "term": "putIfAbsent", "description": "A Map method that stores a value only when the key is new and returns the existing value otherwise." },
+  { "term": "Stream query", "description": "A filter, sorted and collect pipeline over the stored values that answers a question without a manual loop." },
+  { "term": "Guard clause", "description": "An early return that handles an unusual case first, so the main path stays flat." }
+]

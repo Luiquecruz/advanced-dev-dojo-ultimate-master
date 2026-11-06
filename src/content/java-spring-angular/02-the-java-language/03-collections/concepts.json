@@ -1,0 +1,9 @@
+[
+  { "term": "List", "description": "An ordered collection that allows duplicates, usually created as an ArrayList and read by index." },
+  { "term": "Set", "description": "A collection without duplicates, available as HashSet for speed, LinkedHashSet for insertion order and TreeSet for sorted order." },
+  { "term": "Map", "description": "A collection of key-value pairs with unique keys, with methods such as getOrDefault, merge and computeIfAbsent." },
+  { "term": "Immutable collection", "description": "A collection from List.of, Set.of or Map.of that throws on any change and rejects null elements." },
+  { "term": "hashCode contract", "description": "Objects that are equal must return the same hash code, or hash-based collections cannot find them." },
+  { "term": "Comparator", "description": "An object that orders elements, built from key extractors and chained with thenComparing." },
+  { "term": "Unmodifiable view", "description": "A read-only wrapper that blocks changes through itself but still reflects changes made to the underlying collection." }
+]

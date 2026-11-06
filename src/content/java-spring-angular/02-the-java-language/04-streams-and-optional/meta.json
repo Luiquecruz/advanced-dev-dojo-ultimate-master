@@ -1,0 +1,12 @@
+{
+  "title": "Streams and Optional",
+  "summary": "Stream pipelines with map, filter, collect, toList and groupingBy, laziness, when a loop is clearer, and Optional with map, orElse, orElseThrow and the misuse of get.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "dev.java: Streams", "url": "https://dev.java/learn/api/streams/" },
+    { "label": "Oracle: Stream package (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/package-summary.html" },
+    { "label": "Oracle: Collectors API (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collectors.html" },
+    { "label": "Oracle: Optional API (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" }
+  ]
+}
