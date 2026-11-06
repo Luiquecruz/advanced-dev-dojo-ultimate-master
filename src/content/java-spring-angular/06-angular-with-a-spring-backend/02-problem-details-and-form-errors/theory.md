@@ -43,6 +43,17 @@ class ApiExceptionHandler {
         return problem;
     }
 
+    record FieldProblem(String field, String message) { }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ProblemDetail handleValidation(MethodArgumentNotValidException exception) {
+        List<FieldProblem> errors = exception.getBindingResult().getFieldErrors().stream()
+                .map(error -> new FieldProblem(error.getField(),
+                        String.valueOf(error.getDefaultMessage())))
+                .toList();
+        return validationProblem(errors);
+    }
+
     ProblemDetail validationProblem(List<FieldProblem> errors) {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Validation failed");
         problem.setProperty("errors", errors);

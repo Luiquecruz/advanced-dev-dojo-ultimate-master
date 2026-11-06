@@ -27,10 +27,10 @@
       "The cart summary updates immediately",
       "An error is thrown because arrays are frozen",
       "The array is copied automatically",
-      "The data changed but readers are not notified, so the summary stays stale"
+      "An event-triggered refresh may show the new cart length, but the computed total stays cached"
     ],
     "answer": 3,
-    "explanation": "A signal notifies readers when its value is replaced. Pushing into the same array object changes the content silently, so use update with a new array."
+    "explanation": "A signal notifies readers when its value is replaced. Pushing into the same array does not notify the signal. The event may refresh the template and expose its changed length, while the computed total stays cached. Use update with a new array to notify all readers."
   },
   {
     "question": "A cart shows a total. Which design avoids the total drifting away from the items?",

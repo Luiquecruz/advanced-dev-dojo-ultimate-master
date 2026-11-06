@@ -32,7 +32,7 @@ export const routes: Routes = [{ path: 'courses', component: Courses, canActivat
 
 Everything the browser runs belongs to the user, who can read the code, change it or skip the router and call the API directly. The guard therefore only saves a logged-out visitor from a blank page. The real check is on the server, where Spring answers **401 Unauthorized** when it does not know who is calling and **403 Forbidden** when it knows and the answer is no. Module 07 covers the Spring Security side.
 
-The guard above asks the server instead of reading a flag in the browser, because the server owns the session. It treats the statuses differently: 401 means log in, 403 means a missing permission, and anything else, such as a 503 or a network failure with status `0`, is not an authentication problem and must not send people to a login page.
+The relative `/api/me` URL assumes a reverse proxy or the development proxy below. For a deployment with a separate API origin and CORS, build that URL from the configured Spring API origin instead, with the credential settings required by that deployment. The guard asks the server instead of reading a flag in the browser, because the server owns the session. It treats the statuses differently: 401 means log in, 403 means a missing permission, and anything else, such as a 503 or a network failure with status `0`, is not an authentication problem and must not send people to a login page.
 
 ## CORS is a browser rule
 
@@ -90,7 +90,7 @@ Save it as `src/proxy.conf.json` and set `"proxyConfig": "src/proxy.conf.json"` 
 
 ## In practice
 
-Teams keep one guard for "is there a session" and use the roles from `/api/me` for finer checks in the template, while the server enforces every rule again. A proxy file lives in the repository next to `angular.json`, so a new developer starts the front end and the API with no CORS setup at all.
+Teams keep one guard for "is there a session" and use the roles from `/api/me` for finer checks in the template, while the server enforces every rule again. The proxy file lives at `src/proxy.conf.json`, referenced from the root `angular.json`, so a new developer starts the front end and the API with no CORS setup at all.
 
 ## Check yourself
 
