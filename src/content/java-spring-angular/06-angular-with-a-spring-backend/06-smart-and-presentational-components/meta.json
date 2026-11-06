@@ -1,0 +1,14 @@
+{
+  "title": "Smart and Presentational Components",
+  "summary": "Split a screen into a container that loads data and owns state and presentational components with signal inputs and outputs, using a product list with a cart.",
+  "level": "intermediate",
+  "tags": ["practice", "angular", "core"],
+  "entry": "app.ts",
+  "preview": false,
+  "resources": [
+    { "label": "angular.dev: Accepting data with input properties", "url": "https://angular.dev/guide/components/inputs" },
+    { "label": "angular.dev: Custom events with outputs", "url": "https://angular.dev/guide/components/outputs" },
+    { "label": "angular.dev: Signals", "url": "https://angular.dev/guide/signals" },
+    { "label": "angular.dev: Reactive data fetching with httpResource", "url": "https://angular.dev/guide/http/http-resource" }
+  ]
+}

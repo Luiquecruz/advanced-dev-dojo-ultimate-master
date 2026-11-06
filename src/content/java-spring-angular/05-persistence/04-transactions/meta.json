@@ -1,0 +1,31 @@
+{
+  "title": "Transactions",
+  "summary": "Transaction boundaries on the service layer, the proxy and the self-invocation trap, rollback rules, propagation, read-only transactions, isolation at an introductory level and optimistic locking.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Framework: using @Transactional",
+      "url": "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html"
+    },
+    {
+      "label": "Spring Framework: rolling back",
+      "url": "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/rolling-back.html"
+    },
+    {
+      "label": "Spring Framework: transaction propagation",
+      "url": "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-propagation.html"
+    },
+    {
+      "label": "Spring Data JPA: transactionality",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/jpa/transactions.html"
+    },
+    {
+      "label": "PostgreSQL: transaction isolation",
+      "url": "https://www.postgresql.org/docs/current/transaction-iso.html"
+    }
+  ]
+}

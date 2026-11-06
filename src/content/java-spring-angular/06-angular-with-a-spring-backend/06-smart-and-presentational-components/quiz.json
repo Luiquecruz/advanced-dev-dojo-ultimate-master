@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A `ProductCard` injects `HttpClient` to fetch the product when it receives an id. What is the main drawback?",
+    "options": [
+      "Cards can no longer have outputs",
+      "HttpClient cannot be injected into components",
+      "The card is tied to one back end and needs HTTP setup wherever it is used or tested",
+      "Signals stop working inside such a component"
+    ],
+    "answer": 2,
+    "explanation": "A presentational component should render from its inputs. Fetching inside it hides a dependency, repeats requests per card and makes tests and reuse harder."
+  },
+  {
+    "question": "A child component needs to change the `selected` value it received through `input(false)`. Which approach fits?",
+    "options": [
+      "Call selected.set(true) inside the child",
+      "Emit an output and let the parent change the value it passes down",
+      "Mutate the signal through a type cast",
+      "Replace the input with a service injected into the child"
+    ],
+    "answer": 1,
+    "explanation": "An input signal is read-only for the component that declares it. The owner of the state changes it, and the child reports the user's intent with an output."
+  },
+  {
+    "question": "`addToCart` runs `this.cart().push(product)` on the array held in a signal. What happens on screen?",
+    "options": [
+      "The cart summary updates immediately",
+      "An error is thrown because arrays are frozen",
+      "The array is copied automatically",
+      "The data changed but readers are not notified, so the summary stays stale"
+    ],
+    "answer": 3,
+    "explanation": "A signal notifies readers when its value is replaced. Pushing into the same array object changes the content silently, so use update with a new array."
+  },
+  {
+    "question": "A cart shows a total. Which design avoids the total drifting away from the items?",
+    "options": [
+      "A total signal updated in addToCart and removeFromCart",
+      "A computed that sums the prices in the cart signal",
+      "A total input that each card writes to",
+      "A total stored in localStorage"
+    ],
+    "answer": 1,
+    "explanation": "A computed recalculates from its sources whenever they change, so it cannot disagree with them. A separately stored total must be kept in step by hand in every code path."
+  },
+  {
+    "question": "A review finds that `OrderSummary` imports the router and an order store and calls `store.load()`. How should it be classified?",
+    "options": [
+      "As a container, so the components below it should receive plain values",
+      "As a presentational component, because it has a template",
+      "As a service, because it imports a store",
+      "As a pipe, because it formats data"
+    ],
+    "answer": 0,
+    "explanation": "A component that reaches for the router or a store is deciding where data comes from, which is the container's job. Its children can then stay presentational."
+  }
+]

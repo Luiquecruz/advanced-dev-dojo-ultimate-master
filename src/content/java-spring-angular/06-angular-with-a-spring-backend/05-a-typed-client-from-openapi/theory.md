@@ -6,7 +6,7 @@ You need: Calling the API with HttpClient and httpResource, Problem Details and 
 
 ## What an OpenAPI document contains
 
-OpenAPI is a machine-readable description of an HTTP API, written as JSON or YAML. It lists **paths**, the **operations** on each path, the parameters and request bodies they take, the responses they return and the **schemas** of the JSON involved. Each operation can have an `operationId`, a unique name such as `listCourses`, which generators turn into a method name.
+OpenAPI is a machine-readable description of an HTTP API, written as JSON or YAML. It lists **paths**, the **operations** on each path, the parameters and request bodies they take, the responses they return and the **schemas** of the JSON involved. Each operation can have an `operationId`, a unique name such as `listCourses`, which generators turn into a method name. An excerpt:
 
 ```yaml
 paths:
@@ -38,7 +38,7 @@ Because a document describes the contract in one place, it can drive documentati
 
 The springdoc library reads the Spring MVC mappings, the controller method signatures and the types they use, and serves the description at run time. With the starter `org.springdoc:springdoc-openapi-starter-webmvc-ui` on the classpath, the JSON document is at `/v3/api-docs`, the YAML at `/v3/api-docs.yaml` and the Swagger UI page at `/swagger-ui.html`. Module 04 sets this up.
 
-The document is only as accurate as the code it is read from. A Java record whose components are marked as required in the schema gives the client non-optional properties, and a record without that information gives optional ones, so the types on the server decide how strict the client types are.
+The document is only as accurate as the code it is read from, so the types and annotations on the server decide how precise the client types can be.
 
 ## What a generator produces
 

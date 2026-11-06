@@ -1,0 +1,28 @@
+{
+  "title": "The N+1 Problem and Fetching",
+  "summary": "Detecting N+1 queries, fixing them with join fetch, entity graphs, batch fetching and projections, the limits of join fetch with pagination, and why to turn Open Session in View off.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core",
+    "performance"
+  ],
+  "resources": [
+    {
+      "label": "Hibernate ORM documentation",
+      "url": "https://hibernate.org/orm/documentation/"
+    },
+    {
+      "label": "Spring Data JPA: query methods and entity graphs",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html"
+    },
+    {
+      "label": "Spring Boot: SQL databases and Open EntityManager in View",
+      "url": "https://docs.spring.io/spring-boot/reference/data/sql.html"
+    },
+    {
+      "label": "Spring Data: projections",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/repositories/projections.html"
+    }
+  ]
+}

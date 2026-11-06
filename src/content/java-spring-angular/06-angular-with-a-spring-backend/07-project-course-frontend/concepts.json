@@ -1,0 +1,8 @@
+[
+  { "term": "Angular CLI workspace", "description": "The project that ng new creates, with a development server started by ng serve and a test runner started by ng test." },
+  { "term": "proxy.conf.json", "description": "The file whose rules, such as /api/** to http://localhost:8080, make the dev server forward API calls so the browser sees one origin." },
+  { "term": "Typed API service", "description": "The single service that knows the URLs and types of the back end and reads its base path from an injection token." },
+  { "term": "Zero-based page", "description": "Spring's page numbering, where the first page is page 0 and the screen label adds one." },
+  { "term": "Loading, error, data", "description": "The order in which a template checks a resource, because reading its value in the error state throws." },
+  { "term": "Server field errors", "description": "Messages from a Problem Details errors list that are attached to the form field they name, with other problems shown at form level." }
+]

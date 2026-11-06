@@ -1,5 +1,5 @@
 {
-  "title": "Pagination and Sorting",
+  "title": "Pagination and Sorting in Angular",
   "summary": "Drive Spring Data page and sort query parameters from signals and render the PagedModel JSON envelope as a table with a page label, Previous and Next buttons and sortable headers.",
   "level": "intermediate",
   "tags": ["practice", "angular", "core"],

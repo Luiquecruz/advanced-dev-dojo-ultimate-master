@@ -1,0 +1,9 @@
+[
+  { "term": "CSRF", "description": "An attack in which another site makes a logged-in user's browser send a state-changing request that carries the user's cookies." },
+  { "term": "Synchronizer token", "description": "A random value the server issues and requires in a header or form field, which a foreign page cannot read or add." },
+  { "term": "Ambient credentials", "description": "Credentials such as cookies that the browser attaches automatically, which is what makes CSRF possible." },
+  { "term": "XSRF-TOKEN cookie", "description": "The cookie Angular reads and echoes as the X-XSRF-TOKEN header on mutating requests to relative or same-origin URLs." },
+  { "term": "csrf.spa()", "description": "A Spring Security 7 setting that stores the CSRF token in a script-readable cookie and accepts the plain header value." },
+  { "term": "Same-origin policy and CORS", "description": "Browsers block script from reading cross-origin responses unless the server opts in with CORS headers." },
+  { "term": "Preflight request", "description": "An OPTIONS request the browser sends first to ask which methods and headers a cross-origin call may use, carrying no credentials." }
+]

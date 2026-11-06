@@ -1,4 +1,4 @@
-# Pagination and Sorting
+# Paging and Sorting with Spring Data
 
 A table that holds 20 rows today will hold 2 million later, and a method that returns `List<Course>` will one day return all of them. Pagination limits every list to a window, and sorting decides which rows fall into which window. This lesson covers `Pageable`, the difference between `Page` and `Slice`, why a sort must be stable, how request parameters become a `Pageable`, keyset pagination for deep lists and a response shape that clients can rely on.
 

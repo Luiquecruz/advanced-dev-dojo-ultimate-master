@@ -35,7 +35,7 @@ CREATE TABLE course (
 );
 ```
 
-Flyway records each applied script and its checksum in the `flyway_schema_history` table. If you edit a script that already ran, the checksum no longer matches and the next startup fails. Never edit an applied migration: add `V2__...` that fixes it, which is called rolling forward. Liquibase is the other tool Boot supports; it describes changes in changelog files (YAML, XML, JSON or SQL) and starts from `db/changelog/db.changelog-master.yaml`. Choose one tool and use it alone for the schema.
+Flyway records each applied script and its checksum in the `flyway_schema_history` table. If you edit a script that already ran, the checksum no longer matches and the next startup fails. Never edit an applied migration: add `V2__...` that fixes it, which is called rolling forward. Liquibase is the other tool Boot supports; it describes changes in change log files (YAML, XML, JSON or SQL) and starts from `db/changelog/db.changelog-master.yaml`. Choose one tool and use it alone for the schema.
 
 ## Writing migrations that are safe to deploy
 
@@ -69,10 +69,10 @@ Restoring a row also needs a native `UPDATE`, because the restriction hides it f
 
 ## Common mistakes
 
-- Running with `ddl-auto=update` in production and calling it migrations.
-- Editing a migration that already ran on another machine, which breaks the checksum there.
+- Running with `ddl-auto=update` in production and calling it migrations, although it cannot rename or remove anything.
+- Editing a migration that already ran on another machine, which breaks the checksum there and stops startup.
 - Adding `@SQLRestriction` and assuming every query is covered, including native queries and bulk deletes.
-- Forgetting the partial unique index, so a deleted row blocks a new one.
+- Forgetting the partial unique index, so a deleted row blocks the creation of a new one with the same value.
 
 ## In practice
 

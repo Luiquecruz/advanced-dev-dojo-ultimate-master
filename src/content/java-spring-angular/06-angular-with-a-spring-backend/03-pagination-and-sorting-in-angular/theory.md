@@ -1,4 +1,4 @@
-# Pagination and Sorting
+# Pagination and Sorting in Angular
 
 A table that shows every row of a large table at once is slow for the server and unusable for the reader. Spring Data splits results into pages and sorts them on request, and an Angular screen drives both with two signals. This lesson covers the request parameters, the JSON a page comes back as, and a signal-driven table that keeps its page and sort order in step with the server.
 

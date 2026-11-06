@@ -1,0 +1,27 @@
+{
+  "title": "Spring Data Repositories",
+  "summary": "JpaRepository, queries derived from method names, @Query and @Modifying, record projections, and specifications for filters built at run time.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Data JPA: query methods",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html"
+    },
+    {
+      "label": "Spring Data: projections",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/repositories/projections.html"
+    },
+    {
+      "label": "Spring Data JPA: specifications",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/jpa/specifications.html"
+    },
+    {
+      "label": "Spring Data: core concepts",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/repositories/core-concepts.html"
+    }
+  ]
+}

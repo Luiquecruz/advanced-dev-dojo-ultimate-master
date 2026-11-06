@@ -1,0 +1,13 @@
+{
+  "title": "The Spring Security Filter Chain",
+  "summary": "What Spring Boot secures by default, how SecurityFilterChain and the lambda DSL declare request rules, and how UserDetailsService and PasswordEncoder store users and hash passwords in Spring Security 7.",
+  "level": "intermediate",
+  "tags": ["theory", "security"],
+  "resources": [
+    { "label": "Spring Security: Architecture", "url": "https://docs.spring.io/spring-security/reference/servlet/architecture.html" },
+    { "label": "Spring Security: Authorize HttpServletRequests", "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html" },
+    { "label": "Spring Security: Password storage", "url": "https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html" },
+    { "label": "Spring Boot: Spring Security", "url": "https://docs.spring.io/spring-boot/reference/web/spring-security.html" },
+    { "label": "Spring Security: Java configuration", "url": "https://docs.spring.io/spring-security/reference/servlet/configuration/java.html" }
+  ]
+}

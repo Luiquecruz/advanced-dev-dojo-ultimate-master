@@ -1,0 +1,57 @@
+[
+  {
+    "question": "The OpenAPI document gives a `GET /courses` operation the `operationId` `listCourses`. What does a generated Angular client usually contain for it?",
+    "options": [
+      "A route named listCourses in the router configuration",
+      "A method named listCourses on a generated service",
+      "A Spring controller named listCourses",
+      "A database table named listCourses"
+    ],
+    "answer": 1,
+    "explanation": "Generators turn each operationId into a method of the generated service and take the types from the referenced schemas. The server side and the router are not involved."
+  },
+  {
+    "question": "A teammate fixes a wrong type by editing the generated `Course` interface. A week later the type is wrong again. What happened?",
+    "options": [
+      "The generator ignores interfaces",
+      "TypeScript reverts edits to interfaces",
+      "The next generation run overwrote the hand edit",
+      "The server rolled back the change"
+    ],
+    "answer": 2,
+    "explanation": "Generated files are rewritten on every run, so the fix belongs in the source of truth: the server types and annotations that produce the document."
+  },
+  {
+    "question": "A hand-written client builds parameters with `if (value) { params = params.set(name, value); }`. A call passes `{ page: 0 }`. What goes wrong?",
+    "options": [
+      "page=0 is skipped, because zero is falsy and the real value is lost",
+      "page=0 is sent as the text null",
+      "The call throws because HttpParams rejects numbers",
+      "page=0 is sent twice"
+    ],
+    "answer": 0,
+    "explanation": "Zero is falsy, so the check removes a real value. Compare with undefined instead, so only parameters nobody set are skipped."
+  },
+  {
+    "question": "A client sends `listCourses({ q: 'a&b' })`. Which URL query is correct?",
+    "options": [
+      "?q=a&b, which the server reads as two parameters",
+      "?q=a&b=, because the client splits the value",
+      "?q=a%26b, because HttpParams encodes the value",
+      "?q=undefined"
+    ],
+    "answer": 2,
+    "explanation": "The ampersand is a separator in a query string, so the value must be encoded as %26. HttpParams does that, while a string glued onto the URL does not."
+  },
+  {
+    "question": "A staging build must call `https://api.example.com/v2` while production uses `/api`. What does a base-path injection token allow?",
+    "options": [
+      "Changing every method of the generated service in each build",
+      "Providing a different value in the application configuration without touching the service",
+      "Calling both servers at once in every request",
+      "Skipping CORS for the staging server"
+    ],
+    "answer": 1,
+    "explanation": "The service reads the address from the token, so each deployment provides its own value. The token does not change how the browser applies CORS to a different origin."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "title": "CSRF and CORS",
+  "summary": "What CSRF and CORS each protect, when CSRF protection is needed for cookies versus bearer tokens, how Angular's XSRF support pairs with Spring Security 7's csrf.spa(), and how to configure CORS before authentication.",
+  "level": "intermediate",
+  "tags": ["theory", "security"],
+  "resources": [
+    { "label": "Spring Security: Cross Site Request Forgery (CSRF)", "url": "https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html" },
+    { "label": "Spring Security: CORS", "url": "https://docs.spring.io/spring-security/reference/servlet/integrations/cors.html" },
+    { "label": "MDN: Cross-Origin Resource Sharing (CORS)", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS" },
+    { "label": "OWASP Cheat Sheet: Cross-Site Request Forgery Prevention", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" },
+    { "label": "Angular: Security (HttpClient XSRF protection)", "url": "https://angular.dev/best-practices/security" }
+  ]
+}

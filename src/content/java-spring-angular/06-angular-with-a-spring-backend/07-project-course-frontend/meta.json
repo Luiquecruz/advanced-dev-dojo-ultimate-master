@@ -1,0 +1,13 @@
+{
+  "title": "Project: Course Catalog Front End",
+  "summary": "A local project that builds an Angular client for a Spring course catalog API with the Angular CLI: a paginated sortable list, a create form with server field errors, a typed API service and a development proxy.",
+  "level": "intermediate",
+  "tags": ["theory", "project"],
+  "resources": [
+    { "label": "angular.dev: Local set-up", "url": "https://angular.dev/tools/cli/setup-local" },
+    { "label": "angular.dev: Angular CLI serve and proxying", "url": "https://angular.dev/tools/cli/serve" },
+    { "label": "angular.dev: Unit testing", "url": "https://angular.dev/guide/testing" },
+    { "label": "angular.dev: Testing HTTP requests", "url": "https://angular.dev/guide/http/testing" },
+    { "label": "Spring Data Commons: Web support and Page JSON", "url": "https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html" }
+  ]
+}

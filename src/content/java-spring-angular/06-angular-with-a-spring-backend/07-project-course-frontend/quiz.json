@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A component calls `http.get('http://localhost:8080/api/courses')` while the app runs on `ng serve`. The browser reports a CORS error. What is the cleanest fix during development?",
+    "options": [
+      "Add a CORS header to the Angular request",
+      "Disable the guard that protects the route",
+      "Call the relative URL /api/courses and forward /api/** through proxy.conf.json",
+      "Run the browser with security checks turned off"
+    ],
+    "answer": 2,
+    "explanation": "A relative URL stays on the dev server's origin and the proxy forwards it to Spring, so the browser never makes a cross-origin call. Request headers and guards cannot change the outcome."
+  },
+  {
+    "question": "After editing `src/proxy.conf.json`, the requests still go to the old target. What is the most likely reason?",
+    "options": [
+      "The dev server reads the proxy file at start, so ng serve must be restarted",
+      "Proxy files are only read in production builds",
+      "The target must be written in uppercase",
+      "Angular caches proxy rules in the browser"
+    ],
+    "answer": 0,
+    "explanation": "The Angular CLI loads the proxy configuration when the dev server starts. Changes need a restart of ng serve to take effect."
+  },
+  {
+    "question": "The list page shows `Page 1 of 3`, and the next request must fetch the second page. Which query parameter does it send?",
+    "options": [
+      "page=2",
+      "page=next",
+      "page=1",
+      "offset=10"
+    ],
+    "answer": 2,
+    "explanation": "Spring numbers pages from zero, so the second page is page=1. The label adds one to the page number the server returns."
+  },
+  {
+    "question": "A blank title is rejected with a 400 Problem Details response whose `errors` list names the field `title`. Where should the message appear?",
+    "options": [
+      "In the browser console only",
+      "As a form-level alert at the bottom of the page",
+      "Under the level field, because it was changed last",
+      "Under the Title input, attached through the field's tree"
+    ],
+    "answer": 3,
+    "explanation": "The error names a field, so the submit action attaches it to that field and the template shows it there. Messages without a field name are shown at form level."
+  },
+  {
+    "question": "With the Spring server stopped, the list page goes blank and the console shows an error from `value()`. What was missed?",
+    "options": [
+      "The error state must be checked before the value is read, because value() throws while the resource has failed",
+      "The proxy must be restarted after every failed request",
+      "The generic type of the resource must be removed",
+      "The page index must be reset to 1"
+    ],
+    "answer": 0,
+    "explanation": "Reading value() on a resource in the error state throws. The template should check loading and error first, then show the data, with a Retry button for the error."
+  }
+]

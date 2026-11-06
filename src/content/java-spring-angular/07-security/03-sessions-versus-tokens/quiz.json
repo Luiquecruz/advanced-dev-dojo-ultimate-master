@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An administrator needs to log a compromised user out of an application right now. Which design makes that straightforward?",
+    "options": [
+      "A signed access token valid for 24 hours",
+      "A server-side session that the server can delete",
+      "A token stored in `sessionStorage`",
+      "A token with a different issuer"
+    ],
+    "answer": 1,
+    "explanation": "A session lives on the server, so deleting it ends access immediately. A signed token stays valid until it expires unless a revocation mechanism is added."
+  },
+  {
+    "question": "A single-page application stores its access token in `localStorage`. Which attack exposes the token?",
+    "options": [
+      "CSRF from another site",
+      "Clickjacking",
+      "Cross-site scripting, because any script on the page can read the storage",
+      "A preflight request"
+    ],
+    "answer": 2,
+    "explanation": "localStorage is readable by every script running in the page origin. One XSS bug therefore lets an attacker copy the token and use it elsewhere."
+  },
+  {
+    "question": "A team moves the token into an `HttpOnly` cookie that the browser sends automatically. Which protection becomes necessary?",
+    "options": [
+      "CSRF protection, because the browser now attaches the credential on cross-site requests too",
+      "None, because scripts cannot read it",
+      "A longer token lifetime",
+      "A second cookie with the same value"
+    ],
+    "answer": 0,
+    "explanation": "HttpOnly defeats script theft but not automatic sending. A forged request from another site is accompanied by the cookie unless CSRF protection or SameSite stops it."
+  },
+  {
+    "question": "Why are access tokens usually short-lived and paired with refresh tokens?",
+    "options": [
+      "Short tokens are faster to sign",
+      "Browsers delete long tokens",
+      "Refresh tokens remove the need for HTTPS",
+      "A stolen access token stops working soon, while the issuer can still revoke the refresh token"
+    ],
+    "answer": 3,
+    "explanation": "Because a signed access token cannot be recalled, a short lifetime limits the damage. The refresh token is controlled by the issuer, which can rotate or revoke it."
+  },
+  {
+    "question": "A Spring API is configured with `SessionCreationPolicy.STATELESS`. What does a client have to do on every request?",
+    "options": [
+      "Nothing, because the server remembers the login",
+      "Send a CSRF cookie only",
+      "Wait for a new session id",
+      "Send its credentials or token, because no session is created or used"
+    ],
+    "answer": 3,
+    "explanation": "Stateless means Spring Security never creates or consults an HTTP session, so each request must authenticate itself, typically with a bearer token."
+  },
+  {
+    "question": "Which architecture does the best current practice for browser-based OAuth recommend most strongly for sensitive applications?",
+    "options": [
+      "Storing refresh tokens in `localStorage`",
+      "A backend for frontend that keeps the tokens and gives the browser a session cookie",
+      "Embedding a client secret in the Angular bundle",
+      "Using the implicit grant for simplicity"
+    ],
+    "answer": 1,
+    "explanation": "The backend for frontend keeps tokens out of the browser entirely. Client secrets cannot be hidden in browser code, and the implicit grant is discouraged."
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "title": "Project: Course Catalog Persistence",
+  "summary": "A local project that builds a course catalog persistence layer on PostgreSQL with Docker, JPA entities with a has-many relationship, Flyway migrations, pagination, soft delete and a Testcontainers test, using JDK 25 and Maven.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "project"
+  ],
+  "resources": [
+    {
+      "label": "Spring Boot: Testcontainers",
+      "url": "https://docs.spring.io/spring-boot/reference/testing/testcontainers.html"
+    },
+    {
+      "label": "Spring Boot: testing applications",
+      "url": "https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html"
+    },
+    {
+      "label": "Testcontainers: PostgreSQL module",
+      "url": "https://java.testcontainers.org/modules/databases/postgres/"
+    },
+    {
+      "label": "Docker Compose",
+      "url": "https://docs.docker.com/compose/"
+    },
+    {
+      "label": "Flyway: migrations",
+      "url": "https://documentation.red-gate.com/flyway/flyway-concepts/migrations"
+    }
+  ]
+}
