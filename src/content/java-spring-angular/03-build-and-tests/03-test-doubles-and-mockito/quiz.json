@@ -1,0 +1,68 @@
+[
+  {
+    "question": "`Catalog.loan` must notify a `LoanNotifier` only when the loan succeeds. Which test proves the notifier is not called for an unknown ISBN?",
+    "options": [
+      "`verify(notifier, never()).bookLoaned(any())` after calling loan with an unknown ISBN",
+      "`when(notifier.bookLoaned(any())).thenReturn(false)`",
+      "`verify(notifier).bookLoaned(any())` after the call",
+      "Assert that loan returns a non-null value"
+    ],
+    "answer": 0,
+    "explanation": "never() fails if the method was called at all, which is the behavior under test. Plain verify would demand exactly one call, and a non-null result says nothing about the notifier."
+  },
+  {
+    "question": "A test stubs `store.findByIsbn(\"1\")`, but the code under test calls `store.findByIsbn(\"2\")`. With `MockitoExtension` what happens?",
+    "options": [
+      "The call quietly returns an empty Optional and the test passes",
+      "The call returns the stubbed book for any argument",
+      "Mockito fails the test with a PotentialStubbingProblem that shows both the call and the stubbing",
+      "The compiler reports the mismatch"
+    ],
+    "answer": 2,
+    "explanation": "Strict stubbing flags a stubbed method called with other arguments, which usually points to a typo in the test or a changed code path."
+  },
+  {
+    "question": "A test class stubs five collaborator calls in a setup method, but each test uses only two of them, and the build fails with UnnecessaryStubbingException. What is the most maintainable fix?",
+    "options": [
+      "Annotate the class with `@Disabled`",
+      "Move each stub into the tests that use it, or mark only the shared ones `lenient()`",
+      "Replace every mock with `null`",
+      "Remove the MockitoExtension from the class"
+    ],
+    "answer": 1,
+    "explanation": "Stubs belong next to the behavior they support. lenient() is a narrow exception for truly shared setup, and removing the extension would hide the problem instead of fixing it."
+  },
+  {
+    "question": "A test contains `verify(sender).send(any(), \"welcome\")` for a method with two parameters, and Mockito rejects it as an invalid use of matchers. Which fix preserves matching any first argument?",
+    "options": [
+      "Remove the matcher and pass a raw value for both arguments",
+      "Wrap the raw value too: `send(any(), eq(\"welcome\"))`",
+      "Replace the mock with a spy",
+      "Call verify twice, once per argument"
+    ],
+    "answer": 1,
+    "explanation": "Once one argument of a call uses a matcher, every argument of that call must use one. eq wraps a raw value so it can sit beside any()."
+  },
+  {
+    "question": "Code under test needs the current time to compute a due date. How do you make the test deterministic without a mock of a static method?",
+    "options": [
+      "Sleep until the right second",
+      "Catch the time-related exception",
+      "Run the test twice and compare",
+      "Inject a `java.time.Clock` and pass `Clock.fixed(...)` in the test"
+    ],
+    "answer": 3,
+    "explanation": "Passing the clock in makes time a normal collaborator, so a fixed clock gives the same result every run."
+  },
+  {
+    "question": "Which collaborator is the best candidate for a hand-written fake rather than a Mockito mock?",
+    "options": [
+      "A `Book` record",
+      "The `Catalog` under test",
+      "A `BookStore` that must remember what was added and return it later",
+      "A `String` ISBN"
+    ],
+    "answer": 2,
+    "explanation": "A store with state and behavior is easier to trust as a small in-memory implementation than as a pile of stubs. Records and strings are real values, and the class under test is never replaced."
+  }
+]

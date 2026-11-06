@@ -1,0 +1,9 @@
+[
+  { "term": "Testcontainers", "description": "A library that starts disposable Docker containers, such as a real database, from inside a test." },
+  { "term": "Container runtime", "description": "A Docker-API compatible engine that must be available on every machine and CI agent that runs Testcontainers tests." },
+  { "term": "Container annotation", "description": "A field annotation that tells the Testcontainers JUnit extension to start the container, where a static field is shared by the whole test class." },
+  { "term": "ServiceConnection", "description": "A Spring Boot annotation that configures the application's connection from a container bean, with no URL properties." },
+  { "term": "Image tag pinning", "description": "Constraining an image version with a tag such as postgres:17-alpine; tags can receive updates, so identical contents require a pinned digest." },
+  { "term": "Container reuse", "description": "An experimental opt-in that keeps a container running between local runs and is not suited for CI." },
+  { "term": "Failsafe plugin", "description": "The Maven plugin that runs classes named IT in the integration-test phase and fails the build in verify." }
+]

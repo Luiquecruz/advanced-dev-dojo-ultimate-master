@@ -1,0 +1,10 @@
+[
+  { "term": "JUnit Jupiter", "description": "The JUnit engine and annotation API in org.junit.jupiter.api, introduced with JUnit 5 and kept in JUnit 6." },
+  { "term": "Test lifecycle", "description": "A new test class instance per method, with BeforeAll, BeforeEach, AfterEach and AfterAll methods running around the tests." },
+  { "term": "assertThrows", "description": "An assertion that runs code, fails if the expected exception type is not thrown and returns the exception for further checks." },
+  { "term": "assertAll", "description": "A grouped assertion that runs every check and reports all failures together instead of stopping at the first." },
+  { "term": "AssertJ", "description": "A fluent assertion library started with assertThat and chained with checks such as containsExactly and hasMessageContaining." },
+  { "term": "Parameterized test", "description": "A test method run once per input row supplied by ValueSource, CsvSource or MethodSource." },
+  { "term": "Nested test", "description": "A non-static inner class annotated Nested that groups tests sharing a setup, run after the outer BeforeEach." },
+  { "term": "Display name", "description": "A readable label for a test or class set with DisplayName or a display name generator." }
+]

@@ -1,0 +1,10 @@
+[
+  { "term": "pom.xml", "description": "The project object model file that declares the project's coordinates, properties, dependencies and build configuration." },
+  { "term": "Coordinates", "description": "The groupId, artifactId and version triple that uniquely identifies an artifact in Maven." },
+  { "term": "Dependency scope", "description": "A setting such as compile, runtime, provided or test that decides on which classpaths a dependency appears and whether it is passed on." },
+  { "term": "Build lifecycle", "description": "An ordered list of phases such as compile, test, package and verify, where running one phase runs every earlier phase first." },
+  { "term": "Plugin goal", "description": "A unit of work bound to a phase, for example compiler:compile or surefire:test." },
+  { "term": "Maven Wrapper", "description": "The mvnw scripts and properties file that pin and download the Maven version a project builds with." },
+  { "term": "BOM", "description": "A bill of materials POM that lists compatible dependency versions and is imported in dependencyManagement." },
+  { "term": "Spring Boot parent", "description": "The spring-boot-starter-parent POM that manages dependency versions, the Java release and the Boot plugin for a project." }
+]

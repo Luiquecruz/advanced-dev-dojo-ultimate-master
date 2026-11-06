@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A repository query uses a PostgreSQL-specific function. Tests against H2 pass, but the query fails in production. What would have caught this?",
+    "options": [
+      "More unit tests with mocked repositories",
+      "A test that runs the query against a PostgreSQL container",
+      "A larger H2 database",
+      "Renaming the repository"
+    ],
+    "answer": 1,
+    "explanation": "Only the real engine can show vendor differences. Mocks and bigger embedded databases still do not run PostgreSQL's functions."
+  },
+  {
+    "question": "A developer's laptop has no container runtime, and `mvn verify` fails in every Testcontainers test with an error about finding a Docker environment. What is the first thing to check?",
+    "options": [
+      "That the Java code compiles with --release 25",
+      "That the test class is public",
+      "That a Docker-API compatible runtime is installed and running",
+      "That the pom.xml has a groupId"
+    ],
+    "answer": 2,
+    "explanation": "Testcontainers talks to the container runtime to pull and start images. Without one the extension cannot start any container."
+  },
+  {
+    "question": "A Spring Boot test uses `@Container static PostgreSQLContainer` with the JUnit extension, and a later test class that reuses the cached application context fails to connect. What does the Spring Boot documentation suggest?",
+    "options": [
+      "Disable context caching for the whole project",
+      "Use the latest image tag",
+      "Move the container into an instance field",
+      "Declare the container as a Spring bean, for example with `@ServiceConnection`, so its life follows the context"
+    ],
+    "answer": 3,
+    "explanation": "The extension stops the container after its class, while Spring may keep the cached context that depends on it. A container managed as a bean lives as long as the context."
+  },
+  {
+    "question": "A `@SpringBootTest` against a PostgreSQL container fails with `relation \"book\" does not exist`, although the same test passed on H2. Why?",
+    "options": [
+      "PostgreSQL is case sensitive about the test class name",
+      "Spring Boot creates the schema automatically only for embedded databases, so the real database starts empty",
+      "Testcontainers deletes tables on purpose",
+      "The container image is too small"
+    ],
+    "answer": 1,
+    "explanation": "With an embedded database Hibernate defaults to create-drop. A real database needs migrations or an explicit ddl-auto setting in the test configuration."
+  },
+  {
+    "question": "Why pin an image such as `postgres:17-alpine` instead of using `postgres:latest` in a test?",
+    "options": [
+      "A new image version could change behavior between runs, and the tests should match the version you run in production",
+      "The latest tag cannot be pulled by Testcontainers",
+      "Pinned images start without Docker",
+      "Alpine images skip migrations"
+    ],
+    "answer": 0,
+    "explanation": "The major-version tag avoids unplanned major upgrades and aligns the engine with production, but it can still receive updates. Pin an image digest for identical contents across runs."
+  },
+  {
+    "question": "Integration tests that start containers slow down every `mvn test` run. Which setup keeps `mvn test` fast and still runs them in the build?",
+    "options": [
+      "Name them `*IT` and run them with the Failsafe plugin in the integration-test and verify phases",
+      "Delete them before each commit",
+      "Run them only on production servers",
+      "Mark them `@Disabled`"
+    ],
+    "answer": 0,
+    "explanation": "Surefire picks up classes ending in Test, while Failsafe picks up IT classes later in the lifecycle, so mvn verify runs both and mvn test stays quick."
+  }
+]

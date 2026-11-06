@@ -1,0 +1,9 @@
+[
+  { "term": "Constructor injection", "description": "Passing collaborators such as a store and a notifier through the constructor, which lets tests supply fakes or mocks." },
+  { "term": "Fake store", "description": "An in-memory implementation of the store interface that tests use instead of a mock when stored state matters." },
+  { "term": "Surefire naming", "description": "The default patterns Test, Tests and TestCase that decide which classes the unit test phase runs." },
+  { "term": "Test scope", "description": "A dependency scope that keeps JUnit, Mockito and AssertJ out of the production classpath and the packaged artifact." },
+  { "term": "Verify phase", "description": "The lifecycle phase that runs after package and is where the coverage report and integration checks are produced." },
+  { "term": "Maven Wrapper files", "description": "The mvnw scripts and properties committed to the project so every machine builds with the same Maven." },
+  { "term": "Deliberate break", "description": "Changing production code on purpose to confirm that at least one test fails, then undoing the change." }
+]

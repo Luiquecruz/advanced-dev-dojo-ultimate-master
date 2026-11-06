@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A late-fee rule is a plain Java method with no Spring annotations. Which test is the best fit?",
+    "options": [
+      "@SpringBootTest with a random port",
+      "@WebMvcTest",
+      "A plain JUnit test that calls `new` on the class",
+      "@DataJpaTest"
+    ],
+    "answer": 2,
+    "explanation": "Business logic that needs no container can be built with new and tested in milliseconds. Any Spring test would add startup cost without proving anything extra."
+  },
+  {
+    "question": "A `@WebMvcTest(BookController.class)` fails because the controller needs a `BookService` bean that does not exist in the context. What is the usual fix?",
+    "options": [
+      "Switch to @SpringBootTest in every test class",
+      "Add @Service to the controller",
+      "Disable the web layer",
+      "Declare the service as a `@MockitoBean` field in the test"
+    ],
+    "answer": 3,
+    "explanation": "A web slice scans only web beans, so collaborators are supplied as mocks. @MockitoBean registers one in the test context."
+  },
+  {
+    "question": "A team has 40 `@SpringBootTest` classes and the suite takes minutes. Each class adds its own `@MockitoBean` fields and properties. What is the likely cause?",
+    "options": [
+      "JUnit runs tests one at a time on purpose",
+      "Each different configuration creates a new application context that must be started",
+      "Mockito cannot create mocks quickly",
+      "MockMvc opens a real network port per test"
+    ],
+    "answer": 1,
+    "explanation": "The context cache key includes bean overrides and properties, so varied configurations prevent reuse and each one starts a context. Fewer, shared configurations and more slices or unit tests fix it."
+  },
+  {
+    "question": "A Spring Boot 4 test uses only `@SpringBootTest` and tries to autowire `MockMvc`, but the bean is missing. Which configuration is needed?",
+    "options": [
+      "Add @AutoConfigureMockMvc to the test class to opt into MockMvc support",
+      "MockMvc was removed from Spring",
+      "MockMvc now requires a random port",
+      "The test must extend a base class"
+    ],
+    "answer": 0,
+    "explanation": "SpringBootTest alone does not configure MockMvc. AutoConfigureMockMvc opts into that support; this is not a behavior introduced by Boot 4."
+  },
+  {
+    "question": "Which statement about `@DataJpaTest` is correct?",
+    "options": [
+      "It loads controllers and services too",
+      "It configures repositories and an embedded database if available, and rolls back each test's transaction",
+      "It always connects to the production database",
+      "It cannot be combined with AssertJ"
+    ],
+    "answer": 1,
+    "explanation": "The persistence slice focuses on entities and repositories, and the per-test rollback keeps tests independent. It does not load web or service beans."
+  },
+  {
+    "question": "Which test do you need to prove that a query method returns rows in the right order against the schema's rules?",
+    "options": [
+      "A web slice with a mocked repository",
+      "A unit test with a mocked repository that returns a sorted list",
+      "A persistence slice or an integration test that runs the real query",
+      "No test is possible"
+    ],
+    "answer": 2,
+    "explanation": "A mocked repository only returns what you told it to. The query itself runs only when a real database, embedded or containerized, executes it."
+  }
+]

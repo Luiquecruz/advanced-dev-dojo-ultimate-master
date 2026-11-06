@@ -1,0 +1,9 @@
+[
+  { "term": "Test slice", "description": "A test annotation that starts only the beans and auto-configuration of one layer, such as WebMvcTest or DataJpaTest." },
+  { "term": "SpringBootTest", "description": "An annotation that starts the full application context for an integration test, with a mock web environment by default." },
+  { "term": "MockMvc", "description": "A way to exercise Spring MVC request handling in a test without opening a network port." },
+  { "term": "MockitoBean", "description": "A Spring Framework annotation that registers a Mockito mock as a bean in the test context, replacing MockBean." },
+  { "term": "Test companion starter", "description": "A starter such as spring-boot-starter-webmvc-test that supplies the test support for one technology in Spring Boot 4." },
+  { "term": "Context caching", "description": "Spring's reuse of a started application context across test classes that share the same configuration." },
+  { "term": "AutoConfigureMockMvc", "description": "An annotation that adds MockMvc to a SpringBootTest, which no longer provides it by default in Spring Boot 4." }
+]

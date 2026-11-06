@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A teammate runs `mvn package` on a project with failing unit tests. What happens?",
+    "options": [
+      "The jar is built and the failing tests are ignored",
+      "The build stops at the test phase and no jar is created",
+      "Only the compile phase runs",
+      "Maven skips tests unless `-Dtest` is given"
+    ],
+    "answer": 1,
+    "explanation": "package comes after test in the lifecycle, so the test phase runs first and a failure stops the build before the jar is built. -DskipTests would bypass it."
+  },
+  {
+    "question": "A PostgreSQL driver is needed when the application runs but no class in `src/main/java` imports it. Which scope fits best?",
+    "options": [
+      "test",
+      "provided",
+      "runtime",
+      "compile"
+    ],
+    "answer": 2,
+    "explanation": "runtime puts the driver on the run and test classpaths without exposing it at compile time. provided would leave it out of the package, and test would leave it out of production."
+  },
+  {
+    "question": "Two libraries bring different versions of the same transitive dependency and the application fails with a missing method. What is the best first step?",
+    "options": [
+      "Delete the local repository and rebuild",
+      "Change every dependency to scope compile",
+      "Rename the artifactId of the project",
+      "Run `mvn org.apache.maven.plugins:maven-dependency-plugin:3.11.0:tree -Dverbose=true` to inspect the conflict"
+    ],
+    "answer": 3,
+    "explanation": "Verbose output includes dependencies omitted for conflicts. Identify their paths, then manage the chosen version in dependencyManagement or exclude the unwanted dependency."
+  },
+  {
+    "question": "A project inherits from `spring-boot-starter-parent`. You add `spring-boot-starter-test` and leave out its `<version>`. Why does this build?",
+    "options": [
+      "The parent imports the Spring Boot dependency management, which supplies the version",
+      "Maven always picks the newest version in Maven Central",
+      "The version is read from the JDK",
+      "Starters never need a version in any project"
+    ],
+    "answer": 0,
+    "explanation": "The parent brings the managed versions of spring-boot-dependencies. Without that parent or a BOM import, the missing version would be a build error."
+  },
+  {
+    "question": "A new developer has Maven 3.6 installed while the project was built with a newer Maven and now behaves differently. Which practice prevents this class of problem?",
+    "options": [
+      "Commit the target folder",
+      "Remove the version from the pom.xml",
+      "Commit the Maven Wrapper files and build with ./mvnw",
+      "Install Maven only in CI"
+    ],
+    "answer": 2,
+    "explanation": "The wrapper pins the Maven version in maven-wrapper.properties and downloads it on first use, so local machines and CI build with the same tool."
+  },
+  {
+    "question": "Which command runs only the test class `CatalogTest` and nothing else from the test folder?",
+    "options": [
+      "mvn test -Dtest=CatalogTest",
+      "mvn compile CatalogTest",
+      "mvn package -DskipTests=CatalogTest",
+      "mvn install --only CatalogTest"
+    ],
+    "answer": 0,
+    "explanation": "The Surefire plugin reads the test property and filters the classes to run. The other options are not valid Maven syntax for selecting a test."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "title": "JUnit Jupiter in Depth",
+  "summary": "The test lifecycle, assertions, assertAll and assertThrows, AssertJ, parameterized tests, nested tests, readable names, and disabling and tagging, with JUnit 6 as managed by Spring Boot 4.",
+  "level": "intermediate",
+  "tags": ["theory", "testing"],
+  "resources": [
+    { "label": "JUnit", "url": "https://junit.org/" },
+    { "label": "Maven Surefire: Using JUnit Platform", "url": "https://maven.apache.org/surefire/maven-surefire-plugin/examples/junit-platform.html" },
+    { "label": "Maven Surefire: Inclusions and exclusions of tests", "url": "https://maven.apache.org/surefire/maven-surefire-plugin/examples/inclusion-exclusion.html" },
+    { "label": "Spring Boot: Test scope dependencies", "url": "https://docs.spring.io/spring-boot/reference/testing/test-scope-dependencies.html" },
+    { "label": "AssertJ on GitHub", "url": "https://github.com/assertj/assertj" }
+  ]
+}
