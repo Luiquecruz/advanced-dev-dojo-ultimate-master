@@ -1,0 +1,6 @@
+1. Separate the two kinds of state: finished values with an expiry, and loads still running. A stampede happens in the gap between "the entry expired" and "the new value arrived", so that gap needs its own record per key.
+2. Make the in-flight record visible before the first `await`. Concurrent callers run between your awaits, so the task must be in the dict in the same step that starts the load.
+3. Decide what happens when the load finishes: success stores the value with a jittered expiry and clears the in-flight record; failure only clears it. Caching a failure would keep serving the error after the database recovers.
+4. Jitter is computed once per stored entry, at the moment of storing, so keys loaded together still expire apart.
+5. For invalidation, think about the race from the theory: a load that started before a write may return the old row. Forget the in-flight task, and let a finishing load touch the dicts only while its task is still the current one: that keeps the old row out of the cache and keeps a newer load shared by later callers.
+6. Optional: await the shared task through `asyncio.shield`, so a caller that is cancelled (a client that gave up) does not cancel the load the other callers are still waiting for.

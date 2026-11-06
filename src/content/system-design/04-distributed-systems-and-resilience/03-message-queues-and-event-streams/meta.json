@@ -1,0 +1,14 @@
+{
+  "title": "Message Queues & Event Streams",
+  "summary": "Point-to-point queues versus publish/subscribe, message queues versus log-based streams with partitions, offsets and consumer groups, and why at-least-once delivery with idempotent consumers, visibility timeouts and dead-letter queues is the practical default.",
+  "level": "intermediate",
+  "tags": ["practice", "core"],
+  "preview": false,
+  "resources": [
+    { "label": "Amazon SQS: Visibility timeout", "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html" },
+    { "label": "Amazon SQS: Dead-letter queues", "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html" },
+    { "label": "Amazon SQS: At-least-once delivery", "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/standard-queues-at-least-once-delivery.html" },
+    { "label": "Apache Kafka: Introduction", "url": "https://kafka.apache.org/intro/" },
+    { "label": "Apache Kafka: Message delivery semantics", "url": "https://kafka.apache.org/documentation/#semantics" }
+  ]
+}

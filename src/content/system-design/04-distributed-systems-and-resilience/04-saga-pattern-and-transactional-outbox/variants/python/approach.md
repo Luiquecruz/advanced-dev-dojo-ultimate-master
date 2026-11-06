@@ -1,0 +1,5 @@
+1. Model the saga as an orchestrator: it is the only code that decides which step runs next, so the forward path is a plain loop that runs each action with the shared context and waits for it.
+2. Record a step as completed only after its action returns. That single ordering decision guarantees the failed step is never compensated: its local transaction did not commit.
+3. On the first failure, stop the forward loop and walk the completed steps backwards. Reverse order matters because later steps may depend on earlier ones (a refund needs the payment, the order record outlives both).
+4. Treat each compensation as independent: catch its exception, record the step name as a failed compensation and continue, so one stuck refund does not leave the order and the reservation uncompensated as well.
+5. For idempotency, the key identifies the operation, not the attempt. Store the in-flight task immediately so duplicates arriving during the first execution reuse it, and remove the entry on failure so a retry can still succeed. Awaiting it through `asyncio.shield` keeps one caller that gives up (is cancelled) from cancelling the execution the others share.

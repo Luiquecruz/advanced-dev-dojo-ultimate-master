@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A metrics service ingests 500,000 new data points per second, each with a new key, and rarely reads old points. Which storage engine family fits best?",
+    "options": [
+      "A B-tree engine, because its pages are updated in place",
+      "An LSM tree engine, because writes become sequential WAL appends and batched SSTable flushes",
+      "Either: write rates do not depend on the storage engine",
+      "A B-tree engine with a smaller page size, so splits never happen"
+    ],
+    "answer": 1,
+    "explanation": "An LSM tree buffers writes in the MemTable and writes them to disk sequentially in large sorted batches. A B-tree turns random new keys into random page writes and page splits."
+  },
+  {
+    "question": "An LSM store holds `user:7` in an old SSTable. The application deletes `user:7`, and the developer implements the delete by removing the key from the MemTable. What does the next `get('user:7')` return?",
+    "options": [
+      "Nothing, because the MemTable is always checked first",
+      "An error, because the key is in an immutable file",
+      "The old value from the SSTable, because nothing newer shadows it; the delete needed a tombstone",
+      "Nothing, because compaction runs on every read"
+    ],
+    "answer": 2,
+    "explanation": "SSTables are immutable and reads fall through to older files when the MemTable has no entry. Only a tombstone, a newer entry marking the delete, stops the read before the old value."
+  },
+  {
+    "question": "Reads of keys that do not exist are slow on an LSM store with 40 SSTables. Which mechanism makes such reads cheap?",
+    "options": [
+      "A Bloom filter per SSTable, which answers \"definitely not here\" so the file is skipped without disk access",
+      "A larger WAL, so every key is found there first",
+      "Disabling compaction, so fewer files are rewritten",
+      "Updating SSTables in place, so each key lives in one file"
+    ],
+    "answer": 0,
+    "explanation": "A missing key would otherwise be searched in every SSTable. Bloom filters have no false negatives, so a \"no\" safely skips the file; compaction also lowers the number of files to check."
+  },
+  {
+    "question": "A team switches an LSM store from size-tiered to leveled compaction. What trade-off should they expect?",
+    "options": [
+      "No trade-off: leveled compaction is better in every dimension",
+      "Higher read amplification and more disk space used",
+      "Tombstones are no longer needed for deletes",
+      "Lower read and space amplification, paid for with higher write amplification because data is rewritten more often"
+    ],
+    "answer": 3,
+    "explanation": "Leveled compaction keeps non-overlapping key ranges in every level below level 0, so a read touches at most one file in each of them and old versions disappear quickly, but each byte is rewritten as it moves down the levels."
+  },
+  {
+    "question": "Why does an LSM tree append each write to the write-ahead log before inserting it into the MemTable?",
+    "options": [
+      "The WAL keeps keys sorted for range scans",
+      "The MemTable lives in memory, so after a crash the WAL is replayed to rebuild the writes that were not flushed yet",
+      "The WAL replaces the SSTables once it is large enough",
+      "Bloom filters are built from the WAL"
+    ],
+    "answer": 1,
+    "explanation": "Memory is lost on a crash. A sequential append to the WAL makes the write durable cheaply; once the MemTable is flushed to an SSTable, that part of the log can be discarded."
+  },
+  {
+    "question": "An order database runs short transactions that update existing rows, plus range queries by date for reports. Writes are moderate. Which engine is the sensible default?",
+    "options": [
+      "A B-tree engine such as InnoDB or PostgreSQL, which favors point reads, range scans and in-place updates",
+      "An LSM engine, because every workload is write-heavy eventually",
+      "An append-only log with no index",
+      "An LSM engine with compaction disabled to avoid write amplification"
+    ],
+    "answer": 0,
+    "explanation": "B-trees give low read amplification and efficient range scans over sorted pages. Their write cost only dominates when the write rate is very high, which this workload does not have."
+  }
+]

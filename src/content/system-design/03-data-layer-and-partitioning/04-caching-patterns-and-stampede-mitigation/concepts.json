@@ -1,0 +1,10 @@
+[
+  { "term": "Cache-aside", "description": "The application reads the cache, loads from the database on a miss and stores the result with a TTL." },
+  { "term": "Write-through", "description": "Each write updates the cache and the database before it is acknowledged: fresh reads, slower writes." },
+  { "term": "Write-behind", "description": "Writes are acknowledged from the cache and flushed to the database later; fast, but unflushed writes are lost if the cache fails." },
+  { "term": "Write-around", "description": "Writes go only to the database and the cache fills on read, which keeps write-once data out of the cache." },
+  { "term": "LRU and LFU", "description": "Eviction by least recent access (adapts fast, hurt by scans) or by least frequent access (keeps long-lived popular keys)." },
+  { "term": "Cache stampede", "description": "Many concurrent misses on one expired hot key, all sending the same expensive query to the database." },
+  { "term": "Request coalescing", "description": "Concurrent misses for a key share the first miss's in-flight load, so the database sees one query." },
+  { "term": "TTL jitter", "description": "A random extra amount added to each TTL so entries written together do not expire together." }
+]

@@ -1,0 +1,8 @@
+[
+  { "term": "Modulo placement", "description": "`hash(key) % N` assigns keys evenly but remaps almost all of them whenever N changes: N/(N + 1) of the keys when one node joins N others." },
+  { "term": "Hash ring", "description": "The hash range bent into a circle; nodes and keys are hashed onto it and a key belongs to the first node clockwise." },
+  { "term": "Clockwise lookup", "description": "A lower-bound binary search for the first position greater than or equal to the key's hash, wrapping to the first position." },
+  { "term": "Minimal movement", "description": "A joining node takes only the keys between its predecessor and itself, about 1/(N + 1) of all keys; a leaving node hands only its own keys onward." },
+  { "term": "Virtual nodes", "description": "Many ring positions per physical node, which even out the arcs, spread a failed node's load and let bigger machines take more keys." },
+  { "term": "Preference list", "description": "The distinct physical nodes met walking clockwise from a key, used as its owner and replicas." }
+]

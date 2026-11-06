@@ -1,0 +1,14 @@
+{
+  "title": "Consensus & Leader Election",
+  "summary": "Why replicated state needs agreement, how majority quorums and odd cluster sizes set fault tolerance, and how Raft elects a leader, replicates a log and decides when an entry is committed.",
+  "level": "advanced",
+  "tags": ["practice", "core"],
+  "preview": false,
+  "resources": [
+    { "label": "The Raft consensus algorithm", "url": "https://raft.github.io/" },
+    { "label": "In Search of an Understandable Consensus Algorithm (Raft paper)", "url": "https://raft.github.io/raft.pdf" },
+    { "label": "USENIX ATC: Raft paper presentation", "url": "https://www.usenix.org/conference/atc14/technical-sessions/presentation/ongaro" },
+    { "label": "etcd-io/raft: the Raft library used by etcd", "url": "https://github.com/etcd-io/raft" },
+    { "label": "Apache Kafka: KRaft", "url": "https://kafka.apache.org/documentation/#kraft" }
+  ]
+}

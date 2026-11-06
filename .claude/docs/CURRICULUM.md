@@ -402,10 +402,10 @@ Spec and standards: [system-design-track.md](system-design-track.md). Multi-lang
 01-network-protocols-grpc-websockets-sse **(challenge)** ✓ · 02-advanced-load-balancing-and-p2c **(challenge)** ✓ · 03-rate-limiting-algorithms **(challenge)** ✓
 
 ### 03-data-layer-and-partitioning — Data Layer, Storage Engines & Partitioning
-01-storage-engines-btree-vs-lsmtree **(challenge)** · 02-database-replication-and-sharding · 03-consistent-hashing-with-virtual-nodes **(challenge)** · 04-caching-patterns-and-stampede-mitigation **(challenge)**
+01-storage-engines-btree-vs-lsmtree **(challenge)** ✓ · 02-database-replication-and-sharding ✓ · 03-consistent-hashing-with-virtual-nodes **(challenge)** ✓ · 04-caching-patterns-and-stampede-mitigation **(challenge)** ✓
 
 ### 04-distributed-systems-and-resilience — Distributed Systems & Resilience
-01-cap-and-pacelc-theorems · 02-consensus-and-leader-election **(challenge)** · 03-message-queues-and-event-streams **(challenge)** · 04-saga-pattern-and-transactional-outbox **(challenge)** · 05-resilience-circuit-breaker-and-bulkhead **(challenge)** · 06-serverless-event-driven-architecture
+01-cap-and-pacelc-theorems ✓ · 02-consensus-and-leader-election **(challenge)** ✓ · 03-message-queues-and-event-streams **(challenge)** ✓ · 04-saga-pattern-and-transactional-outbox **(challenge)** ✓ · 05-resilience-circuit-breaker-and-bulkhead **(challenge)** ✓ · 06-serverless-event-driven-architecture ✓
 
 ### 05-real-world-case-studies-and-vector-dbs — Real-World Case Studies & Vector Databases for AI
 01-uber-architecture-h3-and-geospatial **(challenge)** · 02-discord-architecture-scylladb-and-rust · 03-vector-databases-and-ann-indexes **(challenge)** · 04-vector-database-selection-guide · 05-ai-gateway-and-semantic-cache **(challenge)**

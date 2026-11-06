@@ -1,0 +1,5 @@
+1. Model a delete as a write. An LSM tree never edits old files, so the only way to hide an older value is a newer entry that says "deleted". Giving `Put` and `Delete` one shared write path keeps flushing and lookups identical for both.
+2. Flush on size: after each write, a MemTable at the limit becomes an immutable, sorted array, and a new MemTable starts. Sorting at flush time is what makes each SSTable searchable by binary search later.
+3. Read newest to oldest and stop at the first entry for the key, whatever it holds. The first entry is the most recent write of that key, and a tombstone is a real answer ("missing"), not a reason to keep looking.
+4. Compaction is a merge where the newest version wins. Because it merges every SSTable, no older file is left that the tombstones need to shadow, so they can be dropped safely. The MemTable is newer than all SSTables and stays untouched.
+5. Optional: search each sorted SSTable with binary search instead of a linear scan, which is what real engines do inside their index blocks. `Array.BinarySearch` accepts an `IComparer<Entry>`, and `Comparer<Entry>.Create` builds one from a key comparison.

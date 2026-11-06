@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team runs a three-node etcd cluster and wants more resilience, so it proposes adding a fourth node. What does the fourth node change?",
+    "options": [
+      "The cluster now tolerates two failures",
+      "The majority grows from 2 to 3, so the cluster still tolerates one failure and every write waits for one more acknowledgement",
+      "Nothing: Raft ignores even-numbered nodes",
+      "Writes become faster because there are more replicas to answer"
+    ],
+    "answer": 1,
+    "explanation": "Fault tolerance is n minus the majority: 4 - 3 = 1, the same as 3 - 2. To tolerate two failures you need five nodes, where the majority is three."
+  },
+  {
+    "question": "A five-node Raft cluster is split by a partition into a group of two (including the old leader) and a group of three. What happens?",
+    "options": [
+      "Both groups keep accepting writes and merge them later",
+      "Neither group can accept writes until the partition heals",
+      "The group of three elects a new leader in a higher term and commits writes; the old leader cannot commit because it cannot reach a majority",
+      "The old leader keeps committing because it was elected first"
+    ],
+    "answer": 2,
+    "explanation": "Committing and electing both need a majority of 3. Only the larger side has one, so it elects a leader with a higher term; the old leader's new entries never reach a majority and are discarded when it rejoins."
+  },
+  {
+    "question": "Node C (last log entry: term 5, index 12) asks node A (last entry: term 6, index 7) for a vote in term 7. A has not voted in term 7. What does A do?",
+    "options": [
+      "Refuses: A's last entry has a higher term, so C's log is less up-to-date even though it is longer",
+      "Grants: C's log is longer",
+      "Grants: A has not voted in this term",
+      "Refuses: candidates may only ask for votes in their own term"
+    ],
+    "answer": 0,
+    "explanation": "The up-to-date check compares the last log term first and uses the index only to break ties. A term-6 entry may be committed, and electing C could erase it."
+  },
+  {
+    "question": "All followers of a cluster use the same fixed election timeout. After the leader crashes, elections keep failing. Why?",
+    "options": [
+      "Raft forbids elections after a crash",
+      "Fixed timeouts make heartbeats too slow",
+      "The term number overflows",
+      "The followers time out together, all become candidates, vote for themselves and split the vote, again and again"
+    ],
+    "answer": 3,
+    "explanation": "Randomized election timeouts make one follower usually time out first and collect a majority before the others start. With identical timeouts candidates collide and no one reaches a majority."
+  },
+  {
+    "question": "A new leader in term 4 finds an entry from term 2 stored on a majority of nodes. May it mark that entry committed right away?",
+    "options": [
+      "Yes: any entry stored on a majority is committed",
+      "No: entries from earlier terms are committed only once an entry from the current term after them reaches a majority",
+      "Yes, but only if the entry is the last one in the log",
+      "No: entries from earlier terms are always deleted by a new leader"
+    ],
+    "answer": 1,
+    "explanation": "A previous-term entry on a majority can still be overwritten by a later leader that never saw it. Raft commits by counting only for current-term entries, which commits everything before them at the same time."
+  },
+  {
+    "question": "A lock service elects a leader that writes to shared storage. The old leader pauses for a long garbage collection, wakes up and tries to write. What stops it from corrupting data?",
+    "options": [
+      "A longer election timeout",
+      "Retrying the write with exponential backoff",
+      "A fencing token such as the term: storage rejects any write carrying a token lower than one it has already seen",
+      "A fourth replica in the cluster"
+    ],
+    "answer": 2,
+    "explanation": "A paused node cannot know it lost leadership. Fencing makes the storage enforce the order: the new leader's higher token was seen, so the stale leader's lower token is refused."
+  }
+]

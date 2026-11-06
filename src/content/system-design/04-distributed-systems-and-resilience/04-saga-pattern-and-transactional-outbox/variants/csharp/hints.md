@@ -1,0 +1,5 @@
+Keep a list of the steps whose action succeeded. When an action fails, that list is exactly what needs compensating; the failing step is never in it because it is added only after `await step.Action(context)` returns. Keep that call inside the `try`, so an action that throws right away and one whose task fails later are both caught.
+---
+Walk the completed steps backwards with a `for` loop from `completed.Count - 1` down to `0` (careful: on a `List<T>`, `completed.Reverse()` reverses the list in place and returns nothing). Wrap each `await step.Compensate(context)` in its own `try`/`catch`: success adds the name to the compensated list, failure adds it to the failed compensations, and the loop keeps going either way.
+---
+For the idempotent handler, keep a `Dictionary<string, Task<TResponse>>` and store the **task** that `handler(request)` returns before you await it, so a concurrent retry finds it and awaits the same execution. Await it inside `try`/`catch`: on failure remove the key and rethrow with `throw;`, so the next call runs the handler again.

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team wants order, payment and inventory (three services, three databases) to commit atomically and proposes two-phase commit. During a deploy the coordinator crashes right after every participant voted yes. What happens?",
+    "options": [
+      "Each participant commits on its own after a timeout, so nothing is lost",
+      "The participants roll back automatically and release their locks",
+      "The participants stay in doubt, holding their locks, until the coordinator recovers and sends the decision",
+      "The fastest participant becomes the new coordinator and decides"
+    ],
+    "answer": 2,
+    "explanation": "A participant that voted yes promised to commit if asked and cannot decide alone, so 2PC blocks with locks held while the coordinator is down. That coupling of availability is why sagas are preferred between services."
+  },
+  {
+    "question": "A saga has the steps create order, charge card, reserve items and book courier. Reserving the items fails. Which actions run next?",
+    "options": [
+      "Refund the payment, then cancel the order",
+      "Cancel the order, then refund the payment",
+      "Release the items, refund the payment, then cancel the order",
+      "Book the courier anyway and retry the reservation later"
+    ],
+    "answer": 0,
+    "explanation": "Only completed steps are compensated, in reverse order: the failed reservation rolled back its own local transaction and the courier step never ran. Reverse order undoes later effects before the ones they depend on."
+  },
+  {
+    "question": "The payment step of a saga already charged the card and a later step fails. What is the right compensating action?",
+    "options": [
+      "Roll back the payment database transaction",
+      "Delete the charge row so no trace of it remains",
+      "Leave the charge and mark the order as failed",
+      "Issue a refund: a new operation that cancels the effect of the committed charge"
+    ],
+    "answer": 3,
+    "explanation": "The charge was committed and possibly seen by other systems, so it cannot be rolled back. Compensation is semantic: a refund is a new fact that cancels it, and it is recorded like any other change."
+  },
+  {
+    "question": "An order service commits the order and then publishes `OrderCreated` to the broker. Occasionally the warehouse never hears about an order. What is the most likely cause and fix?",
+    "options": [
+      "The broker drops messages; switch to a different broker",
+      "A crash between the commit and the publish loses the event; insert it into an outbox table in the same transaction and let a relay publish it",
+      "The database is too slow; publish before committing",
+      "The warehouse consumer is not idempotent; add a deduplication table"
+    ],
+    "answer": 1,
+    "explanation": "This is the dual-write problem: two writes to two systems with no shared transaction. The outbox makes the event part of the local transaction, and the relay publishes it at least once afterwards."
+  },
+  {
+    "question": "Instead of polling the outbox table, a team uses Debezium. What does Debezium read to produce the events?",
+    "options": [
+      "Every table with a SELECT query every few seconds",
+      "The application logs written by the order service",
+      "The change log the database already writes (the binlog in MySQL, the write-ahead log through logical decoding in PostgreSQL), from which it emits committed changes in commit order",
+      "The broker's dead-letter queue"
+    ],
+    "answer": 2,
+    "explanation": "Change data capture tails the database's own transaction log, so it only emits committed changes, keeps their order and adds no polling queries to the tables."
+  },
+  {
+    "question": "A mobile app sends `POST /payments`, the response times out and the app retries. How do you make sure the customer is charged once?",
+    "options": [
+      "Change the endpoint to GET so retries are safe",
+      "The app sends an Idempotency-Key per payment; the server stores the result under that key and returns it for the retry",
+      "Ask the customer to confirm before every retry",
+      "Disable retries in the app"
+    ],
+    "answer": 1,
+    "explanation": "POST is not idempotent by itself. An idempotency key identifies the operation, so the server can recognize the retry and answer with the stored result instead of charging again."
+  }
+]

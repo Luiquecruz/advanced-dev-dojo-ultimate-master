@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team wants faster checkout writes and proposes write-behind caching for orders: the cache acknowledges, then flushes to the database every few seconds. What is the risk?",
+    "options": [
+      "Reads become slower because the cache is bypassed",
+      "If a cache node fails before flushing, orders that customers saw as confirmed are lost; orders need the database write before the acknowledgement",
+      "The database receives more writes than before",
+      "Nothing, because a cache is the source of truth once it holds the data"
+    ],
+    "answer": 1,
+    "explanation": "Write-behind acknowledges writes that only exist in cache memory. A crash before the flush loses them, which is unacceptable for orders or payments; write-through or a database-first write keeps them durable."
+  },
+  {
+    "question": "A product page key is read 5,000 times per second. Its TTL expires and the database suddenly receives hundreds of identical queries. Which change targets this directly inside each application server?",
+    "options": [
+      "Request coalescing: the first miss starts the load and concurrent misses wait for that in-flight load",
+      "A longer TTL on every key",
+      "Switching eviction from LRU to LFU",
+      "Write-around for product updates"
+    ],
+    "answer": 0,
+    "explanation": "The stampede comes from every concurrent miss starting its own load. Sharing one in-flight load per key turns hundreds of queries into one per process; locks or leases extend that across servers."
+  },
+  {
+    "question": "A one-off job warms 200,000 cache keys in two minutes, all with a TTL of exactly 24 hours. One day later, the database is flooded with misses for those keys within two minutes. What helps most?",
+    "options": [
+      "Deleting the keys on every write",
+      "Using LFU eviction",
+      "Adding random jitter to each TTL so the keys expire spread over a window instead of together",
+      "Moving the cache to the same machine as the database"
+    ],
+    "answer": 2,
+    "explanation": "Keys written together with the same TTL expire together, creating a synchronized burst of misses. TTL jitter (ttl plus a random extra amount) spreads their expiry and the reloads."
+  },
+  {
+    "question": "Two requests update the same row: the database applies A then B, but their cache updates arrive as B then A. The cache uses update-on-write. What does it hold, and what would be safer?",
+    "options": [
+      "B, because the database ordered the writes",
+      "Nothing, because updates evict the key",
+      "Both values, merged",
+      "The stale value A until the TTL expires; deleting the key on write lets the next read load B"
+    ],
+    "answer": 3,
+    "explanation": "Cache updates can arrive out of order relative to database writes, leaving the older value cached. Deleting the key leaves nothing stale: the next miss reads the current row from the database."
+  },
+  {
+    "question": "A cache's hot set keeps getting evicted every time a reporting job scans millions of rarely used keys. Which eviction policy resists this better?",
+    "options": [
+      "LRU, because the scanned keys were used most recently",
+      "LFU, because the scanned keys are accessed once while hot keys have high access counts",
+      "noeviction, so nothing is ever removed",
+      "Random eviction with a longer TTL"
+    ],
+    "answer": 1,
+    "explanation": "LRU treats the scanned keys as the most recent and evicts the hot set. LFU ranks by access frequency, so one-off scanned keys are evicted first and frequently read keys survive."
+  },
+  {
+    "question": "A cache-aside layer stores whatever the load returns, including errors. The database times out for one second. What happens next?",
+    "options": [
+      "Users keep receiving the cached error until its TTL expires, even after the database recovers; failed loads should not be cached",
+      "The cache retries the database automatically",
+      "Nothing, because errors are never cached",
+      "The cache switches to write-through"
+    ],
+    "answer": 0,
+    "explanation": "Caching a failure turns a one-second outage into one that lasts a whole TTL. A failed load should only clear the in-flight record, so the next request tries the database again."
+  }
+]

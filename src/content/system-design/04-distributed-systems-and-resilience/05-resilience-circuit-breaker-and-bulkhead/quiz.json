@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A product page calls a reviews service that starts answering in 40 seconds instead of 50 ms. Within minutes the product page itself stops responding. What is the first fix?",
+    "options": [
+      "Add more retries to the reviews call",
+      "A timeout on the reviews call, so a slow answer releases the worker instead of holding it",
+      "Move the reviews service to a bigger machine",
+      "Cache the product page in the browser"
+    ],
+    "answer": 1,
+    "explanation": "Without a timeout every request holds a worker while it waits, so the slow dependency exhausts the caller's pool and the failure cascades. A timeout turns slowness into a failure the caller can handle."
+  },
+  {
+    "question": "After a brief outage, 20,000 mobile clients all retry after exactly 1 s, then 2 s, then 4 s. The service falls over at each wave. What change helps most?",
+    "options": [
+      "Retry immediately so the requests finish sooner",
+      "Shorten the backoff to a constant 100 ms",
+      "Add full jitter: wait a random time between zero and the capped backoff",
+      "Increase the number of attempts"
+    ],
+    "answer": 2,
+    "explanation": "Exponential backoff alone keeps the clients synchronized, so each retry wave is as large as the original spike. Jitter spreads the retries over the whole interval."
+  },
+  {
+    "question": "Which failure should a client retry with backoff?",
+    "options": [
+      "400 Bad Request because a required field is missing",
+      "404 Not Found for a deleted resource",
+      "403 Forbidden for a user without permission",
+      "503 Service Unavailable on an idempotent GET"
+    ],
+    "answer": 3,
+    "explanation": "Retries help transient failures on idempotent operations. These 4xx codes mean the request itself is wrong and will fail identically again; a 503 signals a temporary server condition."
+  },
+  {
+    "question": "A circuit breaker opened after five failures and its open period has passed. Twenty requests arrive at once. What should the breaker do?",
+    "options": [
+      "Let one trial request through and keep failing the others fast until it succeeds or fails",
+      "Let all twenty through, because the open period is over",
+      "Stay open until an operator resets it",
+      "Queue the twenty requests until the dependency answers"
+    ],
+    "answer": 0,
+    "explanation": "In the half-open state a small trial, often a single request, tests recovery with minimal load. Releasing all requests at once could knock a barely recovered dependency over again."
+  },
+  {
+    "question": "An API server uses one pool of 200 connections for payments, search and recommendations. Recommendations hangs and payments start failing too. Which pattern addresses this?",
+    "options": [
+      "A larger shared pool of 400 connections",
+      "Bulkheads: a separate, limited pool per dependency, so recommendations can only exhaust its own",
+      "Retrying payments three times",
+      "Moving recommendations behind the same load balancer as payments"
+    ],
+    "answer": 1,
+    "explanation": "With a shared pool the slowest dependency decides how many workers are left for everyone. Bulkheads isolate the pools, so a hang stays inside one compartment."
+  },
+  {
+    "question": "Three layers (gateway, checkout, payments client) each make up to three attempts per call. The payment provider has a partial outage. What is the risk and the fix?",
+    "options": [
+      "No risk: more retries always raise the success rate",
+      "The retries slow down only the gateway; add a cache",
+      "One user request can become up to 27 calls to the provider; retry at one layer only and cap retries with a retry budget",
+      "The circuit breaker will open too late; remove it"
+    ],
+    "answer": 2,
+    "explanation": "Retries multiply across layers (3 × 3 × 3), adding load exactly when the provider struggles. A retry budget limits retries to a fraction of normal traffic and keeps the outage from becoming a storm."
+  }
+]

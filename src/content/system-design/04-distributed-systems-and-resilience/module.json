@@ -1,0 +1,4 @@
+{
+  "title": "Distributed Systems & Resilience",
+  "description": "CAP and PACELC trade-offs, consensus and leader election, message queues and event streams, sagas with the transactional outbox, circuit breakers and bulkheads, and serverless event-driven pipelines."
+}

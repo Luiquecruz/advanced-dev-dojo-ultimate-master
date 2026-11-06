@@ -1,0 +1,10 @@
+[
+  { "term": "Two-phase commit (2PC)", "description": "A coordinator asks every participant to prepare and then commit; participants hold locks and block while the decision is unknown." },
+  { "term": "Saga", "description": "A business transaction split into local transactions, one per service, each with a compensating action run in reverse order on failure." },
+  { "term": "Compensating action", "description": "A new operation that semantically cancels a committed step, such as a refund for a charge, rather than a database rollback." },
+  { "term": "Orchestration and choreography", "description": "An orchestrator calls each step and decides what runs next; in choreography each service reacts to events and publishes its own." },
+  { "term": "Dual-write problem", "description": "Writing to the database and then to a broker as two operations: a crash in between leaves them inconsistent." },
+  { "term": "Transactional outbox", "description": "The event is inserted into an outbox table in the same local transaction as the change, and a relay publishes it at least once." },
+  { "term": "Change data capture (CDC)", "description": "Reading a database's write-ahead log or binlog to emit every committed change as an event, as Debezium does." },
+  { "term": "Idempotency key", "description": "A client-generated id sent with a request so the server returns the stored result for a retry instead of repeating the operation." }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A small SaaS generates a PDF invoice about 300 times a day. The team plans two always-on worker servers polling a jobs table. What is the better fit and why?",
+    "options": [
+      "Four always-on workers, for redundancy",
+      "Generate the PDF in the browser so no backend is needed",
+      "An event-triggered function that runs only when an invoice is requested, so no compute is paid for or patched while idle",
+      "A Kubernetes cluster with autoscaling from zero to three nodes"
+    ],
+    "answer": 2,
+    "explanation": "Low-volume background events leave always-on servers idle almost all day. A function triggered by the event costs per invocation and needs no fleet to operate; only what it stores keeps costing between events."
+  },
+  {
+    "question": "An image-resize function is invoked directly by S3 events. A marketing campaign causes 50,000 uploads in ten minutes and the downstream database is overwhelmed. What change helps most?",
+    "options": [
+      "Put an SQS queue between S3 and the function and cap the function's concurrency, so the queue buffers the burst",
+      "Increase the function timeout",
+      "Remove the database writes",
+      "Ask users to upload more slowly"
+    ],
+    "answer": 0,
+    "explanation": "A queue absorbs the burst and the concurrency cap bounds how many copies hit the database at once. Messages wait in the queue instead of turning into thousands of simultaneous connections."
+  },
+  {
+    "question": "Users sometimes receive two \"your photo is ready\" emails for one upload. What is the most likely cause?",
+    "options": [
+      "SES sends every email twice by design",
+      "Cold starts run the handler twice",
+      "DynamoDB duplicates items on write",
+      "Delivery is at-least-once and the handler is not idempotent; record the event's idempotency key with a conditional write before sending"
+    ],
+    "answer": 3,
+    "explanation": "S3 notifications and SQS can deliver an event more than once, and a timed-out invocation is retried. An idempotency key stored with a conditional write lets the duplicate return without side effects."
+  },
+  {
+    "question": "One malformed upload makes the resize function throw every time. Without changes, what happens and what should you add?",
+    "options": [
+      "The message is dropped after the first failure; nothing to add",
+      "The message is retried after every visibility timeout until the retention period deletes it; add a dead-letter queue after a maximum number of receives",
+      "The function is disabled automatically; add an alert",
+      "The queue deletes all other messages; add a second queue"
+    ],
+    "answer": 1,
+    "explanation": "A failed message becomes visible again and is retried. A redrive policy with a maximum receive count moves it to a dead-letter queue, so it stops consuming capacity and can be inspected."
+  },
+  {
+    "question": "A payment API built on functions misses its 50 ms p99 latency target, while the median is fine. Which explanation fits best?",
+    "options": [
+      "Cold starts: requests that land on a new execution environment pay for loading code and initialization",
+      "API Gateway compresses every response",
+      "DynamoDB is slower than any relational database",
+      "Functions cannot return JSON"
+    ],
+    "answer": 0,
+    "explanation": "Most requests hit warm environments, but the ones that need a new environment pay the cold-start cost, which shows up in the tail. Provisioned concurrency or a long-running service addresses it."
+  },
+  {
+    "question": "A video service transcodes each upload for up to an hour and runs at high, steady load around the clock. Why are functions a poor fit here?",
+    "options": [
+      "Functions cannot read from object storage",
+      "Functions do not support video formats",
+      "The jobs run longer than a standard function timeout allows, and steady load is usually cheaper on always-on containers or a batch service",
+      "Functions cannot be triggered by events"
+    ],
+    "answer": 2,
+    "explanation": "Functions have a bounded timeout and are billed per invocation and duration, which wins for spiky, short work. Long, steady jobs fit containers or batch services that run continuously."
+  }
+]
