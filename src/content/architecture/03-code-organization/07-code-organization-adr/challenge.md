@@ -5,7 +5,7 @@ Write the code organization ADR for **Pawprint**, a veterinary clinic SaaS.
 - Six developers in two squads: Scheduling and Billing.
 - `src/` is organized by type: `components/` (140 files), `hooks/`, `services/`, `utils/`. Any file imports any other.
 - Last quarter, a change to invoice formatting broke the appointment calendar twice. Onboarding takes three weeks because nobody knows where a feature lives.
-- Next year the team plans a modular monolith, so the boundaries must be checkable in CI.
+- The team plans a modular monolith next, so the boundaries must be checkable in CI.
 
 The code splits into these slices:
 

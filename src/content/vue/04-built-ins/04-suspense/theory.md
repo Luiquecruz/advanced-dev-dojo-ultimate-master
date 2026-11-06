@@ -36,7 +36,7 @@ One boundary can wait for many nested async components, so you get a single load
 
 Events: `@pending`, `@resolve`, `@fallback`. The `timeout` prop controls how long the old content stays visible before showing the fallback when the default content changes again.
 
-> Suspense is still marked **experimental** in Vue 3.5; its API may change. It is widely used (Nuxt relies on it), but read the release notes when upgrading.
+> Suspense is still marked **experimental** in Vue 3.5; its API may change. It is widely used (Nuxt relies on it), but check the upgrade guide before upgrading.
 
 ## Handling errors
 

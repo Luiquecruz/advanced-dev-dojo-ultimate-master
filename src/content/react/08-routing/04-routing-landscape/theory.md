@@ -4,7 +4,7 @@ The router decides much more than which component renders for a URL. It shapes h
 
 ## React Router 7: three modes in one package
 
-In late 2024 Remix merged into React Router. Version 7 offers the same routing core with increasing features:
+Remix merged into React Router. Version 7 offers the same routing core with increasing features:
 
 | Mode | Setup | Adds |
 | --- | --- | --- |
@@ -22,7 +22,7 @@ export default [
 ] satisfies RouteConfig;
 ```
 
-You can adopt it incrementally: an app written in declarative mode can move to data mode and then to framework mode without rewriting its components. Remember to keep it updated: React Router's RSC support was among the packages affected by the December 2025 React Server Components security advisories.
+You can adopt it incrementally: an app written in declarative mode can move to data mode and then to framework mode without rewriting its components. Remember to keep it updated: React Router's RSC support was among the packages affected by the React Server Components security advisories.
 
 ## TanStack Router
 

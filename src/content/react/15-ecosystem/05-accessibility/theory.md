@@ -1,6 +1,6 @@
 ## Accessibility is part of correctness
 
-Around one in six people lives with a disability. They use screen readers, keyboards, switch devices, voice control, zoom and high contrast. An inaccessible component is a broken component for them, and in many places it is also a legal problem (ADA in the US, the European Accessibility Act in force since June 2025). The reference standard is **WCAG 2.2**, level **AA**.
+Around one in six people lives with a disability. They use screen readers, keyboards, switch devices, voice control, zoom and high contrast. An inaccessible component is a broken component for them, and in many places it is also a legal problem (ADA in the US, the European Accessibility Act already in force). The reference standard is **WCAG 2.2**, level **AA**.
 
 ## 1. Semantic HTML first
 

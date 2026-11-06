@@ -68,7 +68,7 @@ If any string contains `</script><script>alert(1)</script>`, it closes your tag.
 
 - **Server Functions** (`'use server'`) are public HTTP endpoints. Anyone can call them with any arguments: validate input (Zod) and check authentication and authorization inside every function.
 - Do not pass secrets or full database records to Client Components: every prop crosses the network.
-- Keep React and your framework patched. In December 2025, **CVE-2025-55182 ("React2Shell")** disclosed a critical remote code execution flaw in the React Server Components protocol, with follow-up fixes the same month; Next.js and other RSC frameworks shipped patched releases.
+- Keep React and your framework patched. The critical remote code execution flaw **CVE-2025-55182 ("React2Shell")** in the React Server Components protocol, with its follow-up fixes, shows why this matters; Next.js and other RSC frameworks shipped patched releases.
 
 ## Defense in depth
 

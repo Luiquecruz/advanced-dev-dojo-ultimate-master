@@ -33,7 +33,7 @@
     "explanation": "Attributes such as `data-state`, `data-open` or `data-disabled` let you write `data-[state=open]:rotate-180` or `[data-open] { ... }`."
   },
   {
-    "question": "Which primitive layer do new shadcn/ui projects use by default since July 2026?",
+    "question": "Which primitive layer do new shadcn/ui projects use by default?",
     "options": ["Radix Primitives", "Base UI", "React Aria Components", "Headless UI"],
     "answer": 1,
     "explanation": "shadcn/ui switched its default to Base UI. Radix is still fully supported with `shadcn init -b radix`, and existing projects do not need to migrate."

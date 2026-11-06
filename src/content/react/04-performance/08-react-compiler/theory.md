@@ -1,6 +1,6 @@
 ## Memoization without the boilerplate
 
-The previous lessons used `memo`, `useMemo` and `useCallback` to skip work. They work, but they are easy to get wrong: a missing dependency gives stale values, an inline object breaks `memo`, and the code becomes noisy. **React Compiler** is a build-time tool that adds this memoization **automatically**. Version **1.0** became stable in October 2025 after running in production at Meta.
+The previous lessons used `memo`, `useMemo` and `useCallback` to skip work. They work, but they are easy to get wrong: a missing dependency gives stale values, an inline object breaks `memo`, and the code becomes noisy. **React Compiler** is a build-time tool that adds this memoization **automatically**. Version **1.0** is stable after running in production at Meta.
 
 You write plain components:
 

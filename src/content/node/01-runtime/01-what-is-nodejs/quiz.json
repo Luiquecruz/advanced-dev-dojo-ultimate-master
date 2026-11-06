@@ -22,7 +22,7 @@
     "explanation": "V8 is the engine (parse, compile, execute, garbage collect). libuv is the C library that gives Node its event loop and asynchronous access to the operating system."
   },
   {
-    "question": "Your team is choosing a Node version for a new production API in October 2026. Which choice is right?",
+    "question": "Your team is choosing a Node version for a new production API. Which choice is right?",
     "options": [
       "The newest odd-numbered Current release, for the latest features",
       "Whatever version is installed on the developer's laptop",

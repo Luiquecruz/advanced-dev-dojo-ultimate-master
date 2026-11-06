@@ -57,7 +57,7 @@ Hooks give maximum control (any element, any structure). Components are more con
 
 ## Legacy vs modern
 
-- Before hooks, headless logic was shipped as **render props**: Downshift's `<Downshift>{({ getInputProps, getItemProps }) => ...}</Downshift>` popularized prop getters in 2017.
+- Before hooks, headless logic was shipped as **render props**: Downshift's `<Downshift>{({ getInputProps, getItemProps }) => ...}</Downshift>` popularized prop getters.
 - **HOCs** like `withDisclosure(Component)` injected props implicitly.
 - Today the default is a **custom hook** (`useCombobox` in Downshift v7+), optionally wrapped in unstyled compound components.
 

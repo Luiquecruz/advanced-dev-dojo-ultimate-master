@@ -1,6 +1,6 @@
 ## Why a new compiler
 
-For over a decade the TypeScript compiler was written in TypeScript and ran on Node. As codebases grew to millions of lines, full builds took minutes and editors needed many seconds to show the first error in large projects. In March 2025 the team announced **Project Corsa**: a port of the compiler and language service to **Go**, shipped as **TypeScript 7.0** on July 8, 2026. The JavaScript codebase (nicknamed "Strada") ends with the 6.x line.
+For over a decade the TypeScript compiler was written in TypeScript and ran on Node. As codebases grew to millions of lines, full builds took minutes and editors needed many seconds to show the first error in large projects. The team announced **Project Corsa**: a port of the compiler and language service to **Go**, shipped as **TypeScript 7.0**. The JavaScript codebase (nicknamed "Strada") ends with the 6.x line.
 
 Two things make the native compiler fast:
 

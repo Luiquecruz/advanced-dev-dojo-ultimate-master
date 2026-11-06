@@ -75,7 +75,7 @@ In React, `useMachine(fetchMachine)` from `@xstate/react` returns the current sn
 
 ## Recoil: the sunset
 
-Recoil (Meta, 2020) introduced atoms and selectors with string keys and Suspense integration. It stayed experimental, stopped receiving updates, and the repository was **archived in 2025**. It also relied on React internals that broke with newer React versions. Migrate Recoil code to Jotai, whose API maps almost one to one (`atom`, derived atoms instead of selectors, `atomFamily` in `jotai/utils`).
+Recoil (Meta) introduced atoms and selectors with string keys and Suspense integration. It stayed experimental, stopped receiving updates, and the repository was **archived**. It also relied on React internals that broke with newer React versions. Migrate Recoil code to Jotai, whose API maps almost one to one (`atom`, derived atoms instead of selectors, `atomFamily` in `jotai/utils`).
 
 ## Signals
 

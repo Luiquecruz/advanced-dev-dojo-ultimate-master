@@ -1,6 +1,6 @@
 ## Why a framework?
 
-React is a UI library. A production app also needs routing, data loading without waterfalls, code splitting, server rendering, caching, bundling and deployment. react.dev recommends starting new apps with a **framework** (or with Vite plus a router when you truly want a client-only SPA). Create React App was deprecated in February 2025.
+React is a UI library. A production app also needs routing, data loading without waterfalls, code splitting, server rendering, caching, bundling and deployment. react.dev recommends starting new apps with a **framework** (or with Vite plus a router when you truly want a client-only SPA). Create React App has been deprecated.
 
 ## Next.js (App Router)
 
@@ -28,7 +28,7 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
 - **Server Functions** (`'use server'`) handle mutations from forms and buttons.
 - **Nested layouts**, `loading.tsx` and `error.tsx` map directly onto Suspense and error boundaries.
 
-### What changed in Next.js 16 (October 2025)
+### What changed in Next.js 16 
 
 - **Turbopack is the default bundler** for `next dev` and `next build` (`--webpack` opts out).
 - **Cache Components**: with `cacheComponents: true`, caching is **opt-in** through the `'use cache'` directive on pages, components or functions. Everything else runs at request time, and Partial Prerendering serves a static shell with dynamic holes streamed via Suspense. This replaces the implicit caching of earlier App Router versions.

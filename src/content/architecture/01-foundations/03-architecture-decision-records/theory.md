@@ -2,7 +2,7 @@
 
 Six months after choosing TanStack Query over a global store, a new developer asks "why don't we just put everything in Redux?". Nobody remembers the reasons, the person who decided left, and the discussion lives in a Slack thread nobody can find. The team either repeats the debate or, worse, reverses a good decision by accident.
 
-An **Architecture Decision Record (ADR)** is a short document that captures one significant decision: the forces at play, what was decided and what it costs. Michael Nygard proposed the format in 2011 ("Documenting Architecture Decisions"), and it is now standard practice in teams of every size.
+An **Architecture Decision Record (ADR)** is a short document that captures one significant decision: the forces at play, what was decided and what it costs. Michael Nygard proposed the format ("Documenting Architecture Decisions"), and it is now standard practice in teams of every size.
 
 ## The Nygard format
 

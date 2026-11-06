@@ -48,7 +48,7 @@ const Title = styled.h1`
 `;
 ```
 
-**Legacy vs modern.** Runtime CSS-in-JS generates and injects styles while rendering. That costs CPU on every render, complicates streaming SSR and does not work inside Server Components. styled-components entered maintenance mode in 2025. New projects favor **zero-runtime** tools that extract static CSS at build time (vanilla-extract, Panda CSS, StyleX, Linaria) or utility classes.
+**Legacy vs modern.** Runtime CSS-in-JS generates and injects styles while rendering. That costs CPU on every render, complicates streaming SSR and does not work inside Server Components. styled-components is in maintenance mode. New projects favor **zero-runtime** tools that extract static CSS at build time (vanilla-extract, Panda CSS, StyleX, Linaria) or utility classes.
 
 ## 5. Utility classes
 

@@ -66,7 +66,7 @@ Memoization is not the first tool to reach for. Often you can restructure instea
 
 ## Modern note: React Compiler
 
-React Compiler (v1.0, stable since October 2025) automatically memoizes components and JSX elements at build time, so in compiled projects you rarely write `memo` by hand. Understanding *why* reference equality matters is still essential for reading existing code, debugging, and working in codebases without the compiler.
+React Compiler (v1.0, stable) automatically memoizes components and JSX elements at build time, so in compiled projects you rarely write `memo` by hand. Understanding *why* reference equality matters is still essential for reading existing code, debugging, and working in codebases without the compiler.
 
 ## Legacy
 

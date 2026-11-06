@@ -48,7 +48,7 @@ npx shadcn@latest init
 npx shadcn@latest add dialog
 ```
 
-You own the code: change anything, no waiting for a library release, no fighting overrides. The cost: you also own upgrades and bug fixes. Since July 2026 new shadcn/ui projects use **Base UI** primitives by default; Radix stays fully supported (`shadcn init -b radix`). Registries let teams distribute their own components with the same CLI.
+You own the code: change anything, no waiting for a library release, no fighting overrides. The cost: you also own upgrades and bug fixes. New shadcn/ui projects use **Base UI** primitives by default; Radix stays fully supported (`shadcn init -b radix`). Registries let teams distribute their own components with the same CLI.
 
 ## How to choose
 

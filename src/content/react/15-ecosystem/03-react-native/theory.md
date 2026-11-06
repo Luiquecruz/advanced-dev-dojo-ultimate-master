@@ -47,7 +47,7 @@ The original architecture sent every message between JavaScript and native code 
 - **TurboModules**: native modules loaded lazily and called through JSI.
 - **Codegen**: generates type-safe native glue from TypeScript specs.
 
-Timeline: the New Architecture became the default in React Native 0.76 (2024). The legacy architecture was frozen in 0.80, and since **0.82 (October 2025)** React Native runs **only** on the New Architecture; following releases keep removing legacy code. **Hermes V1** became the default engine in 0.84. React Native 0.88 (October 2026) ships with React 19.3.
+Timeline: the New Architecture became the default in React Native 0.76. The legacy architecture was frozen in 0.80, and since **0.82** React Native runs **only** on the New Architecture; following releases keep removing legacy code. **Hermes V1** became the default engine in 0.84. React Native 0.88 ships with React 19.3.
 
 ## Expo: the recommended way to start
 

@@ -1,6 +1,6 @@
 ## Why this matters
 
-Old tutorials, Stack Overflow answers and real codebases are full of APIs that **no longer exist**. Recognizing them, and knowing the modern replacement, is essential when you upgrade an app to React 19 or read code written in 2015–2020.
+Old tutorials, Stack Overflow answers and real codebases are full of APIs that **no longer exist**. Recognizing them, and knowing the modern replacement, is essential when you upgrade an app to React 19 or read code written for older React versions.
 
 ## createClass and mixins (removed in React 16)
 

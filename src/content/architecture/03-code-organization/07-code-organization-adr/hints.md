@@ -4,4 +4,4 @@ Start with `structure.layers`. The Feature-Sliced Design order from lesson 03 wo
 ---
 Place the slices from the "Used by" column, bottom up: `ui` has no business knowledge and is used by everything, so it goes to `shared`; `pet` is used by two features, so it cannot be a feature itself; `appointments` and `invoices` are user-facing capabilities.
 ---
-For the ADR, the context is the pain in numbers (140 components, two breakages, three weeks of onboarding, modular monolith next year). The decision names the layers, "import only downward" and "only through the public API". Reject "keep folders by type" and "feature folders without layers" with the facts that rule them out, and list the migration cost as a negative consequence.
+For the ADR, the context is the pain in numbers (140 components, two breakages, three weeks of onboarding, modular monolith planned next). The decision names the layers, "import only downward" and "only through the public API". Reject "keep folders by type" and "feature folders without layers" with the facts that rule them out, and list the migration cost as a negative consequence.

@@ -3,5 +3,5 @@
   { "term": "'use client'", "description": "Directive that marks a module as the boundary where Client Components start. The module and its imports ship to the browser." },
   { "term": "'use server'", "description": "Directive that marks async functions as Server Functions callable from the client through a network request." },
   { "term": "Serializable props", "description": "Values that can cross from Server to Client Components: primitives, plain objects, arrays, Dates, Maps, Sets, Promises, JSX and Server Functions." },
-  { "term": "React2Shell (CVE-2025-55182)", "description": "Critical December 2025 RCE in the RSC packages, fixed together with follow-up DoS and source exposure CVEs in 19.0.4, 19.1.5 and 19.2.4." }
+  { "term": "React2Shell (CVE-2025-55182)", "description": "Critical RCE in the RSC packages, fixed together with follow-up DoS and source exposure CVEs in 19.0.4, 19.1.5 and 19.2.4." }
 ]
