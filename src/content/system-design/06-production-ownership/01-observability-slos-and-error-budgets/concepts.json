@@ -1,0 +1,10 @@
+[
+  { "term": "Logs, metrics and traces", "description": "Logs record individual events, metrics aggregate numbers over time for dashboards and alerts, and traces follow one request through every service as a tree of spans." },
+  { "term": "Trace context", "description": "The trace id and parent span id each hop forwards to the next, by default in the W3C `traceparent` header, so every span and log line joins the same trace." },
+  { "term": "OpenTelemetry", "description": "The open-source, vendor-neutral standard for producing and exporting traces, metrics and logs: APIs, SDKs, a protocol and a collector, with storage left to a backend." },
+  { "term": "Four golden signals", "description": "Latency, traffic, errors and saturation: the minimum to monitor on any user-facing service, with latency read as percentiles." },
+  { "term": "SLI, SLO and SLA", "description": "The measured ratio of good events to all events, the target for that ratio over a window, and the contract with consequences when a target is missed." },
+  { "term": "Error budget", "description": "1 − SLO over the window: the failures the target tolerates. An error budget policy agreed in advance stops feature releases once it is spent." },
+  { "term": "Burn rate", "description": "A window's error rate divided by the error rate the SLO allows; at 1 the budget lasts exactly the SLO window, at 14.4 one hour spends 2% of a 30-day budget." },
+  { "term": "Multiwindow, multi-burn-rate alert", "description": "A rule that fires only when a long and a short window both exceed a burn rate, such as 14.4 over 1 hour and 5 minutes for a 99.9% SLO." }
+]

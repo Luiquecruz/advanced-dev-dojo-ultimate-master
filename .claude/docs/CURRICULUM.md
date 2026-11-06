@@ -411,4 +411,4 @@ Spec and standards: [system-design-track.md](system-design-track.md). Multi-lang
 01-uber-architecture-h3-and-geospatial **(challenge)** ✓ · 02-discord-architecture-scylladb-and-rust ✓ · 03-vector-databases-and-ann-indexes **(challenge)** ✓ · 04-vector-database-selection-guide ✓ · 05-ai-gateway-and-semantic-cache **(challenge)** ✓
 
 ### 06-production-ownership — Production Ownership
-01-observability-slos-and-error-budgets **(challenge)** · 02-multi-region-and-cell-based-architecture · 03-staff-level-design-reviews
+01-observability-slos-and-error-budgets **(challenge)** ✓ · 02-multi-region-and-cell-based-architecture ✓ · 03-staff-level-design-reviews ✓

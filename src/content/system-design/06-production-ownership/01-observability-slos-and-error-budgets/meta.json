@@ -1,0 +1,14 @@
+{
+  "title": "Observability, SLOs & Error Budgets",
+  "summary": "Logs, metrics and traces with context propagated across services, the four golden signals, SLIs, SLOs and SLAs, error budgets that govern release velocity, and multiwindow burn-rate alerts that page only when the budget is at risk.",
+  "level": "advanced",
+  "tags": ["practice", "core"],
+  "preview": false,
+  "resources": [
+    { "label": "Google SRE book: Monitoring Distributed Systems", "url": "https://sre.google/sre-book/monitoring-distributed-systems/" },
+    { "label": "Google SRE book: Service Level Objectives", "url": "https://sre.google/sre-book/service-level-objectives/" },
+    { "label": "Google SRE workbook: Alerting on SLOs", "url": "https://sre.google/workbook/alerting-on-slos/" },
+    { "label": "Google SRE workbook: Example Error Budget Policy", "url": "https://sre.google/workbook/error-budget-policy/" },
+    { "label": "OpenTelemetry: Context propagation", "url": "https://opentelemetry.io/docs/concepts/context-propagation/" }
+  ]
+}

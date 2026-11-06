@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Two regions run active-active and both accept stock updates for every product, resolved with last-writer-wins. During a flash sale, both regions sell the last unit of the same product within 200 ms. Which design change prevents the oversell?",
+    "options": [
+      "A faster network link between the regions, to lower the replication lag",
+      "A home region per product that takes all of its stock writes, with other regions forwarding purchases to it",
+      "A longer cache time-to-live on the product page",
+      "Retrying failed purchases with exponential backoff"
+    ],
+    "answer": 1,
+    "explanation": "Less lag only narrows the window: concurrent writes still conflict and last-writer-wins silently keeps one of them. A single writer per record serializes the two purchases, so the second one sees zero stock and fails cleanly."
+  },
+  {
+    "question": "A reporting service must lose at most a few minutes of data and be running again within an hour after a regional disaster. It is not user-facing and the budget is tight. Which strategy fits?",
+    "options": [
+      "Multi-site active/active, with writes accepted in both regions",
+      "Backup and restore from nightly backups",
+      "Pilot light: data replicated continuously to a second region, servers started only during failover",
+      "Two availability zones in the same region"
+    ],
+    "answer": 2,
+    "explanation": "Continuous replication keeps the data loss to seconds or minutes and starting the servers fits within tens of minutes, at a fraction of the cost of active-active. Nightly backups break the RPO, and a second zone does not survive the loss of the region."
+  },
+  {
+    "question": "One tenant sends a request that crashes any server that processes it, and its client retries on every server of a 100-server fleet until all of them have crashed. Which design limits the damage to a small share of the other tenants?",
+    "options": [
+      "A larger fleet of 200 servers",
+      "A longer timeout on the load balancer",
+      "Three more retries for every failed request",
+      "Shuffle sharding: each tenant uses its own small combination of servers, so the poison request only reaches that tenant's servers"
+    ],
+    "answer": 3,
+    "explanation": "More servers only give the poison request more servers to crash. With shuffle sharding the tenant reaches only its own few servers, and other tenants rarely share all of them, so their retries still find a healthy server."
+  },
+  {
+    "question": "The plan for losing a zone is to let auto scaling launch replacement servers in the remaining zones. During a real outage, launches are slow and fail. What does static stability recommend?",
+    "options": [
+      "Pre-provision capacity so the remaining zones already carry the full load, with no launches needed during the event",
+      "Retry the launch requests in a tight loop until they succeed",
+      "Move all traffic into a single zone",
+      "Disable health checks so failed servers keep receiving traffic"
+    ],
+    "answer": 0,
+    "explanation": "Launching servers depends on the control plane, which is more complex, fails more often and is busiest when every customer recovers at once. A statically stable design already runs enough capacity, for example three zones sized so that any two carry the full load."
+  },
+  {
+    "question": "In a new cell-based architecture, the cell router looks the customer up in the billing database, applies discount rules and then picks a cell. What is wrong?",
+    "options": [
+      "Nothing: the router is the natural place for logic that every cell needs",
+      "The router should pick a random cell for every request",
+      "The router is the one component every request crosses, so it must stay thin: map the partition key to a cell from a cached table and nothing else",
+      "Cells should call each other to share the billing data instead"
+    ],
+    "answer": 2,
+    "explanation": "Every request passes through the router, so each dependency and rule in it becomes a global single point of failure. Keeping it to a key-to-cell lookup preserves the isolation the cells exist for; cells calling each other would break it too."
+  },
+  {
+    "question": "A configuration change must reach a service that runs in 20 cells. Which rollout makes the best use of the cells?",
+    "options": [
+      "All 20 cells at once, so they stay identical",
+      "One cell first while watching its error budget burn, then widening waves of cells, rolling back at the first sign of trouble",
+      "Only the largest cell, because it receives the most traffic",
+      "All cells of one region at once, then the next region"
+    ],
+    "answer": 1,
+    "explanation": "Cells contain a failure only if a change reaches them one at a time. A bad change caught in the first cell affects about 5% of customers instead of all of them, and the burn rate of that cell is the signal to stop."
+  }
+]

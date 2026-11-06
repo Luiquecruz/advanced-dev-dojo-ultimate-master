@@ -1,0 +1,10 @@
+[
+  { "term": "Design document", "description": "The written proposal: context, goals and non-goals, requirements with numbers, options considered, the chosen design, failure modes, rollout, cost and open questions." },
+  { "term": "Architecture decision record (ADR)", "description": "A short, append-only record of one significant decision: its context, the options considered, the decision, its consequences and a status such as accepted or superseded." },
+  { "term": "One-way and two-way doors", "description": "Decisions that are costly to undo, such as a shard key or a public API, deserve slow rigor; reversible ones deserve a quick decision, a measurement and a rollback if needed." },
+  { "term": "Strangler fig", "description": "A migration that routes requests through a layer in front of the old system and moves one capability at a time to the new one, until the old one has nothing left to do." },
+  { "term": "Backfill and verification", "description": "Copying historical data into the new store with an idempotent, checkpointed job, then comparing counts, checksums and shadow reads before any read moves." },
+  { "term": "Shadow traffic", "description": "A copy of real requests sent to a new path whose answers are compared and discarded, with side effects such as emails and charges switched off." },
+  { "term": "Expand and contract", "description": "A schema or format change in three steps: expand (add the new form next to the old one, with readers that understand both deployed before any writer switches), migrate every client, then contract (remove the old form once nothing uses it)." },
+  { "term": "Failure-mode analysis", "description": "For each component and dependency: what happens when it is down, slow or wrong, which alert detects it and what limits the damage." }
+]
