@@ -17,7 +17,7 @@ The usual split: **MCP connects an agent to its tools; A2A connects an agent to 
 
 ## Agent Skills: knowledge loaded on demand
 
-Agents need procedures ("how we write release notes", "how to fill this PDF form") that are too long to keep in every prompt. An **Agent Skill** is a folder with a `SKILL.md` file: YAML frontmatter with a `name` (lowercase letters, digits and hyphens, at most 64 characters, matching the folder) and a `description` of what it does and when to use it, followed by Markdown instructions. Optional `scripts/`, `references/` and `assets/` folders hold code and documents.
+Agents need procedures ("how we write customer updates", "how to fill this PDF form") that are too long to keep in every prompt. An **Agent Skill** is a folder with a `SKILL.md` file: YAML frontmatter with a `name` (lowercase letters, digits and hyphens, at most 64 characters, matching the folder) and a `description` of what it does and when to use it, followed by Markdown instructions. Optional `scripts/`, `references/` and `assets/` folders hold code and documents.
 
 ```markdown
 ---
@@ -37,9 +37,9 @@ Good context files are short and specific: commands that actually run, conventio
 
 ## The Agentic AI Foundation
 
-The **Agentic AI Foundation (AAIF)** was announced by the Linux Foundation on 9 December 2025 to give these open standards vendor-neutral governance. It started with MCP (from Anthropic), goose (Block's open-source agent) and AGENTS.md (from OpenAI) and has since grown.
+The **Agentic AI Foundation (AAIF)** was announced by the Linux Foundation to give these open standards vendor-neutral governance. It started with MCP (from Anthropic), goose (Block's open-source agent) and AGENTS.md (from OpenAI) and has since grown.
 
-> **Status as of October 2026:** the AAIF hosts ten projects. agentgateway joined in June 2026; A2A, launched by Google in April 2025 and donated to the Linux Foundation the same year, reached its first stable specification (1.0) in March 2026 and joined the AAIF on 17 August 2026. On 22 October 2026 the AAIF added Agent Skills (donated by Anthropic, which published the format in October 2025 and opened it as a standard at agentskills.io in December 2025), Open Responses (OpenAI), OpenEnv (Hugging Face) and OpenSandbox (Alibaba). AGENTS.md reports use in over 60 000 open-source projects. Governance and versions move quickly: check the project sites before relying on these details.
+These standards are governed by foundations, and governance and versions move quickly: check the project sites before relying on any detail.
 
 ## When to choose it
 

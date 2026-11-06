@@ -49,7 +49,7 @@ Concurrency and context length, not parameter count alone, size the hardware.
 
 Generating each token reads all the weights once, so single-stream decoding is limited by **memory bandwidth**: tokens per second ≈ bandwidth ÷ bytes of weights. A 4.8 GB model on a laptop with 100 GB/s tops out near 20 tokens per second; quantizing to fewer bytes makes it faster. Servers batch many sequences into each weight read, which is how vLLM and SGLang reach high total throughput.
 
-> **Status as of October 2026:** Ollama, llama.cpp, vLLM and SGLang are the common open runtimes; the ggml team behind llama.cpp joined Hugging Face in February 2026, and Hugging Face's TGI is in maintenance mode. Recent GPUs support FP8 natively and newer ones 4-bit floating-point formats (MXFP4, NVFP4). Consumer GPUs commonly have 8 to 32 GB of memory, data-center GPUs 80 GB or more.
+Pick a runtime for the job: Ollama and llama.cpp for local use, vLLM and SGLang for serving throughput. Check which quantization formats your GPU supports natively, and size the model against the memory you actually have.
 
 ## When to choose it
 

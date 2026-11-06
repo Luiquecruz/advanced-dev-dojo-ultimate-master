@@ -34,8 +34,8 @@ Tools belong to **layer 3, the harness**: what surrounds the model. Module 02 de
 
 The challenges run against the fake model and in-memory MCP servers: no network, no keys. They test handling (an unknown tool, an invalid argument, a protocol version mismatch), never the model's wording.
 
-> **Status as of October 2026:** function calling is supported by every major model API; MCP is `established` and its current revision is 2026-07-28; A2A reached 1.0 in March 2026 and, like Agent Skills, is still `emerging`. MCP, A2A, AGENTS.md and Agent Skills are all hosted by the Agentic AI Foundation under the Linux Foundation.
+Function calling is supported by every major model API. MCP is `established`, while A2A and Agent Skills are still `emerging`, and open standards of this kind are governed by foundations. Check the project sites for the current revision of each.
 
 ## When to choose it
 
-Take this module before building anything agentic: agents (module 07), harnesses (module 08) and multi-agent systems (module 09) are all tool loops underneath. If you already ship tool-using features, skim lessons 02 and 03, read lesson 04 for the 2026-07-28 changes to MCP, and go straight to the ADR. Keep the cross-cutting question in mind: a deterministic lookup you always need is cheaper as plain code before the model call than as a tool the model must remember to use.
+Take this module before building anything agentic: agents (module 07), harnesses (module 08) and multi-agent systems (module 09) are all tool loops underneath. If you already ship tool-using features, skim lessons 02 and 03, read lesson 04 for the stateless design of current MCP, and go straight to the ADR. Keep the cross-cutting question in mind: a deterministic lookup you always need is cheaper as plain code before the model call than as a tool the model must remember to use.

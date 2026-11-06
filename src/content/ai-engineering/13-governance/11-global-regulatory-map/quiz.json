@@ -14,7 +14,7 @@
     "question": "Why does the map evaluate status on a date passed in, instead of always using today?",
     "options": [
       "Dates make the code faster",
-      "The same table must answer what applies today, at launch and at future deadlines such as December 2027",
+      "The same table must answer what applies today, at launch and at future deadlines",
       "Laws never change, so the date is irrelevant",
       "Bills need a date to become law"
     ],
@@ -41,7 +41,7 @@
       "Mark every obligation as proposed"
     ],
     "answer": 1,
-    "explanation": "AI law moved several times in 2025–2026. A dated table with a freshness check makes staleness visible instead of silently trusted."
+    "explanation": "AI law has moved several times. A dated table with a freshness check makes staleness visible instead of silently trusted."
   },
   {
     "question": "Which pattern shows up in the EU, California, China and South Korea alike?",

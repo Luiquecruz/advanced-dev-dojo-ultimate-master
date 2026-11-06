@@ -49,7 +49,7 @@ Put cost controls in the **gateway** that every call passes, not in each applica
 - One shared key for all teams, which makes attribution impossible (lesson 03).
 - Counting only model calls and forgetting embeddings, reranking, evals and tool APIs.
 
-> **Status as of October 2026:** the FinOps Foundation runs a "FinOps for AI" working group with guidance on token-based cost allocation and unit economics. AI gateways (LiteLLM and cloud API gateways among them) support per-key, per-team and per-user budgets, rate limits and spend tracking, and model providers expose usage APIs and project-level spend limits. Prices per token keep falling for a given capability while total spend usually rises with adoption and agentic workloads.
+Prices per token tend to fall for a given capability while total spend usually rises with adoption and agentic workloads, so budgets and attribution matter more than any one price.
 
 ## When to choose it
 

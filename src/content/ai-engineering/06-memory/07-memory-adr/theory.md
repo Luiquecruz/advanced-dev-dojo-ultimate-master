@@ -59,7 +59,7 @@ The tutor needs far less memory than the briefing you will work on, and the ADR 
 - Retention for memories but not for the summaries and facts derived from them.
 - Only positive consequences.
 
-> **Status as of October 2026:** memory products (Letta, Mem0, Zep, LangGraph's memory store) and provider memory tools change quickly, and privacy rules around stored conversations are under active scrutiny by regulators. Record product versions and the legal basis for retention in the ADR, and review it when either changes.
+Memory products and provider memory tools change quickly, and privacy rules around stored conversations are under active scrutiny by regulators. Record product versions and the legal basis for retention in the ADR, and review it when either changes.
 
 ## When to choose it
 

@@ -35,7 +35,7 @@ This module belongs to **layer 2, context**: memory is one more source of what t
 
 Each lesson fixes a failure of naive memory. Resending everything gets slow and expensive (03). Storing everything buries the facts that matter under copies and trivia (04). Overwriting or piling up facts gives stale answers when the world changes (05). Storing without provenance, owners and expiry turns memory into an attack surface and a privacy liability (06). The ADR collects those answers for one product.
 
-> **Status as of October 2026:** memory layers such as Letta (formerly MemGPT), Mem0, Zep with its open-source Graphiti engine, and LangGraph's memory store are widely used; consumer assistants ship user-visible memory, and some model APIs offer a client-side memory tool. Graph memory and self-editing memory are still `emerging`, and published comparisons often find simple memories (files, a vector store) competitive.
+Memory layers, user-visible assistant memory and client-side memory tools all implement the layers in this module. Graph memory and self-editing memory are still `emerging`, and published comparisons often find simple memories (files, a vector store) competitive, so measure on your own questions.
 
 ## When to choose it
 

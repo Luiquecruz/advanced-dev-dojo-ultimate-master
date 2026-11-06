@@ -44,15 +44,15 @@
     "explanation": "AGENTS.md is hierarchical: subprojects add or override rules for their subtree, and direct user instructions come first."
   },
   {
-    "question": "Which statement about the Agentic AI Foundation is accurate as of October 2026?",
+    "question": "Which statement about the Agentic AI Foundation is accurate?",
     "options": [
       "It is a company owned by one model provider",
       "It only hosts MCP",
       "It was created by the W3C to replace JSON-RPC",
-      "It is a foundation under the Linux Foundation, announced in December 2025, with MCP, goose and AGENTS.md, and it has since added projects such as A2A and Agent Skills"
+      "It is a foundation under the Linux Foundation that hosts open agent standards such as MCP, goose and AGENTS.md, and has added projects such as A2A and Agent Skills"
     ],
     "answer": 3,
-    "explanation": "AAIF gives open agent standards vendor-neutral governance. A2A joined in August 2026 and Agent Skills in October 2026; check the foundation's site for the current list."
+    "explanation": "AAIF gives open agent standards vendor-neutral governance. Its project list grows, so check the foundation's site for the current one."
   },
   {
     "question": "A teammate writes a 4 000-line AGENTS.md that copies the whole architecture wiki. What is the main risk?",

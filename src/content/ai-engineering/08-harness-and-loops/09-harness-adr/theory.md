@@ -52,7 +52,7 @@ export const adr = {
 - A budget the loop limits cannot reach, or limits the budget cannot cover.
 - Escalation to nobody in particular.
 
-> **Status as of October 2026:** coding agent products expose these controls as configuration (permission rules, sandbox modes and network allowlists, hooks, scheduled or CI-triggered runs), but names and defaults differ between products and change often. Write the ADR in terms of the boundaries, then map them to your product's settings in an appendix you update with it.
+Coding agent products expose these controls as configuration (permission rules, sandbox modes and network allowlists, hooks, scheduled or CI-triggered runs), but names and defaults differ between products and change often. Write the ADR in terms of the boundaries, then map them to your product's settings in an appendix you update with it.
 
 ## When to choose it
 

@@ -44,14 +44,14 @@
     "explanation": "The capstone reuses vector retrieval with citations, an MCP server, the budgeted agent loop, allow/ask/deny policies, verifiers, eval gates, the lethal trifecta and governance maps."
   },
   {
-    "question": "A returning learner finished the track a year ago. Where should they start?",
+    "question": "A returning learner finished the track long ago. Where should they start?",
     "options": [
       "From module 01 again",
-      "The What Changed lesson, which lists dated changes reviewed every quarter, then the status boxes of the modules they rely on",
+      "The What Changed lesson on tracking the volatile edge, then a check of the versions, laws and vendor facts they rely on against primary sources",
       "Nowhere: the stable core never changes, so nothing needs revisiting",
       "Only the capstone"
     ],
     "answer": 1,
-    "explanation": "The track separates the stable core from the volatile edge. The changelog shows the delta since the learner's last visit."
+    "explanation": "The track separates the stable core from the volatile edge. Revisiting means rechecking the edge against primary sources, not relearning the core."
   }
 ]

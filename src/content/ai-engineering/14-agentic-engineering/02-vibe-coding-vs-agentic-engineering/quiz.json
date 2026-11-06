@@ -8,7 +8,7 @@
       "Only if the feature is small"
     ],
     "answer": 1,
-    "explanation": "The definition hinges on accountability, not on who typed the code. Simon Willison made this point in March 2025: not all AI-assisted programming is vibe coding."
+    "explanation": "The definition hinges on accountability, not on who typed the code. Simon Willison made this point: not all AI-assisted programming is vibe coding."
   },
   {
     "question": "According to the lesson, what is the main practice that lets an agent iterate safely on its own?",
@@ -33,15 +33,15 @@
     "explanation": "Vibe code only what is disposable and private, with no production data or credentials in reach. Anything others rely on needs tests, review and an owner."
   },
   {
-    "question": "Who proposed the term \"agentic engineering\" as the name for the disciplined practice, and when?",
+    "question": "Who proposed the term \"agentic engineering\" as the name for the disciplined practice?",
     "options": [
-      "OpenAI, in its 2023 GPT-4 launch",
-      "Andrej Karpathy, in February 2026, one year after coining \"vibe coding\"",
-      "The OWASP GenAI Security Project, in 2024",
-      "The EU AI Act, in 2024"
+      "OpenAI, in a model launch announcement",
+      "Andrej Karpathy, the developer who had earlier coined \"vibe coding\"",
+      "The OWASP GenAI Security Project",
+      "The EU AI Act"
     ],
     "answer": 1,
-    "explanation": "Karpathy coined \"vibe coding\" in February 2025 and suggested \"agentic engineering\" in February 2026; Simon Willison, who had proposed \"vibe engineering\" in October 2025, adopted the new term."
+    "explanation": "Karpathy coined \"vibe coding\" and later suggested \"agentic engineering\"; Simon Willison, who had proposed \"vibe engineering\", adopted the new term."
   },
   {
     "question": "A team adopts coding agents but has slow, flaky tests and no code review. What does the DORA \"amplifier\" finding predict?",
@@ -52,12 +52,12 @@
       "Throughput will fall to zero"
     ],
     "answer": 2,
-    "explanation": "DORA's 2025 report frames AI as an amplifier of strengths and dysfunctions; it found AI adoption still associated with lower delivery stability when downstream controls are weak."
+    "explanation": "DORA's report frames AI as an amplifier of strengths and dysfunctions; it found AI adoption still associated with lower delivery stability when downstream controls are weak."
   },
   {
     "question": "Which incident illustrates what goes wrong when an agent runs with broad permissions and no harness?",
     "options": [
-      "An agent on Replit deleting a production database during a code freeze in July 2025",
+      "An agent on Replit deleting a production database during a code freeze",
       "A model refusing to answer a question",
       "A benchmark score dropping after a model update",
       "A context window being too small"

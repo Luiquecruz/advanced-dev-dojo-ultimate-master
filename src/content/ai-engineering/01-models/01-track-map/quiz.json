@@ -33,15 +33,15 @@
     "explanation": "Each seed picks different variants of the scripted behaviors. Passing every seed is a property-style guarantee; each run is still reproducible."
   },
   {
-    "question": "A theory says \"The largest context windows reach about 1M tokens\" inside a box titled \"Status as of October 2026\". How should you read it?",
+    "question": "A source states a specific context window size for a model. How should you read it?",
     "options": [
       "As a permanent rule of the field",
-      "As wrong, because status boxes are only examples",
+      "As wrong, because published limits are only examples",
       "As a quiz trick to ignore",
-      "As a dated, volatile fact: likely to change, so verify it against current sources before relying on it"
+      "As a volatile fact: likely to change, so verify it against your provider's documentation before relying on it"
     ],
     "answer": 3,
-    "explanation": "The track separates the stable core (outside the boxes) from the volatile edge (inside them). Model names, prices and limits move every few months."
+    "explanation": "The track teaches the stable mechanism and treats numbers as volatile. Model names, prices and limits move every few months."
   },
   {
     "question": "What does each module's ADR checkpoint ask you to produce, and how is it graded?",

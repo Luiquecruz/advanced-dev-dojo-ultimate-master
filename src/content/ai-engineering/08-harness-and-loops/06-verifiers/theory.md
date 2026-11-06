@@ -57,7 +57,7 @@ Verification also does not prove the agent understood the task. A test suite wit
 - Unlimited attempts, or attempts limited but never reported.
 - Tests the agent can edit.
 
-> **Status as of October 2026:** coding agents increasingly ship verifier hooks and goal conditions: Claude Code's `Stop` hook can refuse to end a turn until a check passes, and its `/goal` command keeps working until a stated condition holds, judged after each turn. Practitioner write-ups on harness engineering (for example on martinfowler.com) frame verifiers as "sensors" and recommend fast computational checks on every change, with inferential review later in the pipeline.
+Coding agents increasingly ship verifier hooks and goal conditions: a stop hook can refuse to end a turn until a check passes, and a goal command keeps working until a stated condition holds, judged after each turn. Practitioner write-ups on harness engineering frame verifiers as "sensors" and recommend fast computational checks on every change, with inferential review later in the pipeline.
 
 ## When to choose it
 

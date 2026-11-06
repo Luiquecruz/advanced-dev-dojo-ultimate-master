@@ -37,7 +37,7 @@ This module belongs to **layer 4, the loop**: how work repeats until done. It si
 
 Every lesson answers one failure of a naive loop. A loop with no shape wastes calls (02, 03). A loop that trusts the model's output crashes on a bad tool call (04). A loop with no limits burns money (05). A loop that acts alone does damage (06). A loop that lives in memory loses its work (07). The ADR at the end collects those answers for one product.
 
-> **Status as of October 2026:** "agent" still means different things in different products. A widely quoted working definition is "an LLM agent runs tools in a loop to achieve a goal" (Simon Willison, September 2025). Anthropic's "Building effective agents" (December 2024) remains the standard reference for the workflow and agent patterns used here. Frameworks such as LangGraph, the OpenAI Agents SDK, the Claude Agent SDK, Mastra and Pydantic AI implement these loops; this module builds them in plain code so you can read any of them.
+"Agent" means different things in different products. A widely quoted working definition is "an LLM agent runs tools in a loop to achieve a goal". Agent frameworks and SDKs implement these loops; this module builds them in plain code so you can read any of them.
 
 ## When to choose it
 

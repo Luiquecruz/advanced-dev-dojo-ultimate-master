@@ -49,7 +49,7 @@ The fallback rule is what makes the feature safe to ship: the worst case is the 
 - Throwing on a malformed reranker reply, turning an optional step into an outage.
 - Adding three model calls per query without measuring recall gains against the added latency and cost.
 
-> **Status as of October 2026:** hosted rerank APIs (for example from Cohere, Voyage AI and Jina AI) and open cross-encoder and reranker models on Hugging Face are common choices; vector databases increasingly bundle reranking. Contextual retrieval results published by Anthropic show reranking on top of hybrid search further reducing retrieval failures. HyDE comes from a 2022 paper (Gao et al.).
+Hosted rerank APIs and open cross-encoder models are common choices, and vector databases increasingly bundle reranking. Reranking on top of hybrid search reduces retrieval failures further in published results. HyDE is the name of the hypothetical-document technique from the research literature.
 
 ## When to choose it
 

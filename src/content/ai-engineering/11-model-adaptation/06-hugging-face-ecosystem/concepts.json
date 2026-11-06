@@ -7,5 +7,5 @@
   { "term": "base_model", "description": "Card metadata linking a fine-tune, adapter, merge or quantization to its origin. Follow it for license and provenance." },
   { "term": "transformers / datasets / PEFT / TRL", "description": "Hugging Face libraries for model loading and generation, data loading, parameter-efficient fine-tuning, and post-training (SFT, DPO, GRPO)." },
   { "term": "smolagents", "description": "Hugging Face's small agent library; its CodeAgent writes actions as Python code run in a sandbox, alongside a JSON tool-calling agent." },
-  { "term": "Open Source AI Definition (OSAID)", "description": "OSI's definition (1.0, October 2024): freedoms to use, study, modify and share, with weights, code and detailed training-data information. Most open models are open weights only." }
+  { "term": "Open Source AI Definition (OSAID)", "description": "OSI's definition (1.0): freedoms to use, study, modify and share, with weights, code and detailed training-data information. Most open models are open weights only." }
 ]

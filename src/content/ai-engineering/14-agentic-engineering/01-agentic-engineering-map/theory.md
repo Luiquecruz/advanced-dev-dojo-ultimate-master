@@ -14,13 +14,13 @@ The track's six layers (model, context, harness, loop, evaluation, governance) d
 | How you work with it day to day | small verifiable steps, TDD, worktrees, review depth by risk | 05 |
 | How users experience your AI feature | streaming, uncertainty, sources, feedback, fallbacks | 06 |
 | Whether any of it helps | delivery metrics, controlled studies, perception gaps | 07 |
-| What changed since you learned it | a dated changelog, reviewed every quarter | 08 |
+| What changed since you learned it | how to track the volatile edge against primary sources | 08 |
 | Can you combine it all | the capstone | 09 |
 
 ## Prerequisites
 
 - **Module 02:** context engineering and prompts as code (a context file is a prompt you version).
-- **Module 03:** A2A, Agent Skills and Context Files, where `AGENTS.md` and `SKILL.md` were introduced; building an MCP server for the 2026-07-28 revision, reused in the capstone.
+- **Module 03:** A2A, Agent Skills and Context Files, where `AGENTS.md` and `SKILL.md` were introduced; building an MCP server for the `2026-07-28` revision, reused in the capstone.
 - **Module 04:** retrieval and grounded answers with citations.
 - **Modules 07 and 08:** the agent loop with budgets, permission policies, verifiers and long-running agents: the same mechanisms coding agents run on.
 - **Module 10:** evals as tests and regression gates.
@@ -34,13 +34,13 @@ The track's six layers (model, context, harness, loop, evaluation, governance) d
 4. **Working with coding agents** (quiz). Small verifiable steps, TDD, parallel agents in worktrees, review depth proportional to risk, comprehension debt.
 5. **AI feature UX** (quiz). Streaming and latency budgets, showing uncertainty and sources, editable output, feedback capture and graceful fallbacks.
 6. **Measuring impact** (quiz). DORA and SPACE, the METR study and its 2026 update, the DORA AI report: what the evidence says and how to measure your own team.
-7. **What changed** (quiz). A dated changelog of the field, the part of the track that is updated on each quarterly review.
+7. **What changed** (quiz). How to keep the volatile edge of the field current: what belongs to it and how to review it against primary sources.
 8. **The capstone.** A multi-file project: retrieval, tools over MCP, a budgeted agent with a verifier inside a permission policy, an eval gate, a threat model and a governance map, all checked against each other.
 
 There is no separate ADR in this module: the capstone is the checkpoint, and it draws on the ADRs you wrote at the end of every earlier module.
 
-> **Status as of October 2026:** "agentic engineering" is an `emerging` term: Andrej Karpathy, who coined "vibe coding" in February 2025, proposed it as the name for the disciplined practice in February 2026, and Simon Willison, who had suggested "vibe engineering" in October 2025, adopted it. Coding agents (Claude Code, Codex, Cursor, GitHub Copilot's coding agent, Gemini CLI and others) change monthly; this module teaches the practices that outlast them.
+"Agentic engineering" is an `emerging` term and coding agents change often; this module teaches the practices that outlast them.
 
 ## When to choose it
 
-Take this module once you are comfortable with the harness and evaluation modules; it assumes you can read a permission policy and a regression gate. If you already use coding agents daily, start with lessons 03 to 05 and the capstone. If you lead a team, lessons 06 and 07 are where product and management decisions meet, and lesson 08 is the page to revisit every quarter.
+Take this module once you are comfortable with the harness and evaluation modules; it assumes you can read a permission policy and a regression gate. If you already use coding agents daily, start with lessons 03 to 05 and the capstone. If you lead a team, lessons 06 and 07 are where product and management decisions meet, and lesson 08 is the page to revisit on a fixed review cadence.

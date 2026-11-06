@@ -37,7 +37,7 @@ This module spans **layer 3, the harness** (what surrounds the model: tools, per
 
 Every lesson removes one reason to watch the agent. Policies decide what it may ask for (03); the sandbox limits what anything can reach (04); hooks enforce what must always happen (05); verifiers decide what counts as done (06); loops decide when to try again and when to call a human (07); artifacts let the work outlive a session (08). None of them makes the model smarter. Together they make its mistakes cheap, visible and recoverable.
 
-> **Status as of October 2026:** "harness engineering" and "loop engineering" are `emerging` terms. The first spread with OpenAI's February 2026 article on building a product with Codex agents and Anthropic's guidance on harnesses for long-running agents (November 2025); the second with Addy Osmani's June 2026 essay. Coding agents such as Claude Code, Codex, Cursor and Gemini CLI ship their own permission systems, sandboxes, hooks and context files; this module builds the mechanisms in plain code so you can read and configure any of them.
+"Harness engineering" and "loop engineering" are `emerging` terms, and definitions vary between authors. Coding agents ship their own permission systems, sandboxes, hooks and context files; this module builds the mechanisms in plain code so you can read and configure any of them.
 
 ## When to choose it
 

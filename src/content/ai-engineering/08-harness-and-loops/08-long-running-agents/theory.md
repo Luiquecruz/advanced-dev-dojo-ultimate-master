@@ -58,7 +58,7 @@ Durable execution (module 07) checkpoints the steps of a workflow you wrote, so 
 - Marking tasks done on the agent's word instead of a verifier.
 - Non-atomic writes of the state file.
 
-> **Status as of October 2026:** Anthropic's "Effective harnesses for long-running agents" (November 2025) describes an initializer session that writes a JSON feature list (every feature initially failing), an `init.sh` script and a progress file, followed by coding sessions that work on one feature at a time, verify end to end, commit and update the progress notes. Coding agents also offer built-in task lists, persistent memory files and scheduled or goal-driven sessions; their names and limits change often.
+A common design uses an initializer session that writes a JSON feature list (every feature initially failing), a script that starts the project and a progress file, followed by coding sessions that work on one feature at a time, verify end to end, commit and update the progress notes. Coding agents also offer built-in task lists, persistent memory files and scheduled or goal-driven sessions; their names and limits change often.
 
 ## When to choose it
 

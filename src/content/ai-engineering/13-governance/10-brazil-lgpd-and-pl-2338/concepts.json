@@ -1,8 +1,8 @@
 [
-  { "term": "LGPD", "description": "Brazil's general data protection law (Law 13.709/2018), in force since September 2020, with administrative sanctions since August 2021. It governs personal data in AI systems today." },
+  { "term": "LGPD", "description": "Brazil's general data protection law (Law 13.709/2018), with administrative sanctions enforced by the ANPD. It governs personal data in AI systems today." },
   { "term": "ANPD", "description": "Brazil's national data protection authority. It enforces the LGPD and the ECA Digital, lists AI among its priorities and would coordinate the SIA under PL 2338/2023." },
   { "term": "LGPD Art. 20", "description": "The right to request review of decisions made solely by automated processing that affect a person's interests, including credit and personal profiles, and to receive information about the criteria used." },
   { "term": "RIPD", "description": "Relatório de Impacto à Proteção de Dados Pessoais: the LGPD's data protection impact report, expected for high-risk processing and on ANPD request." },
-  { "term": "PL 2338/2023", "description": "Brazil's proposed AI legal framework: risk-based, with impact assessments, rights of affected people and the SIA. Passed the Senate in December 2024; pending in the Chamber, not law." },
-  { "term": "ECA Digital", "description": "Law 15.211/2025, in force since March 2026: protections for children and adolescents in digital products, enforced by the ANPD." }
+  { "term": "PL 2338/2023", "description": "Brazil's proposed AI legal framework: risk-based, with impact assessments, rights of affected people and the SIA. Passed the Senate; pending in the Chamber, not law." },
+  { "term": "ECA Digital", "description": "Law 15.211/2025: protections for children and adolescents in digital products, enforced by the ANPD." }
 ]

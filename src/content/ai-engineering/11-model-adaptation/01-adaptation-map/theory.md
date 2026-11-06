@@ -42,7 +42,7 @@ Every lesson in this module is a concept lesson with a quiz, and the module ends
 
 The default answer is "do not adapt". Prompts, retrieval and examples are cheaper, faster to change and easier to roll back than weights. Each lesson gives you a reason to climb (a measured failure the lower rungs cannot fix) and a cost of climbing (data, compute, hosting, a new artifact to secure and govern). The ADR asks you to show both.
 
-> **Status as of October 2026:** provider APIs offer hosted fine-tuning for some of their models, and open-weight families (Llama, Qwen, DeepSeek, Mistral, Gemma, gpt-oss and others) are fine-tuned with open libraries such as Hugging Face TRL and PEFT. Local and self-hosted inference runs on Ollama, llama.cpp, vLLM and SGLang; Hugging Face's TGI is in maintenance mode.
+Hosted fine-tuning is offered by some API providers for some of their models, while open-weight models are fine-tuned with open libraries such as Hugging Face TRL and PEFT and served with local or self-hosted runtimes; check what your provider and runtime currently support.
 
 ## When to choose it
 

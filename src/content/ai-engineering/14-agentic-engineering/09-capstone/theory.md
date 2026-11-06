@@ -8,7 +8,7 @@ Every module of the track ended with a decision; the capstone puts them in one s
 | --- | --- | --- |
 | Model | one pinned model id, cost per call counted against a budget | Models for Engineers |
 | Context | retrieval over help documents, cited by id; a system prompt that treats customer text as data | Retrieval and RAG; Prompt and Context Engineering |
-| Harness | tools exposed by an MCP server (2026-07-28 style), an allow/ask/deny policy, human approval, a citation verifier | Tools and Protocols; Harness and Loop Engineering |
+| Harness | tools exposed by an MCP server (`2026-07-28` style), an allow/ask/deny policy, human approval, a citation verifier | Tools and Protocols; Harness and Loop Engineering |
 | Loop | one agent with step and cost budgets and a stop on refusal | Agents and Workflows |
 | Evaluation | a golden set with required sources and facts, a pass-rate threshold and critical cases | Evaluation and Observability |
 | Governance | a threat model and a governance map that must agree with the code | Security; Governance in Layers |
@@ -29,7 +29,7 @@ The loop stops for four reasons (answered, refused, out of steps, out of budget)
 
 Part of the deliverable is saying what you chose not to build and why: tracing (module 10) would be the next addition for production, memory is unnecessary because each question stands alone, and permission-aware retrieval becomes necessary the day internal documents differ by team. Write these down in the ADRs you built in earlier modules; the capstone is where they meet.
 
-> **Status as of October 2026:** the building blocks used here have production equivalents: MCP SDKs for the 2026-07-28 revision, agent SDKs with permission callbacks and turn limits, eval runners with CI gates, and OpenTelemetry GenAI conventions for traces. The OWASP Top 10 for LLM Applications 2025 and the Top 10 for Agentic Applications for 2026 are the usual references for a threat model. Product names and versions change; the mechanisms in this capstone do not.
+Product names and versions change; the mechanisms in this capstone do not.
 
 ## When to choose it
 

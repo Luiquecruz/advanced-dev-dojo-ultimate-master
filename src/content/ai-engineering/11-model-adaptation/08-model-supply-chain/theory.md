@@ -8,24 +8,24 @@ PyTorch checkpoints traditionally use Python's **pickle** format (`.bin`, `.pt`,
 
 This is not theoretical:
 
-- In 2024 JFrog reported about 100 models on Hugging Face with malicious payloads, mostly pickle-based PyTorch files, including one that opened a reverse shell.
-- In February 2025 ReversingLabs found models using a deliberately **broken** pickle compressed with 7z (named "nullifAI"): the scanner failed on the malformed file, while PyTorch had already executed the payload at the start of the stream.
-- PyTorch 2.6 made `torch.load` default to `weights_only=True`, a restricted unpickler; CVE-2025-32434 then showed that versions up to 2.5.1 could still be exploited even with that flag.
+- JFrog reported about 100 models on Hugging Face with malicious payloads, mostly pickle-based PyTorch files, including one that opened a reverse shell.
+- ReversingLabs found models using a deliberately **broken** pickle compressed with 7z (named "nullifAI"): the scanner failed on the malformed file, while PyTorch had already executed the payload at the start of the stream.
+- Recent PyTorch versions make `torch.load` default to `weights_only=True`, a restricted unpickler, yet older versions were shown to be exploitable even with that flag set, so keep the library patched.
 
 Other paths to code execution: Keras models with `Lambda` layers, `joblib` files, and Hugging Face's `trust_remote_code=True`, which runs Python files from the model repository by design. Even safe formats need patched parsers: runtimes have had memory-safety bugs in model file parsing.
 
 ## Safetensors
 
-**Safetensors** stores a small JSON header (tensor names, types, shapes, offsets) followed by raw tensor bytes. There is nothing to execute: loading a file reads numbers. It also loads fast (memory mapping, lazy loading). A 2023 security audit by Trail of Bits, commissioned by Hugging Face, EleutherAI and Stability AI, supported making it the default, and it is now the standard format on the Hub. **Rule: load only safetensors (or GGUF from a trusted publisher) in production; convert or reject pickle checkpoints; never set `trust_remote_code` for a repository you have not reviewed at a pinned revision.**
+**Safetensors** stores a small JSON header (tensor names, types, shapes, offsets) followed by raw tensor bytes. There is nothing to execute: loading a file reads numbers. It also loads fast (memory mapping, lazy loading). A security audit by Trail of Bits, commissioned by Hugging Face, EleutherAI and Stability AI, supported making it the default, and it is now the standard format on the Hub. **Rule: load only safetensors (or GGUF from a trusted publisher) in production; convert or reject pickle checkpoints; never set `trust_remote_code` for a repository you have not reviewed at a pinned revision.**
 
 ## Beyond the file format
 
 A safe format proves the file will not run code. It does not prove the weights are the ones you think, or that they behave as advertised.
 
 - **Impersonation and typosquatting.** `meta-llama` vs `meta-l1ama`; a re-upload of a famous model with a modified file.
-- **Namespace reuse.** Unit 42 (2025) showed that when an author's account is deleted, someone else can register the same name, so pipelines that load models by name alone receive the attacker's model.
+- **Namespace reuse.** Unit 42 showed that when an author's account is deleted, someone else can register the same name, so pipelines that load models by name alone receive the attacker's model.
 - **Mutable references.** Loading the latest revision of a repository means the artifact can change under you.
-- **Backdoored weights.** A model can be trained to behave normally except on a trigger phrase ("Sleeper Agents", Anthropic, 2024); no scanner reads that from the weights. Only provenance and behavioral evals help.
+- **Backdoored weights.** A model can be trained to behave normally except on a trigger phrase ("Sleeper Agents", Anthropic); no scanner reads that from the weights. Only provenance and behavioral evals help.
 - **Poisoned data.** Fine-tuning on a poisoned dataset plants behavior the same way. Datasets are part of the supply chain.
 
 ## Controls
@@ -36,7 +36,7 @@ A safe format proves the file will not run code. It does not prove the weights a
 | Pinned revision and file hashes | the deployed bytes are the evaluated bytes (record SHA-256 of each file) |
 | Safe formats only | loading cannot execute code |
 | Malware and pickle scanning | catches known bad patterns; a heuristic, not a guarantee |
-| Signatures | cryptographic proof of who produced the files: the OpenSSF **model-signing** project (Sigstore-based, v1.0 in April 2025) signs whole model directories |
+| Signatures | cryptographic proof of who produced the files: the OpenSSF **model-signing** project (Sigstore-based) signs whole model directories |
 | Internal mirror or registry | production pulls from a reviewed copy, never directly from the public Hub |
 | Behavioral evals | your task, safety cases and trigger probes, rerun on every new artifact |
 | AI bill of materials | a record of every model, adapter and dataset in the product |
@@ -45,7 +45,7 @@ A safe format proves the file will not run code. It does not prove the weights a
 
 An **AI-BOM** extends the software bill of materials to models and data. For each model it records: name and publisher, revision and file hashes, base model and adapters, quantization, license, training and fine-tuning datasets (with their own provenance and licenses), and where it runs. Two standards cover it: **CycloneDX** (machine-learning BOMs since version 1.5, with model cards as structured data) and **SPDX 3.0** (AI and Dataset profiles). An AI-BOM answers the questions an incident or an audit asks: which products use the model that was just found to be backdoored, under which license did we ship this fine-tune, which datasets trained it.
 
-> **Status as of October 2026:** the Hub scans uploads for malware and unsafe pickle imports and works with third-party scanners, and marks unsafe files without blocking downloads. Safetensors joined the PyTorch Foundation in April 2026. OWASP lists supply chain as LLM03 in its 2025 Top 10 for LLM Applications. Under the EU AI Act, a company that substantially modifies a general-purpose model (indicatively, with more than a third of the original training compute) can become its provider for the modification.
+Under the EU AI Act, a company that substantially modifies a general-purpose model can become its provider for the modification, so record what you changed and how much compute you spent.
 
 ## When to choose it
 

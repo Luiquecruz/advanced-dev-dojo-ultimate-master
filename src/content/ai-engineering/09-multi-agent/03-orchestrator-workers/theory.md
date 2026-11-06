@@ -52,7 +52,7 @@ Two refinements matter in production: a **per-run budget** that stops spawning w
 - Counting only the final call's cost.
 - Vague worker instructions: Anthropic reported subagents duplicating each other's searches until each instruction named an objective, an output format and clear boundaries.
 
-> **Status as of October 2026:** frameworks ship this pattern under different names: supervisor or subagents in LangGraph, agents as tools in the OpenAI Agents SDK, subagents in the Claude Agent SDK and Claude Code, hierarchical processes in CrewAI, and orchestration workflows in Microsoft Agent Framework and Google ADK. Anthropic's research system runs its lead with 3 to 5 parallel subagents for typical queries and more than 10 for complex ones.
+Frameworks ship this pattern under different names: supervisor, subagents, agents as tools or hierarchical processes. Published systems run a lead with a handful of parallel workers for typical queries and more for complex ones; size the fan-out from your own measurements.
 
 ## When to choose it
 

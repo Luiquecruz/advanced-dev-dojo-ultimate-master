@@ -1,33 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { allLessons } from '../content/allContent';
-import { DATED_PENDING } from './datedPending';
 import { datedIn, datedTextsOf } from './noDates';
 
-/** The most lessons DATED_PENDING may hold. Lower it with every rewrite; raising it needs a review, so the list cannot grow quietly. */
-const PENDING_LIMIT = 122;
-
-/**
- * No lesson carries a changelog or a date that ages it (CONTENT_GUIDE.md "No dates"). Lessons written before the rule are listed in
- * DATED_PENDING and shrink as their tracks are rewritten: a lesson that is not listed fails on its first dated text, and a listed
- * lesson that is clean fails until its entry is removed, so the list can only get shorter.
- */
+/** No lesson carries a changelog or a date that ages it (CONTENT_GUIDE.md "No dates"). */
 describe('no dates in lessons', () => {
-  it.each(allLessons.map((lesson) => [lesson.key, lesson] as const))('%s carries no dated text', (key, lesson) => {
-    const dated = datedTextsOf(lesson);
-    if (DATED_PENDING.has(key)) {
-      expect(dated.length, `${key} is clean: remove it from DATED_PENDING`).toBeGreaterThan(0);
-      return;
-    }
-    expect(dated).toEqual([]);
-  });
-
-  it('does not let the pending list grow', () => {
-    expect(DATED_PENDING.size).toBeLessThanOrEqual(PENDING_LIMIT);
-  });
-
-  it('lists only lessons that exist', () => {
-    const keys = new Set(allLessons.map((lesson) => lesson.key));
-    expect([...DATED_PENDING].filter((key) => !keys.has(key))).toEqual([]);
+  it.each(allLessons.map((lesson) => [lesson.key, lesson] as const))('%s carries no dated text', (_, lesson) => {
+    expect(datedTextsOf(lesson)).toEqual([]);
   });
 
   it('ignores dates inside code and finds them in prose', () => {

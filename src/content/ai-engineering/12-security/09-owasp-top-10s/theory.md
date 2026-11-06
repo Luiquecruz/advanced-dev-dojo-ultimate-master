@@ -2,28 +2,28 @@
 
 Auditors and customers will ask how your AI feature handles "the OWASP Top 10". For AI there are two lists, both from the **OWASP GenAI Security Project**. Knowing them lets you map your threat model (lesson 10) to a shared vocabulary and spot the risk you forgot.
 
-## Top 10 for LLM Applications (2026, and the 2025 edition)
+## Top 10 for LLM Applications
 
-The first list covers applications built around a model: chat, RAG, summarization, simple tool use. The August 2026 edition keeps the ten risk areas of 2025, reorders them partly by incident data and renames one. Much tooling and earlier lessons still cite the 2025 ids, so know both.
+The first list covers applications built around a model: chat, RAG, summarization, simple tool use. Its ids and order change between editions, and tooling and earlier lessons may cite either one, so **write the edition with every id** (Excessive Agency was LLM06 in the 2025 edition, for example, and another edition can number it differently). Map your threat model by the risk area first and record the edition next to the id.
 
-| 2026 | Risk | 2025 | Where this track covers it |
-| --- | --- | --- | --- |
-| LLM01 | **Prompt Injection** (now also hidden in images and audio) | LLM01 | lessons 02, 03, 08 |
-| LLM02 | **Sensitive Information Disclosure**: personal data, secrets or proprietary data in answers | LLM02 | lessons 05, 07; permission-aware retrieval (module 04) |
-| LLM03 | **Excessive Agency**: too many tools, permissions or autonomy | LLM06 | lessons 03, 05; permissions (module 08) |
-| LLM04 | **Supply Chain**: models, datasets, packages, plugins | LLM03 | lesson 06; model supply chain (module 11) |
-| LLM05 | **Data and Model Poisoning**: tampered training, fine-tuning or embedding data | LLM04 | module 11; memory poisoning (module 06) |
-| LLM06 | **Unbounded Consumption**: cost and denial of service through tokens and calls | LLM10 | budgets (modules 01, 07), rate limits |
-| LLM07 | **Misinformation**: confident wrong answers people act on | LLM09 | grounding and citations (module 04), evals (module 10) |
-| LLM08 | **Hidden Context Exposure** (was System Prompt Leakage) | LLM07 | lessons 05, 08 |
-| LLM09 | **Vector and Embedding Weaknesses**: cross-tenant leaks, poisoned or inverted embeddings | LLM08 | module 04 |
-| LLM10 | **Improper Output Handling**: model output passed unchecked to browsers, shells, databases | LLM05 | lesson 04 |
+| Risk area | Where this track covers it |
+| --- | --- |
+| **Prompt Injection** (including instructions hidden in images and audio) | lessons 02, 03, 08 |
+| **Sensitive Information Disclosure**: personal data, secrets or proprietary data in answers | lessons 05, 07; permission-aware retrieval (module 04) |
+| **Excessive Agency**: too many tools, permissions or autonomy | lessons 03, 05; permissions (module 08) |
+| **Supply Chain**: models, datasets, packages, plugins | lesson 06; model supply chain (module 11) |
+| **Data and Model Poisoning**: tampered training, fine-tuning or embedding data | module 11; memory poisoning (module 06) |
+| **Unbounded Consumption**: cost and denial of service through tokens and calls | budgets (modules 01, 07), rate limits |
+| **Misinformation**: confident wrong answers people act on | grounding and citations (module 04), evals (module 10) |
+| **Hidden Context Exposure** (System Prompt Leakage in the 2025 edition) | lessons 05, 08 |
+| **Vector and Embedding Weaknesses**: cross-tenant leaks, poisoned or inverted embeddings | module 04 |
+| **Improper Output Handling**: model output passed unchecked to browsers, shells, databases | lesson 04 |
 
-Three entries deserve a second look. **Hidden context exposure** covers everything the user does not see (system instructions, retrieved documents, memory, tool schemas and results): assume it can be extracted, so keep credentials and access rules out of it. **Misinformation** is a security risk because people act on wrong answers; grounding and evals fix it, not filters. **Improper output handling** fell in the ranking, not in danger: one unsanitized markdown image is still a zero-click leak (lesson 04).
+Three entries deserve a second look. **Hidden context exposure** covers everything the user does not see (system instructions, retrieved documents, memory, tool schemas and results): assume it can be extracted, so keep credentials and access rules out of it. **Misinformation** is a security risk because people act on wrong answers; grounding and evals fix it, not filters. **Improper output handling** can move down a ranking without becoming less dangerous: one unsanitized markdown image is still a zero-click leak (lesson 04).
 
 ## Top 10 for Agentic Applications (2026)
 
-Published in December 2025, the second list covers systems where the model **plans and acts**: agents with tools, memory, delegation and autonomy. It extends the LLM list rather than replacing it.
+The second list covers systems where the model **plans and acts**: agents with tools, memory, delegation and autonomy. It extends the LLM list rather than replacing it.
 
 | Id | Risk | In short |
 | --- | --- | --- |
@@ -49,7 +49,7 @@ The agentic list leans on a principle you have used throughout: **least agency**
 - **Not as a ranking of your risks.** A summarizer and a payments agent have very different top threes.
 - **Alongside the classics.** The web and API Security Top 10s (Node.js track) still apply.
 
-> **Status as of October 2026:** the current editions are the OWASP GenAI **LLM Top 10 2026** (dated August 3, 2026, the first ranking that blends a practitioner vote with incident data; the 2025 edition was published in November 2024) and the OWASP Top 10 for Agentic Applications **for 2026** (published December 9, 2025), both by the OWASP GenAI Security Project. In September 2026 the project also received the Agent Control Standard, an early (0.1) specification for runtime governance of agents. Check genai.owasp.org for newer editions before an audit.
+Check genai.owasp.org for newer editions before an audit.
 
 ## When to choose it
 

@@ -1,68 +1,68 @@
 [
   {
-    "question": "How often is this changelog reviewed and extended?",
+    "question": "How should you keep the volatile edge (protocols, laws, model facts) current?",
     "options": [
-      "Whenever a vendor announces a new model",
-      "Quarterly: the status boxes are checked against primary sources and a new section is added",
-      "Once a year",
-      "Never: the changelog is fixed when the track ships"
+      "Check it whenever a vendor announces a new model",
+      "Review each tracked item against its primary source on a fixed cadence",
+      "Review it once a year",
+      "Memorize it once, since it is fixed when you learn it"
     ],
     "answer": 1,
-    "explanation": "A fixed quarterly cadence keeps the volatile edge current without chasing every announcement. The October 2026 survey is the current one; January 2027 is next."
+    "explanation": "A fixed cadence keeps the edge current without chasing every announcement, and primary sources (the specification, the legal text) beat commentary."
   },
   {
-    "question": "Which MCP change from July 2026 affects the server you built in module 03 and reused in the capstone?",
+    "question": "Which of these belongs to the volatile edge rather than the stable core?",
     "options": [
-      "MCP was replaced by A2A",
-      "Revision 2026-07-28 made requests stateless, with the protocol version in `_meta` on every request and `server/discover` instead of the `initialize` handshake",
-      "MCP dropped JSON-RPC for gRPC",
-      "MCP servers can no longer expose tools"
+      "Why prompt injection needs an architectural defense",
+      "A protocol's current revision and what it deprecated",
+      "Why evals beat impressions",
+      "Why loops need budgets and stop rules"
     ],
     "answer": 1,
-    "explanation": "The 2026-07-28 revision removed the handshake and session state; many deployed servers still speak 2025-11-25, so check what your SDK supports."
+    "explanation": "Versions, revisions and deadlines change often; the mechanisms behind injection, evals and loops do not."
   },
   {
-    "question": "What did the Digital Omnibus on AI, in force since 27 July 2026, change?",
+    "question": "A regulation's application dates were published last quarter. What is the safest practice?",
     "options": [
-      "It repealed the EU AI Act",
-      "It moved the EU AI Act's high-risk obligations to 2 December 2027 (Annex III) and 2 August 2028 (Annex I)",
-      "It banned general-purpose models in the EU",
-      "It only applies to Brazil"
+      "Treat them as final forever",
+      "Confirm them against the official text before a compliance decision, because dates can be amended",
+      "Use the dates from a news article",
+      "Ignore them until an audit"
     ],
     "answer": 1,
-    "explanation": "The Omnibus amended the application dates of high-risk obligations. Transparency duties still applied from 2 August 2026, with a grace period for marking content from existing generative systems."
+    "explanation": "Application dates can be amended after publication, so the official text is the only source to rely on for a compliance decision."
   },
   {
-    "question": "A change earns a line in the changelog when it...",
+    "question": "A change earns an entry in your record when it...",
     "options": [
       "was covered by many news sites",
-      "changes what an engineer should do or know in one of the track's modules, dated by the event itself",
+      "changes what an engineer should do or know, dated by the event itself",
       "comes from the largest vendor",
       "includes a new benchmark record"
     ],
     "answer": 1,
-    "explanation": "The changelog tracks consequences for practice, with the date of the specification, release or legal event, not the date of the coverage."
+    "explanation": "The record tracks consequences for practice, with the date of the specification, release or legal event, not the date of the coverage."
   },
   {
-    "question": "Looking at a year of changes in the table, which statement holds?",
+    "question": "Looking back over many changes in the field, which statement holds?",
     "options": [
-      "Every change invalidated the track's core rules",
-      "Names, versions, dates and defaults changed, but core rules held: injection is solved by architecture rather than prompts, evals beat impressions, workflows come before agents, loops need budgets and verifiers",
+      "Every change invalidated the core rules",
+      "Names, versions, dates and defaults changed, but core rules held: injection is handled by architecture, evals beat impressions, workflows come before agents, loops need budgets and verifiers",
       "Nothing changed in the field",
-      "Prompt injection was solved in 2026"
+      "Prompt injection was solved by better prompts"
     ],
     "answer": 1,
-    "explanation": "This is why the track separates the stable core from the volatile edge: the edge moves monthly, the core decides how you build."
+    "explanation": "This is why the track separates the stable core from the volatile edge: the edge moves, the core decides how you build."
   },
   {
-    "question": "How can you apply the changelog idea to your own production AI system?",
+    "question": "How can you apply this practice to your own production AI system?",
     "options": [
-      "Use the latest model alias so you never need to track changes",
-      "Keep a dated changelog of your dependencies (model snapshots, protocol revisions, SDK versions, policies) and review it on a fixed cadence",
+      "Use a floating model alias so you never need to track changes",
+      "Keep a record of dependencies (model snapshots, protocol revisions, SDK versions, policies) and review it on a fixed cadence",
       "Rely on vendor emails",
       "Only track changes after an incident"
     ],
     "answer": 1,
-    "explanation": "Most surprises come from an undocumented dated change: a retired snapshot, a new protocol revision, a changed default. Writing them down and reviewing them makes them planned work."
+    "explanation": "Most surprises come from an unrecorded change: a retired snapshot, a new protocol revision, a changed default. Writing them down makes them planned work."
   }
 ]

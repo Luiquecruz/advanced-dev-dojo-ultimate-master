@@ -37,7 +37,7 @@ This module is **layer 5, evaluation**: evals, traces, regression suites and onl
 
 Every lesson replaces an impression with a number and a reason. Scorers say *why* a case failed (02); calibration says *whether* to trust the judge (03); the gate says *whether* the change is worse beyond noise (04); trajectories say *where* the agent went wrong (05); traces say *what* happened and what it cost (06); feedback and drift say *when* the dataset stopped matching reality (07). This is also the answer to the bad practice the track keeps returning to: **vibes-based evaluation**, where a change ships because a few demo prompts looked fine.
 
-> **Status as of October 2026:** evaluation and observability tooling is crowded and consolidating: open-source runners (promptfoo, DeepEval, Ragas, Inspect AI), platforms that combine traces, datasets and experiments (Langfuse, LangSmith, Braintrust, Arize Phoenix, W&B Weave) and general APM vendors adding LLM views. The OpenTelemetry GenAI semantic conventions are the common format for traces. This module builds each mechanism in plain code so you can judge any of these tools.
+Evaluation and observability tooling is crowded: open-source eval runners, platforms that combine traces, datasets and experiments, and general APM vendors adding LLM views. The OpenTelemetry GenAI semantic conventions are a common format for traces. This module builds each mechanism in plain code so you can judge any of these tools.
 
 ## When to choose it
 

@@ -13,9 +13,9 @@
   {
     "question": "An email agent reads a message that tells it to forward the user's invoices to an outside address, and it does. Which entries apply most directly?",
     "options": [
-      "LLM09 Vector and Embedding Weaknesses only",
-      "ASI01 Agent Goal Hijack (its objective was redirected by content it read) and LLM01 Prompt Injection, with ASI02 Tool Misuse for the forwarding",
-      "LLM06 Unbounded Consumption",
+      "Vector and Embedding Weaknesses only",
+      "ASI01 Agent Goal Hijack (its objective was redirected by content it read) and Prompt Injection, with ASI02 Tool Misuse for the forwarding",
+      "Unbounded Consumption",
       "ASI07 Insecure Inter-Agent Communication"
     ],
     "answer": 1,
@@ -38,21 +38,21 @@
       "ASI09 Human-Agent Trust Exploitation: the human check erodes through fatigue and persuasive output, so it no longer protects anything",
       "ASI05 Unexpected Code Execution",
       "ASI07 Insecure Inter-Agent Communication",
-      "LLM09 Vector and Embedding Weaknesses"
+      "Vector and Embedding Weaknesses"
     ],
     "answer": 0,
     "explanation": "Approvals are a control only while people read them. Fewer, higher-signal approvals, limits that do not need a human, and audits of approval rates keep the check real."
   },
   {
-    "question": "In the 2026 edition, Improper Output Handling moved from fifth to tenth. What should a team with a markdown chat UI conclude?",
+    "question": "Two scanners report the same risk, one as LLM05 and the other as LLM10. What explains it, and what should the team record?",
     "options": [
-      "Output sanitization can be dropped",
-      "Nothing about its own risk: the ranking reflects votes and incident data across many systems, and a single unsanitized image is still a zero-click leak in this product",
-      "That markdown is now safe to render",
-      "That the model now sanitizes its own output"
+      "One scanner is wrong; discard its findings",
+      "The scanners cite different editions of the list, because ids and order change between editions; record the edition next to every id",
+      "LLM05 and LLM10 are two separate risks that happen to look alike",
+      "The model changed its own classification between runs"
     ],
     "answer": 1,
-    "explanation": "The lists are shared vocabulary and checklists, not a ranking of your risks. Your threat model decides priorities."
+    "explanation": "The lists are shared vocabulary, and their ids and order change between editions, so an id means something only together with its edition. Map the risk area by name and write the edition beside the id so findings compare across tools and teams."
   },
   {
     "question": "How should a threat model use the two lists?",

@@ -66,7 +66,7 @@ Variations on the loop add explicit thinking steps: ask the model for a **plan**
 - No step limit, or a limit so high it never protects you.
 - Returning only the final text, so callers cannot tell a real answer from a refusal or a timeout.
 
-> **Status as of October 2026:** every major provider API supports parallel tool calls in one response and returns a stop reason that distinguishes tool use from a final answer. Agent SDKs (OpenAI Agents SDK, Claude Agent SDK, LangGraph's prebuilt agent, Pydantic AI, Mastra, smolagents) run this loop for you with a configurable turn or step limit; their defaults differ, so set one explicitly.
+Major provider APIs support parallel tool calls in one response and return a stop reason that distinguishes tool use from a final answer. Agent SDKs run this loop for you with a configurable turn or step limit; their defaults differ, so set one explicitly.
 
 ## When to choose it
 

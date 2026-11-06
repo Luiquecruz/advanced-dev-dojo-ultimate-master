@@ -11,15 +11,15 @@
     "explanation": "The Act's territorial scope includes output used in the EU. Employment and worker management, including CV filtering, is listed in Annex III."
   },
   {
-    "question": "Under the AI Act as amended by the Digital Omnibus (Regulation (EU) 2026/1744), from when do the high-risk requirements apply to Annex III systems such as credit scoring?",
+    "question": "Which statement about when the AI Act's high-risk requirements for Annex III systems such as credit scoring apply is correct?",
     "options": [
-      "2 August 2025",
-      "2 August 2026",
-      "2 December 2027",
-      "They were repealed"
+      "They apply from the day the Act entered into force, together with the prohibitions",
+      "They apply on a later, separately scheduled date than the prohibitions, and the schedule has been amended, so confirm it in the official text",
+      "They were repealed",
+      "They apply only to general-purpose models"
     ],
-    "answer": 2,
-    "explanation": "The Omnibus deferred Annex III high-risk obligations from 2 August 2026 to 2 December 2027, and Annex I product obligations to 2 August 2028. The obligations themselves remain."
+    "answer": 1,
+    "explanation": "The Act phases obligations in, and the Digital Omnibus on AI deferred the high-risk obligations. The obligations themselves remain, and the official text is the only source for the current dates."
   },
   {
     "question": "Which practice is prohibited outright by Article 5?",
@@ -33,7 +33,7 @@
     "explanation": "Emotion recognition in the workplace and in education is prohibited (except for medical or safety reasons). Credit scoring is high-risk, not prohibited; chatbots carry transparency duties."
   },
   {
-    "question": "A customer-service chatbot launched in 2026 serves EU users. Which obligation applies to it today, regardless of the high-risk delay?",
+    "question": "A customer-service chatbot serves EU users. Which obligation applies to it whatever the schedule of the high-risk duties?",
     "options": [
       "A conformity assessment and CE marking",
       "Article 50 transparency: people must be told they are interacting with an AI system unless it is obvious",
@@ -41,7 +41,7 @@
       "Registration as a GPAI model"
     ],
     "answer": 1,
-    "explanation": "Article 50 duties apply from 2 August 2026. Conformity assessment is for high-risk systems; FRIA is for specific deployers of high-risk systems."
+    "explanation": "Article 50 duties apply to systems that interact with people. Conformity assessment is for high-risk systems; FRIA is for specific deployers of high-risk systems."
   },
   {
     "question": "Which high-risk requirement does an append-only, hash-chained decision log (lesson 04) most directly support?",

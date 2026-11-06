@@ -53,7 +53,7 @@ Whatever the layer, apply the same rules: no secrets or production credentials i
 - Sandboxes with open network egress, which turns any injection into exfiltration.
 - Judging success by a screenshot instead of a verifiable check.
 
-> **Status as of October 2026:** Anthropic introduced computer use in beta in October 2024, and its API now offers a stable computer-use toolset (version dated August 2026). OpenAI's Operator (January 2025) became the agent mode of ChatGPT in July 2025; Google released a Gemini 2.5 Computer Use model in October 2025; browsers with built-in agents include Perplexity Comet and ChatGPT Atlas. OSWorld-Verified and the newer, long-horizon OSWorld 2.0 are the reference computer-use benchmarks, and scores move quickly. Hosted sandboxes for agent code include E2B, Daytona and Modal; gVisor and Firecracker are common isolation layers underneath.
+Computer-use tools are offered by several model providers and agent products, from screenshot-driven APIs to browsers with built-in agents. Benchmarks for computer use exist, and scores move quickly, so treat them as a way to decide what to measure. Hosted sandboxes for agent code run on isolation layers such as containers and microVMs.
 
 ## When to choose it
 

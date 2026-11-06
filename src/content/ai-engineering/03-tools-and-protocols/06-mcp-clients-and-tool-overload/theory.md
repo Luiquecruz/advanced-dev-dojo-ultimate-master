@@ -45,7 +45,7 @@ Measure tool definitions like any other context: count their tokens and give the
 - Connecting every available server to every agent "just in case".
 - Letting the model call a tool it was never offered: always check the name against what you loaded.
 
-> **Status as of October 2026:** providers ship on-demand tool loading natively: Anthropic's API, for example, offers a tool search tool where definitions marked `defer_loading` are found by search and expanded only when needed, and reported that 58 tools from five common MCP servers took about 55 000 tokens before any conversation. MCP gateways and the AAIF-hosted agentgateway and Agent Router projects aggregate and filter servers for many clients. Measure your own setup: the numbers vary widely with the servers you connect.
+Providers offer on-demand tool loading: definitions marked as deferred are found by search and expanded only when needed. MCP gateways aggregate and filter servers for many clients. Measure your own setup, because the token cost of tool definitions varies widely with the servers you connect.
 
 ## When to choose it
 

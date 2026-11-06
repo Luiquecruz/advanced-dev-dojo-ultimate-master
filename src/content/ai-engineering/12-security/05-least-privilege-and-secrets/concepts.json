@@ -1,6 +1,6 @@
 [
   { "term": "Least privilege", "description": "Each tool call gets only the access its task needs, for as short a time as possible." },
-  { "term": "Excessive agency", "description": "OWASP LLM06:2025 (LLM03 in 2026): an agent with more tools, permissions or autonomy than the feature needs, so a manipulated model can do real damage." },
+  { "term": "Excessive agency", "description": "OWASP LLM06 in the 2025 edition (renumbered in later editions): an agent with more tools, permissions or autonomy than the feature needs, so a manipulated model can do real damage." },
   { "term": "Confused deputy", "description": "A component with more rights than its requester is tricked into using them for the requester. Agents with broad keys are the classic case." },
   { "term": "Credential broker", "description": "The harness component that issues a fresh, scoped, short-lived credential per tool call and revokes it afterwards." },
   { "term": "Token exchange", "description": "OAuth 2.0 Token Exchange (RFC 8693): trading one token for a narrower one for a specific downstream service." },

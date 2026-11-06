@@ -57,7 +57,7 @@ Here a single company is one tenant, policies have numbered headings, the measur
 - An eval metric that does not match the prompt (recall@20 when the prompt holds 5 passages).
 - Only positive consequences: hybrid search and rerankers add services to run and keep in sync.
 
-> **Status as of October 2026:** managed vector stores and search engines commonly support hybrid search with RRF, metadata filtering and per-tenant partitions out of the box; hosted rerankers typically add tens to a few hundred milliseconds per query. Verify current latencies and prices for your candidates before writing them into a plan.
+Managed vector stores and search engines commonly support hybrid search with RRF, metadata filtering and per-tenant partitions out of the box, and hosted rerankers add latency per query. Verify latencies and prices for your candidates before writing them into a plan.
 
 ## When to choose it
 

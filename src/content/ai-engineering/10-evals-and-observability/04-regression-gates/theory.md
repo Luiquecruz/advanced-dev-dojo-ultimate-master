@@ -54,7 +54,7 @@ A gate can also **pass with warnings**: regressions on non-critical cases within
 - Only an average: a critical case breaks while the mean rises.
 - Updating the baseline to the candidate's numbers to make the gate pass.
 
-> **Status as of October 2026:** promptfoo, Braintrust, LangSmith, Langfuse and DeepEval can run eval suites in CI (GitHub Actions, GitLab CI) and compare experiments against a baseline. Anthropic's "Adding Error Bars to Evals" (2024) popularized reporting standard errors and paired comparisons for model evals.
+Eval runners and observability platforms can run eval suites in CI and compare experiments against a baseline. Reporting standard errors and paired comparisons, rather than bare averages, is the practice that makes a gate trustworthy.
 
 ## When to choose it
 

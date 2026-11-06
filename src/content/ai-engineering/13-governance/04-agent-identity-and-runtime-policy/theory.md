@@ -58,7 +58,7 @@ Audit logs live for years and travel to auditors, so log what proves the decisio
 - Logging only allowed calls; denials are the evidence that the policy works.
 - Raw arguments and outputs in the audit log.
 
-> **Status as of October 2026:** MCP's authorization builds on OAuth 2.1, and its current specification revision is 2026-07-28. NIST's NCCoE runs a project on identity and authorization for software and AI agents, identity providers ship agent identities (for example Microsoft Entra Agent ID), and OWASP's Top 10 for Agentic Applications (2026) lists identity and privilege abuse among the main agent risks. Policy engines in common use include OPA, Cedar and OpenFGA.
+Policy engines in common use include OPA, Cedar and OpenFGA.
 
 ## When to choose it
 

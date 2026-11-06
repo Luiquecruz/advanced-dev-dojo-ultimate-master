@@ -49,7 +49,7 @@
       "A memory database you install with npm",
       "A benchmark that ranks memory products",
       "A provider API for long-term memory",
-      "A conceptual framework (TMLR, 2024) that names memory types and the actions between them; use it to decide which memories a design needs, not as a library"
+      "A conceptual framework (TMLR) that names memory types and the actions between them; use it to decide which memories a design needs, not as a library"
     ],
     "answer": 3,
     "explanation": "CoALA, by Sumers, Yao, Narasimhan and Griffiths, is a vocabulary for language agents: working, episodic, semantic and procedural memory, and retrieval, learning, reasoning and grounding actions."

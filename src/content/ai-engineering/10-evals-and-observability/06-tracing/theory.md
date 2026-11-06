@@ -65,7 +65,7 @@ When a client library retries automatically, the conventions ask for one span co
 - Storing a computed cost as truth on the span, so a price correction rewrites nothing.
 - Spans that never end on errors, so failed calls vanish from the trace.
 
-> **Status as of October 2026:** the GenAI semantic conventions are in **Development** status and moved in 2026 to their own repository (`open-telemetry/semantic-conventions-genai`); `gen_ai.system` was replaced by `gen_ai.provider.name`. Content capture is controlled by `OTEL_INSTRUMENTATION_GENAI_CAPTURE_CONTENT` (default `NO_CONTENT`). Langfuse, Arize Phoenix (OpenInference conventions), LangSmith, Braintrust and general APM tools (Datadog, Grafana, Honeycomb) ingest OpenTelemetry traces; OpenLLMetry and the official OpenTelemetry instrumentations cover the major model SDKs.
+The GenAI semantic conventions are still evolving, and attribute names have been renamed between versions, so pin the instrumentation version you depend on. Content capture is controlled by a setting that should default to off. Observability platforms and general APM tools ingest OpenTelemetry traces, and instrumentation libraries cover the major model SDKs.
 
 ## When to choose it
 

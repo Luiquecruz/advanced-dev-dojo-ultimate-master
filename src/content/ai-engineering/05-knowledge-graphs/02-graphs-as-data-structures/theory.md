@@ -76,7 +76,7 @@ Graphs complement vector search rather than replacing it:
 - Scanning all edges per hop instead of indexing adjacency.
 - Answering from the graph without keeping each fact's source.
 
-> **Status as of October 2026:** ISO/IEC 39075:2024 (GQL), published in April 2024, is the first ISO standard query language for property graphs, and SQL:2023 added property graph queries to SQL (SQL/PGQ). Neo4j's Cypher 25 covers most mandatory GQL features. Other engines include Amazon Neptune (openCypher, Gremlin and SPARQL), Memgraph and the Apache AGE extension for PostgreSQL. In-memory libraries (graphology in JavaScript, NetworkX in Python) suit graphs that fit in memory.
+GQL is the ISO standard query language for property graphs, and SQL has a property graph query extension (SQL/PGQ). Graph engines include Neo4j, Amazon Neptune, Memgraph and the Apache AGE extension for PostgreSQL. In-memory libraries (graphology in JavaScript, NetworkX in Python) suit graphs that fit in memory.
 
 ## When to choose it
 

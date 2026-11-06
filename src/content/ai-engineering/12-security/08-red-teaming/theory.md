@@ -55,7 +55,7 @@ Rate limits alone hide regressions: one attack can start working while another s
 
 A static suite measures resistance to **known** attacks. Adaptive attackers (lesson 02) iterate against your specific system and will find cases your suite lacks. So keep a human red team or bug bounty for creativity, feed every finding back into the suite, refresh payloads regularly, and remember that a low ASR does not justify keeping all three legs of the trifecta. The suite tells you whether your architecture holds; it does not replace it.
 
-> **Status as of October 2026:** open-source tools for automated LLM red teaming include promptfoo (red-team plugins and CI integration), NVIDIA garak (vulnerability scanning) and Microsoft PyRIT (attack orchestration); AgentDojo (ETH Zurich) is a common benchmark for prompt injection against tool-using agents, and MITRE ATLAS catalogs adversarial techniques against AI systems. Regulations and frameworks increasingly expect adversarial testing for high-risk or general-purpose AI systems (module 13).
+Regulations and frameworks increasingly expect adversarial testing for high-risk or general-purpose AI systems (module 13).
 
 ## When to choose it
 

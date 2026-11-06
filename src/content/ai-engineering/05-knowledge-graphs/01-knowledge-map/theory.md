@@ -39,7 +39,7 @@ Each lesson removes one way knowledge goes wrong. Facts scattered in passages ca
 
 Ontologies and knowledge graphs are worth their cost for **regulated domains** (facts must be traceable), **multi-team data** (several writers need one vocabulary) and **agent interoperability** (agents exchanging facts must mean the same thing). For a single small app with one writer and lookup questions, they are over-engineering: plain RAG and typed code win. The module teaches both sides of that call.
 
-> **Status as of October 2026:** knowledge graphs are an `established` technique, and GraphRAG is widely offered by graph databases and RAG frameworks; temporal knowledge graphs for agent memory are `emerging` and appear in module 06. ISO GQL (2024) standardized property graph queries, while RDF 1.2 and SPARQL 1.2 are still moving through the W3C process.
+Knowledge graphs are an `established` technique, and GraphRAG is widely offered by graph databases and RAG frameworks; temporal knowledge graphs for agent memory are `emerging` and appear in module 06. Standards for graph query languages and RDF keep evolving, so check the standards bodies for the current versions.
 
 ## When to choose it
 

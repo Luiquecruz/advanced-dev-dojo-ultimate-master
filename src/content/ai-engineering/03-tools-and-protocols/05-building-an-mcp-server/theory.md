@@ -22,9 +22,9 @@ The standard JSON-RPC error codes cover failures at the envelope level:
 
 MCP reserves `-32020` to `-32099` for its own codes, such as `-32022` (unsupported protocol version).
 
-## Stateless since 2026-07-28
+## Stateless requests
 
-Earlier revisions (up to `2025-11-25`) opened a session with an `initialize` request, negotiated a version and capabilities once, and confirmed with a `notifications/initialized` notification. The **2026-07-28** revision removed that handshake. Every request now carries what the server needs in `params._meta`:
+Earlier revisions opened a session with an `initialize` request, negotiated a version and capabilities once, and confirmed with a `notifications/initialized` notification. The `2026-07-28` revision removed that handshake. Every request now carries what the server needs in `params._meta`:
 
 ```json
 {
@@ -70,7 +70,7 @@ The protocol does not depend on the transport. Over **stdio**, the client launch
 
 In production, use an official SDK: it handles validation, version compatibility (including dual-era servers that still answer `initialize`), pagination, cancellation and transports. Write by hand only what the SDK cannot know: good tool definitions and error messages.
 
-> **Status as of October 2026:** the current MCP revision is `2026-07-28` (stateless requests, `server/discover`, cacheable list results with `ttlMs` and `cacheScope`, roots, sampling and logging deprecated). Many deployed servers and clients still speak `2025-11-25` with the `initialize` handshake, so check what your SDK version supports and whether it serves both eras.
+Many deployed servers and clients still speak earlier revisions with the `initialize` handshake, so check what your SDK version supports and whether it serves both.
 
 ## When to choose it
 

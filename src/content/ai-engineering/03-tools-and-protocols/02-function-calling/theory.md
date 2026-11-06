@@ -54,7 +54,7 @@ Most APIs accept a **tool choice** setting: let the model decide (`auto`), force
 - No round limit, or a limit that silently returns whatever the last message was.
 - Giving the model a tool that mutates data (refunds, deletes) without a confirmation step in your code. The model proposes; your application decides.
 
-> **Status as of October 2026:** every major model API supports function calling with JSON Schema parameters, parallel calls and a tool choice setting, and most offer a "strict" mode that constrains arguments to the schema. Field names differ (`tool_use` blocks, `function_call` items, `tool_calls` arrays), which is why this track wraps them behind one provider-agnostic shape. Strict modes reduce malformed arguments but do not remove the need to validate values against your business rules.
+Every major model API supports function calling with JSON Schema parameters, parallel calls and a tool choice setting, and most offer a strict mode that constrains arguments to the schema. Field names differ between providers, which is why this track wraps them behind one provider-agnostic shape. Strict modes reduce malformed arguments but do not remove the need to validate values against your business rules.
 
 ## When to choose it
 

@@ -42,7 +42,7 @@ Cognition's article and Anthropic's agree more than their titles suggest. Both s
 4. Is the task **valuable enough** to pay a multiple of the single-agent cost? Measure cost per successful task, not per call.
 5. Can you **verify** each agent's output before others build on it? If not, errors will cascade (lesson 06).
 
-> **Status as of October 2026:** the figures above come from Anthropic's "How we built our multi-agent research system" (June 2025: Claude Opus 4 as lead with Claude Sonnet 4 subagents) and Cognition's "Don't Build Multi-Agents" (June 2025). Frameworks with multi-agent primitives include LangGraph, the OpenAI Agents SDK, the Claude Agent SDK, CrewAI, Google ADK, Mastra and Microsoft Agent Framework. Model generations and multipliers change; rerun the comparison on your own task before trusting anyone's numbers.
+Published multi-agent results and the published arguments against them both come from specific tasks and model generations. Model capabilities and token multipliers change; rerun the comparison on your own task before trusting anyone's numbers.
 
 ## When to choose it
 

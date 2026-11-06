@@ -42,7 +42,7 @@ This module belongs to **layer 6, governance** (who may do what, and how we prov
 
 Assume the injection succeeds, then make it harmless. Lesson 02 explains why you must assume it; lessons 03 to 06 shrink what a hijacked model can reach and send; lesson 07 adds probabilistic filters as one more layer, never the only one; lesson 08 measures whether the whole stack holds against attacks you did not think of. The ADR writes all of it down so the next person can see which risks were removed, which were reduced and which were accepted.
 
-> **Status as of October 2026:** prompt injection remains unsolved for general-purpose models. Simon Willison named it in September 2022 and the lethal trifecta in June 2025; the OWASP GenAI Security Project publishes the LLM Top 10 2026 (August 2026, succeeding the 2025 edition) and the Top 10 for Agentic Applications for 2026 (December 2025). Research such as CaMeL (Google DeepMind, 2025) and the design patterns paper (June 2025) secures agents by architecture rather than by detection.
+Prompt injection remains unsolved for general-purpose models; research that secures agents by architecture rather than by detection is the most promising direction.
 
 ## When to choose it
 

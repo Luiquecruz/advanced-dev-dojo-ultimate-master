@@ -52,7 +52,7 @@ Ask the agent to **explain** its change: what it did, why, and what it did not h
 
 Pay it down deliberately: require explanations in pull requests, keep architecture and decisions in ADRs and context files, rotate who reviews agent changes in each area, and occasionally implement something by hand to keep the skill. If nobody on the team could fix a module without an agent, that module is a risk.
 
-> **Status as of October 2026:** coding agents (Claude Code, Codex, Cursor, GitHub Copilot's coding agent, Gemini CLI and others) offer plan modes, permission rules, hooks, subagents and background or cloud agents, and several manage git worktrees for parallel sessions. Vendor guides recommend the explore, plan, code, commit cycle and test-first workflows. "Comprehension debt" spread with Addy Osmani's March 2026 essay; the practices above are older than any of these tools.
+The practices above are older than any particular coding agent.
 
 ## When to choose it
 

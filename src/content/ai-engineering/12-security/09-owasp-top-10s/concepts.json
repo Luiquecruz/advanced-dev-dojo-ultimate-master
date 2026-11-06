@@ -1,8 +1,8 @@
 [
   { "term": "OWASP GenAI Security Project", "description": "The OWASP project that publishes the Top 10 for LLM Applications, the Top 10 for Agentic Applications and related guides." },
-  { "term": "LLM Top 10", "description": "Risks of applications built around a model. Current edition 2026 (August 2026); the 2025 edition is still widely cited, with different ids." },
-  { "term": "Agentic Top 10", "description": "The Top 10 for Agentic Applications for 2026 (December 2025): risks of systems that plan and act, ids ASI01 to ASI10." },
-  { "term": "Hidden context exposure", "description": "LLM08 in 2026 (System Prompt Leakage in 2025): anything the user does not see, from instructions to tool schemas, can be extracted." },
+  { "term": "LLM Top 10", "description": "Risks of applications built around a model. Editions are numbered by year and ids change between them, so always cite the edition with the id." },
+  { "term": "Agentic Top 10", "description": "The Top 10 for Agentic Applications: risks of systems that plan and act, ids ASI01 to ASI10." },
+  { "term": "Hidden context exposure", "description": "System Prompt Leakage in earlier editions: anything the user does not see, from instructions to tool schemas, can be extracted." },
   { "term": "Agent goal hijack", "description": "ASI01: content the agent reads redirects its objective or plan; the agentic face of prompt injection." },
   { "term": "Least agency", "description": "Give an agent only the tools, permissions and autonomy its task needs: least privilege applied to agents." },
   { "term": "Human-agent trust exploitation", "description": "ASI09: agents persuading or fatiguing people into approving unsafe actions." }

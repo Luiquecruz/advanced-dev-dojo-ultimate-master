@@ -1,6 +1,6 @@
 # The EU AI Act
 
-Regulation (EU) 2024/1689, the AI Act, is the most detailed horizontal AI law in force. Even outside Europe it matters: it applies to providers placing AI systems on the EU market and to providers and deployers elsewhere whose system's **output is used in the EU**, and other laws borrow its structure. This lesson gives an engineer's reading: tiers, roles, obligations, and dates.
+Regulation (EU) 2024/1689, the AI Act, is the most detailed horizontal AI law in force. Even outside Europe it matters: it applies to providers placing AI systems on the EU market and to providers and deployers elsewhere whose system's **output is used in the EU**, and other laws borrow its structure. This lesson gives an engineer's reading: tiers, roles, obligations, and timing.
 
 ## Four tiers of AI systems
 
@@ -15,7 +15,7 @@ An Annex III system is not high-risk when it only performs a narrow procedural t
 
 ## General-purpose AI models
 
-Separately from systems, providers of **general-purpose AI (GPAI) models** must keep technical documentation, give downstream providers the information they need, have a copyright policy (including respecting text-and-data-mining opt-outs) and publish a summary of training content (Art. 53). Models with **systemic risk** (presumed above 10^25 training FLOPs, or designated) must also evaluate and mitigate systemic risks, report serious incidents and ensure cybersecurity (Art. 55). The **GPAI Code of Practice** (July 2025: transparency, copyright, safety and security chapters) is the voluntary way to show compliance.
+Separately from systems, providers of **general-purpose AI (GPAI) models** must keep technical documentation, give downstream providers the information they need, have a copyright policy (including respecting text-and-data-mining opt-outs) and publish a summary of training content (Art. 53). Models with **systemic risk** (presumed above 10^25 training FLOPs, or designated) must also evaluate and mitigate systemic risks, report serious incidents and ensure cybersecurity (Art. 55). The **GPAI Code of Practice** (transparency, copyright, safety and security chapters) is the voluntary way to show compliance.
 
 ## High-risk obligations
 
@@ -40,8 +40,8 @@ Up to €35 million or 7% of worldwide annual turnover for prohibited practices,
 
 Most high-risk requirements are things this track already builds: logs (lesson 04, module 10 traces), human oversight (module 07), evals for accuracy and robustness (module 10), data governance (lesson 05), documentation and registries (lessons 03 and 06). The law adds the management system around them and the evidence.
 
-> **Status as of October 2026:** the AI Act entered into force on 1 August 2024. Prohibitions and AI literacy apply since 2 February 2025; GPAI obligations since 2 August 2025 (Commission enforcement powers from 2 August 2026; models placed on the market earlier have until 2 August 2027); Article 50 transparency duties and most of the remaining framework since 2 August 2026. The **Digital Omnibus on AI** (Regulation (EU) 2026/1744, published 24 July 2026, in force 27 July 2026) moved high-risk obligations for Annex III systems to **2 December 2027** and for Annex I products to **2 August 2028**, gave generative systems already on the market until 2 December 2026 for machine-readable marking, added a prohibition on AI that generates non-consensual intimate imagery or child sexual abuse material (from 2 December 2026), turned AI literacy into a duty to take measures to support it, and eased documentation for SMEs and small mid-caps. A Code of Practice on marking and labelling AI-generated content was published in June 2026.
+The obligations phase in: prohibitions and AI literacy first, then the general-purpose model duties, then transparency and most of the framework, with high-risk duties for Annex III systems and for Annex I products scheduled later. The **Digital Omnibus on AI** amended that schedule and some duties, which shows how dates move: always confirm them against the official text before a compliance decision.
 
 ## When to choose it
 
-Classify every AI feature against the four tiers as soon as EU users or EU-used outputs are in scope, and record the classification with its reasoning. Transparency duties already apply; plan high-risk work (risk management, logging, oversight, documentation, conformity) now if a feature touches an Annex III area, because December 2027 is one product cycle away. For GPAI models you fine-tune substantially or release, check whether you have become a model provider.
+Classify every AI feature against the four tiers as soon as EU users or EU-used outputs are in scope, and record the classification with its reasoning. Check which Article 50 transparency duty applies to the feature and whether a transition covers it (systems already on the market can have a later compliance date); if a feature touches an Annex III area, plan the high-risk work (risk management, logging, oversight, documentation, conformity) so it is complete before launch, and check the official application dates for the requirements that apply to your feature. For GPAI models you fine-tune substantially or release, check whether you have become a model provider.

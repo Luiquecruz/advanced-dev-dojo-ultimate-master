@@ -62,7 +62,7 @@ Where prompts are stored is a trade-off. In the repository (files next to code) 
 - One active version for all environments, so testing means changing production.
 - Changing the output format in a prompt without versioning the code that parses it.
 
-> **Status as of October 2026:** prompt management is offered by observability platforms (Langfuse, LangSmith, Braintrust, PromptLayer and others) with versions, labels per environment and rollback; promptfoo and similar tools run prompt test suites in CI. DSPy is the best-known prompt optimization framework.
+Prompt management tools offer versions, labels per environment and rollback, and test runners can execute prompt suites in CI. Prompt optimization frameworks search for better prompts against a metric. Whichever you adopt, the rule stays the same: version the prompt together with the code that parses its output.
 
 ## When to choose it
 

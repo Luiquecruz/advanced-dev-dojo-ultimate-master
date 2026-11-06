@@ -24,7 +24,7 @@ Writes can happen **in the hot path** (during the reply, visible to the user, ad
 
 ## The read path: relevance, recency, importance
 
-Retrieving by similarity alone is the RAG reflex, and it misses two things memory needs: a fact mentioned yesterday usually matters more than one from last year, and a peanut allergy matters more than a favorite color even when the query is only loosely related. The **Generative Agents** paper (Park et al., 2023) scores each memory with three components:
+Retrieving by similarity alone is the RAG reflex, and it misses two things memory needs: a fact mentioned yesterday usually matters more than one from long ago, and a peanut allergy matters more than a favorite color even when the query is only loosely related. The **Generative Agents** paper (Park et al., 2023) scores each memory with three components:
 
 | Component | Computed as | In the challenge |
 | --- | --- | --- |
@@ -49,7 +49,7 @@ Return the top *k* and keep *k* small: memories compete for the same token budge
 - Ranking by similarity only, so a critical old fact loses to a trivial recent one, or the reverse.
 - Measuring recency from creation instead of last access.
 
-> **Status as of October 2026:** dedicated memory layers include Mem0, Zep and Letta; agent frameworks such as LangGraph (with LangMem) provide memory stores, and some model APIs offer a client-side memory tool (for example Anthropic's file-based memory tool). Consumer assistants ship user-visible memory with controls to view and delete it. Published comparisons (on benchmarks such as LoCoMo and LongMemEval) suggest simple approaches, even a file system the agent searches, are often competitive with specialized memory systems.
+Dedicated memory layers, framework memory stores and client-side memory tools all implement some form of write, retrieve and forget. Consumer assistants add user-visible controls to view and delete memories. Published comparisons suggest simple approaches, even a file system the agent searches, are often competitive with specialized memory systems.
 
 ## When to choose it
 

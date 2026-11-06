@@ -59,7 +59,7 @@ Ownership and dependencies come from deployment manifests with stable ids, so en
 - A rebuild schedule that ignores either freshness or budget.
 - Metrics computed by the assistant instead of read from their owner's definition.
 
-> **Status as of October 2026:** graph-based retrieval is offered by most graph databases and RAG frameworks, and semantic layers increasingly expose metrics to agents through APIs and MCP servers. Indexing costs fall with cheaper small models and lazy summarization variants, so re-check the cost side of this ADR when prices change.
+Graph-based retrieval is offered by most graph databases and RAG frameworks, and semantic layers can expose metrics to agents through APIs and MCP servers. Indexing costs depend on the models used, so re-check the cost side of this ADR when prices change.
 
 ## When to choose it
 

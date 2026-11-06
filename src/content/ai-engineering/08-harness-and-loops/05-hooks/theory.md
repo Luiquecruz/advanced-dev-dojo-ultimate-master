@@ -66,7 +66,7 @@ Hooks run with your user's permissions, outside the model's sandbox, on every ca
 - Slow hooks on every call: a 500 ms hook on a 200-call task adds well over a minute.
 - Pattern-based blocking treated as complete security; it is a guardrail, the sandbox is the boundary.
 
-> **Status as of October 2026:** Claude Code exposes many hook events, including `SessionStart`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse` and `Stop`. A `PreToolUse` hook blocks with exit code 2 or a JSON `permissionDecision` (`allow`, `deny`, `ask`), and can replace arguments with `updatedInput`; `PostToolUse` can feed a reason back or replace the tool output. Matching hooks run in parallel, and other non-zero exit codes are non-blocking errors unless the hook is configured to block on failure, so enforcement hooks must exit 2 deliberately.
+Coding agents expose hook events around the session, the user prompt, tool use and stopping. Hook behavior differs by product and event: matching hooks may run in parallel or in order, and which exit codes block, and whether a failing hook blocks or only warns, depends on the product and the event. A pre-tool hook can typically block with a dedicated exit code or a structured decision and can replace arguments; a post-tool hook can feed a reason back or replace the tool output. Read the product's documentation and test that an enforcement hook really blocks before relying on it.
 
 ## When to choose it
 

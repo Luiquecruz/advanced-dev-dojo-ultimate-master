@@ -48,7 +48,7 @@ export const adr = {
 - No rule for failed workers, so one failure sinks the run or silently disappears.
 - A2A between agents deployed in the same service, or a tool interface for a partner's multi-day process.
 
-> **Status as of October 2026:** published multi-agent gains (such as Anthropic's 90.2% over a single agent on its internal research evaluation) and token multipliers (about 15× chat for its multi-agent system) come from specific tasks and model generations. Use them to decide what to measure, not as your numbers.
+Published multi-agent gains and token multipliers come from specific tasks and model generations. Use them to decide what to measure, not as your numbers.
 
 ## When to choose it
 

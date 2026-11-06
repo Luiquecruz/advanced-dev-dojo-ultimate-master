@@ -41,7 +41,7 @@ measure:    golden set → recall@k, MRR, nDCG for each variant (07)
 
 Every challenge runs on Constela Mission's deterministic `embed()` (a bag-of-words stand-in for an embedding model) and the fake model, so the mechanics are exact and repeatable; the quality numbers of real embedding models belong to your own evals.
 
-> **Status as of October 2026:** RAG is `established`; GraphRAG (module 05) is established for global questions over large corpora; agentic RAG and contextual retrieval are widely used and still evolving. Frontier context windows reach around a million tokens, which changes when RAG is needed but not why (lesson 09).
+RAG is `established`; GraphRAG (module 05) is established for global questions over large corpora; agentic RAG and contextual retrieval are widely used and still evolving. Large context windows change when RAG is needed but not why (lesson 09).
 
 ## When to choose it
 

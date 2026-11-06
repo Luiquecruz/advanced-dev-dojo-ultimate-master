@@ -49,7 +49,7 @@ When agents can delegate to other agents, delegation needs the same limits as re
 
 A guard checks each delegation request against the chain from the root to the requester, before any model call is made. Denials are cheap; an unbounded tree is not.
 
-> **Status as of October 2026:** the MAST paper (arXiv 2503.13657, revised October 2025) and its annotated dataset are the most cited taxonomy of multi-agent failures. Frameworks increasingly ship guards (maximum turns, handoff limits, nesting limits, guardrails on agent outputs), but defaults differ and are often generous; set them explicitly.
+Published taxonomies of multi-agent failures, with annotated execution traces, are a good checklist for your own reviews. Frameworks increasingly ship guards (maximum turns, handoff limits, nesting limits, guardrails on agent outputs), but defaults differ and are often generous; set them explicitly.
 
 ## When to choose it
 

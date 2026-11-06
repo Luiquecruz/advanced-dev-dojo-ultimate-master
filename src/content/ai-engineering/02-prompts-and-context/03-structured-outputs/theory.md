@@ -57,7 +57,7 @@ Do not repair by guessing values. Closing a truncated object or defaulting a mis
 - Put a short `reasoning` field **before** the answer fields when the task needs thought: models generate fields in order.
 - Version the schema with the prompt (lesson 06): a renamed field is a breaking change for every consumer.
 
-> **Status as of October 2026:** the major APIs offer schema-constrained outputs (OpenAI Structured Outputs with `strict` schemas, Anthropic structured outputs through `output_config.format`, Gemini `responseSchema`), each supporting a subset of JSON Schema; Anthropic, for example, rejects numeric and string-length constraints and recursive schemas, and documents that refusals and `max_tokens` cut-offs can still break the schema. Zod 4 converts schemas with `z.toJSONSchema`; Pydantic does it with `model_json_schema()`. Libraries such as Instructor wrap the validate-and-re-ask loop.
+Major APIs offer schema-constrained outputs, each supporting only a subset of JSON Schema, and refusals or output-limit cut-offs can still break the schema. Schema libraries convert their definitions to JSON Schema, and helper libraries wrap the validate-and-re-ask loop. Check your provider's supported subset before relying on a keyword.
 
 ## When to choose it
 

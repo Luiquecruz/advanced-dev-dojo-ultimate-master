@@ -45,7 +45,7 @@ No approvals and no durability, and that is correct: the tools are read-only, ru
 - No defined outcome when a budget is exhausted.
 - Durability assumed ("the server rarely restarts") instead of designed.
 
-> **Status as of October 2026:** agent SDKs and workflow engines provide most of these mechanisms as configuration (turn limits, approval hooks, checkpointers, durable workflows), under different names. The ADR records your decisions in their terms, so it survives a change of framework.
+Agent SDKs and workflow engines provide most of these mechanisms as configuration (turn limits, approval hooks, checkpointers, durable workflows), under different names. The ADR records your decisions in their terms, so it survives a change of framework.
 
 ## When to choose it
 

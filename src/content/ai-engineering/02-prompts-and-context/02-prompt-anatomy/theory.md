@@ -57,7 +57,7 @@ The opposite of anatomy is string concatenation spread across the codebase: a ro
 - Contradictory rules ("be thorough", "answer in one word").
 - Using a model for work plain code does better: dates, sorting, arithmetic, validation.
 
-> **Status as of October 2026:** providers publish prompting guides that recommend clear roles, examples and XML-style tags (Anthropic) or Markdown and XML sections (OpenAI, Google). Some APIs name the system role differently (OpenAI's `developer` role for newer models, a top-level `system` field at Anthropic, `system_instruction` at Google). Reasoning effort is a request parameter on most frontier APIs.
+Providers publish prompting guides that recommend clear roles, examples and delimited sections (XML-style tags or Markdown). The system role goes by different names and sits in different places across APIs, and reasoning effort is a request parameter on most frontier APIs.
 
 ## When to choose it
 

@@ -28,7 +28,7 @@ checkModelCall({ record, subject, purpose: 'marketing' }, policy);
 ## Where data goes
 
 - **Provider terms:** whether prompts are used for training (business APIs usually opt out by default; consumer apps often do not), how long they are retained for abuse monitoring, and whether zero data retention is available.
-- **Residency and transfers:** which region processes the call. Transfers out of the EU or Brazil need a transfer mechanism (adequacy decisions, standard contractual clauses; Brazil's ANPD published its own clauses in 2024).
+- **Residency and transfers:** which region processes the call. Transfers out of the EU or Brazil need a transfer mechanism (adequacy decisions, standard contractual clauses; Brazil's ANPD published its own clauses).
 - **Derived data:** embeddings, caches, traces, memories and fine-tuning sets are copies too. Classify and retain them like their source; personal data is hard to remove from model weights once trained in.
 
 ## Retention and erasure
@@ -45,7 +45,7 @@ Model outputs about a person can be personal data themselves, including wrong on
 - Training or fine-tuning on personal data without a plan for erasure requests.
 - Assuming the provider's default retention matches your policy.
 
-> **Status as of October 2026:** the EDPB's Opinion 28/2024 addresses when AI models trained on personal data are anonymous and how legitimate interest applies to AI development. Brazil's ANPD lists AI among its 2026–2027 enforcement priorities (Resolution CD/ANPD 30/2025), published technical notes on generative AI training (2024) and on the Grok system (2026), and regulates international transfers with standard contractual clauses (Resolution CD/ANPD 19/2024). Major model APIs offer business terms without training on customer data, and some offer zero data retention on request.
+Check each provider's business terms: whether customer data is used for training, and whether zero data retention is available on request.
 
 ## When to choose it
 

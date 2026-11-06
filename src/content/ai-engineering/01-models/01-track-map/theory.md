@@ -50,9 +50,7 @@ The track is not tied to one language. Theory, quizzes and challenge contracts a
 ## Reading the labels
 
 - **Maturity tags** on every lesson: `established` (stable definitions and tooling), `emerging` (appeared recently, still settling), `hype-watch` (popular claims that outrun the evidence; learn them so you can question them).
-- **"Status as of" boxes** hold volatile facts: model names, prices, context sizes, benchmark scores, laws. Everything outside them should stay true for years.
-
-> **Status as of October 2026:** this track was surveyed in October 2026. Terms such as harness engineering, loop engineering and agentic engineering are `emerging`; RAG, evals, prompt injection and MCP are `established`.
+- **Volatile facts** such as model names, prices, context sizes and benchmark scores are not taught here. The lessons explain the mechanism and send you to your provider's documentation for the numbers.
 
 ## When to choose it
 

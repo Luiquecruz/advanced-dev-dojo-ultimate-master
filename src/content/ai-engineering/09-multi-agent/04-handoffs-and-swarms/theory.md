@@ -47,7 +47,7 @@ Handoffs move control sideways. When agents can also **call other agents as tool
 | Best for | breadth: research, analysis | routing conversations between specialists |
 | Main risk | cost, synthesis of bad results | loops, lost context, unclear ownership |
 
-> **Status as of October 2026:** the OpenAI Agents SDK models handoffs as tools with input filters and optional history compaction; Swarm's repository is marked as replaced by it. LangGraph documents handoffs and swarm-style architectures; Google ADK uses agent transfer between sub-agents; Microsoft Agent Framework offers handoff orchestration. Claude Code's agent teams (experimental) let peers message each other and share a task list.
+Frameworks model handoffs as tools with input filters and optional history compaction, as transfers between sub-agents, or as handoff orchestration; some products let peers message each other and share a task list. Whatever the name, a handoff transfers ownership of the conversation and decides what history travels with it.
 
 ## When to choose it
 

@@ -53,7 +53,7 @@ Sync from the source of truth with change events (webhooks, change data capture)
 - ACLs copied once at ingestion and never updated.
 - Deleting the document in the source system but not its chunks, caches and logs.
 
-> **Status as of October 2026:** the OWASP Top 10 for LLM Applications 2025 lists "Vector and Embedding Weaknesses" (LLM08), including cross-tenant leakage and embedding inversion. Managed vector stores offer namespaces or per-tenant partitions and filtered search; enterprise search connectors increasingly sync source ACLs. Data protection laws such as the GDPR and Brazil's LGPD give people a right to erasure that reaches derived copies like indexes.
+Security guidance for LLM applications lists vector and embedding weaknesses, including cross-tenant leakage and embedding inversion. Managed vector stores offer namespaces or per-tenant partitions and filtered search, and enterprise search connectors can sync source ACLs. Data protection laws give people a right to erasure that reaches derived copies like indexes.
 
 ## When to choose it
 

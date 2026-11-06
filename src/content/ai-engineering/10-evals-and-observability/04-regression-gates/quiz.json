@@ -14,7 +14,7 @@
     "question": "The candidate raises the average from 82% to 88% but the critical `double-charge` case drops from 5/5 to 2/5. What should the gate do?",
     "options": [
       "Pass: the average improved",
-      "Pass with a note in the changelog",
+      "Pass with a note in the release record",
       "Block, naming `double-charge`: critical cases must not regress, whatever the average does",
       "Re-run until the case passes once"
     ],

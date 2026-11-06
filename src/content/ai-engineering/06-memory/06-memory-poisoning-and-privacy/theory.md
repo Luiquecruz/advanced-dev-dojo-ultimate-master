@@ -10,7 +10,7 @@ Memory turns a one-off mistake into a permanent one. A prompt injection in a sin
 - **Summaries:** an injected sentence survives into a conversation summary that is resent as trusted context.
 - **Shared stores:** one user's (or attacker's) memories leak into another user's retrieval.
 
-In 2024 and 2025 security researchers demonstrated exactly this against consumer assistants: a malicious document or web page triggered a memory write that persisted across sessions and kept influencing, or exfiltrating, later conversations. Academic work (AgentPoison, MINJA) showed that poisoning memory or knowledge bases can hijack agents with a small number of injected records. OWASP lists it as **Memory and Context Poisoning** in its Top 10 for Agentic Applications.
+Security researchers demonstrated exactly this against consumer assistants: a malicious document or web page triggered a memory write that persisted across sessions and kept influencing, or exfiltrating, later conversations. Academic work (AgentPoison, MINJA) showed that poisoning memory or knowledge bases can hijack agents with a small number of injected records. OWASP lists it as **Memory and Context Poisoning** in its Top 10 for Agentic Applications.
 
 Defenses, in order of strength:
 
@@ -43,7 +43,7 @@ Backups, logs and traces hold the same data; your erasure process has to reach t
 - Summaries that outlive or escape the memories they came from.
 - Erasure that deletes rows but leaves embeddings, summaries and caches.
 
-> **Status as of October 2026:** OWASP's Top 10 for Agentic Applications (published December 2025) lists ASI06 Memory and Context Poisoning; the Top 10 for LLM Applications 2025 covers related risks as LLM04 Data and Model Poisoning and LLM08 Vector and Embedding Weaknesses. Under the EU GDPR, Article 17 grants the right to erasure, Article 5 requires storage limitation, and Article 12 sets one month (extendable) to answer a request. Major consumer assistants let users view and delete stored memories.
+Security taxonomies for agentic applications list memory and context poisoning as a named risk, next to data and model poisoning and vector and embedding weaknesses. Privacy law such as the EU GDPR grants a right to erasure, requires storage limitation and sets a deadline to answer a request. Consumer assistants let users view and delete stored memories.
 
 ## When to choose it
 

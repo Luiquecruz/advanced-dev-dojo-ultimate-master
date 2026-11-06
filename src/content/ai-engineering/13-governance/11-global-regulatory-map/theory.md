@@ -9,7 +9,7 @@ A product that launches in Brazil, the EU and California does not face "AI regul
 | European Union | horizontal, risk-based | AI Act (tiers, GPAI, Art. 50 transparency), GDPR (Art. 22 automated decisions, DPIAs) |
 | Brazil | data protection now, AI bill pending | LGPD (Art. 20 review of automated decisions, RIPD), ECA Digital, PL 2338/2023 (bill) |
 | United States | no federal AI statute; sector and state rules | FTC Act Section 5, fair lending (ECOA), state laws: Colorado SB 26-189, California (companion chatbots, AI Transparency Act, CCPA automated decision rules), New York City Local Law 144 (hiring audits) |
-| United Kingdom | principles-based, sector regulators | UK GDPR automated decision rules (reformed by the Data (Use and Access) Act 2025), regulator guidance |
+| United Kingdom | principles-based, sector regulators | UK GDPR automated decision rules (as reformed by later legislation), regulator guidance |
 | China | targeted measures | generative AI services (security assessment, algorithm filing), deep synthesis, AI content labeling, anthropomorphic AI services |
 | South Korea | horizontal | AI Basic Act: high-impact AI duties, generative AI notice and labeling, domestic representative for some foreign providers |
 | Japan | promotion-focused | AI Promotion Act and AI Basic Plan: cooperation duties, no penalties |
@@ -30,17 +30,17 @@ mapObligations(profile, RULES, '2026-11-01');
 // { ruleId: 'eu-ai-act-annex3-credit', featureId: 'credit-limit', status: 'upcoming', appliesFrom: '2027-12-02', ... }
 ```
 
-Two details make it work. **Hierarchy:** a US federal rule covers every US state market, but a California rule does not cover Colorado. **Dates:** evaluate status on a date you pass in, so the same table answers "what applies today?", "what applies at launch?" and "what will the December 2027 deadline add?".
+Two details make it work. **Hierarchy:** a US federal rule covers every US state market, but a California rule does not cover Colorado. **Dates:** evaluate status on a date you pass in, so the same table answers "what applies today?", "what applies at launch?" and "what will the next deadline add?".
 
 ## Keeping it honest
 
-- **Date the table and review it every quarter.** Laws in this module changed several times in 2025–2026: dates moved, laws were replaced before they applied, bills stalled. A table older than a quarter should say so loudly.
+- **Date the table and review it every quarter.** Laws in this module have changed repeatedly: dates moved, laws were replaced before they applied, bills stalled. A table older than a quarter should say so loudly.
 - **Cite the source on every obligation**, so a reviewer can check it and a lawyer can correct it.
 - **Separate law from bills.** Bills are watch items; treating them as obligations wastes effort, ignoring them leaves you unprepared.
 - **Keep counsel in the loop.** A table is a simplified summary; real obligations depend on exemptions, thresholds and definitions. The map tells you which questions to ask, not the final answers.
 - **Map to controls.** Each obligation should point to the control that satisfies it (lessons 03 to 07) and its evidence; that is the governance map of the ADR that follows.
 
-> **Status as of October 2026:** EU AI Act transparency duties apply since August 2026 and high-risk duties from December 2027 (Annex III) and August 2028 (Annex I). Brazil's PL 2338/2023 awaits its rapporteur's report in the Chamber; the LGPD and the ECA Digital apply. Colorado's SB 26-189 applies from January 2027; California's companion chatbot law applies since January 2026 and its AI Transparency Act since August 2026; a December 2025 US executive order targets state AI laws but has not displaced them. China's anthropomorphic AI measures apply since July 2026 and its labeling rules since September 2025; South Korea's AI Basic Act applies since January 2026 with fines deferred for at least a year. The seeded table in this lesson reflects these facts as of 31 October 2026.
+Regulatory facts change: confirm each row against the official text before a compliance decision.
 
 ## When to choose it
 

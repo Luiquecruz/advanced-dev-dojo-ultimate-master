@@ -53,7 +53,7 @@ Andrej Karpathy describes a **cognitive core**: a small model that gives up ency
 
 Shortlist by these constraints, then measure the candidates on your own examples. Public rankings decide less than you think (lesson 07).
 
-> **Status as of October 2026:** frontier families include Anthropic Claude (Opus, Sonnet, Haiku), OpenAI GPT-5 and Google Gemini (Pro, Flash), each with reasoning modes. Open-weight families include Meta Llama, Alibaba Qwen, DeepSeek, Mistral, Google Gemma and OpenAI gpt-oss, under licenses ranging from Apache 2.0 and MIT to custom community licenses. Embedding and rerank models come from the same vendors plus specialists such as Cohere and Voyage, and open models such as BGE and E5.
+Model families come in hosted frontier and open-weight forms, each with reasoning modes and licenses that range from permissive to restricted. Embedding and rerank models are separate families from the same vendors and from specialists. Treat the list of names as a snapshot to verify, and compare candidates on your own evals.
 
 ## When to choose it
 

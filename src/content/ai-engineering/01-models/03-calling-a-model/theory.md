@@ -67,7 +67,7 @@ Streaming does not make the model faster; it lowers **time to first token**, whi
 - Leaking raw SDK types through the whole codebase.
 - Estimating usage yourself after the call instead of reading what the provider reports.
 
-> **Status as of October 2026:** the major APIs (OpenAI Responses and Chat Completions, Anthropic Messages, Google Gemini) all expose role-based messages, a finish or stop reason, token usage and server-sent-event streaming, with different field names (`stop_reason`, `finish_reason`, `finishReason`). Gateway libraries such as the Vercel AI SDK, LiteLLM and OpenRouter normalize them; most providers also offer an OpenAI-compatible endpoint.
+Major providers expose the same ingredients under different names: role-based messages, a finish or stop reason, token usage and streamed events. Gateway libraries normalize those field names, and many providers offer a compatible endpoint, so a thin adapter of your own keeps the rest of the application independent of any one shape.
 
 ## When to choose it
 

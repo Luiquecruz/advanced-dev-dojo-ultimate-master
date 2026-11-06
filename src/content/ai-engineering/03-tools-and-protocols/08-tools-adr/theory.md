@@ -55,7 +55,7 @@ Six small tools fit easily in the budget, so this plan sends them all; Relay's 6
 - A loading plan that ignores the arithmetic of tools × tokens per definition.
 - A round limit chosen without the latency budget.
 
-> **Status as of October 2026:** MCP's current revision is 2026-07-28, A2A's stable specification is 1.0 (March 2026), and both, along with AGENTS.md and Agent Skills, are governed by the Agentic AI Foundation. Record the protocol revisions and SDK versions you depend on in the ADR, and revisit it when a new revision deprecates something you use.
+Record the protocol revisions and SDK versions you depend on in the ADR, and revisit it when a new revision deprecates something you use.
 
 ## When to choose it
 

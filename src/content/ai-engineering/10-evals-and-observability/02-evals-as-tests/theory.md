@@ -69,7 +69,7 @@ The "tests per prompt" of Prompts as Code are the small version of this.
 - Letting one model error crash the whole run, or silently dropping errored cases from the denominator.
 - A dataset written once and never fed with production failures.
 
-> **Status as of October 2026:** open-source eval runners include promptfoo, DeepEval, Ragas (RAG metrics), Inspect AI (from the UK AI Security Institute) and OpenAI Evals; observability platforms such as Braintrust, LangSmith, Langfuse and Arize Phoenix bundle datasets, scorers and experiment comparison. They all implement the same three parts this lesson builds.
+Open-source eval runners and observability platforms bundle datasets, scorers and experiment comparison. They all implement the same three parts this lesson builds.
 
 ## When to choose it
 

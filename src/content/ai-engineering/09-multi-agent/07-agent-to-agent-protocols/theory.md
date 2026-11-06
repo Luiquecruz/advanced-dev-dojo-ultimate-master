@@ -44,7 +44,7 @@ Following a long task has three options: **polling** `GetTask`, **streaming** (`
 
 A2A standardizes the envelope, not the trust. You still validate artifacts before using them (lesson 06), decide what context to send to a third party (data governance, module 13), scope credentials per remote agent, and log every task for audit. The remote agent is opaque by design: you cannot inspect its prompt or tools, so treat its output like any untrusted input.
 
-> **Status as of October 2026:** A2A was launched by Google in April 2025, moved to the Linux Foundation, reached 1.0 in March 2026 and joined the Agentic AI Foundation in August 2026. Version 1.0 names the operations `SendMessage`, `SendStreamingMessage`, `GetTask`, `ListTasks`, `CancelTask`, `SubscribeToTask`, push notification config operations and `GetExtendedAgentCard`, and spells task states on the wire as `TASK_STATE_COMPLETED`, `TASK_STATE_INPUT_REQUIRED` and so on. SDKs and framework integrations (Google ADK, Microsoft Agent Framework, LangGraph and others) adopt versions on their own schedules.
+Agent-to-agent protocols define operations to send a message, stream a response, get, list and cancel a task, subscribe to updates and fetch an extended agent card, and spell task states on the wire. Protocol versions rename operations and states between releases, and SDKs and framework integrations adopt versions on their own schedules, so pin the version you depend on.
 
 ## When to choose it
 

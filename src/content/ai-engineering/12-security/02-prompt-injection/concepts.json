@@ -5,6 +5,6 @@
   { "term": "Adaptive attack", "description": "An attacker who iterates against your specific defense (search, optimization, human creativity) instead of replaying a fixed list. Most published defenses fall to it." },
   { "term": "Spotlighting", "description": "Delimiting, marking or encoding untrusted text so the model can tell it apart from instructions. Lowers attack success; does not eliminate it." },
   { "term": "Dual LLM pattern", "description": "A privileged model with tools sees only trusted input; a quarantined model without tools reads untrusted text, and its results travel as references." },
-  { "term": "CaMeL", "description": "Google DeepMind's 2025 design: a program extracted from the trusted query, a quarantined model for untrusted data, and capabilities checked at every tool call." },
-  { "term": "Agents Rule of Two", "description": "Meta, October 2025: per session, at most two of untrusted input, sensitive data or systems, and state changes or external communication; all three need a human." }
+  { "term": "CaMeL", "description": "Google DeepMind's design: a program extracted from the trusted query, a quarantined model for untrusted data, and capabilities checked at every tool call." },
+  { "term": "Agents Rule of Two", "description": "Meta's rule: per session, at most two of untrusted input, sensitive data or systems, and state changes or external communication; all three need a human." }
 ]

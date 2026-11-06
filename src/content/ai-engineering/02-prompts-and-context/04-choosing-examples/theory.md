@@ -45,7 +45,7 @@ Selection is plain, deterministic code. Test it like any ranking function, and l
 - A pool that is never refreshed while the product changes.
 - Dynamic examples placed before a static system prompt in a way that breaks the cacheable prefix (lesson 07): keep the static parts first.
 
-> **Status as of October 2026:** frameworks ship example selectors (LangChain's semantic similarity and max marginal relevance selectors, for instance) and prompt optimizers such as DSPy choose demonstrations automatically against a metric. Many-shot prompting with hundreds of examples became practical with context windows of hundreds of thousands of tokens and prompt caching.
+Frameworks ship example selectors, and prompt optimizers can choose demonstrations automatically against a metric. Many-shot prompting with hundreds of examples is practical when the context window is large and prompt caching keeps the repeated prefix cheap.
 
 ## When to choose it
 

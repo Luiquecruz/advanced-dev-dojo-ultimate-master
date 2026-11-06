@@ -28,7 +28,7 @@ A context ADR is rarely "we wrote a good prompt". It is a set of measurable deci
 - **Alternatives** are the proposals you will hear again ("just send the whole report", "retry three times", "parse free text"), each with the number that rules it out.
 - **Consequences** include the costs you accept: a human queue for the residual failures, an example pool that needs curation, slower prompt changes.
 
-## Example: release notes summarizer
+## Example: update summarizer
 
 ```ts
 export const promptPlan = {
@@ -53,7 +53,7 @@ Here a human reads the output, so free text is acceptable; static examples are p
 - Batch processing for anything a user waits for, or interactive pricing for a backfill that blows the budget.
 - Only positive consequences.
 
-> **Status as of October 2026:** schema-constrained output, prompt caching and batch discounts of about 50% are available from the major providers, each with its own limits and supported schema subset; record the provider features your plan relies on in the ADR so a provider change triggers a review.
+Record the provider features your plan relies on (schema-constrained output, caching, batch discounts and their limits) in the ADR, so a provider change triggers a review.
 
 ## When to choose it
 

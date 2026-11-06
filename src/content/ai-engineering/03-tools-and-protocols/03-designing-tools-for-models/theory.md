@@ -68,7 +68,7 @@ Models retry, and harnesses replay steps after failures. Read tools are naturall
 - Returning whole database rows, or silently truncating lists.
 - Testing tools only with unit tests. Evaluate them with a model too: run realistic tasks and read the transcripts to see where it hesitates or misuses a tool.
 
-> **Status as of October 2026:** model APIs accept JSON Schema for tool parameters, and MCP tools declare an `inputSchema` and an optional `outputSchema`; since the 2026-07-28 revision both may use any JSON Schema 2020-12 keyword. Some providers still reject or ignore parts of JSON Schema (formats, patterns, `$ref`) in strict modes, so check the provider's supported subset before relying on a keyword.
+Model APIs accept JSON Schema for tool parameters, and MCP tools declare an `inputSchema` and an optional `outputSchema`. Some providers reject or ignore parts of JSON Schema (formats, patterns, `$ref`) in strict modes, so check the provider's supported subset before relying on a keyword.
 
 ## When to choose it
 

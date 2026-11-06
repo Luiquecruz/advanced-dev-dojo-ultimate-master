@@ -52,7 +52,7 @@ What makes them work:
 - Rules that matter written only as prose.
 - Swapping harnesses (or models) without re-running your evals.
 
-> **Status as of October 2026:** `AGENTS.md` is stewarded by the Agentic AI Foundation under the Linux Foundation and is read by Codex, Cursor, GitHub Copilot's coding agent, Gemini CLI, Jules, Zed and others; its site reports use in more than 60 000 open-source projects. Claude Code reads `CLAUDE.md` files and can read `AGENTS.md` when no `CLAUDE.md` exists; its docs recommend keeping each file under about 200 lines. OpenAI's February 2026 "Harness engineering" article describes three engineers shipping a product through roughly 1 500 agent-written pull requests, with `AGENTS.md` kept short as a map to indexed docs.
+Context files such as `AGENTS.md` and `CLAUDE.md` are read by many coding agents, and tools differ in which names they read. Keep each file short, as a map to indexed docs rather than an encyclopedia: a long file competes with the task for the same context window.
 
 ## When to choose it
 

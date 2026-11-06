@@ -56,9 +56,9 @@ The `license` field in a card is declared by the uploader. Common values and wha
 - **Non-commercial** (`cc-by-nc-4.0`, research licenses): no product use.
 - **`unknown` or missing**: treat as unusable until clarified.
 
-A fine-tune or quantization **inherits** its base model's license terms, whatever its own card says. And "open" in a model name is marketing: the Open Source Initiative's **Open Source AI Definition** (OSAID 1.0, October 2024) requires the freedoms to use, study, modify and share, with the weights, the code and detailed training-data information. Most popular models are **open weights**, not open source by that definition.
+A fine-tune or quantization **inherits** its base model's license terms, whatever its own card says. And "open" in a model name is marketing: the Open Source Initiative's **Open Source AI Definition** (OSAID 1.0) requires the freedoms to use, study, modify and share, with the weights, the code and detailed training-data information. Most popular models are **open weights**, not open source by that definition.
 
-> **Status as of October 2026:** the Hub hosts well over a million public models. `transformers` v5 (first release candidate December 2025) focuses on PyTorch and interoperability with vLLM, SGLang and llama.cpp. TRL reached 1.0 in March 2026. The ggml team behind llama.cpp joined Hugging Face in February 2026, and `safetensors` moved to the PyTorch Foundation in April 2026. TGI, Hugging Face's own inference server, is in maintenance mode, with vLLM and SGLang recommended instead.
+The Hub, `transformers`, TRL, PEFT and `safetensors` are separate pieces that evolve independently, so pin versions and read each release's migration notes before upgrading.
 
 ## When to choose it
 

@@ -58,7 +58,7 @@ Half-open intervals (start inclusive, end exclusive) make adjacent facts meet wi
 
 The upgrade is not free: every write needs reliable extraction into a schema, entity resolution ("Ana", "Ana Souza" and "she" are one node), and a contradiction check. Errors there corrupt the graph in ways a flat store would not.
 
-> **Status as of October 2026:** Graphiti (open source, by Zep) and Zep's hosted service are the best-known temporal knowledge graph memories for agents; Zep's paper (January 2025) reports gains over flat memory on temporal reasoning questions. Bi-temporal tables are an old database idea, standardized in SQL:2011 (application-time and system-versioned tables). Published comparisons also show simple memories staying competitive on many benchmarks, so measure on your own questions.
+Temporal knowledge graph memories for agents exist as open-source engines and hosted services, and report gains over flat memory on temporal reasoning questions. Bi-temporal tables are an old database idea, standardized in SQL as application-time and system-versioned tables. Published comparisons also show simple memories staying competitive on many benchmarks, so measure on your own questions.
 
 ## When to choose it
 

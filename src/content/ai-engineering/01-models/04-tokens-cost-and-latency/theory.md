@@ -70,7 +70,7 @@ Measure latency per call with a clock you can inject (`now()` before and after),
 - No `maxTokens` at all, so one request can produce thousands of tokens.
 - Latency SLOs on averages, hiding a slow p95.
 
-> **Status as of October 2026:** list prices span roughly two orders of magnitude, from a few cents per million input tokens for small models to tens of dollars per million output tokens for the largest frontier and reasoning models; output usually costs 3–5× input. Most providers discount cached input (prompt caching) and batch jobs (often around 50%). Several providers offer token-counting endpoints; open tokenizers such as `tiktoken` exist for some model families.
+Output tokens usually cost several times more than input tokens, and providers typically discount cached input and batch jobs. Prices differ widely between model sizes and change often, so keep them in configuration and read them from your provider rather than hard-coding them. Count tokens with the tokenizer or counting endpoint your provider offers.
 
 ## When to choose it
 

@@ -1,6 +1,6 @@
 # Inventory and Sprawl
 
-You cannot govern what you cannot list. The first question in any AI audit, incident or regulatory request is "which AI systems do you run, who owns them, and what can they reach?". In most companies the honest answer in 2026 is "we are not sure": agents built for pilots still run, keys were pasted into CI variables, three teams use three MCP servers for the same database, and some people use tools nobody approved. That is **AI sprawl**, and the cure starts with an inventory.
+You cannot govern what you cannot list. The first question in any AI audit, incident or regulatory request is "which AI systems do you run, who owns them, and what can they reach?". In most companies the honest answer is often "we are not sure": agents built for pilots still run, keys were pasted into CI variables, three teams use three MCP servers for the same database, and some people use tools nobody approved. That is **AI sprawl**, and the cure starts with an inventory.
 
 ## What goes in the registry
 
@@ -33,7 +33,7 @@ A registry pays off when a job checks it on a schedule:
 - **Expired and expiring credentials:** expired keys that still exist are clutter at best and a breach path at worst; expiring ones need rotation before they break production at 3 a.m.
 - **Stale assets:** a key or agent unused for 90 days is probably a forgotten pilot. Stale credentials are favorite targets because nobody notices their use.
 
-Inject `now` into these checks: the same code then runs in tests, in a nightly job and when you backfill last year's data for an auditor.
+Inject `now` into these checks: the same code then runs in tests, in a nightly job and when you backfill historical data for an auditor.
 
 ## Shadow AI signals
 
@@ -54,7 +54,7 @@ Aggregate signals by value (which key, model or agent), with call counts, token 
 - Treating every unregistered call as misconduct; most are people working around a missing tool.
 - Logging prompt contents to detect shadow AI: detect with metadata (keys, models, sources, volumes), not by reading what people wrote.
 
-> **Status as of October 2026:** AI gateways (LiteLLM, cloud provider gateways and API management products) log keys, models and spend per call, and identity providers have started to treat agents as first-class identities (for example Microsoft Entra Agent ID). SaaS management and CASB tools detect AI applications from network and OAuth data. "Agent sprawl" is an `emerging` term; "shadow AI" is `established`.
+"Agent sprawl" is an `emerging` term; "shadow AI" is `established`.
 
 ## When to choose it
 

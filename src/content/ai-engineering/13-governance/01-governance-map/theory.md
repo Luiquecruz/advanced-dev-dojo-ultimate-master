@@ -46,7 +46,7 @@ This module is **layer 6, governance** of the track's six layers. It sits on top
 
 Every control in this module has the same four parts: **an owner** (a person or team, never "everyone"), **a rule** (written precisely enough for code to check), **enforcement** (where the rule runs: gateway, harness, CI, release process) and **evidence** (the log, eval record or report that shows it ran). If one of the four is missing, you have policy theater. Regulation adds a fifth part, **dates**: obligations change every quarter, so laws live in dated tables reviewed on a schedule, never in code paths nobody revisits.
 
-> **Status as of October 2026:** the EU AI Act's general-purpose model obligations have applied since August 2025 and its transparency duties since August 2026; the Digital Omnibus on AI (Regulation (EU) 2026/1744, in force 27 July 2026) moved high-risk obligations to 2 December 2027 (Annex III) and 2 August 2028 (Annex I). In Brazil, the LGPD applies to personal data in AI systems today, and PL 2338/2023 passed the Senate in December 2024 but still awaits the rapporteur's report in a special committee of the Chamber of Deputies. Colorado replaced its 2024 AI Act with SB 26-189 (applies from January 2027); South Korea's AI Basic Act has been in force since January 2026. Review these facts every quarter.
+Regulatory dates and thresholds change, so keep them in a table with an owner and a review schedule rather than in code, and confirm them against the official text before a compliance decision.
 
 ## When to choose it
 

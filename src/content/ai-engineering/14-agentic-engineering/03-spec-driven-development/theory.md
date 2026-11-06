@@ -53,7 +53,7 @@ Each level asks for more discipline and promises more. Spec-as-source inherits t
 - **Drift.** A spec that is not checked against tasks and tests rots like any comment. Make the matrix part of CI, or at least of the review.
 - **Specs that dictate implementation.** Requirements say *what*; the plan says *how*. Mixing them freezes design decisions before anyone has thought about them.
 
-> **Status as of October 2026:** GitHub Spec Kit (open source since August 2025, version 1.0 in August 2026) drives agents through `constitution`, `specify`, `plan`, `tasks` and `implement` commands. AWS Kiro (preview July 2025, generally available 17 November 2025) is an IDE built around `requirements.md` in EARS notation, `design.md` and `tasks.md`, and generates property-based tests from specs. Tessl launched a spec registry and a spec-as-source framework in September 2025 and now presents itself as a platform for agent skills. OpenSpec and BMAD-METHOD are other open-source workflows. SDD is `emerging`: the tools change monthly and the levels above are more stable than any of them.
+Spec-driven development is `emerging`: the tools change often and the levels above are more stable than any of them.
 
 ## When to choose it
 

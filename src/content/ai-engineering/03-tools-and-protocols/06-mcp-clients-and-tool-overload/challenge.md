@@ -1,6 +1,6 @@
 Write the client side of MCP for an agent that sees many servers: discover their tools, give them unique names, find the right ones for a task, load only those into the model's context under a token budget, and route each call back to the server that owns it.
 
-`servers.ts` (already written) provides MCP 2026-07-28 servers that run in memory: `createCompanyServers()` returns `[{ id: 'crm', server }, { id: 'billing', server }, { id: 'docs', server }]` (ten tools; each server has its own `search`), and `createBrokenServer()` fails every request. A server has `handle(message)`, which takes one serialized JSON-RPC message and resolves to the serialized response. `tools/list` is **paginated**: a result may contain `nextCursor`, which you send back as `params.cursor` to get the next page.
+`servers.ts` (already written) provides MCP `2026-07-28` servers that run in memory: `createCompanyServers()` returns `[{ id: 'crm', server }, { id: 'billing', server }, { id: 'docs', server }]` (ten tools; each server has its own `search`), and `createBrokenServer()` fails every request. A server has `handle(message)`, which takes one serialized JSON-RPC message and resolves to the serialized response. `tools/list` is **paginated**: a result may contain `nextCursor`, which you send back as `params.cursor` to get the next page.
 
 ## 1. `createMcpClient(server, clientInfo?)`
 

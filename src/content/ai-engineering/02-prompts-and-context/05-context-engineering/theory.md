@@ -56,7 +56,7 @@ In an agent loop (module 07) context grows with every tool call: file contents, 
 - No record of what the model actually saw, which makes wrong answers impossible to debug.
 - Assuming a bigger window removes the need to select: context rot says otherwise.
 
-> **Status as of October 2026:** frontier context windows range from about 200 000 to 1 million tokens or more. "Context engineering" became the common name for this discipline in mid-2025; Chroma's July 2025 "Context Rot" report measured degradation with input length across 18 models, and agent harnesses ship automatic compaction and tool-result clearing.
+Context windows are large but not uniform in quality: measurements show reliability degrading as input grows, and agent harnesses respond with automatic compaction and tool-result clearing. Check your model's documented window and measure degradation on your own tasks.
 
 ## When to choose it
 

@@ -59,7 +59,7 @@ Every tool call id must end up with exactly one result, or the next request is m
 - Gating every call, so reviewers rubber-stamp.
 - Losing the decision context: the model never learns why a call was denied or edited.
 
-> **Status as of October 2026:** frameworks ship this pattern under their own names. LangGraph pauses a graph with `interrupt()` and resumes it with a `Command` carrying the human's answer, using a checkpointer to persist state. The OpenAI Agents SDK marks tools with `needsApproval`, returns pending `interruptions`, and serializes a run with `RunState` to resume after `approve` or `reject`. The Claude Agent SDK asks a permission callback before each tool use. MCP's elicitation feature lets a server request input from the user through the client.
+Frameworks ship this pattern under their own names: pausing a graph and resuming it with the human's answer from a persisted checkpoint, marking tools as needing approval and serializing the run to resume after approve or reject, or asking a permission callback before each tool use. Protocols can also let a server request input from the user through the client. Whatever the name, the mechanism is the same: pause, persist, decide, resume.
 
 ## When to choose it
 

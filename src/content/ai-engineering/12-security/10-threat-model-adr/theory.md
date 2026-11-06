@@ -58,7 +58,7 @@ The mitigations name things you can see in the plan (`post_to_slack: 'removed'`,
 - Admin or broad credentials "for convenience".
 - No residual risk, which usually means nobody looked.
 
-> **Status as of October 2026:** threat modeling for agents is converging on the trifecta or the Agents Rule of Two for data flows, OWASP's LLM and agentic Top 10s for coverage, and adversarial eval suites for evidence. Regulators and auditors increasingly expect a documented risk assessment for AI features that process personal data (module 13 covers the EU AI Act and Brazil's LGPD).
+Regulators and auditors increasingly expect a documented risk assessment for AI features that process personal data (module 13 covers the EU AI Act and Brazil's LGPD).
 
 ## When to choose it
 
