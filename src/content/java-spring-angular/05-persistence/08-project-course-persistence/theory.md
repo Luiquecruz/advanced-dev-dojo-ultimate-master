@@ -6,7 +6,7 @@ You need: JPA and Hibernate Basics, Spring Data Repositories, Relationships, Tra
 
 ## Goal
 
-Create a Maven project `course-catalog` with the base package `com.example.catalog`. A `Course` has many `Lesson`s and many `Tag`s. The schema is created only by migrations, courses and lessons are soft-deleted, a list endpoint is paginated, and the tests run on PostgreSQL started by Testcontainers. Install JDK 25, Maven 3.9 or later and Docker first, and check them with `java -version`, `mvn -v` and `docker info`.
+Create a Maven project `course-catalog` with the base package `com.example.catalog`. A `Course` has many `Lesson`s and many `Tag`s. The schema is created only by migrations, courses and lessons are soft-deleted, a list endpoint is paginated, and the tests run on PostgreSQL started by Testcontainers. Install JDK 25, Maven 3.9 or later and Docker Engine 28 or newer first, and check them with `java -version`, `mvn -v` and `docker info`.
 
 ## Features
 
@@ -47,6 +47,8 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
 ```
+
+The loopback port binding assumes Docker Engine 28 or newer, the baseline for this project. Use that baseline before running the local setup on a shared network; the Docker port-publishing documentation explains the older-engine limitation.
 
 2. Configure the application (fake local credentials, never reuse them anywhere real):
 
