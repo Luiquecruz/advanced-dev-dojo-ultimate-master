@@ -39,7 +39,7 @@ With no library on the classpath Boot falls back to a simple in-memory map, whic
 
 ```properties
 spring.cache.cache-names=courses
-spring.cache.caffeine.spec=maximumSize=500,expireAfterWrite=10m
+spring.cache.caffeine.spec=maximumSize=500,expireAfterWrite=10m,recordStats
 ```
 
 Caffeine lives inside each JVM. With three API instances, an update evicts one instance's entry while the other two keep serving the old value until it expires. A shared provider such as Redis gives all instances one cache, with a time to live set by `spring.cache.redis.time-to-live`. Whichever you choose, always bound the cache by size and by time.

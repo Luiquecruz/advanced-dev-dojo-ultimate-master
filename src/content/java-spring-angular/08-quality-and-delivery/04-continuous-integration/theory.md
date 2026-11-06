@@ -82,8 +82,8 @@ jobs:
 A gate is a rule that blocks a merge. The pipeline fails on a failing test, but you can add more:
 
 - A minimum coverage, enforced by a build plugin such as JaCoCo's `check` goal. Treat the number as a floor that catches a big drop, not a goal to chase.
-- Dependency updates and vulnerability alerts from Dependabot, which can also open update pull requests for Maven, npm, Docker and GitHub Actions.
-- Secret scanning, so a committed credential is flagged.
+- Dependency checks in CI. Dependabot can open update PRs and report vulnerabilities, but its alerts alone do not block a merge.
+- Secret scanning alerts identify committed credentials; alerts alone do not block merging. A required secret-scan status check or a separate push-protection policy provides an enforcement gate.
 - Required status checks in the branch protection rules, which stop a pull request from merging until the named jobs succeed.
 
 A gate that people routinely bypass teaches them to ignore the pipeline, so keep gates few and make them reliable.

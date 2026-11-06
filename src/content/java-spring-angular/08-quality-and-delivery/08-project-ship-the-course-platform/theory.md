@@ -30,7 +30,7 @@ The criteria use this test data: database `courses`, user `courses`, password `c
 6. `docker compose exec api id -u` prints a number other than `0`.
 7. After changing one Java source file, a second `docker compose --profile full build api` reuses the cached dependency step.
 8. `docker compose stop api` finishes without a timeout kill, and the API log shows a graceful shutdown.
-9. The workflow runs `./mvnw -B verify` in `api/` and `npm test -- --no-watch --no-progress` plus `npm run build` in `client/`, sets `permissions: contents: read`, and every `uses:` line ends in a 40-character commit SHA.
+9. The workflow runs `./mvnw -B verify` in `api/` and `npm test -- --no-watch --no-progress` plus `npm run build` in `client/`, sets `permissions: contents: read`, and every `uses:` reference is pinned to a 40-character commit SHA with its version in a trailing comment.
 10. `.env` is listed in `.gitignore`, and `git status` shows `.env.example` but not `.env`.
 
 ## Suggested steps

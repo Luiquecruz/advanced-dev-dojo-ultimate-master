@@ -1,9 +1,30 @@
 [
-  { "term": "JWT", "description": "A signed token of Base64URL header, payload and signature whose claims anyone can read but only the issuer can create." },
-  { "term": "Standard claims", "description": "iss names the issuer, sub the user, aud the intended recipient, exp the expiry and nbf the earliest valid time." },
-  { "term": "Resource server", "description": "An API that validates access tokens and enforces permissions without authenticating users itself." },
-  { "term": "JWK Set", "description": "The issuer's published public keys, which a resource server uses to verify token signatures." },
-  { "term": "Authorization Code with PKCE", "description": "The flow for apps acting for a signed-in user, where a one-time code and a proof key are exchanged for tokens." },
-  { "term": "OpenID Connect", "description": "An identity layer on OAuth 2.0 whose ID token tells the client who signed in and is not meant for the API." },
-  { "term": "SCOPE_ authority", "description": "The prefix Spring Security gives each scope claim entry, so courses:read becomes SCOPE_courses:read." }
+  {
+    "term": "JWT",
+    "description": "The signed access tokens covered here use a three-part Base64URL header, payload and signature with readable claims; encrypted JWTs have a different representation."
+  },
+  {
+    "term": "Standard claims",
+    "description": "iss names the issuer, sub the user, aud the intended recipient, exp the expiry and nbf the earliest valid time."
+  },
+  {
+    "term": "Resource server",
+    "description": "An API that validates access tokens and enforces permissions without authenticating users itself."
+  },
+  {
+    "term": "JWK Set",
+    "description": "The issuer's published public keys, which a resource server uses to verify token signatures."
+  },
+  {
+    "term": "Authorization Code with PKCE",
+    "description": "The flow for apps acting for a signed-in user, where a one-time code and a proof key are exchanged for tokens."
+  },
+  {
+    "term": "OpenID Connect",
+    "description": "An identity layer on OAuth 2.0 whose ID token tells the client who signed in and is not meant for the API."
+  },
+  {
+    "term": "SCOPE_ authority",
+    "description": "The prefix Spring Security gives each scope claim entry, so courses:read becomes SCOPE_courses:read."
+  }
 ]

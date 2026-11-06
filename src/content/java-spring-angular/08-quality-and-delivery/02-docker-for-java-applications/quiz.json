@@ -2,13 +2,13 @@
   {
     "question": "A Dockerfile copies the whole project and then runs the Maven build. Every one-line code change downloads all dependencies again. What is the most effective fix?",
     "options": [
-      "Copy pom.xml and the wrapper first, or mount a Maven cache, so the dependency step stays cached",
+      "Download dependencies before copying sources for a reusable layer, or use a Maven cache mount to reuse files when the build reruns",
       "Run the build with root privileges",
       "Add more RUN instructions after the build",
       "Use the latest tag for the base image"
     ],
     "answer": 0,
-    "explanation": "Docker reuses a layer only while its instruction and all earlier ones are unchanged. Copying sources late, or caching the local repository, keeps the slow dependency step from rerunning."
+    "explanation": "Docker reuses a layer only while its instruction and all earlier ones are unchanged. A dependency-download RUN before copying sources can reuse its layer. A cache mount instead preserves downloaded repository files even when the Maven build step reruns."
   },
   {
     "question": "Why does a multi-stage Dockerfile for a Spring Boot API normally end with a JRE image instead of a JDK image with Maven?",

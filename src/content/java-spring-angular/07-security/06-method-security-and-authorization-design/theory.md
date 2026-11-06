@@ -53,7 +53,7 @@ class EnrollmentService {
 }
 ```
 
-`EnrollmentRepository` stands in for a repository like the ones in the persistence module, and `Enrollment` is a record with `id`, `owner` and `course`. The last rule calls a bean by name, which keeps a growing rule in testable Java instead of a long string. The bean and its method must be `public`, because SpEL reflection cannot call package-private members:
+`EnrollmentRepository` stands in for a repository like the ones in the persistence module, and `Enrollment` is a record with `id`, `owner` and `course`. The last rule calls a bean by name, which keeps a growing rule in testable Java instead of a long string. The default SpEL method resolver finds public methods. The declaring bean class need not itself be public: a public method on a package-private class can be invoked when reflective access is permitted. This example makes both public for a clear API:
 
 ```java
 @Component("enrollmentAccess")

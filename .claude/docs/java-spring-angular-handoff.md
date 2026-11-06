@@ -119,3 +119,5 @@ Module 06 is theory + quiz only (owner decision: no graded challenges). If chall
 - `String.format` output depends on the default locale; say so when a lesson prints decimals.
 - Java 25 allows instance `main` methods (JEP 512); a missing `static` no longer stops a program from starting, so do not claim it does.
 - `java File.java` source-file mode can use other source files in the same folder; do not say it handles one file only.
+
+Archive follow-up: synchronized the latest reviewed module 07, 08 and 09 folders from 9fc96b2d, 11361afc and ad58ef0e, retaining the module 06 corrections through def2f756. This includes stale-session handling, scoped MVC slice behavior, domain not-found stubs and TCP database readiness checks. The archive is preserved future work, not the active standalone backend track.

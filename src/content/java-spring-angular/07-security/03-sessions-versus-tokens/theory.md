@@ -29,7 +29,7 @@ server:
 
 A token design keeps no session on the server. After login an authorization server issues an access token, typically a JWT that the next lesson explains. The client sends it in an `Authorization: Bearer <token>` header, and the server verifies the signature and expiry without any lookup. Any instance, or any other service that trusts the issuer, can validate it, which is why tokens suit APIs, mobile apps and several back ends sharing one login.
 
-The trade-off is revocation. A signed token stays valid until it expires, so the server cannot simply forget it. You limit the damage by making access tokens short-lived (minutes), and you keep users signed in with a longer-lived refresh token that the client exchanges for a new access token. A refresh token is stored by the issuer, so it can be rotated or revoked. In Spring, a resource server that only reads bearer tokens declares that it never creates a session:
+The trade-off is revocation. A signed token stays valid until it expires, so the server cannot simply forget it. You limit the damage by making access tokens short-lived (minutes), and you keep users signed in with a longer-lived refresh token that the client exchanges for a new access token. The issuer can retain grant or token state to support rotation and revocation without necessarily storing every refresh-token value. In Spring, a resource server that only reads bearer tokens declares that it never creates a session:
 
 ```java
 http.sessionManagement(session -> session

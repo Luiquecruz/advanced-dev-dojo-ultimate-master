@@ -17,16 +17,20 @@ The interceptors and guards below share one source of truth. This service keeps 
 export class AuthStore {
   private readonly token = signal<string | null>(null);
   private readonly roleNames = signal<readonly string[]>([]);
+  private readonly generation = signal(0);
 
   readonly accessToken = this.token.asReadonly();
+  readonly sessionGeneration = this.generation.asReadonly();
   readonly isAuthenticated = computed(() => this.token() !== null);
 
   signIn(accessToken: string, roles: readonly string[]): void {
+    this.generation.update((value) => value + 1);
     this.token.set(accessToken);
     this.roleNames.set(roles);
   }
 
   signOut(): void {
+    this.generation.update((value) => value + 1);
     this.token.set(null);
     this.roleNames.set([]);
   }
@@ -63,11 +67,13 @@ A 401 means the credential is missing, expired or rejected. Clear the local stat
 export const unauthorizedInterceptor: HttpInterceptorFn = (request, next) => {
   const authStore = inject(AuthStore);
   const router = inject(Router);
+  const requestGeneration = authStore.sessionGeneration();
 
   return next(request).pipe(
     catchError((error: unknown) => {
-      if (request.url.startsWith('/api/') && request.url !== '/api/auth/login' &&
-          error instanceof HttpErrorResponse && error.status === 401) {
+      if (request.url.startsWith('/api/') && request.url.split('?')[0] !== '/api/auth/login' &&
+          error instanceof HttpErrorResponse && error.status === 401 &&
+          authStore.sessionGeneration() === requestGeneration) {
         authStore.signOut();
         void router.navigate(['/login'], { queryParams: { returnUrl: router.url } });
       }
@@ -77,7 +83,7 @@ export const unauthorizedInterceptor: HttpInterceptorFn = (request, next) => {
 };
 ```
 
-Do not sign the user out on 403: they are authenticated but lack a permission, so show a message instead. A real application may try one token refresh on 401 and replay the request, but it must send only one refresh at a time, and the login request itself must be excluded so a wrong password does not loop. Interceptors run in the order of the `withInterceptors` array.
+Each sign-in or sign-out advances a generation. A delayed 401 from an older session is rethrown without clearing a newer session or navigating away. Do not sign the user out on 403: they are authenticated but lack a permission, so show a message instead. A real application may try one token refresh on 401 and replay the request, but it must send only one refresh at a time, and the login request itself must be excluded so a wrong password does not loop. Interceptors run in the order of the `withInterceptors` array.
 
 ## Route guards
 

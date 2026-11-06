@@ -53,13 +53,13 @@ class CourseControllerTests {
 
     @Test
     void returnsNotFoundForUnknownCourse() {
-        given(courseService.find(99L)).willReturn(Optional.empty());
+        given(courseService.find(99L)).willThrow(new CourseNotFoundException(99L));
         assertThat(mvc.get().uri("/api/courses/99")).hasStatus(404);
     }
 }
 ```
 
-Spring Boot 4 puts the annotation in `org.springframework.boot.webmvc.test.autoconfigure` and the test dependencies in `spring-boot-starter-webmvc-test`. This test checks routing, status codes, JSON mapping and error handling without a database. On the Angular side, a component test renders one component with `TestBed` and asserts on the DOM; a service test uses `provideHttpClientTesting()` and `HttpTestingController` to answer requests from the test.
+Spring Boot 4 puts the annotation in `org.springframework.boot.webmvc.test.autoconfigure` and the test dependencies in `spring-boot-starter-webmvc-test`. This test assumes the request is authorized to reach the controller. With Spring Security present, import the intended slice policy and provide an authorized test identity. For Project: Secure Course API, preserve its scoped-read policy and use `@WithMockUser(authorities = "SCOPE_courses:read")` with the security test starter. A deliberately public GET policy is another design, but must be explicit; otherwise a 401 or 403 occurs before the expected 404. The test checks routing, status codes, JSON mapping and error handling without a database. On the Angular side, a component test renders one component with `TestBed` and asserts on the DOM; a service test uses `provideHttpClientTesting()` and `HttpTestingController` to answer requests from the test.
 
 ## Integration tests
 
