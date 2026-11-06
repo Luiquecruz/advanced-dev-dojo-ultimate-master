@@ -68,4 +68,4 @@ Module 06 security review addressed filter-chain ordering, JWT formats, CSRF ref
 
 Module 07 review addressed the scoped detail route, localhost publishing, HTTP cache freshness and account changes, container build caching, actuator exposure and shutdown grace period.
 
-Module 08 validation: 1,800 unfiltered content checks, eslint, typecheck, docs sync, API-only Compose validation and all 23 backend resource URLs pass.
+Module 08 validation: 1,800 unfiltered content checks, eslint, typecheck, docs sync, API-only Compose validation and all 22 backend resource URLs pass. A representative Boot 4.1.2 API compiles and passes direct HTTP authentication, authorization, field-error, invalid-token and rejected-short-secret checks. PostgreSQL verifies the current schema, identity continuation, active-code uniqueness, soft-delete reuse and renamed fixed data. The content project is a local implementation exercise; the smoke fixture is representative rather than a complete capstone solution.
