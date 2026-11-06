@@ -1,4 +1,6 @@
-# Dev Dojo — Spec de implementação
+# Constela Mission — Spec de implementação
+
+> Produto renomeado de Dev Dojo para Constela Mission (tema de missão espacial). Marca, vocabulário da interface e o poço de massa da grade estão descritos em `.claude/docs/ARCHITECTURE.md` "Track presentation".
 
 Visual system e motion design · v1 · 27 de outubro de 2026
 

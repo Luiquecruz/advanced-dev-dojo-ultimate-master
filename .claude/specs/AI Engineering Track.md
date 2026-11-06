@@ -534,9 +534,9 @@ Given a product briefing (users, data sensitivity, scale, regulation), the learn
 - A "What changed" changelog lesson at the end of the track, updated on each review, so returning learners see the delta.
 - Challenges never depend on a specific vendor model or API version: they run against the deterministic fake model, so they do not break when the market moves.
 
-## 20. Adaptation for Dev Dojo
+## 20. Adaptation for Constela Mission
 
-Dev Dojo has no backend and must not hold API keys, so grading cannot call real models.
+Constela Mission has no backend and must not hold API keys, so grading cannot call real models.
 
 ### Multi-language challenges (new platform feature)
 

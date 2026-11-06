@@ -198,6 +198,6 @@ In CI the check runs in its own workflow (`.github/workflows/docs-sync.yml`) on 
 | `.claude/settings.local.json` | personal overrides (ignored by git) |
 | `.claude/worktrees/` | local worktrees (ignored by git) |
 
-The `Stop` hook runs when Claude finishes a turn. When a documented area changed without its documents, it blocks the stop once with the list of files and documents, so Claude updates the docs (or states that nothing documented changed) before handing back. Changes to `.coderabbit.yaml` are covered by an update to this file. The same set of uncovered files is reported only once; the state lives in `.git/dev-dojo-docs-sync`. Review or disable hooks with `/hooks`; personal settings go in `.claude/settings.local.json` or `~/.claude/settings.json`, never in the shared file.
+The `Stop` hook runs when Claude finishes a turn. When a documented area changed without its documents, it blocks the stop once with the list of files and documents, so Claude updates the docs (or states that nothing documented changed) before handing back. Changes to `.coderabbit.yaml` are covered by an update to this file. The same set of uncovered files is reported only once; the state lives in `.git/constela-docs-sync`. Review or disable hooks with `/hooks`; personal settings go in `.claude/settings.local.json` or `~/.claude/settings.json`, never in the shared file.
 
 Personal Claude Code rules (`~/.claude/CLAUDE.md`, memory) are not shared. Anything the whole team must follow belongs in `.claude/CLAUDE.md` or this file.

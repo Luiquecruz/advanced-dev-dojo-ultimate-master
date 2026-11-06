@@ -133,7 +133,7 @@ PHP note: EF Core sits where Magento's resource models + collections sit, but th
 
 Microsoft's EF Core testing position (quote): "We recommend that developers have good test coverage of their application running against their actual production database system." If a double is needed, prefer a repository layer over SQLite or in-memory fakes ([Testing strategy](https://learn.microsoft.com/en-us/ef/core/testing/choosing-a-testing-strategy)). Note that the ASP.NET Core integration-tests page still shows SQLite in-memory as the in-memory option ([Integration tests](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests)). The two pages put the emphasis in different places; the EF Core page is the more specific one.
 
-Browser constraint for Dev Dojo: Docker and Testcontainers cannot run in the browser, so lessons can teach the concept only.
+Browser constraint for Constela Mission: Docker and Testcontainers cannot run in the browser, so lessons can teach the concept only.
 
 ## 7. Messaging and background processing
 

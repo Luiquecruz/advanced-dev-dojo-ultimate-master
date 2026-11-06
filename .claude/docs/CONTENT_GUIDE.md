@@ -123,7 +123,7 @@ Every Node.js theory ends with two sections: **`## When to choose it`** (the dec
 
 ## Fake model (`@dojo/ai`, Node.js engine)
 
-Dev Dojo never calls a real model: no keys, no cost, no flaky grading. Lessons about models, agents, RAG or evals use a fake provider that runs in the browser. It does **not** imitate any real model. It reproduces the classes of behavior every model generation shows (text, JSON, tool calls, malformed output, refusals, truncation, latency, rate limits and server errors, varying wording), so challenges grade how the learner's code handles models in general and keep passing when the market moves.
+Constela Mission never calls a real model: no keys, no cost, no flaky grading. Lessons about models, agents, RAG or evals use a fake provider that runs in the browser. It does **not** imitate any real model. It reproduces the classes of behavior every model generation shows (text, JSON, tool calls, malformed output, refusals, truncation, latency, rate limits and server errors, varying wording), so challenges grade how the learner's code handles models in general and keep passing when the market moves.
 
 Learner code imports the provider-agnostic client:
 
