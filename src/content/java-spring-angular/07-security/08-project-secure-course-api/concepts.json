@@ -1,0 +1,26 @@
+[
+  {
+    "term": "Resource server",
+    "description": "An API that validates access tokens and enforces permissions without issuing the tokens itself."
+  },
+  {
+    "term": "Authority converter",
+    "description": "The mapping from verified token claims to the authority strings used by authorization rules."
+  },
+  {
+    "term": "Deny by default",
+    "description": "A policy that rejects every operation not granted by an explicit rule."
+  },
+  {
+    "term": "Decoder test",
+    "description": "A test that sends an encoded token through signature and claim validation rather than injecting an authenticated principal."
+  },
+  {
+    "term": "Test signing key",
+    "description": "An ephemeral key generated only for automated tests and excluded from production trust configuration."
+  },
+  {
+    "term": "Method security",
+    "description": "Authorization enforced on proxied service method calls in addition to request-level rules."
+  }
+]

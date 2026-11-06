@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A Spring Boot 4 service has `@PreAuthorize(\"hasRole('ADMIN')\")` on a method, but a learner can call it successfully. The URL rules are fine. What is the most likely cause?",
+    "options": [
+      "Learners have the ADMIN role by default",
+      "`@PreAuthorize` only works on controllers",
+      "The method is too short to be proxied",
+      "Method security was never enabled with `@EnableMethodSecurity`, so the annotation is ignored"
+    ],
+    "answer": 3,
+    "explanation": "Spring Boot does not turn method security on automatically. Without @EnableMethodSecurity the annotation has no effect and the method runs for any caller."
+  },
+  {
+    "question": "Any logged-in learner can call `GET /api/enrollments/{id}` and read other learners' enrollments by changing the id. Which fix addresses the cause?",
+    "options": [
+      "Compare the enrollment's owner with the caller, for example with `@PostAuthorize` on the returned object",
+      "Hide the id in the Angular route",
+      "Require the LEARNER role on the endpoint",
+      "Switch the endpoint from GET to POST"
+    ],
+    "answer": 0,
+    "explanation": "The role is already satisfied by every learner. The missing check is per object: the owner must match the caller, or the caller must be an administrator."
+  },
+  {
+    "question": "A developer puts `@PostAuthorize` on `delete(long id)` to check ownership. Why is that a bad choice?",
+    "options": [
+      "PostAuthorize cannot read parameters",
+      "The delete has already run when the rule is evaluated, so a failed check does not undo it",
+      "PostAuthorize returns 401 instead of 403",
+      "It only works with scopes"
+    ],
+    "answer": 1,
+    "explanation": "PostAuthorize runs after the method body. It suits reads, where the returned object is inspected; changes need a PreAuthorize check before they happen."
+  },
+  {
+    "question": "`deleteMany(List<Long> ids)` in the same class calls `this.delete(id)`, which has a `@PreAuthorize` rule. A caller without the permission invokes `deleteMany`. What happens?",
+    "options": [
+      "AccessDeniedException is thrown for every id",
+      "The rule runs once for the whole list",
+      "The deletes run, because a call on `this` bypasses the proxy that applies the rule",
+      "The application fails to start"
+    ],
+    "answer": 2,
+    "explanation": "Method security is applied by a proxy around the bean. A call from inside the object never goes through that proxy, so the rule on the inner method is skipped."
+  },
+  {
+    "question": "An API call carries a token with `SCOPE_enrollments:write` for a user who is not the enrollment's owner. The service requires both the scope and ownership. What is the outcome?",
+    "options": [
+      "Allowed, because the scope is sufficient",
+      "Allowed, because the token is valid",
+      "Denied, because the scope limits the client but the user must also be entitled to the object",
+      "Denied only if the token is expired"
+    ],
+    "answer": 2,
+    "explanation": "A scope says what the client may do on a user's behalf. It does not grant the user rights over someone else's data, so the ownership rule still has to pass."
+  },
+  {
+    "question": "A method rule fails during an HTTP request handled by Spring MVC with Spring Security. What reaches the client by default?",
+    "options": [
+      "A 403 response, after AccessDeniedException is translated by the security filters",
+      "A 500 response with the stack trace",
+      "A 200 response with an empty body",
+      "A redirect to the home page"
+    ],
+    "answer": 0,
+    "explanation": "The interceptor throws AccessDeniedException and the exception translation filter in the security chain turns it into 403 for an authenticated caller."
+  }
+]

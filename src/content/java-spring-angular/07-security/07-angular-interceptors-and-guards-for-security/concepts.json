@@ -1,0 +1,26 @@
+[
+  {
+    "term": "Functional interceptor",
+    "description": "A function that transforms an HTTP request or response in an Angular injection context."
+  },
+  {
+    "term": "Bearer credential",
+    "description": "An access token sent in the Authorization header only to the intended API."
+  },
+  {
+    "term": "Authentication store",
+    "description": "Client state used to coordinate navigation and requests, without granting server permissions."
+  },
+  {
+    "term": "UrlTree",
+    "description": "A router value returned by a guard to redirect navigation without a separate imperative navigation call."
+  },
+  {
+    "term": "Unauthorized response",
+    "description": "A 401 response indicating that the API did not accept an authenticated identity for the request."
+  },
+  {
+    "term": "Authorization boundary",
+    "description": "The server-side checks that enforce access regardless of what the browser displays."
+  }
+]

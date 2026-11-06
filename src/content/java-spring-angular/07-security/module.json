@@ -1,0 +1,4 @@
+{
+  "title": "Security",
+  "description": "For people who finished the earlier modules: threats and the difference between authentication and authorization, the Spring Security filter chain, sessions versus tokens, JWT and OAuth 2 resource servers, CSRF and CORS, method security, Angular interceptors and guards, and a project that secures a course API."
+}

@@ -434,3 +434,6 @@ Plan and decisions: [java-spring-angular-track.md](java-spring-angular-track.md)
 
 ### 06-angular-with-a-spring-backend — Angular with a Spring Back End
 01-calling-the-api-with-httpclient-and-httpresource ✓ · 02-problem-details-and-form-errors ✓ · 03-pagination-and-sorting-in-angular ✓ · 04-route-guards-and-cors ✓ · 05-a-typed-client-from-openapi ✓ · 06-smart-and-presentational-components ✓ · 07-project-course-frontend ✓
+
+### 07-security — Security
+01-authentication-and-authorization-basics ✓ · 02-the-spring-security-filter-chain ✓ · 03-sessions-versus-tokens ✓ · 04-jwt-and-oauth-2-resource-servers ✓ · 05-csrf-and-cors ✓ · 06-method-security-and-authorization-design ✓ · 07-angular-interceptors-and-guards-for-security ✓ · 08-project-secure-course-api ✓

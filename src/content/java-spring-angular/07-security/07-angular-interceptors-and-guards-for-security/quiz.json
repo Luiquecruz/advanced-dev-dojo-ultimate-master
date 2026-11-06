@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A user edits the Angular role signal to ADMIN and opens a guarded page. What must still prevent an unauthorized deletion?",
+    "options": [
+      "The minified bundle",
+      "The API authorization rules",
+      "The CSS hiding the button",
+      "The route name"
+    ],
+    "answer": 1,
+    "explanation": "Browser state can be changed by its user. Every API operation must enforce its own authorization rules on the server."
+  },
+  {
+    "question": "An interceptor attaches a bearer token to every outgoing request, including an analytics host. What change protects the credential?",
+    "options": [
+      "Base64-encode the token",
+      "Rename the token signal",
+      "Hide the analytics URL",
+      "Attach it only to requests for the intended API"
+    ],
+    "answer": 3,
+    "explanation": "A bearer credential must be sent only to the API that is meant to receive it. Sending it to an unrelated host exposes it to that host."
+  },
+  {
+    "question": "A valid bearer token reaches an endpoint but lacks its required scope, and the API responds 403. How should the client react?",
+    "options": [
+      "Show an access-denied message",
+      "Erase all credentials and always send the user to login",
+      "Retry forever",
+      "Treat it as a successful empty response"
+    ],
+    "answer": 0,
+    "explanation": "For this bearer API, 403 means the identity was accepted but lacks permission. Signing in again does not automatically grant the missing scope."
+  },
+  {
+    "question": "A 401 interceptor signs the user out but returns an empty successful result. What behavior is lost?",
+    "options": [
+      "Request cloning",
+      "The router configuration",
+      "The caller no longer receives the HTTP failure",
+      "The API stops validating tokens"
+    ],
+    "answer": 2,
+    "explanation": "The interceptor must rethrow the original error so the component or service can handle the failed operation rather than treating it as a success."
+  },
+  {
+    "question": "A guard must send a logged-out visitor to /login and remember the original URL. Which result fits?",
+    "options": [
+      "Return false and navigate from every component",
+      "Return a UrlTree with a returnUrl query parameter",
+      "Return the access token string",
+      "Mutate the route configuration"
+    ],
+    "answer": 1,
+    "explanation": "Returning a UrlTree lets the router perform the redirect and carries the requested URL without a second imperative navigation operation."
+  },
+  {
+    "question": "A user reloads a page after an access token was stored only in an in-memory service. What should the application expect?",
+    "options": [
+      "The token is permanently saved by signals",
+      "The browser sends the token automatically",
+      "The API issues an admin token",
+      "The store resets and the application must restore authentication through its chosen flow"
+    ],
+    "answer": 3,
+    "explanation": "An in-memory service is recreated on a full reload. A session or authorization flow must restore authentication; a signal does not provide persistence."
+  }
+]

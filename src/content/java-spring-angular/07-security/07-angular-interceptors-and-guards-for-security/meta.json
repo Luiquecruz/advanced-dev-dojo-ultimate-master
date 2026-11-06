@@ -1,0 +1,28 @@
+{
+  "title": "Angular Interceptors and Guards for Security",
+  "summary": "Coordinate bearer headers, 401 handling and navigation with functional interceptors and guards while keeping authorization on the API.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "angular",
+    "security"
+  ],
+  "resources": [
+    {
+      "label": "Angular: Interceptors",
+      "url": "https://angular.dev/guide/http/interceptors"
+    },
+    {
+      "label": "Angular: Route guards",
+      "url": "https://angular.dev/guide/routing/route-guards"
+    },
+    {
+      "label": "Angular: HTTP security",
+      "url": "https://angular.dev/best-practices/security"
+    },
+    {
+      "label": "OWASP: HTML5 Security Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html"
+    }
+  ]
+}

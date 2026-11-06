@@ -1,0 +1,9 @@
+[
+  { "term": "SecurityFilterChain", "description": "A bean holding an ordered list of security filters and the matcher that decides which requests it handles." },
+  { "term": "Lambda DSL", "description": "The HttpSecurity configuration style that passes a lambda to each feature, which is the only style Spring Security 7 supports." },
+  { "term": "Request matchers", "description": "Rules that pair a URL pattern with an access decision and are checked in order, with the first match winning." },
+  { "term": "Role versus authority", "description": "hasRole adds the ROLE_ prefix and then compares the authority, while hasAuthority compares the exact string." },
+  { "term": "UserDetailsService", "description": "The interface that loads a user's name, password hash and authorities for a given username." },
+  { "term": "PasswordEncoder", "description": "The interface that hashes passwords and checks a submitted password against a stored hash." },
+  { "term": "Delegating password encoder", "description": "An encoder that stores the algorithm id as a prefix such as {bcrypt}, so algorithms can change over time." }
+]
