@@ -289,7 +289,8 @@ Everything the UI shows about a track comes from two places:
 | Where | Field | Used for |
 | --- | --- | --- |
 | `track.json` | `title`, `description`, `version` | carousel card, curriculum header, breadcrumbs |
-| `track.json` | `monogram` (1–3 characters, required) | the track logo (`entities/track/TrackLogo.tsx`) |
+| `entities/track/trackGlyphs.ts` | `TRACK_GLYPHS[<id>]`: `concept`, `lines` (SVG paths), `stars` (vertices) and `key` (the bright star), on a 48 × 48 canvas kept 6 units from the edges | the track logo (`entities/track/TrackLogo.tsx`): the concept constellation drawn on a blueprint (grid paper, dashed construction circle, registration marks) in the track accent, the same frame and stroke for every track; `trackGlyphs.test.ts` fails for a track without a glyph or a point outside the margin |
+| `track.json` | `monogram` (1–3 characters, required) | fallback of the track logo when a track has no glyph |
 | `track.json` | `shortTitle` (optional) | the giant backdrop word on the home page; set it when `title` is longer than about 10 characters (`react-state` uses `"State"`) |
 | `track.json` | `order` | position in the home carousel and the track list |
 | `tokens.css` | `[data-trail='<id>'] { --accent; --accent-rgb }` | every accent: buttons, borders, glow, scene particles, headline highlight |
@@ -310,10 +311,21 @@ The storage key stays `dev-dojo:progress:v1` so saved progress survives the rena
 
 Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue` and `angular`). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
 
+### Track logos
+
+Every track has a blueprint logo, and every new track **must** ship one in the same change (`trackGlyphs.test.ts` fails without it; the monogram only covers a missing glyph at runtime). `TrackLogo` draws the shared frame; a track adds only its glyph to `TRACK_GLYPHS` in `src/entities/track/trackGlyphs.ts`. Rules:
+
+- **Shared frame, never per track.** Rounded tile in the track accent (`bg-accent/10`, `ring-accent/30`), 6-unit grid paper, dashed construction circle (r 17.5) and four registration marks. A glyph never draws its own frame, background, fill or color: everything is `currentColor` (the accent) except the key star.
+- **Constellation line art.** `lines` are SVG paths stroked at 1.35 with round caps and joins, no fills; `stars` (r 1.6) sit on the vertices and ends of those lines; exactly one `key` star (bright `ink` core with an accent halo) marks the focal point.
+- **Canvas.** 48 × 48 with every coordinate between 6 and 42 (the test checks it); arcs use non-negative x-axis rotations so the check can parse them. Keep 3–7 stars so the glyph reads at 28–32 px.
+- **Subject.** A language or framework track evokes its official logo about 30% of the way (TypeScript as two overlapping rounded squares of its badge, a union and its intersection, React as an atom of three orbits, Node.js as a hexagon around the event loop, Python as two interlocked serpents, C# as a sharp sign grid, Vue as converging chevrons, Angular as a shield with an A) without copying it: no official colors, shapes redrawn as constellation lines, and no initials or wordmarks, which read as a monogram instead of a logo. A concept track draws its concept (Frontend Architecture as stacked decision layers, React State Management as a state cycle, AI Engineering as generative sparkles).
+- **Trace.** `TrackLogo animate` replays a trace each time it turns on: a light beam (`logo-trace`, `stroke-ink` over `pathLength={1}` copies of the lines) runs along the constellation while the key star halo pulses (`logo-pulse`), both `--dur-trace` (500 ms) with `--ease-out`, starting and ending on the static logo; reduced motion skips it. `delayMs` delays only the trace played on mount, so it lands after the entrance motion: the active carousel card (`animate={active}`, 850 ms on load, none when the carousel moves), the track page header (450 ms) and the star map drawer (160 ms). Glyph `lines` therefore need no extra work: every path is traced.
+- **Check.** Render the new glyph next to the others at 120, 48 and 32 px in a browser before merging; it must read as the same family.
+
 Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
 
 - At least 4.5:1 contrast against `void` (`#0a0f18`), `panel` (`#121c2a`) and `elevated` (`#1b293a`), and at least 4.5:1 for the dark `on-accent` text drawn on top of it.
-- At least 30° of hue away from the accent of every other track shown to learners, so tracks stay distinguishable (also for color-blind users; the monogram and title are the second cue). Tracks hidden in `src/content/featureFlags.ts` never share a screen with the others and are left out; enabling one whose hue collides fails the test, and the accents are revisited then.
+- At least 30° of hue away from the accent of every other track shown to learners, so tracks stay distinguishable (also for color-blind users; the logo glyph and title are the second cue). Tracks hidden in `src/content/featureFlags.ts` never share a screen with the others and are left out; enabling one whose hue collides fails the test, and the accents are revisited then.
 - `--accent-rgb` must be the same color as `--accent` written as `R G B`.
 
 Current accents and their hues. Python took the last band 30° away from every accent (around 123°), so the rule now counts only the tracks shown to learners: C# uses the band of the hidden Angular track (about 358°), and Vue's band (about 154°) is free while Vue stays hidden.
@@ -378,7 +390,7 @@ export const svelteRegistry: ModuleRegistry = {
 | `src/content/types.ts`, `src/content/loader.ts` | Add the engine to `EngineId` (types) and `DEFAULT_ENTRY` (loader) (e.g. `{ svelte: 'App.svelte', ts: 'main.ts' }`); the track declares `"engine": "svelte"` in `track.json` |
 | `src/engines/shared/project.ts` | Add the file extension to `EXTENSIONS` if learners import it without an extension |
 | `src/features/lesson/monacoSetup.ts` | Map the extension in `languageForFile`; adjust `configureLanguageService` if the track needs different compiler options |
-| `src/content/<id>/track.json` + `src/shared/design/tokens.css` | `monogram` (and `shortTitle` when needed) plus a `[data-trail='<id>']` accent rule, see [Track presentation](#track-presentation) |
+| `src/content/<id>/track.json` + `src/shared/design/tokens.css` | `monogram` (and `shortTitle` when needed) plus a `[data-trail='<id>']` accent rule and a glyph in `entities/track/trackGlyphs.ts`, see [Track presentation](#track-presentation) |
 
 `features/lesson/runner.ts` needs no change: every engine other than `typescript` goes through the sandbox.
 
@@ -423,7 +435,7 @@ For a track on an existing engine, only the items marked *(track)* apply.
 - [ ] Engine folder with `registry.ts`, `adapter.ts` (and compiler/transform if needed)
 - [ ] Engine registered in `protocol.ts`, `sandbox.ts`, `content/types.ts` + `content/loader.ts`, `monacoSetup.ts`, and listed in `src/verify/content.test.ts`
 - [ ] Worker engine only: vendor script with `--check`, serving plugin, `CSP_WORKERS` + `netlify.toml` header, lock-down, verify sandbox with regression tests, `CODEOWNERS` (table in "Adding a language")
-- [ ] *(track)* `track.json` with `monogram` (and `shortTitle` if the title is long), first module and one hand-written reference lesson passing verification
+- [ ] *(track)* `track.json` with `monogram` (and `shortTitle` if the title is long), a concept glyph in `entities/track/trackGlyphs.ts`, first module and one hand-written reference lesson passing verification
 - [ ] *(track)* `[data-trail]` accent rule in `tokens.css` passing `src/verify/trackPresentation.test.ts`
 - [ ] *(track)* `src/verify/<track>.test.ts`
 - [ ] *(track)* `CURRICULUM.md` plan with `✓` on written lessons (`src/verify/curriculum.test.ts`), new libraries in `CONTENT_GUIDE.md`
