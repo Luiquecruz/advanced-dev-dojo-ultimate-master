@@ -1,5 +1,6 @@
 import { PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
 import { profileFor, tierForFrameTime, type Capabilities, type PerformanceTier } from '@/shared/capabilities/capabilities';
+import { reportProblem } from '@/shared/monitoring/monitoring';
 import { createGrid } from './grid';
 import { createParticles } from './particles';
 import type { RenderMode, SceneAPI, SceneState } from './types';
@@ -233,6 +234,7 @@ export async function createScene(canvas: HTMLCanvasElement, capabilities: Capab
     contextLost = true;
     delete canvas.dataset.ready;
     applyMode();
+    reportProblem('WebGL context lost', 'warning', { tier });
   }
 
   function onContextRestored(): void {

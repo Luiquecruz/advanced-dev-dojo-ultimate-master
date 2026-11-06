@@ -2,16 +2,20 @@ import { resolve } from 'node:path';
 import { sentryVitePlugin } from '@sentry/bundler-plugins/vite';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
+import { loadEnv } from 'vite';
 import { defineConfig } from 'vitest/config';
 import { contentPlugin } from './plugins/contentPlugin.ts';
 import { dotnetPlugin } from './plugins/dotnetPlugin.ts';
 import { pyodidePlugin } from './plugins/pyodidePlugin.ts';
 import { pythonWorkerCspPlugin } from './plugins/pythonWorkerCspPlugin.ts';
+import { sentryTunnelProxy } from './plugins/sentryTunnel.ts';
 import { scaledBudget } from './src/verify/timeBudget.ts';
 
 const sentryUploadEnabled = Boolean(process.env.SENTRY_AUTH_TOKEN);
+const sentryRelease = process.env.COMMIT_REF ?? process.env.GITHUB_SHA;
+const sentryReleaseCreated = sentryUploadEnabled && sentryRelease !== undefined;
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     tailwindcss(),
@@ -25,7 +29,15 @@ export default defineConfig({
       authToken: process.env.SENTRY_AUTH_TOKEN,
       telemetry: false,
       silent: !sentryUploadEnabled,
-      release: { create: false, finalize: false, inject: false },
+      errorHandler: (error) => console.warn(`[sentry] ${error.message}`),
+      release: {
+        name: sentryRelease,
+        inject: false,
+        create: sentryReleaseCreated,
+        finalize: sentryReleaseCreated,
+        setCommits: sentryReleaseCreated ? { auto: true, ignoreMissing: true, ignoreEmpty: true } : false,
+        deploy: sentryReleaseCreated ? { env: process.env.CONTEXT === 'production' ? 'production' : 'preview' } : false,
+      },
       sourcemaps: { filesToDeleteAfterUpload: ['./dist/**/*.map'] },
     }),
   ],
@@ -37,10 +49,12 @@ export default defineConfig({
     ],
   },
   define: {
+    'import.meta.env.VITE_SENTRY_RELEASE': JSON.stringify(sentryRelease ?? ''),
     __VUE_OPTIONS_API__: 'true',
     __VUE_PROD_DEVTOOLS__: 'false',
     __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
   },
+  preview: { proxy: sentryTunnelProxy(loadEnv(mode, import.meta.dirname, 'VITE_').VITE_SENTRY_DSN) },
   worker: { format: 'es' },
   build: {
     target: 'es2022',
@@ -62,4 +76,4 @@ export default defineConfig({
     dangerouslyIgnoreUnhandledErrors: true,
     server: { deps: { inline: [/@angular/, /@ngrx/] } },
   },
-});
+}));

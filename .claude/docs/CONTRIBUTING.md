@@ -106,6 +106,7 @@ Pinning: every action and reusable workflow is pinned to a full commit SHA with 
 - `Content-Security-Policy` on `/assets/python.worker-*` and `/assets/csharp.worker-*`, the same value as `WORKER_CSP` in `plugins/pythonWorkerCspPlugin.ts` (its `CSP_WORKERS` lists the workers); keep them in sync. The `smoke` job checks it on every Deploy Preview and production deploy.
 - Long-lived cache on `/assets/*` (hashed file names) and `/dotnet/*` (`dotnet/<version>/`, where the version is the hash of the served set). Netlify Brotli-compresses the `.js` and `.wasm` files itself; `dotnet/` serves nothing else (no `.dll`), and a Range request is answered uncompressed, so the C# worker never sends one.
 - The build command `npm run csharp:vendor && npm run build` and the local build plugin `plugins/netlify-dotnet-cache` (`[[plugins]]`).
+- The Sentry tunnel: `/signal` is proxied (status 200, `force`) to the envelope endpoint of the project in `VITE_SENTRY_DSN`, before the SPA fallback ("Sentry" below).
 
 On Netlify `postinstall` skips the .NET step (`vendor-dotnet.mjs --postinstall` exits when `NETLIFY` is set), because the dependency install runs before any build plugin. `plugins/netlify-dotnet-cache` restores `vendor/dotnet/.cache/nuget` and `vendor/dotnet/.cache/toolchain` in `onPreBuild`, the build command runs `npm run csharp:vendor` (checks every cached file against its SHA-512 pin, extracts the .NET runtime again, compiles the host and the Webcil converter and converts the assemblies: about 5 s with a warm cache), and `onPostBuild` saves the two folders. A cold cache downloads about 111 MB (retried with backoff). With `NETLIFY` set the step never rewrites `vendor/dotnet/manifest.json`: it must reproduce the committed one, or the build fails. Only a Deploy Preview shows the plugin restoring and saving the cache (`netlify-dotnet-cache: restored …` in the deploy log); `npx vitest run plugins` covers its calls.
 
@@ -118,6 +119,20 @@ Setup, once, by a repository admin:
 3. Settings → Code security: enable **private vulnerability reporting** (the channel [SECURITY.md](../../SECURITY.md) points to), **secret scanning** and **push protection** (free for public repositories), so GitHub blocks a push that contains a known provider key before it reaches the history.
 4. Code scanning: `security.yml` is an advanced CodeQL setup; if CodeQL default setup is enabled in Settings → Code security, switch it off, or the `codeql` jobs fail.
 5. Settings → Secrets and variables → Actions → **Variables**: add `VITE_SENTRY_DSN` with the same value as the Netlify build variable, and update both together. `ci.yml` builds with it (falling back to the DSN production serves today) so the `smoke` job compares the same bundle Netlify built; a DSN changed on Netlify only fails `smoke` until this variable matches.
+
+### Sentry
+
+What the code does is in ARCHITECTURE.md "Error monitoring". The project is `lcruz-development/advanced-dev-dojo-ultimate-master` (`vite.config.ts`). Setup, once, by an admin of the Sentry organization and the Netlify site:
+
+1. **Netlify build variables.** `VITE_SENTRY_DSN` (public, also the `VITE_SENTRY_DSN` GitHub variable, step 5 above) and `SENTRY_AUTH_TOKEN` as a secret: an organization auth token (Sentry → Settings → Developer Settings → Organization Tokens, scope `org:ci`), which uploads source maps and creates releases. Without it the build still passes; source maps stay in `dist/` and no release is created.
+2. **GitHub integration.** Sentry → Settings → Integrations → GitHub: install it for the repository and add a code mapping (stack trace root `/`, source code root `src/`, branch `main`). Releases then list their commits (`setCommits: { auto: true }` in `vite.config.ts`, which warns in the Netlify log until the integration exists), issues show suspect commits, and `Fixes <SHORT-ID>` in a commit message resolves an issue on release.
+3. **Alerts.** Alerts → Create: a new issue in `production`; an issue that regresses; more than 20 events of one issue in an hour; the `Python runtime did not start`/`C# runtime did not start` titles more than 5 times in an hour; LCP p75 above 2.5 s on `/:trackId/:lessonId`. Route them to email or Slack.
+4. **Inbound filters.** Project Settings → Inbound Filters: on for browser extensions, legacy browsers and web crawlers.
+5. **User feedback.** Feedback from the **Report a problem** dialog appears under User Feedback with the waypoint tags and the replay; no setup needed, notifications are in Project Settings → User Feedback.
+
+Changing the DSN (a new project): update the Netlify variable, the GitHub variable, the fallback in `ci.yml`, the `/signal` target in `netlify.toml` (`sentryEnvelopeUrl` of the DSN; `src/app/monitoring/tunnel.test.ts` fails until it matches the `ci.yml` fallback) and `org`/`project` in `vite.config.ts`, in one pull request.
+
+Checking it locally: put the DSN in `.env.local`, `npm run build && npx vite preview`, and watch the `POST /signal` requests in DevTools; events arrive in the `development` environment. `npm run dev` sends nothing.
 
 ### Rolling back production
 

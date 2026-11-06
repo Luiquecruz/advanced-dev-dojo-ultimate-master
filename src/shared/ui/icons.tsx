@@ -66,6 +66,12 @@ export const MapIcon = (props: IconProps) => (
     <line x1="16" y1="6" x2="16" y2="21" />
   </svg>
 );
+export const FlagIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M5 21V4" />
+    <path d="M5 4h11l-2 4 2 4H5" />
+  </svg>
+);
 export const RefreshIcon = (props: IconProps) => (
   <svg {...base} {...props}>
     <polyline points="23 4 23 10 17 10" />
