@@ -93,7 +93,9 @@ A real database starts empty. Spring Boot generates the schema automatically onl
 
 ## Reuse and speed
 
-Starting a container costs seconds, so share one per class or per suite. Testcontainers also has an experimental reuse feature: call `withReuse(true)` and enable it with `testcontainers.reuse.enable=true` in `~/.testcontainers.properties`. The container then survives between runs on your machine, which speeds up local work, but the documentation says it is not suited for CI.
+Starting a container costs seconds, so share one per class or Spring context in ordinary tests. Testcontainers also has experimental local reuse: opt in with `withReuse(true)` and `testcontainers.reuse.enable=true` in `~/.testcontainers.properties`, start manually, and prevent shutdown through JUnit, `stop()` or try-with-resources.
+
+Matching container configurations on one Docker host can be reused across projects and concurrent runs. Use project-specific configuration, such as a distinct database name and label, then isolate each run's database/schema or serialize access. State persists between runs: the JDBC example's `book` table can already exist. Reset that table and its rows only in a dedicated test database with exclusive access; never reset data another run might use. Prefer fresh containers when isolation is unclear. A reused PostgreSQL container also retains its credentials and published ports after tests finish. Restrict access with Docker-aware network controls and remove the reusable container when it is no longer needed. Reuse is not suited for CI.
 
 ## Where these tests run
 
