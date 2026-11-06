@@ -29,7 +29,7 @@ Each lesson: `theory.md`, `concepts.json`, `quiz.json`, `meta.json`. No challeng
 | `08-quality-and-delivery` | Quality and delivery | the test pyramid for both ends; Docker and Compose; CI; Actuator and Micrometer; caching; rate limiting; production configuration |
 | `09-capstone` | Capstone | full-stack course catalog (Spring API with persistence, security, tests, and an Angular client); written as a project lesson set |
 
-Module 06 needs, per challenge: `starter`, `solution`, `tests` on the Angular engine, at least 2 hints separated by `---`, a non-trivial `approach.md`, the starter failing at least one test (`npm run verify` / `npx vitest run src/verify/java-spring-angular.test.ts`), and wrong-implementation checks by the independent reviewer.
+Module 06 needs, per challenge: `challenge.md` (without it the loader does not register the challenge and the suite skips it), `starter`, `solution`, `tests` on the Angular engine, at least 2 hints separated by `---`, a non-trivial `approach.md`, the starter failing at least one test (`npm run verify` / `npx vitest run src/verify/java-spring-angular.test.ts`), and wrong-implementation checks by the independent reviewer.
 
 ## Rules (all enforced by the suites)
 
@@ -46,9 +46,9 @@ Module 06 needs, per challenge: `starter`, `solution`, `tests` on the Angular en
 
 1. `git fetch origin`; branch from `origin/main` (or stack on the previous module branch); confirm with `test "$(git branch --show-current)" = <branch>` before every commit.
 2. Write the lessons (one writer; parallel writers only for different modules).
-3. Verify: `npx vitest run src/verify/java-spring-angular.test.ts src/verify/noDates.test.ts src/verify/content.test.ts src/verify/curriculum.test.ts`, then `npx eslint src/verify`, `npx tsc --noEmit`, `npm run docs:check`. Run unfiltered (do not use `LESSON=__none__` as the final check).
+3. Update `.claude/docs/CURRICULUM.md` (a `✓` for each written lesson), README counts and any doc `docs:check` lists, then verify: `npx vitest run src/verify/java-spring-angular.test.ts src/verify/noDates.test.ts src/verify/content.test.ts src/verify/curriculum.test.ts`, then `npx eslint src/verify`, `npx tsc --noEmit`, `npm run docs:check`. Run unfiltered (do not use `LESSON=__none__` as the final check).
 4. Independent review by a second reader who has not seen the writer's work: facts against official docs, compile the snippets, quiz keys, concept ordering (nothing used before it is taught), `You need:` accuracy. Fix every defect, rerun step 3.
-5. Update CURRICULUM.md (`✓`), README counts, and any doc the `docs:check` hook lists.
+5. Re-run step 3 after fixing every review defect.
 6. Commit, push, open the PR (under 300 files, base `main` or the previous branch). Stacked PRs: merge bottom-up; before merging the bottom one run `gh pr edit <next> --base main`, merge without deleting the branch, merge `origin/main` into the next branch, push, wait for CI.
 7. CodeRabbit: read every comment (`gh api repos/<owner>/<repo>/pulls/<n>/comments`), fix valid ones, answer each thread (fix or reasoned refusal) with a reply, wait for CI, repeat until no open comment. Re-apply the `docs:none` label only when a push leaves a hooked area undocumented on purpose.
 8. After all modules: a whole-track independent review (consistency, ordering across modules, quiz quality, no repeated content, links between lessons), then fix and open the final PR.
