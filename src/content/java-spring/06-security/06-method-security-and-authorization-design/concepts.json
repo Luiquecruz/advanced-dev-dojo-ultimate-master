@@ -1,0 +1,9 @@
+[
+  { "term": "@EnableMethodSecurity", "description": "The annotation that activates @PreAuthorize, @PostAuthorize, @PreFilter and @PostFilter, which Spring Boot does not enable by default." },
+  { "term": "@PreAuthorize and @PostAuthorize", "description": "Rules checked before a method runs or, for reads, against its returned object." },
+  { "term": "SpEL authorization expression", "description": "An expression that can use authentication, method parameters such as #id and returnObject, and call beans by name." },
+  { "term": "AccessDeniedException", "description": "The exception a failed rule throws; the filter chain starts authentication for an anonymous caller or invokes the access-denied handler for a fully authenticated caller." },
+  { "term": "Role, scope and permission", "description": "A role describes the user, a scope limits what a client token may do, and a permission names one exact action." },
+  { "term": "Ownership check", "description": "A rule that compares an object's owner with the caller, which prevents reading or changing another user's data by guessing an id." },
+  { "term": "Proxy self-invocation", "description": "A call from inside the same object that bypasses the Spring proxy, so method security rules are not applied." }
+]

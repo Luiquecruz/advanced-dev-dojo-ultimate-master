@@ -1,0 +1,68 @@
+[
+  {
+    "question": "You add `spring-boot-starter-security` to a Spring Boot 4 application and change nothing else. What happens to a request to any endpoint?",
+    "options": [
+      "It is allowed, because no rules exist yet",
+      "It requires authentication, and the only user is `user` with a generated password",
+      "It is blocked for everyone, with no way to log in",
+      "It is allowed for local addresses only"
+    ],
+    "answer": 1,
+    "explanation": "Boot secures every endpoint by default and creates an in-memory user named user with a random password printed at startup. That default is meant for development."
+  },
+  {
+    "question": "A configuration lists `.anyRequest().authenticated()` first and `.requestMatchers(\"/api/public/**\").permitAll()` after it. What is the effect?",
+    "options": [
+      "The public rule is never reached, so public URLs still require authentication",
+      "Both rules apply and the more permissive one wins",
+      "The application fails to start",
+      "The public rule wins because it is more specific"
+    ],
+    "answer": 2,
+    "explanation": "Spring Security rejects requestMatchers configured after anyRequest while building the security chain, so the application fails to start. Declare the catch-all last."
+  },
+  {
+    "question": "Which statement about `hasRole(\"ADMIN\")` is correct?",
+    "options": [
+      "It checks for the authority `ADMIN` exactly",
+      "It checks for the authority `ROLE_ADMIN`",
+      "It checks the username `ADMIN`",
+      "It checks a database table named ROLE"
+    ],
+    "answer": 1,
+    "explanation": "hasRole adds the ROLE_ prefix before comparing. hasAuthority is the variant that compares the exact string you give it."
+  },
+  {
+    "question": "Why do stored passwords look like `{bcrypt}$2a$10$...` when the delegating `PasswordEncoder` is used?",
+    "options": [
+      "The prefix encrypts the hash a second time",
+      "The prefix is required by the database",
+      "The prefix names the algorithm so old hashes stay valid when the default algorithm changes",
+      "The prefix stores the username"
+    ],
+    "answer": 2,
+    "explanation": "The id lets the encoder pick the right algorithm per stored value, so you can introduce a stronger default and still verify older passwords."
+  },
+  {
+    "question": "A custom `UserDetailsService` cannot find the requested username. What should `loadUserByUsername` do?",
+    "options": [
+      "Return null",
+      "Return a user with an empty password",
+      "Return the first user in the table",
+      "Throw `UsernameNotFoundException`"
+    ],
+    "answer": 3,
+    "explanation": "The contract is to throw UsernameNotFoundException. Spring Security then reports a generic authentication failure without revealing whether the name exists."
+  },
+  {
+    "question": "A teammate declares a `SecurityFilterChain` bean and the generated `user` password no longer works for the web endpoints. Why?",
+    "options": [
+      "The password expired",
+      "Spring Security deletes the in-memory user",
+      "The bean replaces Boot's default web security, so only your rules and authentication methods apply",
+      "The password changes on every request"
+    ],
+    "answer": 2,
+    "explanation": "A SecurityFilterChain bean switches off Boot's default web security configuration. Your chain must enable the login mechanism you want, such as HTTP Basic."
+  }
+]

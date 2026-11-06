@@ -7,8 +7,8 @@ Read [java-spring-track.md](java-spring-track.md) for the current scope and cont
 | Item | State |
 | --- | --- |
 | Identity | `java-spring`, Java and Spring Boot; content, feature flag, glyph, accent selector and verification use the same id |
-| Written here | Modules 01–05, 39 lessons, already merged under the previous track identity |
-| Remaining backend work | 06 Security (7 lessons), 07 Quality and Delivery (8), 08 Course Catalog API capstone (5); adapt preserved backend material before review |
+| Written here | Modules 01–06, 46 lessons; current review and merge states are below |
+| Remaining backend work | Modules 07–08 are outside this branch; adapt and review them in the stack |
 | Target | 8 required modules, 59 lessons; every lesson is theory and quiz with local practice |
 | Engines | No Java engine and no challenges; existing catalog engine metadata does not launch a workspace |
 | Release | Hidden; no accent color or visibility change. Java release no longer depends on Angular being shown |
@@ -51,6 +51,15 @@ Separation verification passed: 1,740 unfiltered content checks, 200 application
 
 ## Publication and future Full Stack
 
-Java and Angular have independent feature flags and release checks. Do not turn either on or change the palette in this workflow. Before Java is shown, choose a free accent and run its release checks and browser presentation review. A future Full Stack track can reuse the archived Angular/API integration, frontend auth and combined capstone; it is not registered as an empty or duplicate track now.
+Java and Angular have independent feature flags and release checks. Java remains hidden; Angular activation and the palette adjustments it requires are authorized and tracked separately. Before Java is shown, choose a free accent and run its release checks and browser presentation review. A future Full Stack track can reuse the archived Angular/API integration, frontend auth and combined capstone; it is not registered as an empty or duplicate track now.
 
-Separation review: removed the last Angular reference in the README sequence and distinguished root-body global validation errors from nested-object error paths; clients display unmapped paths in the form summary.
+## Active review stack
+
+| PR | Purpose | State | Base |
+| --- | --- | --- | --- |
+| [#61](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | MERGED | `main` |
+| [#62](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/62) | feat(curriculum): add backend Spring Security module | OPEN | `main` |
+| [#63](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/63) | feat(curriculum): add backend quality and delivery module | OPEN | `feat/java-spring-security` |
+| [#65](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/65) | feat(curriculum): add backend course catalog capstone | OPEN | `feat/java-spring-delivery` |
+
+Latest action: Merged current main after PR #61; retained security review corrections and the independent backend curriculum.

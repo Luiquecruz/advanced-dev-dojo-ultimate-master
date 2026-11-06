@@ -1,0 +1,9 @@
+[
+  { "term": "Server-side session", "description": "A record kept on the server and found through a random session id sent in a cookie." },
+  { "term": "Bearer token", "description": "A credential sent in the Authorization header that grants access to whoever presents it, so it must be protected like a password." },
+  { "term": "Access token and refresh token", "description": "A short-lived token that calls the API and a longer-lived one that can only obtain new access tokens and can be revoked." },
+  { "term": "Cookie flags", "description": "HttpOnly hides a cookie from scripts, Secure limits it to HTTPS and SameSite limits when it accompanies cross-site requests." },
+  { "term": "STATELESS session policy", "description": "A Spring Security setting that never creates or uses an HTTP session, so every request must carry its own credentials." },
+  { "term": "Token storage trade-off", "description": "Script-readable storage exposes tokens to XSS, while automatically attached cookies expose requests to CSRF." },
+  { "term": "Backend for frontend", "description": "A server component that holds the tokens and gives the browser only an HttpOnly session cookie." }
+]

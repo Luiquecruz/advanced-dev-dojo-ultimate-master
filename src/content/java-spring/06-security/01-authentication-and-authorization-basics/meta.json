@@ -1,0 +1,13 @@
+{
+  "title": "Authentication and Authorization Basics",
+  "summary": "Threats and trust boundaries, identity versus permission, 401 versus 403, the OWASP Top 10 as a checklist, why you never roll your own crypto, and the principles of deny by default and least privilege.",
+  "level": "beginner",
+  "tags": ["theory", "security"],
+  "resources": [
+    { "label": "OWASP: Top 10", "url": "https://owasp.org/projects/top-ten" },
+    { "label": "OWASP Cheat Sheet: Authentication", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html" },
+    { "label": "OWASP Cheat Sheet: Authorization", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html" },
+    { "label": "OWASP Cheat Sheet: Password Storage", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" },
+    { "label": "RFC 9110: 401 Unauthorized", "url": "https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized" }
+  ]
+}

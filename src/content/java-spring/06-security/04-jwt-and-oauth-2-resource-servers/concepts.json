@@ -1,0 +1,9 @@
+[
+  { "term": "JWT", "description": "A claims token that may be signed or encrypted; a signed, unencrypted JWT has a readable Base64URL header and payload plus a signature." },
+  { "term": "Standard claims", "description": "iss names the issuer, sub the user, aud the intended recipient, exp the expiry and nbf the earliest valid time." },
+  { "term": "Resource server", "description": "An API that validates access tokens and enforces permissions without authenticating users itself." },
+  { "term": "JWK Set", "description": "The issuer's published public keys, which a resource server uses to verify token signatures." },
+  { "term": "Authorization Code with PKCE", "description": "The flow for apps acting for a signed-in user, where a one-time code and a proof key are exchanged for tokens." },
+  { "term": "OpenID Connect", "description": "An identity layer on OAuth 2.0 whose ID token tells the client who signed in and is not meant for the API." },
+  { "term": "SCOPE_ authority", "description": "The prefix Spring Security gives each scope claim entry, so courses:read becomes SCOPE_courses:read." }
+]

@@ -1,0 +1,12 @@
+{
+  "title": "Method Security and Authorization Design",
+  "summary": "Enabling method security with @EnableMethodSecurity, writing @PreAuthorize and @PostAuthorize rules, roles versus scopes versus permissions, ownership checks against broken object-level access, and the limits of proxies.",
+  "level": "intermediate",
+  "tags": ["theory", "security"],
+  "resources": [
+    { "label": "Spring Security: Method Security", "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html" },
+    { "label": "Spring Security: Testing Method Security", "url": "https://docs.spring.io/spring-security/reference/servlet/test/method.html" },
+    { "label": "OWASP Cheat Sheet: Authorization", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html" },
+    { "label": "Spring Security: Authorize HttpServletRequests", "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html" }
+  ]
+}

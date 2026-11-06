@@ -1,0 +1,14 @@
+{
+  "title": "JWT and OAuth 2 Resource Servers",
+  "summary": "The JWT structure and standard claims, OAuth 2.0 roles and flows including Authorization Code with PKCE, OpenID Connect at overview level, and a Spring Boot 4 resource server with issuer validation and scope or role authorities.",
+  "level": "intermediate",
+  "tags": ["theory", "security"],
+  "resources": [
+    { "label": "Spring Security: OAuth 2.0 Resource Server JWT", "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html" },
+    { "label": "RFC 7519: JSON Web Token", "url": "https://www.rfc-editor.org/rfc/rfc7519.html" },
+    { "label": "RFC 7636: Proof Key for Code Exchange", "url": "https://www.rfc-editor.org/rfc/rfc7636.html" },
+    { "label": "RFC 9700: OAuth 2.0 Security Best Current Practice", "url": "https://www.rfc-editor.org/rfc/rfc9700.html" },
+    { "label": "OpenID Connect Core 1.0", "url": "https://openid.net/specs/openid-connect-core-1_0.html" },
+    { "label": "RFC 10017: OAuth 2.0 for Browser-Based Applications", "url": "https://www.rfc-editor.org/rfc/rfc10017.html" }
+  ]
+}

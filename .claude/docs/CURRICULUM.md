@@ -415,7 +415,7 @@ Spec and standards: [system-design-track.md](system-design-track.md). Multi-lang
 
 ## Java and Spring Boot (`src/content/java-spring`, engine `angular`)
 
-Plan and decisions: [java-spring-track.md](java-spring-track.md). No Java engine exists in the browser (option A of the plan): every module is theory and quizzes plus backend practice projects built locally with the JDK and Maven where required. There are no graded challenges. Angular is a separate track; a future Full Stack track can teach the integration. Module 01 is required (a quiz-only module cannot be optional). Hidden (`TRACK_FLAGS['java-spring'] = false`) until its last part ships; the accent is provisional. Only the written modules are listed here.
+Plan and decisions: [java-spring-track.md](java-spring-track.md). Every module is theory and quizzes plus backend projects built locally with the JDK and Maven when required. There are no graded browser challenges or Java engine. Angular is separate, and Full Stack is deferred. Module 01 is required; the track remains hidden until its independent release checks pass.
 
 ### 01-java-from-zero — Java from Zero
 01-your-first-java-program ✓ · 02-values-types-and-variables ✓ · 03-decisions-and-loops ✓ · 04-methods ✓ · 05-strings-and-arrays ✓ · 06-classes-and-objects ✓ · 07-exceptions-and-first-test ✓ · 08-project-command-line-todo ✓
@@ -431,3 +431,6 @@ Plan and decisions: [java-spring-track.md](java-spring-track.md). No Java engine
 
 ### 05-persistence — Persistence
 01-jpa-and-hibernate-basics ✓ · 02-spring-data-repositories ✓ · 03-relationships ✓ · 04-transactions ✓ · 05-the-n-plus-one-problem-and-fetching ✓ · 06-paging-and-sorting-with-spring-data ✓ · 07-database-migrations-and-soft-delete ✓ · 08-project-course-persistence ✓
+
+### 06-security — Security
+01-authentication-and-authorization-basics ✓ · 02-the-spring-security-filter-chain ✓ · 03-sessions-versus-tokens ✓ · 04-jwt-and-oauth-2-resource-servers ✓ · 05-csrf-and-cors ✓ · 06-method-security-and-authorization-design ✓ · 07-project-secure-course-api ✓

@@ -1,0 +1,28 @@
+{
+  "title": "Project: Secure Course API",
+  "summary": "Secure a local course API with scoped reads, administrator writes, method rules and separate authorization and signed-token decoder tests.",
+  "level": "advanced",
+  "tags": [
+    "theory",
+    "project",
+    "security"
+  ],
+  "resources": [
+    {
+      "label": "Spring Security: JWT resource server",
+      "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html"
+    },
+    {
+      "label": "Spring Security: Testing OAuth 2.0",
+      "url": "https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/oauth2.html"
+    },
+    {
+      "label": "Spring Security: Method security",
+      "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html"
+    },
+    {
+      "label": "Spring Security: CSRF",
+      "url": "https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html"
+    }
+  ]
+}

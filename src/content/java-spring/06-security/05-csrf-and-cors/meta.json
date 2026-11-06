@@ -1,0 +1,27 @@
+{
+  "title": "CSRF and CORS",
+  "summary": "Distinguish CSRF from CORS, choose protections for cookie or bearer authentication, configure the Spring Security cookie-to-header contract and process allowed-origin preflights before authentication.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "security"
+  ],
+  "resources": [
+    {
+      "label": "Spring Security: Cross Site Request Forgery (CSRF)",
+      "url": "https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html"
+    },
+    {
+      "label": "Spring Security: CORS",
+      "url": "https://docs.spring.io/spring-security/reference/servlet/integrations/cors.html"
+    },
+    {
+      "label": "MDN: Cross-Origin Resource Sharing (CORS)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS"
+    },
+    {
+      "label": "OWASP Cheat Sheet: Cross-Site Request Forgery Prevention",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html"
+    }
+  ]
+}

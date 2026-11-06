@@ -1,0 +1,9 @@
+[
+  { "term": "Authentication", "description": "Proving who the caller is with a password, a one-time code or a token from a trusted issuer." },
+  { "term": "Authorization", "description": "Deciding what an authenticated caller may do, by comparing its roles or permissions with the requested action." },
+  { "term": "401 versus 403", "description": "401 means the caller is not authenticated, 403 means the caller is known but not allowed." },
+  { "term": "Trust boundary", "description": "The line where data enters from outside, such as a request, and must be treated as hostile." },
+  { "term": "Deny by default", "description": "A new endpoint stays closed until a rule opens it on purpose, so a forgotten rule fails safe." },
+  { "term": "Least privilege", "description": "Each role or token receives only the permissions its tasks require." },
+  { "term": "Adaptive password hash", "description": "A deliberately slow, salted hash such as bcrypt that makes guessing stored passwords expensive." }
+]
