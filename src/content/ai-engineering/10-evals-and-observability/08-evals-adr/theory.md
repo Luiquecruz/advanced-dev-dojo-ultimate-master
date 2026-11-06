@@ -39,7 +39,7 @@ export const evalPlan = {
     { name: 'citation', kind: 'regex', checks: 'Every answer cites a policy section id.' },
     { name: 'faithfulness', kind: 'judge', checks: 'Every claim is supported by the cited section.' },
   ],
-  judge: { model: 'other-family-judge-2026-06-01', minKappa: 0.7, pairwiseBothOrders: true },
+  judge: { model: 'other-family-judge', minKappa: 0.7, pairwiseBothOrders: true },
   gate: { pullRequestCases: 150, repeats: 3, tolerance: 0.04, blockOnCriticalRegression: true, projectedCostUsd: 2.7 },
   tracing: { conventions: 'opentelemetry-genai', captureContent: false },
 };

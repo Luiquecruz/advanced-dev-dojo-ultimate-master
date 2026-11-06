@@ -2,7 +2,7 @@ Write the governance ADR for **Lumen Pay**, a Brazilian fintech that is about to
 
 ## Briefing
 
-Lumen Pay serves 2.1 million consumers in Brazil from São Paulo and launches in **Portugal (EU)** soon after the model retirement date below. It has no plans for other markets.
+Lumen Pay serves 2.1 million consumers in Brazil from São Paulo and launches in **Portugal (EU)** a few weeks after the model retirement date in the facts below. It has no plans for other markets.
 
 - **AI features:** `support-chat` (a customer support chatbot), `credit-limit` (an agent that proposes credit-limit changes for consumers), `collections-email` (drafts collection emails sent to customers) and `coding-assistant` (used by 80 engineers).
 - **Audit findings:** 23 agents tracked in a spreadsheet, 9 of them with owners who left; 3 API keys shared by every agent, none with an expiry date; marketing pastes customer lists into a personal chatbot subscription because no sanctioned assistant exists; last quarter AI spend ran 40% over plan, mostly from one agent stuck in a retry loop.
