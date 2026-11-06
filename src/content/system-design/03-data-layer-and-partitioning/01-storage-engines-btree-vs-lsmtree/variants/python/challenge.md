@@ -22,3 +22,5 @@ The tests create the store with a keyword argument: `LsmStore(memtable_limit=3)`
 - `compact()` merges every SSTable into a single SSTable sorted by key that keeps only the newest entry of each key and drops tombstones. When nothing is left (or there were no SSTables), there are zero SSTables afterwards. The MemTable is not touched.
 
 The starter ends with a small demo under `if __name__ == "__main__":`; keep it working.
+
+Keys are plain ASCII text, so ordering them by character code gives the same order in every language.

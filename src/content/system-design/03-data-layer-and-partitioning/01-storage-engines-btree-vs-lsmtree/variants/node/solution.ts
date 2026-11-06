@@ -71,7 +71,7 @@ export function createLsmStore(options: { memtableLimit: number }): LsmStore {
     delete: (key) => write(key, null),
     get,
     sstableCount: () => tables.length,
-    sstables: () => tables,
+    sstables: () => tables.map((table) => table.map(([key, value]) => [key, value] as Entry)),
     compact,
   };
 }

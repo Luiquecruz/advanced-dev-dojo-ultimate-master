@@ -29,7 +29,7 @@ public class NotesApi
         var match = NotePath.Match(request.Path);
         if (match.Success)
         {
-            return HandleNote(request, int.Parse(match.Groups[1].Value));
+            return HandleNote(request, int.TryParse(match.Groups[1].Value, out var id) ? id : -1);
         }
         return new HttpResponse(404, new ErrorBody("not found"));
     }

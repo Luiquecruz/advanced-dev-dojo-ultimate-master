@@ -4,11 +4,11 @@
     "options": [
       "Four always-on workers, for redundancy",
       "Generate the PDF in the browser so no backend is needed",
-      "An event-triggered function that runs only when an invoice is requested, so nothing is paid for or patched while idle",
+      "An event-triggered function that runs only when an invoice is requested, so no compute is paid for or patched while idle",
       "A Kubernetes cluster with autoscaling from zero to three nodes"
     ],
     "answer": 2,
-    "explanation": "Low-volume background events leave always-on servers idle almost all day. A function triggered by the event costs per invocation and needs no fleet to operate."
+    "explanation": "Low-volume background events leave always-on servers idle almost all day. A function triggered by the event costs per invocation and needs no fleet to operate; only what it stores keeps costing between events."
   },
   {
     "question": "An image-resize function is invoked directly by S3 events. A marketing campaign causes 50,000 uploads in ten minutes and the downstream database is overwhelmed. What change helps most?",
@@ -59,7 +59,7 @@
     "options": [
       "Functions cannot read from object storage",
       "Functions do not support video formats",
-      "The jobs exceed a function's maximum run time, and steady load is usually cheaper on always-on containers or a batch service",
+      "The jobs run longer than a standard function timeout allows, and steady load is usually cheaper on always-on containers or a batch service",
       "Functions cannot be triggered by events"
     ],
     "answer": 2,

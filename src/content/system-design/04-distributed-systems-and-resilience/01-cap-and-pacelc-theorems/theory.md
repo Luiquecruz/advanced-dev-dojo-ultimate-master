@@ -30,7 +30,7 @@ A CP store turns a partition into errors for some clients. An AP store turns it 
 
 Partitions are rare. Daniel Abadi pointed out that the more frequent trade-off happens when the network is healthy. **PACELC** reads: if there is a **P**artition, choose **A**vailability or **C**onsistency; **E**lse, choose **L**atency or **C**onsistency.
 
-A strongly consistent read or write has to coordinate with other replicas before it answers, and that round trip, sometimes across regions, is latency the user feels on every request. A system that answers from the nearest replica without coordination is fast and may return stale data, exactly the replication lag you saw with asynchronous replicas.
+A strongly consistent read or write has to coordinate with other replicas before it answers (a leader lease can skip that round trip for reads, at the price of assuming bounded clock drift), and that round trip, sometimes across regions, is latency the user feels on every request. A system that answers from the nearest replica without coordination is fast and may return stale data, exactly the replication lag you saw with asynchronous replicas.
 
 - **PA/EL**: Dynamo-style stores at their default settings favor availability during a partition and low latency otherwise.
 - **PC/EC**: configurations that keep every read and write strongly consistent, such as Google Spanner's strong reads and read-write transactions (ordered with globally synchronized clocks), pay coordination latency all the time and refuse work on the minority side of a partition.

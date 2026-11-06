@@ -10,7 +10,7 @@ A **B-tree** keeps keys sorted in fixed-size **pages** (16 KB by default in Inno
 
 InnoDB stores each table in a B-tree ordered by the primary key (the clustered index), and every secondary index is another B-tree. PostgreSQL keeps rows in a heap and uses B-trees as its default index type.
 
-A write finds the leaf page that owns the key and **changes that page in place**. If the page is full, it splits in two and the parent gets a new pointer. To survive a crash in the middle of that, the change is first appended to a log (the InnoDB redo log, the PostgreSQL write-ahead log) and the page itself is written back later.
+A write finds the leaf page that owns the key and **changes that page in place** (a PostgreSQL row update writes a new row version in the heap and adds index entries for it; the index pages themselves are still changed in place). If the page is full, it splits in two and the parent gets a new pointer. To survive a crash in the middle of that, the change is first appended to a log (the InnoDB redo log, the PostgreSQL write-ahead log) and the page itself is written back later.
 
 The cost hides in the page size. Changing one 100-byte row dirties a whole page, so the engine eventually writes kilobytes for bytes of change: that ratio is **write amplification**. And because keys arriving in random order land in random pages, a write-heavy workload turns into random disk I/O. B-trees shine at reads, range scans and updates of existing rows; they struggle under a firehose of writes to scattered keys.
 
@@ -18,7 +18,7 @@ The cost hides in the page size. Changing one 100-byte row dirties a whole page,
 
 An **LSM tree** never updates data in place. A write goes through three steps:
 
-1. Append the change to the **write-ahead log** (WAL; Cassandra calls it the commit log). A sequential append is the cheapest disk write there is, and it makes the write durable: after a crash, replaying the log rebuilds what was in memory.
+1. Append the change to the **write-ahead log** (WAL; Cassandra calls it the commit log). A sequential append is the cheapest disk write there is, and once the log is flushed to stable storage (`fsync`) the write is durable: after a crash, replaying the log rebuilds what was in memory.
 2. Insert it into the **MemTable**, a sorted structure in memory (a skip list in RocksDB).
 3. When the MemTable reaches its size limit, **flush** it to disk as an **SSTable** (sorted string table): an immutable file of key-value pairs sorted by key. A fresh MemTable takes the next writes, and the WAL segment it covered can be discarded.
 

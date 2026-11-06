@@ -21,7 +21,7 @@ A common middle ground is one synchronous replica and the rest asynchronous: one
 
 An asynchronous replica is always a little behind the primary, usually milliseconds, sometimes seconds or minutes under heavy load. That **replication lag** produces a classic bug: a user updates their profile, the next page reads from a replica that has not applied the update, and the old name comes back. The guarantee the user expects is **read-your-writes**. Common ways to provide it:
 
-- read a user's own data from the primary for a short window after they write;
+- read a user's own data from the primary for a short window after they write (safe only while lag stays under the window; stronger: read from a replica that has replayed the write's log position);
 - remember the log position of the user's last write and read only from a replica that has applied it;
 - read data a user can edit from the primary and everything else from replicas.
 

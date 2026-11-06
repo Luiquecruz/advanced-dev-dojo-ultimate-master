@@ -63,6 +63,6 @@
       "CAP only applies to databases with more than ten nodes"
     ],
     "answer": 2,
-    "explanation": "Consistency is often tunable per request: quorum reads and writes (R + W > N) or a strongly consistent read behave as CP, while single-replica reads and writes behave as AP. Name the configuration, not the product."
+    "explanation": "Consistency is often tunable per request: a strongly consistent read, or quorum operations that refuse to answer without a majority, lean CP, while single-replica reads and writes behave as AP. Quorum overlap (R + W > N) alone does not make a store linearizable, so name the configuration and its guarantees, not the product."
   }
 ]
