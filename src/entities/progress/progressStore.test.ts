@@ -48,4 +48,22 @@ describe('progress store', () => {
     expect(progress.getState().code[codeKeyFor(lesson.key, 'python')]).toEqual({ 'main.py': 'print(1)' });
     expect(codeKeyFor(lesson.key)).toBe(lesson.key);
   });
+
+  it('loads legacy State Management drafts into React and does not resurrect a cleared draft', async () => {
+    const key = 'react-state/local-state-and-derived-values';
+    const draft = { 'App.jsx': 'export default function App() { return <p>saved</p>; }' };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ code: { [key]: draft }, challenges: { [key]: true } }));
+    vi.resetModules();
+    const { progress: restored } = await import('./progressStore');
+    expect(restored.getState().code[`${key}#react`]).toEqual(draft);
+    expect(restored.getState().challengeLanguages[key]).toEqual({ react: true });
+    restored.clearCode(`${key}#react`);
+    vi.advanceTimersByTime(300);
+    vi.resetModules();
+    const { progress: reopened } = await import('./progressStore');
+    expect(reopened.getState().code[`${key}#react`]).toBeUndefined();
+    expect(reopened.getState().code[key]).toBeUndefined();
+    expect(reopened.getState().challenges[key]).toBe(true);
+  });
+
 });

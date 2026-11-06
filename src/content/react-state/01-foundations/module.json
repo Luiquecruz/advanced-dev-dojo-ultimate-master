@@ -1,1 +1,4 @@
-{ "title": "State Fundamentals", "description": "What state is, where it lives, derived values, reducers as explicit transitions and immutable updates." }
+{
+  "title": "State Fundamentals",
+  "description": "State ownership, derived values, reducers and immutable updates, demonstrated with React. Angular learners can follow the dedicated Angular state module after Angular signals and dependency injection."
+}

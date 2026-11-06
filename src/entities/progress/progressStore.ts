@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { migrateStateManagementProgress } from './legacyStateProgress';
 import type { LanguageId, LessonEntry, ProjectFiles, TrackId } from '@/content';
 
 const STORAGE_KEY = 'dev-dojo:progress:v1';
@@ -19,7 +20,7 @@ const empty: ProgressState = { challenges: {}, challengeLanguages: {}, language:
 function load(): ProgressState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? { ...empty, ...JSON.parse(raw) } : empty;
+    return raw ? migrateStateManagementProgress({ ...empty, ...JSON.parse(raw) }) : empty;
   } catch {
     return empty;
   }

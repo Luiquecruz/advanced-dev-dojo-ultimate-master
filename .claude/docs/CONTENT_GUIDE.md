@@ -1,6 +1,6 @@
 # Content Guide
 
-Each track is a folder in `src/content/<track>/`; the current tracks and their plans are listed in [CURRICULUM.md](CURRICULUM.md). A track declares its engine in `track.json` (`"engine": "react"`), so several tracks can share one engine (`react-state` and `architecture` run on the React engine). Every lesson is a folder:
+Each track is a folder in `src/content/<track>/`; the current tracks and their plans are listed in [CURRICULUM.md](CURRICULUM.md). A track declares its engine in `track.json` (`"engine": "react"`), so several tracks can share one engine (`react` and `architecture` run on React); State Management (`react-state`) uses React or Angular variants by lesson. Every lesson is a folder:
 
 ```
 src/content/<track>/<NN-module>/<NN-lesson-id>/
@@ -33,7 +33,7 @@ All content is written in **English**.
 - `preview`: `false` hides the live preview for non-visual work (composables, services, utilities). The TypeScript and Node.js tracks never show a preview; they have a **Run** button that prints the console output instead.
 - `entry`: required for multi-file challenges (`starter/` + `solution/` folders). Files may sit in subfolders (`features/cart/index.js`); imports resolve relative to the importing file (`./model`, `../../shared/ui/Button`), try the extensions `.ts`, `.tsx`, `.js`, `.jsx`, `.vue` and then a folder `index` file, and a leading `/` resolves from the project root. Tests reach nested files with `modules['features/cart/index.js']` and `sources['features/cart/index.js']`. Single-file defaults: TypeScript `main.ts`; React `App.jsx`/`App.tsx`; Vue `App.vue` (or `main.ts` when the starter is `.ts`); Angular `app.ts`; Node.js `main.ts`.
 - A lesson needs a challenge, a quiz, or both. Theory-only topics (tooling, frameworks, architecture, history) use a 4–6 question quiz.
-- **Multi-language tracks** (`"languages"` in `track.json`, ids from `src/content/languages.ts`): the learner picks the challenge language in the editor toolbar. Theory, concepts and quiz are shared; `challenge.md`, `hints.md` and `approach.md` at the lesson root are shared defaults, and a variant overrides them only when names or steps differ per language (`summarizeTrace` vs `summarize_trace`). Each language's code lives in `variants/<language>/` (`starter`, `solution`, `tests` in that engine's format); files outside `variants/` are ignored for the challenge. A lesson offers only the languages it ships, and every shipped variant must pass verification. Write the challenge contract so it reads naturally in every language the lesson ships. Mechanism and progress rules: [ARCHITECTURE.md](ARCHITECTURE.md#multi-language-challenges).
+- **Multi-language tracks** (`"languages"` in `track.json`, language or framework ids from `src/content/languages.ts`): the learner picks the challenge language in the editor toolbar. Theory, concepts and quiz are shared; `challenge.md`, `hints.md` and `approach.md` at the lesson root are shared defaults, and a variant overrides them only when names or steps differ per language (`summarizeTrace` vs `summarize_trace`). Each language's code lives in `variants/<language>/` (`starter`, `solution`, `tests` in that engine's format); files outside `variants/` are ignored for the challenge. A lesson offers only the languages or frameworks it ships, and every shipped variant must pass verification. State Management registers `react` and `angular` and gives each framework-specific lesson only its own variant; the React and Angular challenge suites run separately. Its existing React lesson keys stay stable, and persisted pre-variant drafts migrate into the React code namespace. Write the challenge contract so it reads naturally in every language the lesson ships. Mechanism and progress rules: [ARCHITECTURE.md](ARCHITECTURE.md#multi-language-challenges).
 - **Write `meta.json` last**, after every other file of the lesson exists. The loader only picks up folders that have `meta.json`, so half-written lessons stay invisible to other authors running the verifier.
 
 ## Writing good lessons
@@ -61,7 +61,7 @@ Data: users 1 Ada Lovelace, 2 Alan Turing, 3 Grace Hopper, 4 Linus Torvalds, 5 M
 
 ## Framework tests (React, Vue, Angular)
 
-Test file: React engine tracks (`react`, `react-state`, `architecture`) `tests.jsx`, Vue `tests.ts`, Angular `tests.ts`, Node.js `tests.ts`. Plain script, **no imports**, TypeScript syntax allowed (Angular tests may declare host components with decorators). React tests may use JSX.
+Test file: React variants (`react`, `architecture`, and the React path of `react-state`) `tests.jsx`, Vue `tests.ts`, Angular `tests.ts`, Node.js `tests.ts`. Plain script, **no imports**, TypeScript syntax allowed (Angular tests may declare host components with decorators). React tests may use JSX.
 
 Each `test(name, fn)` runs against a **fresh evaluation** of the learner project and a clean DOM. Test names are listed to the learner before running. Each test times out after 4 s. Keep `test()` calls at the top level.
 

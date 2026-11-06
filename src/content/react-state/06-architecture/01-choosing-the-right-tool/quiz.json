@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A product listing has: (A) the products from `/api/products`, (B) the selected category and sort order, which marketing wants to share as links, (C) whether the 'Filters' drawer is open on mobile, (D) the cart, shown in the header and the checkout page. Which assignment is right?",
+    "options": [
+      "A: Zustand \u00b7 B: Zustand \u00b7 C: Zustand \u00b7 D: Zustand",
+      "A: TanStack Query \u00b7 B: URL search params \u00b7 C: `useState` \u00b7 D: a small client store (e.g. Zustand)",
+      "A: Context \u00b7 B: `useState` \u00b7 C: URL \u00b7 D: TanStack Query",
+      "A: `useEffect` + `useState` \u00b7 B: Redux \u00b7 C: Context \u00b7 D: localStorage only"
+    ],
+    "answer": 1,
+    "explanation": "Remote data is a cache; shareable view state lives in the URL; a drawer toggle is local UI state; the cart is client-owned and shared across distant screens, so a small store fits."
+  },
+  {
+    "question": "An Angular feature shares a small cart between a header and checkout. It needs derived totals but no action log, entity helpers or store plugins. What is a proportionate first choice?",
+    "options": [
+      "A service owning private writable signals, exposing read-only signals and computed totals, with explicit update methods",
+      "Add Redux Toolkit and React Context together",
+      "Use a separate global store for each derived total",
+      "Mutate a shared array directly so every consumer sees it"
+    ],
+    "answer": 0,
+    "explanation": "A scoped signal service provides one owner, explicit writes and derived values without adding a state library. NgRx SignalStore becomes useful when the feature needs its shared conventions or additional capabilities."
+  },
+  {
+    "question": "An enterprise banking app with 60 frontend developers needs an auditable trail of every client state change, time-travel debugging for support tickets, and endpoints generated from an OpenAPI spec. Which pairing fits best?",
+    "options": [
+      "Valtio + SWR",
+      "MobX + `useEffect` fetching",
+      "Jotai + React Context",
+      "Redux Toolkit + RTK Query"
+    ],
+    "answer": 3,
+    "explanation": "Explicit serializable actions, the strongest devtools and team-scale conventions point to Redux Toolkit; RTK Query shares the store and supports OpenAPI code generation."
+  },
+  {
+    "question": "Match the tool to the problem: (1) a whiteboard app with hundreds of shapes and many derived values (selection bounds, snapping), (2) a video upload flow with idle, uploading, paused, processing, failed and done, (3) the app's theme and locale.",
+    "options": [
+      "(1) Context \u00b7 (2) Zustand \u00b7 (3) XState",
+      "(1) TanStack Query \u00b7 (2) Context \u00b7 (3) Jotai",
+      "(1) Jotai (or MobX/Valtio) \u00b7 (2) XState \u00b7 (3) Context",
+      "(1) URL state \u00b7 (2) `useState` booleans \u00b7 (3) Redux Toolkit"
+    ],
+    "answer": 2,
+    "explanation": "Fine-grained graphs of derived values suit atoms or tracked proxies; ordered flows with retry and pause suit a state machine; rarely changing subtree values suit Context."
+  },
+  {
+    "question": "A team stores the current user's profile (from `/api/me`) in Context via `useEffect` in the root, plus `isLoading` and `error`. After the user edits their name, the header still shows the old one in other tabs and after focus. What would a senior engineer change?",
+    "options": [
+      "Fetch `/api/me` with TanStack Query (shared key, refetch on focus, invalidate after the edit); keep Context only for dependency injection if needed",
+      "Add more Context providers",
+      "Move the profile to localStorage",
+      "Poll `/api/me` every second inside the Context"
+    ],
+    "answer": 0,
+    "explanation": "Context distributes values but does not manage freshness. The profile is server state, so a query cache gives deduplication, focus refetching and invalidation after mutations."
+  },
+  {
+    "question": "A small internal tool has two pages and one shared value: the selected environment (dev, staging, prod), changed rarely from a header dropdown. A teammate proposes adding Redux Toolkit. What is the most proportionate choice?",
+    "options": [
+      "Redux Toolkit with a slice and typed hooks",
+      "XState with a parallel machine",
+      "Context with a guarded hook (or the URL if the environment should be linkable)",
+      "MobX observable class"
+    ],
+    "answer": 2,
+    "explanation": "One rarely changing value shared by a subtree is exactly what Context is for, and the URL is better if links should carry it. A store library adds dependencies and ceremony with no benefit."
+  }
+]
