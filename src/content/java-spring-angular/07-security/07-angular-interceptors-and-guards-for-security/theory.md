@@ -66,7 +66,7 @@ export const unauthorizedInterceptor: HttpInterceptorFn = (request, next) => {
 
   return next(request).pipe(
     catchError((error: unknown) => {
-      if (request.url.startsWith('/api/') && request.url !== '/api/auth/login' &&
+      if (request.url.startsWith('/api/') && request.url.split('?')[0] !== '/api/auth/login' &&
           error instanceof HttpErrorResponse && error.status === 401) {
         authStore.signOut();
         void router.navigate(['/login'], { queryParams: { returnUrl: router.url } });

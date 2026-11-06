@@ -18,8 +18,8 @@
       "The application fails to start",
       "The public rule wins because it is more specific"
     ],
-    "answer": 0,
-    "explanation": "Rules are checked in the order declared and the first match is applied. A catch-all at the top matches everything, so specific rules must come before it."
+    "answer": 2,
+    "explanation": "The authorization DSL rejects requestMatchers after anyRequest, so chain construction fails and the application does not start. Declare specific matchers before the catch-all."
   },
   {
     "question": "Which statement about `hasRole(\"ADMIN\")` is correct?",
@@ -55,14 +55,14 @@
     "explanation": "The contract is to throw UsernameNotFoundException. Spring Security then reports a generic authentication failure without revealing whether the name exists."
   },
   {
-    "question": "A teammate declares a `SecurityFilterChain` bean and the generated `user` password no longer works for the web endpoints. Why?",
+    "question": "A custom SecurityFilterChain does not enable HTTP Basic. Requests with the generated user credentials in a Basic header no longer authenticate. Why?",
     "options": [
       "The password expired",
       "Spring Security deletes the in-memory user",
-      "The bean replaces Boot's default web security, so only your rules and authentication methods apply",
+      "The custom chain has no HTTP Basic authentication mechanism, even if the generated user still exists",
       "The password changes on every request"
     ],
     "answer": 2,
-    "explanation": "A SecurityFilterChain bean switches off Boot's default web security configuration. Your chain must enable the login mechanism you want, such as HTTP Basic."
+    "explanation": "The custom chain replaces default web security but does not necessarily remove the generated user. Without httpBasic, those credentials are not processed by a Basic authentication filter."
   }
 ]

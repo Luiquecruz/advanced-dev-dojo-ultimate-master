@@ -8,7 +8,7 @@ Everything another engineer or agent needs to continue the track without the ori
 | --- | --- |
 | Engine decision | Option A: no Java engine. Every module is theory + quiz with local practice projects, including module 06. No graded challenges or Java engine. |
 | Track | `src/content/java-spring-angular`, `"engine": "angular"`, hidden (`TRACK_FLAGS['java-spring-angular'] = false`). |
-| Written | Modules `01-java-from-zero` and `02-the-java-language` (8 lessons each, the last of each is a local project). |
+| Written on this branch | Modules 01–07, 54 lessons; modules 01–02 merged, modules 03–07 in review. |
 | Remaining | Modules 03 to 09 below. |
 | Accent | Provisional in `src/shared/design/tokens.css`; hue collides with a shown track. Must be re-spaced before the flag is turned on (the owners decide the palette). Angular's accent (351 degrees) also collides with C# (358): fix before showing either. |
 | Standards suite | `src/verify/java-spring-angular.test.ts` on `src/verify/trackStandards.ts` (shared with System Design). |
@@ -21,6 +21,7 @@ Keep this section current: after every merge, PR, review or decision, add a line
 **Owner decision (token budget): the track keeps only theory and quizzes. No graded challenges anywhere, including module 06 (it becomes theory + quiz like the rest). Do not build a Java engine.**
 
 State of the work:
+- PR #57 review pass: the module 07 branch is complete with 54 lessons through module 07. Corrected security DSL ordering, missing Basic-auth mechanism, refresh-token state, signed-JWT glossary scope, SpEL method visibility and login URL query handling.
 - Module 06: PR #56 open, stacked on #55. Module 07 in `feat/java-module-07`: completed interceptor/guard metadata, glossary and quiz, plus the secure-course project. Added actual signed-token decoder validation to local project checks, beyond mocked authorization tests. Validation: 13 Spring tests pass, including five signed-token checks; interceptor/guard TypeScript compiles; 1,785 content tests (one skipped), 200 unit tests, build, lint, typecheck and docs sync pass; all 31 resource URLs return 200.
 - Module 05: PR #55 open, stacked on #54. Module 06 in `feat/java-module-06`: theory and quizzes only; challenge artifacts excluded. Corrected prerequisite titles, hardened Problem Details shape validation and field lookup, guarded resource error reads, and aligned the local project with module 05's flat page response and explicit POST setup. Validation: 1,761 content tests (one skipped), 200 unit tests, build, lint, typecheck, docs sync; six TypeScript snippet files compile against Angular 22.2.3, four templates parse, malformed Problem Details bodies are rejected, and all 24 resource links return 200 on their original hosts.
 - Module 04: PR #54 open, stacked on #53. Module 05 review in `feat/java-module-05`: validated eight PostgreSQL persistence/HTTP tests on Boot 4.1.2, compiled the snippet project, and passed 1,740 content checks (one skipped), unit tests, build, lint, typecheck and docs sync. Corrected transaction-context scope, declared-query transactions, bag-fetch wording, paging/count caveats, the id sort whitelist, schema-validation wording and container/HTTP test setup.
@@ -29,8 +30,8 @@ State of the work:
 - PR #51 review pass: corrected ten Java content findings, aligned module 06 descriptions and the README track row with the theory-and-quiz decision, and clarified consecutive numbering. Validation passed: 1,671 tests, one skipped; eslint, TypeScript, docs sync and Java snippet checks (`javac --release 25` on JDK 27). All checks and review threads subsequently passed; PR #51 is merged.
 - Module 01: merged (PR #50).
 - Module 02: merged in PR #51 after all checks passed and all 12 review threads were resolved. Branch retained.
-- All module 03–09 drafts, including the local module 05–07 additions, are preserved on the pushed `wip/java-modules-03-09` branch at `ef409aee`. Module 07 remains incomplete; module 06 still has draft challenge artifacts that must not ship. Reviewed content is split into module branches and PRs.
-- This branch includes CURRICULUM.md rows and README counts through module 05 (39 Java-track lessons). Modules 06–09 need their own reviewed PRs and counts.
+- All module 03–09 drafts, including the local module 05–07 additions, are preserved on the pushed `wip/java-modules-03-09` branch at `ef409aee`. Only that preserved WIP snapshot has incomplete module 07 files and draft module 06 challenges. The reviewed module 07 branch is complete; module 06 PR #56 contains no graded challenges. Reviewed content is split into module branches and PRs.
+- This branch includes CURRICULUM.md rows and README counts through module 07 (54 Java-track lessons). Module 06 is PR #56 and module 07 is PR #57. Modules 08–09 are handled in later module branches and need their own completed reviews.
 - The module-numbering check requires present modules to be numbered consecutively from 01; it does not require modules 03 to 09 to exist.
 - i18n plan: PR #52 (docs only); owner decisions D1 to D12 open; no implementation.
 
