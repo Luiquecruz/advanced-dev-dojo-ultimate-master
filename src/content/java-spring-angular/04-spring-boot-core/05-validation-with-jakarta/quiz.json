@@ -22,15 +22,15 @@
     "explanation": "Constraints other than the not-null family accept null so they can be combined. A required field needs @NotNull or @NotBlank in addition."
   },
   {
-    "question": "A request record declares `@Min(1) int durationHours`. The controller uses `@Valid @RequestBody` without a `BindingResult`, and the client sends `{}`. What happens?",
+    "question": "With Spring Boot 4.1.2’s default Jackson configuration, a record declares `@Min(1) int durationHours`. The controller uses `@Valid @RequestBody` without a `BindingResult`. What happens when the client sends `{}`?",
     "options": [
       "null",
-      "Jackson supplies 0, which fails @Min(1) before the controller and service run",
+      "Jackson rejects deserialization before Bean Validation and before the controller or service runs",
       "An exception from Jackson only",
       "1, the minimum value"
     ],
     "answer": 1,
-    "explanation": "A primitive cannot be null, so Jackson supplies 0. @Valid rejects it before the controller method and service run. Integer with @NotNull reports a missing value instead."
+    "explanation": "Jackson 3 defaults to rejecting a missing primitive record value. A nullable Integer instead deserializes to null, allowing @NotNull to report a validation error. Disabling FAIL_ON_NULL_FOR_PRIMITIVES changes the primitive behavior."
   },
   {
     "question": "A controller declares `@PathVariable @Positive long id` and a client calls `/api/courses/-5`. A validation handler only covers `MethodArgumentNotValidException`. What is the result?",

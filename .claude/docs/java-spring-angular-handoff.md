@@ -53,7 +53,7 @@ Recent review and merge records:
 - PR #54 synchronization: merged current main after module 03 was merged; retained all module 04 review corrections and refreshed the stack state.
 - PR #55 synchronization: merge current main after module 04 and preserve reviewed persistence guidance.
 - PR #56 synchronization: incorporated reviewed main through module 05; persistence regression checks pass with nine local tests.
-- PR #56 late review: corrected qualifier semantics, test-starter scope, validation timing, nested null handling and repository quiz; global validation errors are retained in the module 04 and 06 contracts and Angular form summary. CodeRabbit reported its included review quota exhausted; subsequent pushes require manual review plus CI until service review is available.
+- PR #56 follow-up review: reproduced Boot 4.1.2 missing-primitive deserialization rejection and nullable validation; documented read-only submitting inputs and separate retryable transient state. CodeRabbit resumed reviewing newer commits after its earlier quota warning.
 
 Next steps:
 1. Fix valid review findings, answer every thread, and verify the current commit's checks and review before merging.

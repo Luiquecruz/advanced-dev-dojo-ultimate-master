@@ -105,12 +105,16 @@ A gateway or proxy in front of Spring can answer with an HTML page or an empty b
 
 ```ts
 await submit(this.signupForm, async (root) => {
+  this.transientError.set('');
   try {
     await firstValueFrom(this.http.post('/api/users', this.model()));
     return undefined;
   } catch (error) {
-    if (!(error instanceof HttpErrorResponse) || error.status >= 500 || !isProblemDetail(error.error)) {
-      return { kind: 'server', message: 'Something went wrong, try again' };
+    if (!(error instanceof HttpErrorResponse) || error.status === 429 ||
+        error.status >= 500 || !isProblemDetail(error.error)) {
+      this.transientError.set(error instanceof HttpErrorResponse && error.status === 429
+        ? 'Too many requests. Wait before trying again.' : 'Something went wrong, try again');
+      return undefined;
     }
     const fields = { name: root.name, email: root.email } as const;
     const submissionErrors = (error.error.errors ?? []).map(({ field, message }) =>
@@ -122,6 +126,10 @@ await submit(this.signupForm, async (root) => {
   }
 });
 ```
+
+The component declares `readonly transientError = signal('')` and displays it in a separate status area. Keep both signup inputs read-only with `[readOnly]="signupForm().submitting()"`, disable the submit button while submitting, and avoid programmatic model changes during the request. Errors then apply to the values that were sent.
+
+A 429, network failure or server failure does not become a root validation error, which would block another submission until values change. Clear the transient message on retry or dismissal and allow unchanged values to be submitted again after the failure clears. A 429 retry waits for the server’s retry guidance. Returning `undefined` here records no validation error; treat only the successful HTTP branch as a saved signup, rather than navigating based on `submit()`’s boolean alone.
 
 Render root submission messages from `signupForm().errors()` in a form summary, alongside each control’s errors. Object-level and unknown-field messages stay visible even when the same response includes known-field errors. A submission error clears when the user edits the field it is attached to. Validation rules run again on every change, but a server answer is a one-time result.
 
