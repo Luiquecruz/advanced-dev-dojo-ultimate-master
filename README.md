@@ -15,7 +15,7 @@
 ![Vitest](https://img.shields.io/badge/Vitest-5-6E9F18?logo=vitest&logoColor=white)
 ![ESLint](https://img.shields.io/badge/ESLint-10-4B32C3?logo=eslint&logoColor=white)
 
-Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 773 lessons in 11 tracks, 647 of them public.
+Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 773 lessons in 11 tracks, 676 of them public.
 
 ## Tracks
 
@@ -29,7 +29,7 @@ Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform f
 | Node.js | in-browser Node runtime + Hono | 77 | runtime, async, core modules, HTTP, REST APIs, persistence, security, scaling |
 | Python | Python 3.14 on Pyodide (WebAssembly) | 119 | from programming fundamentals (optional module 00) to the object model, functions and closures, classes and descriptors, iterators, context managers, standard library, pattern matching, type hints, asyncio, metaprogramming, tooling, validation with Pydantic |
 | C# and .NET | C# (.NET 10 WebAssembly + Roslyn in a Web Worker); theory and quizzes, graded C# challenges in modules 00, 02–04, 08–10, 12 and 14, practice projects built locally with the .NET 10 SDK | 80 | .NET 10 and C# 14 backend development, from programming fundamentals (optional module 00) to production: runtime and language, LINQ, async, ASP.NET Core APIs, EF Core and Dapper, security, testing, background work and messaging, containers, CI/CD and observability, architecture, legacy .NET Framework and migration, integration, performance and code quality |
-| System Design | Node.js, Python (Pyodide) and C# (.NET WebAssembly), chosen per challenge | 29 | hidden while in progress |
+| System Design | Node.js, Python (Pyodide) and C# (.NET WebAssembly), chosen per challenge; theory and quizzes, graded challenges in 19 of 29 lessons | 29 | from architecture fundamentals (optional module 00) to the interview framework and capacity estimation, protocols, load balancing and rate limiting, storage engines, replication, sharding and consistent hashing, caching patterns, CAP and PACELC, consensus, message queues, sagas and the outbox, resilience, serverless pipelines, real-world case studies, vector databases and AI gateways, SLOs, multi-region design and design reviews |
 | Vue | Vue | 44 | hidden while in progress |
 | Angular | Angular | 53 | hidden while in progress |
 
