@@ -21,7 +21,7 @@ Add a `JpaCourseStore` that implements the `CourseStore` interface from stage tw
 1. On an empty database, startup applies `V1`, and with the test location also the repeatable demo seed; `flyway_schema_history` records both.
 2. Renaming a column in an entity without a migration makes startup fail with a schema validation error.
 3. `GET /api/courses?page=0&size=2` returns `Database Design` and `Java Basics`; the SQL log shows one select for the page, with the instructor joined, and one count select, not one query per course.
-4. `DELETE /api/courses/1` answers `204`, a later `GET` of that id answers `404`, and the row still exists with `deleted_at` set.
+4. Find the seeded `JAVA-101` course and delete it by its actual ID. `DELETE /api/courses/{id}` answers `204`, a later `GET` of that same id answers `404`, and the row still exists with `deleted_at` set.
 5. After that delete, creating a course with code `JAVA-101` succeeds, while creating a second live `JAVA-101` answers `409`.
 6. A course with an unknown `instructorId` answers `400`.
 7. The integration tests run against PostgreSQL in a container, not an embedded database.

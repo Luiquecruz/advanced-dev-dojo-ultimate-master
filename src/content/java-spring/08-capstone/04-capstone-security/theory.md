@@ -10,7 +10,7 @@ Add `POST /api/auth/login`, a stateless filter chain with role rules, and securi
 
 ## Features
 
-- Two in-memory users, `ada` with role `ADMIN` and `reader` with role `READER`, with BCrypt-hashed passwords.
+- Under the `local` profile only, two in-memory demo users, `ada` with role `ADMIN` and `reader` with role `READER`, with BCrypt-hashed passwords.
 - A login endpoint that returns the token, its lifetime in seconds and the roles.
 - Resource-server validation of the bearer token, with the `roles` claim mapped to authorities.
 - Public `GET` of courses and the health endpoint; `POST` and `DELETE` of courses only for `ADMIN`; everything else denied.
@@ -31,11 +31,19 @@ The fake local credentials are in the first code block of the steps below.
 ## Suggested steps
 
 1. Add `spring-boot-starter-security`, `spring-boot-starter-security-oauth2-resource-server` and, for tests, `spring-boot-starter-security-test`. Set `app.jwt.secret=${APP_JWT_SECRET}`.
-2. Define the users, the password encoder and an `AuthenticationManager` bean. These are local credentials only:
+2. Define a password encoder and an `AuthenticationManager` bean that requires an explicitly supplied `UserDetailsService`. Place the following demo user service in a configuration class restricted to the `local` profile; other deployments must provide their own authentication configuration and must not activate this demo profile:
 
 ```java
-User.withUsername("ada").password(encoder.encode("local-admin-password")).roles("ADMIN").build(),
-User.withUsername("reader").password(encoder.encode("local-reader-password")).roles("READER").build()
+@Configuration
+@Profile("local")
+class LocalUsersConfiguration {
+    @Bean
+    UserDetailsService localUsers(PasswordEncoder encoder) {
+        return new InMemoryUserDetailsManager(
+                User.withUsername("ada").password(encoder.encode("local-admin-password")).roles("ADMIN").build(),
+                User.withUsername("reader").password(encoder.encode("local-reader-password")).roles("READER").build());
+    }
+}
 ```
 
 3. Build the key once and expose an encoder and a decoder that share it. Generate a cryptographically random secret; length alone does not guarantee entropy. The constructor rejects short secrets:
@@ -102,11 +110,12 @@ private static void writeSecurityProblem(HttpServletResponse response, ObjectMap
 Assert the status, content type and standard body members for missing tokens, rejected tokens and forbidden roles, and assert that bearer challenge headers remain present. The login advice still handles its own `AuthenticationException`.
 
 7. Exercise this API directly with an HTTP client; no cross-origin browser frontend is part of the project. Do not treat CORS as authorization. A future browser consumer on another origin needs an explicit allowed-origin policy, and a future cookie-authenticated endpoint needs its own CSRF design.
-8. Write the tests with the `jwt()` request post-processor, which fabricates an authenticated principal, so no encoded token is needed for authorization-rule tests. These tests bypass signature and claim verification. Add separate bearer-header tests using locally signed tokens for criterion 4, as in Project: Secure Course API:
+8. Activate the `local` profile in tests that use the demo users. Confirm startup without that profile requires separately supplied authentication configuration. Write the tests with the `jwt()` request post-processor, which fabricates an authenticated principal, so no encoded token is needed for authorization-rule tests. These tests bypass signature and claim verification. Add separate bearer-header tests using locally signed tokens for criterion 4, as in Project: Secure Course API:
 
 ```java
 @WebMvcTest(controllers = CourseController.class, properties = "app.jwt.secret=test-only-secret-with-at-least-32-bytes")
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, LocalUsersConfiguration.class})
+@ActiveProfiles("local")
 class CourseSecurityTest {
     @Autowired MockMvc mvc;
     @MockitoBean CourseService service;

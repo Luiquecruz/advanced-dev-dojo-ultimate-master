@@ -75,11 +75,12 @@ class CourseControllerTest {
     @MockitoBean private CourseService service;
 
     @Test
-    void rejectsABlankTitleWithAFieldError() throws Exception {
+    void rejectsBlankTitleAndMalformedCodeWithFieldErrors() throws Exception {
         mvc.perform(post("/api/courses").contentType(MediaType.APPLICATION_JSON)
-                .content("{\"code\":\"JAVA-101\",\"title\":\"\",\"level\":\"BEGINNER\",\"instructorId\":1}"))
+                .content("{\"code\":\"bad\",\"title\":\"\",\"level\":\"BEGINNER\",\"instructorId\":1}"))
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors.title").isArray());
+            .andExpect(jsonPath("$.errors.title").isArray())
+            .andExpect(jsonPath("$.errors.code").isArray());
     }
 }
 ```
