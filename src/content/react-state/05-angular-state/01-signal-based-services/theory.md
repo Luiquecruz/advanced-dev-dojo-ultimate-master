@@ -16,12 +16,13 @@ export interface Todo {
 @Injectable({ providedIn: 'root' })
 export class TodoStore {
   private readonly state = signal<Todo[]>([]);
+  private nextId = 1;
 
   readonly todos = this.state.asReadonly();
   readonly remaining = computed(() => this.todos().filter((todo) => !todo.done).length);
 
   add(title: string) {
-    this.state.update((todos) => [...todos, { id: Date.now(), title, done: false }]);
+    this.state.update((todos) => [...todos, { id: this.nextId++, title, done: false }]);
   }
 
   toggle(id: number) {
@@ -50,7 +51,7 @@ export class Todos {
 ## The three building blocks
 
 - **Private writable signal**: the single source of truth. Nobody outside the service can call `set` or `update` on it.
-- **Public read-only view**: `asReadonly()` returns a `Signal` without `set`/`update`. Consumers can read and react, never write.
+- **Public read-only view**: `asReadonly()` returns a `Signal` without `set`/`update`. Consumers cannot call `set` or `update` through that view. It does not deep-freeze the referenced array or its objects, so every consumer must still respect the immutable-update contract.
 - **Derived state with `computed()`**: counts, totals, filtered lists. They are memoized and recompute only when a dependency changes.
 - **Methods as the only write path**: `add`, `toggle`, `remove`. Every state transition has a name, which makes the code easy to search and debug.
 
@@ -81,7 +82,7 @@ private readonly subject = new BehaviorSubject<Todo[]>([]);
 readonly todos$ = this.subject.asObservable();
 
 add(title: string) {
-  this.subject.next([...this.subject.value, { id: Date.now(), title, done: false }]);
+  this.subject.next([...this.subject.value, { id: this.nextId++, title, done: false }]);
 }
 ```
 
