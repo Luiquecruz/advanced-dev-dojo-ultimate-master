@@ -86,7 +86,7 @@ The JVM detects the container's memory and processor limits by default (`-XX:+Us
 
 ## Common mistakes
 
-- Copying the whole project before the dependency step, so every source edit invalidates the dependency layer and downloads everything again; copy `pom.xml` first, or use a cache mount.
+- Copying the whole project before the dependency step, so every source edit invalidates the dependency layer and downloads everything again; run a dependency-download step after copying the POM/wrapper but before copying sources, or use a cache mount. The former reuses a Docker layer; the latter reuses downloaded Maven files even when the build step reruns.
 - Shipping the JDK and Maven in the final image. It is larger and has more to attack; use a build stage and a JRE runtime stage.
 - Passing a password with `ENV` or `ARG` in the Dockerfile. Anyone with the image can read it from its history; supply secrets when the container starts.
 - Running as root because it works. Add a `USER` instruction.
