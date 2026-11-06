@@ -56,7 +56,7 @@ For outages that last minutes, a **circuit breaker** stops sending traffic to th
 - Escalating on subjective judgment instead of a validator.
 - A fallback that shares the primary's provider, region or quota.
 
-> **Status as of October 2026:** official SDKs retry some errors by default (typically two retries on connection errors, `408`, `409`, `429` and `5xx`), so check before adding your own layer. Anthropic reports overload as `529`; most providers send `retry-after` on `429`. Gateways such as OpenRouter, LiteLLM and cloud AI gateways offer provider fallback and load balancing as configuration.
+Official SDKs often retry some errors by default, so check what yours does before adding a second retry layer. Providers signal overload and rate limits with distinct status codes, and many send a `retry-after` header. Gateways can provide fallback and load balancing as configuration instead of code.
 
 ## When to choose it
 

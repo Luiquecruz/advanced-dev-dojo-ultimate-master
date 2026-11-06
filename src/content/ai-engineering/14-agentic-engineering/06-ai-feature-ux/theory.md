@@ -45,7 +45,7 @@ Models time out, rate-limit, refuse and return malformed output. Plan the user-f
 
 Cost is part of UX too: a feature that costs more per use than it earns will be throttled or removed. Track cost per feature (module 01) next to latency and satisfaction.
 
-> **Status as of October 2026:** provider APIs stream with server-sent events, and UI libraries such as the Vercel AI SDK ship streaming hooks and components for chat, tool progress and structured output. Google's People + AI Guidebook and Microsoft's Guidelines for Human-AI Interaction (18 guidelines, CHI 2019) remain the standard design references. Under the EU AI Act, transparency duties (Article 50: telling people they interact with an AI system, marking AI-generated content) apply from 2 August 2026, with a grace period until 2 December 2026 for the machine-readable marking of generative systems already on the market.
+Under the EU AI Act, transparency duties (Article 50: telling people they interact with an AI system, marking AI-generated content) apply to many AI features; confirm the current dates in the official text.
 
 ## When to choose it
 

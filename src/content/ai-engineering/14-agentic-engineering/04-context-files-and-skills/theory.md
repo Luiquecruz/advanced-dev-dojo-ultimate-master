@@ -25,7 +25,7 @@ A context file that grows into a wiki gets read once, fills the window, and is i
 
 ## On demand: skills and progressive disclosure
 
-Procedures that apply only to some tasks (writing release notes, filling a PDF form, running the incident postmortem template) do not belong in an always-on file. An **Agent Skill** is a folder with a `SKILL.md`: YAML frontmatter (`name`, `description`) and Markdown instructions, optionally with scripts and references. The harness uses **progressive disclosure**:
+Procedures that apply only to some tasks (writing a summary of what changed for each release, filling a PDF form, running the incident postmortem template) do not belong in an always-on file. An **Agent Skill** is a folder with a `SKILL.md`: YAML frontmatter (`name`, `description`) and Markdown instructions, optionally with scripts and references. The harness uses **progressive disclosure**:
 
 1. **Metadata** of every skill (name and description, around a hundred tokens each) is always in context, as an index.
 2. The **body** of a skill is loaded only when it is selected for the task.
@@ -42,7 +42,7 @@ The challenge's `triggers` field is a lesson addition: the Agent Skills specific
 - **Similarity is noisy.** A bag-of-words or embedding score happily matches "typo in the login label" to a database skill. A threshold, precise descriptions and explicit triggers keep irrelevant skills out.
 - **Skills are code.** A skill can ship scripts and instructions your agent will follow; install them only from sources you trust and review them like dependencies (Tool Poisoning and Supply Chain, module 12).
 
-> **Status as of October 2026:** `AGENTS.md` and Agent Skills are both hosted by the Agentic AI Foundation (Agent Skills joined in October 2026; Anthropic published the format in October 2025). Codex, Cursor, GitHub Copilot's coding agent, Gemini CLI and others read `AGENTS.md`; Claude Code reads `CLAUDE.md` and recommends keeping it short. The Agent Skills specification recommends keeping a `SKILL.md` body under about 5 000 tokens and 500 lines. Skill registries and marketplaces are multiplying, with security scanning still uneven.
+Tools differ in which context file they read, so check your tool's documentation. Keep a `SKILL.md` body short, and treat skills from registries and marketplaces as untrusted until reviewed.
 
 ## When to choose it
 

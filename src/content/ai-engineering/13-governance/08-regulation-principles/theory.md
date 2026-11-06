@@ -37,7 +37,7 @@ Existing law applies in every style: data protection, consumer protection, anti-
 
 ## Soft law and standards
 
-- **International principles:** the OECD AI Principles (2019, updated 2024), the UNESCO Recommendation on the Ethics of AI (2021), the G7 Hiroshima Process code of conduct (2023) and the Council of Europe Framework Convention on AI (opened for signature in 2024, the first binding international treaty on AI).
+- **International principles:** the OECD AI Principles (2019, updated 2024), the UNESCO Recommendation on the Ethics of AI (2021), the G7 Hiroshima Process code of conduct (2023) and the Council of Europe Framework Convention on AI (the first binding international treaty on AI).
 - **NIST AI Risk Management Framework:** four functions (Govern, Map, Measure, Manage) and a Generative AI Profile; voluntary, widely used as a common vocabulary.
 - **ISO/IEC 42001:** a certifiable AI management system standard, like ISO 27001 for security. Certification shows auditors and customers that the processes exist.
 
@@ -47,7 +47,7 @@ Standards matter in practice: laws often presume conformity when you follow a ha
 
 For each feature, ask the questions every law asks: who could be harmed and how badly (risk tier)? Do people know AI is involved (transparency)? Can a human intervene (oversight)? Is the data lawful and minimal (data protection)? Who answers for it, with what evidence (accountability)? Can the affected person contest it (contestability)? A feature with good answers is most of the way to compliance anywhere; then a lawyer maps the details per jurisdiction.
 
-> **Status as of October 2026:** horizontal AI laws apply in the EU (AI Act, phased to 2028) and South Korea (AI Basic Act, since January 2026); Brazil's PL 2338/2023 is still a bill in the Chamber of Deputies. In the US there is no federal AI statute; an executive order of December 2025 seeks to preempt "onerous" state AI laws through litigation and funding conditions, while state laws such as Colorado's SB 26-189 (from January 2027) and California's chatbot and transparency laws stand. NIST AI RMF 1.0 dates from 2023 and ISO/IEC 42001 from 2023.
+There is no single global AI law: horizontal AI laws, sector rules, soft frameworks and bills coexist, and which ones bind you depends on where the system is offered.
 
 ## When to choose it
 

@@ -72,7 +72,7 @@ For AI it matters a lot. A model writing SQL against raw tables must guess joins
 - Letting an agent query raw warehouse tables for governed metrics.
 - Defining metrics in each dashboard, then asking why the agent disagrees with finance.
 
-> **Status as of October 2026:** RDF 1.1, SPARQL 1.1, OWL 2 and SHACL are W3C Recommendations; RDF 1.2 (with triple terms, the successor of RDF-star) and SPARQL 1.2 are still in the W3C process. ISO GQL was published in April 2024, and Neo4j's Cypher 25 covers most of its mandatory features. Semantic layer products include the dbt Semantic Layer (MetricFlow), Cube, Looker's LookML and warehouse-native semantic views; the Open Semantic Interchange (OSI) initiative published an open, Apache 2.0 specification in early 2026 to exchange semantic models between tools.
+RDF 1.1, SPARQL 1.1, OWL 2 and SHACL are W3C Recommendations, and ISO GQL covers property graph queries. Semantic layer products include dbt's MetricFlow, Cube, LookML and warehouse-native semantic views, and open interchange specifications exist to exchange semantic models between tools.
 
 ## When to choose it
 

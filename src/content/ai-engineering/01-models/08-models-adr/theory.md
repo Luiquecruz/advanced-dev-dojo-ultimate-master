@@ -61,7 +61,7 @@ Each rejected alternative points back to a fact in the context. The data rule al
 - Aliases such as `-latest` in the plan, so behavior changes without a deploy.
 - Only positive consequences.
 
-> **Status as of October 2026:** providers publish deprecation schedules for dated snapshots, often giving months of notice; some retire older snapshots within a year of a successor's release. Keep the snapshot ids and their retirement dates in the ADR.
+Providers deprecate dated snapshots on published schedules and retire them after a notice period. Keep the pinned snapshot ids and their retirement dates in the ADR so a deprecation triggers a review.
 
 ## When to choose it
 

@@ -22,7 +22,7 @@
     "explanation": "Tools are model-controlled, resources application-controlled, prompts user-controlled. A schema the user attaches as context is a resource; if the model should fetch it on its own, expose a tool too."
   },
   {
-    "question": "Which statement about the current MCP revision (2026-07-28) is true?",
+    "question": "Which statement about the MCP revision `2026-07-28` is true?",
     "options": [
       "Every session starts with `initialize` and `notifications/initialized`",
       "Requests are stateless: each one carries the protocol version and client capabilities in `_meta`, and servers implement `server/discover`",
@@ -30,7 +30,7 @@
       "Servers must keep a session id per client"
     ],
     "answer": 1,
-    "explanation": "The 2026-07-28 revision removed the handshake and protocol-level sessions. The `initialize` handshake belongs to revisions up to 2025-11-25, which are still common in deployed servers."
+    "explanation": "The `2026-07-28` revision removed the handshake and protocol-level sessions. The `initialize` handshake belongs to the earlier revisions, which are still common in deployed servers."
   },
   {
     "question": "A remote MCP server receives a user's OAuth token and forwards it to the GitHub API to act on the user's behalf. What is wrong?",

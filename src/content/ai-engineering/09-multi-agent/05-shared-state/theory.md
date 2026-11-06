@@ -38,7 +38,7 @@ Compare-and-set detects conflicts; it does not decide who is right. Other polici
 
 Keys that collect independent contributions (each researcher's findings) are best made append-only or split into one key per writer, so they never conflict at all.
 
-> **Status as of October 2026:** Claude Code's agent teams (experimental) coordinate through a shared task list whose claims use file locking, and a mailbox per agent. LangGraph keeps a shared graph state with reducers that decide how concurrent updates merge, plus checkpoints. Several frameworks expose a shared "memory" or "context" object between agents; check whether it versions writes before trusting it with concurrent agents.
+Some products coordinate agents through a shared task list whose claims use file locking, and a mailbox per agent. Graph frameworks keep a shared state with reducers that decide how concurrent updates merge, plus checkpoints. Several frameworks expose a shared "memory" or "context" object between agents; check whether it versions writes before trusting it with concurrent agents.
 
 ## When to choose it
 

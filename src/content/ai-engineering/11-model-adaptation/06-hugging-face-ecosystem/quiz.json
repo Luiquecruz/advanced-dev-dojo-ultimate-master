@@ -52,7 +52,7 @@
       "Because they are written in Python"
     ],
     "answer": 2,
-    "explanation": "OSAID 1.0 (October 2024) asks for the materials to rebuild and modify the system. Weights under a custom license are a dependency with conditions."
+    "explanation": "OSAID 1.0 asks for the materials to rebuild and modify the system. Weights under a custom license are a dependency with conditions."
   },
   {
     "question": "What distinguishes smolagents' `CodeAgent`?",

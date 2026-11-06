@@ -55,7 +55,7 @@ Agents can run the inner loop (attempt, verify, retry). People own the outer one
 - Escalation that is just an error log nobody reads.
 - Loops with credentials wider than their task, running unattended at night.
 
-> **Status as of October 2026:** "loop engineering" became a common name after Addy Osmani's essay of June 2026, building on Geoffrey Huntley's "Ralph" loop (July 2025). Coding agents ship loop primitives: Claude Code has `/loop` and scheduled tasks for recurring prompts and `/goal` to keep working until a written condition holds; CI-triggered agents that respond to failing builds or new issues are offered by several platforms. The term is `emerging`; definitions still vary between authors.
+Coding agents ship loop primitives: commands and scheduled tasks for recurring prompts, goal commands that keep working until a written condition holds, and CI-triggered agents that respond to failing builds or new issues. The term "loop engineering" is `emerging`, and definitions still vary between authors.
 
 ## When to choose it
 

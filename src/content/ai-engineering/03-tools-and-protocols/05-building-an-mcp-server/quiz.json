@@ -3,7 +3,7 @@
     "question": "A model calls your MCP tool `book_flight` with a departure date in the past. How should the server report it?",
     "options": [
       "As a JSON-RPC error `-32603` (internal error)",
-      "As a normal `tools/call` result with `isError: true` and a text such as \"Departure date must be in the future; today is 2026-10-31\"",
+      "As a normal `tools/call` result with `isError: true` and a text such as \"Departure date must be in the future\"",
       "By closing the connection",
       "By returning an empty `content` array"
     ],
@@ -11,7 +11,7 @@
     "explanation": "Invalid values and business-rule failures are tool execution errors: the client passes them to the model, which can retry with a valid date. JSON-RPC errors are for problems the model rarely fixes, such as an unknown tool."
   },
   {
-    "question": "Under the 2026-07-28 revision, how does a server learn which protocol version a client speaks?",
+    "question": "Under the `2026-07-28` revision, how does a server learn which protocol version a client speaks?",
     "options": [
       "From the `initialize` request at the start of the session",
       "From the HTTP `User-Agent` header",
@@ -41,6 +41,6 @@
       "Clients can cache the list, and the tool definitions in the prompt stay identical across requests, which keeps prompt caching effective"
     ],
     "answer": 3,
-    "explanation": "The 2026-07-28 revision recommends a stable order. A reordered tool list changes the prompt prefix and invalidates provider-side prompt caches."
+    "explanation": "The `2026-07-28` revision recommends a stable order. A reordered tool list changes the prompt prefix and invalidates provider-side prompt caches."
   }
 ]

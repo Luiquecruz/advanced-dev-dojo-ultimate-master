@@ -41,7 +41,7 @@ Raw generations are a draft. A typical pipeline keeps only what survives every f
 - **Eval contamination.** If the same model writes the eval set and the training set, or near-duplicates leak between them, scores go up while real quality does not. Keep the eval set real, frozen and deduplicated against all training data.
 - **Terms of use.** The generator's license or terms may forbid training other models on its outputs (lesson 04).
 
-> **Status as of October 2026:** synthetic data is standard in post-training of both frontier and open models. Open tooling includes distilabel (Argilla, part of Hugging Face) and generation pipelines in vendor toolkits; open synthetic corpora such as Cosmopedia are published on the Hub with dataset cards. Research on how much synthetic data is safe to mix keeps moving; treat any fixed ratio as a starting point to evaluate, not a rule.
+Research on how much synthetic data is safe to mix keeps moving; treat any fixed ratio as a starting point to evaluate, not a rule.
 
 ## When to choose it
 

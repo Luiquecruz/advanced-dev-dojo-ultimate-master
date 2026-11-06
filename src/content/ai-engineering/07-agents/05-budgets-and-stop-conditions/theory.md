@@ -65,7 +65,7 @@ Set budgets from traces, not intuition. Run the agent on a representative set of
 - Comparing raw argument strings for stuck detection, so key order hides repeats.
 - Budgets so generous they never fire, or so tight that normal tasks fail.
 
-> **Status as of October 2026:** agent frameworks expose these limits under different names: a maximum number of turns in the OpenAI Agents SDK, a recursion limit in LangGraph, usage limits on requests, tokens and tool calls in Pydantic AI, maximum turns and budget options in the Claude Agent SDK. Defaults differ between them and between versions, so always set the values explicitly. Provider-side spending limits exist per organization or project, but they act far too late to protect a single run.
+Agent frameworks expose these limits under different names: maximum turns, recursion limits, usage limits on requests, tokens and tool calls, or budget options. Defaults differ between frameworks and between versions, so always set the values explicitly. Provider-side spending limits exist per organization or project, but they act far too late to protect a single run.
 
 ## When to choose it
 

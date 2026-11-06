@@ -68,7 +68,7 @@ Real features compose them: route a ticket, run a chain for the billing route, u
 - Evaluator loops with no round limit or no "not accepted" outcome.
 - Using a pattern because it exists: if one call with good context works, stop there.
 
-> **Status as of October 2026:** these names come from Anthropic's "Building effective agents" (December 2024) and are used by LangGraph's "Workflows and agents" guide, the OpenAI Agents SDK examples and most agent frameworks. Self-consistency (voting) and Self-Refine (evaluator-optimizer) are the research papers behind two of them.
+These names are used by most agent frameworks and their guides. Self-consistency (voting) and Self-Refine (evaluator-optimizer) are the research papers behind two of them.
 
 ## When to choose it
 

@@ -11,7 +11,7 @@
     "explanation": "High volume, simple questions, a corpus too big for the window and per-customer access all point to a cheap, predictable, permission-aware RAG pipeline."
   },
   {
-    "question": "An internal tool must answer \"Which of our vendors renewed in 2025 and had a security incident afterwards?\" across contracts and incident reports. What does agentic RAG add here?",
+    "question": "An internal tool must answer \"Which of our vendors renewed last quarter and had a security incident afterwards?\" across contracts and incident reports. What does agentic RAG add here?",
     "options": [
       "Nothing: one search is always enough",
       "The ability to decompose the question, search several sources, read the results and search again before answering",

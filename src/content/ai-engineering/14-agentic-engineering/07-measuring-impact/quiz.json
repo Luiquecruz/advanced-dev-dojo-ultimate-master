@@ -11,18 +11,18 @@
     "explanation": "Activity counts are easy to inflate and do not show delivery or quality. DORA metrics and SPACE's other dimensions describe outcomes."
   },
   {
-    "question": "What did METR's randomized study of experienced open-source developers, published in July 2025, find?",
+    "question": "What did METR's randomized study of experienced open-source developers find?",
     "options": [
       "AI tools made them 55% faster",
       "AI tools had no effect and developers noticed none",
-      "With early-2025 tools they took 19% longer on real issues in their own repositories, while believing they had been about 20% faster",
+      "With the tools of the time they took 19% longer on real issues in their own repositories, while believing they had been about 20% faster",
       "Only junior developers were slower"
     ],
     "answer": 2,
     "explanation": "The study measured a slowdown and a large perception gap. The 55% figure comes from GitHub's 2022 lab task, a very different setting."
   },
   {
-    "question": "Why did METR say in February 2026 that the data from its follow-up experiment was unreliable?",
+    "question": "Why did METR later say that the data from its follow-up experiment was unreliable?",
     "options": [
       "The models were too slow",
       "Selection effects: many developers refused to work without AI or withheld tasks from the no-AI condition, and running several agents at once broke time measurement",
@@ -33,7 +33,7 @@
     "explanation": "METR reported raw estimates pointing to a speedup but judged them weak evidence and is redesigning the study. Measuring productivity well is hard, which is why you need a deliberate design."
   },
   {
-    "question": "What does the 2025 DORA report mean by calling AI an \"amplifier\"?",
+    "question": "What does the DORA report mean by calling AI an \"amplifier\"?",
     "options": [
       "AI increases the volume of output only",
       "AI magnifies the strengths of high-performing organizations and the dysfunctions of struggling ones",

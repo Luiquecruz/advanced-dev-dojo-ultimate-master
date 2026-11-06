@@ -1,6 +1,6 @@
 # GraphRAG
 
-Plain RAG answers **local** questions well: "what does Acme supply?" retrieves the chunks that mention Acme. It fails on **global** questions about the whole corpus: "what are the main supply risks across our catalog?" No chunk contains that answer, top-k retrieval returns ten arbitrary passages, and the model summarizes those ten. **GraphRAG**, introduced by Microsoft Research in 2024 ("From Local to Global: A Graph RAG Approach to Query-Focused Summarization"), answers both kinds by building an entity graph, grouping it into communities and summarizing each community ahead of time.
+Plain RAG answers **local** questions well: "what does Acme supply?" retrieves the chunks that mention Acme. It fails on **global** questions about the whole corpus: "what are the main supply risks across our catalog?" No chunk contains that answer, top-k retrieval returns ten arbitrary passages, and the model summarizes those ten. **GraphRAG**, introduced by Microsoft Research ("From Local to Global: A Graph RAG Approach to Query-Focused Summarization"), answers both kinds by building an entity graph, grouping it into communities and summarizing each community ahead of time.
 
 ## The indexing pipeline
 
@@ -59,7 +59,7 @@ const result = route.mode === 'local'
 - **Extraction quality bounds everything:** missed entities never appear in any community.
 - **Using it for local questions only:** if users only ask lookups, plain RAG or graph expansion is cheaper.
 
-> **Status as of October 2026:** Microsoft's GraphRAG (version 3.x) is an open-source Python library (MIT) with global, local, DRIFT and basic search modes, and a FastGraphRAG indexing option that replaces model extraction with cheaper NLP extraction. LazyGraphRAG (Microsoft Research, late 2024) defers summarization to query time to cut indexing cost. Graph databases and frameworks (Neo4j, LlamaIndex, LangChain) ship their own GraphRAG variants; the term now covers many designs, so ask which parts (graph, communities, summaries, map-reduce) a product actually implements.
+Microsoft's GraphRAG is an open-source Python library with global, local, DRIFT and basic search modes, and a fast indexing option that replaces model extraction with cheaper NLP extraction. LazyGraphRAG defers summarization to query time to cut indexing cost. Graph databases and frameworks ship their own variants; the term covers many designs, so ask which parts (graph, communities, summaries, map-reduce) a product actually implements.
 
 ## When to choose it
 

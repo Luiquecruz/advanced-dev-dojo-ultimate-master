@@ -25,7 +25,7 @@ The limits are real:
 - **Cost and latency scale with input.** Sending 500 pages on every question costs far more than five retrieved passages, even with caching discounts.
 - **Context rot.** Models use long inputs unevenly. "Lost in the middle" (2023) showed facts in the middle of a long context are used worse than facts at the edges; later studies showed accuracy dropping as input grows even on simple tasks, and sharply when the question and the answer share few words. A window that *accepts* a million tokens does not *use* them equally well.
 - **No permission boundary.** Everything in the context is visible to the model, so per-user access means per-user context, which is retrieval again.
-- **Corpora grow.** A knowledge base that fits today may not fit next year, and most enterprise corpora never fit.
+- **Corpora grow.** A knowledge base that fits today may not fit later, and most enterprise corpora never fit.
 
 Studies comparing the two find that long context can match or beat RAG on average quality when given enough compute, while RAG stays far cheaper; **routing** between them (answer with retrieval, fall back to long context when the model judges the passages insufficient) captures much of both.
 
@@ -42,7 +42,7 @@ Studies comparing the two find that long context can match or beat RAG on averag
 
 These combine: retrieve the right *documents*, then read them whole with long context.
 
-> **Status as of October 2026:** several frontier models accept context windows of around one million tokens. Chroma's "Context Rot" report (July 2025) tested 18 models and found performance growing less reliable as input length grows. NoLiMa (2025) found that 11 of 13 long-context models fell below half their short-context score at 32K tokens when lexical overlap was removed. Anthropic's Contextual Retrieval guidance suggests knowledge bases under about 200 000 tokens can simply be included in the prompt with caching.
+Long context windows are large but their reliability falls as input grows, especially when the question shares few words with the answer. A small knowledge base can simply be included in the prompt with caching; measure where your model stops being reliable.
 
 ## When to choose it
 

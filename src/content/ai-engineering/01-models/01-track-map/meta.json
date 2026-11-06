@@ -1,6 +1,6 @@
 {
   "title": "Map: How This Track Works",
-  "summary": "The six layers of AI engineering plus agentic engineering, how modules flow from map to ADR, the fake model and why it is a feature, multi-language challenges, maturity tags and status boxes.",
+  "summary": "The six layers of AI engineering plus agentic engineering, how modules flow from map to ADR, the fake model and why it is a feature, multi-language challenges, maturity tags and volatile facts.",
   "level": "beginner",
   "tags": ["established", "core", "theory"],
   "resources": [

@@ -79,7 +79,7 @@ Start from **competency questions**: the questions the graph must answer ("which
 - Expecting OWL domain and range to reject bad data.
 - Stopping validation at the first error.
 
-> **Status as of October 2026:** OWL 2 (2012), RDFS and SHACL (2017) are W3C Recommendations; RDF 1.2 and SPARQL 1.2 are progressing through the W3C process. schema.org is the most widely used shared vocabulary on the web. Property graph engines enforce constraints in different ways (Neo4j offers uniqueness, existence, key and property type constraints), and ISO GQL defines graph types for constraining graph contents.
+OWL 2, RDFS and SHACL are W3C Recommendations, and schema.org is the most widely used shared vocabulary on the web. Property graph engines enforce constraints in different ways (Neo4j offers uniqueness, existence, key and property type constraints), and ISO GQL defines graph types for constraining graph contents.
 
 ## When to choose it
 

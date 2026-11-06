@@ -6,5 +6,5 @@
   { "term": "Fake model", "description": "Constela Mission's deterministic provider (`@dojo/ai`). It reproduces classes of model behavior (phrasings, malformed JSON, refusals, truncation, errors) so tests grade how code handles models in general." },
   { "term": "forEachSeed", "description": "Runs a test body across many seeded variations of the fake model, so code must survive every phrasing and failure order, reproducibly." },
   { "term": "Maturity tag", "description": "`established`, `emerging` or `hype-watch`: how settled a technique or term is." },
-  { "term": "Status box", "description": "A dated blockquote holding volatile facts (models, prices, limits, laws). The rest of the theory aims to stay true for years." }
+  { "term": "Volatile fact", "description": "A model name, price, limit or benchmark score that changes every few months. The lessons teach the mechanism and leave the number to your provider's documentation." }
 ]

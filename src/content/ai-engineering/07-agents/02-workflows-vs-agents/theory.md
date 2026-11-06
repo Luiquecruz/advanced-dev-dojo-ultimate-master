@@ -69,7 +69,7 @@ Hybrids are common and often best: a workflow whose one hard stage is an agent, 
 - Calling a system an agent to sell it; describe what decides the next step instead.
 - An agent with no budget, no verifier and no stop rule other than "the model says it is done".
 
-> **Status as of October 2026:** Anthropic's "Building effective agents" (December 2024) defined the workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer) that most frameworks now name. Frameworks that support both shapes include LangGraph (graphs with explicit edges or a prebuilt agent), the OpenAI Agents SDK, the Claude Agent SDK, Mastra, Pydantic AI and Google ADK. "Agentic" in product marketing rarely tells you which of the two you are buying.
+The workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer) are named by most agent frameworks, and many support both shapes: a graph with explicit edges or a prebuilt agent. "Agentic" in product marketing rarely tells you which of the two you are buying.
 
 ## When to choose it
 

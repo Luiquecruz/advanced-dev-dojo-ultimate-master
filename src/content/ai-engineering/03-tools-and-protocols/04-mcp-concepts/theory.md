@@ -22,7 +22,7 @@ Servers can run locally (launched by the host as a subprocess) or remotely (a UR
 
 The control column is the useful design question. If the model should decide when to fetch it, it is a tool. If the user or the application selects it as context, it is a resource. If it is a workflow the user starts on purpose ("review this PR"), it is a prompt.
 
-On the client side, a server may ask the host for things it cannot do alone: **elicitation** (ask the user for input, such as a confirmation or a missing value) and, in older designs, **sampling** (ask the host's model for a completion) and **roots** (which directories the server may touch). The 2026-07-28 revision deprecated sampling and roots, and servers now request input through *multi round-trip requests*: the result says `input_required`, and the client retries with the answers.
+On the client side, a server may ask the host for things it cannot do alone: **elicitation** (ask the user for input, such as a confirmation or a missing value) and, in older designs, **sampling** (ask the host's model for a completion) and **roots** (which directories the server may touch). The `2026-07-28` revision deprecated sampling and roots, and servers now request input through *multi round-trip requests*: the result says `input_required`, and the client retries with the answers.
 
 ## The protocol underneath
 
@@ -31,7 +31,7 @@ MCP messages are **JSON-RPC 2.0** requests, responses and notifications. Two sta
 - **stdio**: the host launches the server as a subprocess and exchanges newline-delimited JSON on stdin and stdout. Simple, local, credentials from the environment.
 - **Streamable HTTP**: each message is an HTTP POST to one endpoint; replies are JSON or a request-scoped event stream. Used for remote servers.
 
-Since revision **2026-07-28**, the protocol is **stateless**: no `initialize` handshake, no session id. Every request carries its protocol version and the client's capabilities in `_meta`, and servers advertise theirs through `server/discover`. Earlier revisions negotiated once per connection with `initialize` and `notifications/initialized`, which is what most material written before mid-2026 shows.
+In revision `2026-07-28`, the protocol is **stateless**: no `initialize` handshake, no session id. Every request carries its protocol version and the client's capabilities in `_meta`, and servers advertise theirs through `server/discover`. Earlier revisions negotiated once per connection with `initialize` and `notifications/initialized`, which is what older material still shows.
 
 ## Authorization
 
@@ -41,7 +41,7 @@ Local stdio servers take credentials from their environment. Remote HTTP servers
 
 An MCP server is code and text from a third party. Tool descriptions and results go straight into the model's context, so a malicious or compromised server can inject instructions, and a tool with write access can cause real damage. Treat servers like dependencies: install from trusted sources, pin versions, review what tools they expose, prefer read-only scopes, and keep a human approval step for destructive actions. Module 12 covers tool poisoning and supply-chain attacks.
 
-> **Status as of October 2026:** MCP was introduced by Anthropic in November 2024 and has been hosted by the Agentic AI Foundation (AAIF) under the Linux Foundation since December 2025. The current specification revision is **2026-07-28** (stateless requests, `server/discover`, sampling, roots and logging deprecated, Client ID Metadata Documents preferred over Dynamic Client Registration); the previous one, `2025-11-25`, is still widely deployed. Official SDKs exist for TypeScript, Python, C#, Go, Rust, Ruby (tier 1), Java (tier 2), Swift, PHP and Kotlin, and each adopts new revisions on its own schedule.
+The protocol is versioned by revision, and each revision can deprecate features. Deployed servers and clients lag behind the newest revision, and official SDKs adopt revisions on their own schedule, so check which revision your SDK supports.
 
 ## When to choose it
 

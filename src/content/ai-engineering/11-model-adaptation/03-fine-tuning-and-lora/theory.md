@@ -46,7 +46,7 @@ What the model learns is whatever these examples have in common, including their
 
 Before fine-tuning, check three things. If the failure is missing or changing knowledge, use retrieval. If it is format, try structured outputs and schema validation first. If it is inconsistent application, try well-chosen examples. Fine-tune when those are measured and still miss the target, or when the volume makes a long prompt with many examples more expensive than a short call to a tuned model.
 
-> **Status as of October 2026:** LoRA and QLoRA are the default methods for open-weight fine-tuning, implemented in Hugging Face PEFT and used by TRL's `SFTTrainer`, Unsloth and Axolotl. Variants such as DoRA and rank-adaptive methods exist; none has displaced plain LoRA as the starting point. Several API providers offer hosted SFT on selected models without exposing the method or the weights.
+LoRA and QLoRA are the usual starting point for open-weight fine-tuning, implemented in open libraries such as Hugging Face PEFT. Variants exist, but plain LoRA is the baseline to beat. Hosted SFT, where a provider offers it, does not expose the method or the weights.
 
 ## When to choose it
 

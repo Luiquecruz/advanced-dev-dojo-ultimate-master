@@ -51,7 +51,7 @@ A product eval is a benchmark built from **your** reality: 50 to 200 real, repre
 - Treating a one-point difference on a saturated benchmark as meaningful.
 - Trusting an arena rank for a task where correctness matters more than style.
 
-> **Status as of October 2026:** classic benchmarks such as MMLU, GSM8K and HumanEval are saturated (frontier models score above 90%). Launch tables now emphasize GPQA Diamond, SWE-bench Verified, Humanity's Last Exam, ARC-AGI, Terminal-Bench and τ-bench style agent tests. LMArena (formerly Chatbot Arena) is the best-known arena; the 2025 paper "The Leaderboard Illusion" documented private testing and selective disclosure there.
+Benchmarks saturate: once frontier models score near the ceiling a test stops separating them, and newer tests replace it. Public leaderboards can also be gamed through private testing and selective disclosure. Prefer your own task-specific eval over any public score.
 
 ## When to choose it
 

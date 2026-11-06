@@ -46,7 +46,7 @@ Exact-match caching of deterministic calls (same prompt version, same inputs, te
 - Batch results matched by position instead of by id.
 - Semantic caching of answers that depend on the user, permissions or fresh data.
 
-> **Status as of October 2026:** Anthropic supports automatic and explicit caching (up to 4 breakpoints, prefix order tools → system → messages); cache writes cost 1.25× the input price for the default 5-minute lifetime or 2× for 1 hour, and cache reads cost 0.1× on most models (less on the newest ones). OpenAI caches prompts automatically from about 1 024 tokens, and Gemini applies implicit caching on recent models from 2 048–4 096 tokens, with discounts on cached input that vary by model. Anthropic's Message Batches API, OpenAI's Batch API and Gemini's batch mode charge about 50% of the interactive price, with results within 24 hours; Anthropic batches hold up to 100 000 requests and its batch and cache discounts stack. Check current price pages before relying on these numbers.
+Providers differ in how caching works: some cache a stable prefix automatically, others need explicit breakpoints, and each sets a minimum prefix length, a cache lifetime, a write price and a discounted read price. Batch interfaces typically charge about half the interactive price in exchange for results within a day. Check your provider's price page before relying on any number.
 
 ## When to choose it
 

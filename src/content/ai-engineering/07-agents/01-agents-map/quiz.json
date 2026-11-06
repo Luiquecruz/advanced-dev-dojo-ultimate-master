@@ -49,7 +49,7 @@
       "A benchmark comparison of agent frameworks",
       "An agent spec for a briefing: pattern, tools, approval points, budgets, stop rules, durability and failure modes, checked for coherence with the briefing",
       "A working production agent connected to real APIs",
-      "A list of every agent framework released in 2026"
+      "A list of every agent framework ever released"
     ],
     "answer": 1,
     "explanation": "The ADR turns the module into decisions you can defend: which tools need a human, which limits stop the loop, what survives a crash, and which failures you expect."

@@ -63,7 +63,7 @@ Size the sample to the review capacity (a queue nobody empties is worse than a s
 - Quality rates computed from triggered samples.
 - Copying raw production conversations, personal data included, into eval datasets.
 
-> **Status as of October 2026:** observability platforms (Langfuse, LangSmith, Arize, Braintrust, W&B Weave, Datadog LLM Observability and others) offer online evaluators on sampled traces, feedback APIs tied to trace ids and annotation queues for human review. A 2023 study (Chen, Zaharia and Zou) measured large behavior changes in the same API model name within a few months, the classic argument for pinned snapshots and scheduled re-evaluation.
+Observability platforms offer online evaluators on sampled traces, feedback APIs tied to trace ids and annotation queues for human review. Studies have measured large behavior changes in the same API model name within a few months, the classic argument for pinned snapshots and scheduled re-evaluation.
 
 ## When to choose it
 

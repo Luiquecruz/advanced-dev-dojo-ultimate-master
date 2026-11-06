@@ -55,7 +55,7 @@ The tolerance of 4 points sits above the 3 points measured between A/A runs; 150
 - Review sampling larger than the review capacity, or only triggered samples.
 - No scheduled run, so provider-side changes wait for a deploy to be noticed.
 
-> **Status as of October 2026:** eval runners (promptfoo, DeepEval, Inspect AI) and platforms (Braintrust, LangSmith, Langfuse, Arize Phoenix) can implement every part of this plan; the GenAI semantic conventions for traces are still in Development status, so pin the instrumentation version you depend on.
+Eval runners and platforms can implement every part of this plan; the GenAI semantic conventions for traces are still evolving, so pin the instrumentation version you depend on.
 
 ## When to choose it
 

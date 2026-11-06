@@ -8,7 +8,7 @@ When a delivery fails, the driver types a free-text note ("gate locked, cust not
 - **Targets** on the frozen 500-note eval set: at least **93%** exact match on the exception type, at least **99.5%** valid JSON, p95 latency at most **800 ms**.
 - **Privacy:** notes contain customer names, phone numbers and addresses. Retailer contracts forbid sending them to third-party APIs, so inference runs on the carrier's own GPUs. Personal data must be redacted from anything used for training.
 - **Depot codes** change every week.
-- **Data:** 9 000 labeled notes from the last year. **500** of them are the frozen eval set and never used for training. Three exception types have fewer than 60 examples each. Platform policy: synthetic examples may make up at most **20%** of a training set. The LoRA pilot used 6 000 notes; its learning curve flattened after **4 000**.
+- **Data:** 9 000 labeled notes from the past twelve months. **500** of them are the frozen eval set and never used for training. Three exception types have fewer than 60 examples each. Platform policy: synthetic examples may make up at most **20%** of a training set. The LoRA pilot used 6 000 notes; its learning curve flattened after **4 000**.
 - **Training hardware:** one rented **48 GB** GPU. Before activations, full fine-tuning needs about **16 bytes per parameter**, LoRA about **2** (the frozen 16-bit base) and QLoRA about **0.5**.
 - **Serving hardware:** one **24 GB** GPU per replica. Estimate memory as: weights GB = billions of parameters × bytes per weight (`bf16` 2, `fp8` 1, `int4` 0.5), plus KV cache GB = 64 × 1 024 × KV MB per token ÷ 1 024, plus **2 GB** overhead.
 - **Platform:** the inference team operates **vLLM** and **SGLang** in production; Ollama runs on developer laptops only.

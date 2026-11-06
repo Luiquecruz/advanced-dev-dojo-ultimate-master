@@ -36,7 +36,7 @@ This module belongs to **layer 4, the loop**: how work repeats until done. A mul
 
 Each lesson turns an implicit assumption into explicit code. The orchestrator assumes plans are valid and workers succeed (03); handoffs assume agents eventually stop passing the ball (04); shared state assumes agents do not overwrite each other (05); synthesis assumes worker outputs are true and votes are independent (06). None of those assumptions holds by default. The ADR asks the question underneath them all: does this product need more than one agent?
 
-> **Status as of October 2026:** multi-agent support ships in most agent frameworks: LangGraph, the OpenAI Agents SDK (the production successor of the experimental Swarm library), the Claude Agent SDK and Claude Code subagents and agent teams (experimental), CrewAI, Google's Agent Development Kit, Mastra and Microsoft Agent Framework (the successor of AutoGen and Semantic Kernel). A2A reached 1.0 in March 2026. Names, defaults and maturity change quickly; this module builds the mechanisms in plain code so you can read any of them.
+Multi-agent support ships in most agent frameworks, as supervisors, subagents, handoffs or teams, and open protocols exist for agents to talk across vendors. Names, defaults and maturity change quickly; this module builds the mechanisms in plain code so you can read any of them.
 
 ## When to choose it
 

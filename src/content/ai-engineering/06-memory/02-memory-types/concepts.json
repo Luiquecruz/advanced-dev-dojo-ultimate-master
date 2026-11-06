@@ -1,5 +1,5 @@
 [
-  { "term": "CoALA", "description": "Cognitive Architectures for Language Agents (Sumers, Yao, Narasimhan, Griffiths; TMLR 2024): a framework that names memory types, actions and the decision cycle of language agents." },
+  { "term": "CoALA", "description": "Cognitive Architectures for Language Agents (Sumers, Yao, Narasimhan, Griffiths; TMLR): a framework that names memory types, actions and the decision cycle of language agents." },
   { "term": "Working memory", "description": "The active information for the current decision cycle. For a model call, the context window." },
   { "term": "Episodic memory", "description": "Experience from earlier cycles: what happened, such as conversation logs, past tickets and agent trajectories." },
   { "term": "Semantic memory", "description": "Knowledge about the world and the agent itself: facts such as user preferences or a knowledge base." },

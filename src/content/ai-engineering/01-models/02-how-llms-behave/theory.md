@@ -46,7 +46,7 @@ None of these is a bug that the next model release removes completely. Newer mod
 - Stuffing 200 pages into the context and expecting every page to be used equally.
 - Asking "Is my solution correct?" and taking agreement as evidence.
 
-> **Status as of October 2026:** frontier context windows range from about 128K to over 1M tokens, with smaller output limits (often 8K–128K tokens). Knowledge cutoffs typically sit several months to a year before a model's release. Some reasoning models ignore or reject sampling parameters such as temperature. Research on batch-invariant inference has shown that deterministic serving is possible, but it is not the default at most providers.
+The context window caps prompt plus output, and the output limit is usually much smaller than the input limit. A model's knowledge cutoff lies before its release, and some reasoning models ignore or reject sampling parameters such as temperature. Deterministic serving is possible in principle, but it is not the default, so never build on identical outputs. Read the numbers for your model from your provider's documentation.
 
 ## When to choose it
 

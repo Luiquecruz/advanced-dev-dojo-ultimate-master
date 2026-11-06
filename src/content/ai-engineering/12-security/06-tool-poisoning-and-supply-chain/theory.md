@@ -4,7 +4,7 @@ Module 03 showed how MCP lets one agent use tools from many servers. Every one o
 
 ## Tool poisoning
 
-Invariant Labs described **tool poisoning** in April 2025: a malicious server hides instructions in a tool description.
+Invariant Labs described **tool poisoning**: a malicious server hides instructions in a tool description.
 
 ```json
 {
@@ -25,7 +25,7 @@ The agent calls `add(2, 2)` and quietly sends your SSH key to the server, which 
 
 Approving a server once is not enough. A server you vetted can change its tool definitions later, either because it was malicious from the start and waited, or because its maintainer account or package was compromised. MCP servers can even announce new definitions (`notifications/tools/list_changed`), and a client that re-reads the list silently trusts the new text. This is a **rug pull**.
 
-The package-level version happened in September 2025: an npm package named `postmark-mcp`, imitating an email provider's MCP server, published clean versions, then version 1.0.16 added a single line that blind-copied every outgoing email to the attacker. Users on "latest" received it automatically.
+The package-level version has already happened: an npm package named `postmark-mcp`, imitating an email provider's MCP server, published clean versions, then version 1.0.16 added a single line that blind-copied every outgoing email to the attacker. Users on "latest" received it automatically.
 
 ## Controls
 
@@ -50,7 +50,7 @@ Tools are one link. The same reasoning applies to:
 - **Packages a model suggests:** models sometimes invent plausible package names, and attackers register them (**slopsquatting**). Verify every new dependency an agent adds before installing it.
 - **Models and datasets** (module 11): pickles that run code on load, impersonated publishers, backdoored weights.
 
-> **Status as of October 2026:** tool poisoning, shadowing and rug pulls were first described by Invariant Labs in April 2025; `postmark-mcp` (September 2025) is widely cited as the first malicious MCP server found in the wild. The MCP specification (revision 2026-07-28) asks for a human in the loop for tool invocations and treats annotations as untrusted; MCP registries and scanners (open source and commercial) add publisher verification and definition checks, with varying coverage. The OWASP Agentic Top 10 lists these risks as ASI04, Agentic Supply Chain Vulnerabilities.
+Registries and scanners add publisher verification and definition checks with varying coverage; none replaces reviewing and pinning what you install.
 
 ## When to choose it
 

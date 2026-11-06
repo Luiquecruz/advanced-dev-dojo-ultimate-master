@@ -55,7 +55,7 @@ A support team classifies tickets into 40 internal categories. Measured on a 400
 
 Examples came close but missed the target and made each call longer and pricier. Fine-tuning reached it, cut latency, and at this volume the GPU pays for itself. Category names that change monthly stay in the prompt, so a rename needs no retraining. That is a defensible climb: each rung measured, the failure stated, changing knowledge kept out of the weights.
 
-> **Status as of October 2026:** several API providers offer hosted supervised fine-tuning (and some offer preference or reinforcement fine-tuning) for selected models, usually smaller tiers, with the tuned model served only on their platform. Open-weight models are fine-tuned with open libraries (Hugging Face TRL, PEFT, Unsloth, Axolotl) on rented GPUs. Long context windows and prompt caching have made the context rungs cheaper, raising the bar for fine-tuning.
+Hosted fine-tuning, where offered, usually covers selected models and serves the tuned model only on the provider's platform; open-weight models are fine-tuned with open libraries on rented GPUs. Longer context windows and prompt caching make the context rungs cheaper, which raises the bar for fine-tuning.
 
 ## When to choose it
 

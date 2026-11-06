@@ -47,10 +47,10 @@ export const adr = {
 - Layers owned by "everyone" or by a committee with no members.
 - Controls with no evidence: if nobody can show it ran, it did not.
 - Numbers chosen for comfort instead of copied from policy.
-- A regulatory map that treats bills as law, or ignores the markets of next year's launch.
+- A regulatory map that treats bills as law, or ignores the markets of an upcoming launch.
 - An audit function that reports to the team it audits.
 
-> **Status as of October 2026:** governance programs are converging on ISO/IEC 42001 management systems and the NIST AI RMF vocabulary, while enforcement moves into AI gateways and agent harnesses. The regulatory facts used in this briefing (EU AI Act high-risk credit duties from 2 December 2027, Art. 50 since August 2026, LGPD Art. 20 in force, PL 2338/2023 pending in the Chamber) are those of the module's status boxes; recheck them when you reuse this ADR.
+Recheck the regulatory facts you use in this briefing whenever you reuse this ADR.
 
 ## When to choose it
 

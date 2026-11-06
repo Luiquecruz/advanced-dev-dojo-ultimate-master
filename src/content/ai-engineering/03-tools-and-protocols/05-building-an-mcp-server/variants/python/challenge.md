@@ -1,4 +1,4 @@
-Build a small MCP server that follows the **2026-07-28** revision of the specification: stateless JSON-RPC 2.0, with the protocol version on every request, tools and resources. The transport is in memory: `await server.handle(message)` receives one serialized JSON-RPC message (the same framing as one line on stdio) and returns the serialized response, or `None` when there is nothing to answer.
+Build a small MCP server that follows the **`2026-07-28`** revision of the specification: stateless JSON-RPC 2.0, with the protocol version on every request, tools and resources. The transport is in memory: `await server.handle(message)` receives one serialized JSON-RPC message (the same framing as one line on stdio) and returns the serialized response, or `None` when there is nothing to answer.
 
 `create_mcp_server(name, version, tools, resources, instructions=None)` returns an `McpServer` (already started for you); you write its `handle` method and whatever helpers you need.
 
@@ -16,7 +16,7 @@ Check in this order:
 1. Text that is not JSON → error `-32700`, `"id": null`.
 2. Not an object, `"jsonrpc"` not `"2.0"` or `"method"` not a string → error `-32600` (`"id"` echoed when it is a string or a number, otherwise `null`).
 3. No `"id"` key: a **notification**. Return `None`, whatever the method.
-4. `initialize` (the legacy handshake from 2025-11-25 and earlier) → error `-32601` whose message contains `"2026-07-28"`.
+4. `initialize` (the legacy handshake of the earlier revisions) → error `-32601` whose message contains `"2026-07-28"`.
 5. `params["_meta"]` must contain `io.modelcontextprotocol/protocolVersion` (a string) and `io.modelcontextprotocol/clientCapabilities` (an object), otherwise error `-32602`. A version other than `"2026-07-28"` → error `-32022` with `"data": {"supported": ["2026-07-28"], "requested": ...}`.
 6. Unknown method → error `-32601`.
 

@@ -1,6 +1,6 @@
 {
   "title": "Building an MCP Server",
-  "summary": "Implement a stateless MCP 2026-07-28 server over an in-memory transport: JSON-RPC envelope and error codes, per-request protocol version, server/discover, tools/list, tools/call with content and isError, resources/list and resources/read.",
+  "summary": "Implement a stateless MCP `2026-07-28` server over an in-memory transport: JSON-RPC envelope and error codes, per-request protocol version, server/discover, tools/list, tools/call with content and isError, resources/list and resources/read.",
   "level": "advanced",
   "tags": ["established", "core", "practice"],
   "entry": { "node": "main.ts", "python": "main.py" },

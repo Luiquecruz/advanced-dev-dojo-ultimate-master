@@ -27,7 +27,7 @@ A search scores the query against candidates, sorts by score and keeps the **top
 
 ## Metadata filters
 
-Real queries come with constraints: this product, this plan, documents updated this year, and above all this tenant. Two ways to apply a filter:
+Real queries come with constraints: this product, this plan, documents updated recently, and above all this tenant. Two ways to apply a filter:
 
 | | Pre-filter (filter, then rank) | Post-filter (rank, then filter) |
 | --- | --- | --- |
@@ -49,7 +49,7 @@ The challenge scores every record: exact (**brute-force**) search, fine up to te
 - Forgetting updates: a re-added document must replace its old vector, not sit next to it.
 - Expecting embeddings to match exact identifiers (error codes, SKUs): that is keyword search's strength (lesson 04).
 
-> **Status as of October 2026:** common vector stores include pgvector (a PostgreSQL extension), Qdrant, Weaviate, Milvus, Pinecone and LanceDB; Elasticsearch and OpenSearch also offer vector fields. HNSW is the most widely used ANN index. Embedding models are compared on the MTEB leaderboard; many support Matryoshka-style truncation, so a 3 072-dimension vector can be shortened to 256 or 512 dimensions with a small quality loss.
+Vector search is offered by dedicated vector stores, by extensions of relational databases and by search engines with vector fields. HNSW is the most widely used ANN index. Many embedding models support truncating a vector to fewer dimensions with a small quality loss. Compare embedding models on your own data rather than on a public leaderboard.
 
 ## When to choose it
 

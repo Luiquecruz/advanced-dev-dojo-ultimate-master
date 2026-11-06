@@ -50,7 +50,7 @@ Some properties are hard to express as rules: "the agent asked a clarifying ques
 - One run per task, so a flaky agent looks reliable.
 - No limits in the eval, so a 30-step run that eventually succeeds counts as a pass.
 
-> **Status as of October 2026:** τ-bench and its successors evaluate tool-using agents by final database state and pass^k; SWE-bench evaluates coding agents by running the repository's tests. LangChain's agentevals offers trajectory match modes (strict, unordered, subset, superset) and LLM trajectory judges; Inspect AI, Braintrust and LangSmith evaluate agent traces. Anthropic's "Demystifying evals for AI agents" (January 2026) contrasts outcome and transcript graders and pass@k with pass^k.
+Agent benchmarks evaluate tool-using agents by final database state and pass^k, and coding agents by running the repository's tests. Trajectory libraries offer match modes (strict, unordered, subset, superset) and LLM trajectory judges, and eval tools can evaluate agent traces. Outcome graders and transcript graders answer different questions, and pass@k and pass^k measure different things.
 
 ## When to choose it
 

@@ -65,7 +65,7 @@ Some engines offer **weighted** fusion (a convex combination of normalized score
 - Too few candidates per retriever: fusion can only reorder what was retrieved.
 - Dropping BM25 because "embeddings understand everything": exact identifiers say otherwise.
 
-> **Status as of October 2026:** Elasticsearch, OpenSearch, Weaviate, Qdrant, Vespa, Azure AI Search and others offer built-in hybrid search, most with RRF; PostgreSQL setups combine full-text search with pgvector. Learned sparse models (such as SPLADE) are a third retriever family that expands terms with a model while keeping an inverted index.
+Many search engines and vector stores offer built-in hybrid search, most with RRF, and relational databases can combine full-text search with a vector extension. Learned sparse models are a third retriever family that expands terms with a model while keeping an inverted index.
 
 ## When to choose it
 

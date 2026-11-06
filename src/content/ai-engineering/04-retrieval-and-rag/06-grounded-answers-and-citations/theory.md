@@ -54,7 +54,7 @@ Map each cited number back to its passage and render it as a link to the source 
 - Repairing in an unbounded loop.
 - Accepting a citation to a document that exists but was not in this context.
 
-> **Status as of October 2026:** several model APIs offer built-in citation features that return structured references to provided documents, and evaluation libraries such as Ragas measure faithfulness and answer relevance. Built-in citations reduce parsing work but still need the same checks: provided, valid and present.
+Several model APIs offer built-in citation features that return structured references to provided documents, and evaluation libraries measure faithfulness and answer relevance. Built-in citations reduce parsing work but still need the same checks: provided, valid and present.
 
 ## When to choose it
 

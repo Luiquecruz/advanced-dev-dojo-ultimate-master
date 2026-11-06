@@ -55,7 +55,7 @@ Keep offsets exact: `text.slice(start, end)` must equal the chunk text, or citat
 - Overlap equal to or larger than the size, which never advances.
 - Chunks made only of a heading, which match many queries and answer none.
 
-> **Status as of October 2026:** popular open-source splitters (LangChain's `RecursiveCharacterTextSplitter` and Markdown header splitter, LlamaIndex node parsers) implement these strategies. Anthropic's Contextual Retrieval write-up (September 2024) reports that contextual embeddings plus contextual BM25 cut top-20 retrieval failures by 49%, and 67% with reranking, on its test sets. Embedding models commonly accept from 512 to 8 000 or more input tokens.
+Open-source splitters in the popular frameworks implement these strategies, and contextual retrieval (prepending a short document-level context to each chunk before embedding and indexing) reduces retrieval failures in published tests. Embedding models differ in the input length they accept, so check the limit before choosing a chunk size.
 
 ## When to choose it
 

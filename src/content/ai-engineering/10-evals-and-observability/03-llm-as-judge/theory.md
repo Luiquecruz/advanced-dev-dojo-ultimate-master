@@ -59,7 +59,7 @@ A judge doubles (or, pairwise, triples) the model calls of an eval. Run code-bas
 - Judging with the same model family that generated the answers.
 - Defaulting to a score when the judge output is unusable.
 
-> **Status as of October 2026:** the MT-Bench study (Zheng et al., 2023) reported strong judges agreeing with human preferences about as often as humans agree with each other, and documented position, verbosity and self-enhancement biases. Eval tools ship ready-made judge scorers (promptfoo `llm-rubric`, DeepEval G-Eval, Ragas faithfulness, Braintrust autoevals, LangSmith and Langfuse evaluators); they are prompts like yours and need the same calibration.
+Studies of strong judge models report agreement with human preferences about as often as humans agree with each other, and document position, verbosity and self-enhancement biases. Eval tools ship ready-made judge scorers; they are prompts like yours and need the same calibration.
 
 ## When to choose it
 

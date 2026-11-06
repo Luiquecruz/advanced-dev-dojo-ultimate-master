@@ -382,7 +382,7 @@ Governance is not only data governance. It is a stack of controls, each owned by
 | Engineering | how AI is used to build software | rules for AI-assisted code (review required, tests required, provenance of generated code), allowed tools and models, secrets hygiene, license scanning of generated code |
 | Audit and evidence | proving all of the above | immutable logs of prompts, tool calls and decisions (with privacy), eval records, change history, periodic reviews |
 
-**Global regulatory map (status as of October 2026; volatile, review every quarter)**
+**Global regulatory map (volatile: confirm dates and status in the official texts)**
 
 The track teaches the stable ideas (risk-based regulation, transparency, human oversight, data protection, accountability) and keeps dates in a dated "status" box per jurisdiction.
 
@@ -531,7 +531,7 @@ Given a product briefing (users, data sensitivity, scale, regulation), the learn
 - Separate the **stable core** (concepts that last years: retrieval, evals, loops, injection, governance layers) from the **volatile edge** (tools, versions, laws, vendor features). Theory teaches the core; volatile facts sit in a clearly marked "Status as of <date>" box.
 - Maturity tags on lessons and glossary terms: `established`, `emerging`, `hype-watch`.
 - A `reviewed` date in each lesson's `meta.json` (needs a small loader/UI change) and a quarterly review checklist: regulation table, protocol versions, framework names, model families, OWASP lists.
-- A "What changed" changelog lesson at the end of the track, updated on each review, so returning learners see the delta.
+- A "What changed" lesson at the end of the track that teaches how to keep the volatile edge current (what belongs to it, how to record changes, how to review them against primary sources), with no dated table.
 - Challenges never depend on a specific vendor model or API version: they run against the deterministic fake model, so they do not break when the market moves.
 
 ## 20. Adaptation for Constela Mission
@@ -568,7 +568,7 @@ A scripted model is reproducible but not realistic, and real models change every
 - **Behavior profiles instead of fixed transcripts:** tests compose behaviors the learner's code must survive: valid answer, malformed JSON, schema-valid but wrong values, unknown tool name, invalid tool arguments, refusal, truncated output (max tokens), slow response, rate limit (429) and server error, prompt injection obeyed, hallucinated citation, varying phrasing of the same answer.
 - **Seeded variability:** profiles draw from a seeded random generator, so one test can run the learner's code across many seeds (property-style): the code must pass for every phrasing and failure order, not for one lucky script, yet every run is reproducible.
 - **Recorded transcripts (cassettes):** for realism, examples and some replay tests use real outputs recorded from current models, stored with the model name and recording date. They are refreshed in the quarterly review (section 19); tests that replay them check structure and handling, never exact wording.
-- **Model-specific knowledge** (features, limits, prices, model names) lives in theory "Status as of" boxes and quizzes, never in challenge assertions.
+- **Model-specific knowledge** (features, limits, prices, model names) stays out of challenge assertions and out of dated theory blocks; theory states the mechanism.
 
 The result: grading stays deterministic and free, learners still meet realistic output, and challenges keep passing when the market moves because they test engineering properties, not model text.
 

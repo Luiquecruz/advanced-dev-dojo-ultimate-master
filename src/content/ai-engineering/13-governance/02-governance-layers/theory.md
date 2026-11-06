@@ -43,7 +43,7 @@ Controls are only as strong as where they run:
 
 Prefer the earliest automated point. Process controls are necessary for what code cannot judge, but each one should produce a record.
 
-> **Status as of October 2026:** NIST's AI RMF (with its Generative AI Profile, NIST AI 600-1) and ISO/IEC 42001 (AI management systems) are the most cited governance frameworks; NIST's NCCoE runs a project on identity and authorization for software and AI agents. Identity providers and API gateways have started shipping agent identities and per-agent policies, and "agent sprawl" is an `emerging` term for what earlier waves called shadow IT.
+"Agent sprawl" is an `emerging` term for what earlier waves called shadow IT.
 
 ## When to choose it
 

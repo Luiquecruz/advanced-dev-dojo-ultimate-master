@@ -51,7 +51,7 @@ For a security rail, fail closed after a bounded number of attempts, and monitor
 - **Latency and cost.** A classifier call before every answer adds both; run cheap rails first, and consider running the classifier in parallel with the answer, discarding the answer if the verdict is unsafe.
 - **Guardrails do not see actions.** A clean-looking request can still lead to a harmful tool call; that is what permissions, the trifecta guard and approvals are for.
 
-> **Status as of October 2026:** common building blocks include NVIDIA NeMo Guardrails (programmable rails), open guard models such as Meta's Llama Guard and Prompt Guard families, Microsoft Presidio for PII, and moderation or safety classifiers offered by the major model providers and cloud platforms. Names and capabilities change quickly; evaluate any of them on your own traffic and attacks before relying on reported accuracy.
+Names and capabilities of guardrail tools change quickly; evaluate any of them on your own traffic and attacks before relying on reported accuracy.
 
 ## When to choose it
 

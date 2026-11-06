@@ -60,7 +60,7 @@ When to compact is a separate decision: every turn (as in the challenge), past a
 - Re-summarizing the full history every turn.
 - Forgetting that the summary itself counts against the budget and grows.
 
-> **Status as of October 2026:** several providers offer server-side conversation state and automatic compaction of long contexts (for example Anthropic's compaction and context editing), and agent frameworks such as LangGraph ship message trimming and summarization helpers. They implement the same window-plus-summary idea; you still choose the budget, what must never be trimmed and what happens when compaction fails.
+Provider-side conversation state, automatic compaction and the trimming and summarization helpers of agent frameworks implement the same window-plus-summary idea. You still choose the budget, what must never be trimmed and what happens when compaction fails.
 
 ## When to choose it
 

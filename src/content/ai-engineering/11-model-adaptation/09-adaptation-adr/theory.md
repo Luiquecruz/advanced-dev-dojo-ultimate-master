@@ -59,7 +59,7 @@ The lowest rung that met the target won, and the record says what would reopen t
 - Memory estimates that forget the KV cache for real concurrency.
 - A plan that pulls "the latest" revision of the base model.
 
-> **Status as of October 2026:** LoRA on open-weight models served by vLLM or SGLang is a common self-hosted pattern, and FP8 serving is widely supported on recent data-center GPUs. Several API providers offer hosted fine-tuning on selected models. Under the EU AI Act, substantially modifying a general-purpose model can make you its provider for the modification; record the base model, data and compute in the ADR.
+Under the EU AI Act, substantially modifying a general-purpose model can make you its provider for the modification; record the base model, data and compute in the ADR.
 
 ## When to choose it
 

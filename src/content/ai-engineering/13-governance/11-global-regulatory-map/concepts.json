@@ -2,7 +2,7 @@
   { "term": "Regulatory map", "description": "The list of obligations a product faces per market and feature, each with its source rule and its status on a date." },
   { "term": "Rules table", "description": "A dated, reviewed dataset of rules: jurisdiction, instrument, law or bill, applies-from date, condition and obligation." },
   { "term": "Product profile", "description": "The product described in the rules' vocabulary: markets, and per feature its uses, data types and affected users." },
-  { "term": "Upcoming obligation", "description": "A law that matches the product but applies from a future date, such as EU high-risk duties from December 2027." },
+  { "term": "Upcoming obligation", "description": "A law that matches the product but applies from a future date, such as EU high-risk duties scheduled for later." },
   { "term": "Watch item", "description": "A bill that would create obligations if enacted. Tracked and reviewed, never treated as law." },
   { "term": "Freshness check", "description": "Comparing the rules table's review date with the evaluation date and flagging tables older than about a quarter." }
 ]

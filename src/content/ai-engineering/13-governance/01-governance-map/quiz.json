@@ -44,7 +44,7 @@
     "explanation": "Governance reuses the mechanisms of the harness and security layers, and adds accountability: who owns the control, which policy it enforces, and how long and where its evidence lives."
   },
   {
-    "question": "A team runs one internal prototype that summarizes public release notes. Which part of this module matters most right now?",
+    "question": "A team runs one internal prototype that summarizes public product announcements. Which part of this module matters most right now?",
     "options": [
       "The full EU AI Act high-risk conformity process",
       "Registering the prototype with an owner and putting it under a budget (lessons 03 and 07)",

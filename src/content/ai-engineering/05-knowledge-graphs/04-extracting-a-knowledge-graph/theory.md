@@ -69,7 +69,7 @@ Extraction calls the model once per chunk, which for a large corpus is the bigge
 - No provenance, so a wrong fact cannot be traced or removed.
 - Retrying refusals.
 
-> **Status as of October 2026:** most providers offer JSON or schema-constrained output modes. Libraries such as LangChain's graph transformers, LlamaIndex property graph extractors, the Neo4j LLM Knowledge Graph Builder and Microsoft GraphRAG's indexing pipeline package this flow; dedicated entity resolution tools (Splink, Senzing, dedupe) handle large-scale matching.
+Most providers offer JSON or schema-constrained output modes. Libraries and tools package this flow (graph transformers, property graph extractors, graph builders and GraphRAG indexing pipelines), and dedicated entity resolution tools handle large-scale matching.
 
 ## When to choose it
 

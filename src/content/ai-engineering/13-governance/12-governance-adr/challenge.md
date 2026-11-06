@@ -2,12 +2,12 @@ Write the governance ADR for **Lumen Pay**, a Brazilian fintech that is about to
 
 ## Briefing
 
-Lumen Pay serves 2.1 million consumers in Brazil from São Paulo and launches in **Portugal (EU)** in March 2027. It has no plans for other markets.
+Lumen Pay serves 2.1 million consumers in Brazil from São Paulo and launches in **Portugal (EU)** soon after the model retirement date below. It has no plans for other markets.
 
 - **AI features:** `support-chat` (a customer support chatbot), `credit-limit` (an agent that proposes credit-limit changes for consumers), `collections-email` (drafts collection emails sent to customers) and `coding-assistant` (used by 80 engineers).
 - **Audit findings:** 23 agents tracked in a spreadsheet, 9 of them with owners who left; 3 API keys shared by every agent, none with an expiry date; marketing pastes customer lists into a personal chatbot subscription because no sanctioned assistant exists; last quarter AI spend ran 40% over plan, mostly from one agent stuck in a retry loop.
 - **Credit oversight:** analysts approve 99.6% of the agent's suggestions, about 600 per analyst per day. The credit risk team says an analyst can review at most **80 cases per day** carefully. Customers have no way to appeal.
-- **Models:** the pinned model `acme-large-2026-03` retires on **2027-01-15**. Migrations must start at least **30 days** before a retirement. Required eval suites before any promotion: `support-golden`, `credit-fairness`, `refusal-safety`.
+- **Models:** the pinned model `acme-large-2026-03` retires on **`2027-01-15`**. Migrations must start at least **30 days** before a retirement. Required eval suites before any promotion: `support-golden`, `credit-fairness`, `refusal-safety`.
 - **Policies:** credentials expire within **90 days**; the AI inventory is audited at least **monthly**; AI outputs and traces with personal data are kept at most **90 days**; audit logs are kept **5 years** and must be tamper-evident; the provider must not train on Lumen Pay data.
 - **Budget:** at most **$12,000 per month** for all AI usage.
 - **Regulation:** the board wants the regulatory map reviewed **every quarter**.

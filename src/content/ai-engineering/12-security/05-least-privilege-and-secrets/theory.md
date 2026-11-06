@@ -51,7 +51,7 @@ Tools are written by people who log for debugging. A CRM client that prints its 
 
 Redaction is string matching, so it fails against transformations it does not know (a secret split across lines, hex-encoded, partially printed). Treat it as the last net under the real controls: tools that never return credentials, and credentials too narrow and short-lived to matter if they leak.
 
-> **Status as of October 2026:** agent platforms increasingly issue per-agent identities and short-lived tokens, and coding-agent sandboxes inject credentials through egress proxies instead of environment variables. Identity for AI agents is an active standards area (OAuth extensions for agents, the NIST NCCoE agent identity project), with no single settled pattern yet; module 13 covers agent identity and governance.
+Per-agent identities and short-lived tokens, and sandboxes that inject credentials through an egress proxy instead of environment variables, are the direction to aim for; module 13 covers agent identity and governance.
 
 ## When to choose it
 

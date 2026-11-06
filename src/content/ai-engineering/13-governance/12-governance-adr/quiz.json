@@ -22,15 +22,15 @@
     "explanation": "Separation of duties is a basic governance control. The evidence is only convincing when someone other than the operator reviews it."
   },
   {
-    "question": "The pinned model retires on 2027-01-15 and migrations must start 30 days before a retirement. Which migration start date is coherent?",
+    "question": "The pinned model retires on `2027-01-15` and migrations must start 30 days before a retirement. Which migration start date is coherent?",
     "options": [
-      "2027-01-15",
-      "2027-01-01",
-      "2026-11-30",
+      "`2027-01-15`",
+      "`2027-01-01`",
+      "`2026-11-30`",
       "Whenever the provider sends a reminder"
     ],
     "answer": 2,
-    "explanation": "Any date on or before 2026-12-16 respects the 30-day rule. Starting on the retirement date leaves no time to run the required evals and promote a replacement."
+    "explanation": "Any date on or before `2026-12-16` respects the 30-day rule. Starting on the retirement date leaves no time to run the required evals and promote a replacement."
   },
   {
     "question": "How should PL 2338/2023 appear in Lumen Pay's regulatory map?",

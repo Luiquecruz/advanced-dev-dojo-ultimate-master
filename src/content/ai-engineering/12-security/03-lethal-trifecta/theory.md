@@ -1,6 +1,6 @@
 # The Lethal Trifecta
 
-Lesson 02 ended with a hard truth: you cannot stop a model from following instructions hidden in what it reads. The useful next question is **when does a successful injection actually hurt?** Simon Willison answered it in June 2025 with the *lethal trifecta*. An AI system can be made to steal your data when it combines all three of:
+Lesson 02 ended with a hard truth: you cannot stop a model from following instructions hidden in what it reads. The useful next question is **when does a successful injection actually hurt?** Simon Willison answered it with the *lethal trifecta*. An AI system can be made to steal your data when it combines all three of:
 
 1. **Access to private data**: one of the most common reasons to give an agent tools in the first place (the inbox, the drive, the CRM, the codebase).
 2. **Exposure to untrusted content**: any way text or images controlled by an attacker can reach the model (an inbound email, a web page, an issue comment, a document someone shared, a tool result).
@@ -48,7 +48,7 @@ guard.authorize('send_email');   // denied: would complete the trifecta
 
 The trifecta covers **data theft**. It does not cover an injection that makes the agent delete files or issue a refund using only its own tools; permission policies, approvals for state changes and the Rule of Two's "changes state" property handle that.
 
-> **Status as of October 2026:** Willison's "lethal trifecta" (June 2025) and Meta's "Agents Rule of Two" (October 2025) are the most cited practical rules for agent design. Public exfiltration incidents through agents, chat assistants and coding tools keep following the same three-leg shape, and vendors increasingly ship egress allowlists and per-session capability tracking in their agent platforms.
+Public exfiltration incidents through agents, chat assistants and coding tools keep following the same three-leg shape.
 
 ## When to choose it
 

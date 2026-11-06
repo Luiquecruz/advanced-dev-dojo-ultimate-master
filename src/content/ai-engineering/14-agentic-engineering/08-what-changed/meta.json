@@ -1,6 +1,6 @@
 {
   "title": "What Changed",
-  "summary": "The track's dated changelog of the volatile edge (protocols, tools, terms, regulation, research), newest first and extended at every quarterly review, plus how to keep the same kind of changelog for your own AI system.",
+  "summary": "How to keep the volatile edge of AI engineering (protocols, tools, model facts, regulation, research) current: what belongs to it, how to record and review changes against primary sources, and how to apply the same practice to your own system's dependencies.",
   "level": "advanced",
   "tags": ["emerging", "theory"],
   "resources": [

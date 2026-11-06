@@ -1,6 +1,6 @@
 {
   "title": "Vibe Coding vs Agentic Engineering",
-  "summary": "Where \"vibe coding\" (February 2025) and \"agentic engineering\" (February 2026) came from, how vibe coding fails in production, and the practices that let teams keep the speed of agents with the controls of engineering: tests, specs, small steps, review by risk and measurement.",
+  "summary": "Where \"vibe coding\" and \"agentic engineering\" came from, how vibe coding fails in production, and the practices that let teams keep the speed of agents with the controls of engineering: tests, specs, small steps, review by risk and measurement.",
   "level": "advanced",
   "tags": ["emerging", "core", "theory"],
   "resources": [

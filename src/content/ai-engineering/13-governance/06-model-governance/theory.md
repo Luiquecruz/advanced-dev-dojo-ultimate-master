@@ -67,7 +67,7 @@ The pin history (which version answered for which alias, from when to when, prom
 - Rollback that requires a code deploy.
 - Ignoring license terms of open weights and fine-tuned derivatives.
 
-> **Status as of October 2026:** major API providers publish dated model snapshots and deprecation pages with retirement dates and recommended replacements; aliases without a date usually move to newer snapshots. MLflow and cloud ML platforms offer model registries with aliases, and Hugging Face model cards document license, intended use and evaluations. Under the EU AI Act, providers of general-purpose models must give downstream providers documentation about capabilities and limits, which belongs in your registry entry.
+Under the EU AI Act, providers of general-purpose models must give downstream providers documentation about capabilities and limits, which belongs in your registry entry.
 
 ## When to choose it
 

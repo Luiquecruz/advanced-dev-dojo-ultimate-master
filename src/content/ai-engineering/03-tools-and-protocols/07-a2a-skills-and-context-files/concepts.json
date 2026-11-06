@@ -6,5 +6,5 @@
   { "term": "Agent Skill", "description": "A folder with a `SKILL.md` (name, description, instructions) and optional scripts, references and assets, loaded by an agent only when relevant." },
   { "term": "Progressive disclosure", "description": "Showing an agent only names and descriptions up front and loading full instructions and files when a task needs them." },
   { "term": "AGENTS.md", "description": "A vendor-neutral context file for coding agents: build and test commands, conventions and rules. The nearest file to the edited code wins." },
-  { "term": "Agentic AI Foundation (AAIF)", "description": "Foundation under the Linux Foundation, announced in December 2025, that hosts open agent standards such as MCP, AGENTS.md, goose, A2A and Agent Skills." }
+  { "term": "Agentic AI Foundation (AAIF)", "description": "Foundation under the Linux Foundation that hosts open agent standards such as MCP, AGENTS.md, goose, A2A and Agent Skills." }
 ]

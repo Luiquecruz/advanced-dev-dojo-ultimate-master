@@ -54,7 +54,7 @@ Each challenge runs against the fake model. It produces every malformed JSON sha
 
 The module closes with a checkpoint: for a briefing with volumes, latency budgets, accuracy targets, context sizes and a backfill budget, you write an ADR and a prompt plan. Tests check that your choices are coherent with the numbers: the attempt limit fits the latency, the cached prefix contains only stable parts, the backfill fits its budget.
 
-> **Status as of October 2026:** "context engineering" has become the usual name for this discipline since mid-2025, and the major providers offer schema-constrained outputs, prompt caching and discounted batch processing. Their exact parameters and prices differ and change; the lessons keep them in status boxes.
+Providers offer schema-constrained outputs, prompt caching and discounted batch processing, but their parameters and prices differ and change, so check your provider's documentation for them.
 
 ## When to choose it
 

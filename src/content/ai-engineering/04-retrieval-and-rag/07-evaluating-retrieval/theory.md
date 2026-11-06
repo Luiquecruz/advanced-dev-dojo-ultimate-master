@@ -61,7 +61,7 @@ The gain rewards highly relevant passages; the logarithmic discount says positio
 - Comparing numbers computed with different k, different gain formulas or different golden sets.
 - Never adding production failures to the golden set.
 
-> **Status as of October 2026:** public retrieval benchmarks such as BEIR and MTEB's retrieval tasks report nDCG@10 as the headline metric. RAG evaluation libraries (Ragas, DeepEval, TruLens and others) add generation metrics such as faithfulness and context precision, mostly computed with LLM judges.
+Public retrieval benchmarks report nDCG@10 as the headline metric. RAG evaluation libraries add generation metrics such as faithfulness and context precision, mostly computed with LLM judges.
 
 ## When to choose it
 

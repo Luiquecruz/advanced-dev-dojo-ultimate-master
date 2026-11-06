@@ -60,7 +60,7 @@ When the jail refuses, return the refusal to the model as a tool result (`Error:
 - Trusting tool-level checks once the agent has a shell.
 - Mounting the home directory, SSH keys or cloud credentials into the sandbox "for convenience".
 
-> **Status as of October 2026:** Claude Code's optional sandbox uses Seatbelt on macOS and bubblewrap on Linux, routes network traffic through a proxy whose domain allowlist starts empty, and keeps settings files write-protected inside the workspace. Codex CLI's default `workspace-write` mode limits writes to the workspace and keeps network access off unless enabled. Cloud agents commonly run in containers or microVMs (gVisor, Firecracker) with egress proxies.
+Optional sandboxes in coding agents use operating-system isolation, route network traffic through a proxy with a domain allowlist that starts empty, and keep settings files write-protected inside the workspace. Default modes limit writes to the workspace and keep network access off unless enabled. Cloud agents commonly run in containers or microVMs with egress proxies.
 
 ## When to choose it
 

@@ -40,7 +40,7 @@ When correctness can be checked by a program (a math answer matches, code passes
 - Preference data from your product (thumbs up and down, edits, A/B choices) is a valuable asset. Store pairs, not just scores.
 - A reward is a specification. Whatever it fails to penalize, the model may learn to do. The same lesson applies to verifiers in harness engineering (module 08).
 
-> **Status as of October 2026:** reasoning models across vendors are trained with large-scale RL on verifiable rewards; GRPO and its variants are the common open recipe, implemented in Hugging Face TRL (`GRPOTrainer`) and other open frameworks. DeepSeek-R1 was published in Nature in 2025. Some API providers offer reinforcement fine-tuning, where you supply prompts and a grader, for selected reasoning models.
+Reasoning models are trained with large-scale RL on verifiable rewards; GRPO and its variants are a common open recipe. Some API providers offer reinforcement fine-tuning, where you supply prompts and a grader, for selected models.
 
 ## When to choose it
 

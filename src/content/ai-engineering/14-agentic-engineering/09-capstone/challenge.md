@@ -3,7 +3,7 @@ Build the Ledgerly Support Copilot: retrieval, tools over MCP, a budgeted agent 
 | File | Status | Contents |
 | --- | --- | --- |
 | `briefing.ts` | complete | `BRIEFING`, `DOCUMENTS` (help articles with ids), `INVOICES` (one carries an injected note), `GOLDEN_SET` |
-| `mcp.ts` | complete | an MCP server for the 2026-07-28 revision (`tools/list`, `tools/call`, version in `_meta`), `createMcpClient(server)` with `listTools()` and `callTool(name, args)` → `{ isError, text, structuredContent? }`, and `createSupportServer({ retriever, invoices })` with the tools `search_docs`, `get_invoice`, `issue_refund`, `send_email` and the logs `executed`, `refunds`, `outbox` |
+| `mcp.ts` | complete | an MCP server for the `2026-07-28` revision (`tools/list`, `tools/call`, version in `_meta`), `createMcpClient(server)` with `listTools()` and `callTool(name, args)` → `{ isError, text, structuredContent? }`, and `createSupportServer({ retriever, invoices })` with the tools `search_docs`, `get_invoice`, `issue_refund`, `send_email` and the logs `executed`, `refunds`, `outbox` |
 | `main.ts` | complete | wiring: `MODEL_ID`, `DEFAULT_BUDGET`, `EVAL_THRESHOLD`, `createSupportAssistant({ model?, approve?, budget? })`, `evaluateAssistant(assistant)`, and re-exports of every file |
 | `retrieval.ts` | **implement** | `createRetriever` |
 | `policy.ts` | **implement** | `decide` (`SUPPORT_POLICY` is given) |

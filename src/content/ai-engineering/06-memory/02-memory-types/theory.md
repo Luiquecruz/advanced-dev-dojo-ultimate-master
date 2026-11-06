@@ -14,7 +14,7 @@ The context window is small, expensive and degrades when stuffed; the stores out
 
 ## The CoALA vocabulary
 
-The **Cognitive Architectures for Language Agents** framework (CoALA; Sumers, Yao, Narasimhan and Griffiths, published in TMLR in 2024) borrows from cognitive science to describe language agents with four kinds of memory:
+The **Cognitive Architectures for Language Agents** framework (CoALA; Sumers, Yao, Narasimhan and Griffiths, published in TMLR) borrows from cognitive science to describe language agents with four kinds of memory:
 
 | Memory | What it holds | Engineering examples |
 | --- | --- | --- |
@@ -45,7 +45,7 @@ Memory can be written **in the hot path**, during the reply (the agent calls a "
 - **Temporal knowledge graphs.** Zep and Graphiti store facts as edges with validity time.
 - **Files.** A memory directory or progress file the agent reads and writes; simple, inspectable and surprisingly competitive.
 
-> **Status as of October 2026:** Letta, Mem0, Zep and LangGraph's memory store (with LangMem) are widely used memory layers; some model APIs ship a client-side memory tool backed by files you control (for example Anthropic's memory tool), and consumer assistants expose user-visible memory. Benchmarks such as LoCoMo and LongMemEval are used to compare them, and results are still contested.
+Dedicated memory layers, agent-framework memory stores and client-side memory tools backed by files you control all implement these memory types. Public memory benchmarks exist to compare them, and their results are contested, so measure on your own questions.
 
 ## When to choose it
 

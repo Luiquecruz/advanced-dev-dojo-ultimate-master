@@ -4,7 +4,7 @@ Auditors and customers will ask how your AI feature handles "the OWASP Top 10". 
 
 ## Top 10 for LLM Applications (2026, and the 2025 edition)
 
-The first list covers applications built around a model: chat, RAG, summarization, simple tool use. The August 2026 edition keeps the ten risk areas of 2025, reorders them partly by incident data and renames one. Much tooling and earlier lessons still cite the 2025 ids, so know both.
+The first list covers applications built around a model: chat, RAG, summarization, simple tool use. The 2026 edition keeps the ten risk areas of the 2025 edition, reorders them partly by incident data and renames one. Much tooling and earlier lessons still cite the 2025 ids, so know both.
 
 | 2026 | Risk | 2025 | Where this track covers it |
 | --- | --- | --- | --- |
@@ -23,7 +23,7 @@ Three entries deserve a second look. **Hidden context exposure** covers everythi
 
 ## Top 10 for Agentic Applications (2026)
 
-Published in December 2025, the second list covers systems where the model **plans and acts**: agents with tools, memory, delegation and autonomy. It extends the LLM list rather than replacing it.
+The second list covers systems where the model **plans and acts**: agents with tools, memory, delegation and autonomy. It extends the LLM list rather than replacing it.
 
 | Id | Risk | In short |
 | --- | --- | --- |
@@ -49,7 +49,7 @@ The agentic list leans on a principle you have used throughout: **least agency**
 - **Not as a ranking of your risks.** A summarizer and a payments agent have very different top threes.
 - **Alongside the classics.** The web and API Security Top 10s (Node.js track) still apply.
 
-> **Status as of October 2026:** the current editions are the OWASP GenAI **LLM Top 10 2026** (dated August 3, 2026, the first ranking that blends a practitioner vote with incident data; the 2025 edition was published in November 2024) and the OWASP Top 10 for Agentic Applications **for 2026** (published December 9, 2025), both by the OWASP GenAI Security Project. In September 2026 the project also received the Agent Control Standard, an early (0.1) specification for runtime governance of agents. Check genai.owasp.org for newer editions before an audit.
+Check genai.owasp.org for newer editions before an audit.
 
 ## When to choose it
 

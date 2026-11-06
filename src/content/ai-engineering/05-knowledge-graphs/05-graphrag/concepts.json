@@ -1,5 +1,5 @@
 [
-  { "term": "GraphRAG", "description": "Retrieval over an entity graph and its community summaries, introduced by Microsoft Research in 2024, so both entity questions and whole-corpus questions can be answered." },
+  { "term": "GraphRAG", "description": "Retrieval over an entity graph and its community summaries, introduced by Microsoft Research, so both entity questions and whole-corpus questions can be answered." },
   { "term": "Global question", "description": "A question about the whole corpus (themes, risks, trends). No single chunk holds the answer, so top-k retrieval fails." },
   { "term": "Community", "description": "A group of entities more densely connected to each other than to the rest of the graph." },
   { "term": "Label propagation", "description": "Community detection where each node repeatedly adopts the label most common (or heaviest) among its neighbors until labels stop changing." },

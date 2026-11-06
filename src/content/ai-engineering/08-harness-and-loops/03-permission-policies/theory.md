@@ -68,7 +68,7 @@ A tool call whose arguments do not parse, or a tool the harness does not know, g
 - Asking so often that humans click "yes" without reading (approval fatigue); move frequent safe calls to `allow`.
 - Treating deny rules on `curl` as network isolation.
 
-> **Status as of October 2026:** Claude Code writes rules as `Tool` or `Tool(specifier)` in `permissions.allow`, `ask` and `deny`, evaluated deny, then ask, then allow; shell rules such as `Bash(npm run *)` match per subcommand of compound commands, and `Read`/`Edit` paths use gitignore-style patterns where `*` stays in one segment and `**` crosses directories. Codex CLI combines approval policies (such as `on-request`) with sandbox modes. Several agent platforms also offer a classifier-based "auto" mode that reviews actions instead of a human.
+Coding agents write permission rules per tool with an optional specifier, usually evaluated deny first, then ask, then allow. Shell rules match per subcommand of compound commands, and path rules use gitignore-style patterns where a single star stays in one segment and a double star crosses directories. Some tools combine approval policies with sandbox modes, and several platforms offer a classifier-based "auto" mode that reviews actions instead of a human.
 
 ## When to choose it
 

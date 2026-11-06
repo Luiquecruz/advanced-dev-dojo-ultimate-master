@@ -56,7 +56,7 @@ You can build checkpointing yourself, as in this lesson, for one loop. Workflow 
 - Assuming the model call is the risky part; the tools are.
 - Building a general workflow engine by accident when you needed an existing one.
 
-> **Status as of October 2026:** durable execution engines used for agents include Temporal, Restate, DBOS, Inngest and Cloudflare Workflows; LangGraph persists graph state with checkpointers and documents durability modes; agent SDKs increasingly offer integrations with these engines. Idempotency keys are standard in payment APIs such as Stripe's.
+Durable execution engines, agent-framework checkpointers and workflow services persist progress so a run can resume after a crash, and agent SDKs can integrate with them. Idempotency keys are standard in payment APIs.
 
 ## When to choose it
 
