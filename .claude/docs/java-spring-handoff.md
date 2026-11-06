@@ -63,3 +63,5 @@ Java and Angular have independent feature flags and release checks. Do not turn 
 Latest action: Adapted module 07 to backend-only test strategy, API/PostgreSQL Compose, Maven CI and direct secured HTTP delivery checks.
 
 Module 07 validation: 1,785 unfiltered content checks, eslint, typecheck, docs sync, the security-aware MVC slice against Boot 4.1.2, the API-only Compose configuration and all 33 resource URLs pass. The retained Docker/runtime, health, ETag and shutdown examples were validated in the earlier reviewed delivery branch; this scope pass removes frontend dependencies and preserves those fixes.
+
+PR #63 review: clarified scoped detail access, local port binding, cache freshness and browser account switching, Docker caching and actuator exposure; configured a longer Compose shutdown grace period. Four content suites, lint, typecheck and docs sync pass.

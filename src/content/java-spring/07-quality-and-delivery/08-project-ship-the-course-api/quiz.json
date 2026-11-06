@@ -14,12 +14,12 @@
     "question": "After a one-line change in a Java class, every docker build downloads all Maven dependencies again. Which Dockerfile change is the best fix?",
     "options": [
       "Use the latest tag for the JDK image",
-      "Copy pom.xml and the wrapper before the sources, or use a Maven cache mount, so the dependency layer is reused",
+      "Copy pom.xml and the wrapper before sources to reuse the dependency layer, or use a Maven cache mount to retain downloads when the step reruns",
       "Add a second ENTRYPOINT",
       "Run the build as root"
     ],
     "answer": 1,
-    "explanation": "A layer is reused only while its instruction and earlier ones are unchanged. Keeping the slow dependency step before the frequently changed sources preserves its cache."
+    "explanation": "A dependency-download layer remains reusable when earlier inputs are unchanged. A cache mount keeps downloaded Maven files even when a later source change causes its build step to rerun."
   },
   {
     "question": "A reviewer checks the acceptance criteria and finds that GET /actuator/env answers 200 with the environment. Which setting was missing?",
@@ -30,7 +30,7 @@
       "A restricted management.endpoints.web.exposure.include such as health,info"
     ],
     "answer": 3,
-    "explanation": "Only health is exposed by default, so env was exposed deliberately or by a wildcard. Listing just the endpoints you need keeps the others unreachable, and they then answer 404."
+    "explanation": "A restricted exposure list leaves env unexposed. It returns 404 when the request reaches routing; a security rule may reject the request first with 401 or 403."
   },
   {
     "question": "Which command output shows that the runtime image does not run as root?",

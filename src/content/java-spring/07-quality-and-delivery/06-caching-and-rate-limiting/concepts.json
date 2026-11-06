@@ -3,7 +3,7 @@
   { "term": "Cache invalidation", "description": "Removing or updating cached entries when the data changes, with @CacheEvict or @CachePut, plus a time to live as a safety net." },
   { "term": "Time to live", "description": "The maximum time an entry may stay in a cache before it expires, which bounds how stale a value can be." },
   { "term": "ETag", "description": "A response header that identifies a version of a resource so a client can revalidate it and receive 304 Not Modified." },
-  { "term": "Cache-Control", "description": "A header that tells browsers and shared caches how long they may store a response and whether it is public or private." },
+  { "term": "Cache-Control", "description": "A header whose max-age sets response freshness and whose public or private directives control shared-cache reuse." },
   { "term": "Token bucket", "description": "A rate limiting algorithm where requests take tokens from a bucket that refills at a steady rate, allowing bursts up to its size." },
   { "term": "429 Too Many Requests", "description": "The status a server returns when a client exceeds its rate limit, optionally with a Retry-After header." },
   { "term": "Edge enforcement", "description": "Applying rate limits in a proxy, load balancer or gateway so excess traffic is refused before it reaches the application." }

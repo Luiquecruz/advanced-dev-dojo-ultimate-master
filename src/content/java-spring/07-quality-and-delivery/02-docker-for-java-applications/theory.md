@@ -6,7 +6,7 @@ You need: Your First Java Program (running a program with `java`), Packages and 
 
 ## Images and containers
 
-An image is a read-only, layered snapshot built from a `Dockerfile`; a container is a running instance of an image. Filesystem-changing instructions create layers, while instructions such as `ENV` add image metadata, and and Docker reuses a layer from its cache when the instruction and everything before it are unchanged. That is the rule behind every tip below: put what changes rarely first and what changes often last.
+An image is a read-only, layered snapshot built from a `Dockerfile`; a container is a running instance of an image. Filesystem-changing instructions create layers, while instructions such as `ENV` add image metadata, and Docker reuses a layer from its cache when the instruction and everything before it are unchanged. That is the rule behind every tip below: put what changes rarely first and what changes often last.
 
 ## A multi-stage Dockerfile
 
@@ -26,11 +26,11 @@ COPY --from=build /workspace/target/*.jar application.jar
 ENTRYPOINT ["java", "-jar", "application.jar"]
 ```
 
-`./mvnw` is the Maven wrapper that module 03 introduces. The cache mount keeps downloaded dependencies between builds, and `-DskipTests` is acceptable here because a pipeline runs the tests before it builds the image (lesson 04). Build and run it:
+Use Docker Engine 28 or newer for the loopback binding shown below; older releases can expose localhost-published ports to peers on the same network. `./mvnw` is the Maven wrapper that module 03 introduces. The cache mount keeps downloaded dependencies between builds, and `-DskipTests` is acceptable here because a pipeline runs the tests before it builds the image (lesson 04). Build and run it:
 
 ```bash
 docker build -t course-api .
-docker run --rm -p 8080:8080 course-api
+docker run --rm -p 127.0.0.1:8080:8080 course-api
 ```
 
 Add a `.dockerignore` file listing `target/`, `.git/` and local files, so the build context stays small and local secrets never enter it. Use the exec form of `ENTRYPOINT` (a JSON array), so `java` is the main process and receives the stop signal directly.

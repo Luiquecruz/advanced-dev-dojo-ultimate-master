@@ -29,7 +29,7 @@ public class CourseCatalogService {
 }
 ```
 
-`@Cacheable` checks the cache first and runs the method only on a miss. `@CachePut` always runs the method and stores the result. `@CacheEvict` removes an entry after the method completes successfully, or the whole cache with `allEntries = true`. The default key is the single parameter itself, or a combination of all parameters, so parameters need correct `equals` and `hashCode`; `key = "#id"` makes the choice explicit. `condition` is evaluated before the call and `unless` after it, which lets you skip caching null results with `unless = "#result == null"`. Cache immutable values, such as records, so one caller cannot change what another receives.
+`@Cacheable` checks the cache first and runs the method only on a miss. `@CachePut` always runs the method and stores the result. `@CacheEvict` removes an entry after the method completes successfully, or the whole cache with `allEntries = true`. The default key is the single parameter itself, or a combination of all parameters, so parameters need correct `equals` and `hashCode`; `key = "#id"` makes the choice explicit. `condition` is evaluated before the call and `unless` after it, which lets you skip caching null results with `unless = "#result == null"`. Cache values whose component state cannot be mutated through constructor inputs or accessors. Records are only shallowly immutable: use immutable components or defensive copies so one caller cannot change what another receives.
 
 Two behaviors surprise beginners. Caching works through a proxy, so a call from one method to another method of the same object bypasses the cache; move the cached method to another bean. And on a concurrent miss every thread computes the value unless you set `sync = true`, which lets one thread compute while the others wait.
 
@@ -69,7 +69,7 @@ public ResponseEntity<CourseView> show(@PathVariable long id) {
 }
 ```
 
-Spring also offers `ShallowEtagHeaderFilter`, which computes an ETag from the response body; it saves bandwidth but not the work of building the response. Use `private` for responses that depend on the signed-in user, and `no-store` for sensitive data, so a shared cache never serves one user's response to another. Keep the validators and cache policy attached to the response contract, and test that a changed representation produces a different validator.
+Spring also offers `ShallowEtagHeaderFilter`, which computes an ETag from the response body; it saves bandwidth but not the work of building the response. `private` prevents reuse by shared caches, but it does not isolate a browser cache when accounts switch in the same profile. For user-specific responses use `no-store` or a carefully tested policy that accounts for identity changes; sensitive data should use `no-store`. Keep the validators and cache policy attached to the response contract, and test that a changed representation produces a different validator.
 
 ## Rate limiting
 
@@ -124,7 +124,7 @@ Use both layers for important APIs: a coarse limit at the edge and a precise one
 
 - Caching a method and calling it from the same class. The call skips the proxy, so nothing is cached.
 - Caching without eviction or a TTL, so a change in the database stays invisible until a restart.
-- Returning `Cache-Control: public` for a response that contains one user's data. Use `private`.
+- Returning `Cache-Control: public` for one user's data. Choose `no-store` or a private policy that accounts for account changes in a browser profile.
 - Rate limiting by instance memory behind a load balancer and expecting a global limit.
 
 ## In practice

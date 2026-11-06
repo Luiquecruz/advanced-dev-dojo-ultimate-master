@@ -36,12 +36,12 @@
     "question": "An endpoint returns the signed-in user's order history. Which Cache-Control value avoids a shared proxy serving one user's response to another?",
     "options": [
       "public, max-age=3600",
-      "private, or no-store if the data is sensitive",
+      "no-store, or a private policy that accounts for account changes",
       "max-age=31536000, immutable",
       "No header, because proxies never cache"
     ],
     "answer": 1,
-    "explanation": "Shared caches may store responses marked public. A private response may be kept only by the user's own browser, and no-store forbids storing it at all."
+    "explanation": "Private prevents shared-cache reuse but does not isolate a browser cache between accounts in one profile. No-store avoids storage; any private policy must account for identity changes."
   },
   {
     "question": "A token bucket holds 10 tokens and refills 2 per second. A client sends 10 requests at once, then keeps sending. What happens?",
