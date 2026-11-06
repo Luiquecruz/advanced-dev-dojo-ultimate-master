@@ -2,7 +2,7 @@
 
 The same checks run under Pyodide in `npm run verify`; this suite confirms the lessons teach CPython behavior, not
 Pyodide quirks. Lessons that use the fake model (`dojo_ai`) are skipped: it runs only in Pyodide. Use is read from the code with
-`ast` (`Challenge.uses_fake_model`), so a learner name that only resembles the fake model's does not skip a lesson.
+`ast` and `symtable` (`Challenge.uses_fake_model`), so a learner name that only resembles the fake model's does not skip a lesson.
 """
 
 import importlib.util
@@ -72,6 +72,20 @@ def test_grades_a_lesson_whose_own_names_only_resemble_the_fake_model(tmp_path):
             assert mod.Handler()._respond(200) == {"status": 200}
         """,
     )
+    assert _skip_reason(challenge) is None
+
+
+@pytest.mark.parametrize(
+    "tests",
+    [
+        'respond = mod.respond\n\n@test("answers")\ndef _():\n    assert respond(200) == {"status": 200}\n',
+        '@test("answers")\ndef _():\n    respond = mod.respond\n    assert respond(200) == {"status": 200}\n',
+        'from main import respond\n\n@test("answers")\ndef _():\n    assert respond(200) == {"status": 200}\n',
+    ],
+    ids=["a module-level binding", "a binding inside the test", "an import of the learner function"],
+)
+def test_grades_a_lesson_whose_tests_bind_a_fake_model_name_themselves(tmp_path, tests):
+    challenge = _lesson(tmp_path, "def respond(status):\n    return {\"status\": status}\n", tests)
     assert _skip_reason(challenge) is None
 
 

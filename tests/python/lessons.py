@@ -4,6 +4,7 @@ import ast
 import json
 import os
 import subprocess
+import symtable
 import sys
 import tempfile
 from dataclasses import dataclass
@@ -33,10 +34,8 @@ class Challenge:
         return {path.relative_to(folder).as_posix(): path.read_text() for path in sorted(folder.rglob("*")) if path.is_file()}
 
     def uses_fake_model(self):
-        """True when the tests or the solution import `dojo_ai`, or `tests.py` uses `fake_model`, `respond` or `for_each_seed` (harness globals defined only there)."""
-        if self.imports(FAKE_MODEL_MODULE):
-            return True
-        return any(isinstance(node, ast.Name) and node.id in FAKE_MODEL_GLOBALS for node in ast.walk(ast.parse(self.tests)))
+        """True when the tests or the solution import `dojo_ai`, or `tests.py` reads the harness globals `fake_model`, `respond` or `for_each_seed`."""
+        return self.imports(FAKE_MODEL_MODULE) or _reads_harness_globals(self.tests)
 
     def imports(self, module):
         sources = [self.tests, *self.files("solution").values()]
@@ -51,6 +50,21 @@ def _imported_modules(source):
         elif isinstance(node, ast.ImportFrom) and node.module and node.level == 0:
             modules.add(node.module.split(".")[0])
     return modules
+
+
+def _reads_harness_globals(source):
+    """True when a name of FAKE_MODEL_GLOBALS resolves to the harness global, not to a binding of `tests.py` (`respond = mod.respond`)."""
+    module = symtable.symtable(source, "tests.py", "exec")
+    bound_by_tests = {symbol.get_name() for symbol in module.get_symbols() if symbol.is_assigned() or symbol.is_imported()}
+
+    def reads(table):
+        for symbol in table.get_symbols():
+            name = symbol.get_name()
+            if name in FAKE_MODEL_GLOBALS and name not in bound_by_tests and symbol.is_referenced() and (table.get_type() == "module" or symbol.is_global()):
+                return True
+        return any(reads(child) for child in table.get_children())
+
+    return reads(module)
 
 
 def _strip_order(name):
