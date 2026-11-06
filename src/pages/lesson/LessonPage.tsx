@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
 import { LANGUAGES, type LanguageId, type Lesson, type Track } from '@/content';
 import { canRunProgram, CodeEditor, configureLanguageService, type ConsoleEntry, gradeChallenge, LanguageSwitch, LessonPanel, type LessonTab, prepareEngine, PreviewFrame, type Report, ReportProblemDialog, runProgram, TestName, testNamesFor } from '@/features/lesson';
@@ -48,6 +48,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [solutionOpen, setSolutionOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
+  const outputTabRef = useRef<HTMLButtonElement>(null);
   const [pane, setPane] = useState<MobilePane>('lesson');
   const [focusedPane, setFocusedPane] = useState<MobilePane | null>(null);
   const closeReport = useCallback(() => setReportOpen(false), []);
@@ -103,6 +104,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
       setBottomTab('tests');
     }
     setPane('output');
+    outputTabRef.current?.focus();
     try {
       const result = await gradeChallenge(engine, challenge, files);
       setReport(result);
@@ -123,6 +125,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
     }
     setBottomTab('console');
     setPane('output');
+    outputTabRef.current?.focus();
     setProgramRunning(true);
     const entries: ConsoleEntry[] = [];
     setConsoleEntries([]);
@@ -277,7 +280,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
       </div>
       <div className="relative min-h-0 flex-1 overflow-auto">
         {challenge.preview && (
-          <div className={clsx('absolute inset-0', bottomTab !== 'preview' && 'invisible pointer-events-none')} aria-hidden={bottomTab !== 'preview'}>
+          <div className={clsx('absolute inset-0', bottomTab !== 'preview' && 'invisible pointer-events-none')} inert={bottomTab !== 'preview'}>
             <PreviewFrame engine={engine} files={files} entry={challenge.entry} reloadKey={reloadKey} onConsole={appendConsole} />
           </div>
         )}
@@ -406,6 +409,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
               <button
                 key={entry.id}
                 id={`pane-tab-${entry.id}`}
+                ref={entry.id === 'output' ? outputTabRef : undefined}
                 role="tab"
                 aria-selected={pane === entry.id}
                 aria-controls={`pane-${entry.id}`}
