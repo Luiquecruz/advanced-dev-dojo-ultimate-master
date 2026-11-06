@@ -75,7 +75,7 @@ function LessonLoading({ track, entry, onFocus, failed = false }: LessonRoutePro
   }, []);
 
   return (
-    <div data-trail={track.id} className="flex h-full flex-col overflow-hidden bg-void" aria-busy="true">
+    <div data-trail={track.id} className="flex h-full flex-col overflow-hidden bg-void" aria-busy={!failed}>
       <header className="flex h-13 flex-none items-center gap-2.5 border-b border-line bg-elevated px-2.5">
         <span className="size-8.5" />
         <div className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden text-sm whitespace-nowrap text-ink-muted">
