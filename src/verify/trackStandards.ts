@@ -141,7 +141,7 @@ export function createTrackStandards(config: TrackStandardsConfig) {
       violations.push({ rule: 'resources-count', detail: `${lesson.resources.length} resources, expected 2-6` });
     }
     for (const { url } of lesson.resources) {
-      if (!url.startsWith('https://') || !RESOURCE_HOSTS.has(new URL(url).hostname)) {
+      if (!URL.canParse(url) || !url.startsWith('https://') || !RESOURCE_HOSTS.has(new URL(url).hostname)) {
         violations.push({ rule: 'resources-host', detail: `${url} is not on an official documentation, standards, paper or first-party engineering host` });
       }
     }
