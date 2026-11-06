@@ -7,8 +7,11 @@ import type { Lesson } from '../content/types';
 export const DATED =
   /\b[Ss]tatus as of\b|\bchangelog\b|\brelease notes\b|\b(?:as of|in|since|until|by|from|during|early|late|mid-?)\s+(?:19|20)\d{2}\b|\b(?:19|20)\d{2}-\d{2}(?:-\d{2})?\b|\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+(?:19|20)\d{2}\b|\b(?:this|last|next) year\b|\bnewly released\b|\blatest (?:version|release)\b/i;
 
-/** Fenced and inline code, removed before the check: a date in an example (a parser's input, a log line) is data, not a claim. */
-const CODE = /```[\s\S]*?```|~~~[\s\S]*?~~~|`[^`\n]*`/g;
+/**
+ * Fenced and inline code, removed before the check: a date in an example (a parser's input, a log line) is data, not a claim. A fence opens
+ * on a line of three or more backticks or tildes and closes on a line that repeats them, so a fence inside a code string does not end it.
+ */
+const CODE = /^ {0,3}(`{3,}|~{3,})[^\n]*\n[\s\S]*?(?:^ {0,3}\1[`~]*[ \t]*$|(?![\s\S]))|`[^`\n]*`/gm;
 
 /** The first dated or changelog text in a lesson text outside code, or undefined. */
 export function datedIn(text: string): string | undefined {
