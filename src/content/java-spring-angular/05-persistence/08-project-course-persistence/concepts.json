@@ -1,0 +1,9 @@
+[
+  { "term": "Schema owned by migrations", "description": "A setup where Flyway scripts are the only way the schema changes and ddl-auto=validate checks the mappings against it." },
+  { "term": "Testcontainers", "description": "A library that starts a real PostgreSQL container for a test, wired into Spring Boot with @ServiceConnection." },
+  { "term": "@DataJpaTest", "description": "A test slice that loads only the persistence layer and rolls back each test, so assertions on SQL effects need flush()." },
+  { "term": "Aggregate", "description": "A Course with its lessons treated as one unit, with cascade and orphan removal from the parent and a repository for the root." },
+  { "term": "Soft-delete cascade", "description": "The requirement that every entity deleted along with a parent also has @SQLDelete, or its rows are physically removed." },
+  { "term": "Stable page order", "description": "A sort such as title then id that gives every row one fixed position across pages." },
+  { "term": "Docker Compose", "description": "A file that describes the local PostgreSQL service so one command gives every developer the same database." }
+]

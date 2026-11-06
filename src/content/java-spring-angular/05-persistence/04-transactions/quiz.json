@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A controller calls `importAll(titles)` of a service. It has no annotation and calls `this.importOne(title)`, which is annotated with @Transactional and saves one course. The third title throws a RuntimeException. What is in the database?",
+    "options": [
+      "No courses, because importOne is transactional",
+      "Only the first course, because the failure stops the loop",
+      "The first two courses, because the call through this bypasses the proxy and each save commits by itself",
+      "All three courses"
+    ],
+    "answer": 2,
+    "explanation": "In proxy mode only calls coming from outside the bean are intercepted. importOne ran without a surrounding transaction, so each repository save committed on its own."
+  },
+  {
+    "question": "A @Transactional method saves a course and then throws a checked IOException. What happens, and how do you change it?",
+    "options": [
+      "The transaction commits, because checked exceptions do not roll back by default; add rollbackFor = IOException.class",
+      "The transaction rolls back, because any exception does",
+      "The transaction stays open until the caller finishes",
+      "The save is silently skipped"
+    ],
+    "answer": 0,
+    "explanation": "Spring rolls back for RuntimeException and Error only. A checked exception commits unless a rollback rule names it."
+  },
+  {
+    "question": "A service rolls back after a failed import, but a failed-attempt log row must still be stored. Which design does that?",
+    "options": [
+      "Mark the log method readOnly = true",
+      "Put both operations in a single REQUIRED transaction",
+      "Catch the exception and ignore it",
+      "Write the log row in a method annotated with propagation REQUIRES_NEW, so it commits independently"
+    ],
+    "answer": 3,
+    "explanation": "REQUIRES_NEW suspends the outer transaction and commits on its own connection. The cost is a second connection, so the pool must be large enough."
+  },
+  {
+    "question": "A teammate adds @Transactional(readOnly = true) to a method and says writes are now impossible. What is the accurate statement?",
+    "options": [
+      "Correct, every database rejects writes",
+      "It is a hint: Spring tells the driver and sets Hibernate's flush mode to manual, so dirty checking is skipped, but it is not a guarantee against writes",
+      "It disables the persistence context entirely",
+      "It makes the method run in a new transaction"
+    ],
+    "answer": 1,
+    "explanation": "The flag is an optimization hint. Hibernate skips dirty checks, and some databases reject writes, but you should not rely on it as a safety feature."
+  },
+  {
+    "question": "Two administrators open the same Course, both change the title and save. The entity has a @Version field. What happens to the second save?",
+    "options": [
+      "It overwrites the first silently",
+      "It merges both titles",
+      "It fails with an optimistic locking exception, because the version in the UPDATE no longer matches",
+      "It waits until the first administrator logs out"
+    ],
+    "answer": 2,
+    "explanation": "Hibernate adds the version to the UPDATE condition. When another transaction already incremented it, no row matches and the update is reported as an optimistic locking failure."
+  },
+  {
+    "question": "An outer @Transactional method calls an inner @Transactional method of another bean, which throws a RuntimeException. The outer method catches it and returns normally. What does the caller see?",
+    "options": [
+      "A normal return and a committed transaction",
+      "An UnexpectedRollbackException, because the shared transaction was marked rollback-only by the inner call",
+      "A LazyInitializationException",
+      "The inner changes are kept and the outer ones are lost"
+    ],
+    "answer": 1,
+    "explanation": "With REQUIRED both methods share one physical transaction. The inner proxy marked it rollback-only, so the outer commit cannot succeed and Spring reports it."
+  }
+]

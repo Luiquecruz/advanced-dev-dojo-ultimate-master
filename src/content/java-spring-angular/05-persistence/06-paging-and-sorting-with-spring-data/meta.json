@@ -1,0 +1,23 @@
+{
+  "title": "Paging and Sorting with Spring Data",
+  "summary": "Pageable, Page and Slice, stable sorting, binding page requests in controllers with limits and a sort whitelist, keyset pagination with Window, and a stable response shape.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Data: paging, sorting and limiting",
+      "url": "https://docs.spring.io/spring-data/commons/reference/repositories/query-methods-details.html"
+    },
+    {
+      "label": "Spring Data: web support and page rendering",
+      "url": "https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html"
+    },
+    {
+      "label": "Spring Data JPA: query methods",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html"
+    }
+  ]
+}

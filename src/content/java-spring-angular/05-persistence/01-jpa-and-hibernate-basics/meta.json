@@ -1,0 +1,31 @@
+{
+  "title": "JPA and Hibernate Basics",
+  "summary": "Entities and identifier generation, the persistence context with dirty checking, the managed and detached states, merge, and schema settings, for Jakarta Persistence 3.2 and Hibernate ORM 7 in Spring Boot 4.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Jakarta Persistence 3.2 specification",
+      "url": "https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3.2.html"
+    },
+    {
+      "label": "Hibernate ORM documentation",
+      "url": "https://hibernate.org/orm/documentation/"
+    },
+    {
+      "label": "Spring Boot: SQL databases",
+      "url": "https://docs.spring.io/spring-boot/reference/data/sql.html"
+    },
+    {
+      "label": "Spring Boot: dependency versions",
+      "url": "https://docs.spring.io/spring-boot/appendix/dependency-versions/coordinates.html"
+    },
+    {
+      "label": "Spring Data JPA: persisting entities",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/jpa/entity-persistence.html"
+    }
+  ]
+}

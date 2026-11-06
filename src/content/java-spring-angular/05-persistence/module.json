@@ -1,0 +1,4 @@
+{
+  "title": "Persistence",
+  "description": "For people who finished Java from Zero and The Java Language: JPA and Hibernate, Spring Data repositories, relationships, transactions, the N+1 problem and fetching, pagination and sorting, database migrations and soft delete, and a course catalog project on PostgreSQL."
+}

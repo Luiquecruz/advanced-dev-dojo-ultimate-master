@@ -8,8 +8,8 @@ Everything another engineer or agent needs to continue the track without the ori
 | --- | --- |
 | Engine decision | Option A: no Java engine. Every module is theory + quiz with local practice projects, including module 06. No graded challenges or Java engine. |
 | Track | `src/content/java-spring-angular`, `"engine": "angular"`, hidden (`TRACK_FLAGS['java-spring-angular'] = false`). |
-| Written on this branch | Modules 01–04, 31 lessons; see the review-stack table below. |
-| Remaining | Modules 05–09 are outside this branch; see their PRs below. |
+| Written on this branch | Modules 01–05, 39 lessons; see the review-stack table below. |
+| Remaining | Modules 06–09 are outside this branch; see their PRs below. |
 | Accent | Provisional in `src/shared/design/tokens.css`; hue collides with a shown track. Must be re-spaced before the flag is turned on (the owners decide the palette). Angular's accent (351 degrees) also collides with C# (358): fix before showing either. |
 | Standards suite | `src/verify/java-spring-angular.test.ts` on `src/verify/trackStandards.ts` (shared with System Design). |
 | Release gate | Showing this track also needs the Angular flag turned on (lessons link to the Angular track) and a free accent for both. |
@@ -18,15 +18,15 @@ Everything another engineer or agent needs to continue the track without the ori
 
 **Owner decision: every module is theory and quizzes plus local practice. No graded challenges anywhere, including module 06. Do not build a Java engine.**
 
-This branch contains modules 01–04, 31 lessons. The table tracks the entire review stack; later modules can exist in separate branches before they are included here.
+This branch contains modules 01–05, 39 lessons. The table tracks the entire review stack; later modules can exist in separate branches before they are included here.
 
 | Module | Pull request | State | Base |
 | --- | --- | --- | --- |
 | 01 | [#50](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/50) | MERGED | `main` |
 | 02 | [#51](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/51) | MERGED | `main` |
 | 03 | [#53](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/53) | MERGED | `main` |
-| 04 | [#54](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/54) | OPEN | `main` |
-| 05 | [#55](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/55) | OPEN | `feat/java-module-04` |
+| 04 | [#54](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/54) | MERGED | `main` |
+| 05 | [#55](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/55) | OPEN | `main` |
 | 06 | [#56](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/56) | OPEN | `feat/java-module-05` |
 | 07 | [#57](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/57) | OPEN | `feat/java-module-06` |
 | 08 | [#58](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/58) | OPEN | `feat/java-module-07` |
@@ -39,12 +39,18 @@ Local verification covers the four unfiltered content suites, lint, typecheck, a
 Both release flags stay off and accents remain unchanged. The owners decide the palette and the release. PR #52 is i18n planning only; no i18n implementation is authorized by this workflow.
 
 Recent review and merge records:
+- PR #55 trigger cleanup follow-up: the final rename migration now removes or updates synchronization functions/triggers that still reference the old column, including dependencies PostgreSQL does not infer from string-literal bodies.
+- PR #55 rename follow-up: the contract phase now explicitly deploys code that no longer accesses the old column and drains all earlier versions before dropping it.
+- PR #55 follow-up: required synchronized writes throughout a rolling column rename and established Docker Engine 28 as the project baseline for loopback port publishing. Verified the earlier stable-sort and count-query corrections in theory, quiz and glossary.
+- PR #55 review pass: addressed 16 findings across context scope, bulk-update refresh/flush, association ownership, lesson ordering, rollback/savepoint limits, stable paging/counts, safe migration rollout, local database binding and versioned custom deletes. Revalidating before the next review.
+- PR #51 review pass: corrected ten Java content findings, aligned module 06 descriptions and the README track row with the theory-and-quiz decision, and clarified consecutive numbering. Validation passed: 1,671 tests, one skipped; eslint, TypeScript, docs sync and Java snippet checks (`javac --release 25` on JDK 27). All checks and review threads subsequently passed; PR #51 is merged.
 - PR #54 review correction: show the explicit Schema annotation behind the title description/example and distinguish required-property metadata from NotBlank validation, as requested by CodeRabbit.
 - PR #53 reuse lifecycle follow-up: documented persistent credentials/ports, Docker-aware network restrictions and removal when a reusable container is no longer needed.
 - PR #53 reuse follow-up: explained cross-project configuration matching, project-specific container configuration and per-run isolation or exclusive serialized cleanup.
 - PR #53 follow-up: documented resetting persistent tables only in a dedicated reused test database before rerunning the JDBC example.
 - PR #51 review pass: corrected ten Java content findings, aligned module 06 descriptions and the README track row with the theory-and-quiz decision, and clarified consecutive numbering. Validation passed: 1,671 tests, one skipped; eslint, TypeScript, docs sync and Java snippet checks (`javac --release 25` on JDK 27). The next CodeRabbit review and remote CI gate the merge. Uncommitted module 05–07 drafts remain preserved in the original workspace.
 - PR #54 synchronization: merged current main after module 03 was merged; retained all module 04 review corrections and refreshed the stack state.
+- PR #55 synchronization: merge current main after module 04 and preserve reviewed persistence guidance.
 
 Next steps:
 1. Fix valid review findings, answer every thread, and verify the current commit's checks and review before merging.

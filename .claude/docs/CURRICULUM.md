@@ -428,3 +428,6 @@ Plan and decisions: [java-spring-angular-track.md](java-spring-angular-track.md)
 
 ### 04-spring-boot-core — Spring Boot Core
 01-inversion-of-control-and-dependency-injection ✓ · 02-auto-configuration-and-starters ✓ · 03-configuration-and-profiles ✓ · 04-rest-controllers ✓ · 05-validation-with-jakarta ✓ · 06-error-handling-with-problem-details ✓ · 07-openapi-with-springdoc ✓ · 08-project-course-api ✓
+
+### 05-persistence — Persistence
+01-jpa-and-hibernate-basics ✓ · 02-spring-data-repositories ✓ · 03-relationships ✓ · 04-transactions ✓ · 05-the-n-plus-one-problem-and-fetching ✓ · 06-paging-and-sorting-with-spring-data ✓ · 07-database-migrations-and-soft-delete ✓ · 08-project-course-persistence ✓

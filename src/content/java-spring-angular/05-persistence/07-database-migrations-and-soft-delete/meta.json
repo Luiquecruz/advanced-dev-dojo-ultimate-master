@@ -1,0 +1,35 @@
+{
+  "title": "Database Migrations and Soft Delete",
+  "summary": "Why ddl-auto is not a migration tool, Flyway with Spring Boot 4, safe migration steps, and soft delete with @SQLDelete and @SQLRestriction including bulk deletes, native queries, unique indexes and cascades.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Flyway: versioned migrations",
+      "url": "https://documentation.red-gate.com/flyway/flyway-concepts/migrations/versioned-migrations"
+    },
+    {
+      "label": "Spring Boot: database initialization",
+      "url": "https://docs.spring.io/spring-boot/how-to/data-initialization.html"
+    },
+    {
+      "label": "Spring Boot 4.0 migration guide",
+      "url": "https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide"
+    },
+    {
+      "label": "PostgreSQL: partial indexes",
+      "url": "https://www.postgresql.org/docs/current/indexes-partial.html"
+    },
+    {
+      "label": "Hibernate ORM documentation",
+      "url": "https://hibernate.org/orm/documentation/"
+    },
+    {
+      "label": "Liquibase documentation",
+      "url": "https://docs.liquibase.com/"
+    }
+  ]
+}
