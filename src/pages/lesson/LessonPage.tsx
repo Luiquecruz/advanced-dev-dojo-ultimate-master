@@ -272,7 +272,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
 
   return (
     <div data-trail={track.id} className="flex h-screen flex-col overflow-hidden bg-void">
-      <header className="flex h-13 flex-none items-center gap-2.5 border-b border-line bg-elevated px-2.5" inert={drawerOpen}>
+      <header className="flex h-13 flex-none items-center gap-2.5 border-b border-line bg-elevated px-2.5" inert={drawerOpen || reportOpen}>
         <button className={iconButtonClass()} title="Star map" onClick={() => setDrawerOpen(true)}>
           <MenuIcon />
         </button>
@@ -311,7 +311,7 @@ export function LessonPage({ track, lesson }: { track: Track; lesson: Lesson }) 
         </div>
       </header>
 
-      <main className="min-h-0 flex-1" inert={drawerOpen}>
+      <main className="min-h-0 flex-1" inert={drawerOpen || reportOpen}>
         <Group orientation={narrow ? 'vertical' : 'horizontal'} className="h-full">
           <Panel defaultSize={narrow ? '50' : '40'} minSize="20">
             <LessonPanel

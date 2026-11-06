@@ -9,7 +9,6 @@ import './app/styles.css';
 
 const rootOptions = initSentry();
 installChunkReload();
-installChunkReload();
 
 const legacyPath = legacyHashRedirect(location, import.meta.env.BASE_URL);
 if (legacyPath) {

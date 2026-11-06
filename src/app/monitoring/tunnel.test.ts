@@ -5,7 +5,7 @@ import { SENTRY_TUNNEL_PATH, sentryEnvelopeUrl, sentryTunnelProxy } from '../../
 
 const root = resolve(import.meta.dirname, '../../..');
 const netlifyToml = readFileSync(resolve(root, 'netlify.toml'), 'utf8');
-const ciDsn = /VITE_SENTRY_DSN: \$\{\{ vars\.VITE_SENTRY_DSN \|\| '([^']+)' \}\}/.exec(readFileSync(resolve(root, '.github/workflows/ci.yml'), 'utf8'))![1];
+const ciDsn = process.env.VITE_SENTRY_DSN || /VITE_SENTRY_DSN: \$\{\{ vars\.VITE_SENTRY_DSN \|\| '([^']+)' \}\}/.exec(readFileSync(resolve(root, '.github/workflows/ci.yml'), 'utf8'))![1];
 const redirects = [...netlifyToml.matchAll(/\[\[redirects\]\]\s+from = "([^"]+)"\s+to = "([^"]+)"/g)].map(([, from, to]) => ({ from, to }));
 
 describe('Sentry tunnel', () => {

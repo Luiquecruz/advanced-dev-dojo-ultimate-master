@@ -26,5 +26,11 @@ export function onEngineEvent(listener: EngineEventListener): () => void {
  * Sends an engine event to every subscriber.
  */
 export function emitEngineEvent(event: EngineEvent): void {
-  listeners.forEach((listener) => listener(event));
+  listeners.forEach((listener) => {
+    try {
+      listener(event);
+    } catch {
+      // A subscriber must not interrupt event delivery or the engine client.
+    }
+  });
 }
