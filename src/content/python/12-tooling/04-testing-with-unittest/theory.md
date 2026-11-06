@@ -46,7 +46,7 @@ print(result.testsRun, result.failures, result.errors, result.wasSuccessful())
 
 **Tests and secrets.** A test must never call a real service or read real credentials: patch the client, inject fake settings, and run a dependency audit such as `pip-audit` in CI next to the suite.
 
-> **Status as of November 2026:** `unittest` and `unittest.mock` are in the standard library of every supported CPython; pytest 9.2.0 (October 2026) and pip-audit 2.10 are the current releases on PyPI.
+`unittest` and `unittest.mock` are in the standard library of every supported CPython; pytest and pip-audit are installed from PyPI.
 
 ## Common mistakes
 

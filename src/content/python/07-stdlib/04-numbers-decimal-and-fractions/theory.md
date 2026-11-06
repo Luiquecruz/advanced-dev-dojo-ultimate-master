@@ -46,7 +46,7 @@ divmod(1000, 3)            # (333, 1): 333 cents each, 1 cent still to hand out
 
 Number parsing can be a denial-of-service vector. Converting a huge decimal string to `int` takes more than linear time, so since Python 3.11 `int(text)` and `str(number)` raise `ValueError` above 4,300 digits (`sys.set_int_max_str_digits`). The limit does not cover `Decimal(text)`, which accepts a million digits and then makes every later operation on them slow; `Fraction(text)` is limited only because it parses its parts with `int`. Check the length of untrusted number text yourself before parsing it, and refuse `NaN` and `Infinity` when they are not meaningful amounts.
 
-> **Status as of November 2026:** Python 3.14 added `Decimal.from_number()` and `Fraction.from_number()`, and `Fraction` now accepts any object with an `as_integer_ratio()` method. The integer string conversion limit has existed since Python 3.11 with a default of 4,300 digits.
+Python 3.14 added `Decimal.from_number()` and `Fraction.from_number()`, and `Fraction` now accepts any object with an `as_integer_ratio()` method. The integer string conversion limit has existed since Python 3.11 with a default of 4,300 digits.
 
 ## When to choose it
 

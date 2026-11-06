@@ -56,7 +56,7 @@ Gradual typing, annotations are metadata, checkers vs runtime, nominal classes b
 Quiz lesson merging the 115-plan lessons `08-typing-evolution` and `09-checkers-and-gradual-typing` (5–6 questions).
 - Evolution: `List/Dict/Optional/Union` → builtins and `|` (PEP 585, 604), `TypeVar` → PEP 695, deprecated aliases (deprecated, not removed), `TypedDict` extensions, `TypeIs`.
 - Checkers: mypy, pyright, ty, pyrefly; strict flags; `Any` vs `object`; stub files and `py.typed`; type checkers in CI; when types pay off. The lesson states plainly what the sandbox cannot do: no checker runs here, so every typing challenge in this module tested introspection, not type checking.
-- One dated `**Status as of**` block (tools move fast; cite their docs).
+- No dated block (tools move fast): write the mechanism and name the version a fact applies to; cite their docs.
 
 ### 09-typing-adr (A, Ad)
 - Briefing: a public SDK consumed by 20 teams; JSON payloads from 3 services exposing **14, 9 and 7** payload shapes; **6** shapes are shared by two services and must be defined once; plugin authors outside the company; Python 3.12+ baseline; runtime validation is needed at the edge only; must not force inheritance on plugins.
@@ -121,7 +121,7 @@ Cooperative concurrency, event loop, coroutines vs tasks, and why calling a coro
 Quiz lesson merging the 115-plan lessons `08-blocking-and-threads` and `09-threads-processes-and-the-gil` (5–6 questions).
 - Blocking: blocking calls freeze the loop; `asyncio.to_thread`, `run_in_executor`, `ProcessPoolExecutor`; I/O-bound vs CPU-bound; why this cannot run in the browser sandbox.
 - Runtime: GIL, free-threaded builds (PEP 703; officially supported in 3.14 via PEP 779), JIT (PEP 744, experimental), multiple interpreters (PEP 734, `concurrent.interpreters` in 3.14), `multiprocessing`.
-- One dated `**Status as of**` block; facts verified in the 3.14 "What's New" and the PEPs, with any 3.15 change flagged. No Pyodide verification (no challenge).
+- No dated block; facts verified in the 3.14 "What's New" and the PEPs, with any 3.15 change flagged by version. No Pyodide verification (no challenge).
 
 ### 09-async-adr (A, Ad)
 All numbers describe **one service instance** and are physically coherent (checked at review).
@@ -208,10 +208,10 @@ Question: how do I make a Python project reproducible, installable and verifiabl
 Constraint: pip, uv, venv and build backends cannot run in the sandbox, so packaging is taught as quizzes with dated facts. The 115-plan lessons `02-pyproject-toml`, `04-uv-and-lockfiles`, `07-linting-formatting-and-checkers` and `08-wheels-and-distribution` are merged into the two quizzes below. `05-modules-and-the-import-system` moved to `11-metaprogramming/07-import-system-internals`. Testing becomes practice because `unittest` runs in Pyodide.
 
 ### 01-tooling-map (Q, B)
-Project lifecycle map: layout (`src/` vs flat), `pyproject.toml`, environments, lockfiles, tests, linters and formatters (Ruff, Black and isort history, pre-commit, checkers in CI), build, publish. Quiz: which tool owns which step, and what each step protects against. Dated `**Status as of**` block for the linter/formatter landscape.
+Project lifecycle map: layout (`src/` vs flat), `pyproject.toml`, environments, lockfiles, tests, linters and formatters (Ruff, Black and isort history, pre-commit, checkers in CI), build, publish. Quiz: which tool owns which step, and what each step protects against. The linter/formatter landscape is told as roles and trade-offs, with no dated block.
 
 ### 02-packaging-and-environments (Q, I)
-Quiz lesson, 5–6 questions. One dated `**Status as of**` block; cite packaging.python.org, the PEPs and the Astral docs.
+Quiz lesson, 5–6 questions. No dated block; cite packaging.python.org, the PEPs and the Astral docs.
 - `pyproject.toml`: `[project]` metadata (PEP 621), `[build-system]` (PEP 517/518), `[dependency-groups]` (PEP 735), `[tool.*]`; versus `setup.py`/`requirements.txt`.
 - Environments: a virtual environment is a directory plus `PATH` ordering, `sys.prefix` vs `sys.base_prefix`, `pyvenv.cfg`; common mistake: installing with a `pip` that belongs to another interpreter because the environment was not activated (`python -m pip` names the interpreter explicitly).
 - Resolvers and lockfiles: `uv.lock`, `uv run`, `uv sync`, Python version management, vs pip/poetry/pip-tools; PEP 751 `pylock.toml` status.

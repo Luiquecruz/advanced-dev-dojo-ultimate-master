@@ -68,7 +68,7 @@ Pair: TypeAlias = tuple[T, T]         # just a variable holding a GenericAlias
 
 The old spelling still works and checkers accept it, but `__type_params__` is empty, the `TypeVar` leaks into the module namespace, and the alias is an ordinary variable instead of a lazy `TypeAliasType`.
 
-> **Status as of November 2026:** PEP 695 syntax needs Python 3.12 or newer and PEP 696 defaults need 3.13; `typing.TypeAlias` has been deprecated in favor of the `type` statement since 3.12. Libraries that still support 3.11 keep `TypeVar` (or `typing_extensions.TypeVar(..., default=...)`) until they drop it.
+PEP 695 syntax needs Python 3.12 or newer and PEP 696 defaults need 3.13; `typing.TypeAlias` has been deprecated in favor of the `type` statement since 3.12. Libraries that still support 3.11 keep `TypeVar` (or `typing_extensions.TypeVar(..., default=...)`) until they drop it.
 
 ## When to choose it
 

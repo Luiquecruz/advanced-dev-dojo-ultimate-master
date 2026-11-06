@@ -14,7 +14,7 @@ len(text), len(data)              # (4, 5)
 
 Mixing them fails loudly: `"a" + b"b"` raises `TypeError`. Always pass the encoding explicitly in file and network code (`open(path, encoding="utf-8")`).
 
-> **Status as of November 2026:** Python 3.15 turns on UTF-8 mode by default ([PEP 686](https://peps.python.org/pep-0686/)), so `open(path)` without an `encoding` uses UTF-8 instead of the locale encoding. Earlier versions still use the locale (often cp1252 on Windows), so code that supports them must keep passing `encoding=` explicitly.
+From Python 3.15, UTF-8 mode is on by default ([PEP 686](https://peps.python.org/pep-0686/)), so `open(path)` without an `encoding` uses UTF-8 instead of the locale encoding. Earlier versions still use the locale (often cp1252 on Windows), so code that supports them must keep passing `encoding=` explicitly.
 
 ## How it works
 

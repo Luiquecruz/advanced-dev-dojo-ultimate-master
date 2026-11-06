@@ -43,7 +43,7 @@ Pyodide runs CPython 3.14 compiled to WebAssembly inside a browser worker, with 
 
 Before 3.9, offloading meant `loop.run_in_executor(None, func)` on the running loop; `to_thread` replaces it for the common case. In 3.14 the default start method of `multiprocessing` and `ProcessPoolExecutor` on Unix platforms other than macOS changed from `fork` to `forkserver`, so code that relied on workers inheriting module globals must pass state explicitly.
 
-> **Status as of November 2026:** Python 3.15 (October 2026) is the latest release; this track runs 3.14. Free-threaded builds have been officially supported but optional since 3.14 (PEP 779, "phase II"); 3.15 adds a stable ABI for free-threaded builds (PEP 803, `abi3t`), and no date is set for making them the default. The JIT is still experimental: official Windows and macOS binaries of 3.14 include it, disabled unless `PYTHON_JIT=1`, and 3.15 reports a 7–8% geometric-mean speedup on x86-64 Linux. PEP 744 itself is still a Draft informational PEP. `concurrent.interpreters` and `InterpreterPoolExecutor` are new in 3.14.
+This track runs Python 3.14. Free-threaded builds are officially supported but optional from 3.14 (PEP 779, "phase II"), and the project has not committed to making them the default. The JIT is experimental: the official Windows and macOS binaries of 3.14 include it, disabled unless `PYTHON_JIT=1`. PEP 744 itself is an informational PEP. `concurrent.interpreters` and `InterpreterPoolExecutor` are new in 3.14.
 
 ## When to choose it
 

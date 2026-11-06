@@ -25,7 +25,7 @@ Each `except*` clause runs **at most once** and receives a *group* containing on
 
 `asyncio.TaskGroup` (module 10) is the main producer: when child tasks fail, it raises an `ExceptionGroup` with every failure.
 
-> **Status as of November 2026:** `ExceptionGroup`, `BaseExceptionGroup` and `except*` arrived in Python 3.11 (PEP 654). Since 3.13 `subgroup` and `split` accept any callable predicate, since 3.12 `contextlib.suppress` filters groups, and since 3.14 (PEP 758) `except* A, B:` may omit the parentheses when there is no `as`.
+`ExceptionGroup`, `BaseExceptionGroup` and `except*` arrived in Python 3.11 (PEP 654). Since 3.13 `subgroup` and `split` accept any callable predicate, since 3.12 `contextlib.suppress` filters groups, and since 3.14 (PEP 758) `except* A, B:` may omit the parentheses when there is no `as`.
 
 ## Common mistakes
 

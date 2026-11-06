@@ -51,7 +51,7 @@ Word limits: practice lessons and the capstone 300–1,000, maps 200–500, quiz
 
 Maps have no `## Coming from` section either: they state the prerequisites inside the track.
 
-One blockquote starting `**Status as of <Month YYYY>:**` holds volatile facts (versions, PEP status, free-threading, JIT). Today is November 2026: date the facts at writing time and verify each against docs.python.org or the PEP, never from memory.
+A lesson carries no dated block: no `Status as of`, no release dates, no "current release" claims (`src/verify/noDates.test.ts`). A volatile fact (a PEP's status, free-threading, the JIT, a tool's behavior) is written as the mechanism or as the Python version it applies to ("since Python 3.14"), and each is verified against docs.python.org or the PEP, never from memory.
 
 Code fences: `py`, `text`, `bash`, `toml` and `json`.
 

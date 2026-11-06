@@ -22,8 +22,6 @@ interface Violation {
 const CONTENT = resolve(import.meta.dirname, '../content');
 const MATURITY = ['established', 'emerging', 'hype-watch'];
 const META_KEYS = new Set(['title', 'summary', 'level', 'tags', 'entry', 'run', 'resources']);
-const MONTHS = 'January|February|March|April|May|June|July|August|September|October|November|December';
-const STATUS = new RegExp(`^> \\*\\*Status as of (${MONTHS}) \\d{4}:\\*\\*`);
 const HOW_IT_WORKS = '## How it works';
 const COMMON_MISTAKES = '## Common mistakes';
 const CLOSING = '## When to choose it';
@@ -238,11 +236,6 @@ function checkTheory(lesson: Lesson, kind: Kind): Violation[] {
   if (wrong.length > 0) {
     violations.push({ rule: 'theory-fences', detail: `use ${FENCES.join('/')} fences, found ${[...new Set(wrong)].join(', ')}` });
   }
-  theory
-    .split('\n')
-    .filter((line) => /^\s*>.*\*\*Status as of/.test(line))
-    .filter((line) => !STATUS.test(line.trim()))
-    .forEach((line) => violations.push({ rule: 'theory-status', detail: `status line must read "> **Status as of <Month YYYY>:**": ${line.trim().slice(0, 60)}` }));
   if (/\bTODO\b/.test(theory)) {
     violations.push({ rule: 'no-todo', detail: 'theory.md still holds TODO text' });
   }

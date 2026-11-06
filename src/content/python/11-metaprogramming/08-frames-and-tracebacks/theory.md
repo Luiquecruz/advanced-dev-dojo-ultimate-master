@@ -36,7 +36,7 @@ except ValueError as error:
 
 **Locals leak secrets.** `frame.f_locals` exposes every local variable, passwords and tokens included. `TracebackException(capture_locals=False)` is the default for that reason. Snapshot locals with `dict(frame.f_locals)` only for a debugger, never log them, and keep tracebacks out of error pages shown to users.
 
-> **Status as of November 2026:** this track runs CPython 3.14 in Pyodide, where `sys._getframe`, `inspect.currentframe` and `traceback` behave as in CPython. Since 3.13 (PEP 667) `frame.f_locals` of a function is a write-through proxy and `locals()` returns an independent snapshot. Python 3.13 added `TracebackException.exc_type_str` and deprecated `exc_type`. Python 3.14 added `frame.f_generator`, and `traceback.walk_stack` now captures the stack when it is called instead of when it is first iterated.
+This track runs CPython 3.14 in Pyodide, where `sys._getframe`, `inspect.currentframe` and `traceback` behave as in CPython. Since Python 3.13 (PEP 667) `frame.f_locals` of a function is a write-through proxy and `locals()` returns an independent snapshot. Python 3.13 added `TracebackException.exc_type_str` and deprecated `exc_type`. Python 3.14 added `frame.f_generator`, and `traceback.walk_stack` captures the stack when it is called instead of when it is first iterated.
 
 ## Common mistakes
 

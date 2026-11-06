@@ -26,9 +26,9 @@ Challenges run on **Pyodide**, CPython compiled to WebAssembly, in a Web Worker.
 
 ## Maturity tags and dated facts
 
-Lessons are tagged `established`, `emerging` or `hype-watch`. Facts that change over time (versions, PEP status) live in a block that starts with **Status as of** and a month.
+Lessons are tagged `established`, `emerging` or `hype-watch`. Version-specific facts name the Python version they apply to.
 
-> **Status as of November 2026:** the track targets CPython 3.14, the version Pyodide ships here.
+The track targets CPython 3.14, the version Pyodide ships here.
 
 ## When to choose it
 

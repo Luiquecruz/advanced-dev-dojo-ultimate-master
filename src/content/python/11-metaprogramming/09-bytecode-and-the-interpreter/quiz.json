@@ -63,6 +63,6 @@
       "3.14 compiles free-threaded programs ahead of time"
     ],
     "answer": 1,
-    "explanation": "Specialization rewrites bytecode shared by all threads. The 3.14 release notes announce it as \"now enabled in free-threaded mode\"; the JIT is still unsupported there."
+    "explanation": "Specialization rewrites bytecode shared by all threads. From 3.14 it is enabled in free-threaded mode; the JIT is still unsupported there."
   }
 ]

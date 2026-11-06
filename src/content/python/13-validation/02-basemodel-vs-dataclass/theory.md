@@ -62,7 +62,7 @@ CartLine.model_validate({"sku": "A-1", "quantity": "3"}).quantity   # 3
 
 Pydantic v1 spelled these `User.parse_obj(data)`, `user.dict()`, `user.json()` and an inner `class Config:`. v2 renamed them to `model_validate`, `model_dump`, `model_dump_json` and `model_config = ConfigDict(...)`; the old names still work with deprecation warnings.
 
-> **Status as of November 2026:** The latest release on PyPI is Pydantic 2.14.2 (29 October 2026, Python 3.10 or newer). This sandbox runs Pydantic 2.12.5 with pydantic-core 2.41.5, the versions shipped by Pyodide 314.0.7. The v1 API lives on as the `pydantic.v1` namespace inside v2, and the separate 1.10 line still gets occasional patch releases (1.10.27, October 2026). The documentation moved from docs.pydantic.dev, which now redirects, to pydantic.dev/docs/validation. Sources: pypi.org/project/pydantic and the Pydantic changelog.
+This sandbox runs Pydantic 2.12.5 with pydantic-core 2.41.5, the versions shipped by Pyodide 314.0.7. The v1 API lives on as the `pydantic.v1` namespace inside v2. Sources: pypi.org/project/pydantic and the Pydantic documentation.
 
 ## When to choose it
 

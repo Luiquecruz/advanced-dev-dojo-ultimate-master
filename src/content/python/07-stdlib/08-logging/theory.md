@@ -56,7 +56,7 @@ def configure(stream):
 
 Logs are copied, shipped and read by many people, so they must never contain passwords, tokens, API keys, session cookies or full request bodies. Redact with a `logging.Filter` on the handler, keyed by field name, so no code path can forget it. Logs are also an injection target: user text containing `\n` forges an extra line that looks like a real event. Escape line breaks or write structured output (one JSON object per line). Finally, keep user text out of the format string: with arguments, a `%` in the format string is interpreted, and a template that changes with every user breaks grouping and alerting.
 
-> **Status as of November 2026:** since Python 3.12 a filter may return a new `LogRecord` instead of modifying the one it received, so a handler can alter a record without affecting other handlers, and `logging.getHandlerByName()` returns a configured handler by name. Python 3.14 made `QueueListener` usable as a context manager.
+Since Python 3.12 a filter may return a new `LogRecord` instead of modifying the one it received, so a handler can alter a record without affecting other handlers, and `logging.getHandlerByName()` returns a configured handler by name. Python 3.14 made `QueueListener` usable as a context manager.
 
 ## When to choose it
 

@@ -25,7 +25,7 @@ tracker.send(8)        # 8
 - **`finally`** in a generator runs on exhaustion, on an error, on `close()`, and when an unfinished generator is garbage collected. That last case depends on the runtime, so callers that stop early should call `close()`.
 - Each nesting level of a recursive generator is a live frame. Keep nesting depth well under the recursion limit (1000 by default).
 
-> **Status as of November 2026:** since Python 3.13, a generator that catches `GeneratorExit` and returns a value makes `close()` return that value. The three-argument `throw(type, value, traceback)` form has been deprecated since Python 3.12; pass one exception instance.
+Since Python 3.13, a generator that catches `GeneratorExit` and returns a value makes `close()` return that value. The three-argument `throw(type, value, traceback)` form has been deprecated since Python 3.12; pass one exception instance.
 
 ## Common mistakes
 

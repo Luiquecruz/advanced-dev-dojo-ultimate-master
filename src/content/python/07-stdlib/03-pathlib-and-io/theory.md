@@ -56,7 +56,7 @@ target.is_relative_to(root)            # False: refuse the request
 
 The check and the later `open` are two steps, so also keep the directory writable only by the service, or an attacker who can create links there can swap one in between. Predictable names in a shared `/tmp` are the same risk: another user can create the file or a link first, which is why `tempfile.mktemp()` is deprecated in favor of `mkstemp()`. In this track the file system is Pyodide's in-memory one, so `/tmp` is private, but code written here should be safe on a real host.
 
-> **Status as of November 2026:** Python 3.14 added `Path.copy()`, `copy_into()`, `move()` and `move_into()`, and the `Path.info` attribute that caches file-type queries. Python 3.15 turns on UTF-8 mode by default (PEP 686), so `encoding` defaults to UTF-8 there; this track runs 3.14, where it does not.
+Python 3.14 added `Path.copy()`, `copy_into()`, `move()` and `move_into()`, and the `Path.info` attribute that caches file-type queries. Python 3.15 turns on UTF-8 mode by default (PEP 686), so `encoding` defaults to UTF-8 there; this track runs 3.14, where it does not.
 
 ## When to choose it
 

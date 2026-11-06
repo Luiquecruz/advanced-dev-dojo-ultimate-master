@@ -51,4 +51,4 @@ lazy_import_ms = 9 + import_ms                  # metadata scan plus the one plu
 concrete = 40 - 4 + 10                          # abstract bases never register: 46 classes
 ```
 
-> **Status as of November 2026:** this track runs CPython 3.14. Python 3.15 (released 9 October 2026) added explicit lazy imports (PEP 810: `lazy import`, `-X lazy_imports`), which defer loading a module until one of its names is used. They do not replace discovery: a registry filled by `__init_subclass__` stays empty until the plugin module really loads, so the host still needs plugin names from metadata.
+This track runs CPython 3.14. Python 3.15 adds explicit lazy imports (PEP 810: `lazy import`, `-X lazy_imports`), which defer loading a module until one of its names is used. They do not replace discovery: a registry filled by `__init_subclass__` stays empty until the plugin module really loads, so the host still needs plugin names from metadata.

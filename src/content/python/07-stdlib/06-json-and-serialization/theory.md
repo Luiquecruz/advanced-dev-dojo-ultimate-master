@@ -62,7 +62,7 @@ class Payload:
 
 Whoever writes the bytes chooses that function, so the `pickle` documentation says to unpickle only data you trust. Never `eval` JSON-like text either. The `json` docs also warn that hostile input can use a lot of CPU and memory: cap the size before calling `loads`. Integers with more than 4,300 digits already raise `ValueError` (the interpreter-wide integer string conversion limit).
 
-> **Status as of November 2026:** Python 3.14 adds exception notes that point to the failing part of an object when serialization fails, and makes `python -m json` the preferred command line (`python -m json.tool` is soft deprecated). `pickle` uses protocol 5 by default since 3.14. Python 3.15 adds an `array_hook` parameter to `json.load`/`loads`; this track runs 3.14.
+Python 3.14 adds exception notes that point to the failing part of an object when serialization fails, and makes `python -m json` the preferred command line (`python -m json.tool` is soft deprecated). `pickle` uses protocol 5 by default since 3.14. Python 3.15 adds an `array_hook` parameter to `json.load`/`loads`; this track runs 3.14.
 
 ## When to choose it
 

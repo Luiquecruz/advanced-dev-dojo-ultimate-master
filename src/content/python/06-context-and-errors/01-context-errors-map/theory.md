@@ -29,7 +29,7 @@ An exception is an instance of a class under `BaseException`, and `raise` accept
 8. Exception groups and `except*`.
 9. The ADR: resources and errors of a payment-capture workflow.
 
-> **Status as of November 2026:** the dojo runs CPython 3.14 in Pyodide. Since 3.14 (PEP 765) the compiler emits a `SyntaxWarning` for `return`, `break` or `continue` that leaves a `finally` block, because they silently discard the exception in flight.
+The dojo runs CPython 3.14 in Pyodide. Since 3.14 (PEP 765) the compiler emits a `SyntaxWarning` for `return`, `break` or `continue` that leaves a `finally` block, because they silently discard the exception in flight.
 
 ## When to choose it
 

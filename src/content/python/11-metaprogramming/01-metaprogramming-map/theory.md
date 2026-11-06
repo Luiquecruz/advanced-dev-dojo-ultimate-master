@@ -31,7 +31,7 @@ class Csv(Exporter, metaclass=Meta, name="csv"):
 
 Climb only as far as the problem needs. Each rung up is harder to read, harder for type checkers to follow, and harder to combine with other libraries. The usual mistake is reaching for the strongest tool first, such as a metaclass, `__getattribute__` or a patched `sys.modules`, when a lower rung already does the job.
 
-> **Status as of November 2026:** this track runs CPython 3.14 in Pyodide. Since 3.14 annotations are evaluated lazily (PEP 649 and PEP 749), so a metaclass no longer finds `__annotations__` in the class namespace; `annotationlib.get_annotate_from_class_namespace()` (new in 3.14) returns the function that computes them.
+This track runs CPython 3.14 in Pyodide. In 3.14 annotations are evaluated lazily (PEP 649 and PEP 749), so a metaclass no longer finds `__annotations__` in the class namespace; `annotationlib.get_annotate_from_class_namespace()` (new in 3.14) returns the function that computes them.
 
 ## The path
 

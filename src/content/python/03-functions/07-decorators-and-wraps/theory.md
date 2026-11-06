@@ -47,7 +47,7 @@ Pitfalls:
 - Doing work in the decorator body instead of in the wrapper runs it once at import, not per call.
 - Validating `args[0]` assumes the value was passed by position; decide and document what happens when it is not.
 
-> **Status as of November 2026:** since Python 3.9 (PEP 614), any expression can follow `@`, for example `@handlers["get"]` or `@config.retry_policy`.
+Since Python 3.9 (PEP 614), any expression can follow `@`, for example `@handlers["get"]` or `@config.retry_policy`.
 
 ## Common mistakes
 

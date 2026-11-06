@@ -39,7 +39,7 @@ Line = make_dataclass("Line", [("sku", str), ("quantity", int)], slots=True)
 
 **Type checkers** read source code, not runtime data. They special-case `namedtuple(...)` and `NamedTuple` calls with literal field lists, but a class returned by your own factory is just `type` to them, so attribute access on its instances goes unchecked. When the fields are known while you write the code, a class statement is better.
 
-> **Status as of November 2026:** Python 3.14 added the `decorator` parameter to `dataclasses.make_dataclass`, so a generated class can go through a custom `@dataclass`-style decorator. This track runs 3.14.
+Python 3.14 added the `decorator` parameter to `dataclasses.make_dataclass`, so a generated class can go through a custom `@dataclass`-style decorator. This track runs 3.14.
 
 ## Common mistakes
 

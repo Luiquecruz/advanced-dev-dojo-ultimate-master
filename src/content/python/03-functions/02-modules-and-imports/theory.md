@@ -50,7 +50,7 @@ Whether it fails depends on which module is imported first, so a cycle can pass 
 1. **Move the shared piece out**: put the decorator, constant or base class both modules need into the lower-level module (or a third one), so the dependency points one way.
 2. **Import inside the function** that needs it, deferring the lookup to call time. Useful for rare paths, but it hides the dependency.
 
-> **Status as of November 2026:** Python 3.15 (October 2026) adds an explicit `lazy import` statement (PEP 810, Final). This track runs Python 3.14 in Pyodide, where every import runs the module body eagerly on first import.
+Python 3.15 adds an explicit `lazy import` statement (PEP 810). This track runs Python 3.14 in Pyodide, where every import runs the module body eagerly on first import.
 
 ## Common mistakes
 

@@ -52,7 +52,7 @@ double("a")   # "aa": no error, the annotation is never checked
 
 Tests never check the annotations themselves; a few tools read them on purpose (lesson 09's `singledispatch`). Module 09 covers type checkers.
 
-> **Status as of November 2026:** Python 3.14 evaluates annotations lazily (PEP 649), and `annotationlib` inspects them. They are still not checked at call time.
+Python 3.14 evaluates annotations lazily (PEP 649), and `annotationlib` inspects them. They are still not checked at call time.
 
 ## The path
 

@@ -31,7 +31,7 @@ Enforced by `pythonConventions.test.ts` unless marked *(review)*:
 - [ ] `meta.json` (renamed from the draft last) has only `title`, `summary`, `level`, `tags`, `entry`, `run`, `resources`. Tags: maturity first (`established`, `emerging`, `hype-watch`), `core`, and exactly one of `practice` (has a challenge) or `theory` (quiz lesson).
 - [ ] Challenges set `entry`: `main.py` for practice, `adr.py` for ADR checkpoints. `run`, when set, names a demo present in `starter/` and `solution/`.
 - [ ] Resources: at least one, labelled, well-formed `https` URLs, no duplicates; ADRs cite Nygard and MADR. That they return 200 is checked by hand *(review)*: the test never calls the network.
-- [ ] Theory: practice lessons and the capstone 300–1000 words, maps 200–500, other lessons 250–1000; `py`/`text`/`bash`/`toml`/`json` fences; status lines shaped `> **Status as of <Month YYYY>:**`; no `## Coming from` section in any lesson. Practice lessons and the capstone have `## How it works`, then `## Common mistakes` (40–250 words, the mistake in bold, the wrong code and the fix in a `py` fence), and end with `## When to choose it`. Maps and ADRs are exempt from both headings.
+- [ ] Theory: practice lessons and the capstone 300–1000 words, maps 200–500, other lessons 250–1000; `py`/`text`/`bash`/`toml`/`json` fences; no `Status as of` block or other dated text (`noDates.test.ts`); no `## Coming from` section in any lesson. Practice lessons and the capstone have `## How it works`, then `## Common mistakes` (40–250 words, the mistake in bold, the wrong code and the fix in a `py` fence), and end with `## When to choose it`. Maps and ADRs are exempt from both headings.
 - [ ] No bridges: no lesson file (theory, quiz, concepts, `meta.json`, challenge, hints, approach, tests, starter, solution), `track.json` or `module.json` names another language or its tooling (C, CPython's own language, excepted), and no resource points at another language's documentation (the `BLOCKED_HOSTS` and `BLOCKED_PATHS` constants: MDN, nodejs.org, zod.dev, typescriptlang.org, vitest.dev, axios-http.com, expressjs.com, and the `github.com/tc39` proposals) ([02-content-standards.md](02-content-standards.md) "No bridges").
 - [ ] Practice lessons and the capstone: exactly one `# beginner mistake: <text>` line, right above the `@test` that catches the mistake named in `## Common mistakes`.
 - [ ] Quiz: maps have exactly 4 questions, other quizzes 4–6; answer indexes are not all the same; no repeated option.
@@ -40,7 +40,7 @@ Enforced by `pythonConventions.test.ts` unless marked *(review)*:
 - [ ] Each module has `module.json` and its first written lesson is `01-<module>-map`.
 - [ ] `python.test.ts` passes for the lesson; `curriculum.test.ts` passes after `npm run python:curriculum`.
 - [ ] A rewritten lesson leaves `src/verify/pythonPendingRewrite.ts` in the same change; an entry whose rules the lesson no longer breaks fails the suite.
-- [ ] Facts in the status line verified against docs.python.org or the PEP on the day of writing *(review)*.
+- [ ] Version-specific facts name the Python version and are verified against docs.python.org or the PEP *(review)*.
 - [ ] Anti-LeetCode, tests assert behavior and not printed text or `id()`/`is` on folded constants *(review)*.
 - [ ] Opened once per module in the browser: starter fails, solution passes, Run prints *(review)*.
 
