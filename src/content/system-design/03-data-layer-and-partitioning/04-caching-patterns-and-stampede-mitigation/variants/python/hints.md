@@ -1,0 +1,5 @@
+Keep a second dict next to the entries: `self._in_flight` maps a key to the task of its running load. On a miss, await the task already in the dict when there is one; otherwise start the load with `asyncio.ensure_future(self._load(key))` and put the task in the dict before the first `await`. No other coroutine runs between two `await`s, so the 99 gets that arrive before the load finishes all find the same task.
+---
+Handle the end of the load in one place: `task.add_done_callback(callback)` calls `callback(task)` once the task is done. On success (`not task.cancelled() and task.exception() is None`), store `task.result()` with the expiry `self._now() + self._ttl_ms + math.floor(self._random() * self._jitter_ms)`; on failure, store nothing. Both remove the key from `self._in_flight`, and every caller awaiting the task gets its value or raises its exception.
+---
+For `invalidate`, pop the key from both dicts. To make sure a forgotten load neither stores its result nor removes a newer in-flight load, check in the callback that `self._in_flight.get(key) is task` before touching either dict.

@@ -1,0 +1,14 @@
+{
+  "title": "Storage Engines: B-Trees vs LSM Trees",
+  "summary": "How B-trees update sorted pages in place and how LSM trees turn writes into WAL appends, MemTable flushes and compacted SSTables, with Bloom filters, tombstones and the three amplifications.",
+  "level": "intermediate",
+  "tags": ["practice", "core", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "PostgreSQL: B-Tree indexes", "url": "https://www.postgresql.org/docs/current/btree.html" },
+    { "label": "MySQL: InnoDB physical structure", "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-physical-structure.html" },
+    { "label": "RocksDB wiki: overview", "url": "https://github.com/meta/rocksdb/wiki/RocksDB-Overview" },
+    { "label": "RocksDB wiki: compaction", "url": "https://github.com/meta/rocksdb/wiki/Compaction" },
+    { "label": "Apache Cassandra: storage engine", "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/storage-engine.html" }
+  ]
+}

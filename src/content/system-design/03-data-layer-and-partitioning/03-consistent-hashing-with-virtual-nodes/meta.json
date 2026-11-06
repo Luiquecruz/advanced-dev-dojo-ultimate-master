@@ -1,0 +1,12 @@
+{
+  "title": "Consistent Hashing with Virtual Nodes",
+  "summary": "Why `hash(key) % N` remaps almost every key, how a hash ring with clockwise lookup moves only about 1/N of keys, and how virtual nodes balance load, weight capacity and place replicas on distinct machines.",
+  "level": "advanced",
+  "tags": ["practice", "core"],
+  "preview": false,
+  "resources": [
+    { "label": "Apache Cassandra: Dynamo (consistent hashing and virtual nodes)", "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html" },
+    { "label": "Redis Cluster specification: hash slots", "url": "https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/" },
+    { "label": "Lamping and Veach: A Fast, Minimal Memory, Consistent Hash Algorithm", "url": "https://arxiv.org/abs/1406.2294" }
+  ]
+}

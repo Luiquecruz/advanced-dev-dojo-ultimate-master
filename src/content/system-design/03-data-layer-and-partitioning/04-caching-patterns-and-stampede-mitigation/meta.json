@@ -1,0 +1,14 @@
+{
+  "title": "Caching Patterns & Stampede Mitigation",
+  "summary": "Cache-aside, read-through, write-through, write-behind and write-around, invalidation races, LRU vs LFU, and how request coalescing, TTL jitter, early refresh and stale-while-revalidate stop a cache stampede.",
+  "level": "intermediate",
+  "tags": ["practice", "core", "performance"],
+  "preview": false,
+  "resources": [
+    { "label": "Amazon ElastiCache: caching strategies", "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html" },
+    { "label": "Azure Architecture Center: cache-aside pattern", "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside" },
+    { "label": "Redis: key eviction", "url": "https://redis.io/docs/latest/develop/reference/eviction/" },
+    { "label": "Scaling Memcache at Facebook (USENIX NSDI)", "url": "https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala" },
+    { "label": "RFC 5861: HTTP Cache-Control extensions for stale content", "url": "https://www.rfc-editor.org/rfc/rfc5861.html" }
+  ]
+}

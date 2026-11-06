@@ -1,0 +1,4 @@
+{
+  "title": "Data Layer, Storage Engines & Partitioning",
+  "description": "Storage engine internals, replication and sharding, consistent hashing with virtual nodes, and caching patterns that survive a cache stampede."
+}

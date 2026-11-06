@@ -1,0 +1,10 @@
+[
+  { "term": "B-tree", "description": "A shallow tree of fixed-size sorted pages updated in place; fast point reads and range scans, random writes for random keys." },
+  { "term": "Write-ahead log (WAL)", "description": "An append-only log that makes each change durable before it is acknowledged, replayed after a crash to rebuild what only memory held." },
+  { "term": "MemTable", "description": "The sorted in-memory structure of an LSM tree that takes every new write until it is flushed." },
+  { "term": "SSTable", "description": "An immutable file of key-value entries sorted by key, produced by a MemTable flush or by compaction." },
+  { "term": "Bloom filter", "description": "A compact bit array that says a key is definitely absent or maybe present, letting reads skip SSTables without disk access." },
+  { "term": "Tombstone", "description": "A delete marker written as a new entry; it hides older values until compaction removes both." },
+  { "term": "Compaction", "description": "Merging SSTables into fewer files that keep only the newest version of each key, trading disk work for faster reads and less space." },
+  { "term": "Read, write and space amplification", "description": "Disk reads per lookup, bytes written per byte of data and disk used per byte of live data: the three costs every engine trades." }
+]

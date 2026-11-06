@@ -1,0 +1,10 @@
+[
+  { "term": "Primary and replica", "description": "The primary accepts every write and ships its change log; replicas apply the log in order and serve reads." },
+  { "term": "Synchronous vs asynchronous replication", "description": "Synchronous waits until a replica has stored the change before confirming a commit (failover to it loses nothing, commits are slower); asynchronous confirms at once (fast, may lose recent writes on failover)." },
+  { "term": "Replication lag", "description": "How far a replica is behind the primary; the cause of stale reads right after a write." },
+  { "term": "Read-your-writes", "description": "The guarantee that users always see their own changes, provided by reading from the primary or from a replica that has caught up." },
+  { "term": "Split-brain", "description": "Two nodes both acting as primary and accepting writes, usually after a failover based on a timeout without fencing." },
+  { "term": "Shard key", "description": "The field that decides which shard owns a row; it should have many values, spread load and match the main query." },
+  { "term": "Range vs hash sharding", "description": "Range keeps key ranges together for scans but creates hotspots on sequential keys; hash spreads writes but scatters range queries." },
+  { "term": "Scatter-gather query", "description": "A query without the shard key, sent to every shard and merged, so it is as slow as the slowest shard." }
+]

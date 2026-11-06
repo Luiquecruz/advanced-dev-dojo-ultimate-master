@@ -1,0 +1,14 @@
+{
+  "title": "Database Replication & Sharding",
+  "summary": "Primary-replica replication (synchronous or asynchronous), replication lag and read-your-writes, failover and split-brain, then sharding: shard keys, range vs hash, hotspots, cross-shard queries and why to shard last.",
+  "level": "advanced",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "PostgreSQL: log-shipping standby servers", "url": "https://www.postgresql.org/docs/current/warm-standby.html" },
+    { "label": "PostgreSQL: comparison of replication solutions", "url": "https://www.postgresql.org/docs/current/different-replication-solutions.html" },
+    { "label": "MySQL: replication", "url": "https://dev.mysql.com/doc/refman/8.4/en/replication.html" },
+    { "label": "MongoDB: sharding", "url": "https://www.mongodb.com/docs/manual/sharding/" },
+    { "label": "MongoDB: choose a shard key", "url": "https://www.mongodb.com/docs/manual/core/sharding-choose-a-shard-key/" },
+    { "label": "Amazon RDS: working with read replicas", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html" }
+  ]
+}

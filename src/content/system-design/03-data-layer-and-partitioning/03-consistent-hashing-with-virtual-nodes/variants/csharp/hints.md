@@ -1,0 +1,5 @@
+Replace the list of names with a `List` of virtual nodes, a small `record VirtualNode(uint Position, string Node)`, kept sorted by `Position`, plus a `HashSet<string> _members` of physical names. `AddNode` adds `virtualNodes` entries at `Hash32($"{name}#{index}")` and sorts the list by position; `RemoveNode` removes every entry whose `Node` is that name with `RemoveAll`.
+---
+Write one helper that returns the index of the first virtual node whose `Position >= Hash32(key)`: a binary search for the lower bound (`low` starts at `0`, `high` at `_ring.Count`, and `high = middle` when the middle position is large enough). When it returns `_ring.Count` (no position is that large), use index `0`: that is the wrap-around. `NodeFor` is then `_ring[index].Node`.
+---
+`NodesFor` starts at that same index and reads `_ring[(start + step) % _ring.Count]` for each step, adding its node only when it is not already in the result. Stop when you have `Math.Min(count, _members.Count)` nodes or after `_ring.Count` steps.

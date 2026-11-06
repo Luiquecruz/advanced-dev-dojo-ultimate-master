@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A startup's single PostgreSQL primary runs at 70% CPU because of a few slow queries with no index. Reads are 90% of the traffic. An engineer proposes sharding. What should come first?",
+    "options": [
+      "Shard by user id now, before the data grows",
+      "Add the missing indexes, cache hot reads and send reads to replicas; shard only when one primary can no longer take the writes",
+      "Switch to multi-leader replication across regions",
+      "Move to leaderless replication with W + R > N"
+    ],
+    "answer": 1,
+    "explanation": "Sharding complicates every query, join and migration and is hard to undo. Missing indexes, caching and read replicas remove read load far more cheaply, and vertical scaling buys time for writes."
+  },
+  {
+    "question": "A user renames a project and the next page, served from an asynchronous replica, still shows the old name. Which fix provides read-your-writes?",
+    "options": [
+      "Add more asynchronous replicas",
+      "Make the cache TTL longer",
+      "For a short window after a write, serve that user's reads from the primary or from a replica that has applied their last write",
+      "Switch the shard key to project name"
+    ],
+    "answer": 2,
+    "explanation": "The replica has not applied the write yet (replication lag). Routing the writer's own reads to the primary, or to a replica whose applied log position is at least their write's position, guarantees they see it."
+  },
+  {
+    "question": "A payments database must never lose a confirmed transaction when its primary fails. Which replication setup meets that, and at what cost?",
+    "options": [
+      "Asynchronous replication: commits are faster, so less is lost",
+      "Read replicas in three regions with no other change",
+      "Multi-leader replication with last-write-wins conflict resolution",
+      "At least one synchronous replica: each commit waits until that replica has stored the change, adding a network round trip"
+    ],
+    "answer": 3,
+    "explanation": "With asynchronous replication, writes confirmed just before a crash may exist only on the dead primary. A synchronous replica holds every confirmed commit, so failover to it loses nothing, paid for with commit latency and stalls when that replica is slow."
+  },
+  {
+    "question": "After a network glitch, automatic failover promotes a replica, but the old primary was only unreachable and keeps accepting writes. What is this failure called, and what prevents it?",
+    "options": [
+      "Split-brain; fencing the old primary and agreeing on the primary by majority vote prevent it",
+      "Replication lag; adding replicas prevents it",
+      "A hotspot; hashing the shard key prevents it",
+      "Write amplification; an LSM storage engine prevents it"
+    ],
+    "answer": 0,
+    "explanation": "A timeout cannot distinguish a dead primary from a slow network, so two primaries may accept conflicting writes. Fencing cuts the old one off before promotion, and a majority vote ensures only one side can be primary."
+  },
+  {
+    "question": "An events table is range-sharded on its creation timestamp. One shard runs at 100% while the others are idle. Why?",
+    "options": [
+      "Range sharding never balances data",
+      "Every new event has the newest timestamp, so all writes fall into the last range; a hashed key or a compound key spreads them",
+      "The shards use different storage engines",
+      "Replication lag slows down the older shards"
+    ],
+    "answer": 1,
+    "explanation": "A monotonic shard key sends every insert to the shard owning the latest range. Hashing the key, or prefixing it with a well-distributed field such as a device id, spreads writes across shards."
+  },
+  {
+    "question": "An orders service is sharded by `order_id`. The most common query is \"all orders of customer 42\". What happens, and what would have been a better shard key?",
+    "options": [
+      "The query hits one shard because order ids are unique",
+      "The database joins the shards automatically at no cost",
+      "The query becomes scatter-gather across every shard; sharding by `customer_id` would keep a customer's orders on one shard",
+      "Sharding by country code would balance the load best"
+    ],
+    "answer": 2,
+    "explanation": "A query without the shard key must be sent to every shard and merged, so it is as slow as the slowest shard. A shard key that matches the main access pattern co-locates the rows that query reads together."
+  }
+]

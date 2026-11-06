@@ -402,7 +402,7 @@ Spec and standards: [system-design-track.md](system-design-track.md). Multi-lang
 01-network-protocols-grpc-websockets-sse **(challenge)** ✓ · 02-advanced-load-balancing-and-p2c **(challenge)** ✓ · 03-rate-limiting-algorithms **(challenge)** ✓
 
 ### 03-data-layer-and-partitioning — Data Layer, Storage Engines & Partitioning
-01-storage-engines-btree-vs-lsmtree **(challenge)** · 02-database-replication-and-sharding · 03-consistent-hashing-with-virtual-nodes **(challenge)** · 04-caching-patterns-and-stampede-mitigation **(challenge)**
+01-storage-engines-btree-vs-lsmtree **(challenge)** ✓ · 02-database-replication-and-sharding ✓ · 03-consistent-hashing-with-virtual-nodes **(challenge)** ✓ · 04-caching-patterns-and-stampede-mitigation **(challenge)** ✓
 
 ### 04-distributed-systems-and-resilience — Distributed Systems & Resilience
 01-cap-and-pacelc-theorems · 02-consensus-and-leader-election **(challenge)** · 03-message-queues-and-event-streams **(challenge)** · 04-saga-pattern-and-transactional-outbox **(challenge)** · 05-resilience-circuit-breaker-and-bulkhead **(challenge)** · 06-serverless-event-driven-architecture

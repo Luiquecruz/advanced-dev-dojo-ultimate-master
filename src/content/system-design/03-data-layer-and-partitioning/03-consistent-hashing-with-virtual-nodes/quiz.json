@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A cache tier of 9 servers uses `hash(key) % 9`. Traffic grows and a 10th server is added. What happens right after the change?",
+    "options": [
+      "About 10% of keys move to the new server, as intended",
+      "Nothing moves until the cache entries expire",
+      "Only keys whose hash is a multiple of 10 move",
+      "About 90% of keys map to a different server, so most lookups miss and the database takes the load"
+    ],
+    "answer": 3,
+    "explanation": "With modulo placement a key keeps its server only when hash % 9 equals hash % 10, about one key in ten. A hash ring would move only the roughly 10% of keys the new server should own."
+  },
+  {
+    "question": "On a hash ring, node E joins between nodes D and A (clockwise order D, E, A). Which keys change owner?",
+    "options": [
+      "Only the keys between D and E, which move from A to E",
+      "Every key, because the ring is rebuilt",
+      "Half of the keys of every node",
+      "The keys of D, which move to E"
+    ],
+    "answer": 0,
+    "explanation": "A key belongs to the first node clockwise. Only keys whose first node used to be A and now meet E first, those between D and E, change owner; all other lookups are unchanged."
+  },
+  {
+    "question": "A 4-node ring with one position per node shows one node owning 45% of the keys and another 6%. What is the standard fix?",
+    "options": [
+      "Switch to `hash(key) % 4`",
+      "Give each physical node many virtual nodes, so many small arcs average out to a fair share",
+      "Add a cache in front of the busiest node",
+      "Sort the keys before hashing them"
+    ],
+    "answer": 1,
+    "explanation": "With few positions, arc sizes are uneven by chance. Placing each node at many positions (labels such as `node#0` … `node#99`) makes each node's total arc close to 1/N of the ring."
+  },
+  {
+    "question": "A cluster mixes machines with 64 GB and 128 GB of memory on one ring. How should keys be split by capacity?",
+    "options": [
+      "Use a different hash function for the larger machines",
+      "Put the larger machines first in the node list",
+      "Give the 128 GB machines twice as many virtual nodes, so they own about twice as many keys",
+      "It cannot be done on a hash ring"
+    ],
+    "answer": 2,
+    "explanation": "Each virtual node owns roughly an equal arc, so a node's share of keys is proportional to its number of virtual nodes. Weighting by virtual node count matches load to capacity."
+  },
+  {
+    "question": "A store keeps 3 replicas by taking the next 3 ring positions after a key. With virtual nodes, what can go wrong, and what is the fix?",
+    "options": [
+      "Nothing: consecutive positions are always different machines",
+      "Two of the positions can belong to the same physical node; skip positions whose physical node was already chosen",
+      "Replicas must be chosen at random instead",
+      "The replicas must use `hash(key) % 3`"
+    ],
+    "answer": 1,
+    "explanation": "Consecutive virtual nodes may share an owner, and two copies on one machine fail together. Walking clockwise and collecting distinct physical nodes (and distinct racks or zones) gives independent replicas."
+  },
+  {
+    "question": "A node with 100 virtual nodes fails on a ring of 10 nodes. How is its load absorbed?",
+    "options": [
+      "By the single node right after it on the ring",
+      "By a standby node that must be added first",
+      "Its keys are lost until the node returns",
+      "Spread across many remaining nodes, because each of its arcs is taken by whichever node follows that arc"
+    ],
+    "answer": 3,
+    "explanation": "Its positions are scattered around the ring, and each arc falls to the next position clockwise, which belongs to many different nodes. With one position per node, a single neighbor would take everything."
+  }
+]
