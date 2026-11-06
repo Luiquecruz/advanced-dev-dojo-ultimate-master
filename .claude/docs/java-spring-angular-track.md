@@ -1,6 +1,6 @@
 # Java, Spring Boot and Angular track (plan)
 
-Plan of the `java-spring-angular` track. The owner chose option A (no Java engine); module 01 is written, the other modules are planned. The track stays hidden (`TRACK_FLAGS`) until its last part ships, and its accent in `tokens.css` is provisional: the palette has no free hue 30 degrees from every shown track, so the owners re-space it before the track is shown. The content standards are the ones of [system-design-track.md](system-design-track.md) (theory template, quizzes, official resources, no dates, no language bridges, `You need:` lines, same test names in every language) plus the rules in "Content standards" here.
+Plan of the `java-spring-angular` track. The owner chose option A (no Java engine); all nine modules are written, with 68 theory-and-quiz lessons and local projects. The handoff records the review and merge gates. The track stays hidden (`TRACK_FLAGS`) until its last part ships, and its accent in `tokens.css` is provisional: the palette has no free hue 30 degrees from every shown track, so the owners re-space it before the track is shown. The content standards are the ones of [system-design-track.md](system-design-track.md) (theory template, quizzes, official resources, no dates, no language bridges, `You need:` lines, same test names in every language) plus the rules in "Content standards" here.
 
 The state of the work and the procedure to continue it are in [java-spring-angular-handoff.md](java-spring-angular-handoff.md).
 
@@ -12,7 +12,7 @@ The learning path follows the shape of the Spring Boot plus Angular material of 
 | --- | --- |
 | Java | 25 |
 | Back end | Spring Boot 4 on Spring Framework 7, Maven, JPA with Hibernate, Jakarta Validation (custom validators), Java records as DTOs, controller, service and repository layers, a has-many relationship, soft delete, transactional services with Open Session in View off, RFC 7807 Problem Details, springdoc OpenAPI |
-| Back-end tests | JUnit 5, Mockito, Testcontainers for integration tests, JaCoCo |
+| Back-end tests | JUnit Jupiter, Mockito, Testcontainers for integration tests, JaCoCo |
 | Front end | Angular 22 with Angular Material, standalone components, lazy `loadComponent` routes, signals and `httpResource`, zoneless change detection, built-in control flow, Signal Forms, smart and presentational components |
 | Front-end tests | Karma and Jasmine |
 | Not covered by that project | security, caching, throttling, profiling, a Docker build |
@@ -49,7 +49,7 @@ Every module uses theory and quizzes (`q`) with practice projects built locally;
 | --- | --- |
 | **Java from zero** (module `00` and optional only under option B; module `01` and required under option A) | values and variables, decisions and loops, methods, text and arrays, classes and objects, errors and exceptions, tests with JUnit; the last lesson is the skip test |
 | **The Java language** | records, enums and sealed types, interfaces and generics, collections, streams and `Optional`, exceptions in depth, concurrency basics, modules and packages |
-| **Build and tests** | Maven and the project layout, JUnit 5, Mockito, test slices, Testcontainers |
+| **Build and tests** | Maven and the project layout, JUnit Jupiter, Mockito, test slices, Testcontainers |
 | **Spring Boot core** | inversion of control and dependency injection, auto-configuration, configuration and profiles, REST controllers, Jakarta Validation, error handling with Problem Details, OpenAPI with springdoc |
 | **Persistence** | JPA and Hibernate, repositories, relationships, transactions, the N+1 problem, pagination, database migrations, soft delete, Open Session in View |
 | **Angular with a Spring back end** (q) | `HttpClient` and `httpResource`, mapping Problem Details to Signal Forms errors, pagination and sorting, route guards, CORS, a typed client generated from OpenAPI, smart and presentational components |
@@ -62,6 +62,8 @@ The owner chose theory and quizzes for every module, including Angular with a Sp
 Folder numbers: under option A the modules are `01` to `09` in the order above (Java from zero is `01`, the Angular-with-Spring module is `06`), because a required module cannot be numbered `00`; under option B module `00` is the optional Java from zero and the others are `01` to `08`.
 
 ## Content standards
+
+`src/verify/java-spring-angular.test.ts` enforces the theory-and-quiz-only decision: every lesson must have no challenge and no challenge variants.
 
 - Same standards as [system-design-track.md](system-design-track.md): no dates, no changelog, no bridges from other languages, official resources only, `You need:` lines naming earlier lessons by exact title, quizzes with scenario questions.
 - A fact about Spring Boot 4, Spring Framework 7, Java 25 or Angular 22 is checked against the project's own documentation and states the version it applies to.

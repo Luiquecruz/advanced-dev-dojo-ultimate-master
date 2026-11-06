@@ -8,41 +8,46 @@ Everything another engineer or agent needs to continue the track without the ori
 | --- | --- |
 | Engine decision | Option A: no Java engine. Every module is theory + quiz with local practice projects, including module 06. No graded challenges or Java engine. |
 | Track | `src/content/java-spring-angular`, `"engine": "angular"`, hidden (`TRACK_FLAGS['java-spring-angular'] = false`). |
-| Written | Modules `01-java-from-zero` and `02-the-java-language` (8 lessons each, the last of each is a local project). |
-| Remaining | Modules 03 to 09 below. |
+| Written on this branch | Modules 01–09, 68 lessons; see the review-stack table below. |
+| Remaining | All modules are written; remaining review and merge gates are tracked below. |
 | Accent | Provisional in `src/shared/design/tokens.css`; hue collides with a shown track. Must be re-spaced before the flag is turned on (the owners decide the palette). Angular's accent (351 degrees) also collides with C# (358): fix before showing either. |
 | Standards suite | `src/verify/java-spring-angular.test.ts` on `src/verify/trackStandards.ts` (shared with System Design). |
 | Release gate | Showing this track also needs the Angular flag turned on (lessons link to the Angular track) and a free accent for both. |
 
 ## Progress log (update after every action)
 
-Keep this section current: after every merge, PR, review or decision, add a line and commit it with the work. Another provider must be able to resume from this file alone.
+**Owner decision: every module is theory and quizzes plus local practice. No graded challenges anywhere, including module 06. Do not build a Java engine.**
 
-**Owner decision (token budget): the track keeps only theory and quizzes. No graded challenges anywhere, including module 06 (it becomes theory + quiz like the rest). Do not build a Java engine.**
+This branch contains modules 01–09, 68 lessons. The table tracks the entire review stack; later modules can exist in separate branches before they are included here.
 
-State of the work:
-- Module 08 submitted for review. Module 09 in `feat/java-module-09`: corrected prerequisites, contract consistency, schema/seed setup, resource-server configuration, actual token-validation testing, safe field mapping, proxy paths and the two-row paging example. All nine modules are now written as theory and quizzes (68 lessons); review and bottom-up merges remain. Validation includes 1,827 content tests (one skipped), 200 unit tests, build/lint/typecheck/docs sync, Angular snippet compilation, a compiled Boot 4.1.2 auth/validation smoke app and all 28 resource URLs. The auth smoke covers roles, field errors, generic login failures, four invalid-token cases and rejected short secrets.
-- Module 07 is PR #57, stacked on #56. Module 08 in `feat/java-module-08`: corrected Compose loopback bindings and API port publishing, environment-variable normalization, JVM heap caveats, rollout guarantees and security-aware operational checks. Validation includes the Maven project, burst/refill checks for the rate limiter, Compose configuration and all 38 resource URLs. A layered JRE 25 image runs as UID 10001, reports UP and shuts down gracefully. The packaged app passes health/readiness, hidden-env, request-id and conditional-ETag checks. Validation: 1,809 content checks (one skipped), 200 unit tests, build, lint, typecheck and docs sync pass.
-- Module 06: PR #56 open, stacked on #55. Module 07 in `feat/java-module-07`: completed interceptor/guard metadata, glossary and quiz, plus the secure-course project. Added actual signed-token decoder validation to local project checks, beyond mocked authorization tests. Validation: 13 Spring tests pass, including five signed-token checks; interceptor/guard TypeScript compiles; 1,785 content tests (one skipped), 200 unit tests, build, lint, typecheck and docs sync pass; all 31 resource URLs return 200.
-- Module 05: PR #55 open, stacked on #54. Module 06 in `feat/java-module-06`: theory and quizzes only; challenge artifacts excluded. Corrected prerequisite titles, hardened Problem Details shape validation and field lookup, guarded resource error reads, and aligned the local project with module 05's flat page response and explicit POST setup. Validation: 1,761 content tests (one skipped), 200 unit tests, build, lint, typecheck, docs sync; six TypeScript snippet files compile against Angular 22.2.3, four templates parse, malformed Problem Details bodies are rejected, and all 24 resource links return 200 on their original hosts.
-- Module 04: PR #54 open, stacked on #53. Module 05 review in `feat/java-module-05`: validated eight PostgreSQL persistence/HTTP tests on Boot 4.1.2, compiled the snippet project, and passed 1,740 content checks (one skipped), unit tests, build, lint, typecheck and docs sync. Corrected transaction-context scope, declared-query transactions, bag-fetch wording, paging/count caveats, the id sort whitelist, schema-validation wording and container/HTTP test setup.
-- Module 03: PR #53 open (`feat/java-module-03`, base `main`), seven lessons and validation reported in its body; awaiting CodeRabbit. Module 04 is PR #54, stacked on module 03. Fixed the cross-field validator record, explicit per-test context reset, map list ordering and unresolved-secret-placeholder guidance. Verified the API version 2+ mapping with supported version 3, and OpenAPI 3.0.1 selection with springdoc. Validation: 1,716 content tests, one skipped; 11 course-API tests, seven snippet tests and one OpenAPI compatibility test. The new cross-field-validator example compiles with release 25. All 32 resource URLs return 200 on their original hosts.
-- Module 03: PR #53 open on `main` after PR #51 merged; main merged into its branch. Seven lessons copied from the preserved WIP branch; curriculum and counts updated. Reviewed Maven build defaults, Spring test descriptions, quiz keys and resources. Fixed MockMvc opt-in wording, test database replacement, Docker tag repeatability, a matcher question with two correct answers and the missing JDBC-driver instruction. Pinned standalone build plugins. All 34 resource URLs return HTTP 200 on their original hosts. The local project passes 15 tests and generates its JaCoCo report under Maven 3.9.11 and JDK 27 with release 25; its tests reject an always-Loaned implementation. Five Spring slice/context/container tests pass. Validation: 1,692 content tests, one skipped; 200 application tests; build, lint, typecheck and docs sync pass. CodeRabbit review and checks on the updated main base gate the merge. Module 04 is PR #54, stacked on module 03.
+| Module | Pull request | State | Base |
+| --- | --- | --- | --- |
+| 01 | [#50](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/50) | MERGED | `main` |
+| 02 | [#51](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/51) | MERGED | `main` |
+| 03 | [#53](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/53) | MERGED | `main` |
+| 04 | [#54](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/54) | OPEN | `main` |
+| 05 | [#55](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/55) | OPEN | `feat/java-module-04` |
+| 06 | [#56](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/56) | OPEN | `feat/java-module-05` |
+| 07 | [#57](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/57) | OPEN | `feat/java-module-06` |
+| 08 | [#58](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/58) | OPEN | `feat/java-module-07` |
+| 09 | [#59](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/59) | OPEN | `feat/java-module-08` |
+
+The original drafts remain preserved on `wip/java-modules-03-09` (checkpoint `a904f810`). Only that old snapshot has incomplete module 07 files and draft module 06 challenge artifacts. The reviewed module branches complete module 07 and exclude all challenges. Worktrees are `/tmp/dojo-java-module-03` through `/tmp/dojo-java-module-09`; final consistency work is in `/tmp/dojo-java-track-consistency`.
+
+Local verification covers the four unfiltered content suites, lint, typecheck, application tests, build and docs sync. PR bodies record per-module evidence, Java 25-targeted compilation on local JDK 27, local Spring/container checks and resource-URL verification. Logs and reports are `/tmp/dojo-mNN-*.log` and `/tmp/dojo-mNN-urls.json`; `/tmp/dojo_pr_state.py` reads live checks and unresolved review threads into `/tmp/dojo-pr-state.json`.
+
+Both release flags stay off and accents remain unchanged. The owners decide the palette and the release. PR #52 is i18n planning only; no i18n implementation is authorized by this workflow.
+
+Recent review and merge records:
 - PR #51 review pass: corrected ten Java content findings, aligned module 06 descriptions and the README track row with the theory-and-quiz decision, and clarified consecutive numbering. Validation passed: 1,671 tests, one skipped; eslint, TypeScript, docs sync and Java snippet checks (`javac --release 25` on JDK 27). All checks and review threads subsequently passed; PR #51 is merged.
-- Module 01: merged (PR #50).
-- Module 02: merged in PR #51 after all checks passed and all 12 review threads were resolved. Branch retained.
-- All module 03–09 drafts, including the local module 05–07 additions, are preserved on the pushed `wip/java-modules-03-09` branch at `ef409aee`. Module 07 remains incomplete; module 06 still has draft challenge artifacts that must not ship. Reviewed content is split into module branches and PRs.
-- This branch includes CURRICULUM.md rows and README counts through module 05 (39 Java-track lessons). Modules 06–09 need their own reviewed PRs and counts.
-- The module-numbering check requires present modules to be numbered consecutively from 01; it does not require modules 03 to 09 to exist.
-- i18n plan: PR #52 (docs only); owner decisions D1 to D12 open; no implementation.
+- PR consistency preparation: the final review enforces the theory-and-quiz-only decision in the track suite and aligns the completed curriculum description; module merges are still in progress.
 
-Next steps, in order:
-1. Merge `origin/main`; for each finished module folder run the independent review (facts against official docs, compile snippets, quiz keys, ordering, `You need:`), fix defects, add `✓` rows to CURRICULUM.md and update README counts and the track description.
-2. One branch and PR per module (under 300 files each), based on `main` after the previous PR merges; CodeRabbit loop on each; merge without `--delete-branch`.
-3. Whole-track consistency pass: cross-module references (writers named other modules only by number and topic), project lessons that assume earlier projects (the capstone assumes `/api/courses` and an Angular client), repeated content.
-4. Before showing the track: accent re-spacing, turn on the `angular` and `java-spring-angular` flags together (see "Before the track is shown").
+Next steps:
+1. Fix valid review findings, answer every thread, and verify the current commit's checks and review before merging.
+2. Merge bottom-up. Retarget the next PR to `main` before merging its parent, retain branches, merge `origin/main` into the next branch and rerun the required checks. Resolve shared handoff edits by retaining both modules' completed work.
+3. Finish the whole-track consistency PR, including prerequisites, contracts, lesson counts, the no-challenge policy and the handoff. Keep release flags and accents unchanged.
 
-## Remaining modules (folder numbers are fixed; module 01 is required, none is optional)
+## Module map (folder numbers are fixed; module 01 is required, none is optional)
 
 Each lesson: `theory.md`, `concepts.json`, `quiz.json`, `meta.json`. No graded challenge files in any module. Theory 500 to 1,300 words (module 01 is 300 to 1,000). Closing lesson of each module is a practice project built locally (JDK 25, Maven from module 03 on).
 

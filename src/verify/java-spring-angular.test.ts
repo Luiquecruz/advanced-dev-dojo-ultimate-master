@@ -1,13 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { angularAdapter } from '../engines/angular/adapter';
-import { defineChallengeSuite } from './challengeSuite';
-import { frameworkGrader } from './graders';
-import { createTrackStandards, variantViolations, type Violation } from './trackStandards';
+import { createTrackStandards } from './trackStandards';
 
 /**
- * Verification of the Java, Spring Boot and Angular track: the shared content standards (system-design-track.md) and, on the Angular
- * engine, every challenge's solution passing and starter failing. Java and Spring lessons are theory and quizzes plus local projects, since
- * there is no Java engine in the browser (java-spring-angular-track.md "Engine decision").
+ * Shared content standards for the Java, Spring Boot and Angular track, plus the owner decision:
+ * every lesson uses theory, a quiz and local practice, with no graded browser challenges.
+ * The Angular engine identifier remains catalog metadata; no Java engine is introduced.
  */
 
 const TRACK_ID = 'java-spring-angular';
@@ -32,8 +29,6 @@ const standards = createTrackStandards({
 });
 const { track, modules, eachLesson } = standards;
 
-const violationsOf = (lesson: (typeof eachLesson)[number][1]): Violation[] => [...standards.violationsOf(lesson), ...lesson.variants.flatMap(variantViolations)];
-
 describe('java-spring-angular track', () => {
   it('runs on the Angular engine and numbers its modules from 01 without an optional module', () => {
     expect(track!.engine).toBe('angular');
@@ -42,8 +37,9 @@ describe('java-spring-angular track', () => {
   });
 
   it.each(eachLesson)('%s follows the content standards', (_, lesson) => {
-    expect(violationsOf(lesson).map(({ rule, detail }) => `${rule}: ${detail}`)).toEqual([]);
+    expect(lesson.challenge).toBeUndefined();
+    expect(lesson.variants).toEqual([]);
+    expect(lesson.hasChallenge).toBe(false);
+    expect(standards.violationsOf(lesson).map(({ rule, detail }) => `${rule}: ${detail}`)).toEqual([]);
   });
 });
-
-defineChallengeSuite(TRACK_ID, frameworkGrader(angularAdapter));
