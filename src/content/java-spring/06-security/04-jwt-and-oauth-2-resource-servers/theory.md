@@ -6,7 +6,7 @@ You need: The Spring Security Filter Chain (`SecurityFilterChain`, `hasAuthority
 
 ## What a JWT contains
 
-A JSON Web Token (RFC 7519) is three Base64URL parts joined by dots: a header, a payload of claims, and a signature. The header names the signing algorithm and key id; the payload carries claims such as these (shown decoded, with fake values):
+A signed, unencrypted JSON Web Token (JWT, RFC 7519) has three Base64URL parts joined by dots: a header, a payload of claims, and a signature. The header names the signing algorithm and key id; the payload carries claims such as these (shown decoded, with fake values):
 
 ```json
 {
@@ -20,7 +20,7 @@ A JSON Web Token (RFC 7519) is three Base64URL parts joined by dots: a header, a
 }
 ```
 
-`iss` is who issued the token, `sub` the user, `aud` the intended recipient, and `exp` the expiry. Signed does not mean secret: anyone can decode the payload, so never put passwords or private data in it. The signature only proves that the issuer created the token and nobody changed it.
+Encrypted JWTs also exist and use a different representation; this lesson focuses on signed, unencrypted tokens. `iss` is who issued the token, `sub` the user, `aud` the intended recipient, and `exp` the expiry. Signed does not mean secret: anyone can decode the payload, so never put passwords or private data in it. The signature only proves that the issuer created the token and nobody changed it.
 
 ## Roles and flows in OAuth 2.0
 
@@ -78,11 +78,11 @@ JwtAuthenticationConverter jwtAuthenticationConverter() {
 }
 ```
 
-Pass it with `oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))`. A converter that replaces the default also replaces scope mapping, so project lesson 08 builds one that returns both. A missing or invalid token produces `401` with a `WWW-Authenticate: Bearer` header; a valid token without the required authority produces `403`.
+Pass it with `oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))`. A converter that replaces the default also replaces scope mapping, so project lesson 07 builds one that returns both. A missing or invalid token produces `401` with a `WWW-Authenticate: Bearer` header; a valid token without the required authority produces `403`.
 
 ## Common mistakes
 
-- Putting sensitive data in a JWT because it looks encoded. The payload is only Base64URL text that anyone can decode.
+- Putting sensitive data in an unencrypted signed JWT because it looks encoded. Its payload is only Base64URL text that anyone with the token can decode.
 - Forgetting the `SCOPE_` prefix in `hasAuthority`, so a valid token is rejected with 403.
 - Accepting tokens from an issuer without checking `iss` and `aud`, so a token meant for another API is accepted.
 - Sending the ID token to the API instead of the access token.

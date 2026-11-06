@@ -32,7 +32,7 @@ Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform f
 | System Design | Node.js, Python (Pyodide) and C# (.NET WebAssembly), chosen per challenge; theory and quizzes, graded challenges in 19 of 29 lessons | 29 | from architecture fundamentals (optional module 00) to the interview framework and capacity estimation, protocols, load balancing and rate limiting, storage engines, replication, sharding and consistent hashing, caching patterns, CAP and PACELC, consensus, message queues, sagas and the outbox, resilience, serverless pipelines, real-world case studies, vector databases and AI gateways, SLOs, multi-region design and design reviews |
 | Vue | Vue | 44 | hidden while in progress |
 | Angular | Angular | 53 | hidden while in progress |
-| Java and Spring Boot | theory and quizzes plus local Java backend projects (no graded challenges) | 39 so far | hidden while in progress: Java from zero first, then the language, build and tests, Spring Boot, persistence, Angular with a Spring back end, security and delivery |
+| Java and Spring Boot | theory and quizzes plus local Java backend projects (no graded challenges) | 54 | hidden while in progress: Java from zero, the language, build and tests, Spring Boot, persistence, security, backend delivery and an API capstone |
 
 Hidden tracks are toggled in `src/content/featureFlags.ts`. Module and lesson plans live in [CURRICULUM.md](.claude/docs/CURRICULUM.md).
 

@@ -85,7 +85,7 @@ class LearnerUserDetailsService implements UserDetailsService {
 ## Common mistakes
 
 - Leaving the generated password and default chain in place, or committing a real password to `application.yml`. Defaults are for development; production needs real users and secrets from the environment.
-- Putting `anyRequest()` before specific rules. The first matching rule wins, so the later rules are never reached.
+- Putting `anyRequest()` before specific rules. Spring Security rejects later request matchers during configuration, so the application fails to start. Put the catch-all last.
 - Storing `{noop}` passwords or using `User.withDefaultPasswordEncoder()` outside a demo, which keeps passwords recoverable.
 - Disabling CSRF protection just because a POST returned 403, without understanding which clients use the endpoint.
 

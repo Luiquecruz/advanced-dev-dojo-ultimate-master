@@ -57,11 +57,13 @@ Java and Angular have independent feature flags and release checks. Do not turn 
 
 | PR | Purpose | State | Base |
 | --- | --- | --- | --- |
-| [#61](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | OPEN | `main` |
-| [#62](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/62) | feat(curriculum): add backend Spring Security module | OPEN | `feat/java-spring-separation` |
+| [#61](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | MERGED | `main` |
+| [#62](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/62) | feat(curriculum): add backend Spring Security module | OPEN | `main` |
+| [#63](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/63) | feat(curriculum): add backend quality and delivery module | OPEN | `main` |
+| [#65](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/65) | feat(curriculum): add backend course catalog capstone | OPEN | `feat/java-spring-delivery` |
 
-Latest action: Adapted module 07 to backend-only test strategy, API/PostgreSQL Compose, Maven CI and direct secured HTTP delivery checks.
+Latest action: PR #63 synchronization: incorporated the current security branch including its review corrections; the delivery module remains independent of frontend frameworks.
 
-Module 07 validation: 1,785 unfiltered content checks, eslint, typecheck, docs sync, the security-aware MVC slice against Boot 4.1.2, the API-only Compose configuration and all 33 resource URLs pass. The retained Docker/runtime, health, ETag and shutdown examples were validated in the earlier reviewed delivery branch; this scope pass removes frontend dependencies and preserves those fixes.
+Module 06 security review addressed filter-chain ordering, JWT formats, CSRF references, anonymous versus authenticated denials and role hierarchy wiring.
 
-PR #63 review: clarified scoped detail access, local port binding, cache freshness and browser account switching, Docker caching and actuator exposure; configured a longer Compose shutdown grace period. Four content suites, lint, typecheck and docs sync pass.
+Module 07 review addressed the scoped detail route, localhost publishing, HTTP cache freshness and account changes, container build caching, actuator exposure and shutdown grace period. The MVC slice passed authentication, wrong-scope and not-found checks, and all 33 resource URLs were verified.

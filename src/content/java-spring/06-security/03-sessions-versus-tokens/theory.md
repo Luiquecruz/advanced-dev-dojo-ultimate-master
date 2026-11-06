@@ -8,7 +8,7 @@ You need: The Spring Security Filter Chain (authentication, `SecurityFilterChain
 
 On a successful login the server creates a session record in memory or in a shared store and sends the browser a cookie that holds only a random session id (`JSESSIONID` in a servlet container). The browser attaches the cookie to every request to that site, and the server looks the id up to find the caller. The secret data stays on the server.
 
-Sessions give you control: you can end one immediately, list active sessions or change a user's roles in the record. The cost is state. With several application instances every instance needs access to the same sessions, through sticky routing or a shared store such as Spring Session. The session cookie is also sent automatically by the browser, which is exactly what CSRF attacks abuse (the next lesson).
+Sessions give you control: you can end one immediately, list active sessions or change a user's roles in the record. The cost is state. With several application instances every instance needs access to the same sessions, through sticky routing or a shared store such as Spring Session. The session cookie is also sent automatically by the browser, which is exactly what CSRF attacks abuse (covered in CSRF and CORS, lesson 05).
 
 Spring Security creates sessions as needed by default. The cookie can be hardened with Boot properties:
 

@@ -79,7 +79,7 @@ protected ResponseEntity<Object> handleMethodArgumentNotValid(
 }
 ```
 
-The same method shape, overriding `handleHandlerMethodValidationException` and reading `getParameterValidationResults()`, covers constraints on path and query parameters. A class-level constraint such as `@EndsAfterStart` appears under `getGlobalErrors()`, not `getFieldErrors()`. Reading `getAllErrors()` includes both, even when no field constraint fails. A bad body then returns:
+The same method shape, overriding `handleHandlerMethodValidationException` and reading `getParameterValidationResults()`, covers constraints on path and query parameters. A class-level constraint on the root request body, such as `@EndsAfterStart`, normally appears under `getGlobalErrors()` when the validator uses the default constraint path. A validator can instead use `addPropertyNode` to attach the violation to a property, producing a field error. A class-level constraint on a nested `@Valid` object can instead appear under `getFieldErrors()` with that object’s path. Reading `getAllErrors()` includes both, even when no individual field constraint fails. A bad body then returns:
 
 ```json
 {
@@ -94,7 +94,7 @@ The same method shape, overriding `handleHandlerMethodValidationException` and r
 }
 ```
 
-Clients attach known fields to their controls. An empty `field` identifies an object-level error, shown in the form summary alongside field messages. The API contract documents both cases so any consumer can display every failure without dropping object-level messages.
+Clients attach known fields to their controls. An empty `field` identifies a global error. Show it, and any path without a matching control, in the form summary alongside field messages. The API contract documents both cases so any consumer can display every failure without dropping object-level messages.
 
 ## Never leak internals
 

@@ -15,7 +15,7 @@ class MethodSecurityConfig {
 }
 ```
 
-When a rule fails, the interceptor throws `AccessDeniedException`. During a web request the security filter chain turns it into `403`; outside a request you handle it yourself.
+When a rule fails, the interceptor throws `AccessDeniedException`. During a web request, the security filter chain starts authentication for an anonymous caller and invokes the access-denied handler for a fully authenticated caller, normally returning `403`; outside a request you handle it yourself.
 
 ## Writing rules
 
@@ -96,7 +96,23 @@ Put protected methods on a bean that callers reach through injection, and cover 
 | Scope | What may this client do for the user? | `SCOPE_courses:read` | The token granted by the authorization server |
 | Permission | Which exact action is allowed? | `course:delete` | Your application, usually granted by roles |
 
-In Spring Security every one of these is a `GrantedAuthority` string; `hasRole('ADMIN')` just adds the `ROLE_` prefix. A scope limits a client application; a role describes the user. A request often needs both: the token must allow the action, and the user must be entitled to it. Prefer a few meaningful permissions granted to roles, for example with a `RoleHierarchy` bean (`ROLE_ADMIN > course:delete`), over long SpEL expressions repeated across methods. Spring's reference makes the same recommendation.
+In Spring Security every one of these is a `GrantedAuthority` string; `hasRole('ADMIN')` just adds the `ROLE_` prefix. A scope limits a client application; a role describes the user. A request often needs both: the token must allow the action, and the user must be entitled to it. Prefer a few meaningful permissions granted to roles, for example with a `RoleHierarchy` bean (`ROLE_ADMIN > course:delete`), over long SpEL expressions repeated across methods. Expose the hierarchy and connect it to the method security expression handler:
+
+```java
+@Bean
+static RoleHierarchy roleHierarchy() {
+    return RoleHierarchyImpl.fromHierarchy("ROLE_ADMIN > course:delete");
+}
+
+@Bean
+static MethodSecurityExpressionHandler methodSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
+    var handler = new DefaultMethodSecurityExpressionHandler();
+    handler.setRoleHierarchy(roleHierarchy);
+    return handler;
+}
+```
+
+Import `RoleHierarchy` and `RoleHierarchyImpl` from `org.springframework.security.access.hierarchicalroles`, and the two expression-handler types from `org.springframework.security.access.expression.method`. Static bean methods make the configuration available before method-security initialization. Now a proxied method annotated `@PreAuthorize("hasAuthority('course:delete')")` also permits an administrator. Test this inheritance and a denied caller through the injected service bean.
 
 ## Ownership checks
 

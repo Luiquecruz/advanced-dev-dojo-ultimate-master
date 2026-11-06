@@ -18,8 +18,8 @@
       "The application fails to start",
       "The public rule wins because it is more specific"
     ],
-    "answer": 0,
-    "explanation": "Rules are checked in the order declared and the first match is applied. A catch-all at the top matches everything, so specific rules must come before it."
+    "answer": 2,
+    "explanation": "Spring Security rejects requestMatchers configured after anyRequest while building the security chain, so the application fails to start. Declare the catch-all last."
   },
   {
     "question": "Which statement about `hasRole(\"ADMIN\")` is correct?",
