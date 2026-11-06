@@ -155,7 +155,7 @@ if (checkMode) {
 
 if (uncovered.length === 0) process.exit(0);
 
-const statePath = resolve(root, git(root, ['rev-parse', '--git-path', 'dev-dojo-docs-sync']));
+const statePath = resolve(root, git(root, ['rev-parse', '--git-path', 'constela-docs-sync']));
 const current = fingerprint(root, uncovered);
 const previous = existsSync(statePath) ? readFileSync(statePath, 'utf8') : '';
 writeFileSync(statePath, current);
