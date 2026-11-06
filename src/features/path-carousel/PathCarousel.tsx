@@ -17,7 +17,7 @@ interface PathCarouselProps {
 
 const STAGE_HEIGHT_PX = 660;
 const ARROW_CLASS =
-  'group/arrow absolute top-1/2 z-20 grid h-14 w-14 -translate-y-1/2 place-items-center text-ink-faint transition-colors duration-(--dur-base) hover:text-accent focus-visible:text-accent max-wide:hidden';
+  'group/arrow absolute top-1/2 z-20 grid h-14 w-14 -translate-y-1/2 place-items-center rounded-full text-ink-faint transition-colors duration-(--dur-base) hover:text-accent focus-visible:text-accent max-wide:hidden';
 const ENTER_BASE_DELAY_MS = 260;
 const ENTER_STEP_MS = 120;
 

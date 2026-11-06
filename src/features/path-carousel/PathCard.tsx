@@ -36,7 +36,7 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
       data-motion-origin={`track:${track.id}`}
       data-tilt-target={active || undefined}
       className={clsx(
-        'group/card relative flex h-full flex-col gap-4 rounded-panel [--slide-distance:inherit] border border-accent/25 bg-panel/85 p-6 tilt-surface shadow-[0_0_0_1px_rgb(var(--accent-rgb)/0.06),0_30px_80px_-30px_rgb(var(--accent-rgb)/0.45),inset_0_1px_0_rgb(255_255_255/0.06)] transition-[border-color] duration-(--dur-base) ease-out',
+        'group/card relative flex h-full flex-col gap-4 rounded-panel [--slide-distance:inherit] border border-accent/25 bg-panel/96 p-6 tilt-surface shadow-[0_0_0_1px_rgb(var(--accent-rgb)/0.06),0_30px_80px_-30px_rgb(var(--accent-rgb)/0.45),inset_0_1px_0_rgb(255_255_255/0.06)] transition-[border-color] duration-(--dur-base) ease-out',
         active && 'pointer-events-auto hover:border-accent/45 has-focus-visible:border-accent/45',
       )}
     >
@@ -78,7 +78,7 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
           ))}
         </ol>
 
-        <div className="mt-auto flex items-center gap-3 rounded-xl border border-line bg-void/40 px-3.5 py-3">
+        <div className="mt-auto flex items-center gap-3 rounded-xl border border-line bg-void/60 px-3.5 py-3">
           <span className="grid size-8 flex-none place-items-center rounded-lg bg-accent/10 text-accent">
             <ChartIcon />
           </span>
