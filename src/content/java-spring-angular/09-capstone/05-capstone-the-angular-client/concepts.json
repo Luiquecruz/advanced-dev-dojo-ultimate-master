@@ -1,0 +1,8 @@
+[
+  { "term": "httpResource", "description": "A signal-based resource whose request is a function of signals, so it refetches when they change and exposes loading, error and value state." },
+  { "term": "HTTP interceptor", "description": "A function that sees every HttpClient request and response, used here to add the bearer token and to react to a 401." },
+  { "term": "Route guard", "description": "A function that decides whether navigation to a route may proceed, and improves the interface without replacing server checks." },
+  { "term": "Signal Forms submit", "description": "The submit function that marks fields touched, runs the action only when the form is valid and attaches returned errors to fields." },
+  { "term": "Field error mapping", "description": "Turning the errors map of a Problem Details body into form errors on the matching inputs." },
+  { "term": "Development proxy", "description": "A dev server rule that forwards /api requests to the back end so the browser sees a single origin and needs no CORS setup." }
+]

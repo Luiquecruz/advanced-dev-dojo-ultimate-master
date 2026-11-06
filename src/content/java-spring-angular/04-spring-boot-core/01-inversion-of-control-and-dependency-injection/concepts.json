@@ -1,0 +1,9 @@
+[
+  { "term": "Inversion of control", "description": "A design where a container, not your code, decides when objects are created and how they are connected." },
+  { "term": "Bean", "description": "An ordinary object that the Spring container creates, wires and manages, declared by a stereotype or a bean method." },
+  { "term": "ApplicationContext", "description": "The Spring container that holds the beans, injects their dependencies and manages their lifecycle." },
+  { "term": "Component scanning", "description": "The search of the application class package and its sub-packages for classes with stereotype annotations." },
+  { "term": "Constructor injection", "description": "Passing dependencies as constructor parameters so fields stay final and the class works without Spring in tests." },
+  { "term": "Qualifier", "description": "An annotation that picks one bean by name when several beans match the requested type." },
+  { "term": "Scope", "description": "The rule for how many instances of a bean exist: one per container for singleton, a new one per request for prototype." }
+]

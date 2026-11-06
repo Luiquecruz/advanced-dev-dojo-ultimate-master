@@ -1,0 +1,4 @@
+{
+  "title": "Build and Tests",
+  "description": "For people who finished the earlier modules: Maven and the project layout, JUnit Jupiter in depth, test doubles and Mockito, Spring test slices, integration tests with Testcontainers, code quality and coverage, and a tested library service project."
+}

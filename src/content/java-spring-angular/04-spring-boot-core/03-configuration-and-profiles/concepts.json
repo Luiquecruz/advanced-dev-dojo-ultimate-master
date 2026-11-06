@@ -1,0 +1,9 @@
+[
+  { "term": "application.yaml", "description": "The default configuration file that Spring Boot loads from the classpath and the working directory at startup." },
+  { "term": "@ConfigurationProperties", "description": "An annotation that binds a group of properties with a common prefix to a typed class, such as a record." },
+  { "term": "Relaxed binding", "description": "The rule that lets one property be written in kebab case, camel case or as an upper-case environment variable." },
+  { "term": "Profile", "description": "A named environment, such as dev or prod, that activates extra configuration documents and beans." },
+  { "term": "Profile group", "description": "A setting that activates several profiles together when one named profile is active." },
+  { "term": "Property source order", "description": "The ranking in which config files, environment variables, system properties and command-line arguments override each other." },
+  { "term": "Config tree", "description": "A folder of files, often mounted secrets, whose file names become property names and whose contents become values." }
+]

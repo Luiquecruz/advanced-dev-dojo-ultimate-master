@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A controller must answer 404 when the service finds no course. You want a fast test that fails for one reason only. Which level fits best?",
+    "options": [
+      "An end-to-end test in a real browser",
+      "A @WebMvcTest slice with the service replaced by @MockitoBean",
+      "A @SpringBootTest with a database container",
+      "A manual check after each release"
+    ],
+    "answer": 1,
+    "explanation": "The rule lives in the web layer, so a slice that starts only MVC and mocks the service checks routing and status code quickly. Higher levels add cost and more reasons to fail."
+  },
+  {
+    "question": "A test passes at noon and fails after midnight because the code calls Instant.now(). What is the most reliable fix?",
+    "options": [
+      "Add a Thread.sleep before the assertion",
+      "Run the test only during the day",
+      "Pass a java.time.Clock into the class and use Clock.fixed in the test",
+      "Retry the test three times on failure"
+    ],
+    "answer": 2,
+    "explanation": "Time is an input the test must control. An injected Clock removes the dependency on the real clock, while sleeping, scheduling or retrying only hide the cause."
+  },
+  {
+    "question": "Your suite has 300 browser-driven tests, takes 50 minutes and often fails without a clear cause. What does the pyramid suggest?",
+    "options": [
+      "Add more browser tests for safety",
+      "Push most rules down to unit and slice tests and keep a small set of journeys at the top",
+      "Remove all tests below the browser level",
+      "Run the browser tests in parallel and accept the failures"
+    ],
+    "answer": 1,
+    "explanation": "Each level up is slower and fails for more reasons. Rules and edge cases belong at the lowest level that can check them, and only critical journeys need a browser."
+  },
+  {
+    "question": "The API team renames a JSON field, and the Angular client breaks in production although both teams' unit tests pass. Which kind of test would have caught this early?",
+    "options": [
+      "A contract test against the written API description",
+      "A unit test of the field's getter",
+      "A load test",
+      "A test of the Dockerfile"
+    ],
+    "answer": 0,
+    "explanation": "Each side's unit tests only check its own assumptions. A contract test compares them with a shared agreement, so a breaking change fails fast without an end-to-end run."
+  },
+  {
+    "question": "An integration test starts the full context with webEnvironment RANDOM_PORT. What does RANDOM_PORT do?",
+    "options": [
+      "Starts a real embedded server on a random free port",
+      "Uses a mock servlet environment with no server",
+      "Disables the web layer entirely",
+      "Picks a random test to run"
+    ],
+    "answer": 0,
+    "explanation": "RANDOM_PORT loads a web application context with a real server on a random port, so tests can call it over HTTP. The default MOCK mode starts no server."
+  },
+  {
+    "question": "A UI test fails about one run in ten because it clicks a button before the list has loaded, and the team adds a two-second sleep. What is the better fix?",
+    "options": [
+      "Raise the sleep to ten seconds",
+      "Disable the test",
+      "Wait for the condition, such as the list items appearing, before clicking",
+      "Run the test only on a fast machine"
+    ],
+    "answer": 2,
+    "explanation": "A fixed sleep guesses at timing and slows every run. Waiting for the actual condition is faster when the page is quick and still correct when it is slow."
+  }
+]

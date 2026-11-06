@@ -1,0 +1,9 @@
+[
+  { "term": "Transaction boundary", "description": "The place where a unit of work starts and ends, which belongs on the service method that implements one use case." },
+  { "term": "Transactional proxy", "description": "The wrapper Spring puts around a bean to open, commit or roll back a transaction around calls that come from other beans." },
+  { "term": "Self-invocation", "description": "A call from one method to another on the same object, which skips the proxy so the target's @Transactional has no effect." },
+  { "term": "Rollback rule", "description": "The rule that a RuntimeException or Error rolls back by default while a checked exception commits, adjustable with rollbackFor." },
+  { "term": "Propagation", "description": "The setting that decides whether a method joins the running transaction, as REQUIRED does, or runs in a new one, as REQUIRES_NEW does." },
+  { "term": "Read-only transaction", "description": "A transaction marked readOnly = true, which is a hint to the driver and makes Hibernate skip dirty checking, not a write guard." },
+  { "term": "Optimistic locking", "description": "Concurrency control with a @Version field that makes an UPDATE fail when another transaction changed the row first." }
+]

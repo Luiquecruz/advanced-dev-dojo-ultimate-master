@@ -1,0 +1,35 @@
+{
+  "title": "Caching and Rate Limiting",
+  "summary": "Spring's cache abstraction with eviction and TTL, Caffeine versus a shared cache, HTTP caching with Cache-Control and ETag, token buckets and where to enforce rate limits.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "performance"
+  ],
+  "resources": [
+    {
+      "label": "Spring Boot reference: Caching",
+      "url": "https://docs.spring.io/spring-boot/reference/io/caching.html"
+    },
+    {
+      "label": "Spring Framework: Declarative annotation-based caching",
+      "url": "https://docs.spring.io/spring-framework/reference/integration/cache/annotations.html"
+    },
+    {
+      "label": "Spring Framework: HTTP caching",
+      "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-caching.html"
+    },
+    {
+      "label": "RFC 6585: Additional HTTP Status Codes",
+      "url": "https://www.rfc-editor.org/info/rfc6585/"
+    },
+    {
+      "label": "RFC 9111: HTTP Caching",
+      "url": "https://www.rfc-editor.org/info/rfc9111/"
+    },
+    {
+      "label": "Spring Cloud Gateway: RequestRateLimiter",
+      "url": "https://docs.spring.io/spring-cloud-gateway/reference/spring-cloud-gateway-server-webflux/gatewayfilter-factories/requestratelimiter-factory.html"
+    }
+  ]
+}

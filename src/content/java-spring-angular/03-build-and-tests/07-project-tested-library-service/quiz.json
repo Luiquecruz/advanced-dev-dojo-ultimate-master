@@ -1,0 +1,68 @@
+[
+  {
+    "question": "You add `CatalogCheck.java` under `src/test/java` with three `@Test` methods, and `./mvnw test` reports `BUILD SUCCESS` with 0 tests run. What happened?",
+    "options": [
+      "Surefire's default patterns do not match the name `CatalogCheck`, so the class was skipped",
+      "JUnit deleted the class",
+      "Mockito blocks tests without mocks",
+      "The tests ran in the verify phase"
+    ],
+    "answer": 0,
+    "explanation": "Surefire includes names such as *Test, Test*, *Tests and *TestCase. Rename the class or configure the includes."
+  },
+  {
+    "question": "`Catalog` creates `new InMemoryBookStore()` inside its own constructor. What does that do to the Mockito test of the notifier?",
+    "options": [
+      "Nothing, because Mockito can replace any `new`",
+      "The test cannot supply a mock `BookStore`, so you need constructor injection to control the collaborator",
+      "It makes the test faster",
+      "It forces the use of @SpringBootTest"
+    ],
+    "answer": 1,
+    "explanation": "A collaborator created inside the class cannot be replaced from outside. Receiving it through the constructor is what makes fakes and mocks possible."
+  },
+  {
+    "question": "After `loan` is changed to always return `Loaned`, which result shows your suite works?",
+    "options": [
+      "`./mvnw test` still succeeds",
+      "The JaCoCo report disappears",
+      "`./mvnw -v` fails",
+      "`./mvnw test` fails in the tests for `AlreadyLoaned` and `UnknownBook`"
+    ],
+    "answer": 3,
+    "explanation": "A test suite is trustworthy only if it fails when behavior breaks. The second-loan and unknown-ISBN tests should catch this change."
+  },
+  {
+    "question": "A Mockito test for the first loan of ISBN \"1\" must prove that the notifier is called exactly once with Dune. Which line does that?",
+    "options": [
+      "`verify(notifier).bookLoaned(dune)`",
+      "`when(notifier.bookLoaned(dune))`",
+      "`assertNotNull(notifier)`",
+      "`verifyNoInteractions(notifier)`"
+    ],
+    "answer": 0,
+    "explanation": "verify with one argument means exactly one call with that value. verifyNoInteractions asserts the opposite, and the other options verify nothing."
+  },
+  {
+    "question": "The JaCoCo report shows `Catalog` fully covered but `Main` at zero. What is the most sensible reaction?",
+    "options": [
+      "Write assertion-free tests that call `main` until the total looks good",
+      "Delete `Main`",
+      "Accept it or exclude the entry point, since the rules that matter are covered",
+      "Disable JaCoCo"
+    ],
+    "answer": 2,
+    "explanation": "Coverage is a tool for finding untested rules. A thin entry point with no logic is a normal exclusion, and tests written for the number add no protection."
+  },
+  {
+    "question": "Why does the project import the JUnit BOM in `dependencyManagement`?",
+    "options": [
+      "To make JUnit part of the production jar",
+      "To keep the versions of the JUnit artifacts aligned without repeating them",
+      "To run tests in parallel",
+      "To replace the compiler plugin"
+    ],
+    "answer": 1,
+    "explanation": "A BOM lists compatible versions of related artifacts, so the dependency declarations need no version of their own."
+  }
+]

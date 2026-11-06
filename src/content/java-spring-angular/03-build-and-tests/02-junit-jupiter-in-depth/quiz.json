@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A test class has `private int counter = 0;` and two tests that each run `counter++` and then assert `counter == 1`. Both pass in any order. Why?",
+    "options": [
+      "JUnit resets all fields by reflection after each test",
+      "JUnit creates a new instance of the class for every test method",
+      "The tests run in parallel on separate machines",
+      "Fields in test classes are automatically final"
+    ],
+    "answer": 1,
+    "explanation": "The default lifecycle is per method: a new instance for each test, so instance state never carries over. PER_CLASS would share one instance."
+  },
+  {
+    "question": "A test calls `assertEquals` four times for four fee amounts, and the first one fails. What do you see for the other three?",
+    "options": [
+      "Their results are reported too",
+      "Nothing: the test method stopped at the first failing assertion",
+      "They are retried automatically",
+      "They are reported as skipped"
+    ],
+    "answer": 1,
+    "explanation": "A failing assertion throws immediately. Wrapping the four checks in assertAll runs all of them and lists every failure together."
+  },
+  {
+    "question": "You must verify that a method throws and that the message contains the offending value. Which approach does both?",
+    "options": [
+      "Wrap the call in try/catch and ignore the catch block",
+      "Annotate the test with `@Disabled`",
+      "Call the method twice and compare the results",
+      "Use `assertThrows` and assert on the message of the returned exception"
+    ],
+    "answer": 3,
+    "explanation": "assertThrows fails if nothing is thrown and returns the exception, so you can check getMessage. A try/catch with an empty catch passes even when nothing is thrown."
+  },
+  {
+    "question": "A fee rule changes at 40 days. Which set of parameterized inputs best protects the rule?",
+    "options": [
+      "39, 40, 41",
+      "10, 11, 12, 13",
+      "40, 40, 40",
+      "100, 200, 300"
+    ],
+    "answer": 0,
+    "explanation": "Bugs cluster at boundaries. Values just below, at and just above the change catch off-by-one mistakes that values far from it never reach."
+  },
+  {
+    "question": "When must a `@BeforeAll` method be static?",
+    "options": [
+      "Never: it must always be an instance method",
+      "Always, in every test class",
+      "In the default per-method lifecycle, because no instance exists yet; PER_CLASS lifts the rule",
+      "Only inside nested classes"
+    ],
+    "answer": 2,
+    "explanation": "With the default lifecycle the method runs before any instance exists, so it must be static. @TestInstance(PER_CLASS) creates one instance first and allows non-static methods."
+  },
+  {
+    "question": "A build should run all tests except those labeled `slow` on every commit. Which setup does that?",
+    "options": [
+      "Rename the slow tests to start with an underscore",
+      "Put them in a nested class",
+      "Mark them with `@Tag(\"slow\")` and exclude the group, for example with `-DexcludedGroups=slow`",
+      "Remove their assertions"
+    ],
+    "answer": 2,
+    "explanation": "Tags label tests, and Surefire can include or exclude groups by tag. Renaming or nesting does not filter anything."
+  }
+]

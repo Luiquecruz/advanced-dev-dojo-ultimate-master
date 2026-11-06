@@ -1,0 +1,35 @@
+{
+  "title": "Docker Compose for Local Development",
+  "summary": "A compose file with a health-checked database, environment variables, Compose profiles, an nginx-served Angular client, and Spring Boot's Docker Compose support.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Docker: Compose services reference",
+      "url": "https://docs.docker.com/reference/compose-file/services/"
+    },
+    {
+      "label": "Docker: Using profiles with Compose",
+      "url": "https://docs.docker.com/compose/how-tos/profiles/"
+    },
+    {
+      "label": "Docker: Variable interpolation in Compose",
+      "url": "https://docs.docker.com/compose/how-tos/environment-variables/variable-interpolation/"
+    },
+    {
+      "label": "Spring Boot reference: Docker Compose support",
+      "url": "https://docs.spring.io/spring-boot/reference/features/dev-services.html"
+    },
+    {
+      "label": "Angular CLI: Proxying to a backend server",
+      "url": "https://angular.dev/tools/cli/serve"
+    },
+    {
+      "label": "Angular: Deployment",
+      "url": "https://angular.dev/tools/cli/deployment"
+    }
+  ]
+}

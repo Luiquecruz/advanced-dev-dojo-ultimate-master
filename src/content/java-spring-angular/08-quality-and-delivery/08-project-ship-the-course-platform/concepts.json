@@ -1,0 +1,9 @@
+[
+  { "term": "Multi-stage image", "description": "A Dockerfile that builds in one stage and copies only the result into a small runtime stage, as done for both the API and the client." },
+  { "term": "Compose profile", "description": "A group of services, here the API and the client, that start only with docker compose --profile full." },
+  { "term": "Health-gated start", "description": "A depends_on condition of service_healthy that holds the API back until the database healthcheck passes." },
+  { "term": "Environment file", "description": "A .env file with local values that stays out of Git, paired with a committed .env.example that holds fake values." },
+  { "term": "Probe endpoints", "description": "The Actuator health, liveness and readiness paths a platform calls to decide on restarts and traffic." },
+  { "term": "CI workflow file", "description": "A YAML file under .github/workflows that builds and tests both ends with read-only permissions and pinned actions." },
+  { "term": "Acceptance criteria", "description": "Checks with fixed test data, such as exact curl commands and expected output, that decide whether the project is done." }
+]

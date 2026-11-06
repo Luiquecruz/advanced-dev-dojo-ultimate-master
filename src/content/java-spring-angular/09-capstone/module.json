@@ -1,0 +1,4 @@
+{
+  "title": "Capstone: Course Catalog",
+  "description": "For people who finished the earlier modules: build a full-stack course catalog locally, from requirements and an API contract through a Spring Boot API with persistence, security and tests to an Angular client, then review and package it."
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A teammate writes `save(todo) { this.http.post('/api/todos', todo); }` and says the server never receives anything. What is the cause?",
+    "options": [
+      "The generic type argument is missing",
+      "The observable is cold and nobody subscribes to it",
+      "POST requests need provideHttpClient to be called twice",
+      "The browser blocks POST requests without a proxy"
+    ],
+    "answer": 1,
+    "explanation": "HttpClient observables are cold: the request is sent only when someone subscribes. The missing generic only affects typing, and the call itself is never made."
+  },
+  {
+    "question": "A product list uses `httpResource(() => ({ url: '/api/products', params: { q: this.query() } }))`. The user types a new letter while the previous request is still running. What happens?",
+    "options": [
+      "The new letter is ignored until the request finishes",
+      "Both requests run and the slower one wins",
+      "The pending request is cancelled and a new one is sent",
+      "An error is raised because two requests overlap"
+    ],
+    "answer": 2,
+    "explanation": "The request function reads query(), so the resource depends on it. A change cancels the outstanding request and sends a new one with the new parameter."
+  },
+  {
+    "question": "A template reads `products.value()` first and shows an alert only afterwards, with `@else if (products.error())`. The server answers 503. What does the user see?",
+    "options": [
+      "The alert, because the error signal is checked eventually",
+      "An empty list, because value() returns an empty array",
+      "The previous list, because values are cached",
+      "A broken template, because value() throws in the error state"
+    ],
+    "answer": 3,
+    "explanation": "Reading value() while the resource is in the error state throws. Check isLoading and error before the data, or guard the read with hasValue()."
+  },
+  {
+    "question": "The server renames the JSON field `price` to `unitPrice`, and the Angular interface still says `price: number`. What does the build report?",
+    "options": [
+      "A compile error, because the generic is checked against the response",
+      "Nothing, and the screen shows undefined where the price should be",
+      "A run-time error from HttpClient at the first request",
+      "A warning from provideHttpClient"
+    ],
+    "answer": 1,
+    "explanation": "An interface exists only at compile time and the generic does not validate the body. The mismatch shows up later as a missing value, which is why generated types or schema parsing help."
+  },
+  {
+    "question": "A screen must create an order when a button is clicked and show a list of orders that refreshes when a filter signal changes. Which pairing fits best?",
+    "options": [
+      "httpResource for both, with the POST inside the request function",
+      "HttpClient for both, subscribing in a getter",
+      "httpResource for the list and an HttpClient call for the POST",
+      "HttpClient for the list and httpResource for the POST"
+    ],
+    "answer": 2,
+    "explanation": "A resource models a value that depends on signals, which fits the filtered list. A POST is an action triggered once, so it belongs to a direct HttpClient call."
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A Spring handler returns a `ProblemDetail` built with `forStatusAndDetail(HttpStatus.CONFLICT, ...)`. What HTTP status does the client receive?",
+    "options": [
+      "200, because the handler returned normally",
+      "500, because no exception was rethrown",
+      "409, because the status stored in the ProblemDetail is used",
+      "400, because handlers default to bad request"
+    ],
+    "answer": 2,
+    "explanation": "Spring sends the status stored in the ProblemDetail, here 409. The body also repeats it in the status member, and the media type is application/problem+json."
+  },
+  {
+    "question": "The server adds `\"errors\": [...]` to its problem documents. Why does an Angular client that has never heard of that member keep working?",
+    "options": [
+      "RFC 9457 lets servers add members and clients ignore the ones they do not know",
+      "HttpClient strips unknown members from every body",
+      "TypeScript rejects unknown members at compile time",
+      "Spring removes extension members unless the client sends a header"
+    ],
+    "answer": 0,
+    "explanation": "Extension members are part of the design: a client reads the standard members it needs and ignores the rest. Neither HttpClient nor TypeScript removes anything."
+  },
+  {
+    "question": "A load balancer answers 502 with an empty body. The error handler runs `error.error.errors.map(...)` without a check. What happens?",
+    "options": [
+      "map returns an empty array",
+      "A TypeError is thrown inside the handler and the user sees no message",
+      "HttpClient converts the empty body into a problem document",
+      "The form shows the 502 status as a field error"
+    ],
+    "answer": 1,
+    "explanation": "With an empty body error.error is null, so reading errors from it throws. A type guard that checks the shape first lets the code fall back to a generic message."
+  },
+  {
+    "question": "After a 400 response, the email field shows the server message 'must be a well-formed email address'. The user fixes the email text. What should happen to that message?",
+    "options": [
+      "It stays until the next successful submit",
+      "It stays until the page is reloaded",
+      "It is replaced by a validation error with the same text",
+      "It disappears, because submission errors clear when the field is edited"
+    ],
+    "answer": 3,
+    "explanation": "Signal Forms treats a submission error as a one-time server result and clears it when the field changes. Validation rules, by contrast, recompute on each change."
+  },
+  {
+    "question": "The server answers 409 with `{\"title\":\"Conflict\",\"detail\":\"Email already registered\"}` and no `errors` list. Where should the message go?",
+    "options": [
+      "Under the password field, the last one touched",
+      "Nowhere, because there is no field to attach it to",
+      "As a form-level error returned without a fieldTree",
+      "In the browser console only"
+    ],
+    "answer": 2,
+    "explanation": "The problem is about the whole request, not one named field. An error returned without a fieldTree belongs to the form and can be shown in an alert above the button."
+  }
+]

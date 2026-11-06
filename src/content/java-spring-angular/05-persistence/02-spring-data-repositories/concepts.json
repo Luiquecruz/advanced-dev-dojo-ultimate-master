@@ -1,0 +1,9 @@
+[
+  { "term": "Repository interface", "description": "An interface extending JpaRepository whose implementation Spring Data generates at startup, with no class written by hand." },
+  { "term": "Derived query", "description": "A query Spring Data builds from a method name such as findByLevelAndTitleContaining, validated when the application starts." },
+  { "term": "@Query", "description": "An annotation that gives a repository method an explicit JPQL or native SQL query, bound with named parameters." },
+  { "term": "@Modifying", "description": "The annotation that marks a @Query as an update or delete, which runs directly in the database and bypasses the persistence context." },
+  { "term": "Projection", "description": "A query result limited to chosen properties, expressed as a record, an interface with getters or a dynamic class parameter." },
+  { "term": "Specification", "description": "A predicate built in code over an entity that can be combined with and and or to filter by optional criteria." },
+  { "term": "Named parameter", "description": "A :name placeholder in a query that Spring Data binds from the method parameter of the same name, so no string concatenation is needed." }
+]

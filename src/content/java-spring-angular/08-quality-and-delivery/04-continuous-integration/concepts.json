@@ -1,0 +1,9 @@
+[
+  { "term": "Continuous integration", "description": "The practice of building and testing every change automatically on a clean machine before it joins the main branch." },
+  { "term": "Workflow", "description": "A YAML file in .github/workflows that defines when GitHub Actions runs and which jobs and steps it executes." },
+  { "term": "Build cache", "description": "Saved download data, such as the local Maven repository or the npm cache, that speeds up a job without changing its result." },
+  { "term": "Artifact", "description": "A file a job stores, such as a jar, so later jobs or people can use it instead of rebuilding." },
+  { "term": "Quality gate", "description": "A rule, such as a required check or a coverage floor, that blocks a merge when it fails." },
+  { "term": "Pinned action", "description": "An action referenced by a full commit SHA instead of a movable tag, so the code that runs cannot change silently." },
+  { "term": "Token permissions", "description": "The access granted to GITHUB_TOKEN in a workflow, kept to read-only by default and raised only for the job that needs more." }
+]

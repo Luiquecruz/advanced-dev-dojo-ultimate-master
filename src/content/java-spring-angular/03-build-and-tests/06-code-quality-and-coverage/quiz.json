@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A project reports 100 percent line coverage but a boundary bug reaches production. What is the most likely explanation?",
+    "options": [
+      "JaCoCo cannot measure Java 25",
+      "The tests run the lines but do not assert the boundary values",
+      "Coverage counts only comments",
+      "The build skipped compilation"
+    ],
+    "answer": 1,
+    "explanation": "Coverage proves that code executed, not that the results were checked. A test with no assertion on the boundary gives coverage without protection."
+  },
+  {
+    "question": "A PIT run shows a surviving mutant that changed `daysLate < 0` to `daysLate <= 0`. What does it mean?",
+    "options": [
+      "The compiler is broken",
+      "The test suite is too fast",
+      "PIT cannot handle conditions",
+      "No test passes the value 0, so nothing notices the changed boundary"
+    ],
+    "answer": 3,
+    "explanation": "A changed boundary survives when no test uses the boundary value. Adding a test for 0 days kills it."
+  },
+  {
+    "question": "A team adds a rule that fails the build below 90 percent line coverage, but the project currently has 62 percent. What is the best adjustment?",
+    "options": [
+      "Keep 90 and ignore build failures",
+      "Remove the report",
+      "Start the limit near the current value, raise it gradually and exclude generated code",
+      "Write assertion-free tests until it passes"
+    ],
+    "answer": 2,
+    "explanation": "A limit the team already meets protects against decline and can be raised as tests improve. Assertion-free tests satisfy the number without any value."
+  },
+  {
+    "question": "The build must stop when the compiler reports any warning, and the exception class lacks a `serialVersionUID`. Which setting does that?",
+    "options": [
+      "`-Xlint:all` with `failOnWarning` set to true in the compiler plugin",
+      "`-DskipTests` on the command line",
+      "A JaCoCo `check` execution",
+      "The `maven.compiler.release` property"
+    ],
+    "answer": 0,
+    "explanation": "-Xlint:all turns every warning category on and failOnWarning makes the build fail on them. The other options do not control compiler warnings."
+  },
+  {
+    "question": "A team adopts google-java-format through Spotless on a large existing code base. What is the sensible way to do it?",
+    "options": [
+      "Reformat files gradually inside unrelated feature commits",
+      "Run `spotless:apply` once in a commit that contains only the formatting change",
+      "Disable `spotless:check` forever",
+      "Format only the test folder"
+    ],
+    "answer": 1,
+    "explanation": "A formatting-only commit keeps feature diffs readable and makes the change easy to review or revert. After that, spotless:check keeps the code consistent."
+  },
+  {
+    "question": "Why is mutation testing usually run on selected classes or in a nightly job instead of on every build?",
+    "options": [
+      "It reruns the tests for every generated mutant, which takes much longer than a normal test run",
+      "It only works on Sundays",
+      "It needs a database",
+      "It deletes the production code"
+    ],
+    "answer": 0,
+    "explanation": "Each mutant requires running the relevant tests again, so cost grows with code size. Focus it on business rules and schedule full runs."
+  }
+]

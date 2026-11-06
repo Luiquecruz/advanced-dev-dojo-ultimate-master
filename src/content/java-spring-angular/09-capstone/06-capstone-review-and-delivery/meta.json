@@ -1,0 +1,13 @@
+{
+  "title": "Capstone: Review and Delivery",
+  "summary": "A final project stage: a self-review of both ends against the requirements, multi-stage Docker images, Compose with required variables, a GitHub Actions pipeline, Actuator health probes and a retrospective with next topics.",
+  "level": "intermediate",
+  "tags": ["theory", "project"],
+  "resources": [
+    { "label": "Spring Boot reference: Efficient container images", "url": "https://docs.spring.io/spring-boot/reference/packaging/container-images/dockerfiles.html" },
+    { "label": "Docker: Multi-stage builds", "url": "https://docs.docker.com/get-started/docker-concepts/building-images/multi-stage-builds/" },
+    { "label": "Docker Compose documentation", "url": "https://docs.docker.com/compose/" },
+    { "label": "GitHub Actions: Building and testing Java with Maven", "url": "https://docs.github.com/en/actions/tutorials/build-and-test-code/java-with-maven" },
+    { "label": "Spring Boot reference: Actuator endpoints", "url": "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html" }
+  ]
+}

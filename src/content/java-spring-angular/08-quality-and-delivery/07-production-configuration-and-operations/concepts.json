@@ -1,0 +1,10 @@
+[
+  { "term": "Profile", "description": "A named set of configuration activated with spring.profiles.active, kept small because each one is a combination to test." },
+  { "term": "External configuration", "description": "Settings supplied from outside the artifact, such as environment variables, that override the files packaged in the jar." },
+  { "term": "Secret", "description": "A value that grants access, supplied at run time and kept out of source control, images and logs." },
+  { "term": "Configuration tree", "description": "A spring.config.import source that turns each file in a mounted folder into a property named after the file." },
+  { "term": "Graceful shutdown", "description": "Stopping by refusing new requests and letting in-flight requests finish within spring.lifecycle.timeout-per-shutdown-phase." },
+  { "term": "Liveness and readiness", "description": "Two probes: liveness asks whether to restart the process and readiness asks whether it should receive traffic now." },
+  { "term": "Connection pool", "description": "A set of reusable database connections, whose total across all instances must stay below the database limit." },
+  { "term": "Rolling update", "description": "A rollout that replaces instances gradually, using readiness to decide when a new instance may receive traffic." }
+]

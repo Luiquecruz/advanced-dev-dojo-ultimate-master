@@ -1,0 +1,13 @@
+{
+  "title": "Test Doubles and Mockito",
+  "summary": "Dummies, stubs, fakes, spies and mocks, Mockito stubbing with when and doThrow, verify, matchers and argument captors, strict stubs, what not to mock, and the Java agent setup for JDK 21 and later.",
+  "level": "intermediate",
+  "tags": ["theory", "testing"],
+  "resources": [
+    { "label": "Mockito", "url": "https://site.mockito.org/" },
+    { "label": "Mockito on GitHub", "url": "https://github.com/mockito/mockito" },
+    { "label": "JEP 451: Prepare to disallow the dynamic loading of agents", "url": "https://openjdk.org/jeps/451" },
+    { "label": "Spring Boot: Mocking and spying beans", "url": "https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html" },
+    { "label": "Oracle: Clock API (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Clock.html" }
+  ]
+}

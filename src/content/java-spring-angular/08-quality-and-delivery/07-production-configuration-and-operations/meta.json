@@ -1,0 +1,35 @@
+{
+  "title": "Production Configuration and Operations",
+  "summary": "Profiles and external configuration, secrets principles, graceful shutdown, connection pools, JVM memory flags, liveness and readiness probes and rolling updates.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Boot reference: Profiles",
+      "url": "https://docs.spring.io/spring-boot/reference/features/profiles.html"
+    },
+    {
+      "label": "Spring Boot reference: Externalized configuration",
+      "url": "https://docs.spring.io/spring-boot/reference/features/external-config.html"
+    },
+    {
+      "label": "Spring Boot reference: Graceful shutdown",
+      "url": "https://docs.spring.io/spring-boot/reference/web/graceful-shutdown.html"
+    },
+    {
+      "label": "Spring Boot reference: Actuator endpoints and probes",
+      "url": "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
+    },
+    {
+      "label": "Kubernetes: Pod lifecycle",
+      "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/"
+    },
+    {
+      "label": "Kubernetes: Deployments",
+      "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+    }
+  ]
+}

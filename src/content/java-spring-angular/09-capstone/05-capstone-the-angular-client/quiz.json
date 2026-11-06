@@ -1,0 +1,57 @@
+[
+  {
+    "question": "The interceptor adds the bearer token to every outgoing request, and the page also loads a font and some data from a third-party host. What is the risk, and the fix?",
+    "options": [
+      "No risk, tokens are harmless",
+      "The token is sent to a host you do not control; add it only to requests whose URL starts with your API prefix",
+      "The requests become slower; use a larger timeout",
+      "The guard stops working; reorder the guards"
+    ],
+    "answer": 1,
+    "explanation": "A credential must go only to the service it belongs to. Limiting the header to your own API prefix keeps it away from third parties."
+  },
+  {
+    "question": "A teammate stores the access token in localStorage so users stay signed in after a reload. Which trade-off should the team weigh?",
+    "options": [
+      "localStorage is encrypted by the browser",
+      "Any script running on the page can read it, so a single XSS flaw leaks the session; in-memory storage avoids that at the cost of signing out on reload",
+      "localStorage tokens expire immediately",
+      "Interceptors cannot read localStorage"
+    ],
+    "answer": 1,
+    "explanation": "Persistence gives convenience but exposes the token to every script on the origin. The decision is a security-versus-usability trade-off that should be stated."
+  },
+  {
+    "question": "The server rejects a new course with a 400 whose errors map says the description is too long. Where should the client show it?",
+    "options": [
+      "In a single banner at the top of the page",
+      "In the browser console",
+      "Next to the description input, by mapping each key of the errors map to the field of that name",
+      "Nowhere, since client validation should have caught it"
+    ],
+    "answer": 2,
+    "explanation": "Mapping messages to their fields tells the user what to fix. The server stays authoritative because rules can exist that the client does not repeat."
+  },
+  {
+    "question": "A reader navigates directly to `/courses/new` and your guard redirects to login. A colleague then calls the API with `curl` and a reader token to create a course. What should happen, and what does this show?",
+    "options": [
+      "It succeeds, because the guard decided",
+      "It fails with 401 because curl has no router",
+      "It succeeds only in development",
+      "It fails with 403 from the API, which shows the guard is a convenience and the server rule is the protection"
+    ],
+    "answer": 3,
+    "explanation": "The guard only controls navigation in the browser. The API's role rule is what actually denies the call, whichever client sends it."
+  },
+  {
+    "question": "A user signs in, the token expires, and the next API call returns 401. Which behavior is best?",
+    "options": [
+      "Clear the stored session and navigate to the login page, only when a user was signed in",
+      "Show a blank page",
+      "Retry the same request forever",
+      "Keep sending the expired token"
+    ],
+    "answer": 0,
+    "explanation": "An expired credential cannot recover by retrying. Clearing the session and returning to login is clear, and checking that a user was signed in avoids a loop on failed logins."
+  }
+]

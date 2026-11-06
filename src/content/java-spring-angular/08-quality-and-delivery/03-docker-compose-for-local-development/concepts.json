@@ -1,0 +1,9 @@
+[
+  { "term": "Compose file", "description": "A compose.yaml that describes services, volumes and their settings so one command starts the whole system." },
+  { "term": "Healthcheck", "description": "A command Compose runs at an interval to decide whether a container is healthy, with retries and a start period." },
+  { "term": "service_healthy", "description": "A depends_on condition that starts a service only after the dependency's healthcheck passes." },
+  { "term": "Compose profile", "description": "A named group of services that Compose starts only when the profile is enabled, such as a full profile for the API and client." },
+  { "term": "Relaxed binding", "description": "The Spring Boot rule that maps an environment variable such as SPRING_DATASOURCE_URL to the property spring.datasource.url." },
+  { "term": "Docker Compose support", "description": "The spring-boot-docker-compose module that starts the compose file with the application and derives connection details from the containers." },
+  { "term": "SPA fallback", "description": "A server rule that returns index.html for paths that are not files so the Angular router can handle deep links." }
+]

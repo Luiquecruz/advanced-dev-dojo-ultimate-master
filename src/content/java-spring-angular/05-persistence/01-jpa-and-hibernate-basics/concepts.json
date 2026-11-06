@@ -1,0 +1,9 @@
+[
+  { "term": "Entity", "description": "A class annotated with @Entity whose instances map to rows of a table, with a no-argument constructor that the provider calls." },
+  { "term": "Persistence context", "description": "The set of entities one EntityManager tracks, holding at most one instance per row, which lives as long as the transaction in a Spring service." },
+  { "term": "Dirty checking", "description": "Hibernate comparing each managed entity with the snapshot taken at load time during flush and issuing an UPDATE for every difference." },
+  { "term": "Managed and detached", "description": "A managed entity is tracked by an open context, while a detached one has an id but no context, so its changes are not written." },
+  { "term": "merge", "description": "The operation that copies the state of a detached entity onto a managed instance and returns that managed instance." },
+  { "term": "Identifier generation", "description": "The strategy that produces primary keys: IDENTITY from the database, SEQUENCE from a sequence, UUID in the application, or AUTO chosen by Hibernate." },
+  { "term": "ddl-auto", "description": "The spring.jpa.hibernate.ddl-auto property that lets Hibernate create, update or validate the schema, where validate is the safe choice with migrations." }
+]

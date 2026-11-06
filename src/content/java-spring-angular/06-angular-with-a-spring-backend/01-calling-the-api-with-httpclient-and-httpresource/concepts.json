@@ -1,0 +1,9 @@
+[
+  { "term": "Signal", "description": "A reactive value that Angular reads by calling it, so a template or computed value updates when it changes." },
+  { "term": "HttpClient", "description": "The injectable service that sends HTTP requests and returns cold Observables typed by a generic argument." },
+  { "term": "Cold Observable", "description": "An Observable that sends nothing until it is subscribed to, so an unsubscribed HTTP call never leaves the browser." },
+  { "term": "httpResource", "description": "A signal-based wrapper around HttpClient that sends its request eagerly and sends another when a signal it reads changes." },
+  { "term": "Resource state", "description": "The signals isLoading, error, hasValue and value that describe a resource, where reading value in the error state throws." },
+  { "term": "defaultValue", "description": "The starting value of a resource, which removes undefined from the type of value and lets a template loop at once." },
+  { "term": "HttpErrorResponse", "description": "The error that HttpClient reports for a failed request, whose status is 0 when no HTTP answer arrived." }
+]

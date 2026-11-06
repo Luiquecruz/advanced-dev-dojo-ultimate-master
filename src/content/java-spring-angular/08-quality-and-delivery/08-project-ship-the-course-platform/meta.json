@@ -1,0 +1,31 @@
+{
+  "title": "Project: Ship the Course Platform",
+  "summary": "A local project that containerizes the Spring Boot API and the Angular client, runs them with a database in Compose, adds Actuator health and a CI workflow file.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "project"
+  ],
+  "resources": [
+    {
+      "label": "Docker: Compose services reference",
+      "url": "https://docs.docker.com/reference/compose-file/services/"
+    },
+    {
+      "label": "Spring Boot reference: Dockerfiles",
+      "url": "https://docs.spring.io/spring-boot/reference/packaging/container-images/dockerfiles.html"
+    },
+    {
+      "label": "Spring Boot reference: Endpoints",
+      "url": "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
+    },
+    {
+      "label": "GitHub Docs: Secure use reference",
+      "url": "https://docs.github.com/en/actions/reference/security/secure-use"
+    },
+    {
+      "label": "Angular: Deployment",
+      "url": "https://angular.dev/tools/cli/deployment"
+    }
+  ]
+}

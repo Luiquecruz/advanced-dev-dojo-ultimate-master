@@ -1,0 +1,14 @@
+{
+  "title": "Calling the API with HttpClient and httpResource",
+  "summary": "Read a Spring JSON API from Angular with a typed HttpClient service and a signal-driven httpResource, including loading, error and retry states.",
+  "level": "intermediate",
+  "tags": ["practice", "angular", "core"],
+  "entry": "app.ts",
+  "preview": false,
+  "resources": [
+    { "label": "angular.dev: Setting up HttpClient", "url": "https://angular.dev/guide/http/setup" },
+    { "label": "angular.dev: Making requests", "url": "https://angular.dev/guide/http/making-requests" },
+    { "label": "angular.dev: Reactive data fetching with httpResource", "url": "https://angular.dev/guide/http/http-resource" },
+    { "label": "angular.dev: Signals", "url": "https://angular.dev/guide/signals" }
+  ]
+}

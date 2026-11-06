@@ -1,0 +1,12 @@
+{
+  "title": "Capstone: Requirements and Design",
+  "summary": "A design stage with no application code: testable requirements, a data model, an OpenAPI contract written first, decision records and a risk list for the course catalog.",
+  "level": "intermediate",
+  "tags": ["theory", "project"],
+  "resources": [
+    { "label": "RFC 9457: Problem Details for HTTP APIs", "url": "https://www.rfc-editor.org/rfc/rfc9457.html" },
+    { "label": "Spring Boot reference: Servlet web applications", "url": "https://docs.spring.io/spring-boot/reference/web/servlet.html" },
+    { "label": "springdoc-openapi", "url": "https://springdoc.org/" },
+    { "label": "Angular: HTTP client setup", "url": "https://angular.dev/guide/http/setup" }
+  ]
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A new endpoint `/api/reports` is added next month and nobody updates the security configuration. With the chain ending in `anyRequest().denyAll()`, what happens to it?",
+    "options": [
+      "It is public until someone notices",
+      "It is open to any signed-in user",
+      "It is rejected until a rule explicitly allows it, so the mistake is visible instead of silent",
+      "It is protected by the Angular guard"
+    ],
+    "answer": 2,
+    "explanation": "Deny by default turns a forgotten rule into an obvious failure rather than an accidental exposure. A permissive default does the opposite."
+  },
+  {
+    "question": "Login for an unknown user answers 'User not found' and login with a wrong password answers 'Wrong password'. Why is that a problem?",
+    "options": [
+      "The messages are too long",
+      "It lets an attacker discover which usernames exist",
+      "It breaks the JSON format",
+      "It slows down BCrypt"
+    ],
+    "answer": 1,
+    "explanation": "Different messages reveal valid usernames, which helps credential guessing. One generic message for both cases removes that signal."
+  },
+  {
+    "question": "A teammate says: 'The Angular route guard already blocks non-admins, so the DELETE endpoint does not need a role rule.' What is the flaw?",
+    "options": [
+      "Guards are slower than filters",
+      "A guard only controls what the client shows; anyone can call the API directly, so the server must enforce the rule",
+      "Guards cannot read roles",
+      "The API cannot read the Authorization header"
+    ],
+    "answer": 1,
+    "explanation": "Client code is under the user's control. Authorization is only real where the data lives, and the guard is a convenience for the interface."
+  },
+  {
+    "question": "The signing secret is committed in `application.properties` so the team can run the app easily. Which change keeps convenience without the risk?",
+    "options": [
+      "Base64-encode the secret in the file",
+      "Shorten the secret",
+      "Rename the property",
+      "Read it from an environment variable, fail at startup when it is missing or short, and document a fake value for local use"
+    ],
+    "answer": 3,
+    "explanation": "Encoding is not protection. Reading from the environment keeps the real value out of the repository, and failing fast prevents running with a weak or missing key."
+  },
+  {
+    "question": "Why can CSRF protection be disabled for this API while it must stay on for a classic server-rendered form app with session cookies?",
+    "options": [
+      "Browsers send the bearer header automatically, so it is already safe",
+      "JSON requests are exempt from CSRF",
+      "Cookies authenticate the second kind of request automatically, whereas here a script must attach the token to each call",
+      "CSRF only affects GET requests"
+    ],
+    "answer": 2,
+    "explanation": "CSRF abuses credentials the browser sends on its own, such as cookies. A bearer token held in memory is attached only by your own code, so a forged form cannot use it."
+  }
+]

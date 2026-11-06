@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A report loads 500 courses with `findAll()` and prints `course.getLessons().size()` for each one inside a transaction. Open SQL logging shows 501 statements. What is the cause?",
+    "options": [
+      "Each lazy collection was initialized with its own query, which is the N+1 problem",
+      "Hibernate retries every query once",
+      "The database has 501 tables",
+      "The collection is eager, so it is loaded 500 times"
+    ],
+    "answer": 0,
+    "explanation": "One statement loads the courses and one more runs per course when its lazy lessons are first touched. A join fetch, an entity graph or batch fetching reduces it."
+  },
+  {
+    "question": "A paged list endpoint uses `select c from Course c left join fetch c.lessons` with a Pageable of size 10, and the log shows HHH90003004. What is the best fix?",
+    "options": [
+      "Ignore the warning, because paging still works",
+      "Make the association EAGER",
+      "Increase the page size so the in-memory work is amortized",
+      "Page the courses without the join, then load their lessons with batch fetching or one extra query"
+    ],
+    "answer": 3,
+    "explanation": "The warning means Hibernate loaded every row and applied the limit in memory. Paging the parents first keeps the database in charge of the limit."
+  },
+  {
+    "question": "A controller returns Course entities. With the Boot defaults the JSON contains the lessons and works, but the log shows dozens of queries per request. After setting spring.jpa.open-in-view=false the endpoint throws LazyInitializationException. What does that tell you?",
+    "options": [
+      "The setting broke the entity mapping",
+      "The lessons were being loaded lazily during JSON serialization, outside any service transaction, and the use case never fetched them on purpose",
+      "Jackson cannot serialize lists",
+      "The database dropped the lessons"
+    ],
+    "answer": 1,
+    "explanation": "Open Session in View kept the context open until serialization. Turning it off exposes the missing fetch, which you fix with a join fetch, entity graph or DTO built inside the service."
+  },
+  {
+    "question": "You want an integration test to fail when a list use case starts running more than one SQL statement. Which tool fits?",
+    "options": [
+      "Mockito verify on the repository",
+      "A comparison of the entity hash codes",
+      "Hibernate Statistics with generate_statistics enabled and an assertion on getPrepareStatementCount",
+      "Setting ddl-auto to validate"
+    ],
+    "answer": 2,
+    "explanation": "Statistics count the JDBC statements Hibernate prepared, so a test can pin the number. A mock never touches the database and cannot see N+1."
+  },
+  {
+    "question": "A query does `join fetch c.lessons` and `join fetch c.comments`, where both are `List` collections, and Hibernate throws MultipleBagFetchException. What is a sound way forward?",
+    "options": [
+      "Fetch one collection per query, or use batch fetching for the second one",
+      "Change both collections to EAGER",
+      "Wrap the call in a try block and retry",
+      "Remove the @OneToMany annotations"
+    ],
+    "answer": 0,
+    "explanation": "Hibernate refuses to fetch two bags in one query because the joined rows would multiply. Splitting the fetch, or batching one of them, avoids the cartesian product."
+  },
+  {
+    "question": "A dashboard needs each course title with its number of lessons and nothing else. Which approach loads the least?",
+    "options": [
+      "findAll(), then call getLessons().size() on each course",
+      "An aggregate query returning a record such as CourseLessonCount(id, title, lessons)",
+      "A join fetch of lessons, then count in Java",
+      "An entity graph on lessons"
+    ],
+    "answer": 1,
+    "explanation": "The database can count lessons in one statement, so only three small values per course travel. The other options load every lesson row or initialize each collection."
+  }
+]

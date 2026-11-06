@@ -1,0 +1,12 @@
+{
+  "title": "Error Handling with Problem Details",
+  "summary": "The RFC 9457 problem format, ProblemDetail and @RestControllerAdvice in Spring Framework 7, mapping domain exceptions to statuses, shaping validation errors, and keeping stack traces and internals out of responses.",
+  "level": "intermediate",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "RFC 9457: Problem Details for HTTP APIs", "url": "https://www.rfc-editor.org/rfc/rfc9457.html" },
+    { "label": "Spring Framework: Error responses", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-ann-rest-exceptions.html" },
+    { "label": "Spring Framework: Exceptions in controllers", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-exceptionhandler.html" },
+    { "label": "Spring Boot: Error handling", "url": "https://docs.spring.io/spring-boot/reference/web/servlet.html" }
+  ]
+}

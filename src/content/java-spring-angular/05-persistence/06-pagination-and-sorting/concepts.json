@@ -1,0 +1,9 @@
+[
+  { "term": "Pageable", "description": "An object holding a zero-based page number, a page size and a Sort that Spring Data applies as ORDER BY, limit and offset." },
+  { "term": "Page and Slice", "description": "Page carries the total element count through an extra COUNT query, while Slice only knows whether a next slice exists." },
+  { "term": "Stable sort", "description": "An ordering that ends with a unique column such as the id, so equal rows keep one position and no row repeats or vanishes between pages." },
+  { "term": "Sort whitelist", "description": "A fixed set of property names a client may sort by, checked in the service because request values are not validated against the model." },
+  { "term": "Keyset pagination", "description": "Fetching the rows after the last seen sort key instead of skipping an offset, exposed in Spring Data as Window and ScrollPosition." },
+  { "term": "Offset cost", "description": "The effect that the database reads and discards every row before the offset, so deep pages are slower than early ones." },
+  { "term": "Page response", "description": "An application-owned record with content and page metadata, returned instead of Spring Data's Page so the JSON stays stable." }
+]

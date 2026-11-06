@@ -1,0 +1,9 @@
+[
+  { "term": "Problem Details", "description": "The standard JSON error document of RFC 9457, sent as application/problem+json with the members type, title, status, detail and instance." },
+  { "term": "Extension member", "description": "A non-standard top-level member such as errors that a server adds to a problem document and that clients ignore when unknown." },
+  { "term": "ProblemDetail", "description": "The Spring Framework class that models the document, with a properties map that is written as top-level JSON members." },
+  { "term": "HttpErrorResponse.error", "description": "The parsed body of a failed response, which may be a problem document, text or null and must be checked before use." },
+  { "term": "Type guard", "description": "A function returning body is ProblemDetail that narrows an unknown value to a known shape after checking it at run time." },
+  { "term": "Submission error", "description": "An error returned by the submit action, attached to a field through fieldTree and cleared when the user edits that field." },
+  { "term": "Form-level error", "description": "A submission error without a fieldTree, which belongs to the whole form and is read from the root field." }
+]

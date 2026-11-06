@@ -1,0 +1,4 @@
+{
+  "title": "Spring Boot Core",
+  "description": "For people who finished the Java language module: the Spring container and dependency injection, auto-configuration and starters, configuration and profiles, REST controllers, validation, Problem Details error handling, an OpenAPI contract, and a course API project."
+}

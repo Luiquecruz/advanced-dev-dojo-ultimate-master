@@ -1,0 +1,9 @@
+[
+  { "term": "Code coverage", "description": "A measure of which lines, branches and methods ran during the tests, which shows untested code but not whether results were checked." },
+  { "term": "JaCoCo", "description": "A coverage tool that attaches a Java agent to the test JVM and writes an HTML, XML and CSV report in the verify phase." },
+  { "term": "Branch coverage", "description": "A counter that records whether each side of a decision such as an if statement was executed." },
+  { "term": "Mutation testing", "description": "Changing the code in small ways and rerunning the tests to see whether any test fails." },
+  { "term": "Surviving mutant", "description": "A code change that no test noticed, which points to a missing or weak assertion." },
+  { "term": "Lint warnings", "description": "Compiler diagnostics enabled by Xlint, which failOnWarning can turn into build errors." },
+  { "term": "Spotless", "description": "A build plugin that checks or applies a code formatter, with a check goal that fails on violations and an apply goal that rewrites files." }
+]
