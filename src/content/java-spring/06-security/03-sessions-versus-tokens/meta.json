@@ -1,0 +1,13 @@
+{
+  "title": "Sessions Versus Tokens",
+  "summary": "Cookies and server sessions compared with stateless bearer tokens: scaling, revocation, access and refresh tokens, where a browser can store credentials, and what that means for XSS and CSRF.",
+  "level": "intermediate",
+  "tags": ["theory", "security"],
+  "resources": [
+    { "label": "Spring Security: Session management", "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/session-management.html" },
+    { "label": "OWASP Cheat Sheet: Session Management", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" },
+    { "label": "MDN: Using HTTP cookies", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies" },
+    { "label": "RFC 10017: OAuth 2.0 for Browser-Based Applications", "url": "https://www.rfc-editor.org/rfc/rfc10017.html" },
+    { "label": "Spring Boot: Spring Session", "url": "https://docs.spring.io/spring-boot/reference/web/spring-session.html" }
+  ]
+}

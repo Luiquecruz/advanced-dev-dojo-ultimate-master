@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A teammate puts a user's home address in a JWT payload because \"the token is encoded\". What is the problem?",
+    "options": [
+      "The signature hides the payload from everyone",
+      "JWTs cannot carry strings",
+      "The payload is only Base64URL text, so anyone holding the token can read it",
+      "Spring removes unknown claims"
+    ],
+    "answer": 2,
+    "explanation": "A signed JWT proves origin and integrity, not secrecy. Anyone with the token can decode the payload, so sensitive data does not belong in it."
+  },
+  {
+    "question": "A resource server is configured with `issuer-uri` and `audiences: course-api`. A token from the right issuer arrives with `\"aud\": \"billing-api\"`. What happens?",
+    "options": [
+      "It is accepted, because the issuer matches",
+      "It is rejected with 401, because the audience check fails",
+      "It is accepted but with fewer authorities",
+      "The server asks the issuer to reissue it"
+    ],
+    "answer": 1,
+    "explanation": "The audiences property adds validation of the aud claim. A token meant for another API is rejected even though its signature and issuer are valid."
+  },
+  {
+    "question": "A token carries `\"scope\": \"courses:read courses:write\"`. Which rule lets only holders of the write scope call `POST /api/courses`?",
+    "options": [
+      "hasRole(\"courses:write\")",
+      "hasAuthority(\"courses:write\")",
+      "hasAuthority(\"SCOPE_courses:write\")",
+      "hasRole(\"SCOPE_courses:write\")"
+    ],
+    "answer": 2,
+    "explanation": "Each scope becomes an authority prefixed with SCOPE_. hasRole would add a ROLE_ prefix on top, so hasAuthority with the exact string is the correct rule."
+  },
+  {
+    "question": "Which flow should a browser-based public client use to sign users in with an identity provider?",
+    "options": [
+      "The password grant, sending the username and password to the API",
+      "The implicit grant, to get the token in the redirect",
+      "Client Credentials with a secret in the bundle",
+      "Authorization Code with PKCE"
+    ],
+    "answer": 3,
+    "explanation": "A browser application is a public client that cannot keep a secret. Authorization Code with PKCE is the recommended flow, and the implicit and password grants are obsolete."
+  },
+  {
+    "question": "A client app received both an ID token and an access token after an OpenID Connect login. Which one should it send in the `Authorization` header to your API?",
+    "options": [
+      "The access token",
+      "The ID token, because it contains the user",
+      "Either one, they are interchangeable",
+      "Neither, the API should read cookies"
+    ],
+    "answer": 0,
+    "explanation": "The ID token is addressed to the client to say who signed in. The access token is the credential intended for the resource server."
+  },
+  {
+    "question": "A valid, unexpired token for the right issuer calls an endpoint that needs `SCOPE_courses:write` but the token only has `courses:read`. What status results?",
+    "options": [
+      "401, because the token is invalid",
+      "403, because the caller is authenticated but lacks the authority",
+      "200, because the signature is valid",
+      "404, because the endpoint is hidden"
+    ],
+    "answer": 1,
+    "explanation": "Authentication succeeded, so the failure is an authorization one, reported as 403 with an insufficient_scope error in the Bearer challenge."
+  }
+]

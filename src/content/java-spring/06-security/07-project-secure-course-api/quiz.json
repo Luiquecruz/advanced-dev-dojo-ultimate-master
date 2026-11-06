@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A MockMvc test uses jwt() and gets 200. Which additional claim cannot be made from that test alone?",
+    "options": [
+      "The route accepted its supplied authority",
+      "The endpoint returned 200 in the test",
+      "The decoder verified the token signature",
+      "The controller was reachable under the test policy"
+    ],
+    "answer": 2,
+    "explanation": "The jwt postprocessor supplies an authenticated principal without running signature verification. A real bearer-header test must exercise the decoder."
+  },
+  {
+    "question": "A custom converter maps roles but drops scope authorities. Why does a valid administrator token receive 403 on a scope-protected GET?",
+    "options": [
+      "The rule requires SCOPE_courses:read, which the converter no longer provides",
+      "Administrators cannot use HTTP GET",
+      "JWT payloads cannot carry scopes",
+      "The controller must be static"
+    ],
+    "answer": 0,
+    "explanation": "Role and scope authorities are separate strings. Replacing the default converter without preserving scopes removes the authority required by the read rule."
+  },
+  {
+    "question": "Which test most directly verifies that a token for another API is rejected?",
+    "options": [
+      "Use WithMockUser with a USER role",
+      "Open a client route",
+      "Check that the token contains a subject",
+      "Send an otherwise valid signed bearer token with a different audience and expect 401"
+    ],
+    "answer": 3,
+    "explanation": "The token must reach the real decoder with an invalid audience while its signature and other claims are valid, isolating audience validation."
+  },
+  {
+    "question": "A new endpoint is added outside every permitted matcher. Under anyRequest().denyAll(), what policy applies?",
+    "options": [
+      "It becomes public",
+      "It stays denied until an explicit rule is added",
+      "It inherits administrator access automatically",
+      "Its method name decides the role"
+    ],
+    "answer": 1,
+    "explanation": "Deny by default rejects operations that have no explicit grant, so adding a route does not silently expand the API access surface."
+  },
+  {
+    "question": "A test-only JwtDecoder bean is added, while issuer and audience properties remain in application.yaml. What must the test decoder do?",
+    "options": [
+      "Skip all claim validation",
+      "Trust any token with an RSA header",
+      "Configure the required issuer, audience and timestamp validators itself",
+      "Load a production private key"
+    ],
+    "answer": 2,
+    "explanation": "A custom decoder replaces Boot auto-configuration for that bean. Its validators must implement the trust policy instead of assuming properties configure it."
+  },
+  {
+    "question": "A bearer-only API begins accepting session cookies from a browser. Which existing decision needs review?",
+    "options": [
+      "Disabling CSRF, because cookies are sent automatically",
+      "Using JSON response records",
+      "Naming the project secure-course-api",
+      "Running tests with Maven"
+    ],
+    "answer": 0,
+    "explanation": "The reason for disabling CSRF depended on credentials not being sent automatically. Session-cookie authentication changes that premise and needs CSRF protection."
+  }
+]

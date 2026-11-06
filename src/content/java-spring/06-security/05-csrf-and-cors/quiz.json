@@ -1,0 +1,68 @@
+[
+  {
+    "question": "An application authenticates with a session cookie and a browser client calls `POST /api/enrollments`. What does it need to protect against forged cross-site requests?",
+    "options": [
+      "CORS configured with `*`",
+      "A longer session timeout",
+      "CSRF protection with a token the client repeats in a header",
+      "Nothing, because the endpoint uses JSON"
+    ],
+    "answer": 2,
+    "explanation": "The browser attaches the cookie to any request to the site, including forged ones. A CSRF token that only your own page can read and send closes that gap."
+  },
+  {
+    "question": "A stateless API accepts only `Authorization: Bearer` tokens that the client code adds explicitly, and it creates no cookies. Why can CSRF protection be disabled?",
+    "options": [
+      "A forged request from another site cannot add the header, and the browser does not attach the token itself",
+      "Bearer tokens are encrypted",
+      "CORS already blocks forged requests",
+      "Browsers never send POST requests cross-site"
+    ],
+    "answer": 0,
+    "explanation": "CSRF relies on credentials the browser sends by itself. An explicit Authorization header set by script is not attached to a forged request, so there is nothing to abuse."
+  },
+  {
+    "question": "A session-authenticated API accepts its session cookie, but rejects a POST without a CSRF token with 403. Which change preserves the intended protection?",
+    "options": [
+      "Obtain a fresh CSRF token and repeat it in the agreed request header while retaining the session cookie",
+      "Disable CSRF whenever the session cookie is valid",
+      "Allow every origin to send credentials",
+      "Move the state change into a GET handler"
+    ],
+    "answer": 0,
+    "explanation": "The browser sends the session cookie automatically, so it cannot prove that an unsafe request came from the legitimate client. The separate CSRF token must be obtained and explicitly repeated."
+  },
+  {
+    "question": "A team enables CORS for `https://app.example.com` and concludes that other sites can no longer harm their users. What is wrong with that conclusion?",
+    "options": [
+      "CORS only works for GET requests",
+      "CORS limits which origins' scripts can read responses; it does not stop a cross-site form post from being sent or non-browser clients from calling the API",
+      "CORS disables cookies",
+      "CORS is enforced by the server, so attackers skip it"
+    ],
+    "answer": 1,
+    "explanation": "CORS is a browser rule about reading responses. It is not authentication and it does not replace CSRF protection or authorization on the server."
+  },
+  {
+    "question": "A preflight `OPTIONS` request to a secured Spring API is rejected with 401 even though the real request would carry a valid token. What explains this?",
+    "options": [
+      "OPTIONS is not a valid HTTP method",
+      "The token has expired",
+      "The browser forgot the Origin header",
+      "The CORS filter did not run before authentication, and a preflight never carries credentials"
+    ],
+    "answer": 3,
+    "explanation": "Preflights are sent without cookies or tokens. CORS must be handled ahead of authentication, which .cors() with a CorsConfigurationSource arranges."
+  },
+  {
+    "question": "A configuration sets `allowedOrigins` to `*` and `allowCredentials` to true. What happens?",
+    "options": [
+      "It works and allows every site with cookies",
+      "It is rejected, because the wildcard cannot be combined with credentials",
+      "Spring replaces `*` with the request origin",
+      "Only preflight requests are blocked"
+    ],
+    "answer": 1,
+    "explanation": "Browsers refuse a wildcard origin on credentialed responses, so Spring rejects the combination. List the allowed origins explicitly, or use origin patterns."
+  }
+]

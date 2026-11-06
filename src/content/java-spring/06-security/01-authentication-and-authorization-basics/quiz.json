@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A request to `GET /api/courses` arrives with no credentials at all, and the endpoint requires a logged-in caller. Which response is correct?",
+    "options": [
+      "403 Forbidden, because access is denied",
+      "401 Unauthorized, because the caller is not authenticated",
+      "200 OK with an empty list",
+      "404 Not Found, to hide the endpoint"
+    ],
+    "answer": 1,
+    "explanation": "A missing identity is an authentication failure, which HTTP reports as 401 despite the name. 403 is for a caller that is known but lacks permission."
+  },
+  {
+    "question": "A learner with the role `LEARNER` calls an endpoint that requires `ADMIN`, using a valid token. What should the server return?",
+    "options": [
+      "401 Unauthorized, so the client asks for a new login",
+      "200 OK with the data filtered",
+      "500 Internal Server Error",
+      "403 Forbidden, because the identity is valid but the permission is missing"
+    ],
+    "answer": 3,
+    "explanation": "Authentication succeeded, so 401 would mislead the client into re-authenticating. The failed authorization check is reported as 403."
+  },
+  {
+    "question": "A team hides the delete button from learners in the browser app and considers the delete feature protected. What is wrong with that?",
+    "options": [
+      "Anyone can send the delete request directly, so the server must check the permission",
+      "Hidden buttons slow the page down",
+      "A browser cannot hide buttons by role",
+      "Nothing, because the browser enforces roles"
+    ],
+    "answer": 0,
+    "explanation": "The client is under the caller's control. A script or command-line tool can call the API without the user interface, so only a server-side check protects the data."
+  },
+  {
+    "question": "A teammate stores passwords as SHA-256 hashes with no salt \"because it is a standard algorithm\". What is the best correction?",
+    "options": [
+      "Encrypt the hashes with a shared key instead",
+      "Switch to MD5, which is faster to verify",
+      "Use a salted, adaptive password hash such as bcrypt through the framework",
+      "Keep SHA-256 but store the hash in two columns"
+    ],
+    "answer": 2,
+    "explanation": "Fast hashes let an attacker test billions of guesses per second. An adaptive, salted hash is deliberately slow, and the framework already provides vetted implementations."
+  },
+  {
+    "question": "A new endpoint was added and nobody wrote a rule for it. Which default behavior of the security configuration is safest?",
+    "options": [
+      "Allow it, so features are not blocked",
+      "Allow it only for local requests",
+      "Allow it for any logged-in caller, whatever their role",
+      "Deny it until a rule opens it on purpose"
+    ],
+    "answer": 3,
+    "explanation": "Deny by default makes a forgotten rule fail safe. The opposite default turns every oversight into an exposed endpoint."
+  }
+]

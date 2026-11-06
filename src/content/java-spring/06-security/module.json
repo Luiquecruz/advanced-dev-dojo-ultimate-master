@@ -1,0 +1,4 @@
+{
+  "title": "Security",
+  "description": "For people who finished the earlier modules: threats, authentication and authorization, the Spring Security filter chain, sessions versus tokens, JWT resource servers, CSRF and CORS, method security, and a local project securing a course API."
+}
