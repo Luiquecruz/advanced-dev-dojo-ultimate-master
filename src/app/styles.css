@@ -72,9 +72,10 @@
 }
 
 @utility logo-trace {
-  stroke-dasharray: 0.3 1.3;
-  stroke-dashoffset: 0.3;
-  animation: logo-trace var(--dur-trace) var(--ease-out) var(--trace-delay, 0ms) both;
+  --trace-step: calc(var(--dur-trace) * 0.35 / max(var(--trace-count, 1), 1));
+  stroke-dasharray: 0.5 1.5;
+  stroke-dashoffset: 0.5;
+  animation: logo-trace calc(var(--dur-trace) * 0.65) var(--ease-trace) calc(var(--trace-delay, 0ms) + var(--trace-index, 0) * var(--trace-step)) both;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -84,22 +85,39 @@
 @utility logo-pulse {
   transform-box: fill-box;
   transform-origin: center;
-  animation: logo-pulse var(--dur-trace) var(--ease-out) var(--trace-delay, 0ms) both;
+  animation: logo-pulse var(--dur-trace) var(--ease-trace) var(--trace-delay, 0ms) both;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
 }
 
+@utility logo-twinkle {
+  --trace-step: calc(var(--dur-trace) * 0.5 / max(var(--trace-count, 1), 1));
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: logo-twinkle calc(var(--dur-trace) * 0.5) var(--ease-trace) calc(var(--trace-delay, 0ms) + var(--trace-index, 0) * var(--trace-step)) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes logo-twinkle {
+  40% {
+    scale: 1.7;
+  }
+}
+
 @keyframes logo-trace {
   to {
-    stroke-dashoffset: -1;
+    stroke-dashoffset: -1.5;
   }
 }
 
 @keyframes logo-pulse {
   40% {
-    scale: 1.6;
+    scale: 2;
     opacity: 1;
   }
 }

@@ -1,4 +1,4 @@
-import { useId, useState } from 'react';
+import { useId, useState, type CSSProperties } from 'react';
 import type { Track } from '@/content';
 import { TRACK_GLYPHS } from './trackGlyphs';
 
@@ -10,6 +10,10 @@ interface TrackLogoProps {
   size?: number;
   animate?: boolean;
   delayMs?: number;
+}
+
+function traceStyle(delay: string, count: number): CSSProperties {
+  return { ['--trace-delay' as string]: delay, ['--trace-count' as string]: count };
 }
 
 /**
@@ -56,19 +60,22 @@ export function TrackLogo({ track, size = 36, animate = false, delayMs = 0 }: Tr
               <path key={line} d={line} />
             ))}
           </g>
-          <g fill="currentColor">
-            {glyph.stars.map(([x, y]) => (
-              <circle key={`${x}-${y}`} cx={x} cy={y} r="1.6" />
+          <g key={`stars-${traces}`} fill="currentColor" style={traceStyle(traceDelay, glyph.stars.length)}>
+            {glyph.stars.map(([x, y], index) => (
+              <circle key={`${x}-${y}`} cx={x} cy={y} r="1.6" className={traces > 0 ? 'logo-twinkle' : undefined} style={{ ['--trace-index' as string]: index }} />
             ))}
           </g>
           {traces > 0 && (
-            <g key={traces} fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="stroke-ink" style={{ ['--trace-delay' as string]: traceDelay }}>
-              {glyph.lines.map((line) => (
-                <path key={line} d={line} pathLength={1} className="logo-trace" />
+            <g key={traces} fill="none" strokeLinecap="round" strokeLinejoin="round" className="stroke-ink" style={traceStyle(traceDelay, glyph.lines.length)}>
+              {glyph.lines.map((line, index) => (
+                <g key={line} style={{ ['--trace-index' as string]: index }}>
+                  <path d={line} pathLength={1} strokeWidth="4" strokeOpacity="0.3" className="logo-trace" />
+                  <path d={line} pathLength={1} strokeWidth="1.8" className="logo-trace" />
+                </g>
               ))}
             </g>
           )}
-          <circle key={`halo-${traces}`} cx={glyph.key[0]} cy={glyph.key[1]} r="4.2" fill="currentColor" fillOpacity="0.2" className={traces > 0 ? 'logo-pulse' : undefined} style={{ ['--trace-delay' as string]: traceDelay }} />
+          <circle key={`halo-${traces}`} cx={glyph.key[0]} cy={glyph.key[1]} r="4.2" fill="currentColor" fillOpacity="0.2" className={traces > 0 ? 'logo-pulse' : undefined} style={traceStyle(traceDelay, 1)} />
           <circle cx={glyph.key[0]} cy={glyph.key[1]} r="2.2" className="fill-ink" />
         </svg>
       ) : (
