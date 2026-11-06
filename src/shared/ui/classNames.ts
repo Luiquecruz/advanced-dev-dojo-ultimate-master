@@ -48,8 +48,8 @@ const TAG_TONES: Record<string, string> = {
 /**
  * Classes of a small uppercase tag, toned by its name.
  */
-export function tagClass(tag: string): string {
-  return clsx('rounded px-2 py-0.5 text-[11px] font-semibold tracking-[0.02em] uppercase', TAG_TONES[tag] ?? 'bg-hover text-ink-muted');
+export function tagClass(tag: string, extra?: string): string {
+  return clsx('rounded px-2 py-0.5 text-[11px] font-semibold tracking-[0.02em] uppercase', TAG_TONES[tag] ?? 'bg-hover text-ink-muted', extra);
 }
 
 export const SUCCESS_BADGE_CLASS = 'inline-flex items-center gap-1 rounded-full bg-success/12 px-2.5 py-0.5 text-xs font-semibold text-success [&_svg]:size-3.25';

@@ -49,6 +49,26 @@ describe('content structure', () => {
     expect(ids.length).toBe(new Set(ids).size);
   });
 
+  it.each(tracks.map((track) => [track.id, track] as const))('%s has unique module numbers', (_, track) => {
+    const numbers = track.modules.map((module) => module.number);
+    expect(numbers.length).toBe(new Set(numbers).size);
+  });
+
+  it.each(tracks.map((track) => [track.id, track] as const))('%s marks only a module zero as optional, built to count by its middle lessons', (_, track) => {
+    track.modules
+      .filter((module) => module.optional)
+      .forEach((module) => {
+        expect(module.number, `${track.id}/${module.id} is optional but not numbered 0`).toBe(0);
+        expect(module.lessons.length, `${track.id}/${module.id} needs a lesson between its first and its last`).toBeGreaterThanOrEqual(3);
+        expect(Boolean(module.lessons.at(-1)?.challenge), `${track.id}/${module.id} ends without the challenge that serves as the skip test`).toBe(true);
+      });
+  });
+
+  it.each(availableTracks.map((track) => [track.id, track] as const))('%s numbers its required modules 1 to N without gaps', (_, track) => {
+    const numbers = track.modules.filter((module) => !module.optional).map((module) => module.number);
+    expect(numbers).toEqual(numbers.map((_number, index) => index + 1));
+  });
+
   it.each(lessons.map((lesson) => [lesson.key, lesson] as const))('%s is complete', (_, lesson) => {
     expect(lesson.title.length).toBeGreaterThan(2);
     expect(lesson.summary.length).toBeGreaterThan(10);

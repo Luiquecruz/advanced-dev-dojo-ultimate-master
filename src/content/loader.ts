@@ -27,6 +27,12 @@ interface TrackMeta {
   version: string;
 }
 
+interface ModuleMeta {
+  title: string;
+  description: string;
+  optional?: boolean;
+}
+
 const DEFAULT_ENTRY: Record<EngineId, Record<string, string>> = {
   typescript: { ts: 'main.ts' },
   react: { jsx: 'App.jsx', tsx: 'App.tsx' },
@@ -130,8 +136,23 @@ export function buildTracks({ textFiles, jsonFiles }: ContentSources, languages:
       tracks.set(trackId, { ...meta, id: trackId, engine: defaultEngine, languages: trackLanguages, order, modules: [], lessons: [] });
     }
     if (segments.length === 4 && segments[3] === 'module.json') {
-      const meta = jsonFiles[path] as { title: string; description: string };
-      modules.set(`${segments[1]}/${segments[2]}`, { id: stripPrefix(segments[2]), trackId, title: meta.title, description: meta.description, lessons: [] });
+      const meta = jsonFiles[path] as ModuleMeta;
+      if (meta.optional !== undefined && typeof meta.optional !== 'boolean') {
+        throw new Error(`Module "${trackId}/${segments[2]}" declares a non-boolean "optional"`);
+      }
+      const prefix = /^(\d+)-/.exec(segments[2]);
+      if (!prefix) {
+        throw new Error(`Module "${trackId}/${segments[2]}" needs a numeric folder prefix`);
+      }
+      modules.set(`${segments[1]}/${segments[2]}`, {
+        id: stripPrefix(segments[2]),
+        number: Number(prefix[1]),
+        trackId,
+        title: meta.title,
+        description: meta.description,
+        optional: meta.optional ?? false,
+        lessons: [],
+      });
     }
     if (segments.length === 5 && segments[4] === 'meta.json') {
       lessonDirectories.add(segments.slice(0, 4).join('/'));

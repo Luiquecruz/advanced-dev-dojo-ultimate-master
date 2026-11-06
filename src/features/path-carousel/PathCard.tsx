@@ -5,10 +5,11 @@ import { ProgressBar } from '@/shared/ui/ProgressBar';
 import { type ModuleProgress, modulesAroundStage, summarizeTrack, type TrackStatus, useProgress } from '@/entities/progress';
 import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
-import { TrackLogo } from '@/entities/track';
+import { moduleNumberLabel, TrackLogo } from '@/entities/track';
 import { ChartIcon, CheckIcon, ChevronRightIcon, CircleIcon, HalfCircleIcon } from '@/shared/ui/icons';
-import { buttonClass } from '@/shared/ui/classNames';
+import { buttonClass, tagClass } from '@/shared/ui/classNames';
 import { GlowBorder } from '@/shared/ui/GlowBorder';
+import { stageLine } from './stageLine';
 
 const TIMELINE_SIZE = 5;
 
@@ -27,7 +28,7 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
   const state = useProgress();
   const summary = useMemo(() => summarizeTrack(track, state), [track, state]);
   const status = STATUS[summary.status];
-  const currentModule = summary.modules[summary.currentModuleIndex];
+  const stage = stageLine(summary);
 
   return (
     <article
@@ -67,9 +68,7 @@ export const PathCard = memo(function PathCard({ track, active }: { track: Track
         <p className="m-0 line-clamp-2 flex-none text-sm text-ink-muted">{track.description}</p>
 
         <div className="text-sm">
-          <div className="font-mono text-xs font-semibold text-accent">
-            Stage {summary.currentModuleIndex + 1} of {summary.modules.length} · {currentModule.module.title}
-          </div>
+          <div className="font-mono text-xs font-semibold text-accent">{stage}</div>
           <div className="mt-0.5 truncate text-ink-muted">{summary.status === 'completed' ? 'Track complete' : `Next up: ${summary.resumeLesson.title}`}</div>
         </div>
 
@@ -124,9 +123,10 @@ function TimelineRow({ entry }: { entry: ModuleProgress }) {
               : 'border-line-strong bg-panel text-ink-faint',
         )}
       >
-        {entry.state === 'done' ? <CheckIcon className="size-3" /> : entry.index + 1}
+        {entry.state === 'done' ? <CheckIcon className="size-3" /> : moduleNumberLabel(entry.module)}
       </span>
       <span className={clsx('min-w-0 flex-1 truncate text-[13px] font-medium', current ? 'text-ink' : 'text-ink-muted')}>{entry.module.title}</span>
+      {entry.module.optional && <span className={tagClass('optional', 'flex-none')}>optional</span>}
       <span className="flex-none font-mono text-[11px] text-ink-faint" aria-label={`${entry.done} of ${entry.total} lessons`}>
         {entry.done}/{entry.total}
       </span>
@@ -136,7 +136,7 @@ function TimelineRow({ entry }: { entry: ModuleProgress }) {
         ) : current ? (
           <ChevronRightIcon role="img" aria-label="Current stage" />
         ) : (
-          <CircleIcon role="img" aria-label="Not started" />
+          <CircleIcon role="img" aria-label={entry.state === 'optional' ? 'Optional, not complete' : 'Not started'} />
         )}
       </span>
     </li>

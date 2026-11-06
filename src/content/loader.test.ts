@@ -87,6 +87,40 @@ describe('buildTracks', () => {
     expect(quiz.challenge).toBeUndefined();
   });
 
+  it('marks a module optional only when module.json says so and rejects a non-boolean flag', () => {
+    const files = (optional: unknown) =>
+      sources(
+        { './node/00-zero/01-first/challenge.md': 'Do it', './node/00-zero/01-first/starter.ts': 'start', './node/01-basics/01-intro/challenge.md': 'Do it', './node/01-basics/01-intro/starter.ts': 'start' },
+        {
+          './node/track.json': { engine: 'node', title: 'Node.js', monogram: 'N', description: 'd', version: 'v' },
+          './node/00-zero/module.json': { title: 'Zero', description: 'd', optional },
+          './node/01-basics/module.json': { title: 'Basics', description: 'd' },
+          './node/00-zero/01-first/meta.json': lessonMeta,
+          './node/01-basics/01-intro/meta.json': lessonMeta,
+        },
+      );
+    const [track] = buildTracks(files(true), languages);
+    expect(track.modules.map((module) => [module.id, module.number, module.optional])).toEqual([
+      ['zero', 0, true],
+      ['basics', 1, false],
+    ]);
+    expect(() => buildTracks(files('yes'), languages)).toThrow('Module "node/00-zero" declares a non-boolean "optional"');
+  });
+
+  it('numbers modules by their folder prefix and rejects a module folder without one', () => {
+    const files = (moduleFolder: string) =>
+      sources(
+        { [`./node/${moduleFolder}/01-intro/challenge.md`]: 'Do it', [`./node/${moduleFolder}/01-intro/starter.ts`]: 'start' },
+        {
+          './node/track.json': { engine: 'node', title: 'Node.js', monogram: 'N', description: 'd', version: 'v' },
+          [`./node/${moduleFolder}/module.json`]: { title: 'Basics', description: 'd' },
+          [`./node/${moduleFolder}/01-intro/meta.json`]: lessonMeta,
+        },
+      );
+    expect(buildTracks(files('07-basics'), languages)[0].modules[0]).toMatchObject({ id: 'basics', number: 7 });
+    expect(() => buildTracks(files('basics'), languages)).toThrow('Module "node/basics" needs a numeric folder prefix');
+  });
+
   it('rejects a track that declares an unknown language', () => {
     expect(() => buildTracks(sources({}, { './ai/track.json': { languages: ['rust'], title: 'AI', monogram: 'AI', description: 'd', version: 'v' } }), languages)).toThrow('unknown languages: rust');
   });

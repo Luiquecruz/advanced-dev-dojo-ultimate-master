@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import type { Track } from '@/content';
 import { isLessonComplete, useProgress } from '@/entities/progress';
+import { moduleNumberLabel } from '@/entities/track';
 import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
 import { CheckIcon, CircleIcon } from '@/shared/ui/icons';
@@ -32,9 +33,12 @@ export function ModuleList({ track, currentKey, compact = false, className, onNa
             style={{ ['--enter-index' as string]: Math.min(moduleIndex, MAX_STAGGERED_MODULES), ['--enter-delay' as string]: '220ms' }}
           >
             <header className="flex items-start gap-3.5 border-b border-line px-4.5 py-4">
-              <span className="pt-0.5 font-mono text-[13px] font-semibold text-accent">{String(moduleIndex + 1).padStart(2, '0')}</span>
+              <span className="pt-0.5 font-mono text-[13px] font-semibold text-accent">{moduleNumberLabel(module)}</span>
               <div className="flex-1">
-                <h2 className="m-0 text-base font-semibold">{module.title}</h2>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h2 className="m-0 text-base font-semibold">{module.title}</h2>
+                  {module.optional && <span className={tagClass('optional')}>optional</span>}
+                </div>
                 <p className="mt-0.5 text-[13px] text-ink-muted">{module.description}</p>
               </div>
               <span className="text-xs whitespace-nowrap text-ink-faint">

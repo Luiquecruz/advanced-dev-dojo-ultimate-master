@@ -1,7 +1,7 @@
 import type { Track } from '@/content';
 import { CurriculumPanel, ModuleList } from '@/features/curriculum';
 import { ProgressBar } from '@/shared/ui/ProgressBar';
-import { isLessonComplete, useProgress } from '@/entities/progress';
+import { summarizeTrack, useProgress } from '@/entities/progress';
 import { Link } from 'react-router';
 import { hrefTo } from '@/shared/routing/route';
 import { TrackLogo } from '@/entities/track';
@@ -14,8 +14,8 @@ import { useMotionState } from '@/shared/motion/useMotionState';
 export function TrackPage({ track }: { track: Track }) {
   const state = useProgress();
   const motionState = useMotionState();
-  const done = track.lessons.filter((lesson) => isLessonComplete(state, lesson)).length;
-  const resumeId = state.lastLesson[track.id] ?? track.lessons[0]?.id;
+  const { done, total, percent, status, resumeLesson } = summarizeTrack(track, state);
+  const hasOptionalModule = track.modules.some((module) => module.optional);
 
   return (
     <main data-trail={track.id} className="mx-auto max-w-245 px-6 pt-9 pb-16 max-wide:px-4 max-wide:pt-6 max-wide:pb-12">
@@ -34,15 +34,14 @@ export function TrackPage({ track }: { track: Track }) {
             </div>
             <p className="my-4 text-base text-ink-muted">{track.description}</p>
             <div className="mt-4.5 mb-7 flex flex-wrap items-center gap-4">
-              <ProgressBar percent={track.lessons.length ? (done / track.lessons.length) * 100 : 0} label={`${done} of ${track.lessons.length} lessons complete`} large />
+              <ProgressBar percent={percent} label={`${done} of ${total} lessons complete`} large />
               <span className="text-ink-muted">
-                {done}/{track.lessons.length} lessons complete
+                {done}/{total} lessons complete
               </span>
-              {resumeId && (
-                <Link className={buttonClass('primary')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: resumeId })}>
-                  {state.lastLesson[track.id] ? 'Continue' : 'Start learning'}
-                </Link>
-              )}
+              <Link className={buttonClass('primary')} to={hrefTo({ page: 'lesson', trackId: track.id, lessonId: resumeLesson.id })}>
+                {status === 'not-started' ? 'Start learning' : 'Continue'}
+              </Link>
+              {hasOptionalModule && <p className="m-0 basis-full text-xs text-ink-faint">An optional module counts toward progress once you complete one of its lessons other than its first and last.</p>}
             </div>
           </header>
           <ModuleList track={track} />
