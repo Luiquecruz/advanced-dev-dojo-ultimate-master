@@ -94,7 +94,7 @@ reviews:
         mode: "warning"
         instructions: |
           Pass when the pull request adds no new src/content/<id>/track.json.
-          Otherwise pass only when the same pull request adds a [data-trail='<id>'] rule in src/shared/design/tokens.css, src/verify/<id>.test.ts, the track in the README.md tracks table, and its plan in .claude/docs/CURRICULUM.md.
+          Otherwise pass only when the same pull request adds a [data-trail='<id>'] rule in src/shared/design/tokens.css, a blueprint glyph for <id> in src/entities/track/trackGlyphs.ts that follows the track logo rules in .claude/docs/ARCHITECTURE.md "Track logos", src/verify/<id>.test.ts, the track in the README.md tracks table, and its plan in .claude/docs/CURRICULUM.md.
   tools:
     shellcheck:
       enabled: true

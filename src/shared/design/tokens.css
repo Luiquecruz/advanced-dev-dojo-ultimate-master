@@ -59,6 +59,8 @@
   --dur-fast: 150ms;
   --dur-base: 250ms;
   --dur-expand: 520ms;
+  --dur-trace: 1200ms;
+  --ease-trace: cubic-bezier(0.25, 0.6, 0.35, 1);
   --dur-enter: 900ms;
   --enter-step: 70ms;
   color-scheme: dark;

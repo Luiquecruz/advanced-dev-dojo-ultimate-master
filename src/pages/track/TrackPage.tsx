@@ -8,6 +8,8 @@ import { TrackLogo } from '@/entities/track';
 import { buttonClass } from '@/shared/ui/classNames';
 import { useMotionState } from '@/shared/motion/useMotionState';
 
+const PANEL_ENTRANCE_MS = 450;
+
 /**
  * Star map of one mission: its stages and waypoints.
  */
@@ -26,7 +28,7 @@ export function TrackPage({ track }: { track: Track }) {
         <CurriculumPanel label={`${track.title} star map`} paused={motionState === 'ACTIVITY'}>
           <header>
             <div className="flex items-center gap-4.5">
-              <TrackLogo track={track} size={56} />
+              <TrackLogo track={track} size={56} animate delayMs={PANEL_ENTRANCE_MS} />
               <div>
                 <h1 className="m-0 text-[40px]/[1.1] font-bold tracking-[-0.03em] max-wide:text-[32px]">{track.title}</h1>
                 <span className="text-xs font-medium text-ink-faint">{track.version}</span>
