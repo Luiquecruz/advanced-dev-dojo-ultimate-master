@@ -70,10 +70,13 @@ services:
       SPRING_DATASOURCE_USERNAME: catalog
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
       APP_JWT_SECRET: ${APP_JWT_SECRET:?Set APP_JWT_SECRET}
+      SPRING_PROFILES_ACTIVE: local
     depends_on:
       db:
         condition: service_healthy
 ```
+
+The `local` profile enables the demo seed location from stage three. Keep it confined to this local Compose setup; production must not activate that seed profile.
 
 5. Add the `client` service with `ports: ["127.0.0.1:8080:80"]`. Keep real values in an untracked `.env` file and commit only `.env.example` with fake ones.
 6. Expose only what operations need: `management.endpoints.web.exposure.include=health,info` and `management.endpoint.health.probes.enabled=true`, which adds the liveness and readiness groups.

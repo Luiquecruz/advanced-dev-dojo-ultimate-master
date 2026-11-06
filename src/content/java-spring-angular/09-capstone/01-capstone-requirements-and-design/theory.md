@@ -45,7 +45,7 @@ paths:
       summary: List courses
       parameters:
         - { name: page, in: query, schema: { type: integer, minimum: 0, default: 0 } }
-        - { name: size, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+        - { name: size, in: query, description: "Clamped to 1 when below 1 and to 100 when above 100", schema: { type: integer, default: 20 } }
         - { name: level, in: query, schema: { $ref: '#/components/schemas/Level' } }
       responses:
         '200':

@@ -39,8 +39,9 @@ Local verification covers the four unfiltered content suites, lint, typecheck, a
 Both release flags stay off and accents remain unchanged. The owners decide the palette and the release. PR #52 is i18n planning only; no i18n implementation is authorized by this workflow.
 
 Recent review and merge records:
+- PR #59 review pass: aligned the size schema with clamping, activated the demo-only seed profile in Compose, and specified Problem Details security handlers that preserve bearer challenge headers before controller advice.
 - PR #51 review pass: corrected ten Java content findings, aligned module 06 descriptions and the README track row with the theory-and-quiz decision, and clarified consecutive numbering. Validation passed: 1,671 tests, one skipped; eslint, TypeScript, docs sync and Java snippet checks (`javac --release 25` on JDK 27). All checks and review threads subsequently passed; PR #51 is merged.
-- PR consistency preparation: the final review enforces the theory-and-quiz-only decision in the track suite and aligns the completed curriculum description; module merges are still in progress.
+- PR consistency synchronization: incorporated the capstone contract and bearer-error corrections before opening the whole-track policy review.
 
 Next steps:
 1. Fix valid review findings, answer every thread, and verify the current commit's checks and review before merging.
