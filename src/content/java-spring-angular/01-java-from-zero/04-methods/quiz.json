@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A method `void addBonus(int salary) { salary = salary + 500; }` is called with a variable holding 3,000. What does the caller's variable hold afterwards?",
+    "options": [
+      "3,500, because the method changed the salary",
+      "3,000, because the parameter is a copy of the primitive value",
+      "0, because void methods reset arguments",
+      "It does not compile because salary is reassigned"
+    ],
+    "answer": 1,
+    "explanation": "Java copies the argument into the parameter, so the method changes only its local copy. To pass the result back, the method must return it."
+  },
+  {
+    "question": "A method receives an `int[] scores` parameter and runs `scores = new int[3];` as its first line, then sets `scores[0] = 5`. The caller's array is unchanged. Why?",
+    "options": [
+      "Arrays cannot be modified inside methods",
+      "The assignment to scores[0] was skipped by the compiler",
+      "Java passes objects by reference, but arrays are an exception",
+      "The assignment rebinds the local copy of the pointer, so later changes go to a different array"
+    ],
+    "answer": 3,
+    "explanation": "The parameter holds a copy of the caller's pointer. Assigning a new object changes only that copy, so the caller's variable still points to the original array."
+  },
+  {
+    "question": "Which pair of declarations can coexist in one class as overloads?",
+    "options": [
+      "int area(int side) and double area(int side)",
+      "int area(int side) and int area(int width, int height)",
+      "void area(int side) and void area(int side)",
+      "static int area(int side) and int area(int side)"
+    ],
+    "answer": 1,
+    "explanation": "Overloads must differ in their parameter lists. A different return type or a static modifier alone does not change the signature, so the other pairs are duplicates."
+  },
+  {
+    "question": "A method `static int largest(int... numbers)` is called as `largest()` with no arguments. What does `numbers` contain?",
+    "options": [
+      "null",
+      "A compile error is reported at the call",
+      "An empty array with length 0",
+      "An array containing a single zero"
+    ],
+    "answer": 2,
+    "explanation": "The compiler packs the arguments into an array. With no arguments that array is empty, not null. Code that reads numbers[0] without checking length would fail."
+  },
+  {
+    "question": "A method `printDiscountedPrice(double price)` both calculates a discount and prints it, and a teammate wants to unit test the calculation. What is the best change?",
+    "options": [
+      "Return the discounted price from a method that only computes, and print it in the caller",
+      "Make the method static so it can be tested",
+      "Add a comment describing the formula",
+      "Declare the price parameter final"
+    ],
+    "answer": 0,
+    "explanation": "A method that returns its result can be checked by comparing the value. Printing hides the result in console output, which a test cannot easily inspect."
+  }
+]

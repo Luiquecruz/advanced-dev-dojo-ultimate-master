@@ -1,0 +1,11 @@
+{
+  "title": "Methods",
+  "summary": "Parameters and return values, overloading, why Java passes everything by value (references included), scope, varargs, and what a small well-named method looks like.",
+  "level": "beginner",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "Oracle tutorial: Defining methods", "url": "https://docs.oracle.com/javase/tutorial/java/javaOO/methods.html" },
+    { "label": "dev.java: Classes and objects", "url": "https://dev.java/learn/classes-objects/" },
+    { "label": "dev.java: Language basics", "url": "https://dev.java/learn/language-basics/" }
+  ]
+}

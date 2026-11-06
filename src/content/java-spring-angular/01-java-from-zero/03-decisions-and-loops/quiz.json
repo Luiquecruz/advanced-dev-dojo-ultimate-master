@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A method receives a `String name` that may be `null`. Which condition is safe to write?",
+    "options": [
+      "name.length() > 0 || name != null",
+      "name.length() > 0 & name != null",
+      "name != null && name.length() > 0",
+      "name == null && name.length() > 0"
+    ],
+    "answer": 2,
+    "explanation": "&& evaluates the right side only when the left side is true, so the null test guards the method call. The other forms call length() on null first or always evaluate both sides."
+  },
+  {
+    "question": "A loop meant to print three lines is written `for (int i = 0; i <= 3; i++)` and prints four. What is the mechanism?",
+    "options": [
+      "<= includes the bound, so i takes the values 0, 1, 2 and 3, which is four passes",
+      "println prints each line twice",
+      "A for loop always runs one extra time",
+      "The variable i starts at 1 in a for loop"
+    ],
+    "answer": 0,
+    "explanation": "Starting at 0 and stopping when i is greater than 3 gives the passes 0, 1, 2 and 3. Using < 3 as the condition gives exactly three passes."
+  },
+  {
+    "question": "You must give every input a value, with no accidental fall-through, and want the compiler to reject a version that can leave an input without a result. What fits best?",
+    "options": [
+      "A while loop that tries each letter",
+      "A switch statement with fall-through cases",
+      "Three separate if statements without else",
+      "A switch expression with arrow cases and a default"
+    ],
+    "answer": 3,
+    "explanation": "A switch expression must produce a value for every possible input, so the compiler rejects a version with a gap. Arrow cases also remove accidental fall-through."
+  },
+  {
+    "question": "What does this print? `for (int n = 1; n <= 5; n++) { if (n == 2) continue; if (n == 4) break; System.out.print(n); }`",
+    "options": [
+      "1235",
+      "13",
+      "124",
+      "1345"
+    ],
+    "answer": 1,
+    "explanation": "continue skips printing for n equal to 2, and break ends the loop at n equal to 4 before it prints. Only 1 and 3 are printed."
+  },
+  {
+    "question": "A learner writes `boolean done = false; while (!done) { count++; }` and the program never stops. Which change fixes the real problem?",
+    "options": [
+      "Replace while with for",
+      "Change the condition to done",
+      "Assign done = true when the work is finished, so the condition can become false",
+      "Declare done as final"
+    ],
+    "answer": 2,
+    "explanation": "A loop ends only when its condition becomes false. Nothing in the body ever changes done, so the condition stays true forever. Changing loop syntax does not alter that."
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A login check reads the answer from the keyboard and runs `if (answer == \"yes\")`. It fails for input that clearly says yes. What is the cause?",
+    "options": [
+      "== compares whether both names refer to the same object, not whether the text matches",
+      "String literals cannot be compared",
+      "The answer variable is too long",
+      "== only works with numbers above 127"
+    ],
+    "answer": 0,
+    "explanation": "Text read at run time is a different object from the literal, so == is false. equals compares the characters. Using == on strings is unreliable by design."
+  },
+  {
+    "question": "A learner writes `String code = \"abc\"; code.toUpperCase(); System.out.println(code);` and sees abc. Which statement explains it?",
+    "options": [
+      "println converts text back to lowercase",
+      "toUpperCase works only on arrays",
+      "Strings are immutable: toUpperCase returned a new String that was thrown away",
+      "The code variable must be declared final first"
+    ],
+    "answer": 2,
+    "explanation": "String methods never modify the original object. The result of toUpperCase must be assigned, as in code = code.toUpperCase()."
+  },
+  {
+    "question": "A program joins 50,000 words by writing `result = result + word` in a loop and is slow. What is the best fix?",
+    "options": [
+      "Declare result as final",
+      "Use a StringBuilder and append each word, calling toString once at the end",
+      "Replace the loop with a switch",
+      "Convert each word to a char"
+    ],
+    "answer": 1,
+    "explanation": "Each + creates a new String and copies all previous characters. StringBuilder appends into one growing buffer, so the total work is far smaller."
+  },
+  {
+    "question": "You have `int[] ids = new int[3];` and need room for a fourth id. What is the correct approach?",
+    "options": [
+      "Assign ids[3] = 4, because the array grows automatically",
+      "Call ids.add(4)",
+      "Set ids.length = 4",
+      "Create a larger array, for example with Arrays.copyOf(ids, 4), and assign the new element there"
+    ],
+    "answer": 3,
+    "explanation": "An array's length is fixed at creation, and arrays have no add method. Assigning index 3 throws ArrayIndexOutOfBoundsException. Copying into a larger array is the way to grow one."
+  },
+  {
+    "question": "Which call prints `[1, 2, 3]` for `int[] values = {3, 1, 2}`?",
+    "options": [
+      "System.out.println(values)",
+      "Arrays.sort(values); System.out.println(Arrays.toString(values))",
+      "System.out.println(values.sort())",
+      "System.out.println(values.toString())"
+    ],
+    "answer": 1,
+    "explanation": "Arrays.sort orders the array in place and Arrays.toString formats it. Printing the array or calling toString on it shows an identity string, and arrays have no sort method."
+  }
+]

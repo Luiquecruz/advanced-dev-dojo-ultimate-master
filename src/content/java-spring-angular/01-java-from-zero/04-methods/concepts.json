@@ -1,0 +1,8 @@
+[
+  { "term": "Return type", "description": "The type declared before a method name that states what value the method gives back, or void for none." },
+  { "term": "Overloading", "description": "Declaring several methods with the same name and different parameter lists, resolved by the compiler from the argument types." },
+  { "term": "Pass-by-value", "description": "The rule that every argument is copied into its parameter; for a reference the copy is the pointer, not the object." },
+  { "term": "Scope", "description": "The region of code, from a declaration to the end of its block, where a variable can be used." },
+  { "term": "Varargs", "description": "A final parameter written Type... that accepts any number of arguments and is an array inside the method." },
+  { "term": "Guard clause", "description": "An early return at the top of a method that handles an unusual case so the main path stays flat." }
+]

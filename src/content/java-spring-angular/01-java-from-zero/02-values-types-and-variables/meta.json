@@ -1,0 +1,12 @@
+{
+  "title": "Values, Types and Variables",
+  "summary": "The primitive types and String, var and final, casting and silent overflow, text blocks, and why a primitive holds a value while a reference points to an object.",
+  "level": "beginner",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "dev.java: Variables", "url": "https://dev.java/learn/language-basics/variables/" },
+    { "label": "Oracle tutorial: Primitive data types", "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html" },
+    { "label": "dev.java: Numbers and strings", "url": "https://dev.java/learn/numbers-strings/" },
+    { "label": "Oracle: String API (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" }
+  ]
+}

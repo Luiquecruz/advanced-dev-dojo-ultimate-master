@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A report computes `int average = (int) (sum / 4)` where `sum` is an `int` equal to 10, and the learner expects 2.5. What actually happens?",
+    "options": [
+      "It prints 2.5 because the cast adds decimals",
+      "It fails to compile because int cannot be divided",
+      "The result is 2: sum / 4 is integer division and the fraction is already gone before the cast",
+      "The result is 3 because Java rounds half up"
+    ],
+    "answer": 2,
+    "explanation": "Both operands are int, so the division itself is integer division and yields 2. An int variable cannot hold 2.5 either way, and casts truncate rather than round."
+  },
+  {
+    "question": "A counter stored in an `int` is incremented past `Integer.MAX_VALUE` and suddenly becomes negative, with no exception. Which fix addresses the cause?",
+    "options": [
+      "Rename the counter variable",
+      "Declare the counter final",
+      "Use a long counter, or Math.addExact so the overflow is reported",
+      "Convert the counter to a String"
+    ],
+    "answer": 2,
+    "explanation": "Integer arithmetic wraps silently. A long has a much larger range, and Math.addExact throws ArithmeticException on overflow, which makes the problem visible. Plain + never reports it."
+  },
+  {
+    "question": "Which line fails to compile?",
+    "options": [
+      "var title = \"Java\";",
+      "final int limit = 5;",
+      "long size = 9_000_000_000L;",
+      "var pending;"
+    ],
+    "answer": 3,
+    "explanation": "var infers the type from the initializer, so a declaration without one gives the compiler nothing to infer. The other lines are valid declarations."
+  },
+  {
+    "question": "A variable `String title` was never given an object (it holds `null`), and the code calls `title.length()`. What happens?",
+    "options": [
+      "It returns 0, because an empty reference means an empty string",
+      "It throws a NullPointerException: the reference points to no object, so there is nothing to call length on",
+      "It fails to compile, because title is not initialized",
+      "It returns -1 to signal a missing value"
+    ],
+    "answer": 1,
+    "explanation": "A reference variable holds a pointer, and null means no object. Calling a method on null has no object to run on, so the runtime throws a NullPointerException."
+  },
+  {
+    "question": "A price of 19.99 is stored in a double and multiplied by 100 to get cents, sometimes producing 1998.9999999999998. What is the underlying reason?",
+    "options": [
+      "Binary floating point cannot represent most decimal fractions exactly",
+      "The JVM rounds every double down",
+      "double is limited to whole numbers above 1,000",
+      "The value was declared final"
+    ],
+    "answer": 0,
+    "explanation": "A double stores a binary fraction, so values such as 19.99 are approximations. Money should use whole cents in a long or a decimal type, never double."
+  }
+]

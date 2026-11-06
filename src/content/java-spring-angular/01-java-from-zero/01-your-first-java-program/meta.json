@@ -1,0 +1,12 @@
+{
+  "title": "Your First Java Program",
+  "summary": "What the JDK contains, how javac and java differ, how a class with a main method starts, and three ways to run code: compile then run, source-file mode and jshell.",
+  "level": "beginner",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "dev.java: Getting started with Java", "url": "https://dev.java/learn/getting-started/" },
+    { "label": "Oracle: The java command (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html" },
+    { "label": "Oracle: The javac command (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/javac.html" },
+    { "label": "Oracle: Introduction to JShell (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/jshell/introduction-jshell.html" }
+  ]
+}

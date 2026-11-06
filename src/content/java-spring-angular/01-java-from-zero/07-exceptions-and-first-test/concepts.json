@@ -1,0 +1,9 @@
+[
+  { "term": "try, catch, finally", "description": "The block structure that attempts code, handles a matching exception and always runs cleanup code at the end." },
+  { "term": "try-with-resources", "description": "A try form that declares an AutoCloseable resource and closes it automatically, even when an exception is thrown." },
+  { "term": "Checked exception", "description": "An Exception that is not a RuntimeException; the compiler requires it to be caught or declared with throws." },
+  { "term": "Unchecked exception", "description": "A RuntimeException subclass, such as IllegalArgumentException, that the compiler does not force you to handle." },
+  { "term": "throw", "description": "The statement that raises an exception object and starts unwinding the call stack." },
+  { "term": "Unit test", "description": "A small method, marked with @Test in JUnit, that calls code and asserts the expected result." },
+  { "term": "assertEquals", "description": "A JUnit assertion that fails the test when the expected and actual values are not equal." }
+]

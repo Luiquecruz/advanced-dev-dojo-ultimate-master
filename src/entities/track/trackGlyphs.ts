@@ -133,6 +133,18 @@ export const TRACK_GLYPHS: Record<string, TrackGlyph> = {
     ],
     key: [30.71, 19],
   },
+  'java-spring-angular': {
+    concept: 'a cup of steaming coffee over a server base',
+    lines: ['M13 24H32V30A6 6 0 0 1 26 36H19A6 6 0 0 1 13 30Z', 'M32 26H36A3 3 0 0 1 36 32H31', 'M19 9C16 13 22 16 19 20', 'M26 9C23 13 29 16 26 20'],
+    stars: [
+      [13, 24],
+      [32, 24],
+      [19, 9],
+      [26, 9],
+      [22.5, 36],
+    ],
+    key: [22.5, 30],
+  },
   'system-design': {
     concept: 'a balancer fanning out to replicated nodes',
     lines: ['M24 11L12 34', 'M24 11L24 34', 'M24 11L36 34', 'M12 34H36'],

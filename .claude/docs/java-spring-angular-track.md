@@ -1,6 +1,6 @@
 # Java, Spring Boot and Angular track (plan)
 
-Plan of the `java-spring-angular` track. Nothing is written yet: the track needs the engine decision below before any challenge is written, and it stays hidden (`TRACK_FLAGS`) until its last part ships. The content standards are the ones of [system-design-track.md](system-design-track.md) (theory template, quizzes, official resources, no dates, no language bridges, `You need:` lines, same test names in every language) plus the rules in "Content standards" here.
+Plan of the `java-spring-angular` track. The owner chose option A (no Java engine); module 01 is written, the other modules are planned. The track stays hidden (`TRACK_FLAGS`) until its last part ships, and its accent in `tokens.css` is provisional: the palette has no free hue 30 degrees from every shown track, so the owners re-space it before the track is shown. The content standards are the ones of [system-design-track.md](system-design-track.md) (theory template, quizzes, official resources, no dates, no language bridges, `You need:` lines, same test names in every language) plus the rules in "Content standards" here.
 
 ## Sources
 
@@ -25,7 +25,7 @@ The track adds what the reference project leaves out (Spring Security, observabi
 | Audience | Developers who know one language; module 00 teaches Java from zero | Under option B (a Java engine) module 00 is optional like the Python and C# ones: its last lesson is the skip test and one earlier lesson has a challenge (`src/verify/content.test.ts`), and it counts toward progress once a challenge lesson is complete. Under option A it has no challenge, so it cannot be optional by those rules: it is a required first module (numbered 1), unless the owners extend verification and progress tracking to allow an optional quiz-only module. |
 | Versions pinned | Java 25 (LTS), Spring Boot 4, Angular 22 | The versions the reference project and the Angular engine share. |
 | Angular part | Reuses the Angular engine; fundamentals link to the Angular track and are not repeated | The platform already teaches Angular 22 (zoneless, signals, Signal Forms); this track teaches the integration with a Spring back end. **Release gate:** the Angular track already exists (53 lessons) and is hidden only by its flag in `TRACK_FLAGS`; a link to a hidden track opens a missing page, so the Angular flag is turned on in the same release that shows this track. Showing Angular needs a new accent first: its current one (hue 351 degrees) is within 30 degrees of C# (358), which `trackPresentation.test.ts` rejects. If Angular stays hidden, the Angular-with-Spring module carries its own short Angular fundamentals instead of links. |
-| Java and Spring challenges | **Open: see "Engine decision"** | There is no Java engine in the browser. |
+| Java and Spring challenges | None: option A of "Engine decision" | There is no Java engine in the browser; Java and Spring lessons are theory, quizzes and local projects. |
 
 ## Engine decision
 

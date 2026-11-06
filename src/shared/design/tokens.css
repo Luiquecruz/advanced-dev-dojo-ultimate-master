@@ -121,6 +121,11 @@
   --accent-rgb: 64 230 176;
 }
 
+[data-trail='java-spring-angular'] {
+  --accent: #ffa24d;
+  --accent-rgb: 255 162 77;
+}
+
 @theme {
   --color-void: #0a0f18;
   --color-panel: #121c2a;

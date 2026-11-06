@@ -1,0 +1,11 @@
+{
+  "title": "Decisions and Loops",
+  "summary": "if and boolean logic with short-circuiting, switch statements and switch expressions with arrow cases, for, enhanced for and while loops, and break and continue.",
+  "level": "beginner",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "dev.java: Controlling the flow", "url": "https://dev.java/learn/language-basics/controlling-flow/" },
+    { "label": "dev.java: Language basics", "url": "https://dev.java/learn/language-basics/" },
+    { "label": "Oracle: The Java language documentation (Java 25)", "url": "https://docs.oracle.com/en/java/javase/25/language/" }
+  ]
+}
