@@ -1,6 +1,6 @@
 [
   {
-    "question": "A list screen sorts courses by title only. Several courses share the title \"Java\". Users report that one of them shows up on both page 1 and page 2. What is the fix?",
+    "question": "A list screen queries an unchanged result set and sorts courses by title only. Several courses share the title \"Java\". Users report that one of them shows up on both page 1 and page 2. What is the fix?",
     "options": [
       "Increase the page size",
       "Add a unique tiebreaker, so the sort is title and then id",
@@ -8,7 +8,7 @@
       "Sort in Java after loading the page"
     ],
     "answer": 1,
-    "explanation": "Rows with equal titles have no defined relative order, so it can differ between two queries. Ending the sort with the id gives every row one fixed position."
+    "explanation": "Rows with equal titles have no defined relative order, so it can differ between two queries. Ending the sort with the id gives deterministic order for an unchanged result set. Concurrent inserts or deletes can still shift offset pages."
   },
   {
     "question": "A mobile feed shows a \"Load more\" button and never displays the total number of items. Which return type avoids unneeded work?",
@@ -19,7 +19,7 @@
       "Slice, because it knows if a next slice exists without a COUNT query"
     ],
     "answer": 3,
-    "explanation": "Slice fetches one extra row to detect a next slice and runs no count. Page would execute a COUNT on every request for a number nobody sees."
+    "explanation": "Slice fetches one extra row to detect a next slice and runs no count. Page may execute a COUNT for totals nobody needs; it can skip the count when the result already reveals the total."
   },
   {
     "question": "An endpoint declares a Pageable parameter. A client calls it with `?size=100000&sort=salary`. Salary is not part of the public API. What should the service do?",

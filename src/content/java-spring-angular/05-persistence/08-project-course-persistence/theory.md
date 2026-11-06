@@ -45,7 +45,7 @@ services:
       POSTGRES_USER: catalog
       POSTGRES_PASSWORD: catalog-local-only
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
 ```
 
 2. Configure the application (fake local credentials, never reuse them anywhere real):
@@ -79,7 +79,7 @@ class CourseServiceIntegrationTests {
 ## Stretch goals
 
 - Add a statement-count test with Hibernate statistics that proves `findWithLessonsById` runs one statement.
-- Add `@Version` to `Course` and a test that two stale updates fail.
+- Add `@Version` to `Course` with a `V4` migration for its version column. Change its custom delete to bind `WHERE id = ? AND version = ?` (id first), increment the version, and configure `verify = Expectation.RowCount.class`. Test a stale update, a successful soft delete and a stale deletion; versioned custom SQL needs the extra bind parameter.
 - Add keyset pagination with a `Window` for a feed of the newest courses.
 - Add a scheduled job that purges rows deleted more than 90 days ago with a native query.
 

@@ -22,11 +22,11 @@ Spring Data adds `ORDER BY` and a limit with an offset, here `offset 20 fetch fi
 - `Slice<T>` fetches one extra row to know whether a next slice exists and runs no count. Use it for "load more" lists that need no total.
 - `List<T>` with a `Pageable` limits the rows and computes no metadata.
 
-Spring Data derives the count from the main query, so for a `@Query` with joins or grouping give the `Page` a `countQuery` that counts without them.
+Spring Data derives the count from the main query, so for a `@Query` with joins or grouping a `Page` may need an explicit `countQuery`. Preserve every filter and join needed to count the same results; a grouped query must count result groups, not the underlying rows.
 
 ## Sorting must be stable
 
-A page is only meaningful if the order is. Without `ORDER BY`, the database may return rows in any order. Sorting by a column that has ties, such as the title, still leaves the order of equal rows undefined, so the same row can appear at the end of page 1 and again on page 2, or disappear. Always end the sort with a unique column, usually the id:
+A page is only meaningful if the order is. Without `ORDER BY`, the database may return rows in any order. Sorting by a column that has ties, such as the title, still leaves the order of equal rows undefined, so the same row can appear at the end of page 1 and again on page 2, or disappear. End the sort with a unique column, usually the id. This gives deterministic ordering for an unchanged result set; concurrent inserts, deletes or sort-key updates can still shift rows between offset-page requests:
 
 ```java
 Sort.by("title", "id")
@@ -47,7 +47,7 @@ public PageResponse<CourseSummary> list(
 }
 ```
 
-`GET /api/courses?page=1&size=10&sort=title,desc` fills it: `page` is zero-based and defaults to 0, `size` defaults to 20 and `sort` takes `property,asc|desc`. Two limits matter. The accepted size is capped by `spring.data.web.pageable.max-page-size`, which is 2,000 by default; lower it. And the sort values are plain property names that Spring does not check against your model, so a client can send `sort=password` or a nonexistent field. Check them in the service:
+`GET /api/courses?page=1&size=10&sort=title,desc` fills it: `page` is zero-based and defaults to 0, `size` defaults to 10 for this controller because of `@PageableDefault` (20 is the framework fallback without that override), and `sort` takes `property,asc|desc`. Two limits matter. The accepted size is capped by `spring.data.web.pageable.max-page-size`, which is 2,000 by default; lower it. And the sort values are plain property names that Spring does not check against your model, so a client can send `sort=password` or a nonexistent field. Check them in the service:
 
 ```java
 private static final Set<String> SORTABLE = Set.of("id", "title", "level", "createdAt");
@@ -74,8 +74,11 @@ Window<Course> findFirst10ByLevelOrderByTitleAscIdAsc(Level level, ScrollPositio
 
 Window<Course> first = repository.findFirst10ByLevelOrderByTitleAscIdAsc(
         Level.BEGINNER, ScrollPosition.keyset());
-Window<Course> next = repository.findFirst10ByLevelOrderByTitleAscIdAsc(
-        Level.BEGINNER, first.positionAt(first.size() - 1));
+if (!first.isEmpty() && first.hasNext()) {
+    Window<Course> next = repository.findFirst10ByLevelOrderByTitleAscIdAsc(
+            Level.BEGINNER, first.positionAt(first.size() - 1));
+    // consume the next window
+}
 ```
 
 Spring Data rewrites the condition to `title > ? or (title = ? and id > ?)`, and `hasNext()` says whether more rows exist. The costs: a client can only move forward from one position to the next, the sort keys must be indexed and unique together, and the sort columns should not contain nulls. The documentation notes that keyset queries need a proper index. Use it for feeds and exports, and offsets for screens where users jump to a page number.
@@ -102,7 +105,7 @@ Alternatively, Spring Data's `PagedModel` wraps a `Page` as `content` plus a `pa
 - Returning `findAll()` as a `List` from an endpoint, which works until the table grows.
 - Sorting only by a column with duplicates, so rows repeat or vanish between pages.
 - Accepting any `sort` and `size` from the client without a whitelist and a maximum.
-- Using `Page` where a total is never shown, paying for a `COUNT` on every request.
+- Using `Page` where a total is never shown, potentially paying for a `COUNT` that the screen does not need.
 
 ## In practice
 

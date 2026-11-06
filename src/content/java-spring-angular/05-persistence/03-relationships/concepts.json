@@ -1,5 +1,5 @@
 [
-  { "term": "Owning side", "description": "The side of an association that holds the foreign key and whose changes Hibernate writes, which is the @ManyToOne side of a one-to-many." },
+  { "term": "Owning side", "description": "The side whose changes determine database relationship updates: @ManyToOne owns a bidirectional one-to-many, while either side may own a bidirectional many-to-many." },
   { "term": "mappedBy", "description": "The attribute that marks the inverse side of a bidirectional association by naming the field on the owning side." },
   { "term": "Cascade", "description": "A setting that passes persist, merge, remove, refresh or detach from a parent entity to the entities in its association." },
   { "term": "Orphan removal", "description": "A setting on one-to-many and one-to-one that deletes a child when it is removed from the parent's collection, applied at flush." },

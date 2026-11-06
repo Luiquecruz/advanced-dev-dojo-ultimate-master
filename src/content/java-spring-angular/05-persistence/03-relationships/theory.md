@@ -45,7 +45,8 @@ The course can list its lessons with `@OneToMany(mappedBy = "course")`. That mak
 private List<Lesson> lessons = new ArrayList<>();
 
 public Lesson addLesson(String lessonTitle) {
-    Lesson lesson = new Lesson(this, lessonTitle, lessons.size() + 1);
+    int nextPosition = lessons.stream().mapToInt(Lesson::getPosition).max().orElse(0) + 1;
+    Lesson lesson = new Lesson(this, lessonTitle, nextPosition);
     lessons.add(lesson);
     return lesson;
 }
