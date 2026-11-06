@@ -44,10 +44,10 @@
     "explanation": "All three constraints fail, so the validation handler returns one 400 problem with an errors member listing each field and message."
   },
   {
-    "question": "Module 05 will store courses in a database. Which part of this project should need no change in the controller or service?",
+    "question": "Module 05 will store courses in a database. Which design lets both the controller and the service implementation remain unchanged?",
     "options": [
-      "The service signatures",
-      "The repository interface, with a database implementation replacing the in-memory class",
+      "Keeping service signatures while embedding storage code inside the service",
+      "Depending on the repository interface and replacing its in-memory implementation with a database implementation",
       "The record names",
       "The OpenAPI bean"
     ],

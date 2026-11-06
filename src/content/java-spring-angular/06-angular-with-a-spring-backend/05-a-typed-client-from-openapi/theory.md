@@ -18,6 +18,7 @@ paths:
         - { name: page, in: query, schema: { type: integer } }
       responses:
         "200":
+          description: One page of courses
           content:
             application/json:
               schema: { $ref: "#/components/schemas/CoursePage" }
@@ -80,7 +81,7 @@ export class CourseApi {
 }
 ```
 
-- **Types from schemas.** `Course`, `CourseInput` and `Page<T>` mirror the schemas, so a field renamed on the server breaks the build when the client is regenerated.
+- **Types from schemas.** `Course`, `CourseInput` and `Page<T>` mirror the schemas, so after client regeneration, a renamed server field can cause build errors where application code still uses the old field name.
 - **One method per operation**, named after its `operationId`, with the response type taken from the success response.
 - **A base-path token**, so the server address is configuration. A test, a staging build or a different deployment provides another value without touching the service.
 - **Careful parameters.** Only defined values are sent, through `HttpParams`, which encodes them. `page: 0` is a value, and `undefined` is not sent at all.

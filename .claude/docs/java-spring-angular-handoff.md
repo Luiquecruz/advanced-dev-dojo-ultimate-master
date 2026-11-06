@@ -28,7 +28,7 @@ This branch contains modules 01–09, 68 lessons. The table tracks the entire re
 | 04 | [#54](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/54) | MERGED | `main` |
 | 05 | [#55](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/55) | MERGED | `main` |
 | 06 | [#56](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/56) | OPEN | `main` |
-| 07 | [#57](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/57) | OPEN | `feat/java-module-06` |
+| 07 | [#57](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/57) | OPEN | `main` |
 | 08 | [#58](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/58) | OPEN | `feat/java-module-07` |
 | 09 | [#59](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/59) | OPEN | `feat/java-module-08` |
 
@@ -42,6 +42,21 @@ Recent review and merge records:
 - PR #59 review pass: aligned the size schema with clamping, activated the demo-only seed profile in Compose, and specified Problem Details security handlers that preserve bearer challenge headers before controller advice.
 - PR #51 review pass: corrected ten Java content findings, aligned module 06 descriptions and the README track row with the theory-and-quiz decision, and clarified consecutive numbering. Validation passed: 1,671 tests, one skipped; eslint, TypeScript, docs sync and Java snippet checks (`javac --release 25` on JDK 27). All checks and review threads subsequently passed; PR #51 is merged.
 - PR #60 review pass: restored the required first module in the module map and aligned the testing and review wording with JUnit Jupiter and the no-challenge policy.
+- PR #56 review pass: connected the validation helper to an exception handler, clarified cross-origin guard configuration and proxy location, repaired the OpenAPI response fragment and qualified regeneration and signal-mutation quiz claims.
+- PR #55 trigger cleanup follow-up: the final rename migration now removes or updates synchronization functions/triggers that still reference the old column, including dependencies PostgreSQL does not infer from string-literal bodies.
+- PR #55 rename follow-up: the contract phase now explicitly deploys code that no longer accesses the old column and drains all earlier versions before dropping it.
+- PR #55 follow-up: required synchronized writes throughout a rolling column rename and established Docker Engine 28 as the project baseline for loopback port publishing. Verified the earlier stable-sort and count-query corrections in theory, quiz and glossary.
+- PR #55 review pass: addressed 16 findings across context scope, bulk-update refresh/flush, association ownership, lesson ordering, rollback/savepoint limits, stable paging/counts, safe migration rollout, local database binding and versioned custom deletes. Revalidating before the next review.
+- PR #54 review correction: show the explicit Schema annotation behind the title description/example and distinguish required-property metadata from NotBlank validation, as requested by CodeRabbit.
+- PR #53 reuse lifecycle follow-up: documented persistent credentials/ports, Docker-aware network restrictions and removal when a reusable container is no longer needed.
+- PR #53 reuse follow-up: explained cross-project configuration matching, project-specific container configuration and per-run isolation or exclusive serialized cleanup.
+- PR #53 follow-up: documented resetting persistent tables only in a dedicated reused test database before rerunning the JDBC example.
+- PR #51 review pass: corrected ten Java content findings, aligned module 06 descriptions and the README track row with the theory-and-quiz decision, and clarified consecutive numbering. Validation passed: 1,671 tests, one skipped; eslint, TypeScript, docs sync and Java snippet checks (`javac --release 25` on JDK 27). The next CodeRabbit review and remote CI gate the merge. Uncommitted module 05–07 drafts remain preserved in the original workspace.
+- PR #54 synchronization: merged current main after module 03 was merged; retained all module 04 review corrections and refreshed the stack state.
+- PR #55 synchronization: merge current main after module 04 and preserve reviewed persistence guidance.
+- PR #56 synchronization: incorporated reviewed main through module 05; persistence regression checks pass with nine local tests.
+- PR #56 follow-up review: reproduced Boot 4.1.2 missing-primitive deserialization rejection and nullable validation; documented read-only submitting inputs and separate retryable transient state. CodeRabbit resumed reviewing newer commits after its earlier quota warning.
+- Owner scope change: preserve this integrated full-stack draft for a future track. Java and Spring Boot will ship independently from Angular; active backend work supersedes PRs 56-60.
 
 Next steps:
 1. Fix valid review findings, answer every thread, and verify the current commit's checks and review before merging.

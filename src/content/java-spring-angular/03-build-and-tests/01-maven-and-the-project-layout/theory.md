@@ -63,7 +63,7 @@ Each dependency is a set of coordinates plus a scope that says where it is on th
 - `provided`: expected from the platform at run time, so it is not packaged.
 - `test`: only for compiling and running tests, and not transitive.
 
-Libraries bring their own dependencies, called transitive dependencies. `mvn dependency:tree` prints the whole tree, which is the first tool to reach for when two versions of a library collide.
+Libraries bring their own dependencies, called transitive dependencies. `mvn dependency:tree` shows the resolved tree. To include nodes omitted for conflicts, run `mvn org.apache.maven.plugins:maven-dependency-plugin:3.11.0:tree -Dverbose=true`, then manage the chosen version or exclude the unwanted dependency.
 
 ## The build lifecycle
 
@@ -91,7 +91,7 @@ mvn package -DskipTests               # build the jar without running tests
 mvn dependency:tree                   # show dependencies and their origin
 ```
 
-`-D` sets a system property that plugins read. The packaged jar has no `Main-Class` entry yet, so run it with `java -cp target/library-catalog-1.0.0-SNAPSHOT.jar library.Main`.
+`-D` sets a system property that plugins read. If you add a `library.Main` class with a `main` method under `src/main/java`, the plain jar has no `Main-Class` entry by default; run that class with `java -cp target/library-catalog-1.0.0-SNAPSHOT.jar library.Main`.
 
 ## The Maven Wrapper
 

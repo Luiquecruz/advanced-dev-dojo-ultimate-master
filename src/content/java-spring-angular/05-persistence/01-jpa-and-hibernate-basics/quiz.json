@@ -11,7 +11,7 @@
     "explanation": "Inside the transaction the entity is managed. During flush Hibernate compares it with its load-time snapshot and writes the difference, so no explicit save is needed."
   },
   {
-    "question": "A service returns a Course after its @Transactional method ended. The controller then calls course.rename(\"New title\"). Why is the change not stored?",
+    "question": "With Open Session in View disabled and a transaction-scoped persistence context, a service returns a Course after its @Transactional method ended. The controller then calls course.rename(\"New title\"). Why is the change not stored?",
     "options": [
       "The entity is detached, so no persistence context tracks the change",
       "Hibernate caches updates until the next application restart",

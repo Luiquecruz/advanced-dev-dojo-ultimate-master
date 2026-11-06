@@ -27,10 +27,10 @@
       "Delete the local repository and rebuild",
       "Change every dependency to scope compile",
       "Rename the artifactId of the project",
-      "Run `mvn dependency:tree` to see which version is chosen and where each comes from"
+      "Run `mvn org.apache.maven.plugins:maven-dependency-plugin:3.11.0:tree -Dverbose=true` to inspect the conflict"
     ],
     "answer": 3,
-    "explanation": "The dependency tree shows which dependency pulls which version, so you can manage that version in dependencyManagement or exclude the unwanted one."
+    "explanation": "Verbose output includes dependencies omitted for conflicts. Identify their paths, then manage the chosen version in dependencyManagement or exclude the unwanted dependency."
   },
   {
     "question": "A project inherits from `spring-boot-starter-parent`. You add `spring-boot-starter-test` and leave out its `<version>`. Why does this build?",

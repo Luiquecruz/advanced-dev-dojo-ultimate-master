@@ -67,7 +67,7 @@ Folder numbers: under option A the modules are `01` to `09` in the order above (
 
 - Same standards as [system-design-track.md](system-design-track.md): no dates, no changelog, no bridges from other languages, official resources only, `You need:` lines naming earlier lessons by exact title, quizzes with scenario questions.
 - A fact about Spring Boot 4, Spring Framework 7, Java 25 or Angular 22 is checked against the project's own documentation and states the version it applies to.
-- Practice projects are described in the closing lesson of a module and built locally; the lesson says which JDK and Maven versions to install.
+- Practice projects are described in the closing lesson of a module and built locally; the lesson specifies the JDK version and, when Maven is required, the Maven version to install.
 - Security lessons never show a real secret; fake credentials appear in code fences only.
 
 ## Pipeline

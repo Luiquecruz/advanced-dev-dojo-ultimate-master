@@ -71,7 +71,7 @@ public void importFile(Path file) throws IOException {
 }
 ```
 
-Since Spring Framework 6.2, `@EnableTransactionManagement(rollbackOn = RollbackOn.ALL_EXCEPTIONS)` changes the default for the whole application. Catching an exception inside the method also prevents a rollback, because the proxy never sees it. If an inner transactional method throws and the outer method catches the exception, the shared transaction is already marked rollback-only, and the outer commit fails with `UnexpectedRollbackException`.
+Since Spring Framework 6.2, `@EnableTransactionManagement(rollbackOn = RollbackOn.ALL_EXCEPTIONS)` changes the default for the whole application. Catching an exception inside the method also prevents a rollback, because the proxy never sees it. If an inner `REQUIRED` call through a proxy throws an exception matching its rollback rules, the shared transaction is marked rollback-only. Catching that exception in the outer method does not clear the marker, so commit can fail with `UnexpectedRollbackException`. A checked exception does not trigger this by default.
 
 ## Propagation
 
@@ -84,7 +84,7 @@ public void recordAttempt(String message) {
 }
 ```
 
-This keeps an audit row even when the caller rolls back. It takes a second database connection, so a small pool can deadlock under load. The other values are `SUPPORTS`, `MANDATORY`, `NOT_SUPPORTED`, `NEVER` and `NESTED`, which uses JDBC savepoints.
+This keeps an audit row even when the caller rolls back. It takes a second database connection, so a small pool can deadlock under load. The other values are `SUPPORTS`, `MANDATORY`, `NOT_SUPPORTED`, `NEVER` and `NESTED`, which uses JDBC savepoints. `JpaTransactionManager` disables nested transactions by default; even when enabled, a JDBC savepoint does not restore the JPA persistence context. Do not rely on nested rollback for JPA entity changes.
 
 ## Read-only transactions
 

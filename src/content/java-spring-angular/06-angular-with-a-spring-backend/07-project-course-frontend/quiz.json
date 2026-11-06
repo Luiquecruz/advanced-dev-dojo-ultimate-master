@@ -33,7 +33,7 @@
     "explanation": "Spring numbers pages from zero, so the second page is page=1. The label adds one to the page number the server returns."
   },
   {
-    "question": "A blank title is rejected with a 400 Problem Details response whose `errors` list names the field `title`. Where should the message appear?",
+    "question": "An otherwise nonempty submission receives a 400 Problem Details response whose `errors` list names the field `title`. Where should the message appear?",
     "options": [
       "In the browser console only",
       "As a form-level alert at the bottom of the page",
