@@ -1,0 +1,13 @@
+{
+  "title": "Discord Architecture: ScyllaDB, Rust & Tail Latency",
+  "summary": "Real-time gateways on the Erlang VM, why messages on Cassandra suffered hot partitions, compaction backlog and garbage-collection pauses, and how ScyllaDB plus Rust data services with request coalescing fixed the tail.",
+  "level": "advanced",
+  "tags": ["theory", "case-study", "performance"],
+  "resources": [
+    { "label": "Discord: How Discord stores trillions of messages", "url": "https://discord.com/blog/how-discord-stores-trillions-of-messages" },
+    { "label": "Discord: Why Discord is switching from Go to Rust", "url": "https://discord.com/blog/why-discord-is-switching-from-go-to-rust" },
+    { "label": "Discord: How Discord scaled Elixir to 5,000,000 concurrent users", "url": "https://discord.com/blog/how-discord-scaled-elixir-to-5-000-000-concurrent-users" },
+    { "label": "Erlang documentation: the Erlang garbage collector", "url": "https://www.erlang.org/doc/apps/erts/garbagecollection.html" },
+    { "label": "ScyllaDB: shard-per-core architecture", "url": "https://www.scylladb.com/product/technology/shard-per-core-architecture/" }
+  ]
+}

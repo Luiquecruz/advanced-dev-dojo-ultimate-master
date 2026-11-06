@@ -1,0 +1,13 @@
+{
+  "title": "Multi-Region & Cell-Based Architecture",
+  "summary": "Why and how to run in several regions: RPO and RTO, active-passive and active-active, write conflicts and how to avoid them, failover drills, and cells, shuffle sharding and static stability to shrink the blast radius of failures.",
+  "level": "advanced",
+  "tags": ["theory", "core"],
+  "resources": [
+    { "label": "AWS whitepaper: Disaster recovery options in the cloud", "url": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html" },
+    { "label": "AWS Well-Architected: What is a cell-based architecture?", "url": "https://docs.aws.amazon.com/wellarchitected/latest/reducing-scope-of-impact-with-cell-based-architecture/what-is-a-cell-based-architecture.html" },
+    { "label": "AWS Well-Architected: Cell-based architecture FAQ (shuffle sharding)", "url": "https://docs.aws.amazon.com/wellarchitected/latest/reducing-scope-of-impact-with-cell-based-architecture/faq.html" },
+    { "label": "AWS whitepaper: Static stability", "url": "https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/static-stability.html" },
+    { "label": "Azure Architecture Center: Deployment Stamps pattern", "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/deployment-stamp" }
+  ]
+}

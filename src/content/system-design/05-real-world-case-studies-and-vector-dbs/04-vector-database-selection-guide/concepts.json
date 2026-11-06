@@ -1,0 +1,9 @@
+[
+  { "term": "pgvector", "description": "A PostgreSQL extension: a `vector` column type, distance operators, exact search and HNSW or IVFFlat indexes, inside the same transactions as the rest of the data." },
+  { "term": "Post-filtering", "description": "Running the ANN search first and discarding results that fail the filter; a selective filter leaves too few results." },
+  { "term": "Pre-filtering", "description": "Restricting candidates to rows that match the filter before ranking by similarity, with a regular index or a filter-aware vector index." },
+  { "term": "Filter selectivity", "description": "The share of rows a filter matches; it decides whether exact search on the matches or a filter-aware ANN index is faster." },
+  { "term": "Hybrid search", "description": "Combining keyword (BM25) and vector results into one ranking, for example with Reciprocal Rank Fusion." },
+  { "term": "Namespace", "description": "A partition of a managed vector index that every read and write targets; a common boundary for tenants." },
+  { "term": "Sync pipeline", "description": "The outbox or change data capture flow that keeps a separate vector store in step with the primary database, eventually consistent by design." }
+]

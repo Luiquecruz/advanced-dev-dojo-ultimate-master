@@ -1,0 +1,5 @@
+`scope_key` is one line: `json.dumps([tenant, model, system_prompt], separators=(",", ":"))`. The starter's `store` already keeps `{"scope", "vector", "answer"}` dicts with the vector computed once, so `lookup` only has to compare vectors, never prompts.
+---
+In `lookup`, keep only the entries with `entry["scope"] == scope`, embed the prompt once, and walk the candidates while remembering the best similarity so far (update it only with `>`, so the first entry wins a tie). Compare that best similarity with the threshold after the loop: returning the first entry above the threshold misses a better one stored later.
+---
+In `complete`, loop over the providers and wrap only `answer = await provider.call(request)` in `try`/`except Exception as error`. In the `except` block, use a bare `raise` unless `_is_retryable(error)`, which is true for a `TimeoutError` or a `ProviderError` with `status == 429` or `500 <= status <= 599`; otherwise remember the error as `last_error` and `continue`. After a successful call, store the answer and return it with `provider.name`. After the loop, `raise last_error`.

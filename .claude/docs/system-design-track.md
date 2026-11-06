@@ -11,7 +11,7 @@ Spec and content standards of the System Design track (`src/content/system-desig
 | Languages | `"languages": ["node", "python", "csharp"]` | The learner chooses the language of every challenge in the editor toolbar: TypeScript on the Node.js engine, Python on the Python engine (Pyodide) or C# on the C# engine (.NET WebAssembly and Roslyn). Challenges are small models of a mechanism (a rate limiter, a hash ring, a circuit breaker) with the same contract and the same tests in every language. A quiz-only lesson never starts an engine. |
 | Audience | No prior architecture experience; the challenges assume basic TypeScript, Python or C# | Module 00 is optional: whoever solves the challenge of its last lesson starts at module 01. |
 | Version label | `Concepts · capacity estimation · case studies · vector databases` | A topic label, never a date or a release number (see "No dates"). |
-| Visibility | `TRACK_FLAGS['system-design'] = false` | Hidden while in progress; enabled once every module is written, verified and has passed an independent final review. |
+| Visibility | `TRACK_FLAGS['system-design'] = true` | Shown: every module was written, verified and reviewed, and the whole track passed an independent final review. |
 | Accent | `#40e6b0` (hue about 160°) | The only hue window at least 30° away from every shown track (Python about 123°, TypeScript about 193°). Vue (hidden, about 154°) shares it: enabling Vue fails `trackPresentation.test.ts` and the accents are revisited then. |
 
 ## Content standards

@@ -1,0 +1,10 @@
+[
+  { "term": "AI gateway", "description": "A shared layer 7 proxy between applications and model providers that authenticates callers, meters tokens, routes, falls back, streams, caches and records every request." },
+  { "term": "Token quota", "description": "A per-tenant limit measured in tokens, usually a token bucket: the gateway reserves input plus maximum output tokens before a call and reconciles with the reported usage after it." },
+  { "term": "Model alias", "description": "A name such as `support-chat` that the gateway maps to a concrete model by capability, cost and latency, so swapping the model is a configuration change." },
+  { "term": "Provider fallback", "description": "Moving a request to the next provider only on retryable errors (`429`, `5xx`, timeouts), with a circuit breaker per provider, and never after the first streamed chunk." },
+  { "term": "Exact-match cache", "description": "Reuses an answer only for an identical request, keyed by a hash of tenant, model, parameters, system prompt, tool definitions and messages." },
+  { "term": "Semantic cache", "description": "Embeds the prompt and returns the stored answer of the most similar earlier prompt when its similarity reaches a threshold." },
+  { "term": "Cache scope", "description": "The exact partition a semantic lookup may search: tenant, model, system prompt, tool definitions and sampling parameters, so answers never cross tenants or instructions." },
+  { "term": "False hit", "description": "A semantic cache hit for a prompt that only looks similar, which serves a confident answer to a different question; a higher threshold gives fewer false hits and fewer hits." }
+]

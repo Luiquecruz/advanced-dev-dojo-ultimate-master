@@ -1,0 +1,10 @@
+[
+  { "term": "Embedding", "description": "A vector produced by a model so that similar content ends up close together." },
+  { "term": "Cosine similarity", "description": "The dot product divided by both lengths: compares direction only, from -1 to 1; equals the dot product for normalized vectors." },
+  { "term": "Exact k-NN", "description": "Compares the query with every vector, `O(N·d)` per query: perfect recall, cost that grows with the collection." },
+  { "term": "Recall@k", "description": "The share of the true top `k` neighbors that an approximate index returns; the quality side of the latency trade-off." },
+  { "term": "HNSW", "description": "A layered proximity graph searched greedily from a sparse top layer down; tuned with `M`, `efConstruction` and `efSearch`, kept in memory." },
+  { "term": "IVF / IVFFlat", "description": "k-means centroids split the vectors into lists (Voronoi cells); a query scans only the `nprobe` nearest lists (pgvector `lists` and `probes`)." },
+  { "term": "DiskANN", "description": "A graph index stored on SSD with compressed vectors in memory, for collections larger than RAM on a single machine." },
+  { "term": "Quantization", "description": "Storing vectors in fewer bits (scalar, product or binary codes) to cut memory, usually followed by re-ranking with the original vectors." }
+]

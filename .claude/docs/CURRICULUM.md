@@ -390,7 +390,7 @@ Spec: `.claude/docs/csharp-track/`. Single-language track on the C# engine (`"en
 
 ## System Design (`src/content/system-design`)
 
-Spec and standards: [system-design-track.md](system-design-track.md). Multi-language track (`"languages": ["node", "python", "csharp"]`): every lesson is theory + quiz, lessons marked **(challenge)** also have a graded challenge that models the mechanism (a rate limiter, a hash ring, a circuit breaker), in TypeScript, Python or C# as the learner chooses. 7 modules, 29 lessons: an optional fundamentals module 00 for learners new to architecture (skipped by anyone who can solve the 00/05 challenge; it counts toward progress only once started), then modules 01–06. 19 lessons have a graded challenge. Lessons carry no dates, no changelog and no bridges from other languages (`src/verify/system-design.test.ts`). Hidden (`TRACK_FLAGS['system-design'] = false`) until every module is written, verified and reviewed.
+Spec and standards: [system-design-track.md](system-design-track.md). Multi-language track (`"languages": ["node", "python", "csharp"]`): every lesson is theory + quiz, lessons marked **(challenge)** also have a graded challenge that models the mechanism (a rate limiter, a hash ring, a circuit breaker), in TypeScript, Python or C# as the learner chooses. 7 modules, 29 lessons: an optional fundamentals module 00 for learners new to architecture (skipped by anyone who can solve the 00/05 challenge; it counts toward progress only once started), then modules 01–06. 19 lessons have a graded challenge. Lessons carry no dates, no changelog and no bridges from other languages (`src/verify/system-design.test.ts`). Shown (`TRACK_FLAGS['system-design'] = true`): every module was written, verified and reviewed, and the whole track passed an independent final review.
 
 ### 00-fundamentals — Architecture Fundamentals (optional)
 01-client-server-and-http **(challenge)** ✓ · 02-statelessness-and-sessions **(challenge)** ✓ · 03-database-basics-sql-vs-nosql ✓ · 04-load-balancing-basics **(challenge)** ✓ · 05-caching-fundamentals **(challenge)** ✓
@@ -408,7 +408,7 @@ Spec and standards: [system-design-track.md](system-design-track.md). Multi-lang
 01-cap-and-pacelc-theorems ✓ · 02-consensus-and-leader-election **(challenge)** ✓ · 03-message-queues-and-event-streams **(challenge)** ✓ · 04-saga-pattern-and-transactional-outbox **(challenge)** ✓ · 05-resilience-circuit-breaker-and-bulkhead **(challenge)** ✓ · 06-serverless-event-driven-architecture ✓
 
 ### 05-real-world-case-studies-and-vector-dbs — Real-World Case Studies & Vector Databases for AI
-01-uber-architecture-h3-and-geospatial **(challenge)** · 02-discord-architecture-scylladb-and-rust · 03-vector-databases-and-ann-indexes **(challenge)** · 04-vector-database-selection-guide · 05-ai-gateway-and-semantic-cache **(challenge)**
+01-uber-architecture-h3-and-geospatial **(challenge)** ✓ · 02-discord-architecture-scylladb-and-rust ✓ · 03-vector-databases-and-ann-indexes **(challenge)** ✓ · 04-vector-database-selection-guide ✓ · 05-ai-gateway-and-semantic-cache **(challenge)** ✓
 
 ### 06-production-ownership — Production Ownership
-01-observability-slos-and-error-budgets **(challenge)** · 02-multi-region-and-cell-based-architecture · 03-staff-level-design-reviews
+01-observability-slos-and-error-budgets **(challenge)** ✓ · 02-multi-region-and-cell-based-architecture ✓ · 03-staff-level-design-reviews ✓

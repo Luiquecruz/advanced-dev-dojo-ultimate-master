@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A SaaS product on PostgreSQL wants semantic search over 2,000,000 help-center articles, filtered by customer account. The team proposes a new dedicated vector cluster. What is the strongest case for pgvector instead?",
+    "options": [
+      "pgvector is the only option that supports cosine similarity",
+      "Dedicated engines cannot store more than one million vectors",
+      "The data fits one server, filters are plain SQL, and embeddings commit in the same transaction as the articles, with no sync pipeline or extra system to operate",
+      "pgvector never needs an index"
+    ],
+    "answer": 2,
+    "explanation": "At this scale a second system adds an outbox or CDC pipeline, eventual consistency between articles and embeddings, backups and on-call. pgvector keeps the vectors in the same rows, so the account filter is plain SQL, served by an index on the account column or by partitions per account."
+  },
+  {
+    "question": "An HNSW index in pgvector serves queries with `WHERE language = 'pt'`, which matches 5% of rows. Users get 2 or 3 results instead of 10. Why?",
+    "options": [
+      "The filter is applied after the index scan, so most of the candidates the ANN search returns are discarded; iterative index scans or a pre-filtering strategy fix it",
+      "HNSW cannot index text columns",
+      "Cosine distance does not work with filters",
+      "The query planner limits every vector query to three rows"
+    ],
+    "answer": 0,
+    "explanation": "With approximate indexes pgvector filters after scanning: a candidate list of 40 with a 5% filter leaves about two matches. Iterative scans keep scanning, and partial indexes or partitions per language restrict the candidates first."
+  },
+  {
+    "question": "A search over a parts catalog must match exact part numbers like `XJ-4410` and also understand descriptions such as \"quiet fan for a small case\". What capability matters most?",
+    "options": [
+      "A larger `efConstruction`",
+      "Hybrid search that runs keyword (BM25) and vector queries and fuses the two rankings",
+      "Binary quantization of every vector",
+      "A higher replication factor"
+    ],
+    "answer": 1,
+    "explanation": "Embeddings blur exact tokens such as part numbers, while keyword search misses paraphrases. Fusing both rankings, for example with Reciprocal Rank Fusion, one of the fusion algorithms Weaviate offers, covers both kinds of query."
+  },
+  {
+    "question": "Documents are synced from PostgreSQL to a separate vector store through change data capture. A document is deleted for legal reasons, yet the RAG assistant quotes it a minute later. What property explains this?",
+    "options": [
+      "The embedding model memorized the document",
+      "HNSW graphs cannot delete nodes",
+      "Cosine similarity ignores deleted rows",
+      "The separate store is eventually consistent with the primary database, so the delete is visible only after the pipeline applies it"
+    ],
+    "answer": 3,
+    "explanation": "A copy fed by CDC or an outbox lags the source. In the same database the delete and the embedding removal commit together; with a separate store, deletions and permission changes must be propagated and their lag monitored."
+  },
+  {
+    "question": "A platform serves thousands of small tenants with very spiky traffic, and the team does not want to operate database servers. Which option fits best?",
+    "options": [
+      "A managed serverless vector service, with one namespace per tenant so every query targets only that tenant's data",
+      "A single pgvector table shared by all tenants with no tenant filter",
+      "Exact k-NN in the application process",
+      "One self-hosted vector cluster per tenant"
+    ],
+    "answer": 0,
+    "explanation": "Namespaces partition an index so reads and writes stay inside one tenant, and a serverless design that separates and scales read and write paths absorbs spikes without servers to run. A shared approximate index without a filter mixes tenants."
+  },
+  {
+    "question": "A team already runs a distributed SQL database for orders and wants product recommendations from embeddings stored next to that data. What should they check before adding a new system?",
+    "options": [
+      "Whether the embeddings can be stored as CSV files",
+      "Whether the vectors can be sharded with `hash(key) % N`",
+      "Whether their database offers a vector type and an ANN index, as TiDB does with HNSW indexes served from its columnar replicas",
+      "Whether every query can use exact search"
+    ],
+    "answer": 2,
+    "explanation": "Vector search inside the database you already operate keeps data in one place and avoids a sync pipeline. TiDB, for example, adds an HNSW vector index; the decision then rests on its filter and scale behavior."
+  }
+]

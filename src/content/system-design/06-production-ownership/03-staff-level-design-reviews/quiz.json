@@ -1,0 +1,68 @@
+[
+  {
+    "question": "In a design review, a principal engineer asks: \"What else did you consider?\" The document describes only the chosen design, in great detail. What is the best way to fix the document?",
+    "options": [
+      "Add even more detail to the chosen design, so its quality is obvious",
+      "Add at least one real alternative, compare both against criteria taken from the requirements, and record why the alternative lost",
+      "Remove the trade-offs section, since there is only one design to discuss",
+      "Answer that the team already agreed, so alternatives are not needed"
+    ],
+    "answer": 1,
+    "explanation": "Without alternatives, reviewers cannot tell a deliberate choice from the first idea. Comparing options against criteria fixed in advance and stating why the others lost makes the decision reviewable, and lets the record be revisited when the criteria change."
+  },
+  {
+    "question": "A migration plan reads: 1) create the new orders table, 2) write every new order to both tables, 3) switch all reads to the new table, 4) drop the old table. What is missing before step 3?",
+    "options": [
+      "Backfill the historical orders and verify that both tables match, with counts, checksums and shadow reads",
+      "A cache in front of the old table",
+      "A higher replication factor for the old table",
+      "An announcement of the migration to customers"
+    ],
+    "answer": 0,
+    "explanation": "Dual writes only cover orders created after step 2; older orders exist only in the old table. Without a backfill and a verification step, the switched reads return missing or different data, and dropping the old table in step 4 makes the loss permanent."
+  },
+  {
+    "question": "Which of these decisions deserves the slowest and most rigorous review?",
+    "options": [
+      "The time-to-live of a cache entry",
+      "The logging library used behind an internal interface",
+      "Whether a new button is released behind a feature flag",
+      "The partition key of a table that will hold billions of rows"
+    ],
+    "answer": 3,
+    "explanation": "Changing a partition key later means moving most of the data while serving traffic: a one-way door. The other three are two-way doors that can be measured and reverted in minutes, so a quick decision is the right amount of rigor for them."
+  },
+  {
+    "question": "A service is changing the format of the records it stores. The rollout is gradual, and the team must be able to roll back at any point. Which plan keeps every rollback safe?",
+    "options": [
+      "Deploy the new version, which reads and writes only the new format, to all servers at once",
+      "Switch the writers to the new format first and teach the readers about it in the next release",
+      "First deploy readers that understand both formats to every server, then switch the writers to the new format",
+      "Convert every stored record in place before deploying any code"
+    ],
+    "answer": 2,
+    "explanation": "If writers switch first, a rollback lands on code that cannot read the records already written in the new format. Preparing every reader first means both the old and the new version can read whatever was written during the rollout."
+  },
+  {
+    "question": "A reviewer asks what happens to checkout when the feature flag service is down. In the design, every checkout request calls the flag service and fails when it gets no answer. Which change answers the reviewer best?",
+    "options": [
+      "Retry the flag service up to five times inside every checkout request",
+      "Each server keeps the last flags it received and falls back to safe defaults, so checkout keeps working while an alert reports the stale flags",
+      "Move the flag check to the mobile client, which calls the flag service directly",
+      "Remove the timeout on the flag call so that it eventually answers"
+    ],
+    "answer": 1,
+    "explanation": "A flag lookup on the request path makes the flag service a dependency of every checkout. Serving the last known flags, as a statically stable data plane does, keeps checkout running; retries and missing timeouts only add load and latency to a failing call."
+  },
+  {
+    "question": "An interview prompt says: design a rate limiter used by 200 internal services. Which question belongs in step 1 of this infrastructure round?",
+    "options": [
+      "Which database should store the counters",
+      "How many followers a typical user has",
+      "How precise the limit must be, how much latency a check may add, and whether calls are allowed or rejected when the limiter itself is down",
+      "Which hash function spreads the counters across the limiter's nodes"
+    ],
+    "answer": 2,
+    "explanation": "An infrastructure round starts from the clients and the guarantees: accuracy, added latency and the behavior when the system itself fails, failing open or failing closed. The database and the hash function are design choices that follow from those answers, and followers belong to a product round."
+  }
+]

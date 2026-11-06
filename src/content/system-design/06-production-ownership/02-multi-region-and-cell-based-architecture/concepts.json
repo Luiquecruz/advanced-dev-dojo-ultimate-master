@@ -1,0 +1,10 @@
+[
+  { "term": "RPO and RTO", "description": "The recovery point objective is the maximum acceptable data loss, measured in time; the recovery time objective is the maximum acceptable time until the service is restored." },
+  { "term": "Active-passive and active-active", "description": "Active-passive keeps a standby region that is promoted during failover; active-active serves users from every region and must decide who writes each record." },
+  { "term": "Home region", "description": "The single region that takes every write for a record or partition, so two regions never change the same data concurrently." },
+  { "term": "Last-writer-wins", "description": "Conflict resolution that keeps the write with the latest timestamp and silently discards the concurrent one." },
+  { "term": "CRDT", "description": "A conflict-free replicated data type, such as a counter or a set, whose concurrent updates always merge to the same state on every replica." },
+  { "term": "Cell", "description": "A complete, independent copy of the workload that serves a subset of customers, reached through a thin router that maps a partition key to a cell." },
+  { "term": "Shuffle sharding", "description": "Each customer gets its own combination of workers, so a poison customer fully affects only the few customers that share its exact combination." },
+  { "term": "Static stability", "description": "Keeping the service running through an impaired dependency without making changes, using pre-provisioned capacity and the last known configuration instead of the control plane." }
+]
