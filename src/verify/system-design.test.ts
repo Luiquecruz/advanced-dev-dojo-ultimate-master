@@ -6,6 +6,7 @@ import { nodeAdapter } from '../engines/node/adapter';
 import { markedTests, TEST_FILES } from '../engines/testFiles';
 import { defineChallengeSuite } from './challengeSuite';
 import { unawaitedThrowsAsync } from './csharpChecks';
+import { DATED, datedIn, datedTextsOf, proseOf } from './noDates';
 import { csharpGrader, frameworkGrader, pythonGrader } from './graders';
 
 /**
@@ -28,9 +29,6 @@ const RESOURCE_HOSTS = new Set([
   'github.com', 'arxiv.org', 'proceedings.neurips.cc', 'www.usenix.org', 'dl.acm.org', 'docs.pinecone.io', 'qdrant.tech', 'weaviate.io',
   'docs.pingcap.com', 'www.elastic.co', 'jepsen.io', 'opentelemetry.io', 'prometheus.io', 'docs.cloud.google.com', 'martinfowler.com', 'builder.aws.com',
 ]);
-/** A changelog or a date that ages the lesson (system-design-track.md "No dates"). Numbers are written with separators, so `2,000` never matches. */
-const DATED =
-  /\b[Ss]tatus as of\b|\bchangelog\b|\brelease notes\b|\b(?:as of|in|since|until|by|from|during|early|late|mid-?)\s+(?:19|20)\d{2}\b|\b(?:19|20)\d{2}-\d{2}(?:-\d{2})?\b|\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+(?:19|20)\d{2}\b|\b(?:this|last|next) year\b|\bnewly released\b|\blatest (?:version|release)\b/i;
 /**
  * A bridge from another programming language or ecosystem (system-design-track.md "No bridges"): the track teaches architecture, not a
  * translation. Naming a language as part of a system (Rust services, the JVM garbage collector) is content, not a bridge.
@@ -228,30 +226,8 @@ const challengeViolations = (lesson: Lesson): Violation[] => [
   ...neutralNameViolations(lesson),
 ];
 
-/** Every prose text a learner reads in a lesson, labelled by file. */
-function proseOf(lesson: Lesson): Array<[string, string]> {
-  const texts: Array<[string, string]> = [
-    ['theory.md', lesson.theory],
-    ['quiz.json', lesson.quiz.map(({ question, options, explanation }) => [question, ...options, explanation].join('\n')).join('\n')],
-    ['concepts.json', lesson.concepts.map(({ term, description }) => `${term} ${description}`).join('\n')],
-    ['meta.json', `${lesson.title}\n${lesson.summary}`],
-  ];
-  for (const challenge of lesson.variants) {
-    const language = languageOf(challenge);
-    texts.push(
-      [`challenge.md [${language}]`, challenge.instructions],
-      [`hints.md [${language}]`, challenge.hints.join('\n')],
-      [`approach.md [${language}]`, challenge.approach],
-    );
-  }
-  return texts;
-}
-
 function datedViolations(lesson: Lesson): Violation[] {
-  return proseOf(lesson).flatMap(([file, text]) => {
-    const match = DATED.exec(text)?.[0];
-    return match === undefined ? [] : [{ rule: 'no-dates', detail: `${file} reads "${match}"` }];
-  });
+  return datedTextsOf(lesson).map((detail) => ({ rule: 'no-dates', detail }));
 }
 
 function bridgeViolations(lesson: Lesson): Violation[] {
@@ -282,7 +258,7 @@ describe('system-design track', () => {
 
   it('carries no dates and no language bridges in the track and module texts', () => {
     const texts = [`${track!.title}\n${track!.description}\n${track!.version}`, ...modules.map((module) => `${module.title}\n${module.description}`)];
-    expect(texts.filter((text) => DATED.test(text) || BRIDGE.test(text))).toEqual([]);
+    expect(texts.filter((text) => datedIn(text) !== undefined || BRIDGE.test(text))).toEqual([]);
   });
 
   it('recognises changelog wording and leaves numbers alone', () => {
