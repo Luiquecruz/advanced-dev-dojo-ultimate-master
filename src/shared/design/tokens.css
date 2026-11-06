@@ -59,6 +59,7 @@
   --dur-fast: 150ms;
   --dur-base: 250ms;
   --dur-expand: 520ms;
+  --dur-trace: 500ms;
   --dur-enter: 900ms;
   --enter-step: 70ms;
   color-scheme: dark;
