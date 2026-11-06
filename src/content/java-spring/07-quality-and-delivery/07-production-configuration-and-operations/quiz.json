@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A team adds the database check to the liveness group. The database goes down for two minutes. What is the likely result in Kubernetes?",
+    "options": [
+      "Nothing, liveness is only informational",
+      "Instances are removed from rotation but left running",
+      "The database restarts itself",
+      "Every instance is restarted, which does not repair the database and adds load when it returns"
+    ],
+    "answer": 3,
+    "explanation": "A failed liveness probe causes a restart. Restarting healthy instances for a dependency outage does not fix the dependency. Use readiness, or no check, for external systems."
+  },
+  {
+    "question": "Where should the production database password live?",
+    "options": [
+      "In application-prod.yaml inside the image",
+      "In an ENV line of the Dockerfile",
+      "In a comment in the pom.xml",
+      "Supplied at run time by the platform, as an environment variable or a mounted secret file"
+    ],
+    "answer": 3,
+    "explanation": "Anything inside the image or the repository is copied widely and hard to rotate. Run-time injection keeps one artifact for all environments and lets you replace the secret."
+  },
+  {
+    "question": "A Spring Boot service on Kubernetes sets spring.lifecycle.timeout-per-shutdown-phase to 120s, but the pod's grace period is the default 30 seconds. What happens on a deployment?",
+    "options": [
+      "The application always finishes within 120 seconds",
+      "Kubernetes kills the container after 30 seconds, possibly cutting requests that were still finishing",
+      "Spring Boot raises the pod's grace period automatically",
+      "The rollout is skipped"
+    ],
+    "answer": 1,
+    "explanation": "The platform's limit wins. Keep the application's shutdown timeout below the platform's grace period so in-flight requests finish before the kill signal."
+  },
+  {
+    "question": "An API runs on 4 instances, each with a Hikari pool of 25, against a database that allows 80 connections. What is the risk?",
+    "options": [
+      "None, a pool never opens more connections than needed",
+      "The pools can need 100 connections, more than the database allows, and starve other clients",
+      "Hikari cannot be used with more than one instance",
+      "The heap shrinks"
+    ],
+    "answer": 1,
+    "explanation": "Pool size multiplies by the number of instances. Plan the total against the database limit and leave room for migrations and other services."
+  },
+  {
+    "question": "A service in a 4 GB container runs with -XX:MaxRAMPercentage=100. Under load the container is killed although the heap never reached its maximum shown by the metrics. Why?",
+    "options": [
+      "Heap dumps are disabled",
+      "The JVM ignores the setting",
+      "Non-heap memory such as metaspace, thread stacks and direct buffers also counts against the container limit",
+      "Containers cannot exceed 3 GB"
+    ],
+    "answer": 2,
+    "explanation": "The limit applies to the whole process, not just the heap. Leave headroom, for example with 75 percent, so non-heap memory fits."
+  },
+  {
+    "question": "During a rolling update, old and new versions of the API run together for a few minutes. What must be true of a database migration released with the new version?",
+    "options": [
+      "It may drop any column the new code no longer uses, immediately",
+      "It must run only after all old instances have stopped",
+      "It can be anything, because rollouts are atomic",
+      "It must stay compatible with the old version, for example by adding columns first and removing them in a later release"
+    ],
+    "answer": 3,
+    "explanation": "Both versions use the same database at the same time. Expand first, switch the code, and contract later, so neither version breaks while they overlap."
+  }
+]

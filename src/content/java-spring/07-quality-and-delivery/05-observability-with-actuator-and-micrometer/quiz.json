@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A new Spring Boot application with the actuator starter and no extra configuration runs on the public internet. Which endpoint is reachable over HTTP?",
+    "options": [
+      "All endpoints, including env and beans",
+      "Only health",
+      "Only metrics",
+      "None, until Spring Security is added"
+    ],
+    "answer": 1,
+    "explanation": "By default only health is exposed over HTTP. Others must be listed in management.endpoints.web.exposure.include, and that list should stay minimal on a public port."
+  },
+  {
+    "question": "A developer sets include to \"*\" and exclude to \"env,beans\". What is the result?",
+    "options": [
+      "env and beans are still exposed, because include is applied last",
+      "The application fails to start",
+      "Everything except env and beans is exposed, since exclude takes precedence",
+      "Only env and beans are exposed"
+    ],
+    "answer": 2,
+    "explanation": "Exclusion wins over inclusion. The star selects every endpoint, and the exclude list then removes the two named ones."
+  },
+  {
+    "question": "A counter named course.enrollments gets the tag userId with each user's ID as its value. What is the risk?",
+    "options": [
+      "Counters cannot have tags",
+      "The tag values are encrypted automatically",
+      "Counters stop counting after 100 values",
+      "Every distinct value creates a new series, so the number of series can grow without limit"
+    ],
+    "answer": 3,
+    "explanation": "Each tag value combination is a separate series stored by the monitoring system. Use small fixed sets such as result=created, and put identifiers in logs or traces instead."
+  },
+  {
+    "question": "Users report that checkout is slow, and metrics show high latency but not which step is responsible. Which signal helps most?",
+    "options": [
+      "Distributed tracing, which breaks one request into timed spans",
+      "A health group",
+      "The info endpoint",
+      "A larger connection pool"
+    ],
+    "answer": 0,
+    "explanation": "Metrics say that something is slow. A trace shows the spans of a single request, such as the controller, the database call and a remote call, with their durations."
+  },
+  {
+    "question": "A filter puts the request ID into the MDC with MDC.put but never removes it. What can happen on a server that reuses threads?",
+    "options": [
+      "A later request on the same thread logs the earlier request's ID",
+      "The log file becomes read-only",
+      "The ID is sent to the client twice",
+      "The filter runs twice per request"
+    ],
+    "answer": 0,
+    "explanation": "The MDC is thread-local and server threads are reused. Without a remove in a finally block, stale values appear in the logs of unrelated requests."
+  },
+  {
+    "question": "Which setting makes Spring Boot write each console log event as JSON in the Elastic Common Schema?",
+    "options": [
+      "management.endpoints.web.exposure.include=ecs",
+      "logging.level.root=ecs",
+      "spring.cache.type=ecs",
+      "logging.structured.format.console=ecs"
+    ],
+    "answer": 3,
+    "explanation": "The logging.structured.format.console property selects a structured format, with ecs, gelf and logstash supported. All MDC entries then appear as fields in the JSON."
+  }
+]

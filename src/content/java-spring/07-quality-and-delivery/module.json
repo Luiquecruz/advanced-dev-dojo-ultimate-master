@@ -1,0 +1,4 @@
+{
+  "title": "Quality and Delivery",
+  "description": "For people who finished the earlier modules: a backend test pyramid, Docker and Compose, continuous integration, Actuator and Micrometer, caching and rate limiting, production configuration, and a project that ships the course API."
+}

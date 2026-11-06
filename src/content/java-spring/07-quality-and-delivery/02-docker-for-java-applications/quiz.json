@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A Dockerfile copies the whole project and then runs the Maven build. Every one-line code change downloads all dependencies again. What is the most effective fix?",
+    "options": [
+      "Download dependencies before copying sources for a reusable layer, or use a Maven cache mount to reuse files when the build reruns",
+      "Run the build with root privileges",
+      "Add more RUN instructions after the build",
+      "Use the latest tag for the base image"
+    ],
+    "answer": 0,
+    "explanation": "Docker reuses a layer only while its instruction and all earlier ones are unchanged. A dependency-download RUN before copying sources can reuse its layer. A cache mount instead preserves downloaded repository files even when the Maven build step reruns."
+  },
+  {
+    "question": "Why does a multi-stage Dockerfile for a Spring Boot API normally end with a JRE image instead of a JDK image with Maven?",
+    "options": [
+      "A JRE image starts faster than any JDK image regardless of contents",
+      "Spring Boot refuses to run on a JDK",
+      "The final image then contains only what the application needs to run, which makes it smaller and exposes less",
+      "Maven cannot be installed in a container"
+    ],
+    "answer": 2,
+    "explanation": "The build tools are needed only to produce the jar. Leaving them in the runtime stage adds size and attack surface without any benefit at run time."
+  },
+  {
+    "question": "A team wants a container image of its Spring Boot service with no Dockerfile to maintain. Which command does that, given a running Docker daemon?",
+    "options": [
+      "./mvnw package",
+      "./mvnw spring-boot:build-image",
+      "docker compose up",
+      "./mvnw dependency:tree"
+    ],
+    "answer": 1,
+    "explanation": "The spring-boot:build-image goal (bootBuildImage in Gradle) builds an OCI image with Cloud Native Buildpacks and loads it into the local Docker daemon."
+  },
+  {
+    "question": "An API runs alone in a container with a 2 GB limit. The JVM starts with no memory flags and the heap seems small. Why?",
+    "options": [
+      "The JVM ignores container limits",
+      "Heap size is always fixed at 256 MB",
+      "Containers cannot use more than one gigabyte",
+      "By default the maximum heap is 25 percent of the memory the JVM detects, so about 512 MB"
+    ],
+    "answer": 3,
+    "explanation": "The JVM detects the container limit and applies the default MaxRAMPercentage of 25. Raising it, for example to 75, gives the heap more room while leaving space for non-heap memory."
+  },
+  {
+    "question": "A security review asks why the image runs as root. Which change addresses it?",
+    "options": [
+      "Rename the jar file",
+      "Create an unprivileged user with a fixed ID and add USER before ENTRYPOINT",
+      "Expose a different port",
+      "Switch from ENTRYPOINT to the shell form"
+    ],
+    "answer": 1,
+    "explanation": "Running as an unprivileged user limits what a compromised process can do. The USER instruction selects it, and the application must then write only to locations that user may use."
+  },
+  {
+    "question": "A developer puts the database password in an ENV line of the Dockerfile so the container starts without extra setup. What is the problem?",
+    "options": [
+      "ENV lines slow down the build",
+      "The password is stored in the image and readable by anyone who can pull it",
+      "Docker rejects passwords in ENV",
+      "The JVM cannot read environment variables"
+    ],
+    "answer": 1,
+    "explanation": "Values set with ENV or ARG remain in the image metadata and history. Supply secrets when the container starts, through the platform's secret mechanism or environment at run time."
+  }
+]

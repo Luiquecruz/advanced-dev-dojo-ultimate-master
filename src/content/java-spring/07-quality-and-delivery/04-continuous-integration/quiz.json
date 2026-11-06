@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A security review asks why the workflow references `uses: some-org/deploy-action@v2`. What is the recommended change?",
+    "options": [
+      "Reference the action by a full commit SHA of a reviewed release and let Dependabot propose updates",
+      "Reference the branch main instead of the tag",
+      "Copy the action code into a comment",
+      "Remove the version so the newest one is always used"
+    ],
+    "answer": 0,
+    "explanation": "A tag can be moved to different code. A full-length commit SHA is fixed, so the pipeline runs only what was reviewed, and update proposals keep it current."
+  },
+  {
+    "question": "A workflow only runs tests and uploads a jar. Which top-level permissions block follows least privilege?",
+    "options": [
+      "permissions: write-all",
+      "permissions: contents: read",
+      "No permissions block, relying on any default",
+      "permissions: packages: write and contents: write"
+    ],
+    "answer": 1,
+    "explanation": "The job needs to read the repository and nothing more. Granting the minimum limits what a compromised step could change, and a job that needs more can raise its own permissions."
+  },
+  {
+    "question": "Why should the API job run ./mvnw -B verify rather than relying on whichever Maven happens to be installed?",
+    "options": [
+      "The wrapper skips all tests automatically",
+      "Maven cannot run on Linux",
+      "The committed wrapper selects the project Maven distribution and verify runs the configured lifecycle checks",
+      "The wrapper deploys every successful build"
+    ],
+    "answer": 2,
+    "explanation": "The wrapper keeps the Maven distribution tied to the repository. The verify phase runs tests and configured verification goals, making local and CI commands reproducible."
+  },
+  {
+    "question": "The cache for the API job is restored, and the dependency step finishes in seconds. What must remain true about the cache?",
+    "options": [
+      "It must contain the compiled jar",
+      "It may change which tests run",
+      "It must be committed to the repository",
+      "It must never change the result of the build, only its speed"
+    ],
+    "answer": 3,
+    "explanation": "A cache holds downloads that can be rebuilt. If results differ with and without it, the build is not reproducible and the cache is hiding a problem."
+  },
+  {
+    "question": "A team wants a pull request to be blocked until the API test and security jobs pass. Which mechanism does that?",
+    "options": [
+      "A comment in the workflow file",
+      "A longer timeout-minutes value",
+      "A second workflow that runs nightly",
+      "Required status checks in the branch protection rules"
+    ],
+    "answer": 3,
+    "explanation": "The workflow reports results, but branch protection decides whether a merge is allowed. Marking the jobs as required status checks makes a failure block the merge."
+  },
+  {
+    "question": "To get a green build quickly, a developer adds -DskipTests to the Maven command of the main CI job. What is the main problem?",
+    "options": [
+      "The jar becomes larger",
+      "The pipeline no longer verifies behavior, so broken code can merge",
+      "Maven stops caching dependencies",
+      "The Docker image cannot be built"
+    ],
+    "answer": 1,
+    "explanation": "Tests are the main protection the pipeline offers. Skipping them keeps the check green but removes its meaning; skipping is acceptable only in a later image build after a test job."
+  }
+]

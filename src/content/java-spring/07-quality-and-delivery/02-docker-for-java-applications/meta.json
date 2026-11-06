@@ -1,0 +1,35 @@
+{
+  "title": "Docker for Java Applications",
+  "summary": "Multi-stage Dockerfiles, layered Spring Boot jars with the tools jar mode, buildpack images, running as a non-root user and how the JVM sees container memory.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Boot reference: Dockerfiles",
+      "url": "https://docs.spring.io/spring-boot/reference/packaging/container-images/dockerfiles.html"
+    },
+    {
+      "label": "Spring Boot reference: Efficient container images",
+      "url": "https://docs.spring.io/spring-boot/reference/packaging/container-images/efficient-images.html"
+    },
+    {
+      "label": "Spring Boot Maven plugin: Packaging OCI images",
+      "url": "https://docs.spring.io/spring-boot/maven-plugin/build-image.html"
+    },
+    {
+      "label": "Spring Boot Gradle plugin: Packaging OCI images",
+      "url": "https://docs.spring.io/spring-boot/gradle-plugin/packaging-oci-image.html"
+    },
+    {
+      "label": "Docker: Building best practices",
+      "url": "https://docs.docker.com/build/building/best-practices/"
+    },
+    {
+      "label": "Oracle: The java command (Java 25)",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html"
+    }
+  ]
+}

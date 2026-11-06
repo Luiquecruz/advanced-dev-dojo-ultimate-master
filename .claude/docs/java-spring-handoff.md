@@ -7,8 +7,8 @@ Read [java-spring-track.md](java-spring-track.md) for the current scope and cont
 | Item | State |
 | --- | --- |
 | Identity | `java-spring`, Java and Spring Boot; content, feature flag, glyph, accent selector and verification use the same id |
-| Written here | Modules 01–06, 46 lessons; current review and merge states are below |
-| Remaining backend work | Modules 07–08 are outside this branch; adapt and review them in the stack |
+| Written here | Modules 01–07, 54 lessons; current review and merge states are below |
+| Remaining backend work | Modules 08–08 are outside this branch; adapt and review them in the stack |
 | Target | 8 required modules, 59 lessons; every lesson is theory and quiz with local practice |
 | Engines | No Java engine and no challenges; existing catalog engine metadata does not launch a workspace |
 | Release | Hidden; no accent color or visibility change. Java release no longer depends on Angular being shown |
@@ -58,7 +58,8 @@ Java and Angular have independent feature flags and release checks. Do not turn 
 | PR | Purpose | State | Base |
 | --- | --- | --- | --- |
 | [#61](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | OPEN | `main` |
+| [#62](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/62) | feat(curriculum): add backend Spring Security module | OPEN | `feat/java-spring-separation` |
 
-Latest action: Adapted module 06 to API security, including generic CSRF/CORS contracts and direct HTTP-client acceptance criteria; removed the Angular security lesson.
+Latest action: Adapted module 07 to backend-only test strategy, API/PostgreSQL Compose, Maven CI and direct secured HTTP delivery checks.
 
-Security validation: 1,761 content checks pass without skips, eslint/typecheck/docs sync pass, all 27 resource URLs return HTTP 200 on their original host, and the local Boot 4.1.2 security project passes 13 tests covering mocked authorization plus real signed-token validation.
+Module 07 validation: 1,785 unfiltered content checks, eslint, typecheck, docs sync, the security-aware MVC slice against Boot 4.1.2, the API-only Compose configuration and all 33 resource URLs pass. The retained Docker/runtime, health, ETag and shutdown examples were validated in the earlier reviewed delivery branch; this scope pass removes frontend dependencies and preserves those fixes.

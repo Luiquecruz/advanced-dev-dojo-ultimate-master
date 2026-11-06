@@ -1,0 +1,10 @@
+[
+  { "term": "Actuator", "description": "The Spring Boot module that exposes operational endpoints such as health and metrics under /actuator." },
+  { "term": "Endpoint exposure", "description": "The include and exclude lists that decide which Actuator endpoints are reachable over HTTP, with only health exposed by default." },
+  { "term": "Health group", "description": "A named selection of health indicators served under its own path, such as the liveness and readiness groups." },
+  { "term": "MeterRegistry", "description": "The Micrometer object injected into beans to create counters, gauges and timers." },
+  { "term": "Tag cardinality", "description": "The number of distinct values a metric tag can take, which must stay small because each value creates a new series." },
+  { "term": "Trace and span", "description": "A trace is the path of one request across operations and services, made of spans that share a trace ID." },
+  { "term": "Correlation ID", "description": "An identifier stored in the logging context and returned to the client so the logs of one request can be found together." },
+  { "term": "Structured logging", "description": "Writing each log event as JSON, in a format such as ecs, so fields like the MDC keys can be searched." }
+]
