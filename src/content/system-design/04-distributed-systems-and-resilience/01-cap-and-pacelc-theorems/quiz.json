@@ -44,7 +44,7 @@
     "explanation": "The else branch of PACELC says that in normal operation you trade latency for consistency: a linearizable read must confirm it has the latest value with other replicas, often across regions."
   },
   {
-    "question": "A Dynamo-style store keeps every key on N = 3 replicas. Which setting guarantees a read contacts at least one replica that holds the latest acknowledged write?",
+    "question": "A store keeps every key on a fixed set of N = 3 replicas and uses strict quorums (no stand-in replicas during failures). Which setting guarantees a read contacts at least one replica that holds the latest acknowledged write?",
     "options": [
       "W = 1, R = 1",
       "W = 1, R = 2",
@@ -52,7 +52,7 @@
       "W = 2, R = 2"
     ],
     "answer": 3,
-    "explanation": "Read and write sets overlap only when R + W > N. With 2 + 2 > 3 any two replicas that answer a read include one that acknowledged the write; 1 + 1 and 1 + 2 do not exceed 3."
+    "explanation": "Read and write sets overlap only when R + W > N. With 2 + 2 > 3 any two of the same three replicas that answer a read include one that acknowledged the write; 1 + 1 and 1 + 2 do not exceed 3. A sloppy quorum that writes to stand-in replicas during a failure loses this guarantee."
   },
   {
     "question": "A team says \"our database is CP\". Why is that statement often incomplete?",
