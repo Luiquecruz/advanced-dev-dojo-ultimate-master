@@ -22,9 +22,9 @@ The track adds what the reference project leaves out (Spring Security, observabi
 | Decision | Choice | Reason |
 | --- | --- | --- |
 | Track id | `java-spring-angular` | Folder and route slug. |
-| Audience | Developers who know one language; the optional module 00 teaches Java from zero | Same rule as the Python and C# tracks: module 00 is optional and its last lesson is the skip test. |
+| Audience | Developers who know one language; module 00 teaches Java from zero | Under option B (a Java engine) module 00 is optional like the Python and C# ones: its last lesson is the skip test and one earlier lesson has a challenge (`src/verify/content.test.ts`), and it counts toward progress once a challenge lesson is complete. Under option A it has no challenge, so it cannot be optional by those rules: it is a required first module (numbered 1), unless the owners extend verification and progress tracking to allow an optional quiz-only module. |
 | Versions pinned | Java 25 (LTS), Spring Boot 4, Angular 22 | The versions the reference project and the Angular engine share. |
-| Angular part | Reuses the Angular engine; fundamentals link to the Angular track and are not repeated | The platform already teaches Angular 22 (zoneless, signals, Signal Forms); this track teaches the integration with a Spring back end. |
+| Angular part | Reuses the Angular engine; fundamentals link to the Angular track and are not repeated | The platform already teaches Angular 22 (zoneless, signals, Signal Forms); this track teaches the integration with a Spring back end. **Release gate:** the Angular track is hidden today (`TRACK_FLAGS`), and a link to a hidden track opens a missing page, so this track stays hidden until the Angular track is shown; if Angular stays hidden, module 05 carries its own short Angular fundamentals instead of links. |
 | Java and Spring challenges | **Open: see "Engine decision"** | There is no Java engine in the browser. |
 
 ## Engine decision
@@ -45,7 +45,7 @@ The licence question for B is a decision for the project owners, because the fre
 
 | Module | Lessons |
 | --- | --- |
-| **00 Java from zero** (optional) | values and variables, decisions and loops, methods, text and arrays, classes and objects, errors and exceptions, tests with JUnit; the last lesson is the skip test |
+| **00 Java from zero** (optional only under option B; a required first module under option A) | values and variables, decisions and loops, methods, text and arrays, classes and objects, errors and exceptions, tests with JUnit; the last lesson is the skip test |
 | **01 The Java language** | records, enums and sealed types, interfaces and generics, collections, streams and `Optional`, exceptions in depth, concurrency basics, modules and packages |
 | **02 Build and tests** | Maven and the project layout, JUnit 5, Mockito, test slices, Testcontainers |
 | **03 Spring Boot core** | inversion of control and dependency injection, auto-configuration, configuration and profiles, REST controllers, Jakarta Validation, error handling with Problem Details, OpenAPI with springdoc |
