@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import type { Challenge, Lesson, LessonEntry, Track } from '@/content';
 import { InlineMarkdown, Markdown } from '@/shared/ui/Markdown';
 import { TestName } from './TestName';
@@ -46,6 +46,8 @@ const TEST_ITEM_CLASS: Record<TestStatus, string> = {
  * Left side of the waypoint: theory, challenge description with tests and progressive help, quiz.
  */
 export function LessonPanel({ track, lesson, challenge, tab, onTabChange, testNames, report, running, onRevealSolution, nextLesson }: LessonPanelProps) {
+  const id = useId();
+  const [focusedTab, setFocusedTab] = useState<LessonTab | null>(null);
   const state = useProgress();
   const complete = isLessonComplete(state, lesson);
   const module = track.modules.find((entry) => entry.id === lesson.moduleId)!;
@@ -57,8 +59,8 @@ export function LessonPanel({ track, lesson, challenge, tab, onTabChange, testNa
   ];
 
   return (
-    <div className="flex h-full flex-col bg-panel">
-      <header className="flex-none border-b border-line-strong bg-elevated/70 px-6.5 pt-4.5 max-wide:px-4 max-wide:pt-3.5">
+    <div className="flex h-full flex-col bg-panel max-wide:overflow-y-auto">
+      <header className="flex-none bg-elevated/70 px-6.5 pt-4.5 max-wide:bg-elevated max-wide:px-4 max-wide:pt-3.5">
         <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
           <span className="text-[11px] font-semibold tracking-[0.08em] text-accent uppercase">
             {module.title} · {LEVEL_LABEL[lesson.level]}
@@ -73,32 +75,50 @@ export function LessonPanel({ track, lesson, challenge, tab, onTabChange, testNa
           {lesson.title}
         </h1>
         <p className="m-0 text-sm text-ink-muted">{lesson.summary}</p>
-
-        <div className="-mx-1 mt-3.5 flex gap-1.5 pb-3" role="tablist" aria-label="Waypoint sections">
-          {tabs.map((entry) => {
-            const selected = tab === entry.id;
-            return (
-              <button
-                key={entry.id}
-                role="tab"
-                aria-selected={selected}
-                className={clsx(
-                  'inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full px-3.5 text-[13px] font-semibold transition-colors duration-(--dur-fast)',
-                  selected ? 'bg-accent/15 text-accent ring-1 ring-accent/45 ring-inset' : 'text-ink-muted ring-1 ring-line-strong ring-inset hover:bg-hover hover:text-ink',
-                )}
-                onClick={() => onTabChange(entry.id)}
-              >
-                {entry.label}
-                {entry.count !== undefined && <span className={clsx('rounded-full px-1.5 font-mono text-[11px]', selected ? 'bg-accent/20' : 'bg-hover')}>{entry.count}</span>}
-                {entry.done && <CheckIcon className="size-3.5 text-success" role="img" aria-label="Done" />}
-              </button>
-            );
-          })}
-        </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto px-6.5 pt-4.5 pb-10 max-wide:px-4 max-wide:pt-3.5 max-wide:pb-8">
-        <div key={tab} className="enter" style={{ ['--enter-delay' as string]: '60ms' }}>
+      <div
+        className="sticky top-0 z-10 flex flex-none gap-1.5 border-b border-line-strong bg-elevated/70 px-5.5 pt-3.5 pb-3 max-wide:bg-elevated max-wide:px-3"
+        role="tablist"
+        aria-label="Waypoint sections"
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) setFocusedTab(null);
+        }}
+      >
+        {tabs.map((entry, index) => {
+          const selected = tab === entry.id;
+          return (
+            <button
+              key={entry.id}
+              id={`${id}-tab-${entry.id}`}
+              role="tab"
+              aria-selected={selected}
+              aria-controls={`${id}-panel-${entry.id}`}
+              tabIndex={(focusedTab ?? tab) === entry.id ? 0 : -1}
+              onFocus={() => setFocusedTab(entry.id)}
+              onKeyDown={(event) => {
+                if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+                event.preventDefault();
+                const direction = event.key === 'ArrowRight' ? 1 : -1;
+                const nextIndex = (index + direction + tabs.length) % tabs.length;
+                event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[nextIndex]?.focus();
+              }}
+              className={clsx(
+                'inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full px-3.5 text-[13px] font-semibold transition-colors duration-(--dur-fast)',
+                selected ? 'bg-accent/15 text-accent ring-1 ring-accent/45 ring-inset' : 'text-ink-muted ring-1 ring-line-strong ring-inset hover:bg-hover hover:text-ink',
+              )}
+              onClick={() => onTabChange(entry.id)}
+            >
+              {entry.label}
+              {entry.count !== undefined && <span className={clsx('rounded-full px-1.5 font-mono text-[11px]', selected ? 'bg-accent/20' : 'bg-hover')}>{entry.count}</span>}
+              {entry.done && <CheckIcon className="size-3.5 text-success" role="img" aria-label="Done" />}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-6.5 pt-4.5 pb-10 max-wide:flex-none max-wide:overflow-visible max-wide:px-4 max-wide:pt-3.5 max-wide:pb-8">
+        <div key={tab} id={`${id}-panel-${tab}`} role="tabpanel" aria-labelledby={`${id}-tab-${tab}`} tabIndex={0} className="enter" style={{ ['--enter-delay' as string]: '60ms' }}>
           {tab === 'learn' && <LearnTab lesson={lesson} onStart={() => onTabChange(lesson.challenge ? 'challenge' : 'quiz')} />}
           {tab === 'challenge' && challenge && (
             <ChallengeTab key={challenge.language} challenge={challenge} testNames={testNames} report={report} running={running} onRevealSolution={onRevealSolution} />
