@@ -19,7 +19,9 @@ Everything another engineer or agent needs to continue the track without the ori
 Keep this section current: after every merge, PR, review or decision, add a line with the date, what happened and the exact next step, and commit it with the work. Another provider must be able to resume from this file alone.
 
 - Module 01: merged (PR #50).
-- Module 02: written and independently reviewed (9 defects fixed); PR open on `feat/java-module-02`; next: CodeRabbit loop, merge, then module 03.
+- Module 02: written, reviewed, PR #51 open (CodeRabbit loop pending).
+- Modules 03 to 09: seven writers started in parallel, one per module folder (brief: the scratchpad `java-brief.md` rules are the handoff rules above). Each writes only its own folder; the lead then adds CURRICULUM.md rows, README counts, runs an independent review per module, and opens one PR per module (stacked or based on `main`). Cross-module `You need:` lines may name only existing lessons, so a final whole-track consistency pass must check references between modules.
+- Separate workstream: an i18n planning agent writes `.claude/docs/i18n-plan.md` (language switch en/pt/es, top-right); planning only, no implementation.
 - Open question for the owner: build a Java engine spike (CheerpJ, option B) so Java lessons can have graded challenges; not started, no answer yet. Content work continues without it.
 - Next after module 02: module 03 (build and tests), then 04 to 09 in order.
 
