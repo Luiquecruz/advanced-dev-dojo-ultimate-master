@@ -8,7 +8,7 @@ export default function ArticlePage({ article }) {
     <article>
       <title>{`${article.title} | Constela Mission`}</title>
       <meta name="description" content={article.excerpt} />
-      <link rel="canonical" href={`https://devdojo.dev/articles/${article.slug}`} />
+      <link rel="canonical" href={`https://example.com/articles/${article.slug}`} />
       <h1>{article.title}</h1>
       <p>{article.excerpt}</p>
     </article>

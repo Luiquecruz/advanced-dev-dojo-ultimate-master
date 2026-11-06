@@ -13,7 +13,7 @@ test('hoists the description <meta> and canonical <link> into <head>', () => {
   const meta = document.head.querySelector('meta[name="description"]');
   const canonical = document.head.querySelector('link[rel="canonical"]');
   expect(meta).toHaveAttribute('content', 'Titles and meta tags without effects.');
-  expect(canonical).toHaveAttribute('href', 'https://devdojo.dev/articles/react-19-metadata');
+  expect(canonical).toHaveAttribute('href', 'https://example.com/articles/react-19-metadata');
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('React 19 Metadata');
 });
 
