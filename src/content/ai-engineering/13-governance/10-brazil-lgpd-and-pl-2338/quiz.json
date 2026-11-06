@@ -11,15 +11,15 @@
     "explanation": "AI that processes personal data is under the LGPD now. Credit profiles are named explicitly in Art. 20."
   },
   {
-    "question": "Until a bill such as PL 2338/2023 is approved by both houses of Congress and signed by the President, what does it create?",
+    "question": "Until a bill such as PL 2338/2023 becomes law and its provisions enter into force, what does it create?",
     "options": [
       "Binding obligations from the day the first house approved it",
-      "No obligation: it is a bill, not law, so a team tracks it as a watch item and verifies its current stage before relying on it",
+      "No obligation: it is a bill, not law, so a team tracks it as a watch item and verifies whether it has become law and which provisions are in force",
       "Obligations only for companies with more than 100 employees",
       "The same obligations as the LGPD, which it replaces"
     ],
     "answer": 1,
-    "explanation": "A bill binds no one until both houses agree and the President signs it, followed by the transition period the final text sets. Check the Chamber's tracking page for its current stage; meanwhile the LGPD is the law that applies to AI that processes personal data."
+    "explanation": "A bill binds no one until it becomes law (by sanction, tacit sanction or promulgation after a veto is overridden) and its provisions enter into force after any transition period the final text sets. Check the Chamber's tracking page for its current stage; meanwhile the LGPD is the law that applies to AI that processes personal data."
   },
   {
     "question": "A customer refused credit by an automated system asks how the decision was made. The company says its criteria are a trade secret. What can happen under the LGPD?",

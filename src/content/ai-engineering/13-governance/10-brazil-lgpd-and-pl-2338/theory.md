@@ -38,7 +38,7 @@ PL 2338/2023 is the proposed AI legal framework. The text that came out of the S
 - a national system for AI regulation and governance (**SIA**) coordinated by the ANPD, with sector regulators;
 - fines of up to R$50 million or 2% of revenue per infraction.
 
-None of this binds anyone until both houses approve the bill (changes made by the second house send it back to the first) and the President signs it, followed by the transition period the final text sets. The Executive also sent a separate bill (PL 6.237/2025) to create the SIA structure, which Congress analyzes as well.
+None of this binds anyone until the bill becomes law (it needs the approval of both houses, with changes made by the second house sending it back to the first, and then sanction by the President, tacit sanction or promulgation after a veto is overridden) and its provisions enter into force after the transition period the final text sets. The Executive also sent a separate bill (PL 6.237/2025) to create the SIA structure, which Congress analyzes as well.
 
 ## Designing for Brazil now
 
