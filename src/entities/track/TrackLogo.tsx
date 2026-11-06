@@ -10,6 +10,7 @@ interface TrackLogoProps {
   size?: number;
   animate?: boolean;
   delayMs?: number;
+  replayDelayMs?: number;
 }
 
 function traceStyle(delay: string, count: number): CSSProperties {
@@ -20,9 +21,10 @@ function traceStyle(delay: string, count: number): CSSProperties {
  * Logo of a track, tinted with the track accent: its concept constellation drawn on a blueprint (grid paper, dashed
  * construction circle and registration marks). Falls back to the monogram for a track without a glyph.
  * Each time `animate` turns on, a beam of light traces the constellation lines and the key star pulses, starting and ending
- * on the static logo; `delayMs` holds back only the trace that plays on mount, so it runs after the entrance motion.
+ * on the static logo. `delayMs` holds back the trace that plays on mount and `replayDelayMs` every later one, so each trace
+ * starts once the entrance or the carousel slide that activated the logo has finished.
  */
-export function TrackLogo({ track, size = 36, animate = false, delayMs = 0 }: TrackLogoProps) {
+export function TrackLogo({ track, size = 36, animate = false, delayMs = 0, replayDelayMs = 0 }: TrackLogoProps) {
   const gridId = `track-grid${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
   const glyph = TRACK_GLYPHS[track.id];
   const [tracedOnMount] = useState(animate);
@@ -36,7 +38,7 @@ export function TrackLogo({ track, size = 36, animate = false, delayMs = 0 }: Tr
     }
   }
 
-  const traceDelay = `${tracedOnMount && traces === 1 ? delayMs : 0}ms`;
+  const traceDelay = `${tracedOnMount && traces === 1 ? delayMs : replayDelayMs}ms`;
 
   return (
     <span
