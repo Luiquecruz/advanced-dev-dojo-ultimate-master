@@ -1,7 +1,22 @@
 [
-  { "term": "`model_dump(mode=\"json\")`", "description": "Dumps only JSON types: ISO 8601 datetimes, decimals as strings, enums as values, sets as lists." },
-  { "term": "Alias", "description": "The wire name of a field (`Field(alias=...)` or `alias_generator=to_camel`); used for output only with `by_alias=True` or `serialize_by_alias`." },
-  { "term": "`validate_by_name` / `validate_by_alias`", "description": "Config flags (Pydantic 2.11+) that choose whether input may use the Python name, the alias, or both." },
-  { "term": "`@computed_field`", "description": "A property included in dumps and in the serialization schema (`readOnly`); not accepted as input." },
-  { "term": "`model_json_schema(mode=...)`", "description": "JSON Schema (the dialect OpenAPI 3.1 uses) of what validation accepts (`\"validation\"`) or what serialization produces (`\"serialization\"`)." }
+  {
+    "term": "`model_dump(mode=\"json\")`",
+    "description": "Dumps only JSON types: ISO 8601 datetimes, decimals as strings, enums as values, sets as lists."
+  },
+  {
+    "term": "Alias",
+    "description": "The wire name of a field (`Field(alias=...)` or `alias_generator=to_camel`); used for output only with `by_alias=True` or `serialize_by_alias`."
+  },
+  {
+    "term": "`validate_by_name` / `validate_by_alias`",
+    "description": "Config flags (Pydantic 2.11+) that choose whether input may use the Python name, the alias, or both."
+  },
+  {
+    "term": "`@computed_field`",
+    "description": "A property included in dumps and in the serialization schema (`readOnly`); not accepted as input."
+  },
+  {
+    "term": "`model_json_schema(mode=...)`",
+    "description": "JSON Schema (draft `2020-12`, the base of the dialect OpenAPI 3.1 uses) of what validation accepts (`\"validation\"`) or what serialization produces (`\"serialization\"`)."
+  }
 ]

@@ -28,7 +28,7 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
 - **Server Functions** (`'use server'`) handle mutations from forms and buttons.
 - **Nested layouts**, `loading.tsx` and `error.tsx` map directly onto Suspense and error boundaries.
 
-### What changed in Next.js 16 
+### Behaviors to know in Next.js 16 
 
 - **Turbopack is the default bundler** for `next dev` and `next build` (`--webpack` opts out).
 - **Cache Components**: with `cacheComponents: true`, caching is **opt-in** through the `'use cache'` directive on pages, components or functions. Everything else runs at request time, and Partial Prerendering serves a static shell with dynamic holes streamed via Suspense. This replaces the implicit caching of earlier App Router versions.
@@ -36,7 +36,7 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
 - **`proxy.ts` replaces `middleware.ts`** and runs on the Node.js runtime.
 - `params`, `searchParams`, `cookies()` and `headers()` are **async only**.
 - Built-in **React Compiler** support is stable (opt-in with `reactCompiler: true`).
-- Requires Node.js 20.9+. AMP support and `next lint` were removed.
+- Requires Node.js 20.9+. AMP support and `next lint` are not available.
 
 **Legacy vs modern.** The **Pages Router** (`pages/`, `getServerSideProps`, `getStaticProps`, `_app.tsx`) still works and you will meet it in older codebases, but new features land in the App Router.
 
