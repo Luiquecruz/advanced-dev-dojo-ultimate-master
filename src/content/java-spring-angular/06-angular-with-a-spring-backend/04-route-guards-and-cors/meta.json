@@ -10,6 +10,6 @@
     { "label": "angular.dev: Angular CLI serve and proxying", "url": "https://angular.dev/tools/cli/serve" },
     { "label": "Spring Framework: CORS", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc-cors.html" },
     { "label": "MDN: Cross-Origin Resource Sharing", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS" },
-    { "label": "MDN: Same-origin policy", "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy" }
+    { "label": "MDN: Same-origin policy", "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy" }
   ]
 }

@@ -28,7 +28,7 @@ State of the work:
 - The module-numbering check in `java-spring-angular.test.ts` fails while modules are missing (it expects consecutive numbers); it passes once 03 to 09 all exist.
 - i18n plan: PR #52 (docs only); owner decisions D1 to D12 open; no implementation.
 
-Latest folder state on `wip/java-modules-03-09`: 01 (8 lessons), 02 (8), 03 (7), 04 (8), 08 (8), 09 (6) have every `meta.json`; 05 (8 folders, no meta yet), 06 (6 of 7, 3 meta) and 07 were still being written. A ready prompt for another provider is in [java-spring-angular-provider-prompt.md](java-spring-angular-provider-prompt.md).
+Module 04 final report: 8 lessons, project verified with Maven 3.9.11 and Boot 4.1.2 (10 MockMvc tests pass); `start.spring.io` is missing from `RESOURCE_HOSTS` (link dropped from lesson 02); two behaviors were observed rather than documented (unresolved placeholder in `@ConfigurationProperties` stays literal; default operation id `_1` suffix); not run: `springdoc.api-docs.version` and the API-version `2+` quiz case. Latest folder state on `wip/java-modules-03-09`: 01 (8 lessons), 02 (8), 03 (7), 04 (8), 08 (8), 09 (6) have every `meta.json`; 05 (8 folders, no meta yet), 06 (6 of 7, 3 meta) and 07 were still being written. A ready prompt for another provider is in [java-spring-angular-provider-prompt.md](java-spring-angular-provider-prompt.md).
 
 Next steps, in order:
 1. Merge `origin/main`; for each finished module folder run the independent review (facts against official docs, compile snippets, quiz keys, ordering, `You need:`), fix defects, add `✓` rows to CURRICULUM.md and update README counts and the track description.
