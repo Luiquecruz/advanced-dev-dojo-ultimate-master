@@ -1,0 +1,9 @@
+[
+  { "term": "Multi-stage build", "description": "A Dockerfile with several FROM stages where a build stage compiles the code and only the runtime stage ends up in the final image." },
+  { "term": "Image layer", "description": "A cached, read-only result of one Dockerfile instruction that Docker reuses while the instruction and everything before it are unchanged." },
+  { "term": "Layered jar", "description": "A Spring Boot jar indexed into dependencies, loader, snapshot dependencies and application layers that the tools jar mode can extract." },
+  { "term": "Buildpacks", "description": "Cloud Native Buildpacks build an image from the project with spring-boot:build-image or bootBuildImage and no Dockerfile." },
+  { "term": "Non-root user", "description": "An unprivileged account created in the image and selected with USER so a compromised process has fewer rights." },
+  { "term": "Container support", "description": "The JVM behavior, on by default, of reading the container memory and processor limits instead of those of the host." },
+  { "term": "MaxRAMPercentage", "description": "The JVM option that sets the maximum heap as a percentage of available memory, 25 by default." }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A service method annotated with @Cacheable is called from another method of the same class, and the database is queried every time. Why?",
+    "options": [
+      "The cache is full",
+      "Caching works through a proxy, and a call inside the same object bypasses it",
+      "@Cacheable only works on private methods",
+      "The method returns a record"
+    ],
+    "answer": 1,
+    "explanation": "In proxy mode only calls that come in through the proxy are intercepted. A self-invocation goes straight to the target, so move the cached method to another bean."
+  },
+  {
+    "question": "The API runs on three instances, each with a Caffeine cache. A course is renamed through instance A, and users hitting B and C still see the old title. What are sensible fixes?",
+    "options": [
+      "Disable caching in the Java code only on instance A",
+      "Remove the TTL so entries live forever",
+      "Use a shared cache such as Redis, or accept a short TTL for this data",
+      "Increase maximumSize"
+    ],
+    "answer": 2,
+    "explanation": "Caffeine caches are local to each JVM, so an eviction affects only one instance. A shared provider keeps one copy, and a short TTL bounds how long the other copies can be stale."
+  },
+  {
+    "question": "A client sends If-None-Match with the ETag it received earlier, and the resource has not changed. What should the server answer?",
+    "options": [
+      "304 Not Modified with no body",
+      "200 with the full body again",
+      "429 Too Many Requests",
+      "404 Not Found"
+    ],
+    "answer": 0,
+    "explanation": "A matching validator means the client's copy is still current. The server answers 304 without a body, which saves the transfer."
+  },
+  {
+    "question": "An endpoint returns the signed-in user's order history. Which Cache-Control value avoids a shared proxy serving one user's response to another?",
+    "options": [
+      "public, max-age=3600",
+      "private, or no-store if the data is sensitive",
+      "max-age=31536000, immutable",
+      "No header, because proxies never cache"
+    ],
+    "answer": 1,
+    "explanation": "Shared caches may store responses marked public. A private response may be kept only by the user's own browser, and no-store forbids storing it at all."
+  },
+  {
+    "question": "A token bucket holds 10 tokens and refills 2 per second. A client sends 10 requests at once, then keeps sending. What happens?",
+    "options": [
+      "All requests are refused",
+      "Requests are refused for ten seconds after the burst",
+      "The bucket doubles in size",
+      "The burst of 10 passes, and then about 2 requests per second pass while the rest get 429"
+    ],
+    "answer": 3,
+    "explanation": "The bucket allows a burst up to its capacity, then limits the sustained rate to the refill rate. Requests without a token are refused with 429."
+  },
+  {
+    "question": "Where is it most effective to stop abusive traffic before it consumes application threads and database connections?",
+    "options": [
+      "In a controller method after loading data",
+      "In the browser",
+      "In the unit tests",
+      "At the edge, in a proxy, load balancer or gateway"
+    ],
+    "answer": 3,
+    "explanation": "Enforcing at the edge refuses the request before it reaches the application. The application can still add precise per-plan rules for traffic that gets through."
+  }
+]

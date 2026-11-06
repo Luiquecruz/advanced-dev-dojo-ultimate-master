@@ -1,0 +1,68 @@
+[
+  {
+    "question": "The API container fails on startup with a connection error because PostgreSQL is still initializing, although depends_on lists the database. What fixes it?",
+    "options": [
+      "Add a healthcheck to the database and use depends_on with condition service_healthy",
+      "Change the database port to 5433",
+      "Rename the service",
+      "Run the API as root"
+    ],
+    "answer": 0,
+    "explanation": "Plain depends_on waits only for the container to start. A healthcheck such as pg_isready, combined with service_healthy, delays the API until the database accepts connections."
+  },
+  {
+    "question": "Inside Compose, the API uses jdbc:postgresql://localhost:5432/courses and cannot connect. Which URL host is correct?",
+    "options": [
+      "127.0.0.1",
+      "The host machine's public address",
+      "database, the service name",
+      "0.0.0.0"
+    ],
+    "answer": 2,
+    "explanation": "Inside a container, localhost is the container itself. Compose gives every service a DNS name equal to its service name on the shared network."
+  },
+  {
+    "question": "Which environment variable sets spring.datasource.password for a Spring Boot container?",
+    "options": [
+      "spring.datasource.password only through a mounted file",
+      "SPRING_DATASOURCE_PASSWORD",
+      "datasource_password",
+      "SPRING-DATASOURCE-PASSWORD"
+    ],
+    "answer": 1,
+    "explanation": "Relaxed binding maps upper-case names with underscores in place of dots and dashes to properties, and environment variables outrank the packaged application files."
+  },
+  {
+    "question": "Reloading the Angular page at /courses/7 behind nginx returns 404. What is missing?",
+    "options": [
+      "A larger heap for nginx",
+      "A health endpoint",
+      "A rule such as try_files $uri $uri/ /index.html so unknown paths return the application shell",
+      "A second database"
+    ],
+    "answer": 2,
+    "explanation": "Only index.html exists for that route on disk. The server must return it for paths that are not files, and then the Angular router renders the right view."
+  },
+  {
+    "question": "A team adds spring-boot-docker-compose as an optional dependency and keeps compose.yaml with a postgres service. What happens when they run the application from the IDE?",
+    "options": [
+      "Nothing, the module only works in tests",
+      "The application fails because it needs a datasource URL",
+      "Boot deletes the volume on exit",
+      "Boot starts the Compose services and connects to the mapped postgres port without datasource properties"
+    ],
+    "answer": 3,
+    "explanation": "The module runs docker compose up at startup and creates connection details from containers whose image names it recognizes, such as postgres. It is skipped in tests by default."
+  },
+  {
+    "question": "A teammate commits .env containing the real production database password so Compose works for everyone. What is the better practice?",
+    "options": [
+      "Keep it, because Compose requires .env in version control",
+      "Encode the password in Base64 first",
+      "Move the password into the Dockerfile ENV",
+      "Commit an .env.example with fake values and keep the real .env out of version control"
+    ],
+    "answer": 3,
+    "explanation": "Secrets must not live in the repository history. An example file documents the variable names, and each developer or environment supplies the real values."
+  }
+]

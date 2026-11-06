@@ -1,0 +1,31 @@
+{
+  "title": "The Test Pyramid for Both Ends",
+  "summary": "The four test levels across Spring Boot and Angular, what each protects, slice and integration tests in Spring Boot 4, contract tests and how to remove the causes of flaky tests.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "testing"
+  ],
+  "resources": [
+    {
+      "label": "Spring Boot reference: Testing Spring Boot applications",
+      "url": "https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html"
+    },
+    {
+      "label": "Angular: Testing",
+      "url": "https://angular.dev/guide/testing"
+    },
+    {
+      "label": "Angular: Testing HTTP requests",
+      "url": "https://angular.dev/guide/http/testing"
+    },
+    {
+      "label": "Angular CLI: End-to-end testing",
+      "url": "https://angular.dev/tools/cli/end-to-end"
+    },
+    {
+      "label": "Testcontainers for Java",
+      "url": "https://java.testcontainers.org/"
+    }
+  ]
+}
