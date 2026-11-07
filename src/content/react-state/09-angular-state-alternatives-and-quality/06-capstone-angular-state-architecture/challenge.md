@@ -10,7 +10,7 @@ State and derived values:
 Methods:
 
 5. `load()` does nothing while `status` is `'loading'`; otherwise it sets `'loading'`, calls `FETCH_PRODUCTS`, stores the products and sets `'ready'`; on rejection it sets `'error'` and keeps the previous products.
-6. `setCategory(category)`, `add(id)` (quantity + 1) and `remove(id)` (quantity - 1, deleting the entry at 0; nothing happens when the product is not in the cart).
+6. `setCategory(category)`, `add(id)` (quantity + 1) and `remove(id)` (quantity - 1, deleting the entry at 0; nothing happens when the product is not in the cart). Product ids are positive integers; `add(id)` ignores any other value, so nothing is added or saved that a restore would later discard.
 
 Persistence (key `'cart'`):
 

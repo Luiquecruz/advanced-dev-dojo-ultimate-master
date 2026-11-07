@@ -107,3 +107,13 @@ test('invalid entries are dropped but valid ones are restored', () => {
   const { store } = setup({ stored: JSON.stringify({ version: 1, quantities: { 1: 2, 2: 'x', 3: -1, a: 4, 0: 5, '-1': 2 } }) });
   expect(store.quantities()).toEqual({ 1: 2 });
 });
+
+test('add() ignores ids that are not positive integers', async () => {
+  const { store, storage } = setup();
+  await store.load();
+  store.add(0);
+  store.add(-1);
+  store.add(1.5);
+  expect(store.quantities()).toEqual({});
+  expect(storage.data.has('cart')).toBe(false);
+});

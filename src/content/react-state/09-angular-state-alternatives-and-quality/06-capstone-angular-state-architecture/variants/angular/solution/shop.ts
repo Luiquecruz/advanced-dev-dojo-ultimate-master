@@ -86,6 +86,7 @@ export const ShopStore = signalStore(
         patchState(store, { category });
       },
       add(id: number) {
+        if (!Number.isInteger(id) || id <= 0) return;
         patchState(store, (state) => ({ quantities: { ...state.quantities, [id]: (state.quantities[id] ?? 0) + 1 } }));
         persist();
       },
