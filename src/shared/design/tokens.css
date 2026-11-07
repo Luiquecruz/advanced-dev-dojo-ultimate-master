@@ -72,13 +72,13 @@
 }
 
 [data-trail='react'] {
-  --accent: #8c95ff;
-  --accent-rgb: 140 149 255;
+  --accent: #8c9dff;
+  --accent-rgb: 140 157 255;
 }
 
 [data-trail='react-state'] {
-  --accent: #c79cff;
-  --accent-rgb: 199 156 255;
+  --accent: #be99ff;
+  --accent-rgb: 190 153 255;
 }
 
 [data-trail='architecture'] {
@@ -92,28 +92,28 @@
 }
 
 [data-trail='angular'] {
-  --accent: #f2f466;
-  --accent-rgb: 242 244 102;
+  --accent: #ff6171;
+  --accent-rgb: 255 97 113;
 }
 
 [data-trail='ai-engineering'] {
-  --accent: #e97af0;
-  --accent-rgb: 233 122 240;
+  --accent: #ef80ff;
+  --accent-rgb: 239 128 255;
 }
 
 [data-trail='node'] {
-  --accent: #9be15d;
-  --accent-rgb: 155 225 93;
+  --accent: #fdff73;
+  --accent-rgb: 253 255 115;
 }
 
 [data-trail='python'] {
-  --accent: #62e869;
-  --accent-rgb: 98 232 105;
+  --accent: #6bff7a;
+  --accent-rgb: 107 255 122;
 }
 
 [data-trail='csharp'] {
-  --accent: #ff7a7f;
-  --accent-rgb: 255 122 127;
+  --accent: #ff73c9;
+  --accent-rgb: 255 115 201;
 }
 
 [data-trail='system-design'] {
@@ -122,8 +122,8 @@
 }
 
 [data-trail='java-spring'] {
-  --accent: #ff80c6;
-  --accent-rgb: 255 128 198;
+  --accent: #b2ff73;
+  --accent-rgb: 178 255 115;
 }
 
 @theme {

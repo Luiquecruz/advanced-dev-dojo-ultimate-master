@@ -356,22 +356,22 @@ Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
 - At least 30° of hue away from the accent of every other track shown to learners, so tracks stay distinguishable (also for color-blind users; the logo glyph and title are the second cue). Tracks hidden in `src/content/featureFlags.ts` never share a screen with the others and are left out; enabling one whose hue collides fails the test, and the accents are revisited then.
 - `--accent-rgb` must be the same color as `--accent` written as `R G B`.
 
-Current accents and their hues. Angular and Frontend Architecture use separate bands to keep all published tracks at least 30° apart. Hidden Vue and Java/Spring may share a band until their release colors are chosen.
+Current accents and their hues. Eleven tracks are shown, so every band is shared out in steps of 30° or more; Angular takes the red band of the framework logo and Java and Spring Boot the green band of the Spring logo. Hidden Vue may share a band until its release color is chosen.
 
 | Track | Accent | Hue |
 | --- | --- | --- |
 | architecture | `#ffad63` | 28° |
-| ai-engineering | `#f07ad9` | 312° |
-| node | `#9be15d` | 92° |
-| python | `#62e869` | 123° |
+| ai-engineering | `#ef80ff` | 292° |
+| node | `#fdff73` | 61° |
+| python | `#6bff7a` | 126° |
 | vue (hidden) | `#6de6b2` | 154° |
 | system-design | `#40e6b0` | 160° |
 | typescript | `#4dd9ff` | 193° |
-| react | `#8c8cff` | 240° |
-| react-state | `#d29cff` | 273° |
-| angular | `#f2f466` | 61° |
-| csharp | `#ff7a7f` | 358° |
-| java-spring (hidden) | `#ffa24d` | 29° |
+| react | `#8c9dff` | 231° |
+| react-state | `#be99ff` | 262° |
+| angular | `#ff6171` | 354° |
+| csharp | `#ff73c9` | 323° |
+| java-spring | `#b2ff73` | 93° |
 
 ## Adding a framework track (step by step)
 
