@@ -7,11 +7,11 @@ Read [java-spring-track.md](java-spring-track.md) for the current scope and cont
 | Item | State |
 | --- | --- |
 | Identity | `java-spring`, Java and Spring Boot; content, feature flag, glyph, accent selector and verification use the same id |
-| Written here | Modules 01–08, 59 lessons; current review and merge states are below |
-| Remaining backend work | All backend modules are written; finish review and merge gates |
-| Target | 8 required modules, 59 lessons; every lesson is theory and quiz with local practice |
+| Written here | Modules 01–11, 77 lessons; modules 06, 08 and 10 are new from the curriculum SDD; current review and merge states are below |
+| Remaining backend work | All modules are written; compile the new Redis, Kafka, Modulith and Resilience4j snippets against Boot 4 and finish review and merge gates |
+| Target | 11 required modules, 77 lessons; every lesson is theory and quiz with local practice |
 | Engines | No Java engine and no challenges; existing catalog engine metadata does not launch a workspace |
-| Release | Hidden; no accent color or visibility change. Java release no longer depends on Angular being shown |
+| Release | Published (`java-spring: true`); accents of `react`, `react-state`, `ai-engineering` and `java-spring` were respaced to keep 30° hue distance |
 | Angular | Separate track, unchanged by this work; no Angular prerequisite for Java/Spring |
 
 ## Preserved work and PR history
@@ -62,7 +62,9 @@ Java and Angular have independent feature flags and release checks. Do not turn 
 | [#63](https://github.com/Luiquecruz/constela-mission/pull/63) | feat(curriculum): add backend quality and delivery module | MERGED | `main` |
 | [#65](https://github.com/Luiquecruz/constela-mission/pull/65) | feat(curriculum): add backend course catalog capstone | MERGED | `feat/java-spring-delivery` (reached `main` through this branch) |
 
-Latest action: Adapted module 08 into five backend-only capstone stages, with API contracts, persistence, token security and packaged delivery; the completed Java/Spring scope has 59 lessons.
+Latest action: Applied the curriculum SDD. New modules 06 Advanced Persistence, Locking and Redis, 08 Messaging and Events and 10 Architecture and Resilience (18 lessons); the security, quality and capstone modules moved to 07, 09 and 11; the capstone gained versioned updates, Redis caching, Kafka events, Modulith boundaries and a moderation circuit breaker; lesson 01/07 now teaches the first test with `assert`, and `@ServiceConnection` moved from Build and Tests to Spring Data Repositories; the Caching and Rate Limiting lesson no longer repeats the cache annotations. The completed scope has 77 lessons.
+
+SDD points not taken literally: the quiz names `GenericJackson2JsonRedisSerializer`, which Spring Data Redis 4 deprecates, so the lessons use the Jackson 3 serializers; `ExponentialBackOff` retries forever by default, so the lessons use `ExponentialBackOffWithMaxRetries`; circuit breakers use Spring Cloud CircuitBreaker over Resilience4j, and Spring Framework 7's own `@Retryable` is mentioned.
 
 Module 06 security review addressed filter-chain ordering, JWT formats, CSRF references, anonymous versus authenticated denials and role hierarchy wiring.
 

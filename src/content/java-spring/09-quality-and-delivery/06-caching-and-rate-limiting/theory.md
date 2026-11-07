@@ -2,36 +2,11 @@
 
 Two techniques protect a busy API from its own traffic. Caching avoids repeating work whose answer has not changed: a database query, a remote call, a transfer of bytes the client already has. Rate limiting refuses work beyond what the system, or one client, should consume. This lesson covers Spring's cache abstraction and its invalidation rules, HTTP caching with `Cache-Control` and `ETag`, and rate limiting concepts, including where to enforce them.
 
-You need: Observability with Actuator and Micrometer (metrics to measure a cache), Docker Compose for Local Development (more than one instance of the API).
+You need: Caching with Spring and Redis, TTL, Eviction and Cache Stampede, Observability with Actuator and Micrometer (metrics to measure a cache), Docker Compose for Local Development (more than one instance of the API).
 
-## The Spring cache abstraction
+## The Spring cache abstraction in brief
 
-Spring Boot caches method results with annotations on the methods of a Spring bean, backed by a cache provider you choose. Add `spring-boot-starter-cache`, put `@EnableCaching` on a configuration class (the reference advises against the main application class, because caching then becomes mandatory in every test), and annotate:
-
-```java
-@Service
-public class CourseCatalogService {
-
-    @Cacheable(cacheNames = "courses", key = "#id")
-    public CourseView find(long id) {
-        return loadFromDatabase(id);
-    }
-
-    @CachePut(cacheNames = "courses", key = "#id")
-    public CourseView rename(long id, String title) {
-        return saveTitle(id, title);
-    }
-
-    @CacheEvict(cacheNames = "courses", key = "#id")
-    public void remove(long id) {
-        deleteFromDatabase(id);
-    }
-}
-```
-
-`@Cacheable` checks the cache first and runs the method only on a miss. `@CachePut` always runs the method and stores the result. `@CacheEvict` removes an entry after the method completes successfully, or the whole cache with `allEntries = true`. The default key is the single parameter itself, or a combination of all parameters, so parameters need correct `equals` and `hashCode`; `key = "#id"` makes the choice explicit. `condition` is evaluated before the call and `unless` after it, which lets you skip caching null results with `unless = "#result == null"`. Cache values whose component state cannot be mutated through constructor inputs or accessors. Records are only shallowly immutable: use immutable components or defensive copies so one caller cannot change what another receives.
-
-Two behaviors surprise beginners. Caching works through a proxy, so a call from one method to another method of the same object bypasses the cache; move the cached method to another bean. And on a concurrent miss every thread computes the value unless you set `sync = true`, which lets one thread compute while the others wait.
+Spring Boot caches method results with `@Cacheable`, `@CachePut` and `@CacheEvict` on the methods of a Spring bean, enabled with `@EnableCaching` on a configuration class. The Redis lessons covered these annotations, explicit keys and serialization in detail, so this lesson keeps only what matters for operating a cache. Caching works through a proxy, so a call from one method to another method of the same object bypasses the cache; move the cached method to another bean. And on a concurrent miss every thread computes the value unless you set `sync = true`, which lets one thread compute while the others wait.
 
 ## Choosing a provider
 
@@ -44,15 +19,11 @@ spring.cache.caffeine.spec=maximumSize=500,expireAfterWrite=10m,recordStats
 
 Caffeine lives inside each JVM. With three API instances, an update evicts one instance's entry while the other two keep serving the old value until it expires. A shared provider such as Redis gives all instances one cache, with a time to live set by `spring.cache.redis.time-to-live`. Whichever you choose, always bound the cache by size and by time.
 
-## Invalidation and TTL
+## Invalidation and measurement
 
-Invalidation is the hard part of caching. Three rules cover most cases:
+The rules from the TTL lesson apply to any provider: evict or update on every write path, always set a time to live, and cache only what tolerates staleness. A course title can be ten minutes old; a stock count or a payment status usually cannot.
 
-- **Evict or update on write.** Every method that changes the data must evict or update the entries it affects.
-- **Set a time to live (TTL).** Even with eviction in place, a TTL limits how long a mistake or a change made outside the application stays visible.
-- **Cache only what tolerates staleness.** A course title can be ten minutes old; a stock count or a payment status usually cannot.
-
-Measure before and after: Boot instruments the caches configured at startup for libraries such as Caffeine and Redis, with metric names that start with `cache`, and a cache with a low hit rate only adds memory use and complexity.
+Measure before and after. Boot instruments the caches configured at startup for libraries such as Caffeine and Redis, with metric names that start with `cache`, and a cache with a low hit rate only adds memory use and complexity.
 
 ## HTTP caching
 

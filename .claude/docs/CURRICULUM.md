@@ -419,7 +419,7 @@ Spec and standards: [system-design-track.md](system-design-track.md). Multi-lang
 
 ## Java and Spring Boot (`src/content/java-spring`, engine `angular`)
 
-Plan and decisions: [java-spring-track.md](java-spring-track.md). Every module is theory and quizzes plus backend projects built locally with the JDK and Maven when required. There are no graded browser challenges or Java engine. Angular is separate, and Full Stack is deferred. Module 01 is required; the track remains hidden until its independent release checks pass.
+Plan and decisions: [java-spring-track.md](java-spring-track.md). Every module is theory and quizzes plus backend projects built locally with the JDK and Maven when required. There are no graded browser challenges or Java engine. Angular is separate, and Full Stack is deferred. Module 01 is required and the track is published.
 
 ### 01-java-from-zero — Java from Zero
 01-your-first-java-program ✓ · 02-values-types-and-variables ✓ · 03-decisions-and-loops ✓ · 04-methods ✓ · 05-strings-and-arrays ✓ · 06-classes-and-objects ✓ · 07-exceptions-and-first-test ✓ · 08-project-command-line-todo ✓
@@ -436,11 +436,20 @@ Plan and decisions: [java-spring-track.md](java-spring-track.md). Every module i
 ### 05-persistence — Persistence
 01-jpa-and-hibernate-basics ✓ · 02-spring-data-repositories ✓ · 03-relationships ✓ · 04-transactions ✓ · 05-the-n-plus-one-problem-and-fetching ✓ · 06-paging-and-sorting-with-spring-data ✓ · 07-database-migrations-and-soft-delete ✓ · 08-project-course-persistence ✓
 
-### 06-security — Security
+### 06-advanced-persistence — Advanced Persistence, Locking and Redis
+01-optimistic-locking ✓ · 02-pessimistic-locking ✓ · 03-redis-and-spring-data-redis ✓ · 04-caching-with-spring-and-redis ✓ · 05-ttl-eviction-and-cache-stampede ✓ · 06-project-ticket-sales ✓
+
+### 07-security — Security
 01-authentication-and-authorization-basics ✓ · 02-the-spring-security-filter-chain ✓ · 03-sessions-versus-tokens ✓ · 04-jwt-and-oauth-2-resource-servers ✓ · 05-csrf-and-cors ✓ · 06-method-security-and-authorization-design ✓ · 07-project-secure-course-api ✓
 
-### 07-quality-and-delivery — Quality and Delivery
+### 08-messaging-and-events — Messaging and Events
+01-messaging-queues-and-publish-subscribe ✓ · 02-spring-for-apache-kafka ✓ · 03-the-transactional-outbox-pattern ✓ · 04-retries-and-dead-letter-topics ✓ · 05-spring-cloud-stream ✓ · 06-project-orders-and-notifications ✓
+
+### 09-quality-and-delivery — Quality and Delivery
 01-the-backend-test-pyramid ✓ · 02-docker-for-java-applications ✓ · 03-docker-compose-for-local-development ✓ · 04-continuous-integration ✓ · 05-observability-with-actuator-and-micrometer ✓ · 06-caching-and-rate-limiting ✓ · 07-production-configuration-and-operations ✓ · 08-project-ship-the-course-api ✓
 
-### 08-capstone — Capstone: Course Catalog API
+### 10-architecture-and-resilience — Architecture and Resilience
+01-hexagonal-architecture ✓ · 02-spring-modulith ✓ · 03-events-between-modules ✓ · 04-resilience-with-circuit-breakers ✓ · 05-calling-services-with-restclient ✓ · 06-project-modular-finance ✓
+
+### 11-capstone — Capstone: Course Catalog API
 01-capstone-requirements-and-design ✓ · 02-capstone-the-spring-api ✓ · 03-capstone-persistence-and-migrations ✓ · 04-capstone-security ✓ · 05-capstone-review-and-delivery ✓

@@ -11,7 +11,7 @@ The `java-spring` track teaches Java and backend API development independently f
 | Versions | Java 25, Spring Boot 4 on Spring Framework 7; projects pin their dependencies |
 | Practice | Theory, quizzes and local JDK projects; Maven starts in module 03 |
 | Catalog engine | Retain the existing `angular` metadata value; without challenges no browser engine starts |
-| Publication | Hidden until its own content, accent and release checks pass; independent from the Angular flag |
+| Publication | Published (`java-spring: true`); independent from the Angular flag |
 | Angular | The existing Angular track owns framework fundamentals, state, forms, routing and frontend tests |
 | Future Full Stack | End-to-end client/API contracts, Angular integration, authentication flows and joint delivery; deferred |
 
@@ -26,11 +26,14 @@ The earlier combined draft, inspired in part by the Spring/Angular course-catalo
 | 03 Build and Tests | Maven, JUnit Jupiter, Mockito, Spring test slices, Testcontainers, quality tools and a tested-service project | 7 |
 | 04 Spring Boot Core | Dependency injection, auto-configuration, profiles, REST, Jakarta Validation, Problem Details, OpenAPI and an API project | 8 |
 | 05 Persistence | JPA, repositories, relationships, transactions, fetching, paging, migrations, soft delete and persistence project | 8 |
-| 06 Security | Authentication and authorization, filter chains, sessions and tokens, JWT resource servers, CSRF/CORS, method security and a secure API project | 7 |
-| 07 Quality and Delivery | Backend test strategy, Docker, Compose, CI, observability, caching and rate limiting, operations and API delivery project | 8 |
-| 08 Capstone: Course Catalog API | Requirements and API contract, implementation, persistence, security, review and delivery | 5 |
+| 06 Advanced Persistence, Locking and Redis | Optimistic and pessimistic locking, Redis, the cache abstraction on Redis, TTL, eviction, cache stampede and a ticket sales project | 6 |
+| 07 Security | Authentication and authorization, filter chains, sessions and tokens, JWT resource servers, CSRF/CORS, method security and a secure API project | 7 |
+| 08 Messaging and Events | Queues and logs, Spring for Apache Kafka, the transactional outbox, retries and dead letter topics, Spring Cloud Stream and an orders project | 6 |
+| 09 Quality and Delivery | Backend test strategy, Docker, Compose, CI, observability, caching and rate limiting, operations and API delivery project | 8 |
+| 10 Architecture and Resilience | Hexagonal architecture, Spring Modulith, events between modules, circuit breakers, RestClient and a modular finance project | 6 |
+| 11 Capstone: Course Catalog API | Requirements and API contract, modular implementation, PostgreSQL, Redis, Kafka, security, review and delivery | 5 |
 
-The completed target is eight consecutive required modules and 59 lessons. It contains no Angular-client module, frontend-authentication lesson or Angular capstone stage. API boundaries, HTTP, CORS and consumer contracts remain backend topics; teaching a frontend framework does not.
+The completed target is eleven consecutive required modules and 77 lessons. It contains no Angular-client module, frontend-authentication lesson or Angular capstone stage. API boundaries, HTTP, CORS and consumer contracts remain backend topics; teaching a frontend framework does not.
 
 ## Content standards
 
