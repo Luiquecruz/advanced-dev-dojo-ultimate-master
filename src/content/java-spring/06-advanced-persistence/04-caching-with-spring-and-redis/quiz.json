@@ -52,7 +52,7 @@
       "Spring cannot run without keys"
     ],
     "answer": 1,
-    "explanation": "With the default key, two methods in one cache that receive the same argument produce the same entry. An explicit key keeps them apart."
+    "explanation": "With the default key, two methods in one cache that receive the same argument produce the same entry. An explicit key helps only when it contains something that tells the methods apart; otherwise give them separate cache names."
   },
   {
     "question": "A price depends on the logged-in customer. What must the cache key contain?",

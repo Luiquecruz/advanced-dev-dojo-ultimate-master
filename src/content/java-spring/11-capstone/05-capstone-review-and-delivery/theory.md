@@ -6,7 +6,7 @@ You need: Capstone: Requirements and Design, Capstone: The Spring API, Capstone:
 
 ## Goal
 
-Finish `course-catalog` so that a stranger can clone it, set two environment variables, run `docker compose up --build` and use it, while a pipeline proves that every pull request still builds and passes its tests. Module 07 (quality and delivery) covers the test pyramid, Docker and Compose, continuous integration and Actuator in depth.
+Finish `course-catalog` so that a stranger can clone it, set two environment variables, run `docker compose up --build` and use it, while a pipeline proves that every pull request still builds and passes its tests. Module 09 (quality and delivery) covers the test pyramid, Docker and Compose, continuous integration and Actuator in depth.
 
 ## Features
 
@@ -65,6 +65,25 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U catalog -d catalog"]
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+  kafka:
+    image: apache/kafka:4.0.0
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null"]
   api:
     build: ./api
     ports: ["127.0.0.1:8080:8080"]
@@ -72,10 +91,16 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/catalog
       SPRING_DATASOURCE_USERNAME: catalog
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_JWT_SECRET: ${APP_JWT_SECRET:?Set APP_JWT_SECRET}
       SPRING_PROFILES_ACTIVE: local
     depends_on:
       db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
         condition: service_healthy
 ```
 

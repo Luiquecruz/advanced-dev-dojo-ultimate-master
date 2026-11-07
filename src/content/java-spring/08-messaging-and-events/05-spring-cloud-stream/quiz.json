@@ -52,7 +52,7 @@
       "The JVM is too new"
     ],
     "answer": 1,
-    "explanation": "Unknown binding names are not errors. The function simply has no destination, so check the generated names and spring.cloud.function.definition."
+    "explanation": "Unknown binding names are not errors. Without a matching binding property the function binds to a destination named after the binding, which is probably not the intended topic, so check the generated names and spring.cloud.function.definition."
   },
   {
     "question": "When is the Kafka client with Spring for Apache Kafka a better choice?",

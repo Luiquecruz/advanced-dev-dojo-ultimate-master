@@ -128,7 +128,14 @@ function fingerprint(root, uncovered) {
  * Message listing each uncovered file with the documents to review.
  */
 function describe(uncovered) {
-  const lines = uncovered.map(({ file, docs }) => `- ${file} → ${docs.join(', ')}`);
+  const printable = (file) =>
+    [...file]
+      .map((character) => {
+        const code = character.charCodeAt(0);
+        return code < 0x20 || code === 0x7f ? `\\x${code.toString(16).padStart(2, '0')}` : character;
+      })
+      .join('');
+  const lines = uncovered.map(({ file, docs }) => `- ${printable(file)} → ${docs.join(', ')}`);
   return [
     'Docs sync: these changes touch documented areas and none of their documents changed in this change:',
     ...lines,

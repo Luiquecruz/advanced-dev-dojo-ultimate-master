@@ -30,7 +30,7 @@
       "The event can be resubmitted because the registry keeps it until the listener succeeds"
     ],
     "answer": 3,
-    "explanation": "The registry stores the publication and removes it only on success, which is why listeners must be idempotent."
+    "explanation": "The registry stores the publication and marks it complete only on success, which is why listeners must be idempotent."
   },
   {
     "question": "With the risk service down, why send a 900.00 transfer to review?",

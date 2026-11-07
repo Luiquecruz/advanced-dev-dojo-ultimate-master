@@ -41,7 +41,7 @@
       "Large JSON"
     ],
     "answer": 2,
-    "explanation": "Publications are stored with the publisher's transaction and removed only on success, so incomplete ones can be resubmitted."
+    "explanation": "Publications are stored with the publisher's transaction and marked complete only on success, so incomplete ones can be resubmitted."
   },
   {
     "question": "Why should listeners be idempotent?",

@@ -64,11 +64,11 @@ Latest action: Applied the curriculum SDD. New modules 06 Advanced Persistence, 
 
 SDD points not taken literally: the quiz names `GenericJackson2JsonRedisSerializer`, which Spring Data Redis 4 deprecates, so the lessons use the Jackson 3 serializers; `ExponentialBackOff` retries forever by default, so the lessons use `ExponentialBackOffWithMaxRetries`; circuit breakers use Spring Cloud CircuitBreaker over Resilience4j, and Spring Framework 7's own `@Retryable` is mentioned.
 
-Module 06 security review addressed filter-chain ordering, JWT formats, CSRF references, anonymous versus authenticated denials and role hierarchy wiring.
+Security review (then module 06, now 07) addressed filter-chain ordering, JWT formats, CSRF references, anonymous versus authenticated denials and role hierarchy wiring.
 
-Module 07 review addressed the scoped detail route, localhost publishing, HTTP cache freshness and account changes, container build caching, actuator exposure and shutdown grace period.
+Quality and Delivery review (then module 07, now 09) addressed the scoped detail route, localhost publishing, HTTP cache freshness and account changes, container build caching, actuator exposure and shutdown grace period.
 
-Module 08 validation: 1,800 unfiltered content checks, eslint, typecheck, docs sync, API-only Compose validation and all 22 backend resource URLs pass. A representative Boot 4.1.2 API compiles and passes direct HTTP authentication, authorization, field-error, invalid-token and rejected-short-secret checks. PostgreSQL verifies the current schema, identity continuation, active-code uniqueness, soft-delete reuse and renamed fixed data. The content project is a local implementation exercise; the smoke fixture is representative rather than a complete capstone solution.
+Capstone validation (then module 08, now 11): 1,800 unfiltered content checks, eslint, typecheck, docs sync, API-only Compose validation and all 22 backend resource URLs pass. A representative Boot 4.1.2 API compiles and passes direct HTTP authentication, authorization, field-error, invalid-token and rejected-short-secret checks. PostgreSQL verifies the current schema, identity continuation, active-code uniqueness, soft-delete reuse and renamed fixed data. The content project is a local implementation exercise; the smoke fixture is representative rather than a complete capstone solution.
 
 PR #65 review: validated both invalid fields, used the seeded course ID rather than assuming 1, and restricted demo user beans to the local profile. Boot 4.1.2 startup without supplied non-local authentication fails, and local authentication and invalid-token smoke checks pass.
 

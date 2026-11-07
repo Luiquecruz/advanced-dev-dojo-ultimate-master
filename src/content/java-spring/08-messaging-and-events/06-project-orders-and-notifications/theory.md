@@ -6,7 +6,7 @@ You need: Messaging, Queues and Publish/Subscribe, Spring for Apache Kafka, The 
 
 ## Goal
 
-Create a Maven parent project `orders-platform` with two modules, `order-service` and `notification-service`, under the base package `com.example.orders`. The order service never calls Kafka inside its business transaction. The notification service never processes the same event twice, and a malformed record never blocks the topic. Check JDK 25, Maven 3.9 or later and Docker with `java -version`, `mvn -v` and `docker info`.
+Create a Maven parent project `orders-platform` with two modules, `order-service` and `notification-service`, under the base package `com.example.orders`. The order service never calls Kafka inside its business transaction. The notification service never repeats a confirmation for the same event id, and a malformed record never blocks the topic. Check JDK 25, Maven 3.9 or later and Docker with `java -version`, `mvn -v` and `docker info`.
 
 ## Features
 
@@ -23,7 +23,7 @@ Tests use Testcontainers for PostgreSQL and Kafka and run with `mvn verify`.
 1. `POST /api/orders` with a valid body returns `201` and creates one order row and one pending outbox row in a single transaction.
 2. If saving the outbox row fails, the order row is not committed either (test with a forced exception).
 3. After the relay runs, the pending row has `published_at` set and the topic `orders.placed` holds one record with the order id as key.
-4. The notification service sends one confirmation for that event, and the same record delivered twice sends it only once.
+4. The notification service sends one confirmation for that event and passes the event id to the sender as its idempotency key, and the same record delivered twice sends it only once.
 5. A record that fails with a transient exception twice and then succeeds is processed on the third attempt without reaching the dead letter topic.
 6. A malformed JSON record is published to `orders.placed.DLT` after the attempts allowed by the policy, and the following valid record is still processed.
 7. Stopping the notification service, placing five orders and starting it again results in five confirmations.
@@ -34,7 +34,7 @@ Tests use Testcontainers for PostgreSQL and Kafka and run with `mvn verify`.
 1. Create the parent POM and the two modules with the dependencies each needs. Start Compose and check the broker with `docker compose ps`.
 2. In `order-service`, write the Flyway migrations and the `Order` and `OutboxEvent` entities. Write the placement service and test criteria 1 and 2 before the relay exists.
 3. Add the relay. Select pending rows with `FOR UPDATE SKIP LOCKED` in the relay's transaction, send the stored JSON text with a `KafkaTemplate<String, String>`, wait for the result, then mark them published. Test criterion 3.
-4. In `notification-service`, add the consumer, the processed-events table and the idempotency check. Use the event id from the payload as the key of the processed row.
+4. In `notification-service`, add the consumer, the processed-events table and the idempotency check. Use the event id from the payload as the key of the processed row, and pass the same id to the simulated email sender as its idempotency key, which closes the gap of a crash between the send and the commit.
 5. Add the error handler and the deserializer wrapper. Create a test that publishes invalid JSON directly with a `KafkaTemplate`.
 6. Write the tests for criteria 4 to 7. For criterion 5, make the sender fail on its first two calls using a test double.
 7. Document how to run both services and the Compose file in a short `README`.

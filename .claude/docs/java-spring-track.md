@@ -1,6 +1,6 @@
 # Java and Spring Boot track
 
-The `java-spring` track teaches Java and backend API development independently from the Angular track. The owner chose separate Java/Spring and Angular learning paths; a future Full Stack track may connect them. This track uses theory, quizzes and local projects, with no graded browser challenges and no Java engine. All eight backend modules are written, with 59 lessons; the backend-only continuation is being reviewed and integrated. See [java-spring-handoff.md](java-spring-handoff.md) for current PRs and evidence.
+The `java-spring` track teaches Java and backend API development independently from the Angular track. The owner chose separate Java/Spring and Angular learning paths; a future Full Stack track may connect them. This track uses theory, quizzes and local projects, with no graded browser challenges and no Java engine. All eleven modules are written, with 77 lessons, and the track is published. See [java-spring-handoff.md](java-spring-handoff.md) for current PRs and evidence.
 
 ## Scope and versions
 

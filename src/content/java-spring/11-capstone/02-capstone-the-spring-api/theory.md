@@ -14,10 +14,10 @@ Create the Maven project `course-catalog/api` (Java 25, package `com.example.cat
 - `GET /api/courses/{id}`, `POST /api/courses` (answers `201` with a `Location` header) and `DELETE /api/courses/{id}` (answers `204`).
 - Bean Validation on the request body, a duplicate code answering `409`, an unknown id answering `404`, all as Problem Details.
 - Three layers: a controller that only speaks HTTP, a service that applies the rules, and a `CourseStore` interface that hides storage.
-- `PUT /api/courses/{id}` that checks the `version` in the body against the stored one, answers `409` when they differ and returns the course with the next version.
+- `PUT /api/courses/{id}` that reads the `version` from a `CourseUpdateRequest` body, checks it against the stored one, answers `409` when they differ and returns the course with the next version.
 - Modules `catalog`, `identity` and `notification` under `com.example.catalog`, with internals in sub-packages and a modularity test.
 - A `ModerationClient` built on `RestClient` with timeouts, a circuit breaker named `moderation` and a fallback that sets `moderationStatus` to `PENDING`.
-- A `CourseCreated` event that an `@ApplicationModuleListener` in `notification` records in memory.
+- A `CourseCreated` event that a plain `@EventListener` in `notification` records in memory. This stage has no database transaction, and `@ApplicationModuleListener` fires only after a commit, so stage three makes creation transactional and switches the listener.
 
 ## Acceptance criteria
 
@@ -31,7 +31,7 @@ Create the Maven project `course-catalog/api` (Java 25, package `com.example.cat
 8. `ApplicationModules.of(CatalogApplication.class).verify()` passes.
 9. `PUT /api/courses/1` with `version` 0 answers `200` with version 1, and the same body again answers `409`.
 10. With the moderation stub answering `500`, `POST /api/courses` still answers `201` with `moderationStatus` `PENDING`; after enough failures the stub is no longer called while the circuit is open.
-11. A created course produces one recorded `CourseCreated` notification after the response.
+11. A created course produces exactly one recorded `CourseCreated` notification.
 
 ## Suggested steps
 
@@ -47,7 +47,9 @@ public record CourseRequest(
         @NotNull Long instructorId) { }
 ```
 
-3. Define `CourseStore` (`list`, `find`, `existsByCode`, `create`, `delete`) and implement it with a `ConcurrentHashMap` seeded in the constructor. Put the paging in the store with `sorted`, `skip` and `limit`, using title then id as a deterministic order. Reject negative page indexes with a 400 and compute offsets as `long` values.
+   `PUT` uses a second record, `CourseUpdateRequest`, with the same components plus `@NotNull Long version`; `POST` has no version.
+
+3. Define `CourseStore` (`list`, `find`, `existsByCode`, `create`, `update`, `delete`, where `update` replaces the course only when the stored version matches and stores the next version) and implement it with a `ConcurrentHashMap` seeded in the constructor. Put the paging in the store with `sorted`, `skip` and `limit`, using title then id as a deterministic order. Reject negative page indexes with a 400 and compute offsets as `long` values.
 4. Put the rules in `CourseService`: it clamps the page size with `Math.clamp(size, 1, 100)`, throws `DuplicateCodeException` before storing and `CourseNotFoundException` for a missing id.
 5. Keep the controller thin: bind, delegate, build the response. Annotate the body parameter with `@Valid`.
 6. Map errors in one `@RestControllerAdvice` that extends `ResponseEntityExceptionHandler`, which already turns Spring's own exceptions into Problem Details. Add your exceptions and override the validation handler to attach the field map. Import `FieldError` and `ObjectError` from `org.springframework.validation`; `_global` preserves object-level violations:

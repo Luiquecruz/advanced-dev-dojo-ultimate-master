@@ -63,6 +63,6 @@
       "Counters updated on every request"
     ],
     "answer": 0,
-    "explanation": "With rare conflicts the cost is one column and no waiting. Heavy contention would cause constant failures and retries."
+    "explanation": "With rare conflicts the cost is one column and no lock held between the read and the write. Heavy contention would cause constant failures and retries."
   }
 ]

@@ -14,7 +14,7 @@ Create a Maven project `modular-finance` with the base package `com.example.fina
 - `account`: an `Account` domain type with `withdraw` and `deposit` rules, an `AccountOperations` public API and an internal JPA adapter.
 - `transfer`: a `TransferService`, a `RiskScoreClient` built on `RestClient` with `connect-timeout` and `read-timeout`, a circuit breaker named `risk-service` and a fallback that returns an `unknown` score.
 - A policy: `unknown` risk allows transfers up to a contingency limit (for example 500.00) and sends larger ones to `PENDING_REVIEW`.
-- `audit`: an `@ApplicationModuleListener` that stores an `audit_entry` row for every `TransferCompleted` event.
+- `audit`: an `@ApplicationModuleListener` that stores an `audit_entry` row for every `TransferCompleted` event, with the transfer id in a unique column so a resubmitted event cannot create a second row.
 - Flyway migrations for `account`, `transfer`, `audit_entry` and the event publication table.
 - `POST /api/transfers` answering `201`, `409` for insufficient funds and `202` for a transfer pending review.
 
@@ -27,14 +27,17 @@ Create a Maven project `modular-finance` with the base package `com.example.fina
 5. With WireMock returning a score, the transfer follows the score. With WireMock returning `500` several times, the circuit opens and later calls use the fallback without reaching WireMock.
 6. With the risk service down, a transfer of 100.00 completes under the contingency limit and a transfer of 900.00 answers `202` with status `PENDING_REVIEW`.
 7. A WireMock response slower than the read timeout counts as a failure and triggers the fallback.
-8. `mvn verify` passes with PostgreSQL started by Testcontainers.
+8. Ten simultaneous transfers of 100.00 from an account holding 500.00 succeed exactly five times, the other five answer `409`, and the balance is never negative.
+9. Delivering the same `TransferCompleted` event to the audit listener twice leaves one `audit_entry` row.
+10. After the audit listener failed, restarting with `spring.modulith.events.republish-outstanding-events-on-restart=true`, or calling the `IncompleteEventPublications` bean, delivers the event and leaves one audit row.
+11. `mvn verify` passes with PostgreSQL started by Testcontainers.
 
 ## Suggested steps
 
 1. Create the project and the three packages. Add the modularity test first, while it is easy to pass.
 2. Build `account` with its domain rules and unit tests that need no Spring. Then add the JPA adapter and migration.
-3. Build `transfer` with the transaction, the failing-funds case and the event. Check criteria 2 and 3.
-4. Build `audit` with the listener and the registry table. Make the listener fail on purpose to verify criterion 4.
+3. Build `transfer` with the transaction, the failing-funds case and the event, and protect the source account against overlapping transfers with a pessimistic lock or a version column. Check criteria 2, 3 and 8.
+4. Build `audit` with the listener and the registry table. Make the listener fail on purpose to verify criterion 4, then recover the publication as described in criterion 10 and check criterion 9.
 5. Write `RiskScoreClient` with `RestClient`, status translation and the breaker. Start with WireMock tests for success, `404`, `500`, slowness and a malformed body.
 6. Add the policy for `unknown` scores and the review status, then criterion 6.
 7. Generate module documentation with `Documenter` and keep the diagram in the repository.

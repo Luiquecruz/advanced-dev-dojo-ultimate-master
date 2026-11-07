@@ -6,7 +6,7 @@ You need: Capstone: Requirements and Design, Capstone: The Spring API, Capstone:
 
 ## Goal
 
-Add `POST /api/auth/login`, a stateless filter chain with role rules, and security tests. Module 06 (security) explains the filter chain, sessions versus tokens, JWT and resource servers, CSRF and CORS; this stage makes the choices concrete. As written in the design stage, the API signs its own tokens, which suits a local project and avoids running an identity provider; a real deployment would normally delegate that to one.
+Add `POST /api/auth/login`, a stateless filter chain with role rules, and security tests. Module 07 (security) explains the filter chain, sessions versus tokens, JWT and resource servers, CSRF and CORS; this stage makes the choices concrete. As written in the design stage, the API signs its own tokens, which suits a local project and avoids running an identity provider; a real deployment would normally delegate that to one.
 
 ## Features
 

@@ -18,7 +18,7 @@ Add a `JpaCourseStore` that implements the `CourseStore` interface from stage tw
 - A migration `V2` adding `version` and `moderation_status` to `course`, and a table for the Spring Modulith event publication registry.
 - `@Version` on `Course`, so a stale `PUT` answers `409`.
 - Redis caching for `GET /api/courses/{id}` with a typed JSON serializer, a ten-minute TTL, a key prefix and eviction on update and delete.
-- `CourseCreated` stored in the registry and externalized to the Kafka topic `courses.created`, keyed by the course id.
+- Creation in a `@Transactional` service method, so `notification` can use `@ApplicationModuleListener`, which fires after the commit; `CourseCreated` stored in the registry and externalized to the Kafka topic `courses.created`, keyed by the course id.
 
 ## Acceptance criteria
 

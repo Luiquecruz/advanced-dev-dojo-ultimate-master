@@ -63,7 +63,7 @@ For short operations that the server can safely repeat, retry from outside the t
 
 ## When to choose it
 
-Optimistic locking costs one extra column and no database locks, so reads never wait and throughput stays high. It fits data that is read often and rarely written at the same moment: profiles, settings, course content. When many requests fight over the same row all the time, most attempts fail and retries pile up; that is the case for pessimistic locking, covered next.
+Optimistic locking costs one extra column and holds no lock between the read and the write, so reads never wait and throughput stays high; the conditional `UPDATE` still takes a short row lock while it runs. It fits data that is read often and rarely written at the same moment: profiles, settings, course content. When many requests fight over the same row all the time, most attempts fail and retries pile up; that is the case for pessimistic locking, covered next.
 
 ## Common mistakes
 

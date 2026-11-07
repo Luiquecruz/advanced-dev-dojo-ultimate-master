@@ -55,7 +55,7 @@ A plain `@EventListener`, by contrast, runs synchronously inside the publisher's
 
 ## The event publication registry
 
-Asynchronous after-commit listeners have a weakness: if the application crashes between the commit and the listener's completion, the event is lost. The event publication registry closes that gap. Spring Modulith writes a record for each event and each interested listener in the same transaction as the publisher's work, and removes it only when the listener finishes successfully. Incomplete publications can be resubmitted on restart, or on demand through the `IncompleteEventPublications` bean.
+Asynchronous after-commit listeners have a weakness: if the application crashes between the commit and the listener's completion, the event is lost. The event publication registry closes that gap. Spring Modulith writes a record for each event and each interested listener in the same transaction as the publisher's work, and marks it completed only when the listener finishes successfully. In the default completion mode completed publications stay in the table with a completion date, and the `DELETE` mode removes them instead. Incomplete publications can be resubmitted on restart, or on demand through the `IncompleteEventPublications` bean.
 
 Add the starter for your persistence technology, such as the JPA or JDBC starter, and create the registry table through a Flyway migration, since your schema belongs to migrations. This is the same idea as the outbox from the messaging module, built into the framework for events inside one application.
 

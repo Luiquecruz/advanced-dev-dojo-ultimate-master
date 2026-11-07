@@ -50,7 +50,7 @@ public class EventCatalogService {
 }
 ```
 
-`@Cacheable` returns the stored value on a hit and skips the method body. `@CachePut` always runs the method and refreshes the entry. `@CacheEvict` removes the entry once the method returns without an error. Write the key explicitly with SpEL: if two cached methods in the same cache rely on the default key, parameters of the same value collide. `unless` is evaluated after the call, which lets you avoid caching empty results.
+`@Cacheable` returns the stored value on a hit and skips the method body. `@CachePut` always runs the method and refreshes the entry. `@CacheEvict` removes the entry once the method returns without an error. Write the key explicitly with SpEL, and make it carry whatever must be kept apart: if two cached methods in the same cache rely on the default key, parameters of the same value collide, and a key such as `#id` still collides across two methods of one cache, so give those methods separate cache names or add a distinguishing prefix to the key. `unless` is evaluated after the call, which lets you avoid caching empty results.
 
 ## Serializing cached values
 

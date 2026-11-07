@@ -93,7 +93,7 @@ class Calculator {
 
 Save everything in one file named `CalculatorCheck.java` and run it with `java -ea CalculatorCheck.java`. In source-file mode the launcher compiles the whole file in memory and runs the first class, so `Calculator` needs no separate compile step. The text after the colon is the message of the failure. The `try` block checks the failure case: it reaches the line that throws `AssertionError` only when the call did not throw the exception it should have, and the `catch` names the expected type (a `catch` also accepts that type's subclasses, so naming it narrowly keeps the check strict). Keep each check small, name it after the behavior, and cover both the normal case and the failure case.
 
-This works but does not scale. You have to write the runner, count the results and stop at the first failure. Test frameworks such as JUnit solve that: they find the test methods, run them all, report each result and plug into the build. They need a build tool to download them, which is why the module on build and tests introduces Maven first and JUnit right after.
+This works but does not scale. You have to write the runner, count the results and stop at the first failure. Test frameworks such as JUnit solve that: they find the test methods, run them all, report each result and plug into the build. They are normally downloaded and run through a build tool, which is why the module on build and tests introduces Maven first and JUnit right after.
 
 ## Common mistakes
 
