@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Where do NGXS side effects usually run?",
+    "options": [
+      "In reducers",
+      "Inside the action handler, which may return an Observable or Promise",
+      "Only in components",
+      "In selectors"
+    ],
+    "answer": 1,
+    "explanation": "There is no separate effects layer by default; handlers coordinate them."
+  },
+  {
+    "question": "Which statement about `selectSignal` is correct?",
+    "options": [
+      "It accepts any anonymous function",
+      "It takes a typed selector or state token",
+      "It returns an Observable",
+      "It dispatches actions"
+    ],
+    "answer": 1,
+    "explanation": "Typed selectors keep selection memoized and reusable."
+  },
+  {
+    "question": "Which is the NGXS counterpart of an NgRx reducer?",
+    "options": [
+      "An `@Action` handler using StateContext",
+      "A selector",
+      "A component",
+      "A pipe"
+    ],
+    "answer": 0,
+    "explanation": "The handler updates its state slice through `setState` or `patchState`."
+  },
+  {
+    "question": "When is an action store the wrong choice?",
+    "options": [
+      "Many features react to the same events",
+      "A single component's local state",
+      "An auditable log is required",
+      "DevTools time travel is needed"
+    ],
+    "answer": 1,
+    "explanation": "For local state a signal service is far cheaper."
+  }
+]

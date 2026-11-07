@@ -1,0 +1,19 @@
+{
+  "title": "Testing Angular State",
+  "summary": "Test reducers, selectors, stores, facades and effects through public APIs with injected fakes, controlled async and round-trip persistence tests.",
+  "level": "advanced",
+  "tags": [
+    "theory",
+    "testing"
+  ],
+  "resources": [
+    {
+      "label": "angular.dev: Testing",
+      "url": "https://angular.dev/guide/testing"
+    },
+    {
+      "label": "NgRx: Testing SignalStore",
+      "url": "https://ngrx.io/guide/signals/signal-store/testing"
+    }
+  ]
+}

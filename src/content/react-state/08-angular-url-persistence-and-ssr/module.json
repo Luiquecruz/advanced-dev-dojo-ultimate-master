@@ -1,0 +1,4 @@
+{
+  "title": "Angular URL, Persistence and SSR",
+  "description": "State that lives in the address bar and in storage, how to version persisted data, and how state behaves under server rendering and hydration."
+}

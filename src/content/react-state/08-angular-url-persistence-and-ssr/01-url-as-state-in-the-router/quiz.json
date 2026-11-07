@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Which state is best kept in the URL?",
+    "options": [
+      "Whether a tooltip is open",
+      "The search text and page of a product list",
+      "A half-typed comment",
+      "A dialog animation state"
+    ],
+    "answer": 1,
+    "explanation": "Filters and pagination identify what the user is viewing and should be shareable."
+  },
+  {
+    "question": "Why parse query params into a typed value?",
+    "options": [
+      "They are always numbers",
+      "They are untrusted text and may be missing or invalid",
+      "The router requires it",
+      "Signals need it"
+    ],
+    "answer": 1,
+    "explanation": "Users can edit the URL, so invalid values must fall back to defaults."
+  },
+  {
+    "question": "When a filter changes, what should happen to the page number?",
+    "options": [
+      "Keep it",
+      "Reset to 1",
+      "Double it",
+      "Remove the filter"
+    ],
+    "answer": 1,
+    "explanation": "Otherwise the user may land on a page that no longer exists."
+  },
+  {
+    "question": "A search box updates the URL on every keystroke. Which option avoids flooding history?",
+    "options": [
+      "skipLocationChange",
+      "replaceUrl: true",
+      "queryParamsHandling: preserve",
+      "A new Router"
+    ],
+    "answer": 1,
+    "explanation": "`replaceUrl` replaces the current entry instead of pushing a new one."
+  }
+]

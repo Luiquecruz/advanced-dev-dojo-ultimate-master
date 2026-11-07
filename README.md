@@ -14,7 +14,7 @@
 ![Vitest](https://img.shields.io/badge/Vitest-5-6E9F18?logo=vitest&logoColor=white)
 ![ESLint](https://img.shields.io/badge/ESLint-10-4B32C3?logo=eslint&logoColor=white)
 
-Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 853 lessons in 12 tracks, 809 of them public.
+Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform for front-end, back-end and AI engineering: theory, hands-on challenges validated by automated tests, progressive hints, a solution path, reference solutions and quizzes. Everything runs in the browser, with no backend: grading, previews, a fake REST API and a fake model provider are all client-side. 873 lessons in 12 tracks, 829 of them public.
 
 ## Tracks
 
@@ -22,7 +22,7 @@ Constela Mission (formerly Dev Dojo) is a freeCodeCamp-style learning platform f
 | --- | --- | --- | --- |
 | TypeScript | TypeScript compiler in Web Workers | 82 | types, narrowing, generics, type-level programming, tooling |
 | React | React | 100 | hooks, performance, React 19, routing, data fetching, forms, testing |
-| State Management | React and Angular, by lesson | 30 | React state and query libraries, Angular signal services, NgRx SignalStore and Store, state architecture |
+| State Management | React and Angular, by lesson | 50 | React state and query libraries; Angular state foundations, signal services, server state, URL and persistence, SSR, NgRx SignalStore and Store, alternative stores, testing and an Angular capstone |
 | Frontend Architecture | React | 41 | static pages, MVC, SPA, SSR, streaming, SSG, ISR, islands, RSC, web vitals, feature-based and hexagonal code, URL state, modular monolith, BFF, micro-frontends, monorepos, Module Federation, ADRs |
 | AI Engineering | Node.js and Python (Pyodide), chosen per challenge | 122 | models, context, tools and MCP, RAG, knowledge graphs, memory, agents, harness and loops, multi-agent, evals, security, governance, agentic engineering |
 | Node.js | in-browser Node runtime + Hono | 77 | runtime, async, core modules, HTTP, REST APIs, persistence, security, scaling |

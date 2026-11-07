@@ -1,0 +1,18 @@
+[
+  {
+    "term": "Public API testing",
+    "description": "Asserting through methods and signals a consumer would use, so tests survive refactors."
+  },
+  {
+    "term": "Injected collaborators",
+    "description": "Services reaching HTTP, storage, time or ids through injection tokens, so tests replace them with fakes."
+  },
+  {
+    "term": "Controlled async",
+    "description": "Using promises or Subjects you resolve by hand instead of sleeping to test ordering and cancellation."
+  },
+  {
+    "term": "Round-trip test",
+    "description": "Writing through a store, then constructing a new store from the stored data to prove it reads what it wrote."
+  }
+]

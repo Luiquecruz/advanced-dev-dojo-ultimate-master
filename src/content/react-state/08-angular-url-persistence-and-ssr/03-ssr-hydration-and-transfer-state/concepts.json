@@ -1,0 +1,18 @@
+[
+  {
+    "term": "Per-request state",
+    "description": "On the server each render creates its own application instance, so injectable services must be the only home of mutable state."
+  },
+  {
+    "term": "Hydration",
+    "description": "The browser reusing server-rendered DOM instead of recreating it. The first render must match the HTML."
+  },
+  {
+    "term": "TransferState",
+    "description": "A key-value store that carries serializable values from the server render to the browser."
+  },
+  {
+    "term": "afterNextRender",
+    "description": "Registers code that runs in the browser after rendering, never on the server. A safe place for browser-only APIs."
+  }
+]

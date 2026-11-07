@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What is the main reason to use ComponentStore over a global store?",
+    "options": [
+      "It is always faster",
+      "Its provider scopes the state to one component or feature",
+      "It needs no RxJS",
+      "It replaces Angular DI"
+    ],
+    "answer": 1,
+    "explanation": "Providing it on a component or route gives an instance per host with a matching lifetime."
+  },
+  {
+    "question": "Which SignalStore feature plays the role of a ComponentStore `effect`?",
+    "options": [
+      "withState",
+      "rxMethod",
+      "withEntities",
+      "getState"
+    ],
+    "answer": 1,
+    "explanation": "`rxMethod` runs an RxJS pipeline for side effects."
+  },
+  {
+    "question": "An updater must be:",
+    "options": [
+      "Asynchronous",
+      "A pure function returning new state",
+      "A class",
+      "Called only in templates"
+    ],
+    "answer": 1,
+    "explanation": "Updaters compute the next state without mutation or side effects."
+  },
+  {
+    "question": "Before choosing a small-community state library for a new project you should:",
+    "options": [
+      "Check maintenance, Angular compatibility and how to leave",
+      "Use it anyway",
+      "Wrap it in NgRx Store",
+      "Avoid TypeScript"
+    ],
+    "answer": 0,
+    "explanation": "The maintenance and exit cost matters more than the API."
+  },
+  {
+    "question": "Which statement describes the shared pattern of state libraries?",
+    "options": [
+      "They all need actions and reducers",
+      "Private state, a way to select, a way to update and a place for effects",
+      "They all replace signals",
+      "They require NgModules"
+    ],
+    "answer": 1,
+    "explanation": "Learning that vocabulary makes a new library mostly new names."
+  }
+]

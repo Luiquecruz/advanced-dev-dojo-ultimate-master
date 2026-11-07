@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Why is a module-level mutable variable dangerous with SSR?",
+    "options": [
+      "It is slower",
+      "Every request on the server process shares it",
+      "TypeScript forbids it",
+      "It breaks hydration only in dev"
+    ],
+    "answer": 1,
+    "explanation": "The server process serves many users, so shared module state can leak between them."
+  },
+  {
+    "question": "What can be stored in TransferState?",
+    "options": [
+      "Any object, including class instances",
+      "Only serializable values such as JSON data",
+      "Functions",
+      "DOM nodes"
+    ],
+    "answer": 1,
+    "explanation": "Values are serialized into the HTML payload."
+  },
+  {
+    "question": "A signal starts from `Math.random()`. What is the risk under hydration?",
+    "options": [
+      "Nothing",
+      "A mismatch between server and browser output",
+      "Slower SSR",
+      "TransferState overflow"
+    ],
+    "answer": 1,
+    "explanation": "The first browser render must be identical to the server HTML."
+  },
+  {
+    "question": "Where should code that reads localStorage run in an SSR app?",
+    "options": [
+      "In the constructor",
+      "In afterNextRender or behind an injected storage",
+      "In a module-level constant",
+      "In ngOnInit on the server"
+    ],
+    "answer": 1,
+    "explanation": "Those APIs only exist in the browser."
+  },
+  {
+    "question": "Why transfer server-fetched data to the browser?",
+    "options": [
+      "To refetch the data twice",
+      "To avoid fetching it again and flashing a loading state",
+      "To disable hydration",
+      "To sort the data"
+    ],
+    "answer": 1,
+    "explanation": "The browser reuses the server response instead of repeating the request."
+  }
+]

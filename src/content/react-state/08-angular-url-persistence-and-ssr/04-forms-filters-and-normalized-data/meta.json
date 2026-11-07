@@ -1,0 +1,19 @@
+{
+  "title": "Forms, Filters and Normalized Data",
+  "summary": "Decide who owns form drafts, filters and entities, and compare the common ownership choices side by side.",
+  "level": "advanced",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "angular.dev: Reactive forms",
+      "url": "https://angular.dev/guide/forms/reactive-forms"
+    },
+    {
+      "label": "NgRx: Entity",
+      "url": "https://ngrx.io/guide/entity"
+    }
+  ]
+}

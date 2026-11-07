@@ -89,7 +89,7 @@ Folder plan for every track. `✓` = written (the lesson folder exists with a `m
 
 ## State Management (`src/content/react-state`, React and Angular variants)
 
-The public `react-state` id and existing React lesson keys are retained. Modules 01–04 demonstrate state concepts with React; modules 05 and 06 are an Angular path requiring Angular signals and dependency injection, not React. The last module compares ownership and tooling across frameworks and retains React-specific exercises and its React capstone. Each challenge declares the one framework it teaches through `variants/react` or `variants/angular`; the editor and grader use that variant engine. See [state-management-track.md](state-management-track.md).
+The public `react-state` id and existing React lesson keys are retained. Modules 01–04 demonstrate state concepts with React; modules 05 to 09 are an Angular path requiring Angular signals and dependency injection, not React. The last module compares ownership and tooling across frameworks and retains React-specific exercises and its React capstone. Each challenge declares the one framework it teaches through `variants/react` or `variants/angular`; the editor and grader use that variant engine. See [state-management-track.md](state-management-track.md).
 
 ### 01-foundations — State Fundamentals
 01-what-is-state-and-where-it-lives **(quiz)** (UI, shared client, server cache, URL, form state; derived values are not state) ✓ · 02-local-state-and-derived-values ✓ · 03-reducers-as-explicit-transitions (discriminated actions, status as a finite state) ✓ · 04-immutable-updates-with-immer (immer, use-immer) ✓
@@ -106,13 +106,19 @@ The public `react-state` id and existing React lesson keys are retained. Modules
 ### 05-angular-state-foundations — Angular State Foundations
 01-angular-state-map **(quiz)** (kinds of state, single source of truth, derived state, persisted vs transient) ✓ · 02-provider-scopes-and-state-lifetime (root, route and component providers) ✓ · 03-signals-as-state (computed, linkedSignal, effect as a last resort) ✓ · 04-rxjs-and-signals-interop (toSignal, toObservable, takeUntilDestroyed, BehaviorSubject stores) ✓
 
-### 06-angular-state — State with Angular
-01-signal-based-services ✓ · 02-ngrx-signal-store ✓ · 03-ngrx-signal-store-features (computed, methods, entities and hooks) ✓ · 04-ngrx-store-classic (actions, reducers and selectors) ✓
+### 06-angular-state — Stores with Angular
+01-signal-based-services ✓ · 02-ngrx-signal-store ✓ · 03-ngrx-signal-store-features (computed, methods, entities and hooks) ✓ · 04-ngrx-store-classic (actions, reducers and selectors) ✓ · 05-facades-and-feature-boundaries (view model, intent methods) ✓
 
 ### 07-angular-server-state-and-async — Angular Server State and Async
 01-request-states-and-unions (discriminated request states) ✓ · 02-concurrent-requests-and-rxjs-operators (switchMap, exhaustMap, concatMap, mergeMap, errors inside the inner stream) ✓ · 03-resource-and-async-signals (`resource()` params, loader, abortSignal, status) ✓ · 04-optimistic-updates-and-rollback (snapshot, narrow rollback) ✓ · 05-caching-and-query-libraries **(quiz)** (server state, query keys, staleness, invalidation, TanStack Query for Angular) ✓
 
-### 08-architecture — Architecture and Decision Making
+### 08-angular-url-persistence-and-ssr — Angular URL, Persistence and SSR
+01-url-as-state-in-the-router (typed query params, navigate to write) ✓ · 02-persisting-state-with-versions (injected storage, versioned envelope, migrations) ✓ · 03-ssr-hydration-and-transfer-state **(quiz)** (per-request state, TransferState, deterministic initial values) ✓ · 04-forms-filters-and-normalized-data **(quiz)** (commit on submit, normalization, side-by-side comparisons) ✓
+
+### 09-angular-state-alternatives-and-quality — Angular State Alternatives and Quality
+01-component-store-and-reactive-stores **(quiz)** (ComponentStore, RxAngular State, Elf, Akita, StateAdapt) ✓ · 02-ngxs-and-class-based-stores **(quiz)** ✓ · 03-choosing-an-angular-state-tool **(quiz)** (decision order and trade-offs) ✓ · 04-testing-angular-state **(quiz)** ✓ · 05-performance-devtools-and-migration **(quiz)** (granularity, zoneless, incremental migration) ✓ · 06-capstone-angular-state-architecture (SignalStore: server state, filter, derived cart, persisted quantities) ✓
+
+### 10-architecture — Architecture and Decision Making
 01-choosing-the-right-tool **(quiz)** (scenario based) ✓ · 02-colocation-and-boundaries (refactor over-globalized state) ✓ · 03-forms-and-transient-state **(quiz)** ✓ · 04-react-19-compiler-and-the-future-of-state **(quiz)** (Actions, useOptimistic, Server Components, React Compiler) ✓ · 05-capstone-state-architecture (multi-file: server state + client store + URL + local state) ✓
 
 ## Frontend Architecture (`src/content/architecture`, engine `react`)
@@ -223,7 +229,7 @@ Spec: `.claude/specs/AI Engineering Track.md`. Six decision layers (model, conte
 
 ## Angular (`src/content/angular`)
 
-Public Angular 22 path. Shared Signals/NgRx state lessons continue in [State Management](#05-angular-state--state-with-angular); six unchecked lessons remain planned in Signals and Ecosystem. See [angular-release-audit.md](angular-release-audit.md).
+Public Angular 22 path. Shared Signals/NgRx state lessons continue in [State Management](#05-angular-state-foundations--angular-state-foundations); six unchecked lessons remain planned in Signals and Ecosystem. See [angular-release-audit.md](angular-release-audit.md).
 
 ### 01-foundations — Foundations
 00-what-is-angular **(quiz)** (CLI, standalone, signals era, file naming v20+) ✓ · 01-standalone-components ✓ · 02-template-syntax-and-bindings ✓ · 03-control-flow (@if/@for/@switch/@let, track) ✓ · 04-event-binding ✓ · 05-signal-inputs (input(), required, transform) ✓ · 06-outputs (output(), outputFromObservable) ✓ · 07-model-inputs (two-way binding with model()) ✓ · 08-content-projection ✓ · 09-lifecycle-hooks ✓ · 10-pipes ✓
@@ -252,7 +258,7 @@ Public Angular 22 path. Shared Signals/NgRx state lessons continue in [State Man
 ### 09-http — HTTP
 01-http-client ✓ · 02-functional-interceptors ✓ · 03-http-error-handling ✓
 
-State patterns and NgRx exercises are centralized in [State Management](#05-angular-state--state-with-angular), module State with Angular. Angular signals and dependency injection remain prerequisites here. The Angular publication pass closes module-numbering gaps.
+State patterns and NgRx exercises are centralized in [State Management](#05-angular-state-foundations--angular-state-foundations), modules 05 to 09 of that track. Angular signals and dependency injection remain prerequisites here. The Angular publication pass closes module-numbering gaps.
 
 ### 10-testing — Testing
 01-testbed-and-vitest ✓ · 02-testing-services-and-http ✓ · 03-component-harnesses **(quiz)** ✓

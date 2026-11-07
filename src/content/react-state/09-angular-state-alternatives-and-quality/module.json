@@ -1,0 +1,4 @@
+{
+  "title": "Angular State Alternatives and Quality",
+  "description": "ComponentStore, NGXS and other stores, how to choose between options, testing, devtools, performance and incremental migration, closing with a state-architecture capstone."
+}

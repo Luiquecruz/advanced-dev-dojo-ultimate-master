@@ -1,0 +1,21 @@
+{
+  "title": "Capstone: Angular State Architecture",
+  "summary": "Combine server state, a filter, derived cart lines and persisted quantities in one SignalStore with injected edges.",
+  "level": "expert",
+  "tags": [
+    "core",
+    "modern"
+  ],
+  "entry": "shop.ts",
+  "preview": false,
+  "resources": [
+    {
+      "label": "NgRx: SignalStore",
+      "url": "https://ngrx.io/guide/signals/signal-store"
+    },
+    {
+      "label": "angular.dev: Dependency injection",
+      "url": "https://angular.dev/guide/di"
+    }
+  ]
+}

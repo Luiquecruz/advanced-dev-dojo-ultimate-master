@@ -1,0 +1,19 @@
+{
+  "title": "Choosing an Angular State Tool",
+  "summary": "Apply a decision order from derived state to action stores, compare options side by side and weigh team and exit costs.",
+  "level": "advanced",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "angular.dev: Signals",
+      "url": "https://angular.dev/guide/signals"
+    },
+    {
+      "label": "NgRx: Signals",
+      "url": "https://ngrx.io/guide/signals"
+    }
+  ]
+}

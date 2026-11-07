@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Why test through the public API?",
+    "options": [
+      "It is required by TestBed",
+      "Tests survive refactors of internals",
+      "It is faster to type",
+      "Signals need it"
+    ],
+    "answer": 1,
+    "explanation": "Public behavior is the contract; private fields are not."
+  },
+  {
+    "question": "How should an out-of-order response be tested?",
+    "options": [
+      "With setTimeout in the test",
+      "With observables or promises resolved by hand in the wrong order",
+      "It cannot be tested",
+      "By reading a private flag"
+    ],
+    "answer": 1,
+    "explanation": "Controlled timing makes the race deterministic."
+  },
+  {
+    "question": "What proves a persisted store reads what it writes?",
+    "options": [
+      "A snapshot of the DOM",
+      "A round-trip: write, then build a new store from the same storage",
+      "A console log",
+      "A bundle size check"
+    ],
+    "answer": 1,
+    "explanation": "The second store parses what the first wrote, including old versions."
+  },
+  {
+    "question": "Which tests need `TestBed.tick()` or a stability wait?",
+    "options": [
+      "Plain computed values",
+      "Values driven by effects or resources",
+      "Pure reducers",
+      "TypeScript types"
+    ],
+    "answer": 1,
+    "explanation": "Effects and resources are scheduled; `computed` is read synchronously."
+  },
+  {
+    "question": "For a component test, what should the store be?",
+    "options": [
+      "Always the real store",
+      "A fake facade or store, plus one integration test with the real one",
+      "Removed",
+      "A global variable"
+    ],
+    "answer": 1,
+    "explanation": "Keep component tests about what the user sees and cover real wiring once."
+  }
+]

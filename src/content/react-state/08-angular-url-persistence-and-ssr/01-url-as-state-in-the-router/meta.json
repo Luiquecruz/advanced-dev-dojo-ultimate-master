@@ -1,0 +1,20 @@
+{
+  "title": "URL as State in the Router",
+  "summary": "Keep filters, sort and pagination in query params, parse them into a typed signal and write them by navigating.",
+  "level": "intermediate",
+  "tags": [
+    "core"
+  ],
+  "entry": "filters.ts",
+  "preview": false,
+  "resources": [
+    {
+      "label": "angular.dev: Reading route state",
+      "url": "https://angular.dev/guide/routing/read-route-state"
+    },
+    {
+      "label": "angular.dev: Router",
+      "url": "https://angular.dev/guide/routing"
+    }
+  ]
+}

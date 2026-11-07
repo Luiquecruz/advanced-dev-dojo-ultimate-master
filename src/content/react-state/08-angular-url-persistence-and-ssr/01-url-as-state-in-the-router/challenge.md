@@ -1,0 +1,6 @@
+Keep product filters in the URL. **`filters.ts`** exports the `Filters` interface `{ q: string; sort: 'name' | 'price'; page: number }`, `DEFAULT_FILTERS` (`{ q: '', sort: 'name', page: 1 }`), the pure functions `parseFilters` and `toQueryParams`, and `UrlFilters` (`@Injectable({ providedIn: 'root' })`).
+
+1. `parseFilters(params: { get(name: string): string | null })` returns `Filters`: `q` defaults to `''`; `sort` is `'price'` only when the param is exactly `'price'`, otherwise `'name'`; `page` is the param as an integer when it is an integer of at least 1, otherwise `1`.
+2. `toQueryParams(filters: Filters)` returns an object with only the values that differ from the defaults (`{}` for the defaults).
+3. `UrlFilters.filters` is a signal of the current filters derived from `ActivatedRoute.queryParamMap` with `toSignal` and `parseFilters`, starting at `DEFAULT_FILTERS`.
+4. `UrlFilters.update(changes: Partial<Filters>)` navigates with `Router.navigate([], { queryParams })` using `toQueryParams` of the current filters merged with the changes. When the changes include a filter other than `page`, the page goes back to `1`.

@@ -1,0 +1,19 @@
+{
+  "title": "SSR, Hydration and TransferState",
+  "summary": "Keep state per request on the server, move browser-only APIs behind injection, start from deterministic values and transfer serializable data to the browser.",
+  "level": "advanced",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "angular.dev: Server-side rendering",
+      "url": "https://angular.dev/guide/ssr"
+    },
+    {
+      "label": "angular.dev: Hydration",
+      "url": "https://angular.dev/guide/hydration"
+    }
+  ]
+}

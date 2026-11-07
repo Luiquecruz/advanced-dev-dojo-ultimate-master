@@ -1,0 +1,18 @@
+[
+  {
+    "term": "URL as state",
+    "description": "Route params and query params that identify what the user is viewing, shareable by link and restored by back/forward."
+  },
+  {
+    "term": "queryParamMap",
+    "description": "The observable of query parameters on `ActivatedRoute`, usually converted to a signal and parsed to a typed value."
+  },
+  {
+    "term": "Parse at the boundary",
+    "description": "Convert untrusted URL strings into a valid typed value, with defaults, in one function."
+  },
+  {
+    "term": "replaceUrl",
+    "description": "A navigation option that replaces the current history entry instead of adding one, useful for typing."
+  }
+]

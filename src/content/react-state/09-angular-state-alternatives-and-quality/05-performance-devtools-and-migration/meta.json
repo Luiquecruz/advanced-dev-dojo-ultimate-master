@@ -1,0 +1,19 @@
+{
+  "title": "Performance, DevTools and Migration",
+  "summary": "Tune update granularity and memoization, rely on OnPush and zoneless, log safely and migrate RxJS state to signals incrementally.",
+  "level": "advanced",
+  "tags": [
+    "theory",
+    "performance"
+  ],
+  "resources": [
+    {
+      "label": "angular.dev: Zoneless",
+      "url": "https://angular.dev/guide/zoneless"
+    },
+    {
+      "label": "NgRx: Store DevTools",
+      "url": "https://ngrx.io/guide/store-devtools"
+    }
+  ]
+}
