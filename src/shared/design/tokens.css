@@ -72,13 +72,13 @@
 }
 
 [data-trail='react'] {
-  --accent: #8c8cff;
-  --accent-rgb: 140 140 255;
+  --accent: #8c95ff;
+  --accent-rgb: 140 149 255;
 }
 
 [data-trail='react-state'] {
-  --accent: #d29cff;
-  --accent-rgb: 210 156 255;
+  --accent: #c79cff;
+  --accent-rgb: 199 156 255;
 }
 
 [data-trail='architecture'] {
@@ -97,8 +97,8 @@
 }
 
 [data-trail='ai-engineering'] {
-  --accent: #f07ad9;
-  --accent-rgb: 240 122 217;
+  --accent: #e97af0;
+  --accent-rgb: 233 122 240;
 }
 
 [data-trail='node'] {
@@ -122,8 +122,8 @@
 }
 
 [data-trail='java-spring'] {
-  --accent: #ffa24d;
-  --accent-rgb: 255 162 77;
+  --accent: #ff80c6;
+  --accent-rgb: 255 128 198;
 }
 
 @theme {
