@@ -64,28 +64,9 @@ class PostgresContainerTest {
 
 A `static` container is started once before the first test of the class and stopped after the last. An instance field would be restarted for every test method, which is slow. Match the database version used in production. `postgres:17-alpine` constrains the major version but remains a mutable tag; pin a digest when tests need identical image contents. Avoid `latest`, which can move to another major version.
 
-## With Spring Boot
+## Wiring a container into Spring Boot
 
-`spring-boot-testcontainers` adds `@ServiceConnection`: declare the container as a bean and Spring Boot configures the data source from it, with no URL properties to copy.
-
-```java
-@TestConfiguration(proxyBeanMethods = false)
-class PostgresTestConfiguration {
-
-    @Bean
-    @ServiceConnection
-    PostgreSQLContainer postgres() {
-        return new PostgreSQLContainer(DockerImageName.parse("postgres:17-alpine"));
-    }
-}
-
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
-@Import(PostgresTestConfiguration.class)
-class BookRepositoryPostgresTest { /* tests as before */ }
-```
-
-Spring Boot 4 defaults to `Replace.NON_TEST`: an auto-configured data source recognized as a test database, including one backed by `@ServiceConnection`, is preserved. `Replace.NONE` explicitly prevents replacement, which is useful for other real-database configurations too. Spring Boot's documentation prefers containers managed as beans over the JUnit extension, because Spring caches a context for reuse after the extension has stopped a container, and a later test then fails against a dead database.
+Plain JUnit and JDBC are enough for this lesson. Spring Boot can also build its data source from a container declared as a bean, using `@ServiceConnection` from `spring-boot-testcontainers`. That needs Spring Data and JPA, which you meet in the Persistence module, so the wiring is taught there, in Spring Data Repositories, where you first test repositories against PostgreSQL.
 
 ## Schema and data
 

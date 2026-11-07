@@ -1,14 +1,35 @@
 {
   "title": "Integration Tests with Testcontainers",
-  "summary": "Why tests need a real database, the container runtime requirement, Testcontainers 2 with JUnit Jupiter and PostgreSQL, ServiceConnection in Spring Boot, container lifecycle and reuse, schema creation, and running integration tests with Failsafe.",
+  "summary": "Why tests need a real database, the container runtime requirement, Testcontainers 2 with JUnit Jupiter and PostgreSQL, container lifecycle and reuse, schema creation, and running integration tests with Failsafe.",
   "level": "intermediate",
-  "tags": ["theory", "testing"],
+  "tags": [
+    "theory",
+    "testing"
+  ],
   "resources": [
-    { "label": "Testcontainers for Java: JUnit 5 quickstart", "url": "https://java.testcontainers.org/quickstart/junit_5_quickstart/" },
-    { "label": "Testcontainers for Java: Jupiter integration", "url": "https://java.testcontainers.org/test_framework_integration/junit_5/" },
-    { "label": "Testcontainers for Java: Postgres module", "url": "https://java.testcontainers.org/modules/databases/postgres/" },
-    { "label": "Testcontainers for Java: Reusable containers", "url": "https://java.testcontainers.org/features/reuse/" },
-    { "label": "Testcontainers for Java: Container runtime requirements", "url": "https://java.testcontainers.org/supported_docker_environment/" },
-    { "label": "Spring Boot: Testcontainers", "url": "https://docs.spring.io/spring-boot/reference/testing/testcontainers.html" }
+    {
+      "label": "Testcontainers for Java: JUnit 5 quickstart",
+      "url": "https://java.testcontainers.org/quickstart/junit_5_quickstart/"
+    },
+    {
+      "label": "Testcontainers for Java: Jupiter integration",
+      "url": "https://java.testcontainers.org/test_framework_integration/junit_5/"
+    },
+    {
+      "label": "Testcontainers for Java: Postgres module",
+      "url": "https://java.testcontainers.org/modules/databases/postgres/"
+    },
+    {
+      "label": "Testcontainers for Java: Reusable containers",
+      "url": "https://java.testcontainers.org/features/reuse/"
+    },
+    {
+      "label": "Testcontainers for Java: Container runtime requirements",
+      "url": "https://java.testcontainers.org/supported_docker_environment/"
+    },
+    {
+      "label": "Spring Boot: Testcontainers",
+      "url": "https://docs.spring.io/spring-boot/reference/testing/testcontainers.html"
+    }
   ]
 }

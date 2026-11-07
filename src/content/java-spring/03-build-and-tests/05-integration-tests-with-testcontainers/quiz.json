@@ -22,15 +22,15 @@
     "explanation": "Testcontainers talks to the container runtime to pull and start images. Without one the extension cannot start any container."
   },
   {
-    "question": "A Spring Boot test uses `@Container static PostgreSQLContainer` with the JUnit extension, and a later test class that reuses the cached application context fails to connect. What does the Spring Boot documentation suggest?",
+    "question": "A test class declares `@Container static PostgreSQLContainer postgres` with the Testcontainers JUnit extension. When does the container run?",
     "options": [
-      "Disable context caching for the whole project",
-      "Use the latest image tag",
-      "Move the container into an instance field",
-      "Declare the container as a Spring bean, for example with `@ServiceConnection`, so its life follows the context"
+      "Once for every test method, restarted each time",
+      "Only when a test fails",
+      "Never, the field must be an instance field",
+      "Once before the first test of the class, stopped after the last"
     ],
     "answer": 3,
-    "explanation": "The extension stops the container after its class, while Spring may keep the cached context that depends on it. A container managed as a bean lives as long as the context."
+    "explanation": "A static container is started once before the first test of the class and stopped after the last. An instance field would start a fresh container for each test, which is slower and rarely needed."
   },
   {
     "question": "A `@SpringBootTest` against a PostgreSQL container fails with `relation \"book\" does not exist`, although the same test passed on H2. Why?",

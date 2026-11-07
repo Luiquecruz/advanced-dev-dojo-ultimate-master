@@ -20,7 +20,7 @@ Create a Maven project `course-catalog` with the base package `com.example.catal
 
 ## Acceptance criteria
 
-The persistence tests use these fixed courses and roll back through `@DataJpaTest`. The HTTP criterion needs a separate full-context MockMvc test with the web MVC test starter. Use a Spring-managed container bean shared with the context, as in Integration Tests with Testcontainers, so cached contexts never retain a stopped container.
+The persistence tests use these fixed courses and roll back through `@DataJpaTest`. The HTTP criterion needs a separate full-context MockMvc test with the web MVC test starter. Use a Spring-managed container bean shared with the context, as in Spring Data Repositories, so cached contexts never retain a stopped container.
 
 1. The application context starts with `validate` against PostgreSQL after Flyway applied `V1` to `V3`.
 2. Creating `Java Basics` (BEGINNER) with lessons `Syntax` and `Types` and reading it back gives the titles in that order.
