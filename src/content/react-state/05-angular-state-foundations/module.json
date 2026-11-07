@@ -1,0 +1,4 @@
+{
+  "title": "Angular State Foundations",
+  "description": "The vocabulary and the native tools of Angular state: kinds of state, single source of truth, provider scopes, signals and the bridge to RxJS. Requires Angular signals and dependency injection; React modules are not prerequisites."
+}

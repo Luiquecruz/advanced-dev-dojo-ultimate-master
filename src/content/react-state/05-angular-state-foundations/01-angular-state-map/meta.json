@@ -1,0 +1,19 @@
+{
+  "title": "The Map of Angular State",
+  "summary": "Classify local, feature, global, server, form, URL and derived state, name one owner for each, and decide what is persisted.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "angular.dev: Signals",
+      "url": "https://angular.dev/guide/signals"
+    },
+    {
+      "label": "angular.dev: Dependency injection",
+      "url": "https://angular.dev/guide/di"
+    }
+  ]
+}

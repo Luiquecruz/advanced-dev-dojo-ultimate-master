@@ -1,0 +1,21 @@
+{
+  "title": "RxJS and Signals Interop",
+  "summary": "Keep state in signals and work in streams, bridging with toSignal, toObservable and takeUntilDestroyed while migrating BehaviorSubject stores.",
+  "level": "intermediate",
+  "tags": [
+    "core",
+    "modern"
+  ],
+  "entry": "bridge.ts",
+  "preview": false,
+  "resources": [
+    {
+      "label": "angular.dev: RxJS interop",
+      "url": "https://angular.dev/ecosystem/rxjs-interop"
+    },
+    {
+      "label": "RxJS: BehaviorSubject",
+      "url": "https://rxjs.dev/api/index/class/BehaviorSubject"
+    }
+  ]
+}

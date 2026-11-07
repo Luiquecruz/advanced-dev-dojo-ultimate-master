@@ -1,0 +1,18 @@
+[
+  {
+    "term": "Provider scope",
+    "description": "The injector that creates a service instance: root, a route, or a component. It decides who shares the state and how long it lives."
+  },
+  {
+    "term": "providedIn: 'root'",
+    "description": "Registers a service in the root injector so one instance serves the whole application."
+  },
+  {
+    "term": "Component providers",
+    "description": "The `providers` array of a component creates a separate instance per component instance, destroyed with it."
+  },
+  {
+    "term": "Nearest provider wins",
+    "description": "`inject()` searches from the requesting element up through parents, then the environment injectors, and uses the first match."
+  }
+]

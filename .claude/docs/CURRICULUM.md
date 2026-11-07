@@ -89,7 +89,7 @@ Folder plan for every track. `✓` = written (the lesson folder exists with a `m
 
 ## State Management (`src/content/react-state`, React and Angular variants)
 
-The public `react-state` id and existing React lesson keys are retained. Modules 01–04 demonstrate state concepts with React; module 05 is an Angular path requiring Angular signals and dependency injection, not React. Module 06 compares ownership and tooling across frameworks and retains React-specific exercises and its React capstone. Each challenge declares the one framework it teaches through `variants/react` or `variants/angular`; the editor and grader use that variant engine. See [state-management-track.md](state-management-track.md).
+The public `react-state` id and existing React lesson keys are retained. Modules 01–04 demonstrate state concepts with React; modules 05 and 06 are an Angular path requiring Angular signals and dependency injection, not React. The last module compares ownership and tooling across frameworks and retains React-specific exercises and its React capstone. Each challenge declares the one framework it teaches through `variants/react` or `variants/angular`; the editor and grader use that variant engine. See [state-management-track.md](state-management-track.md).
 
 ### 01-foundations — State Fundamentals
 01-what-is-state-and-where-it-lives **(quiz)** (UI, shared client, server cache, URL, form state; derived values are not state) ✓ · 02-local-state-and-derived-values ✓ · 03-reducers-as-explicit-transitions (discriminated actions, status as a finite state) ✓ · 04-immutable-updates-with-immer (immer, use-immer) ✓
@@ -103,10 +103,13 @@ The public `react-state` id and existing React lesson keys are retained. Modules
 ### 04-server-state — Server State
 01-server-state-is-a-cache **(quiz)** ✓ · 02-tanstack-query-as-your-server-store (query keys, staleTime, select, dependent queries) ✓ · 03-mutations-and-optimistic-updates (onMutate snapshot, rollback, invalidation) ✓ · 04-rtk-query (createApi, tags, invalidation) ✓
 
-### 05-angular-state — State with Angular
+### 05-angular-state-foundations — Angular State Foundations
+01-angular-state-map **(quiz)** (kinds of state, single source of truth, derived state, persisted vs transient) ✓ · 02-provider-scopes-and-state-lifetime (root, route and component providers) ✓ · 03-signals-as-state (computed, linkedSignal, effect as a last resort) ✓ · 04-rxjs-and-signals-interop (toSignal, toObservable, takeUntilDestroyed, BehaviorSubject stores) ✓
+
+### 06-angular-state — State with Angular
 01-signal-based-services ✓ · 02-ngrx-signal-store ✓ · 03-ngrx-signal-store-features (computed, methods, entities and hooks) ✓ · 04-ngrx-store-classic (actions, reducers and selectors) ✓
 
-### 06-architecture — Architecture and Decision Making
+### 07-architecture — Architecture and Decision Making
 01-choosing-the-right-tool **(quiz)** (scenario based) ✓ · 02-colocation-and-boundaries (refactor over-globalized state) ✓ · 03-forms-and-transient-state **(quiz)** ✓ · 04-react-19-compiler-and-the-future-of-state **(quiz)** (Actions, useOptimistic, Server Components, React Compiler) ✓ · 05-capstone-state-architecture (multi-file: server state + client store + URL + local state) ✓
 
 ## Frontend Architecture (`src/content/architecture`, engine `react`)
