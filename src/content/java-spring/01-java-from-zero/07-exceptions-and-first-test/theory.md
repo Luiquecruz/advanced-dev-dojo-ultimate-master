@@ -1,6 +1,6 @@
 # Exceptions and Your First Test
 
-When something goes wrong at run time, Java does not return an error code; it throws an exception that travels up the call stack until some code catches it. This lesson covers `try`, `catch` and `finally`, `try`-with-resources, checked versus unchecked exceptions, throwing your own, and a first JUnit test with the command that runs it.
+When something goes wrong at run time, Java does not return an error code; it throws an exception that travels up the call stack until some code catches it. This lesson covers `try`, `catch` and `finally`, `try`-with-resources, checked versus unchecked exceptions, throwing your own, and a first self-check written with `assert` and run with the `-ea` flag.
 
 You need: Decisions and Loops, Methods (call stack and return values), Classes and Objects (constructors and encapsulation).
 
@@ -83,9 +83,15 @@ public class CalculatorCheck {
         System.out.println("all checks passed");
     }
 }
+
+class Calculator {
+    static int clamp(int value, int minimum, int maximum) {
+        return Math.max(minimum, Math.min(maximum, value));
+    }
+}
 ```
 
-Run it with `java -ea CalculatorCheck.java`. The text after the colon is the message of the failure. The `try` block checks the failure case: it reaches the line that throws `AssertionError` only when the call did not throw the exception it should have, and the `catch` accepts exactly the expected type. Keep each check small, name it after the behavior, and cover both the normal case and the failure case.
+Save everything in one file named `CalculatorCheck.java` and run it with `java -ea CalculatorCheck.java`. In source-file mode the launcher compiles the whole file in memory and runs the first class, so `Calculator` needs no separate compile step. The text after the colon is the message of the failure. The `try` block checks the failure case: it reaches the line that throws `AssertionError` only when the call did not throw the exception it should have, and the `catch` accepts exactly the expected type. Keep each check small, name it after the behavior, and cover both the normal case and the failure case.
 
 This works but does not scale. You have to write the runner, count the results and stop at the first failure. Test frameworks such as JUnit solve that: they find the test methods, run them all, report each result and plug into the build. They need a build tool to download them, which is why the module on build and tests introduces Maven first and JUnit right after.
 

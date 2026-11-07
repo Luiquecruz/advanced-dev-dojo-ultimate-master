@@ -56,15 +56,16 @@ A separate component reads pending rows and publishes them. The simplest version
 
 ```java
 @Scheduled(fixedDelay = 1000)
+@Transactional
 void relay() {
-    for (OutboxEvent event : outbox.findNextPending(100)) {
+    for (OutboxEvent event : outbox.claimNextPending(100)) {
         kafka.send(event.topic(), event.aggregateId(), event.payload()).join();
         event.markPublished(clock.instant());
     }
 }
 ```
 
-The relay marks a row published only after Kafka confirms the send, so a crash in between causes the event to be sent again, never lost. Use `SELECT ... FOR UPDATE SKIP LOCKED` in the query when several relay instances run, so they do not publish the same rows. The alternative is change data capture: a tool such as Debezium reads the database log and publishes outbox rows without polling. It reduces latency and load but adds infrastructure to operate.
+`claimNextPending` runs `SELECT ... FOR UPDATE SKIP LOCKED` inside the relay's transaction. The selected rows are locked until the commit, so other relay instances skip them and do not publish the same events, and `markPublished` on these managed entities is written to the database when the transaction commits. The relay marks a row published only after Kafka confirms the send, so a crash before the commit leaves the rows pending and the events are sent again, never lost. The trade-off is that the transaction stays open while Kafka answers, so keep the batch small and set a send timeout. The alternative is change data capture: a tool such as Debezium reads the database log and publishes outbox rows without polling. It reduces latency and load but adds infrastructure to operate.
 
 ## What you get and what you owe
 

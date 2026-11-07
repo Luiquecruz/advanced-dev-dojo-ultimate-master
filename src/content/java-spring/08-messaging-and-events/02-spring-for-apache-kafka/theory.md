@@ -27,7 +27,10 @@ spring:
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
 ```
+
+Boot's default value serializer is `StringSerializer`, so without the `value-serializer` line the `send` below fails for an `OrderPlaced` object. `JacksonJsonSerializer` is the Jackson 3 serializer of Spring for Apache Kafka 4; it writes the event as JSON.
 
 Spring Boot gives you a `KafkaTemplate`. Its `send` methods return a `CompletableFuture`, because the client sends in the background:
 
@@ -69,7 +72,21 @@ class NotificationListener {
 }
 ```
 
-Spring starts a listener container that polls the broker, calls your method and commits the offset after the method returns normally. Configure the consumer to read JSON into your event type with the JSON deserializer, and wrap it in `ErrorHandlingDeserializer`. Without that wrapper, one malformed record fails to deserialize before your method runs, and the consumer retries the same record forever: a poison pill.
+Spring starts a listener container that polls the broker, calls your method and commits the offset after the method returns normally. Configure the consumer to read JSON into your event type, and wrap the JSON deserializer in `ErrorHandlingDeserializer`:
+
+```yaml
+spring:
+  kafka:
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+        spring.json.value.default.type: com.example.orders.OrderPlaced
+        spring.json.trusted.packages: com.example.orders
+```
+
+Without that wrapper, one malformed record fails to deserialize before your method runs, and the consumer retries the same record forever: a poison pill.
 
 ## Idempotent consumers
 

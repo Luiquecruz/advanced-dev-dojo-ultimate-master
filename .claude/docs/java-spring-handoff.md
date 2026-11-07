@@ -38,20 +38,18 @@ git diff --check
 
 Run application unit tests, build and relevant presentation/architecture checks for the identity change. Final checks are unfiltered; no `LESSON=__none__`. Keep conventional English commits with no attribution trailers.
 
-Separation verification passed: 1,740 unfiltered content checks, 200 application tests, 61 presentation/glyph checks, lint, typecheck, production build and docs sync. Both tracks remain hidden, the accent values and glyph geometry are retained, and no old combined identity remains in the active source.
+Separation verification passed: 1,740 unfiltered content checks, 200 application tests, 61 presentation/glyph checks, lint, typecheck, production build and docs sync. At that time both tracks remained hidden, the accent values and glyph geometry are retained, and no old combined identity remains in the active source.
 
 ## Next actions
 
-1. Review and merge the separation PR, retaining all already reviewed backend lessons.
-2. Adapt Security: remove Angular interceptors/guards, make the local closing project API-only, renumber it to module 06 and keep signed-token tests distinct from mocked authentication.
-3. Adapt Quality and Delivery to module 07: backend test pyramid, API-only Compose and CI, API observability and delivery acceptance checks.
-4. Adapt the capstone to module 08: API requirements, implementation, persistence, security, review and packaging; remove the Angular-client stage and all browser acceptance criteria.
-5. Review each backend PR with current-head CI and CodeRabbit, handle all valid feedback, merge bottom-up and preserve branches. If the service reports a review limit, record it and continue manual verification; do not represent unavailable review as completed.
-6. Finish the whole-track consistency review, update this handoff and README counts, and leave the main checkout clean and current.
+1. Compile and run the Redis, Kafka, Spring Modulith and Resilience4j snippets of modules 06, 08, 10 and 11 against Spring Boot 4, as the content standards require.
+2. Handle every valid review finding on the expansion PR (#74), with current-head CI and CodeRabbit; if the service reports a review limit, record it and continue manual verification, and do not represent unavailable review as completed.
+3. Keep the module numbers stable: 06 Advanced Persistence, 07 Security, 08 Messaging and Events, 09 Quality and Delivery, 10 Architecture and Resilience, 11 Capstone.
+4. After the PR merges, update this handoff and README counts and leave the main checkout clean and current.
 
 ## Publication and future Full Stack
 
-Java and Angular have independent feature flags and release checks. Do not turn either on or change the palette in this workflow. Before Java is shown, choose a free accent and run its release checks and browser presentation review. A future Full Stack track can reuse the archived Angular/API integration, frontend auth and combined capstone; it is not registered as an empty or duplicate track now.
+Java and Angular have independent feature flags and release checks. Both are published (`java-spring: true` and `angular: true`), and the palette was respaced when Java was published; changing a track's accent means rerunning `trackPresentation.test.ts` for every pair. A future Full Stack track can reuse the archived Angular/API integration, frontend auth and combined capstone; it is not registered as an empty or duplicate track now.
 
 ## Active review stack
 

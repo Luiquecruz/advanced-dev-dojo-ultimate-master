@@ -397,7 +397,7 @@ Pronto quando: todos os critérios da seção 14 passam.
 | Three.js no bundle inicial | LCP pior | Import dinâmico após o primeiro paint |
 
 
-The hidden Java and Spring Boot track registers its existing accent and coffee/server glyph under `java-spring`. Angular keeps its independent identity; enabling either track is a separate release decision.
+The Java and Spring Boot track registers its accent and coffee/server glyph under `java-spring` and is published. Angular keeps its independent identity.
 
 
 Angular is public with accent `#ff6179` (`255 97 121`), the red of its framework logo (earlier `#f2f466`). Architecture uses `#ffad63` (`255 173 99`): these two changes create the extra public hue slot while preserving AA contrast and the existing constellation geometry. Other track accent values are retained.

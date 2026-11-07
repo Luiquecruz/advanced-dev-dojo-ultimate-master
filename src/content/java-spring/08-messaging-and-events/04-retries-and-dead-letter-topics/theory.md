@@ -51,15 +51,14 @@ Because a retry or a replay processes a record more than once, the handler must 
 ```java
 @Transactional
 void on(OrderPlaced event) {
-    if (processed.existsById(event.eventId())) {
+    if (!processed.claim(event.eventId())) {
         return;
     }
-    notifications.sendConfirmation(event.orderId());
-    processed.save(new ProcessedEvent(event.eventId()));
+    notifications.sendConfirmation(event.orderId(), event.eventId());
 }
 ```
 
-Inserting the id and doing the work in one transaction, with a primary key on the id, means a concurrent duplicate fails on the insert instead of running twice. For side effects outside the database, such as an email, use the provider's own idempotency key when it offers one.
+`claim` inserts the event id first, for example with `INSERT ... ON CONFLICT DO NOTHING` on a primary key, and returns `false` when the row already exists. A concurrent duplicate waits on that insert until the first transaction ends, then finds the conflict and skips the work. If the send throws, the transaction rolls back and removes the claim, so a retry can try again. One gap remains: if the process crashes after the email left but before the commit, the redelivered event sends it again. No consumer can make an external side effect happen exactly once alone, so pass the event id to the provider as its idempotency key whenever it offers one, as the second argument above does.
 
 ## Common mistakes
 

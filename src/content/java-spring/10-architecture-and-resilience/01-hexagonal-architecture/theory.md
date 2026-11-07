@@ -2,7 +2,7 @@
 
 The layered controller, service and repository structure works well at first, but it has a quiet flaw: the repository is usually a Spring Data interface with JPA entities, so the business rules end up depending on the database technology. Hexagonal architecture, also called ports and adapters, reverses that dependency. The business rules sit in the middle and define what they need; frameworks and databases adapt to them at the edge.
 
-You need: Inversion of Control and Dependency Injection, REST Controllers, Spring Data Repositories.
+You need: Inversion of Control and Dependency Injection, REST Controllers, Spring Data Repositories, Transactions.
 
 ## The idea
 
@@ -33,7 +33,7 @@ public interface AccountStore {
 }
 ```
 
-The application service implements the inbound port and uses outbound ports:
+The application service implements the inbound port and uses outbound ports. The transaction boundary belongs on this method, because one transfer is one use case: if the second `save` fails, the first is rolled back too, and the adapters need no transaction code of their own:
 
 ```java
 class TransferMoneyService implements TransferMoney {
@@ -45,6 +45,7 @@ class TransferMoneyService implements TransferMoney {
     }
 
     @Override
+    @Transactional
     public TransferResult transfer(TransferCommand command) {
         Account from = accounts.findById(command.from()).orElseThrow(AccountNotFound::new);
         Account to = accounts.findById(command.to()).orElseThrow(AccountNotFound::new);

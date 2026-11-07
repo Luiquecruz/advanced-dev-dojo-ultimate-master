@@ -317,7 +317,7 @@ The track is multi-language (`"languages": ["node", "python", "csharp"]`, see "M
 
 ## Java and Spring Boot track (`java-spring`)
 
-The hidden track (`src/content/java-spring`) teaches Java and backend APIs independently from Angular. Every lesson has theory, concepts, a quiz and metadata; module projects run locally with the JDK and Maven when required. There are no graded challenges or Java engine. The existing `"engine": "angular"` field is retained solely as catalog metadata; a lesson without a challenge starts no browser engine. Angular fundamentals stay in the separate Angular track, and cross-stack integration is deferred to a future Full Stack track.
+The published track (`src/content/java-spring`) teaches Java and backend APIs independently from Angular. Every lesson has theory, concepts, a quiz and metadata; module projects run locally with the JDK and Maven when required. There are no graded challenges or Java engine. The existing `"engine": "angular"` field is retained solely as catalog metadata; a lesson without a challenge starts no browser engine. Angular fundamentals stay in the separate Angular track, and cross-stack integration is deferred to a future Full Stack track.
 
 `src/verify/java-spring.test.ts` uses the shared `trackStandards` template, quiz, resource, prerequisite, no-dates and no-bridges checks, enforces the no-challenge policy and requires consecutive required modules starting at 01. Theory is 300–1,000 words in module 01 and 500–1,300 afterward. Plan and review procedure: [java-spring-track.md](java-spring-track.md) and [java-spring-handoff.md](java-spring-handoff.md). Publishing Java does not require publishing Angular; its own accent and release checks still apply.
 
