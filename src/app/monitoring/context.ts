@@ -2,15 +2,17 @@ import { parseRoute } from '@/shared/routing/route';
 
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
 
+const WORKER_NAME = 'constela-mission';
+
 /**
- * Sentry environment of the host serving the app: `development` on a local server, `preview` on a Netlify Deploy Preview or branch
- * deploy (`deploy-preview-12--site.netlify.app`, `branch--site.netlify.app`), `production` otherwise.
+ * Sentry environment of the host serving the app: `development` on a local server, `preview` on a Cloudflare Workers Preview or
+ * Deployment URL (`<preview>-constela-mission.<subdomain>.workers.dev`), `production` otherwise.
  */
 export function environmentForHost(hostname: string): string {
   if (LOCAL_HOSTS.has(hostname)) {
     return 'development';
   }
-  return hostname.includes('--') ? 'preview' : 'production';
+  return hostname.split('.')[0].endsWith(`-${WORKER_NAME}`) ? 'preview' : 'production';
 }
 
 /**

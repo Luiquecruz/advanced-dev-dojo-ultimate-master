@@ -4,7 +4,7 @@ import { process } from './process';
 import { clearAllTimers, hasPendingTimers } from './timers';
 
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]', '0.0.0.0']);
-const INSTALLED = Symbol.for('dev-dojo.node.fetch');
+const INSTALLED = Symbol.for('constela.node.fetch');
 
 let pendingFetches = 0;
 

@@ -6,7 +6,7 @@
 // .wasm, no .dll) are served from the app's origin. Against a deploy it also checks that dotnet/ is cached as immutable and that the
 // .js and .wasm files are compressed by the host, since the Brotli budget in scripts/csharp-track/vendor-dotnet.mjs assumes it.
 // Usage: npm run smoke:worker-csp                                  builds the app and checks it under `vite preview`
-//        npm run smoke:worker-csp -- --url <origin> --dist <dir>   checks a deployed build (CI runs it on each Netlify deploy)
+//        npm run smoke:worker-csp -- --url <origin> --dist <dir>   checks a deployed build
 //        add --build-only to only check that <origin> serves this build's index.html (exit 3 while another build is live)
 import { createHash } from 'node:crypto';
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';

@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Only the current `main` branch and the site deployed from it (https://adv-dv-doj.netlify.app) are supported. There are no releases or older versions to patch.
+Only the current `main` branch and the site deployed from it are supported. There are no releases or older versions to patch.
 
 ## Reporting a vulnerability
 
