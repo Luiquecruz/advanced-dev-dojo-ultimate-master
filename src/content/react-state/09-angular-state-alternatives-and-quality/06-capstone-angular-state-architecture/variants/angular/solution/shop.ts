@@ -32,7 +32,7 @@ function readQuantities(storage: CartStorage): Record<number, number> {
     const quantities: Record<number, number> = {};
     for (const [key, value] of Object.entries(envelope.quantities)) {
       const id = Number(key);
-      if (Number.isInteger(id) && Number.isInteger(value) && (value as number) > 0) quantities[id] = value as number;
+      if (Number.isInteger(id) && id > 0 && Number.isInteger(value) && (value as number) > 0) quantities[id] = value as number;
     }
     return quantities;
   } catch {
