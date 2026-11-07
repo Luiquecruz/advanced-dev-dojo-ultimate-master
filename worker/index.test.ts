@@ -22,6 +22,11 @@ describe('Cloudflare Worker', () => {
     vi.unstubAllGlobals();
   });
 
+  it('publishes production and every Preview on workers.dev', () => {
+    expect(wranglerConfig.workers_dev).toBe(true);
+    expect(wranglerConfig.preview_urls).toBe(true);
+  });
+
   it('serves dist with the SPA fallback and runs only for the Sentry tunnel', () => {
     expect(wranglerConfig.assets).toEqual({ directory: './dist', not_found_handling: 'single-page-application', run_worker_first: ['/signal'] });
   });

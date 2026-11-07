@@ -120,7 +120,7 @@ Pinning: every action and reusable workflow is pinned to a full commit SHA with 
 
 The app runs on Cloudflare Workers with static assets, built and deployed by Workers Builds from the repository. Three files configure it:
 
-- `wrangler.jsonc`: the Worker `constela-mission`, `dist/` as its assets with `not_found_handling: "single-page-application"`, `run_worker_first: ["/signal"]` so only the tunnel reaches the Worker, and `SENTRY_DSN` (the DSN in `ci.yml`) under `vars` and `previews.vars` (`wrangler preview` refuses a config without a `previews` block).
+- `wrangler.jsonc`: the Worker `constela-mission` on `workers.dev`, with `preview_urls` so every branch gets a Preview URL (`<branch>-constela-mission.<subdomain>.workers.dev`, reported to Sentry as `preview`; the setting applies once `main` has deployed it), `dist/` as its assets with `not_found_handling: "single-page-application"`, `run_worker_first: ["/signal"]` so only the tunnel reaches the Worker, and `SENTRY_DSN` (the DSN in `ci.yml`) under `vars` and `previews.vars` (`wrangler preview` refuses a config without a `previews` block).
 - `worker/index.ts`: forwards `POST /signal` to `sentryEnvelopeUrl(SENTRY_DSN)` and answers other methods with 405.
 - `public/_headers` (copied into `dist/`): the worker CSP and the immutable cache rules.
 
