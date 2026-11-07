@@ -17,6 +17,31 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  changes:
+    name: Detect affected checks
+    # Pull requests scan only what their changed files need (scripts/ci/affected-checks.mjs); pushes to main, the weekly
+    # schedule and manual runs scan everything.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      dependencies: ${{ steps.affected.outputs.dependencies }}
+      codeql: ${{ steps.affected.outputs.codeql }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - id: affected
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            node scripts/ci/affected-checks.mjs --base "origin/$BASE_REF"
+          else
+            node scripts/ci/affected-checks.mjs --all
+          fi
+
   npm-audit:
     name: npm audit
     # Not on pull requests: a new advisory against a dependency already on main would fail every unrelated pull request.
@@ -49,7 +74,8 @@ jobs:
 
   dependency-review:
     name: Dependency review (new dependencies in this pull request)
-    if: github.event_name == 'pull_request'
+    needs: changes
+    if: github.event_name == 'pull_request' && needs.changes.outputs.dependencies == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -71,7 +97,8 @@ jobs:
 
   osv-scan-pr:
     name: OSV-Scanner (new vulnerabilities in this pull request)
-    if: github.event_name == 'pull_request'
+    needs: changes
+    if: github.event_name == 'pull_request' && needs.changes.outputs.dependencies == 'true'
     uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@b1d267aea5211fa648d9d442fa64b90dbdcbdd36 # v2.7.0
     permissions:
       actions: read # read the workflow run, for the SARIF upload
@@ -80,6 +107,8 @@ jobs:
 
   codeql:
     name: CodeQL ${{ matrix.language }}
+    needs: changes
+    if: needs.changes.outputs.codeql != '[]'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     permissions:
@@ -89,7 +118,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [javascript-typescript, python, actions]
+        language: ${{ fromJSON(needs.changes.outputs.codeql) }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

@@ -23,8 +23,37 @@ env:
   VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN || 'https://4f0ce69f51f3b8886d94bc586fed1ad0@o4512380997074944.ingest.us.sentry.io/4512381161308160' }}
 
 jobs:
+  changes:
+    name: Detect affected checks
+    # Pull requests run only the jobs their changed files need (scripts/ci/affected-checks.mjs); pushes to main and manual
+    # runs run everything.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      suites: ${{ steps.affected.outputs.suites }}
+      python: ${{ steps.affected.outputs.python }}
+      code: ${{ steps.affected.outputs.code }}
+      workflows: ${{ steps.affected.outputs.workflows }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - id: affected
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            node scripts/ci/affected-checks.mjs --base "origin/$BASE_REF"
+          else
+            node scripts/ci/affected-checks.mjs --all
+          fi
+
   checks:
     name: Lint, typecheck, unit tests, build
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -88,6 +117,8 @@ jobs:
 
   python:
     name: Python lessons on CPython (pytest)
+    needs: changes
+    if: needs.changes.outputs.python == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -104,6 +135,8 @@ jobs:
 
   workflows:
     name: Lint workflows (actionlint, zizmor)
+    needs: changes
+    if: needs.changes.outputs.workflows == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -115,37 +148,18 @@ jobs:
       # dangerous triggers). Offline: no GitHub API calls, so it needs no token.
       - run: docker run --rm -v "$PWD:/repo:ro" --workdir /repo ghcr.io/zizmorcore/zizmor:1.31.1@sha256:42d409dbb851d4c5d35a058cf042b828bea1e3f2884378c526eb0974780e18d9 --offline --min-severity low .github/workflows
 
-  suites:
-    name: List verify suites
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    outputs:
-      list: ${{ steps.list.outputs.list }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      # One suite per track (src/content/<id>/track.json runs src/verify/<id>.test.ts) plus `structure`; a track without
-      # its suite fails its job, since Vitest finds no test file.
-      - id: list
-        run: |
-          list=$({
-            echo structure
-            for file in src/content/*/track.json; do
-              basename "$(dirname "$file")"
-            done
-          } | jq -Rnc '[inputs]')
-          echo "list=$list" >> "$GITHUB_OUTPUT"
-
+  # One suite per affected track (src/content/<id>/track.json runs src/verify/<id>.test.ts) plus `structure`; a track
+  # without its suite fails its job, since Vitest finds no test file.
   verify:
     name: Verify ${{ matrix.suite }}
-    needs: suites
+    needs: changes
+    if: needs.changes.outputs.suites != '[]'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        suite: ${{ fromJSON(needs.suites.outputs.list) }}
+        suite: ${{ fromJSON(needs.changes.outputs.suites) }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -186,6 +200,23 @@ jobs:
       - if: matrix.suite == 'structure'
         run: npm run python:curriculum -- --check
 
+  verify-result:
+    name: Verify result
+    # The one required check for the verify matrix: it passes when every affected suite passed or none was affected.
+    needs: [changes, verify]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - env:
+          CHANGES_RESULT: ${{ needs.changes.result }}
+          VERIFY_RESULT: ${{ needs.verify.result }}
+        run: |
+          echo "changes: $CHANGES_RESULT, verify: $VERIFY_RESULT"
+          if [ "$CHANGES_RESULT" != "success" ] || { [ "$VERIFY_RESULT" != "success" ] && [ "$VERIFY_RESULT" != "skipped" ]; }; then
+            exit 1
+          fi
+
   smoke:
     name: Smoke test the Netlify deploy (worker CSP, SPA fallback, Pyodide files)
     # Netlify deploys through its Git integration (Deploy Previews for pull requests, production from main); CI holds no
@@ -195,7 +226,8 @@ jobs:
     needs: checks
     # Netlify builds Deploy Previews only for pull requests against main, so a stacked pull request (based on another
     # pull request's branch) has no preview: its smoke test runs once it is retargeted to main and main is merged in.
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.base.ref == 'main')
+    # It runs only while the repository variable SMOKE_DEPLOY_HOST is `netlify`, the host it knows how to wait for.
+    if: vars.SMOKE_DEPLOY_HOST == 'netlify' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.base.ref == 'main'))
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     permissions:
