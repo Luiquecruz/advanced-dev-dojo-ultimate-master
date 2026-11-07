@@ -92,8 +92,8 @@ function changedFiles(root) {
   }
   const base = baseRef(root);
   if (base) {
-    const committed = git(root, ['diff', '--name-only', `${base}...HEAD`]) ?? '';
-    committed.split('\n').filter(Boolean).forEach((file) => files.add(file));
+    const committed = git(root, ['diff', '--name-only', '-z', `${base}...HEAD`], true) ?? '';
+    committed.split('\0').filter(Boolean).forEach((file) => files.add(file));
   }
   return [...files].sort();
 }

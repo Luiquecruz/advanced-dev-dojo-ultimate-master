@@ -206,7 +206,7 @@ Tests keep part of this honest: `curriculum.test.ts` (lessons ↔ `CURRICULUM.md
 
 ### Docs sync check
 
-`.claude/hooks/docs-sync.mjs` compares the changed files against the table above. A changed file counts as covered when at least one of its documents also changed. It reads the working tree (staged, unstaged and untracked) plus commits not yet on the upstream branch (or on `main`, for a branch without upstream). Unit tests (`*.test.ts`) and lesson folders are skipped: lessons are covered by `curriculum.test.ts`.
+`.claude/hooks/docs-sync.mjs` compares the changed files against the table above. A changed file counts as covered when at least one of its documents also changed. It reads the working tree (staged, unstaged and untracked) plus commits not yet on the upstream branch (or on `main`, for a branch without upstream). Unit tests (`*.test.ts`) and lesson folders are skipped: lessons are covered by `curriculum.test.ts`. It reads the committed file list NUL-separated (`git diff -z`), so paths with non-ASCII characters, such as the visual spec's file name, match their directory prefix instead of arriving quoted by git.
 
 - `npm run docs:check` prints the uncovered files and exits with 1 when there are any. Run it before pushing.
 - In Claude Code the same script runs as a `Stop` hook (see [Harness](#harness)).
