@@ -1,5 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, forwardRef, inject } from '@angular/core';
 import { LocalCounter, SharedCounter } from './counters';
+
+@Component({
+  selector: 'app-page',
+  imports: [forwardRef(() => Counter)],
+  template: `
+    <app-counter />
+    <app-counter />
+  `,
+})
+export class Page {}
 
 @Component({
   selector: 'app-counter',
@@ -15,13 +25,3 @@ export class Counter {
   protected readonly local = inject(LocalCounter);
   protected readonly shared = inject(SharedCounter);
 }
-
-@Component({
-  selector: 'app-page',
-  imports: [Counter],
-  template: `
-    <app-counter />
-    <app-counter />
-  `,
-})
-export class Page {}

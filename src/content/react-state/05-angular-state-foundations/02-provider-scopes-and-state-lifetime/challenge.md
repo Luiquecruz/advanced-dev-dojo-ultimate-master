@@ -8,4 +8,4 @@ Show the difference between a root-scoped and a component-scoped service. The pr
 **`app.ts`** exports two components:
 
 - `Counter` (selector `app-counter`) lists `providers: [LocalCounter]`, injects both services, and renders `<p>Local: {{ local }}</p>` and `<p>Shared: {{ shared }}</p>` with the buttons `Local +1` and `Shared +1` calling the matching `increment()`.
-- `Page` (selector `app-page`) renders two `<app-counter>` elements (import `Counter`).
+- `Page` (selector `app-page`) renders two `<app-counter>` elements (import `Counter`; it is declared after `Page`, so wrap it in `forwardRef(() => Counter)`).

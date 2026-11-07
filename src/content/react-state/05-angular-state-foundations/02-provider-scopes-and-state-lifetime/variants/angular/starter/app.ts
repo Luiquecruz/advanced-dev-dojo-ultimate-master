@@ -1,4 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
+
+@Component({
+  selector: 'app-page',
+  imports: [forwardRef(() => Counter)],
+  template: `<!-- TODO: render two <app-counter> elements -->`,
+})
+export class Page {}
 
 @Component({
   selector: 'app-counter',
@@ -10,9 +17,3 @@ import { Component } from '@angular/core';
 export class Counter {
   // TODO: provide LocalCounter on this component and inject both services
 }
-
-@Component({
-  selector: 'app-page',
-  template: `<!-- TODO: render two <app-counter> elements -->`,
-})
-export class Page {}
