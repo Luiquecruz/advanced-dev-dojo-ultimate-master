@@ -1,0 +1,8 @@
+[
+  {"term": "Lost update", "description": "Two transactions read the same row, both write, and the second write silently replaces the first."},
+  {"term": "Optimistic locking", "description": "A strategy that allows concurrent work and detects a conflict at write time instead of blocking readers."},
+  {"term": "@Version", "description": "A JPA attribute that Hibernate compares and increments on every update to detect that the row changed."},
+  {"term": "Conditional update", "description": "An UPDATE whose WHERE clause includes the version read earlier, so zero matched rows means a conflict."},
+  {"term": "OptimisticLockingFailureException", "description": "The Spring exception raised when the version no longer matches, which rolls the transaction back."},
+  {"term": "409 Conflict", "description": "The HTTP status that tells a client its change clashed with a newer state and must be reloaded."}
+]

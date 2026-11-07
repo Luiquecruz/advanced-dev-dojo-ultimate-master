@@ -1,0 +1,28 @@
+{
+  "title": "Project: High-Concurrency Ticket Sales",
+  "summary": "A local project that sells each seat exactly once under 50 concurrent buyers with a pessimistic lock, protects edits with a version column, caches the event catalog in Redis, and verifies it all with PostgreSQL and Redis containers.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "project",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Data JPA: Locking",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/jpa/locking.html"
+    },
+    {
+      "label": "Spring Data Redis reference",
+      "url": "https://docs.spring.io/spring-data/redis/reference/"
+    },
+    {
+      "label": "Testcontainers for Java",
+      "url": "https://java.testcontainers.org/"
+    },
+    {
+      "label": "PostgreSQL: Explicit locking",
+      "url": "https://www.postgresql.org/docs/current/explicit-locking.html"
+    }
+  ]
+}

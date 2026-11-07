@@ -1,0 +1,8 @@
+[
+  {"term": "Time to live", "description": "The duration an entry stays valid after being written, acting as a safety net against missed invalidation."},
+  {"term": "maxmemory-policy", "description": "The Redis setting that decides whether a full server rejects writes or evicts keys such as the least recently used."},
+  {"term": "Invalidation", "description": "Removing or updating cached entries by time, by the write path or by an event from another module."},
+  {"term": "Cache stampede", "description": "A burst of identical requests that all miss at once after a popular entry expires and hit the database together."},
+  {"term": "TTL jitter", "description": "A random amount added to each time to live so entries written together do not expire together."},
+  {"term": "Cache penetration", "description": "Repeated requests for keys that never exist, which always miss and reach the database."}
+]

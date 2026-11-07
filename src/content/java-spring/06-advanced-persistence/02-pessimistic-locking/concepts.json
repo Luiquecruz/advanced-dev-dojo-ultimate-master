@@ -1,0 +1,8 @@
+[
+  {"term": "Pessimistic locking", "description": "A strategy where the database holds a row for one transaction so competing transactions wait their turn."},
+  {"term": "PESSIMISTIC_WRITE", "description": "A lock mode that produces SELECT FOR UPDATE, blocking other writers and lockers until commit."},
+  {"term": "PESSIMISTIC_READ", "description": "A shared lock mode that allows other readers but blocks writers until the transaction ends."},
+  {"term": "@Lock", "description": "The Spring Data annotation that applies a LockModeType to a repository query method."},
+  {"term": "Deadlock", "description": "A cycle where each transaction waits for a row the other holds, so the database aborts one of them."},
+  {"term": "Lock ordering", "description": "Always locking rows in the same order, such as ascending id, so cycles cannot form."}
+]

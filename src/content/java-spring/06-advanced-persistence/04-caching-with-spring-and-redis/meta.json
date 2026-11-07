@@ -1,0 +1,28 @@
+{
+  "title": "Caching with Spring and Redis",
+  "summary": "Enabling the cache abstraction on Redis, @Cacheable, @CachePut and @CacheEvict with explicit SpEL keys, typed JSON serialization per cache, proxy limits, staleness rules and testing cache behavior.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core",
+    "performance"
+  ],
+  "resources": [
+    {
+      "label": "Spring Boot reference: Caching",
+      "url": "https://docs.spring.io/spring-boot/reference/io/caching.html"
+    },
+    {
+      "label": "Spring Framework: Annotation-based caching",
+      "url": "https://docs.spring.io/spring-framework/reference/integration/cache/annotations.html"
+    },
+    {
+      "label": "Spring Data Redis: Redis cache",
+      "url": "https://docs.spring.io/spring-data/redis/reference/redis/redis-cache.html"
+    },
+    {
+      "label": "Redis documentation",
+      "url": "https://redis.io/docs/latest/"
+    }
+  ]
+}

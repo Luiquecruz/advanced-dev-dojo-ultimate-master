@@ -1,0 +1,27 @@
+{
+  "title": "Optimistic Locking with @Version",
+  "summary": "The lost update problem, a @Version column managed by Hibernate, the conditional UPDATE, handling OptimisticLockingFailureException with a 409 or a fresh-transaction retry, and when optimistic locking fits.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Data JPA: Locking",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/jpa/locking.html"
+    },
+    {
+      "label": "Jakarta Persistence specification",
+      "url": "https://jakarta.ee/specifications/persistence/"
+    },
+    {
+      "label": "Hibernate ORM documentation",
+      "url": "https://hibernate.org/orm/documentation/"
+    },
+    {
+      "label": "Spring Framework: Transaction management",
+      "url": "https://docs.spring.io/spring-framework/reference/data-access/transaction.html"
+    }
+  ]
+}

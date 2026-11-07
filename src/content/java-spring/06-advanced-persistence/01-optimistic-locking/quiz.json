@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Two requests read a course with 10 seats and each writes 9. Which problem is this?",
+    "options": [
+      "A deadlock",
+      "A lost update",
+      "A phantom read",
+      "A cache stampede"
+    ],
+    "answer": 1,
+    "explanation": "Each transaction was valid alone, but the read-then-write cycle overlapped, so the second write replaced the first without noticing."
+  },
+  {
+    "question": "How does Hibernate detect a conflict when an entity has a @Version field?",
+    "options": [
+      "It adds the version to the UPDATE WHERE clause and treats zero updated rows as a conflict",
+      "It takes SELECT FOR UPDATE on every read",
+      "It compares hash codes of the entities",
+      "It asks the other instances over the network"
+    ],
+    "answer": 0,
+    "explanation": "The statement is update ... where id = ? and version = ?. If another transaction committed first, no row matches and Hibernate raises the exception."
+  },
+  {
+    "question": "A transaction updates an entity whose stored version is newer than the one it loaded. What happens?",
+    "options": [
+      "The database applies the update anyway",
+      "Hibernate overwrites the version silently",
+      "The application enters a deadlock",
+      "An optimistic locking exception is raised and the transaction rolls back"
+    ],
+    "answer": 3,
+    "explanation": "The version mismatch makes the conditional update match nothing, so the change is rejected and nothing partial is committed."
+  },
+  {
+    "question": "Which type is a sensible choice for a @Version attribute?",
+    "options": [
+      "String",
+      "Boolean",
+      "long",
+      "List<String>"
+    ],
+    "answer": 2,
+    "explanation": "Numeric types and timestamps are supported. A number is the safest because two updates in the same clock tick can produce equal timestamps."
+  },
+  {
+    "question": "Where should a retry after an optimistic lock failure start?",
+    "options": [
+      "Inside the failed transaction",
+      "In a new transaction that reloads the data",
+      "In the view layer only",
+      "It is never safe to retry"
+    ],
+    "answer": 1,
+    "explanation": "The failed transaction is rolled back and its persistence context holds stale state. A new transaction reloads fresh data before trying again."
+  },
+  {
+    "question": "Which workload suits optimistic locking best?",
+    "options": [
+      "Data read often and rarely changed at the same moment",
+      "Many writers fighting over one hot row",
+      "Rows that must never be read while changing",
+      "Counters updated on every request"
+    ],
+    "answer": 0,
+    "explanation": "With rare conflicts the cost is one column and no waiting. Heavy contention would cause constant failures and retries."
+  }
+]

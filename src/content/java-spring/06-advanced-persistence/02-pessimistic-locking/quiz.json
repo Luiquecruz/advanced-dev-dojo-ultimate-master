@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What is the main difference between optimistic and pessimistic locking?",
+    "options": [
+      "Optimistic locking uses files and pessimistic uses the database",
+      "Optimistic assumes conflicts are rare and checks at write time; pessimistic locks the row when it is read",
+      "Pessimistic locking is always faster",
+      "Optimistic locking only works with NoSQL"
+    ],
+    "answer": 1,
+    "explanation": "Optimistic locking validates a version when writing. Pessimistic locking asks the database to lock the row as it is read, so others wait."
+  },
+  {
+    "question": "Which lock mode asks for an exclusive write lock?",
+    "options": [
+      "LockModeType.PESSIMISTIC_WRITE",
+      "LockModeType.OPTIMISTIC",
+      "LockModeType.NONE",
+      "LockModeType.READ"
+    ],
+    "answer": 0,
+    "explanation": "PESSIMISTIC_WRITE obtains an exclusive lock, so no other transaction can update or lock the same row until this one finishes."
+  },
+  {
+    "question": "Which SQL does PESSIMISTIC_WRITE typically generate on PostgreSQL?",
+    "options": [
+      "SELECT ... WITH (NOLOCK)",
+      "UPDATE ... SET lock = true",
+      "ALTER TABLE ... LOCK",
+      "SELECT ... FOR UPDATE"
+    ],
+    "answer": 3,
+    "explanation": "Hibernate appends FOR UPDATE to the select, and PostgreSQL holds the returned rows locked until the transaction ends."
+  },
+  {
+    "question": "Why must the locking query run inside a transaction?",
+    "options": [
+      "Transactions make queries faster",
+      "Spring forbids locks outside transactions",
+      "The lock lasts only until the statement ends without a transaction, so it protects nothing",
+      "Locks need a read-only connection"
+    ],
+    "answer": 2,
+    "explanation": "A lock is released at commit or rollback. Without an open transaction the statement ends immediately and the lock disappears with it."
+  },
+  {
+    "question": "Two transactions lock rows 1 and 2 in opposite orders. What can happen?",
+    "options": [
+      "Both succeed in parallel",
+      "A deadlock that the database resolves by aborting one",
+      "The version column is corrupted",
+      "Flyway reruns the migrations"
+    ],
+    "answer": 1,
+    "explanation": "Each holds a row the other needs. The database detects the cycle and aborts one transaction, which is why a consistent lock order matters."
+  },
+  {
+    "question": "Which risk should you watch when you use pessimistic locks widely?",
+    "options": [
+      "Waiting, deadlocks and lower throughput under load",
+      "Lost HTTPS connections",
+      "Incompatibility with records",
+      "Broken Flyway checksums"
+    ],
+    "answer": 0,
+    "explanation": "Locks serialize work. Used everywhere they cut throughput, and a long-lived lock makes every other request wait."
+  }
+]

@@ -1,0 +1,4 @@
+{
+  "title": "Advanced Persistence, Locking and Redis",
+  "description": "For people who finished Persistence: optimistic and pessimistic locking, Redis with Spring Data Redis, the cache abstraction on Redis, expiration and cache stampede, and a ticket sales project under heavy concurrency."
+}

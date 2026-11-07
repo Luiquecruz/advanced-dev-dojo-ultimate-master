@@ -1,0 +1,28 @@
+{
+  "title": "TTL, Eviction and Cache Stampede",
+  "summary": "Time to live, Redis maxmemory and eviction policies, invalidation by time, write and event, evicting after commit, cache stampede and its defenses (sync loading, TTL jitter, refresh ahead, locks), penetration and Redis outages.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core",
+    "performance"
+  ],
+  "resources": [
+    {
+      "label": "Redis: Key eviction",
+      "url": "https://redis.io/docs/latest/develop/reference/eviction/"
+    },
+    {
+      "label": "Spring Data Redis: Redis cache",
+      "url": "https://docs.spring.io/spring-data/redis/reference/redis/redis-cache.html"
+    },
+    {
+      "label": "Spring Boot reference: Caching",
+      "url": "https://docs.spring.io/spring-boot/reference/io/caching.html"
+    },
+    {
+      "label": "RFC 9111: HTTP Caching",
+      "url": "https://www.rfc-editor.org/info/rfc9111/"
+    }
+  ]
+}

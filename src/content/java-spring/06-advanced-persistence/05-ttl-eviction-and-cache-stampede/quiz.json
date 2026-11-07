@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What does TTL mean for a cache entry?",
+    "options": [
+      "Total transfer limit",
+      "Time to live, the duration before the entry expires",
+      "Transaction task level",
+      "Temporary table lock"
+    ],
+    "answer": 1,
+    "explanation": "TTL bounds how long an entry stays valid, so a missed invalidation can only serve stale data until the time ends."
+  },
+  {
+    "question": "What is a cache stampede?",
+    "options": [
+      "Many requests missing together when a hot entry expires and all hitting the database",
+      "Redis running out of disk",
+      "A log file growing too large",
+      "A clock difference between servers"
+    ],
+    "answer": 0,
+    "explanation": "The expiry removes the shared answer, and every concurrent request recomputes it, sending identical expensive queries to the source of truth."
+  },
+  {
+    "question": "Which method reduces simultaneous expiry of keys written together?",
+    "options": [
+      "Using the same TTL for all keys",
+      "Turning off invalidation",
+      "Disabling Redis",
+      "Adding random jitter to each TTL"
+    ],
+    "answer": 3,
+    "explanation": "Jitter spreads the expiry moments, so the database never receives all the rebuilds in the same second."
+  },
+  {
+    "question": "Why does @Cacheable(sync = true) not fully solve a stampede across instances?",
+    "options": [
+      "It only works in tests",
+      "It disables the cache",
+      "It coordinates threads within one instance, so each instance still reloads",
+      "It needs a database lock"
+    ],
+    "answer": 2,
+    "explanation": "The synchronization is local to the JVM. With ten instances, ten rebuilds can still happen, which a refresh-ahead or distributed lock addresses."
+  },
+  {
+    "question": "When should a cache entry be evicted relative to the database transaction?",
+    "options": [
+      "Before the transaction starts",
+      "After the transaction commits",
+      "Never, TTL is enough",
+      "Only on application restart"
+    ],
+    "answer": 1,
+    "explanation": "Evicting inside the transaction lets a concurrent reader load the old row and put it back. Evicting after commit leaves the next read to see the new data."
+  },
+  {
+    "question": "What should a pure cache instance of Redis use when memory is full?",
+    "options": [
+      "An allkeys eviction policy such as allkeys-lru",
+      "noeviction, so writes fail",
+      "No memory limit",
+      "A relational dump"
+    ],
+    "answer": 0,
+    "explanation": "With an allkeys policy the cache drops the least recently used entries and keeps working, instead of rejecting writes with errors."
+  }
+]
