@@ -45,4 +45,6 @@ test('changing another filter resets the page', async () => {
   urlFilters.update({ sort: 'price' });
   await waitFor(() => expect(router.url).toBe('/?q=rx&sort=price'));
   expect(urlFilters.filters().page).toBe(1);
+  urlFilters.update({ q: 'ng', page: 4 });
+  await waitFor(() => expect(router.url).toBe('/?q=ng&sort=price&page=4'));
 });

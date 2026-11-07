@@ -1,6 +1,6 @@
 [
   {
-    "question": "Which operator guarantees an old search response can never replace a newer one?",
+    "question": "Which operator cancels the in-flight request when a newer one starts, so an old search response can never replace a newer one?",
     "options": [
       "mergeMap",
       "switchMap",
@@ -8,7 +8,7 @@
       "exhaustMap"
     ],
     "answer": 1,
-    "explanation": "`switchMap` unsubscribes from the previous inner observable, which cancels the stale request."
+    "explanation": "`switchMap` unsubscribes from the previous inner observable, which cancels the stale request. `concatMap` would queue the new one behind it instead of cancelling."
   },
   {
     "question": "Which operator fits a Save button that must ignore clicks while a save runs?",
