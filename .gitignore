@@ -17,6 +17,8 @@ vendor/dotnet/*
 # CPython test suite (tests/python)
 .venv/
 .pytest_cache/
+build/
+*.egg-info/
 .playwright-mcp/
 
 .env
