@@ -1,0 +1,18 @@
+[
+  {
+    "term": "Request state",
+    "description": "The situation of a remote value: idle, loading, success, empty or error. Each needs its own screen."
+  },
+  {
+    "term": "Discriminated union",
+    "description": "A TypeScript union whose members share a literal field (`status`) so the compiler narrows the rest of the shape from it."
+  },
+  {
+    "term": "Empty state",
+    "description": "A successful request that returned no data. It is not an error and not a loading step."
+  },
+  {
+    "term": "Impossible state",
+    "description": "A combination such as `loading` and `error` both true, which separate booleans allow and a union rules out."
+  }
+]

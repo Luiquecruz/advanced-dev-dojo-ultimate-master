@@ -109,7 +109,10 @@ The public `react-state` id and existing React lesson keys are retained. Modules
 ### 06-angular-state — State with Angular
 01-signal-based-services ✓ · 02-ngrx-signal-store ✓ · 03-ngrx-signal-store-features (computed, methods, entities and hooks) ✓ · 04-ngrx-store-classic (actions, reducers and selectors) ✓
 
-### 07-architecture — Architecture and Decision Making
+### 07-angular-server-state-and-async — Angular Server State and Async
+01-request-states-and-unions (discriminated request states) ✓ · 02-concurrent-requests-and-rxjs-operators (switchMap, exhaustMap, concatMap, mergeMap, errors inside the inner stream) ✓ · 03-resource-and-async-signals (`resource()` params, loader, abortSignal, status) ✓ · 04-optimistic-updates-and-rollback (snapshot, narrow rollback) ✓ · 05-caching-and-query-libraries **(quiz)** (server state, query keys, staleness, invalidation, TanStack Query for Angular) ✓
+
+### 08-architecture — Architecture and Decision Making
 01-choosing-the-right-tool **(quiz)** (scenario based) ✓ · 02-colocation-and-boundaries (refactor over-globalized state) ✓ · 03-forms-and-transient-state **(quiz)** ✓ · 04-react-19-compiler-and-the-future-of-state **(quiz)** (Actions, useOptimistic, Server Components, React Compiler) ✓ · 05-capstone-state-architecture (multi-file: server state + client store + URL + local state) ✓
 
 ## Frontend Architecture (`src/content/architecture`, engine `react`)

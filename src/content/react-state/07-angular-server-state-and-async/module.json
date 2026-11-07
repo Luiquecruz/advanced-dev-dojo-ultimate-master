@@ -1,0 +1,4 @@
+{
+  "title": "Angular Server State and Async",
+  "description": "Request states, concurrent requests, the resource API, optimistic updates and when to reach for a query library. Requires the Angular state foundations and HttpClient basics."
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "term": "Optimistic update",
+    "description": "Changing the UI before the server confirms, then rolling back if the request fails."
+  },
+  {
+    "term": "Snapshot and rollback",
+    "description": "Saving the previous value of what you change so a failure can restore exactly that part of the state."
+  },
+  {
+    "term": "Narrow rollback",
+    "description": "Restoring only the changed field of one entity, so unrelated successful changes survive a failure."
+  },
+  {
+    "term": "Reconciliation",
+    "description": "Replacing or refreshing local state with the server response after a mutation settles."
+  }
+]

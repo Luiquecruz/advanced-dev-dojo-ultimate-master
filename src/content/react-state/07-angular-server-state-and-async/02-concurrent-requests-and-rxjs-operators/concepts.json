@@ -1,0 +1,22 @@
+[
+  {
+    "term": "switchMap",
+    "description": "Cancels the in-flight inner observable when a new value arrives. The standard operator for search and navigation-driven loads."
+  },
+  {
+    "term": "exhaustMap",
+    "description": "Ignores new values while an inner observable is still running. Prevents duplicate submits."
+  },
+  {
+    "term": "concatMap",
+    "description": "Queues inner observables and runs them one at a time in order."
+  },
+  {
+    "term": "mergeMap",
+    "description": "Runs all inner observables in parallel, with no cancellation or ordering."
+  },
+  {
+    "term": "Out-of-order response",
+    "description": "A slower earlier request finishing after a newer one and overwriting its result."
+  }
+]

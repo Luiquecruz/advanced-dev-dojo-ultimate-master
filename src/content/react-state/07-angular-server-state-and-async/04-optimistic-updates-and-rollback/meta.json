@@ -1,0 +1,21 @@
+{
+  "title": "Optimistic Updates and Rollback",
+  "summary": "Apply changes immediately, save in the background and roll back narrowly with a clear error when the request fails.",
+  "level": "advanced",
+  "tags": [
+    "core",
+    "performance"
+  ],
+  "entry": "todos.ts",
+  "preview": false,
+  "resources": [
+    {
+      "label": "angular.dev: Signals",
+      "url": "https://angular.dev/guide/signals"
+    },
+    {
+      "label": "TanStack Query: Optimistic updates",
+      "url": "https://tanstack.com/query/latest/docs/framework/angular/guides/optimistic-updates"
+    }
+  ]
+}

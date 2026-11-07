@@ -1,0 +1,22 @@
+[
+  {
+    "term": "Server state",
+    "description": "Remote data the app only caches. It can be stale, shared and invalidated, unlike state you fully own."
+  },
+  {
+    "term": "Query key",
+    "description": "The identifier of a cached query. Equal keys share one cache entry and one request."
+  },
+  {
+    "term": "Stale-while-revalidate",
+    "description": "Serving cached data immediately while refetching in the background to refresh it."
+  },
+  {
+    "term": "Invalidation",
+    "description": "Marking cached queries stale, usually after a mutation, so the next reader refetches."
+  },
+  {
+    "term": "Experimental package",
+    "description": "`@tanstack/angular-query-experimental` is labelled experimental, so its API may change in minor and patch versions."
+  }
+]
