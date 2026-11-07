@@ -26,8 +26,9 @@ describe('Cloudflare Worker', () => {
     expect(wranglerConfig.assets).toEqual({ directory: './dist', not_found_handling: 'single-page-application', run_worker_first: ['/signal'] });
   });
 
-  it('tunnels to the project of the DSN CI builds with', () => {
+  it('tunnels production and Previews to the project of the DSN CI builds with', () => {
     expect(wranglerConfig.vars.SENTRY_DSN).toBe(ciDsn);
+    expect(wranglerConfig.previews.vars.SENTRY_DSN).toBe(ciDsn);
   });
 
   it('sends the worker CSP with every engine worker script', () => {

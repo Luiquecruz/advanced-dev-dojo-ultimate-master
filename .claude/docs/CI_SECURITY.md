@@ -31,7 +31,7 @@ merge to main ─► every check runs again ─► Cloudflare Workers Builds pub
 
 ### No deploy secrets in CI
 
-- **Decision.** The host, Cloudflare Workers, deploys through its own Git integration (Workers Builds), preview versions for other branches and production from `main`; CI holds no deploy token. The build token lives in Cloudflare, and the deploy commands name an exact Wrangler version (`npx wrangler@<version> deploy`), so a build never installs whatever `wrangler` is latest. The gate is branch protection, because only a green pull request can reach `main`.
+- **Decision.** The host, Cloudflare Workers, deploys through its own Git integration (Workers Builds), Worker Previews for other branches and production from `main`; CI holds no deploy token. The build token lives in Cloudflare, and the deploy commands name an exact Wrangler version (`npx wrangler@<version> deploy`), so a build never installs whatever `wrangler` is latest. The gate is branch protection, because only a green pull request can reach `main`.
 - **Why.** A CI deploy job needs a host token, and such a token usually covers the whole account. Any secret a workflow can read is readable by a pull request that edits the workflow. Even an untouched workflow could be steered: `npx` run inside the checkout reads a `.npmrc` committed by the pull request and installs a look-alike CLI that holds the token.
 - **Left out.**
   - The CI deploy job with an environment-scoped token: it was implemented in #7 and replaced by this model.

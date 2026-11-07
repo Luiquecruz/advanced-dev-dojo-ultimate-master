@@ -120,7 +120,7 @@ Pinning: every action and reusable workflow is pinned to a full commit SHA with 
 
 The app runs on Cloudflare Workers with static assets, built and deployed by Workers Builds from the repository. Three files configure it:
 
-- `wrangler.jsonc`: the Worker `constela-mission`, `dist/` as its assets with `not_found_handling: "single-page-application"`, `run_worker_first: ["/signal"]` so only the tunnel reaches the Worker, and `SENTRY_DSN` (the DSN in `ci.yml`).
+- `wrangler.jsonc`: the Worker `constela-mission`, `dist/` as its assets with `not_found_handling: "single-page-application"`, `run_worker_first: ["/signal"]` so only the tunnel reaches the Worker, and `SENTRY_DSN` (the DSN in `ci.yml`) under `vars` and `previews.vars` (`wrangler preview` refuses a config without a `previews` block).
 - `worker/index.ts`: forwards `POST /signal` to `sentryEnvelopeUrl(SENTRY_DSN)` and answers other methods with 405.
 - `public/_headers` (copied into `dist/`): the worker CSP and the immutable cache rules.
 
@@ -137,7 +137,7 @@ What the host provides, and where:
 
 `npm run smoke:worker-csp -- --url <origin> --dist dist` checks a deployed build against a local build of the same commit (worker CSP, SPA fallback, Pyodide and .NET files).
 
-Setup, once, by an admin of the Cloudflare account: Workers → `constela-mission` → Settings → Build: build command `npm run build`, deploy command `npx wrangler@4.158.0 deploy`, non-production branch deploy command `npx wrangler@4.158.0 versions upload`, root directory `/`; build variables `VITE_SENTRY_DSN` and, as a secret, `SENTRY_AUTH_TOKEN`. Bump the Wrangler version in these commands and in the local command above together. Without `wrangler.jsonc`, `wrangler deploy` tries to configure the project itself, detects Hono (a dependency of the Node.js engine) and fails.
+Setup, once, by an admin of the Cloudflare account: Workers → `constela-mission` → Settings → Build: build command `npm run build`, deploy command `npx wrangler@4.158.0 deploy`, non-production branch deploy command `npx wrangler@4.158.0 preview` (a Worker Preview per branch), root directory `/`; build variables `VITE_SENTRY_DSN` and, as a secret, `SENTRY_AUTH_TOKEN`. Bump the Wrangler version in these commands and in the local command above together. Without `wrangler.jsonc`, `wrangler deploy` tries to configure the project itself, detects Hono (a dependency of the Node.js engine) and fails.
 
 Setup, once, by a repository admin:
 
