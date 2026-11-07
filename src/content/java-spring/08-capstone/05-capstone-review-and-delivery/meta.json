@@ -1,0 +1,31 @@
+{
+  "title": "Capstone: Review and Delivery",
+  "summary": "Review the complete API against its contract, package a non-root Spring Boot image, run PostgreSQL and the API in Compose, verify the Maven CI pipeline and write a retrospective.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "project"
+  ],
+  "resources": [
+    {
+      "label": "Spring Boot reference: Efficient container images",
+      "url": "https://docs.spring.io/spring-boot/reference/packaging/container-images/dockerfiles.html"
+    },
+    {
+      "label": "Docker: Multi-stage builds",
+      "url": "https://docs.docker.com/get-started/docker-concepts/building-images/multi-stage-builds/"
+    },
+    {
+      "label": "Docker Compose documentation",
+      "url": "https://docs.docker.com/compose/"
+    },
+    {
+      "label": "GitHub Actions: Building and testing Java with Maven",
+      "url": "https://docs.github.com/en/actions/tutorials/build-and-test-code/java-with-maven"
+    },
+    {
+      "label": "Spring Boot reference: Actuator endpoints",
+      "url": "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
+    }
+  ]
+}

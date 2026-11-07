@@ -1,0 +1,8 @@
+[
+  { "term": "Multi-stage build", "description": "A Dockerfile with a build stage and a smaller runtime stage, so build tools and sources do not ship in the final image." },
+  { "term": "Layered jar", "description": "A Spring Boot jar extracted into layers, so rarely changing dependencies are cached separately from application code." },
+  { "term": "Compose required variable", "description": "The ${NAME:?message} form, which makes Docker Compose stop with a message when a variable is not set." },
+  { "term": "Readiness probe", "description": "An Actuator health group that tells the platform whether the application can accept traffic yet." },
+  { "term": "Pipeline job", "description": "A unit of continuous integration that builds and tests one part of the system on every pull request." },
+  { "term": "Retrospective", "description": "A short written look back at what held up, what hurt and what to study next." }
+]
