@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What is Spring Modulith for?",
+    "options": [
+      "Converting a project to microservices automatically",
+      "Structuring a modular monolith and verifying that module boundaries hold",
+      "Replacing Tomcat",
+      "Compiling Java faster"
+    ],
+    "answer": 1,
+    "explanation": "It gives conventions and checks so one deployable application keeps clear boundaries between business modules."
+  },
+  {
+    "question": "How does Spring Modulith find modules by default?",
+    "options": [
+      "From the direct sub-packages of the package holding the @SpringBootApplication class",
+      "From an XML file",
+      "From database table names",
+      "From the number of lines in a class"
+    ],
+    "answer": 0,
+    "explanation": "Each direct sub-package of the application package is a module, and its base package forms the public API."
+  },
+  {
+    "question": "How do you keep an implementation detail hidden from other modules?",
+    "options": [
+      "Mark it @Deprecated",
+      "Create a DLL",
+      "Use static fields",
+      "Place it in an internal sub-package or make it package-private"
+    ],
+    "answer": 3,
+    "explanation": "Types in sub-packages of a module are internal, and package-private visibility stops accidental use from outside."
+  },
+  {
+    "question": "What does ApplicationModules.of(App.class).verify() do in a test?",
+    "options": [
+      "Checks the internet connection",
+      "Counts the variables",
+      "Fails the test on use of other modules' internals or on dependency cycles",
+      "Formats the code"
+    ],
+    "answer": 2,
+    "explanation": "It analyzes the compiled classes with ArchUnit rules and reports each violation with the class involved."
+  },
+  {
+    "question": "What does @ApplicationModuleTest provide?",
+    "options": [
+      "A faster compiler",
+      "A test context with one module and its dependencies instead of the full application",
+      "A database dump",
+      "A load generator"
+    ],
+    "answer": 1,
+    "explanation": "Booting only the module under test keeps integration tests quick and shows hidden dependencies on other modules."
+  },
+  {
+    "question": "Why is one module per database table a poor design?",
+    "options": [
+      "It creates many tiny modules that depend on each other and rebuild the tangle",
+      "Tables cannot be modules",
+      "Spring forbids it",
+      "It slows queries"
+    ],
+    "answer": 0,
+    "explanation": "Modules should represent business capabilities. Entity-sized modules produce cycles and noisy boundaries."
+  }
+]

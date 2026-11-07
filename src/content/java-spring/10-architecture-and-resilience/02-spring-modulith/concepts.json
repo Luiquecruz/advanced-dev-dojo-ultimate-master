@@ -1,0 +1,8 @@
+[
+  {"term": "Application module", "description": "A direct sub-package of the main application package, treated as a unit with its own public API."},
+  {"term": "Internal package", "description": "A sub-package of a module whose types other modules may not use."},
+  {"term": "ApplicationModules.verify()", "description": "A test call that fails the build on forbidden access to internals or on dependency cycles."},
+  {"term": "allowedDependencies", "description": "An @ApplicationModule setting that lists the only modules a module may depend on."},
+  {"term": "@ApplicationModuleTest", "description": "A test annotation that boots one module and its declared dependencies instead of the whole application."},
+  {"term": "Documenter", "description": "A Spring Modulith tool that generates diagrams from the real module structure."}
+]

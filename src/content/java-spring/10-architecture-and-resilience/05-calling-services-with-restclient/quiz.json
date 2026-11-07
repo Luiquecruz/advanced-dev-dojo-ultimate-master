@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which client replaces the legacy RestTemplate in a blocking Spring MVC application?",
+    "options": [
+      "HttpClientOld",
+      "RestClient",
+      "SpringHttpConnector",
+      "FeignClientLegacy"
+    ],
+    "answer": 1,
+    "explanation": "RestClient is the modern fluent synchronous client, and RestTemplate is in maintenance mode."
+  },
+  {
+    "question": "What is the difference between RestClient and WebClient?",
+    "options": [
+      "RestClient is blocking and WebClient is non-blocking and reactive",
+      "One runs only on Windows",
+      "WebClient cannot do JSON",
+      "RestClient needs XML"
+    ],
+    "answer": 0,
+    "explanation": "Use RestClient in imperative applications and WebClient when the application is built on the reactive stack."
+  },
+  {
+    "question": "How do you turn an HTTP 404 into a domain exception?",
+    "options": [
+      "By restarting the client",
+      "By editing pom.xml",
+      "By ignoring it",
+      "With onStatus on the request chain"
+    ],
+    "answer": 3,
+    "explanation": "onStatus registers a handler for chosen statuses so callers receive domain exceptions instead of HTTP details."
+  },
+  {
+    "question": "Why set connect and read timeouts?",
+    "options": [
+      "They improve JSON parsing",
+      "They enable the fallback",
+      "A call without a timeout can wait forever and hold a request thread",
+      "They are optional decoration"
+    ],
+    "answer": 2,
+    "explanation": "Timeouts bound how long a slow service can block a thread, which protects the rest of the application."
+  },
+  {
+    "question": "What should a remote client class expose to its callers?",
+    "options": [
+      "Raw HTTP responses",
+      "A domain-oriented method that hides HTTP, errors and resilience",
+      "The Authorization header",
+      "The RestClient builder"
+    ],
+    "answer": 1,
+    "explanation": "Callers should ask scoreFor(customerId) and not deal with URLs, status codes or headers."
+  },
+  {
+    "question": "Which failures should the tests of a remote client simulate?",
+    "options": [
+      "404, 500, a timeout and a malformed body",
+      "Only success",
+      "Only 200 and 201",
+      "None, the real service is enough"
+    ],
+    "answer": 0,
+    "explanation": "These are the cases that break in production and are hard to reproduce by hand, so a fake server should cover them."
+  }
+]

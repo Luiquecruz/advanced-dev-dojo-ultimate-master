@@ -1,0 +1,4 @@
+{
+  "title": "Architecture and Resilience",
+  "description": "For people who finished Messaging and Events and Quality and Delivery: hexagonal architecture, modular monoliths with Spring Modulith, events between modules, circuit breakers and retries, calling other services with RestClient, and a modular finance project."
+}

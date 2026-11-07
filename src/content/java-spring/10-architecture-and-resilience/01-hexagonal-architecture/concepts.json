@@ -1,0 +1,8 @@
+[
+  {"term": "Domain core", "description": "The business rules and entities, written as plain Java with no framework or persistence annotations."},
+  {"term": "Dependency rule", "description": "The principle that source dependencies point inward, so adapters know the core and never the reverse."},
+  {"term": "Inbound port", "description": "An interface that describes what the application can do and is called by an adapter such as a controller."},
+  {"term": "Outbound port", "description": "An interface owned by the core that describes what it needs from the outside, such as an account store."},
+  {"term": "Adapter", "description": "An implementation at the edge that connects a port to a technology like HTTP, JPA or Kafka."},
+  {"term": "Persistence entity", "description": "A JPA class kept in the adapter and mapped to and from the domain type."}
+]

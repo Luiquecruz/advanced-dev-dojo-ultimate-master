@@ -1,0 +1,23 @@
+{
+  "title": "Spring Modulith",
+  "summary": "Modules as direct sub-packages of the application package, public API versus internal sub-packages, ApplicationModules verify through ArchUnit, allowed dependencies, ApplicationModuleTest, generated documentation and how modules relate to hexagonal design.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Modulith reference",
+      "url": "https://docs.spring.io/spring-modulith/reference/"
+    },
+    {
+      "label": "ArchUnit user guide",
+      "url": "https://www.archunit.org/userguide/html/000_Index.html"
+    },
+    {
+      "label": "Spring Boot reference: Testing",
+      "url": "https://docs.spring.io/spring-boot/reference/testing/index.html"
+    }
+  ]
+}
