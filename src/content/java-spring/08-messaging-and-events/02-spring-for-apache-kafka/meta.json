@@ -1,0 +1,27 @@
+{
+  "title": "Spring for Apache Kafka",
+  "summary": "Topics, partitions, offsets and keys, consumer groups, the Boot 4 Kafka starter, KafkaTemplate sending a CompletableFuture, @KafkaListener, ErrorHandlingDeserializer and idempotent handling of repeated records.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring for Apache Kafka reference",
+      "url": "https://docs.spring.io/spring-kafka/reference/"
+    },
+    {
+      "label": "Apache Kafka documentation",
+      "url": "https://kafka.apache.org/documentation/"
+    },
+    {
+      "label": "Spring Boot reference: Apache Kafka",
+      "url": "https://docs.spring.io/spring-boot/reference/messaging/kafka.html"
+    },
+    {
+      "label": "Testcontainers for Java",
+      "url": "https://java.testcontainers.org/"
+    }
+  ]
+}

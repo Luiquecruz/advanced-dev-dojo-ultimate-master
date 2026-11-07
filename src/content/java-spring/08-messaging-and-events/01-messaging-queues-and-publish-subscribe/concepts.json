@@ -1,0 +1,8 @@
+[
+  {"term": "Broker", "description": "A server that stores messages between a producer and a consumer so they do not need to be online together."},
+  {"term": "Queue", "description": "A messaging model where each message goes to one consumer and is removed after it is acknowledged."},
+  {"term": "Log", "description": "A model such as a Kafka topic where messages are retained and each consumer group tracks its own offset."},
+  {"term": "Publish/subscribe", "description": "A model where a producer publishes an event and any number of independent subscribers react to it."},
+  {"term": "At-least-once delivery", "description": "A guarantee that a message is never lost but may be delivered more than once."},
+  {"term": "Idempotent consumer", "description": "A handler that leaves the same result whether it processes a message once or several times."}
+]

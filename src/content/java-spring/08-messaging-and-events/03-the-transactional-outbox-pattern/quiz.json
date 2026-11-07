@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What is the dual write problem?",
+    "options": [
+      "Writing a file twice",
+      "The lack of atomicity when writing to a database and publishing to a broker in one operation",
+      "Saving two rows in one table",
+      "Running two SELECT statements"
+    ],
+    "answer": 1,
+    "explanation": "If one of the two systems succeeds and the other fails, the database and the broker disagree about what happened."
+  },
+  {
+    "question": "How does the transactional outbox solve it?",
+    "options": [
+      "It saves the event in an outbox table in the same local transaction as the business data",
+      "It removes the database",
+      "It sends events from the browser",
+      "It replaces Kafka with Redis"
+    ],
+    "answer": 0,
+    "explanation": "Both rows are written in one database transaction, so they commit or roll back together, and publishing happens afterward."
+  },
+  {
+    "question": "How does the event reach Kafka after it is stored in the outbox?",
+    "options": [
+      "The database emails it",
+      "Spring deletes the table",
+      "The user downloads it",
+      "A relay or change data capture reads unpublished rows and publishes them"
+    ],
+    "answer": 3,
+    "explanation": "A polling publisher or a log reader like Debezium takes pending rows and sends them to the broker."
+  },
+  {
+    "question": "Which delivery guarantee does the outbox with a retrying relay give?",
+    "options": [
+      "At most once",
+      "Never",
+      "At least once",
+      "Exactly zero"
+    ],
+    "answer": 2,
+    "explanation": "If a crash happens after the send but before the row is marked published, the row is sent again. Nothing is lost, but duplicates are possible."
+  },
+  {
+    "question": "Why send to Kafka inside the @Transactional method and call it safe is wrong?",
+    "options": [
+      "Kafka is too slow",
+      "A rollback cannot unsend a message already published",
+      "@Transactional forbids Kafka",
+      "Kafka needs two transactions"
+    ],
+    "answer": 1,
+    "explanation": "The broker does not take part in the database transaction. If the commit fails after the send, consumers have an event for data that does not exist."
+  },
+  {
+    "question": "What does SELECT ... FOR UPDATE SKIP LOCKED help with in the relay?",
+    "options": [
+      "Letting several relay instances claim different pending rows without publishing the same ones",
+      "Encrypting the payload",
+      "Deleting the table",
+      "Creating partitions"
+    ],
+    "answer": 0,
+    "explanation": "Rows locked by one instance are skipped by the others, so each pending event is taken by only one relay at a time."
+  }
+]

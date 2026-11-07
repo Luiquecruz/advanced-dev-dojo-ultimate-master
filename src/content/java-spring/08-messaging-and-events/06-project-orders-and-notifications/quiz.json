@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which two rows does the order transaction write, and why not call Kafka there?",
+    "options": [
+      "Order and log; Kafka is too slow",
+      "Order and outbox; a rollback cannot unsend a Kafka message",
+      "Two orders; Kafka needs it",
+      "Outbox and cache; Redis requires it"
+    ],
+    "answer": 1,
+    "explanation": "Writing the outbox row keeps the event atomic with the order. Publishing from the transaction would break consistency when the commit fails."
+  },
+  {
+    "question": "How does the notification service avoid duplicate confirmations?",
+    "options": [
+      "It stores each processed event id and skips ids it has seen",
+      "It sleeps between messages",
+      "It deletes the topic",
+      "It disables retries"
+    ],
+    "answer": 0,
+    "explanation": "A primary key on the processed event id means a repeat is detected before the side effect runs."
+  },
+  {
+    "question": "A malformed record arrives. What should happen to the next valid record?",
+    "options": [
+      "It is blocked until someone fixes the topic",
+      "The broker restarts",
+      "It is dropped too",
+      "It is processed normally because the bad record went to the dead letter topic"
+    ],
+    "answer": 3,
+    "explanation": "The deserializer wrapper and the recoverer move the bad record aside, so the partition keeps flowing."
+  },
+  {
+    "question": "Why must the two services use different consumer group names?",
+    "options": [
+      "Kafka forbids the same name",
+      "Group names set the port",
+      "Services in the same group split the events instead of each receiving all of them",
+      "It speeds up the broker"
+    ],
+    "answer": 2,
+    "explanation": "Within a group each record goes to one member. Different services each need their own group to see every event."
+  },
+  {
+    "question": "When should the relay mark an outbox row as published?",
+    "options": [
+      "Before sending",
+      "After Kafka confirms the send",
+      "Never",
+      "At application start"
+    ],
+    "answer": 1,
+    "explanation": "Marking after confirmation means a crash causes a repeat, which the idempotent consumer handles, instead of a lost event."
+  },
+  {
+    "question": "What does the test with a sender failing twice and then succeeding prove?",
+    "options": [
+      "That transient failures are retried and the record is processed without reaching the dead letter topic",
+      "That the broker is full",
+      "That retries are disabled",
+      "That Flyway ran"
+    ],
+    "answer": 0,
+    "explanation": "With three retries the third attempt succeeds, so the record is handled and the dead letter topic stays empty."
+  }
+]

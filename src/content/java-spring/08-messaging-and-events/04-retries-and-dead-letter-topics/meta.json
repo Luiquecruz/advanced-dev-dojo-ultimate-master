@@ -1,0 +1,23 @@
+{
+  "title": "Retries and Dead Letter Topics",
+  "summary": "Transient versus permanent failures, bounded exponential backoff with DefaultErrorHandler, not-retryable exceptions, the dead letter topic and its monitoring, poison pills, and an idempotency table.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring for Apache Kafka reference",
+      "url": "https://docs.spring.io/spring-kafka/reference/"
+    },
+    {
+      "label": "Spring Kafka: Annotation error handling",
+      "url": "https://docs.spring.io/spring-kafka/reference/kafka/annotation-error-handling.html"
+    },
+    {
+      "label": "Apache Kafka documentation",
+      "url": "https://kafka.apache.org/documentation/"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What is the main advantage of asynchronous messaging over a direct HTTP call?",
+    "options": [
+      "It removes the need for a database",
+      "It decouples the systems in time, so a slow or down consumer does not break the producer",
+      "It makes every request faster in the browser",
+      "It guarantees exactly-once processing"
+    ],
+    "answer": 1,
+    "explanation": "The producer hands the message to a broker and continues. The consumer works when it can, so its downtime or slowness does not fail the caller."
+  },
+  {
+    "question": "What happens to a message in a classic queue after the consumer acknowledges it?",
+    "options": [
+      "It is removed from the queue",
+      "It is kept for seven days",
+      "It is copied to every other consumer",
+      "It is converted to a file"
+    ],
+    "answer": 0,
+    "explanation": "In the AMQP queue model an ACK tells the broker the message is done, and the broker deletes it."
+  },
+  {
+    "question": "How does Kafka differ from a classic queue when a consumer reads a record?",
+    "options": [
+      "Kafka deletes the record at once",
+      "Kafka stores records in the consumer",
+      "Kafka only allows one reader",
+      "Kafka retains the record and each consumer group keeps its own offset"
+    ],
+    "answer": 3,
+    "explanation": "Records stay for the retention period, so several groups read the same events independently and a group can replay by moving its offset."
+  },
+  {
+    "question": "When is publish/subscribe the better fit?",
+    "options": [
+      "When exactly one worker must process each job",
+      "When there is no network",
+      "When several independent services must react to the same business event",
+      "Only for sending bulk email"
+    ],
+    "answer": 2,
+    "explanation": "A publisher announces a fact and any number of subscribers react, so a new reaction needs a new subscriber and no change to the producer."
+  },
+  {
+    "question": "Why must consumers be idempotent in most messaging systems?",
+    "options": [
+      "Because brokers cannot store messages",
+      "Because at-least-once delivery can deliver the same message more than once",
+      "Because JSON forbids duplicates",
+      "Because queues reorder bytes"
+    ],
+    "answer": 1,
+    "explanation": "Systems choose at-least-once so events are not lost. The price is duplicates, so handling a message twice must not repeat its effect."
+  },
+  {
+    "question": "A user submits a form and needs the result on the next screen. What is the risk of using a message?",
+    "options": [
+      "The result is not ready in the same response, so the client has to wait or poll",
+      "Messages cannot carry JSON",
+      "Brokers refuse form data",
+      "The message would be encrypted"
+    ],
+    "answer": 0,
+    "explanation": "Asynchronous work finishes later. Use messaging for work that can wait, not when the client needs the answer immediately."
+  }
+]

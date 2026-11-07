@@ -1,0 +1,8 @@
+[
+  {"term": "Functional binding", "description": "A Consumer, Function or Supplier bean that Spring Cloud Stream connects to a destination."},
+  {"term": "Binding name", "description": "The generated name such as toNotification-in-0 or toNotification-out-0 used in configuration."},
+  {"term": "Destination", "description": "The topic or exchange a binding reads from or writes to, set in the binding configuration."},
+  {"term": "Binder", "description": "The adapter that maps the abstraction onto a specific broker such as Kafka or RabbitMQ."},
+  {"term": "StreamBridge", "description": "A component for sending to a binding from ordinary application code."},
+  {"term": "spring.cloud.function.definition", "description": "The property that lists which function beans are active when more than one exists."}
+]

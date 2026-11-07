@@ -1,0 +1,4 @@
+{
+  "title": "Messaging and Events",
+  "description": "For people who finished Security: queues versus publish/subscribe logs, Spring for Apache Kafka, the transactional outbox, retries with dead letter topics, Spring Cloud Stream, and a project that processes orders and notifications asynchronously."
+}

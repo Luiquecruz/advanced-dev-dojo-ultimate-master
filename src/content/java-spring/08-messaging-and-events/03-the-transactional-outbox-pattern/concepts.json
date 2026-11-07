@@ -1,0 +1,8 @@
+[
+  {"term": "Dual write problem", "description": "The impossibility of making a database write and a broker publish atomic with an ordinary transaction."},
+  {"term": "Outbox table", "description": "A table in the business database where each event is stored in the same transaction as the data change."},
+  {"term": "Relay", "description": "A component that reads pending outbox rows, publishes them and marks them published."},
+  {"term": "Polling publisher", "description": "A scheduled relay that periodically queries the unpublished rows."},
+  {"term": "Change data capture", "description": "A technique that reads the database log to publish outbox rows without polling."},
+  {"term": "SKIP LOCKED", "description": "A locking option that lets several relay instances take different rows without waiting for each other."}
+]

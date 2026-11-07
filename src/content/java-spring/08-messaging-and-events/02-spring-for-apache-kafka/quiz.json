@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which class sends records to a topic from a Spring service?",
+    "options": [
+      "KafkaSender",
+      "KafkaTemplate",
+      "KafkaPublisher",
+      "KafkaMessageService"
+    ],
+    "answer": 1,
+    "explanation": "KafkaTemplate offers send methods that take a topic, an optional key and the payload and return a CompletableFuture."
+  },
+  {
+    "question": "How does Kafka order the records of a topic?",
+    "options": [
+      "Within a partition, and the key selects the partition",
+      "Globally across all topics",
+      "By payload content",
+      "It never orders them"
+    ],
+    "answer": 0,
+    "explanation": "All records with the same key go to the same partition, and a partition is an ordered log with increasing offsets."
+  },
+  {
+    "question": "What does @KafkaListener(topics = \"orders.placed\", groupId = \"notifications\") do?",
+    "options": [
+      "Deletes the topic",
+      "Runs a SQL script",
+      "Creates a REST endpoint",
+      "Makes the method consume that topic as part of the notifications group"
+    ],
+    "answer": 3,
+    "explanation": "Spring starts a listener container that polls the topic for the group and calls the method with each record."
+  },
+  {
+    "question": "A topic has 3 partitions and a group has 4 running instances. What happens to the fourth?",
+    "options": [
+      "It gets duplicates of everything",
+      "The cluster stops",
+      "It stays idle as a standby",
+      "A compile error is raised"
+    ],
+    "answer": 2,
+    "explanation": "A partition is assigned to one consumer of a group, so parallelism is capped by the number of partitions and the extra instance waits."
+  },
+  {
+    "question": "Why wrap the value deserializer in ErrorHandlingDeserializer?",
+    "options": [
+      "To uppercase payloads",
+      "To avoid a poison pill that blocks the consumer when a record cannot be deserialized",
+      "To encrypt messages",
+      "To convert objects to tables"
+    ],
+    "answer": 1,
+    "explanation": "Without it the failure happens before your method runs and the same record is retried endlessly. The wrapper hands the failure to the error handler."
+  },
+  {
+    "question": "Why should you not ignore the CompletableFuture returned by send?",
+    "options": [
+      "A failure to publish would go unnoticed",
+      "It holds the broker connection open",
+      "It slows the application",
+      "It is required by the compiler"
+    ],
+    "answer": 0,
+    "explanation": "Sending is asynchronous. Handling the result is the only way to log or react when the broker did not accept the record."
+  }
+]
