@@ -356,22 +356,22 @@ Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
 - At least 30° of hue away from the accent of every other track shown to learners, so tracks stay distinguishable (also for color-blind users; the logo glyph and title are the second cue). Tracks hidden in `src/content/featureFlags.ts` never share a screen with the others and are left out; enabling one whose hue collides fails the test, and the accents are revisited then.
 - `--accent-rgb` must be the same color as `--accent` written as `R G B`.
 
-Current accents and their hues. Eleven tracks are shown, so every band is shared out in steps of 30° or more; Angular takes the red band of the framework logo and Java and Spring Boot the green band of the Spring logo. Hidden Vue may share a band until its release color is chosen.
+Current accents and their hues. Eleven tracks are shown, so every band is shared out in steps of 30° or more, and each framework track takes the band of its logo where the bands allow: Angular red, Java and Spring Boot green, Node green, Python yellow, React cyan, TypeScript blue, Redux purple (State Management) and C# purple. Hidden Vue may share a band until its release color is chosen.
 
 | Track | Accent | Hue |
 | --- | --- | --- |
-| architecture | `#ffad63` | 28° |
-| ai-engineering | `#ef80ff` | 292° |
-| node | `#fdff73` | 61° |
-| python | `#6bff7a` | 126° |
+| architecture | `#ff9e66` | 22° |
+| ai-engineering | `#ff80d5` | 320° |
+| node | `#73ff7e` | 125° |
+| python | `#ffef73` | 53° |
 | vue (hidden) | `#6de6b2` | 154° |
 | system-design | `#40e6b0` | 160° |
-| typescript | `#4dd9ff` | 193° |
-| react | `#8c9dff` | 231° |
-| react-state | `#be99ff` | 262° |
-| angular | `#ff6171` | 354° |
-| csharp | `#ff73c9` | 323° |
-| java-spring | `#b2ff73` | 93° |
+| typescript | `#80a6ff` | 222° |
+| react | `#66e3ff` | 191° |
+| react-state | `#b999ff` | 259° |
+| angular | `#ff6179` | 351° |
+| csharp | `#e980ff` | 290° |
+| java-spring | `#b0ff73` | 94° |
 
 ## Adding a framework track (step by step)
 

@@ -37,12 +37,12 @@ Add to `tokens.css`, after the `node` rule:
 
 ```css
 [data-trail='python'] {
-  --accent: #6bff7a;
-  --accent-rgb: 107 255 122;
+  --accent: #ffef73;
+  --accent-rgb: 255 239 115;
 }
 ```
 
-Hue 126° (it began at 123°, and the accents were respaced when Java and Spring Boot was published): at least 30° from `java-spring` (93°) and from `system-design` (160°). `trackPresentation.test.ts` enforces contrast (AA on `void`, `panel`, `elevated`, and under `on-accent`) and the 30° distance. If the test rejects the exact value, adjust lightness only, keeping the hue between 122° and 124°. Add the row to the accent table in `ARCHITECTURE.md` (python, `#62e869`, 123°) and update the sentence "no band 30° away from every accent is left": after this track, none remains.
+Hue 53°, the yellow of the Python logo (it began at 123° green, and the accents were respaced when Java and Spring Boot was published): at least 30° from `architecture` (22°) and from `java-spring` (94°). `trackPresentation.test.ts` enforces contrast (AA on `void`, `panel`, `elevated`, and under `on-accent`) and the 30° distance. If the test rejects the exact value, adjust lightness only, keeping the hue between 122° and 124°. Add the row to the accent table in `ARCHITECTURE.md` (python, `#62e869`, 123°) and update the sentence "no band 30° away from every accent is left": after this track, none remains.
 
 ### 3. Verification suite
 
