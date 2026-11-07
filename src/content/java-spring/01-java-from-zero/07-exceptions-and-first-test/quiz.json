@@ -52,6 +52,6 @@
       "assert 80 == 50"
     ],
     "answer": 0,
-    "explanation": "The AssertionError after the call is reached only when no exception was thrown, and the catch accepts exactly the expected type. A value check cannot prove a failure, and a check with no assertion passes either way."
+    "explanation": "The AssertionError after the call is reached only when no exception was thrown, and the catch names the expected exception type. A value check cannot prove a failure, and a check with no assertion passes either way."
   }
 ]

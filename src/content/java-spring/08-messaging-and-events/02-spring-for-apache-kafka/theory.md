@@ -82,11 +82,12 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       properties:
         spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+        spring.json.use.type.headers: false
         spring.json.value.default.type: com.example.orders.OrderPlaced
         spring.json.trusted.packages: com.example.orders
 ```
 
-Without that wrapper, one malformed record fails to deserialize before your method runs, and the consumer retries the same record forever: a poison pill.
+Ignoring type headers lets the same consumer read JSON written by any producer, such as the outbox relay of the next lesson, that publishes plain JSON text. Without that wrapper, one malformed record fails to deserialize before your method runs, and the consumer retries the same record forever: a poison pill.
 
 ## Idempotent consumers
 

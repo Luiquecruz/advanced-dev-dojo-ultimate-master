@@ -88,7 +88,18 @@ A REST controller is an inbound adapter: it turns HTTP into a `TransferCommand`,
 
 ## A package layout
 
-One simple layout is `domain`, `application` (services and ports) and `adapter` with `web` and `persistence` below it. Spring wiring happens in the adapters and in a configuration class, so the domain stays free of it. You can keep `@Service` on the application services if you accept that coupling, but the domain model should remain plain.
+One simple layout is `domain`, `application` (services and ports) and `adapter` with `web` and `persistence` below it. Spring wiring happens in the adapters and in a configuration class, so the domain stays free of it. Transactions only apply to a bean that Spring manages, because they work through a proxy, so register the service as one:
+
+```java
+@Configuration
+class TransferConfiguration {
+
+    @Bean
+    TransferMoney transferMoney(AccountStore accounts) {
+        return new TransferMoneyService(accounts);
+    }
+}
+``` You can keep `@Service` on the application services if you accept that coupling, but the domain model should remain plain.
 
 ## The cost
 
@@ -98,8 +109,8 @@ The pattern adds classes and mapping code. For a small CRUD service with no real
 
 - Putting `@Entity`, `@Table` or Spring annotations on the domain classes and calling it hexagonal.
 - Confusing the outbound port `AccountStore` with the Spring Data `JpaRepository`. The first belongs to the core, the second is an adapter detail.
-- Creating a port and an adapter for every class, which produces ceremony without benefit.
-- Letting adapters call each other directly instead of going through the core.
+- Creating a port and an adapter for every class, or letting adapters call each other instead of the core.
+- Building the service with `new` outside the container, so `@Transactional` is ignored and each `save` may commit on its own.
 
 ## In practice
 

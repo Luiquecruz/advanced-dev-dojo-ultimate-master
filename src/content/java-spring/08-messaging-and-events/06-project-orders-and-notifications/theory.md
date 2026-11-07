@@ -33,7 +33,7 @@ Tests use Testcontainers for PostgreSQL and Kafka and run with `mvn verify`.
 
 1. Create the parent POM and the two modules with the dependencies each needs. Start Compose and check the broker with `docker compose ps`.
 2. In `order-service`, write the Flyway migrations and the `Order` and `OutboxEvent` entities. Write the placement service and test criteria 1 and 2 before the relay exists.
-3. Add the relay. Select pending rows with `FOR UPDATE SKIP LOCKED`, send, wait for the result, then mark them published. Test criterion 3.
+3. Add the relay. Select pending rows with `FOR UPDATE SKIP LOCKED` in the relay's transaction, send the stored JSON text with a `KafkaTemplate<String, String>`, wait for the result, then mark them published. Test criterion 3.
 4. In `notification-service`, add the consumer, the processed-events table and the idempotency check. Use the event id from the payload as the key of the processed row.
 5. Add the error handler and the deserializer wrapper. Create a test that publishes invalid JSON directly with a `KafkaTemplate`.
 6. Write the tests for criteria 4 to 7. For criterion 5, make the sender fail on its first two calls using a test double.
