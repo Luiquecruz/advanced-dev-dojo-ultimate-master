@@ -85,7 +85,7 @@ learner actions ─► progress.* (entities/progress) ─► localStorage + useP
 `src/main.tsx` wraps `App` in react-router's `BrowserRouter` (`basename` = `import.meta.env.BASE_URL`, `useTransitions={false}` so a navigation commits synchronously, which the motion adapter and the `flushSync` inside the base page view transition rely on). Routes are clean paths: `/`, `/<track>`, `/<track>/<lesson>`.
 
 - `shared/routing/route.ts` is the only module that knows the URL shape: `parseRoute` matches the pathname with `matchPath`, `useRoute()` reads it from `useLocation()`, and `hrefTo(route)` builds the `to` of every `Link`. Navigation always goes through `<Link to={hrefTo(...)}>`; never build paths by hand.
-- The router only provides the location. Layers, transitions and focus stay in `useMotionRouting` (`app/routing/router-adapter.ts`); no `<Routes>`, nested routes, loaders or layout routes, because the base page stays mounted under the activity.
+- The router only provides the location. Layers, transitions, focus and `document.title` (`documentTitleFor`) stay in `useMotionRouting` (`app/routing/router-adapter.ts`); no `<Routes>`, nested routes, loaders or layout routes, because the base page stays mounted under the activity.
 - A legacy `#/<track>/<lesson>` URL is rewritten to its path with `history.replaceState` before the first render (`legacyHashRedirect`).
 - Hosting: any host must serve `index.html` for unknown paths (SPA fallback); `vite` and `vite preview` already do. `sandbox.html`, `/assets/` and `/pyodide/` are real files and are never shadowed, since no track id collides with them.
 

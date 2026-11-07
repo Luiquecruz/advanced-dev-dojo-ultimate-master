@@ -1,6 +1,22 @@
 import { describe, expect, it } from 'vitest';
 import { trackMass } from '@/entities/track';
-import { restingStateFor, sceneTargetFor } from './router-adapter';
+import { documentTitleFor, restingStateFor, sceneTargetFor } from './router-adapter';
+
+describe('documentTitleFor', () => {
+  it('names the home page, each shown mission and each waypoint', () => {
+    expect(documentTitleFor({ page: 'home' })).toBe('Constela Mission');
+    expect(documentTitleFor({ page: 'track', trackId: 'typescript' })).toBe('TypeScript · Constela Mission');
+    expect(documentTitleFor({ page: 'lesson', trackId: 'typescript', lessonId: 'primitive-annotations' })).toBe(
+      'Annotating primitive values · TypeScript · Constela Mission',
+    );
+  });
+
+  it('marks unknown or hidden missions and unknown waypoints as not found', () => {
+    expect(documentTitleFor({ page: 'track', trackId: 'unknown' })).toBe('Off course: page not found · Constela Mission');
+    expect(documentTitleFor({ page: 'track', trackId: 'vue' })).toBe('Off course: page not found · Constela Mission');
+    expect(documentTitleFor({ page: 'lesson', trackId: 'typescript', lessonId: 'unknown' })).toBe('Off course: page not found · Constela Mission');
+  });
+});
 
 describe('restingStateFor', () => {
   it('maps the home page to intro until the paths are explored', () => {
