@@ -12,8 +12,8 @@ export function sentryEnvelopeUrl(dsn: string): string {
 }
 
 /**
- * Proxy of the Vite preview server that forwards the tunnel to the project's envelope endpoint, as the `netlify.toml` rewrite does
- * in production; none without a DSN.
+ * Proxy of the Vite preview server that forwards the tunnel to the project's envelope endpoint, as the production host must do;
+ * none without a DSN.
  */
 export function sentryTunnelProxy(dsn: string | undefined): Record<string, ProxyOptions> {
   if (!dsn) {

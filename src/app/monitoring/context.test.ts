@@ -7,13 +7,13 @@ describe('environmentForHost', () => {
     expect(environmentForHost('127.0.0.1')).toBe('development');
   });
 
-  it('names Netlify Deploy Previews and branch deploys preview', () => {
-    expect(environmentForHost('deploy-preview-42--adv-dv-doj.netlify.app')).toBe('preview');
-    expect(environmentForHost('feat-x--adv-dv-doj.netlify.app')).toBe('preview');
+  it('names Cloudflare Workers Preview and Deployment URLs preview', () => {
+    expect(environmentForHost('feat-x-constela-mission.constela.workers.dev')).toBe('preview');
+    expect(environmentForHost('2f4a9c1e-constela-mission.constela.workers.dev')).toBe('preview');
   });
 
   it('names the production host production', () => {
-    expect(environmentForHost('adv-dv-doj.netlify.app')).toBe('production');
+    expect(environmentForHost('constela-mission.constela.workers.dev')).toBe('production');
   });
 });
 

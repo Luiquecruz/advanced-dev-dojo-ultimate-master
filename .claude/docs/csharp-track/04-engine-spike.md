@@ -84,7 +84,7 @@ Consequence: a fresh worker per run (Python §8 model) costs ≈ 0.2 s boot **pl
 - Microsoft's guidance for client-side Blazor (ASP.NET Core 8.0–12.0 monikers) is `script-src 'self' 'wasm-unsafe-eval'`; `'unsafe-eval'` is only listed for 7.0 and older ([learn.microsoft.com CSP article](https://learn.microsoft.com/en-us/aspnet/core/blazor/security/content-security-policy?view=aspnetcore-10.0)).
 - Static scan of the 10.0.14 runtime pack: `dotnet.runtime.js` contains one `new Function("proxy", …)`, inside the debugger's `callFunctionOn` path; no `eval(` in the three JS files; WebAssembly is compiled with `WebAssembly.instantiate`/`instantiateStreaming`/`compile` (covered by `'wasm-unsafe-eval'`).
 - Measured: boot and grading under the exact worker policy of this project produced no violation besides the deliberate probes (§2). Unlike Pyodide (13-sre-pyodide-spike §8 noted EM_ASM `eval` concerns before §9 proved otherwise), nothing in the boot needs string evaluation.
-- The policy must be sent with the C# worker script, exactly like `assets/python.worker-*.js` (`netlify.toml`, `plugins/pythonWorkerCspPlugin.ts`, `npm run smoke:worker-csp`).
+- The policy must be sent with the C# worker script, exactly like `assets/python.worker-*.js` (a host header, `plugins/pythonWorkerCspPlugin.ts`, `npm run smoke:worker-csp`).
 
 ## 6. Runaway code and isolation model
 
@@ -126,7 +126,7 @@ Trimming (ILLink) and Webcil are SDK steps; path A ships untrimmed PE `.dll` fil
 ## 10. Conditions for GO
 
 1. Path A in a `postinstall` script with SHA-512 pins in a manifest and a `--check` mode, same rules as the Pyodide wheels (CI_SECURITY.md "Dependencies"); the host compiled from source in the repo, never committed as a binary.
-2. Worker CSP header on the C# worker in Vite dev/preview and `netlify.toml`, covered by the deploy smoke check.
+2. Worker CSP header on the C# worker in Vite dev/preview and on the host, covered by the deploy smoke check.
 3. JS lock-down after boot (C1–C2) plus an escape scan equivalent to `pythonEscapeScan.py` (C3) before any lesson ships.
 4. Per-test kill protocol and one warm worker; budget up to ≈ 2.6 s for a restart after a kill (worst measured case, §4, §6).
 5. A curated assembly and reference set per curriculum, with a size budget (target ≤ 8 MiB Brotli, measured in a real deploy) and a lazy download only when a C# challenge opens (`prepareEngine`).
@@ -178,7 +178,7 @@ Trimming (ILLink) and Webcil are SDK steps; path A ships untrimmed PE `.dll` fil
 ## 15. Not verified / not available
 
 - Firefox, Safari, mobile browsers; memory use in the browser.
-- Real network download times, Netlify Brotli/content-encoding for `.dll`/`.wasm`.
+- Real network download times, the host's Brotli/content-encoding for `.dll`/`.wasm`.
 - Async tests, threads, timers, `Thread.Sleep` on the single-threaded runtime.
 - Escape scan of runtime JS closures (C3); reflection reaching `JSHost` when its reference is withheld.
 - Running ILLink without the SDK; lazy assembly loading (`lazyAssembly`).

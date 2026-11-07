@@ -12,7 +12,7 @@ What makes it different from a generic Python course: every lesson names the mis
 
 ## Success metrics
 
-The app has no backend and no telemetry, so learner behavior is visible only inside each learner's `localStorage` (`dev-dojo:progress:v1`). Metrics are split by where they can actually be read.
+The app has no backend and no telemetry, so learner behavior is visible only inside each learner's `localStorage` (`constela:progress:v1`). Metrics are split by where they can actually be read.
 
 ### Build-time metrics (repo, measured on every change)
 

@@ -10,15 +10,13 @@ permissions:
   contents: read
 
 concurrency:
-  # Pull requests: a new push cancels the run still going. main: one group per commit, so a run never queues behind the
-  # previous commit's production smoke test.
+  # Pull requests: a new push cancels the run still going. main: one group per commit, so every commit on main gets a full run.
   group: ci-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
-# Netlify builds with VITE_SENTRY_DSN set, and the DSN ends up in the main bundle, so every CI build that the smoke job
-# compares with a deploy must use the same value. A DSN is public (it is in the served JavaScript); the repository
-# variable lets the owner change it, and the fallback is the DSN production serves today. The commit SHA reaches the bundle
-# too, as the Sentry release (vite.config.ts): Netlify's COMMIT_REF, GITHUB_SHA in CI.
+# The DSN ends up in the main bundle, so CI builds with the value production uses. A DSN is public (it is in the served
+# JavaScript); the repository variable lets the owner change it, and the fallback is the current project's DSN. The commit
+# SHA reaches the bundle too, as the Sentry release (vite.config.ts): GITHUB_SHA in CI.
 env:
   VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN || 'https://4f0ce69f51f3b8886d94bc586fed1ad0@o4512380997074944.ingest.us.sentry.io/4512381161308160' }}
 
@@ -86,12 +84,6 @@ jobs:
       - run: npx vite build
       - name: Smoke test the build under vite preview (worker CSP, SPA fallback, Pyodide files)
         run: npm run smoke:worker-csp
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: dist
-          path: dist
-          retention-days: 7
-          if-no-files-found: error
 
   pr-size:
     name: Pull request size (CodeRabbit reviews at most 300 files)
@@ -216,116 +208,3 @@ jobs:
           if [ "$CHANGES_RESULT" != "success" ] || { [ "$VERIFY_RESULT" != "success" ] && [ "$VERIFY_RESULT" != "skipped" ]; }; then
             exit 1
           fi
-
-  smoke:
-    name: Smoke test the Netlify deploy (worker CSP, SPA fallback, Pyodide files)
-    # Netlify deploys through its Git integration (Deploy Previews for pull requests, production from main); CI holds no
-    # Netlify token. This job checks what Netlify actually serves against a build of the commit Netlify built: the pull
-    # request head for a Deploy Preview (CI's own `dist` is built from the merge with main), the `dist` artifact on main.
-    # Fork pull requests are skipped: their previews may wait for approval in Netlify.
-    needs: checks
-    # Netlify builds Deploy Previews only for pull requests against main, so a stacked pull request (based on another
-    # pull request's branch) has no preview: its smoke test runs once it is retargeted to main and main is merged in.
-    # It runs only while the repository variable SMOKE_DEPLOY_HOST is `netlify`, the host it knows how to wait for.
-    if: vars.SMOKE_DEPLOY_HOST == 'netlify' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.base.ref == 'main'))
-    runs-on: ubuntu-24.04
-    timeout-minutes: 25
-    permissions:
-      contents: read # check out the repository, read the dist artifact and the head of main
-      statuses: read # read Netlify's deploy-preview commit status
-    env:
-      PRODUCTION_URL: https://adv-dv-doj.netlify.app
-      PREVIEW_STATUS: netlify/adv-dv-doj/deploy-preview
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-      - name: Cache Pyodide packages (re-verified against pyodide-lock.json by postinstall)
-        if: github.event_name == 'pull_request'
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: vendor/pyodide-packages
-          key: pyodide-packages-${{ hashFiles('vendor/pyodide-packages/manifest.json', 'package-lock.json') }}
-      - name: Cache the .NET runtime and C# engine files (never the manifest; re-verified against the committed one by postinstall)
-        if: github.event_name == 'pull_request'
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            vendor/dotnet
-            !vendor/dotnet/manifest.json
-            !vendor/dotnet/.cache
-          key: dotnet-${{ hashFiles('vendor/dotnet/manifest.json', 'scripts/csharp-track/vendor-dotnet.mjs', 'scripts/csharp-track/WebcilConvert.cs', 'src/engines/csharp/host/*.cs') }}
-      - name: Build the pull request head, as Netlify does for the Deploy Preview
-        if: github.event_name == 'pull_request'
-        env:
-          # The Sentry release (vite.config.ts) is COMMIT_REF on Netlify, GITHUB_SHA otherwise; here GITHUB_SHA is the merge commit.
-          COMMIT_REF: ${{ github.event.pull_request.head.sha }}
-        run: |
-          npm ci
-          npx vite build
-      - if: github.event_name != 'pull_request'
-        run: npm ci --ignore-scripts
-      - if: github.event_name != 'pull_request'
-        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-        with:
-          name: dist
-          path: dist
-      - name: Wait for the Deploy Preview and check it
-        if: github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          url=""
-          for _ in $(seq 1 40); do
-            status=$(gh api "repos/$GITHUB_REPOSITORY/commits/$HEAD_SHA/status" --jq ".statuses[] | select(.context == \"$PREVIEW_STATUS\") | .state + \" \" + .target_url")
-            case "$status" in
-              success\ *) url=${status#success }; break ;;
-              failure\ *|error\ *) echo "::error title=Deploy Preview::Netlify reported $status"; exit 1 ;;
-            esac
-            sleep 30
-          done
-          if [ -z "$url" ]; then
-            echo "::error title=Deploy Preview::no successful $PREVIEW_STATUS status after 20 minutes"
-            exit 1
-          fi
-          for _ in $(seq 1 10); do
-            if npm run --silent smoke:worker-csp -- --url "$url" --dist dist --build-only; then
-              npm run smoke:worker-csp -- --url "$url" --dist dist
-              exit 0
-            fi
-            sleep 30
-          done
-          echo "::error title=Deploy Preview::$url does not serve the build of $HEAD_SHA"
-          exit 1
-      - name: Wait for production to serve this commit and check it
-        if: github.event_name != 'pull_request'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          rollback="Roll back now: CONTRIBUTING.md \"Rolling back production\" (Netlify → Deploys → last good deploy → Publish deploy, then lock auto publishing until the fix merges)."
-          for attempt in $(seq 1 30); do
-            main=$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)
-            if [ "$main" != "$GITHUB_SHA" ]; then
-              echo "::notice title=Production::superseded by $main before this build went live; that commit's run checks production"
-              exit 0
-            fi
-            if npm run --silent smoke:worker-csp -- --url "$PRODUCTION_URL" --dist dist --build-only; then
-              if npm run smoke:worker-csp -- --url "$PRODUCTION_URL" --dist dist; then
-                exit 0
-              fi
-              echo "::error title=Production is live and broken::$rollback"
-              echo "### Production is live and broken" >> "$GITHUB_STEP_SUMMARY"
-              echo "$rollback" >> "$GITHUB_STEP_SUMMARY"
-              exit 1
-            fi
-            echo "attempt $attempt: production does not serve this build yet"
-            sleep 30
-          done
-          echo "::error title=Production::$PRODUCTION_URL did not serve this build within 15 minutes: check the Netlify deploy log (failed build, or auto publishing locked)"
-          exit 1

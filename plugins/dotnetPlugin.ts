@@ -89,8 +89,8 @@ function read(file: DotnetFile): Buffer | undefined {
  * Serves the C# engine's files from `vendor/dotnet/` (the .NET WebAssembly runtime, the BCL and Roslyn assemblies and the compiled
  * host as Webcil `.wasm`, the reference assemblies wrapped in `.wasm`, and their licenses) at `<base>dotnet/<version>/` in dev and
  * copies them there unchanged in the build, plus `manifest.json`, so the C# worker loads a pinned runtime from the app's own origin.
- * Every booted file is `.js` or `.wasm`, which hosts such as Netlify compress with Brotli themselves; no `.dll` is served. `<version>` is the manifest's hash of the served
- * set, so every path names fixed content and netlify.toml can cache `/dotnet/*` as immutable. Only files listed in the manifest are
+ * Every booted file is `.js` or `.wasm`, which the host compresses with Brotli itself; no `.dll` is served. `<version>` is the manifest's hash of the served set, so
+ * every path names fixed content and the host can cache `/dotnet/*` as immutable. Only files listed in the manifest are
  * served; the build fails when one is missing or altered, or when the host sources changed since the host was compiled (dev warns).
  * index.html carries `<meta name="dojo-dotnet">` with the version, for the same reason as `dojo-pyodide`.
  */

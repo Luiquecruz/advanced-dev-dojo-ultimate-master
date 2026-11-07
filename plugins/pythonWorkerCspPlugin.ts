@@ -33,7 +33,7 @@ function addHeader(): Connect.NextHandleFunction {
 
 /**
  * Sends `WORKER_CSP` with the Python and C# worker scripts from the Vite dev and preview servers. Production hosts must send the same
- * header for `assets/python.worker-*` and `assets/csharp.worker-*` (`netlify.toml`).
+ * header for `assets/python.worker-*` and `assets/csharp.worker-*`.
  */
 export function pythonWorkerCspPlugin(): Plugin {
   return {

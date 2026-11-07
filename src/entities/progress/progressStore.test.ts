@@ -1,7 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { codeKeyFor, isLessonComplete, progress } from './progressStore';
 
-const STORAGE_KEY = 'dev-dojo:progress:v1';
+const STORAGE_KEY = 'constela:progress:v1';
+const LEGACY_STORAGE_KEY = 'dev-dojo:progress:v1';
 const lesson = { key: 'demo/intro', hasChallenge: true, hasQuiz: true };
 
 describe('progress store', () => {
@@ -64,6 +65,16 @@ describe('progress store', () => {
     expect(reopened.getState().code[`${key}#react`]).toBeUndefined();
     expect(reopened.getState().code[key]).toBeUndefined();
     expect(reopened.getState().challenges[key]).toBe(true);
+  });
+
+  it('moves progress saved under the key used before the rename', async () => {
+    localStorage.clear();
+    localStorage.setItem(LEGACY_STORAGE_KEY, JSON.stringify({ quizzes: { [lesson.key]: true } }));
+    vi.resetModules();
+    const { progress: restored } = await import('./progressStore');
+    expect(restored.getState().quizzes[lesson.key]).toBe(true);
+    expect(localStorage.getItem(LEGACY_STORAGE_KEY)).toBeNull();
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!).quizzes[lesson.key]).toBe(true);
   });
 
 });
