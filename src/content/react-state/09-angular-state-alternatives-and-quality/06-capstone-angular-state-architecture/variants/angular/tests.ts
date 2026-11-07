@@ -18,69 +18,59 @@ const setup = ({ fetchProducts = fn().mockResolvedValue(products), stored } = {}
   return { store: TestBed.inject(mod.ShopStore), storage, fetchProducts };
 };
 
-test('starts idle and load() moves through loading to ready', async () => {
-  let release;
-  const { store } = setup({ fetchProducts: fn(() => new Promise((resolve) => (release = resolve))) });
-  expect(store.status()).toBe('idle');
-  const pending = store.load();
-  expect(store.status()).toBe('loading');
-  release(products);
-  await pending;
-  expect(store.status()).toBe('ready');
-  expect(store.products()).toEqual(products);
-});
-
-test('load() ignores a second call while loading and keeps products on error', async () => {
+test('load() moves through loading to ready, ignores overlapping calls and keeps the products on error', async () => {
   let release;
   const fetchProducts = fn(() => new Promise((resolve) => (release = resolve)));
   const { store } = setup({ fetchProducts });
+  expect(store.status()).toBe('idle');
   const first = store.load();
+  expect(store.status()).toBe('loading');
   await store.load();
   expect(fetchProducts).toHaveBeenCalledTimes(1);
   release(products);
   await first;
+  expect(store.status()).toBe('ready');
+  expect(store.products()).toEqual(products);
   fetchProducts.mockRejectedValueOnce(new Error('offline'));
   await store.load();
   expect(store.status()).toBe('error');
   expect(store.products()).toEqual(products);
 });
 
-test('visible follows the selected category', async () => {
-  const { store } = setup();
+test('visible, lines, itemCount and total are derived from the products, the category and the quantities', async () => {
+  const { store } = setup({ stored: JSON.stringify({ version: 1, quantities: { 1: 1, 2: 2, 99: 4 } }) });
   await store.load();
   expect(store.visible()).toHaveLength(3);
   store.setCategory('software');
   expect(store.visible().map((product) => product.name)).toEqual(['IDE License']);
-});
-
-test('add and remove derive lines, itemCount and total from the current products', async () => {
-  const { store } = setup();
-  await store.load();
-  store.add(2);
-  store.add(1);
-  store.add(2);
   expect(store.lines()).toEqual([
     { product: products[0], quantity: 1, subtotal: 120 },
     { product: products[1], quantity: 2, subtotal: 90 },
   ]);
   expect(store.itemCount()).toBe(3);
   expect(store.total()).toBe(210);
+});
+
+test('add() and remove() change the quantities, ignore invalid ids and delete entries at zero', async () => {
+  const { store } = setup();
+  await store.load();
+  store.add(2);
+  store.add(1);
+  store.add(2);
+  expect(store.quantities()).toEqual({ 1: 1, 2: 2 });
   store.remove(2);
   expect(store.total()).toBe(165);
   store.remove(2);
   store.remove(2);
-  expect(store.lines().map((line) => line.product.id)).toEqual([1]);
+  store.remove(99);
+  expect(store.quantities()).toEqual({ 1: 1 });
+  store.add(0);
+  store.add(-1);
+  store.add(1.5);
   expect(store.quantities()).toEqual({ 1: 1 });
 });
 
-test('quantities of unknown products are ignored by lines and total', async () => {
-  const { store } = setup({ stored: JSON.stringify({ version: 1, quantities: { 99: 4, 3: 1 } }) });
-  await store.load();
-  expect(store.lines().map((line) => line.product.id)).toEqual([3]);
-  expect(store.total()).toBe(199);
-});
-
-test('the cart is written as a versioned envelope with only the quantities', async () => {
+test('every cart change is written as a versioned envelope with only the quantities', async () => {
   const { store, storage } = setup();
   await store.load();
   store.add(1);
@@ -91,29 +81,14 @@ test('the cart is written as a versioned envelope with only the quantities', asy
   expect(JSON.parse(storage.data.get('cart'))).toEqual({ version: 1, quantities: {} });
 });
 
-test('the cart is restored when the store is created', () => {
-  const { store } = setup({ stored: JSON.stringify({ version: 1, quantities: { 1: 3 } }) });
-  expect(store.quantities()).toEqual({ 1: 3 });
-});
-
-test('corrupt, unknown or invalid stored data gives an empty cart', () => {
-  for (const stored of ['{bad', 'null', JSON.stringify({ version: 2, quantities: { 1: 1 } }), JSON.stringify({ version: 1, quantities: { 1: -2, 2: 'x', a: 1 } })]) {
+test('the cart is restored when the store is created and invalid data is dropped', () => {
+  const restored = (stored) => {
     TestBed.resetTestingModule();
-    expect(setup({ stored }).store.quantities()).toEqual({});
+    return setup({ stored }).store.quantities();
+  };
+  expect(restored(JSON.stringify({ version: 1, quantities: { 1: 3 } }))).toEqual({ 1: 3 });
+  expect(restored(JSON.stringify({ version: 1, quantities: { 1: 2, 2: 'x', 3: -1, a: 4, 0: 5, '-1': 2 } }))).toEqual({ 1: 2 });
+  for (const stored of ['{bad', 'null', JSON.stringify({ version: 2, quantities: { 1: 1 } })]) {
+    expect(restored(stored)).toEqual({});
   }
-});
-
-test('invalid entries are dropped but valid ones are restored', () => {
-  const { store } = setup({ stored: JSON.stringify({ version: 1, quantities: { 1: 2, 2: 'x', 3: -1, a: 4, 0: 5, '-1': 2 } }) });
-  expect(store.quantities()).toEqual({ 1: 2 });
-});
-
-test('add() ignores ids that are not positive integers', async () => {
-  const { store, storage } = setup();
-  await store.load();
-  store.add(0);
-  store.add(-1);
-  store.add(1.5);
-  expect(store.quantities()).toEqual({});
-  expect(storage.data.has('cart')).toBe(false);
 });
