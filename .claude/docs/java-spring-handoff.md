@@ -57,10 +57,10 @@ Java and Angular have independent feature flags and release checks. Do not turn 
 
 | PR | Purpose | State | Base |
 | --- | --- | --- | --- |
-| [#61](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | MERGED | `main` |
-| [#62](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/62) | feat(curriculum): add backend Spring Security module | OPEN | `main` |
-| [#63](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/63) | feat(curriculum): add backend quality and delivery module | OPEN | `main` |
-| [#65](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/65) | feat(curriculum): add backend course catalog capstone | OPEN | `feat/java-spring-delivery` |
+| [#61](https://github.com/Luiquecruz/constela-mission/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | MERGED | `main` |
+| [#62](https://github.com/Luiquecruz/constela-mission/pull/62) | feat(curriculum): add backend Spring Security module | OPEN | `main` |
+| [#63](https://github.com/Luiquecruz/constela-mission/pull/63) | feat(curriculum): add backend quality and delivery module | OPEN | `main` |
+| [#65](https://github.com/Luiquecruz/constela-mission/pull/65) | feat(curriculum): add backend course catalog capstone | OPEN | `feat/java-spring-delivery` |
 
 Latest action: PR #63 synchronization: incorporated the current security branch including its review corrections; the delivery module remains independent of frontend frameworks.
 
