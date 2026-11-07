@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState, type RefObject } from 'react';
 import { flushSync } from 'react-dom';
-import type { TrackId } from '@/content';
+import { availableTrackById, type TrackId } from '@/content';
 import { trackMass } from '@/entities/track';
 import { motionCoordinator } from '@/shared/motion/coordinator';
 import { isActivityState, type MotionState, type RestingState } from '@/shared/motion/states';
@@ -28,6 +28,26 @@ export interface MotionRefs {
 type PendingMove = { kind: 'enter'; activity: ActivityRoute } | { kind: 'leave'; target: RestingState; baseChanged: boolean };
 
 const CURRICULUM_FOCUS = 0.35;
+const APP_TITLE = 'Constela Mission';
+const NOT_FOUND_TITLE = `Off course: page not found · ${APP_TITLE}`;
+
+/**
+ * Document title for a route, updated synchronously on navigation for the browser tab, history and analytics.
+ */
+export function documentTitleFor(route: Route): string {
+  if (route.page === 'home') {
+    return APP_TITLE;
+  }
+  const track = availableTrackById.get(route.trackId);
+  if (!track) {
+    return NOT_FOUND_TITLE;
+  }
+  if (route.page === 'track') {
+    return `${track.title} · ${APP_TITLE}`;
+  }
+  const lesson = track.lessons.find((entry) => entry.id === route.lessonId);
+  return lesson ? `${lesson.title} · ${track.title} · ${APP_TITLE}` : NOT_FOUND_TITLE;
+}
 
 /**
  * Resting motion state a route settles in. The home page is the intro until the track grid is explored.
@@ -97,6 +117,7 @@ export function useMotionRouting(route: Route, exploring: boolean, refs: MotionR
   const resolved = useRef(false);
 
   useLayoutEffect(() => {
+    document.title = documentTitleFor(route);
     if (!resolved.current) {
       resolved.current = true;
       motionCoordinator.resolveInitial(restingStateFor(route, exploring));
