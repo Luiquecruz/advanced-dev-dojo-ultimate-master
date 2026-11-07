@@ -61,6 +61,16 @@ describe('Cloudflare Worker', () => {
     expect(init.headers).toEqual({ 'Content-Type': 'text/plain' });
   });
 
+  it('passes the Sentry rate limits back to the SDK', async () => {
+    const limits = { 'X-Sentry-Rate-Limits': '60:error:organization', 'Retry-After': '60' };
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(null, { status: 429, headers: { ...limits, 'Set-Cookie': 'session=1' } })));
+    const response = await worker.fetch(new Request('https://constela.example/signal', { method: 'POST', body: 'envelope' }), env);
+    expect(response.status).toBe(429);
+    expect(response.headers.get('X-Sentry-Rate-Limits')).toBe(limits['X-Sentry-Rate-Limits']);
+    expect(response.headers.get('Retry-After')).toBe(limits['Retry-After']);
+    expect(response.headers.get('Set-Cookie')).toBeNull();
+  });
+
   it('rejects other methods on the tunnel', async () => {
     const upstream = vi.fn();
     vi.stubGlobal('fetch', upstream);

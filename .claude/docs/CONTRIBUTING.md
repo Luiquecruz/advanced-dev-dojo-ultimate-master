@@ -137,7 +137,7 @@ What the host provides, and where:
 
 `npm run smoke:worker-csp -- --url <origin> --dist dist` checks a deployed build against a local build of the same commit (worker CSP, SPA fallback, Pyodide and .NET files).
 
-Setup, once, by an admin of the Cloudflare account: Workers → `constela-mission` → Settings → Build: build command `npm run build`, deploy command `npx wrangler@4.158.0 deploy`, non-production branch deploy command `npx wrangler@4.158.0 preview` (a Worker Preview per branch), root directory `/`; build variables `VITE_SENTRY_DSN` and, as a secret, `SENTRY_AUTH_TOKEN`. Bump the Wrangler version in these commands and in the local command above together. Without `wrangler.jsonc`, `wrangler deploy` tries to configure the project itself, detects Hono (a dependency of the Node.js engine) and fails.
+Setup, once, by an admin of the Cloudflare account: Workers → `constela-mission` → Settings → Build: Git repository connected with `main` as the production branch, Previews enabled under Branch control (Worker Previews, not the older preview versions), build command `npm run build`, deploy command `npx wrangler@4.158.0 deploy`, non-production branch deploy command `npx wrangler@4.158.0 preview` (a Worker Preview per branch), root directory `/`; build variables `VITE_SENTRY_DSN` and, as a secret, `SENTRY_AUTH_TOKEN`. Bump the Wrangler version in these commands and in the local command above together. Without `wrangler.jsonc`, `wrangler deploy` tries to configure the project itself, detects Hono (a dependency of the Node.js engine) and fails.
 
 Setup, once, by a repository admin:
 
@@ -156,7 +156,7 @@ What the code does is in ARCHITECTURE.md "Error monitoring". The project is `lcr
 4. **Inbound filters.** Project Settings → Inbound Filters: on for browser extensions, legacy browsers and web crawlers.
 5. **User feedback.** Feedback from the **Report a problem** dialog appears under User Feedback with the waypoint tags and the replay; no setup needed, notifications are in Project Settings → User Feedback.
 
-Changing the DSN (a new project): update the host variable, the GitHub variable, the fallback in `ci.yml`, the host's `/signal` target and `org`/`project` in `vite.config.ts`, in one pull request.
+Changing the DSN (a new project): update the host build variable (production and Previews), the GitHub variable, the fallback in `ci.yml`, `SENTRY_DSN` under `vars` and `previews.vars` in `wrangler.jsonc` (the `/signal` target) and `org`/`project` in `vite.config.ts`, in one pull request.
 
 Checking it locally: put the DSN in `.env.local`, `npm run build && npx vite preview`, and watch the `POST /signal` requests in DevTools; events arrive in the `development` environment. `npm run dev` sends nothing.
 

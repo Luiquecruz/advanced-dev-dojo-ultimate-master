@@ -23,8 +23,9 @@ pull request ─► ci.yml       detect affected checks · checks (lint, typeche
                      │
    branch protection: required checks green, code owner review, branch up to date, no admin bypass
                      ▼
-merge to main ─► every check runs again ─► Cloudflare Workers Builds publishes (`wrangler.jsonc`)
-             └► scorecard.yml (also weekly)
+merge to main ─┬► every check runs again (reports only; nothing waits for it)
+               ├► Cloudflare Workers Builds publishes at once (`wrangler.jsonc`)
+               └► scorecard.yml (also weekly)
 ```
 
 ## Decisions
