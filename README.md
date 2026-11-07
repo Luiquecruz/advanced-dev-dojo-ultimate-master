@@ -93,7 +93,7 @@ Every pull request and every push to `main` runs on GitHub Actions:
 | [Scorecard](.github/workflows/scorecard.yml) | OpenSSF Scorecard of the repository's security practices, behind the badge above |
 | [Docs sync](.github/workflows/docs-sync.yml) | warns when a documented area changes without its documents (`docs:none` label for reviewed exceptions) |
 
-No host is configured yet (the planned host is Cloudflare Workers, deploying through its Git integration); CI holds no deploy token. The gate is branch protection: only a pull request whose required checks passed reaches `main`. Details, branch protection settings and the reasons behind each control in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy) and [CI_SECURITY.md](.claude/docs/CI_SECURITY.md).
+The app is hosted on Cloudflare Workers with static assets (`wrangler.jsonc`, `worker/index.ts`, `public/_headers`), deployed by Workers Builds through its Git integration; CI holds no deploy token. The gate is branch protection: only a pull request whose required checks passed reaches `main`. Details, branch protection settings and the reasons behind each control in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy) and [CI_SECURITY.md](.claude/docs/CI_SECURITY.md).
 
 ## Authoring scripts
 

@@ -118,16 +118,26 @@ Pinning: every action and reusable workflow is pinned to a full commit SHA with 
 
 ### Hosting
 
-No host is configured yet; the planned host is Cloudflare Workers with static assets. Any host must provide:
+The app runs on Cloudflare Workers with static assets, built and deployed by Workers Builds from the repository. Three files configure it:
 
-- SPA fallback: every path without a file serves `/index.html` with status 200 (routing uses `BrowserRouter`).
-- `Content-Security-Policy` on `/assets/python.worker-*` and `/assets/csharp.worker-*`, the same value as `WORKER_CSP` in `plugins/pythonWorkerCspPlugin.ts` (its `CSP_WORKERS` lists the workers); keep them in sync.
-- Long-lived cache on `/assets/*` (hashed file names) and `/dotnet/*` (`dotnet/<version>/`, where the version is the hash of the served set), and Brotli on the `.js` and `.wasm` files; `dotnet/` serves nothing else (no `.dll`), and the C# worker never sends a Range request, which hosts answer uncompressed.
-- The Sentry tunnel: `POST /signal` proxied to the envelope endpoint of the project in `VITE_SENTRY_DSN` (`sentryEnvelopeUrl` in `plugins/sentryTunnel.ts`), before the SPA fallback ("Sentry" below).
+- `wrangler.jsonc`: the Worker `constela-mission` on `workers.dev`, with `preview_urls` so every branch gets a Preview URL (`<branch>-constela-mission.<subdomain>.workers.dev`, reported to Sentry as `preview`; the setting applies once `main` has deployed it), `dist/` as its assets with `not_found_handling: "single-page-application"`, `run_worker_first: ["/signal"]` so only the tunnel reaches the Worker, and `SENTRY_DSN` (the DSN in `ci.yml`) under `vars` and `previews.vars` (`wrangler preview` refuses a config without a `previews` block).
+- `worker/index.ts`: forwards `POST /signal` to `sentryEnvelopeUrl(SENTRY_DSN)` and answers other methods with 405.
+- `public/_headers` (copied into `dist/`): the worker CSP and the immutable cache rules.
+
+`worker/index.test.ts` checks them against `WORKER_CSP`, `CSP_WORKERS` and the DSN in `ci.yml`. To run the deploy locally: `npm run build`, `npx wrangler@4.158.0 dev`, then `npm run smoke:worker-csp -- --url http://localhost:8787 --dist dist`.
+
+What the host provides, and where:
+
+- SPA fallback: every path without a file serves `/index.html` with status 200 (routing uses `BrowserRouter`); `not_found_handling` in `wrangler.jsonc`.
+- `Content-Security-Policy` on `/assets/python.worker-*` and `/assets/csharp.worker-*`, the same value as `WORKER_CSP` in `plugins/pythonWorkerCspPlugin.ts` (its `CSP_WORKERS` lists the workers); `public/_headers`, kept in sync by `worker/index.test.ts`.
+- Long-lived cache on `/assets/*` (hashed file names) and `/dotnet/*` (`dotnet/<version>/`, where the version is the hash of the served set), in `public/_headers`, and Brotli on the `.js` and `.wasm` files (Cloudflare compresses both content types); `dotnet/` serves nothing else (no `.dll`), and the C# worker never sends a Range request, which hosts answer uncompressed.
+- The Sentry tunnel: `POST /signal` proxied to the envelope endpoint of the project in `VITE_SENTRY_DSN` (`sentryEnvelopeUrl` in `plugins/sentryTunnel.ts`), before the SPA fallback ("Sentry" below); `worker/index.ts`.
 - The build: `npm ci` (its `postinstall` downloads and verifies the Pyodide packages and the .NET files) then `npm run build`, with `VITE_SENTRY_DSN` and, as a secret, `SENTRY_AUTH_TOKEN`. The Sentry release is `WORKERS_CI_COMMIT_SHA` on Cloudflare Workers Builds and `GITHUB_SHA` in CI; the deploy environment is `production` for `main`.
-- Deploys through the host's Git integration, so CI holds no deploy token; the gate is branch protection.
+- Deploys through Workers Builds (the Git integration), so CI holds no deploy token; the gate is branch protection.
 
 `npm run smoke:worker-csp -- --url <origin> --dist dist` checks a deployed build against a local build of the same commit (worker CSP, SPA fallback, Pyodide and .NET files).
+
+Setup, once, by an admin of the Cloudflare account: Workers → `constela-mission` → Settings → Build: Git repository connected with `main` as the production branch, Previews enabled under Branch control (Worker Previews, not the older preview versions), build command `npm run build`, deploy command `npx wrangler@4.158.0 deploy`, non-production branch deploy command `npx wrangler@4.158.0 preview` (a Worker Preview per branch), root directory `/`; build variables `VITE_SENTRY_DSN` and, as a secret, `SENTRY_AUTH_TOKEN`. Bump the Wrangler version in these commands and in the local command above together. Without `wrangler.jsonc`, `wrangler deploy` tries to configure the project itself, detects Hono (a dependency of the Node.js engine) and fails.
 
 Setup, once, by a repository admin:
 
@@ -146,7 +156,7 @@ What the code does is in ARCHITECTURE.md "Error monitoring". The project is `lcr
 4. **Inbound filters.** Project Settings → Inbound Filters: on for browser extensions, legacy browsers and web crawlers.
 5. **User feedback.** Feedback from the **Report a problem** dialog appears under User Feedback with the waypoint tags and the replay; no setup needed, notifications are in Project Settings → User Feedback.
 
-Changing the DSN (a new project): update the host variable, the GitHub variable, the fallback in `ci.yml`, the host's `/signal` target and `org`/`project` in `vite.config.ts`, in one pull request.
+Changing the DSN (a new project): update the host build variable (production and Previews), the GitHub variable, the fallback in `ci.yml`, `SENTRY_DSN` under `vars` and `previews.vars` in `wrangler.jsonc` (the `/signal` target) and `org`/`project` in `vite.config.ts`, in one pull request.
 
 Checking it locally: put the DSN in `.env.local`, `npm run build && npx vite preview`, and watch the `POST /signal` requests in DevTools; events arrive in the `development` environment. `npm run dev` sends nothing.
 
@@ -185,6 +195,7 @@ Documentation is incremental: every change that alters behavior, structure, comm
 | `src/verify/` | `CONTENT_GUIDE.md` "Verification", `.claude/CLAUDE.md` commands |
 | `package.json` scripts, `vite.config.ts`, `plugins/`, `scripts/`, `index.html` | `README.md` "Run", `.claude/CLAUDE.md` "Commands" |
 | `.claude/settings.json`, `.claude/hooks/` | this file, "Harness" |
+| `wrangler.jsonc`, `worker/`, `public/_headers` | this file, "Hosting"; `CI_SECURITY.md` "No deploy secrets in CI" |
 | `.github/`, `.nvmrc`, `.gitleaksignore` | this file, "CI and deploy"; `CI_SECURITY.md` for the reason behind each control; `README.md` "Requirements" for the Node version |
 | `eslint.config.js`, `pyproject.toml`, `tests/python/` | this file, "Checks before a pull request"; `README.md`; `.claude/CLAUDE.md` "Commands" |
 | `.coderabbit.yaml` | this file, "Code review (CodeRabbit)" |

@@ -38,6 +38,7 @@ const RULES = [
   { pattern: /^\.claude\/(settings\.json|hooks\/)/, docs: [CONTRIBUTING] },
   { pattern: /^(\.github\/|\.nvmrc$|\.gitleaksignore$)/, docs: [CONTRIBUTING, README, CI_SECURITY] },
   { pattern: /^\.coderabbit\.yaml$/, docs: [CONTRIBUTING] },
+  { pattern: /^(wrangler\.jsonc$|worker\/|public\/_headers$)/, docs: [CONTRIBUTING, CI_SECURITY] },
 ];
 
 /**

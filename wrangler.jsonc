@@ -1,0 +1,23 @@
+{
+  "name": "constela-mission",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": true,
+  "preview_urls": true,
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/signal"]
+  },
+  "vars": {
+    "SENTRY_DSN": "https://4f0ce69f51f3b8886d94bc586fed1ad0@o4512380997074944.ingest.us.sentry.io/4512381161308160"
+  },
+  "previews": {
+    "vars": {
+      "SENTRY_DSN": "https://4f0ce69f51f3b8886d94bc586fed1ad0@o4512380997074944.ingest.us.sentry.io/4512381161308160"
+    }
+  },
+  "observability": {
+    "enabled": true
+  }
+}

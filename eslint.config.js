@@ -18,7 +18,7 @@ export default defineConfig(
     extends: [reactHooks.configs.flat.recommended, jsxA11y.configs.recommended],
   },
   {
-    files: ['plugins/**', 'scripts/**', '.claude/hooks/**', '*.config.{js,ts}', 'src/verify/**'],
+    files: ['plugins/**', 'scripts/**', 'worker/**', '.claude/hooks/**', '*.config.{js,ts}', 'src/verify/**'],
     languageOptions: { globals: globals.node },
   },
   {
