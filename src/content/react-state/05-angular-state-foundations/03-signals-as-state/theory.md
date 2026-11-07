@@ -55,7 +55,7 @@ effect(() => this.total.set(this.items().reduce((sum, item) => sum + item.price,
 readonly total = computed(() => this.items().reduce((sum, item) => sum + item.price, 0));
 ```
 
-The effect version runs later than the read, can show an intermediate state, and needs `allowSignalWrites`-style care. If you notice an effect whose only job is to call `set` on another signal, replace it with `computed` or `linkedSignal`.
+The effect version runs later than the read, can show an intermediate state, and hides a second write inside a side effect. If you notice an effect whose only job is to call `set` on another signal, replace it with `computed` or `linkedSignal`.
 
 ## Immutable updates
 

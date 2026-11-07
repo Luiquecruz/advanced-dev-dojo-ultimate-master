@@ -5,3 +5,4 @@ Persist preferences with a version. **`preferences.ts`** exports the token `STOR
 3. A stored version-1 envelope has `data: { dark: boolean }`. It migrates to `{ theme: dark ? 'dark' : 'light', fontSize: 16 }`.
 4. Anything else (missing key, invalid JSON, an unknown version, a version-2 value with a wrong `theme` or a non-numeric `fontSize`) yields the defaults and never throws.
 5. `setTheme(theme)` and `setFontSize(size)` update the signal and write a version-2 envelope with only `theme` and `fontSize` to `'prefs'`. `setFontSize` clamps the size between `12` and `24`.
+6. A `setItem` that throws (full or blocked storage) must not break the setters: the signal still holds the new value.

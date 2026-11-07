@@ -15,4 +15,4 @@ Methods:
 Persistence (key `'cart'`):
 
 7. After every `add` and `remove` write `{"version":1,"quantities":{...}}` to `CART_STORAGE`.
-8. When the store is created, restore the quantities from the storage with `withHooks`. Corrupt JSON, another version, or quantities that are not positive integers give an empty cart and never throw. Only the quantities are persisted.
+8. When the store is created, restore the quantities from the storage with `withHooks`. Corrupt JSON or another version gives an empty cart; inside a valid version-1 envelope, entries whose id or quantity is not a positive integer are dropped and the valid entries are kept. Restoring never throws. Only the quantities are persisted.

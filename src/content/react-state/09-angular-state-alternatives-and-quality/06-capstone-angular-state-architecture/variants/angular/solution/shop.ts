@@ -64,7 +64,13 @@ export const ShopStore = signalStore(
     };
   }),
   withMethods((store, fetchProducts = inject(FETCH_PRODUCTS), storage = inject(CART_STORAGE)) => {
-    const persist = () => storage.setItem('cart', JSON.stringify({ version: 1, quantities: store.quantities() }));
+    const persist = () => {
+      try {
+        storage.setItem('cart', JSON.stringify({ version: 1, quantities: store.quantities() }));
+      } catch {
+        // full or blocked storage: the cart stays in memory
+      }
+    };
     return {
       async load() {
         if (store.status() === 'loading') return;

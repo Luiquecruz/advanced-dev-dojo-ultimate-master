@@ -48,6 +48,10 @@ export class PreferencesStore {
   }
 
   private persist() {
-    this.storage.setItem('prefs', JSON.stringify({ version: 2, data: this.state() }));
+    try {
+      this.storage.setItem('prefs', JSON.stringify({ version: 2, data: this.state() }));
+    } catch {
+      // storage is full or blocked: the preference stays in memory for this session
+    }
   }
 }

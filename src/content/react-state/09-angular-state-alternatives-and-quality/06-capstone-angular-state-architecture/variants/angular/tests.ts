@@ -102,3 +102,8 @@ test('corrupt, unknown or invalid stored data gives an empty cart', () => {
     expect(setup({ stored }).store.quantities()).toEqual({});
   }
 });
+
+test('invalid entries are dropped but valid ones are restored', () => {
+  const { store } = setup({ stored: JSON.stringify({ version: 1, quantities: { 1: 2, 2: 'x', 3: -1, a: 4 } }) });
+  expect(store.quantities()).toEqual({ 1: 2 });
+});

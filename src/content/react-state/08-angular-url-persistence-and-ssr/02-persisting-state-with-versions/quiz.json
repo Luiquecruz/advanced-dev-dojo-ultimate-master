@@ -40,7 +40,7 @@
       "localStorage is deprecated",
       "Signals require it"
     ],
-    "answer": 0,
+    "answer": 1,
     "explanation": "Injection keeps the service testable and safe under server rendering."
   }
 ]

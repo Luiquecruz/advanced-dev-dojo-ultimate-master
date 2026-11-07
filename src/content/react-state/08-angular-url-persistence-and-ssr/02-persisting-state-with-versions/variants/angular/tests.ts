@@ -47,3 +47,14 @@ test('setFontSize clamps between 12 and 24', () => {
   store.setFontSize(1);
   expect(store.preferences().fontSize).toBe(12);
 });
+
+test('a storage that throws on write does not break the setters', () => {
+  const storage = memory();
+  storage.setItem = () => {
+    throw new Error('quota');
+  };
+  TestBed.configureTestingModule({ providers: [{ provide: mod.STORAGE, useValue: storage }] });
+  const store = TestBed.inject(mod.PreferencesStore);
+  expect(() => store.setTheme('dark')).not.toThrow();
+  expect(store.preferences().theme).toBe('dark');
+});
