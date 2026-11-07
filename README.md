@@ -1,9 +1,9 @@
 # Constela Mission
 
-[![CI](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/ci.yml)
-[![Security](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/actions/workflows/security.yml)
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/badge)](https://scorecard.dev/viewer/?uri=github.com/Luiquecruz/advanced-dev-dojo-ultimate-master)
-[![CodeRabbit Reviews](https://img.shields.io/coderabbit/prs/github/Luiquecruz/advanced-dev-dojo-ultimate-master?labelColor=171717&color=FF570A&label=CodeRabbit+Reviews)](https://coderabbit.ai)
+[![CI](https://github.com/Luiquecruz/constela-mission/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Luiquecruz/constela-mission/actions/workflows/ci.yml)
+[![Security](https://github.com/Luiquecruz/constela-mission/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/Luiquecruz/constela-mission/actions/workflows/security.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Luiquecruz/constela-mission/badge)](https://scorecard.dev/viewer/?uri=github.com/Luiquecruz/constela-mission)
+[![CodeRabbit Reviews](https://img.shields.io/coderabbit/prs/github/Luiquecruz/constela-mission?labelColor=171717&color=FF570A&label=CodeRabbit+Reviews)](https://coderabbit.ai)
 [![Netlify](https://img.shields.io/badge/Netlify-live-00C7B7?logo=netlify&logoColor=white)](https://adv-dv-doj.netlify.app)
 
 ![Node.js](https://img.shields.io/badge/Node.js-26-5FA04E?logo=nodedotjs&logoColor=white)
