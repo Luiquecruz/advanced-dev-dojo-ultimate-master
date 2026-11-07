@@ -1,6 +1,6 @@
 {
   "title": "Capstone: Persistence and Migrations",
-  "summary": "A project stage that puts the catalog on PostgreSQL: Flyway migrations, Hibernate validation, a lazy relationship with an entity graph, database paging, soft delete and Testcontainers integration tests.",
+  "summary": "A project stage that puts the catalog on PostgreSQL with Flyway, optimistic locking, Redis caching, an event publication registry delivered to Kafka, and Testcontainers integration tests.",
   "level": "intermediate",
   "tags": [
     "theory",

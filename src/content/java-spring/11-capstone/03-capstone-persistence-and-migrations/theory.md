@@ -2,7 +2,7 @@
 
 This stage replaces the in-memory store with PostgreSQL. The schema is owned by Flyway migrations, Hibernate only validates it, courses are paged in the database and deleted softly, and integration tests run against a real PostgreSQL started by Testcontainers.
 
-You need: Capstone: Requirements and Design, Capstone: The Spring API.
+You need: Capstone: Requirements and Design, Capstone: The Spring API, Optimistic Locking with @Version, Caching with Spring and Redis, TTL, Eviction and Cache Stampede, The Transactional Outbox Pattern, Spring for Apache Kafka.
 
 ## Goal
 
@@ -15,6 +15,10 @@ Add a `JpaCourseStore` that implements the `CourseStore` interface from stage tw
 - Paging and sorting in SQL, with the instructor loaded in the same query.
 - Soft delete through a `deleted_at` column.
 - Hibernate set to `validate`, and Open Session in View turned off.
+- A migration `V2` adding `version` and `moderation_status` to `course`, and a table for the Spring Modulith event publication registry.
+- `@Version` on `Course`, so a stale `PUT` answers `409`.
+- Redis caching for `GET /api/courses/{id}` with a typed JSON serializer, a ten-minute TTL, a key prefix and eviction on update and delete.
+- `CourseCreated` stored in the registry and externalized to the Kafka topic `courses.created`, keyed by the course id.
 
 ## Acceptance criteria
 
@@ -25,6 +29,11 @@ Add a `JpaCourseStore` that implements the `CourseStore` interface from stage tw
 5. After that delete, creating a course with code `JAVA-101` succeeds, while creating a second live `JAVA-101` answers `409`.
 6. A course with an unknown `instructorId` answers `400`.
 7. The integration tests run against PostgreSQL in a container, not an embedded database.
+8. Migration `V2` applies on top of `V1`, and Hibernate `validate` still passes.
+9. Two concurrent `PUT` requests with the same version end with one `200` and one `409`.
+10. Two `GET` requests for one course read PostgreSQL once; after a `PUT` or `DELETE`, the next `GET` reads it again; the Redis key has the prefix and a TTL under 600 seconds.
+11. Creating a course delivers one record to `courses.created` with the course id as key, and the registry entry is completed.
+12. The tests also use Redis and Kafka containers shared with the application context.
 
 ## Suggested steps
 
@@ -95,11 +104,13 @@ class CourseRepositoryTest {
 ```
 
 Reuse the Spring-managed test configuration from Integration Tests with Testcontainers so its lifecycle follows the cached context. The container class in Testcontainers 2 is `org.testcontainers.postgresql.PostgreSQLContainer`, the test annotations come from `spring-boot-testcontainers`, and the slice annotations from `org.springframework.boot.data.jpa.test.autoconfigure` and `org.springframework.boot.jdbc.test.autoconfigure`.
+8. Write `V2`, add `@Version`, and make the soft-delete SQL bind the id and the version, as in the optimistic locking lesson. Map the locking exception to `409`.
+9. Add the cache with `@Cacheable` on the service method that reads one course, `@CacheEvict` on update and delete, and a `CacheErrorHandler` that logs and continues, so a Redis outage never fails a read.
+10. Add the Modulith JPA registry starter and the Kafka externalization support, mark `CourseCreated` as `@Externalized` with the topic and the course id as key, and test delivery with a Kafka container.
 
 ## Stretch goals
 
 - Add `Topic` with a many-to-many table and load topics for a page without an N+1 pattern.
-- Add a `version` column through a migration and optimistic locking, and map conflicts to `409`. Update the custom soft-delete SQL to bind id then version and verify the affected row count; test deletion as well as stale updates.
 - Add `created_at` and `updated_at` columns through a migration.
 
 ## Common mistakes

@@ -1,8 +1,8 @@
 # Capstone: Requirements and Design
 
-The capstone is a backend application built in five stages: a course catalog API with Spring Boot 4, PostgreSQL and token security. This first stage writes no application code. You decide what the system must do, what its data looks like and what its HTTP contract is, so the later stages have a target and a way to tell when they are done.
+The capstone is a backend application built in five stages: a course catalog API with Spring Boot 4, PostgreSQL, Redis, Kafka and token security, organized as a modular monolith. This first stage writes no application code. You decide what the system must do, what its data looks like and what its HTTP contract is, so the later stages have a target and a way to tell when they are done.
 
-You need: Project: Course API, Project: Course Catalog Persistence, Project: Secure Course API, Project: Ship the Course API.
+You need: Project: Course API, Project: Course Catalog Persistence, Project: High-Concurrency Ticket Sales, Project: Secure Course API, Project: Orders and Notifications, Project: Ship the Course API, Project: Modular Finance.
 
 ## Goal
 
@@ -13,20 +13,26 @@ Produce a folder `course-catalog/docs/` with four short documents: `requirements
 The system manages courses and the people who teach them.
 
 - Anyone can list courses (paged, sorted by title, filterable by level) and open one course.
-- An administrator can create a course and delete it. Updating a course is a later stretch goal. Deleted courses disappear from every response but stay in the database.
+- An administrator can create, update and delete a course. An update carries the `version` the client read, and a stale version answers `409`. Deleted courses disappear from every response but stay in the database.
 - Every course has a unique code such as `JAVA-101`, a title, an optional description, a level (`BEGINNER`, `INTERMEDIATE`, `ADVANCED`) and exactly one instructor.
 - Invalid input produces a structured error that names each wrong field.
 - Non-functional: reads answer in under 200 ms for 10,000 courses on a laptop, the API holds no session state, and no secret is stored in the repository.
+- Creating a course asks a moderation service, over HTTP, whether the course may be listed. If that service is unavailable, the course is stored with `moderationStatus` `PENDING` instead of failing.
+- Reading one course is cached in Redis for ten minutes, and every update or delete evicts the entry.
+- Creating a course publishes a `CourseCreated` event that the notification module stores, and that is also delivered to Kafka on the topic `courses.created`.
+- The code is split into the modules `catalog`, `identity` and `notification`, and a test fails the build when a module uses another module's internals.
 
 ## Acceptance criteria
 
 The fixed test data for the whole capstone: instructors `Ada Lovelace` (id 1) and `Grace Hopper` (id 2); courses `JAVA-101` Java Basics (BEGINNER, Ada), `SPRIDATA-201` Spring Boot in Practice (INTERMEDIATE, Ada) and `DATA-201` Database Design (INTERMEDIATE, Grace).
 
 1. `requirements.md` has at least eight numbered requirements, each testable by one sentence such as "page 0 with size 2 returns Database Design and Java Basics, and `totalElements` is 3".
-2. `data-model.md` lists the tables `instructor` and `course`, their columns, the foreign key, the unique constraint on the code and the soft-delete column.
-3. `openapi.yaml` is valid YAML and describes `GET` and `POST /api/courses`, `GET` and `DELETE /api/courses/{id}` and `POST /api/auth/login`, including the `400`, `401`, `403`, `404` and `409` responses.
-4. `decisions.md` records at least three decisions, each with context, choice and consequence.
+2. `data-model.md` lists the tables `instructor` and `course`, their columns, the foreign key, the unique constraint on the code, the soft-delete column, and the `version` and `moderation_status` columns.
+3. `openapi.yaml` is valid YAML and describes `GET` and `POST /api/courses`, `GET`, `PUT` and `DELETE /api/courses/{id}` and `POST /api/auth/login`, including the `400`, `401`, `403`, `404` and `409` responses.
+4. `decisions.md` records at least five decisions, each with context, choice and consequence, including the modular monolith, the cache eviction rule and the moderation fallback.
 5. The risk list names at least five risks, each with a mitigation.
+6. The design names the modules `catalog`, `identity` and `notification`, states which module may depend on which, and says that `notification` reacts to events and never calls `catalog` directly.
+7. `requirements.md` has one testable sentence each for the stale update, the cache, the moderation fallback and the event.
 
 ## Suggested steps
 
@@ -76,7 +82,6 @@ components:
 ## Stretch goals
 
 - Add a `Topic` entity with a many-to-many relationship to courses and describe the change in the contract.
-- Add an `ETag` or version field requirement to detect concurrent edits.
 - Draw the sequence of a login and a protected request.
 
 ## Common mistakes

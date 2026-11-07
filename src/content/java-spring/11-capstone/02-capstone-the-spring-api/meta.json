@@ -1,6 +1,6 @@
 {
   "title": "Capstone: The Spring API",
-  "summary": "A project stage that builds the catalog endpoints with Spring Boot 4: layered controller, service and store, request records with validation, Problem Details errors and a web slice test.",
+  "summary": "A project stage that builds the catalog with Spring Boot 4 as a modular monolith: layered code, versioned updates, a RestClient moderation call behind a circuit breaker, module events and a modularity test.",
   "level": "intermediate",
   "tags": [
     "theory",

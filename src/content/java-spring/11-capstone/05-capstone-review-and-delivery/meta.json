@@ -1,6 +1,6 @@
 {
   "title": "Capstone: Review and Delivery",
-  "summary": "Review the complete API against its contract, package a non-root Spring Boot image, run PostgreSQL and the API in Compose, verify the Maven CI pipeline and write a retrospective.",
+  "summary": "Review the complete API against its contract, package a non-root Spring Boot image, run PostgreSQL, Redis, Kafka and the API in Compose, verify the CI pipeline, check graceful degradation and write a retrospective.",
   "level": "intermediate",
   "tags": [
     "theory",

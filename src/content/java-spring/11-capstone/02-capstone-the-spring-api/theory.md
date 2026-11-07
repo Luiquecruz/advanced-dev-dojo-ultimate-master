@@ -2,7 +2,7 @@
 
 This stage builds the HTTP surface of the catalog with Spring Boot 4: endpoints, validation, structured errors and tests, on top of an in-memory store. The database arrives in the next stage, and the layering you choose now is what makes that swap a one-class change.
 
-You need: Capstone: Requirements and Design.
+You need: Capstone: Requirements and Design, Spring Modulith, Events Between Modules, Resilience with Circuit Breakers, Calling Services with RestClient.
 
 ## Goal
 
@@ -14,6 +14,10 @@ Create the Maven project `course-catalog/api` (Java 25, package `com.example.cat
 - `GET /api/courses/{id}`, `POST /api/courses` (answers `201` with a `Location` header) and `DELETE /api/courses/{id}` (answers `204`).
 - Bean Validation on the request body, a duplicate code answering `409`, an unknown id answering `404`, all as Problem Details.
 - Three layers: a controller that only speaks HTTP, a service that applies the rules, and a `CourseStore` interface that hides storage.
+- `PUT /api/courses/{id}` that checks the `version` in the body against the stored one, answers `409` when they differ and returns the course with the next version.
+- Modules `catalog`, `identity` and `notification` under `com.example.catalog`, with internals in sub-packages and a modularity test.
+- A `ModerationClient` built on `RestClient` with timeouts, a circuit breaker named `moderation` and a fallback that sets `moderationStatus` to `PENDING`.
+- A `CourseCreated` event that an `@ApplicationModuleListener` in `notification` records in memory.
 
 ## Acceptance criteria
 
@@ -24,6 +28,10 @@ Create the Maven project `course-catalog/api` (Java 25, package `com.example.cat
 5. `POST` with an existing code answers `409`; a valid `POST` answers `201` with the new course and a `Location` header.
 6. `size=5000` is served as size 100 rather than failing.
 7. A `@WebMvcTest` proves criterion 4 without starting the full application.
+8. `ApplicationModules.of(CatalogApplication.class).verify()` passes.
+9. `PUT /api/courses/1` with `version` 0 answers `200` with version 1, and the same body again answers `409`.
+10. With the moderation stub answering `500`, `POST /api/courses` still answers `201` with `moderationStatus` `PENDING`; after enough failures the stub is no longer called while the circuit is open.
+11. A created course produces one recorded `CourseCreated` notification after the response.
 
 ## Suggested steps
 
@@ -87,10 +95,12 @@ class CourseControllerTest {
 ```
 
 In Spring Boot 4 both `WebMvcTest` and `AutoConfigureMockMvc` live in `org.springframework.boot.webmvc.test.autoconfigure`. Disabling filters is limited to this validation slice; never use it to claim authorization is tested.
+8. Add the modularity test before the new code, then put the controller, service, `CourseStore` and event in `catalog`, and the listener in `notification`.
+9. Write `ModerationClient` with `RestClient`, a connect and read timeout, status translation and the `moderation` breaker. Test success, `500`, a slow response and an open circuit with WireMock.
+10. Add `PUT` with an in-memory version check, and test the stale case before the happy path.
 
 ## Stretch goals
 
-- Add `PUT /api/courses/{id}` with the same validation and a `404` for an unknown id.
 - Return a `Link`-style `next` URL in the page response.
 - Publish the OpenAPI document from the running application and diff it against `docs/openapi.yaml`.
 

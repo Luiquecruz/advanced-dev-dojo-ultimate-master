@@ -15,6 +15,7 @@ Add `POST /api/auth/login`, a stateless filter chain with role rules, and securi
 - Resource-server validation of the bearer token, with the `roles` claim mapped to authorities.
 - Public `GET` of courses and the health endpoint; `POST` and `DELETE` of courses only for `ADMIN`; everything else denied.
 - A signing secret that comes from the environment and is rejected when shorter than 32 bytes.
+- `PUT /api/courses/{id}` requires `ADMIN`, like create and delete.
 
 ## Acceptance criteria
 
@@ -27,6 +28,7 @@ The fake local credentials are in the first code block of the steps below.
 5. Starting the application with a 10-byte secret fails immediately with a clear message.
 6. No real password, secret or token appears in the repository or in the logs; clearly marked fake test credentials are allowed, and the secret comes from `APP_JWT_SECRET`.
 7. Three security tests cover criterion 3 without a database.
+8. `PUT /api/courses/1` answers `401` with no token, `403` with a `READER` token and `200` with an `ADMIN` token.
 
 ## Suggested steps
 

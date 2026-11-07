@@ -11,20 +11,23 @@ Finish `course-catalog` so that a stranger can clone it, set two environment var
 ## Features
 
 - A self-review in `docs/review.md` that checks each requirement from stage one with evidence.
-- A multi-stage Dockerfile for the API and a `compose.yaml` with PostgreSQL and the API.
+- A multi-stage Dockerfile for the API and a `compose.yaml` with PostgreSQL, Redis, Kafka and the API.
 - A GitHub Actions workflow that verifies and packages the backend.
 - Health probes through Actuator, with nothing sensitive exposed.
 - A short retrospective in `docs/retrospective.md`.
 
 ## Acceptance criteria
 
-1. With `DB_PASSWORD` and `APP_JWT_SECRET` set, `docker compose up --build` starts both services, and an HTTP request to the published API returns the fixed course page.
+1. With `DB_PASSWORD` and `APP_JWT_SECRET` set, `docker compose up --build` starts PostgreSQL, Redis, Kafka and the API, and an HTTP request to the published API returns the fixed course page.
 2. Starting Compose without `APP_JWT_SECRET` stops with a message that names the variable.
 3. The API container runs as a non-root user, and its final image contains no Maven and no build tools.
 4. `GET /actuator/health/readiness` answers `200` with no token, while `/actuator/env` is not reachable.
 5. A pull request runs the verification job; a deliberately broken test turns the pipeline red and the fix turns it green.
 6. `docs/review.md` lists every stage-one requirement with a check and at least three findings you fixed.
 7. `docs/retrospective.md` names at least three things that went well, three that hurt and three topics to study next.
+8. With Redis stopped, `GET /api/courses/{id}` still answers `200` from PostgreSQL.
+9. With Kafka stopped, `POST /api/courses` still answers `201`, and the event stays incomplete in the registry until Kafka returns, when it is delivered.
+10. `docs/review.md` checks the new requirements for updates, caching, moderation fallback and events, and `ApplicationModules.verify()` runs in the pipeline.
 
 ## Suggested steps
 
