@@ -21,3 +21,6 @@
 /scripts/csharp-track/WebcilConvert.cs      @Luiquecruz @hewersonfreitas
 /vendor/dotnet/manifest.json                @Luiquecruz @hewersonfreitas
 /plugins/dotnetPlugin.ts                    @Luiquecruz @hewersonfreitas
+/wrangler.jsonc                             @Luiquecruz @hewersonfreitas
+/worker/                                    @Luiquecruz @hewersonfreitas
+/public/_headers                            @Luiquecruz @hewersonfreitas

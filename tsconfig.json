@@ -17,6 +17,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "plugins", "vite.config.ts"],
+  "include": ["src", "plugins", "worker", "vite.config.ts"],
   "exclude": ["src/content/*/**"]
 }

@@ -23,7 +23,7 @@ pull request ─► ci.yml       detect affected checks · checks (lint, typeche
                      │
    branch protection: required checks green, code owner review, branch up to date, no admin bypass
                      ▼
-merge to main ─► every check runs again ─► the host's Git integration publishes (no host configured yet)
+merge to main ─► every check runs again ─► Cloudflare Workers Builds publishes (`wrangler.jsonc`)
              └► scorecard.yml (also weekly)
 ```
 
@@ -31,7 +31,7 @@ merge to main ─► every check runs again ─► the host's Git integration pu
 
 ### No deploy secrets in CI
 
-- **Decision.** The host deploys through its own Git integration, previews for pull requests and production from `main`; CI holds no deploy token. The gate is branch protection, because only a green pull request can reach `main`.
+- **Decision.** The host, Cloudflare Workers, deploys through its own Git integration (Workers Builds), preview versions for other branches and production from `main`; CI holds no deploy token. The build token lives in Cloudflare, and the deploy commands name an exact Wrangler version (`npx wrangler@<version> deploy`), so a build never installs whatever `wrangler` is latest. The gate is branch protection, because only a green pull request can reach `main`.
 - **Why.** A CI deploy job needs a host token, and such a token usually covers the whole account. Any secret a workflow can read is readable by a pull request that edits the workflow. Even an untouched workflow could be steered: `npx` run inside the checkout reads a `.npmrc` committed by the pull request and installs a look-alike CLI that holds the token.
 - **Left out.**
   - The CI deploy job with an environment-scoped token: it was implemented in #7 and replaced by this model.
@@ -40,6 +40,7 @@ merge to main ─► every check runs again ─► the host's Git integration pu
   - A push that bypasses branch protection reaches production untested, so administrators must not be allowed to bypass it.
   - Two pull requests that pass alone can break together, so the branch must be up to date before merging (or use a merge queue).
   - A host that also accepts CLI deploys can be published to by any account member: keep the host account to the maintainers, with two-factor authentication and no API tokens.
+  - Workers Builds runs the build of every pushed branch with its build token; a branch is pushed only by someone with write access to the repository.
 
 ### Every action and image pinned to an immutable reference
 
@@ -109,7 +110,7 @@ merge to main ─► every check runs again ─► the host's Git integration pu
 
 ### The deploy is checked, not assumed
 
-- **Decision.** `npm run smoke:worker-csp` (`scripts/python-track/check-worker-csp.mjs`) checks a build against what a server actually sends: the page and the SPA fallback serve this build's `index.html` with the root element, the worker CSP header on the Python and C# workers, and every file under `pyodide/` and `dotnet/` byte-for-byte. The `checks` job runs it under `vite preview` on every change; with `--url <origin> --dist <dir>` it checks a deploy, and the deploy smoke job comes back with the next host.
+- **Decision.** `npm run smoke:worker-csp` (`scripts/python-track/check-worker-csp.mjs`) checks a build against what a server actually sends: the page and the SPA fallback serve this build's `index.html` with the root element, the worker CSP header on the Python and C# workers, and every file under `pyodide/` and `dotnet/` byte-for-byte. The `checks` job runs it under `vite preview` on every change; with `--url <origin> --dist <dir>` it checks a deploy (a Workers Builds deploy or `wrangler dev`). The headers come from `public/_headers` and the SPA fallback from `wrangler.jsonc`; `worker/index.test.ts` checks both against `WORKER_CSP` and the DSN in `ci.yml`.
 - **Why.** The worker CSP (`script-src 'self' 'wasm-unsafe-eval'`, no `'unsafe-eval'`) is what stops learner Python or C# from compiling JavaScript in the browser, and only the host can send it. A status check alone is not enough: the SPA fallback answers a missing file with `index.html` and status 200.
 - **Why the comparison works.** The host and CI build the same commit with the same Node version (`.nvmrc`) and lockfile, and the Vite build is deterministic. Build-time values that reach the bundle must match too: `ci.yml` sets the same `VITE_SENTRY_DSN` the host uses (a DSN is public), and the Sentry release is the commit SHA on both. `--build-only` waits until a deploy serves this build, so a broken deploy fails at once with its real cause instead of timing out.
 
@@ -124,6 +125,7 @@ merge to main ─► every check runs again ─► the host's Git integration pu
   - the pipeline (`.github/`);
   - the review rules (`.coderabbit.yaml`, `.gitleaksignore`);
   - the Claude Code harness (`.claude/settings.json`, `.claude/hooks/`);
+  - the deploy configuration (`wrangler.jsonc`, `worker/`, `public/_headers`, which carries the worker CSP);
   - the learner-code isolation files (worker CSP plugin, the shared worker lock-down, the Python and C# lock-downs, the C# worker and host, verify sandbox, `src/sandbox/`).
 
   Branch protection requires their review.
@@ -152,4 +154,5 @@ The settings no file can enforce are listed in [CONTRIBUTING.md](CONTRIBUTING.md
 - Branch protection with required checks, code owners, the branch up to date before merging, and no admin bypass.
 - Private vulnerability reporting (the channel `SECURITY.md` points to), secret scanning and push protection.
 - CodeQL default setup off.
+- Cloudflare Workers Builds: the pinned deploy commands and the build variables.
 - Sentry: `SENTRY_AUTH_TOKEN` as a secret build variable on the host, the GitHub integration, alerts (CONTRIBUTING.md "Sentry").
