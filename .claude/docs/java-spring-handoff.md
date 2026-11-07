@@ -57,10 +57,10 @@ Java and Angular have independent feature flags and release checks. Do not turn 
 
 | PR | Purpose | State | Base |
 | --- | --- | --- | --- |
-| [#61](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | MERGED | `main` |
-| [#62](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/62) | feat(curriculum): add backend Spring Security module | MERGED | `main` |
-| [#63](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/63) | feat(curriculum): add backend quality and delivery module | MERGED | `main` |
-| [#65](https://github.com/Luiquecruz/advanced-dev-dojo-ultimate-master/pull/65) | feat(curriculum): add backend course catalog capstone | OPEN | `main` |
+| [#61](https://github.com/Luiquecruz/constela-mission/pull/61) | refactor(curriculum): separate Java and Spring Boot from Angular | MERGED | `main` |
+| [#62](https://github.com/Luiquecruz/constela-mission/pull/62) | feat(curriculum): add backend Spring Security module | MERGED | `main` |
+| [#63](https://github.com/Luiquecruz/constela-mission/pull/63) | feat(curriculum): add backend quality and delivery module | MERGED | `main` |
+| [#65](https://github.com/Luiquecruz/constela-mission/pull/65) | feat(curriculum): add backend course catalog capstone | MERGED | `feat/java-spring-delivery` (reached `main` through this branch) |
 
 Latest action: Adapted module 08 into five backend-only capstone stages, with API contracts, persistence, token security and packaged delivery; the completed Java/Spring scope has 59 lessons.
 

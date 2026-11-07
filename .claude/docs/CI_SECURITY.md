@@ -97,6 +97,12 @@ merge to main ─► Netlify builds and publishes production ─► ci.yml smoke
   - OSV-Scanner and Dependabot do not read `vendor/dotnet/manifest.json`; .NET and Roslyn security releases are followed by hand (bump the pins in the script).
   - The escape scan runs in Node only; in the browser no JavaScript binding can be made after the lock-down, which the browser check proves with the `DynamicMethod` probe.
 
+### Pull requests run only what their changes need
+
+- **Decision.** `scripts/ci/affected-checks.mjs` maps a pull request's changed files to the jobs it needs: the verify suites of the touched tracks and engines, pytest, the code checks, the workflow linters, the dependency scans and the CodeQL languages. Pushes to `main`, the weekly schedules and manual runs still run everything. Branch protection requires the aggregate `Verify result` instead of each `Verify <suite>`.
+- **Why.** Every pull request ran all twelve track suites, CodeQL for three languages and both dependency scans, about 35 jobs per push, most of them for files the change never touched.
+- **Risk and mitigation.** A file mapped to too few jobs would merge untested: unknown shared paths (the loader, shared engine code, verify helpers, the toolchain, `ci.yml` itself) run everything, the domain layer cannot import the UI layers, so UI changes cannot break a lesson, and the full run on `main` catches a gap right after merge. Secret scanning runs on every pull request regardless.
+
 ### Static analysis of the application
 
 - **Decision.** CodeQL for TypeScript, Python and the workflows (`actions`), with results in code scanning. Lesson folders are excluded: starters are wrong on purpose. `src/content/*.ts`, the loader, is scanned.

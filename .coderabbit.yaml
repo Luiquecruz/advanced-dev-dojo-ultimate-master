@@ -53,6 +53,9 @@ reviews:
       instructions: |
         Lesson verification. pythonSandbox* forks a child under the Node permission model with an empty env: flag any widened --allow-* flag, inherited env, or access to fs, child_process or network from lesson code.
         CI lists the verify suites from src/content/*/track.json: a track suite is src/verify/<id>.test.ts, and any other src/verify/*.test.ts runs in the structure job.
+    - path: "scripts/ci/**"
+      instructions: |
+        affected-checks.mjs decides which CI jobs a pull request runs. A new shared path that lessons, engines or the build depend on belongs in FULL_RUN_PATTERNS; flag any change that lets such a path skip the verify suites, and any change to `--all`, which pushes to main rely on to run everything.
     - path: "src/shared/**"
       instructions: |
         Shared layer: framework-agnostic, no course knowledge. It must never import src/content, src/engines or src/sandbox (enforced by src/architecture.test.ts).
