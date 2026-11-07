@@ -1,7 +1,6 @@
 # Changes to the pipeline, the deploy, the review rules and the Claude Code harness need a review from a maintainer.
 # Enforced when branch protection on main requires review from code owners (CONTRIBUTING.md "CI and deploy").
 /.github/                                   @Luiquecruz @hewersonfreitas
-/netlify.toml                               @Luiquecruz @hewersonfreitas
 /.coderabbit.yaml                           @Luiquecruz @hewersonfreitas
 /.gitleaksignore                            @Luiquecruz @hewersonfreitas
 /.claude/settings.json                      @Luiquecruz @hewersonfreitas
@@ -20,6 +19,5 @@
 # Supply chain of the C# engine: downloaded artifacts, their pins and what is served.
 /scripts/csharp-track/vendor-dotnet.mjs     @Luiquecruz @hewersonfreitas
 /scripts/csharp-track/WebcilConvert.cs      @Luiquecruz @hewersonfreitas
-/plugins/netlify-dotnet-cache/              @Luiquecruz @hewersonfreitas
 /vendor/dotnet/manifest.json                @Luiquecruz @hewersonfreitas
 /plugins/dotnetPlugin.ts                    @Luiquecruz @hewersonfreitas

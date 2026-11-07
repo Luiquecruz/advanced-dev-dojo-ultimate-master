@@ -12,7 +12,7 @@ import { sentryTunnelProxy } from './plugins/sentryTunnel.ts';
 import { scaledBudget } from './src/verify/timeBudget.ts';
 
 const sentryUploadEnabled = Boolean(process.env.SENTRY_AUTH_TOKEN);
-const sentryRelease = process.env.COMMIT_REF ?? process.env.GITHUB_SHA;
+const sentryRelease = process.env.WORKERS_CI_COMMIT_SHA ?? process.env.GITHUB_SHA;
 const sentryReleaseCreated = sentryUploadEnabled && sentryRelease !== undefined;
 
 export default defineConfig(({ mode }) => ({
@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => ({
         create: sentryReleaseCreated,
         finalize: sentryReleaseCreated,
         setCommits: sentryReleaseCreated ? { auto: true, ignoreMissing: true, ignoreEmpty: true } : false,
-        deploy: sentryReleaseCreated ? { env: process.env.CONTEXT === 'production' ? 'production' : 'preview' } : false,
+        deploy: sentryReleaseCreated ? { env: process.env.WORKERS_CI_BRANCH === 'main' ? 'production' : 'preview' } : false,
       },
       sourcemaps: { filesToDeleteAfterUpload: ['./dist/**/*.map'] },
     }),

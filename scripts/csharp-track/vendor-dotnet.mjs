@@ -9,18 +9,16 @@
 //   WebAssembly module (`.wasm`, what the .NET 10 SDK publishes) with WebcilConvert.cs, and wraps the reference assemblies of the
 //   learner compilation (Roslyn reads them as PE files) in a one-section WebAssembly module (`ref/*.wasm`, wrapReference), so no .dll
 //   is served and the host compresses every file as application/wasm or JavaScript;
-// - copies that set (plus licenses) to vendor/dotnet/ and measures it with Brotli quality 5, which matches what Netlify sends
-//   (pyodide.asm.wasm: 3,227,042 B at q5, 3,285,125 B from Netlify), against BROTLI_BUDGET; quality 11 is printed for reference.
+// - copies that set (plus licenses) to vendor/dotnet/ and measures it with Brotli quality 5, close to what a CDN sends
+//   (pyodide.asm.wasm: 3,227,042 B at q5, 3,285,125 B as served by the previous host), against BROTLI_BUDGET; quality 11 is
+//   printed for reference.
 // Only manifest.json is committed: it pins the package and runtime hashes and the SHA-256 of every served file. Downloads and the
-// toolchain stay in vendor/dotnet/.cache/ (git-ignored, like node_modules; Netlify keeps it between builds,
-// plugins/netlify-dotnet-cache). When every served file matches the manifest and the sources did not change, the script uses no
-// network and compiles nothing. In CI (CI or NETLIFY set) it never rewrites the manifest: a manifest that does not match the script
+// toolchain stay in vendor/dotnet/.cache/ (git-ignored, like node_modules). When every served file matches the manifest and the
+// sources did not change, the script uses no network and compiles nothing. In CI (CI set) it never rewrites the manifest: a manifest that does not match the script
 // or the sources fails the install, a rebuild of missing files must reproduce the committed manifest exactly, and the toolchain is
 // extracted again from its checked archive, since a cache is not trusted.
 // Usage: npm run csharp:vendor            (download what is missing or altered, rebuild, verify all)
 //        npm run csharp:vendor -- --check (verify only, never download or compile; exits 1 on a missing, altered or stale file)
-//        node scripts/csharp-track/vendor-dotnet.mjs --postinstall (what postinstall runs: skipped when NETLIFY is set, because the
-//        Netlify build command runs it after plugins/netlify-dotnet-cache restored vendor/dotnet/.cache)
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { chmodSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -37,7 +35,7 @@ const MANIFEST = join(VENDOR, 'manifest.json');
 
 const DOTNET = '10.0.14';
 const ROSLYN = '5.9.0';
-// Brotli quality 5 is the closest to what Netlify sends; the served set must stay under the budget at that quality.
+// Brotli quality 5 is the closest to what a CDN sends; the served set must stay under the budget at that quality.
 const BROTLI_QUALITY = 5;
 const BROTLI_BUDGET = 8.5 * 1024 * 1024;
 const FETCH_ATTEMPTS = 4;
@@ -120,12 +118,7 @@ const WEBCIL_LIBRARY = 'Microsoft.NET.WebAssembly.Webcil.dll';
 const REFERENCE_SECTION = 'dojo.pe';
 
 const check = process.argv.includes('--check');
-const ci = Boolean(process.env.CI || process.env.NETLIFY);
-
-if (process.argv.includes('--postinstall') && process.env.NETLIFY) {
-  console.log('vendor-dotnet: skipped in postinstall on Netlify; the build command runs it after plugins/netlify-dotnet-cache restored vendor/dotnet/.cache');
-  process.exit(0);
-}
+const ci = Boolean(process.env.CI);
 
 function fail(message) {
   console.error(`vendor-dotnet: ${message}`);
@@ -541,7 +534,7 @@ function webcil(dotnetDirectory, converter, pairs) {
 
 /**
  * Removes cached downloads that no pinned package or runtime uses any more, so a version bump does not leave its predecessor in
- * vendor/dotnet/.cache (which Netlify stores between builds), and on CI the extracted toolchain, which is rebuilt from its archive.
+ * vendor/dotnet/.cache, and on CI the extracted toolchain, which is rebuilt from its archive.
  */
 function pruneCache(pins) {
   const packages = new Set(Object.values(PACKAGES).map(({ id, version }) => `${id.toLowerCase()}.${version}.nupkg`));

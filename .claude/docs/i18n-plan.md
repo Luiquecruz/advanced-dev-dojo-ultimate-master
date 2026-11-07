@@ -13,8 +13,8 @@ Plan for a locale switch in the top-right corner that changes the platform langu
 | Lesson text is read by build-time code only | `plugins/contentPlugin.ts` reads `src/content` from disk, `buildTracks` (`src/content/loader.ts`) assembles `Track` objects, `splitCatalog` splits catalog (title, summary, tags per lesson) from lazy per-lesson bodies (`virtual:dojo-content/lesson/<track>/<lesson>`) |
 | Catalog is one eager module carrying every title and summary of every track | `catalogModule()` in `plugins/contentPlugin.ts`; `track.json`, `module.json` titles and descriptions are in it too |
 | Routes carry no locale; ids are language independent | `src/shared/routing/route.ts` (`/`, `/:trackId`, `/:trackId/:lessonId`), `BrowserRouter basename=BASE_URL` in `src/main.tsx` |
-| Progress is keyed by lesson key and track id, not by text | `src/entities/progress/progressStore.ts`: `dev-dojo:progress:v1`; quiz answers are stored as indexes |
-| SPA fallback already serves `index.html` for every path | `netlify.toml`: `/*` to `/index.html` with 200 |
+| Progress is keyed by lesson key and track id, not by text | `src/entities/progress/progressStore.ts`: `constela:progress:v1`; quiz answers are stored as indexes |
+| SPA fallback already serves `index.html` for every path | the host's SPA fallback (CONTRIBUTING.md "Hosting") |
 | Layer rules block cross-slice imports, `shared` may not import `content` | `src/architecture.test.ts`; `.claude/docs/ARCHITECTURE.md` |
 | Standards suites read English text and assert on it | `src/verify/trackStandards.ts`, `noDates.ts`, `csharp.test.ts`, `pythonConventions.test.ts`, `content.test.ts`, `curriculum.test.ts` |
 | Top-right is free on the lesson and track screens; home has a vertical index rail on the right edge | `HomePage.tsx` (the rail at `right-5`, vertical writing mode), `ActivityShell.tsx` (`fixed inset-0 z-40`) |
@@ -97,7 +97,7 @@ Use `pt-BR` as the Portuguese variant; the audience is Brazilian (owner and cont
 
 ### 4.3 Persistence and detection
 
-- Storage key `dev-dojo:locale:v1` (same family as `dev-dojo:progress:v1`), value is the locale id, wrapped in try/catch (private mode, blocked storage). Separate from the progress store: progress is exported or reset independently and has a debounce; locale must be synchronous.
+- Storage key `constela:locale:v1` (same family as `constela:progress:v1`), value is the locale id, wrapped in try/catch (private mode, blocked storage). Separate from the progress store: progress is exported or reset independently and has a debounce; locale must be synchronous.
 - Resolution order: explicit stored choice, then the first match in `navigator.languages` (`pt*` to `pt`, `es*` to `es`, anything else to `en`), then `en`.
 - No flash: an inline script in `index.html` `<head>` reads the key (or `navigator.languages`) and sets `<html lang>` before first paint; React then reads the same value synchronously during store creation. The first screen must not render English and swap, so the active dictionary must be loaded before the first render of the chrome: `main.tsx` awaits `loadLocale(initial)` (a few kB) before `createRoot().render`, but `en` is bundled so the English default never waits. The entry stays above-the-fold safe because the dictionaries are small.
 - Cross-tab sync through the `storage` event, like the progress store if it does the same (verify before copying the pattern).
@@ -107,10 +107,10 @@ Use `pt-BR` as the Portuguese variant; the audience is Brazilian (owner and cont
 | Strategy | Pros | Cons |
 | --- | --- | --- |
 | None (locale in storage only) | Zero routing change: `route.ts`, `hrefTo`, the motion origins `data-motion-origin="lesson:<trackId>/<lessonId>"`, the sentry route patterns and every shared link stay valid. Progress and ids are untouched | No per-locale indexable URLs; a shared link opens in the recipient's own locale, which is usually desired for a learning app |
-| Path prefix `/pt/...`, `/es/...` | SEO per language, shareable language-specific links, `hreflang` possible | Touches `parseRoute`, `hrefTo`, `legacyHashRedirect`, `useMotionRouting`, `BASE_URL` basename handling, every `Link`; the SPA fallback hides 404s; the Netlify rewrite stays but needs `/pt/*` and `/es/*` prerender or the crawlers see an empty shell anyway |
+| Path prefix `/pt/...`, `/es/...` | SEO per language, shareable language-specific links, `hreflang` possible | Touches `parseRoute`, `hrefTo`, `legacyHashRedirect`, `useMotionRouting`, `BASE_URL` basename handling, every `Link`; the SPA fallback hides 404s; the SPA fallback stays but needs `/pt/*` and `/es/*` prerender or the crawlers see an empty shell anyway |
 | Query `?lang=pt` | Cheap to read and share | Pollutes URLs, lost on navigation unless every `Link` carries it, bad for caching and SEO |
 
-The app is a client-rendered SPA with no prerendering (`netlify.toml` serves one `index.html`), so crawlers see the same shell for every URL; path prefixes buy no SEO until there is prerendering. Recommendation: **no locale in the URL** for phases 1 to 3, with one concession: honor an optional `?lang=pt|es|en` on first load only (support and bug reports, shared "open in Portuguese" links), store it, then strip it with `replace`. Revisit path prefixes only together with a prerendering decision (open decision D5).
+The app is a client-rendered SPA with no prerendering (the host serves one `index.html`), so crawlers see the same shell for every URL; path prefixes buy no SEO until there is prerendering. Recommendation: **no locale in the URL** for phases 1 to 3, with one concession: honor an optional `?lang=pt|es|en` on first load only (support and bug reports, shared "open in Portuguese" links), store it, then strip it with `replace`. Revisit path prefixes only together with a prerendering decision (open decision D5).
 
 ### 4.5 Formatting with `Intl`
 
@@ -157,7 +157,7 @@ Proposed:
 
 - `readSources()` in `plugins/contentPlugin.ts` already reads every file under `src/content`; the suffix files arrive for free in `textFiles` and `jsonFiles` keyed `./<track>/.../theory.pt.md`. `buildTracks` (`content/loader.ts`) learns to produce, for each lesson, a **base** `LessonContent` (English) and a per-locale **overlay** (only the translated fields that exist). Overlay merge is a pure function `applyLocale(base, overlay)` in `content/` so it is unit tested.
 - Catalog: do not put every locale into the eager catalog module. Split titles per locale into `virtual:dojo-content/catalog/<locale>` (one small overlay: lesson title/summary, module and track text keyed by id). `tracks` stays English (fallback and ids). The catalog overlay for the active locale is loaded with the locale; for 264+ tracks' lessons this is about 100 to 150 kB raw per locale, compressed far less; check the budget before choosing eager versus lazy.
-- Lesson body: one lazy chunk per lesson per locale: `virtual:dojo-content/lesson/<locale>/<track>/<lesson>` containing only the overlay. `loadLesson(entry)` loads the base chunk and, when the locale is not `en`, the overlay chunk, then merges. Overlay chunks exist only for lessons that have at least one translated file, so `lessonLoaders` carries a `locales` table `{ [lessonKey]: Locale[] }` in the catalog. This keeps English bundle size unchanged and adds output files only where translations exist; the number of emitted chunks grows with translated lessons (watch the deploy file count, 789 lessons times 2 locales is about 1,600 more chunks; confirm Netlify limits and build time; a per-module chunk is the fallback granularity).
+- Lesson body: one lazy chunk per lesson per locale: `virtual:dojo-content/lesson/<locale>/<track>/<lesson>` containing only the overlay. `loadLesson(entry)` loads the base chunk and, when the locale is not `en`, the overlay chunk, then merges. Overlay chunks exist only for lessons that have at least one translated file, so `lessonLoaders` carries a `locales` table `{ [lessonKey]: Locale[] }` in the catalog. This keeps English bundle size unchanged and adds output files only where translations exist; the number of emitted chunks grows with translated lessons (watch the deploy file count, 789 lessons times 2 locales is about 1,600 more chunks; confirm the host's file limits and build time; a per-module chunk is the fallback granularity).
 - `shared` stays free of `content`: the locale type lives in `shared/i18n`; `content` imports it only as a type through a lower layer, which the layer rules allow because `content` is a domain, not above shared. Verify with `architecture.test.ts`; if `content` importing `shared` is not allowed by the rules as written (the test only restricts layers above), define `Locale` in `content/types.ts` and re-export it from `shared/i18n` through a type-only import in the `app` layer, or duplicate the three-literal union with a test asserting equality.
 - Dev server: the watcher in `configureServer` already invalidates on any track file; suffix files need no change.
 - `src/verify/*` reads `content/allContent.ts` (eager glob): extend the glob to the suffix files and expose a per-locale view `tracksForLocale(locale)` so every standards suite can run per locale (5.3).
@@ -190,7 +190,7 @@ All new checks run in a `src/verify/i18n.test.ts` plus a shared helper in `src/v
 ### 5.5 Progress and ids
 
 - Nothing in progress changes: it is keyed by `lessonKey` (`track/lesson`), `trackId`, lesson id and quiz answer index. Because the quiz answer index is stored, translated quizzes must keep identical option order (enforced by 5.3).
-- Locale is not stored in `dev-dojo:progress:v1`; adding it there would couple a synchronous setting to a debounced store and force a schema version bump.
+- Locale is not stored in `constela:progress:v1`; adding it there would couple a synchronous setting to a debounced store and force a schema version bump.
 - `lastLesson` and the code-per-language store are independent of locale; switching locale mid-lesson keeps the editor content.
 
 ### 5.6 Docs
@@ -315,7 +315,7 @@ Ordered by blocking effect, with a recommendation each.
 
 ## 10. Summary of recommendations
 
-1. Build a small typed i18n store in `src/shared/i18n/`, English eager, pt and es lazy, `Intl` helpers, locale key `dev-dojo:locale:v1`.
+1. Build a small typed i18n store in `src/shared/i18n/`, English eager, pt and es lazy, `Intl` helpers, locale key `constela:locale:v1`.
 2. Put one `LocaleSwitch` top-right, rendered once from `App`, with native names, `lang` on options, keyboard and live-region support.
 3. No locale in URLs; `<html lang>` and meta updated; inline boot script prevents flash.
 4. Translate content through suffix siblings (`theory.pt.md`, `quiz.pt.json`, `meta.pt.json`), English always present, per-file fallback, overlay chunks merged in `loadLesson`.

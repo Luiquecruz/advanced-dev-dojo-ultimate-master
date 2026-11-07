@@ -4,7 +4,6 @@
 [![Security](https://github.com/Luiquecruz/constela-mission/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/Luiquecruz/constela-mission/actions/workflows/security.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Luiquecruz/constela-mission/badge)](https://scorecard.dev/viewer/?uri=github.com/Luiquecruz/constela-mission)
 [![CodeRabbit Reviews](https://img.shields.io/coderabbit/prs/github/Luiquecruz/constela-mission?labelColor=171717&color=FF570A&label=CodeRabbit+Reviews)](https://coderabbit.ai)
-[![Netlify](https://img.shields.io/badge/Netlify-live-00C7B7?logo=netlify&logoColor=white)](https://adv-dv-doj.netlify.app)
 
 ![Node.js](https://img.shields.io/badge/Node.js-26-5FA04E?logo=nodedotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
@@ -38,7 +37,7 @@ Hidden tracks are toggled in `src/content/featureFlags.ts`. Module and lesson pl
 
 ## Requirements
 
-- Node.js 26 (`.nvmrc`, the version CI and Netlify use) and npm. `npm install` needs network: it also downloads the pinned Pyodide packages and the .NET runtime, Roslyn and reference assemblies of the C# engine.
+- Node.js 26 (`.nvmrc`, the version CI uses) and npm. `npm install` needs network: it also downloads the pinned Pyodide packages and the .NET runtime, Roslyn and reference assemblies of the C# engine.
 - Python 3.14, only for the CPython test suite (`tests/python`); CI always runs it.
 - No environment variables, API keys or backend.
 
@@ -51,7 +50,7 @@ npm run build        # production build in dist/ (needs an SPA fallback to index
 npm run preview      # serve the production build
 ```
 
-Error monitoring: Sentry (`@sentry/react`, `src/app/monitoring/sentry.ts`) starts in the app window of production builds when `VITE_SENTRY_DSN` is set (copy `.env.example` to `.env.local`; on Netlify set it as a build environment variable); `npm run dev` never sends events, and `npm run build && npx vite preview` reports as `development`. It reports platform failures (React errors, engines that do not start, a sandbox that does not load, a lost WebGL context), never learner mistakes, with the waypoint, engine and language as tags, a replay on errors, 10% tracing and a **Report a problem** button on every waypoint. Events go through the same-origin tunnel `/signal`. The sandbox iframe and the workers run learner code and are not instrumented. With `SENTRY_AUTH_TOKEN` in the build environment (a secret on Netlify), `sentryVitePlugin` (`vite.config.ts`) uploads the source maps, deletes the `.map` files from `dist/` and creates the release (the commit SHA) with its commits and deploy; a build with and without the token emits identical JavaScript, which `npm run smoke:worker-csp` relies on. Setup and what the Sentry dashboard needs: `.claude/docs/ARCHITECTURE.md` "Error monitoring" and `.claude/docs/CONTRIBUTING.md` "Sentry".
+Error monitoring: Sentry (`@sentry/react`, `src/app/monitoring/sentry.ts`) starts in the app window of production builds when `VITE_SENTRY_DSN` is set (copy `.env.example` to `.env.local`; on the host set it as a build environment variable); `npm run dev` never sends events, and `npm run build && npx vite preview` reports as `development`. It reports platform failures (React errors, engines that do not start, a sandbox that does not load, a lost WebGL context), never learner mistakes, with the waypoint, engine and language as tags, a replay on errors, 10% tracing and a **Report a problem** button on every waypoint. Events go through the same-origin tunnel `/signal`. The sandbox iframe and the workers run learner code and are not instrumented. With `SENTRY_AUTH_TOKEN` in the build environment (a secret on the host), `sentryVitePlugin` (`vite.config.ts`) uploads the source maps, deletes the `.map` files from `dist/` and creates the release (the commit SHA) with its commits and deploy; a build with and without the token emits identical JavaScript, which `npm run smoke:worker-csp` relies on. Setup and what the Sentry dashboard needs: `.claude/docs/ARCHITECTURE.md` "Error monitoring" and `.claude/docs/CONTRIBUTING.md` "Sentry".
 
 Debug query params: `?debug=perf` shows the scene panel and `?tier=high|mid|low` forces a performance tier, e.g. `http://localhost:5173/typescript?debug=perf&tier=mid`.
 
@@ -66,7 +65,7 @@ Browser ─ React app (routes, curriculum, Monaco editor, progress in localStora
 
 - **Lessons are plain files** in `src/content/<track>/<module>/<lesson>/` (`meta.json`, theory, challenge, starter, solution, tests, hints, quiz). A Vite plugin serves the catalog as a virtual module and loads each lesson body on demand.
 - **Grading engines** run the learner project against the lesson tests: the TypeScript compiler API, framework adapters in an iframe, an in-browser Node.js runtime, or Pyodide with a Python test harness (`@test` functions with plain `assert`).
-- **Learner code is isolated.** Framework code never runs in the app window. Python runs in a fresh worker per run, with network APIs and JavaScript code generation removed, under a worker Content-Security-Policy without `'unsafe-eval'` that the host must send (`netlify.toml`; checked on every CI run under `vite preview`, and against every Netlify Deploy Preview and production deploy).
+- **Learner code is isolated.** Framework code never runs in the app window. Python runs in a fresh worker per run, with network APIs and JavaScript code generation removed, under a worker Content-Security-Policy without `'unsafe-eval'` that the host must send (CONTRIBUTING.md "Hosting"; checked on every CI run under `vite preview`).
 - **No real network or models**: the fake REST API and the fake model provider are deterministic, so lessons and tests are reproducible.
 
 Architecture, layers and engines are described in [ARCHITECTURE.md](.claude/docs/ARCHITECTURE.md).
@@ -89,12 +88,12 @@ Every pull request and every push to `main` runs on GitHub Actions:
 
 | Workflow | Checks |
 | --- | --- |
-| [CI](.github/workflows/ci.yml) | lint, typecheck, unit tests and build; lesson verification per track; Python lessons on CPython (pytest); workflow lint and security audit (actionlint, zizmor); production layout smoke test (worker CSP, SPA fallback, Pyodide files) under `vite preview`, then against the Netlify Deploy Preview of the pull request or the live site after a merge |
+| [CI](.github/workflows/ci.yml) | lint, typecheck, unit tests and build; lesson verification per track; Python lessons on CPython (pytest); workflow lint and security audit (actionlint, zizmor); production layout smoke test (worker CSP, SPA fallback, Pyodide files) under `vite preview` |
 | [Security](.github/workflows/security.yml) | `npm audit` on `main`; dependency review on pull requests; secret scan of the whole git history (gitleaks); OSV-Scanner over the npm and Python lockfiles; CodeQL for TypeScript, Python and the workflows. Also runs weekly |
 | [Scorecard](.github/workflows/scorecard.yml) | OpenSSF Scorecard of the repository's security practices, behind the badge above |
 | [Docs sync](.github/workflows/docs-sync.yml) | warns when a documented area changes without its documents (`docs:none` label for reviewed exceptions) |
 
-Netlify deploys through its Git integration, with a Deploy Preview for every pull request and production from `main`; CI holds no Netlify token. The gate is branch protection: only a pull request whose required checks passed reaches `main`, and only then does Netlify publish it. Details, branch protection settings and the reasons behind each control in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy) and [CI_SECURITY.md](.claude/docs/CI_SECURITY.md).
+No host is configured yet (the planned host is Cloudflare Workers, deploying through its Git integration); CI holds no deploy token. The gate is branch protection: only a pull request whose required checks passed reaches `main`. Details, branch protection settings and the reasons behind each control in [CONTRIBUTING.md](.claude/docs/CONTRIBUTING.md#ci-and-deploy) and [CI_SECURITY.md](.claude/docs/CI_SECURITY.md).
 
 ## Authoring scripts
 
@@ -115,12 +114,12 @@ npm run csharp:vendor                              # download, verify and assemb
 | `src/sandbox/`, `sandbox.html` | the iframe where learner code runs |
 | `src/verify/` | lesson verification suites |
 | `tests/python/` | the CPython test suite: lessons and harness under pytest, with its hashed lockfile |
-| `plugins/` | Vite plugins: lesson content as virtual modules, Pyodide runtime, .NET runtime (`dotnet/`), worker CSP; `netlify-dotnet-cache/`, the Netlify build plugin that keeps the .NET downloads between deploys |
+| `plugins/` | Vite plugins: lesson content as virtual modules, Pyodide runtime, .NET runtime (`dotnet/`), worker CSP |
 | `scripts/` | authoring and maintenance scripts (Python lesson scaffolding, curriculum sync, Pyodide packages, .NET files for the C# engine with its Webcil converter, CSP smoke test) |
 | `vendor/pyodide-packages/` | `manifest.json` of the Pyodide packages; the wheels are downloaded on install and git-ignored |
-| `vendor/dotnet/` | `manifest.json` of the C# engine's files (pinned package and runtime hashes, served file hashes, the version folder they are served under, Brotli sizes against the 8.5 MiB budget); the files (Webcil `.wasm`, no `.dll`) are assembled on install (on Netlify by the build command) and git-ignored |
+| `vendor/dotnet/` | `manifest.json` of the C# engine's files (pinned package and runtime hashes, served file hashes, the version folder they are served under, Brotli sizes against the 8.5 MiB budget); the files (Webcil `.wasm`, no `.dll`) are assembled on install and git-ignored |
 | `.claude/` | documentation, specs and the shared Claude Code harness |
-| `.github/`, `netlify.toml` | workflows, Dependabot, pull request template, Netlify build command, headers, SPA fallback and build plugin |
+| `.github/` | workflows, Dependabot, pull request template, CODEOWNERS |
 | `.coderabbit.yaml` | CodeRabbit review configuration (path instructions, pre-merge checks, tools) |
 
 ## Limitations

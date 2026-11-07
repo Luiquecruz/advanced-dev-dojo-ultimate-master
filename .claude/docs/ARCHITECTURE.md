@@ -104,7 +104,7 @@ The app never imports lesson files directly. `plugins/contentPlugin.ts` reads `s
 | --- | --- | --- | --- |
 | Route | `shared/routing/route.ts` (react-router `BrowserRouter`) | `useRoute()` | URL |
 | Motion state | `shared/motion/coordinator.ts` | `useMotionState()` | no |
-| Learner progress and code (passed challenges and the languages they passed in, quizzes, chosen language per track, code per lesson and language) | `entities/progress/progressStore.ts` | `useProgress()`, `progress.getState()` | `localStorage` `dev-dojo:progress:v1`, debounced 300ms |
+| Learner progress and code (passed challenges and the languages they passed in, quizzes, chosen language per track, code per lesson and language) | `entities/progress/progressStore.ts` | `useProgress()`, `progress.getState()` | `localStorage` `constela:progress:v1`, debounced 300ms |
 | Screen state (tabs, report, console, carousel index) | the page component | React state | no |
 | Ambient scene | `shared/scene/scene.ts` | imperative `SceneAPI` | no |
 
@@ -128,10 +128,10 @@ Sentry (`@sentry/react`) runs in the app window of production builds with a DSN 
 | Piece | Where | What it does |
 | --- | --- | --- |
 | Setup | `app/monitoring/sentry.ts` (`initSentry`, first call in `main.tsx`) | `Sentry.init`: release, environment, tunnel, tracing, replay on errors, filters; returns the React 19 root error handlers |
-| Environment | `app/monitoring/context.ts` (`environmentForHost`) | from the hostname at runtime, so the bundle stays the same everywhere: `development` (localhost, `vite preview`), `preview` (a Netlify host with `--`: Deploy Previews and branch deploys), `production` |
+| Environment | `app/monitoring/context.ts` (`environmentForHost`) | from the hostname at runtime, so the bundle stays the same everywhere: `development` (localhost, `vite preview`), `preview` (a Cloudflare Workers Preview or Deployment URL, `<name>-constela-mission.<subdomain>.workers.dev`), `production` |
 | Transaction names | `routeTransactionName` in the same file, through `beforeStartSpan` | pageload and navigation spans are named by route pattern (`/`, `/:trackId`, `/:trackId/:lessonId`), never by lesson id |
-| Release | `vite.config.ts` `define` → `import.meta.env.VITE_SENTRY_RELEASE` | the commit SHA (`COMMIT_REF` on Netlify, `GITHUB_SHA` in CI), empty in a local build |
-| Tunnel | `tunnel: '/signal'`; `netlify.toml` rewrite and the `vite preview` proxy (`plugins/sentryTunnel.ts`) | envelopes go to the app's own origin and the host forwards them to the project's envelope endpoint, so ad blockers that block the Sentry ingest host do not drop them; `app/monitoring/tunnel.test.ts` checks the rewrite against the DSN in `ci.yml` |
+| Release | `vite.config.ts` `define` → `import.meta.env.VITE_SENTRY_RELEASE` | the commit SHA (`WORKERS_CI_COMMIT_SHA` on Cloudflare Workers Builds, `GITHUB_SHA` in CI), empty in a local build |
+| Tunnel | `tunnel: '/signal'`; the host's proxy (CONTRIBUTING.md "Hosting") and the `vite preview` proxy (`plugins/sentryTunnel.ts`) | envelopes go to the app's own origin and the host forwards them to the project's envelope endpoint, so ad blockers that block the Sentry ingest host do not drop them; `app/monitoring/tunnel.test.ts` checks the rewrite against the DSN in `ci.yml` |
 | Filters | `allowUrls` (the app origin), `denyUrls` (browser extensions), `ignoreErrors` (Monaco's `Canceled`, `ResizeObserver loop`) | noise that is not the app's |
 | Replay | `@sentry/replay`, imported when the page is idle (`startReplayWhenIdle`) | its own chunk, out of the initial load; buffers the session and sends it only with an error or a problem report (`replaysOnErrorSampleRate: 1`, sessions 0); text and inputs masked (SDK defaults) |
 | Tracing | `tracesSampleRate: 0.1` | Web Vitals, pageload and navigation, plus the engine spans below |
@@ -184,7 +184,7 @@ Pick the **framework engine** for anything that renders UI or needs a DOM, or th
 
 ### The C# engine
 
-Status, pins, served files and the Brotli budget, the Netlify build cache, the security findings and open items are in [csharp-engine.md](csharp-engine.md); how to write a C# challenge is in CONTENT_GUIDE.md "C# engine".
+Status, pins, served files and the Brotli budget, the security findings and open items are in [csharp-engine.md](csharp-engine.md); how to write a C# challenge is in CONTENT_GUIDE.md "C# engine".
 
 `engines/csharp/` runs .NET 10 (Mono interpreter, single-threaded `browser-wasm` runtime pack) with Roslyn 5.9, all assembled into `vendor/dotnet/` by `scripts/csharp-track/vendor-dotnet.mjs` (pinned in `vendor/dotnet/manifest.json`, CI_SECURITY.md "Dependencies") and served unchanged at `<base>dotnet/<version>/` (the manifest's hash of the served set) by `plugins/dotnetPlugin.ts`. No `.dll` is served: CoreLib, the BCL, Roslyn and the host are Webcil (`.wasm`, the format the .NET 10 SDK publishes, converted at install time by `scripts/csharp-track/WebcilConvert.cs` with the SDK pack's converter) and the reference assemblies are their PE bytes in one custom section `dojo.pe` of a minimal module (`ref/*.wasm`), so the host Brotli-compresses every file as `application/wasm` or JavaScript:
 
@@ -277,7 +277,7 @@ src/content/<track>/<NN-module>/<NN-lesson>/
 - `challengeLanguages[lessonKey][language]` records every language that passed (per-language check marks).
 - `language[trackId]` remembers the language chosen in that track.
 - Learner code is stored per lesson and language: `codeKeyFor(lessonKey, language)` returns `<lessonKey>#<language>` (or `lessonKey` for single-language lessons).
-- The fields are additive: older saved progress loads with empty defaults, so the storage key stays `dev-dojo:progress:v1` without a migration.
+- The fields are additive: older saved progress loads with empty defaults, so the storage key stays `constela:progress:v1` without a migration.
 
 ### UI
 
@@ -301,12 +301,12 @@ A worker engine (one that runs a downloaded language runtime) touches the same p
 | --- | --- | --- |
 | Runtime files | `node_modules/pyodide` plus wheels from `scripts/python-track/vendor-packages.mjs` (`vendor/pyodide-packages/`) | `scripts/csharp-track/vendor-dotnet.mjs` (`vendor/dotnet/`, host compiled with `csc.dll`); both run as `postinstall`, both have `--check` |
 | Serving | `plugins/pyodidePlugin.ts` (`pyodide/`, `dojo-pyodide` meta) | `plugins/dotnetPlugin.ts` (`dotnet/`, `dojo-dotnet` meta) |
-| Worker CSP | `CSP_WORKERS` in `plugins/pythonWorkerCspPlugin.ts` and a `netlify.toml` header per worker (`assets/python.worker-*`, `assets/csharp.worker-*`), checked by `scripts/python-track/check-worker-csp.mjs` | same |
+| Worker CSP | `CSP_WORKERS` in `plugins/pythonWorkerCspPlugin.ts` and a host header per worker (`assets/python.worker-*`, `assets/csharp.worker-*`), checked by `scripts/python-track/check-worker-csp.mjs` | same |
 | Engine | `engines/python/` (worker, `browserClient.ts`, `lockdown.ts`, `protocol.ts`, `testNames.ts`, Python harness) | `engines/csharp/` (same files, `engine.ts`, C# `host/`); both lock-downs build on `engines/shared/workerLockdown.ts` |
 | Registration | `EngineId`, `DEFAULT_ENTRY.python = { py: 'main.py' }`, `TEST_FILES.python`, `runner.ts`, `monacoSetup.ts`, `content.test.ts` engine list | `EngineId`, `DEFAULT_ENTRY.csharp = { cs: 'Program.cs' }`, `TEST_FILES.csharp`, the same files |
 | Language | `LANGUAGES.python`, `variants/python/` in multi-language tracks; also the engine of the Python track | `LANGUAGES.csharp`, `variants/csharp/` in multi-language tracks; also the engine of the C# track |
 | Verification | `verify/pythonSandbox.ts`, `pythonGrader()`, `pythonSandbox.test.ts`, `pythonEscapeScan.py` | `verify/csharpSandbox.ts`, `csharpGrader()`, `csharpSandbox.test.ts`, `csharpEscapeScan.ts` |
-| Ownership (`.github/CODEOWNERS`) | `lockdown.ts`, the CSP plugin, `verify/pythonSandbox*.ts` | `lockdown.ts`, `csharp.worker.ts`, `host/`, `verify/csharpSandbox*.ts`, `verify/csharpEscapeScan.ts`, `vendor-dotnet.mjs`, `WebcilConvert.cs`, `plugins/netlify-dotnet-cache/`, `vendor/dotnet/manifest.json`, `dotnetPlugin.ts` |
+| Ownership (`.github/CODEOWNERS`) | `lockdown.ts`, the CSP plugin, `verify/pythonSandbox*.ts` | `lockdown.ts`, `csharp.worker.ts`, `host/`, `verify/csharpSandbox*.ts`, `verify/csharpEscapeScan.ts`, `vendor-dotnet.mjs`, `WebcilConvert.cs`, `vendor/dotnet/manifest.json`, `dotnetPlugin.ts` |
 
 The hidden Java and Spring Boot track uses the `java-spring` id for its content, feature flag, glyph and accent selector. It is independent from the `angular` track and has no graded challenges; its legacy catalog engine identifier does not start an engine on theory-and-quiz lessons. Full-stack integration is reserved for a future track. The former combined draft is retained on `archive/java-angular-fullstack`.
 
@@ -335,7 +335,7 @@ Brand and vocabulary: the product is **Constela Mission**, a space-mission theme
 | Learn tab | Briefing |
 | challenge, quiz | unchanged |
 
-The storage key stays `dev-dojo:progress:v1` so saved progress survives the rename. Internal `dojo` identifiers are kept on purpose because they are API surface, pinned or compared by CI: `@dojo/ai`, `dojo_ai`, `dojo_harness.py`, `DojoHost`/`Dojo.Testing` and the C# `using Dojo;` namespace (hashed into `vendor/dotnet/manifest.json`), `virtual:dojo-content`, the `dojo-pyodide`/`dojo-dotnet` meta tags (the deploy smoke test reads them), the `DOJO_*` variables of `tests/python` and the `.dojo-preview-*` classes of `sandbox.html`. The repository is `constela-mission`; the Sentry project keeps its old slug (`advanced-dev-dojo-ultimate-master`) until it is renamed. New identifiers use `constela` (package `constela-mission`, Monaco theme `constela`, docs-sync state `constela-docs-sync`).
+The storage key is `constela:progress:v1`; `readStoredProgress` moves progress saved under the old `dev-dojo:progress:v1` to it once, on the same origin. Internal `dojo` identifiers are kept on purpose because they are API surface, pinned or compared by CI: `@dojo/ai`, `dojo_ai`, `dojo_harness.py`, `DojoHost`/`Dojo.Testing` and the C# `using Dojo;` namespace (hashed into `vendor/dotnet/manifest.json`), `virtual:dojo-content`, the `dojo-pyodide`/`dojo-dotnet` meta tags (the deploy smoke test reads them), the `DOJO_*` variables of `tests/python` and the `.dojo-preview-*` classes of `sandbox.html`. The repository is `constela-mission`; the Sentry project keeps its old slug (`advanced-dev-dojo-ultimate-master`) until it is renamed. New identifiers use `constela` (package `constela-mission`, Monaco theme `constela`, docs-sync state `constela-docs-sync`, storage keys `constela:*`).
 
 Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue` and `java-spring`; a track built in stacked pull requests stays hidden until the part that completes it). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
 
@@ -464,7 +464,7 @@ For a track on an existing engine, only the items marked *(track)* apply.
 
 - [ ] Engine folder with `registry.ts`, `adapter.ts` (and compiler/transform if needed)
 - [ ] Engine registered in `protocol.ts`, `sandbox.ts`, `content/types.ts` + `content/loader.ts`, `monacoSetup.ts`, and listed in `src/verify/content.test.ts`
-- [ ] Worker engine only: vendor script with `--check`, serving plugin, `CSP_WORKERS` + `netlify.toml` header, lock-down, verify sandbox with regression tests, `CODEOWNERS` (table in "Adding a language")
+- [ ] Worker engine only: vendor script with `--check`, serving plugin, `CSP_WORKERS` + host header (CONTRIBUTING.md "Hosting"), lock-down, verify sandbox with regression tests, `CODEOWNERS` (table in "Adding a language")
 - [ ] *(track)* `track.json` with `monogram` (and `shortTitle` if the title is long), a concept glyph in `entities/track/trackGlyphs.ts`, first module and one hand-written reference lesson passing verification
 - [ ] *(track)* `[data-trail]` accent rule in `tokens.css` passing `src/verify/trackPresentation.test.ts`
 - [ ] *(track)* `src/verify/<track>.test.ts`
