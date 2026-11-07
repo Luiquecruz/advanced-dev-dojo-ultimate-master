@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A product total is calculated from line items. Which tool is first in the decision order?",
+    "options": [
+      "NgRx Store",
+      "computed",
+      "A query library",
+      "The URL"
+    ],
+    "answer": 1,
+    "explanation": "Derived values come first and need no store."
+  },
+  {
+    "question": "Search text that users share by link belongs to:",
+    "options": [
+      "A SignalStore",
+      "The URL",
+      "A BehaviorSubject",
+      "A form control only"
+    ],
+    "answer": 1,
+    "explanation": "The URL is checked before stores because it gives sharing for free."
+  },
+  {
+    "question": "When do you move from a signal service to a SignalStore?",
+    "options": [
+      "At the start of every project",
+      "When the team keeps rewriting loading flags, entity maps and hooks",
+      "Never",
+      "When using standalone components"
+    ],
+    "answer": 1,
+    "explanation": "The store pays for itself by removing repeated plumbing."
+  },
+  {
+    "question": "Which situation justifies NgRx Store or NGXS?",
+    "options": [
+      "One component's toggle",
+      "Many features reacting to the same events with auditing needs",
+      "A form with two fields",
+      "A static list"
+    ],
+    "answer": 1,
+    "explanation": "Event-driven coordination and traceability are what action stores add."
+  },
+  {
+    "question": "A team uses two stores for the same feature. The issue is:",
+    "options": [
+      "Performance only",
+      "Two owners that can drift apart",
+      "TypeScript errors",
+      "Lazy loading"
+    ],
+    "answer": 1,
+    "explanation": "Keep one owner per piece of state."
+  }
+]

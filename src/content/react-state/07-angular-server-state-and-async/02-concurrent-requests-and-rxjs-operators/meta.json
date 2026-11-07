@@ -1,0 +1,21 @@
+{
+  "title": "Concurrent Requests and RxJS Operators",
+  "summary": "Pick switchMap, exhaustMap, concatMap or mergeMap by what should happen to work already in flight, and keep pipelines alive after errors.",
+  "level": "advanced",
+  "tags": [
+    "core",
+    "ecosystem"
+  ],
+  "entry": "search.ts",
+  "preview": false,
+  "resources": [
+    {
+      "label": "RxJS: switchMap",
+      "url": "https://rxjs.dev/api/operators/switchMap"
+    },
+    {
+      "label": "RxJS: exhaustMap",
+      "url": "https://rxjs.dev/api/operators/exhaustMap"
+    }
+  ]
+}

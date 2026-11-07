@@ -1,0 +1,21 @@
+{
+  "title": "Request States and Unions",
+  "summary": "Model idle, loading, success, empty and error as one discriminated union owned by a service.",
+  "level": "intermediate",
+  "tags": [
+    "core",
+    "typescript"
+  ],
+  "entry": "request.ts",
+  "preview": false,
+  "resources": [
+    {
+      "label": "TypeScript: Discriminated unions",
+      "url": "https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions"
+    },
+    {
+      "label": "angular.dev: Signals",
+      "url": "https://angular.dev/guide/signals"
+    }
+  ]
+}

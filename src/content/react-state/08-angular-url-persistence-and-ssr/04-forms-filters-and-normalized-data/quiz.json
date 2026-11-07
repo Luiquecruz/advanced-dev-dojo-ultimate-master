@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What should reach the store when a user saves a form?",
+    "options": [
+      "Every keystroke",
+      "The validated committed value",
+      "The FormControl instances",
+      "Nothing"
+    ],
+    "answer": 1,
+    "explanation": "Edit locally and commit once on submit."
+  },
+  {
+    "question": "Why can nested copies of the same product cause bugs?",
+    "options": [
+      "They are slower to render",
+      "They can drift when one copy is updated",
+      "JSON forbids them",
+      "They break signals"
+    ],
+    "answer": 1,
+    "explanation": "Normalization stores each entity once so an update has one place to land."
+  },
+  {
+    "question": "A multi-step wizard spans separate routes and must keep the draft between steps. Where may the draft live?",
+    "options": [
+      "In a scoped service",
+      "In module-level variables",
+      "In the DOM only",
+      "In the URL path"
+    ],
+    "answer": 0,
+    "explanation": "A route- or feature-scoped service keeps it while validation stays in forms."
+  },
+  {
+    "question": "Which filters belong in the URL?",
+    "options": [
+      "Those users would share or return to",
+      "Hover effects",
+      "Animation state",
+      "Loading flags"
+    ],
+    "answer": 0,
+    "explanation": "Shareable and restorable state belongs in the router."
+  },
+  {
+    "question": "When is a SignalStore clearly better than a plain service?",
+    "options": [
+      "Never",
+      "When the team keeps rewriting the same state, entity and hook plumbing",
+      "When the state is one boolean",
+      "When using NgModules only"
+    ],
+    "answer": 1,
+    "explanation": "Stores standardize conventions; for tiny state the extra layer is not worth it."
+  }
+]

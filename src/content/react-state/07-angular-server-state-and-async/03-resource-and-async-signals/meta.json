@@ -1,0 +1,21 @@
+{
+  "title": "resource() and Async Signals",
+  "summary": "Load data from reactive params with resource(), read its status signals, cancel stale requests and know what it does not cache.",
+  "level": "advanced",
+  "tags": [
+    "modern",
+    "new"
+  ],
+  "entry": "product.ts",
+  "preview": false,
+  "resources": [
+    {
+      "label": "angular.dev: Async reactivity with resources",
+      "url": "https://angular.dev/guide/signals/resource"
+    },
+    {
+      "label": "angular.dev: HTTP resources",
+      "url": "https://angular.dev/guide/http/http-resource"
+    }
+  ]
+}

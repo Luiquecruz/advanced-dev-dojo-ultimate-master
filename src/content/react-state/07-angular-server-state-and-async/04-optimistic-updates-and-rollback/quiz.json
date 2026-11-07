@@ -1,0 +1,46 @@
+[
+  {
+    "question": "When a save fails, what should be rolled back?",
+    "options": [
+      "The entire list from an old snapshot",
+      "Only the field of the entity that was changed",
+      "Nothing, the server fixes it",
+      "The router state"
+    ],
+    "answer": 1,
+    "explanation": "A narrow rollback keeps unrelated successful changes."
+  },
+  {
+    "question": "Which action is a poor fit for an optimistic update?",
+    "options": [
+      "A like toggle",
+      "Moving a card between columns",
+      "Charging a credit card",
+      "Marking a todo done"
+    ],
+    "answer": 2,
+    "explanation": "Payments are irreversible and decided by the server, so show a pending state instead."
+  },
+  {
+    "question": "What must you do before applying the optimistic change?",
+    "options": [
+      "Snapshot the current value",
+      "Invalidate the router",
+      "Disable signals",
+      "Wait for the server"
+    ],
+    "answer": 0,
+    "explanation": "The snapshot is what makes rollback possible."
+  },
+  {
+    "question": "Why is a silent snap-back after failure a problem?",
+    "options": [
+      "It is slower",
+      "The user sees the change vanish with no explanation",
+      "It breaks TypeScript",
+      "It cannot be tested"
+    ],
+    "answer": 1,
+    "explanation": "Failures need an error message and ideally a retry."
+  }
+]

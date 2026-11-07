@@ -3,8 +3,8 @@
   "title": "State Management",
   "shortTitle": "State",
   "monogram": "S",
-  "description": "State ownership and architecture with framework-specific paths: React local state, Context, Zustand, Redux Toolkit, Jotai, XState and query caches; Angular signal services, NgRx SignalStore and classic NgRx Store.",
-  "version": "React 19.3 \u00b7 Angular 22 \u00b7 NgRx 22 \u00b7 Zustand 5 \u00b7 RTK 2 \u00b7 TanStack Query 5",
+  "description": "State ownership and architecture with framework-specific paths: React local state, Context, Zustand, Redux Toolkit, Jotai, XState and query caches; Angular signal services, server state, URL and persistence, SignalStore, NgRx Store and alternative stores.",
+  "version": "React 19.3 · Angular 22 · NgRx 22 · Zustand 5 · RTK 2 · TanStack Query 5",
   "languages": [
     "react",
     "angular"

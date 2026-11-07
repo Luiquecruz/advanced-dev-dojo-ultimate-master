@@ -1,0 +1,19 @@
+{
+  "title": "ComponentStore and Reactive Stores",
+  "summary": "Read ComponentStore code fluently, map it to SignalStore, and place RxAngular State, Elf, Akita and StateAdapt among the options.",
+  "level": "advanced",
+  "tags": [
+    "theory",
+    "ecosystem"
+  ],
+  "resources": [
+    {
+      "label": "NgRx: ComponentStore",
+      "url": "https://ngrx.io/guide/component-store"
+    },
+    {
+      "label": "RxAngular: State",
+      "url": "https://www.rx-angular.io/docs/state"
+    }
+  ]
+}

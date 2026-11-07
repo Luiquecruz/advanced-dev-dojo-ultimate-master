@@ -1,16 +1,20 @@
 # State Management track
 
-The public track is titled State Management and retains its `react-state` route and existing React lesson keys. It centralizes state architecture and framework-specific tools, including the Angular state lessons formerly inside the Angular track. The track has 30 lessons across six required modules.
+The public track is titled State Management and retains its `react-state` route and existing React lesson keys. It centralizes state architecture and framework-specific tools, including the Angular state lessons formerly inside the Angular track. The track has 50 lessons across ten required modules.
 
 ## Learning paths
 
 | Modules | Focus | Prerequisites |
 | --- | --- | --- |
 | 01–04 | State ownership and React implementations: local state, reducers, immutable updates, Context, external stores and server caches | React components and hooks |
-| 05 State with Angular | Signal-based services, NgRx SignalStore, store features and classic NgRx Store | Angular signals and dependency injection; exact prerequisite titles appear in each lesson |
-| 06 Architecture and Decision Making | Tool selection across React and Angular, state boundaries, React forms and compiler considerations, and a React capstone | The framework-specific path used by the exercise |
+| 05 Angular State Foundations | Kinds of state, provider scopes, signals as state and the RxJS bridge | Angular signals and dependency injection; exact prerequisite titles appear in each lesson |
+| 06 Stores with Angular | Signal-based services, NgRx SignalStore, store features, classic NgRx Store and facades | Module 05 |
+| 07 Angular Server State and Async | Request states, concurrency operators, `resource()`, optimistic updates and query libraries | Modules 05 and 06 |
+| 08 Angular URL, Persistence and SSR | Router state, versioned persistence, SSR and hydration, forms and normalized data | Module 05 |
+| 09 Angular State Alternatives and Quality | ComponentStore, NGXS and other stores, choosing a tool, testing, performance and migration, and an Angular capstone | Modules 05 to 08 |
+| 10 Architecture and Decision Making | Tool selection across React and Angular, state boundaries, React forms and compiler considerations, and a React capstone | The framework-specific path used by the exercise |
 
-Angular learners can begin at module 05 after the Angular prerequisites. React hooks, JSX and React libraries are not prerequisites for the Angular exercises. The ownership questions transfer between frameworks; their concrete APIs do not. The decision lesson explicitly distinguishes the React examples from Angular signal services, SignalStore and classic Store.
+Angular learners can begin at module 05 and follow modules 05 to 09 after the Angular prerequisites. React hooks, JSX and React libraries are not prerequisites for the Angular exercises. The ownership questions transfer between frameworks; their concrete APIs do not. The decision lesson explicitly distinguishes the React examples from Angular signal services, SignalStore and classic Store.
 
 ## Content and verification
 

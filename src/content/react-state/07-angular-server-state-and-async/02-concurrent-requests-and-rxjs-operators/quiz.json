@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Which operator cancels the in-flight request when a newer one starts, so an old search response can never replace a newer one?",
+    "options": [
+      "mergeMap",
+      "switchMap",
+      "concatMap",
+      "exhaustMap"
+    ],
+    "answer": 1,
+    "explanation": "`switchMap` unsubscribes from the previous inner observable, which cancels the stale request. `concatMap` would queue the new one behind it instead of cancelling."
+  },
+  {
+    "question": "Which operator fits a Save button that must ignore clicks while a save runs?",
+    "options": [
+      "switchMap",
+      "mergeMap",
+      "exhaustMap",
+      "debounceTime"
+    ],
+    "answer": 2,
+    "explanation": "`exhaustMap` drops new values while the current inner observable is active."
+  },
+  {
+    "question": "Where should `catchError` go so a failed search does not end the search box?",
+    "options": [
+      "After subscribe",
+      "Inside the switchMap inner pipe",
+      "Before debounceTime",
+      "In the template"
+    ],
+    "answer": 1,
+    "explanation": "An error reaching the outer stream terminates it; catching inside keeps the outer alive."
+  },
+  {
+    "question": "Which operator preserves order by running one request after another?",
+    "options": [
+      "concatMap",
+      "switchMap",
+      "mergeMap",
+      "exhaustMap"
+    ],
+    "answer": 0,
+    "explanation": "`concatMap` queues the inner observables."
+  },
+  {
+    "question": "Why is `switchMap` risky for a save operation?",
+    "options": [
+      "It is slow",
+      "A new action can cancel a save already sent to the server",
+      "It cannot take a function",
+      "It repeats requests"
+    ],
+    "answer": 1,
+    "explanation": "Cancelling the subscription does not undo a write the server already accepted."
+  }
+]

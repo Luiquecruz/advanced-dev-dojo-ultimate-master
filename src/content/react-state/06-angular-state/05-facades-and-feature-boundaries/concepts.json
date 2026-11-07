@@ -1,0 +1,18 @@
+[
+  {
+    "term": "Facade",
+    "description": "A feature-level service exposing a small API of view model and intent methods while hiding stores and API services."
+  },
+  {
+    "term": "View model",
+    "description": "A `computed` object shaped for a screen to read, built from store state."
+  },
+  {
+    "term": "Intent method",
+    "description": "A facade method named after what the user wants (`toggle`, `load`) instead of how state changes."
+  },
+  {
+    "term": "Boundary",
+    "description": "A rule that a layer may depend only on the one directly below it."
+  }
+]

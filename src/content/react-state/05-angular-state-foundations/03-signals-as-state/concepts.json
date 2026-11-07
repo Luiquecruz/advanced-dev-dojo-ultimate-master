@@ -1,0 +1,18 @@
+[
+  {
+    "term": "computed()",
+    "description": "Read-only, lazy and memoized derived signal. Recalculates only when a signal it read changes."
+  },
+  {
+    "term": "linkedSignal()",
+    "description": "A writable signal whose value is recomputed whenever its source signals change, so it resets without an effect."
+  },
+  {
+    "term": "effect()",
+    "description": "Runs a side effect after the signals it reads change. Not a mechanism for computing state."
+  },
+  {
+    "term": "Referential equality",
+    "description": "Signals notify consumers when the new value is not `Object.is` equal to the old one, so updates must create new objects and arrays."
+  }
+]

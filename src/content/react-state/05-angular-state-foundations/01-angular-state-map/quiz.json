@@ -1,0 +1,57 @@
+[
+  {
+    "question": "A list of users and a `selectedUser` object are both stored in signals. What bug does this design invite?",
+    "options": [
+      "The two can disagree after a user is edited",
+      "Signals cannot hold objects",
+      "The list becomes read-only",
+      "Change detection stops running"
+    ],
+    "answer": 0,
+    "explanation": "Two copies drift. Store the selected id and derive the object with `computed()`."
+  },
+  {
+    "question": "Where does a product search text that users should be able to share in a link belong?",
+    "options": [
+      "A root service signal",
+      "A component field",
+      "The URL query parameters",
+      "localStorage"
+    ],
+    "answer": 2,
+    "explanation": "Shareable, navigable state belongs in the router; the address bar is the store."
+  },
+  {
+    "question": "Which value is the best candidate for `computed()`?",
+    "options": [
+      "The logged-in user id",
+      "The cart total calculated from the line items",
+      "The open/closed flag of a dialog",
+      "The text typed in a search box"
+    ],
+    "answer": 1,
+    "explanation": "A total can be recomputed from the items, so storing it creates a copy that needs synchronization."
+  },
+  {
+    "question": "Why is moving state down from a global store harder than lifting it up?",
+    "options": [
+      "Signals cannot be scoped",
+      "Every reader has already attached to the shared owner",
+      "Services cannot be provided in components",
+      "Child components cannot read inputs"
+    ],
+    "answer": 1,
+    "explanation": "Once many readers depend on a shared owner, narrowing it means touching all of them. Start local and lift when a second reader appears."
+  },
+  {
+    "question": "Which kind of state is best handled by `resource()` or a query library rather than a hand-written store?",
+    "options": [
+      "Component state",
+      "Form state",
+      "Server state",
+      "Derived state"
+    ],
+    "answer": 2,
+    "explanation": "Server state brings caching, loading and error status, staleness and cancellation that those tools already model."
+  }
+]

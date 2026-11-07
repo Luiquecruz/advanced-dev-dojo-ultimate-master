@@ -1,0 +1,18 @@
+[
+  {
+    "term": "Versioned envelope",
+    "description": "Persisted data wrapped as `{ version, data }` so later code can migrate old shapes."
+  },
+  {
+    "term": "Migration",
+    "description": "A function converting data written by an older version to the current shape on load."
+  },
+  {
+    "term": "Storage token",
+    "description": "An `InjectionToken` for the storage object, so tests and servers can provide a fake or no-op."
+  },
+  {
+    "term": "Persisted vs request state",
+    "description": "Only durable state is stored; loading and error flags must never be restored from storage."
+  }
+]

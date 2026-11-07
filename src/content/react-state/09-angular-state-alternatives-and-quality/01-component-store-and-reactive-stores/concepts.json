@@ -1,0 +1,18 @@
+[
+  {
+    "term": "ComponentStore",
+    "description": "An NgRx RxJS-based store scoped to a component or feature through its provider, with `select`, `updater` and `effect`."
+  },
+  {
+    "term": "updater",
+    "description": "A ComponentStore function that produces new state from the previous state and a value. Must be pure."
+  },
+  {
+    "term": "effect (ComponentStore)",
+    "description": "Runs side effects on a stream of inputs; the flattening operator inside decides how overlapping calls behave."
+  },
+  {
+    "term": "selectSignal",
+    "description": "Reads ComponentStore state as a signal, easing migration from observables."
+  }
+]

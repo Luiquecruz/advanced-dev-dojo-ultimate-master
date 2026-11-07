@@ -1,0 +1,22 @@
+[
+  {
+    "term": "toSignal()",
+    "description": "Subscribes to an observable and exposes its latest value as a signal, unsubscribing when its injection context is destroyed."
+  },
+  {
+    "term": "requireSync",
+    "description": "Option of `toSignal` asserting the source emits synchronously (like a `BehaviorSubject`), removing `undefined` from the type."
+  },
+  {
+    "term": "toObservable()",
+    "description": "Turns a signal into an observable that emits its value after change detection settles."
+  },
+  {
+    "term": "takeUntilDestroyed()",
+    "description": "RxJS operator that completes a stream when the current injection context or given `DestroyRef` is destroyed."
+  },
+  {
+    "term": "BehaviorSubject store",
+    "description": "A service holding state in a subject with a current value. Common in legacy code and easy to bridge to signals."
+  }
+]

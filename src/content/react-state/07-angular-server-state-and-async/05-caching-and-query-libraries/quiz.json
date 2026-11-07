@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What does stale-while-revalidate mean?",
+    "options": [
+      "Show an error and wait",
+      "Show cached data immediately and refetch in the background",
+      "Block until a refetch finishes",
+      "Delete the cache on every read"
+    ],
+    "answer": 1,
+    "explanation": "The user sees data at once and it refreshes when the new response arrives."
+  },
+  {
+    "question": "Two components request the same query key at once. What does a query library do?",
+    "options": [
+      "Two requests",
+      "One shared request",
+      "It throws",
+      "It ignores the second component"
+    ],
+    "answer": 1,
+    "explanation": "Deduplication shares one request and one cache entry per key."
+  },
+  {
+    "question": "Which is the architecture bug the lesson warns about?",
+    "options": [
+      "Using signals in services",
+      "Caching the same API data in both a query cache and a global store",
+      "Using inject()",
+      "Having more than one component"
+    ],
+    "answer": 1,
+    "explanation": "Two owners drift apart. Choose one source of truth."
+  },
+  {
+    "question": "After a successful create mutation, what usually happens to the list query?",
+    "options": [
+      "It is deleted forever",
+      "It is invalidated so it refetches",
+      "It is converted to a signal",
+      "It switches to a Subject"
+    ],
+    "answer": 1,
+    "explanation": "`invalidateQueries` marks the keys stale."
+  },
+  {
+    "question": "Which statement about the Angular TanStack Query package is true?",
+    "options": [
+      "It is labelled experimental and may change in minor versions",
+      "It is part of @angular/core",
+      "It needs NgRx",
+      "It only works with Observables"
+    ],
+    "answer": 0,
+    "explanation": "Pin the version and test every upgrade."
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What is the main benefit of a facade?",
+    "options": [
+      "Faster signals",
+      "Components depend on a small stable API instead of the store or API shape",
+      "It replaces dependency injection",
+      "It removes the need for stores"
+    ],
+    "answer": 1,
+    "explanation": "Changing the state tool then touches the facade, not every component."
+  },
+  {
+    "question": "Which belongs in a facade?",
+    "options": [
+      "CSS class names",
+      "The use case \"load, update the store, expose the status\"",
+      "HTML templates",
+      "Route configuration"
+    ],
+    "answer": 1,
+    "explanation": "Orchestration of collaborators is the facade's job."
+  },
+  {
+    "question": "A facade that only re-exports each store property is:",
+    "options": [
+      "The ideal design",
+      "A layer without a boundary",
+      "Required by Angular",
+      "A performance optimization"
+    ],
+    "answer": 1,
+    "explanation": "It adds indirection and no decoupling."
+  },
+  {
+    "question": "Should a component inject both the facade and the store?",
+    "options": [
+      "Yes, for speed",
+      "No, that bypasses the boundary",
+      "Only in tests",
+      "Only with NgRx"
+    ],
+    "answer": 1,
+    "explanation": "The component should depend on the facade only."
+  }
+]

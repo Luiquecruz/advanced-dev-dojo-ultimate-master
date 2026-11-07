@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Why store a `version` with persisted data?",
+    "options": [
+      "It makes storage faster",
+      "Old data must still be readable after the shape changes",
+      "localStorage requires it",
+      "It encrypts the data"
+    ],
+    "answer": 1,
+    "explanation": "Stored data outlives the code that wrote it; the version selects the migration."
+  },
+  {
+    "question": "Which value should not be persisted?",
+    "options": [
+      "Theme preference",
+      "A `loading` flag",
+      "An unsent draft",
+      "An anonymous cart"
+    ],
+    "answer": 1,
+    "explanation": "Restoring `loading: true` after reload leaves the UI stuck."
+  },
+  {
+    "question": "A stored JSON string is corrupt. What should the store do?",
+    "options": [
+      "Crash with the error",
+      "Fall back to defaults",
+      "Retry forever",
+      "Delete the browser data"
+    ],
+    "answer": 1,
+    "explanation": "Parsing must be guarded and fall back to a valid default."
+  },
+  {
+    "question": "Why inject a storage token instead of using `localStorage` directly?",
+    "options": [
+      "It is faster",
+      "Tests can use a fake and the server a no-op",
+      "localStorage is deprecated",
+      "Signals require it"
+    ],
+    "answer": 1,
+    "explanation": "Injection keeps the service testable and safe under server rendering."
+  }
+]

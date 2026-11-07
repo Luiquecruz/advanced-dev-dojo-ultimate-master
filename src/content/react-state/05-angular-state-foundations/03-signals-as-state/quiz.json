@@ -1,0 +1,57 @@
+[
+  {
+    "question": "An effect that only calls `this.total.set(...)` from `items()` should be replaced by:",
+    "options": [
+      "A larger effect",
+      "computed()",
+      "untracked()",
+      "A BehaviorSubject"
+    ],
+    "answer": 1,
+    "explanation": "The total is derived state: `computed()` is read-only, lazy and never one render behind."
+  },
+  {
+    "question": "Which API gives a writable value that resets when a source signal changes?",
+    "options": [
+      "signal()",
+      "computed()",
+      "linkedSignal()",
+      "toSignal()"
+    ],
+    "answer": 2,
+    "explanation": "`linkedSignal` is writable and recomputed from its source."
+  },
+  {
+    "question": "`this.items().push(item)` followed by nothing else:",
+    "options": [
+      "Notifies readers",
+      "Mutates the array without notifying anyone",
+      "Throws",
+      "Creates a copy"
+    ],
+    "answer": 1,
+    "explanation": "The reference is unchanged, so signal consumers are not notified. Use `update` with a new array."
+  },
+  {
+    "question": "What is `effect()` appropriate for?",
+    "options": [
+      "Deriving a total",
+      "Persisting state to localStorage",
+      "Filtering a list",
+      "Resetting a page number"
+    ],
+    "answer": 1,
+    "explanation": "Effects push state outside the signal graph, for example to storage or a non-reactive library."
+  },
+  {
+    "question": "When does a `computed` recompute?",
+    "options": [
+      "After every change detection",
+      "When read and a dependency changed since the last computation",
+      "On a timer",
+      "Only on component creation"
+    ],
+    "answer": 1,
+    "explanation": "`computed` is lazy and memoized."
+  }
+]

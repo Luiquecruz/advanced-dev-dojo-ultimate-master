@@ -1,0 +1,18 @@
+[
+  {
+    "term": "resource()",
+    "description": "Signal-based async loader: a reactive `params` function decides the request and a `loader` fetches it."
+  },
+  {
+    "term": "ResourceStatus",
+    "description": "idle, loading, reloading, resolved, error or local: the lifecycle of a resource."
+  },
+  {
+    "term": "abortSignal",
+    "description": "The `AbortSignal` passed to the loader, aborted when params change so the stale request can be cancelled."
+  },
+  {
+    "term": "httpResource",
+    "description": "A resource built on `HttpClient`, so requests go through interceptors."
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "title": "Provider Scopes and State Lifetime",
+  "summary": "Choose root, route or component providers to decide who shares a state service and how long its state lives.",
+  "level": "intermediate",
+  "tags": [
+    "core"
+  ],
+  "entry": "app.ts",
+  "resources": [
+    {
+      "label": "angular.dev: Hierarchical injectors",
+      "url": "https://angular.dev/guide/di/hierarchical-dependency-injection"
+    },
+    {
+      "label": "angular.dev: Providers",
+      "url": "https://angular.dev/guide/di/defining-dependency-providers"
+    }
+  ]
+}

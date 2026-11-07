@@ -1,0 +1,20 @@
+{
+  "title": "Facades and Feature Boundaries",
+  "summary": "Give a feature one small API of view model and intent methods, hiding stores and API services behind it.",
+  "level": "advanced",
+  "tags": [
+    "core"
+  ],
+  "entry": "facade.ts",
+  "preview": false,
+  "resources": [
+    {
+      "label": "angular.dev: Dependency injection",
+      "url": "https://angular.dev/guide/di"
+    },
+    {
+      "label": "NgRx: SignalStore",
+      "url": "https://ngrx.io/guide/signals/signal-store"
+    }
+  ]
+}

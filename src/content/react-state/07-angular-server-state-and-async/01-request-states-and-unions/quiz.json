@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Why prefer one `status` union to `loading`, `error` and `data` fields?",
+    "options": [
+      "Unions are faster at runtime",
+      "Booleans cannot be signals",
+      "The union allows only valid combinations and narrows types",
+      "HttpClient requires it"
+    ],
+    "answer": 2,
+    "explanation": "Separate fields allow impossible states, such as loading with an error."
+  },
+  {
+    "question": "A request succeeds and returns `[]`. Which state is it?",
+    "options": [
+      "error",
+      "loading",
+      "empty",
+      "idle"
+    ],
+    "answer": 2,
+    "explanation": "Empty is a valid answer and needs its own empty-state screen."
+  },
+  {
+    "question": "A user double-clicks Load. What is the simplest defense in the store?",
+    "options": [
+      "Ignore `load()` while the state is `loading`",
+      "Disable change detection",
+      "Catch every error silently",
+      "Switch to a Subject"
+    ],
+    "answer": 0,
+    "explanation": "A guard on the current status prevents a duplicate request."
+  },
+  {
+    "question": "Inside `status === 'success'`, what does TypeScript know?",
+    "options": [
+      "Nothing about `data`",
+      "That `data` exists on the state",
+      "That the request is cached",
+      "That the list is not empty at runtime"
+    ],
+    "answer": 1,
+    "explanation": "Narrowing on the literal `status` exposes the members of that union case."
+  },
+  {
+    "question": "Why keep the request signal private and expose a read-only view?",
+    "options": [
+      "So templates cannot read it",
+      "So only the service transitions the state",
+      "Because signals cannot be public",
+      "To avoid memoization"
+    ],
+    "answer": 1,
+    "explanation": "Transitions stay in service methods, so the state follows the allowed flow."
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Quantities by id",
+    "description": "The cart stores `Record<productId, quantity>` and joins to current products when read, so no stale copies exist."
+  },
+  {
+    "term": "withHooks",
+    "description": "SignalStore feature whose `onInit` runs when the store is created, a natural place to restore persisted state."
+  },
+  {
+    "term": "Derived cart",
+    "description": "Lines, subtotals and total computed from quantities and products, never stored."
+  }
+]

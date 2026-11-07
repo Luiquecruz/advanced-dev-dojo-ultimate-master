@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Why can one large state object hurt performance?",
+    "options": [
+      "Objects cannot be signals",
+      "Any change notifies every reader of the object",
+      "It cannot be typed",
+      "It breaks DI"
+    ],
+    "answer": 1,
+    "explanation": "Focused signals notify only readers of the changed part."
+  },
+  {
+    "question": "What does zoneless rely on to update views?",
+    "options": [
+      "Zone patches",
+      "Signals, events and explicit notifications",
+      "Timers",
+      "Global observers"
+    ],
+    "answer": 1,
+    "explanation": "Without zone.js, state must be written through signals or notify Angular explicitly."
+  },
+  {
+    "question": "How should an old BehaviorSubject store be migrated?",
+    "options": [
+      "Rewrite the app at once",
+      "Bridge with toSignal and move components gradually",
+      "Delete it",
+      "Rename it"
+    ],
+    "answer": 1,
+    "explanation": "Bridges keep the app working at every step."
+  },
+  {
+    "question": "Why are plain method calls in templates risky for expensive work?",
+    "options": [
+      "They cannot be async",
+      "They run again on every check instead of being memoized",
+      "They break signals",
+      "Angular forbids them"
+    ],
+    "answer": 1,
+    "explanation": "A `computed` caches the work until its inputs change."
+  },
+  {
+    "question": "What should state logging in production avoid?",
+    "options": [
+      "Action names",
+      "Whole payloads with personal data",
+      "Error codes",
+      "Timestamps"
+    ],
+    "answer": 1,
+    "explanation": "Log intent and outcome, not sensitive data."
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "title": "NGXS and Class-Based Stores",
+  "summary": "Read and write NGXS states, actions and selectors, compare them with NgRx Store and decide when an action store is worth its ceremony.",
+  "level": "advanced",
+  "tags": [
+    "theory",
+    "ecosystem"
+  ],
+  "resources": [
+    {
+      "label": "NGXS: Documentation",
+      "url": "https://www.ngxs.io/"
+    },
+    {
+      "label": "NgRx: Store",
+      "url": "https://ngrx.io/guide/store"
+    }
+  ]
+}

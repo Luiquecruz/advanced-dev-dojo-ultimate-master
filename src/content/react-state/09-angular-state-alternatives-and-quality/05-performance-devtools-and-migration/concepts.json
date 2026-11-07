@@ -1,0 +1,18 @@
+[
+  {
+    "term": "Granularity",
+    "description": "Using separate signals or store fields so a change notifies only the readers of that part of the state."
+  },
+  {
+    "term": "Memoization",
+    "description": "Caching a derived value until its dependencies change; `computed`, NgRx selectors and NGXS selectors all do it."
+  },
+  {
+    "term": "Zoneless",
+    "description": "Running Angular without zone.js; updates are triggered by signals, events and explicit notifications."
+  },
+  {
+    "term": "Incremental migration",
+    "description": "Moving from RxJS-based state to signals one feature at a time through `toSignal` and `toObservable` bridges."
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "term": "Commit on submit",
+    "description": "Edit inside the form and send only the validated value to the store when the user saves."
+  },
+  {
+    "term": "Normalization",
+    "description": "Storing each entity once by id and referencing it elsewhere, so one update changes every view of it."
+  },
+  {
+    "term": "Form draft",
+    "description": "Transient edited values. Centralize only when they must outlive the screen or span several routes."
+  },
+  {
+    "term": "withEntities",
+    "description": "NgRx SignalStore feature that keeps an id list and an entity map for a collection."
+  }
+]

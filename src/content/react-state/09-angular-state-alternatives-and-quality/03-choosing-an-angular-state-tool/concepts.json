@@ -1,0 +1,18 @@
+[
+  {
+    "term": "Decision order",
+    "description": "Check derived, URL, form, server, local, feature and global state in that order; stop at the first match."
+  },
+  {
+    "term": "One owner per state",
+    "description": "No piece of state lives in two stores; two copies will drift."
+  },
+  {
+    "term": "Escalation",
+    "description": "Move to a heavier tool only when a concrete pain appears."
+  },
+  {
+    "term": "Exit cost",
+    "description": "How hard it is to remove a library later. A factor in choosing one."
+  }
+]

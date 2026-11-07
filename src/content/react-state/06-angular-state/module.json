@@ -1,0 +1,4 @@
+{
+  "title": "Stores with Angular",
+  "description": "Signal-based services, NgRx SignalStore and entity features, classic NgRx Store and facades. Requires Angular State Foundations; React-specific modules are not prerequisites."
+}

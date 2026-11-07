@@ -1,0 +1,19 @@
+{
+  "title": "Caching and Query Libraries",
+  "summary": "Separate client and server state, learn query keys, staleness, deduplication and invalidation, and decide between resource, a hand-written cache and TanStack Query.",
+  "level": "advanced",
+  "tags": [
+    "theory",
+    "ecosystem"
+  ],
+  "resources": [
+    {
+      "label": "TanStack Query for Angular: Overview",
+      "url": "https://tanstack.com/query/latest/docs/framework/angular/overview"
+    },
+    {
+      "label": "angular.dev: Resources",
+      "url": "https://angular.dev/guide/signals/resource"
+    }
+  ]
+}

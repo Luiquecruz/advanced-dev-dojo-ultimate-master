@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Why does the cart store ids and quantities instead of product copies?",
+    "options": [
+      "It is smaller on the wire",
+      "Lines are derived from the current products, so prices cannot go stale",
+      "Signals cannot hold objects",
+      "The server requires it"
+    ],
+    "answer": 1,
+    "explanation": "A join at read time keeps one source of truth for product data."
+  },
+  {
+    "question": "Which value should NOT be persisted in this shop?",
+    "options": [
+      "Cart quantities",
+      "The loading status",
+      "The storage version",
+      "Nothing"
+    ],
+    "answer": 1,
+    "explanation": "Request state would restore a stuck loading screen."
+  },
+  {
+    "question": "Where does a SignalStore restore persisted state when it is created?",
+    "options": [
+      "withState only",
+      "The onInit hook of withHooks",
+      "A component template",
+      "A selector"
+    ],
+    "answer": 1,
+    "explanation": "`withHooks` runs `onInit` at store creation."
+  },
+  {
+    "question": "Why inject the storage and the product fetcher through tokens?",
+    "options": [
+      "It is required by NgRx",
+      "Tests and the server can replace them",
+      "Tokens are faster",
+      "It removes the need for types"
+    ],
+    "answer": 1,
+    "explanation": "Injected edges keep the store testable and SSR-safe."
+  }
+]

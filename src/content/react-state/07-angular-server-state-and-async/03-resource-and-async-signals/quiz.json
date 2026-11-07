@@ -1,0 +1,57 @@
+[
+  {
+    "question": "What does a resource do when `params` returns `undefined`?",
+    "options": [
+      "Throws",
+      "Stays idle and makes no request",
+      "Loads with empty params",
+      "Reloads forever"
+    ],
+    "answer": 1,
+    "explanation": "`undefined` means \"no request\", so the status is idle."
+  },
+  {
+    "question": "Why pass `abortSignal` to `fetch` in a loader?",
+    "options": [
+      "To cache the response",
+      "To cancel a request made obsolete by new params",
+      "To retry on error",
+      "To enable SSR"
+    ],
+    "answer": 1,
+    "explanation": "It is aborted when params change, so the stale request stops."
+  },
+  {
+    "question": "What does reading `value()` do while the resource is in `error`?",
+    "options": [
+      "Returns undefined",
+      "Returns the last value",
+      "Throws the error",
+      "Returns null"
+    ],
+    "answer": 2,
+    "explanation": "Check `hasValue()` or `status()` before reading. A `defaultValue` does not cover the error state."
+  },
+  {
+    "question": "Which status keeps the old value visible while a `reload()` runs?",
+    "options": [
+      "loading",
+      "reloading",
+      "local",
+      "idle"
+    ],
+    "answer": 1,
+    "explanation": "`reloading` means the resource is refreshing and still holds the previous value."
+  },
+  {
+    "question": "Which problem does a plain `resource` not solve?",
+    "options": [
+      "Reacting to a changing id",
+      "Cancelling obsolete requests",
+      "Sharing one cached response across components",
+      "Exposing a loading state"
+    ],
+    "answer": 2,
+    "explanation": "It loads per params value; shared caching and deduplication need a query layer."
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "term": "Single source of truth",
+    "description": "One place owns each piece of state and is the only code that writes it; every other reader derives from it."
+  },
+  {
+    "term": "Derived state",
+    "description": "A value computed from other state, expressed with `computed()` instead of stored and synchronized by hand."
+  },
+  {
+    "term": "Server state",
+    "description": "Data that lives on a server and is only cached in the app. It has loading, error and freshness concerns of its own."
+  },
+  {
+    "term": "URL state",
+    "description": "State such as filters, sort and page kept in the route so it survives reloads and can be shared as a link."
+  },
+  {
+    "term": "Transient vs persisted",
+    "description": "Transient state disappears with the page; persisted state is written to storage and needs a version to evolve safely."
+  }
+]

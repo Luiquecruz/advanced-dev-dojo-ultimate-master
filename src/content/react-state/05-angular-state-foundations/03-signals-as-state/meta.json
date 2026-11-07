@@ -1,0 +1,21 @@
+{
+  "title": "Signals as State",
+  "summary": "Model state with signal, computed and linkedSignal, keep effect for side effects only, and update immutably.",
+  "level": "intermediate",
+  "tags": [
+    "core",
+    "modern"
+  ],
+  "entry": "catalog.ts",
+  "preview": false,
+  "resources": [
+    {
+      "label": "angular.dev: Signals",
+      "url": "https://angular.dev/guide/signals"
+    },
+    {
+      "label": "angular.dev: Dependent state with linkedSignal",
+      "url": "https://angular.dev/guide/signals/linked-signal"
+    }
+  ]
+}

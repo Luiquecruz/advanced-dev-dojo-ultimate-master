@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Why does `toSignal(subject$, { requireSync: true })` suit a `BehaviorSubject`?",
+    "options": [
+      "It makes the subject read-only",
+      "The subject emits synchronously, so the signal always has a value",
+      "It disables unsubscription",
+      "It converts the subject to a promise"
+    ],
+    "answer": 1,
+    "explanation": "A `BehaviorSubject` replays its current value on subscribe, so the signal never holds `undefined`."
+  },
+  {
+    "question": "What does `takeUntilDestroyed()` do inside a constructor?",
+    "options": [
+      "Retries the stream",
+      "Completes the stream when the owner is destroyed",
+      "Delays the first value",
+      "Turns it into a signal"
+    ],
+    "answer": 1,
+    "explanation": "It ties the subscription to the injection context, replacing manual unsubscribe code."
+  },
+  {
+    "question": "A search box signal must be debounced and its requests cancelled when typing continues. Which tools fit?",
+    "options": [
+      "effect only",
+      "toObservable with debounceTime and switchMap",
+      "computed with setTimeout",
+      "A BehaviorSubject per keystroke"
+    ],
+    "answer": 1,
+    "explanation": "Operators such as `debounceTime` and `switchMap` belong in a stream; the signal holds the text."
+  },
+  {
+    "question": "A signal is written three times in one synchronous turn. How many values does `toObservable` emit?",
+    "options": [
+      "Three",
+      "One, the settled value",
+      "Zero",
+      "It throws"
+    ],
+    "answer": 1,
+    "explanation": "`toObservable` emits through an effect, so intermediate writes in the same turn are collapsed."
+  }
+]

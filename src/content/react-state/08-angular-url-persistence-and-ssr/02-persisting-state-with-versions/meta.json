@@ -1,0 +1,20 @@
+{
+  "title": "Persisting State with Versions",
+  "summary": "Persist only durable state through an injected storage, wrap it in a versioned envelope, migrate old shapes and survive corrupt data.",
+  "level": "advanced",
+  "tags": [
+    "core"
+  ],
+  "entry": "preferences.ts",
+  "preview": false,
+  "resources": [
+    {
+      "label": "MDN: Web Storage API",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API"
+    },
+    {
+      "label": "MDN: IndexedDB API",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API"
+    }
+  ]
+}

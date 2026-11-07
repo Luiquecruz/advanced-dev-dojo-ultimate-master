@@ -1,0 +1,18 @@
+[
+  {
+    "term": "NGXS",
+    "description": "An action-based Angular store using classes and decorators: `@State`, `@Action` and `@Selector`."
+  },
+  {
+    "term": "StateContext",
+    "description": "The object an NGXS action handler receives to read and update its state slice (`getState`, `setState`, `patchState`)."
+  },
+  {
+    "term": "selectSignal",
+    "description": "Store method returning a signal from a typed selector or state token."
+  },
+  {
+    "term": "Action as a class",
+    "description": "An NGXS action is a class with a static `type` and its payload as constructor properties."
+  }
+]
