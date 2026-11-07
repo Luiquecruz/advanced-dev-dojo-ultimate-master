@@ -22,7 +22,9 @@ function read(storage: StorageLike): Preferences {
     }
     if (envelope?.version === 2) {
       const { theme, fontSize } = envelope.data ?? {};
-      if ((theme === 'light' || theme === 'dark') && typeof fontSize === 'number') return { theme, fontSize };
+      if ((theme === 'light' || theme === 'dark') && typeof fontSize === 'number' && Number.isFinite(fontSize)) {
+        return { theme, fontSize: Math.min(24, Math.max(12, fontSize)) };
+      }
     }
   } catch {
     return DEFAULTS;

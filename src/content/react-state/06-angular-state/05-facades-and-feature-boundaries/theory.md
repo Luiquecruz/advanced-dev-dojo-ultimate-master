@@ -70,4 +70,4 @@ A facade pays off when a feature has more than one component, orchestration acro
 
 ## When to choose it
 
-Add a facade at the feature boundary when use cases involve several collaborators. Scope it with the feature's providers so it dies with the feature.
+Add a facade at the feature boundary when use cases involve several collaborators. Provide it where the feature needs it: in a component's providers for per-instance state, or in the route providers for a feature-wide facade that lives for the session.

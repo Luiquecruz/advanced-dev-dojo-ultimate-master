@@ -57,12 +57,18 @@ setTheme(theme: Theme) {
 
 ## Injecting storage
 
-Do not reach for the global `localStorage` in a service. Inject a token that defaults to it, so tests use an in-memory fake and the server can use a no-op:
+Do not reach for the global `localStorage` in a service. Inject a token that defaults to it (`memoryStorage()` is a tiny `Map`-backed object with the same methods), so tests use an in-memory fake and the server a harmless fallback:
 
 ```ts
 export const STORAGE = new InjectionToken<Storage>('STORAGE', {
   providedIn: 'root',
-  factory: () => inject(DOCUMENT).defaultView?.localStorage ?? memoryStorage(),
+  factory: () => {
+    try {
+      return inject(DOCUMENT).defaultView?.localStorage ?? memoryStorage();
+    } catch {
+      return memoryStorage();   // access can throw when storage is blocked
+    }
+  },
 });
 ```
 

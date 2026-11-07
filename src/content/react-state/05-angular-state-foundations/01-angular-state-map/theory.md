@@ -63,6 +63,6 @@ A filter panel's open/closed flag is transient. A theme choice or a draft the us
 - Making everything global because one screen needed to share a field.
 - Treating the form as global state, so a half-edited form leaks into unrelated screens.
 
-## When to choose what
+## When to choose it
 
 Ask in order: Is it derived? Is it in the URL? Is it server data? Is it form data? Does it need more than one reader? Only the leftovers are "client state" that needs a store. For most Angular apps that is a small amount, and a signal service is enough for it.

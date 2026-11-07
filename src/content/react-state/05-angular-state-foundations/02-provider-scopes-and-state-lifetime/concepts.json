@@ -14,5 +14,9 @@
   {
     "term": "Nearest provider wins",
     "description": "`inject()` searches from the requesting element up through parents, then the environment injectors, and uses the first match."
+  },
+  {
+    "term": "Route providers",
+    "description": "Services listed in a route's `providers`. Created on the first activation and kept with the route configuration: scoped to a feature, not to a single visit."
   }
 ]

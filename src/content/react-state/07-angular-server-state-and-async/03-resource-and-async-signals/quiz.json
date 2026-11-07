@@ -30,7 +30,7 @@
       "Returns null"
     ],
     "answer": 2,
-    "explanation": "Check `hasValue()` or `status()` first, or define a `defaultValue`."
+    "explanation": "Check `hasValue()` or `status()` before reading. A `defaultValue` does not cover the error state."
   },
   {
     "question": "Which status keeps the old value visible while a `reload()` runs?",

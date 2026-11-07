@@ -58,3 +58,8 @@ test('a storage that throws on write does not break the setters', () => {
   expect(() => store.setTheme('dark')).not.toThrow();
   expect(store.preferences().theme).toBe('dark');
 });
+
+test('a stored font size outside 12 to 24 is clamped', () => {
+  const { store } = setup(JSON.stringify({ version: 2, data: { theme: 'dark', fontSize: 99 } }));
+  expect(store.preferences()).toEqual({ theme: 'dark', fontSize: 24 });
+});

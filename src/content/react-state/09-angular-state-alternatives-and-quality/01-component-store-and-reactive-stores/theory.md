@@ -36,7 +36,7 @@ Three building blocks:
 - **`updater`** produces new state from the old one and a value, as a pure function.
 - **`effect`** receives a stream of inputs and runs side effects, with the flattening operator you choose.
 
-It is provided with `providers: [provideComponentStore(MoviesStore)]` (or a plain `providers` entry) on a component or route, so each instance lives and dies with its host. That scoping is the main reason to use it over a global store.
+It is provided with `providers: [provideComponentStore(MoviesStore)]` (or a plain `providers` entry) on a component, so each instance lives and dies with that component. Provided on a route instead, it becomes one instance per feature that lives for the session. That scoping is the main reason to use it over a global store.
 
 ## Mapping to the signal world
 

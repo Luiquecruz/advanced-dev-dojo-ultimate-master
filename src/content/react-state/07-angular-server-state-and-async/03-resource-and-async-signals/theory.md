@@ -32,7 +32,7 @@ readonly product = resource({
 | `error` | the loader threw; `error()` has it |
 | `local` | the value was set locally with `set` or `update` |
 
-Reading `value()` while the resource is in `error` throws, so check `hasValue()` or `status()` first, or give a `defaultValue`.
+Reading `value()` while the resource is in `error` throws. A `defaultValue` only covers the time before a value exists (idle and the first load), not the error state, so check `hasValue()` or `status()` before reading, or read `error()` for the failure.
 
 ## Local edits and reload
 
@@ -41,7 +41,7 @@ A resource is writable: `product.set(next)` or `product.update(...)` change the 
 ## Related APIs
 
 - `httpResource(() => url)` from `@angular/common/http` builds a resource over `HttpClient`, with interceptors, and parses the response.
-- `rxResource` (in `@angular/core/rxjs-interop`) takes a loader that returns an Observable and cancels with `switchMap` semantics.
+- `rxResource` (in `@angular/core/rxjs-interop`) takes a `stream` function that returns an Observable. The Observable must emit a value or an error before it completes: one that completes empty, for example after `catchError(() => EMPTY)`, makes Angular throw.
 - Check the stability label of each API in the documentation of your Angular version before relying on it in a production app.
 
 ## Against a hand-written store
@@ -50,7 +50,7 @@ A resource does one request per params value. It does not cache across different
 
 ## Common mistakes
 
-- Reading `value()` while in `error` without checking, which throws.
+- Reading `value()` while in `error` without checking, which throws even when a `defaultValue` is set.
 - Ignoring `abortSignal`, so cancelled params still finish and waste bandwidth.
 - Creating a `resource` outside an injection context without passing `injector`.
 - Expecting identical params in two components to share one request.

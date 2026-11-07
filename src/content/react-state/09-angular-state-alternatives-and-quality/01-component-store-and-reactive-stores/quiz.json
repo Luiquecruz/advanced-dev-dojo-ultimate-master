@@ -3,7 +3,7 @@
     "question": "What is the main reason to use ComponentStore over a global store?",
     "options": [
       "It is always faster",
-      "Its provider scopes the state to one component or feature",
+      "Providing it on a component gives each component instance its own state with the same lifetime",
       "It needs no RxJS",
       "It replaces Angular DI"
     ],

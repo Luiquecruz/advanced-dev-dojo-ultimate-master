@@ -11,15 +11,15 @@
     "explanation": "Each component injector creates its own instance; siblings do not share it."
   },
   {
-    "question": "A filter must reset every time the user leaves and returns to a feature. Which scope gives that for free?",
+    "question": "A filter must reset every time the user leaves and returns to a feature. Which scope gives that without reset code?",
     "options": [
       "Root",
-      "Route or component providers",
-      "localStorage",
+      "Route providers",
+      "Component providers",
       "A static field"
     ],
-    "answer": 1,
-    "explanation": "The instance is destroyed with the route or component and rebuilt on the next visit."
+    "answer": 2,
+    "explanation": "A component's instance is destroyed with the component. A route's injector is cached and survives navigation, so route state is shared by every visit."
   },
   {
     "question": "What does `inject()` return when a token is provided in both the component and the root?",
@@ -42,5 +42,16 @@
     ],
     "answer": 1,
     "explanation": "Root services live for the whole app, so abandoned state persists."
+  },
+  {
+    "question": "A service is listed in a route's `providers`. When is it destroyed?",
+    "options": [
+      "When the user navigates away",
+      "When the component of the route is destroyed",
+      "It stays for the rest of the session once the route was first activated",
+      "Never created"
+    ],
+    "answer": 2,
+    "explanation": "The router creates the route's environment injector once and keeps it with the route configuration, so its services outlive individual visits."
   }
 ]
