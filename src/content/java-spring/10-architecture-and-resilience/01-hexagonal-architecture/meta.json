@@ -1,0 +1,23 @@
+{
+  "title": "Hexagonal Architecture",
+  "summary": "The dependency rule of ports and adapters, inbound and outbound ports, a domain free of framework annotations, a JPA adapter mapping entities, the package layout and when the pattern is not worth its cost.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Framework: Core container",
+      "url": "https://docs.spring.io/spring-framework/reference/core/beans.html"
+    },
+    {
+      "label": "Spring Data JPA reference",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/"
+    },
+    {
+      "label": "Spring Modulith reference",
+      "url": "https://docs.spring.io/spring-modulith/reference/"
+    }
+  ]
+}

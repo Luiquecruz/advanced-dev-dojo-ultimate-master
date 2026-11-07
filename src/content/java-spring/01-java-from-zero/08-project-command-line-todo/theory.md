@@ -56,7 +56,7 @@ static Task[] load(Path file) throws IOException {
 
 - Add `remove 2` and keep the numbering consistent afterward.
 - Add `list open` to show only unfinished tasks.
-- Write a JUnit test for the parsing method, as in the previous lesson, by moving the logic into a class of its own.
+- Write a self-check with `assert` for the parsing method, as in the previous lesson, by moving the logic into a class of its own.
 - Reject empty titles with an `IllegalArgumentException`.
 
 ## Common mistakes

@@ -1,0 +1,8 @@
+[
+  {"term": "In-memory data store", "description": "A server that keeps its data in RAM, answering simple reads and writes in well under a millisecond."},
+  {"term": "Redis key", "description": "A string name for a value, usually prefixed like course:42 so related keys can be found and inspected."},
+  {"term": "spring-boot-starter-data-redis", "description": "The starter that adds Spring Data Redis and the Lettuce client with auto-configuration from spring.data.redis properties."},
+  {"term": "StringRedisTemplate", "description": "A template preconfigured for string keys and values, the simplest way to use counters and flags."},
+  {"term": "RedisTemplate", "description": "A generic template whose key and value serializers you choose for arbitrary types."},
+  {"term": "Serializer", "description": "The component that converts Java objects to the bytes Redis stores, such as the Jackson 3 JSON serializers."}
+]

@@ -1,0 +1,8 @@
+[
+  {"term": "Outbox row", "description": "The event stored next to the order in one transaction so publishing can never be lost."},
+  {"term": "Relay", "description": "The scheduled component that publishes pending outbox rows to Kafka and marks them published."},
+  {"term": "Idempotent consumer", "description": "A notification handler that checks a processed-events table so a repeat sends nothing."},
+  {"term": "Consumer group", "description": "A distinct group name per service so each service receives every event."},
+  {"term": "Dead letter topic", "description": "The orders.placed.DLT topic that receives records that fail permanently."},
+  {"term": "Container-backed test", "description": "An integration test that starts real PostgreSQL and Kafka containers."}
+]

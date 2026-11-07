@@ -1,0 +1,8 @@
+[
+  {"term": "RestClient", "description": "The fluent, blocking HTTP client for Spring MVC applications and virtual threads."},
+  {"term": "WebClient", "description": "The non-blocking reactive HTTP client built on Project Reactor for WebFlux applications."},
+  {"term": "onStatus", "description": "A fluent hook that turns chosen HTTP statuses into the application's own exceptions."},
+  {"term": "Request timeout", "description": "A connect and read limit so a slow service cannot hold a thread indefinitely."},
+  {"term": "Remote client class", "description": "A small class per remote service that exposes a domain method and hides HTTP details."},
+  {"term": "Fake HTTP server", "description": "A test double such as MockRestServiceServer or WireMock that simulates responses, delays and failures."}
+]

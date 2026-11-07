@@ -1,0 +1,8 @@
+[
+  {"term": "Overselling", "description": "Selling the same seat more than once because two requests both saw it as free."},
+  {"term": "Concurrency test", "description": "A test that releases many threads together with a latch so their operations really overlap."},
+  {"term": "Unique constraint", "description": "A database rule that rejects a duplicate seat label for an event, as a last line of defense."},
+  {"term": "Short transaction", "description": "A transaction that locks, checks, changes and returns without remote calls while holding the lock."},
+  {"term": "Cache hit flag", "description": "A response header or value that shows whether the data came from the cache, easier to assert than timing."},
+  {"term": "Container-backed test", "description": "An integration test that starts real PostgreSQL and Redis containers instead of mocks."}
+]

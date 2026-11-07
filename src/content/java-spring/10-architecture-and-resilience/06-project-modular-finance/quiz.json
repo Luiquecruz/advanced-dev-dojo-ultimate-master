@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which mechanism proves in the build that transfer does not use account internals?",
+    "options": [
+      "A code comment",
+      "ApplicationModules verify in a test",
+      "A Git hook",
+      "A Maven profile"
+    ],
+    "answer": 1,
+    "explanation": "The verification fails with the class and the forbidden type when a module reaches into another module's internals."
+  },
+  {
+    "question": "Why does a failing audit listener not roll back the transfer?",
+    "options": [
+      "The listener runs after the commit in its own transaction",
+      "Listeners are ignored",
+      "Audit uses Redis",
+      "The transfer is idempotent"
+    ],
+    "answer": 0,
+    "explanation": "@ApplicationModuleListener reacts after the publisher commits and uses REQUIRES_NEW, so its failure cannot undo the transfer."
+  },
+  {
+    "question": "What does the incomplete publication in the registry mean after a listener failure?",
+    "options": [
+      "The event was lost",
+      "The transfer was cancelled",
+      "The table is corrupted",
+      "The event can be resubmitted because the registry keeps it until the listener succeeds"
+    ],
+    "answer": 3,
+    "explanation": "The registry stores the publication and marks it complete only on success, which is why listeners must be idempotent."
+  },
+  {
+    "question": "With the risk service down, why send a 900.00 transfer to review?",
+    "options": [
+      "Review is faster",
+      "The database is full",
+      "The unknown score is not safe enough for a large amount, so a human decides",
+      "Spring requires it"
+    ],
+    "answer": 2,
+    "explanation": "The fallback must reflect the business risk. Small transfers can proceed under a limit, and large ones wait for review."
+  },
+  {
+    "question": "Why test a WireMock response slower than the read timeout?",
+    "options": [
+      "To slow the build",
+      "A timeout counts as a failure and must trigger the fallback and the breaker",
+      "WireMock needs it",
+      "To fill the log"
+    ],
+    "answer": 1,
+    "explanation": "A call that never returns holds a thread, so the timeout path and its fallback behavior must be proven."
+  },
+  {
+    "question": "Why write the modularity test at the start of the project?",
+    "options": [
+      "It is easy to pass early and then catches every later violation",
+      "It is required by Maven",
+      "It speeds the build",
+      "It creates the modules"
+    ],
+    "answer": 0,
+    "explanation": "A violation that appears later is caught the moment it is introduced, instead of becoming an accepted habit."
+  }
+]

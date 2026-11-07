@@ -1,0 +1,27 @@
+{
+  "title": "The Transactional Outbox Pattern",
+  "summary": "The dual write problem between a database and a broker, an outbox table written in the same local transaction, a polling relay with SKIP LOCKED or change data capture, at-least-once delivery and outbox housekeeping.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring for Apache Kafka reference",
+      "url": "https://docs.spring.io/spring-kafka/reference/"
+    },
+    {
+      "label": "PostgreSQL: SELECT locking clauses",
+      "url": "https://www.postgresql.org/docs/current/sql-select.html"
+    },
+    {
+      "label": "Spring Framework: Transaction management",
+      "url": "https://docs.spring.io/spring-framework/reference/data-access/transaction.html"
+    },
+    {
+      "label": "Apache Kafka documentation",
+      "url": "https://kafka.apache.org/documentation/"
+    }
+  ]
+}

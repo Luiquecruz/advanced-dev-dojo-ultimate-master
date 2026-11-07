@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What is a dead letter topic?",
+    "options": [
+      "A topic that deletes data automatically",
+      "A topic that receives records that failed after retries so they can be inspected",
+      "A topic for expired passwords",
+      "A temporary security topic"
+    ],
+    "answer": 1,
+    "explanation": "It sets aside messages the consumer could not process, so the main topic keeps flowing and the problem records are not lost."
+  },
+  {
+    "question": "Why use exponential backoff between retries?",
+    "options": [
+      "To give a failing dependency time to recover instead of hammering it",
+      "To keep alphabetical order",
+      "To delete messages faster",
+      "To skip the database"
+    ],
+    "answer": 0,
+    "explanation": "Waiting longer after each attempt reduces pressure on a struggling service and improves the chance that the next try succeeds."
+  },
+  {
+    "question": "What is the risk of a plain ExponentialBackOff in a Kafka consumer?",
+    "options": [
+      "It cannot be configured",
+      "It disables the deserializer",
+      "It deletes the record",
+      "It retries without an end by default, blocking the partition"
+    ],
+    "answer": 3,
+    "explanation": "Unless a maximum is set, retries continue forever. A bounded variant such as ExponentialBackOffWithMaxRetries sends the record to the recoverer after the limit."
+  },
+  {
+    "question": "How should a consumer treat an invalid payload that can never be valid?",
+    "options": [
+      "Retry it ten times",
+      "Ignore the topic",
+      "Mark the exception not retryable so the record goes to the dead letter topic",
+      "Restart the broker"
+    ],
+    "answer": 2,
+    "explanation": "Retrying a permanent failure only delays the records behind it. Skipping the retries and recovering at once keeps the partition moving."
+  },
+  {
+    "question": "Which property makes reprocessing a record safe?",
+    "options": [
+      "Throughput",
+      "Idempotency",
+      "Compression",
+      "Encryption"
+    ],
+    "answer": 1,
+    "explanation": "An idempotent handler gives the same final result no matter how many times it receives the same message."
+  },
+  {
+    "question": "What should happen after records arrive in the dead letter topic?",
+    "options": [
+      "Someone is alerted, the cause is fixed and the records are replayed",
+      "Nothing, they are archived",
+      "The topic is deleted",
+      "They are copied to the database only"
+    ],
+    "answer": 0,
+    "explanation": "An unwatched dead letter topic is silent data loss. Monitoring and a replay path turn it into a recoverable queue of problems."
+  }
+]

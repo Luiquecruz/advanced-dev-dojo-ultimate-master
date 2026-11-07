@@ -44,14 +44,14 @@
     "explanation": "An empty catch discards the exception, and the code after it runs on a false assumption. Handle the failure meaningfully or let it propagate to a caller that can."
   },
   {
-    "question": "Which test proves that `withdraw(50, 80)` rejects an overdraft with an InsufficientFundsException?",
+    "question": "Which check proves that `withdraw(50, 80)` rejects an overdraft with an InsufficientFundsException?",
     "options": [
-      "assertEquals(0, withdraw(50, 80))",
-      "A test method with no assertion that calls withdraw(50, 80)",
-      "assertThrows(InsufficientFundsException.class, () -> withdraw(50, 80))",
-      "assertEquals(80, 50)"
+      "A try block that calls withdraw(50, 80) and catches InsufficientFundsException, after a line that throws AssertionError if no exception happened",
+      "assert withdraw(50, 80) == 0",
+      "A comment that says it works",
+      "assert 80 == 50"
     ],
-    "answer": 2,
-    "explanation": "assertThrows passes only when the lambda throws the given exception type. A test without an assertion passes either way, and assertEquals checks values, not failures."
+    "answer": 0,
+    "explanation": "The AssertionError after the call is reached only when no exception was thrown, and the catch names the expected exception type. A value check cannot prove a failure, and a check with no assertion passes either way."
   }
 ]

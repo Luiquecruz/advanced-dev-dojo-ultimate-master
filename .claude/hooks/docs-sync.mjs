@@ -92,8 +92,8 @@ function changedFiles(root) {
   }
   const base = baseRef(root);
   if (base) {
-    const committed = git(root, ['diff', '--name-only', `${base}...HEAD`]) ?? '';
-    committed.split('\n').filter(Boolean).forEach((file) => files.add(file));
+    const committed = git(root, ['diff', '--name-only', '-z', `${base}...HEAD`], true) ?? '';
+    committed.split('\0').filter(Boolean).forEach((file) => files.add(file));
   }
   return [...files].sort();
 }
@@ -128,7 +128,14 @@ function fingerprint(root, uncovered) {
  * Message listing each uncovered file with the documents to review.
  */
 function describe(uncovered) {
-  const lines = uncovered.map(({ file, docs }) => `- ${file} → ${docs.join(', ')}`);
+  const printable = (file) =>
+    [...file]
+      .map((character) => {
+        const code = character.charCodeAt(0);
+        return code < 0x20 || code === 0x7f ? `\\x${code.toString(16).padStart(2, '0')}` : character;
+      })
+      .join('');
+  const lines = uncovered.map(({ file, docs }) => `- ${printable(file)} → ${docs.join(', ')}`);
   return [
     'Docs sync: these changes touch documented areas and none of their documents changed in this change:',
     ...lines,

@@ -1,6 +1,6 @@
 # Exceptions and Your First Test
 
-When something goes wrong at run time, Java does not return an error code; it throws an exception that travels up the call stack until some code catches it. This lesson covers `try`, `catch` and `finally`, `try`-with-resources, checked versus unchecked exceptions, throwing your own, and a first JUnit test with the command that runs it.
+When something goes wrong at run time, Java does not return an error code; it throws an exception that travels up the call stack until some code catches it. This lesson covers `try`, `catch` and `finally`, `try`-with-resources, checked versus unchecked exceptions, throwing your own, and a first self-check written with `assert` and run with the `-ea` flag.
 
 You need: Decisions and Loops, Methods (call stack and return values), Classes and Objects (constructors and encapsulation).
 
@@ -64,44 +64,50 @@ static void withdraw(int balance, int amount) {
 
 `extends RuntimeException` makes the new class a kind of `RuntimeException`, so it inherits everything that class can do. `super(message)` passes the message to the parent class's constructor, which stores it for `getMessage()`.
 
-## Your first JUnit test
+## Your first self-check
 
-A unit test is a small method that calls your code and states the expected result. With JUnit Jupiter, a method marked `@Test` is run by the test engine, and `assertEquals(expected, actual)` fails the test when the values differ:
+A test is code that calls your code and states the expected result. You can write one before you know any test framework, using only Java. The `assert` statement fails with an `AssertionError` when its condition is false, and the JVM evaluates it only when you start the program with the `-ea` flag (enable assertions):
 
 ```java
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+public class CalculatorCheck {
+    public static void main(String[] args) {
+        assert Calculator.clamp(150, 0, 100) == 100 : "clamp should cap at the maximum";
+        assert Calculator.clamp(-5, 0, 100) == 0 : "clamp should raise to the minimum";
 
-import org.junit.jupiter.api.Test;
-
-class CalculatorTest {
-    @Test
-    void clampKeepsValueInsideRange() {
-        assertEquals(100, Calculator.clamp(150, 0, 100));
+        try {
+            Integer.parseInt("12x");
+            throw new AssertionError("expected a NumberFormatException");
+        } catch (NumberFormatException expected) {
+            System.out.println("failure case behaves as expected");
+        }
+        System.out.println("all checks passed");
     }
+}
 
-    @Test
-    void parsingTextThatIsNotANumberFails() {
-        assertThrows(NumberFormatException.class, () -> Integer.parseInt("12x"));
+class Calculator {
+    static int clamp(int value, int minimum, int maximum) {
+        return Math.max(minimum, Math.min(maximum, value));
     }
 }
 ```
 
-`() -> Integer.parseInt("12x")` is a lambda: a short piece of code written as parameters, an arrow and an expression, which `assertThrows` runs itself so that it can catch the exception. The file lives under `src/test/java` in a Maven or Gradle project, and one command runs every test: `mvn test` or `./gradlew test`. Running it needs a project with a build file, which module 03 sets up; for now, read the test and predict what it checks. The build tool compiles the main and test code, starts JUnit and prints which tests passed or failed. What the tool does internally is the subject of module 03.
+Save everything in one file named `CalculatorCheck.java` and run it with `java -ea CalculatorCheck.java`. In source-file mode the launcher compiles the whole file in memory and runs the first class, so `Calculator` needs no separate compile step. The text after the colon is the message of the failure. The `try` block checks the failure case: it reaches the line that throws `AssertionError` only when the call did not throw the exception it should have, and the `catch` names the expected type (a `catch` also accepts that type's subclasses, so naming it narrowly keeps the check strict). Keep each check small, name it after the behavior, and cover both the normal case and the failure case.
+
+This works but does not scale. You have to write the runner, count the results and stop at the first failure. Test frameworks such as JUnit solve that: they find the test methods, run them all, report each result and plug into the build. They are normally downloaded and run through a build tool, which is why the module on build and tests introduces Maven first and JUnit right after.
 
 ## Common mistakes
 
 - Writing `catch (Exception exception) { }` with an empty body. The failure disappears and the program continues in a broken state; at least log it or let it propagate.
 - Closing a resource by hand and skipping the close when an exception occurs. Use try-with-resources.
 - Declaring `throws Exception` on every method just to silence the compiler. It hides what can actually fail and pushes the problem onto every caller.
-- Writing a test that asserts nothing. A test with no assertion passes even when the code is wrong.
+- Writing a check that asserts nothing. A check with no assertion passes even when the code is wrong, and running without `-ea` silently skips every `assert` statement.
 
 ## In practice
 
-Handle an exception where you can do something useful about it, and let it propagate otherwise. Messages should name the values involved. Tests should be small, named after the behavior and cover the normal case and the failure case.
+Handle an exception where you can do something useful about it, and let it propagate otherwise. Messages should name the values involved. Checks and tests should be small, named after the behavior and cover the normal case and the failure case.
 
 ## Check yourself
 
 1. In what order do `try`, `catch` and `finally` run when the `try` block throws a matching exception?
 2. Why does the compiler force you to handle `IOException` but not `IllegalArgumentException`?
-3. What does `assertThrows` check that `assertEquals` cannot?
+3. Why does the failure check throw an `AssertionError` after the call, and why does the `catch` name `NumberFormatException`?

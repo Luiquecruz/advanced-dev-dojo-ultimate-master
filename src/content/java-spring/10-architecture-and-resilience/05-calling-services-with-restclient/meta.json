@@ -1,0 +1,23 @@
+{
+  "title": "Calling Services with RestClient",
+  "summary": "Choosing RestClient, RestTemplate or WebClient, building a client with a base URL and timeouts, fluent requests, translating errors with onStatus, a domain-oriented client class with a breaker, secret-safe logging and tests with MockRestServiceServer or WireMock.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Framework: REST clients",
+      "url": "https://docs.spring.io/spring-framework/reference/integration/rest-clients.html"
+    },
+    {
+      "label": "Spring Boot reference: Calling REST services",
+      "url": "https://docs.spring.io/spring-boot/reference/io/rest-client.html"
+    },
+    {
+      "label": "Spring Cloud CircuitBreaker reference",
+      "url": "https://docs.spring.io/spring-cloud-circuitbreaker/reference/"
+    }
+  ]
+}

@@ -4,6 +4,6 @@
   "title": "Java and Spring Boot",
   "shortTitle": "Java",
   "monogram": "J",
-  "description": "Java from zero, language fundamentals, Maven and tests, Spring Boot REST APIs, validation, persistence, security, observability, delivery and a backend course-catalog capstone.",
-  "version": "Java 25 \u00b7 Spring Boot 4"
+  "description": "Java from zero, language fundamentals, Maven and tests, Spring Boot REST APIs, persistence with locking and Redis, security, Kafka messaging, delivery, hexagonal and modular architecture, resilience and a backend course-catalog capstone.",
+  "version": "Java 25 · Spring Boot 4"
 }

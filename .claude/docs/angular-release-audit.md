@@ -1,6 +1,6 @@
 # Angular release audit
 
-Angular is enabled independently from the hidden Java and Spring Boot track. The published path contains 52 lessons across twelve consecutive stages: 45 coding challenges and seven theory-and-quiz lessons. State Management owns the four shared-state and NgRx lessons moved out of Angular; their Angular engine and lesson content remain available there.
+Angular is enabled independently from the Java and Spring Boot track, which is also published. The published path contains 52 lessons across twelve consecutive stages: 45 coding challenges and seven theory-and-quiz lessons. State Management owns the four shared-state and NgRx lessons moved out of Angular; their Angular engine and lesson content remain available there.
 
 ## Scope of the public path
 
@@ -32,6 +32,6 @@ SSR/hydration, lazy-loading and harness lessons are theory-and-quiz content. The
 
 ## Presentation and release boundaries
 
-The Angular flag is enabled; Java and Vue remain hidden. Existing public hues had no free gap large enough to insert another accent with 30-degree separation. Angular uses `#f2f466` and Architecture shifts slightly to `#ffad63`; all other accent values and every glyph path are retained. The presentation suite verifies synchronized RGB values, AA contrast on every surface and public hue distances.
+The Angular and Java flags are enabled; Vue remains hidden. Existing public hues had no free gap large enough to insert another accent with 30-degree separation. Angular first used `#f2f466` and Architecture shifted slightly to `#ffad63`; when Java and Spring Boot was published, the accents were respaced and Angular now uses the red `#ff6179` of its framework logo. Every glyph path is retained. The presentation suite verifies synchronized RGB values, AA contrast on every surface and public hue distances.
 
 Release verification includes the complete Angular solution/starter suite, content/curriculum/date checks, application unit tests, lint, TypeScript, production build, docs sync and real-browser desktop/mobile checks. The State Management React and Angular routes are included in the integrated browser checks. Evidence and CI completion are recorded in the PR; this file does not replace current-commit checks.

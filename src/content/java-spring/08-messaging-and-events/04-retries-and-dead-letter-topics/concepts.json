@@ -1,0 +1,8 @@
+[
+  {"term": "Transient failure", "description": "A temporary error such as a timeout, where trying again later will probably succeed."},
+  {"term": "Permanent failure", "description": "An error such as an invalid payload that no retry can fix."},
+  {"term": "Exponential backoff", "description": "A retry policy that increases the wait after each attempt to give a dependency time to recover."},
+  {"term": "Dead letter topic", "description": "A topic that receives records which failed after the allowed retries so they can be inspected and replayed."},
+  {"term": "Poison pill", "description": "A record that can never be processed and, if unhandled, blocks the consumer."},
+  {"term": "Processed-events table", "description": "A table of handled event ids used to skip repeats and make the consumer idempotent."}
+]

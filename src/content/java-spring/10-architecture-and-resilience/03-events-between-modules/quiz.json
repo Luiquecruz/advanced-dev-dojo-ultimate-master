@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which annotation does Spring Modulith recommend for listening to another module's event?",
+    "options": [
+      "@EventListener",
+      "@ApplicationModuleListener",
+      "@KafkaListener",
+      "@AsyncMethod"
+    ],
+    "answer": 1,
+    "explanation": "It runs after the publisher commits, asynchronously and in its own transaction, which isolates the modules from each other's failures."
+  },
+  {
+    "question": "Which Spring component publishes an internal event?",
+    "options": [
+      "ApplicationEventPublisher",
+      "EventDispatcher",
+      "SpringPublisher",
+      "MessageBroadcaster"
+    ],
+    "answer": 0,
+    "explanation": "ApplicationEventPublisher is part of the container and can publish any object, such as a record, as an event."
+  },
+  {
+    "question": "What happens to an @ApplicationModuleListener if the publishing transaction rolls back?",
+    "options": [
+      "It still runs",
+      "It deletes the event table",
+      "It runs twice",
+      "It does not run, because it reacts only after a successful commit"
+    ],
+    "answer": 3,
+    "explanation": "The listener is bound to the transaction's after-commit phase, so a rolled-back transfer produces no audit entry."
+  },
+  {
+    "question": "What does the event publication registry protect against?",
+    "options": [
+      "Slow queries",
+      "Weak passwords",
+      "Losing an event when the application stops before a listener finishes",
+      "Large JSON"
+    ],
+    "answer": 2,
+    "explanation": "Publications are stored with the publisher's transaction and marked complete only on success, so incomplete ones can be resubmitted."
+  },
+  {
+    "question": "Why should listeners be idempotent?",
+    "options": [
+      "Spring requires it",
+      "A resubmitted publication can run a listener again after a failure",
+      "JSON demands it",
+      "Transactions cannot be nested"
+    ],
+    "answer": 1,
+    "explanation": "Resubmission gives at-least-once behavior, so repeating the reaction must not repeat its effect."
+  },
+  {
+    "question": "Why do events improve the dependency direction between modules?",
+    "options": [
+      "The publisher does not need to know the listeners, so new reactions need no change to it",
+      "They remove tests",
+      "They avoid the database",
+      "They speed up compile time"
+    ],
+    "answer": 0,
+    "explanation": "The audit module depends on the transfer event, and the transfer module stays unaware of audit."
+  }
+]

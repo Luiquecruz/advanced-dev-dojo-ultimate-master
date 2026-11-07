@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which design makes the second of two simultaneous buyers fail?",
+    "options": [
+      "Reading the seat without a lock and checking it afterwards",
+      "Locking the seat row with PESSIMISTIC_WRITE inside the transaction before checking its state",
+      "Caching the seat in Redis",
+      "Using a longer HTTP timeout"
+    ],
+    "answer": 1,
+    "explanation": "The lock makes the second request wait until the first commits, then it reads the sold state and fails cleanly. A plain read lets both see free."
+  },
+  {
+    "question": "Why release the 50 test threads through a CountDownLatch?",
+    "options": [
+      "So their calls actually overlap instead of running one after another",
+      "To slow the test down",
+      "Because JUnit requires it",
+      "To avoid using the database"
+    ],
+    "answer": 0,
+    "explanation": "Threads started one by one can finish before the next begins, hiding the race. A latch releases them at the same moment."
+  },
+  {
+    "question": "Which assertion is stable for checking a cache hit?",
+    "options": [
+      "The request took less than 5 ms",
+      "The log has one line",
+      "The JVM used less memory",
+      "The hit flag changes from false to true and the repository was called once"
+    ],
+    "answer": 3,
+    "explanation": "Timing depends on the machine. The flag and the repository call count describe behavior and never depend on speed."
+  },
+  {
+    "question": "What does the unique constraint on (event_id, label) add on top of the lock?",
+    "options": [
+      "It makes the lock unnecessary",
+      "Faster reads",
+      "A database-level guarantee that the same seat cannot exist twice",
+      "Automatic caching"
+    ],
+    "answer": 2,
+    "explanation": "The lock protects the sale, while the constraint rejects duplicates even if some code path forgets the lock."
+  },
+  {
+    "question": "Why cache an EventView record instead of the Event entity?",
+    "options": [
+      "Records are slower",
+      "An entity has lazy state and persistence links that do not serialize cleanly",
+      "Redis only stores records",
+      "Entities cannot have ids"
+    ],
+    "answer": 1,
+    "explanation": "A view record is plain, immutable data that serializes predictably, while a managed entity carries persistence concerns into the cache."
+  },
+  {
+    "question": "What must happen to the cached event when its title changes?",
+    "options": [
+      "It is evicted or updated so the next read returns the new title",
+      "Nothing, the TTL will fix it",
+      "The Redis server restarts",
+      "The version column is reset"
+    ],
+    "answer": 0,
+    "explanation": "Waiting for the TTL serves the old title until it expires. The write path evicts the entry so the next read loads the new data."
+  }
+]

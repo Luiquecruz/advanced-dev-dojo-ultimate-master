@@ -1,0 +1,57 @@
+[
+  {
+    "question": "Your API image is 700 MB because the final stage was copied from the build stage with Maven, the JDK and the sources. What is the right change, and what does it cost?",
+    "options": [
+      "Use a runtime-only stage that copies just the extracted application; the cost is a slightly longer Dockerfile",
+      "Delete the sources by hand after each build",
+      "Compress the image with zip",
+      "Keep it, because size never matters"
+    ],
+    "answer": 0,
+    "explanation": "A multi-stage build keeps tools out of what ships, which shrinks the image and the attack surface. The only price is writing two stages."
+  },
+  {
+    "question": "A colleague puts the database password directly in compose.yaml so that new teammates can start the project without setup. What is the better compromise?",
+    "options": [
+      "Keep it in compose.yaml and rely on the repository being private",
+      "Read it from a variable, commit a .env.example with fake values and refuse to start when the variable is missing",
+      "Hard-code it in the Java source instead",
+      "Remove the password from the database"
+    ],
+    "answer": 1,
+    "explanation": "Fake example values keep onboarding easy, and a required variable fails fast. A secret in version control must be treated as exposed, whoever can read the repository today."
+  },
+  {
+    "question": "Orchestrators ask your service two questions: is the process alive, and can it take traffic yet? Which design answers both without leaking internals?",
+    "options": [
+      "Expose every Actuator endpoint publicly",
+      "A single public page that prints the configuration",
+      "Liveness and readiness health groups that are public, while configuration endpoints stay unexposed or protected",
+      "No health checks, since logs are enough"
+    ],
+    "answer": 2,
+    "explanation": "Probes carry only an UP or DOWN signal, which is safe to expose. Configuration and environment data can leak secrets, so they stay private."
+  },
+  {
+    "question": "The pipeline runs `./mvnw verify` and the container-based integration tests, and a pull request turns red only on the pipeline, not on a laptop. What is the most likely first thing to check?",
+    "options": [
+      "Whether the pipeline has the same Java version, Docker access and environment variables as your local setup",
+      "Whether the laptop is faster",
+      "Whether the tests have too many assertions",
+      "Whether the repository name is long"
+    ],
+    "answer": 0,
+    "explanation": "Differences between environments cause most 'works on my machine' failures. Matching the runtime, Docker and variables is the fastest way to find the gap."
+  },
+  {
+    "question": "All tests pass and the demo works. A teammate says the self-review is therefore unnecessary. What is the strongest reply?",
+    "options": [
+      "You are right, tests cover everything",
+      "Reviews are only for open-source projects",
+      "Reviews replace tests",
+      "Tests check what you thought of; a review against the requirements looks for what nobody checked, such as secrets, error shapes or missing indexes"
+    ],
+    "answer": 3,
+    "explanation": "A review is a different instrument from a test suite. It compares the finished system with the requirements and finds gaps no test was written for."
+  }
+]

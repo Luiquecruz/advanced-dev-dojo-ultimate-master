@@ -1,0 +1,23 @@
+{
+  "title": "Capstone: Requirements and Design",
+  "summary": "Define a backend course catalog API through testable requirements, a PostgreSQL data model, an OpenAPI contract, module boundaries, cache, event and fallback rules, risks and explicit design decisions.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "project"
+  ],
+  "resources": [
+    {
+      "label": "RFC 9457: Problem Details for HTTP APIs",
+      "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+    },
+    {
+      "label": "Spring Boot reference: Servlet web applications",
+      "url": "https://docs.spring.io/spring-boot/reference/web/servlet.html"
+    },
+    {
+      "label": "springdoc-openapi",
+      "url": "https://springdoc.org/"
+    }
+  ]
+}

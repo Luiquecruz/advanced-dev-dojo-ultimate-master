@@ -1,0 +1,68 @@
+[
+  {
+    "question": "How would you describe Redis in a backend architecture?",
+    "options": [
+      "A web server for static files",
+      "An in-memory data structure store used for caches, counters and short-lived data",
+      "A relational database stored in SQL files",
+      "A Java compiler"
+    ],
+    "answer": 1,
+    "explanation": "Redis keeps data in memory and offers simple structures with optional expiry, which suits fast reads, counters and temporary state."
+  },
+  {
+    "question": "Which Spring Boot 4 starter integrates an application with Redis?",
+    "options": [
+      "spring-boot-starter-data-redis",
+      "spring-boot-starter-web",
+      "spring-boot-starter-jdbc",
+      "spring-boot-starter-redis-cache"
+    ],
+    "answer": 0,
+    "explanation": "spring-boot-starter-data-redis brings Spring Data Redis and the Lettuce driver and auto-configures the connection factory."
+  },
+  {
+    "question": "Why avoid the default JDK serialization for stored objects?",
+    "options": [
+      "Redis rejects those bytes",
+      "Spring Boot 4 forbids it",
+      "It deletes keys every five minutes",
+      "It produces opaque Java-only bytes tied to the class layout"
+    ],
+    "answer": 3,
+    "explanation": "JDK serialization ties data to a Java class and breaks when the class changes. JSON is readable, smaller and usable from other tools."
+  },
+  {
+    "question": "What distinguishes StringRedisTemplate from RedisTemplate<K, V>?",
+    "options": [
+      "It only works with SQL databases",
+      "It cannot set expiry",
+      "It is preconfigured for String keys and values",
+      "It is read-only"
+    ],
+    "answer": 2,
+    "explanation": "StringRedisTemplate fixes the serializers to strings, so it needs no configuration for plain text, counters and flags."
+  },
+  {
+    "question": "Which command does increment() on opsForValue() use, and why does it matter?",
+    "options": [
+      "A plain GET followed by SET",
+      "The atomic INCR, so concurrent requests never lose a count",
+      "A full table lock",
+      "A Lua script written by the user"
+    ],
+    "answer": 1,
+    "explanation": "INCR is atomic on the server, so two clients incrementing at the same time both count. Read-modify-write in the application would lose updates."
+  },
+  {
+    "question": "What should you remember when you store data only in Redis?",
+    "options": [
+      "It lives in memory, so plan for losing it and keep the truth in the database",
+      "It is always durable and shared safely",
+      "It cannot be expired",
+      "It is encrypted by default"
+    ],
+    "answer": 0,
+    "explanation": "Redis is fast but memory-bound and not the system of record. Keep rebuildable copies there and the authoritative data in the database."
+  }
+]

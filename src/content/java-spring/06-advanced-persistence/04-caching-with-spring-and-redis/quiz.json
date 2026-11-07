@@ -1,0 +1,68 @@
+[
+  {
+    "question": "Which annotation enables declarative caching in a Spring Boot application?",
+    "options": [
+      "@EnableRedis",
+      "@EnableCaching",
+      "@EnableSpringCache",
+      "@SpringBootCache"
+    ],
+    "answer": 1,
+    "explanation": "@EnableCaching, placed on a configuration class, registers the proxy support that intercepts methods annotated with @Cacheable and related annotations."
+  },
+  {
+    "question": "What does @Cacheable(cacheNames = \"events\", key = \"#id\") do?",
+    "options": [
+      "Returns the cached value for that key if present, otherwise runs the method and stores the result",
+      "Always runs the method and saves the result in PostgreSQL",
+      "Deletes the events cache before the call",
+      "Allows only one thread at a time"
+    ],
+    "answer": 0,
+    "explanation": "On a hit the method body is skipped. On a miss it runs and its result is stored under the key."
+  },
+  {
+    "question": "Which annotation removes an entry when the data changes?",
+    "options": [
+      "@CacheRemove",
+      "@CacheClean",
+      "@CacheDelete",
+      "@CacheEvict"
+    ],
+    "answer": 3,
+    "explanation": "@CacheEvict removes the entry so the next read loads fresh data and stores the new value."
+  },
+  {
+    "question": "A cached method is called from another method of the same class and the cache is ignored. Why?",
+    "options": [
+      "Redis rejects internal calls",
+      "Spring allows one method per class",
+      "The call bypasses the Spring proxy, so no interception happens",
+      "Caching works only on interfaces"
+    ],
+    "answer": 2,
+    "explanation": "Cache interception lives in a proxy. A direct this.method() call never passes through it, so move the cached method to another bean."
+  },
+  {
+    "question": "Why give every cached method an explicit key?",
+    "options": [
+      "The default key is always a secret",
+      "Methods sharing a cache can otherwise collide on equal parameter values",
+      "Keys make the cache persistent",
+      "Spring cannot run without keys"
+    ],
+    "answer": 1,
+    "explanation": "With the default key, two methods in one cache that receive the same argument produce the same entry. An explicit key helps only when it contains something that tells the methods apart; otherwise give them separate cache names."
+  },
+  {
+    "question": "A price depends on the logged-in customer. What must the cache key contain?",
+    "options": [
+      "The product id and the customer identity",
+      "Only the product id",
+      "Nothing, because caches are private",
+      "The HTTP status"
+    ],
+    "answer": 0,
+    "explanation": "If the key ignores the customer, one customer can receive another customer's cached price. Caller-specific data needs the caller in the key."
+  }
+]

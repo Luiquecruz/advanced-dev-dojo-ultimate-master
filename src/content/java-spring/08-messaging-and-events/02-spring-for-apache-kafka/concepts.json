@@ -1,0 +1,8 @@
+[
+  {"term": "Partition", "description": "An ordered, append-only log inside a topic, which is the unit of ordering and parallelism."},
+  {"term": "Record key", "description": "The value that selects the partition, so records with the same key stay in order."},
+  {"term": "Consumer group", "description": "A set of instances that share a topic, with each partition assigned to one instance of the group."},
+  {"term": "KafkaTemplate", "description": "The Spring component that sends records and returns a CompletableFuture with the result."},
+  {"term": "@KafkaListener", "description": "The annotation that turns a method into a consumer of a topic within a consumer group."},
+  {"term": "ErrorHandlingDeserializer", "description": "A wrapper that turns a deserialization failure into a handled error instead of an endless retry."}
+]

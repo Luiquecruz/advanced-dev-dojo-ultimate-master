@@ -1,0 +1,4 @@
+{
+  "title": "Capstone: Course Catalog API",
+  "description": "For people who finished the earlier modules: build a backend course catalog locally as a modular monolith, from requirements and an API contract through Spring Boot implementation, PostgreSQL, Redis and Kafka, security, resilient calls and tests to review and packaged delivery."
+}

@@ -1,0 +1,23 @@
+{
+  "title": "Resilience with Circuit Breakers",
+  "summary": "Failure spread, the closed, open and half-open states, Resilience4j settings, Spring Cloud CircuitBreaker with fallbacks, retries and idempotency, Spring Framework 7 resilience annotations, timeouts, rate limiters and bulkheads.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Cloud CircuitBreaker reference",
+      "url": "https://docs.spring.io/spring-cloud-circuitbreaker/reference/"
+    },
+    {
+      "label": "Resilience4j documentation",
+      "url": "https://resilience4j.readme.io/docs/getting-started"
+    },
+    {
+      "label": "Spring Framework: Resilience features",
+      "url": "https://docs.spring.io/spring-framework/reference/core/resilience.html"
+    }
+  ]
+}

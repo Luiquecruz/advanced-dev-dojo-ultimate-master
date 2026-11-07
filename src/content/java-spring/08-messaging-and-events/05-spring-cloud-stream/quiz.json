@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What is the main promise of Spring Cloud Stream?",
+    "options": [
+      "Replacing HTTP with HTML",
+      "Writing broker-neutral functions and changing the broker by dependency and configuration",
+      "Compiling Java to C++",
+      "Managing Docker servers"
+    ],
+    "answer": 1,
+    "explanation": "Handlers are plain Java functions, and the binder connects them to the real broker, so business code does not depend on Kafka or RabbitMQ."
+  },
+  {
+    "question": "Which type declares a handler that receives an event and publishes another one?",
+    "options": [
+      "Function<In, Out>",
+      "Runnable",
+      "Serializable",
+      "Comparable"
+    ],
+    "answer": 0,
+    "explanation": "Function maps an input event to an output event, Consumer only receives, and Supplier only produces."
+  },
+  {
+    "question": "What is the default input binding name for a function called processOrder?",
+    "options": [
+      "processOrder.input",
+      "kafka-0",
+      "input-processOrder",
+      "processOrder-in-0"
+    ],
+    "answer": 3,
+    "explanation": "Bindings use the function name, the direction and an index, so the first input is processOrder-in-0 and the first output processOrder-out-0."
+  },
+  {
+    "question": "What is a binder?",
+    "options": [
+      "A Maven plugin",
+      "A password hasher",
+      "An adapter that connects the bindings to a concrete broker",
+      "A JSON parser"
+    ],
+    "answer": 2,
+    "explanation": "The Kafka binder and the RabbitMQ binder translate the abstract bindings into broker-specific producers and consumers."
+  },
+  {
+    "question": "A function is defined but never receives messages, and the application starts normally. What is a likely cause?",
+    "options": [
+      "Kafka is faster",
+      "A binding name or function definition in the configuration does not match",
+      "The topic is too long",
+      "The JVM is too new"
+    ],
+    "answer": 1,
+    "explanation": "Unknown binding names are not errors. Without a matching binding property the function binds to a destination named after the binding, which is probably not the intended topic, so check the generated names and spring.cloud.function.definition."
+  },
+  {
+    "question": "When is the Kafka client with Spring for Apache Kafka a better choice?",
+    "options": [
+      "When you need fine control over partitions, transactions or the client",
+      "When you want less typing",
+      "When you use no broker",
+      "Never"
+    ],
+    "answer": 0,
+    "explanation": "Spring Cloud Stream abstracts the broker. When you rely on Kafka-specific control, using the Kafka integration directly is simpler and clearer."
+  }
+]

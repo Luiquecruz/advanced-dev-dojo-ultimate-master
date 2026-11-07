@@ -1,0 +1,8 @@
+[
+  {"term": "@EnableCaching", "description": "The annotation, kept on a configuration class, that makes Spring create the proxies for cache annotations."},
+  {"term": "@Cacheable", "description": "An annotation that returns the stored value on a hit and runs the method body only on a miss."},
+  {"term": "@CachePut", "description": "An annotation that always runs the method and refreshes the cached entry with the result."},
+  {"term": "@CacheEvict", "description": "An annotation that removes an entry, or all entries, once the method completes without error."},
+  {"term": "SpEL key", "description": "An explicit key expression such as #id that defines what one entry represents and must include whatever tells entries apart."},
+  {"term": "Stale data", "description": "A cached copy that no longer matches the database because a write path did not evict or update it."}
+]

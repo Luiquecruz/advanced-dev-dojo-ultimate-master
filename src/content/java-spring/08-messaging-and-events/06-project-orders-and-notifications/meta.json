@@ -1,0 +1,28 @@
+{
+  "title": "Project: Orders and Notifications",
+  "summary": "A local project with two Spring Boot services connected by Kafka: orders saved with an outbox row in one transaction, a relay, an idempotent notification consumer, bounded retries and a dead letter topic, all tested with Testcontainers.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "project",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring for Apache Kafka reference",
+      "url": "https://docs.spring.io/spring-kafka/reference/"
+    },
+    {
+      "label": "Spring Boot reference: Apache Kafka",
+      "url": "https://docs.spring.io/spring-boot/reference/messaging/kafka.html"
+    },
+    {
+      "label": "Testcontainers for Java",
+      "url": "https://java.testcontainers.org/"
+    },
+    {
+      "label": "Docker: Compose services reference",
+      "url": "https://docs.docker.com/reference/compose-file/services/"
+    }
+  ]
+}

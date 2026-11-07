@@ -1,0 +1,8 @@
+[
+  {"term": "Circuit breaker", "description": "A guard that rejects calls to a failing dependency so failures do not spread and the service can recover."},
+  {"term": "Open state", "description": "The state in which calls are rejected immediately without reaching the dependency."},
+  {"term": "Half-open state", "description": "The state that allows a few trial calls to decide whether the dependency has recovered."},
+  {"term": "Fallback", "description": "A degraded but acceptable result returned when the call fails or the circuit is open."},
+  {"term": "Idempotent retry", "description": "Repeating only operations that are safe to repeat, such as calls carrying an idempotency key."},
+  {"term": "Bulkhead", "description": "A limit on concurrent calls to one dependency so a slow service cannot use all threads."}
+]

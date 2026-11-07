@@ -1,0 +1,23 @@
+{
+  "title": "Events Between Modules",
+  "summary": "Publishing domain events with ApplicationEventPublisher, @ApplicationModuleListener as async, REQUIRES_NEW and after-commit, the event publication registry and its migration, idempotent listeners and externalizing events to a broker.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Modulith reference",
+      "url": "https://docs.spring.io/spring-modulith/reference/"
+    },
+    {
+      "label": "Spring Framework: Application events",
+      "url": "https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html"
+    },
+    {
+      "label": "Spring Framework: Transaction-bound events",
+      "url": "https://docs.spring.io/spring-framework/reference/data-access/transaction/event.html"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "question": "The duplicate-code rule is currently checked in the controller. A batch import feature will soon create courses without HTTP. Where should the rule live?",
+    "options": [
+      "In the controller, and the import copies the check",
+      "In the service, so every entry point that creates a course goes through it",
+      "In the JSON serializer",
+      "In the OpenAPI document"
+    ],
+    "answer": 1,
+    "explanation": "Rules belong where every caller passes. A service shared by the controller and the import enforces the rule once; copies drift apart."
+  },
+  {
+    "question": "A client reports that after you renamed the Java field `title` to `name` in a store class, the JSON changed and the consuming application broke. Which design would have prevented this?",
+    "options": [
+      "Never rename fields",
+      "Serialize the store's internal object directly and test the JSON by hand",
+      "A response record that is the contract, mapped from the internal object in one place",
+      "Disable validation"
+    ],
+    "answer": 2,
+    "explanation": "A dedicated response type decouples the wire format from internal classes, so a rename becomes a change to one mapping line and the JSON stays the same."
+  },
+  {
+    "question": "A request arrives with `size=5000`. The contract has a maximum of 100. Which behavior fits a read-only listing best, and why?",
+    "options": [
+      "Clamp it to 100, because the client still gets useful data and no error path is needed",
+      "Return a 500, because the input is impossible",
+      "Load 5,000 rows, because the client asked for them",
+      "Ignore the size and return one row"
+    ],
+    "answer": 0,
+    "explanation": "Clamping protects the server and keeps a harmless request working. Loading 5,000 rows defeats the limit and a 500 blames the server for a client choice."
+  },
+  {
+    "question": "You want to prove that a blank title returns 400 with a field error, and the store is not written yet. Which test is the most focused?",
+    "options": [
+      "A full application test with a real database",
+      "A manual call with curl after each change",
+      "A unit test of the record's constructor",
+      "A web slice test of the controller with the service mocked"
+    ],
+    "answer": 3,
+    "explanation": "Validation and error mapping happen in the web layer, so a slice test with a mocked service exercises exactly that, runs fast and needs no storage."
+  },
+  {
+    "question": "Every error in the API should have the same JSON shape, including the ones Spring raises itself, such as a malformed request body. What is the least code that achieves this?",
+    "options": [
+      "A try/catch in every controller method",
+      "A controller advice that extends ResponseEntityExceptionHandler and adds your own handlers",
+      "Returning strings from the service",
+      "A servlet filter that rewrites responses"
+    ],
+    "answer": 1,
+    "explanation": "The base class already converts the framework's exceptions to Problem Details, so one advice with a few extra handlers gives a single consistent shape."
+  }
+]

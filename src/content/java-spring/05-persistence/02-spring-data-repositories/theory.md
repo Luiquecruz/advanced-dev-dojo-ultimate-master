@@ -2,7 +2,7 @@
 
 Writing `EntityManager` code for every query is repetitive. Spring Data JPA removes it: you declare an interface and Spring generates the implementation at startup. This lesson covers the repository interfaces, queries derived from method names, `@Query`, projections that avoid loading whole entities, and specifications for filters built at run time.
 
-You need: JPA and Hibernate Basics, Interfaces and Generics, Streams and Optional.
+You need: JPA and Hibernate Basics, Integration Tests with Testcontainers, Interfaces and Generics, Streams and Optional.
 
 ## Repository interfaces
 
@@ -95,6 +95,29 @@ List<Course> found = repository.findAll(
 ```
 
 `PredicateSpecification` was introduced with Spring Data JPA 4.0; the older `Specification` works too and is the type for `findAll(spec, pageable)`. With `PredicateSpecification`, use the fluent query: `repository.findBy(spec, query -> query.page(pageable))`. Field names in `from.get("level")` are strings, so a rename breaks them at run time unless you use the JPA metamodel that `hibernate-processor` generates.
+
+## Testing repositories on PostgreSQL
+
+In the Testcontainers lesson you started PostgreSQL with plain JUnit and JDBC. Spring Boot can wire the container into a repository test for you. `spring-boot-testcontainers` adds `@ServiceConnection`: declare the container as a bean and Spring Boot configures the data source from it, with no URL properties to copy.
+
+```java
+@TestConfiguration(proxyBeanMethods = false)
+class PostgresTestConfiguration {
+
+    @Bean
+    @ServiceConnection
+    PostgreSQLContainer postgres() {
+        return new PostgreSQLContainer(DockerImageName.parse("postgres:17-alpine"));
+    }
+}
+
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
+@Import(PostgresTestConfiguration.class)
+class BookRepositoryPostgresTest { /* repository tests */ }
+```
+
+Spring Boot 4 defaults to `Replace.NON_TEST`: an auto-configured data source recognized as a test database, including one backed by `@ServiceConnection`, is preserved. `Replace.NONE` explicitly prevents replacement, which is useful for other real-database configurations too. Spring Boot's documentation prefers containers managed as beans over the JUnit extension, because Spring caches a context for reuse after the extension has stopped a container, and a later test then fails against a dead database.
 
 ## Common mistakes
 

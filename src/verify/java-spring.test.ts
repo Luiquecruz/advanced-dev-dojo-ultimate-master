@@ -15,6 +15,7 @@ const RESOURCE_HOSTS = new Set([
   'owasp.org', 'cheatsheetseries.owasp.org', 'www.rfc-editor.org', 'datatracker.ietf.org', 'developer.mozilla.org',
   'docs.docker.com', 'micrometer.io', 'springdoc.org', 'flywaydb.org', 'documentation.red-gate.com', 'docs.liquibase.com', 'www.postgresql.org',
   'dev.mysql.com', 'docs.github.com', 'github.com', 'kubernetes.io', 'opentelemetry.io', 'jwt.io', 'oauth.net', 'openid.net', 'www.jetbrains.com',
+  'redis.io', 'kafka.apache.org', 'www.rabbitmq.com', 'resilience4j.readme.io', 'www.archunit.org',
 ]);
 /** A comparison with another language (the track teaches Java; naming Java itself is the subject). */
 const BRIDGE =

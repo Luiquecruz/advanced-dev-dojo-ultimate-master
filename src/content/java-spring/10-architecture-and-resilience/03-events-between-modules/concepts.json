@@ -1,0 +1,8 @@
+[
+  {"term": "Domain event", "description": "An immutable object named after something that happened, published by the module that owns the fact."},
+  {"term": "ApplicationEventPublisher", "description": "The Spring component used to publish an event object to interested listeners."},
+  {"term": "@ApplicationModuleListener", "description": "An annotation that combines @Async, @Transactional with REQUIRES_NEW and @TransactionalEventListener."},
+  {"term": "Event publication registry", "description": "A persistent record of publications that is marked completed only when a listener succeeds, so incomplete ones can be resubmitted."},
+  {"term": "Resubmission", "description": "Re-running incomplete publications after a failure or restart, which requires idempotent listeners."},
+  {"term": "@Externalized", "description": "A marker that forwards an event to a broker such as Kafka with the registry's reliability."}
+]

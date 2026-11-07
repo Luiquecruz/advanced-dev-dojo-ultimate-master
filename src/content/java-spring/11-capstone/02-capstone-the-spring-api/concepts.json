@@ -1,0 +1,8 @@
+[
+  { "term": "Thin controller", "description": "A controller that binds the request, calls the service and builds the response, and holds no business rules." },
+  { "term": "Store interface", "description": "A narrow interface that hides how courses are stored, so an in-memory class can later be replaced by a database one." },
+  { "term": "Request record", "description": "A record that carries the Bean Validation constraints of an incoming body, so invalid data never reaches the service." },
+  { "term": "ResponseEntityExceptionHandler", "description": "A Spring base class for a controller advice that maps the framework's own exceptions to Problem Details." },
+  { "term": "Web slice test", "description": "A test annotated with WebMvcTest that loads only the web layer, with collaborators replaced by mocks." },
+  { "term": "Clamped parameter", "description": "A client value forced into an allowed range, such as a page size limited to 100, instead of being rejected." }
+]

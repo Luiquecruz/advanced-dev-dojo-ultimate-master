@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A teammate sets `spring.jpa.hibernate.ddl-auto=update` because it saves writing SQL. Production data is at stake. What is the strongest objection?",
+    "options": [
+      "It is slower at startup",
+      "Hibernate cannot create tables",
+      "Schema changes become unreviewed side effects of code, and environments drift from what the repository describes",
+      "It only works with embedded databases"
+    ],
+    "answer": 2,
+    "explanation": "The issue is control: migrations are reviewed, versioned and identical everywhere, while update applies whatever the entities imply, in no recorded order."
+  },
+  {
+    "question": "Listing 20 courses logs 21 selects: one for the page and one per course for its instructor. What is the right fix?",
+    "options": [
+      "Load the instructor in the same query with an entity graph or a join fetch",
+      "Increase the connection pool size",
+      "Turn on Open Session in View",
+      "Cache the controller response forever"
+    ],
+    "answer": 0,
+    "explanation": "This is the N+1 problem. A to-one join fetch adds the instructor to the page query, so paging in SQL still works and the extra selects disappear."
+  },
+  {
+    "question": "Two administrators create the code `JAVA-101` in the same second. Your service checks `existsByCode` first. What guarantees only one succeeds?",
+    "options": [
+      "The service check alone, because it runs before the insert",
+      "A longer title limit",
+      "The unique index in the database, with the violation mapped to a 409",
+      "The lazy relationship"
+    ],
+    "answer": 2,
+    "explanation": "Both checks can pass before either insert. Only the database constraint is atomic, so it is the guarantee and the service check is a friendly early message."
+  },
+  {
+    "question": "A migration `V3` was already applied in a shared environment, and you notice a typo in a column name. What do you do?",
+    "options": [
+      "Edit V3 and redeploy",
+      "Delete the Flyway history table",
+      "Switch to ddl-auto=create",
+      "Add a new migration that renames the column"
+    ],
+    "answer": 3,
+    "explanation": "Applied migrations are immutable: Flyway stores a checksum and fails when the file changes. A new version moves every environment forward consistently."
+  },
+  {
+    "question": "Your repository tests pass on an embedded database, but production uses PostgreSQL and the soft delete relies on a partial unique index. Which change gives the most trust in the tests?",
+    "options": [
+      "Run them against PostgreSQL in a Testcontainers container",
+      "Mock the repository",
+      "Remove the index from the test schema",
+      "Run them twice"
+    ],
+    "answer": 0,
+    "explanation": "Partial indexes and types are engine features. Only the real engine proves the migration, the mapping and the constraint behave as in production."
+  },
+  {
+    "question": "After a soft delete, the same code must be creatable again, but two live rows must never share a code. Which constraint expresses this?",
+    "options": [
+      "A unique constraint on the code column for all rows",
+      "A unique index on the code limited to rows where deleted_at is null",
+      "No constraint, only application code",
+      "A unique constraint on the title"
+    ],
+    "answer": 1,
+    "explanation": "The partial unique index applies only to live rows, so deleted codes do not block reuse while duplicates among visible courses stay impossible."
+  }
+]

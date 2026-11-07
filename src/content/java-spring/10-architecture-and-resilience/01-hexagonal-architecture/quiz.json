@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What is the central goal of hexagonal architecture?",
+    "options": [
+      "Making the application run on a GPU",
+      "Isolating business rules from frameworks, databases and external APIs",
+      "Removing interfaces from Java",
+      "Using one big class"
+    ],
+    "answer": 1,
+    "explanation": "The domain sits in the middle and the infrastructure depends on it, so technologies can change without touching the rules."
+  },
+  {
+    "question": "Which direction do source code dependencies point?",
+    "options": [
+      "From adapters inward to the core",
+      "From the core out to adapters",
+      "Both ways equally",
+      "Only between adapters"
+    ],
+    "answer": 0,
+    "explanation": "Adapters import the core's ports and types. The core never imports Spring Web, JPA or Kafka classes."
+  },
+  {
+    "question": "What is an outbound port?",
+    "options": [
+      "A REST endpoint",
+      "The main method",
+      "A TCP port opened by PostgreSQL",
+      "An interface in the core describing something it needs, such as saving an account"
+    ],
+    "answer": 3,
+    "explanation": "The core defines the contract in its own language and an adapter implements it with a concrete technology."
+  },
+  {
+    "question": "Where does the JPA @Entity class belong?",
+    "options": [
+      "In the domain core",
+      "In the controller",
+      "In the persistence adapter, mapped to the domain type",
+      "In pom.xml"
+    ],
+    "answer": 2,
+    "explanation": "Keeping entities in the adapter prevents the business model from depending on the ORM and its lazy loading rules."
+  },
+  {
+    "question": "Why can the transfer rule be unit tested without a database?",
+    "options": [
+      "The rule is written in SQL",
+      "The core depends on a port, so a test can supply an in-memory implementation",
+      "Mocks cannot be used",
+      "Databases are not allowed in tests"
+    ],
+    "answer": 1,
+    "explanation": "Because the service talks to the AccountStore interface, a fake store makes the test fast and independent of infrastructure."
+  },
+  {
+    "question": "When is the pattern probably too much?",
+    "options": [
+      "For a small CRUD service with almost no business rules",
+      "When the rules are rich and long-lived",
+      "When several entry points use the same rules",
+      "When a technology may be replaced"
+    ],
+    "answer": 0,
+    "explanation": "Ports and mapping add classes. Without real rules to protect they are ceremony, and the layered structure is enough."
+  }
+]

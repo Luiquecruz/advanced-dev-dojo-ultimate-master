@@ -308,7 +308,7 @@ A worker engine (one that runs a downloaded language runtime) touches the same p
 | Verification | `verify/pythonSandbox.ts`, `pythonGrader()`, `pythonSandbox.test.ts`, `pythonEscapeScan.py` | `verify/csharpSandbox.ts`, `csharpGrader()`, `csharpSandbox.test.ts`, `csharpEscapeScan.ts` |
 | Ownership (`.github/CODEOWNERS`) | `lockdown.ts`, the CSP plugin, `verify/pythonSandbox*.ts` | `lockdown.ts`, `csharp.worker.ts`, `host/`, `verify/csharpSandbox*.ts`, `verify/csharpEscapeScan.ts`, `vendor-dotnet.mjs`, `WebcilConvert.cs`, `vendor/dotnet/manifest.json`, `dotnetPlugin.ts` |
 
-The hidden Java and Spring Boot track uses the `java-spring` id for its content, feature flag, glyph and accent selector. It is independent from the `angular` track and has no graded challenges; its legacy catalog engine identifier does not start an engine on theory-and-quiz lessons. Full-stack integration is reserved for a future track. The former combined draft is retained on `archive/java-angular-fullstack`.
+The published Java and Spring Boot track uses the `java-spring` id for its content, feature flag, glyph and accent selector. It is independent from the `angular` track and has no graded challenges; its legacy catalog engine identifier does not start an engine on theory-and-quiz lessons. Full-stack integration is reserved for a future track. The former combined draft is retained on `archive/java-angular-fullstack`.
 
 ## Track presentation
 
@@ -337,7 +337,7 @@ Brand and vocabulary: the product is **Constela Mission**, a space-mission theme
 
 The storage key is `constela:progress:v1`; `readStoredProgress` moves progress saved under the old `dev-dojo:progress:v1` to it once, on the same origin. Internal `dojo` identifiers are kept on purpose because they are API surface, pinned or compared by CI: `@dojo/ai`, `dojo_ai`, `dojo_harness.py`, `DojoHost`/`Dojo.Testing` and the C# `using Dojo;` namespace (hashed into `vendor/dotnet/manifest.json`), `virtual:dojo-content`, the `dojo-pyodide`/`dojo-dotnet` meta tags (the deploy smoke test reads them), the `DOJO_*` variables of `tests/python` and the `.dojo-preview-*` classes of `sandbox.html`. The repository is `constela-mission`; the Sentry project keeps its old slug (`advanced-dev-dojo-ultimate-master`) until it is renamed. New identifiers use `constela` (package `constela-mission`, Monaco theme `constela`, docs-sync state `constela-docs-sync`, storage keys `constela:*`).
 
-Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue` and `java-spring`; a track built in stacked pull requests stays hidden until the part that completes it). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
+Visibility: `src/content/featureFlags.ts` (`TRACK_FLAGS`) hides a track from learners when its flag is `false` (code only, no UI or env toggle; currently `vue`; a track built in stacked pull requests stays hidden until the part that completes it). The UI reads `availableTracks` / `availableTrackById` from `@/content`, so a disabled track leaves the home carousel and stats and its routes answer "Page not found". `tracks` / `trackById` still hold every track, so content, curriculum and verification suites keep covering disabled tracks. Flip the flag to `true` (or remove it) to publish the track.
 
 ### Track logos
 
@@ -356,22 +356,22 @@ Accent rules, enforced by `src/verify/trackPresentation.test.ts`:
 - At least 30° of hue away from the accent of every other track shown to learners, so tracks stay distinguishable (also for color-blind users; the logo glyph and title are the second cue). Tracks hidden in `src/content/featureFlags.ts` never share a screen with the others and are left out; enabling one whose hue collides fails the test, and the accents are revisited then.
 - `--accent-rgb` must be the same color as `--accent` written as `R G B`.
 
-Current accents and their hues. Angular and Frontend Architecture use separate bands to keep all published tracks at least 30° apart. Hidden Vue and Java/Spring may share a band until their release colors are chosen.
+Current accents and their hues. Eleven tracks are shown, so every band is shared out in steps of 30° or more, and each framework track takes the band of its logo where the bands allow: Angular red, Java and Spring Boot green, Node green, Python yellow, React cyan, TypeScript blue, Redux purple (State Management) and C# purple. Hidden Vue may share a band until its release color is chosen.
 
 | Track | Accent | Hue |
 | --- | --- | --- |
-| architecture | `#ffad63` | 28° |
-| ai-engineering | `#f07ad9` | 312° |
-| node | `#9be15d` | 92° |
-| python | `#62e869` | 123° |
+| architecture | `#ff9e66` | 22° |
+| ai-engineering | `#ff80d5` | 320° |
+| node | `#73ff7e` | 125° |
+| python | `#ffef73` | 53° |
 | vue (hidden) | `#6de6b2` | 154° |
 | system-design | `#40e6b0` | 160° |
-| typescript | `#4dd9ff` | 193° |
-| react | `#8c8cff` | 240° |
-| react-state | `#d29cff` | 273° |
-| angular | `#f2f466` | 61° |
-| csharp | `#ff7a7f` | 358° |
-| java-spring (hidden) | `#ffa24d` | 29° |
+| typescript | `#80a6ff` | 222° |
+| react | `#66e3ff` | 191° |
+| react-state | `#b999ff` | 259° |
+| angular | `#ff6179` | 351° |
+| csharp | `#e980ff` | 290° |
+| java-spring | `#b0ff73` | 94° |
 
 ## Adding a framework track (step by step)
 

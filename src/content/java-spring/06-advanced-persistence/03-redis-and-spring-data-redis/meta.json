@@ -1,0 +1,28 @@
+{
+  "title": "Redis and Spring Data Redis",
+  "summary": "Redis as an in-memory data structure store, its basic types and key naming, running it with Compose, the Spring Boot data-redis starter, StringRedisTemplate and RedisTemplate, and JSON serialization with Jackson 3.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core",
+    "performance"
+  ],
+  "resources": [
+    {
+      "label": "Spring Data Redis reference",
+      "url": "https://docs.spring.io/spring-data/redis/reference/"
+    },
+    {
+      "label": "Spring Boot reference: Redis",
+      "url": "https://docs.spring.io/spring-boot/reference/data/nosql.html"
+    },
+    {
+      "label": "Redis documentation",
+      "url": "https://redis.io/docs/latest/"
+    },
+    {
+      "label": "Docker: Compose services reference",
+      "url": "https://docs.docker.com/reference/compose-file/services/"
+    }
+  ]
+}

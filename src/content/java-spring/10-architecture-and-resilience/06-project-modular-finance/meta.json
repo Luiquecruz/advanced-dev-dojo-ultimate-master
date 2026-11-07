@@ -1,0 +1,28 @@
+{
+  "title": "Project: Modular Finance",
+  "summary": "A local modular monolith with account, transfer and audit modules, verified boundaries, events through the publication registry, a RestClient risk call with timeouts, a circuit breaker and a deliberate fallback policy, tested with Testcontainers and WireMock.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "project",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Modulith reference",
+      "url": "https://docs.spring.io/spring-modulith/reference/"
+    },
+    {
+      "label": "Spring Cloud CircuitBreaker reference",
+      "url": "https://docs.spring.io/spring-cloud-circuitbreaker/reference/"
+    },
+    {
+      "label": "Spring Framework: REST clients",
+      "url": "https://docs.spring.io/spring-framework/reference/integration/rest-clients.html"
+    },
+    {
+      "label": "Testcontainers for Java",
+      "url": "https://java.testcontainers.org/"
+    }
+  ]
+}

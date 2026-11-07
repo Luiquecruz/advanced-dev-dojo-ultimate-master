@@ -1,0 +1,23 @@
+{
+  "title": "Messaging, Queues and Publish/Subscribe",
+  "summary": "Synchronous versus asynchronous calls, brokers, the queue model and the log model, publish/subscribe fan-out, delivery guarantees, and why consumers must be idempotent.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Apache Kafka documentation",
+      "url": "https://kafka.apache.org/documentation/"
+    },
+    {
+      "label": "RabbitMQ documentation",
+      "url": "https://www.rabbitmq.com/docs"
+    },
+    {
+      "label": "Spring Boot reference: Messaging",
+      "url": "https://docs.spring.io/spring-boot/reference/messaging/index.html"
+    }
+  ]
+}

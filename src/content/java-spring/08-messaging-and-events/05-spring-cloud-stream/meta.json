@@ -1,0 +1,27 @@
+{
+  "title": "Spring Cloud Stream",
+  "summary": "Functional handlers with Consumer, Function and Supplier, binding names such as name-in-0 and name-out-0, spring.cloud.function.definition, StreamBridge, binders for Kafka or RabbitMQ and when to prefer the Kafka client directly.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Cloud Stream reference",
+      "url": "https://docs.spring.io/spring-cloud-stream/reference/"
+    },
+    {
+      "label": "Spring for Apache Kafka reference",
+      "url": "https://docs.spring.io/spring-kafka/reference/"
+    },
+    {
+      "label": "RabbitMQ documentation",
+      "url": "https://www.rabbitmq.com/docs"
+    },
+    {
+      "label": "Apache Kafka documentation",
+      "url": "https://kafka.apache.org/documentation/"
+    }
+  ]
+}

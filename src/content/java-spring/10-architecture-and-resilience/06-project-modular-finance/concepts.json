@@ -1,0 +1,8 @@
+[
+  {"term": "Module boundary", "description": "The line enforced by the modularity test between account, transfer and audit."},
+  {"term": "Transfer transaction", "description": "A single transaction that debits and credits accounts and rolls back on insufficient funds."},
+  {"term": "Audit listener", "description": "An @ApplicationModuleListener that records each completed transfer in its own transaction."},
+  {"term": "Risk fallback policy", "description": "A business rule that allows small transfers and sends large ones to review when risk is unknown."},
+  {"term": "Open circuit test", "description": "A test where repeated failures from WireMock open the breaker so later calls skip the service."},
+  {"term": "Registry table", "description": "The Flyway-managed table that stores event publications until their listeners complete."}
+]

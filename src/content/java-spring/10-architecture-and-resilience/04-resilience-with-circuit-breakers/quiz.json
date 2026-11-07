@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What is the main purpose of a circuit breaker?",
+    "options": [
+      "Turning off the server when the CPU is hot",
+      "Stopping calls to a failing dependency to prevent cascading failure",
+      "Encrypting connections",
+      "Increasing bandwidth"
+    ],
+    "answer": 1,
+    "explanation": "After repeated failures the breaker rejects calls quickly, saving threads and giving the dependency room to recover."
+  },
+  {
+    "question": "What are the three states of a circuit breaker?",
+    "options": [
+      "Closed, open, half-open",
+      "Active, passive, disabled",
+      "Running, stopped, paused",
+      "Input, output, buffer"
+    ],
+    "answer": 0,
+    "explanation": "Closed passes calls, open rejects them, and half-open lets a few trial calls test whether the dependency recovered."
+  },
+  {
+    "question": "What does a fallback do?",
+    "options": [
+      "Deletes records",
+      "Builds the class",
+      "Restarts Docker",
+      "Provides an alternative result when the call fails or the circuit is open"
+    ],
+    "answer": 3,
+    "explanation": "It returns a degraded but acceptable answer such as a cached value or an explicit unknown instead of an error."
+  },
+  {
+    "question": "Why is a failure rate threshold of 100 percent a mistake?",
+    "options": [
+      "It uses too much memory",
+      "It disables timeouts",
+      "The breaker practically never opens, so it protects nothing",
+      "It blocks the fallback"
+    ],
+    "answer": 2,
+    "explanation": "The breaker opens when the failure rate reaches the threshold. At 100 percent it would need every call to fail."
+  },
+  {
+    "question": "When is it safe to retry a request?",
+    "options": [
+      "Always",
+      "When the operation is idempotent or carries an idempotency key",
+      "Never",
+      "Only on Mondays"
+    ],
+    "answer": 1,
+    "explanation": "Repeating a non-idempotent call such as a payment can duplicate its effect, so retries need safe operations."
+  },
+  {
+    "question": "Why does every outbound call need a timeout in addition to a breaker?",
+    "options": [
+      "Without a timeout a slow call can hold a thread indefinitely",
+      "Breakers have no state",
+      "Timeouts replace fallbacks",
+      "Spring requires it"
+    ],
+    "answer": 0,
+    "explanation": "The breaker counts calls it sees finish. A call that never returns still blocks a thread unless a timeout ends it."
+  }
+]

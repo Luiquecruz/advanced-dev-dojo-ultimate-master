@@ -1,0 +1,27 @@
+{
+  "title": "Pessimistic Locking with LockModeType",
+  "summary": "Row locks with PESSIMISTIC_WRITE and PESSIMISTIC_READ, @Lock on repository queries inside a transaction, bounding the wait on PostgreSQL, deadlocks and lock ordering, and choosing between optimistic and pessimistic locking.",
+  "level": "intermediate",
+  "tags": [
+    "theory",
+    "core"
+  ],
+  "resources": [
+    {
+      "label": "Spring Data JPA: Locking",
+      "url": "https://docs.spring.io/spring-data/jpa/reference/jpa/locking.html"
+    },
+    {
+      "label": "PostgreSQL: Explicit locking",
+      "url": "https://www.postgresql.org/docs/current/explicit-locking.html"
+    },
+    {
+      "label": "Jakarta Persistence specification",
+      "url": "https://jakarta.ee/specifications/persistence/"
+    },
+    {
+      "label": "Hibernate ORM documentation",
+      "url": "https://hibernate.org/orm/documentation/"
+    }
+  ]
+}
